@@ -89,9 +89,6 @@ public class ToByteFunctionXBuilderTest<T,X extends ParseException>{
             .eventually((t) -> (byte)99)
             .build();
 
-        // Integer t
-        // Integer.valueOf(0)
-
         A.assertThat(function)
             .doesApplyAsByte(Integer.valueOf(0)).to(a -> a.isEqualTo((byte)0))
             .doesApplyAsByte(Integer.valueOf(5)).to(a -> a.isEqualTo((byte)1))

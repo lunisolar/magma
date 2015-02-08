@@ -89,9 +89,6 @@ public class CharToShortFunctionBuilderTest<X extends ParseException>{
             .eventually((c) -> (short)99)
             .build();
 
-        // char c
-        // (char)0
-
         A.assertThat(function)
             .doesApplyAsShort((char)0).to(a -> a.isEqualTo((short)0))
             .doesApplyAsShort((char)5).to(a -> a.isEqualTo((short)1))

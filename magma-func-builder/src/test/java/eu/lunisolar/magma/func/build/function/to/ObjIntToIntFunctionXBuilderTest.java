@@ -89,9 +89,6 @@ public class ObjIntToIntFunctionXBuilderTest<T,X extends ParseException>{
             .eventually((t, i) -> (int)99)
             .build();
 
-        // Integer t, int i
-        // Integer.valueOf(0),(int)0
-
         A.assertThat(function)
             .doesApplyAsInt(Integer.valueOf(0),(int)0).to(a -> a.isEqualTo((int)0))
             .doesApplyAsInt(Integer.valueOf(5),(int)5).to(a -> a.isEqualTo((int)1))

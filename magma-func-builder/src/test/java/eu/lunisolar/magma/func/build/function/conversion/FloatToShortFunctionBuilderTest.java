@@ -89,9 +89,6 @@ public class FloatToShortFunctionBuilderTest<X extends ParseException>{
             .eventually((f) -> (short)99)
             .build();
 
-        // float f
-        // (float)0
-
         A.assertThat(function)
             .doesApplyAsShort((float)0).to(a -> a.isEqualTo((short)0))
             .doesApplyAsShort((float)5).to(a -> a.isEqualTo((short)1))

@@ -89,9 +89,6 @@ public class BiObjLongFunctionBuilderTest<T1,T2,R,X extends ParseException>{
             .eventually((t1,t2, l) -> Integer.valueOf(99))
             .build();
 
-        // Integer t1,Integer t2, long l
-        // Integer.valueOf(0),Integer.valueOf(0),(long)0
-
         A.assertThat(function)
             .doesApply(Integer.valueOf(0),Integer.valueOf(0),(long)0).to(a -> a.isEqualTo(Integer.valueOf(0)))
             .doesApply(Integer.valueOf(5),Integer.valueOf(5),(long)5).to(a -> a.isEqualTo(Integer.valueOf(1)))

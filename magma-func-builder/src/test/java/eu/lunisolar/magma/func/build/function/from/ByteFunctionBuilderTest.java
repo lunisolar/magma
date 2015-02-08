@@ -89,9 +89,6 @@ public class ByteFunctionBuilderTest<R,X extends ParseException>{
             .eventually((b) -> Integer.valueOf(99))
             .build();
 
-        // byte b
-        // (byte)0
-
         A.assertThat(function)
             .doesApply((byte)0).to(a -> a.isEqualTo(Integer.valueOf(0)))
             .doesApply((byte)5).to(a -> a.isEqualTo(Integer.valueOf(1)))

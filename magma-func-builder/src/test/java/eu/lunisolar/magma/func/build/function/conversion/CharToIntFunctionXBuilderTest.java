@@ -89,9 +89,6 @@ public class CharToIntFunctionXBuilderTest<X extends ParseException>{
             .eventually((c) -> (int)99)
             .build();
 
-        // char c
-        // (char)0
-
         A.assertThat(function)
             .doesApplyAsInt((char)0).to(a -> a.isEqualTo((int)0))
             .doesApplyAsInt((char)5).to(a -> a.isEqualTo((int)1))

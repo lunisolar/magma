@@ -89,9 +89,6 @@ public class DoubleBiFunctionXBuilderTest<R,X extends ParseException>{
             .eventually((d1,d2) -> Integer.valueOf(99))
             .build();
 
-        // double d1,double d2
-        // (double)0,(double)0
-
         A.assertThat(function)
             .doesApply((double)0,(double)0).to(a -> a.isEqualTo(Integer.valueOf(0)))
             .doesApply((double)5,(double)5).to(a -> a.isEqualTo(Integer.valueOf(1)))

@@ -89,9 +89,6 @@ public class ToFloatBiFunctionBuilderTest<T1,T2,X extends ParseException>{
             .eventually((t1,t2) -> (float)99)
             .build();
 
-        // Integer t1,Integer t2
-        // Integer.valueOf(0),Integer.valueOf(0)
-
         A.assertThat(function)
             .doesApplyAsFloat(Integer.valueOf(0),Integer.valueOf(0)).to(a -> a.isEqualTo((float)0))
             .doesApplyAsFloat(Integer.valueOf(5),Integer.valueOf(5)).to(a -> a.isEqualTo((float)1))

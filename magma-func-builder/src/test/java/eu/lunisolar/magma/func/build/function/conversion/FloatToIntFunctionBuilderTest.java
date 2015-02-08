@@ -89,9 +89,6 @@ public class FloatToIntFunctionBuilderTest<X extends ParseException>{
             .eventually((f) -> (int)99)
             .build();
 
-        // float f
-        // (float)0
-
         A.assertThat(function)
             .doesApplyAsInt((float)0).to(a -> a.isEqualTo((int)0))
             .doesApplyAsInt((float)5).to(a -> a.isEqualTo((int)1))

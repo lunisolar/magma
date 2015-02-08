@@ -89,9 +89,6 @@ public class DoubleToShortFunctionBuilderTest<X extends ParseException>{
             .eventually((d) -> (short)99)
             .build();
 
-        // double d
-        // (double)0
-
         A.assertThat(function)
             .doesApplyAsShort((double)0).to(a -> a.isEqualTo((short)0))
             .doesApplyAsShort((double)5).to(a -> a.isEqualTo((short)1))

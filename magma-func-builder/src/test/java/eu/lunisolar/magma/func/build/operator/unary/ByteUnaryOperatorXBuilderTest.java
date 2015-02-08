@@ -89,9 +89,6 @@ public class ByteUnaryOperatorXBuilderTest<X extends ParseException>{
             .eventually((b) -> (byte)99)
             .build();
 
-        // byte b
-        // (byte)0
-
         A.assertThat(function)
             .doesApplyAsByte((byte)0).to(a -> a.isEqualTo((byte)0))
             .doesApplyAsByte((byte)5).to(a -> a.isEqualTo((byte)1))

@@ -89,9 +89,6 @@ public class ByteToIntFunctionBuilderTest<X extends ParseException>{
             .eventually((b) -> (int)99)
             .build();
 
-        // byte b
-        // (byte)0
-
         A.assertThat(function)
             .doesApplyAsInt((byte)0).to(a -> a.isEqualTo((int)0))
             .doesApplyAsInt((byte)5).to(a -> a.isEqualTo((int)1))

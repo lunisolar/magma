@@ -89,9 +89,6 @@ public class BiObjIntFunctionXBuilderTest<T1,T2,R,X extends ParseException>{
             .eventually((t1,t2, i) -> Integer.valueOf(99))
             .build();
 
-        // Integer t1,Integer t2, int i
-        // Integer.valueOf(0),Integer.valueOf(0),(int)0
-
         A.assertThat(function)
             .doesApply(Integer.valueOf(0),Integer.valueOf(0),(int)0).to(a -> a.isEqualTo(Integer.valueOf(0)))
             .doesApply(Integer.valueOf(5),Integer.valueOf(5),(int)5).to(a -> a.isEqualTo(Integer.valueOf(1)))

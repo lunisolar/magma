@@ -89,9 +89,6 @@ public class FloatToDoubleFunctionXBuilderTest<X extends ParseException>{
             .eventually((f) -> (double)99)
             .build();
 
-        // float f
-        // (float)0
-
         A.assertThat(function)
             .doesApplyAsDouble((float)0).to(a -> a.isEqualTo((double)0))
             .doesApplyAsDouble((float)5).to(a -> a.isEqualTo((double)1))

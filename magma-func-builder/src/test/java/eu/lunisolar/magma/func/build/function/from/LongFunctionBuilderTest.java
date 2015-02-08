@@ -89,9 +89,6 @@ public class LongFunctionBuilderTest<R,X extends ParseException>{
             .eventually((l) -> Integer.valueOf(99))
             .build();
 
-        // long l
-        // (long)0
-
         A.assertThat(function)
             .doesApply((long)0).to(a -> a.isEqualTo(Integer.valueOf(0)))
             .doesApply((long)5).to(a -> a.isEqualTo(Integer.valueOf(1)))

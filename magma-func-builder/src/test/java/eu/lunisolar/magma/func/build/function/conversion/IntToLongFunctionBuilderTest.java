@@ -89,9 +89,6 @@ public class IntToLongFunctionBuilderTest<X extends ParseException>{
             .eventually((i) -> (long)99)
             .build();
 
-        // int i
-        // (int)0
-
         A.assertThat(function)
             .doesApplyAsLong((int)0).to(a -> a.isEqualTo((long)0))
             .doesApplyAsLong((int)5).to(a -> a.isEqualTo((long)1))

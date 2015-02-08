@@ -89,9 +89,6 @@ public class LongToFloatFunctionXBuilderTest<X extends ParseException>{
             .eventually((l) -> (float)99)
             .build();
 
-        // long l
-        // (long)0
-
         A.assertThat(function)
             .doesApplyAsFloat((long)0).to(a -> a.isEqualTo((float)0))
             .doesApplyAsFloat((long)5).to(a -> a.isEqualTo((float)1))

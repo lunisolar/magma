@@ -89,9 +89,6 @@ public class DoubleBinaryOperatorXBuilderTest<X extends ParseException>{
             .eventually((d1,d2) -> (double)99)
             .build();
 
-        // double d1,double d2
-        // (double)0,(double)0
-
         A.assertThat(function)
             .doesApplyAsDouble((double)0,(double)0).to(a -> a.isEqualTo((double)0))
             .doesApplyAsDouble((double)5,(double)5).to(a -> a.isEqualTo((double)1))

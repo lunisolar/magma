@@ -89,9 +89,6 @@ public class CharBiFunctionXBuilderTest<R,X extends ParseException>{
             .eventually((c1,c2) -> Integer.valueOf(99))
             .build();
 
-        // char c1,char c2
-        // (char)0,(char)0
-
         A.assertThat(function)
             .doesApply((char)0,(char)0).to(a -> a.isEqualTo(Integer.valueOf(0)))
             .doesApply((char)5,(char)5).to(a -> a.isEqualTo(Integer.valueOf(1)))

@@ -89,9 +89,6 @@ public class FloatBiFunctionXBuilderTest<R,X extends ParseException>{
             .eventually((f1,f2) -> Integer.valueOf(99))
             .build();
 
-        // float f1,float f2
-        // (float)0,(float)0
-
         A.assertThat(function)
             .doesApply((float)0,(float)0).to(a -> a.isEqualTo(Integer.valueOf(0)))
             .doesApply((float)5,(float)5).to(a -> a.isEqualTo(Integer.valueOf(1)))

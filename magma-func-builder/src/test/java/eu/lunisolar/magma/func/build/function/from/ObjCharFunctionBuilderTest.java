@@ -89,9 +89,6 @@ public class ObjCharFunctionBuilderTest<T,R,X extends ParseException>{
             .eventually((t, c) -> Integer.valueOf(99))
             .build();
 
-        // Integer t, char c
-        // Integer.valueOf(0),(char)0
-
         A.assertThat(function)
             .doesApply(Integer.valueOf(0),(char)0).to(a -> a.isEqualTo(Integer.valueOf(0)))
             .doesApply(Integer.valueOf(5),(char)5).to(a -> a.isEqualTo(Integer.valueOf(1)))

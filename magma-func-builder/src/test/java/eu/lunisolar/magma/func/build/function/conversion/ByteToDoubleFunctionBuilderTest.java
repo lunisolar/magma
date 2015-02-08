@@ -89,9 +89,6 @@ public class ByteToDoubleFunctionBuilderTest<X extends ParseException>{
             .eventually((b) -> (double)99)
             .build();
 
-        // byte b
-        // (byte)0
-
         A.assertThat(function)
             .doesApplyAsDouble((byte)0).to(a -> a.isEqualTo((double)0))
             .doesApplyAsDouble((byte)5).to(a -> a.isEqualTo((double)1))

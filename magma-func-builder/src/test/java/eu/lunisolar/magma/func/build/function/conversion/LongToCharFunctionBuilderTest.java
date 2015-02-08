@@ -89,9 +89,6 @@ public class LongToCharFunctionBuilderTest<X extends ParseException>{
             .eventually((l) -> (char)99)
             .build();
 
-        // long l
-        // (long)0
-
         A.assertThat(function)
             .doesApplyAsChar((long)0).to(a -> a.isEqualTo((char)0))
             .doesApplyAsChar((long)5).to(a -> a.isEqualTo((char)1))

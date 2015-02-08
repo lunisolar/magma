@@ -89,9 +89,6 @@ public class ToIntFunctionBuilderTest<T,X extends ParseException>{
             .eventually((t) -> (int)99)
             .build();
 
-        // Integer t
-        // Integer.valueOf(0)
-
         A.assertThat(function)
             .doesApplyAsInt(Integer.valueOf(0)).to(a -> a.isEqualTo((int)0))
             .doesApplyAsInt(Integer.valueOf(5)).to(a -> a.isEqualTo((int)1))

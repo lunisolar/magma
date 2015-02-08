@@ -89,9 +89,6 @@ public class LongUnaryOperatorXBuilderTest<X extends ParseException>{
             .eventually((l) -> (long)99)
             .build();
 
-        // long l
-        // (long)0
-
         A.assertThat(function)
             .doesApplyAsLong((long)0).to(a -> a.isEqualTo((long)0))
             .doesApplyAsLong((long)5).to(a -> a.isEqualTo((long)1))

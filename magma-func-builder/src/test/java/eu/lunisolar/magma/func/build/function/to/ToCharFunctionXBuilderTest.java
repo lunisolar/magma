@@ -89,9 +89,6 @@ public class ToCharFunctionXBuilderTest<T,X extends ParseException>{
             .eventually((t) -> (char)99)
             .build();
 
-        // Integer t
-        // Integer.valueOf(0)
-
         A.assertThat(function)
             .doesApplyAsChar(Integer.valueOf(0)).to(a -> a.isEqualTo((char)0))
             .doesApplyAsChar(Integer.valueOf(5)).to(a -> a.isEqualTo((char)1))

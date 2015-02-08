@@ -89,9 +89,6 @@ public class FloatToCharFunctionBuilderTest<X extends ParseException>{
             .eventually((f) -> (char)99)
             .build();
 
-        // float f
-        // (float)0
-
         A.assertThat(function)
             .doesApplyAsChar((float)0).to(a -> a.isEqualTo((char)0))
             .doesApplyAsChar((float)5).to(a -> a.isEqualTo((char)1))

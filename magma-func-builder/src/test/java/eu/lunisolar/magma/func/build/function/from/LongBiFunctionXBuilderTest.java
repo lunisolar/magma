@@ -89,9 +89,6 @@ public class LongBiFunctionXBuilderTest<R,X extends ParseException>{
             .eventually((l1,l2) -> Integer.valueOf(99))
             .build();
 
-        // long l1,long l2
-        // (long)0,(long)0
-
         A.assertThat(function)
             .doesApply((long)0,(long)0).to(a -> a.isEqualTo(Integer.valueOf(0)))
             .doesApply((long)5,(long)5).to(a -> a.isEqualTo(Integer.valueOf(1)))

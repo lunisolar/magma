@@ -89,9 +89,6 @@ public class CharBinaryOperatorXBuilderTest<X extends ParseException>{
             .eventually((c1,c2) -> (char)99)
             .build();
 
-        // char c1,char c2
-        // (char)0,(char)0
-
         A.assertThat(function)
             .doesApplyAsChar((char)0,(char)0).to(a -> a.isEqualTo((char)0))
             .doesApplyAsChar((char)5,(char)5).to(a -> a.isEqualTo((char)1))

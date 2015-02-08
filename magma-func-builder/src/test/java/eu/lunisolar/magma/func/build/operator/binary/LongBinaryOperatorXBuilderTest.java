@@ -89,9 +89,6 @@ public class LongBinaryOperatorXBuilderTest<X extends ParseException>{
             .eventually((l1,l2) -> (long)99)
             .build();
 
-        // long l1,long l2
-        // (long)0,(long)0
-
         A.assertThat(function)
             .doesApplyAsLong((long)0,(long)0).to(a -> a.isEqualTo((long)0))
             .doesApplyAsLong((long)5,(long)5).to(a -> a.isEqualTo((long)1))

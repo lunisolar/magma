@@ -89,9 +89,6 @@ public class DoubleUnaryOperatorBuilderTest<X extends ParseException>{
             .eventually((d) -> (double)99)
             .build();
 
-        // double d
-        // (double)0
-
         A.assertThat(function)
             .doesApplyAsDouble((double)0).to(a -> a.isEqualTo((double)0))
             .doesApplyAsDouble((double)5).to(a -> a.isEqualTo((double)1))

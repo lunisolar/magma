@@ -89,9 +89,6 @@ public class CharUnaryOperatorXBuilderTest<X extends ParseException>{
             .eventually((c) -> (char)99)
             .build();
 
-        // char c
-        // (char)0
-
         A.assertThat(function)
             .doesApplyAsChar((char)0).to(a -> a.isEqualTo((char)0))
             .doesApplyAsChar((char)5).to(a -> a.isEqualTo((char)1))

@@ -89,9 +89,6 @@ public class ToShortBiFunctionBuilderTest<T1,T2,X extends ParseException>{
             .eventually((t1,t2) -> (short)99)
             .build();
 
-        // Integer t1,Integer t2
-        // Integer.valueOf(0),Integer.valueOf(0)
-
         A.assertThat(function)
             .doesApplyAsShort(Integer.valueOf(0),Integer.valueOf(0)).to(a -> a.isEqualTo((short)0))
             .doesApplyAsShort(Integer.valueOf(5),Integer.valueOf(5)).to(a -> a.isEqualTo((short)1))

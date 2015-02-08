@@ -89,9 +89,6 @@ public class DoubleToLongFunctionXBuilderTest<X extends ParseException>{
             .eventually((d) -> (long)99)
             .build();
 
-        // double d
-        // (double)0
-
         A.assertThat(function)
             .doesApplyAsLong((double)0).to(a -> a.isEqualTo((long)0))
             .doesApplyAsLong((double)5).to(a -> a.isEqualTo((long)1))

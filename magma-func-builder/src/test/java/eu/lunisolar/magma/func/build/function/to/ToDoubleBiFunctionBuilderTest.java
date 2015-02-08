@@ -89,9 +89,6 @@ public class ToDoubleBiFunctionBuilderTest<T1,T2,X extends ParseException>{
             .eventually((t1,t2) -> (double)99)
             .build();
 
-        // Integer t1,Integer t2
-        // Integer.valueOf(0),Integer.valueOf(0)
-
         A.assertThat(function)
             .doesApplyAsDouble(Integer.valueOf(0),Integer.valueOf(0)).to(a -> a.isEqualTo((double)0))
             .doesApplyAsDouble(Integer.valueOf(5),Integer.valueOf(5)).to(a -> a.isEqualTo((double)1))

@@ -89,9 +89,6 @@ public class ObjByteFunctionXBuilderTest<T,R,X extends ParseException>{
             .eventually((t, i) -> Integer.valueOf(99))
             .build();
 
-        // Integer t, byte i
-        // Integer.valueOf(0),(byte)0
-
         A.assertThat(function)
             .doesApply(Integer.valueOf(0),(byte)0).to(a -> a.isEqualTo(Integer.valueOf(0)))
             .doesApply(Integer.valueOf(5),(byte)5).to(a -> a.isEqualTo(Integer.valueOf(1)))

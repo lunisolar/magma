@@ -89,9 +89,6 @@ public class UnaryOperatorXBuilderTest<T,X extends ParseException>{
             .eventually((t) -> Integer.valueOf(99))
             .build();
 
-        // Integer t
-        // Integer.valueOf(0)
-
         A.assertThat(function)
             .doesApply(Integer.valueOf(0)).to(a -> a.isEqualTo(Integer.valueOf(0)))
             .doesApply(Integer.valueOf(5)).to(a -> a.isEqualTo(Integer.valueOf(1)))

@@ -89,9 +89,6 @@ public class ObjFloatFunctionXBuilderTest<T,R,X extends ParseException>{
             .eventually((t, f) -> Integer.valueOf(99))
             .build();
 
-        // Integer t, float f
-        // Integer.valueOf(0),(float)0
-
         A.assertThat(function)
             .doesApply(Integer.valueOf(0),(float)0).to(a -> a.isEqualTo(Integer.valueOf(0)))
             .doesApply(Integer.valueOf(5),(float)5).to(a -> a.isEqualTo(Integer.valueOf(1)))

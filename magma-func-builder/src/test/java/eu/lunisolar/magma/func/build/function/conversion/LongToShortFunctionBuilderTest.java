@@ -89,9 +89,6 @@ public class LongToShortFunctionBuilderTest<X extends ParseException>{
             .eventually((l) -> (short)99)
             .build();
 
-        // long l
-        // (long)0
-
         A.assertThat(function)
             .doesApplyAsShort((long)0).to(a -> a.isEqualTo((short)0))
             .doesApplyAsShort((long)5).to(a -> a.isEqualTo((short)1))

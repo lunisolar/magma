@@ -89,9 +89,6 @@ public class ShortToByteFunctionBuilderTest<X extends ParseException>{
             .eventually((s) -> (byte)99)
             .build();
 
-        // short s
-        // (short)0
-
         A.assertThat(function)
             .doesApplyAsByte((short)0).to(a -> a.isEqualTo((byte)0))
             .doesApplyAsByte((short)5).to(a -> a.isEqualTo((byte)1))

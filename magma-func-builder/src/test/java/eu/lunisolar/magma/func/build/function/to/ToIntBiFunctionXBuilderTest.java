@@ -89,9 +89,6 @@ public class ToIntBiFunctionXBuilderTest<T1,T2,X extends ParseException>{
             .eventually((t1,t2) -> (int)99)
             .build();
 
-        // Integer t1,Integer t2
-        // Integer.valueOf(0),Integer.valueOf(0)
-
         A.assertThat(function)
             .doesApplyAsInt(Integer.valueOf(0),Integer.valueOf(0)).to(a -> a.isEqualTo((int)0))
             .doesApplyAsInt(Integer.valueOf(5),Integer.valueOf(5)).to(a -> a.isEqualTo((int)1))

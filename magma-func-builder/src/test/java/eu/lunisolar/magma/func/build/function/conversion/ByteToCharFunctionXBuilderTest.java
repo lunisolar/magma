@@ -89,9 +89,6 @@ public class ByteToCharFunctionXBuilderTest<X extends ParseException>{
             .eventually((b) -> (char)99)
             .build();
 
-        // byte b
-        // (byte)0
-
         A.assertThat(function)
             .doesApplyAsChar((byte)0).to(a -> a.isEqualTo((char)0))
             .doesApplyAsChar((byte)5).to(a -> a.isEqualTo((char)1))

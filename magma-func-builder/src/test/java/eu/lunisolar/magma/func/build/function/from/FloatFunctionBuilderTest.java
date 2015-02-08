@@ -89,9 +89,6 @@ public class FloatFunctionBuilderTest<R,X extends ParseException>{
             .eventually((f) -> Integer.valueOf(99))
             .build();
 
-        // float f
-        // (float)0
-
         A.assertThat(function)
             .doesApply((float)0).to(a -> a.isEqualTo(Integer.valueOf(0)))
             .doesApply((float)5).to(a -> a.isEqualTo(Integer.valueOf(1)))

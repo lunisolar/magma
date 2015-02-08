@@ -89,9 +89,6 @@ public class IntBiFunctionBuilderTest<R,X extends ParseException>{
             .eventually((i1,i2) -> Integer.valueOf(99))
             .build();
 
-        // int i1,int i2
-        // (int)0,(int)0
-
         A.assertThat(function)
             .doesApply((int)0,(int)0).to(a -> a.isEqualTo(Integer.valueOf(0)))
             .doesApply((int)5,(int)5).to(a -> a.isEqualTo(Integer.valueOf(1)))

@@ -89,9 +89,6 @@ public class FloatBinaryOperatorBuilderTest<X extends ParseException>{
             .eventually((f1,f2) -> (float)99)
             .build();
 
-        // float f1,float f2
-        // (float)0,(float)0
-
         A.assertThat(function)
             .doesApplyAsFloat((float)0,(float)0).to(a -> a.isEqualTo((float)0))
             .doesApplyAsFloat((float)5,(float)5).to(a -> a.isEqualTo((float)1))

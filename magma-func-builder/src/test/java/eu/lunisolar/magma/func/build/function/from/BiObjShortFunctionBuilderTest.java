@@ -89,9 +89,6 @@ public class BiObjShortFunctionBuilderTest<T1,T2,R,X extends ParseException>{
             .eventually((t1,t2, s) -> Integer.valueOf(99))
             .build();
 
-        // Integer t1,Integer t2, short s
-        // Integer.valueOf(0),Integer.valueOf(0),(short)0
-
         A.assertThat(function)
             .doesApply(Integer.valueOf(0),Integer.valueOf(0),(short)0).to(a -> a.isEqualTo(Integer.valueOf(0)))
             .doesApply(Integer.valueOf(5),Integer.valueOf(5),(short)5).to(a -> a.isEqualTo(Integer.valueOf(1)))

@@ -89,9 +89,6 @@ public class IntBinaryOperatorXBuilderTest<X extends ParseException>{
             .eventually((i1,i2) -> (int)99)
             .build();
 
-        // int i1,int i2
-        // (int)0,(int)0
-
         A.assertThat(function)
             .doesApplyAsInt((int)0,(int)0).to(a -> a.isEqualTo((int)0))
             .doesApplyAsInt((int)5,(int)5).to(a -> a.isEqualTo((int)1))

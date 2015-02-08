@@ -89,9 +89,6 @@ public class FloatToByteFunctionBuilderTest<X extends ParseException>{
             .eventually((f) -> (byte)99)
             .build();
 
-        // float f
-        // (float)0
-
         A.assertThat(function)
             .doesApplyAsByte((float)0).to(a -> a.isEqualTo((byte)0))
             .doesApplyAsByte((float)5).to(a -> a.isEqualTo((byte)1))

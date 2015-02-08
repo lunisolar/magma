@@ -89,9 +89,6 @@ public class LongToByteFunctionXBuilderTest<X extends ParseException>{
             .eventually((l) -> (byte)99)
             .build();
 
-        // long l
-        // (long)0
-
         A.assertThat(function)
             .doesApplyAsByte((long)0).to(a -> a.isEqualTo((byte)0))
             .doesApplyAsByte((long)5).to(a -> a.isEqualTo((byte)1))

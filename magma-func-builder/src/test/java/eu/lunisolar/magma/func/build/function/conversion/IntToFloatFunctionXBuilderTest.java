@@ -89,9 +89,6 @@ public class IntToFloatFunctionXBuilderTest<X extends ParseException>{
             .eventually((i) -> (float)99)
             .build();
 
-        // int i
-        // (int)0
-
         A.assertThat(function)
             .doesApplyAsFloat((int)0).to(a -> a.isEqualTo((float)0))
             .doesApplyAsFloat((int)5).to(a -> a.isEqualTo((float)1))

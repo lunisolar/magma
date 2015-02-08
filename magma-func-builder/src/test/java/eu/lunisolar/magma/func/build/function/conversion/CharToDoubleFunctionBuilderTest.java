@@ -89,9 +89,6 @@ public class CharToDoubleFunctionBuilderTest<X extends ParseException>{
             .eventually((c) -> (double)99)
             .build();
 
-        // char c
-        // (char)0
-
         A.assertThat(function)
             .doesApplyAsDouble((char)0).to(a -> a.isEqualTo((double)0))
             .doesApplyAsDouble((char)5).to(a -> a.isEqualTo((double)1))

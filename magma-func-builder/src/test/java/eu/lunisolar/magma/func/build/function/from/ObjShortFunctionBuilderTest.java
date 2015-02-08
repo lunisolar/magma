@@ -89,9 +89,6 @@ public class ObjShortFunctionBuilderTest<T,R,X extends ParseException>{
             .eventually((t, s) -> Integer.valueOf(99))
             .build();
 
-        // Integer t, short s
-        // Integer.valueOf(0),(short)0
-
         A.assertThat(function)
             .doesApply(Integer.valueOf(0),(short)0).to(a -> a.isEqualTo(Integer.valueOf(0)))
             .doesApply(Integer.valueOf(5),(short)5).to(a -> a.isEqualTo(Integer.valueOf(1)))

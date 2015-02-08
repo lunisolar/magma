@@ -89,9 +89,6 @@ public class ShortBinaryOperatorBuilderTest<X extends ParseException>{
             .eventually((s1,s2) -> (short)99)
             .build();
 
-        // short s1,short s2
-        // (short)0,(short)0
-
         A.assertThat(function)
             .doesApplyAsShort((short)0,(short)0).to(a -> a.isEqualTo((short)0))
             .doesApplyAsShort((short)5,(short)5).to(a -> a.isEqualTo((short)1))

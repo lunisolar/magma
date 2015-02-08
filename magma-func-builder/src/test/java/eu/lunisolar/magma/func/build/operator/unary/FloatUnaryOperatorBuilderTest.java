@@ -89,9 +89,6 @@ public class FloatUnaryOperatorBuilderTest<X extends ParseException>{
             .eventually((f) -> (float)99)
             .build();
 
-        // float f
-        // (float)0
-
         A.assertThat(function)
             .doesApplyAsFloat((float)0).to(a -> a.isEqualTo((float)0))
             .doesApplyAsFloat((float)5).to(a -> a.isEqualTo((float)1))
