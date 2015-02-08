@@ -1,7 +1,9 @@
 Lunisolar's Magma
 =================
 
-Library of Java 8 functional interfaces (AKA Lambda).
+Library of Java 8 functional interfaces (AKA Lambda interfaces).
+
+Build status: [![https://travis-ci.org/lunisolar/magma.svg?branch=master](https://travis-ci.org/lunisolar/magma.svg?branch=master)]
 
 ## Overview
 
