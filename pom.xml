@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>eu.lunisolar.open</groupId>
-    <artifactId>lunisolar-magma</artifactId>
-    <version>0.8-SNAPSHOT</version>
+    <groupId>eu.lunisolar</groupId>
+    <artifactId>magma</artifactId>
+    <version>0.9-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -14,9 +14,11 @@
     </properties>
 
     <modules>
-
-       
-
+        <module>magma-pom</module>
+        <module>magma-basics</module>
+        <module>magma-func</module>
+        <module>magma-func-asserts</module>
+        <module>magma-func-builder</module>
     </modules>
 
     <profiles>
