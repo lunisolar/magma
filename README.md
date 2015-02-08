@@ -3,7 +3,7 @@ Lunisolar's Magma
 
 Library of Java 8 functional interfaces (AKA Lambda).
 
-# Overview
+## Overview
 
 Java 8 JRE implements only limited number (around 30) of functional interfaces. Those are the most important and universal once. That is usually enough for most
 projects, but there might be also projects where team end up with creating additional set of interfaces to serve their own purposes. In some cases that might be
@@ -28,11 +28,11 @@ Additionally following is provided:
 
 If you do not need primitives, exception handling nor assertions then this library might simply be not for you.
 
-# Interface table
+## Interface table
 
 Here is the table of functional interfaces in the library: [table.md](table.md)
 
-# History
+## History
 
 From time to time I was witting one of the functions just like here. Either it was a throwing one or some permutation of domain arguments not yet covered.
 The issue was that each time:
@@ -44,15 +44,15 @@ The issue was that each time:
 
 So for better or worst I finally wrote the library that beforehand contains most common cases.
 
-# Design decisions
+## Design decisions
 
-## Throwing declarations should always surface in the compilation.
+### Throwing declarations should always surface in the compilation.
 
 If you want to handle exceptions outside functions/lambdas, and those are the checked exception, you need to declare throw clause in the method. Since I wanted
 to have throwing variants of the functions it means that there are two separate sets of the functional interfaces. And unfortunately in any given case you need
 to narrow list of exceptions just to one common denominator (if there are more).
 
-## X extends Exception, throws X
+### X extends Exception, throws X
 
 There are drawbacks of using generics for **throws** declaration.
 
@@ -73,20 +73,20 @@ In most cases this happen just in places where other generic types could not be 
 Compiler throwing NPE is not a usual situation and it also can confuse tools like maven with diagnostic information about place of the problem (placing it even in different class). It also changes with newer releases of Java JDK.
 In such cases I usually go to assigning lambda expressions to properly declared variables and then simplifying statements one single change at a time.
 
-## All JRE interfaces from **java.util.functions** will have its variant in the library.
+### All JRE interfaces from **java.util.functions** will have its variant in the library.
 
 Each interface have a lot of convenience default methods so each JRE variant has its duplicate in the library that inherits from the JRE one. Each such variant, with exception for throwing once, inherits from the original JRE variant.
 
-## More primitive variants
+### More primitive variants
 
 JRE also embraces primitives in the functional interfaces it just does so only for cases that have a usage in the JRE itself. In case of this library we go little further so the number of convenience methods and interfaces grows considerably. At least to some point.
 
-## Mirrored methods
+### Mirrored methods
 
 Some methods like nonNull() for primitive variants of functions are implemented to just mirror the method that exists elsewhere. They cannot be declared in meta-interface since return type changes and it includes primitives but nonetheless they are implemented anyway.
 There are few more of such examples.
 
-## Class loading - no utilities with all cases.
+### Class loading - no utilities with all cases.
 
 There might be a potential need to have all static methods in a utility class like **Functions** or **Lambdas** that would have some methods like xyzBuilder() that would create a builder instances.
 There will be no such cover-all-cases-utility-class (with oen exception) for following reasons:
@@ -96,7 +96,7 @@ There will be no such cover-all-cases-utility-class (with oen exception) for fol
 
 The only exception is **FunctionalAssertions** since it is not intended to be use in production code anyway.
 
-# Other rules
+## Other rules
 
 - interface type precedence (naming convention): _Operator_, _Predicate_, _Function_, _Consumer_ | _Supplier_ | _Execution_
 - naming convention: I tried to be consistent with JRE naming (extrapolation).
