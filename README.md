@@ -3,6 +3,8 @@ Lunisolar's Magma
 
 Library of Java 8 functional interfaces (AKA Lambda).
 
+Build status: [![https://travis-ci.org/lunisolar/magma.svg?branch=master](https://travis-ci.org/lunisolar/magma.svg?branch=master)]
+
 ## Overview
 
 Java 8 JRE implements only limited number (around 30) of functional interfaces. Those are the most important and universal once. That is usually enough for most
