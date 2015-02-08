@@ -1,9 +1,7 @@
-Lunisolar's Magma
+Lunisolar's Magma ![https://travis-ci.org/lunisolar/magma.svg?branch=master](https://travis-ci.org/lunisolar/magma.svg?branch=master)
 =================
 
 Library of Java 8 functional interfaces (AKA Lambda).
-
-Build status: ![https://travis-ci.org/lunisolar/magma.svg?branch=master](https://travis-ci.org/lunisolar/magma.svg?branch=master)
 
 ## Overview
 
