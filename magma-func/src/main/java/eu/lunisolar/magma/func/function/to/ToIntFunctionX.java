@@ -77,7 +77,7 @@ public interface ToIntFunctionX<T, X extends Exception> extends MetaFunction, Pr
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T, X extends Exception> ToIntFunctionX<T, X> std(final java.util.function.ToIntFunction<T> other) {
+	public static <T, X extends Exception> ToIntFunctionX<T, X> wrapStd(final java.util.function.ToIntFunction<T> other) {
 		return other::applyAsInt;
 	}
 

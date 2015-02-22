@@ -73,7 +73,7 @@ public interface Consumer<T> extends java.util.function.Consumer<T>, MetaConsume
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T> Consumer<T> std(final java.util.function.Consumer<T> other) {
+	public static <T> Consumer<T> wrapStd(final java.util.function.Consumer<T> other) {
 		return other::accept;
 	}
 

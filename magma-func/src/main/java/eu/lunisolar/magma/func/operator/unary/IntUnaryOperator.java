@@ -77,7 +77,7 @@ public interface IntUnaryOperator extends java.util.function.IntUnaryOperator, M
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static IntUnaryOperator std(final java.util.function.IntUnaryOperator other) {
+	public static IntUnaryOperator wrapStd(final java.util.function.IntUnaryOperator other) {
 		return other::applyAsInt;
 	}
 

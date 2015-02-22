@@ -77,7 +77,7 @@ public interface LongUnaryOperator extends java.util.function.LongUnaryOperator,
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LongUnaryOperator std(final java.util.function.LongUnaryOperator other) {
+	public static LongUnaryOperator wrapStd(final java.util.function.LongUnaryOperator other) {
 		return other::applyAsLong;
 	}
 

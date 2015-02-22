@@ -24,9 +24,7 @@
         <dependency>
             <groupId>eu.lunisolar.magma</groupId>
             <artifactId>magma-basics</artifactId>
-            <version>${magma-version}</version>
         </dependency>
-
     </dependencies>
 
 

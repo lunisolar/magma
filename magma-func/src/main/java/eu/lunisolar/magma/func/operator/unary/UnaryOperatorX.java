@@ -80,7 +80,7 @@ public interface UnaryOperatorX<T, X extends Exception> extends FunctionX<T, T, 
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T, X extends Exception> UnaryOperatorX<T, X> std(final java.util.function.UnaryOperator<T> other) {
+	public static <T, X extends Exception> UnaryOperatorX<T, X> wrapStd(final java.util.function.UnaryOperator<T> other) {
 		return other::apply;
 	}
 

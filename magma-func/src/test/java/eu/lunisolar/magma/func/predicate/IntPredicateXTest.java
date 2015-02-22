@@ -112,8 +112,8 @@ public class IntPredicateXTest<X extends ParseException> {
     }
 
     @Test
-    public void testStdMethod() throws ParseException {
-        assertThat(IntPredicateX.std(jre))
+    public void testWrapStdMethod() throws ParseException {
+        assertThat(IntPredicateX.wrapStd(jre))
             .isInstanceOf(IntPredicateX.class);
     }
 

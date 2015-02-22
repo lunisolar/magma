@@ -116,8 +116,8 @@ public class DoubleFunctionTest<R,X extends ParseException> {
     }
 
     @Test
-    public void testStdMethod() throws ParseException {
-        assertThat(DoubleFunction.std(jre))
+    public void testWrapStdMethod() throws ParseException {
+        assertThat(DoubleFunction.wrapStd(jre))
             .isInstanceOf(DoubleFunction.class);
     }
 

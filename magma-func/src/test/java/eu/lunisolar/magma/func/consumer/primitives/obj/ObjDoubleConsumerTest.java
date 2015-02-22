@@ -92,8 +92,8 @@ public class ObjDoubleConsumerTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testStdMethod() throws ParseException {
-        assertThat(ObjDoubleConsumer.std(jre))
+    public void testWrapStdMethod() throws ParseException {
+        assertThat(ObjDoubleConsumer.wrapStd(jre))
             .isInstanceOf(ObjDoubleConsumer.class);
     }
 

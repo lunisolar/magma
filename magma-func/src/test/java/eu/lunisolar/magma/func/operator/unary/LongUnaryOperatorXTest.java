@@ -105,8 +105,8 @@ public class LongUnaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testStdMethod() throws ParseException {
-        assertThat(LongUnaryOperatorX.std(jre))
+    public void testWrapStdMethod() throws ParseException {
+        assertThat(LongUnaryOperatorX.wrapStd(jre))
             .isInstanceOf(LongUnaryOperatorX.class);
     }
 

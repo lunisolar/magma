@@ -116,8 +116,8 @@ public class BinaryOperatorXTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testStdMethod() throws ParseException {
-        assertThat(BinaryOperatorX.std(jre))
+    public void testWrapStdMethod() throws ParseException {
+        assertThat(BinaryOperatorX.wrapStd(jre))
             .isInstanceOf(BinaryOperatorX.class);
     }
 

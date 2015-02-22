@@ -80,7 +80,7 @@ public interface Function<T, R> extends java.util.function.Function<T, R>, MetaF
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T, R> Function<T, R> std(final java.util.function.Function<T, R> other) {
+	public static <T, R> Function<T, R> wrapStd(final java.util.function.Function<T, R> other) {
 		return other::apply;
 	}
 

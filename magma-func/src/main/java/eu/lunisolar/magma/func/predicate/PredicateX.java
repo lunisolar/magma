@@ -83,7 +83,7 @@ public interface PredicateX<T, X extends Exception> extends MetaPredicate, Primi
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T, X extends Exception> PredicateX<T, X> std(final java.util.function.Predicate<T> other) {
+	public static <T, X extends Exception> PredicateX<T, X> wrapStd(final java.util.function.Predicate<T> other) {
 		return other::test;
 	}
 

@@ -105,8 +105,8 @@ public class ToIntBiFunctionXTest<T1,T2,X extends ParseException> {
     }
 
     @Test
-    public void testStdMethod() throws ParseException {
-        assertThat(ToIntBiFunctionX.std(jre))
+    public void testWrapStdMethod() throws ParseException {
+        assertThat(ToIntBiFunctionX.wrapStd(jre))
             .isInstanceOf(ToIntBiFunctionX.class);
     }
 

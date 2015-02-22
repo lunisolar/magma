@@ -77,7 +77,7 @@ public interface IntSupplier extends java.util.function.IntSupplier, MetaSupplie
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static IntSupplier std(final java.util.function.IntSupplier other) {
+	public static IntSupplier wrapStd(final java.util.function.IntSupplier other) {
 		return other::getAsInt;
 	}
 

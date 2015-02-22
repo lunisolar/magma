@@ -112,8 +112,8 @@ public class BiPredicateXTest<T1,T2,X extends ParseException> {
     }
 
     @Test
-    public void testStdMethod() throws ParseException {
-        assertThat(BiPredicateX.std(jre))
+    public void testWrapStdMethod() throws ParseException {
+        assertThat(BiPredicateX.wrapStd(jre))
             .isInstanceOf(BiPredicateX.class);
     }
 

@@ -77,7 +77,7 @@ public interface LongToIntFunction extends java.util.function.LongToIntFunction,
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LongToIntFunction std(final java.util.function.LongToIntFunction other) {
+	public static LongToIntFunction wrapStd(final java.util.function.LongToIntFunction other) {
 		return other::applyAsInt;
 	}
 

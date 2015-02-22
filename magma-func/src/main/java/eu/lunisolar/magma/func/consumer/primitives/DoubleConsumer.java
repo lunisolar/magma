@@ -73,7 +73,7 @@ public interface DoubleConsumer extends java.util.function.DoubleConsumer, MetaC
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static DoubleConsumer std(final java.util.function.DoubleConsumer other) {
+	public static DoubleConsumer wrapStd(final java.util.function.DoubleConsumer other) {
 		return other::accept;
 	}
 

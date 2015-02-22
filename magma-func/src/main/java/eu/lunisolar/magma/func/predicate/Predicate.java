@@ -83,7 +83,7 @@ public interface Predicate<T> extends java.util.function.Predicate<T>, MetaPredi
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T> Predicate<T> std(final java.util.function.Predicate<T> other) {
+	public static <T> Predicate<T> wrapStd(final java.util.function.Predicate<T> other) {
 		return other::test;
 	}
 

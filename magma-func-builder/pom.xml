@@ -24,19 +24,16 @@
         <dependency>
             <groupId>eu.lunisolar.magma</groupId>
             <artifactId>magma-basics</artifactId>
-            <version>${magma-version}</version>
         </dependency>
 
         <dependency>
             <groupId>eu.lunisolar.magma</groupId>
             <artifactId>magma-func</artifactId>
-            <version>${magma-version}</version>
         </dependency>
 
         <dependency>
             <groupId>eu.lunisolar.magma</groupId>
             <artifactId>magma-func-asserts</artifactId>
-            <version>${magma-version}</version>
             <scope>test</scope>
         </dependency>
 

@@ -77,7 +77,7 @@ public interface IntToDoubleFunction extends java.util.function.IntToDoubleFunct
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static IntToDoubleFunction std(final java.util.function.IntToDoubleFunction other) {
+	public static IntToDoubleFunction wrapStd(final java.util.function.IntToDoubleFunction other) {
 		return other::applyAsDouble;
 	}
 

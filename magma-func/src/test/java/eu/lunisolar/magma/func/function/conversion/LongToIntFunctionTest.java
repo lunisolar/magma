@@ -105,8 +105,8 @@ public class LongToIntFunctionTest<X extends ParseException> {
     }
 
     @Test
-    public void testStdMethod() throws ParseException {
-        assertThat(LongToIntFunction.std(jre))
+    public void testWrapStdMethod() throws ParseException {
+        assertThat(LongToIntFunction.wrapStd(jre))
             .isInstanceOf(LongToIntFunction.class);
     }
 

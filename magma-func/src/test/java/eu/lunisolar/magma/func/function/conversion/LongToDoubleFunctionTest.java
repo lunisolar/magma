@@ -105,8 +105,8 @@ public class LongToDoubleFunctionTest<X extends ParseException> {
     }
 
     @Test
-    public void testStdMethod() throws ParseException {
-        assertThat(LongToDoubleFunction.std(jre))
+    public void testWrapStdMethod() throws ParseException {
+        assertThat(LongToDoubleFunction.wrapStd(jre))
             .isInstanceOf(LongToDoubleFunction.class);
     }
 

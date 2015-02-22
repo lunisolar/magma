@@ -77,7 +77,7 @@ public interface DoubleToLongFunction extends java.util.function.DoubleToLongFun
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static DoubleToLongFunction std(final java.util.function.DoubleToLongFunction other) {
+	public static DoubleToLongFunction wrapStd(final java.util.function.DoubleToLongFunction other) {
 		return other::applyAsLong;
 	}
 

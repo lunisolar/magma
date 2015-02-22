@@ -77,7 +77,7 @@ public interface LongSupplier extends java.util.function.LongSupplier, MetaSuppl
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LongSupplier std(final java.util.function.LongSupplier other) {
+	public static LongSupplier wrapStd(final java.util.function.LongSupplier other) {
 		return other::getAsLong;
 	}
 

@@ -491,5 +491,13 @@
  * | java.util.function.LongSupplier                                                                                          |                                                                                  | long       |
  * | java.util.function.DoubleSupplier                                                                                        |                                                                                  | double     |
  * | java.util.function.BooleanSupplier                                                                                       |                                                                                  | boolean    |
+ * | java.util.function.Consumer                                                                                              | T t                                                                              |            |
+ * | java.util.function.BiConsumer                                                                                            | T1 t1,T2 t2                                                                      |            |
+ * | java.util.function.IntConsumer                                                                                           | int i                                                                            |            |
+ * | java.util.function.LongConsumer                                                                                          | long l                                                                           |            |
+ * | java.util.function.DoubleConsumer                                                                                        | double d                                                                         |            |
+ * | java.util.function.ObjIntConsumer                                                                                        | T t, int i                                                                       |            |
+ * | java.util.function.ObjLongConsumer                                                                                       | T t, long l                                                                      |            |
+ * | java.util.function.ObjDoubleConsumer                                                                                     | T t, double d                                                                    |            |
  */
 package eu.lunisolar.magma.func;

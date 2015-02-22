@@ -73,7 +73,7 @@ public interface ObjLongConsumerX<T, X extends Exception> extends MetaConsumer, 
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T, X extends Exception> ObjLongConsumerX<T, X> std(final java.util.function.ObjLongConsumer<T> other) {
+	public static <T, X extends Exception> ObjLongConsumerX<T, X> wrapStd(final java.util.function.ObjLongConsumer<T> other) {
 		return other::accept;
 	}
 

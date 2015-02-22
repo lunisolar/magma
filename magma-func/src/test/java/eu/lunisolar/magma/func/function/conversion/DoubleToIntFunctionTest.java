@@ -105,8 +105,8 @@ public class DoubleToIntFunctionTest<X extends ParseException> {
     }
 
     @Test
-    public void testStdMethod() throws ParseException {
-        assertThat(DoubleToIntFunction.std(jre))
+    public void testWrapStdMethod() throws ParseException {
+        assertThat(DoubleToIntFunction.wrapStd(jre))
             .isInstanceOf(DoubleToIntFunction.class);
     }
 

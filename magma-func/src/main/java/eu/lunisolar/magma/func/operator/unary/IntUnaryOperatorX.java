@@ -77,7 +77,7 @@ public interface IntUnaryOperatorX<X extends Exception> extends MetaOperator, Pr
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Exception> IntUnaryOperatorX<X> std(final java.util.function.IntUnaryOperator other) {
+	public static <X extends Exception> IntUnaryOperatorX<X> wrapStd(final java.util.function.IntUnaryOperator other) {
 		return other::applyAsInt;
 	}
 

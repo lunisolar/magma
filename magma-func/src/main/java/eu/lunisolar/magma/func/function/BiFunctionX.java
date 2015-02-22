@@ -81,7 +81,7 @@ public interface BiFunctionX<T1, T2, R, X extends Exception> extends MetaFunctio
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T1, T2, R, X extends Exception> BiFunctionX<T1, T2, R, X> std(final java.util.function.BiFunction<T1, T2, R> other) {
+	public static <T1, T2, R, X extends Exception> BiFunctionX<T1, T2, R, X> wrapStd(final java.util.function.BiFunction<T1, T2, R> other) {
 		return other::apply;
 	}
 

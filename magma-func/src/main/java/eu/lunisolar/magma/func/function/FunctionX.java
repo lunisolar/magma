@@ -81,7 +81,7 @@ public interface FunctionX<T, R, X extends Exception> extends MetaFunction, Meta
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T, R, X extends Exception> FunctionX<T, R, X> std(final java.util.function.Function<T, R> other) {
+	public static <T, R, X extends Exception> FunctionX<T, R, X> wrapStd(final java.util.function.Function<T, R> other) {
 		return other::apply;
 	}
 

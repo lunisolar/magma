@@ -80,7 +80,7 @@ public interface BinaryOperator<T> extends java.util.function.BinaryOperator<T>,
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T> BinaryOperator<T> std(final java.util.function.BinaryOperator<T> other) {
+	public static <T> BinaryOperator<T> wrapStd(final java.util.function.BinaryOperator<T> other) {
 		return other::apply;
 	}
 

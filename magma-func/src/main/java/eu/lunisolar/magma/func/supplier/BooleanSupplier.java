@@ -77,7 +77,7 @@ public interface BooleanSupplier extends java.util.function.BooleanSupplier, Met
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static BooleanSupplier std(final java.util.function.BooleanSupplier other) {
+	public static BooleanSupplier wrapStd(final java.util.function.BooleanSupplier other) {
 		return other::getAsBoolean;
 	}
 

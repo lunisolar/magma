@@ -16,9 +16,12 @@
     <modules>
         <module>magma-pom</module>
         <module>magma-basics</module>
+
         <module>magma-func</module>
         <module>magma-func-asserts</module>
         <module>magma-func-builder</module>
+
+        <module>magma-examples</module>
     </modules>
 
     <profiles>

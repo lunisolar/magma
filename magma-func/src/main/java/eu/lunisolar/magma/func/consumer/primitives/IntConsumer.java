@@ -73,7 +73,7 @@ public interface IntConsumer extends java.util.function.IntConsumer, MetaConsume
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static IntConsumer std(final java.util.function.IntConsumer other) {
+	public static IntConsumer wrapStd(final java.util.function.IntConsumer other) {
 		return other::accept;
 	}
 

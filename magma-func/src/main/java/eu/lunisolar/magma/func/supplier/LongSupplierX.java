@@ -77,7 +77,7 @@ public interface LongSupplierX<X extends Exception> extends MetaSupplier, Primit
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Exception> LongSupplierX<X> std(final java.util.function.LongSupplier other) {
+	public static <X extends Exception> LongSupplierX<X> wrapStd(final java.util.function.LongSupplier other) {
 		return other::getAsLong;
 	}
 

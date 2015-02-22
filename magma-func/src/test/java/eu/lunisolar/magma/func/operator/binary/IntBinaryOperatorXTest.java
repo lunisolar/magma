@@ -105,8 +105,8 @@ public class IntBinaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testStdMethod() throws ParseException {
-        assertThat(IntBinaryOperatorX.std(jre))
+    public void testWrapStdMethod() throws ParseException {
+        assertThat(IntBinaryOperatorX.wrapStd(jre))
             .isInstanceOf(IntBinaryOperatorX.class);
     }
 

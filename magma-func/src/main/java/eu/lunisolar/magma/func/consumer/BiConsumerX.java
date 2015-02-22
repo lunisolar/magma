@@ -73,7 +73,7 @@ public interface BiConsumerX<T1, T2, X extends Exception> extends MetaConsumer, 
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T1, T2, X extends Exception> BiConsumerX<T1, T2, X> std(final java.util.function.BiConsumer<T1, T2> other) {
+	public static <T1, T2, X extends Exception> BiConsumerX<T1, T2, X> wrapStd(final java.util.function.BiConsumer<T1, T2> other) {
 		return other::accept;
 	}
 

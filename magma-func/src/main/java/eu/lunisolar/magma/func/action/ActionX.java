@@ -64,7 +64,7 @@ public interface ActionX<X extends Exception> extends MetaAction, MetaThrowingIn
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Exception> ActionX<X> std(final Runnable other) {
+	public static <X extends Exception> ActionX<X> wrapStd(final Runnable other) {
 		return other::run;
 	}
 

@@ -112,8 +112,8 @@ public class LongPredicateTest<X extends ParseException> {
     }
 
     @Test
-    public void testStdMethod() throws ParseException {
-        assertThat(LongPredicate.std(jre))
+    public void testWrapStdMethod() throws ParseException {
+        assertThat(LongPredicate.wrapStd(jre))
             .isInstanceOf(LongPredicate.class);
     }
 

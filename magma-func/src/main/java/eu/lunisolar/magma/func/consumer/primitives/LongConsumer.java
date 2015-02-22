@@ -73,7 +73,7 @@ public interface LongConsumer extends java.util.function.LongConsumer, MetaConsu
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LongConsumer std(final java.util.function.LongConsumer other) {
+	public static LongConsumer wrapStd(final java.util.function.LongConsumer other) {
 		return other::accept;
 	}
 

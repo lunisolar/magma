@@ -77,7 +77,7 @@ public interface ToLongFunction<T> extends java.util.function.ToLongFunction<T>,
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T> ToLongFunction<T> std(final java.util.function.ToLongFunction<T> other) {
+	public static <T> ToLongFunction<T> wrapStd(final java.util.function.ToLongFunction<T> other) {
 		return other::applyAsLong;
 	}
 

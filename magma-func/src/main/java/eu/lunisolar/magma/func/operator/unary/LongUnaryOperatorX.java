@@ -77,7 +77,7 @@ public interface LongUnaryOperatorX<X extends Exception> extends MetaOperator, P
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Exception> LongUnaryOperatorX<X> std(final java.util.function.LongUnaryOperator other) {
+	public static <X extends Exception> LongUnaryOperatorX<X> wrapStd(final java.util.function.LongUnaryOperator other) {
 		return other::applyAsLong;
 	}
 

@@ -80,7 +80,7 @@ public interface BinaryOperatorX<T, X extends Exception> extends BiFunctionX<T, 
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T, X extends Exception> BinaryOperatorX<T, X> std(final java.util.function.BinaryOperator<T> other) {
+	public static <T, X extends Exception> BinaryOperatorX<T, X> wrapStd(final java.util.function.BinaryOperator<T> other) {
 		return other::apply;
 	}
 

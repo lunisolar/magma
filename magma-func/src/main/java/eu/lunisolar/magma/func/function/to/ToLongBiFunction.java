@@ -77,7 +77,7 @@ public interface ToLongBiFunction<T1, T2> extends java.util.function.ToLongBiFun
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T1, T2> ToLongBiFunction<T1, T2> std(final java.util.function.ToLongBiFunction<T1, T2> other) {
+	public static <T1, T2> ToLongBiFunction<T1, T2> wrapStd(final java.util.function.ToLongBiFunction<T1, T2> other) {
 		return other::applyAsLong;
 	}
 

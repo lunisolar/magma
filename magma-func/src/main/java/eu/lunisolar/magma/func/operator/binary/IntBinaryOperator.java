@@ -77,7 +77,7 @@ public interface IntBinaryOperator extends java.util.function.IntBinaryOperator,
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static IntBinaryOperator std(final java.util.function.IntBinaryOperator other) {
+	public static IntBinaryOperator wrapStd(final java.util.function.IntBinaryOperator other) {
 		return other::applyAsInt;
 	}
 

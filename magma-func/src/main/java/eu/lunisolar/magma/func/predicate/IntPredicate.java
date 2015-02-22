@@ -83,7 +83,7 @@ public interface IntPredicate extends java.util.function.IntPredicate, MetaPredi
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static IntPredicate std(final java.util.function.IntPredicate other) {
+	public static IntPredicate wrapStd(final java.util.function.IntPredicate other) {
 		return other::test;
 	}
 

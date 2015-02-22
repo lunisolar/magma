@@ -77,7 +77,7 @@ public interface ToDoubleFunction<T> extends java.util.function.ToDoubleFunction
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T> ToDoubleFunction<T> std(final java.util.function.ToDoubleFunction<T> other) {
+	public static <T> ToDoubleFunction<T> wrapStd(final java.util.function.ToDoubleFunction<T> other) {
 		return other::applyAsDouble;
 	}
 

@@ -81,7 +81,7 @@ public interface DoubleFunctionX<R, X extends Exception> extends MetaFunction, M
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <R, X extends Exception> DoubleFunctionX<R, X> std(final java.util.function.DoubleFunction<R> other) {
+	public static <R, X extends Exception> DoubleFunctionX<R, X> wrapStd(final java.util.function.DoubleFunction<R> other) {
 		return other::apply;
 	}
 

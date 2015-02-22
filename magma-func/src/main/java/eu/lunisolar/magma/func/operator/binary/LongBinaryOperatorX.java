@@ -77,7 +77,7 @@ public interface LongBinaryOperatorX<X extends Exception> extends MetaOperator, 
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Exception> LongBinaryOperatorX<X> std(final java.util.function.LongBinaryOperator other) {
+	public static <X extends Exception> LongBinaryOperatorX<X> wrapStd(final java.util.function.LongBinaryOperator other) {
 		return other::applyAsLong;
 	}
 

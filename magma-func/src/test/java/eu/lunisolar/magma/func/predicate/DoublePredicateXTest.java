@@ -112,8 +112,8 @@ public class DoublePredicateXTest<X extends ParseException> {
     }
 
     @Test
-    public void testStdMethod() throws ParseException {
-        assertThat(DoublePredicateX.std(jre))
+    public void testWrapStdMethod() throws ParseException {
+        assertThat(DoublePredicateX.wrapStd(jre))
             .isInstanceOf(DoublePredicateX.class);
     }
 

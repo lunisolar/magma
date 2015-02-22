@@ -77,7 +77,7 @@ public interface DoubleToIntFunctionX<X extends Exception> extends MetaFunction,
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Exception> DoubleToIntFunctionX<X> std(final java.util.function.DoubleToIntFunction other) {
+	public static <X extends Exception> DoubleToIntFunctionX<X> wrapStd(final java.util.function.DoubleToIntFunction other) {
 		return other::applyAsInt;
 	}
 

@@ -77,7 +77,7 @@ public interface DoubleUnaryOperator extends java.util.function.DoubleUnaryOpera
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static DoubleUnaryOperator std(final java.util.function.DoubleUnaryOperator other) {
+	public static DoubleUnaryOperator wrapStd(final java.util.function.DoubleUnaryOperator other) {
 		return other::applyAsDouble;
 	}
 

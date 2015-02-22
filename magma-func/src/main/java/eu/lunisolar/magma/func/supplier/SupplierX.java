@@ -81,7 +81,7 @@ public interface SupplierX<R, X extends Exception> extends MetaSupplier, MetaThr
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <R, X extends Exception> SupplierX<R, X> std(final java.util.function.Supplier<R> other) {
+	public static <R, X extends Exception> SupplierX<R, X> wrapStd(final java.util.function.Supplier<R> other) {
 		return other::get;
 	}
 

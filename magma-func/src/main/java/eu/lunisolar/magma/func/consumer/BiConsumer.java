@@ -73,7 +73,7 @@ public interface BiConsumer<T1, T2> extends java.util.function.BiConsumer<T1, T2
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T1, T2> BiConsumer<T1, T2> std(final java.util.function.BiConsumer<T1, T2> other) {
+	public static <T1, T2> BiConsumer<T1, T2> wrapStd(final java.util.function.BiConsumer<T1, T2> other) {
 		return other::accept;
 	}
 

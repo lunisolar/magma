@@ -80,7 +80,7 @@ public interface Supplier<R> extends java.util.function.Supplier<R>, MetaSupplie
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <R> Supplier<R> std(final java.util.function.Supplier<R> other) {
+	public static <R> Supplier<R> wrapStd(final java.util.function.Supplier<R> other) {
 		return other::get;
 	}
 

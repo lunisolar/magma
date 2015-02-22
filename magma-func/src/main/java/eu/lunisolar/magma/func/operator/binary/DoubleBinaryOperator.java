@@ -77,7 +77,7 @@ public interface DoubleBinaryOperator extends java.util.function.DoubleBinaryOpe
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static DoubleBinaryOperator std(final java.util.function.DoubleBinaryOperator other) {
+	public static DoubleBinaryOperator wrapStd(final java.util.function.DoubleBinaryOperator other) {
 		return other::applyAsDouble;
 	}
 

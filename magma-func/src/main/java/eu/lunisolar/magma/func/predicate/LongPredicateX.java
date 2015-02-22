@@ -83,7 +83,7 @@ public interface LongPredicateX<X extends Exception> extends MetaPredicate, Prim
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Exception> LongPredicateX<X> std(final java.util.function.LongPredicate other) {
+	public static <X extends Exception> LongPredicateX<X> wrapStd(final java.util.function.LongPredicate other) {
 		return other::test;
 	}
 

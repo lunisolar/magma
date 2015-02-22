@@ -77,7 +77,7 @@ public interface BooleanSupplierX<X extends Exception> extends MetaSupplier, Pri
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Exception> BooleanSupplierX<X> std(final java.util.function.BooleanSupplier other) {
+	public static <X extends Exception> BooleanSupplierX<X> wrapStd(final java.util.function.BooleanSupplier other) {
 		return other::getAsBoolean;
 	}
 

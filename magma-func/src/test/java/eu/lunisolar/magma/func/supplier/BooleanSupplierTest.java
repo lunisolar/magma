@@ -105,8 +105,8 @@ public class BooleanSupplierTest<X extends ParseException> {
     }
 
     @Test
-    public void testStdMethod() throws ParseException {
-        assertThat(BooleanSupplier.std(jre))
+    public void testWrapStdMethod() throws ParseException {
+        assertThat(BooleanSupplier.wrapStd(jre))
             .isInstanceOf(BooleanSupplier.class);
     }
 

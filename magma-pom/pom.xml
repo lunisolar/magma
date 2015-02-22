@@ -41,24 +41,70 @@
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
-            <version>${jsr305-version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <version>${testNg-version}</version>
-            <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>${assertj-core.version}</version>
-            <scope>test</scope>
         </dependency>
 
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <!-- Internal dependencies-->
+            <dependency>
+                <groupId>eu.lunisolar.magma</groupId>
+                <artifactId>magma-basics</artifactId>
+                <version>${magma-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>eu.lunisolar.magma</groupId>
+                <artifactId>magma-func</artifactId>
+                <version>${magma-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>eu.lunisolar.magma</groupId>
+                <artifactId>magma-func-asserts</artifactId>
+                <version>${magma-version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>eu.lunisolar.magma</groupId>
+                <artifactId>magma-func-builder</artifactId>
+                <version>${magma-version}</version>
+            </dependency>
+
+            <!--External dependencies-->
+
+            <dependency>
+                <groupId>com.google.code.findbugs</groupId>
+                <artifactId>jsr305</artifactId>
+                <version>${jsr305-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.testng</groupId>
+                <artifactId>testng</artifactId>
+                <version>${testNg-version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+                <version>${assertj-core.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+        </dependencies>
+
+
+    </dependencyManagement>
 
     <build>
         <plugins>

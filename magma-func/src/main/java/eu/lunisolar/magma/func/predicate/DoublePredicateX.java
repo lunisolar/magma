@@ -83,7 +83,7 @@ public interface DoublePredicateX<X extends Exception> extends MetaPredicate, Pr
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Exception> DoublePredicateX<X> std(final java.util.function.DoublePredicate other) {
+	public static <X extends Exception> DoublePredicateX<X> wrapStd(final java.util.function.DoublePredicate other) {
 		return other::test;
 	}
 

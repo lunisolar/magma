@@ -73,7 +73,7 @@ public interface ObjLongConsumer<T> extends java.util.function.ObjLongConsumer<T
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T> ObjLongConsumer<T> std(final java.util.function.ObjLongConsumer<T> other) {
+	public static <T> ObjLongConsumer<T> wrapStd(final java.util.function.ObjLongConsumer<T> other) {
 		return other::accept;
 	}
 

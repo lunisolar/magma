@@ -77,7 +77,7 @@ public interface IntToLongFunction extends java.util.function.IntToLongFunction,
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static IntToLongFunction std(final java.util.function.IntToLongFunction other) {
+	public static IntToLongFunction wrapStd(final java.util.function.IntToLongFunction other) {
 		return other::applyAsLong;
 	}
 

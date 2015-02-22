@@ -83,7 +83,7 @@ public interface DoublePredicate extends java.util.function.DoublePredicate, Met
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static DoublePredicate std(final java.util.function.DoublePredicate other) {
+	public static DoublePredicate wrapStd(final java.util.function.DoublePredicate other) {
 		return other::test;
 	}
 

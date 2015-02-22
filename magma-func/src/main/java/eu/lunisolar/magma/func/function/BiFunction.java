@@ -80,7 +80,7 @@ public interface BiFunction<T1, T2, R> extends java.util.function.BiFunction<T1,
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T1, T2, R> BiFunction<T1, T2, R> std(final java.util.function.BiFunction<T1, T2, R> other) {
+	public static <T1, T2, R> BiFunction<T1, T2, R> wrapStd(final java.util.function.BiFunction<T1, T2, R> other) {
 		return other::apply;
 	}
 

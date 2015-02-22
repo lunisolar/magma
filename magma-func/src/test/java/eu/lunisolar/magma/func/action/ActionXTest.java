@@ -92,8 +92,8 @@ public class ActionXTest<X extends ParseException> {
     }
 
     @Test
-    public void testStdMethod() throws ParseException {
-        assertThat(ActionX.std(jre))
+    public void testWrapStdMethod() throws ParseException {
+        assertThat(ActionX.wrapStd(jre))
             .isInstanceOf(ActionX.class);
     }
 

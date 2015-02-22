@@ -80,7 +80,7 @@ public interface DoubleFunction<R> extends java.util.function.DoubleFunction<R>,
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <R> DoubleFunction<R> std(final java.util.function.DoubleFunction<R> other) {
+	public static <R> DoubleFunction<R> wrapStd(final java.util.function.DoubleFunction<R> other) {
 		return other::apply;
 	}
 

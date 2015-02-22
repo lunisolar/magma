@@ -41,7 +41,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface Action extends MetaAction {
+public interface Action extends java.lang.Runnable, MetaAction {
 
 	public static final String DESCRIPTION = "Action: void execute()";
 
@@ -51,6 +51,10 @@ public interface Action extends MetaAction {
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return Action.DESCRIPTION;
+	}
+
+	default void run() {
+		execute();
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -64,7 +68,7 @@ public interface Action extends MetaAction {
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static Action std(final Runnable other) {
+	public static Action wrapStd(final Runnable other) {
 		return other::run;
 	}
 
@@ -112,7 +116,7 @@ public interface Action extends MetaAction {
 	/** Converts to JRE variant. */
 	@Nonnull
 	default Runnable std() {
-		return this::execute;
+		return this;
 	}
 
 	/** Converts to non-throwing variant (if required). */

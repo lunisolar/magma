@@ -81,7 +81,7 @@ public interface IntFunctionX<R, X extends Exception> extends MetaFunction, Meta
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <R, X extends Exception> IntFunctionX<R, X> std(final java.util.function.IntFunction<R> other) {
+	public static <R, X extends Exception> IntFunctionX<R, X> wrapStd(final java.util.function.IntFunction<R> other) {
 		return other::apply;
 	}
 

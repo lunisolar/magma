@@ -83,7 +83,7 @@ public interface LongPredicate extends java.util.function.LongPredicate, MetaPre
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LongPredicate std(final java.util.function.LongPredicate other) {
+	public static LongPredicate wrapStd(final java.util.function.LongPredicate other) {
 		return other::test;
 	}
 

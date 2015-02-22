@@ -80,7 +80,7 @@ public interface LongFunction<R> extends java.util.function.LongFunction<R>, Met
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <R> LongFunction<R> std(final java.util.function.LongFunction<R> other) {
+	public static <R> LongFunction<R> wrapStd(final java.util.function.LongFunction<R> other) {
 		return other::apply;
 	}
 

@@ -77,7 +77,7 @@ public interface ToDoubleBiFunctionX<T1, T2, X extends Exception> extends MetaFu
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T1, T2, X extends Exception> ToDoubleBiFunctionX<T1, T2, X> std(final java.util.function.ToDoubleBiFunction<T1, T2> other) {
+	public static <T1, T2, X extends Exception> ToDoubleBiFunctionX<T1, T2, X> wrapStd(final java.util.function.ToDoubleBiFunction<T1, T2> other) {
 		return other::applyAsDouble;
 	}
 

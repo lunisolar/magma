@@ -80,7 +80,7 @@ public interface UnaryOperator<T> extends java.util.function.UnaryOperator<T>, F
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T> UnaryOperator<T> std(final java.util.function.UnaryOperator<T> other) {
+	public static <T> UnaryOperator<T> wrapStd(final java.util.function.UnaryOperator<T> other) {
 		return other::apply;
 	}
 

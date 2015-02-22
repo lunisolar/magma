@@ -105,8 +105,8 @@ public class IntUnaryOperatorTest<X extends ParseException> {
     }
 
     @Test
-    public void testStdMethod() throws ParseException {
-        assertThat(IntUnaryOperator.std(jre))
+    public void testWrapStdMethod() throws ParseException {
+        assertThat(IntUnaryOperator.wrapStd(jre))
             .isInstanceOf(IntUnaryOperator.class);
     }
 

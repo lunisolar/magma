@@ -77,7 +77,7 @@ public interface IntSupplierX<X extends Exception> extends MetaSupplier, Primiti
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Exception> IntSupplierX<X> std(final java.util.function.IntSupplier other) {
+	public static <X extends Exception> IntSupplierX<X> wrapStd(final java.util.function.IntSupplier other) {
 		return other::getAsInt;
 	}
 

@@ -77,7 +77,7 @@ public interface LongBinaryOperator extends java.util.function.LongBinaryOperato
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LongBinaryOperator std(final java.util.function.LongBinaryOperator other) {
+	public static LongBinaryOperator wrapStd(final java.util.function.LongBinaryOperator other) {
 		return other::applyAsLong;
 	}
 

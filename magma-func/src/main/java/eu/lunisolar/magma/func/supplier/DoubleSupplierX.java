@@ -77,7 +77,7 @@ public interface DoubleSupplierX<X extends Exception> extends MetaSupplier, Prim
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Exception> DoubleSupplierX<X> std(final java.util.function.DoubleSupplier other) {
+	public static <X extends Exception> DoubleSupplierX<X> wrapStd(final java.util.function.DoubleSupplier other) {
 		return other::getAsDouble;
 	}
 

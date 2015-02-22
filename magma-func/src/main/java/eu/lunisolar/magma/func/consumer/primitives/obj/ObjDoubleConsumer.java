@@ -73,7 +73,7 @@ public interface ObjDoubleConsumer<T> extends java.util.function.ObjDoubleConsum
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T> ObjDoubleConsumer<T> std(final java.util.function.ObjDoubleConsumer<T> other) {
+	public static <T> ObjDoubleConsumer<T> wrapStd(final java.util.function.ObjDoubleConsumer<T> other) {
 		return other::accept;
 	}
 

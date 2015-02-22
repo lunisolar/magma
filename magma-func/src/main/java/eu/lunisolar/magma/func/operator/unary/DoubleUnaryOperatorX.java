@@ -77,7 +77,7 @@ public interface DoubleUnaryOperatorX<X extends Exception> extends MetaOperator,
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Exception> DoubleUnaryOperatorX<X> std(final java.util.function.DoubleUnaryOperator other) {
+	public static <X extends Exception> DoubleUnaryOperatorX<X> wrapStd(final java.util.function.DoubleUnaryOperator other) {
 		return other::applyAsDouble;
 	}
 

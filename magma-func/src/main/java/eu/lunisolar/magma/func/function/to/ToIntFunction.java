@@ -77,7 +77,7 @@ public interface ToIntFunction<T> extends java.util.function.ToIntFunction<T>, M
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T> ToIntFunction<T> std(final java.util.function.ToIntFunction<T> other) {
+	public static <T> ToIntFunction<T> wrapStd(final java.util.function.ToIntFunction<T> other) {
 		return other::applyAsInt;
 	}
 

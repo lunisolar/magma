@@ -92,8 +92,8 @@ public class BiConsumerTest<T1,T2,X extends ParseException> {
     }
 
     @Test
-    public void testStdMethod() throws ParseException {
-        assertThat(BiConsumer.std(jre))
+    public void testWrapStdMethod() throws ParseException {
+        assertThat(BiConsumer.wrapStd(jre))
             .isInstanceOf(BiConsumer.class);
     }
 

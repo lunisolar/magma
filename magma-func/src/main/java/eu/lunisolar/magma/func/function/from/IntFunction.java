@@ -80,7 +80,7 @@ public interface IntFunction<R> extends java.util.function.IntFunction<R>, MetaF
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <R> IntFunction<R> std(final java.util.function.IntFunction<R> other) {
+	public static <R> IntFunction<R> wrapStd(final java.util.function.IntFunction<R> other) {
 		return other::apply;
 	}
 

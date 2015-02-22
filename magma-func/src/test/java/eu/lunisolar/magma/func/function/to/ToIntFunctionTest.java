@@ -105,8 +105,8 @@ public class ToIntFunctionTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testStdMethod() throws ParseException {
-        assertThat(ToIntFunction.std(jre))
+    public void testWrapStdMethod() throws ParseException {
+        assertThat(ToIntFunction.wrapStd(jre))
             .isInstanceOf(ToIntFunction.class);
     }
 

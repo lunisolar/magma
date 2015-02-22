@@ -77,7 +77,7 @@ public interface IntBinaryOperatorX<X extends Exception> extends MetaOperator, P
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Exception> IntBinaryOperatorX<X> std(final java.util.function.IntBinaryOperator other) {
+	public static <X extends Exception> IntBinaryOperatorX<X> wrapStd(final java.util.function.IntBinaryOperator other) {
 		return other::applyAsInt;
 	}
 

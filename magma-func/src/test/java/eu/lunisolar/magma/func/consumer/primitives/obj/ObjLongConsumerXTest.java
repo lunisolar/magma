@@ -92,8 +92,8 @@ public class ObjLongConsumerXTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testStdMethod() throws ParseException {
-        assertThat(ObjLongConsumerX.std(jre))
+    public void testWrapStdMethod() throws ParseException {
+        assertThat(ObjLongConsumerX.wrapStd(jre))
             .isInstanceOf(ObjLongConsumerX.class);
     }
 

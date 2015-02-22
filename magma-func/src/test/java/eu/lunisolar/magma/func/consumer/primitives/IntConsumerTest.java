@@ -92,8 +92,8 @@ public class IntConsumerTest<X extends ParseException> {
     }
 
     @Test
-    public void testStdMethod() throws ParseException {
-        assertThat(IntConsumer.std(jre))
+    public void testWrapStdMethod() throws ParseException {
+        assertThat(IntConsumer.wrapStd(jre))
             .isInstanceOf(IntConsumer.class);
     }
 

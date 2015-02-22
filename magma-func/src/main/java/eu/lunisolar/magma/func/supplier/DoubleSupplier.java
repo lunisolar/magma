@@ -77,7 +77,7 @@ public interface DoubleSupplier extends java.util.function.DoubleSupplier, MetaS
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static DoubleSupplier std(final java.util.function.DoubleSupplier other) {
+	public static DoubleSupplier wrapStd(final java.util.function.DoubleSupplier other) {
 		return other::getAsDouble;
 	}
 

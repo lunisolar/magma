@@ -758,6 +758,86 @@ public final class Function4U {
 		return lambda;
 	}
 
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods axceptiong different interfaces). */
+	public static final <T> java.util.function.Consumer l(final java.util.function.Consumer<T> lambda) {
+		return lambda;
+	}
+
+	/** Convenient method for lambda exression that throws exception (e.g. RuntimeException). In such case compilator do not have a return type info and **l** becomes ambiguous. */
+	public static final <T> java.util.function.Consumer consumer(final java.util.function.Consumer<T> lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods axceptiong different interfaces). */
+	public static final <T1, T2> java.util.function.BiConsumer l(final java.util.function.BiConsumer<T1, T2> lambda) {
+		return lambda;
+	}
+
+	/** Convenient method for lambda exression that throws exception (e.g. RuntimeException). In such case compilator do not have a return type info and **l** becomes ambiguous. */
+	public static final <T1, T2> java.util.function.BiConsumer biConsumer(final java.util.function.BiConsumer<T1, T2> lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods axceptiong different interfaces). */
+	public static final java.util.function.IntConsumer l(final java.util.function.IntConsumer lambda) {
+		return lambda;
+	}
+
+	/** Convenient method for lambda exression that throws exception (e.g. RuntimeException). In such case compilator do not have a return type info and **l** becomes ambiguous. */
+	public static final java.util.function.IntConsumer intConsumer(final java.util.function.IntConsumer lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods axceptiong different interfaces). */
+	public static final java.util.function.LongConsumer l(final java.util.function.LongConsumer lambda) {
+		return lambda;
+	}
+
+	/** Convenient method for lambda exression that throws exception (e.g. RuntimeException). In such case compilator do not have a return type info and **l** becomes ambiguous. */
+	public static final java.util.function.LongConsumer longConsumer(final java.util.function.LongConsumer lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods axceptiong different interfaces). */
+	public static final java.util.function.DoubleConsumer l(final java.util.function.DoubleConsumer lambda) {
+		return lambda;
+	}
+
+	/** Convenient method for lambda exression that throws exception (e.g. RuntimeException). In such case compilator do not have a return type info and **l** becomes ambiguous. */
+	public static final java.util.function.DoubleConsumer doubleConsumer(final java.util.function.DoubleConsumer lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods axceptiong different interfaces). */
+	public static final <T> java.util.function.ObjIntConsumer l(final java.util.function.ObjIntConsumer<T> lambda) {
+		return lambda;
+	}
+
+	/** Convenient method for lambda exression that throws exception (e.g. RuntimeException). In such case compilator do not have a return type info and **l** becomes ambiguous. */
+	public static final <T> java.util.function.ObjIntConsumer objIntConsumer(final java.util.function.ObjIntConsumer<T> lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods axceptiong different interfaces). */
+	public static final <T> java.util.function.ObjLongConsumer l(final java.util.function.ObjLongConsumer<T> lambda) {
+		return lambda;
+	}
+
+	/** Convenient method for lambda exression that throws exception (e.g. RuntimeException). In such case compilator do not have a return type info and **l** becomes ambiguous. */
+	public static final <T> java.util.function.ObjLongConsumer objLongConsumer(final java.util.function.ObjLongConsumer<T> lambda) {
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods axceptiong different interfaces). */
+	public static final <T> java.util.function.ObjDoubleConsumer l(final java.util.function.ObjDoubleConsumer<T> lambda) {
+		return lambda;
+	}
+
+	/** Convenient method for lambda exression that throws exception (e.g. RuntimeException). In such case compilator do not have a return type info and **l** becomes ambiguous. */
+	public static final <T> java.util.function.ObjDoubleConsumer objDoubleConsumer(final java.util.function.ObjDoubleConsumer<T> lambda) {
+		return lambda;
+	}
+
 	// </editor-fold>
 
 }

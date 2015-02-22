@@ -77,7 +77,7 @@ public interface ToLongFunctionX<T, X extends Exception> extends MetaFunction, P
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T, X extends Exception> ToLongFunctionX<T, X> std(final java.util.function.ToLongFunction<T> other) {
+	public static <T, X extends Exception> ToLongFunctionX<T, X> wrapStd(final java.util.function.ToLongFunction<T> other) {
 		return other::applyAsLong;
 	}
 

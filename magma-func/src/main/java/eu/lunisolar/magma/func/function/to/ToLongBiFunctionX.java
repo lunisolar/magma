@@ -77,7 +77,7 @@ public interface ToLongBiFunctionX<T1, T2, X extends Exception> extends MetaFunc
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T1, T2, X extends Exception> ToLongBiFunctionX<T1, T2, X> std(final java.util.function.ToLongBiFunction<T1, T2> other) {
+	public static <T1, T2, X extends Exception> ToLongBiFunctionX<T1, T2, X> wrapStd(final java.util.function.ToLongBiFunction<T1, T2> other) {
 		return other::applyAsLong;
 	}
 

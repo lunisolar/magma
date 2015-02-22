@@ -83,7 +83,7 @@ public interface BiPredicateX<T1, T2, X extends Exception> extends MetaPredicate
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T1, T2, X extends Exception> BiPredicateX<T1, T2, X> std(final java.util.function.BiPredicate<T1, T2> other) {
+	public static <T1, T2, X extends Exception> BiPredicateX<T1, T2, X> wrapStd(final java.util.function.BiPredicate<T1, T2> other) {
 		return other::test;
 	}
 

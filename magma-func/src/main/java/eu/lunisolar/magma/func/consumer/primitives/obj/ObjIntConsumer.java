@@ -73,7 +73,7 @@ public interface ObjIntConsumer<T> extends java.util.function.ObjIntConsumer<T>,
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T> ObjIntConsumer<T> std(final java.util.function.ObjIntConsumer<T> other) {
+	public static <T> ObjIntConsumer<T> wrapStd(final java.util.function.ObjIntConsumer<T> other) {
 		return other::accept;
 	}
 

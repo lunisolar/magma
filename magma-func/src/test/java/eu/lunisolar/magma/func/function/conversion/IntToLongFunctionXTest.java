@@ -105,8 +105,8 @@ public class IntToLongFunctionXTest<X extends ParseException> {
     }
 
     @Test
-    public void testStdMethod() throws ParseException {
-        assertThat(IntToLongFunctionX.std(jre))
+    public void testWrapStdMethod() throws ParseException {
+        assertThat(IntToLongFunctionX.wrapStd(jre))
             .isInstanceOf(IntToLongFunctionX.class);
     }
 
