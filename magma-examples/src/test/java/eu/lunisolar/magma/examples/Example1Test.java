@@ -20,6 +20,7 @@
 package eu.lunisolar.magma.examples;
 
 import eu.lunisolar.magma.basics.NestedException;
+import eu.lunisolar.magma.func.predicate.PredicateX;
 import org.assertj.core.util.Lists;
 import org.testng.annotations.Test;
 
@@ -71,6 +72,22 @@ public class Example1Test {
         long result = integerList.stream().filter(wrap(i -> potentiallyThrowing(i) != null)).count();
 
         assertThat(result).isEqualTo(10);
+    }
+
+    @Test
+    public void standardPredicateWithExceptionWrapping_short2() {
+
+        PredicateX<Integer, CheckedException> predicateX = i -> potentiallyThrowing(i) != null;
+
+        long result = integerList.stream().filter(predicateX.nonThrowing()).count();
+
+        assertThat(result).isEqualTo(10);
+    }
+
+    public static PredicateX<Integer, CheckedException> example(java.util.function.Predicate<Integer> predicateStd) {
+
+        return PredicateX.wrapStd(predicateStd);
+
     }
 
     @Test(expectedExceptions = NestedException.class, expectedExceptionsMessageRegExp = "\\QSomething went wrong\\E")

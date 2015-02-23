@@ -4,7 +4,7 @@ Lunisolar Magma
 
 Status: ![https://img.shields.io/github/release/lunisolar/magma.svg](https://img.shields.io/github/release/lunisolar/magma.svg)
 ![https://img.shields.io/github/tag/lunisolar/magma.svg](https://img.shields.io/github/tag/lunisolar/magma.svg)
-![https://travis-ci.org/lunisolar/magma.svg?branch=master](https://travis-ci.org/lunisolar/magma.svg?branch=master)
+[![Build Status](https://travis-ci.org/lunisolar/magma.svg?branch=master)](https://travis-ci.org/lunisolar/magma)
 
 -----------------------------------------
 #### What it is?
