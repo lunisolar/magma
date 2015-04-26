@@ -96,7 +96,7 @@ public abstract class AbstractEvaluation<SELF extends AbstractEvaluation<SELF, C
             assertConsumer.accept(resultAssert);
         } catch (AssertionError e) {
             throw e;
-        } catch (Throwable e) {
+        } catch (Throwable e) { // NOSONAR
             fail("Should evaluate without problem.", e);
         }
     }
@@ -109,7 +109,7 @@ public abstract class AbstractEvaluation<SELF extends AbstractEvaluation<SELF, C
             // supplier will fail with the
             assertSupplier.get();
             fail("Should evaluate with exception.");
-        } catch (Throwable e) {
+        } catch (Throwable e) {  // NOSONAR
             assertConsumer.accept(Assertions.assertThat(e));
         }
     }

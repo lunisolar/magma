@@ -77,6 +77,7 @@ public class BiObjLongFunctionBuilderTest<T1,T2,R,X extends ParseException>{
 
         }
     }
+
     @Test
     public void testBuild() throws Exception {
 
@@ -97,7 +98,6 @@ public class BiObjLongFunctionBuilderTest<T1,T2,R,X extends ParseException>{
         ;
 
     }
-
 
 }
 

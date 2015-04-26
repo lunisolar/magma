@@ -77,6 +77,7 @@ public class ObjBooleanPredicateBuilderTest<T,X extends ParseException>{
 
         }
     }
+
     @Test
     public void testBuild() throws Exception {
 
@@ -95,7 +96,6 @@ public class ObjBooleanPredicateBuilderTest<T,X extends ParseException>{
         ;
 
     }
-
 
 }
 

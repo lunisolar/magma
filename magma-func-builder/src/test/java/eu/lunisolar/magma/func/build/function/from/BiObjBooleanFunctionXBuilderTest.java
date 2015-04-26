@@ -77,6 +77,7 @@ public class BiObjBooleanFunctionXBuilderTest<T1,T2,R,X extends ParseException>{
 
         }
     }
+
     @Test
     public void testBuild() throws Exception {
 
@@ -95,7 +96,6 @@ public class BiObjBooleanFunctionXBuilderTest<T1,T2,R,X extends ParseException>{
         ;
 
     }
-
 
 }
 

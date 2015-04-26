@@ -77,6 +77,7 @@ public class ShortBiFunctionXBuilderTest<R,X extends ParseException>{
 
         }
     }
+
     @Test
     public void testBuild() throws Exception {
 
@@ -97,7 +98,6 @@ public class ShortBiFunctionXBuilderTest<R,X extends ParseException>{
         ;
 
     }
-
 
 }
 

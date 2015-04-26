@@ -77,6 +77,7 @@ public class BooleanToFloatFunctionBuilderTest<X extends ParseException>{
 
         }
     }
+
     @Test
     public void testBuild() throws Exception {
 
@@ -94,7 +95,6 @@ public class BooleanToFloatFunctionBuilderTest<X extends ParseException>{
         ;
 
     }
-
 
 }
 

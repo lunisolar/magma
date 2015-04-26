@@ -77,6 +77,7 @@ public class BiConsumerXBuilderTest<T1,T2,X extends ParseException>{
 
         }
     }
+
     @Test
     public void testBuild() throws Exception {
         final AtomicInteger externalEffect = new AtomicInteger(0);
@@ -98,7 +99,6 @@ public class BiConsumerXBuilderTest<T1,T2,X extends ParseException>{
         ;
 
     }
-
 
 }
 

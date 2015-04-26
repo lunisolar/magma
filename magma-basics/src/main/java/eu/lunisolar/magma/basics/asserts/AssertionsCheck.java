@@ -19,9 +19,6 @@
 
 package eu.lunisolar.magma.basics.asserts;
 
-/**
- * @author Jakub Wach
- */
 @FunctionalInterface
 public interface AssertionsCheck {
 

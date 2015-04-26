@@ -77,6 +77,7 @@ public class LongSupplierBuilderTest<X extends ParseException>{
 
         }
     }
+
     @Test
     public void testBuild() throws Exception {
         final AtomicInteger externalInfluence = new AtomicInteger(0);
@@ -98,7 +99,6 @@ public class LongSupplierBuilderTest<X extends ParseException>{
         ;
 
     }
-
 
 }
 

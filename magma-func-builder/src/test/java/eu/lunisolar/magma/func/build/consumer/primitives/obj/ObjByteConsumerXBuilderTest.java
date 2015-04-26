@@ -77,6 +77,7 @@ public class ObjByteConsumerXBuilderTest<T,X extends ParseException>{
 
         }
     }
+
     @Test
     public void testBuild() throws Exception {
         final AtomicInteger externalEffect = new AtomicInteger(0);
@@ -98,7 +99,6 @@ public class ObjByteConsumerXBuilderTest<T,X extends ParseException>{
         ;
 
     }
-
 
 }
 
