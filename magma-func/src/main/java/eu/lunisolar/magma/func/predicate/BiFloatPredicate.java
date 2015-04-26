@@ -44,8 +44,13 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /**
- * Function category: predicate
- * Throwing interface/lambda variant: BiFloatPredicateX
+ * Non-throwing functional interface (lambda) BiFloatPredicate for Java 8.
+ *
+ * Type: predicate
+ *
+ * Domain (lvl: 2): float f1,float f2
+ *
+ * Co-domain: none
  *
  * @see BiFloatPredicateX
  */

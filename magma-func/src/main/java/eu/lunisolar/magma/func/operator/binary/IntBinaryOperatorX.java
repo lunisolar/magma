@@ -44,8 +44,13 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /**
- * Function category: operator
- * Non-throwing interface/lambda variant: IntBinaryOperator
+ * Throwing functional interface (lambda) IntBinaryOperatorX for Java 8.
+ *
+ * Type: operator
+ *
+ * Domain (lvl: 2): int i1,int i2
+ *
+ * Co-domain: none
  *
  * @see IntBinaryOperator
  */

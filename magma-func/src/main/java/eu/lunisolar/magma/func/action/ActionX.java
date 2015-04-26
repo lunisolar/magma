@@ -37,8 +37,13 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  * - do not rise warnings about Runnable being call directly
  * - two versions (throwing and non-throwing) have conversion methods that mirrors each other)
  *
- * Function category: action
- * Non-throwing interface/lambda variant: Action
+ * Throwing functional interface (lambda) ActionX for Java 8.
+ *
+ * Type: action
+ *
+ * Domain (lvl: 0): none
+ *
+ * Co-domain: none
  *
  * @see Action
  */

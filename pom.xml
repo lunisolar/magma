@@ -12,7 +12,7 @@
 
     <name>lunisolar-magma</name>
     <description>A library of functional interfaces (lambda interfaces) for Java 8, supplemented with assertions and builders.</description>
-    <url>http://http://www.lunisolar.eu/magma</url>
+    <url>http://lunisolar.eu/magma</url>
 
     <licenses>
         <license>

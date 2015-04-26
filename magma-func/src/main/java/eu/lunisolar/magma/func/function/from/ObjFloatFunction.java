@@ -44,8 +44,13 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /**
- * Function category: function
- * Throwing interface/lambda variant: ObjFloatFunctionX
+ * Non-throwing functional interface (lambda) ObjFloatFunction for Java 8.
+ *
+ * Type: function
+ *
+ * Domain (lvl: 2): T t, float f
+ *
+ * Co-domain: R
  *
  * @see ObjFloatFunctionX
  */

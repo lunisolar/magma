@@ -44,8 +44,13 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /**
- * Function category: supplier
- * Non-throwing interface/lambda variant: CharSupplier
+ * Throwing functional interface (lambda) CharSupplierX for Java 8.
+ *
+ * Type: supplier
+ *
+ * Domain (lvl: 0): none
+ *
+ * Co-domain: none
  *
  * @see CharSupplier
  */

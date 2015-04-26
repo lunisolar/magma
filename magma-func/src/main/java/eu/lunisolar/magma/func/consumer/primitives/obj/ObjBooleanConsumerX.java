@@ -45,8 +45,13 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /**
- * Function category: consumer
- * Non-throwing interface/lambda variant: ObjBooleanConsumer
+ * Throwing functional interface (lambda) ObjBooleanConsumerX for Java 8.
+ *
+ * Type: consumer
+ *
+ * Domain (lvl: 2): T t, boolean b
+ *
+ * Co-domain: none
  *
  * @see ObjBooleanConsumer
  */

@@ -44,8 +44,13 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /**
- * Function category: function
- * Non-throwing interface/lambda variant: ByteFunction
+ * Throwing functional interface (lambda) ByteFunctionX for Java 8.
+ *
+ * Type: function
+ *
+ * Domain (lvl: 1): byte b
+ *
+ * Co-domain: R
  *
  * @see ByteFunction
  */

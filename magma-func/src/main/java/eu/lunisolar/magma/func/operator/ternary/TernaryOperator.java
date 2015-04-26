@@ -44,8 +44,13 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /**
- * Function category: operator
- * Throwing interface/lambda variant: TernaryOperatorX
+ * Non-throwing functional interface (lambda) TernaryOperator for Java 8.
+ *
+ * Type: operator
+ *
+ * Domain (lvl: 3): T t1,T t2,T t3
+ *
+ * Co-domain: T
  *
  * @see TernaryOperatorX
  */

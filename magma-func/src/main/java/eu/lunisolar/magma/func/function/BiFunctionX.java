@@ -44,8 +44,13 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /**
- * Function category: function
- * Non-throwing interface/lambda variant: BiFunction
+ * Throwing functional interface (lambda) BiFunctionX for Java 8.
+ *
+ * Type: function
+ *
+ * Domain (lvl: 2): T1 t1,T2 t2
+ *
+ * Co-domain: R
  *
  * @see BiFunction
  */

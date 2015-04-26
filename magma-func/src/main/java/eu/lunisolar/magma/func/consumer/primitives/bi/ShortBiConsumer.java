@@ -45,8 +45,13 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /**
- * Function category: consumer
- * Throwing interface/lambda variant: ShortBiConsumerX
+ * Non-throwing functional interface (lambda) ShortBiConsumer for Java 8.
+ *
+ * Type: consumer
+ *
+ * Domain (lvl: 2): short s1,short s2
+ *
+ * Co-domain: none
  *
  * @see ShortBiConsumerX
  */

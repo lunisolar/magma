@@ -44,8 +44,13 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /**
- * Function category: function
- * Throwing interface/lambda variant: BooleanBiFunctionX
+ * Non-throwing functional interface (lambda) BooleanBiFunction for Java 8.
+ *
+ * Type: function
+ *
+ * Domain (lvl: 2): boolean b1,boolean b2
+ *
+ * Co-domain: R
  *
  * @see BooleanBiFunctionX
  */

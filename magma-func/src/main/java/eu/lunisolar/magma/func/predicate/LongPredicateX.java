@@ -44,8 +44,13 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /**
- * Function category: predicate
- * Non-throwing interface/lambda variant: LongPredicate
+ * Throwing functional interface (lambda) LongPredicateX for Java 8.
+ *
+ * Type: predicate
+ *
+ * Domain (lvl: 1): long l
+ *
+ * Co-domain: none
  *
  * @see LongPredicate
  */
