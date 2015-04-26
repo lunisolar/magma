@@ -41,6 +41,7 @@ import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+/** Builder for java.util.function.LongUnaryOperator. */
 public final class StdLongUnaryOperatorBuilder extends PerCaseBuilder<StdLongUnaryOperatorBuilder, LongPredicate, java.util.function.LongUnaryOperator> {
 
 	private Consumer<java.util.function.LongUnaryOperator> consumer;

@@ -41,6 +41,7 @@ import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+/** Builder for BiBytePredicateX. */
 public final class BiBytePredicateXBuilder<X extends Exception> extends PerCaseBuilder<BiBytePredicateXBuilder<X>, BiBytePredicateX<X>, BiBytePredicateX<X>> {
 
 	private Consumer<BiBytePredicateX<X>> consumer;

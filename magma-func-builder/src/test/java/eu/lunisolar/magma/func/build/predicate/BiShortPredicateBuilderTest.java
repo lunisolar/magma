@@ -77,7 +77,27 @@ public class BiShortPredicateBuilderTest<X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
 
-    //TODO
+        BiShortPredicate function = biShortPredicate((BiShortPredicate f)-> doNothing())
+            .addCase(ce -> ce.of((s1,s2) -> s1 == (short)0)
+                             .evaluate((s1,s2) -> false))
+            .inCase((s1,s2) -> s1 > 0 && s1 < 10).evaluate((s1,s2) -> true)
+            .inCase((s1,s2) -> s1 > 10 && s1 < 20).evaluate((s1,s2) -> true)
+            .eventually((s1,s2) -> true)
+            .build();
+
+
+        A.assertThat(function)
+            .doesTest((short)0,(short)0).to(a -> a.isEqualTo(false))
+            .doesTest((short)5,(short)5).to(a -> a.isEqualTo(true))
+            .doesTest((short)15,(short)15).to(a -> a.isEqualTo(true))
+            .doesTest((short)10,(short)10).to(a -> a.isEqualTo(true))
+        ;
+
+    }
+
 
 }
+

@@ -77,24 +77,27 @@ public class ToCharBiFunctionBuilderTest<T1,T2,X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         ToCharBiFunction<Integer ,Integer > function = toCharBiFunction((ToCharBiFunction<Integer ,Integer > f)-> doNothing())
-            .addCase(ce -> ce.of((t1,t2) -> t1 == 0)
+            .addCase(ce -> ce.of((t1,t2) -> t1 == Integer.valueOf(0))
                              .evaluate((t1,t2) -> (char)0))
             .inCase((t1,t2) -> t1 > 0 && t1 < 10).evaluate((t1,t2) -> (char)1)
             .inCase((t1,t2) -> t1 > 10 && t1 < 20).evaluate((t1,t2) -> (char)2)
             .eventually((t1,t2) -> (char)99)
             .build();
 
+
         A.assertThat(function)
             .doesApplyAsChar(Integer.valueOf(0),Integer.valueOf(0)).to(a -> a.isEqualTo((char)0))
             .doesApplyAsChar(Integer.valueOf(5),Integer.valueOf(5)).to(a -> a.isEqualTo((char)1))
             .doesApplyAsChar(Integer.valueOf(15),Integer.valueOf(15)).to(a -> a.isEqualTo((char)2))
-            .doesApplyAsChar(Integer.valueOf(10),Integer.valueOf(10)).to(a -> a.isEqualTo((char)99));
+            .doesApplyAsChar(Integer.valueOf(10),Integer.valueOf(10)).to(a -> a.isEqualTo((char)99))
+        ;
+
     }
 
 
 }
+

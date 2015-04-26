@@ -77,7 +77,24 @@ public class BooleanTernaryOperatorBuilderTest<X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
 
-    //TODO
+        BooleanTernaryOperator function = booleanTernaryOperator((BooleanTernaryOperator f)-> doNothing())
+            .addCase(ce -> ce.of((b1,b2,b3) -> b1 == false)
+                             .evaluate((b1,b2,b3) -> false))
+            .inCase((b1,b2,b3) -> b1 == true ).evaluate((b1,b2,b3) -> true)
+            .eventually((b1,b2,b3) -> true)
+            .build();
+
+
+        A.assertThat(function)
+            .doesApply(false,false,false).to(a -> a.isEqualTo(false))
+            .doesApply(true,true,true).to(a -> a.isEqualTo(true))
+        ;
+
+    }
+
 
 }
+

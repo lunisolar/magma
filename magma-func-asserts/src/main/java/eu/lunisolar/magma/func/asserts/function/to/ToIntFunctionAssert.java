@@ -19,23 +19,18 @@
 
 package eu.lunisolar.magma.func.asserts.function.to;
 
-import eu.lunisolar.magma.basics.asserts.Evaluation; // NOSONAR
-import eu.lunisolar.magma.basics.asserts.FunctionalAssert; // NOSONAR
+import eu.lunisolar.magma.basics.asserts.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import org.assertj.core.api.*; // NOSONAR
-import eu.lunisolar.magma.basics.asserts.RecurringAsserts; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*;
+import eu.lunisolar.magma.func.action.Action;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assertions for ToIntFunction. */
-public interface ToIntFunctionAssert<S extends ToIntFunctionAssert<S, A, RS, T>, A extends ToIntFunction<T>, RS extends AbstractIntegerAssert<RS>, T>
-		extends
-			Assert<S, A>,
-			FunctionalAssert<S, A, RS, Integer, Exception>,
-			RecurringAsserts<S, A, RS, Integer> {
+/** Assert for ToIntFunction. */
+public interface ToIntFunctionAssert<S extends ToIntFunctionAssert<S, A, RS, T>, A extends ToIntFunction<T>, RS extends AbstractIntegerAssert<RS>, T> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, Integer, Exception> {
 
 	@Nonnull
 	Evaluation<S, A, RS, Integer, Exception> doesApplyAsInt(T t);
@@ -43,13 +38,13 @@ public interface ToIntFunctionAssert<S extends ToIntFunctionAssert<S, A, RS, T>,
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends ToIntFunction<T>, RS extends AbstractIntegerAssert<RS>, T> extends Base<Impl<A, RS, T>, A, RS, T> {
 
-		public Impl(A actual, java.util.function.Function<Integer, RS> assertFunction) {
-			super(actual, Impl.class, assertFunction);
+		public Impl(A actual, java.util.function.Function<Integer, RS> assertFactory) {
+			super(actual, Impl.class, assertFactory);
 		}
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, T>, A extends ToIntFunction<T>, RS extends AbstractIntegerAssert<RS>, T> extends FunctionalAssert.Base<S, A, RS, Integer, Exception> implements ToIntFunctionAssert<S, A, RS, T> {
+	public static class Base<S extends Base<S, A, RS, T>, A extends ToIntFunction<T>, RS extends AbstractIntegerAssert<RS>, T> extends FullFunctionalAssert.Base<S, A, RS, Integer, Exception> implements ToIntFunctionAssert<S, A, RS, T> {
 
 		protected final java.util.function.Function<Integer, RS> assertFactory;
 
@@ -62,6 +57,7 @@ public interface ToIntFunctionAssert<S extends ToIntFunctionAssert<S, A, RS, T>,
 		public Evaluation<S, A, RS, Integer, Exception> doesApplyAsInt(T t) {
 			return evaluation(() -> assertFactory.apply((Integer) actual.applyAsInt(t)));
 		}
+
 	}
 
 }

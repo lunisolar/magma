@@ -275,6 +275,17 @@ public class BooleanBiConsumerXTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(BooleanBiConsumerX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        BooleanBiConsumerX<X> sutThrowing = BooleanBiConsumerX.lX((boolean b1,boolean b2) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().accept(true,true);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -314,3 +325,4 @@ public class BooleanBiConsumerXTest<X extends ParseException> {
     }
 
 }
+

@@ -45,8 +45,10 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /**
- * A consumer.
- * @see {@link eu.lunisolar.magma.func.consumer.primitives.obj.BiObjDoubleConsumer}
+ * Function category: consumer
+ * Non-throwing interface/lambda variant: BiObjDoubleConsumer
+ *
+ * @see BiObjDoubleConsumer
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
@@ -62,6 +64,11 @@ public interface BiObjDoubleConsumerX<T1, T2, X extends Exception> extends MetaC
 		return BiObjDoubleConsumerX.DESCRIPTION;
 	}
 
+	/** Captures arguments but delays the evaluation. */
+	default ActionX<X> capture(T1 t1, T2 t2, double d) {
+		return () -> this.accept(t1, t2, d);
+	}
+
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T1, T2, X extends Exception> BiObjDoubleConsumerX<T1, T2, X> lX(final @Nonnull BiObjDoubleConsumerX<T1, T2, X> lambda) {
@@ -75,18 +82,6 @@ public interface BiObjDoubleConsumerX<T1, T2, X extends Exception> extends MetaC
 	@Nonnull
 	public static <T1, T2, X extends Exception> BiObjDoubleConsumerX<T1, T2, X> wrapX(final @Nonnull BiObjDoubleConsumer<T1, T2> other) {
 		return other::accept;
-	}
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <T1, T2, X extends Exception, Y extends Exception> BiObjDoubleConsumerX<T1, T2, Y> wrapException(@Nonnull final BiObjDoubleConsumerX<T1, T2, X> other, Class<? extends Exception> exception, ExceptionHandler<Exception, Y> rethrower) {
-		return (T1 t1, T2 t2, double d) -> {
-			try {
-				other.accept(t1, t2, d);
-			} catch (Exception e) {
-				throw ExceptionHandler.handle(exception, rethrower, e);
-			}
-		};
 	}
 
 	// </editor-fold>
@@ -144,22 +139,40 @@ public interface BiObjDoubleConsumerX<T1, T2, X extends Exception> extends MetaC
 		return nonThrowing()::accept;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default BiObjDoubleConsumer<T1, T2> shove() {
+		BiObjDoubleConsumerX<T1, T2, RuntimeException> exceptionCast = (BiObjDoubleConsumerX<T1, T2, RuntimeException>) this;
+		return exceptionCast::accept;
+	}
+
 	// </editor-fold>
 
 	// <editor-fold desc="exception handling">
 
+	/** Wraps with additional exception handling. */
+	@Nonnull
+	public static <T1, T2, X extends Exception, E extends Exception, Y extends Exception> BiObjDoubleConsumerX<T1, T2, Y> wrapException(@Nonnull final BiObjDoubleConsumerX<T1, T2, X> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
+		return (T1 t1, T2 t2, double d) -> {
+			try {
+				other.accept(t1, t2, d);
+			} catch (Exception e) {
+				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
+			}
+		};
+	}
+
 	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <Y extends Exception> BiObjDoubleConsumerX<T1, T2, Y> handle(Class<? extends Exception> exception, ExceptionHandler<? super X, Y> handler) {
+	default <E extends Exception, Y extends Exception> BiObjDoubleConsumerX<T1, T2, Y> handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
 		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
 		return BiObjDoubleConsumerX.wrapException(this, exception, (ExceptionHandler) handler);
 	}
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
+	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
 	@Nonnull
-	default <Y extends Exception> BiObjDoubleConsumerX<T1, T2, Y> handle(ExceptionHandler<? super X, Y> handler) {
+	default <Y extends Exception> BiObjDoubleConsumerX<T1, T2, Y> handle(ExceptionHandler<Exception, Y> handler) {
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
 		return BiObjDoubleConsumerX.wrapException(this, Exception.class, (ExceptionHandler) handler);

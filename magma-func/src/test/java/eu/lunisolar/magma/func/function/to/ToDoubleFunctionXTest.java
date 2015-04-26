@@ -120,7 +120,7 @@ public class ToDoubleFunctionXTest<T,X extends ParseException> {
         });
 
         // when
-        ToDoubleFunctionX<T,X> wrapped = ToDoubleFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ToDoubleFunctionX<T,X> wrapped = ToDoubleFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -145,7 +145,7 @@ public class ToDoubleFunctionXTest<T,X extends ParseException> {
         });
 
         // when
-        ToDoubleFunctionX<T,X> wrapped = ToDoubleFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ToDoubleFunctionX<T,X> wrapped = ToDoubleFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -169,7 +169,7 @@ public class ToDoubleFunctionXTest<T,X extends ParseException> {
         });
 
         // when
-        ToDoubleFunctionX<T,X> wrapped = ToDoubleFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ToDoubleFunctionX<T,X> wrapped = ToDoubleFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -553,6 +553,17 @@ public class ToDoubleFunctionXTest<T,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(ToDoubleFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        ToDoubleFunctionX<T,X> sutThrowing = ToDoubleFunctionX.lX((T t) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsDouble((T)Integer.valueOf(100));
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -592,3 +603,4 @@ public class ToDoubleFunctionXTest<T,X extends ParseException> {
     }
 
 }
+

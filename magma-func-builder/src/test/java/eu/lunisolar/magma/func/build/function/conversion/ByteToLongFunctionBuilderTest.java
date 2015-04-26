@@ -77,24 +77,27 @@ public class ByteToLongFunctionBuilderTest<X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         ByteToLongFunction function = byteToLongFunction((ByteToLongFunction f)-> doNothing())
-            .addCase(ce -> ce.of((b) -> b == 0)
+            .addCase(ce -> ce.of((b) -> b == (byte)0)
                              .evaluate((b) -> (long)0))
             .inCase((b) -> b > 0 && b < 10).evaluate((b) -> (long)1)
             .inCase((b) -> b > 10 && b < 20).evaluate((b) -> (long)2)
             .eventually((b) -> (long)99)
             .build();
 
+
         A.assertThat(function)
             .doesApplyAsLong((byte)0).to(a -> a.isEqualTo((long)0))
             .doesApplyAsLong((byte)5).to(a -> a.isEqualTo((long)1))
             .doesApplyAsLong((byte)15).to(a -> a.isEqualTo((long)2))
-            .doesApplyAsLong((byte)10).to(a -> a.isEqualTo((long)99));
+            .doesApplyAsLong((byte)10).to(a -> a.isEqualTo((long)99))
+        ;
+
     }
 
 
 }
+

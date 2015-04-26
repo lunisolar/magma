@@ -77,24 +77,27 @@ public class ShortToIntFunctionBuilderTest<X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         ShortToIntFunction function = shortToIntFunction((ShortToIntFunction f)-> doNothing())
-            .addCase(ce -> ce.of((s) -> s == 0)
+            .addCase(ce -> ce.of((s) -> s == (short)0)
                              .evaluate((s) -> (int)0))
             .inCase((s) -> s > 0 && s < 10).evaluate((s) -> (int)1)
             .inCase((s) -> s > 10 && s < 20).evaluate((s) -> (int)2)
             .eventually((s) -> (int)99)
             .build();
 
+
         A.assertThat(function)
             .doesApplyAsInt((short)0).to(a -> a.isEqualTo((int)0))
             .doesApplyAsInt((short)5).to(a -> a.isEqualTo((int)1))
             .doesApplyAsInt((short)15).to(a -> a.isEqualTo((int)2))
-            .doesApplyAsInt((short)10).to(a -> a.isEqualTo((int)99));
+            .doesApplyAsInt((short)10).to(a -> a.isEqualTo((int)99))
+        ;
+
     }
 
 
 }
+

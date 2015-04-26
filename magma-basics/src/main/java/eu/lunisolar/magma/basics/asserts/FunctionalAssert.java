@@ -21,27 +21,29 @@ package eu.lunisolar.magma.basics.asserts;
 
 import eu.lunisolar.magma.basics.fluent.Fluent;
 import org.assertj.core.api.Assert;
+import org.assertj.core.api.ThrowableAssert;
 
 import javax.annotation.Nonnull;
 
-public interface FunctionalAssert<S extends FunctionalAssert<S, A, RS, R, X> & RecurringAsserts<S, A, RS, R>, A, RS extends Assert<RS, R>, R, X extends Exception>
-        extends RecurringAsserts<S, A, RS, R>, Assert<S, A>, Fluent<S> {
+public interface FunctionalAssert<S extends FunctionalAssert<S, A, RA, X>, A, RA, X extends Exception>
+        extends RecurringAsserts<S, A, RA>, Assert<S, A>, Fluent<S> {
+
+    interface Simple<S extends Simple<S, A, X>, A, X extends Exception> extends FunctionalAssert<S, A, AssertionsCheck, X> {
+
+    }
 
     @SuppressWarnings("unchecked")
-    public static abstract class Base<S extends Base<S, A, RS, R, X>, A, RS extends Assert<RS, R>, R, X extends Exception>
-            extends RecurringAsserts.Base<S, A, RS, R>
-            implements FunctionalAssert<S, A, RS, R, X>, Fluent<S> {
+    abstract class Base<S extends Base<S, A, X>, A, X extends Exception>
+            extends RecurringAsserts.Base<S, A, AssertionsCheck>
+            implements FunctionalAssert.Simple<S, A, X>, Fluent<S> {
 
         public Base(A actual, Class<?> selfType) {
             super(actual, selfType);
         }
 
         @Nonnull
-        protected Evaluation<S, A, RS, R, X> evaluation(AssertionSupplier<RS, X> assertSupplier) {
-            return new Evaluation(self(), recurringAssert, () -> {
-                isNotNull();
-                return assertSupplier.get();
-            });
+        protected SemiEvaluation<S, A, X> evaluation(ThrowableAssert.ThrowingCallable callWrapper) {
+            return new SemiEvaluation(self(), recurringAssert, callWrapper);
         }
 
     }

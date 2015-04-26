@@ -44,8 +44,10 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /**
+ * Function category: function
+ * Throwing interface/lambda variant: ObjDoubleFunctionX
  *
- * @see {@link eu.lunisolar.magma.func.function.from.ObjDoubleFunctionX}
+ * @see ObjDoubleFunctionX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
@@ -60,6 +62,11 @@ public interface ObjDoubleFunction<T, R> extends MetaFunction { // NOSONAR
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return ObjDoubleFunction.DESCRIPTION;
+	}
+
+	/** Captures arguments but delays the evaluation. */
+	default Supplier<R> capture(T t, double d) {
+		return () -> this.apply(t, d);
 	}
 
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
@@ -87,18 +94,6 @@ public interface ObjDoubleFunction<T, R> extends MetaFunction { // NOSONAR
 				return other.apply(t, d);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
-	}
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <T, R, X extends Exception, Y extends RuntimeException> ObjDoubleFunction<T, R> wrapException(@Nonnull final ObjDoubleFunction<T, R> other, Class<? extends Exception> exception, ExceptionHandler<Exception, Y> rethrower) {
-		return (T t, double d) -> {
-			try {
-				return other.apply(t, d);
-			} catch (Exception e) {
-				throw ExceptionHandler.handle(exception, rethrower, e);
 			}
 		};
 	}
@@ -161,6 +156,11 @@ public interface ObjDoubleFunction<T, R> extends MetaFunction { // NOSONAR
 		return this::apply;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default ObjDoubleFunction<T, R> shove() {
+		return this;
+	}
+
 	// </editor-fold>
 
 	@Nonnull
@@ -170,21 +170,57 @@ public interface ObjDoubleFunction<T, R> extends MetaFunction { // NOSONAR
 
 	// <editor-fold desc="exception handling">
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
+	/** Wraps with additional exception handling. */
 	@Nonnull
-	default <Y extends RuntimeException> ObjDoubleFunction<T, R> handle(Class<? extends Exception> exception, ExceptionHandler<? super RuntimeException, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return ObjDoubleFunction.wrapException(this, exception, (ExceptionHandler) handler);
+	public static <T, R, X extends Exception, E extends Exception, Y extends RuntimeException> ObjDoubleFunction<T, R> wrapException(@Nonnull final ObjDoubleFunction<T, R> other, Class<E> exception, Supplier<R> supplier, ExceptionHandler<E, Y> handler) {
+		return (T t, double d) -> {
+			try {
+				return other.apply(t, d);
+			} catch (Exception e) {
+				try {
+					if (supplier != null) {
+						return supplier.get();
+					}
+				} catch (Exception supplierException) {
+					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
+				}
+				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
+			}
+		};
 	}
 
 	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <Y extends RuntimeException> ObjDoubleFunction<T, R> handle(ExceptionHandler<? super RuntimeException, Y> handler) {
+	default <E extends Exception, Y extends RuntimeException> ObjDoubleFunction<T, R> handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
+		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
-		return ObjDoubleFunction.wrapException(this, Exception.class, (ExceptionHandler) handler);
+		return ObjDoubleFunction.wrapException(this, exception, null, (ExceptionHandler) handler);
+	}
+
+	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
+	@Nonnull
+	default <Y extends RuntimeException> ObjDoubleFunction<T, R> handle(ExceptionHandler<Exception, Y> handler) {
+		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return ObjDoubleFunction.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
+	}
+
+	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
+	@Nonnull
+	default <E extends Exception, Y extends RuntimeException> ObjDoubleFunction<T, R> handle(Class<E> exception, Supplier<R> supplier) {
+		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
+		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return ObjDoubleFunction.wrapException(this, exception, supplier, null);
+	}
+
+	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
+	@Nonnull
+	default <Y extends RuntimeException> ObjDoubleFunction<T, R> handle(Supplier<R> supplier) {
+		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return ObjDoubleFunction.wrapException(this, Exception.class, supplier, null);
 	}
 
 	// </editor-fold>

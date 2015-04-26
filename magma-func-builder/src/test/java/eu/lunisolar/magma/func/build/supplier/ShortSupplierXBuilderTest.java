@@ -77,7 +77,28 @@ public class ShortSupplierXBuilderTest<X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
+        final AtomicInteger externalInfluence = new AtomicInteger(0);
 
-    //TODO
+        ShortSupplierX<ParseException> function = shortSupplierX((ShortSupplierX<ParseException> f)-> doNothing())
+            .addCase(ce -> ce.of(() -> externalInfluence.get() == Integer.valueOf(0))
+                             .evaluate(() -> (short)0))
+            .inCase(() -> externalInfluence.get() > 0 && externalInfluence.get() < 10).evaluate(() -> (short)1)
+            .inCase(() -> externalInfluence.get() > 10 && externalInfluence.get() < 20).evaluate(() -> (short)2)
+            .eventually(() -> (short)99)
+            .build();
+
+
+        A.assertThat(function)
+            .doesGetAsShort(()->externalInfluence.set(0)).to(a -> a.isEqualTo((short)0))
+            .doesGetAsShort(()->externalInfluence.set(5)).to(a -> a.isEqualTo((short)1))
+            .doesGetAsShort(()->externalInfluence.set(15)).to(a -> a.isEqualTo((short)2))
+            .doesGetAsShort(()->externalInfluence.set(10)).to(a -> a.isEqualTo((short)99))
+        ;
+
+    }
+
 
 }
+

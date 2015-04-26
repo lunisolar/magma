@@ -41,6 +41,7 @@ import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+/** Builder for LongBiFunction. */
 public final class LongBiFunctionBuilder<R> extends PerCaseBuilder<LongBiFunctionBuilder<R>, BiLongPredicate, LongBiFunction<R>> {
 
 	private Consumer<LongBiFunction<R>> consumer;

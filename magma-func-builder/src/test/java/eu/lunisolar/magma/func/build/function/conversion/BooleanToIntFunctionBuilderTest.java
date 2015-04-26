@@ -77,7 +77,24 @@ public class BooleanToIntFunctionBuilderTest<X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
 
-    //TODO
+        BooleanToIntFunction function = booleanToIntFunction((BooleanToIntFunction f)-> doNothing())
+            .addCase(ce -> ce.of((b) -> b == false)
+                             .evaluate((b) -> (int)0))
+            .inCase((b) -> b == true ).evaluate((b) -> (int)1)
+            .eventually((b) -> (int)99)
+            .build();
+
+
+        A.assertThat(function)
+            .doesApplyAsInt(false).to(a -> a.isEqualTo((int)0))
+            .doesApplyAsInt(true).to(a -> a.isEqualTo((int)1))
+        ;
+
+    }
+
 
 }
+

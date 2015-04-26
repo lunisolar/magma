@@ -77,24 +77,27 @@ public class LongBinaryOperatorXBuilderTest<X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         LongBinaryOperatorX<ParseException> function = longBinaryOperatorX((LongBinaryOperatorX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((l1,l2) -> l1 == 0)
+            .addCase(ce -> ce.of((l1,l2) -> l1 == (long)0)
                              .evaluate((l1,l2) -> (long)0))
             .inCase((l1,l2) -> l1 > 0 && l1 < 10).evaluate((l1,l2) -> (long)1)
             .inCase((l1,l2) -> l1 > 10 && l1 < 20).evaluate((l1,l2) -> (long)2)
             .eventually((l1,l2) -> (long)99)
             .build();
 
+
         A.assertThat(function)
             .doesApplyAsLong((long)0,(long)0).to(a -> a.isEqualTo((long)0))
             .doesApplyAsLong((long)5,(long)5).to(a -> a.isEqualTo((long)1))
             .doesApplyAsLong((long)15,(long)15).to(a -> a.isEqualTo((long)2))
-            .doesApplyAsLong((long)10,(long)10).to(a -> a.isEqualTo((long)99));
+            .doesApplyAsLong((long)10,(long)10).to(a -> a.isEqualTo((long)99))
+        ;
+
     }
 
 
 }
+

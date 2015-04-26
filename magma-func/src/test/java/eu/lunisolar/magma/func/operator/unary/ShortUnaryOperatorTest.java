@@ -156,7 +156,7 @@ public class ShortUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        ShortUnaryOperator wrapped = ShortUnaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ShortUnaryOperator wrapped = ShortUnaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -181,7 +181,7 @@ public class ShortUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        ShortUnaryOperator wrapped = ShortUnaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ShortUnaryOperator wrapped = ShortUnaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -205,7 +205,7 @@ public class ShortUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        ShortUnaryOperator wrapped = ShortUnaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ShortUnaryOperator wrapped = ShortUnaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -620,6 +620,17 @@ public class ShortUnaryOperatorTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(ShortUnaryOperatorX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        ShortUnaryOperator sutThrowing = ShortUnaryOperator.l((short s) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsShort((short)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -659,3 +670,4 @@ public class ShortUnaryOperatorTest<X extends ParseException> {
     }
 
 }
+

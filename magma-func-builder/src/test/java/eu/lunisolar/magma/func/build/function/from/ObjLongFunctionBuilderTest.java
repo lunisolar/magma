@@ -77,24 +77,27 @@ public class ObjLongFunctionBuilderTest<T,R,X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         ObjLongFunction<Integer ,Integer > function = objLongFunction((ObjLongFunction<Integer ,Integer > f)-> doNothing())
-            .addCase(ce -> ce.of((t, l) -> t == 0)
+            .addCase(ce -> ce.of((t, l) -> t == Integer.valueOf(0))
                              .evaluate((t, l) -> Integer.valueOf(0)))
             .inCase((t, l) -> t > 0 && t < 10).evaluate((t, l) -> Integer.valueOf(1))
             .inCase((t, l) -> t > 10 && t < 20).evaluate((t, l) -> Integer.valueOf(2))
             .eventually((t, l) -> Integer.valueOf(99))
             .build();
 
+
         A.assertThat(function)
             .doesApply(Integer.valueOf(0),(long)0).to(a -> a.isEqualTo(Integer.valueOf(0)))
             .doesApply(Integer.valueOf(5),(long)5).to(a -> a.isEqualTo(Integer.valueOf(1)))
             .doesApply(Integer.valueOf(15),(long)15).to(a -> a.isEqualTo(Integer.valueOf(2)))
-            .doesApply(Integer.valueOf(10),(long)10).to(a -> a.isEqualTo(Integer.valueOf(99)));
+            .doesApply(Integer.valueOf(10),(long)10).to(a -> a.isEqualTo(Integer.valueOf(99)))
+        ;
+
     }
 
 
 }
+

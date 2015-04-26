@@ -77,7 +77,27 @@ public class BiDoublePredicateXBuilderTest<X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
 
-    //TODO
+        BiDoublePredicateX<ParseException> function = biDoublePredicateX((BiDoublePredicateX<ParseException> f)-> doNothing())
+            .addCase(ce -> ce.of((d1,d2) -> d1 == (double)0)
+                             .evaluate((d1,d2) -> false))
+            .inCase((d1,d2) -> d1 > 0 && d1 < 10).evaluate((d1,d2) -> true)
+            .inCase((d1,d2) -> d1 > 10 && d1 < 20).evaluate((d1,d2) -> true)
+            .eventually((d1,d2) -> true)
+            .build();
+
+
+        A.assertThat(function)
+            .doesTest((double)0,(double)0).to(a -> a.isEqualTo(false))
+            .doesTest((double)5,(double)5).to(a -> a.isEqualTo(true))
+            .doesTest((double)15,(double)15).to(a -> a.isEqualTo(true))
+            .doesTest((double)10,(double)10).to(a -> a.isEqualTo(true))
+        ;
+
+    }
+
 
 }
+

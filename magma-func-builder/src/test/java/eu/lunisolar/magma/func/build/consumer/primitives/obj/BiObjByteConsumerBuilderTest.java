@@ -77,7 +77,28 @@ public class BiObjByteConsumerBuilderTest<T1,T2,X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
+        final AtomicInteger externalEffect = new AtomicInteger(0);
 
-    //TODO
+        BiObjByteConsumer<Integer ,Integer > function = biObjByteConsumer((BiObjByteConsumer<Integer ,Integer > f)-> doNothing())
+            .addCase(ce -> ce.of((t1,t2, b) -> t1 == Integer.valueOf(0))
+                             .evaluate((t1,t2, b) -> externalEffect.set(0)))
+            .inCase((t1,t2, b) -> t1 > 0 && t1 < 10).evaluate((t1,t2, b) -> externalEffect.set(1))
+            .inCase((t1,t2, b) -> t1 > 10 && t1 < 20).evaluate((t1,t2, b) -> externalEffect.set(2))
+            .eventually((t1,t2, b) -> externalEffect.set(99))
+            .build();
+
+
+        A.assertThat(function)
+            .doesAccept(Integer.valueOf(0),Integer.valueOf(0),(byte)0).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(0)))
+            .doesAccept(Integer.valueOf(5),Integer.valueOf(5),(byte)5).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(1)))
+            .doesAccept(Integer.valueOf(15),Integer.valueOf(15),(byte)15).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(2)))
+            .doesAccept(Integer.valueOf(10),Integer.valueOf(10),(byte)10).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(99)))
+        ;
+
+    }
+
 
 }
+

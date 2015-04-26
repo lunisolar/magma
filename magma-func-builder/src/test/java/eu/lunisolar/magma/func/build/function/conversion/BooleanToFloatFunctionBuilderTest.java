@@ -77,7 +77,24 @@ public class BooleanToFloatFunctionBuilderTest<X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
 
-    //TODO
+        BooleanToFloatFunction function = booleanToFloatFunction((BooleanToFloatFunction f)-> doNothing())
+            .addCase(ce -> ce.of((b) -> b == false)
+                             .evaluate((b) -> (float)0))
+            .inCase((b) -> b == true ).evaluate((b) -> (float)1)
+            .eventually((b) -> (float)99)
+            .build();
+
+
+        A.assertThat(function)
+            .doesApplyAsFloat(false).to(a -> a.isEqualTo((float)0))
+            .doesApplyAsFloat(true).to(a -> a.isEqualTo((float)1))
+        ;
+
+    }
+
 
 }
+

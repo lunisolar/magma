@@ -77,7 +77,26 @@ public class BooleanSupplierXBuilderTest<X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
+        final AtomicInteger externalInfluence = new AtomicInteger(0);
 
-    //TODO
+        BooleanSupplierX<ParseException> function = booleanSupplierX((BooleanSupplierX<ParseException> f)-> doNothing())
+            .addCase(ce -> ce.of(() -> externalInfluence.get() == Integer.valueOf(0))
+                             .evaluate(() -> false))
+            .inCase(() -> externalInfluence.get() > 0 && externalInfluence.get() < 10).evaluate(() -> true)
+            .inCase(() -> externalInfluence.get() > 10 && externalInfluence.get() < 20).evaluate(() -> true)
+            .eventually(() -> true)
+            .build();
+
+
+        A.assertThat(function)
+            .doesGetAsBoolean(()->externalInfluence.set(0)).to(a -> a.isEqualTo(false))
+            .doesGetAsBoolean(()->externalInfluence.set(5)).to(a -> a.isEqualTo(true))
+        ;
+
+    }
+
 
 }
+

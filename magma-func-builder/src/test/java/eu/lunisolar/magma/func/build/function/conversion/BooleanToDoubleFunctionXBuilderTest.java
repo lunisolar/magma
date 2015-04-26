@@ -77,7 +77,24 @@ public class BooleanToDoubleFunctionXBuilderTest<X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
 
-    //TODO
+        BooleanToDoubleFunctionX<ParseException> function = booleanToDoubleFunctionX((BooleanToDoubleFunctionX<ParseException> f)-> doNothing())
+            .addCase(ce -> ce.of((b) -> b == false)
+                             .evaluate((b) -> (double)0))
+            .inCase((b) -> b == true ).evaluate((b) -> (double)1)
+            .eventually((b) -> (double)99)
+            .build();
+
+
+        A.assertThat(function)
+            .doesApplyAsDouble(false).to(a -> a.isEqualTo((double)0))
+            .doesApplyAsDouble(true).to(a -> a.isEqualTo((double)1))
+        ;
+
+    }
+
 
 }
+

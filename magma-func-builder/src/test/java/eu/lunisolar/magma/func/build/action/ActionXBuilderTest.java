@@ -77,7 +77,29 @@ public class ActionXBuilderTest<X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
+        final AtomicInteger externalEffect = new AtomicInteger(0);
+        final AtomicInteger externalInfluence = new AtomicInteger(0);
 
-    //TODO
+        ActionX<ParseException> function = actionX((ActionX<ParseException> f)-> doNothing())
+            .addCase(ce -> ce.of(() -> externalInfluence.get() == Integer.valueOf(0))
+                             .evaluate(() -> externalEffect.set(0)))
+            .inCase(() -> externalInfluence.get() > 0 && externalInfluence.get() < 10).evaluate(() -> externalEffect.set(1))
+            .inCase(() -> externalInfluence.get() > 10 && externalInfluence.get() < 20).evaluate(() -> externalEffect.set(2))
+            .eventually(() -> externalEffect.set(99))
+            .build();
+
+
+        A.assertThat(function)
+            .doesExecute(()->externalInfluence.set(0)).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(0)))
+            .doesExecute(()->externalInfluence.set(5)).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(1)))
+            .doesExecute(()->externalInfluence.set(15)).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(2)))
+            .doesExecute(()->externalInfluence.set(10)).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(99)))
+        ;
+
+    }
+
 
 }
+

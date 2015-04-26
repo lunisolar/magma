@@ -77,7 +77,28 @@ public class FloatConsumerXBuilderTest<X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
+        final AtomicInteger externalEffect = new AtomicInteger(0);
 
-    //TODO
+        FloatConsumerX<ParseException> function = floatConsumerX((FloatConsumerX<ParseException> f)-> doNothing())
+            .addCase(ce -> ce.of((f) -> f == (float)0)
+                             .evaluate((f) -> externalEffect.set(0)))
+            .inCase((f) -> f > 0 && f < 10).evaluate((f) -> externalEffect.set(1))
+            .inCase((f) -> f > 10 && f < 20).evaluate((f) -> externalEffect.set(2))
+            .eventually((f) -> externalEffect.set(99))
+            .build();
+
+
+        A.assertThat(function)
+            .doesAccept((float)0).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(0)))
+            .doesAccept((float)5).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(1)))
+            .doesAccept((float)15).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(2)))
+            .doesAccept((float)10).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(99)))
+        ;
+
+    }
+
 
 }
+

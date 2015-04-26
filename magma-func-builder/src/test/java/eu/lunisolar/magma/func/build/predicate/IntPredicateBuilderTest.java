@@ -77,7 +77,27 @@ public class IntPredicateBuilderTest<X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
 
-    //TODO
+        IntPredicate function = intPredicate((IntPredicate f)-> doNothing())
+            .addCase(ce -> ce.of((i) -> i == (int)0)
+                             .evaluate((i) -> false))
+            .inCase((i) -> i > 0 && i < 10).evaluate((i) -> true)
+            .inCase((i) -> i > 10 && i < 20).evaluate((i) -> true)
+            .eventually((i) -> true)
+            .build();
+
+
+        A.assertThat(function)
+            .doesTest((int)0).to(a -> a.isEqualTo(false))
+            .doesTest((int)5).to(a -> a.isEqualTo(true))
+            .doesTest((int)15).to(a -> a.isEqualTo(true))
+            .doesTest((int)10).to(a -> a.isEqualTo(true))
+        ;
+
+    }
+
 
 }
+

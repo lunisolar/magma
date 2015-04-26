@@ -288,6 +288,17 @@ public class ObjLongConsumerXTest<T,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(ObjLongConsumerX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        ObjLongConsumerX<T,X> sutThrowing = ObjLongConsumerX.lX((T t, long l) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().accept((T)Integer.valueOf(100),(long)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -327,3 +338,4 @@ public class ObjLongConsumerXTest<T,X extends ParseException> {
     }
 
 }
+

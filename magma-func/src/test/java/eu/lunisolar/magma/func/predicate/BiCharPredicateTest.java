@@ -163,7 +163,7 @@ public class BiCharPredicateTest<X extends ParseException> {
         });
 
         // when
-        BiCharPredicate wrapped = BiCharPredicate.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BiCharPredicate wrapped = BiCharPredicate.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -188,7 +188,7 @@ public class BiCharPredicateTest<X extends ParseException> {
         });
 
         // when
-        BiCharPredicate wrapped = BiCharPredicate.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BiCharPredicate wrapped = BiCharPredicate.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -212,7 +212,7 @@ public class BiCharPredicateTest<X extends ParseException> {
         });
 
         // when
-        BiCharPredicate wrapped = BiCharPredicate.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BiCharPredicate wrapped = BiCharPredicate.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -406,6 +406,17 @@ public class BiCharPredicateTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(BiCharPredicateX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        BiCharPredicate sutThrowing = BiCharPredicate.l((char c1,char c2) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().test((char)100,(char)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -445,3 +456,4 @@ public class BiCharPredicateTest<X extends ParseException> {
     }
 
 }
+

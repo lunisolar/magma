@@ -77,7 +77,26 @@ public class ObjBooleanConsumerBuilderTest<T,X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
+        final AtomicInteger externalEffect = new AtomicInteger(0);
 
-    //TODO
+        ObjBooleanConsumer<Integer > function = objBooleanConsumer((ObjBooleanConsumer<Integer > f)-> doNothing())
+            .addCase(ce -> ce.of((t, b) -> t == Integer.valueOf(0))
+                             .evaluate((t, b) -> externalEffect.set(0)))
+            .inCase((t, b) -> t > 0 && t < 10).evaluate((t, b) -> externalEffect.set(1))
+            .inCase((t, b) -> t > 10 && t < 20).evaluate((t, b) -> externalEffect.set(2))
+            .eventually((t, b) -> externalEffect.set(99))
+            .build();
+
+
+        A.assertThat(function)
+            .doesAccept(Integer.valueOf(0),false).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(0)))
+            .doesAccept(Integer.valueOf(5),true).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(1)))
+        ;
+
+    }
+
 
 }
+

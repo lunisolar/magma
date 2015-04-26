@@ -19,23 +19,21 @@
 
 package eu.lunisolar.magma.func.asserts.function.to;
 
-import eu.lunisolar.magma.basics.asserts.Evaluation; // NOSONAR
-import eu.lunisolar.magma.basics.asserts.FunctionalAssert; // NOSONAR
+import eu.lunisolar.magma.basics.asserts.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import org.assertj.core.api.*; // NOSONAR
-import eu.lunisolar.magma.basics.asserts.RecurringAsserts; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*;
+import eu.lunisolar.magma.func.action.Action;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assertions for ToFloatBiFunctionX. */
+/** Assert for ToFloatBiFunctionX. */
 public interface ToFloatBiFunctionXAssert<S extends ToFloatBiFunctionXAssert<S, A, RS, T1, T2, X>, A extends ToFloatBiFunctionX<T1, T2, X>, RS extends AbstractFloatAssert<RS>, T1, T2, X extends Exception>
 		extends
 			Assert<S, A>,
-			FunctionalAssert<S, A, RS, Float, Exception>,
-			RecurringAsserts<S, A, RS, Float> {
+			FullFunctionalAssert<S, A, RS, Float, Exception> {
 
 	@Nonnull
 	Evaluation<S, A, RS, Float, Exception> doesApplyAsFloat(T1 t1, T2 t2);
@@ -43,13 +41,13 @@ public interface ToFloatBiFunctionXAssert<S extends ToFloatBiFunctionXAssert<S, 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends ToFloatBiFunctionX<T1, T2, X>, RS extends AbstractFloatAssert<RS>, T1, T2, X extends Exception> extends Base<Impl<A, RS, T1, T2, X>, A, RS, T1, T2, X> {
 
-		public Impl(A actual, java.util.function.Function<Float, RS> assertFunction) {
-			super(actual, Impl.class, assertFunction);
+		public Impl(A actual, java.util.function.Function<Float, RS> assertFactory) {
+			super(actual, Impl.class, assertFactory);
 		}
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, T1, T2, X>, A extends ToFloatBiFunctionX<T1, T2, X>, RS extends AbstractFloatAssert<RS>, T1, T2, X extends Exception> extends FunctionalAssert.Base<S, A, RS, Float, Exception>
+	public static class Base<S extends Base<S, A, RS, T1, T2, X>, A extends ToFloatBiFunctionX<T1, T2, X>, RS extends AbstractFloatAssert<RS>, T1, T2, X extends Exception> extends FullFunctionalAssert.Base<S, A, RS, Float, Exception>
 			implements
 				ToFloatBiFunctionXAssert<S, A, RS, T1, T2, X> {
 
@@ -64,6 +62,7 @@ public interface ToFloatBiFunctionXAssert<S extends ToFloatBiFunctionXAssert<S, 
 		public Evaluation<S, A, RS, Float, Exception> doesApplyAsFloat(T1 t1, T2 t2) {
 			return evaluation(() -> assertFactory.apply((Float) actual.applyAsFloat(t1, t2)));
 		}
+
 	}
 
 }

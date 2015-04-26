@@ -119,7 +119,7 @@ public class ObjShortPredicateXTest<T,X extends ParseException> {
         });
 
         // when
-        ObjShortPredicateX<T,X> wrapped = ObjShortPredicateX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ObjShortPredicateX<T,X> wrapped = ObjShortPredicateX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -144,7 +144,7 @@ public class ObjShortPredicateXTest<T,X extends ParseException> {
         });
 
         // when
-        ObjShortPredicateX<T,X> wrapped = ObjShortPredicateX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ObjShortPredicateX<T,X> wrapped = ObjShortPredicateX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -168,7 +168,7 @@ public class ObjShortPredicateXTest<T,X extends ParseException> {
         });
 
         // when
-        ObjShortPredicateX<T,X> wrapped = ObjShortPredicateX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ObjShortPredicateX<T,X> wrapped = ObjShortPredicateX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -362,6 +362,17 @@ public class ObjShortPredicateXTest<T,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(ObjShortPredicateX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        ObjShortPredicateX<T,X> sutThrowing = ObjShortPredicateX.lX((T t, short s) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().test((T)Integer.valueOf(100),(short)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -401,3 +412,4 @@ public class ObjShortPredicateXTest<T,X extends ParseException> {
     }
 
 }
+

@@ -77,24 +77,27 @@ public class IntToFloatFunctionBuilderTest<X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         IntToFloatFunction function = intToFloatFunction((IntToFloatFunction f)-> doNothing())
-            .addCase(ce -> ce.of((i) -> i == 0)
+            .addCase(ce -> ce.of((i) -> i == (int)0)
                              .evaluate((i) -> (float)0))
             .inCase((i) -> i > 0 && i < 10).evaluate((i) -> (float)1)
             .inCase((i) -> i > 10 && i < 20).evaluate((i) -> (float)2)
             .eventually((i) -> (float)99)
             .build();
 
+
         A.assertThat(function)
             .doesApplyAsFloat((int)0).to(a -> a.isEqualTo((float)0))
             .doesApplyAsFloat((int)5).to(a -> a.isEqualTo((float)1))
             .doesApplyAsFloat((int)15).to(a -> a.isEqualTo((float)2))
-            .doesApplyAsFloat((int)10).to(a -> a.isEqualTo((float)99));
+            .doesApplyAsFloat((int)10).to(a -> a.isEqualTo((float)99))
+        ;
+
     }
 
 
 }
+

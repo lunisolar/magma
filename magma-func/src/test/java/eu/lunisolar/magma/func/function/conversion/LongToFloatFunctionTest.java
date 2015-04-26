@@ -156,7 +156,7 @@ public class LongToFloatFunctionTest<X extends ParseException> {
         });
 
         // when
-        LongToFloatFunction wrapped = LongToFloatFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        LongToFloatFunction wrapped = LongToFloatFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -181,7 +181,7 @@ public class LongToFloatFunctionTest<X extends ParseException> {
         });
 
         // when
-        LongToFloatFunction wrapped = LongToFloatFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        LongToFloatFunction wrapped = LongToFloatFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -205,7 +205,7 @@ public class LongToFloatFunctionTest<X extends ParseException> {
         });
 
         // when
-        LongToFloatFunction wrapped = LongToFloatFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        LongToFloatFunction wrapped = LongToFloatFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -613,6 +613,17 @@ public class LongToFloatFunctionTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(LongToFloatFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        LongToFloatFunction sutThrowing = LongToFloatFunction.l((long l) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsFloat((long)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -652,3 +663,4 @@ public class LongToFloatFunctionTest<X extends ParseException> {
     }
 
 }
+

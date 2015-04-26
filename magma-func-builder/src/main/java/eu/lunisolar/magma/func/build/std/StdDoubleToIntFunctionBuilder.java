@@ -41,6 +41,7 @@ import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+/** Builder for java.util.function.DoubleToIntFunction. */
 public final class StdDoubleToIntFunctionBuilder extends PerCaseBuilder<StdDoubleToIntFunctionBuilder, DoublePredicate, java.util.function.DoubleToIntFunction> {
 
 	private Consumer<java.util.function.DoubleToIntFunction> consumer;

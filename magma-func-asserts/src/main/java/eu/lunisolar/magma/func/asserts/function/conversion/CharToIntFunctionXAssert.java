@@ -19,23 +19,21 @@
 
 package eu.lunisolar.magma.func.asserts.function.conversion;
 
-import eu.lunisolar.magma.basics.asserts.Evaluation; // NOSONAR
-import eu.lunisolar.magma.basics.asserts.FunctionalAssert; // NOSONAR
+import eu.lunisolar.magma.basics.asserts.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import org.assertj.core.api.*; // NOSONAR
-import eu.lunisolar.magma.basics.asserts.RecurringAsserts; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*;
+import eu.lunisolar.magma.func.action.Action;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assertions for CharToIntFunctionX. */
+/** Assert for CharToIntFunctionX. */
 public interface CharToIntFunctionXAssert<S extends CharToIntFunctionXAssert<S, A, RS, X>, A extends CharToIntFunctionX<X>, RS extends AbstractIntegerAssert<RS>, X extends Exception>
 		extends
 			Assert<S, A>,
-			FunctionalAssert<S, A, RS, Integer, Exception>,
-			RecurringAsserts<S, A, RS, Integer> {
+			FullFunctionalAssert<S, A, RS, Integer, Exception> {
 
 	@Nonnull
 	Evaluation<S, A, RS, Integer, Exception> doesApplyAsInt(char c);
@@ -43,13 +41,13 @@ public interface CharToIntFunctionXAssert<S extends CharToIntFunctionXAssert<S, 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends CharToIntFunctionX<X>, RS extends AbstractIntegerAssert<RS>, X extends Exception> extends Base<Impl<A, RS, X>, A, RS, X> {
 
-		public Impl(A actual, java.util.function.Function<Integer, RS> assertFunction) {
-			super(actual, Impl.class, assertFunction);
+		public Impl(A actual, java.util.function.Function<Integer, RS> assertFactory) {
+			super(actual, Impl.class, assertFactory);
 		}
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, X>, A extends CharToIntFunctionX<X>, RS extends AbstractIntegerAssert<RS>, X extends Exception> extends FunctionalAssert.Base<S, A, RS, Integer, Exception>
+	public static class Base<S extends Base<S, A, RS, X>, A extends CharToIntFunctionX<X>, RS extends AbstractIntegerAssert<RS>, X extends Exception> extends FullFunctionalAssert.Base<S, A, RS, Integer, Exception>
 			implements
 				CharToIntFunctionXAssert<S, A, RS, X> {
 
@@ -64,6 +62,7 @@ public interface CharToIntFunctionXAssert<S extends CharToIntFunctionXAssert<S, 
 		public Evaluation<S, A, RS, Integer, Exception> doesApplyAsInt(char c) {
 			return evaluation(() -> assertFactory.apply((Integer) actual.applyAsInt(c)));
 		}
+
 	}
 
 }

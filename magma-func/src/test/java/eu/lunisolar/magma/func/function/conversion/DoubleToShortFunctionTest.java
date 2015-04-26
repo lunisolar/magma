@@ -156,7 +156,7 @@ public class DoubleToShortFunctionTest<X extends ParseException> {
         });
 
         // when
-        DoubleToShortFunction wrapped = DoubleToShortFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        DoubleToShortFunction wrapped = DoubleToShortFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -181,7 +181,7 @@ public class DoubleToShortFunctionTest<X extends ParseException> {
         });
 
         // when
-        DoubleToShortFunction wrapped = DoubleToShortFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        DoubleToShortFunction wrapped = DoubleToShortFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -205,7 +205,7 @@ public class DoubleToShortFunctionTest<X extends ParseException> {
         });
 
         // when
-        DoubleToShortFunction wrapped = DoubleToShortFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        DoubleToShortFunction wrapped = DoubleToShortFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -613,6 +613,17 @@ public class DoubleToShortFunctionTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(DoubleToShortFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        DoubleToShortFunction sutThrowing = DoubleToShortFunction.l((double d) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsShort((double)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -652,3 +663,4 @@ public class DoubleToShortFunctionTest<X extends ParseException> {
     }
 
 }
+

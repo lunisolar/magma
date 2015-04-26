@@ -32,14 +32,13 @@ import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.NestedException; //NOSONAR
-import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
+import java.util.concurrent.atomic.*; //NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 @SuppressWarnings("ALL")
 public class FloatSupplierXAssertTest<X extends ParseException> {
 
     private float testValue = (float)100;
-
 
     @SuppressWarnings("unchecked") public static final FunctionalAssertions<ObjectAssert> A = new FunctionalAssertions() {
     };
@@ -52,12 +51,12 @@ public class FloatSupplierXAssertTest<X extends ParseException> {
         throw new UnsupportedOperationException();
     });
 
-
     @Test
     public void testAssertPositive() throws ParseException {
 
         A.assertThat(function)
-         .doesGetAsFloat().to(a -> a.isEqualTo(testValue));
+         .doesGetAsFloat(()->{})
+            .to(a -> a.isEqualTo(testValue));
 
     }
 
@@ -65,23 +64,24 @@ public class FloatSupplierXAssertTest<X extends ParseException> {
     public void testAssertNegative() throws ParseException {
 
         A.assertThat(function)
-         .doesGetAsFloat().to( a -> a.isEqualTo(2));
+         .doesGetAsFloat(()->{})
+            .to( a -> a.isEqualTo(2));
 
     }
 
-    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Should evaluate without exception.")
+    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Should evaluate without problem.")
     public void testAssertThrowsUnexpected() throws ParseException {
 
         A.assertThat(functionThrowing)
-         .doesGetAsFloat().to( a -> a.isEqualTo(1));
-
+         .doesGetAsFloat(()->{})
+            .to( a -> a.isEqualTo(1));
     }
 
     @Test
     public void testAssertThrowsExpected() throws ParseException {
 
         A.assertThat(functionThrowing)
-         .doesGetAsFloat().withException(a -> a
+         .doesGetAsFloat(()->{}).withException(a -> a
                    .isExactlyInstanceOf(UnsupportedOperationException.class)
                    .hasMessage(null));
 
@@ -97,8 +97,10 @@ public class FloatSupplierXAssertTest<X extends ParseException> {
             recurringAssertsCalls.incrementAndGet();
             a.isEqualTo(testValue);
          })
-         .doesGetAsFloat().to(a -> a.isEqualTo(testValue))
-         .doesGetAsFloat().to(a -> a.isEqualTo(testValue));
+         .doesGetAsFloat(()->{})
+            .to(a -> a.isEqualTo(testValue))
+         .doesGetAsFloat(()->{})
+            .to(a -> a.isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);
     }
@@ -115,10 +117,13 @@ public class FloatSupplierXAssertTest<X extends ParseException> {
                 a.isEqualTo(0);
             }
          })
-         .doesGetAsFloat().to(a -> a.isEqualTo(testValue))
-         .doesGetAsFloat().to(a -> a.isEqualTo(testValue));
+         .doesGetAsFloat(()->{})
+            .to(a -> a.isEqualTo(testValue))
+         .doesGetAsFloat(()->{})
+            .to(a -> a.isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);
     }
 
 }
+

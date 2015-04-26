@@ -77,24 +77,27 @@ public class CharToDoubleFunctionBuilderTest<X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         CharToDoubleFunction function = charToDoubleFunction((CharToDoubleFunction f)-> doNothing())
-            .addCase(ce -> ce.of((c) -> c == 0)
+            .addCase(ce -> ce.of((c) -> c == (char)0)
                              .evaluate((c) -> (double)0))
             .inCase((c) -> c > 0 && c < 10).evaluate((c) -> (double)1)
             .inCase((c) -> c > 10 && c < 20).evaluate((c) -> (double)2)
             .eventually((c) -> (double)99)
             .build();
 
+
         A.assertThat(function)
             .doesApplyAsDouble((char)0).to(a -> a.isEqualTo((double)0))
             .doesApplyAsDouble((char)5).to(a -> a.isEqualTo((double)1))
             .doesApplyAsDouble((char)15).to(a -> a.isEqualTo((double)2))
-            .doesApplyAsDouble((char)10).to(a -> a.isEqualTo((double)99));
+            .doesApplyAsDouble((char)10).to(a -> a.isEqualTo((double)99))
+        ;
+
     }
 
 
 }
+

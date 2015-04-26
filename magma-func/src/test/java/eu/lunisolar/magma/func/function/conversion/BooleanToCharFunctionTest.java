@@ -156,7 +156,7 @@ public class BooleanToCharFunctionTest<X extends ParseException> {
         });
 
         // when
-        BooleanToCharFunction wrapped = BooleanToCharFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BooleanToCharFunction wrapped = BooleanToCharFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -181,7 +181,7 @@ public class BooleanToCharFunctionTest<X extends ParseException> {
         });
 
         // when
-        BooleanToCharFunction wrapped = BooleanToCharFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BooleanToCharFunction wrapped = BooleanToCharFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -205,7 +205,7 @@ public class BooleanToCharFunctionTest<X extends ParseException> {
         });
 
         // when
-        BooleanToCharFunction wrapped = BooleanToCharFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BooleanToCharFunction wrapped = BooleanToCharFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -613,6 +613,17 @@ public class BooleanToCharFunctionTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(BooleanToCharFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        BooleanToCharFunction sutThrowing = BooleanToCharFunction.l((boolean b) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsChar(true);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -652,3 +663,4 @@ public class BooleanToCharFunctionTest<X extends ParseException> {
     }
 
 }
+

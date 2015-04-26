@@ -156,7 +156,7 @@ public class DoubleToCharFunctionTest<X extends ParseException> {
         });
 
         // when
-        DoubleToCharFunction wrapped = DoubleToCharFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        DoubleToCharFunction wrapped = DoubleToCharFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -181,7 +181,7 @@ public class DoubleToCharFunctionTest<X extends ParseException> {
         });
 
         // when
-        DoubleToCharFunction wrapped = DoubleToCharFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        DoubleToCharFunction wrapped = DoubleToCharFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -205,7 +205,7 @@ public class DoubleToCharFunctionTest<X extends ParseException> {
         });
 
         // when
-        DoubleToCharFunction wrapped = DoubleToCharFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        DoubleToCharFunction wrapped = DoubleToCharFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -613,6 +613,17 @@ public class DoubleToCharFunctionTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(DoubleToCharFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        DoubleToCharFunction sutThrowing = DoubleToCharFunction.l((double d) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsChar((double)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -652,3 +663,4 @@ public class DoubleToCharFunctionTest<X extends ParseException> {
     }
 
 }
+

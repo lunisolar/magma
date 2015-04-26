@@ -164,7 +164,7 @@ public class DoubleToLongFunctionTest<X extends ParseException> {
         });
 
         // when
-        DoubleToLongFunction wrapped = DoubleToLongFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        DoubleToLongFunction wrapped = DoubleToLongFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -189,7 +189,7 @@ public class DoubleToLongFunctionTest<X extends ParseException> {
         });
 
         // when
-        DoubleToLongFunction wrapped = DoubleToLongFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        DoubleToLongFunction wrapped = DoubleToLongFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -213,7 +213,7 @@ public class DoubleToLongFunctionTest<X extends ParseException> {
         });
 
         // when
-        DoubleToLongFunction wrapped = DoubleToLongFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        DoubleToLongFunction wrapped = DoubleToLongFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -626,6 +626,17 @@ public class DoubleToLongFunctionTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(DoubleToLongFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        DoubleToLongFunction sutThrowing = DoubleToLongFunction.l((double d) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsLong((double)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -665,3 +676,4 @@ public class DoubleToLongFunctionTest<X extends ParseException> {
     }
 
 }
+

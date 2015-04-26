@@ -156,7 +156,7 @@ public class IntToFloatFunctionTest<X extends ParseException> {
         });
 
         // when
-        IntToFloatFunction wrapped = IntToFloatFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        IntToFloatFunction wrapped = IntToFloatFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -181,7 +181,7 @@ public class IntToFloatFunctionTest<X extends ParseException> {
         });
 
         // when
-        IntToFloatFunction wrapped = IntToFloatFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        IntToFloatFunction wrapped = IntToFloatFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -205,7 +205,7 @@ public class IntToFloatFunctionTest<X extends ParseException> {
         });
 
         // when
-        IntToFloatFunction wrapped = IntToFloatFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        IntToFloatFunction wrapped = IntToFloatFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -613,6 +613,17 @@ public class IntToFloatFunctionTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(IntToFloatFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        IntToFloatFunction sutThrowing = IntToFloatFunction.l((int i) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsFloat((int)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -652,3 +663,4 @@ public class IntToFloatFunctionTest<X extends ParseException> {
     }
 
 }
+

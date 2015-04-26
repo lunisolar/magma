@@ -77,24 +77,27 @@ public class DoubleBiFunctionBuilderTest<R,X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         DoubleBiFunction<Integer > function = doubleBiFunction((DoubleBiFunction<Integer > f)-> doNothing())
-            .addCase(ce -> ce.of((d1,d2) -> d1 == 0)
+            .addCase(ce -> ce.of((d1,d2) -> d1 == (double)0)
                              .evaluate((d1,d2) -> Integer.valueOf(0)))
             .inCase((d1,d2) -> d1 > 0 && d1 < 10).evaluate((d1,d2) -> Integer.valueOf(1))
             .inCase((d1,d2) -> d1 > 10 && d1 < 20).evaluate((d1,d2) -> Integer.valueOf(2))
             .eventually((d1,d2) -> Integer.valueOf(99))
             .build();
 
+
         A.assertThat(function)
             .doesApply((double)0,(double)0).to(a -> a.isEqualTo(Integer.valueOf(0)))
             .doesApply((double)5,(double)5).to(a -> a.isEqualTo(Integer.valueOf(1)))
             .doesApply((double)15,(double)15).to(a -> a.isEqualTo(Integer.valueOf(2)))
-            .doesApply((double)10,(double)10).to(a -> a.isEqualTo(Integer.valueOf(99)));
+            .doesApply((double)10,(double)10).to(a -> a.isEqualTo(Integer.valueOf(99)))
+        ;
+
     }
 
 
 }
+

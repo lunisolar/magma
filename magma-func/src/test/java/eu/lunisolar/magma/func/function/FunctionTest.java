@@ -175,7 +175,7 @@ public class FunctionTest<T,R,X extends ParseException> {
         });
 
         // when
-        Function<T,R> wrapped = Function.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        Function<T,R> wrapped = Function.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -200,7 +200,7 @@ public class FunctionTest<T,R,X extends ParseException> {
         });
 
         // when
-        Function<T,R> wrapped = Function.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        Function<T,R> wrapped = Function.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -224,7 +224,7 @@ public class FunctionTest<T,R,X extends ParseException> {
         });
 
         // when
-        Function<T,R> wrapped = Function.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        Function<T,R> wrapped = Function.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -647,6 +647,17 @@ public class FunctionTest<T,R,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(FunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        Function<T,R> sutThrowing = Function.l((T t) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().apply((T)Integer.valueOf(100));
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -686,3 +697,4 @@ public class FunctionTest<T,R,X extends ParseException> {
     }
 
 }
+

@@ -112,7 +112,7 @@ public class ObjIntToIntFunctionXTest<T,X extends ParseException> {
         });
 
         // when
-        ObjIntToIntFunctionX<T,X> wrapped = ObjIntToIntFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ObjIntToIntFunctionX<T,X> wrapped = ObjIntToIntFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -137,7 +137,7 @@ public class ObjIntToIntFunctionXTest<T,X extends ParseException> {
         });
 
         // when
-        ObjIntToIntFunctionX<T,X> wrapped = ObjIntToIntFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ObjIntToIntFunctionX<T,X> wrapped = ObjIntToIntFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -161,7 +161,7 @@ public class ObjIntToIntFunctionXTest<T,X extends ParseException> {
         });
 
         // when
-        ObjIntToIntFunctionX<T,X> wrapped = ObjIntToIntFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ObjIntToIntFunctionX<T,X> wrapped = ObjIntToIntFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -302,6 +302,17 @@ public class ObjIntToIntFunctionXTest<T,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(ObjIntToIntFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        ObjIntToIntFunctionX<T,X> sutThrowing = ObjIntToIntFunctionX.lX((T t, int i) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsInt((T)Integer.valueOf(100),(int)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -341,3 +352,4 @@ public class ObjIntToIntFunctionXTest<T,X extends ParseException> {
     }
 
 }
+

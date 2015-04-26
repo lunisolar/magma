@@ -77,7 +77,28 @@ public class ObjShortConsumerXBuilderTest<T,X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
+        final AtomicInteger externalEffect = new AtomicInteger(0);
 
-    //TODO
+        ObjShortConsumerX<Integer ,ParseException> function = objShortConsumerX((ObjShortConsumerX<Integer ,ParseException> f)-> doNothing())
+            .addCase(ce -> ce.of((t, s) -> t == Integer.valueOf(0))
+                             .evaluate((t, s) -> externalEffect.set(0)))
+            .inCase((t, s) -> t > 0 && t < 10).evaluate((t, s) -> externalEffect.set(1))
+            .inCase((t, s) -> t > 10 && t < 20).evaluate((t, s) -> externalEffect.set(2))
+            .eventually((t, s) -> externalEffect.set(99))
+            .build();
+
+
+        A.assertThat(function)
+            .doesAccept(Integer.valueOf(0),(short)0).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(0)))
+            .doesAccept(Integer.valueOf(5),(short)5).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(1)))
+            .doesAccept(Integer.valueOf(15),(short)15).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(2)))
+            .doesAccept(Integer.valueOf(10),(short)10).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(99)))
+        ;
+
+    }
+
 
 }
+

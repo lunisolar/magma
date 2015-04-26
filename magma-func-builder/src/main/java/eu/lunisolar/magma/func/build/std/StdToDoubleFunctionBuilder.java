@@ -41,6 +41,7 @@ import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+/** Builder for java.util.function.ToDoubleFunction. */
 public final class StdToDoubleFunctionBuilder<T> extends PerCaseBuilder<StdToDoubleFunctionBuilder<T>, Predicate<T>, java.util.function.ToDoubleFunction<T>> {
 
 	private Consumer<java.util.function.ToDoubleFunction<T>> consumer;

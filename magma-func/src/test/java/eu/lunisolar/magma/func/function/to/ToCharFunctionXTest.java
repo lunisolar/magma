@@ -112,7 +112,7 @@ public class ToCharFunctionXTest<T,X extends ParseException> {
         });
 
         // when
-        ToCharFunctionX<T,X> wrapped = ToCharFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ToCharFunctionX<T,X> wrapped = ToCharFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -137,7 +137,7 @@ public class ToCharFunctionXTest<T,X extends ParseException> {
         });
 
         // when
-        ToCharFunctionX<T,X> wrapped = ToCharFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ToCharFunctionX<T,X> wrapped = ToCharFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -161,7 +161,7 @@ public class ToCharFunctionXTest<T,X extends ParseException> {
         });
 
         // when
-        ToCharFunctionX<T,X> wrapped = ToCharFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ToCharFunctionX<T,X> wrapped = ToCharFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -540,6 +540,17 @@ public class ToCharFunctionXTest<T,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(ToCharFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        ToCharFunctionX<T,X> sutThrowing = ToCharFunctionX.lX((T t) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsChar((T)Integer.valueOf(100));
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -579,3 +590,4 @@ public class ToCharFunctionXTest<T,X extends ParseException> {
     }
 
 }
+

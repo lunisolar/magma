@@ -77,24 +77,27 @@ public class ToCharFunctionXBuilderTest<T,X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         ToCharFunctionX<Integer ,ParseException> function = toCharFunctionX((ToCharFunctionX<Integer ,ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((t) -> t == 0)
+            .addCase(ce -> ce.of((t) -> t == Integer.valueOf(0))
                              .evaluate((t) -> (char)0))
             .inCase((t) -> t > 0 && t < 10).evaluate((t) -> (char)1)
             .inCase((t) -> t > 10 && t < 20).evaluate((t) -> (char)2)
             .eventually((t) -> (char)99)
             .build();
 
+
         A.assertThat(function)
             .doesApplyAsChar(Integer.valueOf(0)).to(a -> a.isEqualTo((char)0))
             .doesApplyAsChar(Integer.valueOf(5)).to(a -> a.isEqualTo((char)1))
             .doesApplyAsChar(Integer.valueOf(15)).to(a -> a.isEqualTo((char)2))
-            .doesApplyAsChar(Integer.valueOf(10)).to(a -> a.isEqualTo((char)99));
+            .doesApplyAsChar(Integer.valueOf(10)).to(a -> a.isEqualTo((char)99))
+        ;
+
     }
 
 
 }
+

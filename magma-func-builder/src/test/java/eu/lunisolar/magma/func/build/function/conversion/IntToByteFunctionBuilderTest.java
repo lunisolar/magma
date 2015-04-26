@@ -77,24 +77,27 @@ public class IntToByteFunctionBuilderTest<X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         IntToByteFunction function = intToByteFunction((IntToByteFunction f)-> doNothing())
-            .addCase(ce -> ce.of((i) -> i == 0)
+            .addCase(ce -> ce.of((i) -> i == (int)0)
                              .evaluate((i) -> (byte)0))
             .inCase((i) -> i > 0 && i < 10).evaluate((i) -> (byte)1)
             .inCase((i) -> i > 10 && i < 20).evaluate((i) -> (byte)2)
             .eventually((i) -> (byte)99)
             .build();
 
+
         A.assertThat(function)
             .doesApplyAsByte((int)0).to(a -> a.isEqualTo((byte)0))
             .doesApplyAsByte((int)5).to(a -> a.isEqualTo((byte)1))
             .doesApplyAsByte((int)15).to(a -> a.isEqualTo((byte)2))
-            .doesApplyAsByte((int)10).to(a -> a.isEqualTo((byte)99));
+            .doesApplyAsByte((int)10).to(a -> a.isEqualTo((byte)99))
+        ;
+
     }
 
 
 }
+

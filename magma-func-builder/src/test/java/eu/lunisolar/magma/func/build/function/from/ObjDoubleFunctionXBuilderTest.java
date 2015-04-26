@@ -77,24 +77,27 @@ public class ObjDoubleFunctionXBuilderTest<T,R,X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         ObjDoubleFunctionX<Integer ,Integer ,ParseException> function = objDoubleFunctionX((ObjDoubleFunctionX<Integer ,Integer ,ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((t, d) -> t == 0)
+            .addCase(ce -> ce.of((t, d) -> t == Integer.valueOf(0))
                              .evaluate((t, d) -> Integer.valueOf(0)))
             .inCase((t, d) -> t > 0 && t < 10).evaluate((t, d) -> Integer.valueOf(1))
             .inCase((t, d) -> t > 10 && t < 20).evaluate((t, d) -> Integer.valueOf(2))
             .eventually((t, d) -> Integer.valueOf(99))
             .build();
 
+
         A.assertThat(function)
             .doesApply(Integer.valueOf(0),(double)0).to(a -> a.isEqualTo(Integer.valueOf(0)))
             .doesApply(Integer.valueOf(5),(double)5).to(a -> a.isEqualTo(Integer.valueOf(1)))
             .doesApply(Integer.valueOf(15),(double)15).to(a -> a.isEqualTo(Integer.valueOf(2)))
-            .doesApply(Integer.valueOf(10),(double)10).to(a -> a.isEqualTo(Integer.valueOf(99)));
+            .doesApply(Integer.valueOf(10),(double)10).to(a -> a.isEqualTo(Integer.valueOf(99)))
+        ;
+
     }
 
 
 }
+

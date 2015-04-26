@@ -41,6 +41,7 @@ import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+/** Builder for FloatSupplier. */
 public final class FloatSupplierBuilder extends PerCaseBuilder<FloatSupplierBuilder, BooleanSupplier, FloatSupplier> {
 
 	private Consumer<FloatSupplier> consumer;

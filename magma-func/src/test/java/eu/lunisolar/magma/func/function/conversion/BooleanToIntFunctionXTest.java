@@ -112,7 +112,7 @@ public class BooleanToIntFunctionXTest<X extends ParseException> {
         });
 
         // when
-        BooleanToIntFunctionX<X> wrapped = BooleanToIntFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BooleanToIntFunctionX<X> wrapped = BooleanToIntFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -137,7 +137,7 @@ public class BooleanToIntFunctionXTest<X extends ParseException> {
         });
 
         // when
-        BooleanToIntFunctionX<X> wrapped = BooleanToIntFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BooleanToIntFunctionX<X> wrapped = BooleanToIntFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -161,7 +161,7 @@ public class BooleanToIntFunctionXTest<X extends ParseException> {
         });
 
         // when
-        BooleanToIntFunctionX<X> wrapped = BooleanToIntFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BooleanToIntFunctionX<X> wrapped = BooleanToIntFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -569,6 +569,17 @@ public class BooleanToIntFunctionXTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(BooleanToIntFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        BooleanToIntFunctionX<X> sutThrowing = BooleanToIntFunctionX.lX((boolean b) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsInt(true);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -608,3 +619,4 @@ public class BooleanToIntFunctionXTest<X extends ParseException> {
     }
 
 }
+

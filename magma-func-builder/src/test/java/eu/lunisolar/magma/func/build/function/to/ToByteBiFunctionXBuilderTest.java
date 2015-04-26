@@ -77,24 +77,27 @@ public class ToByteBiFunctionXBuilderTest<T1,T2,X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         ToByteBiFunctionX<Integer ,Integer ,ParseException> function = toByteBiFunctionX((ToByteBiFunctionX<Integer ,Integer ,ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((t1,t2) -> t1 == 0)
+            .addCase(ce -> ce.of((t1,t2) -> t1 == Integer.valueOf(0))
                              .evaluate((t1,t2) -> (byte)0))
             .inCase((t1,t2) -> t1 > 0 && t1 < 10).evaluate((t1,t2) -> (byte)1)
             .inCase((t1,t2) -> t1 > 10 && t1 < 20).evaluate((t1,t2) -> (byte)2)
             .eventually((t1,t2) -> (byte)99)
             .build();
 
+
         A.assertThat(function)
             .doesApplyAsByte(Integer.valueOf(0),Integer.valueOf(0)).to(a -> a.isEqualTo((byte)0))
             .doesApplyAsByte(Integer.valueOf(5),Integer.valueOf(5)).to(a -> a.isEqualTo((byte)1))
             .doesApplyAsByte(Integer.valueOf(15),Integer.valueOf(15)).to(a -> a.isEqualTo((byte)2))
-            .doesApplyAsByte(Integer.valueOf(10),Integer.valueOf(10)).to(a -> a.isEqualTo((byte)99));
+            .doesApplyAsByte(Integer.valueOf(10),Integer.valueOf(10)).to(a -> a.isEqualTo((byte)99))
+        ;
+
     }
 
 
 }
+

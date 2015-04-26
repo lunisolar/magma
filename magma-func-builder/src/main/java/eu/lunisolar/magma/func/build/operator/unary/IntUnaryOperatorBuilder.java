@@ -41,6 +41,7 @@ import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+/** Builder for IntUnaryOperator. */
 public final class IntUnaryOperatorBuilder extends PerCaseBuilder<IntUnaryOperatorBuilder, IntPredicate, IntUnaryOperator> {
 
 	private Consumer<IntUnaryOperator> consumer;

@@ -45,8 +45,10 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /**
- * A consumer.
- * @see {@link eu.lunisolar.magma.func.consumer.primitives.bi.CharBiConsumerX}
+ * Function category: consumer
+ * Throwing interface/lambda variant: CharBiConsumerX
+ *
+ * @see CharBiConsumerX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
@@ -60,6 +62,11 @@ public interface CharBiConsumer extends MetaConsumer {
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return CharBiConsumer.DESCRIPTION;
+	}
+
+	/** Captures arguments but delays the evaluation. */
+	default Action capture(char c1, char c2) {
+		return () -> this.accept(c1, c2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -79,18 +86,6 @@ public interface CharBiConsumer extends MetaConsumer {
 				other.accept(c1, c2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
-	}
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <X extends Exception, Y extends RuntimeException> CharBiConsumer wrapException(@Nonnull final CharBiConsumer other, Class<? extends Exception> exception, ExceptionHandler<Exception, Y> rethrower) {
-		return (char c1, char c2) -> {
-			try {
-				other.accept(c1, c2);
-			} catch (Exception e) {
-				throw ExceptionHandler.handle(exception, rethrower, e);
 			}
 		};
 	}
@@ -148,22 +143,39 @@ public interface CharBiConsumer extends MetaConsumer {
 		return this::accept;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default CharBiConsumer shove() {
+		return this;
+	}
+
 	// </editor-fold>
 
 	// <editor-fold desc="exception handling">
 
+	/** Wraps with additional exception handling. */
+	@Nonnull
+	public static <X extends Exception, E extends Exception, Y extends RuntimeException> CharBiConsumer wrapException(@Nonnull final CharBiConsumer other, Class<E> exception, ExceptionHandler<E, Y> handler) {
+		return (char c1, char c2) -> {
+			try {
+				other.accept(c1, c2);
+			} catch (Exception e) {
+				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
+			}
+		};
+	}
+
 	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <Y extends RuntimeException> CharBiConsumer handle(Class<? extends Exception> exception, ExceptionHandler<? super RuntimeException, Y> handler) {
+	default <E extends Exception, Y extends RuntimeException> CharBiConsumer handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
 		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
 		return CharBiConsumer.wrapException(this, exception, (ExceptionHandler) handler);
 	}
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
+	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
 	@Nonnull
-	default <Y extends RuntimeException> CharBiConsumer handle(ExceptionHandler<? super RuntimeException, Y> handler) {
+	default <Y extends RuntimeException> CharBiConsumer handle(ExceptionHandler<Exception, Y> handler) {
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
 		return CharBiConsumer.wrapException(this, Exception.class, (ExceptionHandler) handler);

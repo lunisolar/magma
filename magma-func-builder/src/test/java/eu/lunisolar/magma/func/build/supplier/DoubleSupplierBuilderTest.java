@@ -77,7 +77,28 @@ public class DoubleSupplierBuilderTest<X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
+        final AtomicInteger externalInfluence = new AtomicInteger(0);
 
-    //TODO
+        DoubleSupplier function = doubleSupplier((DoubleSupplier f)-> doNothing())
+            .addCase(ce -> ce.of(() -> externalInfluence.get() == Integer.valueOf(0))
+                             .evaluate(() -> (double)0))
+            .inCase(() -> externalInfluence.get() > 0 && externalInfluence.get() < 10).evaluate(() -> (double)1)
+            .inCase(() -> externalInfluence.get() > 10 && externalInfluence.get() < 20).evaluate(() -> (double)2)
+            .eventually(() -> (double)99)
+            .build();
+
+
+        A.assertThat(function)
+            .doesGetAsDouble(()->externalInfluence.set(0)).to(a -> a.isEqualTo((double)0))
+            .doesGetAsDouble(()->externalInfluence.set(5)).to(a -> a.isEqualTo((double)1))
+            .doesGetAsDouble(()->externalInfluence.set(15)).to(a -> a.isEqualTo((double)2))
+            .doesGetAsDouble(()->externalInfluence.set(10)).to(a -> a.isEqualTo((double)99))
+        ;
+
+    }
+
 
 }
+

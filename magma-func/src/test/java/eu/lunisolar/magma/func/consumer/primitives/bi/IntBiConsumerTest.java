@@ -319,6 +319,17 @@ public class IntBiConsumerTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(IntBiConsumerX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        IntBiConsumer sutThrowing = IntBiConsumer.l((int i1,int i2) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().accept((int)100,(int)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -358,3 +369,4 @@ public class IntBiConsumerTest<X extends ParseException> {
     }
 
 }
+

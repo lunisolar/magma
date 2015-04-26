@@ -77,24 +77,27 @@ public class CharUnaryOperatorBuilderTest<X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         CharUnaryOperator function = charUnaryOperator((CharUnaryOperator f)-> doNothing())
-            .addCase(ce -> ce.of((c) -> c == 0)
+            .addCase(ce -> ce.of((c) -> c == (char)0)
                              .evaluate((c) -> (char)0))
             .inCase((c) -> c > 0 && c < 10).evaluate((c) -> (char)1)
             .inCase((c) -> c > 10 && c < 20).evaluate((c) -> (char)2)
             .eventually((c) -> (char)99)
             .build();
 
+
         A.assertThat(function)
             .doesApplyAsChar((char)0).to(a -> a.isEqualTo((char)0))
             .doesApplyAsChar((char)5).to(a -> a.isEqualTo((char)1))
             .doesApplyAsChar((char)15).to(a -> a.isEqualTo((char)2))
-            .doesApplyAsChar((char)10).to(a -> a.isEqualTo((char)99));
+            .doesApplyAsChar((char)10).to(a -> a.isEqualTo((char)99))
+        ;
+
     }
 
 
 }
+

@@ -77,7 +77,27 @@ public class FloatPredicateXBuilderTest<X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
 
-    //TODO
+        FloatPredicateX<ParseException> function = floatPredicateX((FloatPredicateX<ParseException> f)-> doNothing())
+            .addCase(ce -> ce.of((f) -> f == (float)0)
+                             .evaluate((f) -> false))
+            .inCase((f) -> f > 0 && f < 10).evaluate((f) -> true)
+            .inCase((f) -> f > 10 && f < 20).evaluate((f) -> true)
+            .eventually((f) -> true)
+            .build();
+
+
+        A.assertThat(function)
+            .doesTest((float)0).to(a -> a.isEqualTo(false))
+            .doesTest((float)5).to(a -> a.isEqualTo(true))
+            .doesTest((float)15).to(a -> a.isEqualTo(true))
+            .doesTest((float)10).to(a -> a.isEqualTo(true))
+        ;
+
+    }
+
 
 }
+

@@ -164,7 +164,7 @@ public class ToIntBiFunctionTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        ToIntBiFunction<T1,T2> wrapped = ToIntBiFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ToIntBiFunction<T1,T2> wrapped = ToIntBiFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -189,7 +189,7 @@ public class ToIntBiFunctionTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        ToIntBiFunction<T1,T2> wrapped = ToIntBiFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ToIntBiFunction<T1,T2> wrapped = ToIntBiFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -213,7 +213,7 @@ public class ToIntBiFunctionTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        ToIntBiFunction<T1,T2> wrapped = ToIntBiFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ToIntBiFunction<T1,T2> wrapped = ToIntBiFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -324,6 +324,17 @@ public class ToIntBiFunctionTest<T1,T2,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(ToIntBiFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        ToIntBiFunction<T1,T2> sutThrowing = ToIntBiFunction.l((T1 t1,T2 t2) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsInt((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -363,3 +374,4 @@ public class ToIntBiFunctionTest<T1,T2,X extends ParseException> {
     }
 
 }
+

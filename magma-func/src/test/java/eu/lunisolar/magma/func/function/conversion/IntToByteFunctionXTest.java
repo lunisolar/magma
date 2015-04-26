@@ -112,7 +112,7 @@ public class IntToByteFunctionXTest<X extends ParseException> {
         });
 
         // when
-        IntToByteFunctionX<X> wrapped = IntToByteFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        IntToByteFunctionX<X> wrapped = IntToByteFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -137,7 +137,7 @@ public class IntToByteFunctionXTest<X extends ParseException> {
         });
 
         // when
-        IntToByteFunctionX<X> wrapped = IntToByteFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        IntToByteFunctionX<X> wrapped = IntToByteFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -161,7 +161,7 @@ public class IntToByteFunctionXTest<X extends ParseException> {
         });
 
         // when
-        IntToByteFunctionX<X> wrapped = IntToByteFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        IntToByteFunctionX<X> wrapped = IntToByteFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -569,6 +569,17 @@ public class IntToByteFunctionXTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(IntToByteFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        IntToByteFunctionX<X> sutThrowing = IntToByteFunctionX.lX((int i) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsByte((int)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -608,3 +619,4 @@ public class IntToByteFunctionXTest<X extends ParseException> {
     }
 
 }
+

@@ -41,6 +41,7 @@ import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+/** Builder for DoubleUnaryOperatorX. */
 public final class DoubleUnaryOperatorXBuilder<X extends Exception> extends PerCaseBuilder<DoubleUnaryOperatorXBuilder<X>, DoublePredicateX<X>, DoubleUnaryOperatorX<X>> {
 
 	private Consumer<DoubleUnaryOperatorX<X>> consumer;

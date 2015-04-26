@@ -41,6 +41,7 @@ import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+/** Builder for TriConsumer. */
 public final class TriConsumerBuilder<T1, T2, T3> extends PerCaseBuilder<TriConsumerBuilder<T1, T2, T3>, TriPredicate<T1, T2, T3>, TriConsumer<T1, T2, T3>> {
 
 	private Consumer<TriConsumer<T1, T2, T3>> consumer;
@@ -94,6 +95,7 @@ public final class TriConsumerBuilder<T1, T2, T3> extends PerCaseBuilder<TriCons
 				for (Case<TriPredicate<T1, T2, T3>, TriConsumer<T1, T2, T3>> aCase : casesArray) {
 					if (aCase.casePredicate().test(t1, t2, t3)) {
 						aCase.caseFunction().accept(t1, t2, t3);
+						return;
 					}
 				}
 

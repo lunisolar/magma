@@ -77,24 +77,27 @@ public class ShortBinaryOperatorXBuilderTest<X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         ShortBinaryOperatorX<ParseException> function = shortBinaryOperatorX((ShortBinaryOperatorX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((s1,s2) -> s1 == 0)
+            .addCase(ce -> ce.of((s1,s2) -> s1 == (short)0)
                              .evaluate((s1,s2) -> (short)0))
             .inCase((s1,s2) -> s1 > 0 && s1 < 10).evaluate((s1,s2) -> (short)1)
             .inCase((s1,s2) -> s1 > 10 && s1 < 20).evaluate((s1,s2) -> (short)2)
             .eventually((s1,s2) -> (short)99)
             .build();
 
+
         A.assertThat(function)
             .doesApplyAsShort((short)0,(short)0).to(a -> a.isEqualTo((short)0))
             .doesApplyAsShort((short)5,(short)5).to(a -> a.isEqualTo((short)1))
             .doesApplyAsShort((short)15,(short)15).to(a -> a.isEqualTo((short)2))
-            .doesApplyAsShort((short)10,(short)10).to(a -> a.isEqualTo((short)99));
+            .doesApplyAsShort((short)10,(short)10).to(a -> a.isEqualTo((short)99))
+        ;
+
     }
 
 
 }
+

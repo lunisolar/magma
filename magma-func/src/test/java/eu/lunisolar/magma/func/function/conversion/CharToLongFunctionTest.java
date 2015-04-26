@@ -156,7 +156,7 @@ public class CharToLongFunctionTest<X extends ParseException> {
         });
 
         // when
-        CharToLongFunction wrapped = CharToLongFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        CharToLongFunction wrapped = CharToLongFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -181,7 +181,7 @@ public class CharToLongFunctionTest<X extends ParseException> {
         });
 
         // when
-        CharToLongFunction wrapped = CharToLongFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        CharToLongFunction wrapped = CharToLongFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -205,7 +205,7 @@ public class CharToLongFunctionTest<X extends ParseException> {
         });
 
         // when
-        CharToLongFunction wrapped = CharToLongFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        CharToLongFunction wrapped = CharToLongFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -613,6 +613,17 @@ public class CharToLongFunctionTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(CharToLongFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        CharToLongFunction sutThrowing = CharToLongFunction.l((char c) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsLong((char)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -652,3 +663,4 @@ public class CharToLongFunctionTest<X extends ParseException> {
     }
 
 }
+

@@ -77,7 +77,27 @@ public class ObjLongPredicateBuilderTest<T,X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
 
-    //TODO
+        ObjLongPredicate<Integer > function = objLongPredicate((ObjLongPredicate<Integer > f)-> doNothing())
+            .addCase(ce -> ce.of((t, l) -> t == Integer.valueOf(0))
+                             .evaluate((t, l) -> false))
+            .inCase((t, l) -> t > 0 && t < 10).evaluate((t, l) -> true)
+            .inCase((t, l) -> t > 10 && t < 20).evaluate((t, l) -> true)
+            .eventually((t, l) -> true)
+            .build();
+
+
+        A.assertThat(function)
+            .doesTest(Integer.valueOf(0),(long)0).to(a -> a.isEqualTo(false))
+            .doesTest(Integer.valueOf(5),(long)5).to(a -> a.isEqualTo(true))
+            .doesTest(Integer.valueOf(15),(long)15).to(a -> a.isEqualTo(true))
+            .doesTest(Integer.valueOf(10),(long)10).to(a -> a.isEqualTo(true))
+        ;
+
+    }
+
 
 }
+

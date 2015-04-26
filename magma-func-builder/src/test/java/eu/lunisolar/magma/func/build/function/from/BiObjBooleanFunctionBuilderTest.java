@@ -77,7 +77,25 @@ public class BiObjBooleanFunctionBuilderTest<T1,T2,R,X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
 
-    //TODO
+        BiObjBooleanFunction<Integer ,Integer ,Integer > function = biObjBooleanFunction((BiObjBooleanFunction<Integer ,Integer ,Integer > f)-> doNothing())
+            .addCase(ce -> ce.of((t1,t2, b) -> t1 == Integer.valueOf(0))
+                             .evaluate((t1,t2, b) -> Integer.valueOf(0)))
+            .inCase((t1,t2, b) -> t1 > 0 && t1 < 10).evaluate((t1,t2, b) -> Integer.valueOf(1))
+            .inCase((t1,t2, b) -> t1 > 10 && t1 < 20).evaluate((t1,t2, b) -> Integer.valueOf(2))
+            .eventually((t1,t2, b) -> Integer.valueOf(99))
+            .build();
+
+
+        A.assertThat(function)
+            .doesApply(Integer.valueOf(0),Integer.valueOf(0),false).to(a -> a.isEqualTo(Integer.valueOf(0)))
+            .doesApply(Integer.valueOf(5),Integer.valueOf(5),true).to(a -> a.isEqualTo(Integer.valueOf(1)))
+        ;
+
+    }
+
 
 }
+

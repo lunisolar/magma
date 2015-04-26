@@ -119,7 +119,7 @@ public class BiLongPredicateXTest<X extends ParseException> {
         });
 
         // when
-        BiLongPredicateX<X> wrapped = BiLongPredicateX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BiLongPredicateX<X> wrapped = BiLongPredicateX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -144,7 +144,7 @@ public class BiLongPredicateXTest<X extends ParseException> {
         });
 
         // when
-        BiLongPredicateX<X> wrapped = BiLongPredicateX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BiLongPredicateX<X> wrapped = BiLongPredicateX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -168,7 +168,7 @@ public class BiLongPredicateXTest<X extends ParseException> {
         });
 
         // when
-        BiLongPredicateX<X> wrapped = BiLongPredicateX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BiLongPredicateX<X> wrapped = BiLongPredicateX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -362,6 +362,17 @@ public class BiLongPredicateXTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(BiLongPredicateX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        BiLongPredicateX<X> sutThrowing = BiLongPredicateX.lX((long l1,long l2) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().test((long)100,(long)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -401,3 +412,4 @@ public class BiLongPredicateXTest<X extends ParseException> {
     }
 
 }
+

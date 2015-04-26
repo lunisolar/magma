@@ -45,8 +45,10 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /**
- * A consumer.
- * @see {@link eu.lunisolar.magma.func.consumer.Consumer}
+ * Function category: consumer
+ * Non-throwing interface/lambda variant: Consumer
+ *
+ * @see Consumer
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
@@ -60,6 +62,11 @@ public interface ConsumerX<T, X extends Exception> extends MetaConsumer, MetaThr
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return ConsumerX.DESCRIPTION;
+	}
+
+	/** Captures arguments but delays the evaluation. */
+	default ActionX<X> capture(T t) {
+		return () -> this.accept(t);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -81,18 +88,6 @@ public interface ConsumerX<T, X extends Exception> extends MetaConsumer, MetaThr
 	@Nonnull
 	public static <T, X extends Exception> ConsumerX<T, X> wrapX(final @Nonnull Consumer<T> other) {
 		return other::accept;
-	}
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <T, X extends Exception, Y extends Exception> ConsumerX<T, Y> wrapException(@Nonnull final ConsumerX<T, X> other, Class<? extends Exception> exception, ExceptionHandler<Exception, Y> rethrower) {
-		return (T t) -> {
-			try {
-				other.accept(t);
-			} catch (Exception e) {
-				throw ExceptionHandler.handle(exception, rethrower, e);
-			}
-		};
 	}
 
 	// </editor-fold>
@@ -143,22 +138,40 @@ public interface ConsumerX<T, X extends Exception> extends MetaConsumer, MetaThr
 		return nonThrowing()::accept;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default Consumer<T> shove() {
+		ConsumerX<T, RuntimeException> exceptionCast = (ConsumerX<T, RuntimeException>) this;
+		return exceptionCast::accept;
+	}
+
 	// </editor-fold>
 
 	// <editor-fold desc="exception handling">
 
+	/** Wraps with additional exception handling. */
+	@Nonnull
+	public static <T, X extends Exception, E extends Exception, Y extends Exception> ConsumerX<T, Y> wrapException(@Nonnull final ConsumerX<T, X> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
+		return (T t) -> {
+			try {
+				other.accept(t);
+			} catch (Exception e) {
+				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
+			}
+		};
+	}
+
 	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <Y extends Exception> ConsumerX<T, Y> handle(Class<? extends Exception> exception, ExceptionHandler<? super X, Y> handler) {
+	default <E extends Exception, Y extends Exception> ConsumerX<T, Y> handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
 		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
 		return ConsumerX.wrapException(this, exception, (ExceptionHandler) handler);
 	}
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
+	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
 	@Nonnull
-	default <Y extends Exception> ConsumerX<T, Y> handle(ExceptionHandler<? super X, Y> handler) {
+	default <Y extends Exception> ConsumerX<T, Y> handle(ExceptionHandler<Exception, Y> handler) {
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
 		return ConsumerX.wrapException(this, Exception.class, (ExceptionHandler) handler);

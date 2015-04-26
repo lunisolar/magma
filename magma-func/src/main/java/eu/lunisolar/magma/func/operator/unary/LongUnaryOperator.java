@@ -44,8 +44,10 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /**
+ * Function category: operator
+ * Throwing interface/lambda variant: LongUnaryOperatorX
  *
- * @see {@link eu.lunisolar.magma.func.operator.unary.LongUnaryOperatorX}
+ * @see LongUnaryOperatorX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
@@ -59,6 +61,11 @@ public interface LongUnaryOperator extends java.util.function.LongUnaryOperator,
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LongUnaryOperator.DESCRIPTION;
+	}
+
+	/** Captures arguments but delays the evaluation. */
+	default LongSupplier capture(long l) {
+		return () -> this.applyAsLong(l);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
@@ -89,18 +96,6 @@ public interface LongUnaryOperator extends java.util.function.LongUnaryOperator,
 				return other.applyAsLong(l);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
-	}
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <X extends Exception, Y extends RuntimeException> LongUnaryOperator wrapException(@Nonnull final LongUnaryOperator other, Class<? extends Exception> exception, ExceptionHandler<Exception, Y> rethrower) {
-		return (long l) -> {
-			try {
-				return other.applyAsLong(l);
-			} catch (Exception e) {
-				throw ExceptionHandler.handle(exception, rethrower, e);
 			}
 		};
 	}
@@ -222,25 +217,66 @@ public interface LongUnaryOperator extends java.util.function.LongUnaryOperator,
 		return this::applyAsLong;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LongUnaryOperator shove() {
+		return this;
+	}
+
 	// </editor-fold>
 
 	// <editor-fold desc="exception handling">
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
+	/** Wraps with additional exception handling. */
 	@Nonnull
-	default <Y extends RuntimeException> LongUnaryOperator handle(Class<? extends Exception> exception, ExceptionHandler<? super RuntimeException, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LongUnaryOperator.wrapException(this, exception, (ExceptionHandler) handler);
+	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LongUnaryOperator wrapException(@Nonnull final LongUnaryOperator other, Class<E> exception, LongSupplier supplier, ExceptionHandler<E, Y> handler) {
+		return (long l) -> {
+			try {
+				return other.applyAsLong(l);
+			} catch (Exception e) {
+				try {
+					if (supplier != null) {
+						return supplier.getAsLong();
+					}
+				} catch (Exception supplierException) {
+					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
+				}
+				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
+			}
+		};
 	}
 
 	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <Y extends RuntimeException> LongUnaryOperator handle(ExceptionHandler<? super RuntimeException, Y> handler) {
+	default <E extends Exception, Y extends RuntimeException> LongUnaryOperator handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
+		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
-		return LongUnaryOperator.wrapException(this, Exception.class, (ExceptionHandler) handler);
+		return LongUnaryOperator.wrapException(this, exception, null, (ExceptionHandler) handler);
+	}
+
+	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
+	@Nonnull
+	default <Y extends RuntimeException> LongUnaryOperator handle(ExceptionHandler<Exception, Y> handler) {
+		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return LongUnaryOperator.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
+	}
+
+	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
+	@Nonnull
+	default <E extends Exception, Y extends RuntimeException> LongUnaryOperator handle(Class<E> exception, LongSupplier supplier) {
+		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
+		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return LongUnaryOperator.wrapException(this, exception, supplier, null);
+	}
+
+	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
+	@Nonnull
+	default <Y extends RuntimeException> LongUnaryOperator handle(LongSupplier supplier) {
+		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return LongUnaryOperator.wrapException(this, Exception.class, supplier, null);
 	}
 
 	// </editor-fold>

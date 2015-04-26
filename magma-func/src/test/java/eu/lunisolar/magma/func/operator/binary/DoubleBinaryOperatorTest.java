@@ -164,7 +164,7 @@ public class DoubleBinaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        DoubleBinaryOperator wrapped = DoubleBinaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        DoubleBinaryOperator wrapped = DoubleBinaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -189,7 +189,7 @@ public class DoubleBinaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        DoubleBinaryOperator wrapped = DoubleBinaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        DoubleBinaryOperator wrapped = DoubleBinaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -213,7 +213,7 @@ public class DoubleBinaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        DoubleBinaryOperator wrapped = DoubleBinaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        DoubleBinaryOperator wrapped = DoubleBinaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -393,6 +393,17 @@ public class DoubleBinaryOperatorTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(DoubleBinaryOperatorX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        DoubleBinaryOperator sutThrowing = DoubleBinaryOperator.l((double d1,double d2) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsDouble((double)100,(double)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -432,3 +443,4 @@ public class DoubleBinaryOperatorTest<X extends ParseException> {
     }
 
 }
+

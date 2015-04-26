@@ -44,8 +44,10 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /**
+ * Function category: function
+ * Throwing interface/lambda variant: BooleanBiFunctionX
  *
- * @see {@link eu.lunisolar.magma.func.function.from.BooleanBiFunctionX}
+ * @see BooleanBiFunctionX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
@@ -60,6 +62,11 @@ public interface BooleanBiFunction<R> extends MetaFunction { // NOSONAR
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return BooleanBiFunction.DESCRIPTION;
+	}
+
+	/** Captures arguments but delays the evaluation. */
+	default Supplier<R> capture(boolean b1, boolean b2) {
+		return () -> this.apply(b1, b2);
 	}
 
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
@@ -87,18 +94,6 @@ public interface BooleanBiFunction<R> extends MetaFunction { // NOSONAR
 				return other.apply(b1, b2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
-	}
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <R, X extends Exception, Y extends RuntimeException> BooleanBiFunction<R> wrapException(@Nonnull final BooleanBiFunction<R> other, Class<? extends Exception> exception, ExceptionHandler<Exception, Y> rethrower) {
-		return (boolean b1, boolean b2) -> {
-			try {
-				return other.apply(b1, b2);
-			} catch (Exception e) {
-				throw ExceptionHandler.handle(exception, rethrower, e);
 			}
 		};
 	}
@@ -161,6 +156,11 @@ public interface BooleanBiFunction<R> extends MetaFunction { // NOSONAR
 		return this::apply;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default BooleanBiFunction<R> shove() {
+		return this;
+	}
+
 	// </editor-fold>
 
 	@Nonnull
@@ -170,21 +170,57 @@ public interface BooleanBiFunction<R> extends MetaFunction { // NOSONAR
 
 	// <editor-fold desc="exception handling">
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
+	/** Wraps with additional exception handling. */
 	@Nonnull
-	default <Y extends RuntimeException> BooleanBiFunction<R> handle(Class<? extends Exception> exception, ExceptionHandler<? super RuntimeException, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return BooleanBiFunction.wrapException(this, exception, (ExceptionHandler) handler);
+	public static <R, X extends Exception, E extends Exception, Y extends RuntimeException> BooleanBiFunction<R> wrapException(@Nonnull final BooleanBiFunction<R> other, Class<E> exception, Supplier<R> supplier, ExceptionHandler<E, Y> handler) {
+		return (boolean b1, boolean b2) -> {
+			try {
+				return other.apply(b1, b2);
+			} catch (Exception e) {
+				try {
+					if (supplier != null) {
+						return supplier.get();
+					}
+				} catch (Exception supplierException) {
+					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
+				}
+				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
+			}
+		};
 	}
 
 	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <Y extends RuntimeException> BooleanBiFunction<R> handle(ExceptionHandler<? super RuntimeException, Y> handler) {
+	default <E extends Exception, Y extends RuntimeException> BooleanBiFunction<R> handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
+		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
-		return BooleanBiFunction.wrapException(this, Exception.class, (ExceptionHandler) handler);
+		return BooleanBiFunction.wrapException(this, exception, null, (ExceptionHandler) handler);
+	}
+
+	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
+	@Nonnull
+	default <Y extends RuntimeException> BooleanBiFunction<R> handle(ExceptionHandler<Exception, Y> handler) {
+		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return BooleanBiFunction.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
+	}
+
+	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
+	@Nonnull
+	default <E extends Exception, Y extends RuntimeException> BooleanBiFunction<R> handle(Class<E> exception, Supplier<R> supplier) {
+		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
+		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return BooleanBiFunction.wrapException(this, exception, supplier, null);
+	}
+
+	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
+	@Nonnull
+	default <Y extends RuntimeException> BooleanBiFunction<R> handle(Supplier<R> supplier) {
+		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return BooleanBiFunction.wrapException(this, Exception.class, supplier, null);
 	}
 
 	// </editor-fold>

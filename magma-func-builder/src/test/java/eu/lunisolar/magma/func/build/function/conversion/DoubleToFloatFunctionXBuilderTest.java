@@ -77,24 +77,27 @@ public class DoubleToFloatFunctionXBuilderTest<X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         DoubleToFloatFunctionX<ParseException> function = doubleToFloatFunctionX((DoubleToFloatFunctionX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((d) -> d == 0)
+            .addCase(ce -> ce.of((d) -> d == (double)0)
                              .evaluate((d) -> (float)0))
             .inCase((d) -> d > 0 && d < 10).evaluate((d) -> (float)1)
             .inCase((d) -> d > 10 && d < 20).evaluate((d) -> (float)2)
             .eventually((d) -> (float)99)
             .build();
 
+
         A.assertThat(function)
             .doesApplyAsFloat((double)0).to(a -> a.isEqualTo((float)0))
             .doesApplyAsFloat((double)5).to(a -> a.isEqualTo((float)1))
             .doesApplyAsFloat((double)15).to(a -> a.isEqualTo((float)2))
-            .doesApplyAsFloat((double)10).to(a -> a.isEqualTo((float)99));
+            .doesApplyAsFloat((double)10).to(a -> a.isEqualTo((float)99))
+        ;
+
     }
 
 
 }
+

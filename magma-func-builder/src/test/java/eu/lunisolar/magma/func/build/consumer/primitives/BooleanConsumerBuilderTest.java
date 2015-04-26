@@ -77,7 +77,25 @@ public class BooleanConsumerBuilderTest<X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
+        final AtomicInteger externalEffect = new AtomicInteger(0);
 
-    //TODO
+        BooleanConsumer function = booleanConsumer((BooleanConsumer f)-> doNothing())
+            .addCase(ce -> ce.of((b) -> b == false)
+                             .evaluate((b) -> externalEffect.set(0)))
+            .inCase((b) -> b == true ).evaluate((b) -> externalEffect.set(1))
+            .eventually((b) -> externalEffect.set(99))
+            .build();
+
+
+        A.assertThat(function)
+            .doesAccept(false).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(0)))
+            .doesAccept(true).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(1)))
+        ;
+
+    }
+
 
 }
+

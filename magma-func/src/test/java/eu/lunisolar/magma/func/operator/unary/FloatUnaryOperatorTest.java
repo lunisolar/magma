@@ -156,7 +156,7 @@ public class FloatUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        FloatUnaryOperator wrapped = FloatUnaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        FloatUnaryOperator wrapped = FloatUnaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -181,7 +181,7 @@ public class FloatUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        FloatUnaryOperator wrapped = FloatUnaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        FloatUnaryOperator wrapped = FloatUnaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -205,7 +205,7 @@ public class FloatUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        FloatUnaryOperator wrapped = FloatUnaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        FloatUnaryOperator wrapped = FloatUnaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -620,6 +620,17 @@ public class FloatUnaryOperatorTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(FloatUnaryOperatorX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        FloatUnaryOperator sutThrowing = FloatUnaryOperator.l((float f) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsFloat((float)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -659,3 +670,4 @@ public class FloatUnaryOperatorTest<X extends ParseException> {
     }
 
 }
+

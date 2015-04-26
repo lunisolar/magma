@@ -156,7 +156,7 @@ public class BooleanToShortFunctionTest<X extends ParseException> {
         });
 
         // when
-        BooleanToShortFunction wrapped = BooleanToShortFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BooleanToShortFunction wrapped = BooleanToShortFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -181,7 +181,7 @@ public class BooleanToShortFunctionTest<X extends ParseException> {
         });
 
         // when
-        BooleanToShortFunction wrapped = BooleanToShortFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BooleanToShortFunction wrapped = BooleanToShortFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -205,7 +205,7 @@ public class BooleanToShortFunctionTest<X extends ParseException> {
         });
 
         // when
-        BooleanToShortFunction wrapped = BooleanToShortFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BooleanToShortFunction wrapped = BooleanToShortFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -613,6 +613,17 @@ public class BooleanToShortFunctionTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(BooleanToShortFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        BooleanToShortFunction sutThrowing = BooleanToShortFunction.l((boolean b) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsShort(true);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -652,3 +663,4 @@ public class BooleanToShortFunctionTest<X extends ParseException> {
     }
 
 }
+

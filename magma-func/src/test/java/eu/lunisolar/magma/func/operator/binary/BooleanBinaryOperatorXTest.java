@@ -112,7 +112,7 @@ public class BooleanBinaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        BooleanBinaryOperatorX<X> wrapped = BooleanBinaryOperatorX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BooleanBinaryOperatorX<X> wrapped = BooleanBinaryOperatorX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -137,7 +137,7 @@ public class BooleanBinaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        BooleanBinaryOperatorX<X> wrapped = BooleanBinaryOperatorX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BooleanBinaryOperatorX<X> wrapped = BooleanBinaryOperatorX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -161,7 +161,7 @@ public class BooleanBinaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        BooleanBinaryOperatorX<X> wrapped = BooleanBinaryOperatorX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BooleanBinaryOperatorX<X> wrapped = BooleanBinaryOperatorX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -373,6 +373,17 @@ public class BooleanBinaryOperatorXTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(BooleanBinaryOperatorX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        BooleanBinaryOperatorX<X> sutThrowing = BooleanBinaryOperatorX.lX((boolean b1,boolean b2) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsBoolean(true,true);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -412,3 +423,4 @@ public class BooleanBinaryOperatorXTest<X extends ParseException> {
     }
 
 }
+

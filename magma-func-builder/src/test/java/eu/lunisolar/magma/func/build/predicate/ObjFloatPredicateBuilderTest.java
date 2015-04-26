@@ -77,7 +77,27 @@ public class ObjFloatPredicateBuilderTest<T,X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
 
-    //TODO
+        ObjFloatPredicate<Integer > function = objFloatPredicate((ObjFloatPredicate<Integer > f)-> doNothing())
+            .addCase(ce -> ce.of((t, f) -> t == Integer.valueOf(0))
+                             .evaluate((t, f) -> false))
+            .inCase((t, f) -> t > 0 && t < 10).evaluate((t, f) -> true)
+            .inCase((t, f) -> t > 10 && t < 20).evaluate((t, f) -> true)
+            .eventually((t, f) -> true)
+            .build();
+
+
+        A.assertThat(function)
+            .doesTest(Integer.valueOf(0),(float)0).to(a -> a.isEqualTo(false))
+            .doesTest(Integer.valueOf(5),(float)5).to(a -> a.isEqualTo(true))
+            .doesTest(Integer.valueOf(15),(float)15).to(a -> a.isEqualTo(true))
+            .doesTest(Integer.valueOf(10),(float)10).to(a -> a.isEqualTo(true))
+        ;
+
+    }
+
 
 }
+

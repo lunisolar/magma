@@ -9,7 +9,7 @@ Status: ![https://img.shields.io/github/release/lunisolar/magma.svg](https://img
 -----------------------------------------
 #### What it is?
 
-A library of functional interfaces (lambda interfaces) for Java 8, supplemented with assertions and builders. 
+A library of throwing and non-throwing functional interfaces (lambda interfaces) for Java 8, supplemented with assertion classes and builders.
 
 It provides: 
 
@@ -26,7 +26,7 @@ It provides:
 
 #### Documentation
 
-[Documentation](http://lunisolar.eu/index.php/magma/overview)
+[Documentation](http://lunisolar.eu/magma)
 
 ## Interface table
 

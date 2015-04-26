@@ -19,23 +19,21 @@
 
 package eu.lunisolar.magma.func.asserts.function.to;
 
-import eu.lunisolar.magma.basics.asserts.Evaluation; // NOSONAR
-import eu.lunisolar.magma.basics.asserts.FunctionalAssert; // NOSONAR
+import eu.lunisolar.magma.basics.asserts.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import org.assertj.core.api.*; // NOSONAR
-import eu.lunisolar.magma.basics.asserts.RecurringAsserts; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.func.function.to.*;
+import eu.lunisolar.magma.func.action.Action;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assertions for ToDoubleFunctionX. */
+/** Assert for ToDoubleFunctionX. */
 public interface ToDoubleFunctionXAssert<S extends ToDoubleFunctionXAssert<S, A, RS, T, X>, A extends ToDoubleFunctionX<T, X>, RS extends AbstractDoubleAssert<RS>, T, X extends Exception>
 		extends
 			Assert<S, A>,
-			FunctionalAssert<S, A, RS, Double, Exception>,
-			RecurringAsserts<S, A, RS, Double> {
+			FullFunctionalAssert<S, A, RS, Double, Exception> {
 
 	@Nonnull
 	Evaluation<S, A, RS, Double, Exception> doesApplyAsDouble(T t);
@@ -43,13 +41,13 @@ public interface ToDoubleFunctionXAssert<S extends ToDoubleFunctionXAssert<S, A,
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends ToDoubleFunctionX<T, X>, RS extends AbstractDoubleAssert<RS>, T, X extends Exception> extends Base<Impl<A, RS, T, X>, A, RS, T, X> {
 
-		public Impl(A actual, java.util.function.Function<Double, RS> assertFunction) {
-			super(actual, Impl.class, assertFunction);
+		public Impl(A actual, java.util.function.Function<Double, RS> assertFactory) {
+			super(actual, Impl.class, assertFactory);
 		}
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, T, X>, A extends ToDoubleFunctionX<T, X>, RS extends AbstractDoubleAssert<RS>, T, X extends Exception> extends FunctionalAssert.Base<S, A, RS, Double, Exception>
+	public static class Base<S extends Base<S, A, RS, T, X>, A extends ToDoubleFunctionX<T, X>, RS extends AbstractDoubleAssert<RS>, T, X extends Exception> extends FullFunctionalAssert.Base<S, A, RS, Double, Exception>
 			implements
 				ToDoubleFunctionXAssert<S, A, RS, T, X> {
 
@@ -64,6 +62,7 @@ public interface ToDoubleFunctionXAssert<S extends ToDoubleFunctionXAssert<S, A,
 		public Evaluation<S, A, RS, Double, Exception> doesApplyAsDouble(T t) {
 			return evaluation(() -> assertFactory.apply((Double) actual.applyAsDouble(t)));
 		}
+
 	}
 
 }

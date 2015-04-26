@@ -77,7 +77,24 @@ public class BooleanToLongFunctionXBuilderTest<X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
 
-    //TODO
+        BooleanToLongFunctionX<ParseException> function = booleanToLongFunctionX((BooleanToLongFunctionX<ParseException> f)-> doNothing())
+            .addCase(ce -> ce.of((b) -> b == false)
+                             .evaluate((b) -> (long)0))
+            .inCase((b) -> b == true ).evaluate((b) -> (long)1)
+            .eventually((b) -> (long)99)
+            .build();
+
+
+        A.assertThat(function)
+            .doesApplyAsLong(false).to(a -> a.isEqualTo((long)0))
+            .doesApplyAsLong(true).to(a -> a.isEqualTo((long)1))
+        ;
+
+    }
+
 
 }
+

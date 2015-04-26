@@ -44,8 +44,10 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /**
+ * Function category: function
+ * Non-throwing interface/lambda variant: IntToByteFunction
  *
- * @see {@link eu.lunisolar.magma.func.function.conversion.IntToByteFunction}
+ * @see IntToByteFunction
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
@@ -59,6 +61,11 @@ public interface IntToByteFunctionX<X extends Exception> extends MetaFunction, P
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return IntToByteFunctionX.DESCRIPTION;
+	}
+
+	/** Captures arguments but delays the evaluation. */
+	default ByteSupplierX<X> capture(int i) {
+		return () -> this.applyAsByte(i);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
@@ -79,18 +86,6 @@ public interface IntToByteFunctionX<X extends Exception> extends MetaFunction, P
 	@Nonnull
 	public static <X extends Exception> IntToByteFunctionX<X> wrapX(final @Nonnull IntToByteFunction other) {
 		return other::applyAsByte;
-	}
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <X extends Exception, Y extends Exception> IntToByteFunctionX<Y> wrapException(@Nonnull final IntToByteFunctionX<X> other, Class<? extends Exception> exception, ExceptionHandler<Exception, Y> rethrower) {
-		return (int i) -> {
-			try {
-				return other.applyAsByte(i);
-			} catch (Exception e) {
-				throw ExceptionHandler.handle(exception, rethrower, e);
-			}
-		};
 	}
 
 	// </editor-fold>
@@ -198,25 +193,67 @@ public interface IntToByteFunctionX<X extends Exception> extends MetaFunction, P
 		return nonThrowing()::applyAsByte;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default IntToByteFunction shove() {
+		IntToByteFunctionX<RuntimeException> exceptionCast = (IntToByteFunctionX<RuntimeException>) this;
+		return exceptionCast::applyAsByte;
+	}
+
 	// </editor-fold>
 
 	// <editor-fold desc="exception handling">
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
+	/** Wraps with additional exception handling. */
 	@Nonnull
-	default <Y extends Exception> IntToByteFunctionX<Y> handle(Class<? extends Exception> exception, ExceptionHandler<? super X, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return IntToByteFunctionX.wrapException(this, exception, (ExceptionHandler) handler);
+	public static <X extends Exception, E extends Exception, Y extends Exception> IntToByteFunctionX<Y> wrapException(@Nonnull final IntToByteFunctionX<X> other, Class<E> exception, ByteSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
+		return (int i) -> {
+			try {
+				return other.applyAsByte(i);
+			} catch (Exception e) {
+				try {
+					if (supplier != null) {
+						return supplier.getAsByte();
+					}
+				} catch (Exception supplierException) {
+					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
+				}
+				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
+			}
+		};
 	}
 
 	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <Y extends Exception> IntToByteFunctionX<Y> handle(ExceptionHandler<? super X, Y> handler) {
+	default <E extends Exception, Y extends Exception> IntToByteFunctionX<Y> handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
+		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
-		return IntToByteFunctionX.wrapException(this, Exception.class, (ExceptionHandler) handler);
+		return IntToByteFunctionX.wrapException(this, exception, null, (ExceptionHandler) handler);
+	}
+
+	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
+	@Nonnull
+	default <Y extends Exception> IntToByteFunctionX<Y> handle(ExceptionHandler<Exception, Y> handler) {
+		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return IntToByteFunctionX.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
+	}
+
+	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
+	@Nonnull
+	default <E extends Exception, Y extends Exception> IntToByteFunctionX<Y> handle(Class<E> exception, ByteSupplierX<X> supplier) {
+		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
+		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return IntToByteFunctionX.wrapException(this, exception, supplier, null);
+	}
+
+	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
+	@Nonnull
+	default <Y extends Exception> IntToByteFunctionX<Y> handle(ByteSupplierX<X> supplier) {
+		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return IntToByteFunctionX.wrapException(this, Exception.class, supplier, null);
 	}
 
 	// </editor-fold>

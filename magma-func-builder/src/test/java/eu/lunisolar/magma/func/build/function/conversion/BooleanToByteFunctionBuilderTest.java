@@ -77,7 +77,24 @@ public class BooleanToByteFunctionBuilderTest<X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
 
-    //TODO
+        BooleanToByteFunction function = booleanToByteFunction((BooleanToByteFunction f)-> doNothing())
+            .addCase(ce -> ce.of((b) -> b == false)
+                             .evaluate((b) -> (byte)0))
+            .inCase((b) -> b == true ).evaluate((b) -> (byte)1)
+            .eventually((b) -> (byte)99)
+            .build();
+
+
+        A.assertThat(function)
+            .doesApplyAsByte(false).to(a -> a.isEqualTo((byte)0))
+            .doesApplyAsByte(true).to(a -> a.isEqualTo((byte)1))
+        ;
+
+    }
+
 
 }
+

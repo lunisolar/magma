@@ -44,8 +44,10 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /**
+ * Function category: function
+ * Non-throwing interface/lambda variant: ObjIntToIntFunction
  *
- * @see {@link eu.lunisolar.magma.func.function.to.ObjIntToIntFunction}
+ * @see ObjIntToIntFunction
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
@@ -59,6 +61,11 @@ public interface ObjIntToIntFunctionX<T, X extends Exception> extends MetaFuncti
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return ObjIntToIntFunctionX.DESCRIPTION;
+	}
+
+	/** Captures arguments but delays the evaluation. */
+	default IntSupplierX<X> capture(T t, int i) {
+		return () -> this.applyAsInt(t, i);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
@@ -79,18 +86,6 @@ public interface ObjIntToIntFunctionX<T, X extends Exception> extends MetaFuncti
 	@Nonnull
 	public static <T, X extends Exception> ObjIntToIntFunctionX<T, X> wrapX(final @Nonnull ObjIntToIntFunction<T> other) {
 		return other::applyAsInt;
-	}
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <T, X extends Exception, Y extends Exception> ObjIntToIntFunctionX<T, Y> wrapException(@Nonnull final ObjIntToIntFunctionX<T, X> other, Class<? extends Exception> exception, ExceptionHandler<Exception, Y> rethrower) {
-		return (T t, int i) -> {
-			try {
-				return other.applyAsInt(t, i);
-			} catch (Exception e) {
-				throw ExceptionHandler.handle(exception, rethrower, e);
-			}
-		};
 	}
 
 	// </editor-fold>
@@ -144,25 +139,67 @@ public interface ObjIntToIntFunctionX<T, X extends Exception> extends MetaFuncti
 		return nonThrowing()::applyAsInt;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default ObjIntToIntFunction<T> shove() {
+		ObjIntToIntFunctionX<T, RuntimeException> exceptionCast = (ObjIntToIntFunctionX<T, RuntimeException>) this;
+		return exceptionCast::applyAsInt;
+	}
+
 	// </editor-fold>
 
 	// <editor-fold desc="exception handling">
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
+	/** Wraps with additional exception handling. */
 	@Nonnull
-	default <Y extends Exception> ObjIntToIntFunctionX<T, Y> handle(Class<? extends Exception> exception, ExceptionHandler<? super X, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return ObjIntToIntFunctionX.wrapException(this, exception, (ExceptionHandler) handler);
+	public static <T, X extends Exception, E extends Exception, Y extends Exception> ObjIntToIntFunctionX<T, Y> wrapException(@Nonnull final ObjIntToIntFunctionX<T, X> other, Class<E> exception, IntSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
+		return (T t, int i) -> {
+			try {
+				return other.applyAsInt(t, i);
+			} catch (Exception e) {
+				try {
+					if (supplier != null) {
+						return supplier.getAsInt();
+					}
+				} catch (Exception supplierException) {
+					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
+				}
+				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
+			}
+		};
 	}
 
 	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <Y extends Exception> ObjIntToIntFunctionX<T, Y> handle(ExceptionHandler<? super X, Y> handler) {
+	default <E extends Exception, Y extends Exception> ObjIntToIntFunctionX<T, Y> handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
+		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
-		return ObjIntToIntFunctionX.wrapException(this, Exception.class, (ExceptionHandler) handler);
+		return ObjIntToIntFunctionX.wrapException(this, exception, null, (ExceptionHandler) handler);
+	}
+
+	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
+	@Nonnull
+	default <Y extends Exception> ObjIntToIntFunctionX<T, Y> handle(ExceptionHandler<Exception, Y> handler) {
+		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return ObjIntToIntFunctionX.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
+	}
+
+	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
+	@Nonnull
+	default <E extends Exception, Y extends Exception> ObjIntToIntFunctionX<T, Y> handle(Class<E> exception, IntSupplierX<X> supplier) {
+		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
+		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return ObjIntToIntFunctionX.wrapException(this, exception, supplier, null);
+	}
+
+	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
+	@Nonnull
+	default <Y extends Exception> ObjIntToIntFunctionX<T, Y> handle(IntSupplierX<X> supplier) {
+		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return ObjIntToIntFunctionX.wrapException(this, Exception.class, supplier, null);
 	}
 
 	// </editor-fold>

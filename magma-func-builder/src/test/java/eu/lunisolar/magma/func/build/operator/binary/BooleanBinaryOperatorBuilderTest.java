@@ -77,7 +77,24 @@ public class BooleanBinaryOperatorBuilderTest<X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
 
-    //TODO
+        BooleanBinaryOperator function = booleanBinaryOperator((BooleanBinaryOperator f)-> doNothing())
+            .addCase(ce -> ce.of((b1,b2) -> b1 == false)
+                             .evaluate((b1,b2) -> false))
+            .inCase((b1,b2) -> b1 == true ).evaluate((b1,b2) -> true)
+            .eventually((b1,b2) -> true)
+            .build();
+
+
+        A.assertThat(function)
+            .doesApplyAsBoolean(false,false).to(a -> a.isEqualTo(false))
+            .doesApplyAsBoolean(true,true).to(a -> a.isEqualTo(true))
+        ;
+
+    }
+
 
 }
+

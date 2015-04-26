@@ -156,7 +156,7 @@ public class ByteUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        ByteUnaryOperator wrapped = ByteUnaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ByteUnaryOperator wrapped = ByteUnaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -181,7 +181,7 @@ public class ByteUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        ByteUnaryOperator wrapped = ByteUnaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ByteUnaryOperator wrapped = ByteUnaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -205,7 +205,7 @@ public class ByteUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        ByteUnaryOperator wrapped = ByteUnaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ByteUnaryOperator wrapped = ByteUnaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -620,6 +620,17 @@ public class ByteUnaryOperatorTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(ByteUnaryOperatorX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        ByteUnaryOperator sutThrowing = ByteUnaryOperator.l((byte b) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsByte((byte)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -659,3 +670,4 @@ public class ByteUnaryOperatorTest<X extends ParseException> {
     }
 
 }
+

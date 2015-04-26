@@ -45,8 +45,10 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /**
- * A consumer.
- * @see {@link eu.lunisolar.magma.func.consumer.primitives.bi.DoubleBiConsumer}
+ * Function category: consumer
+ * Non-throwing interface/lambda variant: DoubleBiConsumer
+ *
+ * @see DoubleBiConsumer
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
@@ -62,6 +64,11 @@ public interface DoubleBiConsumerX<X extends Exception> extends MetaConsumer, Me
 		return DoubleBiConsumerX.DESCRIPTION;
 	}
 
+	/** Captures arguments but delays the evaluation. */
+	default ActionX<X> capture(double d1, double d2) {
+		return () -> this.accept(d1, d2);
+	}
+
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <X extends Exception> DoubleBiConsumerX<X> lX(final @Nonnull DoubleBiConsumerX<X> lambda) {
@@ -75,18 +82,6 @@ public interface DoubleBiConsumerX<X extends Exception> extends MetaConsumer, Me
 	@Nonnull
 	public static <X extends Exception> DoubleBiConsumerX<X> wrapX(final @Nonnull DoubleBiConsumer other) {
 		return other::accept;
-	}
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <X extends Exception, Y extends Exception> DoubleBiConsumerX<Y> wrapException(@Nonnull final DoubleBiConsumerX<X> other, Class<? extends Exception> exception, ExceptionHandler<Exception, Y> rethrower) {
-		return (double d1, double d2) -> {
-			try {
-				other.accept(d1, d2);
-			} catch (Exception e) {
-				throw ExceptionHandler.handle(exception, rethrower, e);
-			}
-		};
 	}
 
 	// </editor-fold>
@@ -142,22 +137,40 @@ public interface DoubleBiConsumerX<X extends Exception> extends MetaConsumer, Me
 		return nonThrowing()::accept;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default DoubleBiConsumer shove() {
+		DoubleBiConsumerX<RuntimeException> exceptionCast = (DoubleBiConsumerX<RuntimeException>) this;
+		return exceptionCast::accept;
+	}
+
 	// </editor-fold>
 
 	// <editor-fold desc="exception handling">
 
+	/** Wraps with additional exception handling. */
+	@Nonnull
+	public static <X extends Exception, E extends Exception, Y extends Exception> DoubleBiConsumerX<Y> wrapException(@Nonnull final DoubleBiConsumerX<X> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
+		return (double d1, double d2) -> {
+			try {
+				other.accept(d1, d2);
+			} catch (Exception e) {
+				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
+			}
+		};
+	}
+
 	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <Y extends Exception> DoubleBiConsumerX<Y> handle(Class<? extends Exception> exception, ExceptionHandler<? super X, Y> handler) {
+	default <E extends Exception, Y extends Exception> DoubleBiConsumerX<Y> handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
 		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
 		return DoubleBiConsumerX.wrapException(this, exception, (ExceptionHandler) handler);
 	}
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
+	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
 	@Nonnull
-	default <Y extends Exception> DoubleBiConsumerX<Y> handle(ExceptionHandler<? super X, Y> handler) {
+	default <Y extends Exception> DoubleBiConsumerX<Y> handle(ExceptionHandler<Exception, Y> handler) {
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
 		return DoubleBiConsumerX.wrapException(this, Exception.class, (ExceptionHandler) handler);

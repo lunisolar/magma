@@ -112,7 +112,7 @@ public class BooleanToCharFunctionXTest<X extends ParseException> {
         });
 
         // when
-        BooleanToCharFunctionX<X> wrapped = BooleanToCharFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BooleanToCharFunctionX<X> wrapped = BooleanToCharFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -137,7 +137,7 @@ public class BooleanToCharFunctionXTest<X extends ParseException> {
         });
 
         // when
-        BooleanToCharFunctionX<X> wrapped = BooleanToCharFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BooleanToCharFunctionX<X> wrapped = BooleanToCharFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -161,7 +161,7 @@ public class BooleanToCharFunctionXTest<X extends ParseException> {
         });
 
         // when
-        BooleanToCharFunctionX<X> wrapped = BooleanToCharFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BooleanToCharFunctionX<X> wrapped = BooleanToCharFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -569,6 +569,17 @@ public class BooleanToCharFunctionXTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(BooleanToCharFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        BooleanToCharFunctionX<X> sutThrowing = BooleanToCharFunctionX.lX((boolean b) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsChar(true);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -608,3 +619,4 @@ public class BooleanToCharFunctionXTest<X extends ParseException> {
     }
 
 }
+

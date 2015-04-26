@@ -123,7 +123,7 @@ public class BiObjFloatFunctionXTest<T1,T2,R,X extends ParseException> {
         });
 
         // when
-        BiObjFloatFunctionX<T1,T2,R,X> wrapped = BiObjFloatFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BiObjFloatFunctionX<T1,T2,R,X> wrapped = BiObjFloatFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -148,7 +148,7 @@ public class BiObjFloatFunctionXTest<T1,T2,R,X extends ParseException> {
         });
 
         // when
-        BiObjFloatFunctionX<T1,T2,R,X> wrapped = BiObjFloatFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BiObjFloatFunctionX<T1,T2,R,X> wrapped = BiObjFloatFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -172,7 +172,7 @@ public class BiObjFloatFunctionXTest<T1,T2,R,X extends ParseException> {
         });
 
         // when
-        BiObjFloatFunctionX<T1,T2,R,X> wrapped = BiObjFloatFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BiObjFloatFunctionX<T1,T2,R,X> wrapped = BiObjFloatFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -360,6 +360,17 @@ public class BiObjFloatFunctionXTest<T1,T2,R,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(BiObjFloatFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        BiObjFloatFunctionX<T1,T2,R,X> sutThrowing = BiObjFloatFunctionX.lX((T1 t1,T2 t2, float f) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().apply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(float)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -399,3 +410,4 @@ public class BiObjFloatFunctionXTest<T1,T2,R,X extends ParseException> {
     }
 
 }
+

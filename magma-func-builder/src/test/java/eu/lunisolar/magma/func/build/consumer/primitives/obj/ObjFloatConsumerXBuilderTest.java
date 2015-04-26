@@ -77,7 +77,28 @@ public class ObjFloatConsumerXBuilderTest<T,X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
+        final AtomicInteger externalEffect = new AtomicInteger(0);
 
-    //TODO
+        ObjFloatConsumerX<Integer ,ParseException> function = objFloatConsumerX((ObjFloatConsumerX<Integer ,ParseException> f)-> doNothing())
+            .addCase(ce -> ce.of((t, f) -> t == Integer.valueOf(0))
+                             .evaluate((t, f) -> externalEffect.set(0)))
+            .inCase((t, f) -> t > 0 && t < 10).evaluate((t, f) -> externalEffect.set(1))
+            .inCase((t, f) -> t > 10 && t < 20).evaluate((t, f) -> externalEffect.set(2))
+            .eventually((t, f) -> externalEffect.set(99))
+            .build();
+
+
+        A.assertThat(function)
+            .doesAccept(Integer.valueOf(0),(float)0).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(0)))
+            .doesAccept(Integer.valueOf(5),(float)5).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(1)))
+            .doesAccept(Integer.valueOf(15),(float)15).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(2)))
+            .doesAccept(Integer.valueOf(10),(float)10).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(99)))
+        ;
+
+    }
+
 
 }
+

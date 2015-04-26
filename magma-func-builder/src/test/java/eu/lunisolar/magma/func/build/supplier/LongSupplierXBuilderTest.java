@@ -77,7 +77,28 @@ public class LongSupplierXBuilderTest<X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
+        final AtomicInteger externalInfluence = new AtomicInteger(0);
 
-    //TODO
+        LongSupplierX<ParseException> function = longSupplierX((LongSupplierX<ParseException> f)-> doNothing())
+            .addCase(ce -> ce.of(() -> externalInfluence.get() == Integer.valueOf(0))
+                             .evaluate(() -> (long)0))
+            .inCase(() -> externalInfluence.get() > 0 && externalInfluence.get() < 10).evaluate(() -> (long)1)
+            .inCase(() -> externalInfluence.get() > 10 && externalInfluence.get() < 20).evaluate(() -> (long)2)
+            .eventually(() -> (long)99)
+            .build();
+
+
+        A.assertThat(function)
+            .doesGetAsLong(()->externalInfluence.set(0)).to(a -> a.isEqualTo((long)0))
+            .doesGetAsLong(()->externalInfluence.set(5)).to(a -> a.isEqualTo((long)1))
+            .doesGetAsLong(()->externalInfluence.set(15)).to(a -> a.isEqualTo((long)2))
+            .doesGetAsLong(()->externalInfluence.set(10)).to(a -> a.isEqualTo((long)99))
+        ;
+
+    }
+
 
 }
+

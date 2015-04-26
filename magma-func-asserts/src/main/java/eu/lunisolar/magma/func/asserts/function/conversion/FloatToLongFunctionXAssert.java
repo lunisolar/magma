@@ -19,23 +19,21 @@
 
 package eu.lunisolar.magma.func.asserts.function.conversion;
 
-import eu.lunisolar.magma.basics.asserts.Evaluation; // NOSONAR
-import eu.lunisolar.magma.basics.asserts.FunctionalAssert; // NOSONAR
+import eu.lunisolar.magma.basics.asserts.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import org.assertj.core.api.*; // NOSONAR
-import eu.lunisolar.magma.basics.asserts.RecurringAsserts; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*;
+import eu.lunisolar.magma.func.action.Action;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assertions for FloatToLongFunctionX. */
+/** Assert for FloatToLongFunctionX. */
 public interface FloatToLongFunctionXAssert<S extends FloatToLongFunctionXAssert<S, A, RS, X>, A extends FloatToLongFunctionX<X>, RS extends AbstractLongAssert<RS>, X extends Exception>
 		extends
 			Assert<S, A>,
-			FunctionalAssert<S, A, RS, Long, Exception>,
-			RecurringAsserts<S, A, RS, Long> {
+			FullFunctionalAssert<S, A, RS, Long, Exception> {
 
 	@Nonnull
 	Evaluation<S, A, RS, Long, Exception> doesApplyAsLong(float f);
@@ -43,13 +41,13 @@ public interface FloatToLongFunctionXAssert<S extends FloatToLongFunctionXAssert
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends FloatToLongFunctionX<X>, RS extends AbstractLongAssert<RS>, X extends Exception> extends Base<Impl<A, RS, X>, A, RS, X> {
 
-		public Impl(A actual, java.util.function.Function<Long, RS> assertFunction) {
-			super(actual, Impl.class, assertFunction);
+		public Impl(A actual, java.util.function.Function<Long, RS> assertFactory) {
+			super(actual, Impl.class, assertFactory);
 		}
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, X>, A extends FloatToLongFunctionX<X>, RS extends AbstractLongAssert<RS>, X extends Exception> extends FunctionalAssert.Base<S, A, RS, Long, Exception>
+	public static class Base<S extends Base<S, A, RS, X>, A extends FloatToLongFunctionX<X>, RS extends AbstractLongAssert<RS>, X extends Exception> extends FullFunctionalAssert.Base<S, A, RS, Long, Exception>
 			implements
 				FloatToLongFunctionXAssert<S, A, RS, X> {
 
@@ -64,6 +62,7 @@ public interface FloatToLongFunctionXAssert<S extends FloatToLongFunctionXAssert
 		public Evaluation<S, A, RS, Long, Exception> doesApplyAsLong(float f) {
 			return evaluation(() -> assertFactory.apply((Long) actual.applyAsLong(f)));
 		}
+
 	}
 
 }

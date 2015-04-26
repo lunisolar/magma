@@ -45,8 +45,10 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /**
- * A consumer.
- * @see {@link eu.lunisolar.magma.func.consumer.TriConsumerX}
+ * Function category: consumer
+ * Throwing interface/lambda variant: TriConsumerX
+ *
+ * @see TriConsumerX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
@@ -60,6 +62,11 @@ public interface TriConsumer<T1, T2, T3> extends MetaConsumer {
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return TriConsumer.DESCRIPTION;
+	}
+
+	/** Captures arguments but delays the evaluation. */
+	default Action capture(T1 t1, T2 t2, T3 t3) {
+		return () -> this.accept(t1, t2, t3);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -79,18 +86,6 @@ public interface TriConsumer<T1, T2, T3> extends MetaConsumer {
 				other.accept(t1, t2, t3);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
-	}
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <T1, T2, T3, X extends Exception, Y extends RuntimeException> TriConsumer<T1, T2, T3> wrapException(@Nonnull final TriConsumer<T1, T2, T3> other, Class<? extends Exception> exception, ExceptionHandler<Exception, Y> rethrower) {
-		return (T1 t1, T2 t2, T3 t3) -> {
-			try {
-				other.accept(t1, t2, t3);
-			} catch (Exception e) {
-				throw ExceptionHandler.handle(exception, rethrower, e);
 			}
 		};
 	}
@@ -139,22 +134,39 @@ public interface TriConsumer<T1, T2, T3> extends MetaConsumer {
 		return this::accept;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default TriConsumer<T1, T2, T3> shove() {
+		return this;
+	}
+
 	// </editor-fold>
 
 	// <editor-fold desc="exception handling">
 
+	/** Wraps with additional exception handling. */
+	@Nonnull
+	public static <T1, T2, T3, X extends Exception, E extends Exception, Y extends RuntimeException> TriConsumer<T1, T2, T3> wrapException(@Nonnull final TriConsumer<T1, T2, T3> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
+		return (T1 t1, T2 t2, T3 t3) -> {
+			try {
+				other.accept(t1, t2, t3);
+			} catch (Exception e) {
+				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
+			}
+		};
+	}
+
 	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <Y extends RuntimeException> TriConsumer<T1, T2, T3> handle(Class<? extends Exception> exception, ExceptionHandler<? super RuntimeException, Y> handler) {
+	default <E extends Exception, Y extends RuntimeException> TriConsumer<T1, T2, T3> handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
 		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
 		return TriConsumer.wrapException(this, exception, (ExceptionHandler) handler);
 	}
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
+	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
 	@Nonnull
-	default <Y extends RuntimeException> TriConsumer<T1, T2, T3> handle(ExceptionHandler<? super RuntimeException, Y> handler) {
+	default <Y extends RuntimeException> TriConsumer<T1, T2, T3> handle(ExceptionHandler<Exception, Y> handler) {
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
 		return TriConsumer.wrapException(this, Exception.class, (ExceptionHandler) handler);

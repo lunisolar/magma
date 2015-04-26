@@ -119,7 +119,7 @@ public class BiObjLongPredicateXTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        BiObjLongPredicateX<T1,T2,X> wrapped = BiObjLongPredicateX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BiObjLongPredicateX<T1,T2,X> wrapped = BiObjLongPredicateX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -144,7 +144,7 @@ public class BiObjLongPredicateXTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        BiObjLongPredicateX<T1,T2,X> wrapped = BiObjLongPredicateX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BiObjLongPredicateX<T1,T2,X> wrapped = BiObjLongPredicateX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -168,7 +168,7 @@ public class BiObjLongPredicateXTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        BiObjLongPredicateX<T1,T2,X> wrapped = BiObjLongPredicateX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BiObjLongPredicateX<T1,T2,X> wrapped = BiObjLongPredicateX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -375,6 +375,17 @@ public class BiObjLongPredicateXTest<T1,T2,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(BiObjLongPredicateX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        BiObjLongPredicateX<T1,T2,X> sutThrowing = BiObjLongPredicateX.lX((T1 t1,T2 t2, long l) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().test((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(long)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -414,3 +425,4 @@ public class BiObjLongPredicateXTest<T1,T2,X extends ParseException> {
     }
 
 }
+

@@ -163,7 +163,7 @@ public class BiObjDoublePredicateTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        BiObjDoublePredicate<T1,T2> wrapped = BiObjDoublePredicate.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BiObjDoublePredicate<T1,T2> wrapped = BiObjDoublePredicate.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -188,7 +188,7 @@ public class BiObjDoublePredicateTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        BiObjDoublePredicate<T1,T2> wrapped = BiObjDoublePredicate.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BiObjDoublePredicate<T1,T2> wrapped = BiObjDoublePredicate.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -212,7 +212,7 @@ public class BiObjDoublePredicateTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        BiObjDoublePredicate<T1,T2> wrapped = BiObjDoublePredicate.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BiObjDoublePredicate<T1,T2> wrapped = BiObjDoublePredicate.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -419,6 +419,17 @@ public class BiObjDoublePredicateTest<T1,T2,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(BiObjDoublePredicateX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        BiObjDoublePredicate<T1,T2> sutThrowing = BiObjDoublePredicate.l((T1 t1,T2 t2, double d) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().test((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(double)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -458,3 +469,4 @@ public class BiObjDoublePredicateTest<T1,T2,X extends ParseException> {
     }
 
 }
+

@@ -131,7 +131,7 @@ public class BinaryOperatorXTest<T,X extends ParseException> {
         });
 
         // when
-        BinaryOperatorX<T,X> wrapped = BinaryOperatorX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BinaryOperatorX<T,X> wrapped = BinaryOperatorX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -156,7 +156,7 @@ public class BinaryOperatorXTest<T,X extends ParseException> {
         });
 
         // when
-        BinaryOperatorX<T,X> wrapped = BinaryOperatorX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BinaryOperatorX<T,X> wrapped = BinaryOperatorX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -180,7 +180,7 @@ public class BinaryOperatorXTest<T,X extends ParseException> {
         });
 
         // when
-        BinaryOperatorX<T,X> wrapped = BinaryOperatorX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BinaryOperatorX<T,X> wrapped = BinaryOperatorX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -277,6 +277,17 @@ public class BinaryOperatorXTest<T,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(BinaryOperatorX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        BinaryOperatorX<T,X> sutThrowing = BinaryOperatorX.lX((T t1,T t2) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().apply((T)Integer.valueOf(100),(T)Integer.valueOf(100));
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -316,3 +327,4 @@ public class BinaryOperatorXTest<T,X extends ParseException> {
     }
 
 }
+

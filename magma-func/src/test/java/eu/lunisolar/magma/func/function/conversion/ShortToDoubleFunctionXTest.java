@@ -112,7 +112,7 @@ public class ShortToDoubleFunctionXTest<X extends ParseException> {
         });
 
         // when
-        ShortToDoubleFunctionX<X> wrapped = ShortToDoubleFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ShortToDoubleFunctionX<X> wrapped = ShortToDoubleFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -137,7 +137,7 @@ public class ShortToDoubleFunctionXTest<X extends ParseException> {
         });
 
         // when
-        ShortToDoubleFunctionX<X> wrapped = ShortToDoubleFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ShortToDoubleFunctionX<X> wrapped = ShortToDoubleFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -161,7 +161,7 @@ public class ShortToDoubleFunctionXTest<X extends ParseException> {
         });
 
         // when
-        ShortToDoubleFunctionX<X> wrapped = ShortToDoubleFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ShortToDoubleFunctionX<X> wrapped = ShortToDoubleFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -569,6 +569,17 @@ public class ShortToDoubleFunctionXTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(ShortToDoubleFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        ShortToDoubleFunctionX<X> sutThrowing = ShortToDoubleFunctionX.lX((short s) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsDouble((short)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -608,3 +619,4 @@ public class ShortToDoubleFunctionXTest<X extends ParseException> {
     }
 
 }
+

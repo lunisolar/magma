@@ -167,7 +167,7 @@ public class BiObjIntFunctionTest<T1,T2,R,X extends ParseException> {
         });
 
         // when
-        BiObjIntFunction<T1,T2,R> wrapped = BiObjIntFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BiObjIntFunction<T1,T2,R> wrapped = BiObjIntFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -192,7 +192,7 @@ public class BiObjIntFunctionTest<T1,T2,R,X extends ParseException> {
         });
 
         // when
-        BiObjIntFunction<T1,T2,R> wrapped = BiObjIntFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BiObjIntFunction<T1,T2,R> wrapped = BiObjIntFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -216,7 +216,7 @@ public class BiObjIntFunctionTest<T1,T2,R,X extends ParseException> {
         });
 
         // when
-        BiObjIntFunction<T1,T2,R> wrapped = BiObjIntFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BiObjIntFunction<T1,T2,R> wrapped = BiObjIntFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -404,6 +404,17 @@ public class BiObjIntFunctionTest<T1,T2,R,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(BiObjIntFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        BiObjIntFunction<T1,T2,R> sutThrowing = BiObjIntFunction.l((T1 t1,T2 t2, int i) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().apply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(int)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -443,3 +454,4 @@ public class BiObjIntFunctionTest<T1,T2,R,X extends ParseException> {
     }
 
 }
+

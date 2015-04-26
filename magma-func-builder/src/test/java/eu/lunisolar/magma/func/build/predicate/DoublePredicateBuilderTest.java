@@ -77,7 +77,27 @@ public class DoublePredicateBuilderTest<X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
 
-    //TODO
+        DoublePredicate function = doublePredicate((DoublePredicate f)-> doNothing())
+            .addCase(ce -> ce.of((d) -> d == (double)0)
+                             .evaluate((d) -> false))
+            .inCase((d) -> d > 0 && d < 10).evaluate((d) -> true)
+            .inCase((d) -> d > 10 && d < 20).evaluate((d) -> true)
+            .eventually((d) -> true)
+            .build();
+
+
+        A.assertThat(function)
+            .doesTest((double)0).to(a -> a.isEqualTo(false))
+            .doesTest((double)5).to(a -> a.isEqualTo(true))
+            .doesTest((double)15).to(a -> a.isEqualTo(true))
+            .doesTest((double)10).to(a -> a.isEqualTo(true))
+        ;
+
+    }
+
 
 }
+

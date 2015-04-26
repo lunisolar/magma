@@ -41,6 +41,7 @@ import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+/** Builder for DoubleToByteFunction. */
 public final class DoubleToByteFunctionBuilder extends PerCaseBuilder<DoubleToByteFunctionBuilder, DoublePredicate, DoubleToByteFunction> {
 
 	private Consumer<DoubleToByteFunction> consumer;

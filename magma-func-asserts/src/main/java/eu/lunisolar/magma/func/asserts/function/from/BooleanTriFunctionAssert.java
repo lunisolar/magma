@@ -19,19 +19,18 @@
 
 package eu.lunisolar.magma.func.asserts.function.from;
 
-import eu.lunisolar.magma.basics.asserts.Evaluation; // NOSONAR
-import eu.lunisolar.magma.basics.asserts.FunctionalAssert; // NOSONAR
+import eu.lunisolar.magma.basics.asserts.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import org.assertj.core.api.*; // NOSONAR
-import eu.lunisolar.magma.basics.asserts.RecurringAsserts; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*;
+import eu.lunisolar.magma.func.action.Action;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assertions for BooleanTriFunction. */
-public interface BooleanTriFunctionAssert<S extends BooleanTriFunctionAssert<S, A, RS, R>, A extends BooleanTriFunction<R>, RS extends Assert<RS, R>, R> extends Assert<S, A>, FunctionalAssert<S, A, RS, R, Exception>, RecurringAsserts<S, A, RS, R> {
+/** Assert for BooleanTriFunction. */
+public interface BooleanTriFunctionAssert<S extends BooleanTriFunctionAssert<S, A, RS, R>, A extends BooleanTriFunction<R>, RS extends Assert<RS, R>, R> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, R, Exception> {
 
 	@Nonnull
 	Evaluation<S, A, RS, R, Exception> doesApply(boolean b1, boolean b2, boolean b3);
@@ -39,13 +38,13 @@ public interface BooleanTriFunctionAssert<S extends BooleanTriFunctionAssert<S, 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends BooleanTriFunction<R>, RS extends Assert<RS, R>, R> extends Base<Impl<A, RS, R>, A, RS, R> {
 
-		public Impl(A actual, java.util.function.Function<R, RS> assertFunction) {
-			super(actual, Impl.class, assertFunction);
+		public Impl(A actual, java.util.function.Function<R, RS> assertFactory) {
+			super(actual, Impl.class, assertFactory);
 		}
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, R>, A extends BooleanTriFunction<R>, RS extends Assert<RS, R>, R> extends FunctionalAssert.Base<S, A, RS, R, Exception> implements BooleanTriFunctionAssert<S, A, RS, R> {
+	public static class Base<S extends Base<S, A, RS, R>, A extends BooleanTriFunction<R>, RS extends Assert<RS, R>, R> extends FullFunctionalAssert.Base<S, A, RS, R, Exception> implements BooleanTriFunctionAssert<S, A, RS, R> {
 
 		protected final java.util.function.Function<R, RS> assertFactory;
 
@@ -58,6 +57,7 @@ public interface BooleanTriFunctionAssert<S extends BooleanTriFunctionAssert<S, 
 		public Evaluation<S, A, RS, R, Exception> doesApply(boolean b1, boolean b2, boolean b3) {
 			return evaluation(() -> assertFactory.apply((R) actual.apply(b1, b2, b3)));
 		}
+
 	}
 
 }

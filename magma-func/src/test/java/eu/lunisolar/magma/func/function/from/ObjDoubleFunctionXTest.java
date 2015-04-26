@@ -123,7 +123,7 @@ public class ObjDoubleFunctionXTest<T,R,X extends ParseException> {
         });
 
         // when
-        ObjDoubleFunctionX<T,R,X> wrapped = ObjDoubleFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ObjDoubleFunctionX<T,R,X> wrapped = ObjDoubleFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -148,7 +148,7 @@ public class ObjDoubleFunctionXTest<T,R,X extends ParseException> {
         });
 
         // when
-        ObjDoubleFunctionX<T,R,X> wrapped = ObjDoubleFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ObjDoubleFunctionX<T,R,X> wrapped = ObjDoubleFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -172,7 +172,7 @@ public class ObjDoubleFunctionXTest<T,R,X extends ParseException> {
         });
 
         // when
-        ObjDoubleFunctionX<T,R,X> wrapped = ObjDoubleFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ObjDoubleFunctionX<T,R,X> wrapped = ObjDoubleFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -346,6 +346,17 @@ public class ObjDoubleFunctionXTest<T,R,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(ObjDoubleFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        ObjDoubleFunctionX<T,R,X> sutThrowing = ObjDoubleFunctionX.lX((T t, double d) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().apply((T)Integer.valueOf(100),(double)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -385,3 +396,4 @@ public class ObjDoubleFunctionXTest<T,R,X extends ParseException> {
     }
 
 }
+

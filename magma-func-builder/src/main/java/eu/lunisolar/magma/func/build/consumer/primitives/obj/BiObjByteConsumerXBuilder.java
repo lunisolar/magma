@@ -41,6 +41,7 @@ import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+/** Builder for BiObjByteConsumerX. */
 public final class BiObjByteConsumerXBuilder<T1, T2, X extends Exception> extends PerCaseBuilder<BiObjByteConsumerXBuilder<T1, T2, X>, BiObjBytePredicateX<T1, T2, X>, BiObjByteConsumerX<T1, T2, X>> {
 
 	private Consumer<BiObjByteConsumerX<T1, T2, X>> consumer;
@@ -94,6 +95,7 @@ public final class BiObjByteConsumerXBuilder<T1, T2, X extends Exception> extend
 				for (Case<BiObjBytePredicateX<T1, T2, X>, BiObjByteConsumerX<T1, T2, X>> aCase : casesArray) {
 					if (aCase.casePredicate().test(t1, t2, b)) {
 						aCase.caseFunction().accept(t1, t2, b);
+						return;
 					}
 				}
 

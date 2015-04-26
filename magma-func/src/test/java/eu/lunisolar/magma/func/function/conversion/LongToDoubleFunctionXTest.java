@@ -120,7 +120,7 @@ public class LongToDoubleFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LongToDoubleFunctionX<X> wrapped = LongToDoubleFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        LongToDoubleFunctionX<X> wrapped = LongToDoubleFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -145,7 +145,7 @@ public class LongToDoubleFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LongToDoubleFunctionX<X> wrapped = LongToDoubleFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        LongToDoubleFunctionX<X> wrapped = LongToDoubleFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -169,7 +169,7 @@ public class LongToDoubleFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LongToDoubleFunctionX<X> wrapped = LongToDoubleFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        LongToDoubleFunctionX<X> wrapped = LongToDoubleFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -582,6 +582,17 @@ public class LongToDoubleFunctionXTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(LongToDoubleFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        LongToDoubleFunctionX<X> sutThrowing = LongToDoubleFunctionX.lX((long l) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsDouble((long)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -621,3 +632,4 @@ public class LongToDoubleFunctionXTest<X extends ParseException> {
     }
 
 }
+

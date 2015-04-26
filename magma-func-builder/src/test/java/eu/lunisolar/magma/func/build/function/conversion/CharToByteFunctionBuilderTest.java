@@ -77,24 +77,27 @@ public class CharToByteFunctionBuilderTest<X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         CharToByteFunction function = charToByteFunction((CharToByteFunction f)-> doNothing())
-            .addCase(ce -> ce.of((c) -> c == 0)
+            .addCase(ce -> ce.of((c) -> c == (char)0)
                              .evaluate((c) -> (byte)0))
             .inCase((c) -> c > 0 && c < 10).evaluate((c) -> (byte)1)
             .inCase((c) -> c > 10 && c < 20).evaluate((c) -> (byte)2)
             .eventually((c) -> (byte)99)
             .build();
 
+
         A.assertThat(function)
             .doesApplyAsByte((char)0).to(a -> a.isEqualTo((byte)0))
             .doesApplyAsByte((char)5).to(a -> a.isEqualTo((byte)1))
             .doesApplyAsByte((char)15).to(a -> a.isEqualTo((byte)2))
-            .doesApplyAsByte((char)10).to(a -> a.isEqualTo((byte)99));
+            .doesApplyAsByte((char)10).to(a -> a.isEqualTo((byte)99))
+        ;
+
     }
 
 
 }
+

@@ -17,14 +17,13 @@
  * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eu.lunisolar.magma.basics;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Target;
+package eu.lunisolar.magma.basics.asserts;
 
 /**
- * Marks interface as intended to provide full functionality by default methods.
+ * @author Jakub Wach
  */
-@Target(ElementType.TYPE)
-public @interface ExtensionByDefaults {
+@FunctionalInterface
+public interface AssertionsCheck {
+
+    void assertionsCheck() throws AssertionError;
 }

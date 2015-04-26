@@ -45,8 +45,10 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /**
- * A consumer.
- * @see {@link eu.lunisolar.magma.func.consumer.primitives.ByteConsumer}
+ * Function category: consumer
+ * Non-throwing interface/lambda variant: ByteConsumer
+ *
+ * @see ByteConsumer
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
@@ -62,6 +64,11 @@ public interface ByteConsumerX<X extends Exception> extends MetaConsumer, MetaTh
 		return ByteConsumerX.DESCRIPTION;
 	}
 
+	/** Captures arguments but delays the evaluation. */
+	default ActionX<X> capture(byte b) {
+		return () -> this.accept(b);
+	}
+
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <X extends Exception> ByteConsumerX<X> lX(final @Nonnull ByteConsumerX<X> lambda) {
@@ -75,18 +82,6 @@ public interface ByteConsumerX<X extends Exception> extends MetaConsumer, MetaTh
 	@Nonnull
 	public static <X extends Exception> ByteConsumerX<X> wrapX(final @Nonnull ByteConsumer other) {
 		return other::accept;
-	}
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <X extends Exception, Y extends Exception> ByteConsumerX<Y> wrapException(@Nonnull final ByteConsumerX<X> other, Class<? extends Exception> exception, ExceptionHandler<Exception, Y> rethrower) {
-		return (byte b) -> {
-			try {
-				other.accept(b);
-			} catch (Exception e) {
-				throw ExceptionHandler.handle(exception, rethrower, e);
-			}
-		};
 	}
 
 	// </editor-fold>
@@ -140,22 +135,40 @@ public interface ByteConsumerX<X extends Exception> extends MetaConsumer, MetaTh
 		return nonThrowing()::accept;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default ByteConsumer shove() {
+		ByteConsumerX<RuntimeException> exceptionCast = (ByteConsumerX<RuntimeException>) this;
+		return exceptionCast::accept;
+	}
+
 	// </editor-fold>
 
 	// <editor-fold desc="exception handling">
 
+	/** Wraps with additional exception handling. */
+	@Nonnull
+	public static <X extends Exception, E extends Exception, Y extends Exception> ByteConsumerX<Y> wrapException(@Nonnull final ByteConsumerX<X> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
+		return (byte b) -> {
+			try {
+				other.accept(b);
+			} catch (Exception e) {
+				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
+			}
+		};
+	}
+
 	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <Y extends Exception> ByteConsumerX<Y> handle(Class<? extends Exception> exception, ExceptionHandler<? super X, Y> handler) {
+	default <E extends Exception, Y extends Exception> ByteConsumerX<Y> handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
 		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
 		return ByteConsumerX.wrapException(this, exception, (ExceptionHandler) handler);
 	}
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
+	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
 	@Nonnull
-	default <Y extends Exception> ByteConsumerX<Y> handle(ExceptionHandler<? super X, Y> handler) {
+	default <Y extends Exception> ByteConsumerX<Y> handle(ExceptionHandler<Exception, Y> handler) {
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
 		return ByteConsumerX.wrapException(this, Exception.class, (ExceptionHandler) handler);

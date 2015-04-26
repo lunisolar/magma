@@ -167,7 +167,7 @@ public class CharBiFunctionTest<R,X extends ParseException> {
         });
 
         // when
-        CharBiFunction<R> wrapped = CharBiFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        CharBiFunction<R> wrapped = CharBiFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -192,7 +192,7 @@ public class CharBiFunctionTest<R,X extends ParseException> {
         });
 
         // when
-        CharBiFunction<R> wrapped = CharBiFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        CharBiFunction<R> wrapped = CharBiFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -216,7 +216,7 @@ public class CharBiFunctionTest<R,X extends ParseException> {
         });
 
         // when
-        CharBiFunction<R> wrapped = CharBiFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        CharBiFunction<R> wrapped = CharBiFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -390,6 +390,17 @@ public class CharBiFunctionTest<R,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(CharBiFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        CharBiFunction<R> sutThrowing = CharBiFunction.l((char c1,char c2) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().apply((char)100,(char)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -429,3 +440,4 @@ public class CharBiFunctionTest<R,X extends ParseException> {
     }
 
 }
+

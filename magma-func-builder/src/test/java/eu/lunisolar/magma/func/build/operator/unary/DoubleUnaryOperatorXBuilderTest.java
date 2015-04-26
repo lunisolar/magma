@@ -77,24 +77,27 @@ public class DoubleUnaryOperatorXBuilderTest<X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         DoubleUnaryOperatorX<ParseException> function = doubleUnaryOperatorX((DoubleUnaryOperatorX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((d) -> d == 0)
+            .addCase(ce -> ce.of((d) -> d == (double)0)
                              .evaluate((d) -> (double)0))
             .inCase((d) -> d > 0 && d < 10).evaluate((d) -> (double)1)
             .inCase((d) -> d > 10 && d < 20).evaluate((d) -> (double)2)
             .eventually((d) -> (double)99)
             .build();
 
+
         A.assertThat(function)
             .doesApplyAsDouble((double)0).to(a -> a.isEqualTo((double)0))
             .doesApplyAsDouble((double)5).to(a -> a.isEqualTo((double)1))
             .doesApplyAsDouble((double)15).to(a -> a.isEqualTo((double)2))
-            .doesApplyAsDouble((double)10).to(a -> a.isEqualTo((double)99));
+            .doesApplyAsDouble((double)10).to(a -> a.isEqualTo((double)99))
+        ;
+
     }
 
 
 }
+

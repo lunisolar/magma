@@ -77,24 +77,27 @@ public class ShortToFloatFunctionXBuilderTest<X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         ShortToFloatFunctionX<ParseException> function = shortToFloatFunctionX((ShortToFloatFunctionX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((s) -> s == 0)
+            .addCase(ce -> ce.of((s) -> s == (short)0)
                              .evaluate((s) -> (float)0))
             .inCase((s) -> s > 0 && s < 10).evaluate((s) -> (float)1)
             .inCase((s) -> s > 10 && s < 20).evaluate((s) -> (float)2)
             .eventually((s) -> (float)99)
             .build();
 
+
         A.assertThat(function)
             .doesApplyAsFloat((short)0).to(a -> a.isEqualTo((float)0))
             .doesApplyAsFloat((short)5).to(a -> a.isEqualTo((float)1))
             .doesApplyAsFloat((short)15).to(a -> a.isEqualTo((float)2))
-            .doesApplyAsFloat((short)10).to(a -> a.isEqualTo((float)99));
+            .doesApplyAsFloat((short)10).to(a -> a.isEqualTo((float)99))
+        ;
+
     }
 
 
 }
+

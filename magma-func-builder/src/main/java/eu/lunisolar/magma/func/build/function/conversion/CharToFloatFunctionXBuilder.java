@@ -41,6 +41,7 @@ import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+/** Builder for CharToFloatFunctionX. */
 public final class CharToFloatFunctionXBuilder<X extends Exception> extends PerCaseBuilder<CharToFloatFunctionXBuilder<X>, CharPredicateX<X>, CharToFloatFunctionX<X>> {
 
 	private Consumer<CharToFloatFunctionX<X>> consumer;

@@ -123,7 +123,7 @@ public class ObjFloatFunctionXTest<T,R,X extends ParseException> {
         });
 
         // when
-        ObjFloatFunctionX<T,R,X> wrapped = ObjFloatFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ObjFloatFunctionX<T,R,X> wrapped = ObjFloatFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -148,7 +148,7 @@ public class ObjFloatFunctionXTest<T,R,X extends ParseException> {
         });
 
         // when
-        ObjFloatFunctionX<T,R,X> wrapped = ObjFloatFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ObjFloatFunctionX<T,R,X> wrapped = ObjFloatFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -172,7 +172,7 @@ public class ObjFloatFunctionXTest<T,R,X extends ParseException> {
         });
 
         // when
-        ObjFloatFunctionX<T,R,X> wrapped = ObjFloatFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ObjFloatFunctionX<T,R,X> wrapped = ObjFloatFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -346,6 +346,17 @@ public class ObjFloatFunctionXTest<T,R,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(ObjFloatFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        ObjFloatFunctionX<T,R,X> sutThrowing = ObjFloatFunctionX.lX((T t, float f) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().apply((T)Integer.valueOf(100),(float)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -385,3 +396,4 @@ public class ObjFloatFunctionXTest<T,R,X extends ParseException> {
     }
 
 }
+

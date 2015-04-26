@@ -77,24 +77,27 @@ public class FloatToByteFunctionXBuilderTest<X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         FloatToByteFunctionX<ParseException> function = floatToByteFunctionX((FloatToByteFunctionX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((f) -> f == 0)
+            .addCase(ce -> ce.of((f) -> f == (float)0)
                              .evaluate((f) -> (byte)0))
             .inCase((f) -> f > 0 && f < 10).evaluate((f) -> (byte)1)
             .inCase((f) -> f > 10 && f < 20).evaluate((f) -> (byte)2)
             .eventually((f) -> (byte)99)
             .build();
 
+
         A.assertThat(function)
             .doesApplyAsByte((float)0).to(a -> a.isEqualTo((byte)0))
             .doesApplyAsByte((float)5).to(a -> a.isEqualTo((byte)1))
             .doesApplyAsByte((float)15).to(a -> a.isEqualTo((byte)2))
-            .doesApplyAsByte((float)10).to(a -> a.isEqualTo((byte)99));
+            .doesApplyAsByte((float)10).to(a -> a.isEqualTo((byte)99))
+        ;
+
     }
 
 
 }
+

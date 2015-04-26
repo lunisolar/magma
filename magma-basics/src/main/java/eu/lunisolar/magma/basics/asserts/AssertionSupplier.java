@@ -20,6 +20,6 @@
 package eu.lunisolar.magma.basics.asserts;
 
 @FunctionalInterface
-public interface AssertionSupplier<T, X extends Exception> {
-    T get() throws X;
+public interface AssertionSupplier<T> {
+    T get() throws Throwable;
 }

@@ -156,7 +156,7 @@ public class BooleanTernaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        BooleanTernaryOperator wrapped = BooleanTernaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BooleanTernaryOperator wrapped = BooleanTernaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -181,7 +181,7 @@ public class BooleanTernaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        BooleanTernaryOperator wrapped = BooleanTernaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BooleanTernaryOperator wrapped = BooleanTernaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -205,7 +205,7 @@ public class BooleanTernaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        BooleanTernaryOperator wrapped = BooleanTernaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BooleanTernaryOperator wrapped = BooleanTernaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -412,6 +412,17 @@ public class BooleanTernaryOperatorTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(BooleanTernaryOperatorX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        BooleanTernaryOperator sutThrowing = BooleanTernaryOperator.l((boolean b1,boolean b2,boolean b3) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().apply(true,true,true);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -451,3 +462,4 @@ public class BooleanTernaryOperatorTest<X extends ParseException> {
     }
 
 }
+

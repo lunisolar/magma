@@ -77,7 +77,24 @@ public class BooleanToCharFunctionXBuilderTest<X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
 
-    //TODO
+        BooleanToCharFunctionX<ParseException> function = booleanToCharFunctionX((BooleanToCharFunctionX<ParseException> f)-> doNothing())
+            .addCase(ce -> ce.of((b) -> b == false)
+                             .evaluate((b) -> (char)0))
+            .inCase((b) -> b == true ).evaluate((b) -> (char)1)
+            .eventually((b) -> (char)99)
+            .build();
+
+
+        A.assertThat(function)
+            .doesApplyAsChar(false).to(a -> a.isEqualTo((char)0))
+            .doesApplyAsChar(true).to(a -> a.isEqualTo((char)1))
+        ;
+
+    }
+
 
 }
+

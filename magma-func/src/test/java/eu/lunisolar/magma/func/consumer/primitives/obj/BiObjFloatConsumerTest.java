@@ -333,6 +333,17 @@ public class BiObjFloatConsumerTest<T1,T2,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(BiObjFloatConsumerX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        BiObjFloatConsumer<T1,T2> sutThrowing = BiObjFloatConsumer.l((T1 t1,T2 t2, float f) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().accept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(float)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -372,3 +383,4 @@ public class BiObjFloatConsumerTest<T1,T2,X extends ParseException> {
     }
 
 }
+

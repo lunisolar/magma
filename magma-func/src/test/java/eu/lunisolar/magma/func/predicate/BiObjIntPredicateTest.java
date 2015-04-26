@@ -163,7 +163,7 @@ public class BiObjIntPredicateTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        BiObjIntPredicate<T1,T2> wrapped = BiObjIntPredicate.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BiObjIntPredicate<T1,T2> wrapped = BiObjIntPredicate.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -188,7 +188,7 @@ public class BiObjIntPredicateTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        BiObjIntPredicate<T1,T2> wrapped = BiObjIntPredicate.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BiObjIntPredicate<T1,T2> wrapped = BiObjIntPredicate.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -212,7 +212,7 @@ public class BiObjIntPredicateTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        BiObjIntPredicate<T1,T2> wrapped = BiObjIntPredicate.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BiObjIntPredicate<T1,T2> wrapped = BiObjIntPredicate.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -419,6 +419,17 @@ public class BiObjIntPredicateTest<T1,T2,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(BiObjIntPredicateX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        BiObjIntPredicate<T1,T2> sutThrowing = BiObjIntPredicate.l((T1 t1,T2 t2, int i) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().test((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(int)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -458,3 +469,4 @@ public class BiObjIntPredicateTest<T1,T2,X extends ParseException> {
     }
 
 }
+

@@ -77,24 +77,27 @@ public class ShortFunctionBuilderTest<R,X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         ShortFunction<Integer > function = shortFunction((ShortFunction<Integer > f)-> doNothing())
-            .addCase(ce -> ce.of((s) -> s == 0)
+            .addCase(ce -> ce.of((s) -> s == (short)0)
                              .evaluate((s) -> Integer.valueOf(0)))
             .inCase((s) -> s > 0 && s < 10).evaluate((s) -> Integer.valueOf(1))
             .inCase((s) -> s > 10 && s < 20).evaluate((s) -> Integer.valueOf(2))
             .eventually((s) -> Integer.valueOf(99))
             .build();
 
+
         A.assertThat(function)
             .doesApply((short)0).to(a -> a.isEqualTo(Integer.valueOf(0)))
             .doesApply((short)5).to(a -> a.isEqualTo(Integer.valueOf(1)))
             .doesApply((short)15).to(a -> a.isEqualTo(Integer.valueOf(2)))
-            .doesApply((short)10).to(a -> a.isEqualTo(Integer.valueOf(99)));
+            .doesApply((short)10).to(a -> a.isEqualTo(Integer.valueOf(99)))
+        ;
+
     }
 
 
 }
+

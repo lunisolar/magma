@@ -77,7 +77,25 @@ public class BooleanTriConsumerXBuilderTest<X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
+        final AtomicInteger externalEffect = new AtomicInteger(0);
 
-    //TODO
+        BooleanTriConsumerX<ParseException> function = booleanTriConsumerX((BooleanTriConsumerX<ParseException> f)-> doNothing())
+            .addCase(ce -> ce.of((b1,b2,b3) -> b1 == false)
+                             .evaluate((b1,b2,b3) -> externalEffect.set(0)))
+            .inCase((b1,b2,b3) -> b1 == true ).evaluate((b1,b2,b3) -> externalEffect.set(1))
+            .eventually((b1,b2,b3) -> externalEffect.set(99))
+            .build();
+
+
+        A.assertThat(function)
+            .doesAccept(false,false,false).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(0)))
+            .doesAccept(true,true,true).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(1)))
+        ;
+
+    }
+
 
 }
+

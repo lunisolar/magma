@@ -256,6 +256,17 @@ public class ActionTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(ActionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        Action sutThrowing = Action.l(() -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().execute();
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -295,3 +306,4 @@ public class ActionTest<X extends ParseException> {
     }
 
 }
+

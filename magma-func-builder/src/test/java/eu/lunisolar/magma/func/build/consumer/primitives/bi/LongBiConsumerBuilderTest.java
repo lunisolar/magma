@@ -77,7 +77,28 @@ public class LongBiConsumerBuilderTest<X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
+        final AtomicInteger externalEffect = new AtomicInteger(0);
 
-    //TODO
+        LongBiConsumer function = longBiConsumer((LongBiConsumer f)-> doNothing())
+            .addCase(ce -> ce.of((l1,l2) -> l1 == (long)0)
+                             .evaluate((l1,l2) -> externalEffect.set(0)))
+            .inCase((l1,l2) -> l1 > 0 && l1 < 10).evaluate((l1,l2) -> externalEffect.set(1))
+            .inCase((l1,l2) -> l1 > 10 && l1 < 20).evaluate((l1,l2) -> externalEffect.set(2))
+            .eventually((l1,l2) -> externalEffect.set(99))
+            .build();
+
+
+        A.assertThat(function)
+            .doesAccept((long)0,(long)0).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(0)))
+            .doesAccept((long)5,(long)5).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(1)))
+            .doesAccept((long)15,(long)15).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(2)))
+            .doesAccept((long)10,(long)10).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(99)))
+        ;
+
+    }
+
 
 }
+

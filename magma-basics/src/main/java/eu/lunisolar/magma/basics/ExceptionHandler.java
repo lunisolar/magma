@@ -18,7 +18,7 @@
  */
 package eu.lunisolar.magma.basics;
 
-import java.util.Objects;
+import static java.util.Objects.*;
 
 /**
  * Functional interface to handle exception around other functional interface implementations.
@@ -26,16 +26,14 @@ import java.util.Objects;
 @FunctionalInterface
 public interface ExceptionHandler<T extends Exception, R extends Exception> {
 
-    String ARGUMENT_EXCEPTION_PREDICATE_CANNOT_BE_NULL = "Argument [exceptionPredicate] cannot be null.";
-    String ARGUMENT_EXCEPTION_CANNOT_BE_NULL           = "Argument [exception] cannot be null.";
-    String ARGUMENT_HANDLER_CANNOT_BE_NULL             = "Argument [handler] cannot be null.";
+    String ARGUMENT_EXCEPTION_CLASS_CANNOT_BE_NULL = "Argument [exceptionClass] cannot be null.";
+    String ARGUMENT_EXCEPTION_CANNOT_BE_NULL       = "Argument [exception] cannot be null.";
+    String ARGUMENT_HANDLER_CANNOT_BE_NULL         = "Argument [handler] cannot be null.";
 
-    ExceptionHandler<Exception, ExceptionNotHandled> UNLIKELY_HANDLER = ex -> {
-        throw new ExceptionNotHandled("Handler has not processed the exception.", ex);
-    };
+    ExceptionHandler DEFAULT_HANDLER = (ExceptionHandler) ExceptionHandler::handleWrapping;
 
     /** Handler should either produce or throw the exception. Preferably it is a new exception, that wraps the consumed one. */
-    R handle(Exception exception) throws R;
+    R handle(T exception) throws R;
 
     /** Exception handling routine for simple case - typical handling exception in non-throwing implementation */
     static RuntimeException handleWrapping(Exception exception) {
@@ -47,22 +45,28 @@ public interface ExceptionHandler<T extends Exception, R extends Exception> {
         }
     }
 
+    @SuppressWarnings("unchecked")
+    static <T extends Exception, R extends Exception> ExceptionHandler<T, R> wrappingHandler() {
+        return DEFAULT_HANDLER;
+    }
+
     /**
      * Exception handling routine for any case. Re-thrower is used only for exceptions that are instance of the argument exception class.
      *
      * Potentially there is a possibility to use predicate instead of a class, but this can cause complication or runtime CCE caused in general by compiler
      * doing a bad or no matching between two functional interfaces (this involves more than just calling this method).
      */
-    static <Y extends Exception> RuntimeException handle(
-            Class<? extends Exception> exceptionClass, ExceptionHandler<Exception, Y> handler, Exception exception) throws Y {
+    static <E extends Exception, Y extends Exception> Y handle(
+            Class<E> exceptionClass, ExceptionHandler<E, Y> handler, E exception) throws Y {
 
-        Objects.requireNonNull(exceptionClass, ARGUMENT_EXCEPTION_PREDICATE_CANNOT_BE_NULL);
-        Objects.requireNonNull(exception, ARGUMENT_EXCEPTION_CANNOT_BE_NULL);
+        requireNonNull(exceptionClass, ARGUMENT_EXCEPTION_CLASS_CANNOT_BE_NULL);
+        requireNonNull(exception, ARGUMENT_EXCEPTION_CANNOT_BE_NULL);
 
         if (exceptionClass.isInstance(exception)) {
 
-            Objects.requireNonNull(handler, ARGUMENT_HANDLER_CANNOT_BE_NULL);
-            Y effectiveException = handler.handle(exception);
+            requireNonNull(handler, ARGUMENT_HANDLER_CANNOT_BE_NULL);
+
+            Y effectiveException = handler.handle(exception);   // CCE -> can be caused by wrong inferred generic value (that happened to be "materialized")
             if (effectiveException != null) {
                 throw effectiveException;
             }

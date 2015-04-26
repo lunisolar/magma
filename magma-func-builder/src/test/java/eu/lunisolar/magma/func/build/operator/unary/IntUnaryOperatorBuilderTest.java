@@ -77,24 +77,27 @@ public class IntUnaryOperatorBuilderTest<X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         IntUnaryOperator function = intUnaryOperator((IntUnaryOperator f)-> doNothing())
-            .addCase(ce -> ce.of((i) -> i == 0)
+            .addCase(ce -> ce.of((i) -> i == (int)0)
                              .evaluate((i) -> (int)0))
             .inCase((i) -> i > 0 && i < 10).evaluate((i) -> (int)1)
             .inCase((i) -> i > 10 && i < 20).evaluate((i) -> (int)2)
             .eventually((i) -> (int)99)
             .build();
 
+
         A.assertThat(function)
             .doesApplyAsInt((int)0).to(a -> a.isEqualTo((int)0))
             .doesApplyAsInt((int)5).to(a -> a.isEqualTo((int)1))
             .doesApplyAsInt((int)15).to(a -> a.isEqualTo((int)2))
-            .doesApplyAsInt((int)10).to(a -> a.isEqualTo((int)99));
+            .doesApplyAsInt((int)10).to(a -> a.isEqualTo((int)99))
+        ;
+
     }
 
 
 }
+

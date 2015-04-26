@@ -41,6 +41,7 @@ import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+/** Builder for BooleanToByteFunction. */
 public final class BooleanToByteFunctionBuilder extends PerCaseBuilder<BooleanToByteFunctionBuilder, BooleanUnaryOperator, BooleanToByteFunction> {
 
 	private Consumer<BooleanToByteFunction> consumer;

@@ -31,13 +31,16 @@ import eu.lunisolar.magma.func.function.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 
 /**
- * Execution is a replacement for Runnable.
+ * Action is a replacement for Runnable.
  *
  * - offers default methods
  * - do not rise warnings about Runnable being call directly
  * - two versions (throwing and non-throwing) have conversion methods that mirrors each other)
  *
- * @see {@link eu.lunisolar.magma.func.action.ActionX}
+ * Function category: action
+ * Throwing interface/lambda variant: ActionX
+ *
+ * @see ActionX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
@@ -84,18 +87,6 @@ public interface Action extends java.lang.Runnable, MetaAction {
 		};
 	}
 
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <X extends Exception, Y extends RuntimeException> Action wrapException(@Nonnull final Action other, Class<? extends Exception> exception, ExceptionHandler<Exception, Y> rethrower) {
-		return () -> {
-			try {
-				other.execute();
-			} catch (Exception e) {
-				throw ExceptionHandler.handle(exception, rethrower, e);
-			}
-		};
-	}
-
 	// </editor-fold>
 
 	// <editor-fold desc="andThen (consumer/action)">
@@ -131,22 +122,39 @@ public interface Action extends java.lang.Runnable, MetaAction {
 		return this::execute;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default Action shove() {
+		return this;
+	}
+
 	// </editor-fold>
 
 	// <editor-fold desc="exception handling">
 
+	/** Wraps with additional exception handling. */
+	@Nonnull
+	public static <X extends Exception, E extends Exception, Y extends RuntimeException> Action wrapException(@Nonnull final Action other, Class<E> exception, ExceptionHandler<E, Y> handler) {
+		return () -> {
+			try {
+				other.execute();
+			} catch (Exception e) {
+				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
+			}
+		};
+	}
+
 	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <Y extends RuntimeException> Action handle(Class<? extends Exception> exception, ExceptionHandler<? super RuntimeException, Y> handler) {
+	default <E extends Exception, Y extends RuntimeException> Action handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
 		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
 		return Action.wrapException(this, exception, (ExceptionHandler) handler);
 	}
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
+	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
 	@Nonnull
-	default <Y extends RuntimeException> Action handle(ExceptionHandler<? super RuntimeException, Y> handler) {
+	default <Y extends RuntimeException> Action handle(ExceptionHandler<Exception, Y> handler) {
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
 		return Action.wrapException(this, Exception.class, (ExceptionHandler) handler);

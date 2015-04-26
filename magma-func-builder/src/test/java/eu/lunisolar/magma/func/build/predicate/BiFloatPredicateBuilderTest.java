@@ -77,7 +77,27 @@ public class BiFloatPredicateBuilderTest<X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
 
-    //TODO
+        BiFloatPredicate function = biFloatPredicate((BiFloatPredicate f)-> doNothing())
+            .addCase(ce -> ce.of((f1,f2) -> f1 == (float)0)
+                             .evaluate((f1,f2) -> false))
+            .inCase((f1,f2) -> f1 > 0 && f1 < 10).evaluate((f1,f2) -> true)
+            .inCase((f1,f2) -> f1 > 10 && f1 < 20).evaluate((f1,f2) -> true)
+            .eventually((f1,f2) -> true)
+            .build();
+
+
+        A.assertThat(function)
+            .doesTest((float)0,(float)0).to(a -> a.isEqualTo(false))
+            .doesTest((float)5,(float)5).to(a -> a.isEqualTo(true))
+            .doesTest((float)15,(float)15).to(a -> a.isEqualTo(true))
+            .doesTest((float)10,(float)10).to(a -> a.isEqualTo(true))
+        ;
+
+    }
+
 
 }
+

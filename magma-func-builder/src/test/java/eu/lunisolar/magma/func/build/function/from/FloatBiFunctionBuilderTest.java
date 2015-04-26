@@ -77,24 +77,27 @@ public class FloatBiFunctionBuilderTest<R,X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         FloatBiFunction<Integer > function = floatBiFunction((FloatBiFunction<Integer > f)-> doNothing())
-            .addCase(ce -> ce.of((f1,f2) -> f1 == 0)
+            .addCase(ce -> ce.of((f1,f2) -> f1 == (float)0)
                              .evaluate((f1,f2) -> Integer.valueOf(0)))
             .inCase((f1,f2) -> f1 > 0 && f1 < 10).evaluate((f1,f2) -> Integer.valueOf(1))
             .inCase((f1,f2) -> f1 > 10 && f1 < 20).evaluate((f1,f2) -> Integer.valueOf(2))
             .eventually((f1,f2) -> Integer.valueOf(99))
             .build();
 
+
         A.assertThat(function)
             .doesApply((float)0,(float)0).to(a -> a.isEqualTo(Integer.valueOf(0)))
             .doesApply((float)5,(float)5).to(a -> a.isEqualTo(Integer.valueOf(1)))
             .doesApply((float)15,(float)15).to(a -> a.isEqualTo(Integer.valueOf(2)))
-            .doesApply((float)10,(float)10).to(a -> a.isEqualTo(Integer.valueOf(99)));
+            .doesApply((float)10,(float)10).to(a -> a.isEqualTo(Integer.valueOf(99)))
+        ;
+
     }
 
 
 }
+

@@ -77,24 +77,27 @@ public class ByteToDoubleFunctionXBuilderTest<X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         ByteToDoubleFunctionX<ParseException> function = byteToDoubleFunctionX((ByteToDoubleFunctionX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((b) -> b == 0)
+            .addCase(ce -> ce.of((b) -> b == (byte)0)
                              .evaluate((b) -> (double)0))
             .inCase((b) -> b > 0 && b < 10).evaluate((b) -> (double)1)
             .inCase((b) -> b > 10 && b < 20).evaluate((b) -> (double)2)
             .eventually((b) -> (double)99)
             .build();
 
+
         A.assertThat(function)
             .doesApplyAsDouble((byte)0).to(a -> a.isEqualTo((double)0))
             .doesApplyAsDouble((byte)5).to(a -> a.isEqualTo((double)1))
             .doesApplyAsDouble((byte)15).to(a -> a.isEqualTo((double)2))
-            .doesApplyAsDouble((byte)10).to(a -> a.isEqualTo((double)99));
+            .doesApplyAsDouble((byte)10).to(a -> a.isEqualTo((double)99))
+        ;
+
     }
 
 
 }
+

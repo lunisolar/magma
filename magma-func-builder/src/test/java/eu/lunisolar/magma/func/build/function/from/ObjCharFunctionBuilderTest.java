@@ -77,24 +77,27 @@ public class ObjCharFunctionBuilderTest<T,R,X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         ObjCharFunction<Integer ,Integer > function = objCharFunction((ObjCharFunction<Integer ,Integer > f)-> doNothing())
-            .addCase(ce -> ce.of((t, c) -> t == 0)
+            .addCase(ce -> ce.of((t, c) -> t == Integer.valueOf(0))
                              .evaluate((t, c) -> Integer.valueOf(0)))
             .inCase((t, c) -> t > 0 && t < 10).evaluate((t, c) -> Integer.valueOf(1))
             .inCase((t, c) -> t > 10 && t < 20).evaluate((t, c) -> Integer.valueOf(2))
             .eventually((t, c) -> Integer.valueOf(99))
             .build();
 
+
         A.assertThat(function)
             .doesApply(Integer.valueOf(0),(char)0).to(a -> a.isEqualTo(Integer.valueOf(0)))
             .doesApply(Integer.valueOf(5),(char)5).to(a -> a.isEqualTo(Integer.valueOf(1)))
             .doesApply(Integer.valueOf(15),(char)15).to(a -> a.isEqualTo(Integer.valueOf(2)))
-            .doesApply(Integer.valueOf(10),(char)10).to(a -> a.isEqualTo(Integer.valueOf(99)));
+            .doesApply(Integer.valueOf(10),(char)10).to(a -> a.isEqualTo(Integer.valueOf(99)))
+        ;
+
     }
 
 
 }
+

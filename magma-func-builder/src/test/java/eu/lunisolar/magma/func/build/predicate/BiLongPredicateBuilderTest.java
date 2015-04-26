@@ -77,7 +77,27 @@ public class BiLongPredicateBuilderTest<X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
 
-    //TODO
+        BiLongPredicate function = biLongPredicate((BiLongPredicate f)-> doNothing())
+            .addCase(ce -> ce.of((l1,l2) -> l1 == (long)0)
+                             .evaluate((l1,l2) -> false))
+            .inCase((l1,l2) -> l1 > 0 && l1 < 10).evaluate((l1,l2) -> true)
+            .inCase((l1,l2) -> l1 > 10 && l1 < 20).evaluate((l1,l2) -> true)
+            .eventually((l1,l2) -> true)
+            .build();
+
+
+        A.assertThat(function)
+            .doesTest((long)0,(long)0).to(a -> a.isEqualTo(false))
+            .doesTest((long)5,(long)5).to(a -> a.isEqualTo(true))
+            .doesTest((long)15,(long)15).to(a -> a.isEqualTo(true))
+            .doesTest((long)10,(long)10).to(a -> a.isEqualTo(true))
+        ;
+
+    }
+
 
 }
+

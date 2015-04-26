@@ -19,23 +19,18 @@
 
 package eu.lunisolar.magma.func.asserts.function.conversion;
 
-import eu.lunisolar.magma.basics.asserts.Evaluation; // NOSONAR
-import eu.lunisolar.magma.basics.asserts.FunctionalAssert; // NOSONAR
+import eu.lunisolar.magma.basics.asserts.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import org.assertj.core.api.*; // NOSONAR
-import eu.lunisolar.magma.basics.asserts.RecurringAsserts; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*;
+import eu.lunisolar.magma.func.action.Action;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assertions for ByteToDoubleFunction. */
-public interface ByteToDoubleFunctionAssert<S extends ByteToDoubleFunctionAssert<S, A, RS>, A extends ByteToDoubleFunction, RS extends AbstractDoubleAssert<RS>>
-		extends
-			Assert<S, A>,
-			FunctionalAssert<S, A, RS, Double, Exception>,
-			RecurringAsserts<S, A, RS, Double> {
+/** Assert for ByteToDoubleFunction. */
+public interface ByteToDoubleFunctionAssert<S extends ByteToDoubleFunctionAssert<S, A, RS>, A extends ByteToDoubleFunction, RS extends AbstractDoubleAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, Double, Exception> {
 
 	@Nonnull
 	Evaluation<S, A, RS, Double, Exception> doesApplyAsDouble(byte b);
@@ -43,13 +38,13 @@ public interface ByteToDoubleFunctionAssert<S extends ByteToDoubleFunctionAssert
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends ByteToDoubleFunction, RS extends AbstractDoubleAssert<RS>> extends Base<Impl<A, RS>, A, RS> {
 
-		public Impl(A actual, java.util.function.Function<Double, RS> assertFunction) {
-			super(actual, Impl.class, assertFunction);
+		public Impl(A actual, java.util.function.Function<Double, RS> assertFactory) {
+			super(actual, Impl.class, assertFactory);
 		}
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS>, A extends ByteToDoubleFunction, RS extends AbstractDoubleAssert<RS>> extends FunctionalAssert.Base<S, A, RS, Double, Exception> implements ByteToDoubleFunctionAssert<S, A, RS> {
+	public static class Base<S extends Base<S, A, RS>, A extends ByteToDoubleFunction, RS extends AbstractDoubleAssert<RS>> extends FullFunctionalAssert.Base<S, A, RS, Double, Exception> implements ByteToDoubleFunctionAssert<S, A, RS> {
 
 		protected final java.util.function.Function<Double, RS> assertFactory;
 
@@ -62,6 +57,7 @@ public interface ByteToDoubleFunctionAssert<S extends ByteToDoubleFunctionAssert
 		public Evaluation<S, A, RS, Double, Exception> doesApplyAsDouble(byte b) {
 			return evaluation(() -> assertFactory.apply((Double) actual.applyAsDouble(b)));
 		}
+
 	}
 
 }

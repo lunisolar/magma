@@ -41,6 +41,7 @@ import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+/** Builder for Consumer. */
 public final class ConsumerBuilder<T> extends PerCaseBuilder<ConsumerBuilder<T>, Predicate<T>, Consumer<T>> {
 
 	private Consumer<Consumer<T>> consumer;
@@ -94,6 +95,7 @@ public final class ConsumerBuilder<T> extends PerCaseBuilder<ConsumerBuilder<T>,
 				for (Case<Predicate<T>, Consumer<T>> aCase : casesArray) {
 					if (aCase.casePredicate().test(t)) {
 						aCase.caseFunction().accept(t);
+						return;
 					}
 				}
 

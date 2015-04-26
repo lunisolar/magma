@@ -45,8 +45,10 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /**
- * A consumer.
- * @see {@link eu.lunisolar.magma.func.consumer.BiConsumer}
+ * Function category: consumer
+ * Non-throwing interface/lambda variant: BiConsumer
+ *
+ * @see BiConsumer
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
@@ -60,6 +62,11 @@ public interface BiConsumerX<T1, T2, X extends Exception> extends MetaConsumer, 
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return BiConsumerX.DESCRIPTION;
+	}
+
+	/** Captures arguments but delays the evaluation. */
+	default ActionX<X> capture(T1 t1, T2 t2) {
+		return () -> this.accept(t1, t2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -81,18 +88,6 @@ public interface BiConsumerX<T1, T2, X extends Exception> extends MetaConsumer, 
 	@Nonnull
 	public static <T1, T2, X extends Exception> BiConsumerX<T1, T2, X> wrapX(final @Nonnull BiConsumer<T1, T2> other) {
 		return other::accept;
-	}
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <T1, T2, X extends Exception, Y extends Exception> BiConsumerX<T1, T2, Y> wrapException(@Nonnull final BiConsumerX<T1, T2, X> other, Class<? extends Exception> exception, ExceptionHandler<Exception, Y> rethrower) {
-		return (T1 t1, T2 t2) -> {
-			try {
-				other.accept(t1, t2);
-			} catch (Exception e) {
-				throw ExceptionHandler.handle(exception, rethrower, e);
-			}
-		};
 	}
 
 	// </editor-fold>
@@ -144,22 +139,40 @@ public interface BiConsumerX<T1, T2, X extends Exception> extends MetaConsumer, 
 		return nonThrowing()::accept;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default BiConsumer<T1, T2> shove() {
+		BiConsumerX<T1, T2, RuntimeException> exceptionCast = (BiConsumerX<T1, T2, RuntimeException>) this;
+		return exceptionCast::accept;
+	}
+
 	// </editor-fold>
 
 	// <editor-fold desc="exception handling">
 
+	/** Wraps with additional exception handling. */
+	@Nonnull
+	public static <T1, T2, X extends Exception, E extends Exception, Y extends Exception> BiConsumerX<T1, T2, Y> wrapException(@Nonnull final BiConsumerX<T1, T2, X> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
+		return (T1 t1, T2 t2) -> {
+			try {
+				other.accept(t1, t2);
+			} catch (Exception e) {
+				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
+			}
+		};
+	}
+
 	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <Y extends Exception> BiConsumerX<T1, T2, Y> handle(Class<? extends Exception> exception, ExceptionHandler<? super X, Y> handler) {
+	default <E extends Exception, Y extends Exception> BiConsumerX<T1, T2, Y> handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
 		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
 		return BiConsumerX.wrapException(this, exception, (ExceptionHandler) handler);
 	}
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
+	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
 	@Nonnull
-	default <Y extends Exception> BiConsumerX<T1, T2, Y> handle(ExceptionHandler<? super X, Y> handler) {
+	default <Y extends Exception> BiConsumerX<T1, T2, Y> handle(ExceptionHandler<Exception, Y> handler) {
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
 		return BiConsumerX.wrapException(this, Exception.class, (ExceptionHandler) handler);

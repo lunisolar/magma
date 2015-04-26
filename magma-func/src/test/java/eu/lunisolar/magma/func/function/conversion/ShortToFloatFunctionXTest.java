@@ -112,7 +112,7 @@ public class ShortToFloatFunctionXTest<X extends ParseException> {
         });
 
         // when
-        ShortToFloatFunctionX<X> wrapped = ShortToFloatFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ShortToFloatFunctionX<X> wrapped = ShortToFloatFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -137,7 +137,7 @@ public class ShortToFloatFunctionXTest<X extends ParseException> {
         });
 
         // when
-        ShortToFloatFunctionX<X> wrapped = ShortToFloatFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ShortToFloatFunctionX<X> wrapped = ShortToFloatFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -161,7 +161,7 @@ public class ShortToFloatFunctionXTest<X extends ParseException> {
         });
 
         // when
-        ShortToFloatFunctionX<X> wrapped = ShortToFloatFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ShortToFloatFunctionX<X> wrapped = ShortToFloatFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -569,6 +569,17 @@ public class ShortToFloatFunctionXTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(ShortToFloatFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        ShortToFloatFunctionX<X> sutThrowing = ShortToFloatFunctionX.lX((short s) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsFloat((short)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -608,3 +619,4 @@ public class ShortToFloatFunctionXTest<X extends ParseException> {
     }
 
 }
+

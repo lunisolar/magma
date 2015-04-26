@@ -41,6 +41,7 @@ import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+/** Builder for ShortBinaryOperatorX. */
 public final class ShortBinaryOperatorXBuilder<X extends Exception> extends PerCaseBuilder<ShortBinaryOperatorXBuilder<X>, BiShortPredicateX<X>, ShortBinaryOperatorX<X>> {
 
 	private Consumer<ShortBinaryOperatorX<X>> consumer;

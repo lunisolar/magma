@@ -45,8 +45,10 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /**
- * A consumer.
- * @see {@link eu.lunisolar.magma.func.consumer.primitives.obj.ObjFloatConsumer}
+ * Function category: consumer
+ * Non-throwing interface/lambda variant: ObjFloatConsumer
+ *
+ * @see ObjFloatConsumer
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
@@ -62,6 +64,11 @@ public interface ObjFloatConsumerX<T, X extends Exception> extends MetaConsumer,
 		return ObjFloatConsumerX.DESCRIPTION;
 	}
 
+	/** Captures arguments but delays the evaluation. */
+	default ActionX<X> capture(T t, float f) {
+		return () -> this.accept(t, f);
+	}
+
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T, X extends Exception> ObjFloatConsumerX<T, X> lX(final @Nonnull ObjFloatConsumerX<T, X> lambda) {
@@ -75,18 +82,6 @@ public interface ObjFloatConsumerX<T, X extends Exception> extends MetaConsumer,
 	@Nonnull
 	public static <T, X extends Exception> ObjFloatConsumerX<T, X> wrapX(final @Nonnull ObjFloatConsumer<T> other) {
 		return other::accept;
-	}
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <T, X extends Exception, Y extends Exception> ObjFloatConsumerX<T, Y> wrapException(@Nonnull final ObjFloatConsumerX<T, X> other, Class<? extends Exception> exception, ExceptionHandler<Exception, Y> rethrower) {
-		return (T t, float f) -> {
-			try {
-				other.accept(t, f);
-			} catch (Exception e) {
-				throw ExceptionHandler.handle(exception, rethrower, e);
-			}
-		};
 	}
 
 	// </editor-fold>
@@ -142,22 +137,40 @@ public interface ObjFloatConsumerX<T, X extends Exception> extends MetaConsumer,
 		return nonThrowing()::accept;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default ObjFloatConsumer<T> shove() {
+		ObjFloatConsumerX<T, RuntimeException> exceptionCast = (ObjFloatConsumerX<T, RuntimeException>) this;
+		return exceptionCast::accept;
+	}
+
 	// </editor-fold>
 
 	// <editor-fold desc="exception handling">
 
+	/** Wraps with additional exception handling. */
+	@Nonnull
+	public static <T, X extends Exception, E extends Exception, Y extends Exception> ObjFloatConsumerX<T, Y> wrapException(@Nonnull final ObjFloatConsumerX<T, X> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
+		return (T t, float f) -> {
+			try {
+				other.accept(t, f);
+			} catch (Exception e) {
+				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
+			}
+		};
+	}
+
 	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <Y extends Exception> ObjFloatConsumerX<T, Y> handle(Class<? extends Exception> exception, ExceptionHandler<? super X, Y> handler) {
+	default <E extends Exception, Y extends Exception> ObjFloatConsumerX<T, Y> handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
 		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
 		return ObjFloatConsumerX.wrapException(this, exception, (ExceptionHandler) handler);
 	}
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
+	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
 	@Nonnull
-	default <Y extends Exception> ObjFloatConsumerX<T, Y> handle(ExceptionHandler<? super X, Y> handler) {
+	default <Y extends Exception> ObjFloatConsumerX<T, Y> handle(ExceptionHandler<Exception, Y> handler) {
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
 		return ObjFloatConsumerX.wrapException(this, Exception.class, (ExceptionHandler) handler);

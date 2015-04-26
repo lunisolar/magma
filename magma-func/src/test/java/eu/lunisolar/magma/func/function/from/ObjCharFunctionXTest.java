@@ -123,7 +123,7 @@ public class ObjCharFunctionXTest<T,R,X extends ParseException> {
         });
 
         // when
-        ObjCharFunctionX<T,R,X> wrapped = ObjCharFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ObjCharFunctionX<T,R,X> wrapped = ObjCharFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -148,7 +148,7 @@ public class ObjCharFunctionXTest<T,R,X extends ParseException> {
         });
 
         // when
-        ObjCharFunctionX<T,R,X> wrapped = ObjCharFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ObjCharFunctionX<T,R,X> wrapped = ObjCharFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -172,7 +172,7 @@ public class ObjCharFunctionXTest<T,R,X extends ParseException> {
         });
 
         // when
-        ObjCharFunctionX<T,R,X> wrapped = ObjCharFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ObjCharFunctionX<T,R,X> wrapped = ObjCharFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -346,6 +346,17 @@ public class ObjCharFunctionXTest<T,R,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(ObjCharFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        ObjCharFunctionX<T,R,X> sutThrowing = ObjCharFunctionX.lX((T t, char c) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().apply((T)Integer.valueOf(100),(char)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -385,3 +396,4 @@ public class ObjCharFunctionXTest<T,R,X extends ParseException> {
     }
 
 }
+

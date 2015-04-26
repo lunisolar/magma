@@ -77,24 +77,27 @@ public class LongToIntFunctionBuilderTest<X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         LongToIntFunction function = longToIntFunction((LongToIntFunction f)-> doNothing())
-            .addCase(ce -> ce.of((l) -> l == 0)
+            .addCase(ce -> ce.of((l) -> l == (long)0)
                              .evaluate((l) -> (int)0))
             .inCase((l) -> l > 0 && l < 10).evaluate((l) -> (int)1)
             .inCase((l) -> l > 10 && l < 20).evaluate((l) -> (int)2)
             .eventually((l) -> (int)99)
             .build();
 
+
         A.assertThat(function)
             .doesApplyAsInt((long)0).to(a -> a.isEqualTo((int)0))
             .doesApplyAsInt((long)5).to(a -> a.isEqualTo((int)1))
             .doesApplyAsInt((long)15).to(a -> a.isEqualTo((int)2))
-            .doesApplyAsInt((long)10).to(a -> a.isEqualTo((int)99));
+            .doesApplyAsInt((long)10).to(a -> a.isEqualTo((int)99))
+        ;
+
     }
 
 
 }
+

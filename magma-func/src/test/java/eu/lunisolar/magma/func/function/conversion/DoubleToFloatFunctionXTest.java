@@ -112,7 +112,7 @@ public class DoubleToFloatFunctionXTest<X extends ParseException> {
         });
 
         // when
-        DoubleToFloatFunctionX<X> wrapped = DoubleToFloatFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        DoubleToFloatFunctionX<X> wrapped = DoubleToFloatFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -137,7 +137,7 @@ public class DoubleToFloatFunctionXTest<X extends ParseException> {
         });
 
         // when
-        DoubleToFloatFunctionX<X> wrapped = DoubleToFloatFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        DoubleToFloatFunctionX<X> wrapped = DoubleToFloatFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -161,7 +161,7 @@ public class DoubleToFloatFunctionXTest<X extends ParseException> {
         });
 
         // when
-        DoubleToFloatFunctionX<X> wrapped = DoubleToFloatFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        DoubleToFloatFunctionX<X> wrapped = DoubleToFloatFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -569,6 +569,17 @@ public class DoubleToFloatFunctionXTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(DoubleToFloatFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        DoubleToFloatFunctionX<X> sutThrowing = DoubleToFloatFunctionX.lX((double d) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsFloat((double)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -608,3 +619,4 @@ public class DoubleToFloatFunctionXTest<X extends ParseException> {
     }
 
 }
+

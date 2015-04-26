@@ -41,6 +41,7 @@ import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+/** Builder for java.util.function.IntConsumer. */
 public final class StdIntConsumerBuilder extends PerCaseBuilder<StdIntConsumerBuilder, IntPredicate, java.util.function.IntConsumer> {
 
 	private Consumer<java.util.function.IntConsumer> consumer;
@@ -94,6 +95,7 @@ public final class StdIntConsumerBuilder extends PerCaseBuilder<StdIntConsumerBu
 				for (Case<IntPredicate, java.util.function.IntConsumer> aCase : casesArray) {
 					if (aCase.casePredicate().test(i)) {
 						aCase.caseFunction().accept(i);
+						return;
 					}
 				}
 

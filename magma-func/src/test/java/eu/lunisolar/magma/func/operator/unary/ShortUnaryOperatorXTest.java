@@ -112,7 +112,7 @@ public class ShortUnaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        ShortUnaryOperatorX<X> wrapped = ShortUnaryOperatorX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ShortUnaryOperatorX<X> wrapped = ShortUnaryOperatorX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -137,7 +137,7 @@ public class ShortUnaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        ShortUnaryOperatorX<X> wrapped = ShortUnaryOperatorX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ShortUnaryOperatorX<X> wrapped = ShortUnaryOperatorX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -161,7 +161,7 @@ public class ShortUnaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        ShortUnaryOperatorX<X> wrapped = ShortUnaryOperatorX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ShortUnaryOperatorX<X> wrapped = ShortUnaryOperatorX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -576,6 +576,17 @@ public class ShortUnaryOperatorXTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(ShortUnaryOperatorX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        ShortUnaryOperatorX<X> sutThrowing = ShortUnaryOperatorX.lX((short s) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsShort((short)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -615,3 +626,4 @@ public class ShortUnaryOperatorXTest<X extends ParseException> {
     }
 
 }
+

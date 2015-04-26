@@ -77,24 +77,27 @@ public class LongFunctionBuilderTest<R,X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         LongFunction<Integer > function = longFunction((LongFunction<Integer > f)-> doNothing())
-            .addCase(ce -> ce.of((l) -> l == 0)
+            .addCase(ce -> ce.of((l) -> l == (long)0)
                              .evaluate((l) -> Integer.valueOf(0)))
             .inCase((l) -> l > 0 && l < 10).evaluate((l) -> Integer.valueOf(1))
             .inCase((l) -> l > 10 && l < 20).evaluate((l) -> Integer.valueOf(2))
             .eventually((l) -> Integer.valueOf(99))
             .build();
 
+
         A.assertThat(function)
             .doesApply((long)0).to(a -> a.isEqualTo(Integer.valueOf(0)))
             .doesApply((long)5).to(a -> a.isEqualTo(Integer.valueOf(1)))
             .doesApply((long)15).to(a -> a.isEqualTo(Integer.valueOf(2)))
-            .doesApply((long)10).to(a -> a.isEqualTo(Integer.valueOf(99)));
+            .doesApply((long)10).to(a -> a.isEqualTo(Integer.valueOf(99)))
+        ;
+
     }
 
 
 }
+

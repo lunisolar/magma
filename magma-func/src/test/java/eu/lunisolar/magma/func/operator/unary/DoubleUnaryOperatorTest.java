@@ -164,7 +164,7 @@ public class DoubleUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        DoubleUnaryOperator wrapped = DoubleUnaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        DoubleUnaryOperator wrapped = DoubleUnaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -189,7 +189,7 @@ public class DoubleUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        DoubleUnaryOperator wrapped = DoubleUnaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        DoubleUnaryOperator wrapped = DoubleUnaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -213,7 +213,7 @@ public class DoubleUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        DoubleUnaryOperator wrapped = DoubleUnaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        DoubleUnaryOperator wrapped = DoubleUnaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -633,6 +633,17 @@ public class DoubleUnaryOperatorTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(DoubleUnaryOperatorX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        DoubleUnaryOperator sutThrowing = DoubleUnaryOperator.l((double d) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsDouble((double)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -672,3 +683,4 @@ public class DoubleUnaryOperatorTest<X extends ParseException> {
     }
 
 }
+

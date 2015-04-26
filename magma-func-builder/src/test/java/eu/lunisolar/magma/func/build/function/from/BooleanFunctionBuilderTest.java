@@ -77,7 +77,24 @@ public class BooleanFunctionBuilderTest<R,X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
 
-    //TODO
+        BooleanFunction<Integer > function = booleanFunction((BooleanFunction<Integer > f)-> doNothing())
+            .addCase(ce -> ce.of((b) -> b == false)
+                             .evaluate((b) -> Integer.valueOf(0)))
+            .inCase((b) -> b == true ).evaluate((b) -> Integer.valueOf(1))
+            .eventually((b) -> Integer.valueOf(99))
+            .build();
+
+
+        A.assertThat(function)
+            .doesApply(false).to(a -> a.isEqualTo(Integer.valueOf(0)))
+            .doesApply(true).to(a -> a.isEqualTo(Integer.valueOf(1)))
+        ;
+
+    }
+
 
 }
+

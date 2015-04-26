@@ -77,7 +77,25 @@ public class ObjBooleanPredicateXBuilderTest<T,X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
 
-    //TODO
+        ObjBooleanPredicateX<Integer ,ParseException> function = objBooleanPredicateX((ObjBooleanPredicateX<Integer ,ParseException> f)-> doNothing())
+            .addCase(ce -> ce.of((t, b) -> t == Integer.valueOf(0))
+                             .evaluate((t, b) -> false))
+            .inCase((t, b) -> t > 0 && t < 10).evaluate((t, b) -> true)
+            .inCase((t, b) -> t > 10 && t < 20).evaluate((t, b) -> true)
+            .eventually((t, b) -> true)
+            .build();
+
+
+        A.assertThat(function)
+            .doesTest(Integer.valueOf(0),false).to(a -> a.isEqualTo(false))
+            .doesTest(Integer.valueOf(5),true).to(a -> a.isEqualTo(true))
+        ;
+
+    }
+
 
 }
+

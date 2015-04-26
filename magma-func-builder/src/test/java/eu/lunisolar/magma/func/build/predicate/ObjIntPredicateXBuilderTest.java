@@ -77,7 +77,27 @@ public class ObjIntPredicateXBuilderTest<T,X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
 
-    //TODO
+        ObjIntPredicateX<Integer ,ParseException> function = objIntPredicateX((ObjIntPredicateX<Integer ,ParseException> f)-> doNothing())
+            .addCase(ce -> ce.of((t, i) -> t == Integer.valueOf(0))
+                             .evaluate((t, i) -> false))
+            .inCase((t, i) -> t > 0 && t < 10).evaluate((t, i) -> true)
+            .inCase((t, i) -> t > 10 && t < 20).evaluate((t, i) -> true)
+            .eventually((t, i) -> true)
+            .build();
+
+
+        A.assertThat(function)
+            .doesTest(Integer.valueOf(0),(int)0).to(a -> a.isEqualTo(false))
+            .doesTest(Integer.valueOf(5),(int)5).to(a -> a.isEqualTo(true))
+            .doesTest(Integer.valueOf(15),(int)15).to(a -> a.isEqualTo(true))
+            .doesTest(Integer.valueOf(10),(int)10).to(a -> a.isEqualTo(true))
+        ;
+
+    }
+
 
 }
+

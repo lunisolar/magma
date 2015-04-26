@@ -120,7 +120,7 @@ public class IntToDoubleFunctionXTest<X extends ParseException> {
         });
 
         // when
-        IntToDoubleFunctionX<X> wrapped = IntToDoubleFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        IntToDoubleFunctionX<X> wrapped = IntToDoubleFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -145,7 +145,7 @@ public class IntToDoubleFunctionXTest<X extends ParseException> {
         });
 
         // when
-        IntToDoubleFunctionX<X> wrapped = IntToDoubleFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        IntToDoubleFunctionX<X> wrapped = IntToDoubleFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -169,7 +169,7 @@ public class IntToDoubleFunctionXTest<X extends ParseException> {
         });
 
         // when
-        IntToDoubleFunctionX<X> wrapped = IntToDoubleFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        IntToDoubleFunctionX<X> wrapped = IntToDoubleFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -582,6 +582,17 @@ public class IntToDoubleFunctionXTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(IntToDoubleFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        IntToDoubleFunctionX<X> sutThrowing = IntToDoubleFunctionX.lX((int i) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsDouble((int)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -621,3 +632,4 @@ public class IntToDoubleFunctionXTest<X extends ParseException> {
     }
 
 }
+

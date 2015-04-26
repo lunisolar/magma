@@ -123,7 +123,7 @@ public class ObjBooleanFunctionXTest<T,R,X extends ParseException> {
         });
 
         // when
-        ObjBooleanFunctionX<T,R,X> wrapped = ObjBooleanFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ObjBooleanFunctionX<T,R,X> wrapped = ObjBooleanFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -148,7 +148,7 @@ public class ObjBooleanFunctionXTest<T,R,X extends ParseException> {
         });
 
         // when
-        ObjBooleanFunctionX<T,R,X> wrapped = ObjBooleanFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ObjBooleanFunctionX<T,R,X> wrapped = ObjBooleanFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -172,7 +172,7 @@ public class ObjBooleanFunctionXTest<T,R,X extends ParseException> {
         });
 
         // when
-        ObjBooleanFunctionX<T,R,X> wrapped = ObjBooleanFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ObjBooleanFunctionX<T,R,X> wrapped = ObjBooleanFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -346,6 +346,17 @@ public class ObjBooleanFunctionXTest<T,R,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(ObjBooleanFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        ObjBooleanFunctionX<T,R,X> sutThrowing = ObjBooleanFunctionX.lX((T t, boolean b) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().apply((T)Integer.valueOf(100),true);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -385,3 +396,4 @@ public class ObjBooleanFunctionXTest<T,R,X extends ParseException> {
     }
 
 }
+

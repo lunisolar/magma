@@ -123,7 +123,7 @@ public class DoubleBiFunctionXTest<R,X extends ParseException> {
         });
 
         // when
-        DoubleBiFunctionX<R,X> wrapped = DoubleBiFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        DoubleBiFunctionX<R,X> wrapped = DoubleBiFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -148,7 +148,7 @@ public class DoubleBiFunctionXTest<R,X extends ParseException> {
         });
 
         // when
-        DoubleBiFunctionX<R,X> wrapped = DoubleBiFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        DoubleBiFunctionX<R,X> wrapped = DoubleBiFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -172,7 +172,7 @@ public class DoubleBiFunctionXTest<R,X extends ParseException> {
         });
 
         // when
-        DoubleBiFunctionX<R,X> wrapped = DoubleBiFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        DoubleBiFunctionX<R,X> wrapped = DoubleBiFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -346,6 +346,17 @@ public class DoubleBiFunctionXTest<R,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(DoubleBiFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        DoubleBiFunctionX<R,X> sutThrowing = DoubleBiFunctionX.lX((double d1,double d2) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().apply((double)100,(double)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -385,3 +396,4 @@ public class DoubleBiFunctionXTest<R,X extends ParseException> {
     }
 
 }
+

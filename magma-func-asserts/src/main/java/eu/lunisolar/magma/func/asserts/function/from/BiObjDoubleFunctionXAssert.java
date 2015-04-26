@@ -19,23 +19,21 @@
 
 package eu.lunisolar.magma.func.asserts.function.from;
 
-import eu.lunisolar.magma.basics.asserts.Evaluation; // NOSONAR
-import eu.lunisolar.magma.basics.asserts.FunctionalAssert; // NOSONAR
+import eu.lunisolar.magma.basics.asserts.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import org.assertj.core.api.*; // NOSONAR
-import eu.lunisolar.magma.basics.asserts.RecurringAsserts; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*;
+import eu.lunisolar.magma.func.action.Action;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assertions for BiObjDoubleFunctionX. */
+/** Assert for BiObjDoubleFunctionX. */
 public interface BiObjDoubleFunctionXAssert<S extends BiObjDoubleFunctionXAssert<S, A, RS, T1, T2, R, X>, A extends BiObjDoubleFunctionX<T1, T2, R, X>, RS extends Assert<RS, R>, T1, T2, R, X extends Exception>
 		extends
 			Assert<S, A>,
-			FunctionalAssert<S, A, RS, R, Exception>,
-			RecurringAsserts<S, A, RS, R> {
+			FullFunctionalAssert<S, A, RS, R, Exception> {
 
 	@Nonnull
 	Evaluation<S, A, RS, R, Exception> doesApply(T1 t1, T2 t2, double d);
@@ -43,13 +41,13 @@ public interface BiObjDoubleFunctionXAssert<S extends BiObjDoubleFunctionXAssert
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends BiObjDoubleFunctionX<T1, T2, R, X>, RS extends Assert<RS, R>, T1, T2, R, X extends Exception> extends Base<Impl<A, RS, T1, T2, R, X>, A, RS, T1, T2, R, X> {
 
-		public Impl(A actual, java.util.function.Function<R, RS> assertFunction) {
-			super(actual, Impl.class, assertFunction);
+		public Impl(A actual, java.util.function.Function<R, RS> assertFactory) {
+			super(actual, Impl.class, assertFactory);
 		}
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, T1, T2, R, X>, A extends BiObjDoubleFunctionX<T1, T2, R, X>, RS extends Assert<RS, R>, T1, T2, R, X extends Exception> extends FunctionalAssert.Base<S, A, RS, R, Exception>
+	public static class Base<S extends Base<S, A, RS, T1, T2, R, X>, A extends BiObjDoubleFunctionX<T1, T2, R, X>, RS extends Assert<RS, R>, T1, T2, R, X extends Exception> extends FullFunctionalAssert.Base<S, A, RS, R, Exception>
 			implements
 				BiObjDoubleFunctionXAssert<S, A, RS, T1, T2, R, X> {
 
@@ -64,6 +62,7 @@ public interface BiObjDoubleFunctionXAssert<S extends BiObjDoubleFunctionXAssert
 		public Evaluation<S, A, RS, R, Exception> doesApply(T1 t1, T2 t2, double d) {
 			return evaluation(() -> assertFactory.apply((R) actual.apply(t1, t2, d)));
 		}
+
 	}
 
 }

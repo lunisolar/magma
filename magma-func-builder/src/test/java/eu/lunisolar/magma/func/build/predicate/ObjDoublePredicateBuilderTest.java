@@ -77,7 +77,27 @@ public class ObjDoublePredicateBuilderTest<T,X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
 
-    //TODO
+        ObjDoublePredicate<Integer > function = objDoublePredicate((ObjDoublePredicate<Integer > f)-> doNothing())
+            .addCase(ce -> ce.of((t, d) -> t == Integer.valueOf(0))
+                             .evaluate((t, d) -> false))
+            .inCase((t, d) -> t > 0 && t < 10).evaluate((t, d) -> true)
+            .inCase((t, d) -> t > 10 && t < 20).evaluate((t, d) -> true)
+            .eventually((t, d) -> true)
+            .build();
+
+
+        A.assertThat(function)
+            .doesTest(Integer.valueOf(0),(double)0).to(a -> a.isEqualTo(false))
+            .doesTest(Integer.valueOf(5),(double)5).to(a -> a.isEqualTo(true))
+            .doesTest(Integer.valueOf(15),(double)15).to(a -> a.isEqualTo(true))
+            .doesTest(Integer.valueOf(10),(double)10).to(a -> a.isEqualTo(true))
+        ;
+
+    }
+
 
 }
+

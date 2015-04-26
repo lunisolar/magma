@@ -77,24 +77,27 @@ public class CharToLongFunctionBuilderTest<X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         CharToLongFunction function = charToLongFunction((CharToLongFunction f)-> doNothing())
-            .addCase(ce -> ce.of((c) -> c == 0)
+            .addCase(ce -> ce.of((c) -> c == (char)0)
                              .evaluate((c) -> (long)0))
             .inCase((c) -> c > 0 && c < 10).evaluate((c) -> (long)1)
             .inCase((c) -> c > 10 && c < 20).evaluate((c) -> (long)2)
             .eventually((c) -> (long)99)
             .build();
 
+
         A.assertThat(function)
             .doesApplyAsLong((char)0).to(a -> a.isEqualTo((long)0))
             .doesApplyAsLong((char)5).to(a -> a.isEqualTo((long)1))
             .doesApplyAsLong((char)15).to(a -> a.isEqualTo((long)2))
-            .doesApplyAsLong((char)10).to(a -> a.isEqualTo((long)99));
+            .doesApplyAsLong((char)10).to(a -> a.isEqualTo((long)99))
+        ;
+
     }
 
 
 }
+

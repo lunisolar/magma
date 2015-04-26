@@ -41,6 +41,7 @@ import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+/** Builder for ByteToLongFunction. */
 public final class ByteToLongFunctionBuilder extends PerCaseBuilder<ByteToLongFunctionBuilder, BytePredicate, ByteToLongFunction> {
 
 	private Consumer<ByteToLongFunction> consumer;

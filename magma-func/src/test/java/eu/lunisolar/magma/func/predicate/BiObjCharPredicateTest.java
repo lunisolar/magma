@@ -163,7 +163,7 @@ public class BiObjCharPredicateTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        BiObjCharPredicate<T1,T2> wrapped = BiObjCharPredicate.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BiObjCharPredicate<T1,T2> wrapped = BiObjCharPredicate.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -188,7 +188,7 @@ public class BiObjCharPredicateTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        BiObjCharPredicate<T1,T2> wrapped = BiObjCharPredicate.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BiObjCharPredicate<T1,T2> wrapped = BiObjCharPredicate.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -212,7 +212,7 @@ public class BiObjCharPredicateTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        BiObjCharPredicate<T1,T2> wrapped = BiObjCharPredicate.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BiObjCharPredicate<T1,T2> wrapped = BiObjCharPredicate.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -419,6 +419,17 @@ public class BiObjCharPredicateTest<T1,T2,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(BiObjCharPredicateX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        BiObjCharPredicate<T1,T2> sutThrowing = BiObjCharPredicate.l((T1 t1,T2 t2, char c) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().test((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(char)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -458,3 +469,4 @@ public class BiObjCharPredicateTest<T1,T2,X extends ParseException> {
     }
 
 }
+

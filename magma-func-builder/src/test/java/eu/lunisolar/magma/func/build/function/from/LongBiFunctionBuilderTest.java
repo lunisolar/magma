@@ -77,24 +77,27 @@ public class LongBiFunctionBuilderTest<R,X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         LongBiFunction<Integer > function = longBiFunction((LongBiFunction<Integer > f)-> doNothing())
-            .addCase(ce -> ce.of((l1,l2) -> l1 == 0)
+            .addCase(ce -> ce.of((l1,l2) -> l1 == (long)0)
                              .evaluate((l1,l2) -> Integer.valueOf(0)))
             .inCase((l1,l2) -> l1 > 0 && l1 < 10).evaluate((l1,l2) -> Integer.valueOf(1))
             .inCase((l1,l2) -> l1 > 10 && l1 < 20).evaluate((l1,l2) -> Integer.valueOf(2))
             .eventually((l1,l2) -> Integer.valueOf(99))
             .build();
 
+
         A.assertThat(function)
             .doesApply((long)0,(long)0).to(a -> a.isEqualTo(Integer.valueOf(0)))
             .doesApply((long)5,(long)5).to(a -> a.isEqualTo(Integer.valueOf(1)))
             .doesApply((long)15,(long)15).to(a -> a.isEqualTo(Integer.valueOf(2)))
-            .doesApply((long)10,(long)10).to(a -> a.isEqualTo(Integer.valueOf(99)));
+            .doesApply((long)10,(long)10).to(a -> a.isEqualTo(Integer.valueOf(99)))
+        ;
+
     }
 
 
 }
+

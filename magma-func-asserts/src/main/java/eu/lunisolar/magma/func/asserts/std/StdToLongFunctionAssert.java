@@ -19,23 +19,18 @@
 
 package eu.lunisolar.magma.func.asserts.std;
 
-import eu.lunisolar.magma.basics.asserts.Evaluation; // NOSONAR
-import eu.lunisolar.magma.basics.asserts.FunctionalAssert; // NOSONAR
+import eu.lunisolar.magma.basics.asserts.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import org.assertj.core.api.*; // NOSONAR
-import eu.lunisolar.magma.basics.asserts.RecurringAsserts; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.func.std.*;
+import eu.lunisolar.magma.func.action.Action;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assertions for java.util.function.ToLongFunction. */
-public interface StdToLongFunctionAssert<S extends StdToLongFunctionAssert<S, A, RS, T>, A extends java.util.function.ToLongFunction<T>, RS extends AbstractLongAssert<RS>, T>
-		extends
-			Assert<S, A>,
-			FunctionalAssert<S, A, RS, Long, Exception>,
-			RecurringAsserts<S, A, RS, Long> {
+/** Assert for java.util.function.ToLongFunction. */
+public interface StdToLongFunctionAssert<S extends StdToLongFunctionAssert<S, A, RS, T>, A extends java.util.function.ToLongFunction<T>, RS extends AbstractLongAssert<RS>, T> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, Long, Exception> {
 
 	@Nonnull
 	Evaluation<S, A, RS, Long, Exception> doesApplyAsLong(T t);
@@ -43,13 +38,13 @@ public interface StdToLongFunctionAssert<S extends StdToLongFunctionAssert<S, A,
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends java.util.function.ToLongFunction<T>, RS extends AbstractLongAssert<RS>, T> extends Base<Impl<A, RS, T>, A, RS, T> {
 
-		public Impl(A actual, java.util.function.Function<Long, RS> assertFunction) {
-			super(actual, Impl.class, assertFunction);
+		public Impl(A actual, java.util.function.Function<Long, RS> assertFactory) {
+			super(actual, Impl.class, assertFactory);
 		}
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, T>, A extends java.util.function.ToLongFunction<T>, RS extends AbstractLongAssert<RS>, T> extends FunctionalAssert.Base<S, A, RS, Long, Exception> implements StdToLongFunctionAssert<S, A, RS, T> {
+	public static class Base<S extends Base<S, A, RS, T>, A extends java.util.function.ToLongFunction<T>, RS extends AbstractLongAssert<RS>, T> extends FullFunctionalAssert.Base<S, A, RS, Long, Exception> implements StdToLongFunctionAssert<S, A, RS, T> {
 
 		protected final java.util.function.Function<Long, RS> assertFactory;
 
@@ -62,6 +57,7 @@ public interface StdToLongFunctionAssert<S extends StdToLongFunctionAssert<S, A,
 		public Evaluation<S, A, RS, Long, Exception> doesApplyAsLong(T t) {
 			return evaluation(() -> assertFactory.apply((Long) actual.applyAsLong(t)));
 		}
+
 	}
 
 }

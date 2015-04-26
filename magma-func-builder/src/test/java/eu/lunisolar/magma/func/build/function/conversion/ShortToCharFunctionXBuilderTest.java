@@ -77,24 +77,27 @@ public class ShortToCharFunctionXBuilderTest<X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         ShortToCharFunctionX<ParseException> function = shortToCharFunctionX((ShortToCharFunctionX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((s) -> s == 0)
+            .addCase(ce -> ce.of((s) -> s == (short)0)
                              .evaluate((s) -> (char)0))
             .inCase((s) -> s > 0 && s < 10).evaluate((s) -> (char)1)
             .inCase((s) -> s > 10 && s < 20).evaluate((s) -> (char)2)
             .eventually((s) -> (char)99)
             .build();
 
+
         A.assertThat(function)
             .doesApplyAsChar((short)0).to(a -> a.isEqualTo((char)0))
             .doesApplyAsChar((short)5).to(a -> a.isEqualTo((char)1))
             .doesApplyAsChar((short)15).to(a -> a.isEqualTo((char)2))
-            .doesApplyAsChar((short)10).to(a -> a.isEqualTo((char)99));
+            .doesApplyAsChar((short)10).to(a -> a.isEqualTo((char)99))
+        ;
+
     }
 
 
 }
+

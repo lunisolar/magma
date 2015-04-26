@@ -167,7 +167,7 @@ public class TernaryOperatorTest<T,X extends ParseException> {
         });
 
         // when
-        TernaryOperator<T> wrapped = TernaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        TernaryOperator<T> wrapped = TernaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -192,7 +192,7 @@ public class TernaryOperatorTest<T,X extends ParseException> {
         });
 
         // when
-        TernaryOperator<T> wrapped = TernaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        TernaryOperator<T> wrapped = TernaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -216,7 +216,7 @@ public class TernaryOperatorTest<T,X extends ParseException> {
         });
 
         // when
-        TernaryOperator<T> wrapped = TernaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        TernaryOperator<T> wrapped = TernaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -284,6 +284,17 @@ public class TernaryOperatorTest<T,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(TernaryOperatorX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        TernaryOperator<T> sutThrowing = TernaryOperator.l((T t1,T t2,T t3) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().apply((T)Integer.valueOf(100),(T)Integer.valueOf(100),(T)Integer.valueOf(100));
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -323,3 +334,4 @@ public class TernaryOperatorTest<T,X extends ParseException> {
     }
 
 }
+

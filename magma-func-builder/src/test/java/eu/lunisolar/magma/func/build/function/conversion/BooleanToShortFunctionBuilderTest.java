@@ -77,7 +77,24 @@ public class BooleanToShortFunctionBuilderTest<X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
 
-    //TODO
+        BooleanToShortFunction function = booleanToShortFunction((BooleanToShortFunction f)-> doNothing())
+            .addCase(ce -> ce.of((b) -> b == false)
+                             .evaluate((b) -> (short)0))
+            .inCase((b) -> b == true ).evaluate((b) -> (short)1)
+            .eventually((b) -> (short)99)
+            .build();
+
+
+        A.assertThat(function)
+            .doesApplyAsShort(false).to(a -> a.isEqualTo((short)0))
+            .doesApplyAsShort(true).to(a -> a.isEqualTo((short)1))
+        ;
+
+    }
+
 
 }
+

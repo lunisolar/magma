@@ -19,23 +19,18 @@
 
 package eu.lunisolar.magma.func.asserts.function.from;
 
-import eu.lunisolar.magma.basics.asserts.Evaluation; // NOSONAR
-import eu.lunisolar.magma.basics.asserts.FunctionalAssert; // NOSONAR
+import eu.lunisolar.magma.basics.asserts.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import org.assertj.core.api.*; // NOSONAR
-import eu.lunisolar.magma.basics.asserts.RecurringAsserts; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.func.function.from.*;
+import eu.lunisolar.magma.func.action.Action;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assertions for ObjBooleanFunction. */
-public interface ObjBooleanFunctionAssert<S extends ObjBooleanFunctionAssert<S, A, RS, T, R>, A extends ObjBooleanFunction<T, R>, RS extends Assert<RS, R>, T, R>
-		extends
-			Assert<S, A>,
-			FunctionalAssert<S, A, RS, R, Exception>,
-			RecurringAsserts<S, A, RS, R> {
+/** Assert for ObjBooleanFunction. */
+public interface ObjBooleanFunctionAssert<S extends ObjBooleanFunctionAssert<S, A, RS, T, R>, A extends ObjBooleanFunction<T, R>, RS extends Assert<RS, R>, T, R> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, R, Exception> {
 
 	@Nonnull
 	Evaluation<S, A, RS, R, Exception> doesApply(T t, boolean b);
@@ -43,13 +38,13 @@ public interface ObjBooleanFunctionAssert<S extends ObjBooleanFunctionAssert<S, 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends ObjBooleanFunction<T, R>, RS extends Assert<RS, R>, T, R> extends Base<Impl<A, RS, T, R>, A, RS, T, R> {
 
-		public Impl(A actual, java.util.function.Function<R, RS> assertFunction) {
-			super(actual, Impl.class, assertFunction);
+		public Impl(A actual, java.util.function.Function<R, RS> assertFactory) {
+			super(actual, Impl.class, assertFactory);
 		}
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, T, R>, A extends ObjBooleanFunction<T, R>, RS extends Assert<RS, R>, T, R> extends FunctionalAssert.Base<S, A, RS, R, Exception> implements ObjBooleanFunctionAssert<S, A, RS, T, R> {
+	public static class Base<S extends Base<S, A, RS, T, R>, A extends ObjBooleanFunction<T, R>, RS extends Assert<RS, R>, T, R> extends FullFunctionalAssert.Base<S, A, RS, R, Exception> implements ObjBooleanFunctionAssert<S, A, RS, T, R> {
 
 		protected final java.util.function.Function<R, RS> assertFactory;
 
@@ -62,6 +57,7 @@ public interface ObjBooleanFunctionAssert<S extends ObjBooleanFunctionAssert<S, 
 		public Evaluation<S, A, RS, R, Exception> doesApply(T t, boolean b) {
 			return evaluation(() -> assertFactory.apply((R) actual.apply(t, b)));
 		}
+
 	}
 
 }

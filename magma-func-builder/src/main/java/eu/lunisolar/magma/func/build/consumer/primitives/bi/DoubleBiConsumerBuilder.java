@@ -41,6 +41,7 @@ import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+/** Builder for DoubleBiConsumer. */
 public final class DoubleBiConsumerBuilder extends PerCaseBuilder<DoubleBiConsumerBuilder, BiDoublePredicate, DoubleBiConsumer> {
 
 	private Consumer<DoubleBiConsumer> consumer;
@@ -94,6 +95,7 @@ public final class DoubleBiConsumerBuilder extends PerCaseBuilder<DoubleBiConsum
 				for (Case<BiDoublePredicate, DoubleBiConsumer> aCase : casesArray) {
 					if (aCase.casePredicate().test(d1, d2)) {
 						aCase.caseFunction().accept(d1, d2);
+						return;
 					}
 				}
 

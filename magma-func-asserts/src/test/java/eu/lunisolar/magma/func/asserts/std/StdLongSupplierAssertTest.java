@@ -32,14 +32,13 @@ import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.NestedException; //NOSONAR
-import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
+import java.util.concurrent.atomic.*; //NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 @SuppressWarnings("ALL")
 public class StdLongSupplierAssertTest<X extends ParseException> {
 
     private long testValue = (long)100;
-
 
     @SuppressWarnings("unchecked") public static final FunctionalAssertions<ObjectAssert> A = new FunctionalAssertions() {
     };
@@ -52,12 +51,12 @@ public class StdLongSupplierAssertTest<X extends ParseException> {
         throw new UnsupportedOperationException();
     });
 
-
     @Test
     public void testAssertPositive() throws ParseException {
 
         A.assertThat(function)
-         .doesGetAsLong().to(a -> a.isEqualTo(testValue));
+         .doesGetAsLong(()->{})
+            .to(a -> a.isEqualTo(testValue));
 
     }
 
@@ -65,23 +64,24 @@ public class StdLongSupplierAssertTest<X extends ParseException> {
     public void testAssertNegative() throws ParseException {
 
         A.assertThat(function)
-         .doesGetAsLong().to( a -> a.isEqualTo(2));
+         .doesGetAsLong(()->{})
+            .to( a -> a.isEqualTo(2));
 
     }
 
-    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Should evaluate without exception.")
+    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Should evaluate without problem.")
     public void testAssertThrowsUnexpected() throws ParseException {
 
         A.assertThat(functionThrowing)
-         .doesGetAsLong().to( a -> a.isEqualTo(1));
-
+         .doesGetAsLong(()->{})
+            .to( a -> a.isEqualTo(1));
     }
 
     @Test
     public void testAssertThrowsExpected() throws ParseException {
 
         A.assertThat(functionThrowing)
-         .doesGetAsLong().withException(a -> a
+         .doesGetAsLong(()->{}).withException(a -> a
                    .isExactlyInstanceOf(UnsupportedOperationException.class)
                    .hasMessage(null));
 
@@ -97,8 +97,10 @@ public class StdLongSupplierAssertTest<X extends ParseException> {
             recurringAssertsCalls.incrementAndGet();
             a.isEqualTo(testValue);
          })
-         .doesGetAsLong().to(a -> a.isEqualTo(testValue))
-         .doesGetAsLong().to(a -> a.isEqualTo(testValue));
+         .doesGetAsLong(()->{})
+            .to(a -> a.isEqualTo(testValue))
+         .doesGetAsLong(()->{})
+            .to(a -> a.isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);
     }
@@ -115,10 +117,13 @@ public class StdLongSupplierAssertTest<X extends ParseException> {
                 a.isEqualTo(0);
             }
          })
-         .doesGetAsLong().to(a -> a.isEqualTo(testValue))
-         .doesGetAsLong().to(a -> a.isEqualTo(testValue));
+         .doesGetAsLong(()->{})
+            .to(a -> a.isEqualTo(testValue))
+         .doesGetAsLong(()->{})
+            .to(a -> a.isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);
     }
 
 }
+

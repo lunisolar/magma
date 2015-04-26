@@ -123,7 +123,7 @@ public class TriFunctionXTest<T1,T2,T3,R,X extends ParseException> {
         });
 
         // when
-        TriFunctionX<T1,T2,T3,R,X> wrapped = TriFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        TriFunctionX<T1,T2,T3,R,X> wrapped = TriFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -148,7 +148,7 @@ public class TriFunctionXTest<T1,T2,T3,R,X extends ParseException> {
         });
 
         // when
-        TriFunctionX<T1,T2,T3,R,X> wrapped = TriFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        TriFunctionX<T1,T2,T3,R,X> wrapped = TriFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -172,7 +172,7 @@ public class TriFunctionXTest<T1,T2,T3,R,X extends ParseException> {
         });
 
         // when
-        TriFunctionX<T1,T2,T3,R,X> wrapped = TriFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        TriFunctionX<T1,T2,T3,R,X> wrapped = TriFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -319,6 +319,17 @@ public class TriFunctionXTest<T1,T2,T3,R,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(TriFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        TriFunctionX<T1,T2,T3,R,X> sutThrowing = TriFunctionX.lX((T1 t1,T2 t2,T3 t3) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().apply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100));
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -358,3 +369,4 @@ public class TriFunctionXTest<T1,T2,T3,R,X extends ParseException> {
     }
 
 }
+

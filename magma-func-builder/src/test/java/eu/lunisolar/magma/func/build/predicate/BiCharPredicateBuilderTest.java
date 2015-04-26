@@ -77,7 +77,27 @@ public class BiCharPredicateBuilderTest<X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
 
-    //TODO
+        BiCharPredicate function = biCharPredicate((BiCharPredicate f)-> doNothing())
+            .addCase(ce -> ce.of((c1,c2) -> c1 == (char)0)
+                             .evaluate((c1,c2) -> false))
+            .inCase((c1,c2) -> c1 > 0 && c1 < 10).evaluate((c1,c2) -> true)
+            .inCase((c1,c2) -> c1 > 10 && c1 < 20).evaluate((c1,c2) -> true)
+            .eventually((c1,c2) -> true)
+            .build();
+
+
+        A.assertThat(function)
+            .doesTest((char)0,(char)0).to(a -> a.isEqualTo(false))
+            .doesTest((char)5,(char)5).to(a -> a.isEqualTo(true))
+            .doesTest((char)15,(char)15).to(a -> a.isEqualTo(true))
+            .doesTest((char)10,(char)10).to(a -> a.isEqualTo(true))
+        ;
+
+    }
+
 
 }
+

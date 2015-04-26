@@ -77,7 +77,27 @@ public class ObjShortPredicateBuilderTest<T,X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
 
-    //TODO
+        ObjShortPredicate<Integer > function = objShortPredicate((ObjShortPredicate<Integer > f)-> doNothing())
+            .addCase(ce -> ce.of((t, s) -> t == Integer.valueOf(0))
+                             .evaluate((t, s) -> false))
+            .inCase((t, s) -> t > 0 && t < 10).evaluate((t, s) -> true)
+            .inCase((t, s) -> t > 10 && t < 20).evaluate((t, s) -> true)
+            .eventually((t, s) -> true)
+            .build();
+
+
+        A.assertThat(function)
+            .doesTest(Integer.valueOf(0),(short)0).to(a -> a.isEqualTo(false))
+            .doesTest(Integer.valueOf(5),(short)5).to(a -> a.isEqualTo(true))
+            .doesTest(Integer.valueOf(15),(short)15).to(a -> a.isEqualTo(true))
+            .doesTest(Integer.valueOf(10),(short)10).to(a -> a.isEqualTo(true))
+        ;
+
+    }
+
 
 }
+

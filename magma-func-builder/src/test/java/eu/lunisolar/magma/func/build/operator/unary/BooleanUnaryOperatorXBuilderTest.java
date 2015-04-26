@@ -77,7 +77,24 @@ public class BooleanUnaryOperatorXBuilderTest<X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
 
-    //TODO
+        BooleanUnaryOperatorX<ParseException> function = booleanUnaryOperatorX((BooleanUnaryOperatorX<ParseException> f)-> doNothing())
+            .addCase(ce -> ce.of((b) -> b == false)
+                             .evaluate((b) -> false))
+            .inCase((b) -> b == true ).evaluate((b) -> true)
+            .eventually((b) -> true)
+            .build();
+
+
+        A.assertThat(function)
+            .doesApplyAsBoolean(false).to(a -> a.isEqualTo(false))
+            .doesApplyAsBoolean(true).to(a -> a.isEqualTo(true))
+        ;
+
+    }
+
 
 }
+

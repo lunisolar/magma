@@ -77,24 +77,27 @@ public class DoubleBinaryOperatorXBuilderTest<X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         DoubleBinaryOperatorX<ParseException> function = doubleBinaryOperatorX((DoubleBinaryOperatorX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((d1,d2) -> d1 == 0)
+            .addCase(ce -> ce.of((d1,d2) -> d1 == (double)0)
                              .evaluate((d1,d2) -> (double)0))
             .inCase((d1,d2) -> d1 > 0 && d1 < 10).evaluate((d1,d2) -> (double)1)
             .inCase((d1,d2) -> d1 > 10 && d1 < 20).evaluate((d1,d2) -> (double)2)
             .eventually((d1,d2) -> (double)99)
             .build();
 
+
         A.assertThat(function)
             .doesApplyAsDouble((double)0,(double)0).to(a -> a.isEqualTo((double)0))
             .doesApplyAsDouble((double)5,(double)5).to(a -> a.isEqualTo((double)1))
             .doesApplyAsDouble((double)15,(double)15).to(a -> a.isEqualTo((double)2))
-            .doesApplyAsDouble((double)10,(double)10).to(a -> a.isEqualTo((double)99));
+            .doesApplyAsDouble((double)10,(double)10).to(a -> a.isEqualTo((double)99))
+        ;
+
     }
 
 
 }
+

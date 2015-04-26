@@ -77,7 +77,28 @@ public class ShortBiConsumerXBuilderTest<X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
+        final AtomicInteger externalEffect = new AtomicInteger(0);
 
-    //TODO
+        ShortBiConsumerX<ParseException> function = shortBiConsumerX((ShortBiConsumerX<ParseException> f)-> doNothing())
+            .addCase(ce -> ce.of((s1,s2) -> s1 == (short)0)
+                             .evaluate((s1,s2) -> externalEffect.set(0)))
+            .inCase((s1,s2) -> s1 > 0 && s1 < 10).evaluate((s1,s2) -> externalEffect.set(1))
+            .inCase((s1,s2) -> s1 > 10 && s1 < 20).evaluate((s1,s2) -> externalEffect.set(2))
+            .eventually((s1,s2) -> externalEffect.set(99))
+            .build();
+
+
+        A.assertThat(function)
+            .doesAccept((short)0,(short)0).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(0)))
+            .doesAccept((short)5,(short)5).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(1)))
+            .doesAccept((short)15,(short)15).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(2)))
+            .doesAccept((short)10,(short)10).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(99)))
+        ;
+
+    }
+
 
 }
+

@@ -164,7 +164,7 @@ public class IntToDoubleFunctionTest<X extends ParseException> {
         });
 
         // when
-        IntToDoubleFunction wrapped = IntToDoubleFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        IntToDoubleFunction wrapped = IntToDoubleFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -189,7 +189,7 @@ public class IntToDoubleFunctionTest<X extends ParseException> {
         });
 
         // when
-        IntToDoubleFunction wrapped = IntToDoubleFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        IntToDoubleFunction wrapped = IntToDoubleFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -213,7 +213,7 @@ public class IntToDoubleFunctionTest<X extends ParseException> {
         });
 
         // when
-        IntToDoubleFunction wrapped = IntToDoubleFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        IntToDoubleFunction wrapped = IntToDoubleFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -626,6 +626,17 @@ public class IntToDoubleFunctionTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(IntToDoubleFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        IntToDoubleFunction sutThrowing = IntToDoubleFunction.l((int i) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsDouble((int)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -665,3 +676,4 @@ public class IntToDoubleFunctionTest<X extends ParseException> {
     }
 
 }
+

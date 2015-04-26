@@ -44,8 +44,10 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /**
+ * Function category: operator
+ * Throwing interface/lambda variant: ByteBinaryOperatorX
  *
- * @see {@link eu.lunisolar.magma.func.operator.binary.ByteBinaryOperatorX}
+ * @see ByteBinaryOperatorX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
@@ -59,6 +61,11 @@ public interface ByteBinaryOperator extends MetaOperator, PrimitiveCodomain<Byte
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return ByteBinaryOperator.DESCRIPTION;
+	}
+
+	/** Captures arguments but delays the evaluation. */
+	default ByteSupplier capture(byte b1, byte b2) {
+		return () -> this.applyAsByte(b1, b2);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
@@ -83,18 +90,6 @@ public interface ByteBinaryOperator extends MetaOperator, PrimitiveCodomain<Byte
 				return other.applyAsByte(b1, b2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
-	}
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <X extends Exception, Y extends RuntimeException> ByteBinaryOperator wrapException(@Nonnull final ByteBinaryOperator other, Class<? extends Exception> exception, ExceptionHandler<Exception, Y> rethrower) {
-		return (byte b1, byte b2) -> {
-			try {
-				return other.applyAsByte(b1, b2);
-			} catch (Exception e) {
-				throw ExceptionHandler.handle(exception, rethrower, e);
 			}
 		};
 	}
@@ -169,25 +164,66 @@ public interface ByteBinaryOperator extends MetaOperator, PrimitiveCodomain<Byte
 		return this::applyAsByte;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default ByteBinaryOperator shove() {
+		return this;
+	}
+
 	// </editor-fold>
 
 	// <editor-fold desc="exception handling">
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
+	/** Wraps with additional exception handling. */
 	@Nonnull
-	default <Y extends RuntimeException> ByteBinaryOperator handle(Class<? extends Exception> exception, ExceptionHandler<? super RuntimeException, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return ByteBinaryOperator.wrapException(this, exception, (ExceptionHandler) handler);
+	public static <X extends Exception, E extends Exception, Y extends RuntimeException> ByteBinaryOperator wrapException(@Nonnull final ByteBinaryOperator other, Class<E> exception, ByteSupplier supplier, ExceptionHandler<E, Y> handler) {
+		return (byte b1, byte b2) -> {
+			try {
+				return other.applyAsByte(b1, b2);
+			} catch (Exception e) {
+				try {
+					if (supplier != null) {
+						return supplier.getAsByte();
+					}
+				} catch (Exception supplierException) {
+					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
+				}
+				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
+			}
+		};
 	}
 
 	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <Y extends RuntimeException> ByteBinaryOperator handle(ExceptionHandler<? super RuntimeException, Y> handler) {
+	default <E extends Exception, Y extends RuntimeException> ByteBinaryOperator handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
+		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
-		return ByteBinaryOperator.wrapException(this, Exception.class, (ExceptionHandler) handler);
+		return ByteBinaryOperator.wrapException(this, exception, null, (ExceptionHandler) handler);
+	}
+
+	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
+	@Nonnull
+	default <Y extends RuntimeException> ByteBinaryOperator handle(ExceptionHandler<Exception, Y> handler) {
+		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return ByteBinaryOperator.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
+	}
+
+	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
+	@Nonnull
+	default <E extends Exception, Y extends RuntimeException> ByteBinaryOperator handle(Class<E> exception, ByteSupplier supplier) {
+		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
+		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return ByteBinaryOperator.wrapException(this, exception, supplier, null);
+	}
+
+	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
+	@Nonnull
+	default <Y extends RuntimeException> ByteBinaryOperator handle(ByteSupplier supplier) {
+		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return ByteBinaryOperator.wrapException(this, Exception.class, supplier, null);
 	}
 
 	// </editor-fold>

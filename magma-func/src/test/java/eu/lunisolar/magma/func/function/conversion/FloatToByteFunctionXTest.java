@@ -112,7 +112,7 @@ public class FloatToByteFunctionXTest<X extends ParseException> {
         });
 
         // when
-        FloatToByteFunctionX<X> wrapped = FloatToByteFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        FloatToByteFunctionX<X> wrapped = FloatToByteFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -137,7 +137,7 @@ public class FloatToByteFunctionXTest<X extends ParseException> {
         });
 
         // when
-        FloatToByteFunctionX<X> wrapped = FloatToByteFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        FloatToByteFunctionX<X> wrapped = FloatToByteFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -161,7 +161,7 @@ public class FloatToByteFunctionXTest<X extends ParseException> {
         });
 
         // when
-        FloatToByteFunctionX<X> wrapped = FloatToByteFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        FloatToByteFunctionX<X> wrapped = FloatToByteFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -569,6 +569,17 @@ public class FloatToByteFunctionXTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(FloatToByteFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        FloatToByteFunctionX<X> sutThrowing = FloatToByteFunctionX.lX((float f) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsByte((float)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -608,3 +619,4 @@ public class FloatToByteFunctionXTest<X extends ParseException> {
     }
 
 }
+

@@ -275,6 +275,17 @@ public class ObjBooleanConsumerXTest<T,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(ObjBooleanConsumerX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        ObjBooleanConsumerX<T,X> sutThrowing = ObjBooleanConsumerX.lX((T t, boolean b) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().accept((T)Integer.valueOf(100),true);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -314,3 +325,4 @@ public class ObjBooleanConsumerXTest<T,X extends ParseException> {
     }
 
 }
+

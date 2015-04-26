@@ -77,24 +77,27 @@ public class CharToFloatFunctionBuilderTest<X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         CharToFloatFunction function = charToFloatFunction((CharToFloatFunction f)-> doNothing())
-            .addCase(ce -> ce.of((c) -> c == 0)
+            .addCase(ce -> ce.of((c) -> c == (char)0)
                              .evaluate((c) -> (float)0))
             .inCase((c) -> c > 0 && c < 10).evaluate((c) -> (float)1)
             .inCase((c) -> c > 10 && c < 20).evaluate((c) -> (float)2)
             .eventually((c) -> (float)99)
             .build();
 
+
         A.assertThat(function)
             .doesApplyAsFloat((char)0).to(a -> a.isEqualTo((float)0))
             .doesApplyAsFloat((char)5).to(a -> a.isEqualTo((float)1))
             .doesApplyAsFloat((char)15).to(a -> a.isEqualTo((float)2))
-            .doesApplyAsFloat((char)10).to(a -> a.isEqualTo((float)99));
+            .doesApplyAsFloat((char)10).to(a -> a.isEqualTo((float)99))
+        ;
+
     }
 
 
 }
+

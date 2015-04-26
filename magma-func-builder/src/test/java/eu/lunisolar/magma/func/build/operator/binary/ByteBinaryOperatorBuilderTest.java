@@ -77,24 +77,27 @@ public class ByteBinaryOperatorBuilderTest<X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         ByteBinaryOperator function = byteBinaryOperator((ByteBinaryOperator f)-> doNothing())
-            .addCase(ce -> ce.of((b1,b2) -> b1 == 0)
+            .addCase(ce -> ce.of((b1,b2) -> b1 == (byte)0)
                              .evaluate((b1,b2) -> (byte)0))
             .inCase((b1,b2) -> b1 > 0 && b1 < 10).evaluate((b1,b2) -> (byte)1)
             .inCase((b1,b2) -> b1 > 10 && b1 < 20).evaluate((b1,b2) -> (byte)2)
             .eventually((b1,b2) -> (byte)99)
             .build();
 
+
         A.assertThat(function)
             .doesApplyAsByte((byte)0,(byte)0).to(a -> a.isEqualTo((byte)0))
             .doesApplyAsByte((byte)5,(byte)5).to(a -> a.isEqualTo((byte)1))
             .doesApplyAsByte((byte)15,(byte)15).to(a -> a.isEqualTo((byte)2))
-            .doesApplyAsByte((byte)10,(byte)10).to(a -> a.isEqualTo((byte)99));
+            .doesApplyAsByte((byte)10,(byte)10).to(a -> a.isEqualTo((byte)99))
+        ;
+
     }
 
 
 }
+

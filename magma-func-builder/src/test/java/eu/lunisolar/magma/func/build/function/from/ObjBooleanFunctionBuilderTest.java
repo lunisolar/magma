@@ -77,7 +77,25 @@ public class ObjBooleanFunctionBuilderTest<T,R,X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
 
-    //TODO
+        ObjBooleanFunction<Integer ,Integer > function = objBooleanFunction((ObjBooleanFunction<Integer ,Integer > f)-> doNothing())
+            .addCase(ce -> ce.of((t, b) -> t == Integer.valueOf(0))
+                             .evaluate((t, b) -> Integer.valueOf(0)))
+            .inCase((t, b) -> t > 0 && t < 10).evaluate((t, b) -> Integer.valueOf(1))
+            .inCase((t, b) -> t > 10 && t < 20).evaluate((t, b) -> Integer.valueOf(2))
+            .eventually((t, b) -> Integer.valueOf(99))
+            .build();
+
+
+        A.assertThat(function)
+            .doesApply(Integer.valueOf(0),false).to(a -> a.isEqualTo(Integer.valueOf(0)))
+            .doesApply(Integer.valueOf(5),true).to(a -> a.isEqualTo(Integer.valueOf(1)))
+        ;
+
+    }
+
 
 }
+

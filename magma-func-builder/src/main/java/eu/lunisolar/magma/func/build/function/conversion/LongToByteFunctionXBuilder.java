@@ -41,6 +41,7 @@ import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+/** Builder for LongToByteFunctionX. */
 public final class LongToByteFunctionXBuilder<X extends Exception> extends PerCaseBuilder<LongToByteFunctionXBuilder<X>, LongPredicateX<X>, LongToByteFunctionX<X>> {
 
 	private Consumer<LongToByteFunctionX<X>> consumer;

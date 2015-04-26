@@ -77,24 +77,27 @@ public class CharBinaryOperatorBuilderTest<X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         CharBinaryOperator function = charBinaryOperator((CharBinaryOperator f)-> doNothing())
-            .addCase(ce -> ce.of((c1,c2) -> c1 == 0)
+            .addCase(ce -> ce.of((c1,c2) -> c1 == (char)0)
                              .evaluate((c1,c2) -> (char)0))
             .inCase((c1,c2) -> c1 > 0 && c1 < 10).evaluate((c1,c2) -> (char)1)
             .inCase((c1,c2) -> c1 > 10 && c1 < 20).evaluate((c1,c2) -> (char)2)
             .eventually((c1,c2) -> (char)99)
             .build();
 
+
         A.assertThat(function)
             .doesApplyAsChar((char)0,(char)0).to(a -> a.isEqualTo((char)0))
             .doesApplyAsChar((char)5,(char)5).to(a -> a.isEqualTo((char)1))
             .doesApplyAsChar((char)15,(char)15).to(a -> a.isEqualTo((char)2))
-            .doesApplyAsChar((char)10,(char)10).to(a -> a.isEqualTo((char)99));
+            .doesApplyAsChar((char)10,(char)10).to(a -> a.isEqualTo((char)99))
+        ;
+
     }
 
 
 }
+

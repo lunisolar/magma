@@ -41,6 +41,7 @@ import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+/** Builder for BiIntPredicate. */
 public final class BiIntPredicateBuilder extends PerCaseBuilder<BiIntPredicateBuilder, BiIntPredicate, BiIntPredicate> {
 
 	private Consumer<BiIntPredicate> consumer;

@@ -19,23 +19,18 @@
 
 package eu.lunisolar.magma.func.asserts.operator.unary;
 
-import eu.lunisolar.magma.basics.asserts.Evaluation; // NOSONAR
-import eu.lunisolar.magma.basics.asserts.FunctionalAssert; // NOSONAR
+import eu.lunisolar.magma.basics.asserts.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import org.assertj.core.api.*; // NOSONAR
-import eu.lunisolar.magma.basics.asserts.RecurringAsserts; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.unary.*;
+import eu.lunisolar.magma.func.action.Action;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assertions for ByteUnaryOperatorX. */
-public interface ByteUnaryOperatorXAssert<S extends ByteUnaryOperatorXAssert<S, A, RS, X>, A extends ByteUnaryOperatorX<X>, RS extends AbstractByteAssert<RS>, X extends Exception>
-		extends
-			Assert<S, A>,
-			FunctionalAssert<S, A, RS, Byte, Exception>,
-			RecurringAsserts<S, A, RS, Byte> {
+/** Assert for ByteUnaryOperatorX. */
+public interface ByteUnaryOperatorXAssert<S extends ByteUnaryOperatorXAssert<S, A, RS, X>, A extends ByteUnaryOperatorX<X>, RS extends AbstractByteAssert<RS>, X extends Exception> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, Byte, Exception> {
 
 	@Nonnull
 	Evaluation<S, A, RS, Byte, Exception> doesApplyAsByte(byte b);
@@ -43,13 +38,15 @@ public interface ByteUnaryOperatorXAssert<S extends ByteUnaryOperatorXAssert<S, 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends ByteUnaryOperatorX<X>, RS extends AbstractByteAssert<RS>, X extends Exception> extends Base<Impl<A, RS, X>, A, RS, X> {
 
-		public Impl(A actual, java.util.function.Function<Byte, RS> assertFunction) {
-			super(actual, Impl.class, assertFunction);
+		public Impl(A actual, java.util.function.Function<Byte, RS> assertFactory) {
+			super(actual, Impl.class, assertFactory);
 		}
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, X>, A extends ByteUnaryOperatorX<X>, RS extends AbstractByteAssert<RS>, X extends Exception> extends FunctionalAssert.Base<S, A, RS, Byte, Exception> implements ByteUnaryOperatorXAssert<S, A, RS, X> {
+	public static class Base<S extends Base<S, A, RS, X>, A extends ByteUnaryOperatorX<X>, RS extends AbstractByteAssert<RS>, X extends Exception> extends FullFunctionalAssert.Base<S, A, RS, Byte, Exception>
+			implements
+				ByteUnaryOperatorXAssert<S, A, RS, X> {
 
 		protected final java.util.function.Function<Byte, RS> assertFactory;
 
@@ -62,6 +59,7 @@ public interface ByteUnaryOperatorXAssert<S extends ByteUnaryOperatorXAssert<S, 
 		public Evaluation<S, A, RS, Byte, Exception> doesApplyAsByte(byte b) {
 			return evaluation(() -> assertFactory.apply((Byte) actual.applyAsByte(b)));
 		}
+
 	}
 
 }

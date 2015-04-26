@@ -123,7 +123,7 @@ public class IntBiFunctionXTest<R,X extends ParseException> {
         });
 
         // when
-        IntBiFunctionX<R,X> wrapped = IntBiFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        IntBiFunctionX<R,X> wrapped = IntBiFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -148,7 +148,7 @@ public class IntBiFunctionXTest<R,X extends ParseException> {
         });
 
         // when
-        IntBiFunctionX<R,X> wrapped = IntBiFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        IntBiFunctionX<R,X> wrapped = IntBiFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -172,7 +172,7 @@ public class IntBiFunctionXTest<R,X extends ParseException> {
         });
 
         // when
-        IntBiFunctionX<R,X> wrapped = IntBiFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        IntBiFunctionX<R,X> wrapped = IntBiFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -346,6 +346,17 @@ public class IntBiFunctionXTest<R,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(IntBiFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        IntBiFunctionX<R,X> sutThrowing = IntBiFunctionX.lX((int i1,int i2) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().apply((int)100,(int)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -385,3 +396,4 @@ public class IntBiFunctionXTest<R,X extends ParseException> {
     }
 
 }
+

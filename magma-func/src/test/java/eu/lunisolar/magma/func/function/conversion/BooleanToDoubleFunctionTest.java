@@ -156,7 +156,7 @@ public class BooleanToDoubleFunctionTest<X extends ParseException> {
         });
 
         // when
-        BooleanToDoubleFunction wrapped = BooleanToDoubleFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BooleanToDoubleFunction wrapped = BooleanToDoubleFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -181,7 +181,7 @@ public class BooleanToDoubleFunctionTest<X extends ParseException> {
         });
 
         // when
-        BooleanToDoubleFunction wrapped = BooleanToDoubleFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BooleanToDoubleFunction wrapped = BooleanToDoubleFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -205,7 +205,7 @@ public class BooleanToDoubleFunctionTest<X extends ParseException> {
         });
 
         // when
-        BooleanToDoubleFunction wrapped = BooleanToDoubleFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BooleanToDoubleFunction wrapped = BooleanToDoubleFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -613,6 +613,17 @@ public class BooleanToDoubleFunctionTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(BooleanToDoubleFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        BooleanToDoubleFunction sutThrowing = BooleanToDoubleFunction.l((boolean b) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsDouble(true);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -652,3 +663,4 @@ public class BooleanToDoubleFunctionTest<X extends ParseException> {
     }
 
 }
+

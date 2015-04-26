@@ -119,7 +119,7 @@ public class ObjDoublePredicateXTest<T,X extends ParseException> {
         });
 
         // when
-        ObjDoublePredicateX<T,X> wrapped = ObjDoublePredicateX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ObjDoublePredicateX<T,X> wrapped = ObjDoublePredicateX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -144,7 +144,7 @@ public class ObjDoublePredicateXTest<T,X extends ParseException> {
         });
 
         // when
-        ObjDoublePredicateX<T,X> wrapped = ObjDoublePredicateX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ObjDoublePredicateX<T,X> wrapped = ObjDoublePredicateX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -168,7 +168,7 @@ public class ObjDoublePredicateXTest<T,X extends ParseException> {
         });
 
         // when
-        ObjDoublePredicateX<T,X> wrapped = ObjDoublePredicateX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ObjDoublePredicateX<T,X> wrapped = ObjDoublePredicateX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -362,6 +362,17 @@ public class ObjDoublePredicateXTest<T,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(ObjDoublePredicateX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        ObjDoublePredicateX<T,X> sutThrowing = ObjDoublePredicateX.lX((T t, double d) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().test((T)Integer.valueOf(100),(double)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -401,3 +412,4 @@ public class ObjDoublePredicateXTest<T,X extends ParseException> {
     }
 
 }
+

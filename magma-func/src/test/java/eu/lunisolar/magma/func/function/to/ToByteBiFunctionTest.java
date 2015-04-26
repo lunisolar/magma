@@ -156,7 +156,7 @@ public class ToByteBiFunctionTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        ToByteBiFunction<T1,T2> wrapped = ToByteBiFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ToByteBiFunction<T1,T2> wrapped = ToByteBiFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -181,7 +181,7 @@ public class ToByteBiFunctionTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        ToByteBiFunction<T1,T2> wrapped = ToByteBiFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ToByteBiFunction<T1,T2> wrapped = ToByteBiFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -205,7 +205,7 @@ public class ToByteBiFunctionTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        ToByteBiFunction<T1,T2> wrapped = ToByteBiFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ToByteBiFunction<T1,T2> wrapped = ToByteBiFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -311,6 +311,17 @@ public class ToByteBiFunctionTest<T1,T2,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(ToByteBiFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        ToByteBiFunction<T1,T2> sutThrowing = ToByteBiFunction.l((T1 t1,T2 t2) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsByte((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -350,3 +361,4 @@ public class ToByteBiFunctionTest<T1,T2,X extends ParseException> {
     }
 
 }
+

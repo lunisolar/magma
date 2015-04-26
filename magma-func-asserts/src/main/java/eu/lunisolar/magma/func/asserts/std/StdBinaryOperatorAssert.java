@@ -19,23 +19,18 @@
 
 package eu.lunisolar.magma.func.asserts.std;
 
-import eu.lunisolar.magma.basics.asserts.Evaluation; // NOSONAR
-import eu.lunisolar.magma.basics.asserts.FunctionalAssert; // NOSONAR
+import eu.lunisolar.magma.basics.asserts.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import org.assertj.core.api.*; // NOSONAR
-import eu.lunisolar.magma.basics.asserts.RecurringAsserts; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.func.std.*;
+import eu.lunisolar.magma.func.action.Action;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assertions for java.util.function.BinaryOperator. */
-public interface StdBinaryOperatorAssert<S extends StdBinaryOperatorAssert<S, A, RS, T>, A extends java.util.function.BinaryOperator<T>, RS extends Assert<RS, T>, T>
-		extends
-			Assert<S, A>,
-			FunctionalAssert<S, A, RS, T, Exception>,
-			RecurringAsserts<S, A, RS, T> {
+/** Assert for java.util.function.BinaryOperator. */
+public interface StdBinaryOperatorAssert<S extends StdBinaryOperatorAssert<S, A, RS, T>, A extends java.util.function.BinaryOperator<T>, RS extends Assert<RS, T>, T> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, T, Exception> {
 
 	@Nonnull
 	Evaluation<S, A, RS, T, Exception> doesApply(T t1, T t2);
@@ -43,13 +38,13 @@ public interface StdBinaryOperatorAssert<S extends StdBinaryOperatorAssert<S, A,
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends java.util.function.BinaryOperator<T>, RS extends Assert<RS, T>, T> extends Base<Impl<A, RS, T>, A, RS, T> {
 
-		public Impl(A actual, java.util.function.Function<T, RS> assertFunction) {
-			super(actual, Impl.class, assertFunction);
+		public Impl(A actual, java.util.function.Function<T, RS> assertFactory) {
+			super(actual, Impl.class, assertFactory);
 		}
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, T>, A extends java.util.function.BinaryOperator<T>, RS extends Assert<RS, T>, T> extends FunctionalAssert.Base<S, A, RS, T, Exception> implements StdBinaryOperatorAssert<S, A, RS, T> {
+	public static class Base<S extends Base<S, A, RS, T>, A extends java.util.function.BinaryOperator<T>, RS extends Assert<RS, T>, T> extends FullFunctionalAssert.Base<S, A, RS, T, Exception> implements StdBinaryOperatorAssert<S, A, RS, T> {
 
 		protected final java.util.function.Function<T, RS> assertFactory;
 
@@ -62,6 +57,7 @@ public interface StdBinaryOperatorAssert<S extends StdBinaryOperatorAssert<S, A,
 		public Evaluation<S, A, RS, T, Exception> doesApply(T t1, T t2) {
 			return evaluation(() -> assertFactory.apply((T) actual.apply(t1, t2)));
 		}
+
 	}
 
 }

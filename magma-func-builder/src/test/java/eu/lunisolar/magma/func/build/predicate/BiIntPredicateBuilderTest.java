@@ -77,7 +77,27 @@ public class BiIntPredicateBuilderTest<X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
 
-    //TODO
+        BiIntPredicate function = biIntPredicate((BiIntPredicate f)-> doNothing())
+            .addCase(ce -> ce.of((i1,i2) -> i1 == (int)0)
+                             .evaluate((i1,i2) -> false))
+            .inCase((i1,i2) -> i1 > 0 && i1 < 10).evaluate((i1,i2) -> true)
+            .inCase((i1,i2) -> i1 > 10 && i1 < 20).evaluate((i1,i2) -> true)
+            .eventually((i1,i2) -> true)
+            .build();
+
+
+        A.assertThat(function)
+            .doesTest((int)0,(int)0).to(a -> a.isEqualTo(false))
+            .doesTest((int)5,(int)5).to(a -> a.isEqualTo(true))
+            .doesTest((int)15,(int)15).to(a -> a.isEqualTo(true))
+            .doesTest((int)10,(int)10).to(a -> a.isEqualTo(true))
+        ;
+
+    }
+
 
 }
+

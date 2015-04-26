@@ -41,6 +41,7 @@ import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+/** Builder for java.util.function.Predicate. */
 public final class StdPredicateBuilder<T> extends PerCaseBuilder<StdPredicateBuilder<T>, Predicate<T>, java.util.function.Predicate<T>> {
 
 	private Consumer<java.util.function.Predicate<T>> consumer;

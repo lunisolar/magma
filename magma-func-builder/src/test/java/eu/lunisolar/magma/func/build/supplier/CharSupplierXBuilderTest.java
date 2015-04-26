@@ -77,7 +77,28 @@ public class CharSupplierXBuilderTest<X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
+        final AtomicInteger externalInfluence = new AtomicInteger(0);
 
-    //TODO
+        CharSupplierX<ParseException> function = charSupplierX((CharSupplierX<ParseException> f)-> doNothing())
+            .addCase(ce -> ce.of(() -> externalInfluence.get() == Integer.valueOf(0))
+                             .evaluate(() -> (char)0))
+            .inCase(() -> externalInfluence.get() > 0 && externalInfluence.get() < 10).evaluate(() -> (char)1)
+            .inCase(() -> externalInfluence.get() > 10 && externalInfluence.get() < 20).evaluate(() -> (char)2)
+            .eventually(() -> (char)99)
+            .build();
+
+
+        A.assertThat(function)
+            .doesGetAsChar(()->externalInfluence.set(0)).to(a -> a.isEqualTo((char)0))
+            .doesGetAsChar(()->externalInfluence.set(5)).to(a -> a.isEqualTo((char)1))
+            .doesGetAsChar(()->externalInfluence.set(15)).to(a -> a.isEqualTo((char)2))
+            .doesGetAsChar(()->externalInfluence.set(10)).to(a -> a.isEqualTo((char)99))
+        ;
+
+    }
+
 
 }
+

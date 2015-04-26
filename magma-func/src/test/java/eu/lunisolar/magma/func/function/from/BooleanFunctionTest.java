@@ -167,7 +167,7 @@ public class BooleanFunctionTest<R,X extends ParseException> {
         });
 
         // when
-        BooleanFunction<R> wrapped = BooleanFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BooleanFunction<R> wrapped = BooleanFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -192,7 +192,7 @@ public class BooleanFunctionTest<R,X extends ParseException> {
         });
 
         // when
-        BooleanFunction<R> wrapped = BooleanFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BooleanFunction<R> wrapped = BooleanFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -216,7 +216,7 @@ public class BooleanFunctionTest<R,X extends ParseException> {
         });
 
         // when
-        BooleanFunction<R> wrapped = BooleanFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BooleanFunction<R> wrapped = BooleanFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -656,6 +656,17 @@ public class BooleanFunctionTest<R,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(BooleanFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        BooleanFunction<R> sutThrowing = BooleanFunction.l((boolean b) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().apply(true);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -695,3 +706,4 @@ public class BooleanFunctionTest<R,X extends ParseException> {
     }
 
 }
+

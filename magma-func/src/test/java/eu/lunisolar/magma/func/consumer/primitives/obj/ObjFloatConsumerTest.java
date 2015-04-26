@@ -319,6 +319,17 @@ public class ObjFloatConsumerTest<T,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(ObjFloatConsumerX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        ObjFloatConsumer<T> sutThrowing = ObjFloatConsumer.l((T t, float f) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().accept((T)Integer.valueOf(100),(float)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -358,3 +369,4 @@ public class ObjFloatConsumerTest<T,X extends ParseException> {
     }
 
 }
+

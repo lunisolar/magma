@@ -77,7 +77,27 @@ public class ShortPredicateBuilderTest<X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
 
-    //TODO
+        ShortPredicate function = shortPredicate((ShortPredicate f)-> doNothing())
+            .addCase(ce -> ce.of((s) -> s == (short)0)
+                             .evaluate((s) -> false))
+            .inCase((s) -> s > 0 && s < 10).evaluate((s) -> true)
+            .inCase((s) -> s > 10 && s < 20).evaluate((s) -> true)
+            .eventually((s) -> true)
+            .build();
+
+
+        A.assertThat(function)
+            .doesTest((short)0).to(a -> a.isEqualTo(false))
+            .doesTest((short)5).to(a -> a.isEqualTo(true))
+            .doesTest((short)15).to(a -> a.isEqualTo(true))
+            .doesTest((short)10).to(a -> a.isEqualTo(true))
+        ;
+
+    }
+
 
 }
+

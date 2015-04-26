@@ -19,33 +19,35 @@
 
 package eu.lunisolar.magma.func.asserts.supplier;
 
-import eu.lunisolar.magma.basics.asserts.Evaluation; // NOSONAR
-import eu.lunisolar.magma.basics.asserts.FunctionalAssert; // NOSONAR
+import eu.lunisolar.magma.basics.asserts.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import org.assertj.core.api.*; // NOSONAR
-import eu.lunisolar.magma.basics.asserts.RecurringAsserts; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*;
+import eu.lunisolar.magma.func.action.Action;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assertions for IntSupplier. */
-public interface IntSupplierAssert<S extends IntSupplierAssert<S, A, RS>, A extends IntSupplier, RS extends AbstractIntegerAssert<RS>> extends Assert<S, A>, FunctionalAssert<S, A, RS, Integer, Exception>, RecurringAsserts<S, A, RS, Integer> {
+/** Assert for IntSupplier. */
+public interface IntSupplierAssert<S extends IntSupplierAssert<S, A, RS>, A extends IntSupplier, RS extends AbstractIntegerAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, Integer, Exception> {
 
 	@Nonnull
 	Evaluation<S, A, RS, Integer, Exception> doesGetAsInt();
 
+	@Nonnull
+	Evaluation<S, A, RS, Integer, Exception> doesGetAsInt(Action before);
+
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends IntSupplier, RS extends AbstractIntegerAssert<RS>> extends Base<Impl<A, RS>, A, RS> {
 
-		public Impl(A actual, java.util.function.Function<Integer, RS> assertFunction) {
-			super(actual, Impl.class, assertFunction);
+		public Impl(A actual, java.util.function.Function<Integer, RS> assertFactory) {
+			super(actual, Impl.class, assertFactory);
 		}
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS>, A extends IntSupplier, RS extends AbstractIntegerAssert<RS>> extends FunctionalAssert.Base<S, A, RS, Integer, Exception> implements IntSupplierAssert<S, A, RS> {
+	public static class Base<S extends Base<S, A, RS>, A extends IntSupplier, RS extends AbstractIntegerAssert<RS>> extends FullFunctionalAssert.Base<S, A, RS, Integer, Exception> implements IntSupplierAssert<S, A, RS> {
 
 		protected final java.util.function.Function<Integer, RS> assertFactory;
 
@@ -57,6 +59,12 @@ public interface IntSupplierAssert<S extends IntSupplierAssert<S, A, RS>, A exte
 		@Nonnull
 		public Evaluation<S, A, RS, Integer, Exception> doesGetAsInt() {
 			return evaluation(() -> assertFactory.apply((Integer) actual.getAsInt()));
+		}
+
+		@Nonnull
+		public Evaluation<S, A, RS, Integer, Exception> doesGetAsInt(Action before) {
+			before.execute();
+			return doesGetAsInt();
 		}
 	}
 

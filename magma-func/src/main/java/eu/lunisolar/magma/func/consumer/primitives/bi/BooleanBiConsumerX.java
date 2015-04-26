@@ -45,8 +45,10 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /**
- * A consumer.
- * @see {@link eu.lunisolar.magma.func.consumer.primitives.bi.BooleanBiConsumer}
+ * Function category: consumer
+ * Non-throwing interface/lambda variant: BooleanBiConsumer
+ *
+ * @see BooleanBiConsumer
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
@@ -62,6 +64,11 @@ public interface BooleanBiConsumerX<X extends Exception> extends MetaConsumer, M
 		return BooleanBiConsumerX.DESCRIPTION;
 	}
 
+	/** Captures arguments but delays the evaluation. */
+	default ActionX<X> capture(boolean b1, boolean b2) {
+		return () -> this.accept(b1, b2);
+	}
+
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <X extends Exception> BooleanBiConsumerX<X> lX(final @Nonnull BooleanBiConsumerX<X> lambda) {
@@ -75,18 +82,6 @@ public interface BooleanBiConsumerX<X extends Exception> extends MetaConsumer, M
 	@Nonnull
 	public static <X extends Exception> BooleanBiConsumerX<X> wrapX(final @Nonnull BooleanBiConsumer other) {
 		return other::accept;
-	}
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <X extends Exception, Y extends Exception> BooleanBiConsumerX<Y> wrapException(@Nonnull final BooleanBiConsumerX<X> other, Class<? extends Exception> exception, ExceptionHandler<Exception, Y> rethrower) {
-		return (boolean b1, boolean b2) -> {
-			try {
-				other.accept(b1, b2);
-			} catch (Exception e) {
-				throw ExceptionHandler.handle(exception, rethrower, e);
-			}
-		};
 	}
 
 	// </editor-fold>
@@ -142,22 +137,40 @@ public interface BooleanBiConsumerX<X extends Exception> extends MetaConsumer, M
 		return nonThrowing()::accept;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default BooleanBiConsumer shove() {
+		BooleanBiConsumerX<RuntimeException> exceptionCast = (BooleanBiConsumerX<RuntimeException>) this;
+		return exceptionCast::accept;
+	}
+
 	// </editor-fold>
 
 	// <editor-fold desc="exception handling">
 
+	/** Wraps with additional exception handling. */
+	@Nonnull
+	public static <X extends Exception, E extends Exception, Y extends Exception> BooleanBiConsumerX<Y> wrapException(@Nonnull final BooleanBiConsumerX<X> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
+		return (boolean b1, boolean b2) -> {
+			try {
+				other.accept(b1, b2);
+			} catch (Exception e) {
+				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
+			}
+		};
+	}
+
 	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <Y extends Exception> BooleanBiConsumerX<Y> handle(Class<? extends Exception> exception, ExceptionHandler<? super X, Y> handler) {
+	default <E extends Exception, Y extends Exception> BooleanBiConsumerX<Y> handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
 		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
 		return BooleanBiConsumerX.wrapException(this, exception, (ExceptionHandler) handler);
 	}
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
+	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
 	@Nonnull
-	default <Y extends Exception> BooleanBiConsumerX<Y> handle(ExceptionHandler<? super X, Y> handler) {
+	default <Y extends Exception> BooleanBiConsumerX<Y> handle(ExceptionHandler<Exception, Y> handler) {
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
 		return BooleanBiConsumerX.wrapException(this, Exception.class, (ExceptionHandler) handler);

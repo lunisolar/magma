@@ -77,7 +77,28 @@ public class FloatSupplierBuilderTest<X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
+        final AtomicInteger externalInfluence = new AtomicInteger(0);
 
-    //TODO
+        FloatSupplier function = floatSupplier((FloatSupplier f)-> doNothing())
+            .addCase(ce -> ce.of(() -> externalInfluence.get() == Integer.valueOf(0))
+                             .evaluate(() -> (float)0))
+            .inCase(() -> externalInfluence.get() > 0 && externalInfluence.get() < 10).evaluate(() -> (float)1)
+            .inCase(() -> externalInfluence.get() > 10 && externalInfluence.get() < 20).evaluate(() -> (float)2)
+            .eventually(() -> (float)99)
+            .build();
+
+
+        A.assertThat(function)
+            .doesGetAsFloat(()->externalInfluence.set(0)).to(a -> a.isEqualTo((float)0))
+            .doesGetAsFloat(()->externalInfluence.set(5)).to(a -> a.isEqualTo((float)1))
+            .doesGetAsFloat(()->externalInfluence.set(15)).to(a -> a.isEqualTo((float)2))
+            .doesGetAsFloat(()->externalInfluence.set(10)).to(a -> a.isEqualTo((float)99))
+        ;
+
+    }
+
 
 }
+

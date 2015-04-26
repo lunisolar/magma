@@ -41,6 +41,7 @@ import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+/** Builder for ObjShortFunction. */
 public final class ObjShortFunctionBuilder<T, R> extends PerCaseBuilder<ObjShortFunctionBuilder<T, R>, ObjShortPredicate<T>, ObjShortFunction<T, R>> {
 
 	private Consumer<ObjShortFunction<T, R>> consumer;

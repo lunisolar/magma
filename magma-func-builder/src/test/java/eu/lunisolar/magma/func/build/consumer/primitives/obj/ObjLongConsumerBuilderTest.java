@@ -77,7 +77,28 @@ public class ObjLongConsumerBuilderTest<T,X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
+        final AtomicInteger externalEffect = new AtomicInteger(0);
 
-    //TODO
+        ObjLongConsumer<Integer > function = objLongConsumer((ObjLongConsumer<Integer > f)-> doNothing())
+            .addCase(ce -> ce.of((t, l) -> t == Integer.valueOf(0))
+                             .evaluate((t, l) -> externalEffect.set(0)))
+            .inCase((t, l) -> t > 0 && t < 10).evaluate((t, l) -> externalEffect.set(1))
+            .inCase((t, l) -> t > 10 && t < 20).evaluate((t, l) -> externalEffect.set(2))
+            .eventually((t, l) -> externalEffect.set(99))
+            .build();
+
+
+        A.assertThat(function)
+            .doesAccept(Integer.valueOf(0),(long)0).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(0)))
+            .doesAccept(Integer.valueOf(5),(long)5).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(1)))
+            .doesAccept(Integer.valueOf(15),(long)15).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(2)))
+            .doesAccept(Integer.valueOf(10),(long)10).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(99)))
+        ;
+
+    }
+
 
 }
+

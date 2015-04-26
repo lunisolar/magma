@@ -77,24 +77,27 @@ public class IntToDoubleFunctionBuilderTest<X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         IntToDoubleFunction function = intToDoubleFunction((IntToDoubleFunction f)-> doNothing())
-            .addCase(ce -> ce.of((i) -> i == 0)
+            .addCase(ce -> ce.of((i) -> i == (int)0)
                              .evaluate((i) -> (double)0))
             .inCase((i) -> i > 0 && i < 10).evaluate((i) -> (double)1)
             .inCase((i) -> i > 10 && i < 20).evaluate((i) -> (double)2)
             .eventually((i) -> (double)99)
             .build();
 
+
         A.assertThat(function)
             .doesApplyAsDouble((int)0).to(a -> a.isEqualTo((double)0))
             .doesApplyAsDouble((int)5).to(a -> a.isEqualTo((double)1))
             .doesApplyAsDouble((int)15).to(a -> a.isEqualTo((double)2))
-            .doesApplyAsDouble((int)10).to(a -> a.isEqualTo((double)99));
+            .doesApplyAsDouble((int)10).to(a -> a.isEqualTo((double)99))
+        ;
+
     }
 
 
 }
+

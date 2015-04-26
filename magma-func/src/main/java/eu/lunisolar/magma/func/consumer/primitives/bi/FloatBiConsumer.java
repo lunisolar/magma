@@ -45,8 +45,10 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /**
- * A consumer.
- * @see {@link eu.lunisolar.magma.func.consumer.primitives.bi.FloatBiConsumerX}
+ * Function category: consumer
+ * Throwing interface/lambda variant: FloatBiConsumerX
+ *
+ * @see FloatBiConsumerX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
@@ -60,6 +62,11 @@ public interface FloatBiConsumer extends MetaConsumer {
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return FloatBiConsumer.DESCRIPTION;
+	}
+
+	/** Captures arguments but delays the evaluation. */
+	default Action capture(float f1, float f2) {
+		return () -> this.accept(f1, f2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -79,18 +86,6 @@ public interface FloatBiConsumer extends MetaConsumer {
 				other.accept(f1, f2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
-	}
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <X extends Exception, Y extends RuntimeException> FloatBiConsumer wrapException(@Nonnull final FloatBiConsumer other, Class<? extends Exception> exception, ExceptionHandler<Exception, Y> rethrower) {
-		return (float f1, float f2) -> {
-			try {
-				other.accept(f1, f2);
-			} catch (Exception e) {
-				throw ExceptionHandler.handle(exception, rethrower, e);
 			}
 		};
 	}
@@ -148,22 +143,39 @@ public interface FloatBiConsumer extends MetaConsumer {
 		return this::accept;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default FloatBiConsumer shove() {
+		return this;
+	}
+
 	// </editor-fold>
 
 	// <editor-fold desc="exception handling">
 
+	/** Wraps with additional exception handling. */
+	@Nonnull
+	public static <X extends Exception, E extends Exception, Y extends RuntimeException> FloatBiConsumer wrapException(@Nonnull final FloatBiConsumer other, Class<E> exception, ExceptionHandler<E, Y> handler) {
+		return (float f1, float f2) -> {
+			try {
+				other.accept(f1, f2);
+			} catch (Exception e) {
+				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
+			}
+		};
+	}
+
 	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <Y extends RuntimeException> FloatBiConsumer handle(Class<? extends Exception> exception, ExceptionHandler<? super RuntimeException, Y> handler) {
+	default <E extends Exception, Y extends RuntimeException> FloatBiConsumer handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
 		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
 		return FloatBiConsumer.wrapException(this, exception, (ExceptionHandler) handler);
 	}
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
+	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
 	@Nonnull
-	default <Y extends RuntimeException> FloatBiConsumer handle(ExceptionHandler<? super RuntimeException, Y> handler) {
+	default <Y extends RuntimeException> FloatBiConsumer handle(ExceptionHandler<Exception, Y> handler) {
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
 		return FloatBiConsumer.wrapException(this, Exception.class, (ExceptionHandler) handler);

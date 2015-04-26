@@ -44,8 +44,10 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /**
+ * Function category: function
+ * Non-throwing interface/lambda variant: FloatToDoubleFunction
  *
- * @see {@link eu.lunisolar.magma.func.function.conversion.FloatToDoubleFunction}
+ * @see FloatToDoubleFunction
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
@@ -59,6 +61,11 @@ public interface FloatToDoubleFunctionX<X extends Exception> extends MetaFunctio
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return FloatToDoubleFunctionX.DESCRIPTION;
+	}
+
+	/** Captures arguments but delays the evaluation. */
+	default DoubleSupplierX<X> capture(float f) {
+		return () -> this.applyAsDouble(f);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
@@ -79,18 +86,6 @@ public interface FloatToDoubleFunctionX<X extends Exception> extends MetaFunctio
 	@Nonnull
 	public static <X extends Exception> FloatToDoubleFunctionX<X> wrapX(final @Nonnull FloatToDoubleFunction other) {
 		return other::applyAsDouble;
-	}
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <X extends Exception, Y extends Exception> FloatToDoubleFunctionX<Y> wrapException(@Nonnull final FloatToDoubleFunctionX<X> other, Class<? extends Exception> exception, ExceptionHandler<Exception, Y> rethrower) {
-		return (float f) -> {
-			try {
-				return other.applyAsDouble(f);
-			} catch (Exception e) {
-				throw ExceptionHandler.handle(exception, rethrower, e);
-			}
-		};
 	}
 
 	// </editor-fold>
@@ -198,25 +193,67 @@ public interface FloatToDoubleFunctionX<X extends Exception> extends MetaFunctio
 		return nonThrowing()::applyAsDouble;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default FloatToDoubleFunction shove() {
+		FloatToDoubleFunctionX<RuntimeException> exceptionCast = (FloatToDoubleFunctionX<RuntimeException>) this;
+		return exceptionCast::applyAsDouble;
+	}
+
 	// </editor-fold>
 
 	// <editor-fold desc="exception handling">
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
+	/** Wraps with additional exception handling. */
 	@Nonnull
-	default <Y extends Exception> FloatToDoubleFunctionX<Y> handle(Class<? extends Exception> exception, ExceptionHandler<? super X, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return FloatToDoubleFunctionX.wrapException(this, exception, (ExceptionHandler) handler);
+	public static <X extends Exception, E extends Exception, Y extends Exception> FloatToDoubleFunctionX<Y> wrapException(@Nonnull final FloatToDoubleFunctionX<X> other, Class<E> exception, DoubleSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
+		return (float f) -> {
+			try {
+				return other.applyAsDouble(f);
+			} catch (Exception e) {
+				try {
+					if (supplier != null) {
+						return supplier.getAsDouble();
+					}
+				} catch (Exception supplierException) {
+					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
+				}
+				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
+			}
+		};
 	}
 
 	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <Y extends Exception> FloatToDoubleFunctionX<Y> handle(ExceptionHandler<? super X, Y> handler) {
+	default <E extends Exception, Y extends Exception> FloatToDoubleFunctionX<Y> handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
+		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
-		return FloatToDoubleFunctionX.wrapException(this, Exception.class, (ExceptionHandler) handler);
+		return FloatToDoubleFunctionX.wrapException(this, exception, null, (ExceptionHandler) handler);
+	}
+
+	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
+	@Nonnull
+	default <Y extends Exception> FloatToDoubleFunctionX<Y> handle(ExceptionHandler<Exception, Y> handler) {
+		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return FloatToDoubleFunctionX.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
+	}
+
+	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
+	@Nonnull
+	default <E extends Exception, Y extends Exception> FloatToDoubleFunctionX<Y> handle(Class<E> exception, DoubleSupplierX<X> supplier) {
+		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
+		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return FloatToDoubleFunctionX.wrapException(this, exception, supplier, null);
+	}
+
+	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
+	@Nonnull
+	default <Y extends Exception> FloatToDoubleFunctionX<Y> handle(DoubleSupplierX<X> supplier) {
+		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return FloatToDoubleFunctionX.wrapException(this, Exception.class, supplier, null);
 	}
 
 	// </editor-fold>

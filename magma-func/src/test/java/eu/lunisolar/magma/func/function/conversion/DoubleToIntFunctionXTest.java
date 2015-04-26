@@ -120,7 +120,7 @@ public class DoubleToIntFunctionXTest<X extends ParseException> {
         });
 
         // when
-        DoubleToIntFunctionX<X> wrapped = DoubleToIntFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        DoubleToIntFunctionX<X> wrapped = DoubleToIntFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -145,7 +145,7 @@ public class DoubleToIntFunctionXTest<X extends ParseException> {
         });
 
         // when
-        DoubleToIntFunctionX<X> wrapped = DoubleToIntFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        DoubleToIntFunctionX<X> wrapped = DoubleToIntFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -169,7 +169,7 @@ public class DoubleToIntFunctionXTest<X extends ParseException> {
         });
 
         // when
-        DoubleToIntFunctionX<X> wrapped = DoubleToIntFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        DoubleToIntFunctionX<X> wrapped = DoubleToIntFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -582,6 +582,17 @@ public class DoubleToIntFunctionXTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(DoubleToIntFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        DoubleToIntFunctionX<X> sutThrowing = DoubleToIntFunctionX.lX((double d) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsInt((double)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -621,3 +632,4 @@ public class DoubleToIntFunctionXTest<X extends ParseException> {
     }
 
 }
+

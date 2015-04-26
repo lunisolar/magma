@@ -41,6 +41,7 @@ import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+/** Builder for BooleanBiConsumerX. */
 public final class BooleanBiConsumerXBuilder<X extends Exception> extends PerCaseBuilder<BooleanBiConsumerXBuilder<X>, BooleanBinaryOperatorX<X>, BooleanBiConsumerX<X>> {
 
 	private Consumer<BooleanBiConsumerX<X>> consumer;
@@ -94,6 +95,7 @@ public final class BooleanBiConsumerXBuilder<X extends Exception> extends PerCas
 				for (Case<BooleanBinaryOperatorX<X>, BooleanBiConsumerX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().applyAsBoolean(b1, b2)) {
 						aCase.caseFunction().accept(b1, b2);
+						return;
 					}
 				}
 

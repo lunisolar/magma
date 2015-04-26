@@ -249,6 +249,17 @@ public class TriConsumerXTest<T1,T2,T3,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(TriConsumerX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        TriConsumerX<T1,T2,T3,X> sutThrowing = TriConsumerX.lX((T1 t1,T2 t2,T3 t3) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().accept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100));
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -288,3 +299,4 @@ public class TriConsumerXTest<T1,T2,T3,X extends ParseException> {
     }
 
 }
+

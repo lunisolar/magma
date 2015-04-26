@@ -9,9 +9,22 @@
     <version>0.9-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <properties>
 
-    </properties>
+    <name>lunisolar-magma</name>
+    <description>A library of functional interfaces (lambda interfaces) for Java 8, supplemented with assertions and builders.</description>
+    <url>http://http://www.lunisolar.eu/magma</url>
+
+    <licenses>
+        <license>
+            <name>GNU LESSER GENERAL PUBLIC LICENSE</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>https://github.com/lunisolar/magma</url>
+    </scm>
 
     <modules>
         <module>magma-pom</module>

@@ -77,7 +77,27 @@ public class BytePredicateBuilderTest<X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
 
-    //TODO
+        BytePredicate function = bytePredicate((BytePredicate f)-> doNothing())
+            .addCase(ce -> ce.of((b) -> b == (byte)0)
+                             .evaluate((b) -> false))
+            .inCase((b) -> b > 0 && b < 10).evaluate((b) -> true)
+            .inCase((b) -> b > 10 && b < 20).evaluate((b) -> true)
+            .eventually((b) -> true)
+            .build();
+
+
+        A.assertThat(function)
+            .doesTest((byte)0).to(a -> a.isEqualTo(false))
+            .doesTest((byte)5).to(a -> a.isEqualTo(true))
+            .doesTest((byte)15).to(a -> a.isEqualTo(true))
+            .doesTest((byte)10).to(a -> a.isEqualTo(true))
+        ;
+
+    }
+
 
 }
+

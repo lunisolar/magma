@@ -77,24 +77,27 @@ public class ByteUnaryOperatorBuilderTest<X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         ByteUnaryOperator function = byteUnaryOperator((ByteUnaryOperator f)-> doNothing())
-            .addCase(ce -> ce.of((b) -> b == 0)
+            .addCase(ce -> ce.of((b) -> b == (byte)0)
                              .evaluate((b) -> (byte)0))
             .inCase((b) -> b > 0 && b < 10).evaluate((b) -> (byte)1)
             .inCase((b) -> b > 10 && b < 20).evaluate((b) -> (byte)2)
             .eventually((b) -> (byte)99)
             .build();
 
+
         A.assertThat(function)
             .doesApplyAsByte((byte)0).to(a -> a.isEqualTo((byte)0))
             .doesApplyAsByte((byte)5).to(a -> a.isEqualTo((byte)1))
             .doesApplyAsByte((byte)15).to(a -> a.isEqualTo((byte)2))
-            .doesApplyAsByte((byte)10).to(a -> a.isEqualTo((byte)99));
+            .doesApplyAsByte((byte)10).to(a -> a.isEqualTo((byte)99))
+        ;
+
     }
 
 
 }
+

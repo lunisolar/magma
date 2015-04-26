@@ -156,7 +156,7 @@ public class FloatToCharFunctionTest<X extends ParseException> {
         });
 
         // when
-        FloatToCharFunction wrapped = FloatToCharFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        FloatToCharFunction wrapped = FloatToCharFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -181,7 +181,7 @@ public class FloatToCharFunctionTest<X extends ParseException> {
         });
 
         // when
-        FloatToCharFunction wrapped = FloatToCharFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        FloatToCharFunction wrapped = FloatToCharFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -205,7 +205,7 @@ public class FloatToCharFunctionTest<X extends ParseException> {
         });
 
         // when
-        FloatToCharFunction wrapped = FloatToCharFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        FloatToCharFunction wrapped = FloatToCharFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -613,6 +613,17 @@ public class FloatToCharFunctionTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(FloatToCharFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        FloatToCharFunction sutThrowing = FloatToCharFunction.l((float f) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsChar((float)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -652,3 +663,4 @@ public class FloatToCharFunctionTest<X extends ParseException> {
     }
 
 }
+

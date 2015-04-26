@@ -112,7 +112,7 @@ public class ToShortBiFunctionXTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        ToShortBiFunctionX<T1,T2,X> wrapped = ToShortBiFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ToShortBiFunctionX<T1,T2,X> wrapped = ToShortBiFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -137,7 +137,7 @@ public class ToShortBiFunctionXTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        ToShortBiFunctionX<T1,T2,X> wrapped = ToShortBiFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ToShortBiFunctionX<T1,T2,X> wrapped = ToShortBiFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -161,7 +161,7 @@ public class ToShortBiFunctionXTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        ToShortBiFunctionX<T1,T2,X> wrapped = ToShortBiFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ToShortBiFunctionX<T1,T2,X> wrapped = ToShortBiFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -267,6 +267,17 @@ public class ToShortBiFunctionXTest<T1,T2,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(ToShortBiFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        ToShortBiFunctionX<T1,T2,X> sutThrowing = ToShortBiFunctionX.lX((T1 t1,T2 t2) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsShort((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -306,3 +317,4 @@ public class ToShortBiFunctionXTest<T1,T2,X extends ParseException> {
     }
 
 }
+

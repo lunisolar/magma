@@ -77,24 +77,27 @@ public class LongUnaryOperatorXBuilderTest<X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         LongUnaryOperatorX<ParseException> function = longUnaryOperatorX((LongUnaryOperatorX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((l) -> l == 0)
+            .addCase(ce -> ce.of((l) -> l == (long)0)
                              .evaluate((l) -> (long)0))
             .inCase((l) -> l > 0 && l < 10).evaluate((l) -> (long)1)
             .inCase((l) -> l > 10 && l < 20).evaluate((l) -> (long)2)
             .eventually((l) -> (long)99)
             .build();
 
+
         A.assertThat(function)
             .doesApplyAsLong((long)0).to(a -> a.isEqualTo((long)0))
             .doesApplyAsLong((long)5).to(a -> a.isEqualTo((long)1))
             .doesApplyAsLong((long)15).to(a -> a.isEqualTo((long)2))
-            .doesApplyAsLong((long)10).to(a -> a.isEqualTo((long)99));
+            .doesApplyAsLong((long)10).to(a -> a.isEqualTo((long)99))
+        ;
+
     }
 
 
 }
+

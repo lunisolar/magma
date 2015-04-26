@@ -275,6 +275,17 @@ public class ObjByteConsumerXTest<T,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(ObjByteConsumerX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        ObjByteConsumerX<T,X> sutThrowing = ObjByteConsumerX.lX((T t, byte b) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().accept((T)Integer.valueOf(100),(byte)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -314,3 +325,4 @@ public class ObjByteConsumerXTest<T,X extends ParseException> {
     }
 
 }
+

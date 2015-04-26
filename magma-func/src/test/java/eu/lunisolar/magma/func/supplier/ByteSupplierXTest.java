@@ -112,7 +112,7 @@ public class ByteSupplierXTest<X extends ParseException> {
         });
 
         // when
-        ByteSupplierX<X> wrapped = ByteSupplierX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ByteSupplierX<X> wrapped = ByteSupplierX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -137,7 +137,7 @@ public class ByteSupplierXTest<X extends ParseException> {
         });
 
         // when
-        ByteSupplierX<X> wrapped = ByteSupplierX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ByteSupplierX<X> wrapped = ByteSupplierX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -161,7 +161,7 @@ public class ByteSupplierXTest<X extends ParseException> {
         });
 
         // when
-        ByteSupplierX<X> wrapped = ByteSupplierX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ByteSupplierX<X> wrapped = ByteSupplierX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -498,6 +498,17 @@ public class ByteSupplierXTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(ByteSupplierX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        ByteSupplierX<X> sutThrowing = ByteSupplierX.lX(() -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().getAsByte();
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -537,3 +548,4 @@ public class ByteSupplierXTest<X extends ParseException> {
     }
 
 }
+

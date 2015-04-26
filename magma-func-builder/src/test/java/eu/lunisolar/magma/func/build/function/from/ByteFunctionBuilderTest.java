@@ -77,24 +77,27 @@ public class ByteFunctionBuilderTest<R,X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         ByteFunction<Integer > function = byteFunction((ByteFunction<Integer > f)-> doNothing())
-            .addCase(ce -> ce.of((b) -> b == 0)
+            .addCase(ce -> ce.of((b) -> b == (byte)0)
                              .evaluate((b) -> Integer.valueOf(0)))
             .inCase((b) -> b > 0 && b < 10).evaluate((b) -> Integer.valueOf(1))
             .inCase((b) -> b > 10 && b < 20).evaluate((b) -> Integer.valueOf(2))
             .eventually((b) -> Integer.valueOf(99))
             .build();
 
+
         A.assertThat(function)
             .doesApply((byte)0).to(a -> a.isEqualTo(Integer.valueOf(0)))
             .doesApply((byte)5).to(a -> a.isEqualTo(Integer.valueOf(1)))
             .doesApply((byte)15).to(a -> a.isEqualTo(Integer.valueOf(2)))
-            .doesApply((byte)10).to(a -> a.isEqualTo(Integer.valueOf(99)));
+            .doesApply((byte)10).to(a -> a.isEqualTo(Integer.valueOf(99)))
+        ;
+
     }
 
 
 }
+

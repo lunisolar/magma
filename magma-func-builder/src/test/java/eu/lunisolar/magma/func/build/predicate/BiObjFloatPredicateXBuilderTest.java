@@ -77,7 +77,27 @@ public class BiObjFloatPredicateXBuilderTest<T1,T2,X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
 
-    //TODO
+        BiObjFloatPredicateX<Integer ,Integer ,ParseException> function = biObjFloatPredicateX((BiObjFloatPredicateX<Integer ,Integer ,ParseException> f)-> doNothing())
+            .addCase(ce -> ce.of((t1,t2, f) -> t1 == Integer.valueOf(0))
+                             .evaluate((t1,t2, f) -> false))
+            .inCase((t1,t2, f) -> t1 > 0 && t1 < 10).evaluate((t1,t2, f) -> true)
+            .inCase((t1,t2, f) -> t1 > 10 && t1 < 20).evaluate((t1,t2, f) -> true)
+            .eventually((t1,t2, f) -> true)
+            .build();
+
+
+        A.assertThat(function)
+            .doesTest(Integer.valueOf(0),Integer.valueOf(0),(float)0).to(a -> a.isEqualTo(false))
+            .doesTest(Integer.valueOf(5),Integer.valueOf(5),(float)5).to(a -> a.isEqualTo(true))
+            .doesTest(Integer.valueOf(15),Integer.valueOf(15),(float)15).to(a -> a.isEqualTo(true))
+            .doesTest(Integer.valueOf(10),Integer.valueOf(10),(float)10).to(a -> a.isEqualTo(true))
+        ;
+
+    }
+
 
 }
+

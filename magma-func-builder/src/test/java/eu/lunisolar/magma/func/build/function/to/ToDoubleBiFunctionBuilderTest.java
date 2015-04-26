@@ -77,24 +77,27 @@ public class ToDoubleBiFunctionBuilderTest<T1,T2,X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         ToDoubleBiFunction<Integer ,Integer > function = toDoubleBiFunction((ToDoubleBiFunction<Integer ,Integer > f)-> doNothing())
-            .addCase(ce -> ce.of((t1,t2) -> t1 == 0)
+            .addCase(ce -> ce.of((t1,t2) -> t1 == Integer.valueOf(0))
                              .evaluate((t1,t2) -> (double)0))
             .inCase((t1,t2) -> t1 > 0 && t1 < 10).evaluate((t1,t2) -> (double)1)
             .inCase((t1,t2) -> t1 > 10 && t1 < 20).evaluate((t1,t2) -> (double)2)
             .eventually((t1,t2) -> (double)99)
             .build();
 
+
         A.assertThat(function)
             .doesApplyAsDouble(Integer.valueOf(0),Integer.valueOf(0)).to(a -> a.isEqualTo((double)0))
             .doesApplyAsDouble(Integer.valueOf(5),Integer.valueOf(5)).to(a -> a.isEqualTo((double)1))
             .doesApplyAsDouble(Integer.valueOf(15),Integer.valueOf(15)).to(a -> a.isEqualTo((double)2))
-            .doesApplyAsDouble(Integer.valueOf(10),Integer.valueOf(10)).to(a -> a.isEqualTo((double)99));
+            .doesApplyAsDouble(Integer.valueOf(10),Integer.valueOf(10)).to(a -> a.isEqualTo((double)99))
+        ;
+
     }
 
 
 }
+

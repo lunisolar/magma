@@ -112,7 +112,7 @@ public class CharToFloatFunctionXTest<X extends ParseException> {
         });
 
         // when
-        CharToFloatFunctionX<X> wrapped = CharToFloatFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        CharToFloatFunctionX<X> wrapped = CharToFloatFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -137,7 +137,7 @@ public class CharToFloatFunctionXTest<X extends ParseException> {
         });
 
         // when
-        CharToFloatFunctionX<X> wrapped = CharToFloatFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        CharToFloatFunctionX<X> wrapped = CharToFloatFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -161,7 +161,7 @@ public class CharToFloatFunctionXTest<X extends ParseException> {
         });
 
         // when
-        CharToFloatFunctionX<X> wrapped = CharToFloatFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        CharToFloatFunctionX<X> wrapped = CharToFloatFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -569,6 +569,17 @@ public class CharToFloatFunctionXTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(CharToFloatFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        CharToFloatFunctionX<X> sutThrowing = CharToFloatFunctionX.lX((char c) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsFloat((char)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -608,3 +619,4 @@ public class CharToFloatFunctionXTest<X extends ParseException> {
     }
 
 }
+

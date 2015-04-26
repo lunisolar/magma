@@ -44,8 +44,10 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /**
+ * Function category: function
+ * Non-throwing interface/lambda variant: ToLongFunction
  *
- * @see {@link eu.lunisolar.magma.func.function.to.ToLongFunction}
+ * @see ToLongFunction
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
@@ -59,6 +61,11 @@ public interface ToLongFunctionX<T, X extends Exception> extends MetaFunction, P
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return ToLongFunctionX.DESCRIPTION;
+	}
+
+	/** Captures arguments but delays the evaluation. */
+	default LongSupplierX<X> capture(T t) {
+		return () -> this.applyAsLong(t);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
@@ -85,18 +92,6 @@ public interface ToLongFunctionX<T, X extends Exception> extends MetaFunction, P
 	@Nonnull
 	public static <T, X extends Exception> ToLongFunctionX<T, X> wrapX(final @Nonnull ToLongFunction<T> other) {
 		return other::applyAsLong;
-	}
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <T, X extends Exception, Y extends Exception> ToLongFunctionX<T, Y> wrapException(@Nonnull final ToLongFunctionX<T, X> other, Class<? extends Exception> exception, ExceptionHandler<Exception, Y> rethrower) {
-		return (T t) -> {
-			try {
-				return other.applyAsLong(t);
-			} catch (Exception e) {
-				throw ExceptionHandler.handle(exception, rethrower, e);
-			}
-		};
 	}
 
 	// </editor-fold>
@@ -201,25 +196,67 @@ public interface ToLongFunctionX<T, X extends Exception> extends MetaFunction, P
 		return nonThrowing()::applyAsLong;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default ToLongFunction<T> shove() {
+		ToLongFunctionX<T, RuntimeException> exceptionCast = (ToLongFunctionX<T, RuntimeException>) this;
+		return exceptionCast::applyAsLong;
+	}
+
 	// </editor-fold>
 
 	// <editor-fold desc="exception handling">
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
+	/** Wraps with additional exception handling. */
 	@Nonnull
-	default <Y extends Exception> ToLongFunctionX<T, Y> handle(Class<? extends Exception> exception, ExceptionHandler<? super X, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return ToLongFunctionX.wrapException(this, exception, (ExceptionHandler) handler);
+	public static <T, X extends Exception, E extends Exception, Y extends Exception> ToLongFunctionX<T, Y> wrapException(@Nonnull final ToLongFunctionX<T, X> other, Class<E> exception, LongSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
+		return (T t) -> {
+			try {
+				return other.applyAsLong(t);
+			} catch (Exception e) {
+				try {
+					if (supplier != null) {
+						return supplier.getAsLong();
+					}
+				} catch (Exception supplierException) {
+					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
+				}
+				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
+			}
+		};
 	}
 
 	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <Y extends Exception> ToLongFunctionX<T, Y> handle(ExceptionHandler<? super X, Y> handler) {
+	default <E extends Exception, Y extends Exception> ToLongFunctionX<T, Y> handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
+		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
-		return ToLongFunctionX.wrapException(this, Exception.class, (ExceptionHandler) handler);
+		return ToLongFunctionX.wrapException(this, exception, null, (ExceptionHandler) handler);
+	}
+
+	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
+	@Nonnull
+	default <Y extends Exception> ToLongFunctionX<T, Y> handle(ExceptionHandler<Exception, Y> handler) {
+		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return ToLongFunctionX.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
+	}
+
+	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
+	@Nonnull
+	default <E extends Exception, Y extends Exception> ToLongFunctionX<T, Y> handle(Class<E> exception, LongSupplierX<X> supplier) {
+		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
+		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return ToLongFunctionX.wrapException(this, exception, supplier, null);
+	}
+
+	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
+	@Nonnull
+	default <Y extends Exception> ToLongFunctionX<T, Y> handle(LongSupplierX<X> supplier) {
+		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return ToLongFunctionX.wrapException(this, Exception.class, supplier, null);
 	}
 
 	// </editor-fold>

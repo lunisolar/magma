@@ -44,8 +44,10 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /**
+ * Function category: function
+ * Throwing interface/lambda variant: ByteToCharFunctionX
  *
- * @see {@link eu.lunisolar.magma.func.function.conversion.ByteToCharFunctionX}
+ * @see ByteToCharFunctionX
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
@@ -59,6 +61,11 @@ public interface ByteToCharFunction extends MetaFunction, PrimitiveCodomain<Byte
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return ByteToCharFunction.DESCRIPTION;
+	}
+
+	/** Captures arguments but delays the evaluation. */
+	default CharSupplier capture(byte b) {
+		return () -> this.applyAsChar(b);
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
@@ -83,18 +90,6 @@ public interface ByteToCharFunction extends MetaFunction, PrimitiveCodomain<Byte
 				return other.applyAsChar(b);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
-	}
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <X extends Exception, Y extends RuntimeException> ByteToCharFunction wrapException(@Nonnull final ByteToCharFunction other, Class<? extends Exception> exception, ExceptionHandler<Exception, Y> rethrower) {
-		return (byte b) -> {
-			try {
-				return other.applyAsChar(b);
-			} catch (Exception e) {
-				throw ExceptionHandler.handle(exception, rethrower, e);
 			}
 		};
 	}
@@ -204,25 +199,66 @@ public interface ByteToCharFunction extends MetaFunction, PrimitiveCodomain<Byte
 		return this::applyAsChar;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default ByteToCharFunction shove() {
+		return this;
+	}
+
 	// </editor-fold>
 
 	// <editor-fold desc="exception handling">
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
+	/** Wraps with additional exception handling. */
 	@Nonnull
-	default <Y extends RuntimeException> ByteToCharFunction handle(Class<? extends Exception> exception, ExceptionHandler<? super RuntimeException, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return ByteToCharFunction.wrapException(this, exception, (ExceptionHandler) handler);
+	public static <X extends Exception, E extends Exception, Y extends RuntimeException> ByteToCharFunction wrapException(@Nonnull final ByteToCharFunction other, Class<E> exception, CharSupplier supplier, ExceptionHandler<E, Y> handler) {
+		return (byte b) -> {
+			try {
+				return other.applyAsChar(b);
+			} catch (Exception e) {
+				try {
+					if (supplier != null) {
+						return supplier.getAsChar();
+					}
+				} catch (Exception supplierException) {
+					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
+				}
+				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
+			}
+		};
 	}
 
 	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <Y extends RuntimeException> ByteToCharFunction handle(ExceptionHandler<? super RuntimeException, Y> handler) {
+	default <E extends Exception, Y extends RuntimeException> ByteToCharFunction handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
+		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
-		return ByteToCharFunction.wrapException(this, Exception.class, (ExceptionHandler) handler);
+		return ByteToCharFunction.wrapException(this, exception, null, (ExceptionHandler) handler);
+	}
+
+	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
+	@Nonnull
+	default <Y extends RuntimeException> ByteToCharFunction handle(ExceptionHandler<Exception, Y> handler) {
+		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return ByteToCharFunction.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
+	}
+
+	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
+	@Nonnull
+	default <E extends Exception, Y extends RuntimeException> ByteToCharFunction handle(Class<E> exception, CharSupplier supplier) {
+		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
+		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return ByteToCharFunction.wrapException(this, exception, supplier, null);
+	}
+
+	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
+	@Nonnull
+	default <Y extends RuntimeException> ByteToCharFunction handle(CharSupplier supplier) {
+		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return ByteToCharFunction.wrapException(this, Exception.class, supplier, null);
 	}
 
 	// </editor-fold>

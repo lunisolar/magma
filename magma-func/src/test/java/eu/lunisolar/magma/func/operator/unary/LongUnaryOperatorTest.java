@@ -164,7 +164,7 @@ public class LongUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LongUnaryOperator wrapped = LongUnaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        LongUnaryOperator wrapped = LongUnaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -189,7 +189,7 @@ public class LongUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LongUnaryOperator wrapped = LongUnaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        LongUnaryOperator wrapped = LongUnaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -213,7 +213,7 @@ public class LongUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LongUnaryOperator wrapped = LongUnaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        LongUnaryOperator wrapped = LongUnaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -633,6 +633,17 @@ public class LongUnaryOperatorTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(LongUnaryOperatorX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        LongUnaryOperator sutThrowing = LongUnaryOperator.l((long l) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsLong((long)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -672,3 +683,4 @@ public class LongUnaryOperatorTest<X extends ParseException> {
     }
 
 }
+

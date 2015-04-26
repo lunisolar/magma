@@ -77,24 +77,27 @@ public class ShortToByteFunctionBuilderTest<X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         ShortToByteFunction function = shortToByteFunction((ShortToByteFunction f)-> doNothing())
-            .addCase(ce -> ce.of((s) -> s == 0)
+            .addCase(ce -> ce.of((s) -> s == (short)0)
                              .evaluate((s) -> (byte)0))
             .inCase((s) -> s > 0 && s < 10).evaluate((s) -> (byte)1)
             .inCase((s) -> s > 10 && s < 20).evaluate((s) -> (byte)2)
             .eventually((s) -> (byte)99)
             .build();
 
+
         A.assertThat(function)
             .doesApplyAsByte((short)0).to(a -> a.isEqualTo((byte)0))
             .doesApplyAsByte((short)5).to(a -> a.isEqualTo((byte)1))
             .doesApplyAsByte((short)15).to(a -> a.isEqualTo((byte)2))
-            .doesApplyAsByte((short)10).to(a -> a.isEqualTo((byte)99));
+            .doesApplyAsByte((short)10).to(a -> a.isEqualTo((byte)99))
+        ;
+
     }
 
 
 }
+

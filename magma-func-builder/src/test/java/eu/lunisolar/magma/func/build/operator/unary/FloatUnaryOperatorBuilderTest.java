@@ -77,24 +77,27 @@ public class FloatUnaryOperatorBuilderTest<X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         FloatUnaryOperator function = floatUnaryOperator((FloatUnaryOperator f)-> doNothing())
-            .addCase(ce -> ce.of((f) -> f == 0)
+            .addCase(ce -> ce.of((f) -> f == (float)0)
                              .evaluate((f) -> (float)0))
             .inCase((f) -> f > 0 && f < 10).evaluate((f) -> (float)1)
             .inCase((f) -> f > 10 && f < 20).evaluate((f) -> (float)2)
             .eventually((f) -> (float)99)
             .build();
 
+
         A.assertThat(function)
             .doesApplyAsFloat((float)0).to(a -> a.isEqualTo((float)0))
             .doesApplyAsFloat((float)5).to(a -> a.isEqualTo((float)1))
             .doesApplyAsFloat((float)15).to(a -> a.isEqualTo((float)2))
-            .doesApplyAsFloat((float)10).to(a -> a.isEqualTo((float)99));
+            .doesApplyAsFloat((float)10).to(a -> a.isEqualTo((float)99))
+        ;
+
     }
 
 
 }
+

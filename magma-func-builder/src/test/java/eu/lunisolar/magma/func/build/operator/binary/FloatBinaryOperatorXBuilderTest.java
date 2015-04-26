@@ -77,24 +77,27 @@ public class FloatBinaryOperatorXBuilderTest<X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         FloatBinaryOperatorX<ParseException> function = floatBinaryOperatorX((FloatBinaryOperatorX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((f1,f2) -> f1 == 0)
+            .addCase(ce -> ce.of((f1,f2) -> f1 == (float)0)
                              .evaluate((f1,f2) -> (float)0))
             .inCase((f1,f2) -> f1 > 0 && f1 < 10).evaluate((f1,f2) -> (float)1)
             .inCase((f1,f2) -> f1 > 10 && f1 < 20).evaluate((f1,f2) -> (float)2)
             .eventually((f1,f2) -> (float)99)
             .build();
 
+
         A.assertThat(function)
             .doesApplyAsFloat((float)0,(float)0).to(a -> a.isEqualTo((float)0))
             .doesApplyAsFloat((float)5,(float)5).to(a -> a.isEqualTo((float)1))
             .doesApplyAsFloat((float)15,(float)15).to(a -> a.isEqualTo((float)2))
-            .doesApplyAsFloat((float)10,(float)10).to(a -> a.isEqualTo((float)99));
+            .doesApplyAsFloat((float)10,(float)10).to(a -> a.isEqualTo((float)99))
+        ;
+
     }
 
 
 }
+

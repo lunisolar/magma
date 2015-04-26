@@ -19,23 +19,21 @@
 
 package eu.lunisolar.magma.func.asserts.std;
 
-import eu.lunisolar.magma.basics.asserts.Evaluation; // NOSONAR
-import eu.lunisolar.magma.basics.asserts.FunctionalAssert; // NOSONAR
+import eu.lunisolar.magma.basics.asserts.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import org.assertj.core.api.*; // NOSONAR
-import eu.lunisolar.magma.basics.asserts.RecurringAsserts; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.func.std.*;
+import eu.lunisolar.magma.func.action.Action;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assertions for java.util.function.ToIntBiFunction. */
+/** Assert for java.util.function.ToIntBiFunction. */
 public interface StdToIntBiFunctionAssert<S extends StdToIntBiFunctionAssert<S, A, RS, T1, T2>, A extends java.util.function.ToIntBiFunction<T1, T2>, RS extends AbstractIntegerAssert<RS>, T1, T2>
 		extends
 			Assert<S, A>,
-			FunctionalAssert<S, A, RS, Integer, Exception>,
-			RecurringAsserts<S, A, RS, Integer> {
+			FullFunctionalAssert<S, A, RS, Integer, Exception> {
 
 	@Nonnull
 	Evaluation<S, A, RS, Integer, Exception> doesApplyAsInt(T1 t1, T2 t2);
@@ -43,13 +41,13 @@ public interface StdToIntBiFunctionAssert<S extends StdToIntBiFunctionAssert<S, 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends java.util.function.ToIntBiFunction<T1, T2>, RS extends AbstractIntegerAssert<RS>, T1, T2> extends Base<Impl<A, RS, T1, T2>, A, RS, T1, T2> {
 
-		public Impl(A actual, java.util.function.Function<Integer, RS> assertFunction) {
-			super(actual, Impl.class, assertFunction);
+		public Impl(A actual, java.util.function.Function<Integer, RS> assertFactory) {
+			super(actual, Impl.class, assertFactory);
 		}
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, T1, T2>, A extends java.util.function.ToIntBiFunction<T1, T2>, RS extends AbstractIntegerAssert<RS>, T1, T2> extends FunctionalAssert.Base<S, A, RS, Integer, Exception>
+	public static class Base<S extends Base<S, A, RS, T1, T2>, A extends java.util.function.ToIntBiFunction<T1, T2>, RS extends AbstractIntegerAssert<RS>, T1, T2> extends FullFunctionalAssert.Base<S, A, RS, Integer, Exception>
 			implements
 				StdToIntBiFunctionAssert<S, A, RS, T1, T2> {
 
@@ -64,6 +62,7 @@ public interface StdToIntBiFunctionAssert<S extends StdToIntBiFunctionAssert<S, 
 		public Evaluation<S, A, RS, Integer, Exception> doesApplyAsInt(T1 t1, T2 t2) {
 			return evaluation(() -> assertFactory.apply((Integer) actual.applyAsInt(t1, t2)));
 		}
+
 	}
 
 }

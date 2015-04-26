@@ -156,7 +156,7 @@ public class IntToCharFunctionTest<X extends ParseException> {
         });
 
         // when
-        IntToCharFunction wrapped = IntToCharFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        IntToCharFunction wrapped = IntToCharFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -181,7 +181,7 @@ public class IntToCharFunctionTest<X extends ParseException> {
         });
 
         // when
-        IntToCharFunction wrapped = IntToCharFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        IntToCharFunction wrapped = IntToCharFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -205,7 +205,7 @@ public class IntToCharFunctionTest<X extends ParseException> {
         });
 
         // when
-        IntToCharFunction wrapped = IntToCharFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        IntToCharFunction wrapped = IntToCharFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -613,6 +613,17 @@ public class IntToCharFunctionTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(IntToCharFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        IntToCharFunction sutThrowing = IntToCharFunction.l((int i) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsChar((int)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -652,3 +663,4 @@ public class IntToCharFunctionTest<X extends ParseException> {
     }
 
 }
+

@@ -44,8 +44,10 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /**
+ * Function category: predicate
+ * Non-throwing interface/lambda variant: ObjIntPredicate
  *
- * @see {@link eu.lunisolar.magma.func.predicate.ObjIntPredicate}
+ * @see ObjIntPredicate
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
@@ -67,6 +69,11 @@ public interface ObjIntPredicateX<T, X extends Exception> extends MetaPredicate,
 		return ObjIntPredicateX.DESCRIPTION;
 	}
 
+	/** Captures arguments but delays the evaluation. */
+	default BooleanSupplierX<X> capture(T t, int i) {
+		return () -> this.test(t, i);
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(T t, int i) throws X {
 		return test(t, i);
@@ -85,18 +92,6 @@ public interface ObjIntPredicateX<T, X extends Exception> extends MetaPredicate,
 	@Nonnull
 	public static <T, X extends Exception> ObjIntPredicateX<T, X> wrapX(final @Nonnull ObjIntPredicate<T> other) {
 		return other::test;
-	}
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <T, X extends Exception, Y extends Exception> ObjIntPredicateX<T, Y> wrapException(@Nonnull final ObjIntPredicateX<T, X> other, Class<? extends Exception> exception, ExceptionHandler<Exception, Y> rethrower) {
-		return (T t, int i) -> {
-			try {
-				return other.test(t, i);
-			} catch (Exception e) {
-				throw ExceptionHandler.handle(exception, rethrower, e);
-			}
-		};
 	}
 
 	// </editor-fold>
@@ -196,25 +191,67 @@ public interface ObjIntPredicateX<T, X extends Exception> extends MetaPredicate,
 		return nonThrowing()::test;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default ObjIntPredicate<T> shove() {
+		ObjIntPredicateX<T, RuntimeException> exceptionCast = (ObjIntPredicateX<T, RuntimeException>) this;
+		return exceptionCast::test;
+	}
+
 	// </editor-fold>
 
 	// <editor-fold desc="exception handling">
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
+	/** Wraps with additional exception handling. */
 	@Nonnull
-	default <Y extends Exception> ObjIntPredicateX<T, Y> handle(Class<? extends Exception> exception, ExceptionHandler<? super X, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return ObjIntPredicateX.wrapException(this, exception, (ExceptionHandler) handler);
+	public static <T, X extends Exception, E extends Exception, Y extends Exception> ObjIntPredicateX<T, Y> wrapException(@Nonnull final ObjIntPredicateX<T, X> other, Class<E> exception, BooleanSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
+		return (T t, int i) -> {
+			try {
+				return other.test(t, i);
+			} catch (Exception e) {
+				try {
+					if (supplier != null) {
+						return supplier.getAsBoolean();
+					}
+				} catch (Exception supplierException) {
+					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
+				}
+				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
+			}
+		};
 	}
 
 	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <Y extends Exception> ObjIntPredicateX<T, Y> handle(ExceptionHandler<? super X, Y> handler) {
+	default <E extends Exception, Y extends Exception> ObjIntPredicateX<T, Y> handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
+		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
-		return ObjIntPredicateX.wrapException(this, Exception.class, (ExceptionHandler) handler);
+		return ObjIntPredicateX.wrapException(this, exception, null, (ExceptionHandler) handler);
+	}
+
+	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
+	@Nonnull
+	default <Y extends Exception> ObjIntPredicateX<T, Y> handle(ExceptionHandler<Exception, Y> handler) {
+		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return ObjIntPredicateX.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
+	}
+
+	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
+	@Nonnull
+	default <E extends Exception, Y extends Exception> ObjIntPredicateX<T, Y> handle(Class<E> exception, BooleanSupplierX<X> supplier) {
+		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
+		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return ObjIntPredicateX.wrapException(this, exception, supplier, null);
+	}
+
+	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
+	@Nonnull
+	default <Y extends Exception> ObjIntPredicateX<T, Y> handle(BooleanSupplierX<X> supplier) {
+		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return ObjIntPredicateX.wrapException(this, Exception.class, supplier, null);
 	}
 
 	// </editor-fold>

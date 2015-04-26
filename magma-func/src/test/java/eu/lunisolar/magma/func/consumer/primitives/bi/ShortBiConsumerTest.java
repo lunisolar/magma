@@ -319,6 +319,17 @@ public class ShortBiConsumerTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(ShortBiConsumerX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        ShortBiConsumer sutThrowing = ShortBiConsumer.l((short s1,short s2) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().accept((short)100,(short)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -358,3 +369,4 @@ public class ShortBiConsumerTest<X extends ParseException> {
     }
 
 }
+

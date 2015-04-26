@@ -19,23 +19,18 @@
 
 package eu.lunisolar.magma.func.asserts.predicate;
 
-import eu.lunisolar.magma.basics.asserts.Evaluation; // NOSONAR
-import eu.lunisolar.magma.basics.asserts.FunctionalAssert; // NOSONAR
+import eu.lunisolar.magma.basics.asserts.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import org.assertj.core.api.*; // NOSONAR
-import eu.lunisolar.magma.basics.asserts.RecurringAsserts; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*;
+import eu.lunisolar.magma.func.action.Action;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assertions for BiDoublePredicate. */
-public interface BiDoublePredicateAssert<S extends BiDoublePredicateAssert<S, A, RS>, A extends BiDoublePredicate, RS extends AbstractBooleanAssert<RS>>
-		extends
-			Assert<S, A>,
-			FunctionalAssert<S, A, RS, Boolean, Exception>,
-			RecurringAsserts<S, A, RS, Boolean> {
+/** Assert for BiDoublePredicate. */
+public interface BiDoublePredicateAssert<S extends BiDoublePredicateAssert<S, A, RS>, A extends BiDoublePredicate, RS extends AbstractBooleanAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, Boolean, Exception> {
 
 	@Nonnull
 	Evaluation<S, A, RS, Boolean, Exception> doesTest(double d1, double d2);
@@ -43,13 +38,13 @@ public interface BiDoublePredicateAssert<S extends BiDoublePredicateAssert<S, A,
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends BiDoublePredicate, RS extends AbstractBooleanAssert<RS>> extends Base<Impl<A, RS>, A, RS> {
 
-		public Impl(A actual, java.util.function.Function<Boolean, RS> assertFunction) {
-			super(actual, Impl.class, assertFunction);
+		public Impl(A actual, java.util.function.Function<Boolean, RS> assertFactory) {
+			super(actual, Impl.class, assertFactory);
 		}
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS>, A extends BiDoublePredicate, RS extends AbstractBooleanAssert<RS>> extends FunctionalAssert.Base<S, A, RS, Boolean, Exception> implements BiDoublePredicateAssert<S, A, RS> {
+	public static class Base<S extends Base<S, A, RS>, A extends BiDoublePredicate, RS extends AbstractBooleanAssert<RS>> extends FullFunctionalAssert.Base<S, A, RS, Boolean, Exception> implements BiDoublePredicateAssert<S, A, RS> {
 
 		protected final java.util.function.Function<Boolean, RS> assertFactory;
 
@@ -62,6 +57,7 @@ public interface BiDoublePredicateAssert<S extends BiDoublePredicateAssert<S, A,
 		public Evaluation<S, A, RS, Boolean, Exception> doesTest(double d1, double d2) {
 			return evaluation(() -> assertFactory.apply((Boolean) actual.test(d1, d2)));
 		}
+
 	}
 
 }

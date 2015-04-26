@@ -44,8 +44,10 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /**
+ * Function category: supplier
+ * Non-throwing interface/lambda variant: DoubleSupplier
  *
- * @see {@link eu.lunisolar.magma.func.supplier.DoubleSupplier}
+ * @see DoubleSupplier
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
@@ -85,18 +87,6 @@ public interface DoubleSupplierX<X extends Exception> extends MetaSupplier, Prim
 	@Nonnull
 	public static <X extends Exception> DoubleSupplierX<X> wrapX(final @Nonnull DoubleSupplier other) {
 		return other::getAsDouble;
-	}
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <X extends Exception, Y extends Exception> DoubleSupplierX<Y> wrapException(@Nonnull final DoubleSupplierX<X> other, Class<? extends Exception> exception, ExceptionHandler<Exception, Y> rethrower) {
-		return () -> {
-			try {
-				return other.getAsDouble();
-			} catch (Exception e) {
-				throw ExceptionHandler.handle(exception, rethrower, e);
-			}
-		};
 	}
 
 	// </editor-fold>
@@ -188,25 +178,67 @@ public interface DoubleSupplierX<X extends Exception> extends MetaSupplier, Prim
 		return nonThrowing()::getAsDouble;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default DoubleSupplier shove() {
+		DoubleSupplierX<RuntimeException> exceptionCast = (DoubleSupplierX<RuntimeException>) this;
+		return exceptionCast::getAsDouble;
+	}
+
 	// </editor-fold>
 
 	// <editor-fold desc="exception handling">
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
+	/** Wraps with additional exception handling. */
 	@Nonnull
-	default <Y extends Exception> DoubleSupplierX<Y> handle(Class<? extends Exception> exception, ExceptionHandler<? super X, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return DoubleSupplierX.wrapException(this, exception, (ExceptionHandler) handler);
+	public static <X extends Exception, E extends Exception, Y extends Exception> DoubleSupplierX<Y> wrapException(@Nonnull final DoubleSupplierX<X> other, Class<E> exception, DoubleSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
+		return () -> {
+			try {
+				return other.getAsDouble();
+			} catch (Exception e) {
+				try {
+					if (supplier != null) {
+						return supplier.getAsDouble();
+					}
+				} catch (Exception supplierException) {
+					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
+				}
+				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
+			}
+		};
 	}
 
 	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <Y extends Exception> DoubleSupplierX<Y> handle(ExceptionHandler<? super X, Y> handler) {
+	default <E extends Exception, Y extends Exception> DoubleSupplierX<Y> handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
+		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
-		return DoubleSupplierX.wrapException(this, Exception.class, (ExceptionHandler) handler);
+		return DoubleSupplierX.wrapException(this, exception, null, (ExceptionHandler) handler);
+	}
+
+	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
+	@Nonnull
+	default <Y extends Exception> DoubleSupplierX<Y> handle(ExceptionHandler<Exception, Y> handler) {
+		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return DoubleSupplierX.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
+	}
+
+	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
+	@Nonnull
+	default <E extends Exception, Y extends Exception> DoubleSupplierX<Y> handle(Class<E> exception, DoubleSupplierX<X> supplier) {
+		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
+		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return DoubleSupplierX.wrapException(this, exception, supplier, null);
+	}
+
+	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
+	@Nonnull
+	default <Y extends Exception> DoubleSupplierX<Y> handle(DoubleSupplierX<X> supplier) {
+		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return DoubleSupplierX.wrapException(this, Exception.class, supplier, null);
 	}
 
 	// </editor-fold>

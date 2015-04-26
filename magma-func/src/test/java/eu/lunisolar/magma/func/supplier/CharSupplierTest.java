@@ -156,7 +156,7 @@ public class CharSupplierTest<X extends ParseException> {
         });
 
         // when
-        CharSupplier wrapped = CharSupplier.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        CharSupplier wrapped = CharSupplier.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -181,7 +181,7 @@ public class CharSupplierTest<X extends ParseException> {
         });
 
         // when
-        CharSupplier wrapped = CharSupplier.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        CharSupplier wrapped = CharSupplier.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -205,7 +205,7 @@ public class CharSupplierTest<X extends ParseException> {
         });
 
         // when
-        CharSupplier wrapped = CharSupplier.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        CharSupplier wrapped = CharSupplier.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -542,6 +542,17 @@ public class CharSupplierTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(CharSupplierX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        CharSupplier sutThrowing = CharSupplier.l(() -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().getAsChar();
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -581,3 +592,4 @@ public class CharSupplierTest<X extends ParseException> {
     }
 
 }
+

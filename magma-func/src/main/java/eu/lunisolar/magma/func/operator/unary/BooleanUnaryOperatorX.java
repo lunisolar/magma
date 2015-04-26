@@ -44,8 +44,10 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /**
+ * Function category: operator
+ * Non-throwing interface/lambda variant: BooleanUnaryOperator
  *
- * @see {@link eu.lunisolar.magma.func.operator.unary.BooleanUnaryOperator}
+ * @see BooleanUnaryOperator
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
@@ -66,6 +68,11 @@ public interface BooleanUnaryOperatorX<X extends Exception> extends MetaLogicalO
 		return BooleanUnaryOperatorX.DESCRIPTION;
 	}
 
+	/** Captures arguments but delays the evaluation. */
+	default BooleanSupplierX<X> capture(boolean b) {
+		return () -> this.applyAsBoolean(b);
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(boolean b) throws X {
 		return applyAsBoolean(b);
@@ -84,18 +91,6 @@ public interface BooleanUnaryOperatorX<X extends Exception> extends MetaLogicalO
 	@Nonnull
 	public static <X extends Exception> BooleanUnaryOperatorX<X> wrapX(final @Nonnull BooleanUnaryOperator other) {
 		return other::applyAsBoolean;
-	}
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <X extends Exception, Y extends Exception> BooleanUnaryOperatorX<Y> wrapException(@Nonnull final BooleanUnaryOperatorX<X> other, Class<? extends Exception> exception, ExceptionHandler<Exception, Y> rethrower) {
-		return (boolean b) -> {
-			try {
-				return other.applyAsBoolean(b);
-			} catch (Exception e) {
-				throw ExceptionHandler.handle(exception, rethrower, e);
-			}
-		};
 	}
 
 	// </editor-fold>
@@ -252,25 +247,67 @@ public interface BooleanUnaryOperatorX<X extends Exception> extends MetaLogicalO
 		return nonThrowing()::applyAsBoolean;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default BooleanUnaryOperator shove() {
+		BooleanUnaryOperatorX<RuntimeException> exceptionCast = (BooleanUnaryOperatorX<RuntimeException>) this;
+		return exceptionCast::applyAsBoolean;
+	}
+
 	// </editor-fold>
 
 	// <editor-fold desc="exception handling">
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
+	/** Wraps with additional exception handling. */
 	@Nonnull
-	default <Y extends Exception> BooleanUnaryOperatorX<Y> handle(Class<? extends Exception> exception, ExceptionHandler<? super X, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return BooleanUnaryOperatorX.wrapException(this, exception, (ExceptionHandler) handler);
+	public static <X extends Exception, E extends Exception, Y extends Exception> BooleanUnaryOperatorX<Y> wrapException(@Nonnull final BooleanUnaryOperatorX<X> other, Class<E> exception, BooleanSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
+		return (boolean b) -> {
+			try {
+				return other.applyAsBoolean(b);
+			} catch (Exception e) {
+				try {
+					if (supplier != null) {
+						return supplier.getAsBoolean();
+					}
+				} catch (Exception supplierException) {
+					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
+				}
+				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
+			}
+		};
 	}
 
 	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <Y extends Exception> BooleanUnaryOperatorX<Y> handle(ExceptionHandler<? super X, Y> handler) {
+	default <E extends Exception, Y extends Exception> BooleanUnaryOperatorX<Y> handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
+		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
-		return BooleanUnaryOperatorX.wrapException(this, Exception.class, (ExceptionHandler) handler);
+		return BooleanUnaryOperatorX.wrapException(this, exception, null, (ExceptionHandler) handler);
+	}
+
+	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
+	@Nonnull
+	default <Y extends Exception> BooleanUnaryOperatorX<Y> handle(ExceptionHandler<Exception, Y> handler) {
+		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return BooleanUnaryOperatorX.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
+	}
+
+	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
+	@Nonnull
+	default <E extends Exception, Y extends Exception> BooleanUnaryOperatorX<Y> handle(Class<E> exception, BooleanSupplierX<X> supplier) {
+		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
+		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return BooleanUnaryOperatorX.wrapException(this, exception, supplier, null);
+	}
+
+	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
+	@Nonnull
+	default <Y extends Exception> BooleanUnaryOperatorX<Y> handle(BooleanSupplierX<X> supplier) {
+		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return BooleanUnaryOperatorX.wrapException(this, Exception.class, supplier, null);
 	}
 
 	// </editor-fold>

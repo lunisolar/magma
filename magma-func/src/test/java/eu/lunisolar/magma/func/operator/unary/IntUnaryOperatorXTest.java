@@ -120,7 +120,7 @@ public class IntUnaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        IntUnaryOperatorX<X> wrapped = IntUnaryOperatorX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        IntUnaryOperatorX<X> wrapped = IntUnaryOperatorX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -145,7 +145,7 @@ public class IntUnaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        IntUnaryOperatorX<X> wrapped = IntUnaryOperatorX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        IntUnaryOperatorX<X> wrapped = IntUnaryOperatorX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -169,7 +169,7 @@ public class IntUnaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        IntUnaryOperatorX<X> wrapped = IntUnaryOperatorX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        IntUnaryOperatorX<X> wrapped = IntUnaryOperatorX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -589,6 +589,17 @@ public class IntUnaryOperatorXTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(IntUnaryOperatorX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        IntUnaryOperatorX<X> sutThrowing = IntUnaryOperatorX.lX((int i) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsInt((int)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -628,3 +639,4 @@ public class IntUnaryOperatorXTest<X extends ParseException> {
     }
 
 }
+

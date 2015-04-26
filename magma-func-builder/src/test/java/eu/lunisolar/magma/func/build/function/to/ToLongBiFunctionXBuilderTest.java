@@ -77,24 +77,27 @@ public class ToLongBiFunctionXBuilderTest<T1,T2,X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         ToLongBiFunctionX<Integer ,Integer ,ParseException> function = toLongBiFunctionX((ToLongBiFunctionX<Integer ,Integer ,ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((t1,t2) -> t1 == 0)
+            .addCase(ce -> ce.of((t1,t2) -> t1 == Integer.valueOf(0))
                              .evaluate((t1,t2) -> (long)0))
             .inCase((t1,t2) -> t1 > 0 && t1 < 10).evaluate((t1,t2) -> (long)1)
             .inCase((t1,t2) -> t1 > 10 && t1 < 20).evaluate((t1,t2) -> (long)2)
             .eventually((t1,t2) -> (long)99)
             .build();
 
+
         A.assertThat(function)
             .doesApplyAsLong(Integer.valueOf(0),Integer.valueOf(0)).to(a -> a.isEqualTo((long)0))
             .doesApplyAsLong(Integer.valueOf(5),Integer.valueOf(5)).to(a -> a.isEqualTo((long)1))
             .doesApplyAsLong(Integer.valueOf(15),Integer.valueOf(15)).to(a -> a.isEqualTo((long)2))
-            .doesApplyAsLong(Integer.valueOf(10),Integer.valueOf(10)).to(a -> a.isEqualTo((long)99));
+            .doesApplyAsLong(Integer.valueOf(10),Integer.valueOf(10)).to(a -> a.isEqualTo((long)99))
+        ;
+
     }
 
 
 }
+

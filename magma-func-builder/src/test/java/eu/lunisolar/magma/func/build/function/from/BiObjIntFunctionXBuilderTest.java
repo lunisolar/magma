@@ -77,24 +77,27 @@ public class BiObjIntFunctionXBuilderTest<T1,T2,R,X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         BiObjIntFunctionX<Integer ,Integer ,Integer ,ParseException> function = biObjIntFunctionX((BiObjIntFunctionX<Integer ,Integer ,Integer ,ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((t1,t2, i) -> t1 == 0)
+            .addCase(ce -> ce.of((t1,t2, i) -> t1 == Integer.valueOf(0))
                              .evaluate((t1,t2, i) -> Integer.valueOf(0)))
             .inCase((t1,t2, i) -> t1 > 0 && t1 < 10).evaluate((t1,t2, i) -> Integer.valueOf(1))
             .inCase((t1,t2, i) -> t1 > 10 && t1 < 20).evaluate((t1,t2, i) -> Integer.valueOf(2))
             .eventually((t1,t2, i) -> Integer.valueOf(99))
             .build();
 
+
         A.assertThat(function)
             .doesApply(Integer.valueOf(0),Integer.valueOf(0),(int)0).to(a -> a.isEqualTo(Integer.valueOf(0)))
             .doesApply(Integer.valueOf(5),Integer.valueOf(5),(int)5).to(a -> a.isEqualTo(Integer.valueOf(1)))
             .doesApply(Integer.valueOf(15),Integer.valueOf(15),(int)15).to(a -> a.isEqualTo(Integer.valueOf(2)))
-            .doesApply(Integer.valueOf(10),Integer.valueOf(10),(int)10).to(a -> a.isEqualTo(Integer.valueOf(99)));
+            .doesApply(Integer.valueOf(10),Integer.valueOf(10),(int)10).to(a -> a.isEqualTo(Integer.valueOf(99)))
+        ;
+
     }
 
 
 }
+

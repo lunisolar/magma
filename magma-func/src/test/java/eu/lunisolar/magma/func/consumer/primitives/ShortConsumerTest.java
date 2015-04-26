@@ -305,6 +305,17 @@ public class ShortConsumerTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(ShortConsumerX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        ShortConsumer sutThrowing = ShortConsumer.l((short s) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().accept((short)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -344,3 +355,4 @@ public class ShortConsumerTest<X extends ParseException> {
     }
 
 }
+

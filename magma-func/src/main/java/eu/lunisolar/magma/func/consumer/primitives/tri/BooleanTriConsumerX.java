@@ -45,8 +45,10 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /**
- * A consumer.
- * @see {@link eu.lunisolar.magma.func.consumer.primitives.tri.BooleanTriConsumer}
+ * Function category: consumer
+ * Non-throwing interface/lambda variant: BooleanTriConsumer
+ *
+ * @see BooleanTriConsumer
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
@@ -62,6 +64,11 @@ public interface BooleanTriConsumerX<X extends Exception> extends MetaConsumer, 
 		return BooleanTriConsumerX.DESCRIPTION;
 	}
 
+	/** Captures arguments but delays the evaluation. */
+	default ActionX<X> capture(boolean b1, boolean b2, boolean b3) {
+		return () -> this.accept(b1, b2, b3);
+	}
+
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <X extends Exception> BooleanTriConsumerX<X> lX(final @Nonnull BooleanTriConsumerX<X> lambda) {
@@ -75,18 +82,6 @@ public interface BooleanTriConsumerX<X extends Exception> extends MetaConsumer, 
 	@Nonnull
 	public static <X extends Exception> BooleanTriConsumerX<X> wrapX(final @Nonnull BooleanTriConsumer other) {
 		return other::accept;
-	}
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <X extends Exception, Y extends Exception> BooleanTriConsumerX<Y> wrapException(@Nonnull final BooleanTriConsumerX<X> other, Class<? extends Exception> exception, ExceptionHandler<Exception, Y> rethrower) {
-		return (boolean b1, boolean b2, boolean b3) -> {
-			try {
-				other.accept(b1, b2, b3);
-			} catch (Exception e) {
-				throw ExceptionHandler.handle(exception, rethrower, e);
-			}
-		};
 	}
 
 	// </editor-fold>
@@ -144,22 +139,40 @@ public interface BooleanTriConsumerX<X extends Exception> extends MetaConsumer, 
 		return nonThrowing()::accept;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default BooleanTriConsumer shove() {
+		BooleanTriConsumerX<RuntimeException> exceptionCast = (BooleanTriConsumerX<RuntimeException>) this;
+		return exceptionCast::accept;
+	}
+
 	// </editor-fold>
 
 	// <editor-fold desc="exception handling">
 
+	/** Wraps with additional exception handling. */
+	@Nonnull
+	public static <X extends Exception, E extends Exception, Y extends Exception> BooleanTriConsumerX<Y> wrapException(@Nonnull final BooleanTriConsumerX<X> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
+		return (boolean b1, boolean b2, boolean b3) -> {
+			try {
+				other.accept(b1, b2, b3);
+			} catch (Exception e) {
+				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
+			}
+		};
+	}
+
 	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <Y extends Exception> BooleanTriConsumerX<Y> handle(Class<? extends Exception> exception, ExceptionHandler<? super X, Y> handler) {
+	default <E extends Exception, Y extends Exception> BooleanTriConsumerX<Y> handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
 		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
 		return BooleanTriConsumerX.wrapException(this, exception, (ExceptionHandler) handler);
 	}
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
+	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
 	@Nonnull
-	default <Y extends Exception> BooleanTriConsumerX<Y> handle(ExceptionHandler<? super X, Y> handler) {
+	default <Y extends Exception> BooleanTriConsumerX<Y> handle(ExceptionHandler<Exception, Y> handler) {
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
 		return BooleanTriConsumerX.wrapException(this, Exception.class, (ExceptionHandler) handler);

@@ -41,6 +41,7 @@ import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+/** Builder for BinaryOperatorX. */
 public final class BinaryOperatorXBuilder<T, X extends Exception> extends PerCaseBuilder<BinaryOperatorXBuilder<T, X>, BiPredicateX<T, T, X>, BinaryOperatorX<T, X>> {
 
 	private Consumer<BinaryOperatorX<T, X>> consumer;

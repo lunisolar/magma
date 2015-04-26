@@ -41,6 +41,7 @@ import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+/** Builder for java.util.function.BooleanSupplier. */
 public final class StdBooleanSupplierBuilder extends PerCaseBuilder<StdBooleanSupplierBuilder, BooleanSupplier, java.util.function.BooleanSupplier> {
 
 	private Consumer<java.util.function.BooleanSupplier> consumer;

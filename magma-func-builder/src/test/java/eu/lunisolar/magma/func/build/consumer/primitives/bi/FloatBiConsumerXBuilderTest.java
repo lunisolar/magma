@@ -77,7 +77,28 @@ public class FloatBiConsumerXBuilderTest<X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
+        final AtomicInteger externalEffect = new AtomicInteger(0);
 
-    //TODO
+        FloatBiConsumerX<ParseException> function = floatBiConsumerX((FloatBiConsumerX<ParseException> f)-> doNothing())
+            .addCase(ce -> ce.of((f1,f2) -> f1 == (float)0)
+                             .evaluate((f1,f2) -> externalEffect.set(0)))
+            .inCase((f1,f2) -> f1 > 0 && f1 < 10).evaluate((f1,f2) -> externalEffect.set(1))
+            .inCase((f1,f2) -> f1 > 10 && f1 < 20).evaluate((f1,f2) -> externalEffect.set(2))
+            .eventually((f1,f2) -> externalEffect.set(99))
+            .build();
+
+
+        A.assertThat(function)
+            .doesAccept((float)0,(float)0).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(0)))
+            .doesAccept((float)5,(float)5).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(1)))
+            .doesAccept((float)15,(float)15).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(2)))
+            .doesAccept((float)10,(float)10).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(99)))
+        ;
+
+    }
+
 
 }
+

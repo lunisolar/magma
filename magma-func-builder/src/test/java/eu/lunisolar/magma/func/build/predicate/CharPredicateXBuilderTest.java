@@ -77,7 +77,27 @@ public class CharPredicateXBuilderTest<X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
 
-    //TODO
+        CharPredicateX<ParseException> function = charPredicateX((CharPredicateX<ParseException> f)-> doNothing())
+            .addCase(ce -> ce.of((c) -> c == (char)0)
+                             .evaluate((c) -> false))
+            .inCase((c) -> c > 0 && c < 10).evaluate((c) -> true)
+            .inCase((c) -> c > 10 && c < 20).evaluate((c) -> true)
+            .eventually((c) -> true)
+            .build();
+
+
+        A.assertThat(function)
+            .doesTest((char)0).to(a -> a.isEqualTo(false))
+            .doesTest((char)5).to(a -> a.isEqualTo(true))
+            .doesTest((char)15).to(a -> a.isEqualTo(true))
+            .doesTest((char)10).to(a -> a.isEqualTo(true))
+        ;
+
+    }
+
 
 }
+

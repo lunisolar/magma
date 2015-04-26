@@ -167,7 +167,7 @@ public class DoubleBiFunctionTest<R,X extends ParseException> {
         });
 
         // when
-        DoubleBiFunction<R> wrapped = DoubleBiFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        DoubleBiFunction<R> wrapped = DoubleBiFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -192,7 +192,7 @@ public class DoubleBiFunctionTest<R,X extends ParseException> {
         });
 
         // when
-        DoubleBiFunction<R> wrapped = DoubleBiFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        DoubleBiFunction<R> wrapped = DoubleBiFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -216,7 +216,7 @@ public class DoubleBiFunctionTest<R,X extends ParseException> {
         });
 
         // when
-        DoubleBiFunction<R> wrapped = DoubleBiFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        DoubleBiFunction<R> wrapped = DoubleBiFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -390,6 +390,17 @@ public class DoubleBiFunctionTest<R,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(DoubleBiFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        DoubleBiFunction<R> sutThrowing = DoubleBiFunction.l((double d1,double d2) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().apply((double)100,(double)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -429,3 +440,4 @@ public class DoubleBiFunctionTest<R,X extends ParseException> {
     }
 
 }
+

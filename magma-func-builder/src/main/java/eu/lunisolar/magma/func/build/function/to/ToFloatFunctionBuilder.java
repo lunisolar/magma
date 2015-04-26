@@ -41,6 +41,7 @@ import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+/** Builder for ToFloatFunction. */
 public final class ToFloatFunctionBuilder<T> extends PerCaseBuilder<ToFloatFunctionBuilder<T>, Predicate<T>, ToFloatFunction<T>> {
 
 	private Consumer<ToFloatFunction<T>> consumer;

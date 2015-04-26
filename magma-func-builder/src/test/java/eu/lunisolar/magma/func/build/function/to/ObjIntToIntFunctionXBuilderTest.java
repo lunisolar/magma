@@ -77,24 +77,27 @@ public class ObjIntToIntFunctionXBuilderTest<T,X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         ObjIntToIntFunctionX<Integer ,ParseException> function = objIntToIntFunctionX((ObjIntToIntFunctionX<Integer ,ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((t, i) -> t == 0)
+            .addCase(ce -> ce.of((t, i) -> t == Integer.valueOf(0))
                              .evaluate((t, i) -> (int)0))
             .inCase((t, i) -> t > 0 && t < 10).evaluate((t, i) -> (int)1)
             .inCase((t, i) -> t > 10 && t < 20).evaluate((t, i) -> (int)2)
             .eventually((t, i) -> (int)99)
             .build();
 
+
         A.assertThat(function)
             .doesApplyAsInt(Integer.valueOf(0),(int)0).to(a -> a.isEqualTo((int)0))
             .doesApplyAsInt(Integer.valueOf(5),(int)5).to(a -> a.isEqualTo((int)1))
             .doesApplyAsInt(Integer.valueOf(15),(int)15).to(a -> a.isEqualTo((int)2))
-            .doesApplyAsInt(Integer.valueOf(10),(int)10).to(a -> a.isEqualTo((int)99));
+            .doesApplyAsInt(Integer.valueOf(10),(int)10).to(a -> a.isEqualTo((int)99))
+        ;
+
     }
 
 
 }
+

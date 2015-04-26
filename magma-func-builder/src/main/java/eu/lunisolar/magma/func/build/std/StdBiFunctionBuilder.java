@@ -41,6 +41,7 @@ import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+/** Builder for java.util.function.BiFunction. */
 public final class StdBiFunctionBuilder<T1, T2, R> extends PerCaseBuilder<StdBiFunctionBuilder<T1, T2, R>, BiPredicate<T1, T2>, java.util.function.BiFunction<T1, T2, R>> {
 
 	private Consumer<java.util.function.BiFunction<T1, T2, R>> consumer;

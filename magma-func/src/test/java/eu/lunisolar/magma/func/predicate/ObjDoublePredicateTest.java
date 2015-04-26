@@ -163,7 +163,7 @@ public class ObjDoublePredicateTest<T,X extends ParseException> {
         });
 
         // when
-        ObjDoublePredicate<T> wrapped = ObjDoublePredicate.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ObjDoublePredicate<T> wrapped = ObjDoublePredicate.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -188,7 +188,7 @@ public class ObjDoublePredicateTest<T,X extends ParseException> {
         });
 
         // when
-        ObjDoublePredicate<T> wrapped = ObjDoublePredicate.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ObjDoublePredicate<T> wrapped = ObjDoublePredicate.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -212,7 +212,7 @@ public class ObjDoublePredicateTest<T,X extends ParseException> {
         });
 
         // when
-        ObjDoublePredicate<T> wrapped = ObjDoublePredicate.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ObjDoublePredicate<T> wrapped = ObjDoublePredicate.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -406,6 +406,17 @@ public class ObjDoublePredicateTest<T,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(ObjDoublePredicateX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        ObjDoublePredicate<T> sutThrowing = ObjDoublePredicate.l((T t, double d) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().test((T)Integer.valueOf(100),(double)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -445,3 +456,4 @@ public class ObjDoublePredicateTest<T,X extends ParseException> {
     }
 
 }
+

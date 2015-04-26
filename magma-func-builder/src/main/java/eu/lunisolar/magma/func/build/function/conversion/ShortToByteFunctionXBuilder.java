@@ -41,6 +41,7 @@ import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+/** Builder for ShortToByteFunctionX. */
 public final class ShortToByteFunctionXBuilder<X extends Exception> extends PerCaseBuilder<ShortToByteFunctionXBuilder<X>, ShortPredicateX<X>, ShortToByteFunctionX<X>> {
 
 	private Consumer<ShortToByteFunctionX<X>> consumer;

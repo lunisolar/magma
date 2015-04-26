@@ -33,90 +33,91 @@ import javax.annotation.Nonnull;
  *             itself is not intended to be used directly.
  */
 @SuppressWarnings("unchecked")
-public interface BasicAssertions<OS> {
+public interface BasicAssertions<OS extends Assert> {
 
     @Nonnull
-    default OS assertThat(Object actual) {
+    default OS assertThatObj(Object actual) {
         return (OS) Assertions.assertThat(actual);
     }
 
+//    @Nonnull
+//    default AbstractBooleanAssert assertThatBool(boolean actual) {
+//        return Assertions.assertThat(actual);
+//    }
+
     @Nonnull
-    default AbstractBooleanAssert<?> assertThat(boolean actual) {
+    default AbstractBooleanAssert assertThatBoolean(Boolean actual) {
         return Assertions.assertThat(actual);
     }
 
+//    @Nonnull
+//    default AbstractByteAssert assertThatByte(byte actual) {
+//        return Assertions.assertThat(actual);
+//    }
+
     @Nonnull
-    default AbstractBooleanAssert<?> assertThat(Boolean actual) {
+    default AbstractByteAssert assertThatByte(Byte actual) {
         return Assertions.assertThat(actual);
     }
 
+//    @Nonnull
+//    default AbstractDoubleAssert assertThatDouble(double actual) {
+//        return Assertions.assertThat(actual);
+//    }
+
     @Nonnull
-    default AbstractByteAssert<?> assertThat(byte actual) {
+    default AbstractDoubleAssert assertThatDouble(Double actual) {
         return Assertions.assertThat(actual);
     }
 
+
+//    @Nonnull
+//    default AbstractFloatAssert assertThatFloat(float actual) {
+//        return Assertions.assertThat(actual);
+//    }
+
     @Nonnull
-    default AbstractByteAssert<?> assertThat(Byte actual) {
+    default AbstractFloatAssert assertThatFloat(Float actual) {
         return Assertions.assertThat(actual);
     }
 
+//    @Nonnull
+//    default AbstractIntegerAssert assertThatInt(int actual) {
+//        return Assertions.assertThat(actual);
+//    }
+
     @Nonnull
-    default AbstractDoubleAssert<?> assertThat(Double actual) {
+    default AbstractIntegerAssert assertThatInt(Integer actual) {
         return Assertions.assertThat(actual);
     }
 
+//    @Nonnull
+//    default AbstractLongAssert assertThatLong(long actual) {
+//        return Assertions.assertThat(actual);
+//    }
+
     @Nonnull
-    default AbstractDoubleAssert<?> assertThat(double actual) {
+    default AbstractLongAssert assertThatLong(Long actual) {
         return Assertions.assertThat(actual);
     }
 
+//    @Nonnull
+//    default AbstractShortAssert assertThatShort(short actual) {
+//        return Assertions.assertThat(actual);
+//    }
+
     @Nonnull
-    default AbstractFloatAssert<?> assertThat(float actual) {
+    default AbstractShortAssert assertThatShort(Short actual) {
         return Assertions.assertThat(actual);
     }
 
-    @Nonnull
-    default AbstractFloatAssert<?> assertThat(Float actual) {
-        return Assertions.assertThat(actual);
-    }
+//    @Nonnull
+//    default AbstractCharacterAssert assertThatChar(char actual) {
+//        return Assertions.assertThat(actual);
+//    }
 
     @Nonnull
-    default AbstractIntegerAssert<?> assertThat(int actual) {
-        return Assertions.assertThat(actual);
-    }
-
-    @Nonnull
-    default AbstractIntegerAssert<?> assertThat(Integer actual) {
-        return Assertions.assertThat(actual);
-    }
-
-    @Nonnull
-    default AbstractLongAssert<?> assertThat(long actual) {
-        return Assertions.assertThat(actual);
-    }
-
-    @Nonnull
-    default AbstractLongAssert<?> assertThat(Long actual) {
-        return Assertions.assertThat(actual);
-    }
-
-    @Nonnull
-    default AbstractShortAssert<?> assertThat(short actual) {
-        return Assertions.assertThat(actual);
-    }
-
-    @Nonnull
-    default AbstractShortAssert<?> assertThat(Short actual) {
-        return Assertions.assertThat(actual);
-    }
-
-    @Nonnull
-    default AbstractCharacterAssert<?> assertThat(char actual) {
-        return Assertions.assertThat(actual);
-    }
-
-    @Nonnull
-    default AbstractCharacterAssert<?> assertThat(Character actual) {
+    default AbstractCharacterAssert assertThatChar(Character actual) {
         return Assertions.assertThat(actual);
     }
 

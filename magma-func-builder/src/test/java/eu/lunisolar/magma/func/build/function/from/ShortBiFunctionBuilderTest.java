@@ -77,24 +77,27 @@ public class ShortBiFunctionBuilderTest<R,X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         ShortBiFunction<Integer > function = shortBiFunction((ShortBiFunction<Integer > f)-> doNothing())
-            .addCase(ce -> ce.of((s1,s2) -> s1 == 0)
+            .addCase(ce -> ce.of((s1,s2) -> s1 == (short)0)
                              .evaluate((s1,s2) -> Integer.valueOf(0)))
             .inCase((s1,s2) -> s1 > 0 && s1 < 10).evaluate((s1,s2) -> Integer.valueOf(1))
             .inCase((s1,s2) -> s1 > 10 && s1 < 20).evaluate((s1,s2) -> Integer.valueOf(2))
             .eventually((s1,s2) -> Integer.valueOf(99))
             .build();
 
+
         A.assertThat(function)
             .doesApply((short)0,(short)0).to(a -> a.isEqualTo(Integer.valueOf(0)))
             .doesApply((short)5,(short)5).to(a -> a.isEqualTo(Integer.valueOf(1)))
             .doesApply((short)15,(short)15).to(a -> a.isEqualTo(Integer.valueOf(2)))
-            .doesApply((short)10,(short)10).to(a -> a.isEqualTo(Integer.valueOf(99)));
+            .doesApply((short)10,(short)10).to(a -> a.isEqualTo(Integer.valueOf(99)))
+        ;
+
     }
 
 
 }
+

@@ -156,7 +156,7 @@ public class ByteToFloatFunctionTest<X extends ParseException> {
         });
 
         // when
-        ByteToFloatFunction wrapped = ByteToFloatFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ByteToFloatFunction wrapped = ByteToFloatFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -181,7 +181,7 @@ public class ByteToFloatFunctionTest<X extends ParseException> {
         });
 
         // when
-        ByteToFloatFunction wrapped = ByteToFloatFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ByteToFloatFunction wrapped = ByteToFloatFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -205,7 +205,7 @@ public class ByteToFloatFunctionTest<X extends ParseException> {
         });
 
         // when
-        ByteToFloatFunction wrapped = ByteToFloatFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ByteToFloatFunction wrapped = ByteToFloatFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -613,6 +613,17 @@ public class ByteToFloatFunctionTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(ByteToFloatFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        ByteToFloatFunction sutThrowing = ByteToFloatFunction.l((byte b) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsFloat((byte)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -652,3 +663,4 @@ public class ByteToFloatFunctionTest<X extends ParseException> {
     }
 
 }
+

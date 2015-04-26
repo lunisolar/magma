@@ -156,7 +156,7 @@ public class ObjIntToIntFunctionTest<T,X extends ParseException> {
         });
 
         // when
-        ObjIntToIntFunction<T> wrapped = ObjIntToIntFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ObjIntToIntFunction<T> wrapped = ObjIntToIntFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -181,7 +181,7 @@ public class ObjIntToIntFunctionTest<T,X extends ParseException> {
         });
 
         // when
-        ObjIntToIntFunction<T> wrapped = ObjIntToIntFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ObjIntToIntFunction<T> wrapped = ObjIntToIntFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -205,7 +205,7 @@ public class ObjIntToIntFunctionTest<T,X extends ParseException> {
         });
 
         // when
-        ObjIntToIntFunction<T> wrapped = ObjIntToIntFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ObjIntToIntFunction<T> wrapped = ObjIntToIntFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -346,6 +346,17 @@ public class ObjIntToIntFunctionTest<T,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(ObjIntToIntFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        ObjIntToIntFunction<T> sutThrowing = ObjIntToIntFunction.l((T t, int i) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsInt((T)Integer.valueOf(100),(int)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -385,3 +396,4 @@ public class ObjIntToIntFunctionTest<T,X extends ParseException> {
     }
 
 }
+

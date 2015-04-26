@@ -112,7 +112,7 @@ public class ToCharBiFunctionXTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        ToCharBiFunctionX<T1,T2,X> wrapped = ToCharBiFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ToCharBiFunctionX<T1,T2,X> wrapped = ToCharBiFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -137,7 +137,7 @@ public class ToCharBiFunctionXTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        ToCharBiFunctionX<T1,T2,X> wrapped = ToCharBiFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ToCharBiFunctionX<T1,T2,X> wrapped = ToCharBiFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -161,7 +161,7 @@ public class ToCharBiFunctionXTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        ToCharBiFunctionX<T1,T2,X> wrapped = ToCharBiFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ToCharBiFunctionX<T1,T2,X> wrapped = ToCharBiFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -267,6 +267,17 @@ public class ToCharBiFunctionXTest<T1,T2,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(ToCharBiFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        ToCharBiFunctionX<T1,T2,X> sutThrowing = ToCharBiFunctionX.lX((T1 t1,T2 t2) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsChar((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -306,3 +317,4 @@ public class ToCharBiFunctionXTest<T1,T2,X extends ParseException> {
     }
 
 }
+

@@ -19,23 +19,21 @@
 
 package eu.lunisolar.magma.func.asserts.function.conversion;
 
-import eu.lunisolar.magma.basics.asserts.Evaluation; // NOSONAR
-import eu.lunisolar.magma.basics.asserts.FunctionalAssert; // NOSONAR
+import eu.lunisolar.magma.basics.asserts.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import org.assertj.core.api.*; // NOSONAR
-import eu.lunisolar.magma.basics.asserts.RecurringAsserts; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.func.function.conversion.*;
+import eu.lunisolar.magma.func.action.Action;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assertions for ShortToFloatFunctionX. */
+/** Assert for ShortToFloatFunctionX. */
 public interface ShortToFloatFunctionXAssert<S extends ShortToFloatFunctionXAssert<S, A, RS, X>, A extends ShortToFloatFunctionX<X>, RS extends AbstractFloatAssert<RS>, X extends Exception>
 		extends
 			Assert<S, A>,
-			FunctionalAssert<S, A, RS, Float, Exception>,
-			RecurringAsserts<S, A, RS, Float> {
+			FullFunctionalAssert<S, A, RS, Float, Exception> {
 
 	@Nonnull
 	Evaluation<S, A, RS, Float, Exception> doesApplyAsFloat(short s);
@@ -43,13 +41,13 @@ public interface ShortToFloatFunctionXAssert<S extends ShortToFloatFunctionXAsse
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends ShortToFloatFunctionX<X>, RS extends AbstractFloatAssert<RS>, X extends Exception> extends Base<Impl<A, RS, X>, A, RS, X> {
 
-		public Impl(A actual, java.util.function.Function<Float, RS> assertFunction) {
-			super(actual, Impl.class, assertFunction);
+		public Impl(A actual, java.util.function.Function<Float, RS> assertFactory) {
+			super(actual, Impl.class, assertFactory);
 		}
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, X>, A extends ShortToFloatFunctionX<X>, RS extends AbstractFloatAssert<RS>, X extends Exception> extends FunctionalAssert.Base<S, A, RS, Float, Exception>
+	public static class Base<S extends Base<S, A, RS, X>, A extends ShortToFloatFunctionX<X>, RS extends AbstractFloatAssert<RS>, X extends Exception> extends FullFunctionalAssert.Base<S, A, RS, Float, Exception>
 			implements
 				ShortToFloatFunctionXAssert<S, A, RS, X> {
 
@@ -64,6 +62,7 @@ public interface ShortToFloatFunctionXAssert<S extends ShortToFloatFunctionXAsse
 		public Evaluation<S, A, RS, Float, Exception> doesApplyAsFloat(short s) {
 			return evaluation(() -> assertFactory.apply((Float) actual.applyAsFloat(s)));
 		}
+
 	}
 
 }

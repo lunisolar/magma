@@ -77,24 +77,27 @@ public class LongToDoubleFunctionXBuilderTest<X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         LongToDoubleFunctionX<ParseException> function = longToDoubleFunctionX((LongToDoubleFunctionX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((l) -> l == 0)
+            .addCase(ce -> ce.of((l) -> l == (long)0)
                              .evaluate((l) -> (double)0))
             .inCase((l) -> l > 0 && l < 10).evaluate((l) -> (double)1)
             .inCase((l) -> l > 10 && l < 20).evaluate((l) -> (double)2)
             .eventually((l) -> (double)99)
             .build();
 
+
         A.assertThat(function)
             .doesApplyAsDouble((long)0).to(a -> a.isEqualTo((double)0))
             .doesApplyAsDouble((long)5).to(a -> a.isEqualTo((double)1))
             .doesApplyAsDouble((long)15).to(a -> a.isEqualTo((double)2))
-            .doesApplyAsDouble((long)10).to(a -> a.isEqualTo((double)99));
+            .doesApplyAsDouble((long)10).to(a -> a.isEqualTo((double)99))
+        ;
+
     }
 
 
 }
+

@@ -77,24 +77,27 @@ public class ShortUnaryOperatorXBuilderTest<X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         ShortUnaryOperatorX<ParseException> function = shortUnaryOperatorX((ShortUnaryOperatorX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((s) -> s == 0)
+            .addCase(ce -> ce.of((s) -> s == (short)0)
                              .evaluate((s) -> (short)0))
             .inCase((s) -> s > 0 && s < 10).evaluate((s) -> (short)1)
             .inCase((s) -> s > 10 && s < 20).evaluate((s) -> (short)2)
             .eventually((s) -> (short)99)
             .build();
 
+
         A.assertThat(function)
             .doesApplyAsShort((short)0).to(a -> a.isEqualTo((short)0))
             .doesApplyAsShort((short)5).to(a -> a.isEqualTo((short)1))
             .doesApplyAsShort((short)15).to(a -> a.isEqualTo((short)2))
-            .doesApplyAsShort((short)10).to(a -> a.isEqualTo((short)99));
+            .doesApplyAsShort((short)10).to(a -> a.isEqualTo((short)99))
+        ;
+
     }
 
 
 }
+

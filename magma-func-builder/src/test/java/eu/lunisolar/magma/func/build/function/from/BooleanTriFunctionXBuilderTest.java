@@ -77,7 +77,24 @@ public class BooleanTriFunctionXBuilderTest<R,X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
 
-    //TODO
+        BooleanTriFunctionX<Integer ,ParseException> function = booleanTriFunctionX((BooleanTriFunctionX<Integer ,ParseException> f)-> doNothing())
+            .addCase(ce -> ce.of((b1,b2,b3) -> b1 == false)
+                             .evaluate((b1,b2,b3) -> Integer.valueOf(0)))
+            .inCase((b1,b2,b3) -> b1 == true ).evaluate((b1,b2,b3) -> Integer.valueOf(1))
+            .eventually((b1,b2,b3) -> Integer.valueOf(99))
+            .build();
+
+
+        A.assertThat(function)
+            .doesApply(false,false,false).to(a -> a.isEqualTo(Integer.valueOf(0)))
+            .doesApply(true,true,true).to(a -> a.isEqualTo(Integer.valueOf(1)))
+        ;
+
+    }
+
 
 }
+

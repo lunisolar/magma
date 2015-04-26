@@ -167,7 +167,7 @@ public class BooleanTriFunctionTest<R,X extends ParseException> {
         });
 
         // when
-        BooleanTriFunction<R> wrapped = BooleanTriFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BooleanTriFunction<R> wrapped = BooleanTriFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -192,7 +192,7 @@ public class BooleanTriFunctionTest<R,X extends ParseException> {
         });
 
         // when
-        BooleanTriFunction<R> wrapped = BooleanTriFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BooleanTriFunction<R> wrapped = BooleanTriFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -216,7 +216,7 @@ public class BooleanTriFunctionTest<R,X extends ParseException> {
         });
 
         // when
-        BooleanTriFunction<R> wrapped = BooleanTriFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BooleanTriFunction<R> wrapped = BooleanTriFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -404,6 +404,17 @@ public class BooleanTriFunctionTest<R,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(BooleanTriFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        BooleanTriFunction<R> sutThrowing = BooleanTriFunction.l((boolean b1,boolean b2,boolean b3) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().apply(true,true,true);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -443,3 +454,4 @@ public class BooleanTriFunctionTest<R,X extends ParseException> {
     }
 
 }
+

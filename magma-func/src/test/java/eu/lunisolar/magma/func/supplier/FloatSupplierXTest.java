@@ -112,7 +112,7 @@ public class FloatSupplierXTest<X extends ParseException> {
         });
 
         // when
-        FloatSupplierX<X> wrapped = FloatSupplierX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        FloatSupplierX<X> wrapped = FloatSupplierX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -137,7 +137,7 @@ public class FloatSupplierXTest<X extends ParseException> {
         });
 
         // when
-        FloatSupplierX<X> wrapped = FloatSupplierX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        FloatSupplierX<X> wrapped = FloatSupplierX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -161,7 +161,7 @@ public class FloatSupplierXTest<X extends ParseException> {
         });
 
         // when
-        FloatSupplierX<X> wrapped = FloatSupplierX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        FloatSupplierX<X> wrapped = FloatSupplierX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -498,6 +498,17 @@ public class FloatSupplierXTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(FloatSupplierX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        FloatSupplierX<X> sutThrowing = FloatSupplierX.lX(() -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().getAsFloat();
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -537,3 +548,4 @@ public class FloatSupplierXTest<X extends ParseException> {
     }
 
 }
+

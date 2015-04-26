@@ -77,7 +77,27 @@ public class LongPredicateXBuilderTest<X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
 
-    //TODO
+        LongPredicateX<ParseException> function = longPredicateX((LongPredicateX<ParseException> f)-> doNothing())
+            .addCase(ce -> ce.of((l) -> l == (long)0)
+                             .evaluate((l) -> false))
+            .inCase((l) -> l > 0 && l < 10).evaluate((l) -> true)
+            .inCase((l) -> l > 10 && l < 20).evaluate((l) -> true)
+            .eventually((l) -> true)
+            .build();
+
+
+        A.assertThat(function)
+            .doesTest((long)0).to(a -> a.isEqualTo(false))
+            .doesTest((long)5).to(a -> a.isEqualTo(true))
+            .doesTest((long)15).to(a -> a.isEqualTo(true))
+            .doesTest((long)10).to(a -> a.isEqualTo(true))
+        ;
+
+    }
+
 
 }
+

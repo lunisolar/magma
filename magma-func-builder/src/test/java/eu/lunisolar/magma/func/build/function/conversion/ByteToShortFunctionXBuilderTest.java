@@ -77,24 +77,27 @@ public class ByteToShortFunctionXBuilderTest<X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         ByteToShortFunctionX<ParseException> function = byteToShortFunctionX((ByteToShortFunctionX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((b) -> b == 0)
+            .addCase(ce -> ce.of((b) -> b == (byte)0)
                              .evaluate((b) -> (short)0))
             .inCase((b) -> b > 0 && b < 10).evaluate((b) -> (short)1)
             .inCase((b) -> b > 10 && b < 20).evaluate((b) -> (short)2)
             .eventually((b) -> (short)99)
             .build();
 
+
         A.assertThat(function)
             .doesApplyAsShort((byte)0).to(a -> a.isEqualTo((short)0))
             .doesApplyAsShort((byte)5).to(a -> a.isEqualTo((short)1))
             .doesApplyAsShort((byte)15).to(a -> a.isEqualTo((short)2))
-            .doesApplyAsShort((byte)10).to(a -> a.isEqualTo((short)99));
+            .doesApplyAsShort((byte)10).to(a -> a.isEqualTo((short)99))
+        ;
+
     }
 
 
 }
+

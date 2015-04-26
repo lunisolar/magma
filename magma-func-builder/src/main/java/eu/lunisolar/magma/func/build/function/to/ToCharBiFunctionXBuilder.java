@@ -41,6 +41,7 @@ import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+/** Builder for ToCharBiFunctionX. */
 public final class ToCharBiFunctionXBuilder<T1, T2, X extends Exception> extends PerCaseBuilder<ToCharBiFunctionXBuilder<T1, T2, X>, BiPredicateX<T1, T2, X>, ToCharBiFunctionX<T1, T2, X>> {
 
 	private Consumer<ToCharBiFunctionX<T1, T2, X>> consumer;

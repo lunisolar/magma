@@ -77,7 +77,28 @@ public class ByteSupplierXBuilderTest<X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
+        final AtomicInteger externalInfluence = new AtomicInteger(0);
 
-    //TODO
+        ByteSupplierX<ParseException> function = byteSupplierX((ByteSupplierX<ParseException> f)-> doNothing())
+            .addCase(ce -> ce.of(() -> externalInfluence.get() == Integer.valueOf(0))
+                             .evaluate(() -> (byte)0))
+            .inCase(() -> externalInfluence.get() > 0 && externalInfluence.get() < 10).evaluate(() -> (byte)1)
+            .inCase(() -> externalInfluence.get() > 10 && externalInfluence.get() < 20).evaluate(() -> (byte)2)
+            .eventually(() -> (byte)99)
+            .build();
+
+
+        A.assertThat(function)
+            .doesGetAsByte(()->externalInfluence.set(0)).to(a -> a.isEqualTo((byte)0))
+            .doesGetAsByte(()->externalInfluence.set(5)).to(a -> a.isEqualTo((byte)1))
+            .doesGetAsByte(()->externalInfluence.set(15)).to(a -> a.isEqualTo((byte)2))
+            .doesGetAsByte(()->externalInfluence.set(10)).to(a -> a.isEqualTo((byte)99))
+        ;
+
+    }
+
 
 }
+

@@ -77,7 +77,28 @@ public class ShortConsumerXBuilderTest<X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
+        final AtomicInteger externalEffect = new AtomicInteger(0);
 
-    //TODO
+        ShortConsumerX<ParseException> function = shortConsumerX((ShortConsumerX<ParseException> f)-> doNothing())
+            .addCase(ce -> ce.of((s) -> s == (short)0)
+                             .evaluate((s) -> externalEffect.set(0)))
+            .inCase((s) -> s > 0 && s < 10).evaluate((s) -> externalEffect.set(1))
+            .inCase((s) -> s > 10 && s < 20).evaluate((s) -> externalEffect.set(2))
+            .eventually((s) -> externalEffect.set(99))
+            .build();
+
+
+        A.assertThat(function)
+            .doesAccept((short)0).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(0)))
+            .doesAccept((short)5).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(1)))
+            .doesAccept((short)15).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(2)))
+            .doesAccept((short)10).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(99)))
+        ;
+
+    }
+
 
 }
+

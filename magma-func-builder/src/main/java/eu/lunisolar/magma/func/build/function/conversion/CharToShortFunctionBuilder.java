@@ -41,6 +41,7 @@ import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+/** Builder for CharToShortFunction. */
 public final class CharToShortFunctionBuilder extends PerCaseBuilder<CharToShortFunctionBuilder, CharPredicate, CharToShortFunction> {
 
 	private Consumer<CharToShortFunction> consumer;

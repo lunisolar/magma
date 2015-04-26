@@ -167,7 +167,7 @@ public class BiObjDoubleFunctionTest<T1,T2,R,X extends ParseException> {
         });
 
         // when
-        BiObjDoubleFunction<T1,T2,R> wrapped = BiObjDoubleFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BiObjDoubleFunction<T1,T2,R> wrapped = BiObjDoubleFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -192,7 +192,7 @@ public class BiObjDoubleFunctionTest<T1,T2,R,X extends ParseException> {
         });
 
         // when
-        BiObjDoubleFunction<T1,T2,R> wrapped = BiObjDoubleFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BiObjDoubleFunction<T1,T2,R> wrapped = BiObjDoubleFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -216,7 +216,7 @@ public class BiObjDoubleFunctionTest<T1,T2,R,X extends ParseException> {
         });
 
         // when
-        BiObjDoubleFunction<T1,T2,R> wrapped = BiObjDoubleFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BiObjDoubleFunction<T1,T2,R> wrapped = BiObjDoubleFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -404,6 +404,17 @@ public class BiObjDoubleFunctionTest<T1,T2,R,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(BiObjDoubleFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        BiObjDoubleFunction<T1,T2,R> sutThrowing = BiObjDoubleFunction.l((T1 t1,T2 t2, double d) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().apply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(double)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -443,3 +454,4 @@ public class BiObjDoubleFunctionTest<T1,T2,R,X extends ParseException> {
     }
 
 }
+

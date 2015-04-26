@@ -261,6 +261,17 @@ public class FloatConsumerXTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(FloatConsumerX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        FloatConsumerX<X> sutThrowing = FloatConsumerX.lX((float f) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().accept((float)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -300,3 +311,4 @@ public class FloatConsumerXTest<X extends ParseException> {
     }
 
 }
+

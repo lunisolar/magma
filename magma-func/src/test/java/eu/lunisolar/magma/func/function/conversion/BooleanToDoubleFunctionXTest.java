@@ -112,7 +112,7 @@ public class BooleanToDoubleFunctionXTest<X extends ParseException> {
         });
 
         // when
-        BooleanToDoubleFunctionX<X> wrapped = BooleanToDoubleFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BooleanToDoubleFunctionX<X> wrapped = BooleanToDoubleFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -137,7 +137,7 @@ public class BooleanToDoubleFunctionXTest<X extends ParseException> {
         });
 
         // when
-        BooleanToDoubleFunctionX<X> wrapped = BooleanToDoubleFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BooleanToDoubleFunctionX<X> wrapped = BooleanToDoubleFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -161,7 +161,7 @@ public class BooleanToDoubleFunctionXTest<X extends ParseException> {
         });
 
         // when
-        BooleanToDoubleFunctionX<X> wrapped = BooleanToDoubleFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BooleanToDoubleFunctionX<X> wrapped = BooleanToDoubleFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -569,6 +569,17 @@ public class BooleanToDoubleFunctionXTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(BooleanToDoubleFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        BooleanToDoubleFunctionX<X> sutThrowing = BooleanToDoubleFunctionX.lX((boolean b) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsDouble(true);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -608,3 +619,4 @@ public class BooleanToDoubleFunctionXTest<X extends ParseException> {
     }
 
 }
+

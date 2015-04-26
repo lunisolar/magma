@@ -77,7 +77,27 @@ public class PredicateBuilderTest<T,X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
 
-    //TODO
+        Predicate<Integer > function = predicate((Predicate<Integer > f)-> doNothing())
+            .addCase(ce -> ce.of((t) -> t == Integer.valueOf(0))
+                             .evaluate((t) -> false))
+            .inCase((t) -> t > 0 && t < 10).evaluate((t) -> true)
+            .inCase((t) -> t > 10 && t < 20).evaluate((t) -> true)
+            .eventually((t) -> true)
+            .build();
+
+
+        A.assertThat(function)
+            .doesTest(Integer.valueOf(0)).to(a -> a.isEqualTo(false))
+            .doesTest(Integer.valueOf(5)).to(a -> a.isEqualTo(true))
+            .doesTest(Integer.valueOf(15)).to(a -> a.isEqualTo(true))
+            .doesTest(Integer.valueOf(10)).to(a -> a.isEqualTo(true))
+        ;
+
+    }
+
 
 }
+

@@ -123,7 +123,7 @@ public class BiObjShortFunctionXTest<T1,T2,R,X extends ParseException> {
         });
 
         // when
-        BiObjShortFunctionX<T1,T2,R,X> wrapped = BiObjShortFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BiObjShortFunctionX<T1,T2,R,X> wrapped = BiObjShortFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -148,7 +148,7 @@ public class BiObjShortFunctionXTest<T1,T2,R,X extends ParseException> {
         });
 
         // when
-        BiObjShortFunctionX<T1,T2,R,X> wrapped = BiObjShortFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BiObjShortFunctionX<T1,T2,R,X> wrapped = BiObjShortFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -172,7 +172,7 @@ public class BiObjShortFunctionXTest<T1,T2,R,X extends ParseException> {
         });
 
         // when
-        BiObjShortFunctionX<T1,T2,R,X> wrapped = BiObjShortFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BiObjShortFunctionX<T1,T2,R,X> wrapped = BiObjShortFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -360,6 +360,17 @@ public class BiObjShortFunctionXTest<T1,T2,R,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(BiObjShortFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        BiObjShortFunctionX<T1,T2,R,X> sutThrowing = BiObjShortFunctionX.lX((T1 t1,T2 t2, short s) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().apply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(short)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -399,3 +410,4 @@ public class BiObjShortFunctionXTest<T1,T2,R,X extends ParseException> {
     }
 
 }
+

@@ -41,6 +41,7 @@ import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+/** Builder for Action. */
 public final class ActionBuilder extends PerCaseBuilder<ActionBuilder, BooleanSupplier, Action> {
 
 	private Consumer<Action> consumer;
@@ -94,6 +95,7 @@ public final class ActionBuilder extends PerCaseBuilder<ActionBuilder, BooleanSu
 				for (Case<BooleanSupplier, Action> aCase : casesArray) {
 					if (aCase.casePredicate().getAsBoolean()) {
 						aCase.caseFunction().execute();
+						return;
 					}
 				}
 

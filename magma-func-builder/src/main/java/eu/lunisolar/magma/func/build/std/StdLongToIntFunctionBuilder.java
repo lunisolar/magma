@@ -41,6 +41,7 @@ import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+/** Builder for java.util.function.LongToIntFunction. */
 public final class StdLongToIntFunctionBuilder extends PerCaseBuilder<StdLongToIntFunctionBuilder, LongPredicate, java.util.function.LongToIntFunction> {
 
 	private Consumer<java.util.function.LongToIntFunction> consumer;

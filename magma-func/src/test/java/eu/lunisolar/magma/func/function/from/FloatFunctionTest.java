@@ -167,7 +167,7 @@ public class FloatFunctionTest<R,X extends ParseException> {
         });
 
         // when
-        FloatFunction<R> wrapped = FloatFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        FloatFunction<R> wrapped = FloatFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -192,7 +192,7 @@ public class FloatFunctionTest<R,X extends ParseException> {
         });
 
         // when
-        FloatFunction<R> wrapped = FloatFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        FloatFunction<R> wrapped = FloatFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -216,7 +216,7 @@ public class FloatFunctionTest<R,X extends ParseException> {
         });
 
         // when
-        FloatFunction<R> wrapped = FloatFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        FloatFunction<R> wrapped = FloatFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -656,6 +656,17 @@ public class FloatFunctionTest<R,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(FloatFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        FloatFunction<R> sutThrowing = FloatFunction.l((float f) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().apply((float)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -695,3 +706,4 @@ public class FloatFunctionTest<R,X extends ParseException> {
     }
 
 }
+

@@ -119,7 +119,7 @@ public class ObjLongPredicateXTest<T,X extends ParseException> {
         });
 
         // when
-        ObjLongPredicateX<T,X> wrapped = ObjLongPredicateX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ObjLongPredicateX<T,X> wrapped = ObjLongPredicateX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -144,7 +144,7 @@ public class ObjLongPredicateXTest<T,X extends ParseException> {
         });
 
         // when
-        ObjLongPredicateX<T,X> wrapped = ObjLongPredicateX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ObjLongPredicateX<T,X> wrapped = ObjLongPredicateX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -168,7 +168,7 @@ public class ObjLongPredicateXTest<T,X extends ParseException> {
         });
 
         // when
-        ObjLongPredicateX<T,X> wrapped = ObjLongPredicateX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ObjLongPredicateX<T,X> wrapped = ObjLongPredicateX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -362,6 +362,17 @@ public class ObjLongPredicateXTest<T,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(ObjLongPredicateX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        ObjLongPredicateX<T,X> sutThrowing = ObjLongPredicateX.lX((T t, long l) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().test((T)Integer.valueOf(100),(long)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -401,3 +412,4 @@ public class ObjLongPredicateXTest<T,X extends ParseException> {
     }
 
 }
+

@@ -32,14 +32,13 @@ import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.NestedException; //NOSONAR
-import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
+import java.util.concurrent.atomic.*; //NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 @SuppressWarnings("ALL")
 public class ToDoubleBiFunctionXAssertTest<T1,T2,X extends ParseException> {
 
     private double testValue = (double)100;
-
 
     @SuppressWarnings("unchecked") public static final FunctionalAssertions<ObjectAssert> A = new FunctionalAssertions() {
     };
@@ -52,12 +51,12 @@ public class ToDoubleBiFunctionXAssertTest<T1,T2,X extends ParseException> {
         throw new UnsupportedOperationException();
     });
 
-
     @Test
     public void testAssertPositive() throws ParseException {
 
         A.assertThat(function)
-         .doesApplyAsDouble((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81)).to(a -> a.isEqualTo(testValue));
+         .doesApplyAsDouble((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81))
+            .to(a -> a.isEqualTo(testValue));
 
     }
 
@@ -65,16 +64,17 @@ public class ToDoubleBiFunctionXAssertTest<T1,T2,X extends ParseException> {
     public void testAssertNegative() throws ParseException {
 
         A.assertThat(function)
-         .doesApplyAsDouble((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81)).to( a -> a.isEqualTo(2));
+         .doesApplyAsDouble((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81))
+            .to( a -> a.isEqualTo(2));
 
     }
 
-    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Should evaluate without exception.")
+    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Should evaluate without problem.")
     public void testAssertThrowsUnexpected() throws ParseException {
 
         A.assertThat(functionThrowing)
-         .doesApplyAsDouble((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81)).to( a -> a.isEqualTo(1));
-
+         .doesApplyAsDouble((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81))
+            .to( a -> a.isEqualTo(1));
     }
 
     @Test
@@ -97,8 +97,10 @@ public class ToDoubleBiFunctionXAssertTest<T1,T2,X extends ParseException> {
             recurringAssertsCalls.incrementAndGet();
             a.isEqualTo(testValue);
          })
-         .doesApplyAsDouble((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81)).to(a -> a.isEqualTo(testValue))
-         .doesApplyAsDouble((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81)).to(a -> a.isEqualTo(testValue));
+         .doesApplyAsDouble((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81))
+            .to(a -> a.isEqualTo(testValue))
+         .doesApplyAsDouble((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81))
+            .to(a -> a.isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);
     }
@@ -115,10 +117,13 @@ public class ToDoubleBiFunctionXAssertTest<T1,T2,X extends ParseException> {
                 a.isEqualTo(0);
             }
          })
-         .doesApplyAsDouble((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81)).to(a -> a.isEqualTo(testValue))
-         .doesApplyAsDouble((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81)).to(a -> a.isEqualTo(testValue));
+         .doesApplyAsDouble((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81))
+            .to(a -> a.isEqualTo(testValue))
+         .doesApplyAsDouble((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81))
+            .to(a -> a.isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);
     }
 
 }
+

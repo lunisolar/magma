@@ -19,23 +19,18 @@
 
 package eu.lunisolar.magma.func.asserts.predicate;
 
-import eu.lunisolar.magma.basics.asserts.Evaluation; // NOSONAR
-import eu.lunisolar.magma.basics.asserts.FunctionalAssert; // NOSONAR
+import eu.lunisolar.magma.basics.asserts.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import org.assertj.core.api.*; // NOSONAR
-import eu.lunisolar.magma.basics.asserts.RecurringAsserts; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.func.predicate.*;
+import eu.lunisolar.magma.func.action.Action;
 
 import static org.assertj.core.api.Fail.fail;
 
-/** Assertions for PredicateX. */
-public interface PredicateXAssert<S extends PredicateXAssert<S, A, RS, T, X>, A extends PredicateX<T, X>, RS extends AbstractBooleanAssert<RS>, T, X extends Exception>
-		extends
-			Assert<S, A>,
-			FunctionalAssert<S, A, RS, Boolean, Exception>,
-			RecurringAsserts<S, A, RS, Boolean> {
+/** Assert for PredicateX. */
+public interface PredicateXAssert<S extends PredicateXAssert<S, A, RS, T, X>, A extends PredicateX<T, X>, RS extends AbstractBooleanAssert<RS>, T, X extends Exception> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, Boolean, Exception> {
 
 	@Nonnull
 	Evaluation<S, A, RS, Boolean, Exception> doesTest(T t);
@@ -43,13 +38,15 @@ public interface PredicateXAssert<S extends PredicateXAssert<S, A, RS, T, X>, A 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends PredicateX<T, X>, RS extends AbstractBooleanAssert<RS>, T, X extends Exception> extends Base<Impl<A, RS, T, X>, A, RS, T, X> {
 
-		public Impl(A actual, java.util.function.Function<Boolean, RS> assertFunction) {
-			super(actual, Impl.class, assertFunction);
+		public Impl(A actual, java.util.function.Function<Boolean, RS> assertFactory) {
+			super(actual, Impl.class, assertFactory);
 		}
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, T, X>, A extends PredicateX<T, X>, RS extends AbstractBooleanAssert<RS>, T, X extends Exception> extends FunctionalAssert.Base<S, A, RS, Boolean, Exception> implements PredicateXAssert<S, A, RS, T, X> {
+	public static class Base<S extends Base<S, A, RS, T, X>, A extends PredicateX<T, X>, RS extends AbstractBooleanAssert<RS>, T, X extends Exception> extends FullFunctionalAssert.Base<S, A, RS, Boolean, Exception>
+			implements
+				PredicateXAssert<S, A, RS, T, X> {
 
 		protected final java.util.function.Function<Boolean, RS> assertFactory;
 
@@ -62,6 +59,7 @@ public interface PredicateXAssert<S extends PredicateXAssert<S, A, RS, T, X>, A 
 		public Evaluation<S, A, RS, Boolean, Exception> doesTest(T t) {
 			return evaluation(() -> assertFactory.apply((Boolean) actual.test(t)));
 		}
+
 	}
 
 }

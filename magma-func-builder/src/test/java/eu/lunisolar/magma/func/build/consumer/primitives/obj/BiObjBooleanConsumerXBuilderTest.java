@@ -77,7 +77,26 @@ public class BiObjBooleanConsumerXBuilderTest<T1,T2,X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
+        final AtomicInteger externalEffect = new AtomicInteger(0);
 
-    //TODO
+        BiObjBooleanConsumerX<Integer ,Integer ,ParseException> function = biObjBooleanConsumerX((BiObjBooleanConsumerX<Integer ,Integer ,ParseException> f)-> doNothing())
+            .addCase(ce -> ce.of((t1,t2, b) -> t1 == Integer.valueOf(0))
+                             .evaluate((t1,t2, b) -> externalEffect.set(0)))
+            .inCase((t1,t2, b) -> t1 > 0 && t1 < 10).evaluate((t1,t2, b) -> externalEffect.set(1))
+            .inCase((t1,t2, b) -> t1 > 10 && t1 < 20).evaluate((t1,t2, b) -> externalEffect.set(2))
+            .eventually((t1,t2, b) -> externalEffect.set(99))
+            .build();
+
+
+        A.assertThat(function)
+            .doesAccept(Integer.valueOf(0),Integer.valueOf(0),false).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(0)))
+            .doesAccept(Integer.valueOf(5),Integer.valueOf(5),true).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(1)))
+        ;
+
+    }
+
 
 }
+

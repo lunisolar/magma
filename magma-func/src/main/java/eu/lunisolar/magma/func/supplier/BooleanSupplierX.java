@@ -44,8 +44,10 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /**
+ * Function category: supplier
+ * Non-throwing interface/lambda variant: BooleanSupplier
  *
- * @see {@link eu.lunisolar.magma.func.supplier.BooleanSupplier}
+ * @see BooleanSupplier
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
@@ -85,18 +87,6 @@ public interface BooleanSupplierX<X extends Exception> extends MetaSupplier, Pri
 	@Nonnull
 	public static <X extends Exception> BooleanSupplierX<X> wrapX(final @Nonnull BooleanSupplier other) {
 		return other::getAsBoolean;
-	}
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <X extends Exception, Y extends Exception> BooleanSupplierX<Y> wrapException(@Nonnull final BooleanSupplierX<X> other, Class<? extends Exception> exception, ExceptionHandler<Exception, Y> rethrower) {
-		return () -> {
-			try {
-				return other.getAsBoolean();
-			} catch (Exception e) {
-				throw ExceptionHandler.handle(exception, rethrower, e);
-			}
-		};
 	}
 
 	// </editor-fold>
@@ -188,25 +178,67 @@ public interface BooleanSupplierX<X extends Exception> extends MetaSupplier, Pri
 		return nonThrowing()::getAsBoolean;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default BooleanSupplier shove() {
+		BooleanSupplierX<RuntimeException> exceptionCast = (BooleanSupplierX<RuntimeException>) this;
+		return exceptionCast::getAsBoolean;
+	}
+
 	// </editor-fold>
 
 	// <editor-fold desc="exception handling">
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
+	/** Wraps with additional exception handling. */
 	@Nonnull
-	default <Y extends Exception> BooleanSupplierX<Y> handle(Class<? extends Exception> exception, ExceptionHandler<? super X, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return BooleanSupplierX.wrapException(this, exception, (ExceptionHandler) handler);
+	public static <X extends Exception, E extends Exception, Y extends Exception> BooleanSupplierX<Y> wrapException(@Nonnull final BooleanSupplierX<X> other, Class<E> exception, BooleanSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
+		return () -> {
+			try {
+				return other.getAsBoolean();
+			} catch (Exception e) {
+				try {
+					if (supplier != null) {
+						return supplier.getAsBoolean();
+					}
+				} catch (Exception supplierException) {
+					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
+				}
+				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
+			}
+		};
 	}
 
 	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <Y extends Exception> BooleanSupplierX<Y> handle(ExceptionHandler<? super X, Y> handler) {
+	default <E extends Exception, Y extends Exception> BooleanSupplierX<Y> handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
+		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
-		return BooleanSupplierX.wrapException(this, Exception.class, (ExceptionHandler) handler);
+		return BooleanSupplierX.wrapException(this, exception, null, (ExceptionHandler) handler);
+	}
+
+	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
+	@Nonnull
+	default <Y extends Exception> BooleanSupplierX<Y> handle(ExceptionHandler<Exception, Y> handler) {
+		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return BooleanSupplierX.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
+	}
+
+	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
+	@Nonnull
+	default <E extends Exception, Y extends Exception> BooleanSupplierX<Y> handle(Class<E> exception, BooleanSupplierX<X> supplier) {
+		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
+		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return BooleanSupplierX.wrapException(this, exception, supplier, null);
+	}
+
+	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
+	@Nonnull
+	default <Y extends Exception> BooleanSupplierX<Y> handle(BooleanSupplierX<X> supplier) {
+		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return BooleanSupplierX.wrapException(this, Exception.class, supplier, null);
 	}
 
 	// </editor-fold>

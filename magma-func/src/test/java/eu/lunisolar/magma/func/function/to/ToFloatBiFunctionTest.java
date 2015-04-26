@@ -156,7 +156,7 @@ public class ToFloatBiFunctionTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        ToFloatBiFunction<T1,T2> wrapped = ToFloatBiFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ToFloatBiFunction<T1,T2> wrapped = ToFloatBiFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -181,7 +181,7 @@ public class ToFloatBiFunctionTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        ToFloatBiFunction<T1,T2> wrapped = ToFloatBiFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ToFloatBiFunction<T1,T2> wrapped = ToFloatBiFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -205,7 +205,7 @@ public class ToFloatBiFunctionTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        ToFloatBiFunction<T1,T2> wrapped = ToFloatBiFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ToFloatBiFunction<T1,T2> wrapped = ToFloatBiFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -311,6 +311,17 @@ public class ToFloatBiFunctionTest<T1,T2,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(ToFloatBiFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        ToFloatBiFunction<T1,T2> sutThrowing = ToFloatBiFunction.l((T1 t1,T2 t2) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsFloat((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -350,3 +361,4 @@ public class ToFloatBiFunctionTest<T1,T2,X extends ParseException> {
     }
 
 }
+

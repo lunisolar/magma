@@ -163,7 +163,7 @@ public class ObjCharPredicateTest<T,X extends ParseException> {
         });
 
         // when
-        ObjCharPredicate<T> wrapped = ObjCharPredicate.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ObjCharPredicate<T> wrapped = ObjCharPredicate.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -188,7 +188,7 @@ public class ObjCharPredicateTest<T,X extends ParseException> {
         });
 
         // when
-        ObjCharPredicate<T> wrapped = ObjCharPredicate.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ObjCharPredicate<T> wrapped = ObjCharPredicate.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -212,7 +212,7 @@ public class ObjCharPredicateTest<T,X extends ParseException> {
         });
 
         // when
-        ObjCharPredicate<T> wrapped = ObjCharPredicate.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ObjCharPredicate<T> wrapped = ObjCharPredicate.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -406,6 +406,17 @@ public class ObjCharPredicateTest<T,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(ObjCharPredicateX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        ObjCharPredicate<T> sutThrowing = ObjCharPredicate.l((T t, char c) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().test((T)Integer.valueOf(100),(char)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -445,3 +456,4 @@ public class ObjCharPredicateTest<T,X extends ParseException> {
     }
 
 }
+

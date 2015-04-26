@@ -77,24 +77,27 @@ public class LongToByteFunctionXBuilderTest<X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         LongToByteFunctionX<ParseException> function = longToByteFunctionX((LongToByteFunctionX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((l) -> l == 0)
+            .addCase(ce -> ce.of((l) -> l == (long)0)
                              .evaluate((l) -> (byte)0))
             .inCase((l) -> l > 0 && l < 10).evaluate((l) -> (byte)1)
             .inCase((l) -> l > 10 && l < 20).evaluate((l) -> (byte)2)
             .eventually((l) -> (byte)99)
             .build();
 
+
         A.assertThat(function)
             .doesApplyAsByte((long)0).to(a -> a.isEqualTo((byte)0))
             .doesApplyAsByte((long)5).to(a -> a.isEqualTo((byte)1))
             .doesApplyAsByte((long)15).to(a -> a.isEqualTo((byte)2))
-            .doesApplyAsByte((long)10).to(a -> a.isEqualTo((byte)99));
+            .doesApplyAsByte((long)10).to(a -> a.isEqualTo((byte)99))
+        ;
+
     }
 
 
 }
+

@@ -41,6 +41,7 @@ import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+/** Builder for BiFunction. */
 public final class BiFunctionBuilder<T1, T2, R> extends PerCaseBuilder<BiFunctionBuilder<T1, T2, R>, BiPredicate<T1, T2>, BiFunction<T1, T2, R>> {
 
 	private Consumer<BiFunction<T1, T2, R>> consumer;

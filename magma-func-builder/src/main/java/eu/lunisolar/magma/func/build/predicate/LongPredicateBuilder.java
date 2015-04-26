@@ -41,6 +41,7 @@ import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+/** Builder for LongPredicate. */
 public final class LongPredicateBuilder extends PerCaseBuilder<LongPredicateBuilder, LongPredicate, LongPredicate> {
 
 	private Consumer<LongPredicate> consumer;

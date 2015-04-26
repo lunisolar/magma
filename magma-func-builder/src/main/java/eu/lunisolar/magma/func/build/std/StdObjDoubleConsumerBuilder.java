@@ -41,6 +41,7 @@ import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+/** Builder for java.util.function.ObjDoubleConsumer. */
 public final class StdObjDoubleConsumerBuilder<T> extends PerCaseBuilder<StdObjDoubleConsumerBuilder<T>, ObjDoublePredicate<T>, java.util.function.ObjDoubleConsumer<T>> {
 
 	private Consumer<java.util.function.ObjDoubleConsumer<T>> consumer;
@@ -94,6 +95,7 @@ public final class StdObjDoubleConsumerBuilder<T> extends PerCaseBuilder<StdObjD
 				for (Case<ObjDoublePredicate<T>, java.util.function.ObjDoubleConsumer<T>> aCase : casesArray) {
 					if (aCase.casePredicate().test(t, d)) {
 						aCase.caseFunction().accept(t, d);
+						return;
 					}
 				}
 

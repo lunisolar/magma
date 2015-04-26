@@ -77,24 +77,27 @@ public class ObjShortFunctionXBuilderTest<T,R,X extends ParseException>{
 
         }
     }
-
     @Test
     public void testBuild() throws Exception {
 
         ObjShortFunctionX<Integer ,Integer ,ParseException> function = objShortFunctionX((ObjShortFunctionX<Integer ,Integer ,ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((t, s) -> t == 0)
+            .addCase(ce -> ce.of((t, s) -> t == Integer.valueOf(0))
                              .evaluate((t, s) -> Integer.valueOf(0)))
             .inCase((t, s) -> t > 0 && t < 10).evaluate((t, s) -> Integer.valueOf(1))
             .inCase((t, s) -> t > 10 && t < 20).evaluate((t, s) -> Integer.valueOf(2))
             .eventually((t, s) -> Integer.valueOf(99))
             .build();
 
+
         A.assertThat(function)
             .doesApply(Integer.valueOf(0),(short)0).to(a -> a.isEqualTo(Integer.valueOf(0)))
             .doesApply(Integer.valueOf(5),(short)5).to(a -> a.isEqualTo(Integer.valueOf(1)))
             .doesApply(Integer.valueOf(15),(short)15).to(a -> a.isEqualTo(Integer.valueOf(2)))
-            .doesApply(Integer.valueOf(10),(short)10).to(a -> a.isEqualTo(Integer.valueOf(99)));
+            .doesApply(Integer.valueOf(10),(short)10).to(a -> a.isEqualTo(Integer.valueOf(99)))
+        ;
+
     }
 
 
 }
+

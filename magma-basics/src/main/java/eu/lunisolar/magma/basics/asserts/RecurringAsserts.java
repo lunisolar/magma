@@ -22,19 +22,18 @@ import org.assertj.core.api.AbstractObjectAssert;
 import org.assertj.core.api.Assert;
 
 import javax.annotation.Nonnull;
-import java.util.function.Consumer;
 
-public interface RecurringAsserts<S extends Assert<S, A>, A, RS extends Assert<RS, R>, R> {
+public interface RecurringAsserts<S extends Assert<S, A>, A, RA> {
 
     /**
      * In case of some assertion that could be applied each time a method call result is tested, the argument assertion will be checked before the assertion
      * for specific case.
      */
-    @Nonnull S recurringAsserts(@Nonnull Consumer<RS> recurringAssert);
+    @Nonnull S recurringAsserts(@Nonnull RA recurringAssert);
 
-    public abstract static class Base<S extends Base<S, A, RS, R>, A, RS extends Assert<RS, R>, R> extends AbstractObjectAssert<S, A> implements RecurringAsserts<S, A, RS, R> {
+    abstract class Base<S extends Base<S, A, RA>, A, RA> extends AbstractObjectAssert<S, A> implements RecurringAsserts<S, A, RA> {
 
-        protected java.util.function.Consumer<RS> recurringAssert;
+        protected RA recurringAssert;
 
         public Base(A actual, Class<?> selfType) {
             super(actual, selfType);
@@ -42,13 +41,13 @@ public interface RecurringAsserts<S extends Assert<S, A>, A, RS extends Assert<R
 
         @Override
         @Nonnull
-        public S recurringAsserts(@Nonnull java.util.function.Consumer<RS> recurringAssert) {
+        public S recurringAsserts(@Nonnull RA recurringAssert) {
             this.recurringAssert = recurringAssert;
             return myself;
         }
 
         @Nonnull
-        protected java.util.function.Consumer<RS> recurringAssert() {
+        protected RA recurringAssert() {
             return recurringAssert;
         }
 

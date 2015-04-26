@@ -112,7 +112,7 @@ public class FloatToIntFunctionXTest<X extends ParseException> {
         });
 
         // when
-        FloatToIntFunctionX<X> wrapped = FloatToIntFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        FloatToIntFunctionX<X> wrapped = FloatToIntFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -137,7 +137,7 @@ public class FloatToIntFunctionXTest<X extends ParseException> {
         });
 
         // when
-        FloatToIntFunctionX<X> wrapped = FloatToIntFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        FloatToIntFunctionX<X> wrapped = FloatToIntFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -161,7 +161,7 @@ public class FloatToIntFunctionXTest<X extends ParseException> {
         });
 
         // when
-        FloatToIntFunctionX<X> wrapped = FloatToIntFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        FloatToIntFunctionX<X> wrapped = FloatToIntFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -569,6 +569,17 @@ public class FloatToIntFunctionXTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(FloatToIntFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        FloatToIntFunctionX<X> sutThrowing = FloatToIntFunctionX.lX((float f) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsInt((float)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -608,3 +619,4 @@ public class FloatToIntFunctionXTest<X extends ParseException> {
     }
 
 }
+

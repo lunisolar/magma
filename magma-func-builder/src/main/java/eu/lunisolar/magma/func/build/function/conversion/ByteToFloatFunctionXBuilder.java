@@ -41,6 +41,7 @@ import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
+/** Builder for ByteToFloatFunctionX. */
 public final class ByteToFloatFunctionXBuilder<X extends Exception> extends PerCaseBuilder<ByteToFloatFunctionXBuilder<X>, BytePredicateX<X>, ByteToFloatFunctionX<X>> {
 
 	private Consumer<ByteToFloatFunctionX<X>> consumer;

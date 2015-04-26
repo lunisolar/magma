@@ -77,7 +77,24 @@ public class BooleanBiFunctionXBuilderTest<R,X extends ParseException>{
 
         }
     }
+    @Test
+    public void testBuild() throws Exception {
 
-    //TODO
+        BooleanBiFunctionX<Integer ,ParseException> function = booleanBiFunctionX((BooleanBiFunctionX<Integer ,ParseException> f)-> doNothing())
+            .addCase(ce -> ce.of((b1,b2) -> b1 == false)
+                             .evaluate((b1,b2) -> Integer.valueOf(0)))
+            .inCase((b1,b2) -> b1 == true ).evaluate((b1,b2) -> Integer.valueOf(1))
+            .eventually((b1,b2) -> Integer.valueOf(99))
+            .build();
+
+
+        A.assertThat(function)
+            .doesApply(false,false).to(a -> a.isEqualTo(Integer.valueOf(0)))
+            .doesApply(true,true).to(a -> a.isEqualTo(Integer.valueOf(1)))
+        ;
+
+    }
+
 
 }
+

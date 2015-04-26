@@ -167,7 +167,7 @@ public class BiObjLongFunctionTest<T1,T2,R,X extends ParseException> {
         });
 
         // when
-        BiObjLongFunction<T1,T2,R> wrapped = BiObjLongFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BiObjLongFunction<T1,T2,R> wrapped = BiObjLongFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -192,7 +192,7 @@ public class BiObjLongFunctionTest<T1,T2,R,X extends ParseException> {
         });
 
         // when
-        BiObjLongFunction<T1,T2,R> wrapped = BiObjLongFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BiObjLongFunction<T1,T2,R> wrapped = BiObjLongFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -216,7 +216,7 @@ public class BiObjLongFunctionTest<T1,T2,R,X extends ParseException> {
         });
 
         // when
-        BiObjLongFunction<T1,T2,R> wrapped = BiObjLongFunction.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BiObjLongFunction<T1,T2,R> wrapped = BiObjLongFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -404,6 +404,17 @@ public class BiObjLongFunctionTest<T1,T2,R,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(BiObjLongFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        BiObjLongFunction<T1,T2,R> sutThrowing = BiObjLongFunction.l((T1 t1,T2 t2, long l) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().apply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(long)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -443,3 +454,4 @@ public class BiObjLongFunctionTest<T1,T2,R,X extends ParseException> {
     }
 
 }
+

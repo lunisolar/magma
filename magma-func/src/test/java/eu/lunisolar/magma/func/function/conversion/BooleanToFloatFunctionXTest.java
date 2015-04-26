@@ -112,7 +112,7 @@ public class BooleanToFloatFunctionXTest<X extends ParseException> {
         });
 
         // when
-        BooleanToFloatFunctionX<X> wrapped = BooleanToFloatFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BooleanToFloatFunctionX<X> wrapped = BooleanToFloatFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -137,7 +137,7 @@ public class BooleanToFloatFunctionXTest<X extends ParseException> {
         });
 
         // when
-        BooleanToFloatFunctionX<X> wrapped = BooleanToFloatFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BooleanToFloatFunctionX<X> wrapped = BooleanToFloatFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -161,7 +161,7 @@ public class BooleanToFloatFunctionXTest<X extends ParseException> {
         });
 
         // when
-        BooleanToFloatFunctionX<X> wrapped = BooleanToFloatFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        BooleanToFloatFunctionX<X> wrapped = BooleanToFloatFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -569,6 +569,17 @@ public class BooleanToFloatFunctionXTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(BooleanToFloatFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        BooleanToFloatFunctionX<X> sutThrowing = BooleanToFloatFunctionX.lX((boolean b) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsFloat(true);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -608,3 +619,4 @@ public class BooleanToFloatFunctionXTest<X extends ParseException> {
     }
 
 }
+

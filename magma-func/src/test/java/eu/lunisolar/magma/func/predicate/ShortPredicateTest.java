@@ -163,7 +163,7 @@ public class ShortPredicateTest<X extends ParseException> {
         });
 
         // when
-        ShortPredicate wrapped = ShortPredicate.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ShortPredicate wrapped = ShortPredicate.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -188,7 +188,7 @@ public class ShortPredicateTest<X extends ParseException> {
         });
 
         // when
-        ShortPredicate wrapped = ShortPredicate.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ShortPredicate wrapped = ShortPredicate.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -212,7 +212,7 @@ public class ShortPredicateTest<X extends ParseException> {
         });
 
         // when
-        ShortPredicate wrapped = ShortPredicate.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ShortPredicate wrapped = ShortPredicate.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -673,6 +673,17 @@ public class ShortPredicateTest<X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(ShortPredicateX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        ShortPredicate sutThrowing = ShortPredicate.l((short s) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().test((short)100);
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -712,3 +723,4 @@ public class ShortPredicateTest<X extends ParseException> {
     }
 
 }
+

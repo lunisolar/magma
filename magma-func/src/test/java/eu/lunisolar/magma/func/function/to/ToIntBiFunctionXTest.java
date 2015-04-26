@@ -120,7 +120,7 @@ public class ToIntBiFunctionXTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        ToIntBiFunctionX<T1,T2,X> wrapped = ToIntBiFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ToIntBiFunctionX<T1,T2,X> wrapped = ToIntBiFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -145,7 +145,7 @@ public class ToIntBiFunctionXTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        ToIntBiFunctionX<T1,T2,X> wrapped = ToIntBiFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ToIntBiFunctionX<T1,T2,X> wrapped = ToIntBiFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -169,7 +169,7 @@ public class ToIntBiFunctionXTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        ToIntBiFunctionX<T1,T2,X> wrapped = ToIntBiFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
+        ToIntBiFunctionX<T1,T2,X> wrapped = ToIntBiFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
             return null;
         });
 
@@ -280,6 +280,17 @@ public class ToIntBiFunctionXTest<T1,T2,X extends ParseException> {
         assertThat(sut.uncheck()).isInstanceOf(ToIntBiFunctionX.class);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testShove() {
+
+        // given
+        ToIntBiFunctionX<T1,T2,X> sutThrowing = ToIntBiFunctionX.lX((T1 t1,T2 t2) -> {
+            throw new UnsupportedOperationException();
+        });
+
+        // when
+        sutThrowing.shove().applyAsInt((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+    }
 
     @Test
     public void testHandle() throws ParseException {
@@ -319,3 +330,4 @@ public class ToIntBiFunctionXTest<T1,T2,X extends ParseException> {
     }
 
 }
+

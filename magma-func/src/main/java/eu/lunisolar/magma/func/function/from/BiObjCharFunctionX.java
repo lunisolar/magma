@@ -44,8 +44,10 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /**
+ * Function category: function
+ * Non-throwing interface/lambda variant: BiObjCharFunction
  *
- * @see {@link eu.lunisolar.magma.func.function.from.BiObjCharFunction}
+ * @see BiObjCharFunction
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
@@ -60,6 +62,11 @@ public interface BiObjCharFunctionX<T1, T2, R, X extends Exception> extends Meta
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return BiObjCharFunctionX.DESCRIPTION;
+	}
+
+	/** Captures arguments but delays the evaluation. */
+	default SupplierX<R, X> capture(T1 t1, T2 t2, char c) {
+		return () -> this.apply(t1, t2, c);
 	}
 
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
@@ -83,18 +90,6 @@ public interface BiObjCharFunctionX<T1, T2, R, X extends Exception> extends Meta
 	@Nonnull
 	public static <T1, T2, R, X extends Exception> BiObjCharFunctionX<T1, T2, R, X> wrapX(final @Nonnull BiObjCharFunction<T1, T2, R> other) {
 		return other::apply;
-	}
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <T1, T2, R, X extends Exception, Y extends Exception> BiObjCharFunctionX<T1, T2, R, Y> wrapException(@Nonnull final BiObjCharFunctionX<T1, T2, R, X> other, Class<? extends Exception> exception, ExceptionHandler<Exception, Y> rethrower) {
-		return (T1 t1, T2 t2, char c) -> {
-			try {
-				return other.apply(t1, t2, c);
-			} catch (Exception e) {
-				throw ExceptionHandler.handle(exception, rethrower, e);
-			}
-		};
 	}
 
 	// </editor-fold>
@@ -157,6 +152,12 @@ public interface BiObjCharFunctionX<T1, T2, R, X extends Exception> extends Meta
 		return nonThrowing()::apply;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default BiObjCharFunction<T1, T2, R> shove() {
+		BiObjCharFunctionX<T1, T2, R, RuntimeException> exceptionCast = (BiObjCharFunctionX<T1, T2, R, RuntimeException>) this;
+		return exceptionCast::apply;
+	}
+
 	// </editor-fold>
 
 	@Nonnull
@@ -166,21 +167,58 @@ public interface BiObjCharFunctionX<T1, T2, R, X extends Exception> extends Meta
 
 	// <editor-fold desc="exception handling">
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
+	/** Wraps with additional exception handling. */
 	@Nonnull
-	default <Y extends Exception> BiObjCharFunctionX<T1, T2, R, Y> handle(Class<? extends Exception> exception, ExceptionHandler<? super X, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return BiObjCharFunctionX.wrapException(this, exception, (ExceptionHandler) handler);
+	public static <T1, T2, R, X extends Exception, E extends Exception, Y extends Exception> BiObjCharFunctionX<T1, T2, R, Y> wrapException(@Nonnull final BiObjCharFunctionX<T1, T2, R, X> other, Class<E> exception, SupplierX<R, X> supplier,
+			ExceptionHandler<E, Y> handler) {
+		return (T1 t1, T2 t2, char c) -> {
+			try {
+				return other.apply(t1, t2, c);
+			} catch (Exception e) {
+				try {
+					if (supplier != null) {
+						return supplier.get();
+					}
+				} catch (Exception supplierException) {
+					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
+				}
+				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
+			}
+		};
 	}
 
 	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <Y extends Exception> BiObjCharFunctionX<T1, T2, R, Y> handle(ExceptionHandler<? super X, Y> handler) {
+	default <E extends Exception, Y extends Exception> BiObjCharFunctionX<T1, T2, R, Y> handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
+		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
-		return BiObjCharFunctionX.wrapException(this, Exception.class, (ExceptionHandler) handler);
+		return BiObjCharFunctionX.wrapException(this, exception, null, (ExceptionHandler) handler);
+	}
+
+	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
+	@Nonnull
+	default <Y extends Exception> BiObjCharFunctionX<T1, T2, R, Y> handle(ExceptionHandler<Exception, Y> handler) {
+		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return BiObjCharFunctionX.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
+	}
+
+	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
+	@Nonnull
+	default <E extends Exception, Y extends Exception> BiObjCharFunctionX<T1, T2, R, Y> handle(Class<E> exception, SupplierX<R, X> supplier) {
+		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
+		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return BiObjCharFunctionX.wrapException(this, exception, supplier, null);
+	}
+
+	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
+	@Nonnull
+	default <Y extends Exception> BiObjCharFunctionX<T1, T2, R, Y> handle(SupplierX<R, X> supplier) {
+		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
+
+		return BiObjCharFunctionX.wrapException(this, Exception.class, supplier, null);
 	}
 
 	// </editor-fold>
