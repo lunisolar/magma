@@ -603,4 +603,3 @@ public class SupplierXTest<R,X extends ParseException> {
     }
 
 }
-

@@ -73,6 +73,10 @@ public interface LongToShortFunctionX<X extends Exception> extends MetaFunction,
 		return () -> this.applyAsShort(l);
 	}
 
+	public static <X extends Exception> LongToShortFunctionX<X> constant(short r) {
+		return (l) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default short nonNull(long l) throws X {
 		return applyAsShort(l);

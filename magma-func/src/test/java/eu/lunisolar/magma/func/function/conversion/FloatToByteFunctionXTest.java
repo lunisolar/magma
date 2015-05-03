@@ -619,4 +619,3 @@ public class FloatToByteFunctionXTest<X extends ParseException> {
     }
 
 }
-

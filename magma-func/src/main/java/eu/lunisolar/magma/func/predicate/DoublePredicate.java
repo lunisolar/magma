@@ -79,6 +79,10 @@ public interface DoublePredicate extends java.util.function.DoublePredicate, Met
 		return () -> this.test(d);
 	}
 
+	public static DoublePredicate constant(boolean r) {
+		return (d) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(double d) {
 		return test(d);

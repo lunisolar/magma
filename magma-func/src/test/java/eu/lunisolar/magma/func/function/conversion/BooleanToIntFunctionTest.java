@@ -663,4 +663,3 @@ public class BooleanToIntFunctionTest<X extends ParseException> {
     }
 
 }
-

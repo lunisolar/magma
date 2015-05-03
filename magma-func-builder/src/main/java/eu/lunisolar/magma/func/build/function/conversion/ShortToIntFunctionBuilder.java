@@ -20,6 +20,7 @@
 package eu.lunisolar.magma.func.build.function.conversion;
 
 import eu.lunisolar.magma.func.function.conversion.*;
+import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -42,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for ShortToIntFunction. */
-public final class ShortToIntFunctionBuilder extends PerCaseBuilder<ShortToIntFunctionBuilder, ShortPredicate, ShortToIntFunction> {
+public final class ShortToIntFunctionBuilder extends PerCaseBuilderWithIntProduct<ShortToIntFunctionBuilder, ShortPredicate, ShortToIntFunction> {
 
 	private Consumer<ShortToIntFunction> consumer;
 
@@ -58,7 +59,8 @@ public final class ShortToIntFunctionBuilder extends PerCaseBuilder<ShortToIntFu
 		});
 
 	public ShortToIntFunctionBuilder(@Nullable Consumer<ShortToIntFunction> consumer) {
-		super(EVENTUALLY_THROW);
+		super(EVENTUALLY_THROW, ShortToIntFunction::constant);
+
 		this.consumer = consumer;
 	}
 

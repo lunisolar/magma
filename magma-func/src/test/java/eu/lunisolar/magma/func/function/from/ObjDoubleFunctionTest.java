@@ -440,4 +440,3 @@ public class ObjDoubleFunctionTest<T,R,X extends ParseException> {
     }
 
 }
-

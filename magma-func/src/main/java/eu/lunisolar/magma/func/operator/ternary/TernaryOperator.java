@@ -74,6 +74,10 @@ public interface TernaryOperator<T> extends MetaOperator { // NOSONAR
 		return () -> this.apply(t1, t2, t3);
 	}
 
+	public static <T> TernaryOperator<T> constant(T r) {
+		return (t1, t2, t3) -> r;
+	}
+
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
@@ -139,7 +143,7 @@ public interface TernaryOperator<T> extends MetaOperator { // NOSONAR
 
 	@Nonnull
 	default TernaryOperator<T> nonNullable() {
-		return new NonNullTernaryOperator(this);
+		return (t1, t2, t3) -> Objects.requireNonNull(this.apply(t1, t2, t3));
 	}
 
 	// <editor-fold desc="exception handling">

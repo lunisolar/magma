@@ -73,6 +73,10 @@ public interface CharToByteFunction extends MetaFunction, PrimitiveCodomain<Char
 		return () -> this.applyAsByte(c);
 	}
 
+	public static CharToByteFunction constant(byte r) {
+		return (c) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default byte nonNull(char c) {
 		return applyAsByte(c);

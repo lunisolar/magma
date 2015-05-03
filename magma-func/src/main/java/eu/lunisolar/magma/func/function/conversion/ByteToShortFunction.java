@@ -73,6 +73,10 @@ public interface ByteToShortFunction extends MetaFunction, PrimitiveCodomain<Byt
 		return () -> this.applyAsShort(b);
 	}
 
+	public static ByteToShortFunction constant(short r) {
+		return (b) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default short nonNull(byte b) {
 		return applyAsShort(b);

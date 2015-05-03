@@ -639,4 +639,3 @@ public class DoubleUnaryOperatorXTest<X extends ParseException> {
     }
 
 }
-

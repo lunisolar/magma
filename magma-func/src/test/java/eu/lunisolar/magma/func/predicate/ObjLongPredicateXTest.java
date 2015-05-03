@@ -412,4 +412,3 @@ public class ObjLongPredicateXTest<T,X extends ParseException> {
     }
 
 }
-

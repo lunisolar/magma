@@ -73,6 +73,10 @@ public interface ShortBinaryOperator extends MetaOperator, PrimitiveCodomain<Sho
 		return () -> this.applyAsShort(s1, s2);
 	}
 
+	public static ShortBinaryOperator constant(short r) {
+		return (s1, s2) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default short nonNull(short s1, short s2) {
 		return applyAsShort(s1, s2);

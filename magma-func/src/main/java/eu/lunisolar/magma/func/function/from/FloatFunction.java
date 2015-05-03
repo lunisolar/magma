@@ -74,6 +74,10 @@ public interface FloatFunction<R> extends MetaFunction { // NOSONAR
 		return () -> this.apply(f);
 	}
 
+	public static <R> FloatFunction<R> constant(R r) {
+		return (f) -> r;
+	}
+
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
@@ -224,7 +228,7 @@ public interface FloatFunction<R> extends MetaFunction { // NOSONAR
 
 	@Nonnull
 	default FloatFunction<R> nonNullable() {
-		return new NonNullFloatFunction(this);
+		return (f) -> Objects.requireNonNull(this.apply(f));
 	}
 
 	// <editor-fold desc="exception handling">

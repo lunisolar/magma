@@ -20,6 +20,7 @@
 package eu.lunisolar.magma.func.build.consumer.primitives.obj;
 
 import eu.lunisolar.magma.func.consumer.primitives.obj.*;
+import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -59,6 +60,7 @@ public final class BiObjByteConsumerXBuilder<T1, T2, X extends Exception> extend
 
 	public BiObjByteConsumerXBuilder(@Nullable Consumer<BiObjByteConsumerX<T1, T2, X>> consumer) {
 		super(EVENTUALLY_THROW);
+
 		this.consumer = consumer;
 	}
 

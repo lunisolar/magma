@@ -79,6 +79,10 @@ public interface ObjLongPredicateX<T, X extends Exception> extends MetaPredicate
 		return () -> this.test(t, l);
 	}
 
+	public static <T, X extends Exception> ObjLongPredicateX<T, X> constant(boolean r) {
+		return (t, l) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(T t, long l) throws X {
 		return test(t, l);

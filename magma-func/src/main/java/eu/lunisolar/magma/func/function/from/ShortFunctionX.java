@@ -74,6 +74,10 @@ public interface ShortFunctionX<R, X extends Exception> extends MetaFunction, Me
 		return () -> this.apply(s);
 	}
 
+	public static <R, X extends Exception> ShortFunctionX<R, X> constant(R r) {
+		return (s) -> r;
+	}
+
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
@@ -219,7 +223,7 @@ public interface ShortFunctionX<R, X extends Exception> extends MetaFunction, Me
 
 	@Nonnull
 	default ShortFunctionX<R, X> nonNullableX() {
-		return new NonNullShortFunctionX(this);
+		return (s) -> Objects.requireNonNull(this.apply(s));
 	}
 
 	// <editor-fold desc="exception handling">

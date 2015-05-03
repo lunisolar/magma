@@ -20,6 +20,7 @@
 package eu.lunisolar.magma.func.build.predicate;
 
 import eu.lunisolar.magma.func.predicate.*;
+import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -42,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for ObjDoublePredicateX. */
-public final class ObjDoublePredicateXBuilder<T, X extends Exception> extends PerCaseBuilder<ObjDoublePredicateXBuilder<T, X>, ObjDoublePredicateX<T, X>, ObjDoublePredicateX<T, X>> {
+public final class ObjDoublePredicateXBuilder<T, X extends Exception> extends PerCaseBuilderWithBooleanProduct<ObjDoublePredicateXBuilder<T, X>, ObjDoublePredicateX<T, X>, ObjDoublePredicateX<T, X>> {
 
 	private Consumer<ObjDoublePredicateX<T, X>> consumer;
 
@@ -58,7 +59,8 @@ public final class ObjDoublePredicateXBuilder<T, X extends Exception> extends Pe
 		});
 
 	public ObjDoublePredicateXBuilder(@Nullable Consumer<ObjDoublePredicateX<T, X>> consumer) {
-		super(EVENTUALLY_THROW);
+		super(EVENTUALLY_THROW, ObjDoublePredicateX::constant);
+
 		this.consumer = consumer;
 	}
 

@@ -73,6 +73,10 @@ public interface CharToDoubleFunction extends MetaFunction, PrimitiveCodomain<Ch
 		return () -> this.applyAsDouble(c);
 	}
 
+	public static CharToDoubleFunction constant(double r) {
+		return (c) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default double nonNull(char c) {
 		return applyAsDouble(c);

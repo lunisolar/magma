@@ -73,6 +73,10 @@ public interface IntToFloatFunction extends MetaFunction, PrimitiveCodomain<IntT
 		return () -> this.applyAsFloat(i);
 	}
 
+	public static IntToFloatFunction constant(float r) {
+		return (i) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default float nonNull(int i) {
 		return applyAsFloat(i);

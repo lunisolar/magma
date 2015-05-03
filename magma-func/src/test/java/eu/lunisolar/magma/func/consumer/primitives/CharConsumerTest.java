@@ -355,4 +355,3 @@ public class CharConsumerTest<X extends ParseException> {
     }
 
 }
-

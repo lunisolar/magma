@@ -68,6 +68,10 @@ public interface CharSupplierX<X extends Exception> extends MetaSupplier, Primit
 		return CharSupplierX.DESCRIPTION;
 	}
 
+	public static <X extends Exception> CharSupplierX<X> of(char r) {
+		return () -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default char nonNull() throws X {
 		return getAsChar();

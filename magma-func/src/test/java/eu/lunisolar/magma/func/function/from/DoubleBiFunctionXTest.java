@@ -396,4 +396,3 @@ public class DoubleBiFunctionXTest<R,X extends ParseException> {
     }
 
 }
-

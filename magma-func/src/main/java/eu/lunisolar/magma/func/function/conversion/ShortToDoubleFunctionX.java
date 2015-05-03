@@ -73,6 +73,10 @@ public interface ShortToDoubleFunctionX<X extends Exception> extends MetaFunctio
 		return () -> this.applyAsDouble(s);
 	}
 
+	public static <X extends Exception> ShortToDoubleFunctionX<X> constant(double r) {
+		return (s) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default double nonNull(short s) throws X {
 		return applyAsDouble(s);

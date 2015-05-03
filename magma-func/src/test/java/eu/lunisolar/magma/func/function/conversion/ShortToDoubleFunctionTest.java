@@ -663,4 +663,3 @@ public class ShortToDoubleFunctionTest<X extends ParseException> {
     }
 
 }
-

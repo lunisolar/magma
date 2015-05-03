@@ -79,6 +79,10 @@ public interface BiObjFloatPredicate<T1, T2> extends MetaPredicate, PrimitiveCod
 		return () -> this.test(t1, t2, f);
 	}
 
+	public static <T1, T2> BiObjFloatPredicate<T1, T2> constant(boolean r) {
+		return (t1, t2, f) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(T1 t1, T2 t2, float f) {
 		return test(t1, t2, f);

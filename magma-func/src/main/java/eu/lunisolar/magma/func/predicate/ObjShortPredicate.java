@@ -79,6 +79,10 @@ public interface ObjShortPredicate<T> extends MetaPredicate, PrimitiveCodomain<O
 		return () -> this.test(t, s);
 	}
 
+	public static <T> ObjShortPredicate<T> constant(boolean r) {
+		return (t, s) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(T t, short s) {
 		return test(t, s);

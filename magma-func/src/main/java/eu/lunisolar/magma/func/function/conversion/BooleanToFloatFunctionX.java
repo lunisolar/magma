@@ -73,6 +73,10 @@ public interface BooleanToFloatFunctionX<X extends Exception> extends MetaFuncti
 		return () -> this.applyAsFloat(b);
 	}
 
+	public static <X extends Exception> BooleanToFloatFunctionX<X> constant(float r) {
+		return (b) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default float nonNull(boolean b) throws X {
 		return applyAsFloat(b);

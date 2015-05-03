@@ -73,6 +73,10 @@ public interface ToShortFunction<T> extends MetaFunction, PrimitiveCodomain<ToSh
 		return () -> this.applyAsShort(t);
 	}
 
+	public static <T> ToShortFunction<T> constant(short r) {
+		return (t) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default short nonNull(T t) {
 		return applyAsShort(t);

@@ -73,6 +73,10 @@ public interface ToFloatFunctionX<T, X extends Exception> extends MetaFunction, 
 		return () -> this.applyAsFloat(t);
 	}
 
+	public static <T, X extends Exception> ToFloatFunctionX<T, X> constant(float r) {
+		return (t) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default float nonNull(T t) throws X {
 		return applyAsFloat(t);

@@ -73,6 +73,10 @@ public interface IntToCharFunction extends MetaFunction, PrimitiveCodomain<IntTo
 		return () -> this.applyAsChar(i);
 	}
 
+	public static IntToCharFunction constant(char r) {
+		return (i) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default char nonNull(int i) {
 		return applyAsChar(i);

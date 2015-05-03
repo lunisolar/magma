@@ -19,7 +19,7 @@
 
 package eu.lunisolar.magma.func.build.std;
 
-import eu.lunisolar.magma.func.std.*;
+import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -42,7 +42,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for java.util.function.ToIntFunction. */
-public final class StdToIntFunctionBuilder<T> extends PerCaseBuilder<StdToIntFunctionBuilder<T>, Predicate<T>, java.util.function.ToIntFunction<T>> {
+public final class StdToIntFunctionBuilder<T> extends PerCaseBuilderWithIntProduct<StdToIntFunctionBuilder<T>, Predicate<T>, java.util.function.ToIntFunction<T>> {
 
 	private Consumer<java.util.function.ToIntFunction<T>> consumer;
 
@@ -58,7 +58,8 @@ public final class StdToIntFunctionBuilder<T> extends PerCaseBuilder<StdToIntFun
 		});
 
 	public StdToIntFunctionBuilder(@Nullable Consumer<java.util.function.ToIntFunction<T>> consumer) {
-		super(EVENTUALLY_THROW);
+		super(EVENTUALLY_THROW, ToIntFunction::constant);
+
 		this.consumer = consumer;
 	}
 

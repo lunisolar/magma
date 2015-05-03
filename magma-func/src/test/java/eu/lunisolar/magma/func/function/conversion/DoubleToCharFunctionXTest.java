@@ -619,4 +619,3 @@ public class DoubleToCharFunctionXTest<X extends ParseException> {
     }
 
 }
-

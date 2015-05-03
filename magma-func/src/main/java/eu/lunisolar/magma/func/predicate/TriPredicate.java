@@ -79,6 +79,10 @@ public interface TriPredicate<T1, T2, T3> extends MetaPredicate, PrimitiveCodoma
 		return () -> this.test(t1, t2, t3);
 	}
 
+	public static <T1, T2, T3> TriPredicate<T1, T2, T3> constant(boolean r) {
+		return (t1, t2, t3) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(T1 t1, T2 t2, T3 t3) {
 		return test(t1, t2, t3);

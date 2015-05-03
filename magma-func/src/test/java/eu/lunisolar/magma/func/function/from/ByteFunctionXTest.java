@@ -662,4 +662,3 @@ public class ByteFunctionXTest<R,X extends ParseException> {
     }
 
 }
-

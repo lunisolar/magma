@@ -619,4 +619,3 @@ public class BooleanToByteFunctionXTest<X extends ParseException> {
     }
 
 }
-

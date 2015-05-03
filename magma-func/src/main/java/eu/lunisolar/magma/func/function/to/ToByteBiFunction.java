@@ -73,6 +73,10 @@ public interface ToByteBiFunction<T1, T2> extends MetaFunction, PrimitiveCodomai
 		return () -> this.applyAsByte(t1, t2);
 	}
 
+	public static <T1, T2> ToByteBiFunction<T1, T2> constant(byte r) {
+		return (t1, t2) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default byte nonNull(T1 t1, T2 t2) {
 		return applyAsByte(t1, t2);

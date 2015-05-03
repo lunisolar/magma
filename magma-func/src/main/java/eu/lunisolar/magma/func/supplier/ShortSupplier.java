@@ -68,6 +68,10 @@ public interface ShortSupplier extends MetaSupplier, PrimitiveCodomain<ShortSupp
 		return ShortSupplier.DESCRIPTION;
 	}
 
+	public static ShortSupplier of(short r) {
+		return () -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default short nonNull() {
 		return getAsShort();

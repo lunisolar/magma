@@ -25,7 +25,7 @@ import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import java.util.Objects;// NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
-import eu.lunisolar.magma.func.asserts.FunctionalAssertions;
+import eu.lunisolar.magma.func.asserts.DefaultFunctionalAssertions;
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -40,7 +40,7 @@ public class BooleanTriFunctionXAssertTest<R,X extends ParseException> {
 
     private R testValue = (R)Integer.valueOf(100);
 
-    @SuppressWarnings("unchecked") public static final FunctionalAssertions<ObjectAssert> A = new FunctionalAssertions() {
+    @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
     private BooleanTriFunctionX<Integer ,X> function = BooleanTriFunctionX.lX((b1,b2,b3) -> {
@@ -126,4 +126,3 @@ public class BooleanTriFunctionXAssertTest<R,X extends ParseException> {
     }
 
 }
-

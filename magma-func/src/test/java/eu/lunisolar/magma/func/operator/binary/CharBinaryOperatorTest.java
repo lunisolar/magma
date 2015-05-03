@@ -430,4 +430,3 @@ public class CharBinaryOperatorTest<X extends ParseException> {
     }
 
 }
-

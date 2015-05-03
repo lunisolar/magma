@@ -430,4 +430,3 @@ public class FloatBinaryOperatorTest<X extends ParseException> {
     }
 
 }
-

@@ -679,4 +679,3 @@ public class ShortPredicateXTest<X extends ParseException> {
     }
 
 }
-

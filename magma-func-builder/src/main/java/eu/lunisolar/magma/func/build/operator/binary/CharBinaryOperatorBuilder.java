@@ -20,6 +20,7 @@
 package eu.lunisolar.magma.func.build.operator.binary;
 
 import eu.lunisolar.magma.func.operator.binary.*;
+import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -42,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for CharBinaryOperator. */
-public final class CharBinaryOperatorBuilder extends PerCaseBuilder<CharBinaryOperatorBuilder, BiCharPredicate, CharBinaryOperator> {
+public final class CharBinaryOperatorBuilder extends PerCaseBuilderWithCharProduct<CharBinaryOperatorBuilder, BiCharPredicate, CharBinaryOperator> {
 
 	private Consumer<CharBinaryOperator> consumer;
 
@@ -58,7 +59,8 @@ public final class CharBinaryOperatorBuilder extends PerCaseBuilder<CharBinaryOp
 		});
 
 	public CharBinaryOperatorBuilder(@Nullable Consumer<CharBinaryOperator> consumer) {
-		super(EVENTUALLY_THROW);
+		super(EVENTUALLY_THROW, CharBinaryOperator::constant);
+
 		this.consumer = consumer;
 	}
 

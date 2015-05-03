@@ -73,6 +73,10 @@ public interface LongUnaryOperatorX<X extends Exception> extends MetaOperator, P
 		return () -> this.applyAsLong(l);
 	}
 
+	public static <X extends Exception> LongUnaryOperatorX<X> constant(long r) {
+		return (l) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default long nonNull(long l) throws X {
 		return applyAsLong(l);

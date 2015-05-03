@@ -340,4 +340,3 @@ public class ConsumerTest<T,X extends ParseException> {
     }
 
 }
-

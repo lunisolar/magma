@@ -79,6 +79,10 @@ public interface BiIntPredicateX<X extends Exception> extends MetaPredicate, Pri
 		return () -> this.test(i1, i2);
 	}
 
+	public static <X extends Exception> BiIntPredicateX<X> constant(boolean r) {
+		return (i1, i2) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(int i1, int i2) throws X {
 		return test(i1, i2);

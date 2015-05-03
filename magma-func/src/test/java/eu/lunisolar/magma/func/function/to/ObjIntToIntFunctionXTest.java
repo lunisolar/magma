@@ -352,4 +352,3 @@ public class ObjIntToIntFunctionXTest<T,X extends ParseException> {
     }
 
 }
-

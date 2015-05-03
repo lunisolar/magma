@@ -74,6 +74,10 @@ public interface BiObjBooleanFunction<T1, T2, R> extends MetaFunction { // NOSON
 		return () -> this.apply(t1, t2, b);
 	}
 
+	public static <T1, T2, R> BiObjBooleanFunction<T1, T2, R> constant(R r) {
+		return (t1, t2, b) -> r;
+	}
+
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
@@ -172,7 +176,7 @@ public interface BiObjBooleanFunction<T1, T2, R> extends MetaFunction { // NOSON
 
 	@Nonnull
 	default BiObjBooleanFunction<T1, T2, R> nonNullable() {
-		return new NonNullBiObjBooleanFunction(this);
+		return (t1, t2, b) -> Objects.requireNonNull(this.apply(t1, t2, b));
 	}
 
 	// <editor-fold desc="exception handling">

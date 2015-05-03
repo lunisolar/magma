@@ -73,6 +73,10 @@ public interface DoubleToShortFunction extends MetaFunction, PrimitiveCodomain<D
 		return () -> this.applyAsShort(d);
 	}
 
+	public static DoubleToShortFunction constant(short r) {
+		return (d) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default short nonNull(double d) {
 		return applyAsShort(d);

@@ -73,6 +73,10 @@ public interface ToCharBiFunction<T1, T2> extends MetaFunction, PrimitiveCodomai
 		return () -> this.applyAsChar(t1, t2);
 	}
 
+	public static <T1, T2> ToCharBiFunction<T1, T2> constant(char r) {
+		return (t1, t2) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default char nonNull(T1 t1, T2 t2) {
 		return applyAsChar(t1, t2);

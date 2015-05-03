@@ -74,6 +74,10 @@ public interface CharFunctionX<R, X extends Exception> extends MetaFunction, Met
 		return () -> this.apply(c);
 	}
 
+	public static <R, X extends Exception> CharFunctionX<R, X> constant(R r) {
+		return (c) -> r;
+	}
+
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
@@ -219,7 +223,7 @@ public interface CharFunctionX<R, X extends Exception> extends MetaFunction, Met
 
 	@Nonnull
 	default CharFunctionX<R, X> nonNullableX() {
-		return new NonNullCharFunctionX(this);
+		return (c) -> Objects.requireNonNull(this.apply(c));
 	}
 
 	// <editor-fold desc="exception handling">

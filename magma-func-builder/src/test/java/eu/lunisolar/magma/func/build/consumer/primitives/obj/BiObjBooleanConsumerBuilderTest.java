@@ -55,7 +55,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class BiObjBooleanConsumerBuilderTest<T1,T2,X extends ParseException>{
 
     @SuppressWarnings("unchecked")
-    public static final FunctionalAssertions<ObjectAssert> A = new FunctionalAssertions() {
+    public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
     @Test
@@ -99,4 +99,3 @@ public class BiObjBooleanConsumerBuilderTest<T1,T2,X extends ParseException>{
     }
 
 }
-

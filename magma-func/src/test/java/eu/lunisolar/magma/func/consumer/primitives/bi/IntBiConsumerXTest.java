@@ -325,4 +325,3 @@ public class IntBiConsumerXTest<X extends ParseException> {
     }
 
 }
-

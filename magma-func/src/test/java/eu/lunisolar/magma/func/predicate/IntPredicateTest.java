@@ -736,4 +736,3 @@ public class IntPredicateTest<X extends ParseException> {
     }
 
 }
-

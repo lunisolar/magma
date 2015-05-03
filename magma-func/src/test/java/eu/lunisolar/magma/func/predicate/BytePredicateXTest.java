@@ -679,4 +679,3 @@ public class BytePredicateXTest<X extends ParseException> {
     }
 
 }
-

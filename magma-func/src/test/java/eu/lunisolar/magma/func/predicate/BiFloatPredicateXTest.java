@@ -412,4 +412,3 @@ public class BiFloatPredicateXTest<X extends ParseException> {
     }
 
 }
-

@@ -74,6 +74,10 @@ public interface FloatBiFunctionX<R, X extends Exception> extends MetaFunction, 
 		return () -> this.apply(f1, f2);
 	}
 
+	public static <R, X extends Exception> FloatBiFunctionX<R, X> constant(R r) {
+		return (f1, f2) -> r;
+	}
+
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
@@ -165,7 +169,7 @@ public interface FloatBiFunctionX<R, X extends Exception> extends MetaFunction, 
 
 	@Nonnull
 	default FloatBiFunctionX<R, X> nonNullableX() {
-		return new NonNullFloatBiFunctionX(this);
+		return (f1, f2) -> Objects.requireNonNull(this.apply(f1, f2));
 	}
 
 	// <editor-fold desc="exception handling">

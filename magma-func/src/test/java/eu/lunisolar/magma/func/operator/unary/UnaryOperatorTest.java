@@ -632,4 +632,3 @@ public class UnaryOperatorTest<T,X extends ParseException> {
     }
 
 }
-

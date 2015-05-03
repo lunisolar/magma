@@ -325,4 +325,3 @@ public class ShortBiConsumerXTest<X extends ParseException> {
     }
 
 }
-

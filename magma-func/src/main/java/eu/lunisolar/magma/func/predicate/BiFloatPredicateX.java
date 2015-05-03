@@ -79,6 +79,10 @@ public interface BiFloatPredicateX<X extends Exception> extends MetaPredicate, P
 		return () -> this.test(f1, f2);
 	}
 
+	public static <X extends Exception> BiFloatPredicateX<X> constant(boolean r) {
+		return (f1, f2) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(float f1, float f2) throws X {
 		return test(f1, f2);

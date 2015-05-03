@@ -382,4 +382,3 @@ public class ObjIntConsumerTest<T,X extends ParseException> {
     }
 
 }
-

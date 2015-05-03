@@ -73,6 +73,10 @@ public interface DoubleUnaryOperator extends java.util.function.DoubleUnaryOpera
 		return () -> this.applyAsDouble(d);
 	}
 
+	public static DoubleUnaryOperator constant(double r) {
+		return (d) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default double nonNull(double d) {
 		return applyAsDouble(d);

@@ -317,4 +317,3 @@ public class ToByteBiFunctionXTest<T1,T2,X extends ParseException> {
     }
 
 }
-

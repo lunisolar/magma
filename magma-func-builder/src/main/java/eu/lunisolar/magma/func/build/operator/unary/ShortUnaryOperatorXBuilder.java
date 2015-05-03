@@ -20,6 +20,7 @@
 package eu.lunisolar.magma.func.build.operator.unary;
 
 import eu.lunisolar.magma.func.operator.unary.*;
+import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -42,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for ShortUnaryOperatorX. */
-public final class ShortUnaryOperatorXBuilder<X extends Exception> extends PerCaseBuilder<ShortUnaryOperatorXBuilder<X>, ShortPredicateX<X>, ShortUnaryOperatorX<X>> {
+public final class ShortUnaryOperatorXBuilder<X extends Exception> extends PerCaseBuilderWithShortProduct<ShortUnaryOperatorXBuilder<X>, ShortPredicateX<X>, ShortUnaryOperatorX<X>> {
 
 	private Consumer<ShortUnaryOperatorX<X>> consumer;
 
@@ -58,7 +59,8 @@ public final class ShortUnaryOperatorXBuilder<X extends Exception> extends PerCa
 		});
 
 	public ShortUnaryOperatorXBuilder(@Nullable Consumer<ShortUnaryOperatorX<X>> consumer) {
-		super(EVENTUALLY_THROW);
+		super(EVENTUALLY_THROW, ShortUnaryOperatorX::constant);
+
 		this.consumer = consumer;
 	}
 

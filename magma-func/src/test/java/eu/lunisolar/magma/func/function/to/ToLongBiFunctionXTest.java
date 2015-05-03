@@ -330,4 +330,3 @@ public class ToLongBiFunctionXTest<T1,T2,X extends ParseException> {
     }
 
 }
-

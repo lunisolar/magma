@@ -454,4 +454,3 @@ public class BooleanTriFunctionTest<R,X extends ParseException> {
     }
 
 }
-

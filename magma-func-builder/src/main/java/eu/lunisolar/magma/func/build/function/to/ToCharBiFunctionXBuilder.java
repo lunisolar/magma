@@ -20,6 +20,7 @@
 package eu.lunisolar.magma.func.build.function.to;
 
 import eu.lunisolar.magma.func.function.to.*;
+import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -42,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for ToCharBiFunctionX. */
-public final class ToCharBiFunctionXBuilder<T1, T2, X extends Exception> extends PerCaseBuilder<ToCharBiFunctionXBuilder<T1, T2, X>, BiPredicateX<T1, T2, X>, ToCharBiFunctionX<T1, T2, X>> {
+public final class ToCharBiFunctionXBuilder<T1, T2, X extends Exception> extends PerCaseBuilderWithCharProduct<ToCharBiFunctionXBuilder<T1, T2, X>, BiPredicateX<T1, T2, X>, ToCharBiFunctionX<T1, T2, X>> {
 
 	private Consumer<ToCharBiFunctionX<T1, T2, X>> consumer;
 
@@ -58,7 +59,8 @@ public final class ToCharBiFunctionXBuilder<T1, T2, X extends Exception> extends
 		});
 
 	public ToCharBiFunctionXBuilder(@Nullable Consumer<ToCharBiFunctionX<T1, T2, X>> consumer) {
-		super(EVENTUALLY_THROW);
+		super(EVENTUALLY_THROW, ToCharBiFunctionX::constant);
+
 		this.consumer = consumer;
 	}
 

@@ -374,4 +374,3 @@ public class BiFunctionXTest<T1,T2,R,X extends ParseException> {
     }
 
 }
-

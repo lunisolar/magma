@@ -20,6 +20,7 @@
 package eu.lunisolar.magma.func.build.function.conversion;
 
 import eu.lunisolar.magma.func.function.conversion.*;
+import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -42,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for BooleanToCharFunctionX. */
-public final class BooleanToCharFunctionXBuilder<X extends Exception> extends PerCaseBuilder<BooleanToCharFunctionXBuilder<X>, BooleanUnaryOperatorX<X>, BooleanToCharFunctionX<X>> {
+public final class BooleanToCharFunctionXBuilder<X extends Exception> extends PerCaseBuilderWithCharProduct<BooleanToCharFunctionXBuilder<X>, BooleanUnaryOperatorX<X>, BooleanToCharFunctionX<X>> {
 
 	private Consumer<BooleanToCharFunctionX<X>> consumer;
 
@@ -58,7 +59,8 @@ public final class BooleanToCharFunctionXBuilder<X extends Exception> extends Pe
 		});
 
 	public BooleanToCharFunctionXBuilder(@Nullable Consumer<BooleanToCharFunctionX<X>> consumer) {
-		super(EVENTUALLY_THROW);
+		super(EVENTUALLY_THROW, BooleanToCharFunctionX::constant);
+
 		this.consumer = consumer;
 	}
 

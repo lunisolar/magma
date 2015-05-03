@@ -73,6 +73,10 @@ public interface FloatToShortFunction extends MetaFunction, PrimitiveCodomain<Fl
 		return () -> this.applyAsShort(f);
 	}
 
+	public static FloatToShortFunction constant(short r) {
+		return (f) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default short nonNull(float f) {
 		return applyAsShort(f);

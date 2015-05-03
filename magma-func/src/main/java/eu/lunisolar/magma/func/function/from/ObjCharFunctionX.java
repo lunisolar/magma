@@ -74,6 +74,10 @@ public interface ObjCharFunctionX<T, R, X extends Exception> extends MetaFunctio
 		return () -> this.apply(t, c);
 	}
 
+	public static <T, R, X extends Exception> ObjCharFunctionX<T, R, X> constant(R r) {
+		return (t, c) -> r;
+	}
+
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
@@ -165,7 +169,7 @@ public interface ObjCharFunctionX<T, R, X extends Exception> extends MetaFunctio
 
 	@Nonnull
 	default ObjCharFunctionX<T, R, X> nonNullableX() {
-		return new NonNullObjCharFunctionX(this);
+		return (t, c) -> Objects.requireNonNull(this.apply(t, c));
 	}
 
 	// <editor-fold desc="exception handling">

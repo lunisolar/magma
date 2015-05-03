@@ -719,4 +719,3 @@ public class IntFunctionTest<R,X extends ParseException> {
     }
 
 }
-

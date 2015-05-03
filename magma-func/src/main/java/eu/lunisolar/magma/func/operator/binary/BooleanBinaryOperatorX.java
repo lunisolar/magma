@@ -78,6 +78,10 @@ public interface BooleanBinaryOperatorX<X extends Exception> extends MetaLogical
 		return () -> this.applyAsBoolean(b1, b2);
 	}
 
+	public static <X extends Exception> BooleanBinaryOperatorX<X> constant(boolean r) {
+		return (b1, b2) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(boolean b1, boolean b2) throws X {
 		return applyAsBoolean(b1, b2);

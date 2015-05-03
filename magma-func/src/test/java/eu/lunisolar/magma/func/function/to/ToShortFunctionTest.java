@@ -634,4 +634,3 @@ public class ToShortFunctionTest<T,X extends ParseException> {
     }
 
 }
-

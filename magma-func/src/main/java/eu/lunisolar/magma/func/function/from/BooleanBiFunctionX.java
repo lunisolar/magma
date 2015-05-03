@@ -74,6 +74,10 @@ public interface BooleanBiFunctionX<R, X extends Exception> extends MetaFunction
 		return () -> this.apply(b1, b2);
 	}
 
+	public static <R, X extends Exception> BooleanBiFunctionX<R, X> constant(R r) {
+		return (b1, b2) -> r;
+	}
+
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
@@ -165,7 +169,7 @@ public interface BooleanBiFunctionX<R, X extends Exception> extends MetaFunction
 
 	@Nonnull
 	default BooleanBiFunctionX<R, X> nonNullableX() {
-		return new NonNullBooleanBiFunctionX(this);
+		return (b1, b2) -> Objects.requireNonNull(this.apply(b1, b2));
 	}
 
 	// <editor-fold desc="exception handling">

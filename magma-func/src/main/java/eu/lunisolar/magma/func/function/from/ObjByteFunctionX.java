@@ -74,6 +74,10 @@ public interface ObjByteFunctionX<T, R, X extends Exception> extends MetaFunctio
 		return () -> this.apply(t, i);
 	}
 
+	public static <T, R, X extends Exception> ObjByteFunctionX<T, R, X> constant(R r) {
+		return (t, i) -> r;
+	}
+
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
@@ -165,7 +169,7 @@ public interface ObjByteFunctionX<T, R, X extends Exception> extends MetaFunctio
 
 	@Nonnull
 	default ObjByteFunctionX<T, R, X> nonNullableX() {
-		return new NonNullObjByteFunctionX(this);
+		return (t, i) -> Objects.requireNonNull(this.apply(t, i));
 	}
 
 	// <editor-fold desc="exception handling">

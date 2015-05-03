@@ -412,4 +412,3 @@ public class ObjDoublePredicateXTest<T,X extends ParseException> {
     }
 
 }
-

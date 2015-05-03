@@ -396,4 +396,3 @@ public class ObjBooleanFunctionXTest<T,R,X extends ParseException> {
     }
 
 }
-

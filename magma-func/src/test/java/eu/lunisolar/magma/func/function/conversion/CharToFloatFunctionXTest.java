@@ -619,4 +619,3 @@ public class CharToFloatFunctionXTest<X extends ParseException> {
     }
 
 }
-

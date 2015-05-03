@@ -440,4 +440,3 @@ public class LongBiFunctionTest<R,X extends ParseException> {
     }
 
 }
-

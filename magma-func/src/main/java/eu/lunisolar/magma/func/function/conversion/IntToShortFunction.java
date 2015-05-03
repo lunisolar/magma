@@ -73,6 +73,10 @@ public interface IntToShortFunction extends MetaFunction, PrimitiveCodomain<IntT
 		return () -> this.applyAsShort(i);
 	}
 
+	public static IntToShortFunction constant(short r) {
+		return (i) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default short nonNull(int i) {
 		return applyAsShort(i);

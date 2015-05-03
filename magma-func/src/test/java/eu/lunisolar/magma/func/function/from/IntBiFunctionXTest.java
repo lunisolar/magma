@@ -396,4 +396,3 @@ public class IntBiFunctionXTest<R,X extends ParseException> {
     }
 
 }
-

@@ -73,6 +73,10 @@ public interface LongBinaryOperatorX<X extends Exception> extends MetaOperator, 
 		return () -> this.applyAsLong(l1, l2);
 	}
 
+	public static <X extends Exception> LongBinaryOperatorX<X> constant(long r) {
+		return (l1, l2) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default long nonNull(long l1, long l2) throws X {
 		return applyAsLong(l1, l2);

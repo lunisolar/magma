@@ -79,6 +79,10 @@ public interface BiObjIntPredicate<T1, T2> extends MetaPredicate, PrimitiveCodom
 		return () -> this.test(t1, t2, i);
 	}
 
+	public static <T1, T2> BiObjIntPredicate<T1, T2> constant(boolean r) {
+		return (t1, t2, i) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(T1 t1, T2 t2, int i) {
 		return test(t1, t2, i);

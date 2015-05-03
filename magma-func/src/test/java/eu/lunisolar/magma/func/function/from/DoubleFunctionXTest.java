@@ -675,4 +675,3 @@ public class DoubleFunctionXTest<R,X extends ParseException> {
     }
 
 }
-

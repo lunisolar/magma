@@ -74,6 +74,10 @@ public interface BiObjLongFunctionX<T1, T2, R, X extends Exception> extends Meta
 		return () -> this.apply(t1, t2, l);
 	}
 
+	public static <T1, T2, R, X extends Exception> BiObjLongFunctionX<T1, T2, R, X> constant(R r) {
+		return (t1, t2, l) -> r;
+	}
+
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
@@ -167,7 +171,7 @@ public interface BiObjLongFunctionX<T1, T2, R, X extends Exception> extends Meta
 
 	@Nonnull
 	default BiObjLongFunctionX<T1, T2, R, X> nonNullableX() {
-		return new NonNullBiObjLongFunctionX(this);
+		return (t1, t2, l) -> Objects.requireNonNull(this.apply(t1, t2, l));
 	}
 
 	// <editor-fold desc="exception handling">

@@ -73,6 +73,10 @@ public interface ToDoubleFunctionX<T, X extends Exception> extends MetaFunction,
 		return () -> this.applyAsDouble(t);
 	}
 
+	public static <T, X extends Exception> ToDoubleFunctionX<T, X> constant(double r) {
+		return (t) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default double nonNull(T t) throws X {
 		return applyAsDouble(t);

@@ -73,6 +73,10 @@ public interface ToShortFunctionX<T, X extends Exception> extends MetaFunction, 
 		return () -> this.applyAsShort(t);
 	}
 
+	public static <T, X extends Exception> ToShortFunctionX<T, X> constant(short r) {
+		return (t) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default short nonNull(T t) throws X {
 		return applyAsShort(t);

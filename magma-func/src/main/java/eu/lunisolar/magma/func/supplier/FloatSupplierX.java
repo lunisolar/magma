@@ -68,6 +68,10 @@ public interface FloatSupplierX<X extends Exception> extends MetaSupplier, Primi
 		return FloatSupplierX.DESCRIPTION;
 	}
 
+	public static <X extends Exception> FloatSupplierX<X> of(float r) {
+		return () -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default float nonNull() throws X {
 		return getAsFloat();

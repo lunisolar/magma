@@ -24,7 +24,6 @@ import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import org.assertj.core.api.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
-import eu.lunisolar.magma.func.std.*;
 import eu.lunisolar.magma.func.action.Action;
 
 import static org.assertj.core.api.Fail.fail;

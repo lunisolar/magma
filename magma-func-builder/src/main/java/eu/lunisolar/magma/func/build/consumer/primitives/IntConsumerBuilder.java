@@ -20,6 +20,7 @@
 package eu.lunisolar.magma.func.build.consumer.primitives;
 
 import eu.lunisolar.magma.func.consumer.primitives.*;
+import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -59,6 +60,7 @@ public final class IntConsumerBuilder extends PerCaseBuilder<IntConsumerBuilder,
 
 	public IntConsumerBuilder(@Nullable Consumer<IntConsumer> consumer) {
 		super(EVENTUALLY_THROW);
+
 		this.consumer = consumer;
 	}
 

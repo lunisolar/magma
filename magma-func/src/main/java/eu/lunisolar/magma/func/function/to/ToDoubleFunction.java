@@ -73,6 +73,10 @@ public interface ToDoubleFunction<T> extends java.util.function.ToDoubleFunction
 		return () -> this.applyAsDouble(t);
 	}
 
+	public static <T> ToDoubleFunction<T> constant(double r) {
+		return (t) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default double nonNull(T t) {
 		return applyAsDouble(t);

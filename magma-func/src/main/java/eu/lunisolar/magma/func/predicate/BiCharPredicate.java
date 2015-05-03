@@ -79,6 +79,10 @@ public interface BiCharPredicate extends MetaPredicate, PrimitiveCodomain<BiChar
 		return () -> this.test(c1, c2);
 	}
 
+	public static BiCharPredicate constant(boolean r) {
+		return (c1, c2) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(char c1, char c2) {
 		return test(c1, c2);

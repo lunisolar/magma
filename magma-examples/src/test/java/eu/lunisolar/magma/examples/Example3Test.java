@@ -20,6 +20,7 @@
 package eu.lunisolar.magma.examples;
 
 import eu.lunisolar.magma.basics.NestedException;
+import eu.lunisolar.magma.func.asserts.DefaultFunctionalAssertions;
 import eu.lunisolar.magma.func.asserts.FunctionalAssertions;
 import eu.lunisolar.magma.func.function.Function;
 import eu.lunisolar.magma.func.function.FunctionX;
@@ -30,7 +31,7 @@ import java.text.*;
 
 public class Example3Test {
 
-    public static final FunctionalAssertions<ObjectAssert> then = new FunctionalAssertions() {
+    public static final DefaultFunctionalAssertions<ObjectAssert> then = new DefaultFunctionalAssertions() {
     };
 
     public static final FunctionX<Integer, Integer, CheckedException> throwingAlways = FunctionX.lX(Example3Test::throwingAlways);

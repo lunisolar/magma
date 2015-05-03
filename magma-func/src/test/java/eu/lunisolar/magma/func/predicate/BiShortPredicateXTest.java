@@ -412,4 +412,3 @@ public class BiShortPredicateXTest<X extends ParseException> {
     }
 
 }
-

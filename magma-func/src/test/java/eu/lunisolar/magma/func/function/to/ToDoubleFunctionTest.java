@@ -647,4 +647,3 @@ public class ToDoubleFunctionTest<T,X extends ParseException> {
     }
 
 }
-

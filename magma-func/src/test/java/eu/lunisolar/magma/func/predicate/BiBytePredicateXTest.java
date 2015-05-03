@@ -412,4 +412,3 @@ public class BiBytePredicateXTest<X extends ParseException> {
     }
 
 }
-

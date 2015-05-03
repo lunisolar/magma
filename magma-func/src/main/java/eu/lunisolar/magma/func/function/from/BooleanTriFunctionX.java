@@ -74,6 +74,10 @@ public interface BooleanTriFunctionX<R, X extends Exception> extends MetaFunctio
 		return () -> this.apply(b1, b2, b3);
 	}
 
+	public static <R, X extends Exception> BooleanTriFunctionX<R, X> constant(R r) {
+		return (b1, b2, b3) -> r;
+	}
+
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
@@ -167,7 +171,7 @@ public interface BooleanTriFunctionX<R, X extends Exception> extends MetaFunctio
 
 	@Nonnull
 	default BooleanTriFunctionX<R, X> nonNullableX() {
-		return new NonNullBooleanTriFunctionX(this);
+		return (b1, b2, b3) -> Objects.requireNonNull(this.apply(b1, b2, b3));
 	}
 
 	// <editor-fold desc="exception handling">

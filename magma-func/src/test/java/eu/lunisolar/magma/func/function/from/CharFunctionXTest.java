@@ -662,4 +662,3 @@ public class CharFunctionXTest<R,X extends ParseException> {
     }
 
 }
-

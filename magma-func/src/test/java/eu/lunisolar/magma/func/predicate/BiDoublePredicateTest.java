@@ -456,4 +456,3 @@ public class BiDoublePredicateTest<X extends ParseException> {
     }
 
 }
-

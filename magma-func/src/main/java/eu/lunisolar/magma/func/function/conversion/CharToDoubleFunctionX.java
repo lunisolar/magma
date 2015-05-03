@@ -73,6 +73,10 @@ public interface CharToDoubleFunctionX<X extends Exception> extends MetaFunction
 		return () -> this.applyAsDouble(c);
 	}
 
+	public static <X extends Exception> CharToDoubleFunctionX<X> constant(double r) {
+		return (c) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default double nonNull(char c) throws X {
 		return applyAsDouble(c);

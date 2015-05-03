@@ -440,4 +440,3 @@ public class ObjShortFunctionTest<T,R,X extends ParseException> {
     }
 
 }
-

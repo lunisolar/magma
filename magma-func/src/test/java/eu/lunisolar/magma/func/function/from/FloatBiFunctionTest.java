@@ -440,4 +440,3 @@ public class FloatBiFunctionTest<R,X extends ParseException> {
     }
 
 }
-

@@ -412,4 +412,3 @@ public class BiCharPredicateXTest<X extends ParseException> {
     }
 
 }
-

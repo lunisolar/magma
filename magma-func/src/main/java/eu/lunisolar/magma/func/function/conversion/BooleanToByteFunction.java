@@ -73,6 +73,10 @@ public interface BooleanToByteFunction extends MetaFunction, PrimitiveCodomain<B
 		return () -> this.applyAsByte(b);
 	}
 
+	public static BooleanToByteFunction constant(byte r) {
+		return (b) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default byte nonNull(boolean b) {
 		return applyAsByte(b);

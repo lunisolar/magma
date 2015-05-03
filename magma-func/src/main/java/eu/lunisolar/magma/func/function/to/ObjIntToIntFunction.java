@@ -73,6 +73,10 @@ public interface ObjIntToIntFunction<T> extends MetaFunction, PrimitiveCodomain<
 		return () -> this.applyAsInt(t, i);
 	}
 
+	public static <T> ObjIntToIntFunction<T> constant(int r) {
+		return (t, i) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default int nonNull(T t, int i) {
 		return applyAsInt(t, i);

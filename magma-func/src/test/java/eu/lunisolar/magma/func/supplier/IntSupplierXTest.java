@@ -561,4 +561,3 @@ public class IntSupplierXTest<X extends ParseException> {
     }
 
 }
-

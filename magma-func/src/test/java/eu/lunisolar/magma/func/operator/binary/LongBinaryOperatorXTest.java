@@ -399,4 +399,3 @@ public class LongBinaryOperatorXTest<X extends ParseException> {
     }
 
 }
-

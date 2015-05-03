@@ -19,7 +19,7 @@
 
 package eu.lunisolar.magma.func.build.std;
 
-import eu.lunisolar.magma.func.std.*;
+import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -42,7 +42,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for java.util.function.DoubleUnaryOperator. */
-public final class StdDoubleUnaryOperatorBuilder extends PerCaseBuilder<StdDoubleUnaryOperatorBuilder, DoublePredicate, java.util.function.DoubleUnaryOperator> {
+public final class StdDoubleUnaryOperatorBuilder extends PerCaseBuilderWithDoubleProduct<StdDoubleUnaryOperatorBuilder, DoublePredicate, java.util.function.DoubleUnaryOperator> {
 
 	private Consumer<java.util.function.DoubleUnaryOperator> consumer;
 
@@ -58,7 +58,8 @@ public final class StdDoubleUnaryOperatorBuilder extends PerCaseBuilder<StdDoubl
 		});
 
 	public StdDoubleUnaryOperatorBuilder(@Nullable Consumer<java.util.function.DoubleUnaryOperator> consumer) {
-		super(EVENTUALLY_THROW);
+		super(EVENTUALLY_THROW, DoubleUnaryOperator::constant);
+
 		this.consumer = consumer;
 	}
 

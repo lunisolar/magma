@@ -73,6 +73,10 @@ public interface BooleanToIntFunctionX<X extends Exception> extends MetaFunction
 		return () -> this.applyAsInt(b);
 	}
 
+	public static <X extends Exception> BooleanToIntFunctionX<X> constant(int r) {
+		return (b) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default int nonNull(boolean b) throws X {
 		return applyAsInt(b);

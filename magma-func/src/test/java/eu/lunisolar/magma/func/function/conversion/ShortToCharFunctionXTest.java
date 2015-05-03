@@ -619,4 +619,3 @@ public class ShortToCharFunctionXTest<X extends ParseException> {
     }
 
 }
-

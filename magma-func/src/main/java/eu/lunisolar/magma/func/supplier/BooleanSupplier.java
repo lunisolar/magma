@@ -68,6 +68,10 @@ public interface BooleanSupplier extends java.util.function.BooleanSupplier, Met
 		return BooleanSupplier.DESCRIPTION;
 	}
 
+	public static BooleanSupplier of(boolean r) {
+		return () -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull() {
 		return getAsBoolean();

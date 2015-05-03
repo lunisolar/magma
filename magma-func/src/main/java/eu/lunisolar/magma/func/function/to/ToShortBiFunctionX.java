@@ -73,6 +73,10 @@ public interface ToShortBiFunctionX<T1, T2, X extends Exception> extends MetaFun
 		return () -> this.applyAsShort(t1, t2);
 	}
 
+	public static <T1, T2, X extends Exception> ToShortBiFunctionX<T1, T2, X> constant(short r) {
+		return (t1, t2) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default short nonNull(T1 t1, T2 t2) throws X {
 		return applyAsShort(t1, t2);

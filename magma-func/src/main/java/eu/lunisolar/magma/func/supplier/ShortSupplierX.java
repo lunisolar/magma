@@ -68,6 +68,10 @@ public interface ShortSupplierX<X extends Exception> extends MetaSupplier, Primi
 		return ShortSupplierX.DESCRIPTION;
 	}
 
+	public static <X extends Exception> ShortSupplierX<X> of(short r) {
+		return () -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default short nonNull() throws X {
 		return getAsShort();

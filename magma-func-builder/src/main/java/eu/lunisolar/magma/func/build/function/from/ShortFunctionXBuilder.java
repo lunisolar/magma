@@ -20,6 +20,7 @@
 package eu.lunisolar.magma.func.build.function.from;
 
 import eu.lunisolar.magma.func.function.from.*;
+import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -42,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for ShortFunctionX. */
-public final class ShortFunctionXBuilder<R, X extends Exception> extends PerCaseBuilder<ShortFunctionXBuilder<R, X>, ShortPredicateX<X>, ShortFunctionX<R, X>> {
+public final class ShortFunctionXBuilder<R, X extends Exception> extends PerCaseBuilderWithProduct<ShortFunctionXBuilder<R, X>, ShortPredicateX<X>, ShortFunctionX<R, X>, R> {
 
 	private Consumer<ShortFunctionX<R, X>> consumer;
 
@@ -58,7 +59,8 @@ public final class ShortFunctionXBuilder<R, X extends Exception> extends PerCase
 		});
 
 	public ShortFunctionXBuilder(@Nullable Consumer<ShortFunctionX<R, X>> consumer) {
-		super(EVENTUALLY_THROW);
+		super(EVENTUALLY_THROW, ShortFunctionX::constant);
+
 		this.consumer = consumer;
 	}
 

@@ -410,4 +410,3 @@ public class BiObjDoubleFunctionXTest<T1,T2,R,X extends ParseException> {
     }
 
 }
-

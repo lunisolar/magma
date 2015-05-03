@@ -73,6 +73,10 @@ public interface ShortToCharFunctionX<X extends Exception> extends MetaFunction,
 		return () -> this.applyAsChar(s);
 	}
 
+	public static <X extends Exception> ShortToCharFunctionX<X> constant(char r) {
+		return (s) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default char nonNull(short s) throws X {
 		return applyAsChar(s);

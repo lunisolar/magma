@@ -590,4 +590,3 @@ public class ToCharFunctionXTest<T,X extends ParseException> {
     }
 
 }
-

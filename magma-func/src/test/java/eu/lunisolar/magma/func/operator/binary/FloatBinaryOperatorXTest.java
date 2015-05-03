@@ -386,4 +386,3 @@ public class FloatBinaryOperatorXTest<X extends ParseException> {
     }
 
 }
-

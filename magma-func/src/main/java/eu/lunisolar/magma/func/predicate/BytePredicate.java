@@ -79,6 +79,10 @@ public interface BytePredicate extends MetaPredicate, PrimitiveCodomain<BytePred
 		return () -> this.test(b);
 	}
 
+	public static BytePredicate constant(boolean r) {
+		return (b) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(byte b) {
 		return test(b);

@@ -355,4 +355,3 @@ public class ByteConsumerTest<X extends ParseException> {
     }
 
 }
-

@@ -561,4 +561,3 @@ public class BooleanSupplierXTest<X extends ParseException> {
     }
 
 }
-

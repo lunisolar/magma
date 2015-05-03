@@ -73,6 +73,10 @@ public interface FloatBinaryOperator extends MetaOperator, PrimitiveCodomain<Flo
 		return () -> this.applyAsFloat(f1, f2);
 	}
 
+	public static FloatBinaryOperator constant(float r) {
+		return (f1, f2) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default float nonNull(float f1, float f2) {
 		return applyAsFloat(f1, f2);

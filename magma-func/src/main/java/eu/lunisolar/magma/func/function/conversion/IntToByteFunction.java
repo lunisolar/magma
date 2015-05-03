@@ -73,6 +73,10 @@ public interface IntToByteFunction extends MetaFunction, PrimitiveCodomain<IntTo
 		return () -> this.applyAsByte(i);
 	}
 
+	public static IntToByteFunction constant(byte r) {
+		return (i) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default byte nonNull(int i) {
 		return applyAsByte(i);

@@ -626,4 +626,3 @@ public class ByteUnaryOperatorXTest<X extends ParseException> {
     }
 
 }
-

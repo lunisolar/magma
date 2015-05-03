@@ -68,6 +68,10 @@ public interface IntSupplierX<X extends Exception> extends MetaSupplier, Primiti
 		return IntSupplierX.DESCRIPTION;
 	}
 
+	public static <X extends Exception> IntSupplierX<X> of(int r) {
+		return () -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default int nonNull() throws X {
 		return getAsInt();

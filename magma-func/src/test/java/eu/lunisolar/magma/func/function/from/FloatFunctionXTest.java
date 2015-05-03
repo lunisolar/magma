@@ -662,4 +662,3 @@ public class FloatFunctionXTest<R,X extends ParseException> {
     }
 
 }
-

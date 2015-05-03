@@ -68,6 +68,10 @@ public interface LongSupplier extends java.util.function.LongSupplier, MetaSuppl
 		return LongSupplier.DESCRIPTION;
 	}
 
+	public static LongSupplier of(long r) {
+		return () -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default long nonNull() {
 		return getAsLong();

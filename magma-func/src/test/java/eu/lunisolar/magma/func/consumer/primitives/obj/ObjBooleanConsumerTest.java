@@ -369,4 +369,3 @@ public class ObjBooleanConsumerTest<T,X extends ParseException> {
     }
 
 }
-

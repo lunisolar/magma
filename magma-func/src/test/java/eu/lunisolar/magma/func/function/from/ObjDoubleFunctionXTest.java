@@ -396,4 +396,3 @@ public class ObjDoubleFunctionXTest<T,R,X extends ParseException> {
     }
 
 }
-

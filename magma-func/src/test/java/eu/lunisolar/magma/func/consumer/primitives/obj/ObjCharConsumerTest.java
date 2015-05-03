@@ -369,4 +369,3 @@ public class ObjCharConsumerTest<T,X extends ParseException> {
     }
 
 }
-

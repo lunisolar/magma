@@ -324,4 +324,3 @@ public class LongConsumerXTest<X extends ParseException> {
     }
 
 }
-

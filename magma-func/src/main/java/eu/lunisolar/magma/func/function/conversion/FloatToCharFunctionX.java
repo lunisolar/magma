@@ -73,6 +73,10 @@ public interface FloatToCharFunctionX<X extends Exception> extends MetaFunction,
 		return () -> this.applyAsChar(f);
 	}
 
+	public static <X extends Exception> FloatToCharFunctionX<X> constant(char r) {
+		return (f) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default char nonNull(float f) throws X {
 		return applyAsChar(f);

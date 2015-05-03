@@ -692,4 +692,3 @@ public class DoublePredicateXTest<X extends ParseException> {
     }
 
 }
-

@@ -440,4 +440,3 @@ public class CharBiFunctionTest<R,X extends ParseException> {
     }
 
 }
-

@@ -706,4 +706,3 @@ public class ShortFunctionTest<R,X extends ParseException> {
     }
 
 }
-

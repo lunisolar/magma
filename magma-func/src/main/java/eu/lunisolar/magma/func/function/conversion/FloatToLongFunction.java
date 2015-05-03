@@ -73,6 +73,10 @@ public interface FloatToLongFunction extends MetaFunction, PrimitiveCodomain<Flo
 		return () -> this.applyAsLong(f);
 	}
 
+	public static FloatToLongFunction constant(long r) {
+		return (f) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default long nonNull(float f) {
 		return applyAsLong(f);

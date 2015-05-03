@@ -74,6 +74,10 @@ public interface ObjFloatFunctionX<T, R, X extends Exception> extends MetaFuncti
 		return () -> this.apply(t, f);
 	}
 
+	public static <T, R, X extends Exception> ObjFloatFunctionX<T, R, X> constant(R r) {
+		return (t, f) -> r;
+	}
+
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
@@ -165,7 +169,7 @@ public interface ObjFloatFunctionX<T, R, X extends Exception> extends MetaFuncti
 
 	@Nonnull
 	default ObjFloatFunctionX<T, R, X> nonNullableX() {
-		return new NonNullObjFloatFunctionX(this);
+		return (t, f) -> Objects.requireNonNull(this.apply(t, f));
 	}
 
 	// <editor-fold desc="exception handling">

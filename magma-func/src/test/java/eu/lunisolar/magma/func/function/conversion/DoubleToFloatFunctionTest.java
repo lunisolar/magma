@@ -663,4 +663,3 @@ public class DoubleToFloatFunctionTest<X extends ParseException> {
     }
 
 }
-

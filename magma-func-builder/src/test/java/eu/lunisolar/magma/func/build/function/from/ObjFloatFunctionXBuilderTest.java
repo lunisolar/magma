@@ -55,7 +55,7 @@ import static org.assertj.core.api.Assertions.*; //NOSONAR
 public class ObjFloatFunctionXBuilderTest<T,R,X extends ParseException>{
 
     @SuppressWarnings("unchecked")
-    public static final FunctionalAssertions<ObjectAssert> A = new FunctionalAssertions() {
+    public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
     @Test
@@ -100,4 +100,3 @@ public class ObjFloatFunctionXBuilderTest<T,R,X extends ParseException>{
     }
 
 }
-

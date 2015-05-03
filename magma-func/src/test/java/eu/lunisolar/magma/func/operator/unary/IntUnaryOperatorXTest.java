@@ -639,4 +639,3 @@ public class IntUnaryOperatorXTest<X extends ParseException> {
     }
 
 }
-

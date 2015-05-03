@@ -663,4 +663,3 @@ public class CharToShortFunctionTest<X extends ParseException> {
     }
 
 }
-

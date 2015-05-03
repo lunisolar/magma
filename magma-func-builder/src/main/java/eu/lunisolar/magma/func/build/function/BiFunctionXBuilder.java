@@ -20,6 +20,7 @@
 package eu.lunisolar.magma.func.build.function;
 
 import eu.lunisolar.magma.func.function.*;
+import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -42,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for BiFunctionX. */
-public final class BiFunctionXBuilder<T1, T2, R, X extends Exception> extends PerCaseBuilder<BiFunctionXBuilder<T1, T2, R, X>, BiPredicateX<T1, T2, X>, BiFunctionX<T1, T2, R, X>> {
+public final class BiFunctionXBuilder<T1, T2, R, X extends Exception> extends PerCaseBuilderWithProduct<BiFunctionXBuilder<T1, T2, R, X>, BiPredicateX<T1, T2, X>, BiFunctionX<T1, T2, R, X>, R> {
 
 	private Consumer<BiFunctionX<T1, T2, R, X>> consumer;
 
@@ -58,7 +59,8 @@ public final class BiFunctionXBuilder<T1, T2, R, X extends Exception> extends Pe
 		});
 
 	public BiFunctionXBuilder(@Nullable Consumer<BiFunctionX<T1, T2, R, X>> consumer) {
-		super(EVENTUALLY_THROW);
+		super(EVENTUALLY_THROW, BiFunctionX::constant);
+
 		this.consumer = consumer;
 	}
 

@@ -73,6 +73,10 @@ public interface IntFunction<R> extends java.util.function.IntFunction<R>, MetaF
 		return () -> this.apply(i);
 	}
 
+	public static <R> IntFunction<R> constant(R r) {
+		return (i) -> r;
+	}
+
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
@@ -235,7 +239,7 @@ public interface IntFunction<R> extends java.util.function.IntFunction<R>, MetaF
 
 	@Nonnull
 	default IntFunction<R> nonNullable() {
-		return new NonNullIntFunction(this);
+		return (i) -> Objects.requireNonNull(this.apply(i));
 	}
 
 	// <editor-fold desc="exception handling">

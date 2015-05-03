@@ -68,6 +68,10 @@ public interface DoubleSupplier extends java.util.function.DoubleSupplier, MetaS
 		return DoubleSupplier.DESCRIPTION;
 	}
 
+	public static DoubleSupplier of(double r) {
+		return () -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default double nonNull() {
 		return getAsDouble();

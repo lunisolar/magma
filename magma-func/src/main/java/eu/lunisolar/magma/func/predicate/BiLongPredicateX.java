@@ -79,6 +79,10 @@ public interface BiLongPredicateX<X extends Exception> extends MetaPredicate, Pr
 		return () -> this.test(l1, l2);
 	}
 
+	public static <X extends Exception> BiLongPredicateX<X> constant(boolean r) {
+		return (l1, l2) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(long l1, long l2) throws X {
 		return test(l1, l2);

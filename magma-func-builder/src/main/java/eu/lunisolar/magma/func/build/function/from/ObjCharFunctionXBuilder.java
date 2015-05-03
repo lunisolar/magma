@@ -20,6 +20,7 @@
 package eu.lunisolar.magma.func.build.function.from;
 
 import eu.lunisolar.magma.func.function.from.*;
+import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -42,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for ObjCharFunctionX. */
-public final class ObjCharFunctionXBuilder<T, R, X extends Exception> extends PerCaseBuilder<ObjCharFunctionXBuilder<T, R, X>, ObjCharPredicateX<T, X>, ObjCharFunctionX<T, R, X>> {
+public final class ObjCharFunctionXBuilder<T, R, X extends Exception> extends PerCaseBuilderWithProduct<ObjCharFunctionXBuilder<T, R, X>, ObjCharPredicateX<T, X>, ObjCharFunctionX<T, R, X>, R> {
 
 	private Consumer<ObjCharFunctionX<T, R, X>> consumer;
 
@@ -58,7 +59,8 @@ public final class ObjCharFunctionXBuilder<T, R, X extends Exception> extends Pe
 		});
 
 	public ObjCharFunctionXBuilder(@Nullable Consumer<ObjCharFunctionX<T, R, X>> consumer) {
-		super(EVENTUALLY_THROW);
+		super(EVENTUALLY_THROW, ObjCharFunctionX::constant);
+
 		this.consumer = consumer;
 	}
 

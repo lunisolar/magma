@@ -430,4 +430,3 @@ public class ShortBinaryOperatorTest<X extends ParseException> {
     }
 
 }
-

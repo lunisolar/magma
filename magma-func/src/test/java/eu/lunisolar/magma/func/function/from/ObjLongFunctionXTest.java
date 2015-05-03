@@ -396,4 +396,3 @@ public class ObjLongFunctionXTest<T,R,X extends ParseException> {
     }
 
 }
-

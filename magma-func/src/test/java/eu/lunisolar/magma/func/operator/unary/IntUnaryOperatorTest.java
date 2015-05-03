@@ -683,4 +683,3 @@ public class IntUnaryOperatorTest<X extends ParseException> {
     }
 
 }
-

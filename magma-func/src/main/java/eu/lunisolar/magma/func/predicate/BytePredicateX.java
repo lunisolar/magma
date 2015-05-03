@@ -79,6 +79,10 @@ public interface BytePredicateX<X extends Exception> extends MetaPredicate, Prim
 		return () -> this.test(b);
 	}
 
+	public static <X extends Exception> BytePredicateX<X> constant(boolean r) {
+		return (b) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(byte b) throws X {
 		return test(b);

@@ -20,6 +20,7 @@
 package eu.lunisolar.magma.func.build.supplier;
 
 import eu.lunisolar.magma.func.supplier.*;
+import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -42,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for ShortSupplier. */
-public final class ShortSupplierBuilder extends PerCaseBuilder<ShortSupplierBuilder, BooleanSupplier, ShortSupplier> {
+public final class ShortSupplierBuilder extends PerCaseBuilderWithShortProduct<ShortSupplierBuilder, BooleanSupplier, ShortSupplier> {
 
 	private Consumer<ShortSupplier> consumer;
 
@@ -58,7 +59,8 @@ public final class ShortSupplierBuilder extends PerCaseBuilder<ShortSupplierBuil
 		});
 
 	public ShortSupplierBuilder(@Nullable Consumer<ShortSupplier> consumer) {
-		super(EVENTUALLY_THROW);
+		super(EVENTUALLY_THROW, ShortSupplier::of);
+
 		this.consumer = consumer;
 	}
 

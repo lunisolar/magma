@@ -663,4 +663,3 @@ public class CharToFloatFunctionTest<X extends ParseException> {
     }
 
 }
-

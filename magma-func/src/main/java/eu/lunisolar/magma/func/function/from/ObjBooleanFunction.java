@@ -74,6 +74,10 @@ public interface ObjBooleanFunction<T, R> extends MetaFunction { // NOSONAR
 		return () -> this.apply(t, b);
 	}
 
+	public static <T, R> ObjBooleanFunction<T, R> constant(R r) {
+		return (t, b) -> r;
+	}
+
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
@@ -170,7 +174,7 @@ public interface ObjBooleanFunction<T, R> extends MetaFunction { // NOSONAR
 
 	@Nonnull
 	default ObjBooleanFunction<T, R> nonNullable() {
-		return new NonNullObjBooleanFunction(this);
+		return (t, b) -> Objects.requireNonNull(this.apply(t, b));
 	}
 
 	// <editor-fold desc="exception handling">

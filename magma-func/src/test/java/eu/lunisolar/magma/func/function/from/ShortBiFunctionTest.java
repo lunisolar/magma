@@ -440,4 +440,3 @@ public class ShortBiFunctionTest<R,X extends ParseException> {
     }
 
 }
-

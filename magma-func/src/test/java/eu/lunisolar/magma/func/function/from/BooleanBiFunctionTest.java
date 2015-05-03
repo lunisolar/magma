@@ -440,4 +440,3 @@ public class BooleanBiFunctionTest<R,X extends ParseException> {
     }
 
 }
-

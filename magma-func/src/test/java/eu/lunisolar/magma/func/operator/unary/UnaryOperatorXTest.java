@@ -588,4 +588,3 @@ public class UnaryOperatorXTest<T,X extends ParseException> {
     }
 
 }
-

@@ -20,6 +20,7 @@
 package eu.lunisolar.magma.func.build.function.from;
 
 import eu.lunisolar.magma.func.function.from.*;
+import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -42,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for BiObjFloatFunctionX. */
-public final class BiObjFloatFunctionXBuilder<T1, T2, R, X extends Exception> extends PerCaseBuilder<BiObjFloatFunctionXBuilder<T1, T2, R, X>, BiObjFloatPredicateX<T1, T2, X>, BiObjFloatFunctionX<T1, T2, R, X>> {
+public final class BiObjFloatFunctionXBuilder<T1, T2, R, X extends Exception> extends PerCaseBuilderWithProduct<BiObjFloatFunctionXBuilder<T1, T2, R, X>, BiObjFloatPredicateX<T1, T2, X>, BiObjFloatFunctionX<T1, T2, R, X>, R> {
 
 	private Consumer<BiObjFloatFunctionX<T1, T2, R, X>> consumer;
 
@@ -58,7 +59,8 @@ public final class BiObjFloatFunctionXBuilder<T1, T2, R, X extends Exception> ex
 		});
 
 	public BiObjFloatFunctionXBuilder(@Nullable Consumer<BiObjFloatFunctionX<T1, T2, R, X>> consumer) {
-		super(EVENTUALLY_THROW);
+		super(EVENTUALLY_THROW, BiObjFloatFunctionX::constant);
+
 		this.consumer = consumer;
 	}
 

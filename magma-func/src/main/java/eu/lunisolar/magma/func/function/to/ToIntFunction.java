@@ -73,6 +73,10 @@ public interface ToIntFunction<T> extends java.util.function.ToIntFunction<T>, M
 		return () -> this.applyAsInt(t);
 	}
 
+	public static <T> ToIntFunction<T> constant(int r) {
+		return (t) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default int nonNull(T t) {
 		return applyAsInt(t);

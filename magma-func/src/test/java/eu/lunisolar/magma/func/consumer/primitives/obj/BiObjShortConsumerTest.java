@@ -383,4 +383,3 @@ public class BiObjShortConsumerTest<T1,T2,X extends ParseException> {
     }
 
 }
-

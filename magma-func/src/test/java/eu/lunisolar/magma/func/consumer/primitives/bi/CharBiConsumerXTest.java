@@ -325,4 +325,3 @@ public class CharBiConsumerXTest<X extends ParseException> {
     }
 
 }
-

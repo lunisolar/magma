@@ -676,4 +676,3 @@ public class LongToDoubleFunctionTest<X extends ParseException> {
     }
 
 }
-

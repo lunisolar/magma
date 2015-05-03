@@ -78,6 +78,10 @@ public interface BooleanTernaryOperator extends MetaLogicalOperator, PrimitiveCo
 		return () -> this.apply(b1, b2, b3);
 	}
 
+	public static BooleanTernaryOperator constant(boolean r) {
+		return (b1, b2, b3) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(boolean b1, boolean b2, boolean b3) {
 		return apply(b1, b2, b3);

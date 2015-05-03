@@ -456,4 +456,3 @@ public class ObjBytePredicateTest<T,X extends ParseException> {
     }
 
 }
-

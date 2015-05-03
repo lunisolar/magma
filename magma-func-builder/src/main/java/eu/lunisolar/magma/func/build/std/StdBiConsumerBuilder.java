@@ -19,7 +19,7 @@
 
 package eu.lunisolar.magma.func.build.std;
 
-import eu.lunisolar.magma.func.std.*;
+import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -59,6 +59,7 @@ public final class StdBiConsumerBuilder<T1, T2> extends PerCaseBuilder<StdBiCons
 
 	public StdBiConsumerBuilder(@Nullable Consumer<java.util.function.BiConsumer<T1, T2>> consumer) {
 		super(EVENTUALLY_THROW);
+
 		this.consumer = consumer;
 	}
 

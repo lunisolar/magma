@@ -311,4 +311,3 @@ public class BooleanConsumerXTest<X extends ParseException> {
     }
 
 }
-

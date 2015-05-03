@@ -663,4 +663,3 @@ public class ByteToShortFunctionTest<X extends ParseException> {
     }
 
 }
-

@@ -334,4 +334,3 @@ public class TernaryOperatorTest<T,X extends ParseException> {
     }
 
 }
-

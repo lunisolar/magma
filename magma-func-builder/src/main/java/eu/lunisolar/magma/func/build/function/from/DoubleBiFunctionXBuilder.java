@@ -20,6 +20,7 @@
 package eu.lunisolar.magma.func.build.function.from;
 
 import eu.lunisolar.magma.func.function.from.*;
+import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -42,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for DoubleBiFunctionX. */
-public final class DoubleBiFunctionXBuilder<R, X extends Exception> extends PerCaseBuilder<DoubleBiFunctionXBuilder<R, X>, BiDoublePredicateX<X>, DoubleBiFunctionX<R, X>> {
+public final class DoubleBiFunctionXBuilder<R, X extends Exception> extends PerCaseBuilderWithProduct<DoubleBiFunctionXBuilder<R, X>, BiDoublePredicateX<X>, DoubleBiFunctionX<R, X>, R> {
 
 	private Consumer<DoubleBiFunctionX<R, X>> consumer;
 
@@ -58,7 +59,8 @@ public final class DoubleBiFunctionXBuilder<R, X extends Exception> extends PerC
 		});
 
 	public DoubleBiFunctionXBuilder(@Nullable Consumer<DoubleBiFunctionX<R, X>> consumer) {
-		super(EVENTUALLY_THROW);
+		super(EVENTUALLY_THROW, DoubleBiFunctionX::constant);
+
 		this.consumer = consumer;
 	}
 

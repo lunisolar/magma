@@ -590,4 +590,3 @@ public class ToShortFunctionXTest<T,X extends ParseException> {
     }
 
 }
-

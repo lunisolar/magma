@@ -73,6 +73,10 @@ public interface IntUnaryOperator extends java.util.function.IntUnaryOperator, M
 		return () -> this.applyAsInt(i);
 	}
 
+	public static IntUnaryOperator constant(int r) {
+		return (i) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default int nonNull(int i) {
 		return applyAsInt(i);

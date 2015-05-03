@@ -74,6 +74,10 @@ public interface FunctionX<T, R, X extends Exception> extends MetaFunction, Meta
 		return () -> this.apply(t);
 	}
 
+	public static <T, R, X extends Exception> FunctionX<T, R, X> constant(R r) {
+		return (t) -> r;
+	}
+
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
@@ -228,7 +232,7 @@ public interface FunctionX<T, R, X extends Exception> extends MetaFunction, Meta
 
 	@Nonnull
 	default FunctionX<T, R, X> nonNullableX() {
-		return new NonNullFunctionX(this);
+		return (t) -> Objects.requireNonNull(this.apply(t));
 	}
 
 	// <editor-fold desc="exception handling">

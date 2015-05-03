@@ -73,6 +73,10 @@ public interface ByteUnaryOperatorX<X extends Exception> extends MetaOperator, P
 		return () -> this.applyAsByte(b);
 	}
 
+	public static <X extends Exception> ByteUnaryOperatorX<X> constant(byte r) {
+		return (b) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default byte nonNull(byte b) throws X {
 		return applyAsByte(b);

@@ -73,6 +73,10 @@ public interface Function<T, R> extends java.util.function.Function<T, R>, MetaF
 		return () -> this.apply(t);
 	}
 
+	public static <T, R> Function<T, R> constant(R r) {
+		return (t) -> r;
+	}
+
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
@@ -232,7 +236,7 @@ public interface Function<T, R> extends java.util.function.Function<T, R>, MetaF
 
 	@Nonnull
 	default Function<T, R> nonNullable() {
-		return new NonNullFunction(this);
+		return (t) -> Objects.requireNonNull(this.apply(t));
 	}
 
 	// <editor-fold desc="exception handling">

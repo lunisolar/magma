@@ -73,6 +73,10 @@ public interface CharToLongFunctionX<X extends Exception> extends MetaFunction, 
 		return () -> this.applyAsLong(c);
 	}
 
+	public static <X extends Exception> CharToLongFunctionX<X> constant(long r) {
+		return (c) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default long nonNull(char c) throws X {
 		return applyAsLong(c);

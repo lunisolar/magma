@@ -73,6 +73,10 @@ public interface BinaryOperatorX<T, X extends Exception> extends BiFunctionX<T, 
 		return () -> this.apply(t1, t2);
 	}
 
+	public static <T, X extends Exception> BinaryOperatorX<T, X> constant(T r) {
+		return (t1, t2) -> r;
+	}
+
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
@@ -166,7 +170,7 @@ public interface BinaryOperatorX<T, X extends Exception> extends BiFunctionX<T, 
 
 	@Nonnull
 	default BinaryOperatorX<T, X> nonNullableX() {
-		return new NonNullBinaryOperatorX(this);
+		return (t1, t2) -> Objects.requireNonNull(this.apply(t1, t2));
 	}
 
 	// <editor-fold desc="exception handling">

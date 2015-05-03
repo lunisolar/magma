@@ -676,4 +676,3 @@ public class IntToDoubleFunctionTest<X extends ParseException> {
     }
 
 }
-

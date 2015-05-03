@@ -73,6 +73,10 @@ public interface ToIntBiFunction<T1, T2> extends java.util.function.ToIntBiFunct
 		return () -> this.applyAsInt(t1, t2);
 	}
 
+	public static <T1, T2> ToIntBiFunction<T1, T2> constant(int r) {
+		return (t1, t2) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default int nonNull(T1 t1, T2 t2) {
 		return applyAsInt(t1, t2);

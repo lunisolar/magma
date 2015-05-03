@@ -74,6 +74,10 @@ public interface ObjLongFunctionX<T, R, X extends Exception> extends MetaFunctio
 		return () -> this.apply(t, l);
 	}
 
+	public static <T, R, X extends Exception> ObjLongFunctionX<T, R, X> constant(R r) {
+		return (t, l) -> r;
+	}
+
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
@@ -165,7 +169,7 @@ public interface ObjLongFunctionX<T, R, X extends Exception> extends MetaFunctio
 
 	@Nonnull
 	default ObjLongFunctionX<T, R, X> nonNullableX() {
-		return new NonNullObjLongFunctionX(this);
+		return (t, l) -> Objects.requireNonNull(this.apply(t, l));
 	}
 
 	// <editor-fold desc="exception handling">

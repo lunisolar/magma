@@ -396,4 +396,3 @@ public class FloatBiFunctionXTest<R,X extends ParseException> {
     }
 
 }
-

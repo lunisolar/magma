@@ -456,4 +456,3 @@ public class ObjFloatPredicateTest<T,X extends ParseException> {
     }
 
 }
-

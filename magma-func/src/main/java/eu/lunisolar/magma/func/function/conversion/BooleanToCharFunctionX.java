@@ -73,6 +73,10 @@ public interface BooleanToCharFunctionX<X extends Exception> extends MetaFunctio
 		return () -> this.applyAsChar(b);
 	}
 
+	public static <X extends Exception> BooleanToCharFunctionX<X> constant(char r) {
+		return (b) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default char nonNull(boolean b) throws X {
 		return applyAsChar(b);

@@ -19,7 +19,7 @@
 
 package eu.lunisolar.magma.func.build.std;
 
-import eu.lunisolar.magma.func.std.*;
+import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -42,7 +42,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for java.util.function.Function. */
-public final class StdFunctionBuilder<T, R> extends PerCaseBuilder<StdFunctionBuilder<T, R>, Predicate<T>, java.util.function.Function<T, R>> {
+public final class StdFunctionBuilder<T, R> extends PerCaseBuilderWithProduct<StdFunctionBuilder<T, R>, Predicate<T>, java.util.function.Function<T, R>, R> {
 
 	private Consumer<java.util.function.Function<T, R>> consumer;
 
@@ -58,7 +58,8 @@ public final class StdFunctionBuilder<T, R> extends PerCaseBuilder<StdFunctionBu
 		});
 
 	public StdFunctionBuilder(@Nullable Consumer<java.util.function.Function<T, R>> consumer) {
-		super(EVENTUALLY_THROW);
+		super(EVENTUALLY_THROW, Function::constant);
+
 		this.consumer = consumer;
 	}
 

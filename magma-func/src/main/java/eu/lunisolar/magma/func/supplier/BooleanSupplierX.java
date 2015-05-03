@@ -68,6 +68,10 @@ public interface BooleanSupplierX<X extends Exception> extends MetaSupplier, Pri
 		return BooleanSupplierX.DESCRIPTION;
 	}
 
+	public static <X extends Exception> BooleanSupplierX<X> of(boolean r) {
+		return () -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull() throws X {
 		return getAsBoolean();

@@ -663,4 +663,3 @@ public class ByteToFloatFunctionTest<X extends ParseException> {
     }
 
 }
-

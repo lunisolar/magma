@@ -369,4 +369,3 @@ public class LongBiConsumerTest<X extends ParseException> {
     }
 
 }
-

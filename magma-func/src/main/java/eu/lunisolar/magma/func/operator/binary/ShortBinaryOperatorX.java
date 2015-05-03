@@ -73,6 +73,10 @@ public interface ShortBinaryOperatorX<X extends Exception> extends MetaOperator,
 		return () -> this.applyAsShort(s1, s2);
 	}
 
+	public static <X extends Exception> ShortBinaryOperatorX<X> constant(short r) {
+		return (s1, s2) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default short nonNull(short s1, short s2) throws X {
 		return applyAsShort(s1, s2);

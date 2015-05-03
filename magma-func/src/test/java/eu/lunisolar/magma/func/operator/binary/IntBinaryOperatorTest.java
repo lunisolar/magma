@@ -443,4 +443,3 @@ public class IntBinaryOperatorTest<X extends ParseException> {
     }
 
 }
-

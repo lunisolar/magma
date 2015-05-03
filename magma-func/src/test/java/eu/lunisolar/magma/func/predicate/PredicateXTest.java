@@ -663,4 +663,3 @@ public class PredicateXTest<T,X extends ParseException> {
     }
 
 }
-

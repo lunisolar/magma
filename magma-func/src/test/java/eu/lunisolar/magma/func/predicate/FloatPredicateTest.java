@@ -723,4 +723,3 @@ public class FloatPredicateTest<X extends ParseException> {
     }
 
 }
-

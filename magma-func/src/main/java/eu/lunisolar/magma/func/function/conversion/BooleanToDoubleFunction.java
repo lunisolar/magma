@@ -73,6 +73,10 @@ public interface BooleanToDoubleFunction extends MetaFunction, PrimitiveCodomain
 		return () -> this.applyAsDouble(b);
 	}
 
+	public static BooleanToDoubleFunction constant(double r) {
+		return (b) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default double nonNull(boolean b) {
 		return applyAsDouble(b);

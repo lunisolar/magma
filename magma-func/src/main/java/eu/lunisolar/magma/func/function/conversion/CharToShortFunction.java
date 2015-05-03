@@ -73,6 +73,10 @@ public interface CharToShortFunction extends MetaFunction, PrimitiveCodomain<Cha
 		return () -> this.applyAsShort(c);
 	}
 
+	public static CharToShortFunction constant(short r) {
+		return (c) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default short nonNull(char c) {
 		return applyAsShort(c);

@@ -73,6 +73,10 @@ public interface FloatBinaryOperatorX<X extends Exception> extends MetaOperator,
 		return () -> this.applyAsFloat(f1, f2);
 	}
 
+	public static <X extends Exception> FloatBinaryOperatorX<X> constant(float r) {
+		return (f1, f2) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default float nonNull(float f1, float f2) throws X {
 		return applyAsFloat(f1, f2);

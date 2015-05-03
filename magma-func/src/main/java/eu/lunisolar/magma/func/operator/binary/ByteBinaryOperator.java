@@ -73,6 +73,10 @@ public interface ByteBinaryOperator extends MetaOperator, PrimitiveCodomain<Byte
 		return () -> this.applyAsByte(b1, b2);
 	}
 
+	public static ByteBinaryOperator constant(byte r) {
+		return (b1, b2) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default byte nonNull(byte b1, byte b2) {
 		return applyAsByte(b1, b2);

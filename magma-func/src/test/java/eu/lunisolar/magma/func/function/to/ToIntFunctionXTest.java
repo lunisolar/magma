@@ -603,4 +603,3 @@ public class ToIntFunctionXTest<T,X extends ParseException> {
     }
 
 }
-

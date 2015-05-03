@@ -619,4 +619,3 @@ public class FloatToShortFunctionXTest<X extends ParseException> {
     }
 
 }
-

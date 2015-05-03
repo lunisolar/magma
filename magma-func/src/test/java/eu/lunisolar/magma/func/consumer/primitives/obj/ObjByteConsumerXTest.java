@@ -325,4 +325,3 @@ public class ObjByteConsumerXTest<T,X extends ParseException> {
     }
 
 }
-

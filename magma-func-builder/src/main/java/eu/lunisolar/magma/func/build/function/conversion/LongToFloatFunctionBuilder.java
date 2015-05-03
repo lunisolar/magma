@@ -20,6 +20,7 @@
 package eu.lunisolar.magma.func.build.function.conversion;
 
 import eu.lunisolar.magma.func.function.conversion.*;
+import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -42,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for LongToFloatFunction. */
-public final class LongToFloatFunctionBuilder extends PerCaseBuilder<LongToFloatFunctionBuilder, LongPredicate, LongToFloatFunction> {
+public final class LongToFloatFunctionBuilder extends PerCaseBuilderWithFloatProduct<LongToFloatFunctionBuilder, LongPredicate, LongToFloatFunction> {
 
 	private Consumer<LongToFloatFunction> consumer;
 
@@ -58,7 +59,8 @@ public final class LongToFloatFunctionBuilder extends PerCaseBuilder<LongToFloat
 		});
 
 	public LongToFloatFunctionBuilder(@Nullable Consumer<LongToFloatFunction> consumer) {
-		super(EVENTUALLY_THROW);
+		super(EVENTUALLY_THROW, LongToFloatFunction::constant);
+
 		this.consumer = consumer;
 	}
 

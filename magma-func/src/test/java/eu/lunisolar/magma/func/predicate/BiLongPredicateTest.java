@@ -456,4 +456,3 @@ public class BiLongPredicateTest<X extends ParseException> {
     }
 
 }
-

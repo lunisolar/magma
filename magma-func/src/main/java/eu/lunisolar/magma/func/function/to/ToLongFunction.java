@@ -73,6 +73,10 @@ public interface ToLongFunction<T> extends java.util.function.ToLongFunction<T>,
 		return () -> this.applyAsLong(t);
 	}
 
+	public static <T> ToLongFunction<T> constant(long r) {
+		return (t) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default long nonNull(T t) {
 		return applyAsLong(t);

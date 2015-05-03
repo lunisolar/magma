@@ -679,4 +679,3 @@ public class BooleanUnaryOperatorXTest<X extends ParseException> {
     }
 
 }
-

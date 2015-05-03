@@ -73,6 +73,10 @@ public interface BinaryOperator<T> extends java.util.function.BinaryOperator<T>,
 		return () -> this.apply(t1, t2);
 	}
 
+	public static <T> BinaryOperator<T> constant(T r) {
+		return (t1, t2) -> r;
+	}
+
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
@@ -171,7 +175,7 @@ public interface BinaryOperator<T> extends java.util.function.BinaryOperator<T>,
 
 	@Nonnull
 	default BinaryOperator<T> nonNullable() {
-		return new NonNullBinaryOperator(this);
+		return (t1, t2) -> Objects.requireNonNull(this.apply(t1, t2));
 	}
 
 	// <editor-fold desc="exception handling">

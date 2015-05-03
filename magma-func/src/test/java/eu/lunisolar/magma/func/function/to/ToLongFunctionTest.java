@@ -647,4 +647,3 @@ public class ToLongFunctionTest<T,X extends ParseException> {
     }
 
 }
-

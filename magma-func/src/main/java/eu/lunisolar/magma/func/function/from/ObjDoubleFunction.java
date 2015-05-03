@@ -74,6 +74,10 @@ public interface ObjDoubleFunction<T, R> extends MetaFunction { // NOSONAR
 		return () -> this.apply(t, d);
 	}
 
+	public static <T, R> ObjDoubleFunction<T, R> constant(R r) {
+		return (t, d) -> r;
+	}
+
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
@@ -170,7 +174,7 @@ public interface ObjDoubleFunction<T, R> extends MetaFunction { // NOSONAR
 
 	@Nonnull
 	default ObjDoubleFunction<T, R> nonNullable() {
-		return new NonNullObjDoubleFunction(this);
+		return (t, d) -> Objects.requireNonNull(this.apply(t, d));
 	}
 
 	// <editor-fold desc="exception handling">

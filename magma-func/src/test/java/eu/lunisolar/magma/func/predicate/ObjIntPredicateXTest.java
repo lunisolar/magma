@@ -412,4 +412,3 @@ public class ObjIntPredicateXTest<T,X extends ParseException> {
     }
 
 }
-

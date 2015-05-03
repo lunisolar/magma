@@ -68,6 +68,10 @@ public interface FloatSupplier extends MetaSupplier, PrimitiveCodomain<FloatSupp
 		return FloatSupplier.DESCRIPTION;
 	}
 
+	public static FloatSupplier of(float r) {
+		return () -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default float nonNull() {
 		return getAsFloat();

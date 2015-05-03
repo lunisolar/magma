@@ -20,6 +20,7 @@
 package eu.lunisolar.magma.func.build.predicate;
 
 import eu.lunisolar.magma.func.predicate.*;
+import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -42,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for BiShortPredicate. */
-public final class BiShortPredicateBuilder extends PerCaseBuilder<BiShortPredicateBuilder, BiShortPredicate, BiShortPredicate> {
+public final class BiShortPredicateBuilder extends PerCaseBuilderWithBooleanProduct<BiShortPredicateBuilder, BiShortPredicate, BiShortPredicate> {
 
 	private Consumer<BiShortPredicate> consumer;
 
@@ -58,7 +59,8 @@ public final class BiShortPredicateBuilder extends PerCaseBuilder<BiShortPredica
 		});
 
 	public BiShortPredicateBuilder(@Nullable Consumer<BiShortPredicate> consumer) {
-		super(EVENTUALLY_THROW);
+		super(EVENTUALLY_THROW, BiShortPredicate::constant);
+
 		this.consumer = consumer;
 	}
 

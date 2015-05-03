@@ -20,6 +20,7 @@
 package eu.lunisolar.magma.func.build.consumer.primitives.obj;
 
 import eu.lunisolar.magma.func.consumer.primitives.obj.*;
+import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -59,6 +60,7 @@ public final class ObjIntConsumerXBuilder<T, X extends Exception> extends PerCas
 
 	public ObjIntConsumerXBuilder(@Nullable Consumer<ObjIntConsumerX<T, X>> consumer) {
 		super(EVENTUALLY_THROW);
+
 		this.consumer = consumer;
 	}
 

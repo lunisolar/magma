@@ -73,6 +73,10 @@ public interface IntToCharFunctionX<X extends Exception> extends MetaFunction, P
 		return () -> this.applyAsChar(i);
 	}
 
+	public static <X extends Exception> IntToCharFunctionX<X> constant(char r) {
+		return (i) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default char nonNull(int i) throws X {
 		return applyAsChar(i);

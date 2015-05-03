@@ -73,6 +73,10 @@ public interface CharToByteFunctionX<X extends Exception> extends MetaFunction, 
 		return () -> this.applyAsByte(c);
 	}
 
+	public static <X extends Exception> CharToByteFunctionX<X> constant(byte r) {
+		return (c) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default byte nonNull(char c) throws X {
 		return applyAsByte(c);

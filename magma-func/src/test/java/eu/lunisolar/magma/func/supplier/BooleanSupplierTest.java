@@ -605,4 +605,3 @@ public class BooleanSupplierTest<X extends ParseException> {
     }
 
 }
-

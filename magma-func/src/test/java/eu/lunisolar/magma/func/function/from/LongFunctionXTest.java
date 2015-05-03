@@ -675,4 +675,3 @@ public class LongFunctionXTest<R,X extends ParseException> {
     }
 
 }
-

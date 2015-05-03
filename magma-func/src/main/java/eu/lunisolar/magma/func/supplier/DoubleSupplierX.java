@@ -68,6 +68,10 @@ public interface DoubleSupplierX<X extends Exception> extends MetaSupplier, Prim
 		return DoubleSupplierX.DESCRIPTION;
 	}
 
+	public static <X extends Exception> DoubleSupplierX<X> of(double r) {
+		return () -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default double nonNull() throws X {
 		return getAsDouble();

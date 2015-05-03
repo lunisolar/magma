@@ -20,6 +20,7 @@
 package eu.lunisolar.magma.func.build.predicate;
 
 import eu.lunisolar.magma.func.predicate.*;
+import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -42,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for TriPredicateX. */
-public final class TriPredicateXBuilder<T1, T2, T3, X extends Exception> extends PerCaseBuilder<TriPredicateXBuilder<T1, T2, T3, X>, TriPredicateX<T1, T2, T3, X>, TriPredicateX<T1, T2, T3, X>> {
+public final class TriPredicateXBuilder<T1, T2, T3, X extends Exception> extends PerCaseBuilderWithBooleanProduct<TriPredicateXBuilder<T1, T2, T3, X>, TriPredicateX<T1, T2, T3, X>, TriPredicateX<T1, T2, T3, X>> {
 
 	private Consumer<TriPredicateX<T1, T2, T3, X>> consumer;
 
@@ -58,7 +59,8 @@ public final class TriPredicateXBuilder<T1, T2, T3, X extends Exception> extends
 		});
 
 	public TriPredicateXBuilder(@Nullable Consumer<TriPredicateX<T1, T2, T3, X>> consumer) {
-		super(EVENTUALLY_THROW);
+		super(EVENTUALLY_THROW, TriPredicateX::constant);
+
 		this.consumer = consumer;
 	}
 

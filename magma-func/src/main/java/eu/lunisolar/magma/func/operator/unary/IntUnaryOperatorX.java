@@ -73,6 +73,10 @@ public interface IntUnaryOperatorX<X extends Exception> extends MetaOperator, Pr
 		return () -> this.applyAsInt(i);
 	}
 
+	public static <X extends Exception> IntUnaryOperatorX<X> constant(int r) {
+		return (i) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default int nonNull(int i) throws X {
 		return applyAsInt(i);

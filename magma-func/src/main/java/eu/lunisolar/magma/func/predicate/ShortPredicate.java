@@ -79,6 +79,10 @@ public interface ShortPredicate extends MetaPredicate, PrimitiveCodomain<ShortPr
 		return () -> this.test(s);
 	}
 
+	public static ShortPredicate constant(boolean r) {
+		return (s) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(short s) {
 		return test(s);

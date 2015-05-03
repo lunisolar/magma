@@ -19,19 +19,44 @@
 
 package eu.lunisolar.magma.examples;
 
-import eu.lunisolar.magma.func.asserts.FunctionalAssertions;
+import eu.lunisolar.magma.func.asserts.DefaultFunctionalAssertions;
+import eu.lunisolar.magma.func.build.function.FunctionBuilder;
+import eu.lunisolar.magma.func.build.supplier.IntSupplierBuilder;
+import eu.lunisolar.magma.func.build.supplier.SupplierBuilder;
 import eu.lunisolar.magma.func.function.Function;
+import eu.lunisolar.magma.func.supplier.IntSupplier;
+import eu.lunisolar.magma.func.supplier.Supplier;
 import org.assertj.core.api.AbstractIntegerAssert;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ObjectAssert;
 import org.testng.annotations.Test;
 
+import java.util.concurrent.atomic.*;
+
 public class Example2Test {
 
-    public static final FunctionalAssertions<ObjectAssert> then = new FunctionalAssertions() {
+    public static final DefaultFunctionalAssertions<ObjectAssert> then = new DefaultFunctionalAssertions() {
     };
 
-    private Function<Integer, Integer> function = (t) -> t;  // very complicated :)
+    private Function<Integer, Integer> function = FunctionBuilder.<Integer, Integer>function()  // a compilation test
+            .inCase(i -> i <= 0).evaluate(i -> i)
+            .inCase(i -> i > 0).evaluate(i -> i)
+                    //TODO: .inCase(34)   ??????
+            .build();
+
+    public static final AtomicInteger externalInfluence = new AtomicInteger(0);
+
+    private Supplier<Integer> supplier = SupplierBuilder.<Integer>supplier()  // a compilation test
+            .inCase(() -> externalInfluence.get() > 0).evaluate(() -> externalInfluence.get())
+            .inCase(() -> false).produce(22)
+            .eventuallyProduce(33)
+            .build();
+
+    private IntSupplier intSupplier = IntSupplierBuilder.intSupplier()  // a compilation test
+            .inCase(() -> externalInfluence.get() > 0).evaluate(() -> externalInfluence.get())
+            .inCase(() -> false).produce(22)
+            .eventuallyProduce(33)
+            .build();
 
     @Test(expectedExceptions = AssertionError.class)
     public void example() {
@@ -46,7 +71,7 @@ public class Example2Test {
 
     @Test(expectedExceptions = AssertionError.class)
     public void example2() {
-        then.withCodomainAssert(then::assertThatInt).assertThat(function)
+        then.withinCodomain(then::assertThatInt).assertThat(function)
             .recurringAsserts(a -> a.isInstanceOf(Integer.class))
             .doesApply(80).to(a -> a.isGreaterThan(0))
             .doesApply(81).toEqualTo(81)
@@ -56,7 +81,7 @@ public class Example2Test {
     }
 
     public void example3() {
-        then.withCodomainAssert((Function<Integer, AbstractIntegerAssert>) Assertions::assertThat).assertThat(function)
+        then.withinCodomain((Function<Integer, AbstractIntegerAssert>) Assertions::assertThat).assertThat(function)
             .recurringAsserts(a -> a.isInstanceOf(Integer.class))
             .doesApply(80).to(a -> a.isGreaterThan(0))
             .doesApply(81).toEqualTo(81)
@@ -67,7 +92,7 @@ public class Example2Test {
 
     @Test(expectedExceptions = AssertionError.class)
     public void example4() {
-        then.withCodomainAssert(Assertions::assertThat, Integer.class, AbstractIntegerAssert.class).assertThat(function)
+        then.withinCodomain(Assertions::assertThat, Integer.class, AbstractIntegerAssert.class).assertThat(function)
             .recurringAsserts(a -> a.isInstanceOf(Integer.class))
             .doesApply(80).to(a -> a.isGreaterThan(0))
             .doesApply(81).toEqualTo(81)
@@ -78,7 +103,18 @@ public class Example2Test {
 
     @Test(expectedExceptions = AssertionError.class)
     public void example5() {
-        then.withCodomainAssert(Assertions::assertThat, int.class, AbstractIntegerAssert.class).assertThat(function)
+        then.withinCodomain(Assertions::assertThat, int.class, AbstractIntegerAssert.class).assertThat(function)
+            .recurringAsserts(a -> a.isInstanceOf(Integer.class))
+            .doesApply(80).to(a -> a.isGreaterThan(0))
+            .doesApply(81).toEqualTo(81)
+            .doesApply(0).withException(a -> a
+                .isExactlyInstanceOf(UnsupportedOperationException.class)
+                .hasMessage("Some message"));
+    }
+
+    @Test(expectedExceptions = AssertionError.class)
+    public void example6() {
+        then.withinIntegerCodomain().assertThat(function)
             .recurringAsserts(a -> a.isInstanceOf(Integer.class))
             .doesApply(80).to(a -> a.isGreaterThan(0))
             .doesApply(81).toEqualTo(81)

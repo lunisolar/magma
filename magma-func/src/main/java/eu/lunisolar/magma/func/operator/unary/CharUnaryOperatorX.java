@@ -73,6 +73,10 @@ public interface CharUnaryOperatorX<X extends Exception> extends MetaOperator, P
 		return () -> this.applyAsChar(c);
 	}
 
+	public static <X extends Exception> CharUnaryOperatorX<X> constant(char r) {
+		return (c) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default char nonNull(char c) throws X {
 		return applyAsChar(c);

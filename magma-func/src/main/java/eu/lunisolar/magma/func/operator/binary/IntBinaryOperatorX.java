@@ -73,6 +73,10 @@ public interface IntBinaryOperatorX<X extends Exception> extends MetaOperator, P
 		return () -> this.applyAsInt(i1, i2);
 	}
 
+	public static <X extends Exception> IntBinaryOperatorX<X> constant(int r) {
+		return (i1, i2) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default int nonNull(int i1, int i2) throws X {
 		return applyAsInt(i1, i2);

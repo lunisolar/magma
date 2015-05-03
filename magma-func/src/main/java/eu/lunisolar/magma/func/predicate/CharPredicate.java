@@ -79,6 +79,10 @@ public interface CharPredicate extends MetaPredicate, PrimitiveCodomain<CharPred
 		return () -> this.test(c);
 	}
 
+	public static CharPredicate constant(boolean r) {
+		return (c) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(char c) {
 		return test(c);

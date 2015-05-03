@@ -324,4 +324,3 @@ public class DoubleConsumerXTest<X extends ParseException> {
     }
 
 }
-

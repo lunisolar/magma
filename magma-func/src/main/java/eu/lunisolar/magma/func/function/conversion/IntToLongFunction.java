@@ -73,6 +73,10 @@ public interface IntToLongFunction extends java.util.function.IntToLongFunction,
 		return () -> this.applyAsLong(i);
 	}
 
+	public static IntToLongFunction constant(long r) {
+		return (i) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default long nonNull(int i) {
 		return applyAsLong(i);

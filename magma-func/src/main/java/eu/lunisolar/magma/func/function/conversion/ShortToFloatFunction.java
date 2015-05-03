@@ -73,6 +73,10 @@ public interface ShortToFloatFunction extends MetaFunction, PrimitiveCodomain<Sh
 		return () -> this.applyAsFloat(s);
 	}
 
+	public static ShortToFloatFunction constant(float r) {
+		return (s) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default float nonNull(short s) {
 		return applyAsFloat(s);

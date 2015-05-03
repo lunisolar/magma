@@ -73,6 +73,10 @@ public interface CharToLongFunction extends MetaFunction, PrimitiveCodomain<Char
 		return () -> this.applyAsLong(c);
 	}
 
+	public static CharToLongFunction constant(long r) {
+		return (c) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default long nonNull(char c) {
 		return applyAsLong(c);

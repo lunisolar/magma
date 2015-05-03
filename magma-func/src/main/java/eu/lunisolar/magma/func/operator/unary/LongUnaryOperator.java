@@ -73,6 +73,10 @@ public interface LongUnaryOperator extends java.util.function.LongUnaryOperator,
 		return () -> this.applyAsLong(l);
 	}
 
+	public static LongUnaryOperator constant(long r) {
+		return (l) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default long nonNull(long l) {
 		return applyAsLong(l);

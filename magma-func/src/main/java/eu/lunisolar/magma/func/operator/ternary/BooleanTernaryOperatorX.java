@@ -78,6 +78,10 @@ public interface BooleanTernaryOperatorX<X extends Exception> extends MetaLogica
 		return () -> this.apply(b1, b2, b3);
 	}
 
+	public static <X extends Exception> BooleanTernaryOperatorX<X> constant(boolean r) {
+		return (b1, b2, b3) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(boolean b1, boolean b2, boolean b3) throws X {
 		return apply(b1, b2, b3);

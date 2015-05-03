@@ -79,6 +79,10 @@ public interface BiCharPredicateX<X extends Exception> extends MetaPredicate, Pr
 		return () -> this.test(c1, c2);
 	}
 
+	public static <X extends Exception> BiCharPredicateX<X> constant(boolean r) {
+		return (c1, c2) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(char c1, char c2) throws X {
 		return test(c1, c2);

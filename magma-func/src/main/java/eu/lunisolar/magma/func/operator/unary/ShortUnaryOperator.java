@@ -73,6 +73,10 @@ public interface ShortUnaryOperator extends MetaOperator, PrimitiveCodomain<Shor
 		return () -> this.applyAsShort(s);
 	}
 
+	public static ShortUnaryOperator constant(short r) {
+		return (s) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default short nonNull(short s) {
 		return applyAsShort(s);

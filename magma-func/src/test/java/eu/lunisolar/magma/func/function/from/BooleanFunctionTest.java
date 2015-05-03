@@ -706,4 +706,3 @@ public class BooleanFunctionTest<R,X extends ParseException> {
     }
 
 }
-

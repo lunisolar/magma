@@ -73,6 +73,10 @@ public interface UnaryOperator<T> extends java.util.function.UnaryOperator<T>, F
 		return () -> this.apply(t);
 	}
 
+	public static <T> UnaryOperator<T> constant(T r) {
+		return (t) -> r;
+	}
+
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
@@ -212,7 +216,7 @@ public interface UnaryOperator<T> extends java.util.function.UnaryOperator<T>, F
 
 	@Nonnull
 	default UnaryOperator<T> nonNullable() {
-		return new NonNullUnaryOperator(this);
+		return (t) -> Objects.requireNonNull(this.apply(t));
 	}
 
 	// <editor-fold desc="exception handling">

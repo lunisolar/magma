@@ -78,6 +78,10 @@ public interface BooleanUnaryOperatorX<X extends Exception> extends MetaLogicalO
 		return () -> this.applyAsBoolean(b);
 	}
 
+	public static <X extends Exception> BooleanUnaryOperatorX<X> constant(boolean r) {
+		return (b) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(boolean b) throws X {
 		return applyAsBoolean(b);

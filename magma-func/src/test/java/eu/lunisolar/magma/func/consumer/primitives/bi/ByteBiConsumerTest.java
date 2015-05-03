@@ -369,4 +369,3 @@ public class ByteBiConsumerTest<X extends ParseException> {
     }
 
 }
-

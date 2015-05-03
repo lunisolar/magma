@@ -74,6 +74,10 @@ public interface BiObjDoubleFunction<T1, T2, R> extends MetaFunction { // NOSONA
 		return () -> this.apply(t1, t2, d);
 	}
 
+	public static <T1, T2, R> BiObjDoubleFunction<T1, T2, R> constant(R r) {
+		return (t1, t2, d) -> r;
+	}
+
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
@@ -172,7 +176,7 @@ public interface BiObjDoubleFunction<T1, T2, R> extends MetaFunction { // NOSONA
 
 	@Nonnull
 	default BiObjDoubleFunction<T1, T2, R> nonNullable() {
-		return new NonNullBiObjDoubleFunction(this);
+		return (t1, t2, d) -> Objects.requireNonNull(this.apply(t1, t2, d));
 	}
 
 	// <editor-fold desc="exception handling">

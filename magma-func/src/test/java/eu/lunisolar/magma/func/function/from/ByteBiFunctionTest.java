@@ -440,4 +440,3 @@ public class ByteBiFunctionTest<R,X extends ParseException> {
     }
 
 }
-

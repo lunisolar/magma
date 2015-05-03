@@ -73,6 +73,10 @@ public interface ShortUnaryOperatorX<X extends Exception> extends MetaOperator, 
 		return () -> this.applyAsShort(s);
 	}
 
+	public static <X extends Exception> ShortUnaryOperatorX<X> constant(short r) {
+		return (s) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default short nonNull(short s) throws X {
 		return applyAsShort(s);

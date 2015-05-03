@@ -73,6 +73,10 @@ public interface ObjIntToIntFunctionX<T, X extends Exception> extends MetaFuncti
 		return () -> this.applyAsInt(t, i);
 	}
 
+	public static <T, X extends Exception> ObjIntToIntFunctionX<T, X> constant(int r) {
+		return (t, i) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default int nonNull(T t, int i) throws X {
 		return applyAsInt(t, i);

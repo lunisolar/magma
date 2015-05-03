@@ -73,6 +73,10 @@ public interface ToByteFunction<T> extends MetaFunction, PrimitiveCodomain<ToByt
 		return () -> this.applyAsByte(t);
 	}
 
+	public static <T> ToByteFunction<T> constant(byte r) {
+		return (t) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default byte nonNull(T t) {
 		return applyAsByte(t);

@@ -73,6 +73,10 @@ public interface LongBinaryOperator extends java.util.function.LongBinaryOperato
 		return () -> this.applyAsLong(l1, l2);
 	}
 
+	public static LongBinaryOperator constant(long r) {
+		return (l1, l2) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default long nonNull(long l1, long l2) {
 		return applyAsLong(l1, l2);

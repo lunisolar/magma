@@ -412,4 +412,3 @@ public class ObjBooleanPredicateXTest<T,X extends ParseException> {
     }
 
 }
-

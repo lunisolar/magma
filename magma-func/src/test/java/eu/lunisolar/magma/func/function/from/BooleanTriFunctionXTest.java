@@ -410,4 +410,3 @@ public class BooleanTriFunctionXTest<R,X extends ParseException> {
     }
 
 }
-

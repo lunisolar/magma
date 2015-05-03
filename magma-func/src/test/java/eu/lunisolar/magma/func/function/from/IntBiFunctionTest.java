@@ -440,4 +440,3 @@ public class IntBiFunctionTest<R,X extends ParseException> {
     }
 
 }
-

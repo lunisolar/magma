@@ -396,4 +396,3 @@ public class ByteBiFunctionXTest<R,X extends ParseException> {
     }
 
 }
-

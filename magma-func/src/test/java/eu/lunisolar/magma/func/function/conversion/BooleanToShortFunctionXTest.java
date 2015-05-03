@@ -619,4 +619,3 @@ public class BooleanToShortFunctionXTest<X extends ParseException> {
     }
 
 }
-

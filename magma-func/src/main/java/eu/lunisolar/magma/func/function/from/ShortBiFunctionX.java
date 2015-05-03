@@ -74,6 +74,10 @@ public interface ShortBiFunctionX<R, X extends Exception> extends MetaFunction, 
 		return () -> this.apply(s1, s2);
 	}
 
+	public static <R, X extends Exception> ShortBiFunctionX<R, X> constant(R r) {
+		return (s1, s2) -> r;
+	}
+
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
@@ -165,7 +169,7 @@ public interface ShortBiFunctionX<R, X extends Exception> extends MetaFunction, 
 
 	@Nonnull
 	default ShortBiFunctionX<R, X> nonNullableX() {
-		return new NonNullShortBiFunctionX(this);
+		return (s1, s2) -> Objects.requireNonNull(this.apply(s1, s2));
 	}
 
 	// <editor-fold desc="exception handling">

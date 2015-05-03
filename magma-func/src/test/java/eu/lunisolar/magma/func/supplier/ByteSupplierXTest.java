@@ -548,4 +548,3 @@ public class ByteSupplierXTest<X extends ParseException> {
     }
 
 }
-

@@ -79,6 +79,10 @@ public interface BiObjShortPredicateX<T1, T2, X extends Exception> extends MetaP
 		return () -> this.test(t1, t2, s);
 	}
 
+	public static <T1, T2, X extends Exception> BiObjShortPredicateX<T1, T2, X> constant(boolean r) {
+		return (t1, t2, s) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(T1 t1, T2 t2, short s) throws X {
 		return test(t1, t2, s);

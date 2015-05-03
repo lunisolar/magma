@@ -73,6 +73,10 @@ public interface IntBinaryOperator extends java.util.function.IntBinaryOperator,
 		return () -> this.applyAsInt(i1, i2);
 	}
 
+	public static IntBinaryOperator constant(int r) {
+		return (i1, i2) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default int nonNull(int i1, int i2) {
 		return applyAsInt(i1, i2);

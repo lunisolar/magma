@@ -73,6 +73,10 @@ public interface BooleanToDoubleFunctionX<X extends Exception> extends MetaFunct
 		return () -> this.applyAsDouble(b);
 	}
 
+	public static <X extends Exception> BooleanToDoubleFunctionX<X> constant(double r) {
+		return (b) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default double nonNull(boolean b) throws X {
 		return applyAsDouble(b);

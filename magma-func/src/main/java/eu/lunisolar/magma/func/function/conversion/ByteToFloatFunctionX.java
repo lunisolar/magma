@@ -73,6 +73,10 @@ public interface ByteToFloatFunctionX<X extends Exception> extends MetaFunction,
 		return () -> this.applyAsFloat(b);
 	}
 
+	public static <X extends Exception> ByteToFloatFunctionX<X> constant(float r) {
+		return (b) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default float nonNull(byte b) throws X {
 		return applyAsFloat(b);

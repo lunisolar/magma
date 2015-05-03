@@ -73,6 +73,10 @@ public interface BooleanToByteFunctionX<X extends Exception> extends MetaFunctio
 		return () -> this.applyAsByte(b);
 	}
 
+	public static <X extends Exception> BooleanToByteFunctionX<X> constant(byte r) {
+		return (b) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default byte nonNull(boolean b) throws X {
 		return applyAsByte(b);

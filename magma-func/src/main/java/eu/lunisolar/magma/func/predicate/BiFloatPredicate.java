@@ -79,6 +79,10 @@ public interface BiFloatPredicate extends MetaPredicate, PrimitiveCodomain<BiFlo
 		return () -> this.test(f1, f2);
 	}
 
+	public static BiFloatPredicate constant(boolean r) {
+		return (f1, f2) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(float f1, float f2) {
 		return test(f1, f2);

@@ -73,6 +73,10 @@ public interface ShortToByteFunctionX<X extends Exception> extends MetaFunction,
 		return () -> this.applyAsByte(s);
 	}
 
+	public static <X extends Exception> ShortToByteFunctionX<X> constant(byte r) {
+		return (s) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default byte nonNull(short s) throws X {
 		return applyAsByte(s);

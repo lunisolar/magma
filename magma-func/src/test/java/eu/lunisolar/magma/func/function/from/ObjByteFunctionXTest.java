@@ -396,4 +396,3 @@ public class ObjByteFunctionXTest<T,R,X extends ParseException> {
     }
 
 }
-

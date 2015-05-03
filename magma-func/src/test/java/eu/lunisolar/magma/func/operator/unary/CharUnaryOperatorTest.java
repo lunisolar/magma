@@ -670,4 +670,3 @@ public class CharUnaryOperatorTest<X extends ParseException> {
     }
 
 }
-

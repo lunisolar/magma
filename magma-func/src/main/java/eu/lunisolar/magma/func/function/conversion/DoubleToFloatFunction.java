@@ -73,6 +73,10 @@ public interface DoubleToFloatFunction extends MetaFunction, PrimitiveCodomain<D
 		return () -> this.applyAsFloat(d);
 	}
 
+	public static DoubleToFloatFunction constant(float r) {
+		return (d) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default float nonNull(double d) {
 		return applyAsFloat(d);

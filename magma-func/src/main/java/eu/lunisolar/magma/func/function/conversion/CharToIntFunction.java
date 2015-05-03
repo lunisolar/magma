@@ -73,6 +73,10 @@ public interface CharToIntFunction extends MetaFunction, PrimitiveCodomain<CharT
 		return () -> this.applyAsInt(c);
 	}
 
+	public static CharToIntFunction constant(int r) {
+		return (c) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default int nonNull(char c) {
 		return applyAsInt(c);

@@ -74,6 +74,10 @@ public interface FloatBiFunction<R> extends MetaFunction { // NOSONAR
 		return () -> this.apply(f1, f2);
 	}
 
+	public static <R> FloatBiFunction<R> constant(R r) {
+		return (f1, f2) -> r;
+	}
+
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
@@ -170,7 +174,7 @@ public interface FloatBiFunction<R> extends MetaFunction { // NOSONAR
 
 	@Nonnull
 	default FloatBiFunction<R> nonNullable() {
-		return new NonNullFloatBiFunction(this);
+		return (f1, f2) -> Objects.requireNonNull(this.apply(f1, f2));
 	}
 
 	// <editor-fold desc="exception handling">

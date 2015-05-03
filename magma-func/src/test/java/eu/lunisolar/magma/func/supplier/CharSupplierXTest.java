@@ -548,4 +548,3 @@ public class CharSupplierXTest<X extends ParseException> {
     }
 
 }
-

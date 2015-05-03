@@ -736,4 +736,3 @@ public class DoublePredicateTest<X extends ParseException> {
     }
 
 }
-

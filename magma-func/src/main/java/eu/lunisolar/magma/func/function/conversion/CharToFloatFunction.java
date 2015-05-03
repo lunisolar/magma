@@ -73,6 +73,10 @@ public interface CharToFloatFunction extends MetaFunction, PrimitiveCodomain<Cha
 		return () -> this.applyAsFloat(c);
 	}
 
+	public static CharToFloatFunction constant(float r) {
+		return (c) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default float nonNull(char c) {
 		return applyAsFloat(c);

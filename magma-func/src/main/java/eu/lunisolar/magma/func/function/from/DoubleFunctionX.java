@@ -74,6 +74,10 @@ public interface DoubleFunctionX<R, X extends Exception> extends MetaFunction, M
 		return () -> this.apply(d);
 	}
 
+	public static <R, X extends Exception> DoubleFunctionX<R, X> constant(R r) {
+		return (d) -> r;
+	}
+
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
@@ -231,7 +235,7 @@ public interface DoubleFunctionX<R, X extends Exception> extends MetaFunction, M
 
 	@Nonnull
 	default DoubleFunctionX<R, X> nonNullableX() {
-		return new NonNullDoubleFunctionX(this);
+		return (d) -> Objects.requireNonNull(this.apply(d));
 	}
 
 	// <editor-fold desc="exception handling">

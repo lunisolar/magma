@@ -19,13 +19,12 @@
 
 package eu.lunisolar.magma.func.asserts.std;
 
-import eu.lunisolar.magma.func.std.*;
 import eu.lunisolar.magma.func.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import java.util.Objects;// NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
-import eu.lunisolar.magma.func.asserts.FunctionalAssertions;
+import eu.lunisolar.magma.func.asserts.DefaultFunctionalAssertions;
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -40,7 +39,7 @@ public class StdDoubleToLongFunctionAssertTest<X extends ParseException> {
 
     private long testValue = (long)100;
 
-    @SuppressWarnings("unchecked") public static final FunctionalAssertions<ObjectAssert> A = new FunctionalAssertions() {
+    @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
     private java.util.function.DoubleToLongFunction function = ((d) -> {
@@ -126,4 +125,3 @@ public class StdDoubleToLongFunctionAssertTest<X extends ParseException> {
     }
 
 }
-

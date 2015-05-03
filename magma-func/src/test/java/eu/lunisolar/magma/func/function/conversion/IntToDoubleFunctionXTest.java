@@ -632,4 +632,3 @@ public class IntToDoubleFunctionXTest<X extends ParseException> {
     }
 
 }
-

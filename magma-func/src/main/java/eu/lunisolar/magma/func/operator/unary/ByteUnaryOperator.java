@@ -73,6 +73,10 @@ public interface ByteUnaryOperator extends MetaOperator, PrimitiveCodomain<ByteU
 		return () -> this.applyAsByte(b);
 	}
 
+	public static ByteUnaryOperator constant(byte r) {
+		return (b) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default byte nonNull(byte b) {
 		return applyAsByte(b);

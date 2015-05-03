@@ -68,6 +68,10 @@ public interface ByteSupplierX<X extends Exception> extends MetaSupplier, Primit
 		return ByteSupplierX.DESCRIPTION;
 	}
 
+	public static <X extends Exception> ByteSupplierX<X> of(byte r) {
+		return () -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default byte nonNull() throws X {
 		return getAsByte();

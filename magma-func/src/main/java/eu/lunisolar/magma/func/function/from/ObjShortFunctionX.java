@@ -74,6 +74,10 @@ public interface ObjShortFunctionX<T, R, X extends Exception> extends MetaFuncti
 		return () -> this.apply(t, s);
 	}
 
+	public static <T, R, X extends Exception> ObjShortFunctionX<T, R, X> constant(R r) {
+		return (t, s) -> r;
+	}
+
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
@@ -165,7 +169,7 @@ public interface ObjShortFunctionX<T, R, X extends Exception> extends MetaFuncti
 
 	@Nonnull
 	default ObjShortFunctionX<T, R, X> nonNullableX() {
-		return new NonNullObjShortFunctionX(this);
+		return (t, s) -> Objects.requireNonNull(this.apply(t, s));
 	}
 
 	// <editor-fold desc="exception handling">

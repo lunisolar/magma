@@ -73,6 +73,10 @@ public interface DoubleToByteFunction extends MetaFunction, PrimitiveCodomain<Do
 		return () -> this.applyAsByte(d);
 	}
 
+	public static DoubleToByteFunction constant(byte r) {
+		return (d) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default byte nonNull(double d) {
 		return applyAsByte(d);

@@ -69,6 +69,10 @@ public interface SupplierX<R, X extends Exception> extends MetaSupplier, MetaThr
 		return SupplierX.DESCRIPTION;
 	}
 
+	public static <R, X extends Exception> SupplierX<R, X> of(R r) {
+		return () -> r;
+	}
+
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
@@ -204,7 +208,7 @@ public interface SupplierX<R, X extends Exception> extends MetaSupplier, MetaThr
 
 	@Nonnull
 	default SupplierX<R, X> nonNullableX() {
-		return new NonNullSupplierX(this);
+		return () -> Objects.requireNonNull(this.get());
 	}
 
 	// <editor-fold desc="exception handling">

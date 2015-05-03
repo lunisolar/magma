@@ -605,4 +605,3 @@ public class DoubleSupplierTest<X extends ParseException> {
     }
 
 }
-

@@ -73,6 +73,10 @@ public interface IntToLongFunctionX<X extends Exception> extends MetaFunction, P
 		return () -> this.applyAsLong(i);
 	}
 
+	public static <X extends Exception> IntToLongFunctionX<X> constant(long r) {
+		return (i) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default long nonNull(int i) throws X {
 		return applyAsLong(i);

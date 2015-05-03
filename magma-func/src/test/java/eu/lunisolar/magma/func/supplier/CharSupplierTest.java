@@ -592,4 +592,3 @@ public class CharSupplierTest<X extends ParseException> {
     }
 
 }
-

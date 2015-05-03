@@ -25,7 +25,7 @@ import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import java.util.Objects;// NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
-import eu.lunisolar.magma.func.asserts.FunctionalAssertions;
+import eu.lunisolar.magma.func.asserts.DefaultFunctionalAssertions;
 import org.assertj.core.api.Assertions;  //NOSONAR
 import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
@@ -41,7 +41,7 @@ public class TriConsumerAssertTest<T1,T2,T3,X extends ParseException> {
     private Integer testValue = 100;
     private AtomicReference<Object> externalEffect = new AtomicReference(null);
 
-    @SuppressWarnings("unchecked") public static final FunctionalAssertions<ObjectAssert> A = new FunctionalAssertions() {
+    @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
     private TriConsumer<Integer ,Integer ,Integer > function = TriConsumer.l((t1,t2,t3) -> {
@@ -127,4 +127,3 @@ public class TriConsumerAssertTest<T1,T2,T3,X extends ParseException> {
     }
 
 }
-

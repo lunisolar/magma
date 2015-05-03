@@ -74,6 +74,10 @@ public interface ByteBiFunctionX<R, X extends Exception> extends MetaFunction, M
 		return () -> this.apply(b1, b2);
 	}
 
+	public static <R, X extends Exception> ByteBiFunctionX<R, X> constant(R r) {
+		return (b1, b2) -> r;
+	}
+
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
@@ -165,7 +169,7 @@ public interface ByteBiFunctionX<R, X extends Exception> extends MetaFunction, M
 
 	@Nonnull
 	default ByteBiFunctionX<R, X> nonNullableX() {
-		return new NonNullByteBiFunctionX(this);
+		return (b1, b2) -> Objects.requireNonNull(this.apply(b1, b2));
 	}
 
 	// <editor-fold desc="exception handling">

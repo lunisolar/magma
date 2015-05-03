@@ -663,4 +663,3 @@ public class BooleanToFloatFunctionTest<X extends ParseException> {
     }
 
 }
-

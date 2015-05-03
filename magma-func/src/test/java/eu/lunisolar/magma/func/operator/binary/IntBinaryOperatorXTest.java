@@ -399,4 +399,3 @@ public class IntBinaryOperatorXTest<X extends ParseException> {
     }
 
 }
-

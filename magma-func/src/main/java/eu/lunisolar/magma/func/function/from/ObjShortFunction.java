@@ -74,6 +74,10 @@ public interface ObjShortFunction<T, R> extends MetaFunction { // NOSONAR
 		return () -> this.apply(t, s);
 	}
 
+	public static <T, R> ObjShortFunction<T, R> constant(R r) {
+		return (t, s) -> r;
+	}
+
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
@@ -170,7 +174,7 @@ public interface ObjShortFunction<T, R> extends MetaFunction { // NOSONAR
 
 	@Nonnull
 	default ObjShortFunction<T, R> nonNullable() {
-		return new NonNullObjShortFunction(this);
+		return (t, s) -> Objects.requireNonNull(this.apply(t, s));
 	}
 
 	// <editor-fold desc="exception handling">

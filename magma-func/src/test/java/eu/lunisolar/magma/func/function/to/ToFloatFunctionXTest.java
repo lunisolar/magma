@@ -590,4 +590,3 @@ public class ToFloatFunctionXTest<T,X extends ParseException> {
     }
 
 }
-

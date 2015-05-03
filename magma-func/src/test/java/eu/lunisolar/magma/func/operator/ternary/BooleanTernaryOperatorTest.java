@@ -462,4 +462,3 @@ public class BooleanTernaryOperatorTest<X extends ParseException> {
     }
 
 }
-

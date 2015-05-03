@@ -456,4 +456,3 @@ public class ObjShortPredicateTest<T,X extends ParseException> {
     }
 
 }
-

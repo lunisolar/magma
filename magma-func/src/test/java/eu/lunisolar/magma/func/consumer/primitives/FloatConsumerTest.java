@@ -355,4 +355,3 @@ public class FloatConsumerTest<X extends ParseException> {
     }
 
 }
-

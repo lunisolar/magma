@@ -74,6 +74,10 @@ public interface TriFunctionX<T1, T2, T3, R, X extends Exception> extends MetaFu
 		return () -> this.apply(t1, t2, t3);
 	}
 
+	public static <T1, T2, T3, R, X extends Exception> TriFunctionX<T1, T2, T3, R, X> constant(R r) {
+		return (t1, t2, t3) -> r;
+	}
+
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
@@ -156,7 +160,7 @@ public interface TriFunctionX<T1, T2, T3, R, X extends Exception> extends MetaFu
 
 	@Nonnull
 	default TriFunctionX<T1, T2, T3, R, X> nonNullableX() {
-		return new NonNullTriFunctionX(this);
+		return (t1, t2, t3) -> Objects.requireNonNull(this.apply(t1, t2, t3));
 	}
 
 	// <editor-fold desc="exception handling">

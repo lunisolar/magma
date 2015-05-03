@@ -371,4 +371,3 @@ public class BinaryOperatorTest<T,X extends ParseException> {
     }
 
 }
-

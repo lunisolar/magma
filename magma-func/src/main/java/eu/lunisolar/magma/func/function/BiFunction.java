@@ -73,6 +73,10 @@ public interface BiFunction<T1, T2, R> extends java.util.function.BiFunction<T1,
 		return () -> this.apply(t1, t2);
 	}
 
+	public static <T1, T2, R> BiFunction<T1, T2, R> constant(R r) {
+		return (t1, t2) -> r;
+	}
+
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
@@ -171,7 +175,7 @@ public interface BiFunction<T1, T2, R> extends java.util.function.BiFunction<T1,
 
 	@Nonnull
 	default BiFunction<T1, T2, R> nonNullable() {
-		return new NonNullBiFunction(this);
+		return (t1, t2) -> Objects.requireNonNull(this.apply(t1, t2));
 	}
 
 	// <editor-fold desc="exception handling">

@@ -73,6 +73,10 @@ public interface ToLongBiFunctionX<T1, T2, X extends Exception> extends MetaFunc
 		return () -> this.applyAsLong(t1, t2);
 	}
 
+	public static <T1, T2, X extends Exception> ToLongBiFunctionX<T1, T2, X> constant(long r) {
+		return (t1, t2) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default long nonNull(T1 t1, T2 t2) throws X {
 		return applyAsLong(t1, t2);

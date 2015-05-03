@@ -20,6 +20,7 @@
 package eu.lunisolar.magma.func.build.action;
 
 import eu.lunisolar.magma.func.action.*;
+import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -59,6 +60,7 @@ public final class ActionXBuilder<X extends Exception> extends PerCaseBuilder<Ac
 
 	public ActionXBuilder(@Nullable Consumer<ActionX<X>> consumer) {
 		super(EVENTUALLY_THROW);
+
 		this.consumer = consumer;
 	}
 

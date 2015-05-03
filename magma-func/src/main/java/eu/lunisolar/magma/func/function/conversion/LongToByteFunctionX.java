@@ -73,6 +73,10 @@ public interface LongToByteFunctionX<X extends Exception> extends MetaFunction, 
 		return () -> this.applyAsByte(l);
 	}
 
+	public static <X extends Exception> LongToByteFunctionX<X> constant(byte r) {
+		return (l) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default byte nonNull(long l) throws X {
 		return applyAsByte(l);

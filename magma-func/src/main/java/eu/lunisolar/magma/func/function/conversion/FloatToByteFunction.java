@@ -73,6 +73,10 @@ public interface FloatToByteFunction extends MetaFunction, PrimitiveCodomain<Flo
 		return () -> this.applyAsByte(f);
 	}
 
+	public static FloatToByteFunction constant(byte r) {
+		return (f) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default byte nonNull(float f) {
 		return applyAsByte(f);

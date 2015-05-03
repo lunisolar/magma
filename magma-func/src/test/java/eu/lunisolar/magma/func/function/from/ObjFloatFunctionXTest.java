@@ -396,4 +396,3 @@ public class ObjFloatFunctionXTest<T,R,X extends ParseException> {
     }
 
 }
-

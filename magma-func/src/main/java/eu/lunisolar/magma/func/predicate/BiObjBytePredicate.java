@@ -79,6 +79,10 @@ public interface BiObjBytePredicate<T1, T2> extends MetaPredicate, PrimitiveCodo
 		return () -> this.test(t1, t2, b);
 	}
 
+	public static <T1, T2> BiObjBytePredicate<T1, T2> constant(boolean r) {
+		return (t1, t2, b) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(T1 t1, T2 t2, byte b) {
 		return test(t1, t2, b);

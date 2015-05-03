@@ -20,6 +20,7 @@
 package eu.lunisolar.magma.func.build.function.from;
 
 import eu.lunisolar.magma.func.function.from.*;
+import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -42,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for ObjByteFunction. */
-public final class ObjByteFunctionBuilder<T, R> extends PerCaseBuilder<ObjByteFunctionBuilder<T, R>, ObjBytePredicate<T>, ObjByteFunction<T, R>> {
+public final class ObjByteFunctionBuilder<T, R> extends PerCaseBuilderWithProduct<ObjByteFunctionBuilder<T, R>, ObjBytePredicate<T>, ObjByteFunction<T, R>, R> {
 
 	private Consumer<ObjByteFunction<T, R>> consumer;
 
@@ -58,7 +59,8 @@ public final class ObjByteFunctionBuilder<T, R> extends PerCaseBuilder<ObjByteFu
 		});
 
 	public ObjByteFunctionBuilder(@Nullable Consumer<ObjByteFunction<T, R>> consumer) {
-		super(EVENTUALLY_THROW);
+		super(EVENTUALLY_THROW, ObjByteFunction::constant);
+
 		this.consumer = consumer;
 	}
 

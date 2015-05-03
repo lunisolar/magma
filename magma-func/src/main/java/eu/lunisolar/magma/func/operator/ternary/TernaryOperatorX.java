@@ -74,6 +74,10 @@ public interface TernaryOperatorX<T, X extends Exception> extends MetaOperator, 
 		return () -> this.apply(t1, t2, t3);
 	}
 
+	public static <T, X extends Exception> TernaryOperatorX<T, X> constant(T r) {
+		return (t1, t2, t3) -> r;
+	}
+
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
@@ -134,7 +138,7 @@ public interface TernaryOperatorX<T, X extends Exception> extends MetaOperator, 
 
 	@Nonnull
 	default TernaryOperatorX<T, X> nonNullableX() {
-		return new NonNullTernaryOperatorX(this);
+		return (t1, t2, t3) -> Objects.requireNonNull(this.apply(t1, t2, t3));
 	}
 
 	// <editor-fold desc="exception handling">

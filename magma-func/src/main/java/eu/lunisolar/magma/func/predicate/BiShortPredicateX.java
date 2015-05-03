@@ -79,6 +79,10 @@ public interface BiShortPredicateX<X extends Exception> extends MetaPredicate, P
 		return () -> this.test(s1, s2);
 	}
 
+	public static <X extends Exception> BiShortPredicateX<X> constant(boolean r) {
+		return (s1, s2) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(short s1, short s2) throws X {
 		return test(s1, s2);

@@ -79,6 +79,10 @@ public interface FloatPredicate extends MetaPredicate, PrimitiveCodomain<FloatPr
 		return () -> this.test(f);
 	}
 
+	public static FloatPredicate constant(boolean r) {
+		return (f) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(float f) {
 		return test(f);

@@ -79,6 +79,10 @@ public interface BiBytePredicate extends MetaPredicate, PrimitiveCodomain<BiByte
 		return () -> this.test(b1, b2);
 	}
 
+	public static BiBytePredicate constant(boolean r) {
+		return (b1, b2) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(byte b1, byte b2) {
 		return test(b1, b2);

@@ -73,6 +73,10 @@ public interface UnaryOperatorX<T, X extends Exception> extends FunctionX<T, T, 
 		return () -> this.apply(t);
 	}
 
+	public static <T, X extends Exception> UnaryOperatorX<T, X> constant(T r) {
+		return (t) -> r;
+	}
+
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
@@ -207,7 +211,7 @@ public interface UnaryOperatorX<T, X extends Exception> extends FunctionX<T, T, 
 
 	@Nonnull
 	default UnaryOperatorX<T, X> nonNullableX() {
-		return new NonNullUnaryOperatorX(this);
+		return (t) -> Objects.requireNonNull(this.apply(t));
 	}
 
 	// <editor-fold desc="exception handling">

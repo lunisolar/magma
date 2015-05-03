@@ -73,6 +73,10 @@ public interface BooleanToShortFunctionX<X extends Exception> extends MetaFuncti
 		return () -> this.applyAsShort(b);
 	}
 
+	public static <X extends Exception> BooleanToShortFunctionX<X> constant(short r) {
+		return (b) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default short nonNull(boolean b) throws X {
 		return applyAsShort(b);

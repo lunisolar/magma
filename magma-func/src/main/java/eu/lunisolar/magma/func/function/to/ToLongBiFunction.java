@@ -73,6 +73,10 @@ public interface ToLongBiFunction<T1, T2> extends java.util.function.ToLongBiFun
 		return () -> this.applyAsLong(t1, t2);
 	}
 
+	public static <T1, T2> ToLongBiFunction<T1, T2> constant(long r) {
+		return (t1, t2) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default long nonNull(T1 t1, T2 t2) {
 		return applyAsLong(t1, t2);

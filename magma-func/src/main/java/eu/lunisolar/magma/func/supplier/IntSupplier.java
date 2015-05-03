@@ -68,6 +68,10 @@ public interface IntSupplier extends java.util.function.IntSupplier, MetaSupplie
 		return IntSupplier.DESCRIPTION;
 	}
 
+	public static IntSupplier of(int r) {
+		return () -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default int nonNull() {
 		return getAsInt();

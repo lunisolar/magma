@@ -619,4 +619,3 @@ public class BooleanToFloatFunctionXTest<X extends ParseException> {
     }
 
 }
-

@@ -20,6 +20,7 @@
 package eu.lunisolar.magma.func.build.operator.binary;
 
 import eu.lunisolar.magma.func.operator.binary.*;
+import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -42,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for BooleanBinaryOperatorX. */
-public final class BooleanBinaryOperatorXBuilder<X extends Exception> extends PerCaseBuilder<BooleanBinaryOperatorXBuilder<X>, BooleanBinaryOperatorX<X>, BooleanBinaryOperatorX<X>> {
+public final class BooleanBinaryOperatorXBuilder<X extends Exception> extends PerCaseBuilderWithBooleanProduct<BooleanBinaryOperatorXBuilder<X>, BooleanBinaryOperatorX<X>, BooleanBinaryOperatorX<X>> {
 
 	private Consumer<BooleanBinaryOperatorX<X>> consumer;
 
@@ -58,7 +59,8 @@ public final class BooleanBinaryOperatorXBuilder<X extends Exception> extends Pe
 		});
 
 	public BooleanBinaryOperatorXBuilder(@Nullable Consumer<BooleanBinaryOperatorX<X>> consumer) {
-		super(EVENTUALLY_THROW);
+		super(EVENTUALLY_THROW, BooleanBinaryOperatorX::constant);
+
 		this.consumer = consumer;
 	}
 

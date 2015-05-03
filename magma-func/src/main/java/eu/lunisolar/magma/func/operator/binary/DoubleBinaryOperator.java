@@ -73,6 +73,10 @@ public interface DoubleBinaryOperator extends java.util.function.DoubleBinaryOpe
 		return () -> this.applyAsDouble(d1, d2);
 	}
 
+	public static DoubleBinaryOperator constant(double r) {
+		return (d1, d2) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default double nonNull(double d1, double d2) {
 		return applyAsDouble(d1, d2);

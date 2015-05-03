@@ -311,4 +311,3 @@ public class ShortConsumerXTest<X extends ParseException> {
     }
 
 }
-

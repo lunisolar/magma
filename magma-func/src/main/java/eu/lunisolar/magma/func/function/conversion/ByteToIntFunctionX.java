@@ -73,6 +73,10 @@ public interface ByteToIntFunctionX<X extends Exception> extends MetaFunction, P
 		return () -> this.applyAsInt(b);
 	}
 
+	public static <X extends Exception> ByteToIntFunctionX<X> constant(int r) {
+		return (b) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default int nonNull(byte b) throws X {
 		return applyAsInt(b);

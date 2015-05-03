@@ -74,6 +74,10 @@ public interface LongBiFunction<R> extends MetaFunction { // NOSONAR
 		return () -> this.apply(l1, l2);
 	}
 
+	public static <R> LongBiFunction<R> constant(R r) {
+		return (l1, l2) -> r;
+	}
+
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
@@ -170,7 +174,7 @@ public interface LongBiFunction<R> extends MetaFunction { // NOSONAR
 
 	@Nonnull
 	default LongBiFunction<R> nonNullable() {
-		return new NonNullLongBiFunction(this);
+		return (l1, l2) -> Objects.requireNonNull(this.apply(l1, l2));
 	}
 
 	// <editor-fold desc="exception handling">

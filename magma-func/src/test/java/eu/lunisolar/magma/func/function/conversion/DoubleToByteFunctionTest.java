@@ -663,4 +663,3 @@ public class DoubleToByteFunctionTest<X extends ParseException> {
     }
 
 }
-

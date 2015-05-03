@@ -19,7 +19,7 @@
 
 package eu.lunisolar.magma.func.build.std;
 
-import eu.lunisolar.magma.func.std.*;
+import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -42,7 +42,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for java.util.function.IntPredicate. */
-public final class StdIntPredicateBuilder extends PerCaseBuilder<StdIntPredicateBuilder, IntPredicate, java.util.function.IntPredicate> {
+public final class StdIntPredicateBuilder extends PerCaseBuilderWithBooleanProduct<StdIntPredicateBuilder, IntPredicate, java.util.function.IntPredicate> {
 
 	private Consumer<java.util.function.IntPredicate> consumer;
 
@@ -58,7 +58,8 @@ public final class StdIntPredicateBuilder extends PerCaseBuilder<StdIntPredicate
 		});
 
 	public StdIntPredicateBuilder(@Nullable Consumer<java.util.function.IntPredicate> consumer) {
-		super(EVENTUALLY_THROW);
+		super(EVENTUALLY_THROW, IntPredicate::constant);
+
 		this.consumer = consumer;
 	}
 

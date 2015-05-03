@@ -706,4 +706,3 @@ public class ByteFunctionTest<R,X extends ParseException> {
     }
 
 }
-

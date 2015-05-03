@@ -73,6 +73,10 @@ public interface IntToDoubleFunction extends java.util.function.IntToDoubleFunct
 		return () -> this.applyAsDouble(i);
 	}
 
+	public static IntToDoubleFunction constant(double r) {
+		return (i) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default double nonNull(int i) {
 		return applyAsDouble(i);

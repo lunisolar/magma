@@ -73,6 +73,10 @@ public interface BooleanToCharFunction extends MetaFunction, PrimitiveCodomain<B
 		return () -> this.applyAsChar(b);
 	}
 
+	public static BooleanToCharFunction constant(char r) {
+		return (b) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default char nonNull(boolean b) {
 		return applyAsChar(b);

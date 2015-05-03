@@ -325,4 +325,3 @@ public class LongBiConsumerXTest<X extends ParseException> {
     }
 
 }
-

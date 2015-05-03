@@ -723,4 +723,3 @@ public class CharPredicateTest<X extends ParseException> {
     }
 
 }
-

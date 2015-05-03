@@ -79,6 +79,10 @@ public interface ObjBytePredicate<T> extends MetaPredicate, PrimitiveCodomain<Ob
 		return () -> this.test(t, b);
 	}
 
+	public static <T> ObjBytePredicate<T> constant(boolean r) {
+		return (t, b) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(T t, byte b) {
 		return test(t, b);

@@ -456,4 +456,3 @@ public class ObjBooleanPredicateTest<T,X extends ParseException> {
     }
 
 }
-

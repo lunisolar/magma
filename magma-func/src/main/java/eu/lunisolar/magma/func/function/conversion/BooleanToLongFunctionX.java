@@ -73,6 +73,10 @@ public interface BooleanToLongFunctionX<X extends Exception> extends MetaFunctio
 		return () -> this.applyAsLong(b);
 	}
 
+	public static <X extends Exception> BooleanToLongFunctionX<X> constant(long r) {
+		return (b) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default long nonNull(boolean b) throws X {
 		return applyAsLong(b);

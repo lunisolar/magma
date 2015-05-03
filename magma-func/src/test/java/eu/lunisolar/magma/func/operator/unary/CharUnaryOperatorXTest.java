@@ -626,4 +626,3 @@ public class CharUnaryOperatorXTest<X extends ParseException> {
     }
 
 }
-

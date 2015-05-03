@@ -592,4 +592,3 @@ public class ShortSupplierTest<X extends ParseException> {
     }
 
 }
-

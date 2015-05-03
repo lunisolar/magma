@@ -73,6 +73,10 @@ public interface LongFunction<R> extends java.util.function.LongFunction<R>, Met
 		return () -> this.apply(l);
 	}
 
+	public static <R> LongFunction<R> constant(R r) {
+		return (l) -> r;
+	}
+
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
@@ -235,7 +239,7 @@ public interface LongFunction<R> extends java.util.function.LongFunction<R>, Met
 
 	@Nonnull
 	default LongFunction<R> nonNullable() {
-		return new NonNullLongFunction(this);
+		return (l) -> Objects.requireNonNull(this.apply(l));
 	}
 
 	// <editor-fold desc="exception handling">

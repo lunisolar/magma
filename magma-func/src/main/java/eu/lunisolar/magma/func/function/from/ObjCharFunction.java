@@ -74,6 +74,10 @@ public interface ObjCharFunction<T, R> extends MetaFunction { // NOSONAR
 		return () -> this.apply(t, c);
 	}
 
+	public static <T, R> ObjCharFunction<T, R> constant(R r) {
+		return (t, c) -> r;
+	}
+
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
@@ -170,7 +174,7 @@ public interface ObjCharFunction<T, R> extends MetaFunction { // NOSONAR
 
 	@Nonnull
 	default ObjCharFunction<T, R> nonNullable() {
-		return new NonNullObjCharFunction(this);
+		return (t, c) -> Objects.requireNonNull(this.apply(t, c));
 	}
 
 	// <editor-fold desc="exception handling">

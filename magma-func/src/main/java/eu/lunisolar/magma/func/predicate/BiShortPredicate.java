@@ -79,6 +79,10 @@ public interface BiShortPredicate extends MetaPredicate, PrimitiveCodomain<BiSho
 		return () -> this.test(s1, s2);
 	}
 
+	public static BiShortPredicate constant(boolean r) {
+		return (s1, s2) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(short s1, short s2) {
 		return test(s1, s2);

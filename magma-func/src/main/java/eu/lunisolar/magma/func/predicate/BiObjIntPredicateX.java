@@ -79,6 +79,10 @@ public interface BiObjIntPredicateX<T1, T2, X extends Exception> extends MetaPre
 		return () -> this.test(t1, t2, i);
 	}
 
+	public static <T1, T2, X extends Exception> BiObjIntPredicateX<T1, T2, X> constant(boolean r) {
+		return (t1, t2, i) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(T1 t1, T2 t2, int i) throws X {
 		return test(t1, t2, i);

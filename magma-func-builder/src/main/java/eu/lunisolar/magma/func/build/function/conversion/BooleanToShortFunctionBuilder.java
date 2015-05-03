@@ -20,6 +20,7 @@
 package eu.lunisolar.magma.func.build.function.conversion;
 
 import eu.lunisolar.magma.func.function.conversion.*;
+import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -42,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for BooleanToShortFunction. */
-public final class BooleanToShortFunctionBuilder extends PerCaseBuilder<BooleanToShortFunctionBuilder, BooleanUnaryOperator, BooleanToShortFunction> {
+public final class BooleanToShortFunctionBuilder extends PerCaseBuilderWithShortProduct<BooleanToShortFunctionBuilder, BooleanUnaryOperator, BooleanToShortFunction> {
 
 	private Consumer<BooleanToShortFunction> consumer;
 
@@ -58,7 +59,8 @@ public final class BooleanToShortFunctionBuilder extends PerCaseBuilder<BooleanT
 		});
 
 	public BooleanToShortFunctionBuilder(@Nullable Consumer<BooleanToShortFunction> consumer) {
-		super(EVENTUALLY_THROW);
+		super(EVENTUALLY_THROW, BooleanToShortFunction::constant);
+
 		this.consumer = consumer;
 	}
 

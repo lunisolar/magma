@@ -355,4 +355,3 @@ public class ShortConsumerTest<X extends ParseException> {
     }
 
 }
-

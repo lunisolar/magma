@@ -626,4 +626,3 @@ public class FloatUnaryOperatorXTest<X extends ParseException> {
     }
 
 }
-

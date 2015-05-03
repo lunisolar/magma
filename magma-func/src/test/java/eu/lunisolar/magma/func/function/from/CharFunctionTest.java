@@ -706,4 +706,3 @@ public class CharFunctionTest<R,X extends ParseException> {
     }
 
 }
-

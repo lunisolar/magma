@@ -73,6 +73,10 @@ public interface ToDoubleBiFunctionX<T1, T2, X extends Exception> extends MetaFu
 		return () -> this.applyAsDouble(t1, t2);
 	}
 
+	public static <T1, T2, X extends Exception> ToDoubleBiFunctionX<T1, T2, X> constant(double r) {
+		return (t1, t2) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default double nonNull(T1 t1, T2 t2) throws X {
 		return applyAsDouble(t1, t2);

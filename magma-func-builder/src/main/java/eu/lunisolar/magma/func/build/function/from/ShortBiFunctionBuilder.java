@@ -20,6 +20,7 @@
 package eu.lunisolar.magma.func.build.function.from;
 
 import eu.lunisolar.magma.func.function.from.*;
+import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -42,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for ShortBiFunction. */
-public final class ShortBiFunctionBuilder<R> extends PerCaseBuilder<ShortBiFunctionBuilder<R>, BiShortPredicate, ShortBiFunction<R>> {
+public final class ShortBiFunctionBuilder<R> extends PerCaseBuilderWithProduct<ShortBiFunctionBuilder<R>, BiShortPredicate, ShortBiFunction<R>, R> {
 
 	private Consumer<ShortBiFunction<R>> consumer;
 
@@ -58,7 +59,8 @@ public final class ShortBiFunctionBuilder<R> extends PerCaseBuilder<ShortBiFunct
 		});
 
 	public ShortBiFunctionBuilder(@Nullable Consumer<ShortBiFunction<R>> consumer) {
-		super(EVENTUALLY_THROW);
+		super(EVENTUALLY_THROW, ShortBiFunction::constant);
+
 		this.consumer = consumer;
 	}
 

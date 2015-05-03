@@ -73,6 +73,10 @@ public interface ToCharFunction<T> extends MetaFunction, PrimitiveCodomain<ToCha
 		return () -> this.applyAsChar(t);
 	}
 
+	public static <T> ToCharFunction<T> constant(char r) {
+		return (t) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default char nonNull(T t) {
 		return applyAsChar(t);

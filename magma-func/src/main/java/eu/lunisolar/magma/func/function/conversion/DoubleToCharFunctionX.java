@@ -73,6 +73,10 @@ public interface DoubleToCharFunctionX<X extends Exception> extends MetaFunction
 		return () -> this.applyAsChar(d);
 	}
 
+	public static <X extends Exception> DoubleToCharFunctionX<X> constant(char r) {
+		return (d) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default char nonNull(double d) throws X {
 		return applyAsChar(d);

@@ -683,4 +683,3 @@ public class LongUnaryOperatorTest<X extends ParseException> {
     }
 
 }
-

@@ -73,6 +73,10 @@ public interface FloatUnaryOperatorX<X extends Exception> extends MetaOperator, 
 		return () -> this.applyAsFloat(f);
 	}
 
+	public static <X extends Exception> FloatUnaryOperatorX<X> constant(float r) {
+		return (f) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default float nonNull(float f) throws X {
 		return applyAsFloat(f);

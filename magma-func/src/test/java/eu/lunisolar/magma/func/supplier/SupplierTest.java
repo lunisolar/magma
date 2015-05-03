@@ -647,4 +647,3 @@ public class SupplierTest<R,X extends ParseException> {
     }
 
 }
-

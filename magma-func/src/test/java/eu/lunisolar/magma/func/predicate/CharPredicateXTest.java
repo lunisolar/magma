@@ -679,4 +679,3 @@ public class CharPredicateXTest<X extends ParseException> {
     }
 
 }
-

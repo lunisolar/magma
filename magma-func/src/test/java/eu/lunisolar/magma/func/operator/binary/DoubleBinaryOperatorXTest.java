@@ -399,4 +399,3 @@ public class DoubleBinaryOperatorXTest<X extends ParseException> {
     }
 
 }
-

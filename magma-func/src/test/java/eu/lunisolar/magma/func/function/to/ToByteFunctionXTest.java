@@ -590,4 +590,3 @@ public class ToByteFunctionXTest<T,X extends ParseException> {
     }
 
 }
-

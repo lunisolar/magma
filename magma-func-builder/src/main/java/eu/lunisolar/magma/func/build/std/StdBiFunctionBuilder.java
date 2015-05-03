@@ -19,7 +19,7 @@
 
 package eu.lunisolar.magma.func.build.std;
 
-import eu.lunisolar.magma.func.std.*;
+import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -42,7 +42,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for java.util.function.BiFunction. */
-public final class StdBiFunctionBuilder<T1, T2, R> extends PerCaseBuilder<StdBiFunctionBuilder<T1, T2, R>, BiPredicate<T1, T2>, java.util.function.BiFunction<T1, T2, R>> {
+public final class StdBiFunctionBuilder<T1, T2, R> extends PerCaseBuilderWithProduct<StdBiFunctionBuilder<T1, T2, R>, BiPredicate<T1, T2>, java.util.function.BiFunction<T1, T2, R>, R> {
 
 	private Consumer<java.util.function.BiFunction<T1, T2, R>> consumer;
 
@@ -58,7 +58,8 @@ public final class StdBiFunctionBuilder<T1, T2, R> extends PerCaseBuilder<StdBiF
 		});
 
 	public StdBiFunctionBuilder(@Nullable Consumer<java.util.function.BiFunction<T1, T2, R>> consumer) {
-		super(EVENTUALLY_THROW);
+		super(EVENTUALLY_THROW, BiFunction::constant);
+
 		this.consumer = consumer;
 	}
 

@@ -325,4 +325,3 @@ public class ObjFloatConsumerXTest<T,X extends ParseException> {
     }
 
 }
-

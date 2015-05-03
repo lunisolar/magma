@@ -73,6 +73,10 @@ public interface ToCharBiFunctionX<T1, T2, X extends Exception> extends MetaFunc
 		return () -> this.applyAsChar(t1, t2);
 	}
 
+	public static <T1, T2, X extends Exception> ToCharBiFunctionX<T1, T2, X> constant(char r) {
+		return (t1, t2) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default char nonNull(T1 t1, T2 t2) throws X {
 		return applyAsChar(t1, t2);

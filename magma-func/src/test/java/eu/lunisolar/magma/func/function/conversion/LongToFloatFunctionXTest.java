@@ -619,4 +619,3 @@ public class LongToFloatFunctionXTest<X extends ParseException> {
     }
 
 }
-

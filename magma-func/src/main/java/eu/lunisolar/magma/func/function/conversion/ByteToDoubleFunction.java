@@ -73,6 +73,10 @@ public interface ByteToDoubleFunction extends MetaFunction, PrimitiveCodomain<By
 		return () -> this.applyAsDouble(b);
 	}
 
+	public static ByteToDoubleFunction constant(double r) {
+		return (b) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default double nonNull(byte b) {
 		return applyAsDouble(b);

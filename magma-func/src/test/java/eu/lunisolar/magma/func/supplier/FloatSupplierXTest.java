@@ -548,4 +548,3 @@ public class FloatSupplierXTest<X extends ParseException> {
     }
 
 }
-

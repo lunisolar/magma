@@ -73,6 +73,10 @@ public interface FloatUnaryOperator extends MetaOperator, PrimitiveCodomain<Floa
 		return () -> this.applyAsFloat(f);
 	}
 
+	public static FloatUnaryOperator constant(float r) {
+		return (f) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default float nonNull(float f) {
 		return applyAsFloat(f);

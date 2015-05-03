@@ -73,6 +73,10 @@ public interface CharBinaryOperatorX<X extends Exception> extends MetaOperator, 
 		return () -> this.applyAsChar(c1, c2);
 	}
 
+	public static <X extends Exception> CharBinaryOperatorX<X> constant(char r) {
+		return (c1, c2) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default char nonNull(char c1, char c2) throws X {
 		return applyAsChar(c1, c2);

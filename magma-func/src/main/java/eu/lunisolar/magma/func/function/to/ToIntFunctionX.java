@@ -73,6 +73,10 @@ public interface ToIntFunctionX<T, X extends Exception> extends MetaFunction, Pr
 		return () -> this.applyAsInt(t);
 	}
 
+	public static <T, X extends Exception> ToIntFunctionX<T, X> constant(int r) {
+		return (t) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default int nonNull(T t) throws X {
 		return applyAsInt(t);

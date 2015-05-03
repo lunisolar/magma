@@ -73,6 +73,10 @@ public interface LongToShortFunction extends MetaFunction, PrimitiveCodomain<Lon
 		return () -> this.applyAsShort(l);
 	}
 
+	public static LongToShortFunction constant(short r) {
+		return (l) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default short nonNull(long l) {
 		return applyAsShort(l);

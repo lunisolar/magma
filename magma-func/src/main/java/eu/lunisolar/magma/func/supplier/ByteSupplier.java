@@ -68,6 +68,10 @@ public interface ByteSupplier extends MetaSupplier, PrimitiveCodomain<ByteSuppli
 		return ByteSupplier.DESCRIPTION;
 	}
 
+	public static ByteSupplier of(byte r) {
+		return () -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default byte nonNull() {
 		return getAsByte();

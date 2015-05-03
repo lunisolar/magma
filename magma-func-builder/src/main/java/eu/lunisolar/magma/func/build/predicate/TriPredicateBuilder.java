@@ -20,6 +20,7 @@
 package eu.lunisolar.magma.func.build.predicate;
 
 import eu.lunisolar.magma.func.predicate.*;
+import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -42,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for TriPredicate. */
-public final class TriPredicateBuilder<T1, T2, T3> extends PerCaseBuilder<TriPredicateBuilder<T1, T2, T3>, TriPredicate<T1, T2, T3>, TriPredicate<T1, T2, T3>> {
+public final class TriPredicateBuilder<T1, T2, T3> extends PerCaseBuilderWithBooleanProduct<TriPredicateBuilder<T1, T2, T3>, TriPredicate<T1, T2, T3>, TriPredicate<T1, T2, T3>> {
 
 	private Consumer<TriPredicate<T1, T2, T3>> consumer;
 
@@ -58,7 +59,8 @@ public final class TriPredicateBuilder<T1, T2, T3> extends PerCaseBuilder<TriPre
 		});
 
 	public TriPredicateBuilder(@Nullable Consumer<TriPredicate<T1, T2, T3>> consumer) {
-		super(EVENTUALLY_THROW);
+		super(EVENTUALLY_THROW, TriPredicate::constant);
+
 		this.consumer = consumer;
 	}
 

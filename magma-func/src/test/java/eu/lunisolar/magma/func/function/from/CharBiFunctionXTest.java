@@ -396,4 +396,3 @@ public class CharBiFunctionXTest<R,X extends ParseException> {
     }
 
 }
-

@@ -706,4 +706,3 @@ public class FloatFunctionTest<R,X extends ParseException> {
     }
 
 }
-

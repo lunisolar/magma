@@ -78,6 +78,10 @@ public interface BooleanUnaryOperator extends MetaLogicalOperator, PrimitiveCodo
 		return () -> this.applyAsBoolean(b);
 	}
 
+	public static BooleanUnaryOperator constant(boolean r) {
+		return (b) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(boolean b) {
 		return applyAsBoolean(b);

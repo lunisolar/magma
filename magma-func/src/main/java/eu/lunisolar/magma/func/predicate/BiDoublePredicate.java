@@ -79,6 +79,10 @@ public interface BiDoublePredicate extends MetaPredicate, PrimitiveCodomain<BiDo
 		return () -> this.test(d1, d2);
 	}
 
+	public static BiDoublePredicate constant(boolean r) {
+		return (d1, d2) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(double d1, double d2) {
 		return test(d1, d2);

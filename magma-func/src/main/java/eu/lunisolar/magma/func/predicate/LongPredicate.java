@@ -79,6 +79,10 @@ public interface LongPredicate extends java.util.function.LongPredicate, MetaPre
 		return () -> this.test(l);
 	}
 
+	public static LongPredicate constant(boolean r) {
+		return (l) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(long l) {
 		return test(l);

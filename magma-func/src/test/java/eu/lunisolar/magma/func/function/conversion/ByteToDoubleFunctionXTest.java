@@ -619,4 +619,3 @@ public class ByteToDoubleFunctionXTest<X extends ParseException> {
     }
 
 }
-

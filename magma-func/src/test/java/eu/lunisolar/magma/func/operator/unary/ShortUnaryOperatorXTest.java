@@ -626,4 +626,3 @@ public class ShortUnaryOperatorXTest<X extends ParseException> {
     }
 
 }
-

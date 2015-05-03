@@ -73,6 +73,10 @@ public interface CharUnaryOperator extends MetaOperator, PrimitiveCodomain<CharU
 		return () -> this.applyAsChar(c);
 	}
 
+	public static CharUnaryOperator constant(char r) {
+		return (c) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default char nonNull(char c) {
 		return applyAsChar(c);

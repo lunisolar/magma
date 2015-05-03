@@ -339,4 +339,3 @@ public class BiObjFloatConsumerXTest<T1,T2,X extends ParseException> {
     }
 
 }
-

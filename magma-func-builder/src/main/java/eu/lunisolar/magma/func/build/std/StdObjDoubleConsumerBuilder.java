@@ -19,7 +19,7 @@
 
 package eu.lunisolar.magma.func.build.std;
 
-import eu.lunisolar.magma.func.std.*;
+import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -59,6 +59,7 @@ public final class StdObjDoubleConsumerBuilder<T> extends PerCaseBuilder<StdObjD
 
 	public StdObjDoubleConsumerBuilder(@Nullable Consumer<java.util.function.ObjDoubleConsumer<T>> consumer) {
 		super(EVENTUALLY_THROW);
+
 		this.consumer = consumer;
 	}
 

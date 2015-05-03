@@ -662,4 +662,3 @@ public class BooleanFunctionXTest<R,X extends ParseException> {
     }
 
 }
-

@@ -79,6 +79,10 @@ public interface ObjFloatPredicate<T> extends MetaPredicate, PrimitiveCodomain<O
 		return () -> this.test(t, f);
 	}
 
+	public static <T> ObjFloatPredicate<T> constant(boolean r) {
+		return (t, f) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(T t, float f) {
 		return test(t, f);

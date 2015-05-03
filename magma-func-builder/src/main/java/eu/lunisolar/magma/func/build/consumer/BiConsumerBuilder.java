@@ -20,6 +20,7 @@
 package eu.lunisolar.magma.func.build.consumer;
 
 import eu.lunisolar.magma.func.consumer.*;
+import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -59,6 +60,7 @@ public final class BiConsumerBuilder<T1, T2> extends PerCaseBuilder<BiConsumerBu
 
 	public BiConsumerBuilder(@Nullable Consumer<BiConsumer<T1, T2>> consumer) {
 		super(EVENTUALLY_THROW);
+
 		this.consumer = consumer;
 	}
 

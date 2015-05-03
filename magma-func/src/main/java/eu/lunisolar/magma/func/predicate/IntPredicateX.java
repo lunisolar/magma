@@ -79,6 +79,10 @@ public interface IntPredicateX<X extends Exception> extends MetaPredicate, Primi
 		return () -> this.test(i);
 	}
 
+	public static <X extends Exception> IntPredicateX<X> constant(boolean r) {
+		return (i) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(int i) throws X {
 		return test(i);

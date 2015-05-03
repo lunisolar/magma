@@ -20,6 +20,7 @@
 package eu.lunisolar.magma.func.build.predicate;
 
 import eu.lunisolar.magma.func.predicate.*;
+import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -42,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for BiObjBytePredicateX. */
-public final class BiObjBytePredicateXBuilder<T1, T2, X extends Exception> extends PerCaseBuilder<BiObjBytePredicateXBuilder<T1, T2, X>, BiObjBytePredicateX<T1, T2, X>, BiObjBytePredicateX<T1, T2, X>> {
+public final class BiObjBytePredicateXBuilder<T1, T2, X extends Exception> extends PerCaseBuilderWithBooleanProduct<BiObjBytePredicateXBuilder<T1, T2, X>, BiObjBytePredicateX<T1, T2, X>, BiObjBytePredicateX<T1, T2, X>> {
 
 	private Consumer<BiObjBytePredicateX<T1, T2, X>> consumer;
 
@@ -58,7 +59,8 @@ public final class BiObjBytePredicateXBuilder<T1, T2, X extends Exception> exten
 		});
 
 	public BiObjBytePredicateXBuilder(@Nullable Consumer<BiObjBytePredicateX<T1, T2, X>> consumer) {
-		super(EVENTUALLY_THROW);
+		super(EVENTUALLY_THROW, BiObjBytePredicateX::constant);
+
 		this.consumer = consumer;
 	}
 

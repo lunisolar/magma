@@ -68,6 +68,10 @@ public interface CharSupplier extends MetaSupplier, PrimitiveCodomain<CharSuppli
 		return CharSupplier.DESCRIPTION;
 	}
 
+	public static CharSupplier of(char r) {
+		return () -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default char nonNull() {
 		return getAsChar();

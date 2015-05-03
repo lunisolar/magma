@@ -20,6 +20,7 @@
 package eu.lunisolar.magma.func.build.function.to;
 
 import eu.lunisolar.magma.func.function.to.*;
+import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -42,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for ToShortBiFunctionX. */
-public final class ToShortBiFunctionXBuilder<T1, T2, X extends Exception> extends PerCaseBuilder<ToShortBiFunctionXBuilder<T1, T2, X>, BiPredicateX<T1, T2, X>, ToShortBiFunctionX<T1, T2, X>> {
+public final class ToShortBiFunctionXBuilder<T1, T2, X extends Exception> extends PerCaseBuilderWithShortProduct<ToShortBiFunctionXBuilder<T1, T2, X>, BiPredicateX<T1, T2, X>, ToShortBiFunctionX<T1, T2, X>> {
 
 	private Consumer<ToShortBiFunctionX<T1, T2, X>> consumer;
 
@@ -58,7 +59,8 @@ public final class ToShortBiFunctionXBuilder<T1, T2, X extends Exception> extend
 		});
 
 	public ToShortBiFunctionXBuilder(@Nullable Consumer<ToShortBiFunctionX<T1, T2, X>> consumer) {
-		super(EVENTUALLY_THROW);
+		super(EVENTUALLY_THROW, ToShortBiFunctionX::constant);
+
 		this.consumer = consumer;
 	}
 

@@ -619,4 +619,3 @@ public class LongToCharFunctionXTest<X extends ParseException> {
     }
 
 }
-

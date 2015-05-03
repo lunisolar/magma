@@ -73,6 +73,10 @@ public interface DoubleFunction<R> extends java.util.function.DoubleFunction<R>,
 		return () -> this.apply(d);
 	}
 
+	public static <R> DoubleFunction<R> constant(R r) {
+		return (d) -> r;
+	}
+
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
@@ -235,7 +239,7 @@ public interface DoubleFunction<R> extends java.util.function.DoubleFunction<R>,
 
 	@Nonnull
 	default DoubleFunction<R> nonNullable() {
-		return new NonNullDoubleFunction(this);
+		return (d) -> Objects.requireNonNull(this.apply(d));
 	}
 
 	// <editor-fold desc="exception handling">

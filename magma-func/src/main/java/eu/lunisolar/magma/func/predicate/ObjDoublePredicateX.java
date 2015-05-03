@@ -79,6 +79,10 @@ public interface ObjDoublePredicateX<T, X extends Exception> extends MetaPredica
 		return () -> this.test(t, d);
 	}
 
+	public static <T, X extends Exception> ObjDoublePredicateX<T, X> constant(boolean r) {
+		return (t, d) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(T t, double d) throws X {
 		return test(t, d);

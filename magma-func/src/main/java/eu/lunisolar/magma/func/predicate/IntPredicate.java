@@ -79,6 +79,10 @@ public interface IntPredicate extends java.util.function.IntPredicate, MetaPredi
 		return () -> this.test(i);
 	}
 
+	public static IntPredicate constant(boolean r) {
+		return (i) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(int i) {
 		return test(i);

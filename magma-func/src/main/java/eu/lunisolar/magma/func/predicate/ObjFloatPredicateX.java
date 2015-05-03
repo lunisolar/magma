@@ -79,6 +79,10 @@ public interface ObjFloatPredicateX<T, X extends Exception> extends MetaPredicat
 		return () -> this.test(t, f);
 	}
 
+	public static <T, X extends Exception> ObjFloatPredicateX<T, X> constant(boolean r) {
+		return (t, f) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(T t, float f) throws X {
 		return test(t, f);

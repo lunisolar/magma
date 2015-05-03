@@ -79,6 +79,10 @@ public interface DoublePredicateX<X extends Exception> extends MetaPredicate, Pr
 		return () -> this.test(d);
 	}
 
+	public static <X extends Exception> DoublePredicateX<X> constant(boolean r) {
+		return (d) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(double d) throws X {
 		return test(d);

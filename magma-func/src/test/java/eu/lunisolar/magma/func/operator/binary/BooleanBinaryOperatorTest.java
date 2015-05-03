@@ -467,4 +467,3 @@ public class BooleanBinaryOperatorTest<X extends ParseException> {
     }
 
 }
-

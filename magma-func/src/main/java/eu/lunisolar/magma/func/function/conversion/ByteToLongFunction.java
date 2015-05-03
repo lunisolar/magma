@@ -73,6 +73,10 @@ public interface ByteToLongFunction extends MetaFunction, PrimitiveCodomain<Byte
 		return () -> this.applyAsLong(b);
 	}
 
+	public static ByteToLongFunction constant(long r) {
+		return (b) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default long nonNull(byte b) {
 		return applyAsLong(b);

@@ -33,7 +33,7 @@ import javax.annotation.Nonnull;
  *             itself is not intended to be used directly.
  */
 @SuppressWarnings("unchecked")
-public interface BasicAssertions<OS extends Assert> {
+public interface BasicAssertions<OS extends Assert> extends AssertContext<OS> {
 
     @Nonnull
     default OS assertThatObj(Object actual) {

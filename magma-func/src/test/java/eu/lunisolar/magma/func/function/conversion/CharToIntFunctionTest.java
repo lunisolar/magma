@@ -663,4 +663,3 @@ public class CharToIntFunctionTest<X extends ParseException> {
     }
 
 }
-

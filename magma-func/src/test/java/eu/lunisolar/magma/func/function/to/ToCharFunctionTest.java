@@ -634,4 +634,3 @@ public class ToCharFunctionTest<T,X extends ParseException> {
     }
 
 }
-

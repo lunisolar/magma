@@ -325,4 +325,3 @@ public class ObjShortConsumerXTest<T,X extends ParseException> {
     }
 
 }
-

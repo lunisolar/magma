@@ -619,4 +619,3 @@ public class ByteToCharFunctionXTest<X extends ParseException> {
     }
 
 }
-

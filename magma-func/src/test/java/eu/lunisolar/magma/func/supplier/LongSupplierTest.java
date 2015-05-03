@@ -605,4 +605,3 @@ public class LongSupplierTest<X extends ParseException> {
     }
 
 }
-

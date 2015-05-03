@@ -603,4 +603,3 @@ public class ToDoubleFunctionXTest<T,X extends ParseException> {
     }
 
 }
-

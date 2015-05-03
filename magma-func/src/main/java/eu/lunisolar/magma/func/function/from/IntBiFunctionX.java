@@ -74,6 +74,10 @@ public interface IntBiFunctionX<R, X extends Exception> extends MetaFunction, Me
 		return () -> this.apply(i1, i2);
 	}
 
+	public static <R, X extends Exception> IntBiFunctionX<R, X> constant(R r) {
+		return (i1, i2) -> r;
+	}
+
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
@@ -165,7 +169,7 @@ public interface IntBiFunctionX<R, X extends Exception> extends MetaFunction, Me
 
 	@Nonnull
 	default IntBiFunctionX<R, X> nonNullableX() {
-		return new NonNullIntBiFunctionX(this);
+		return (i1, i2) -> Objects.requireNonNull(this.apply(i1, i2));
 	}
 
 	// <editor-fold desc="exception handling">

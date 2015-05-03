@@ -73,6 +73,10 @@ public interface DoubleBinaryOperatorX<X extends Exception> extends MetaOperator
 		return () -> this.applyAsDouble(d1, d2);
 	}
 
+	public static <X extends Exception> DoubleBinaryOperatorX<X> constant(double r) {
+		return (d1, d2) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default double nonNull(double d1, double d2) throws X {
 		return applyAsDouble(d1, d2);

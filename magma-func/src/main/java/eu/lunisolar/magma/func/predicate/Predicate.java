@@ -79,6 +79,10 @@ public interface Predicate<T> extends java.util.function.Predicate<T>, MetaPredi
 		return () -> this.test(t);
 	}
 
+	public static <T> Predicate<T> constant(boolean r) {
+		return (t) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(T t) {
 		return test(t);

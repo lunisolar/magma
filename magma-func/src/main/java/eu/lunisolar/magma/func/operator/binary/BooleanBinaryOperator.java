@@ -78,6 +78,10 @@ public interface BooleanBinaryOperator extends MetaLogicalOperator, PrimitiveCod
 		return () -> this.applyAsBoolean(b1, b2);
 	}
 
+	public static BooleanBinaryOperator constant(boolean r) {
+		return (b1, b2) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(boolean b1, boolean b2) {
 		return applyAsBoolean(b1, b2);

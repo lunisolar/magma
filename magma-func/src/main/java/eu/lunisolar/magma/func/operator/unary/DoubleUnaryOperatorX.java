@@ -73,6 +73,10 @@ public interface DoubleUnaryOperatorX<X extends Exception> extends MetaOperator,
 		return () -> this.applyAsDouble(d);
 	}
 
+	public static <X extends Exception> DoubleUnaryOperatorX<X> constant(double r) {
+		return (d) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default double nonNull(double d) throws X {
 		return applyAsDouble(d);

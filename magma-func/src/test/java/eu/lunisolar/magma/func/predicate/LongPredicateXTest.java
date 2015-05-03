@@ -692,4 +692,3 @@ public class LongPredicateXTest<X extends ParseException> {
     }
 
 }
-

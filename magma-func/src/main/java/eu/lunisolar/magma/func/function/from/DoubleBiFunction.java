@@ -74,6 +74,10 @@ public interface DoubleBiFunction<R> extends MetaFunction { // NOSONAR
 		return () -> this.apply(d1, d2);
 	}
 
+	public static <R> DoubleBiFunction<R> constant(R r) {
+		return (d1, d2) -> r;
+	}
+
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
@@ -170,7 +174,7 @@ public interface DoubleBiFunction<R> extends MetaFunction { // NOSONAR
 
 	@Nonnull
 	default DoubleBiFunction<R> nonNullable() {
-		return new NonNullDoubleBiFunction(this);
+		return (d1, d2) -> Objects.requireNonNull(this.apply(d1, d2));
 	}
 
 	// <editor-fold desc="exception handling">

@@ -73,6 +73,10 @@ public interface BooleanToIntFunction extends MetaFunction, PrimitiveCodomain<Bo
 		return () -> this.applyAsInt(b);
 	}
 
+	public static BooleanToIntFunction constant(int r) {
+		return (b) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default int nonNull(boolean b) {
 		return applyAsInt(b);

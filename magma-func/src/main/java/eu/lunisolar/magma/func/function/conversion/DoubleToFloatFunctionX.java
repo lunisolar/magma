@@ -73,6 +73,10 @@ public interface DoubleToFloatFunctionX<X extends Exception> extends MetaFunctio
 		return () -> this.applyAsFloat(d);
 	}
 
+	public static <X extends Exception> DoubleToFloatFunctionX<X> constant(float r) {
+		return (d) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default float nonNull(double d) throws X {
 		return applyAsFloat(d);

@@ -79,6 +79,10 @@ public interface ShortPredicateX<X extends Exception> extends MetaPredicate, Pri
 		return () -> this.test(s);
 	}
 
+	public static <X extends Exception> ShortPredicateX<X> constant(boolean r) {
+		return (s) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(short s) throws X {
 		return test(s);

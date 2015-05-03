@@ -639,4 +639,3 @@ public class LongUnaryOperatorXTest<X extends ParseException> {
     }
 
 }
-

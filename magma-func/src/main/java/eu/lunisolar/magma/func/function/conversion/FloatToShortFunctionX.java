@@ -73,6 +73,10 @@ public interface FloatToShortFunctionX<X extends Exception> extends MetaFunction
 		return () -> this.applyAsShort(f);
 	}
 
+	public static <X extends Exception> FloatToShortFunctionX<X> constant(short r) {
+		return (f) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default short nonNull(float f) throws X {
 		return applyAsShort(f);

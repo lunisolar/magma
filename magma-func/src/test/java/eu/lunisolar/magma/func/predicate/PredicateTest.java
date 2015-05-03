@@ -707,4 +707,3 @@ public class PredicateTest<T,X extends ParseException> {
     }
 
 }
-

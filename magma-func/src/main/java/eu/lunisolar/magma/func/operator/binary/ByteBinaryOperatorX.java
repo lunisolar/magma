@@ -73,6 +73,10 @@ public interface ByteBinaryOperatorX<X extends Exception> extends MetaOperator, 
 		return () -> this.applyAsByte(b1, b2);
 	}
 
+	public static <X extends Exception> ByteBinaryOperatorX<X> constant(byte r) {
+		return (b1, b2) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default byte nonNull(byte b1, byte b2) throws X {
 		return applyAsByte(b1, b2);

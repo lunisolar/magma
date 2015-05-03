@@ -440,4 +440,3 @@ public class ObjFloatFunctionTest<T,R,X extends ParseException> {
     }
 
 }
-

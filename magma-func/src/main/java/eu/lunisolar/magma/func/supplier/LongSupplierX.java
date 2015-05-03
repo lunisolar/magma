@@ -68,6 +68,10 @@ public interface LongSupplierX<X extends Exception> extends MetaSupplier, Primit
 		return LongSupplierX.DESCRIPTION;
 	}
 
+	public static <X extends Exception> LongSupplierX<X> of(long r) {
+		return () -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default long nonNull() throws X {
 		return getAsLong();

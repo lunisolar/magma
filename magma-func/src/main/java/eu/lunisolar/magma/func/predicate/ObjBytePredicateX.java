@@ -79,6 +79,10 @@ public interface ObjBytePredicateX<T, X extends Exception> extends MetaPredicate
 		return () -> this.test(t, b);
 	}
 
+	public static <T, X extends Exception> ObjBytePredicateX<T, X> constant(boolean r) {
+		return (t, b) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(T t, byte b) throws X {
 		return test(t, b);

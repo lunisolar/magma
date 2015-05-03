@@ -440,4 +440,3 @@ public class ObjBooleanFunctionTest<T,R,X extends ParseException> {
     }
 
 }
-

@@ -19,7 +19,7 @@
 
 package eu.lunisolar.magma.func.build.std;
 
-import eu.lunisolar.magma.func.std.*;
+import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
@@ -42,7 +42,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for java.util.function.IntToDoubleFunction. */
-public final class StdIntToDoubleFunctionBuilder extends PerCaseBuilder<StdIntToDoubleFunctionBuilder, IntPredicate, java.util.function.IntToDoubleFunction> {
+public final class StdIntToDoubleFunctionBuilder extends PerCaseBuilderWithDoubleProduct<StdIntToDoubleFunctionBuilder, IntPredicate, java.util.function.IntToDoubleFunction> {
 
 	private Consumer<java.util.function.IntToDoubleFunction> consumer;
 
@@ -58,7 +58,8 @@ public final class StdIntToDoubleFunctionBuilder extends PerCaseBuilder<StdIntTo
 		});
 
 	public StdIntToDoubleFunctionBuilder(@Nullable Consumer<java.util.function.IntToDoubleFunction> consumer) {
-		super(EVENTUALLY_THROW);
+		super(EVENTUALLY_THROW, IntToDoubleFunction::constant);
+
 		this.consumer = consumer;
 	}
 

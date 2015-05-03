@@ -440,4 +440,3 @@ public class ObjByteFunctionTest<T,R,X extends ParseException> {
     }
 
 }
-

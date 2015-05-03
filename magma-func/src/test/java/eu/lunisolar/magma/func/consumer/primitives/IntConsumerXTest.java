@@ -324,4 +324,3 @@ public class IntConsumerXTest<X extends ParseException> {
     }
 
 }
-

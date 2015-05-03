@@ -73,6 +73,10 @@ public interface LongToDoubleFunction extends java.util.function.LongToDoubleFun
 		return () -> this.applyAsDouble(l);
 	}
 
+	public static LongToDoubleFunction constant(double r) {
+		return (l) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default double nonNull(long l) {
 		return applyAsDouble(l);

@@ -79,6 +79,10 @@ public interface BiIntPredicate extends MetaPredicate, PrimitiveCodomain<BiIntPr
 		return () -> this.test(i1, i2);
 	}
 
+	public static BiIntPredicate constant(boolean r) {
+		return (i1, i2) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(int i1, int i2) {
 		return test(i1, i2);

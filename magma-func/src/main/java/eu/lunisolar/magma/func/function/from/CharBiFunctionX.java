@@ -74,6 +74,10 @@ public interface CharBiFunctionX<R, X extends Exception> extends MetaFunction, M
 		return () -> this.apply(c1, c2);
 	}
 
+	public static <R, X extends Exception> CharBiFunctionX<R, X> constant(R r) {
+		return (c1, c2) -> r;
+	}
+
 	public static final Supplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
@@ -165,7 +169,7 @@ public interface CharBiFunctionX<R, X extends Exception> extends MetaFunction, M
 
 	@Nonnull
 	default CharBiFunctionX<R, X> nonNullableX() {
-		return new NonNullCharBiFunctionX(this);
+		return (c1, c2) -> Objects.requireNonNull(this.apply(c1, c2));
 	}
 
 	// <editor-fold desc="exception handling">

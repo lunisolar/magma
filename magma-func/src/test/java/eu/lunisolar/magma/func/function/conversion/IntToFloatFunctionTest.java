@@ -663,4 +663,3 @@ public class IntToFloatFunctionTest<X extends ParseException> {
     }
 
 }
-

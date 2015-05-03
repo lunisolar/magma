@@ -619,4 +619,3 @@ public class BooleanToDoubleFunctionXTest<X extends ParseException> {
     }
 
 }
-

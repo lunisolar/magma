@@ -605,4 +605,3 @@ public class IntSupplierTest<X extends ParseException> {
     }
 
 }
-

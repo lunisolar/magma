@@ -73,6 +73,10 @@ public interface CharBinaryOperator extends MetaOperator, PrimitiveCodomain<Char
 		return () -> this.applyAsChar(c1, c2);
 	}
 
+	public static CharBinaryOperator constant(char r) {
+		return (c1, c2) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default char nonNull(char c1, char c2) {
 		return applyAsChar(c1, c2);

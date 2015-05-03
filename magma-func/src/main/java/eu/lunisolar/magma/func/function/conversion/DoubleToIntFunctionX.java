@@ -73,6 +73,10 @@ public interface DoubleToIntFunctionX<X extends Exception> extends MetaFunction,
 		return () -> this.applyAsInt(d);
 	}
 
+	public static <X extends Exception> DoubleToIntFunctionX<X> constant(int r) {
+		return (d) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default int nonNull(double d) throws X {
 		return applyAsInt(d);

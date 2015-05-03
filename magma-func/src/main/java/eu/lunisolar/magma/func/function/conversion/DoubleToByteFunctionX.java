@@ -73,6 +73,10 @@ public interface DoubleToByteFunctionX<X extends Exception> extends MetaFunction
 		return () -> this.applyAsByte(d);
 	}
 
+	public static <X extends Exception> DoubleToByteFunctionX<X> constant(byte r) {
+		return (d) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default byte nonNull(double d) throws X {
 		return applyAsByte(d);

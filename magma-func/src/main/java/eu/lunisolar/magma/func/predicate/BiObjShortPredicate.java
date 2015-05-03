@@ -79,6 +79,10 @@ public interface BiObjShortPredicate<T1, T2> extends MetaPredicate, PrimitiveCod
 		return () -> this.test(t1, t2, s);
 	}
 
+	public static <T1, T2> BiObjShortPredicate<T1, T2> constant(boolean r) {
+		return (t1, t2, s) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(T1 t1, T2 t2, short s) {
 		return test(t1, t2, s);

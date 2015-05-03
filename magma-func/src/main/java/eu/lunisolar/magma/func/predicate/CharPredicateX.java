@@ -79,6 +79,10 @@ public interface CharPredicateX<X extends Exception> extends MetaPredicate, Prim
 		return () -> this.test(c);
 	}
 
+	public static <X extends Exception> CharPredicateX<X> constant(boolean r) {
+		return (c) -> r;
+	}
+
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(char c) throws X {
 		return test(c);

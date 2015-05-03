@@ -396,4 +396,3 @@ public class LongBiFunctionXTest<R,X extends ParseException> {
     }
 
 }
-
