@@ -92,7 +92,7 @@ public class StdLongBinaryOperatorAssertTest<X extends ParseException> {
         final AtomicInteger recurringAssertsCalls = new AtomicInteger(0);
 
         A.assertThat(function)
-         .recurringAsserts(a-> {
+         .inAllFollowingCases(a-> {
             recurringAssertsCalls.incrementAndGet();
             a.isEqualTo(testValue);
          })
@@ -110,7 +110,7 @@ public class StdLongBinaryOperatorAssertTest<X extends ParseException> {
         final AtomicInteger recurringAssertsCalls = new AtomicInteger(0);
 
         A.assertThat(function)
-         .recurringAsserts(a-> {
+         .inAllFollowingCases(a-> {
             int i = recurringAssertsCalls.incrementAndGet();
             if (i>1) {
                 a.isEqualTo(0);

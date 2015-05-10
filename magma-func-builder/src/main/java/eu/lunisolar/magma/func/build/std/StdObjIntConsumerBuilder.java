@@ -42,7 +42,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for java.util.function.ObjIntConsumer. */
-public final class StdObjIntConsumerBuilder<T> extends PerCaseBuilder<StdObjIntConsumerBuilder<T>, ObjIntPredicate<T>, java.util.function.ObjIntConsumer<T>> {
+public final class StdObjIntConsumerBuilder<T> extends PerCaseBuilder.Base<StdObjIntConsumerBuilder<T>, ObjIntPredicate<T>, java.util.function.ObjIntConsumer<T>> {
 
 	private Consumer<java.util.function.ObjIntConsumer<T>> consumer;
 

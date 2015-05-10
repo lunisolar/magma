@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for ShortBiConsumer. */
-public final class ShortBiConsumerBuilder extends PerCaseBuilder<ShortBiConsumerBuilder, BiShortPredicate, ShortBiConsumer> {
+public final class ShortBiConsumerBuilder extends PerCaseBuilder.Base<ShortBiConsumerBuilder, BiShortPredicate, ShortBiConsumer> {
 
 	private Consumer<ShortBiConsumer> consumer;
 

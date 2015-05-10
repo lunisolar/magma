@@ -62,6 +62,12 @@ public interface FloatSupplierXAssert<S extends FloatSupplierXAssert<S, A, RS, X
 		}
 
 		@Nonnull
+		public S doesReturn(float value) {
+			doesGetAsFloat().asEqualTo(value);
+			return self();
+		}
+
+		@Nonnull
 		public Evaluation<S, A, RS, Float, Exception> doesGetAsFloat(Action before) {
 			before.execute();
 			return doesGetAsFloat();

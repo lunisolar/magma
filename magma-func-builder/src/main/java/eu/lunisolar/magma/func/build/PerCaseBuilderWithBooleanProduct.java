@@ -55,84 +55,39 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  * evaluating to **true** a last resort function _eventually_ is called. By default _eventually_ will throw an exception that there is no case that will cover
  * the input data. This default _evantually_ behavior can be overridden.
  */
-public abstract class PerCaseBuilderWithBooleanProduct<PCB extends PerCaseBuilderWithBooleanProduct<PCB, P, F>, P, F> implements Fluent<PCB> {
-
-	protected @Nonnull final List<Case<P, F>> cases = new ArrayList<>();
-	protected @Nonnull F eventually;
+@SuppressWarnings("unchecked")
+public abstract class PerCaseBuilderWithBooleanProduct<PCB extends PerCaseBuilderWithBooleanProduct<PCB, P, F, PC>, P, F, PC extends PartialCaseWithBooleanProduct<PC, PCB, P, F>> extends PerCaseBuilder<PCB, P, F, PC> {
 
 	protected @Nonnull final BooleanFunction<F> directToFunction;
 
 	protected PerCaseBuilderWithBooleanProduct(@Nonnull F eventually, @Nonnull BooleanFunction<F> directToFunction) {
-		this.eventually = eventually;
+		super(eventually);
 		this.directToFunction = directToFunction;
 	}
 
 	// <editor-fold desc="case">
 
-	public final PCB addCase(@Nonnull Case<P, F> theCase) {
-		cases.add(theCase);
-		return self();
-	}
-
-	/** Starts adding the case to the list. Changes also the fluent context. */
-	public final PartialCase inCase(@Nonnull P casePredicate) {
-		Objects.requireNonNull(casePredicate, "Argument [casePredicate] cannot be null.");
-		return new PartialCase(casePredicate);
-	}
-
-	/** Starts adding the case to the list. */
-	public final PCB addCase(Consumer<CaseBuilder> caseBuilderConsumer) {
-		Objects.requireNonNull(caseBuilderConsumer, "Argument [caseBuilderConsumer] cannot be null.");
-		caseBuilderConsumer.accept(new CaseBuilder());
-		return self();
-	}
-
 	/** Sets the function to evaluate _eventually_ when input data do not match any case. */
-	public final PCB eventually(@Nonnull F caseFunction) {
-		eventually = caseFunction;
-		return self();
-	}
-
-	/** Sets the function to evaluate _eventually_ when input data do not match any case. */
-	public final PCB eventuallyProduce(@Nonnull boolean directValue) {
+	public final PCB eventuallyProduce(boolean directValue) {
 		eventually = directToFunction.apply(directValue);
 		return self();
 	}
 
 	// </editor-fold>
 
-	@Immutable
-	@ThreadSafe
-	public final class PartialCase implements FluentSubcontext<PartialCase, PCB> {
-		private final P casePredicate;
-
-		private PartialCase(@Nonnull P casePredicate) {
-			this.casePredicate = casePredicate;
-		}
-
-		/** Finalize the case build by providing second required value for the Case. */
-		public final PCB evaluate(@Nonnull F caseFunction) {
-			PerCaseBuilderWithBooleanProduct.this.addCase(Case.of(casePredicate, caseFunction));
-			return PerCaseBuilderWithBooleanProduct.this.self();
-		}
-
-		/** Finalize the case build by providing second required value for the Case. */
-		public final PCB produce(@Nonnull boolean directValue) {
-			PerCaseBuilderWithBooleanProduct.this.addCase(Case.of(casePredicate, directToFunction.apply(directValue)));
-			return PerCaseBuilderWithBooleanProduct.this.self();
-		}
-
+	protected PC partialCaseFactoryMethod(P casePredicate) {
+		return (PC) new PartialCaseWithBooleanProduct(self(), casePredicate);
 	}
 
-	@Immutable
-	@ThreadSafe
-	public final class CaseBuilder {
-		private CaseBuilder() {
+	public static class Base<SELF extends Base<SELF, P, F>, P, F> extends PerCaseBuilderWithBooleanProduct<SELF, P, F, PartialCaseWithBooleanProduct.The<SELF, P, F>> {
+		protected Base(@Nonnull F eventually, @Nonnull BooleanFunction<F> directToFunction) {
+			super(eventually, directToFunction);
 		}
 
-		@Nonnull
-		public final PartialCase of(@Nonnull P casePredicate) {
-			return new PartialCase(casePredicate);
+		@Override
+		protected PartialCaseWithBooleanProduct.The<SELF, P, F> partialCaseFactoryMethod(P casePredicate) {
+			return new PartialCaseWithBooleanProduct.The(this, casePredicate);
 		}
 	}
+
 }

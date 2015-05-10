@@ -62,6 +62,12 @@ public interface SupplierAssert<S extends SupplierAssert<S, A, RS, R>, A extends
 		}
 
 		@Nonnull
+		public S doesReturn(R value) {
+			doesGet().asEqualTo(value);
+			return self();
+		}
+
+		@Nonnull
 		public Evaluation<S, A, RS, R, Exception> doesGet(Action before) {
 			before.execute();
 			return doesGet();

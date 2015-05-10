@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for ToLongBiFunctionX. */
-public final class ToLongBiFunctionXBuilder<T1, T2, X extends Exception> extends PerCaseBuilderWithLongProduct<ToLongBiFunctionXBuilder<T1, T2, X>, BiPredicateX<T1, T2, X>, ToLongBiFunctionX<T1, T2, X>> {
+public final class ToLongBiFunctionXBuilder<T1, T2, X extends Exception> extends PerCaseBuilderWithLongProduct.Base<ToLongBiFunctionXBuilder<T1, T2, X>, BiPredicateX<T1, T2, X>, ToLongBiFunctionX<T1, T2, X>> {
 
 	private Consumer<ToLongBiFunctionX<T1, T2, X>> consumer;
 

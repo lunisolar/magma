@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for BiIntPredicateX. */
-public final class BiIntPredicateXBuilder<X extends Exception> extends PerCaseBuilderWithBooleanProduct<BiIntPredicateXBuilder<X>, BiIntPredicateX<X>, BiIntPredicateX<X>> {
+public final class BiIntPredicateXBuilder<X extends Exception> extends PerCaseBuilderWithBooleanProduct.Base<BiIntPredicateXBuilder<X>, BiIntPredicateX<X>, BiIntPredicateX<X>> {
 
 	private Consumer<BiIntPredicateX<X>> consumer;
 

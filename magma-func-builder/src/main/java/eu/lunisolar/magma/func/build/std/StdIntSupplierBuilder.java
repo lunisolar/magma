@@ -42,7 +42,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for java.util.function.IntSupplier. */
-public final class StdIntSupplierBuilder extends PerCaseBuilderWithIntProduct<StdIntSupplierBuilder, BooleanSupplier, java.util.function.IntSupplier> {
+public final class StdIntSupplierBuilder extends PerCaseBuilderWithIntProduct.Base<StdIntSupplierBuilder, BooleanSupplier, java.util.function.IntSupplier> {
 
 	private Consumer<java.util.function.IntSupplier> consumer;
 

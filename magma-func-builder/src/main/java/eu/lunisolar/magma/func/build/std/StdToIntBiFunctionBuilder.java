@@ -42,7 +42,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for java.util.function.ToIntBiFunction. */
-public final class StdToIntBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithIntProduct<StdToIntBiFunctionBuilder<T1, T2>, BiPredicate<T1, T2>, java.util.function.ToIntBiFunction<T1, T2>> {
+public final class StdToIntBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithIntProduct.Base<StdToIntBiFunctionBuilder<T1, T2>, BiPredicate<T1, T2>, java.util.function.ToIntBiFunction<T1, T2>> {
 
 	private Consumer<java.util.function.ToIntBiFunction<T1, T2>> consumer;
 

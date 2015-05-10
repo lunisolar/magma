@@ -62,6 +62,12 @@ public interface IntSupplierAssert<S extends IntSupplierAssert<S, A, RS>, A exte
 		}
 
 		@Nonnull
+		public S doesReturn(int value) {
+			doesGetAsInt().asEqualTo(value);
+			return self();
+		}
+
+		@Nonnull
 		public Evaluation<S, A, RS, Integer, Exception> doesGetAsInt(Action before) {
 			before.execute();
 			return doesGetAsInt();

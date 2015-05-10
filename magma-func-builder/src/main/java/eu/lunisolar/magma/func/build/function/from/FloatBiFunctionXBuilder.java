@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for FloatBiFunctionX. */
-public final class FloatBiFunctionXBuilder<R, X extends Exception> extends PerCaseBuilderWithProduct<FloatBiFunctionXBuilder<R, X>, BiFloatPredicateX<X>, FloatBiFunctionX<R, X>, R> {
+public final class FloatBiFunctionXBuilder<R, X extends Exception> extends PerCaseBuilderWithProduct.Base<FloatBiFunctionXBuilder<R, X>, BiFloatPredicateX<X>, FloatBiFunctionX<R, X>, R> {
 
 	private Consumer<FloatBiFunctionX<R, X>> consumer;
 

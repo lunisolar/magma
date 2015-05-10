@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for BiCharPredicate. */
-public final class BiCharPredicateBuilder extends PerCaseBuilderWithBooleanProduct<BiCharPredicateBuilder, BiCharPredicate, BiCharPredicate> {
+public final class BiCharPredicateBuilder extends PerCaseBuilderWithBooleanProduct.Base<BiCharPredicateBuilder, BiCharPredicate, BiCharPredicate> {
 
 	private Consumer<BiCharPredicate> consumer;
 

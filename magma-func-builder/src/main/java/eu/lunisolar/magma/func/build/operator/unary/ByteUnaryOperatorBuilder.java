@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for ByteUnaryOperator. */
-public final class ByteUnaryOperatorBuilder extends PerCaseBuilderWithByteProduct<ByteUnaryOperatorBuilder, BytePredicate, ByteUnaryOperator> {
+public final class ByteUnaryOperatorBuilder extends PerCaseBuilderWithByteProduct.Base<ByteUnaryOperatorBuilder, BytePredicate, ByteUnaryOperator> {
 
 	private Consumer<ByteUnaryOperator> consumer;
 

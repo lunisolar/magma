@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for CharToShortFunction. */
-public final class CharToShortFunctionBuilder extends PerCaseBuilderWithShortProduct<CharToShortFunctionBuilder, CharPredicate, CharToShortFunction> {
+public final class CharToShortFunctionBuilder extends PerCaseBuilderWithShortProduct.Base<CharToShortFunctionBuilder, CharPredicate, CharToShortFunction> {
 
 	private Consumer<CharToShortFunction> consumer;
 

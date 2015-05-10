@@ -20,15 +20,12 @@
 package eu.lunisolar.magma.basics.builder;
 
 import eu.lunisolar.magma.basics.fluent.Fluent;
-import eu.lunisolar.magma.basics.fluent.FluentSubcontext;
 
 import javax.annotation.Nonnull;
-import javax.annotation.concurrent.Immutable;
-import javax.annotation.concurrent.ThreadSafe;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.function.Consumer;
+import java.util.*;
+import java.util.function.*;
+
+import static java.util.Objects.*;
 
 /**
  * Abstract implementation of a per case builder of a complex implementation of a functional interface.
@@ -40,14 +37,14 @@ import java.util.function.Consumer;
  * evaluating to **true** a last resort function _eventually_ is called. By default _eventually_ will throw an exception that there is no case that will cover
  * the input data. This default _evantually_ behavior can be overridden.
  */
-public abstract class PerCaseBuilder<PCB extends PerCaseBuilder<PCB, P, F>, P, F> implements Fluent<PCB> {
+@SuppressWarnings("unchecked")
+public abstract class PerCaseBuilder<PCB extends PerCaseBuilder<PCB, P, F, PC>, P, F, PC extends PartialCase<PC, PCB, P, F>> implements Fluent<PCB> {
 
     protected @Nonnull final List<Case<P, F>> cases = new ArrayList<>();
-
     protected @Nonnull F eventually;
 
-    protected PerCaseBuilder(@Nonnull F eventually) {
-        this.eventually = eventually;
+    public PerCaseBuilder(@Nonnull F eventually) {
+        this.eventually = requireNonNull(eventually, "Argument [eventually] cannot be null.");
     }
 
     // <editor-fold desc="case">
@@ -58,15 +55,15 @@ public abstract class PerCaseBuilder<PCB extends PerCaseBuilder<PCB, P, F>, P, F
     }
 
     /** Starts adding the case to the list. Changes also the fluent context. */
-    public final PartialCase inCase(@Nonnull P casePredicate) {
-        Objects.requireNonNull(casePredicate, "Argument [casePredicate] cannot be null.");
-        return new PartialCase(casePredicate);
+    public final PC inCase(@Nonnull P casePredicate) {
+        requireNonNull(casePredicate, "Argument [casePredicate] cannot be null.");
+        return partialCaseFactoryMethod(casePredicate);
     }
 
     /** Starts adding the case to the list. */
-    public final PCB addCase(Consumer<CaseBuilder> caseBuilderConsumer) {
-        Objects.requireNonNull(caseBuilderConsumer, "Argument [caseBuilderConsumer] cannot be null.");
-        caseBuilderConsumer.accept(new CaseBuilder());
+    public final PCB addCase(Consumer<CaseBuilder<P, PC>> caseBuilderConsumer) {
+        requireNonNull(caseBuilderConsumer, "Argument [caseBuilderConsumer] cannot be null.");
+        caseBuilderConsumer.accept(new CaseBuilder<>(this::partialCaseFactoryMethod));
         return self();
     }
 
@@ -78,31 +75,19 @@ public abstract class PerCaseBuilder<PCB extends PerCaseBuilder<PCB, P, F>, P, F
 
     // </editor-fold>
 
-    @Immutable
-    @ThreadSafe
-    public final class PartialCase implements FluentSubcontext<PartialCase, PCB> {
-        private final P casePredicate;
+    protected PC partialCaseFactoryMethod(P casePredicate) {
+        return (PC) new PartialCase(PerCaseBuilder.this, casePredicate);
+    }
 
-        private PartialCase(@Nonnull P casePredicate) {
-            this.casePredicate = casePredicate;
+    public static class Base<SELF extends Base<SELF, P, F>, P, F> extends PerCaseBuilder<SELF, P, F, PartialCase.The<SELF, P, F>> {
+        public Base(@Nonnull F eventually) {
+            super(eventually);
         }
 
-        /** Finalize the case build by providing second required value for the Case. */
-        public final PCB evaluate(@Nonnull F caseFunction) {
-            PerCaseBuilder.this.addCase(Case.of(casePredicate, caseFunction));
-            return PerCaseBuilder.this.self();
+        @Override
+        protected PartialCase.The<SELF, P, F> partialCaseFactoryMethod(P casePredicate) {
+            return new PartialCase.The(self(), casePredicate);
         }
     }
 
-    @Immutable
-    @ThreadSafe
-    public final class CaseBuilder {
-        private CaseBuilder() {
-        }
-
-        @Nonnull
-        public final PartialCase of(@Nonnull P casePredicate) {
-            return new PartialCase(casePredicate);
-        }
-    }
 }

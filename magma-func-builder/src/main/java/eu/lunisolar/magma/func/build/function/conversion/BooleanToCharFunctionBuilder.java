@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for BooleanToCharFunction. */
-public final class BooleanToCharFunctionBuilder extends PerCaseBuilderWithCharProduct<BooleanToCharFunctionBuilder, BooleanUnaryOperator, BooleanToCharFunction> {
+public final class BooleanToCharFunctionBuilder extends PerCaseBuilderWithCharProduct.Base<BooleanToCharFunctionBuilder, BooleanUnaryOperator, BooleanToCharFunction> {
 
 	private Consumer<BooleanToCharFunction> consumer;
 

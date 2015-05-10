@@ -61,6 +61,12 @@ public interface StdBooleanSupplierAssert<S extends StdBooleanSupplierAssert<S, 
 		}
 
 		@Nonnull
+		public S doesReturn(boolean value) {
+			doesGetAsBoolean().asEqualTo(value);
+			return self();
+		}
+
+		@Nonnull
 		public Evaluation<S, A, RS, Boolean, Exception> doesGetAsBoolean(Action before) {
 			before.execute();
 			return doesGetAsBoolean();

@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for ShortToLongFunction. */
-public final class ShortToLongFunctionBuilder extends PerCaseBuilderWithLongProduct<ShortToLongFunctionBuilder, ShortPredicate, ShortToLongFunction> {
+public final class ShortToLongFunctionBuilder extends PerCaseBuilderWithLongProduct.Base<ShortToLongFunctionBuilder, ShortPredicate, ShortToLongFunction> {
 
 	private Consumer<ShortToLongFunction> consumer;
 

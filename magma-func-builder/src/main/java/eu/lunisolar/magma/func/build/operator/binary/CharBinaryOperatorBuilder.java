@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for CharBinaryOperator. */
-public final class CharBinaryOperatorBuilder extends PerCaseBuilderWithCharProduct<CharBinaryOperatorBuilder, BiCharPredicate, CharBinaryOperator> {
+public final class CharBinaryOperatorBuilder extends PerCaseBuilderWithCharProduct.Base<CharBinaryOperatorBuilder, BiCharPredicate, CharBinaryOperator> {
 
 	private Consumer<CharBinaryOperator> consumer;
 

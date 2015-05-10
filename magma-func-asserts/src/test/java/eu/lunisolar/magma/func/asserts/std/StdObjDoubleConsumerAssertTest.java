@@ -93,7 +93,7 @@ public class StdObjDoubleConsumerAssertTest<T,X extends ParseException> {
         final AtomicInteger recurringAssertsCalls = new AtomicInteger(0);
 
         A.assertThat(function)
-         .recurringAsserts(()-> {
+         .inAllFollowingCases(()-> {
             recurringAssertsCalls.incrementAndGet();
             assertThat(externalEffect.get()).isEqualTo(testValue);
          })
@@ -111,7 +111,7 @@ public class StdObjDoubleConsumerAssertTest<T,X extends ParseException> {
         final AtomicInteger recurringAssertsCalls = new AtomicInteger(0);
 
         A.assertThat(function)
-         .recurringAsserts(()-> {
+         .inAllFollowingCases(()-> {
             int i = recurringAssertsCalls.incrementAndGet();
             if (i>1) {
                 assertThat(externalEffect.get()).isEqualTo(0);

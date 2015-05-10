@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for TernaryOperator. */
-public final class TernaryOperatorBuilder<T> extends PerCaseBuilderWithProduct<TernaryOperatorBuilder<T>, TriPredicate<T, T, T>, TernaryOperator<T>, T> {
+public final class TernaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Base<TernaryOperatorBuilder<T>, TriPredicate<T, T, T>, TernaryOperator<T>, T> {
 
 	private Consumer<TernaryOperator<T>> consumer;
 

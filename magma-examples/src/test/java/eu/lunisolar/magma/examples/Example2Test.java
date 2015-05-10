@@ -19,11 +19,16 @@
 
 package eu.lunisolar.magma.examples;
 
+import eu.lunisolar.magma.func.Function4U;
+import eu.lunisolar.magma.func.action.Action;
 import eu.lunisolar.magma.func.asserts.DefaultFunctionalAssertions;
+import eu.lunisolar.magma.func.build.action.ActionBuilder;
 import eu.lunisolar.magma.func.build.function.FunctionBuilder;
+import eu.lunisolar.magma.func.build.function.from.ShortFunctionBuilder;
 import eu.lunisolar.magma.func.build.supplier.IntSupplierBuilder;
 import eu.lunisolar.magma.func.build.supplier.SupplierBuilder;
 import eu.lunisolar.magma.func.function.Function;
+import eu.lunisolar.magma.func.function.from.ShortFunction;
 import eu.lunisolar.magma.func.supplier.IntSupplier;
 import eu.lunisolar.magma.func.supplier.Supplier;
 import org.assertj.core.api.AbstractIntegerAssert;
@@ -41,7 +46,11 @@ public class Example2Test {
     private Function<Integer, Integer> function = FunctionBuilder.<Integer, Integer>function()  // a compilation test
             .inCase(i -> i <= 0).evaluate(i -> i)
             .inCase(i -> i > 0).evaluate(i -> i)
-                    //TODO: .inCase(34)   ??????
+            .build();
+
+    private ShortFunction<Integer> shortFunction = ShortFunctionBuilder.<Integer>shortFunction()  // a compilation test
+            .inCase(i -> i <= 0).evaluate(i -> (int) i)
+            .inCase(i -> i > 0).evaluate(i -> (int) i)
             .build();
 
     public static final AtomicInteger externalInfluence = new AtomicInteger(0);
@@ -58,10 +67,18 @@ public class Example2Test {
             .eventuallyProduce(33)
             .build();
 
+    public static final AtomicInteger externalEffect = new AtomicInteger(0);
+
+    private Action action = ActionBuilder.action()  // a compilation test
+            .inCase(() -> externalInfluence.get() > 0).evaluate(() -> externalInfluence.get())
+            .inCase(() -> false).evaluate(Function4U::doNothing)
+            .eventually(Function4U::doNothing)
+            .build();
+
     @Test(expectedExceptions = AssertionError.class)
     public void example() {
         then.assertThat(function)
-            .recurringAsserts(a -> a.isInstanceOf(Integer.class))
+            .inAllFollowingCases(a -> a.isInstanceOf(Integer.class))
             .doesApply(80).to(a -> a.isEqualTo(80))
             .doesApply(81).toEqualTo(81)
             .doesApply(0).withException(a -> a
@@ -72,7 +89,7 @@ public class Example2Test {
     @Test(expectedExceptions = AssertionError.class)
     public void example2() {
         then.withinCodomain(then::assertThatInt).assertThat(function)
-            .recurringAsserts(a -> a.isInstanceOf(Integer.class))
+            .inAllFollowingCases(a -> a.isInstanceOf(Integer.class))
             .doesApply(80).to(a -> a.isGreaterThan(0))
             .doesApply(81).toEqualTo(81)
             .doesApply(0).withException(a -> a
@@ -82,7 +99,7 @@ public class Example2Test {
 
     public void example3() {
         then.withinCodomain((Function<Integer, AbstractIntegerAssert>) Assertions::assertThat).assertThat(function)
-            .recurringAsserts(a -> a.isInstanceOf(Integer.class))
+            .inAllFollowingCases(a -> a.isInstanceOf(Integer.class))
             .doesApply(80).to(a -> a.isGreaterThan(0))
             .doesApply(81).toEqualTo(81)
             .doesApply(0).withException(a -> a
@@ -93,7 +110,7 @@ public class Example2Test {
     @Test(expectedExceptions = AssertionError.class)
     public void example4() {
         then.withinCodomain(Assertions::assertThat, Integer.class, AbstractIntegerAssert.class).assertThat(function)
-            .recurringAsserts(a -> a.isInstanceOf(Integer.class))
+            .inAllFollowingCases(a -> a.isInstanceOf(Integer.class))
             .doesApply(80).to(a -> a.isGreaterThan(0))
             .doesApply(81).toEqualTo(81)
             .doesApply(0).withException(a -> a
@@ -104,7 +121,7 @@ public class Example2Test {
     @Test(expectedExceptions = AssertionError.class)
     public void example5() {
         then.withinCodomain(Assertions::assertThat, int.class, AbstractIntegerAssert.class).assertThat(function)
-            .recurringAsserts(a -> a.isInstanceOf(Integer.class))
+            .inAllFollowingCases(a -> a.isInstanceOf(Integer.class))
             .doesApply(80).to(a -> a.isGreaterThan(0))
             .doesApply(81).toEqualTo(81)
             .doesApply(0).withException(a -> a
@@ -115,11 +132,34 @@ public class Example2Test {
     @Test(expectedExceptions = AssertionError.class)
     public void example6() {
         then.withinIntegerCodomain().assertThat(function)
-            .recurringAsserts(a -> a.isInstanceOf(Integer.class))
+            .inAllFollowingCases(a -> a.isInstanceOf(Integer.class))
             .doesApply(80).to(a -> a.isGreaterThan(0))
             .doesApply(81).toEqualTo(81)
             .doesApply(0).withException(a -> a
                 .isExactlyInstanceOf(UnsupportedOperationException.class)
                 .hasMessage("Some message"));
     }
+
+    @Test(expectedExceptions = AssertionError.class)
+    public void example7() {
+        then.withinIntegerCodomain().assertThat(intSupplier)
+            .inAllFollowingCases(a -> a.isInstanceOf(Integer.class))
+            .doesGetAsInt().as(a -> a.isGreaterThan(0))
+            .doesReturn(81)
+            .doesGetAsInt().withException(a -> a
+                .isExactlyInstanceOf(UnsupportedOperationException.class)
+                .hasMessage("Some message"));
+    }
+
+    @Test(expectedExceptions = AssertionError.class)
+    public void example8() {
+        then.withinIntegerCodomain().assertThat(shortFunction)
+            .inAllFollowingCases(a -> a.isInstanceOf(Integer.class))
+            .doesApply((short)80).to(a -> a.isGreaterThan(0))
+            .doesApply((short)81).toEqualTo(81)
+            .doesApply((short)0).withException(a -> a
+                .isExactlyInstanceOf(UnsupportedOperationException.class)
+                .hasMessage("Some message"));
+    }
+
 }

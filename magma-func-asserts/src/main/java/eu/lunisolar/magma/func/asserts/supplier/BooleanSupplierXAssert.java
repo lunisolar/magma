@@ -64,6 +64,12 @@ public interface BooleanSupplierXAssert<S extends BooleanSupplierXAssert<S, A, R
 		}
 
 		@Nonnull
+		public S doesReturn(boolean value) {
+			doesGetAsBoolean().asEqualTo(value);
+			return self();
+		}
+
+		@Nonnull
 		public Evaluation<S, A, RS, Boolean, Exception> doesGetAsBoolean(Action before) {
 			before.execute();
 			return doesGetAsBoolean();

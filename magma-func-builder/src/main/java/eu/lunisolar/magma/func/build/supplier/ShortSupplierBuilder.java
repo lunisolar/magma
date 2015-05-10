@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for ShortSupplier. */
-public final class ShortSupplierBuilder extends PerCaseBuilderWithShortProduct<ShortSupplierBuilder, BooleanSupplier, ShortSupplier> {
+public final class ShortSupplierBuilder extends PerCaseBuilderWithShortProduct.Base<ShortSupplierBuilder, BooleanSupplier, ShortSupplier> {
 
 	private Consumer<ShortSupplier> consumer;
 

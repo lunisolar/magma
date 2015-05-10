@@ -30,7 +30,7 @@ public interface RecurringAsserts<S extends Assert<S, A>, A, RA> {
      * In case of some assertion that could be applied each time a method call result is tested, the argument assertion will be checked before the assertion
      * for specific case.
      */
-    @Nonnull S recurringAsserts(@Nonnull RA recurringAssert);
+    @Nonnull S inAllFollowingCases(@Nonnull RA recurringAssert);
 
     abstract class Base<S extends Base<S, A, RA>, A, RA> extends AbstractObjectAssert<S, A> implements RecurringAsserts<S, A, RA> {
 
@@ -42,7 +42,7 @@ public interface RecurringAsserts<S extends Assert<S, A>, A, RA> {
 
         @Override
         @Nonnull
-        public S recurringAsserts(@Nonnull RA recurringAssert) {
+        public S inAllFollowingCases(@Nonnull RA recurringAssert) {
             this.recurringAssert = recurringAssert;
             return myself;
         }

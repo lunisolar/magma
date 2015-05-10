@@ -61,6 +61,12 @@ public interface StdDoubleSupplierAssert<S extends StdDoubleSupplierAssert<S, A,
 		}
 
 		@Nonnull
+		public S doesReturn(double value) {
+			doesGetAsDouble().asEqualTo(value);
+			return self();
+		}
+
+		@Nonnull
 		public Evaluation<S, A, RS, Double, Exception> doesGetAsDouble(Action before) {
 			before.execute();
 			return doesGetAsDouble();

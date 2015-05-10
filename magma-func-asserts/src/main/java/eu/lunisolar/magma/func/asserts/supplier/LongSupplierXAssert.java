@@ -62,6 +62,12 @@ public interface LongSupplierXAssert<S extends LongSupplierXAssert<S, A, RS, X>,
 		}
 
 		@Nonnull
+		public S doesReturn(long value) {
+			doesGetAsLong().asEqualTo(value);
+			return self();
+		}
+
+		@Nonnull
 		public Evaluation<S, A, RS, Long, Exception> doesGetAsLong(Action before) {
 			before.execute();
 			return doesGetAsLong();

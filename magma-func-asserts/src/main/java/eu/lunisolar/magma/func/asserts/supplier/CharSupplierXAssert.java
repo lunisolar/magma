@@ -64,6 +64,12 @@ public interface CharSupplierXAssert<S extends CharSupplierXAssert<S, A, RS, X>,
 		}
 
 		@Nonnull
+		public S doesReturn(char value) {
+			doesGetAsChar().asEqualTo(value);
+			return self();
+		}
+
+		@Nonnull
 		public Evaluation<S, A, RS, Character, Exception> doesGetAsChar(Action before) {
 			before.execute();
 			return doesGetAsChar();

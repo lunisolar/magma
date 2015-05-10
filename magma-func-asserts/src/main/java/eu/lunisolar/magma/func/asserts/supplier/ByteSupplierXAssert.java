@@ -62,6 +62,12 @@ public interface ByteSupplierXAssert<S extends ByteSupplierXAssert<S, A, RS, X>,
 		}
 
 		@Nonnull
+		public S doesReturn(byte value) {
+			doesGetAsByte().asEqualTo(value);
+			return self();
+		}
+
+		@Nonnull
 		public Evaluation<S, A, RS, Byte, Exception> doesGetAsByte(Action before) {
 			before.execute();
 			return doesGetAsByte();

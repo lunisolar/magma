@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for IntToDoubleFunctionX. */
-public final class IntToDoubleFunctionXBuilder<X extends Exception> extends PerCaseBuilderWithDoubleProduct<IntToDoubleFunctionXBuilder<X>, IntPredicateX<X>, IntToDoubleFunctionX<X>> {
+public final class IntToDoubleFunctionXBuilder<X extends Exception> extends PerCaseBuilderWithDoubleProduct.Base<IntToDoubleFunctionXBuilder<X>, IntPredicateX<X>, IntToDoubleFunctionX<X>> {
 
 	private Consumer<IntToDoubleFunctionX<X>> consumer;
 

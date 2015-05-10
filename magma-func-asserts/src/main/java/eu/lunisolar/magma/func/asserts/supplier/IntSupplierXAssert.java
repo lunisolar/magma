@@ -62,6 +62,12 @@ public interface IntSupplierXAssert<S extends IntSupplierXAssert<S, A, RS, X>, A
 		}
 
 		@Nonnull
+		public S doesReturn(int value) {
+			doesGetAsInt().asEqualTo(value);
+			return self();
+		}
+
+		@Nonnull
 		public Evaluation<S, A, RS, Integer, Exception> doesGetAsInt(Action before) {
 			before.execute();
 			return doesGetAsInt();

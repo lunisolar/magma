@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for FloatToIntFunction. */
-public final class FloatToIntFunctionBuilder extends PerCaseBuilderWithIntProduct<FloatToIntFunctionBuilder, FloatPredicate, FloatToIntFunction> {
+public final class FloatToIntFunctionBuilder extends PerCaseBuilderWithIntProduct.Base<FloatToIntFunctionBuilder, FloatPredicate, FloatToIntFunction> {
 
 	private Consumer<FloatToIntFunction> consumer;
 

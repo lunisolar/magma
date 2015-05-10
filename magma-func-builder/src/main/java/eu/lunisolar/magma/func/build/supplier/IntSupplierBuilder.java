@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for IntSupplier. */
-public final class IntSupplierBuilder extends PerCaseBuilderWithIntProduct<IntSupplierBuilder, BooleanSupplier, IntSupplier> {
+public final class IntSupplierBuilder extends PerCaseBuilderWithIntProduct.Base<IntSupplierBuilder, BooleanSupplier, IntSupplier> {
 
 	private Consumer<IntSupplier> consumer;
 

@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for CharBiConsumer. */
-public final class CharBiConsumerBuilder extends PerCaseBuilder<CharBiConsumerBuilder, BiCharPredicate, CharBiConsumer> {
+public final class CharBiConsumerBuilder extends PerCaseBuilder.Base<CharBiConsumerBuilder, BiCharPredicate, CharBiConsumer> {
 
 	private Consumer<CharBiConsumer> consumer;
 

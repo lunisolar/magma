@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for ObjShortConsumerX. */
-public final class ObjShortConsumerXBuilder<T, X extends Exception> extends PerCaseBuilder<ObjShortConsumerXBuilder<T, X>, ObjShortPredicateX<T, X>, ObjShortConsumerX<T, X>> {
+public final class ObjShortConsumerXBuilder<T, X extends Exception> extends PerCaseBuilder.Base<ObjShortConsumerXBuilder<T, X>, ObjShortPredicateX<T, X>, ObjShortConsumerX<T, X>> {
 
 	private Consumer<ObjShortConsumerX<T, X>> consumer;
 

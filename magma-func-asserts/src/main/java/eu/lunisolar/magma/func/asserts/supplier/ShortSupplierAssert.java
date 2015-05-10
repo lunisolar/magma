@@ -62,6 +62,12 @@ public interface ShortSupplierAssert<S extends ShortSupplierAssert<S, A, RS>, A 
 		}
 
 		@Nonnull
+		public S doesReturn(short value) {
+			doesGetAsShort().asEqualTo(value);
+			return self();
+		}
+
+		@Nonnull
 		public Evaluation<S, A, RS, Short, Exception> doesGetAsShort(Action before) {
 			before.execute();
 			return doesGetAsShort();

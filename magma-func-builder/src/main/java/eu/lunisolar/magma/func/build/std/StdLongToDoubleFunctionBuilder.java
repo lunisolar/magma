@@ -42,7 +42,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for java.util.function.LongToDoubleFunction. */
-public final class StdLongToDoubleFunctionBuilder extends PerCaseBuilderWithDoubleProduct<StdLongToDoubleFunctionBuilder, LongPredicate, java.util.function.LongToDoubleFunction> {
+public final class StdLongToDoubleFunctionBuilder extends PerCaseBuilderWithDoubleProduct.Base<StdLongToDoubleFunctionBuilder, LongPredicate, java.util.function.LongToDoubleFunction> {
 
 	private Consumer<java.util.function.LongToDoubleFunction> consumer;
 

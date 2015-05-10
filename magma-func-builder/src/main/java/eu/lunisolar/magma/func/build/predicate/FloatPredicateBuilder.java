@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for FloatPredicate. */
-public final class FloatPredicateBuilder extends PerCaseBuilderWithBooleanProduct<FloatPredicateBuilder, FloatPredicate, FloatPredicate> {
+public final class FloatPredicateBuilder extends PerCaseBuilderWithBooleanProduct.Base<FloatPredicateBuilder, FloatPredicate, FloatPredicate> {
 
 	private Consumer<FloatPredicate> consumer;
 

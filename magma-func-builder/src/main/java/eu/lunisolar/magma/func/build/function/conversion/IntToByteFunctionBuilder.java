@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for IntToByteFunction. */
-public final class IntToByteFunctionBuilder extends PerCaseBuilderWithByteProduct<IntToByteFunctionBuilder, IntPredicate, IntToByteFunction> {
+public final class IntToByteFunctionBuilder extends PerCaseBuilderWithByteProduct.Base<IntToByteFunctionBuilder, IntPredicate, IntToByteFunction> {
 
 	private Consumer<IntToByteFunction> consumer;
 

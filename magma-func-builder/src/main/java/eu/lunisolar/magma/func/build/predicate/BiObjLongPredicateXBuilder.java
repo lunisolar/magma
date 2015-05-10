@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for BiObjLongPredicateX. */
-public final class BiObjLongPredicateXBuilder<T1, T2, X extends Exception> extends PerCaseBuilderWithBooleanProduct<BiObjLongPredicateXBuilder<T1, T2, X>, BiObjLongPredicateX<T1, T2, X>, BiObjLongPredicateX<T1, T2, X>> {
+public final class BiObjLongPredicateXBuilder<T1, T2, X extends Exception> extends PerCaseBuilderWithBooleanProduct.Base<BiObjLongPredicateXBuilder<T1, T2, X>, BiObjLongPredicateX<T1, T2, X>, BiObjLongPredicateX<T1, T2, X>> {
 
 	private Consumer<BiObjLongPredicateX<T1, T2, X>> consumer;
 

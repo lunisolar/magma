@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for BooleanToShortFunction. */
-public final class BooleanToShortFunctionBuilder extends PerCaseBuilderWithShortProduct<BooleanToShortFunctionBuilder, BooleanUnaryOperator, BooleanToShortFunction> {
+public final class BooleanToShortFunctionBuilder extends PerCaseBuilderWithShortProduct.Base<BooleanToShortFunctionBuilder, BooleanUnaryOperator, BooleanToShortFunction> {
 
 	private Consumer<BooleanToShortFunction> consumer;
 

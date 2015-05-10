@@ -42,7 +42,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for java.util.function.DoubleBinaryOperator. */
-public final class StdDoubleBinaryOperatorBuilder extends PerCaseBuilderWithDoubleProduct<StdDoubleBinaryOperatorBuilder, BiDoublePredicate, java.util.function.DoubleBinaryOperator> {
+public final class StdDoubleBinaryOperatorBuilder extends PerCaseBuilderWithDoubleProduct.Base<StdDoubleBinaryOperatorBuilder, BiDoublePredicate, java.util.function.DoubleBinaryOperator> {
 
 	private Consumer<java.util.function.DoubleBinaryOperator> consumer;
 

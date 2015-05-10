@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for BooleanToIntFunction. */
-public final class BooleanToIntFunctionBuilder extends PerCaseBuilderWithIntProduct<BooleanToIntFunctionBuilder, BooleanUnaryOperator, BooleanToIntFunction> {
+public final class BooleanToIntFunctionBuilder extends PerCaseBuilderWithIntProduct.Base<BooleanToIntFunctionBuilder, BooleanUnaryOperator, BooleanToIntFunction> {
 
 	private Consumer<BooleanToIntFunction> consumer;
 

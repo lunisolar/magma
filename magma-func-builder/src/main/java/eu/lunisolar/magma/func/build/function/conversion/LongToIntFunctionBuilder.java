@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for LongToIntFunction. */
-public final class LongToIntFunctionBuilder extends PerCaseBuilderWithIntProduct<LongToIntFunctionBuilder, LongPredicate, LongToIntFunction> {
+public final class LongToIntFunctionBuilder extends PerCaseBuilderWithIntProduct.Base<LongToIntFunctionBuilder, LongPredicate, LongToIntFunction> {
 
 	private Consumer<LongToIntFunction> consumer;
 

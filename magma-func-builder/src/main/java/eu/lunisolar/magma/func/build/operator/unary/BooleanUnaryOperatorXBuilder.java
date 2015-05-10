@@ -43,7 +43,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for BooleanUnaryOperatorX. */
-public final class BooleanUnaryOperatorXBuilder<X extends Exception> extends PerCaseBuilderWithBooleanProduct<BooleanUnaryOperatorXBuilder<X>, BooleanUnaryOperatorX<X>, BooleanUnaryOperatorX<X>> {
+public final class BooleanUnaryOperatorXBuilder<X extends Exception> extends PerCaseBuilderWithBooleanProduct.Base<BooleanUnaryOperatorXBuilder<X>, BooleanUnaryOperatorX<X>, BooleanUnaryOperatorX<X>> {
 
 	private Consumer<BooleanUnaryOperatorX<X>> consumer;
 
