@@ -25,7 +25,9 @@ import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
-import eu.lunisolar.magma.basics.meta.domains.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -56,11 +58,11 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface BooleanToDoubleFunction extends MetaFunction, PrimitiveCodomain<BooleanToDoubleFunction> { // NOSONAR
+public interface BooleanToDoubleFunction extends BooleanToDoubleFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
 	public static final String DESCRIPTION = "BooleanToDoubleFunction: double applyAsDouble(boolean b)";
 
-	public double applyAsDouble(boolean b);
+	// Ovverriding methods can cause problems with inference.
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -205,7 +207,7 @@ public interface BooleanToDoubleFunction extends MetaFunction, PrimitiveCodomain
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
 	default BooleanToDoubleFunctionX<RuntimeException> uncheck() {
-		return this::applyAsDouble;
+		return (BooleanToDoubleFunctionX) this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */

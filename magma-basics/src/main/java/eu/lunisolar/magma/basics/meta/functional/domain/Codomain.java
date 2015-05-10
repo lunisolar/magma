@@ -17,14 +17,7 @@
  * along with "lunisolar-magma".  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eu.lunisolar.magma.basics.meta.domains;
+package eu.lunisolar.magma.basics.meta.functional.domain;
 
-import eu.lunisolar.magma.basics.meta.FunctionalMetaInterface;
-
-public interface MetaConsumer extends FunctionalMetaInterface {
-
-    @Override default boolean isConsumer() {
-        return true;
-    }
-
+public interface Codomain {
 }

@@ -24,6 +24,9 @@ import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import java.util.Objects;// NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -411,5 +414,13 @@ public class TriFunctionTest<T1,T2,T3,R,X extends ParseException> {
                 .isInstanceOf(String.class)
                 .contains("TriFunction: R apply(T1 t1,T2 t2,T3 t3)");
     }
+
+
+    @Test
+    public void isThrowing() {
+        assertThat(sut.isThrowing())
+            .isFalse();
+    }
+
 
 }

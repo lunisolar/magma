@@ -25,7 +25,9 @@ import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
-import eu.lunisolar.magma.basics.meta.domains.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -56,11 +58,11 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface ToByteFunction<T> extends MetaFunction, PrimitiveCodomain<ToByteFunction<T>> { // NOSONAR
+public interface ToByteFunction<T> extends ToByteFunctionX<T, RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
 	public static final String DESCRIPTION = "ToByteFunction: byte applyAsByte(T t)";
 
-	public byte applyAsByte(T t);
+	// Ovverriding methods can cause problems with inference.
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -196,7 +198,7 @@ public interface ToByteFunction<T> extends MetaFunction, PrimitiveCodomain<ToByt
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
 	default ToByteFunctionX<T, RuntimeException> uncheck() {
-		return this::applyAsByte;
+		return (ToByteFunctionX) this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */

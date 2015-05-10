@@ -25,7 +25,9 @@ import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
-import eu.lunisolar.magma.basics.meta.domains.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -56,7 +58,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface ToFloatFunctionX<T, X extends Exception> extends MetaFunction, PrimitiveCodomain<ToFloatFunctionX<T, X>>, MetaThrowingInterface<X> { // NOSONAR
+public interface ToFloatFunctionX<T, X extends Exception> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
 	public static final String DESCRIPTION = "ToFloatFunctionX: float applyAsFloat(T t) throws X";
 
@@ -190,7 +192,7 @@ public interface ToFloatFunctionX<T, X extends Exception> extends MetaFunction, 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
 	default ToFloatFunctionX<T, RuntimeException> uncheck() {
-		return nonThrowing()::applyAsFloat;
+		return (ToFloatFunctionX) this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
@@ -224,7 +226,7 @@ public interface ToFloatFunctionX<T, X extends Exception> extends MetaFunction, 
 
 	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <E extends Exception, Y extends Exception> ToFloatFunctionX<T, Y> handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
+	default <E extends Exception, Y extends Exception> ToFloatFunctionX<T, Y> handleX(Class<E> exception, ExceptionHandler<E, Y> handler) {
 		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
@@ -233,7 +235,7 @@ public interface ToFloatFunctionX<T, X extends Exception> extends MetaFunction, 
 
 	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
 	@Nonnull
-	default <Y extends Exception> ToFloatFunctionX<T, Y> handle(ExceptionHandler<Exception, Y> handler) {
+	default <Y extends Exception> ToFloatFunctionX<T, Y> handleX(ExceptionHandler<Exception, Y> handler) {
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
 		return ToFloatFunctionX.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
@@ -241,7 +243,7 @@ public interface ToFloatFunctionX<T, X extends Exception> extends MetaFunction, 
 
 	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
 	@Nonnull
-	default <E extends Exception, Y extends Exception> ToFloatFunctionX<T, Y> handle(Class<E> exception, FloatSupplierX<X> supplier) {
+	default <E extends Exception, Y extends Exception> ToFloatFunctionX<T, Y> handleX(Class<E> exception, FloatSupplierX<X> supplier) {
 		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
 		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
 
@@ -250,7 +252,7 @@ public interface ToFloatFunctionX<T, X extends Exception> extends MetaFunction, 
 
 	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
 	@Nonnull
-	default <Y extends Exception> ToFloatFunctionX<T, Y> handle(FloatSupplierX<X> supplier) {
+	default <Y extends Exception> ToFloatFunctionX<T, Y> handleX(FloatSupplierX<X> supplier) {
 		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
 
 		return ToFloatFunctionX.wrapException(this, Exception.class, supplier, null);

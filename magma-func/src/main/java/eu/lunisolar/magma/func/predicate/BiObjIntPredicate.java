@@ -25,7 +25,9 @@ import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
-import eu.lunisolar.magma.basics.meta.domains.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -56,11 +58,11 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface BiObjIntPredicate<T1, T2> extends MetaPredicate, PrimitiveCodomain<BiObjIntPredicate<T1, T2>> { // NOSONAR
+public interface BiObjIntPredicate<T1, T2> extends BiObjIntPredicateX<T1, T2, RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
 	public static final String DESCRIPTION = "BiObjIntPredicate: boolean test(T1 t1,T2 t2, int i)";
 
-	public boolean test(T1 t1, T2 t2, int i);
+	// Ovverriding methods can cause problems with inference.
 
 	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
 
@@ -205,7 +207,7 @@ public interface BiObjIntPredicate<T1, T2> extends MetaPredicate, PrimitiveCodom
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
 	default BiObjIntPredicateX<T1, T2, RuntimeException> uncheck() {
-		return this::test;
+		return (BiObjIntPredicateX) this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */

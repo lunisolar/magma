@@ -25,7 +25,9 @@ import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
-import eu.lunisolar.magma.basics.meta.domains.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -56,11 +58,11 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface ToCharBiFunction<T1, T2> extends MetaFunction, PrimitiveCodomain<ToCharBiFunction<T1, T2>> { // NOSONAR
+public interface ToCharBiFunction<T1, T2> extends ToCharBiFunctionX<T1, T2, RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
 	public static final String DESCRIPTION = "ToCharBiFunction: char applyAsChar(T1 t1,T2 t2)";
 
-	public char applyAsChar(T1 t1, T2 t2);
+	// Ovverriding methods can cause problems with inference.
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -141,7 +143,7 @@ public interface ToCharBiFunction<T1, T2> extends MetaFunction, PrimitiveCodomai
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
 	default ToCharBiFunctionX<T1, T2, RuntimeException> uncheck() {
-		return this::applyAsChar;
+		return (ToCharBiFunctionX) this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */

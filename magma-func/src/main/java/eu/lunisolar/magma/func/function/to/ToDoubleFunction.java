@@ -25,7 +25,9 @@ import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
-import eu.lunisolar.magma.basics.meta.domains.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -56,7 +58,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface ToDoubleFunction<T> extends java.util.function.ToDoubleFunction<T>, MetaFunction, PrimitiveCodomain<ToDoubleFunction<T>> { // NOSONAR
+public interface ToDoubleFunction<T> extends java.util.function.ToDoubleFunction<T>, ToDoubleFunctionX<T, RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
 	public static final String DESCRIPTION = "ToDoubleFunction: double applyAsDouble(T t)";
 
@@ -208,7 +210,7 @@ public interface ToDoubleFunction<T> extends java.util.function.ToDoubleFunction
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
 	default ToDoubleFunctionX<T, RuntimeException> uncheck() {
-		return this::applyAsDouble;
+		return (ToDoubleFunctionX) this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */

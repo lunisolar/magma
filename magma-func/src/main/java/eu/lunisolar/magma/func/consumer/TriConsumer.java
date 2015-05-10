@@ -25,7 +25,9 @@ import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
-import eu.lunisolar.magma.basics.meta.domains.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
@@ -57,11 +59,11 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface TriConsumer<T1, T2, T3> extends MetaConsumer {
+public interface TriConsumer<T1, T2, T3> extends TriConsumerX<T1, T2, T3, RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
 	public static final String DESCRIPTION = "TriConsumer: void accept(T1 t1,T2 t2,T3 t3)";
 
-	public void accept(T1 t1, T2 t2, T3 t3);
+	// Ovverriding methods can cause problems with inference.
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -136,7 +138,7 @@ public interface TriConsumer<T1, T2, T3> extends MetaConsumer {
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
 	default TriConsumerX<T1, T2, T3, RuntimeException> uncheck() {
-		return this::accept;
+		return (TriConsumerX) this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */

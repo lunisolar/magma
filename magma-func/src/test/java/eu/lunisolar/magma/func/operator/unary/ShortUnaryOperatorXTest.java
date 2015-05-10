@@ -24,6 +24,9 @@ import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import java.util.Objects;// NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -589,7 +592,7 @@ public class ShortUnaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testHandle() throws ParseException {
+    public void testHandleX() throws ParseException {
 
         // given
         ShortUnaryOperatorX<X> sutThrowing = ShortUnaryOperatorX.lX((short s) -> {
@@ -597,7 +600,7 @@ public class ShortUnaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        ShortUnaryOperatorX<X> wrapped = sutThrowing.handle(UnsupportedOperationException.class, t -> {
+        ShortUnaryOperatorX<X> wrapped = sutThrowing.handleX(UnsupportedOperationException.class, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -624,5 +627,13 @@ public class ShortUnaryOperatorXTest<X extends ParseException> {
                 .isInstanceOf(String.class)
                 .contains("ShortUnaryOperatorX: short applyAsShort(short s) throws X");
     }
+
+
+    @Test
+    public void isThrowing() {
+        assertThat(sut.isThrowing())
+            .isTrue();
+    }
+
 
 }

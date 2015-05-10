@@ -25,7 +25,9 @@ import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
-import eu.lunisolar.magma.basics.meta.domains.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -56,12 +58,11 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface BiObjDoubleFunction<T1, T2, R> extends MetaFunction { // NOSONAR
+public interface BiObjDoubleFunction<T1, T2, R> extends BiObjDoubleFunctionX<T1, T2, R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
 	public static final String DESCRIPTION = "BiObjDoubleFunction: R apply(T1 t1,T2 t2, double d)";
 
-	@Nullable
-	public R apply(T1 t1, T2 t2, double d);
+	// Ovverriding methods can cause problems with inference.
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -164,7 +165,7 @@ public interface BiObjDoubleFunction<T1, T2, R> extends MetaFunction { // NOSONA
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
 	default BiObjDoubleFunctionX<T1, T2, R, RuntimeException> uncheck() {
-		return this::apply;
+		return (BiObjDoubleFunctionX) this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */

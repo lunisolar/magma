@@ -25,7 +25,9 @@ import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
-import eu.lunisolar.magma.basics.meta.domains.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -56,7 +58,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface ToDoubleBiFunctionX<T1, T2, X extends Exception> extends MetaFunction, PrimitiveCodomain<ToDoubleBiFunctionX<T1, T2, X>>, MetaThrowingInterface<X> { // NOSONAR
+public interface ToDoubleBiFunctionX<T1, T2, X extends Exception> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
 	public static final String DESCRIPTION = "ToDoubleBiFunctionX: double applyAsDouble(T1 t1,T2 t2) throws X";
 
@@ -147,7 +149,7 @@ public interface ToDoubleBiFunctionX<T1, T2, X extends Exception> extends MetaFu
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
 	default ToDoubleBiFunctionX<T1, T2, RuntimeException> uncheck() {
-		return nonThrowing()::applyAsDouble;
+		return (ToDoubleBiFunctionX) this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
@@ -182,7 +184,7 @@ public interface ToDoubleBiFunctionX<T1, T2, X extends Exception> extends MetaFu
 
 	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <E extends Exception, Y extends Exception> ToDoubleBiFunctionX<T1, T2, Y> handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
+	default <E extends Exception, Y extends Exception> ToDoubleBiFunctionX<T1, T2, Y> handleX(Class<E> exception, ExceptionHandler<E, Y> handler) {
 		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
@@ -191,7 +193,7 @@ public interface ToDoubleBiFunctionX<T1, T2, X extends Exception> extends MetaFu
 
 	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
 	@Nonnull
-	default <Y extends Exception> ToDoubleBiFunctionX<T1, T2, Y> handle(ExceptionHandler<Exception, Y> handler) {
+	default <Y extends Exception> ToDoubleBiFunctionX<T1, T2, Y> handleX(ExceptionHandler<Exception, Y> handler) {
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
 		return ToDoubleBiFunctionX.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
@@ -199,7 +201,7 @@ public interface ToDoubleBiFunctionX<T1, T2, X extends Exception> extends MetaFu
 
 	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
 	@Nonnull
-	default <E extends Exception, Y extends Exception> ToDoubleBiFunctionX<T1, T2, Y> handle(Class<E> exception, DoubleSupplierX<X> supplier) {
+	default <E extends Exception, Y extends Exception> ToDoubleBiFunctionX<T1, T2, Y> handleX(Class<E> exception, DoubleSupplierX<X> supplier) {
 		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
 		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
 
@@ -208,7 +210,7 @@ public interface ToDoubleBiFunctionX<T1, T2, X extends Exception> extends MetaFu
 
 	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
 	@Nonnull
-	default <Y extends Exception> ToDoubleBiFunctionX<T1, T2, Y> handle(DoubleSupplierX<X> supplier) {
+	default <Y extends Exception> ToDoubleBiFunctionX<T1, T2, Y> handleX(DoubleSupplierX<X> supplier) {
 		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
 
 		return ToDoubleBiFunctionX.wrapException(this, Exception.class, supplier, null);

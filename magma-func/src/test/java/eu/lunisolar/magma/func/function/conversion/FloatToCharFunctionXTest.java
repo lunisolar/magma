@@ -24,6 +24,9 @@ import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import java.util.Objects;// NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -582,7 +585,7 @@ public class FloatToCharFunctionXTest<X extends ParseException> {
     }
 
     @Test
-    public void testHandle() throws ParseException {
+    public void testHandleX() throws ParseException {
 
         // given
         FloatToCharFunctionX<X> sutThrowing = FloatToCharFunctionX.lX((float f) -> {
@@ -590,7 +593,7 @@ public class FloatToCharFunctionXTest<X extends ParseException> {
         });
 
         // when
-        FloatToCharFunctionX<X> wrapped = sutThrowing.handle(UnsupportedOperationException.class, t -> {
+        FloatToCharFunctionX<X> wrapped = sutThrowing.handleX(UnsupportedOperationException.class, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -617,5 +620,13 @@ public class FloatToCharFunctionXTest<X extends ParseException> {
                 .isInstanceOf(String.class)
                 .contains("FloatToCharFunctionX: char applyAsChar(float f) throws X");
     }
+
+
+    @Test
+    public void isThrowing() {
+        assertThat(sut.isThrowing())
+            .isTrue();
+    }
+
 
 }

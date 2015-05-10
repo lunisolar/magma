@@ -25,7 +25,9 @@ import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
-import eu.lunisolar.magma.basics.meta.domains.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
@@ -57,7 +59,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface ObjDoubleConsumer<T> extends java.util.function.ObjDoubleConsumer<T>, MetaConsumer {
+public interface ObjDoubleConsumer<T> extends java.util.function.ObjDoubleConsumer<T>, ObjDoubleConsumerX<T, RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
 	public static final String DESCRIPTION = "ObjDoubleConsumer: void accept(T t, double d)";
 
@@ -157,7 +159,7 @@ public interface ObjDoubleConsumer<T> extends java.util.function.ObjDoubleConsum
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
 	default ObjDoubleConsumerX<T, RuntimeException> uncheck() {
-		return this::accept;
+		return (ObjDoubleConsumerX) this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */

@@ -25,7 +25,9 @@ import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
-import eu.lunisolar.magma.basics.meta.domains.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -56,7 +58,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LongUnaryOperatorX<X extends Exception> extends MetaOperator, PrimitiveCodomain<LongUnaryOperatorX<X>>, MetaThrowingInterface<X> { // NOSONAR
+public interface LongUnaryOperatorX<X extends Exception> extends MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
 	public static final String DESCRIPTION = "LongUnaryOperatorX: long applyAsLong(long l) throws X";
 
@@ -217,7 +219,7 @@ public interface LongUnaryOperatorX<X extends Exception> extends MetaOperator, P
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
 	default LongUnaryOperatorX<RuntimeException> uncheck() {
-		return nonThrowing()::applyAsLong;
+		return (LongUnaryOperatorX) this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
@@ -251,7 +253,7 @@ public interface LongUnaryOperatorX<X extends Exception> extends MetaOperator, P
 
 	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <E extends Exception, Y extends Exception> LongUnaryOperatorX<Y> handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
+	default <E extends Exception, Y extends Exception> LongUnaryOperatorX<Y> handleX(Class<E> exception, ExceptionHandler<E, Y> handler) {
 		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
@@ -260,7 +262,7 @@ public interface LongUnaryOperatorX<X extends Exception> extends MetaOperator, P
 
 	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
 	@Nonnull
-	default <Y extends Exception> LongUnaryOperatorX<Y> handle(ExceptionHandler<Exception, Y> handler) {
+	default <Y extends Exception> LongUnaryOperatorX<Y> handleX(ExceptionHandler<Exception, Y> handler) {
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
 		return LongUnaryOperatorX.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
@@ -268,7 +270,7 @@ public interface LongUnaryOperatorX<X extends Exception> extends MetaOperator, P
 
 	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
 	@Nonnull
-	default <E extends Exception, Y extends Exception> LongUnaryOperatorX<Y> handle(Class<E> exception, LongSupplierX<X> supplier) {
+	default <E extends Exception, Y extends Exception> LongUnaryOperatorX<Y> handleX(Class<E> exception, LongSupplierX<X> supplier) {
 		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
 		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
 
@@ -277,7 +279,7 @@ public interface LongUnaryOperatorX<X extends Exception> extends MetaOperator, P
 
 	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
 	@Nonnull
-	default <Y extends Exception> LongUnaryOperatorX<Y> handle(LongSupplierX<X> supplier) {
+	default <Y extends Exception> LongUnaryOperatorX<Y> handleX(LongSupplierX<X> supplier) {
 		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
 
 		return LongUnaryOperatorX.wrapException(this, Exception.class, supplier, null);

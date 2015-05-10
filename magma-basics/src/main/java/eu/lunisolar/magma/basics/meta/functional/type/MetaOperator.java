@@ -17,12 +17,12 @@
  * along with "lunisolar-magma".  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eu.lunisolar.magma.basics.meta;
+package eu.lunisolar.magma.basics.meta.functional.type;
 
-/** Meta interface for all throwing interfaces. */
-public interface MetaThrowingInterface<X> extends FunctionalMetaInterface {
+/** Meta interface for Operator interfaces. */
+public interface MetaOperator extends MetaFunction {
 
-    @Override default boolean isThrowing() {
+    @Override default boolean isOperator() {
         return true;
     }
 

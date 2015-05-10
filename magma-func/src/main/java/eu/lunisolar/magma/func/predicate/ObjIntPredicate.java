@@ -25,7 +25,9 @@ import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
-import eu.lunisolar.magma.basics.meta.domains.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -56,11 +58,11 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface ObjIntPredicate<T> extends MetaPredicate, PrimitiveCodomain<ObjIntPredicate<T>> { // NOSONAR
+public interface ObjIntPredicate<T> extends ObjIntPredicateX<T, RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
 	public static final String DESCRIPTION = "ObjIntPredicate: boolean test(T t, int i)";
 
-	public boolean test(T t, int i);
+	// Ovverriding methods can cause problems with inference.
 
 	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
 
@@ -203,7 +205,7 @@ public interface ObjIntPredicate<T> extends MetaPredicate, PrimitiveCodomain<Obj
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
 	default ObjIntPredicateX<T, RuntimeException> uncheck() {
-		return this::test;
+		return (ObjIntPredicateX) this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */

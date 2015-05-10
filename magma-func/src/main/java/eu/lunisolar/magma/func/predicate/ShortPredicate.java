@@ -25,7 +25,9 @@ import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
-import eu.lunisolar.magma.basics.meta.domains.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -56,11 +58,11 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface ShortPredicate extends MetaPredicate, PrimitiveCodomain<ShortPredicate> { // NOSONAR
+public interface ShortPredicate extends ShortPredicateX<RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
 	public static final String DESCRIPTION = "ShortPredicate: boolean test(short s)";
 
-	public boolean test(short s);
+	// Ovverriding methods can cause problems with inference.
 
 	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
 
@@ -254,7 +256,7 @@ public interface ShortPredicate extends MetaPredicate, PrimitiveCodomain<ShortPr
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
 	default ShortPredicateX<RuntimeException> uncheck() {
-		return this::test;
+		return (ShortPredicateX) this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */

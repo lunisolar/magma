@@ -75,7 +75,7 @@ public class Example3Test {
     @Test(expectedExceptions = UnsupportedOperationException.class)
     public void example4() throws Exception {
         throwingAlways
-                .handle((e) -> {
+                .handleX((e) -> {
                     throw new UnsupportedOperationException(e);  // <- cannot infer exception for handle()
                 })
                 .apply(0);  // <- exception type was generalized to Exception
@@ -84,7 +84,7 @@ public class Example3Test {
     @Test(expectedExceptions = UnsupportedOperationException.class)
     public void example5() {
         throwingAlways
-                .handle((e) -> new UnsupportedOperationException(e))
+                .handleX((e) -> new UnsupportedOperationException(e))
                 .apply(0);
     }
 
@@ -92,7 +92,7 @@ public class Example3Test {
     public void example6() {
         // Only RuntimeException will be handled.
         throwingAlways
-                .handle(RuntimeException.class, (e) -> new UnsupportedOperationException(e))
+                .handleX(RuntimeException.class, (e) -> new UnsupportedOperationException(e))
                 .apply(0);
     }
 

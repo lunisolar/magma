@@ -17,13 +17,15 @@
  * along with "lunisolar-magma".  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eu.lunisolar.magma.basics.meta;
+package eu.lunisolar.magma.basics.meta.functional;
+
+import eu.lunisolar.magma.basics.meta.MetaInterface;
 
 import java.util.Formattable;
 import java.util.Formatter;
 
 /** Meta interface for functional interfaces in the library. */
-public interface FunctionalMetaInterface extends Formattable {
+public interface MetaFunctionalInterface extends MetaInterface, Formattable {
 
     String functionalInterfaceDescription();
 
@@ -48,10 +50,6 @@ public interface FunctionalMetaInterface extends Formattable {
     }
 
     default boolean isAction() {
-        return false;
-    }
-
-    default boolean isThrowing() {
         return false;
     }
 

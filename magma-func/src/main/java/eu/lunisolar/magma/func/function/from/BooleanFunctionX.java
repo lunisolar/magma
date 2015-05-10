@@ -25,7 +25,9 @@ import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
-import eu.lunisolar.magma.basics.meta.domains.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -56,7 +58,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface BooleanFunctionX<R, X extends Exception> extends MetaFunction, MetaThrowingInterface<X> { // NOSONAR
+public interface BooleanFunctionX<R, X extends Exception> extends MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
 	public static final String DESCRIPTION = "BooleanFunctionX: R apply(boolean b) throws X";
 
@@ -210,7 +212,7 @@ public interface BooleanFunctionX<R, X extends Exception> extends MetaFunction, 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
 	default BooleanFunctionX<R, RuntimeException> uncheck() {
-		return nonThrowing()::apply;
+		return (BooleanFunctionX) this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
@@ -249,7 +251,7 @@ public interface BooleanFunctionX<R, X extends Exception> extends MetaFunction, 
 
 	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <E extends Exception, Y extends Exception> BooleanFunctionX<R, Y> handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
+	default <E extends Exception, Y extends Exception> BooleanFunctionX<R, Y> handleX(Class<E> exception, ExceptionHandler<E, Y> handler) {
 		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
@@ -258,7 +260,7 @@ public interface BooleanFunctionX<R, X extends Exception> extends MetaFunction, 
 
 	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
 	@Nonnull
-	default <Y extends Exception> BooleanFunctionX<R, Y> handle(ExceptionHandler<Exception, Y> handler) {
+	default <Y extends Exception> BooleanFunctionX<R, Y> handleX(ExceptionHandler<Exception, Y> handler) {
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
 		return BooleanFunctionX.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
@@ -266,7 +268,7 @@ public interface BooleanFunctionX<R, X extends Exception> extends MetaFunction, 
 
 	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
 	@Nonnull
-	default <E extends Exception, Y extends Exception> BooleanFunctionX<R, Y> handle(Class<E> exception, SupplierX<R, X> supplier) {
+	default <E extends Exception, Y extends Exception> BooleanFunctionX<R, Y> handleX(Class<E> exception, SupplierX<R, X> supplier) {
 		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
 		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
 
@@ -275,7 +277,7 @@ public interface BooleanFunctionX<R, X extends Exception> extends MetaFunction, 
 
 	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
 	@Nonnull
-	default <Y extends Exception> BooleanFunctionX<R, Y> handle(SupplierX<R, X> supplier) {
+	default <Y extends Exception> BooleanFunctionX<R, Y> handleX(SupplierX<R, X> supplier) {
 		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
 
 		return BooleanFunctionX.wrapException(this, Exception.class, supplier, null);

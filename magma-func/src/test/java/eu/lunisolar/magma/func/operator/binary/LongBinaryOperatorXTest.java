@@ -24,6 +24,9 @@ import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import java.util.Objects;// NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -362,7 +365,7 @@ public class LongBinaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testHandle() throws ParseException {
+    public void testHandleX() throws ParseException {
 
         // given
         LongBinaryOperatorX<X> sutThrowing = LongBinaryOperatorX.lX((long l1,long l2) -> {
@@ -370,7 +373,7 @@ public class LongBinaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        LongBinaryOperatorX<X> wrapped = sutThrowing.handle(UnsupportedOperationException.class, t -> {
+        LongBinaryOperatorX<X> wrapped = sutThrowing.handleX(UnsupportedOperationException.class, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -397,5 +400,13 @@ public class LongBinaryOperatorXTest<X extends ParseException> {
                 .isInstanceOf(String.class)
                 .contains("LongBinaryOperatorX: long applyAsLong(long l1,long l2) throws X");
     }
+
+
+    @Test
+    public void isThrowing() {
+        assertThat(sut.isThrowing())
+            .isTrue();
+    }
+
 
 }

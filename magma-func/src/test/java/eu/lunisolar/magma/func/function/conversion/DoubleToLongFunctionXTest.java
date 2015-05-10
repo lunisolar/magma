@@ -24,6 +24,9 @@ import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import java.util.Objects;// NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -595,7 +598,7 @@ public class DoubleToLongFunctionXTest<X extends ParseException> {
     }
 
     @Test
-    public void testHandle() throws ParseException {
+    public void testHandleX() throws ParseException {
 
         // given
         DoubleToLongFunctionX<X> sutThrowing = DoubleToLongFunctionX.lX((double d) -> {
@@ -603,7 +606,7 @@ public class DoubleToLongFunctionXTest<X extends ParseException> {
         });
 
         // when
-        DoubleToLongFunctionX<X> wrapped = sutThrowing.handle(UnsupportedOperationException.class, t -> {
+        DoubleToLongFunctionX<X> wrapped = sutThrowing.handleX(UnsupportedOperationException.class, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -630,5 +633,13 @@ public class DoubleToLongFunctionXTest<X extends ParseException> {
                 .isInstanceOf(String.class)
                 .contains("DoubleToLongFunctionX: long applyAsLong(double d) throws X");
     }
+
+
+    @Test
+    public void isThrowing() {
+        assertThat(sut.isThrowing())
+            .isTrue();
+    }
+
 
 }

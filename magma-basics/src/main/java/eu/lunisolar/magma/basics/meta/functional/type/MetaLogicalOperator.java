@@ -17,13 +17,9 @@
  * along with "lunisolar-magma".  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eu.lunisolar.magma.basics.meta.domains;
+package eu.lunisolar.magma.basics.meta.functional.type;
 
-/** Meta interface for Predicate interfaces. */
-public interface MetaPredicate extends MetaFunction {
-
-    @Override default boolean isPredicate() {
-        return true;
-    }
+/** Meta interface for logical operator interfaces. */
+public interface MetaLogicalOperator extends MetaOperator, MetaPredicate {
 
 }

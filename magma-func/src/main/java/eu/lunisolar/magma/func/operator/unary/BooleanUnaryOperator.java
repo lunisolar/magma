@@ -25,7 +25,9 @@ import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
-import eu.lunisolar.magma.basics.meta.domains.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -56,11 +58,11 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface BooleanUnaryOperator extends MetaLogicalOperator, PrimitiveCodomain<BooleanUnaryOperator> { // NOSONAR
+public interface BooleanUnaryOperator extends BooleanUnaryOperatorX<RuntimeException>, MetaLogicalOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
 	public static final String DESCRIPTION = "BooleanUnaryOperator: boolean applyAsBoolean(boolean b)";
 
-	public boolean applyAsBoolean(boolean b);
+	// Ovverriding methods can cause problems with inference.
 
 	/** For convinience boolean operator is also special case of predicate. */
 	default boolean test(boolean b) {
@@ -259,7 +261,7 @@ public interface BooleanUnaryOperator extends MetaLogicalOperator, PrimitiveCodo
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
 	default BooleanUnaryOperatorX<RuntimeException> uncheck() {
-		return this::applyAsBoolean;
+		return (BooleanUnaryOperatorX) this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */

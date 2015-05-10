@@ -25,7 +25,9 @@ import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
-import eu.lunisolar.magma.basics.meta.domains.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -56,7 +58,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface ShortToIntFunctionX<X extends Exception> extends MetaFunction, PrimitiveCodomain<ShortToIntFunctionX<X>>, MetaThrowingInterface<X> { // NOSONAR
+public interface ShortToIntFunctionX<X extends Exception> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
 	public static final String DESCRIPTION = "ShortToIntFunctionX: int applyAsInt(short s) throws X";
 
@@ -199,7 +201,7 @@ public interface ShortToIntFunctionX<X extends Exception> extends MetaFunction, 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
 	default ShortToIntFunctionX<RuntimeException> uncheck() {
-		return nonThrowing()::applyAsInt;
+		return (ShortToIntFunctionX) this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
@@ -233,7 +235,7 @@ public interface ShortToIntFunctionX<X extends Exception> extends MetaFunction, 
 
 	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <E extends Exception, Y extends Exception> ShortToIntFunctionX<Y> handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
+	default <E extends Exception, Y extends Exception> ShortToIntFunctionX<Y> handleX(Class<E> exception, ExceptionHandler<E, Y> handler) {
 		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
@@ -242,7 +244,7 @@ public interface ShortToIntFunctionX<X extends Exception> extends MetaFunction, 
 
 	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
 	@Nonnull
-	default <Y extends Exception> ShortToIntFunctionX<Y> handle(ExceptionHandler<Exception, Y> handler) {
+	default <Y extends Exception> ShortToIntFunctionX<Y> handleX(ExceptionHandler<Exception, Y> handler) {
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
 		return ShortToIntFunctionX.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
@@ -250,7 +252,7 @@ public interface ShortToIntFunctionX<X extends Exception> extends MetaFunction, 
 
 	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
 	@Nonnull
-	default <E extends Exception, Y extends Exception> ShortToIntFunctionX<Y> handle(Class<E> exception, IntSupplierX<X> supplier) {
+	default <E extends Exception, Y extends Exception> ShortToIntFunctionX<Y> handleX(Class<E> exception, IntSupplierX<X> supplier) {
 		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
 		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
 
@@ -259,7 +261,7 @@ public interface ShortToIntFunctionX<X extends Exception> extends MetaFunction, 
 
 	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
 	@Nonnull
-	default <Y extends Exception> ShortToIntFunctionX<Y> handle(IntSupplierX<X> supplier) {
+	default <Y extends Exception> ShortToIntFunctionX<Y> handleX(IntSupplierX<X> supplier) {
 		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
 
 		return ShortToIntFunctionX.wrapException(this, Exception.class, supplier, null);

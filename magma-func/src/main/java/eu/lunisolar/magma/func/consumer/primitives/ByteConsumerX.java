@@ -25,7 +25,9 @@ import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
-import eu.lunisolar.magma.basics.meta.domains.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
@@ -57,7 +59,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface ByteConsumerX<X extends Exception> extends MetaConsumer, MetaThrowingInterface<X> {
+public interface ByteConsumerX<X extends Exception> extends MetaConsumer, MetaInterface.Throwing<X> {
 
 	public static final String DESCRIPTION = "ByteConsumerX: void accept(byte b) throws X";
 
@@ -137,7 +139,7 @@ public interface ByteConsumerX<X extends Exception> extends MetaConsumer, MetaTh
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
 	default ByteConsumerX<RuntimeException> uncheck() {
-		return nonThrowing()::accept;
+		return (ByteConsumerX) this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
@@ -164,7 +166,7 @@ public interface ByteConsumerX<X extends Exception> extends MetaConsumer, MetaTh
 
 	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <E extends Exception, Y extends Exception> ByteConsumerX<Y> handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
+	default <E extends Exception, Y extends Exception> ByteConsumerX<Y> handleX(Class<E> exception, ExceptionHandler<E, Y> handler) {
 		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
@@ -173,7 +175,7 @@ public interface ByteConsumerX<X extends Exception> extends MetaConsumer, MetaTh
 
 	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
 	@Nonnull
-	default <Y extends Exception> ByteConsumerX<Y> handle(ExceptionHandler<Exception, Y> handler) {
+	default <Y extends Exception> ByteConsumerX<Y> handleX(ExceptionHandler<Exception, Y> handler) {
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
 		return ByteConsumerX.wrapException(this, Exception.class, (ExceptionHandler) handler);

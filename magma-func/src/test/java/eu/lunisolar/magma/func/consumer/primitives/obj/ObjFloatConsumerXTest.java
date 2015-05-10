@@ -24,6 +24,9 @@ import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import java.util.Objects;// NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -288,7 +291,7 @@ public class ObjFloatConsumerXTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testHandle() throws ParseException {
+    public void testHandleX() throws ParseException {
 
         // given
         ObjFloatConsumerX<T,X> sutThrowing = ObjFloatConsumerX.lX((T t, float f) -> {
@@ -296,7 +299,7 @@ public class ObjFloatConsumerXTest<T,X extends ParseException> {
         });
 
         // when
-        ObjFloatConsumerX<T,X> wrapped = sutThrowing.handle(UnsupportedOperationException.class, t -> {
+        ObjFloatConsumerX<T,X> wrapped = sutThrowing.handleX(UnsupportedOperationException.class, t -> {
             throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
         });
 
@@ -323,5 +326,13 @@ public class ObjFloatConsumerXTest<T,X extends ParseException> {
                 .isInstanceOf(String.class)
                 .contains("ObjFloatConsumerX: void accept(T t, float f) throws X");
     }
+
+
+    @Test
+    public void isThrowing() {
+        assertThat(sut.isThrowing())
+            .isTrue();
+    }
+
 
 }

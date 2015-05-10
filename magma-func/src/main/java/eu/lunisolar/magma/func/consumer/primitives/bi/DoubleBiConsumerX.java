@@ -25,7 +25,9 @@ import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
-import eu.lunisolar.magma.basics.meta.domains.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
@@ -57,7 +59,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface DoubleBiConsumerX<X extends Exception> extends MetaConsumer, MetaThrowingInterface<X> {
+public interface DoubleBiConsumerX<X extends Exception> extends MetaConsumer, MetaInterface.Throwing<X> {
 
 	public static final String DESCRIPTION = "DoubleBiConsumerX: void accept(double d1,double d2) throws X";
 
@@ -139,7 +141,7 @@ public interface DoubleBiConsumerX<X extends Exception> extends MetaConsumer, Me
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
 	default DoubleBiConsumerX<RuntimeException> uncheck() {
-		return nonThrowing()::accept;
+		return (DoubleBiConsumerX) this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
@@ -166,7 +168,7 @@ public interface DoubleBiConsumerX<X extends Exception> extends MetaConsumer, Me
 
 	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <E extends Exception, Y extends Exception> DoubleBiConsumerX<Y> handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
+	default <E extends Exception, Y extends Exception> DoubleBiConsumerX<Y> handleX(Class<E> exception, ExceptionHandler<E, Y> handler) {
 		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
@@ -175,7 +177,7 @@ public interface DoubleBiConsumerX<X extends Exception> extends MetaConsumer, Me
 
 	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
 	@Nonnull
-	default <Y extends Exception> DoubleBiConsumerX<Y> handle(ExceptionHandler<Exception, Y> handler) {
+	default <Y extends Exception> DoubleBiConsumerX<Y> handleX(ExceptionHandler<Exception, Y> handler) {
 		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
 
 		return DoubleBiConsumerX.wrapException(this, Exception.class, (ExceptionHandler) handler);

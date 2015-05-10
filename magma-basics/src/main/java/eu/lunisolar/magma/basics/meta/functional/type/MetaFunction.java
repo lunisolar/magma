@@ -17,14 +17,16 @@
  * along with "lunisolar-magma".  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eu.lunisolar.magma.basics.meta.domains;
+package eu.lunisolar.magma.basics.meta.functional.type;
 
-import eu.lunisolar.magma.basics.meta.FunctionalMetaInterface;
+import eu.lunisolar.magma.basics.meta.functional.MetaFunctionalInterface;
+import eu.lunisolar.magma.basics.meta.functional.domain.Codomain;
+import eu.lunisolar.magma.basics.meta.functional.domain.Domain;
 
-/** Meta interface for Action interfaces. */
-public interface MetaAction extends FunctionalMetaInterface {
+/** Meta interface for Function interfaces. */
+public interface MetaFunction extends MetaFunctionalInterface, Domain, Codomain {
 
-    @Override default boolean isAction() {
+    @Override default boolean isFunction() {
         return true;
     }
 

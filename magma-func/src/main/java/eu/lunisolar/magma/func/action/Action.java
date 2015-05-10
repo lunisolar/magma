@@ -25,7 +25,9 @@ import java.util.function.Predicate; //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
-import eu.lunisolar.magma.basics.meta.domains.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.consumer.*; // NOSONAR
 import eu.lunisolar.magma.func.function.*; // NOSONAR
 import eu.lunisolar.magma.func.supplier.*; // NOSONAR
@@ -49,7 +51,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface Action extends java.lang.Runnable, MetaAction {
+public interface Action extends Runnable, ActionX<RuntimeException>, MetaAction, MetaInterface.NonThrowing {
 
 	public static final String DESCRIPTION = "Action: void execute()";
 
@@ -124,7 +126,7 @@ public interface Action extends java.lang.Runnable, MetaAction {
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
 	default ActionX<RuntimeException> uncheck() {
-		return this::execute;
+		return (ActionX) this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */

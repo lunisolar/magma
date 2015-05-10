@@ -25,7 +25,9 @@ import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
-import eu.lunisolar.magma.basics.meta.domains.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
+import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
@@ -56,7 +58,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface BinaryOperator<T> extends java.util.function.BinaryOperator<T>, BiFunction<T, T, T>, MetaOperator { // NOSONAR
+public interface BinaryOperator<T> extends java.util.function.BinaryOperator<T>, BiFunction<T, T, T>, BinaryOperatorX<T, RuntimeException>, MetaOperator, MetaInterface.NonThrowing { // NOSONAR
 
 	public static final String DESCRIPTION = "BinaryOperator: T apply(T t1,T t2)";
 
@@ -163,7 +165,7 @@ public interface BinaryOperator<T> extends java.util.function.BinaryOperator<T>,
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
 	default BinaryOperatorX<T, RuntimeException> uncheck() {
-		return this::apply;
+		return (BinaryOperatorX) this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
