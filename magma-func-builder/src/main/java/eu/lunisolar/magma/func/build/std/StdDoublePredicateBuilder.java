@@ -28,6 +28,7 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import java.util.function.Consumer;
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -45,7 +46,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for java.util.function.DoublePredicate. */
-public final class StdDoublePredicateBuilder extends PerCaseBuilderWithBooleanProduct.Base<StdDoublePredicateBuilder, DoublePredicate, java.util.function.DoublePredicate> {
+public final class StdDoublePredicateBuilder extends PerCaseBuilderWithBooleanProduct.Base<StdDoublePredicateBuilder, LDoublePredicate, java.util.function.DoublePredicate> {
 
 	private Consumer<java.util.function.DoublePredicate> consumer;
 
@@ -61,7 +62,7 @@ public final class StdDoublePredicateBuilder extends PerCaseBuilderWithBooleanPr
 		});
 
 	public StdDoublePredicateBuilder(@Nullable Consumer<java.util.function.DoublePredicate> consumer) {
-		super(EVENTUALLY_THROW, DoublePredicate::constant);
+		super(EVENTUALLY_THROW, LDoublePredicate::constant);
 
 		this.consumer = consumer;
 	}
@@ -94,9 +95,9 @@ public final class StdDoublePredicateBuilder extends PerCaseBuilderWithBooleanPr
 		if (cases.isEmpty()) {
 			retval = eventuallyFinal;
 		} else {
-			final Case<DoublePredicate, java.util.function.DoublePredicate>[] casesArray = cases.toArray(new Case[cases.size()]);
+			final Case<LDoublePredicate, java.util.function.DoublePredicate>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = Function4U.l((double d) -> {
-				for (Case<DoublePredicate, java.util.function.DoublePredicate> aCase : casesArray) {
+				for (Case<LDoublePredicate, java.util.function.DoublePredicate> aCase : casesArray) {
 					if (aCase.casePredicate().test(d)) {
 						return aCase.caseFunction().test(d);
 					}

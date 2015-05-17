@@ -27,7 +27,7 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.func.action.Action;
+import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
@@ -38,7 +38,7 @@ public interface StdDoubleSupplierAssert<S extends StdDoubleSupplierAssert<S, A,
 	Evaluation<S, A, RS, Double, Exception> doesGetAsDouble();
 
 	@Nonnull
-	Evaluation<S, A, RS, Double, Exception> doesGetAsDouble(Action before);
+	Evaluation<S, A, RS, Double, Exception> doesGetAsDouble(LAction before);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends java.util.function.DoubleSupplier, RS extends AbstractDoubleAssert<RS>> extends Base<Impl<A, RS>, A, RS> {
@@ -70,7 +70,7 @@ public interface StdDoubleSupplierAssert<S extends StdDoubleSupplierAssert<S, A,
 		}
 
 		@Nonnull
-		public Evaluation<S, A, RS, Double, Exception> doesGetAsDouble(Action before) {
+		public Evaluation<S, A, RS, Double, Exception> doesGetAsDouble(LAction before) {
 			before.execute();
 			return doesGetAsDouble();
 		}

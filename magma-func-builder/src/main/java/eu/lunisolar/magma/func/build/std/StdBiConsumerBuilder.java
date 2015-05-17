@@ -28,6 +28,7 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import java.util.function.Consumer;
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -45,7 +46,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for java.util.function.BiConsumer. */
-public final class StdBiConsumerBuilder<T1, T2> extends PerCaseBuilder.Base<StdBiConsumerBuilder<T1, T2>, BiPredicate<T1, T2>, java.util.function.BiConsumer<T1, T2>> {
+public final class StdBiConsumerBuilder<T1, T2> extends PerCaseBuilder.Base<StdBiConsumerBuilder<T1, T2>, LBiPredicate<T1, T2>, java.util.function.BiConsumer<T1, T2>> {
 
 	private Consumer<java.util.function.BiConsumer<T1, T2>> consumer;
 
@@ -94,9 +95,9 @@ public final class StdBiConsumerBuilder<T1, T2> extends PerCaseBuilder.Base<StdB
 		if (cases.isEmpty()) {
 			retval = eventuallyFinal;
 		} else {
-			final Case<BiPredicate<T1, T2>, java.util.function.BiConsumer<T1, T2>>[] casesArray = cases.toArray(new Case[cases.size()]);
+			final Case<LBiPredicate<T1, T2>, java.util.function.BiConsumer<T1, T2>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = Function4U.l((T1 t1, T2 t2) -> {
-				for (Case<BiPredicate<T1, T2>, java.util.function.BiConsumer<T1, T2>> aCase : casesArray) {
+				for (Case<LBiPredicate<T1, T2>, java.util.function.BiConsumer<T1, T2>> aCase : casesArray) {
 					if (aCase.casePredicate().test(t1, t2)) {
 						aCase.caseFunction().accept(t1, t2);
 						return;

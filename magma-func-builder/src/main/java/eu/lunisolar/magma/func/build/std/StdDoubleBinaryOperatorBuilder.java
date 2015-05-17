@@ -28,6 +28,7 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import java.util.function.Consumer;
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -45,7 +46,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for java.util.function.DoubleBinaryOperator. */
-public final class StdDoubleBinaryOperatorBuilder extends PerCaseBuilderWithDoubleProduct.Base<StdDoubleBinaryOperatorBuilder, BiDoublePredicate, java.util.function.DoubleBinaryOperator> {
+public final class StdDoubleBinaryOperatorBuilder extends PerCaseBuilderWithDoubleProduct.Base<StdDoubleBinaryOperatorBuilder, LBiDoublePredicate, java.util.function.DoubleBinaryOperator> {
 
 	private Consumer<java.util.function.DoubleBinaryOperator> consumer;
 
@@ -61,7 +62,7 @@ public final class StdDoubleBinaryOperatorBuilder extends PerCaseBuilderWithDoub
 		});
 
 	public StdDoubleBinaryOperatorBuilder(@Nullable Consumer<java.util.function.DoubleBinaryOperator> consumer) {
-		super(EVENTUALLY_THROW, DoubleBinaryOperator::constant);
+		super(EVENTUALLY_THROW, LDoubleBinaryOperator::constant);
 
 		this.consumer = consumer;
 	}
@@ -94,9 +95,9 @@ public final class StdDoubleBinaryOperatorBuilder extends PerCaseBuilderWithDoub
 		if (cases.isEmpty()) {
 			retval = eventuallyFinal;
 		} else {
-			final Case<BiDoublePredicate, java.util.function.DoubleBinaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
+			final Case<LBiDoublePredicate, java.util.function.DoubleBinaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = Function4U.l((double d1, double d2) -> {
-				for (Case<BiDoublePredicate, java.util.function.DoubleBinaryOperator> aCase : casesArray) {
+				for (Case<LBiDoublePredicate, java.util.function.DoubleBinaryOperator> aCase : casesArray) {
 					if (aCase.casePredicate().test(d1, d2)) {
 						return aCase.caseFunction().applyAsDouble(d1, d2);
 					}

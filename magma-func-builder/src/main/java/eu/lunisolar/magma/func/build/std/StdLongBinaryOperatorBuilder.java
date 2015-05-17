@@ -28,6 +28,7 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import java.util.function.Consumer;
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -45,7 +46,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for java.util.function.LongBinaryOperator. */
-public final class StdLongBinaryOperatorBuilder extends PerCaseBuilderWithLongProduct.Base<StdLongBinaryOperatorBuilder, BiLongPredicate, java.util.function.LongBinaryOperator> {
+public final class StdLongBinaryOperatorBuilder extends PerCaseBuilderWithLongProduct.Base<StdLongBinaryOperatorBuilder, LBiLongPredicate, java.util.function.LongBinaryOperator> {
 
 	private Consumer<java.util.function.LongBinaryOperator> consumer;
 
@@ -61,7 +62,7 @@ public final class StdLongBinaryOperatorBuilder extends PerCaseBuilderWithLongPr
 		});
 
 	public StdLongBinaryOperatorBuilder(@Nullable Consumer<java.util.function.LongBinaryOperator> consumer) {
-		super(EVENTUALLY_THROW, LongBinaryOperator::constant);
+		super(EVENTUALLY_THROW, LLongBinaryOperator::constant);
 
 		this.consumer = consumer;
 	}
@@ -94,9 +95,9 @@ public final class StdLongBinaryOperatorBuilder extends PerCaseBuilderWithLongPr
 		if (cases.isEmpty()) {
 			retval = eventuallyFinal;
 		} else {
-			final Case<BiLongPredicate, java.util.function.LongBinaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
+			final Case<LBiLongPredicate, java.util.function.LongBinaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = Function4U.l((long l1, long l2) -> {
-				for (Case<BiLongPredicate, java.util.function.LongBinaryOperator> aCase : casesArray) {
+				for (Case<LBiLongPredicate, java.util.function.LongBinaryOperator> aCase : casesArray) {
 					if (aCase.casePredicate().test(l1, l2)) {
 						return aCase.caseFunction().applyAsLong(l1, l2);
 					}

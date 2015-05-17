@@ -27,7 +27,7 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.func.action.Action;
+import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
@@ -38,7 +38,7 @@ public interface StdSupplierAssert<S extends StdSupplierAssert<S, A, RS, R>, A e
 	Evaluation<S, A, RS, R, Exception> doesGet();
 
 	@Nonnull
-	Evaluation<S, A, RS, R, Exception> doesGet(Action before);
+	Evaluation<S, A, RS, R, Exception> doesGet(LAction before);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends java.util.function.Supplier<R>, RS extends Assert<RS, R>, R> extends Base<Impl<A, RS, R>, A, RS, R> {
@@ -70,7 +70,7 @@ public interface StdSupplierAssert<S extends StdSupplierAssert<S, A, RS, R>, A e
 		}
 
 		@Nonnull
-		public Evaluation<S, A, RS, R, Exception> doesGet(Action before) {
+		public Evaluation<S, A, RS, R, Exception> doesGet(LAction before) {
 			before.execute();
 			return doesGet();
 		}

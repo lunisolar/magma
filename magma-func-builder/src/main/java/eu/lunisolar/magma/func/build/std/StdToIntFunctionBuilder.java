@@ -28,6 +28,7 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import java.util.function.Consumer;
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -45,7 +46,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for java.util.function.ToIntFunction. */
-public final class StdToIntFunctionBuilder<T> extends PerCaseBuilderWithIntProduct.Base<StdToIntFunctionBuilder<T>, Predicate<T>, java.util.function.ToIntFunction<T>> {
+public final class StdToIntFunctionBuilder<T> extends PerCaseBuilderWithIntProduct.Base<StdToIntFunctionBuilder<T>, LPredicate<T>, java.util.function.ToIntFunction<T>> {
 
 	private Consumer<java.util.function.ToIntFunction<T>> consumer;
 
@@ -61,7 +62,7 @@ public final class StdToIntFunctionBuilder<T> extends PerCaseBuilderWithIntProdu
 		});
 
 	public StdToIntFunctionBuilder(@Nullable Consumer<java.util.function.ToIntFunction<T>> consumer) {
-		super(EVENTUALLY_THROW, ToIntFunction::constant);
+		super(EVENTUALLY_THROW, LToIntFunction::constant);
 
 		this.consumer = consumer;
 	}
@@ -94,9 +95,9 @@ public final class StdToIntFunctionBuilder<T> extends PerCaseBuilderWithIntProdu
 		if (cases.isEmpty()) {
 			retval = eventuallyFinal;
 		} else {
-			final Case<Predicate<T>, java.util.function.ToIntFunction<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
+			final Case<LPredicate<T>, java.util.function.ToIntFunction<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = Function4U.l((T t) -> {
-				for (Case<Predicate<T>, java.util.function.ToIntFunction<T>> aCase : casesArray) {
+				for (Case<LPredicate<T>, java.util.function.ToIntFunction<T>> aCase : casesArray) {
 					if (aCase.casePredicate().test(t)) {
 						return aCase.caseFunction().applyAsInt(t);
 					}

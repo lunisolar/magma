@@ -20,13 +20,13 @@
 package eu.lunisolar.magma.examples;
 
 import eu.lunisolar.magma.basics.NestedException;
-import eu.lunisolar.magma.func.predicate.PredicateX;
+import eu.lunisolar.magma.func.predicate.LPredicateX;
 import org.assertj.core.util.Lists;
 import org.testng.annotations.Test;
 
 import java.util.*;
 
-import static eu.lunisolar.magma.func.predicate.Predicate.wrap;
+import static eu.lunisolar.magma.func.predicate.LPredicate.wrap;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class Example1Test {
@@ -58,8 +58,8 @@ public class Example1Test {
     @Test
     public void standardPredicateWithExceptionWrapping_long() {
 
-        eu.lunisolar.magma.func.predicate.PredicateX<Integer, CheckedException> predicateX = i -> potentiallyThrowing(i) != null;
-        eu.lunisolar.magma.func.predicate.Predicate<Integer> predicate = eu.lunisolar.magma.func.predicate.Predicate.wrap(predicateX);
+        eu.lunisolar.magma.func.predicate.LPredicateX<Integer, CheckedException> predicateX = i -> potentiallyThrowing(i) != null;
+        eu.lunisolar.magma.func.predicate.LPredicate<Integer> predicate = eu.lunisolar.magma.func.predicate.LPredicate.wrap(predicateX);
         java.util.function.Predicate<Integer> predicateStd = predicate;
         long result = integerList.stream().filter(predicateStd).count();
 
@@ -77,16 +77,16 @@ public class Example1Test {
     @Test
     public void standardPredicateWithExceptionWrapping_short2() {
 
-        PredicateX<Integer, CheckedException> predicateX = i -> potentiallyThrowing(i) != null;
+        LPredicateX<Integer, CheckedException> predicateX = i -> potentiallyThrowing(i) != null;
 
         long result = integerList.stream().filter(predicateX.nonThrowing()).count();
 
         assertThat(result).isEqualTo(10);
     }
 
-    public static PredicateX<Integer, CheckedException> example(java.util.function.Predicate<Integer> predicateStd) {
+    public static LPredicateX<Integer, CheckedException> example(java.util.function.Predicate<Integer> predicateStd) {
 
-        return PredicateX.wrapStd(predicateStd);
+        return LPredicateX.wrapStd(predicateStd);
 
     }
 

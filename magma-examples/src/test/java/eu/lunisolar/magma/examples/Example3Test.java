@@ -21,20 +21,17 @@ package eu.lunisolar.magma.examples;
 
 import eu.lunisolar.magma.basics.NestedException;
 import eu.lunisolar.magma.func.asserts.DefaultFunctionalAssertions;
-import eu.lunisolar.magma.func.asserts.FunctionalAssertions;
-import eu.lunisolar.magma.func.function.Function;
-import eu.lunisolar.magma.func.function.FunctionX;
+import eu.lunisolar.magma.func.function.LFunction;
+import eu.lunisolar.magma.func.function.LFunctionX;
 import org.assertj.core.api.ObjectAssert;
 import org.testng.annotations.Test;
-
-import java.text.*;
 
 public class Example3Test {
 
     public static final DefaultFunctionalAssertions<ObjectAssert> then = new DefaultFunctionalAssertions() {
     };
 
-    public static final FunctionX<Integer, Integer, CheckedException> throwingAlways = FunctionX.lX(Example3Test::throwingAlways);
+    public static final LFunctionX<Integer, Integer, CheckedException> throwingAlways = LFunctionX.lX(Example3Test::throwingAlways);
 
     public static Integer potentiallyThrowing(Integer i) throws CheckedException {
         return i;
@@ -52,21 +49,21 @@ public class Example3Test {
     }
 
     @Test(expectedExceptions = NestedException.class)
-    public Function<Integer, Integer> example2() {
+    public LFunction<Integer, Integer> example2() {
         throwingAlways.nonThrowing().apply(0);
 
         return throwingAlways.nonThrowing();
     }
 
     @Test(expectedExceptions = NestedException.class)
-    public FunctionX<Integer, Integer, RuntimeException> example3() {
+    public LFunctionX<Integer, Integer, RuntimeException> example3() {
         throwingAlways.uncheck().apply(0);
 
         return throwingAlways.uncheck();
     }
 
     @Test(expectedExceptions = CheckedException.class)
-    public Function<Integer, Integer> example_dirty() {
+    public LFunction<Integer, Integer> example_dirty() {
         throwingAlways.shove().apply(0);
 
         return throwingAlways.shove();

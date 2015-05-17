@@ -27,7 +27,7 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
-import eu.lunisolar.magma.func.action.Action;
+import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
@@ -38,7 +38,7 @@ public interface StdIntSupplierAssert<S extends StdIntSupplierAssert<S, A, RS>, 
 	Evaluation<S, A, RS, Integer, Exception> doesGetAsInt();
 
 	@Nonnull
-	Evaluation<S, A, RS, Integer, Exception> doesGetAsInt(Action before);
+	Evaluation<S, A, RS, Integer, Exception> doesGetAsInt(LAction before);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends java.util.function.IntSupplier, RS extends AbstractIntegerAssert<RS>> extends Base<Impl<A, RS>, A, RS> {
@@ -70,7 +70,7 @@ public interface StdIntSupplierAssert<S extends StdIntSupplierAssert<S, A, RS>, 
 		}
 
 		@Nonnull
-		public Evaluation<S, A, RS, Integer, Exception> doesGetAsInt(Action before) {
+		public Evaluation<S, A, RS, Integer, Exception> doesGetAsInt(LAction before) {
 			before.execute();
 			return doesGetAsInt();
 		}

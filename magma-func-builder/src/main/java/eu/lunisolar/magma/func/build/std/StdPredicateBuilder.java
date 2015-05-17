@@ -28,6 +28,7 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import java.util.function.Consumer;
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -45,7 +46,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for java.util.function.Predicate. */
-public final class StdPredicateBuilder<T> extends PerCaseBuilderWithBooleanProduct.Base<StdPredicateBuilder<T>, Predicate<T>, java.util.function.Predicate<T>> {
+public final class StdPredicateBuilder<T> extends PerCaseBuilderWithBooleanProduct.Base<StdPredicateBuilder<T>, LPredicate<T>, java.util.function.Predicate<T>> {
 
 	private Consumer<java.util.function.Predicate<T>> consumer;
 
@@ -61,7 +62,7 @@ public final class StdPredicateBuilder<T> extends PerCaseBuilderWithBooleanProdu
 		});
 
 	public StdPredicateBuilder(@Nullable Consumer<java.util.function.Predicate<T>> consumer) {
-		super(EVENTUALLY_THROW, Predicate::constant);
+		super(EVENTUALLY_THROW, LPredicate::constant);
 
 		this.consumer = consumer;
 	}
@@ -94,9 +95,9 @@ public final class StdPredicateBuilder<T> extends PerCaseBuilderWithBooleanProdu
 		if (cases.isEmpty()) {
 			retval = eventuallyFinal;
 		} else {
-			final Case<Predicate<T>, java.util.function.Predicate<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
+			final Case<LPredicate<T>, java.util.function.Predicate<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = Function4U.l((T t) -> {
-				for (Case<Predicate<T>, java.util.function.Predicate<T>> aCase : casesArray) {
+				for (Case<LPredicate<T>, java.util.function.Predicate<T>> aCase : casesArray) {
 					if (aCase.casePredicate().test(t)) {
 						return aCase.caseFunction().test(t);
 					}

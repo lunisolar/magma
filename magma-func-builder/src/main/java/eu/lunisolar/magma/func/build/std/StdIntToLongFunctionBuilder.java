@@ -28,6 +28,7 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import java.util.function.Consumer;
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -45,7 +46,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for java.util.function.IntToLongFunction. */
-public final class StdIntToLongFunctionBuilder extends PerCaseBuilderWithLongProduct.Base<StdIntToLongFunctionBuilder, IntPredicate, java.util.function.IntToLongFunction> {
+public final class StdIntToLongFunctionBuilder extends PerCaseBuilderWithLongProduct.Base<StdIntToLongFunctionBuilder, LIntPredicate, java.util.function.IntToLongFunction> {
 
 	private Consumer<java.util.function.IntToLongFunction> consumer;
 
@@ -61,7 +62,7 @@ public final class StdIntToLongFunctionBuilder extends PerCaseBuilderWithLongPro
 		});
 
 	public StdIntToLongFunctionBuilder(@Nullable Consumer<java.util.function.IntToLongFunction> consumer) {
-		super(EVENTUALLY_THROW, IntToLongFunction::constant);
+		super(EVENTUALLY_THROW, LIntToLongFunction::constant);
 
 		this.consumer = consumer;
 	}
@@ -94,9 +95,9 @@ public final class StdIntToLongFunctionBuilder extends PerCaseBuilderWithLongPro
 		if (cases.isEmpty()) {
 			retval = eventuallyFinal;
 		} else {
-			final Case<IntPredicate, java.util.function.IntToLongFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
+			final Case<LIntPredicate, java.util.function.IntToLongFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = Function4U.l((int i) -> {
-				for (Case<IntPredicate, java.util.function.IntToLongFunction> aCase : casesArray) {
+				for (Case<LIntPredicate, java.util.function.IntToLongFunction> aCase : casesArray) {
 					if (aCase.casePredicate().test(i)) {
 						return aCase.caseFunction().applyAsLong(i);
 					}

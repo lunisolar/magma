@@ -58,9 +58,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("unchecked")
 public abstract class PerCaseBuilderWithIntProduct<PCB extends PerCaseBuilderWithIntProduct<PCB, P, F, PC>, P, F, PC extends PartialCaseWithIntProduct<PC, PCB, P, F>> extends PerCaseBuilder<PCB, P, F, PC> {
 
-	protected @Nonnull final IntFunction<F> directToFunction;
+	protected @Nonnull final LIntFunction<F> directToFunction;
 
-	protected PerCaseBuilderWithIntProduct(@Nonnull F eventually, @Nonnull IntFunction<F> directToFunction) {
+	protected PerCaseBuilderWithIntProduct(@Nonnull F eventually, @Nonnull LIntFunction<F> directToFunction) {
 		super(eventually);
 		this.directToFunction = directToFunction;
 	}
@@ -80,7 +80,7 @@ public abstract class PerCaseBuilderWithIntProduct<PCB extends PerCaseBuilderWit
 	}
 
 	public static class Base<SELF extends Base<SELF, P, F>, P, F> extends PerCaseBuilderWithIntProduct<SELF, P, F, PartialCaseWithIntProduct.The<SELF, P, F>> {
-		protected Base(@Nonnull F eventually, @Nonnull IntFunction<F> directToFunction) {
+		protected Base(@Nonnull F eventually, @Nonnull LIntFunction<F> directToFunction) {
 			super(eventually, directToFunction);
 		}
 

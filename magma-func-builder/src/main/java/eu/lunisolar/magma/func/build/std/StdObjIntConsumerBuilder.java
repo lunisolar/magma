@@ -28,6 +28,7 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import java.util.function.Consumer;
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -45,7 +46,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for java.util.function.ObjIntConsumer. */
-public final class StdObjIntConsumerBuilder<T> extends PerCaseBuilder.Base<StdObjIntConsumerBuilder<T>, ObjIntPredicate<T>, java.util.function.ObjIntConsumer<T>> {
+public final class StdObjIntConsumerBuilder<T> extends PerCaseBuilder.Base<StdObjIntConsumerBuilder<T>, LObjIntPredicate<T>, java.util.function.ObjIntConsumer<T>> {
 
 	private Consumer<java.util.function.ObjIntConsumer<T>> consumer;
 
@@ -94,9 +95,9 @@ public final class StdObjIntConsumerBuilder<T> extends PerCaseBuilder.Base<StdOb
 		if (cases.isEmpty()) {
 			retval = eventuallyFinal;
 		} else {
-			final Case<ObjIntPredicate<T>, java.util.function.ObjIntConsumer<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
+			final Case<LObjIntPredicate<T>, java.util.function.ObjIntConsumer<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = Function4U.l((T t, int i) -> {
-				for (Case<ObjIntPredicate<T>, java.util.function.ObjIntConsumer<T>> aCase : casesArray) {
+				for (Case<LObjIntPredicate<T>, java.util.function.ObjIntConsumer<T>> aCase : casesArray) {
 					if (aCase.casePredicate().test(t, i)) {
 						aCase.caseFunction().accept(t, i);
 						return;

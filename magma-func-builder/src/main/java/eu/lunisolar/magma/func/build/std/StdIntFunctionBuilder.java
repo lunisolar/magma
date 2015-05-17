@@ -28,6 +28,7 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import java.util.function.Consumer;
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -45,7 +46,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for java.util.function.IntFunction. */
-public final class StdIntFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base<StdIntFunctionBuilder<R>, IntPredicate, java.util.function.IntFunction<R>, R> {
+public final class StdIntFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base<StdIntFunctionBuilder<R>, LIntPredicate, java.util.function.IntFunction<R>, R> {
 
 	private Consumer<java.util.function.IntFunction<R>> consumer;
 
@@ -61,7 +62,7 @@ public final class StdIntFunctionBuilder<R> extends PerCaseBuilderWithProduct.Ba
 		});
 
 	public StdIntFunctionBuilder(@Nullable Consumer<java.util.function.IntFunction<R>> consumer) {
-		super(EVENTUALLY_THROW, IntFunction::constant);
+		super(EVENTUALLY_THROW, LIntFunction::constant);
 
 		this.consumer = consumer;
 	}
@@ -94,9 +95,9 @@ public final class StdIntFunctionBuilder<R> extends PerCaseBuilderWithProduct.Ba
 		if (cases.isEmpty()) {
 			retval = eventuallyFinal;
 		} else {
-			final Case<IntPredicate, java.util.function.IntFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
+			final Case<LIntPredicate, java.util.function.IntFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = Function4U.l((int i) -> {
-				for (Case<IntPredicate, java.util.function.IntFunction<R>> aCase : casesArray) {
+				for (Case<LIntPredicate, java.util.function.IntFunction<R>> aCase : casesArray) {
 					if (aCase.casePredicate().test(i)) {
 						return aCase.caseFunction().apply(i);
 					}

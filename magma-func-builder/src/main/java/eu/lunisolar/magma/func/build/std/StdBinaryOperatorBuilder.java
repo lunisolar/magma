@@ -28,6 +28,7 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import java.util.function.Consumer;
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -45,7 +46,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for java.util.function.BinaryOperator. */
-public final class StdBinaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Base<StdBinaryOperatorBuilder<T>, BiPredicate<T, T>, java.util.function.BinaryOperator<T>, T> {
+public final class StdBinaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Base<StdBinaryOperatorBuilder<T>, LBiPredicate<T, T>, java.util.function.BinaryOperator<T>, T> {
 
 	private Consumer<java.util.function.BinaryOperator<T>> consumer;
 
@@ -61,7 +62,7 @@ public final class StdBinaryOperatorBuilder<T> extends PerCaseBuilderWithProduct
 		});
 
 	public StdBinaryOperatorBuilder(@Nullable Consumer<java.util.function.BinaryOperator<T>> consumer) {
-		super(EVENTUALLY_THROW, BinaryOperator::constant);
+		super(EVENTUALLY_THROW, LBinaryOperator::constant);
 
 		this.consumer = consumer;
 	}
@@ -94,9 +95,9 @@ public final class StdBinaryOperatorBuilder<T> extends PerCaseBuilderWithProduct
 		if (cases.isEmpty()) {
 			retval = eventuallyFinal;
 		} else {
-			final Case<BiPredicate<T, T>, java.util.function.BinaryOperator<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
+			final Case<LBiPredicate<T, T>, java.util.function.BinaryOperator<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = Function4U.l((T t1, T t2) -> {
-				for (Case<BiPredicate<T, T>, java.util.function.BinaryOperator<T>> aCase : casesArray) {
+				for (Case<LBiPredicate<T, T>, java.util.function.BinaryOperator<T>> aCase : casesArray) {
 					if (aCase.casePredicate().test(t1, t2)) {
 						return aCase.caseFunction().apply(t1, t2);
 					}

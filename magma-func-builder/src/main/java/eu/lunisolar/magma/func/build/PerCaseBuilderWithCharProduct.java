@@ -58,9 +58,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("unchecked")
 public abstract class PerCaseBuilderWithCharProduct<PCB extends PerCaseBuilderWithCharProduct<PCB, P, F, PC>, P, F, PC extends PartialCaseWithCharProduct<PC, PCB, P, F>> extends PerCaseBuilder<PCB, P, F, PC> {
 
-	protected @Nonnull final CharFunction<F> directToFunction;
+	protected @Nonnull final LCharFunction<F> directToFunction;
 
-	protected PerCaseBuilderWithCharProduct(@Nonnull F eventually, @Nonnull CharFunction<F> directToFunction) {
+	protected PerCaseBuilderWithCharProduct(@Nonnull F eventually, @Nonnull LCharFunction<F> directToFunction) {
 		super(eventually);
 		this.directToFunction = directToFunction;
 	}
@@ -80,7 +80,7 @@ public abstract class PerCaseBuilderWithCharProduct<PCB extends PerCaseBuilderWi
 	}
 
 	public static class Base<SELF extends Base<SELF, P, F>, P, F> extends PerCaseBuilderWithCharProduct<SELF, P, F, PartialCaseWithCharProduct.The<SELF, P, F>> {
-		protected Base(@Nonnull F eventually, @Nonnull CharFunction<F> directToFunction) {
+		protected Base(@Nonnull F eventually, @Nonnull LCharFunction<F> directToFunction) {
 			super(eventually, directToFunction);
 		}
 

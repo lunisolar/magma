@@ -69,1994 +69,1995 @@ import static org.assertj.core.api.Fail.fail;
 public interface FunctionalAssertions {
 
 	@Nonnull
-	public static <A extends Action> ActionAssert.Impl<A> assertThat(Action functionalInterface) {
-		return new ActionAssert.Impl(functionalInterface);
+	public static <A extends LAction> LActionAssert.Impl<A> assertThat(LAction functionalInterface) {
+		return new LActionAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends ActionX<X>, X extends Exception> ActionXAssert.Impl<A, X> assertThat(ActionX<X> functionalInterface) {
-		return new ActionXAssert.Impl(functionalInterface);
+	public static <A extends LActionX<X>, X extends Exception> LActionXAssert.Impl<A, X> assertThat(LActionX<X> functionalInterface) {
+		return new LActionXAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends Consumer<T>, T> ConsumerAssert.Impl<A, T> assertThat(Consumer<T> functionalInterface) {
-		return new ConsumerAssert.Impl(functionalInterface);
+	public static <A extends LConsumer<T>, T> LConsumerAssert.Impl<A, T> assertThat(LConsumer<T> functionalInterface) {
+		return new LConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends ConsumerX<T, X>, T, X extends Exception> ConsumerXAssert.Impl<A, T, X> assertThat(ConsumerX<T, X> functionalInterface) {
-		return new ConsumerXAssert.Impl(functionalInterface);
+	public static <A extends LConsumerX<T, X>, T, X extends Exception> LConsumerXAssert.Impl<A, T, X> assertThat(LConsumerX<T, X> functionalInterface) {
+		return new LConsumerXAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends BiConsumer<T1, T2>, T1, T2> BiConsumerAssert.Impl<A, T1, T2> assertThat(BiConsumer<T1, T2> functionalInterface) {
-		return new BiConsumerAssert.Impl(functionalInterface);
+	public static <A extends LBiConsumer<T1, T2>, T1, T2> LBiConsumerAssert.Impl<A, T1, T2> assertThat(LBiConsumer<T1, T2> functionalInterface) {
+		return new LBiConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends BiConsumerX<T1, T2, X>, T1, T2, X extends Exception> BiConsumerXAssert.Impl<A, T1, T2, X> assertThat(BiConsumerX<T1, T2, X> functionalInterface) {
-		return new BiConsumerXAssert.Impl(functionalInterface);
+	public static <A extends LBiConsumerX<T1, T2, X>, T1, T2, X extends Exception> LBiConsumerXAssert.Impl<A, T1, T2, X> assertThat(LBiConsumerX<T1, T2, X> functionalInterface) {
+		return new LBiConsumerXAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends TriConsumer<T1, T2, T3>, T1, T2, T3> TriConsumerAssert.Impl<A, T1, T2, T3> assertThat(TriConsumer<T1, T2, T3> functionalInterface) {
-		return new TriConsumerAssert.Impl(functionalInterface);
+	public static <A extends LTriConsumer<T1, T2, T3>, T1, T2, T3> LTriConsumerAssert.Impl<A, T1, T2, T3> assertThat(LTriConsumer<T1, T2, T3> functionalInterface) {
+		return new LTriConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends TriConsumerX<T1, T2, T3, X>, T1, T2, T3, X extends Exception> TriConsumerXAssert.Impl<A, T1, T2, T3, X> assertThat(TriConsumerX<T1, T2, T3, X> functionalInterface) {
-		return new TriConsumerXAssert.Impl(functionalInterface);
+	public static <A extends LTriConsumerX<T1, T2, T3, X>, T1, T2, T3, X extends Exception> LTriConsumerXAssert.Impl<A, T1, T2, T3, X> assertThat(LTriConsumerX<T1, T2, T3, X> functionalInterface) {
+		return new LTriConsumerXAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends ByteConsumer> ByteConsumerAssert.Impl<A> assertThat(ByteConsumer functionalInterface) {
-		return new ByteConsumerAssert.Impl(functionalInterface);
+	public static <A extends LByteConsumer> LByteConsumerAssert.Impl<A> assertThat(LByteConsumer functionalInterface) {
+		return new LByteConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends ByteConsumerX<X>, X extends Exception> ByteConsumerXAssert.Impl<A, X> assertThat(ByteConsumerX<X> functionalInterface) {
-		return new ByteConsumerXAssert.Impl(functionalInterface);
+	public static <A extends LByteConsumerX<X>, X extends Exception> LByteConsumerXAssert.Impl<A, X> assertThat(LByteConsumerX<X> functionalInterface) {
+		return new LByteConsumerXAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends ShortConsumer> ShortConsumerAssert.Impl<A> assertThat(ShortConsumer functionalInterface) {
-		return new ShortConsumerAssert.Impl(functionalInterface);
+	public static <A extends LShortConsumer> LShortConsumerAssert.Impl<A> assertThat(LShortConsumer functionalInterface) {
+		return new LShortConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends ShortConsumerX<X>, X extends Exception> ShortConsumerXAssert.Impl<A, X> assertThat(ShortConsumerX<X> functionalInterface) {
-		return new ShortConsumerXAssert.Impl(functionalInterface);
+	public static <A extends LShortConsumerX<X>, X extends Exception> LShortConsumerXAssert.Impl<A, X> assertThat(LShortConsumerX<X> functionalInterface) {
+		return new LShortConsumerXAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends IntConsumer> IntConsumerAssert.Impl<A> assertThat(IntConsumer functionalInterface) {
-		return new IntConsumerAssert.Impl(functionalInterface);
+	public static <A extends LIntConsumer> LIntConsumerAssert.Impl<A> assertThat(LIntConsumer functionalInterface) {
+		return new LIntConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends IntConsumerX<X>, X extends Exception> IntConsumerXAssert.Impl<A, X> assertThat(IntConsumerX<X> functionalInterface) {
-		return new IntConsumerXAssert.Impl(functionalInterface);
+	public static <A extends LIntConsumerX<X>, X extends Exception> LIntConsumerXAssert.Impl<A, X> assertThat(LIntConsumerX<X> functionalInterface) {
+		return new LIntConsumerXAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends LongConsumer> LongConsumerAssert.Impl<A> assertThat(LongConsumer functionalInterface) {
-		return new LongConsumerAssert.Impl(functionalInterface);
+	public static <A extends LLongConsumer> LLongConsumerAssert.Impl<A> assertThat(LLongConsumer functionalInterface) {
+		return new LLongConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends LongConsumerX<X>, X extends Exception> LongConsumerXAssert.Impl<A, X> assertThat(LongConsumerX<X> functionalInterface) {
-		return new LongConsumerXAssert.Impl(functionalInterface);
+	public static <A extends LLongConsumerX<X>, X extends Exception> LLongConsumerXAssert.Impl<A, X> assertThat(LLongConsumerX<X> functionalInterface) {
+		return new LLongConsumerXAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends FloatConsumer> FloatConsumerAssert.Impl<A> assertThat(FloatConsumer functionalInterface) {
-		return new FloatConsumerAssert.Impl(functionalInterface);
+	public static <A extends LFloatConsumer> LFloatConsumerAssert.Impl<A> assertThat(LFloatConsumer functionalInterface) {
+		return new LFloatConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends FloatConsumerX<X>, X extends Exception> FloatConsumerXAssert.Impl<A, X> assertThat(FloatConsumerX<X> functionalInterface) {
-		return new FloatConsumerXAssert.Impl(functionalInterface);
+	public static <A extends LFloatConsumerX<X>, X extends Exception> LFloatConsumerXAssert.Impl<A, X> assertThat(LFloatConsumerX<X> functionalInterface) {
+		return new LFloatConsumerXAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends DoubleConsumer> DoubleConsumerAssert.Impl<A> assertThat(DoubleConsumer functionalInterface) {
-		return new DoubleConsumerAssert.Impl(functionalInterface);
+	public static <A extends LDoubleConsumer> LDoubleConsumerAssert.Impl<A> assertThat(LDoubleConsumer functionalInterface) {
+		return new LDoubleConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends DoubleConsumerX<X>, X extends Exception> DoubleConsumerXAssert.Impl<A, X> assertThat(DoubleConsumerX<X> functionalInterface) {
-		return new DoubleConsumerXAssert.Impl(functionalInterface);
+	public static <A extends LDoubleConsumerX<X>, X extends Exception> LDoubleConsumerXAssert.Impl<A, X> assertThat(LDoubleConsumerX<X> functionalInterface) {
+		return new LDoubleConsumerXAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends CharConsumer> CharConsumerAssert.Impl<A> assertThat(CharConsumer functionalInterface) {
-		return new CharConsumerAssert.Impl(functionalInterface);
+	public static <A extends LCharConsumer> LCharConsumerAssert.Impl<A> assertThat(LCharConsumer functionalInterface) {
+		return new LCharConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends CharConsumerX<X>, X extends Exception> CharConsumerXAssert.Impl<A, X> assertThat(CharConsumerX<X> functionalInterface) {
-		return new CharConsumerXAssert.Impl(functionalInterface);
+	public static <A extends LCharConsumerX<X>, X extends Exception> LCharConsumerXAssert.Impl<A, X> assertThat(LCharConsumerX<X> functionalInterface) {
+		return new LCharConsumerXAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends BooleanConsumer> BooleanConsumerAssert.Impl<A> assertThat(BooleanConsumer functionalInterface) {
-		return new BooleanConsumerAssert.Impl(functionalInterface);
+	public static <A extends LBooleanConsumer> LBooleanConsumerAssert.Impl<A> assertThat(LBooleanConsumer functionalInterface) {
+		return new LBooleanConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends BooleanConsumerX<X>, X extends Exception> BooleanConsumerXAssert.Impl<A, X> assertThat(BooleanConsumerX<X> functionalInterface) {
-		return new BooleanConsumerXAssert.Impl(functionalInterface);
+	public static <A extends LBooleanConsumerX<X>, X extends Exception> LBooleanConsumerXAssert.Impl<A, X> assertThat(LBooleanConsumerX<X> functionalInterface) {
+		return new LBooleanConsumerXAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends ByteBiConsumer> ByteBiConsumerAssert.Impl<A> assertThat(ByteBiConsumer functionalInterface) {
-		return new ByteBiConsumerAssert.Impl(functionalInterface);
+	public static <A extends LByteBiConsumer> LByteBiConsumerAssert.Impl<A> assertThat(LByteBiConsumer functionalInterface) {
+		return new LByteBiConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends ByteBiConsumerX<X>, X extends Exception> ByteBiConsumerXAssert.Impl<A, X> assertThat(ByteBiConsumerX<X> functionalInterface) {
-		return new ByteBiConsumerXAssert.Impl(functionalInterface);
+	public static <A extends LByteBiConsumerX<X>, X extends Exception> LByteBiConsumerXAssert.Impl<A, X> assertThat(LByteBiConsumerX<X> functionalInterface) {
+		return new LByteBiConsumerXAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends ShortBiConsumer> ShortBiConsumerAssert.Impl<A> assertThat(ShortBiConsumer functionalInterface) {
-		return new ShortBiConsumerAssert.Impl(functionalInterface);
+	public static <A extends LShortBiConsumer> LShortBiConsumerAssert.Impl<A> assertThat(LShortBiConsumer functionalInterface) {
+		return new LShortBiConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends ShortBiConsumerX<X>, X extends Exception> ShortBiConsumerXAssert.Impl<A, X> assertThat(ShortBiConsumerX<X> functionalInterface) {
-		return new ShortBiConsumerXAssert.Impl(functionalInterface);
+	public static <A extends LShortBiConsumerX<X>, X extends Exception> LShortBiConsumerXAssert.Impl<A, X> assertThat(LShortBiConsumerX<X> functionalInterface) {
+		return new LShortBiConsumerXAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends IntBiConsumer> IntBiConsumerAssert.Impl<A> assertThat(IntBiConsumer functionalInterface) {
-		return new IntBiConsumerAssert.Impl(functionalInterface);
+	public static <A extends LIntBiConsumer> LIntBiConsumerAssert.Impl<A> assertThat(LIntBiConsumer functionalInterface) {
+		return new LIntBiConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends IntBiConsumerX<X>, X extends Exception> IntBiConsumerXAssert.Impl<A, X> assertThat(IntBiConsumerX<X> functionalInterface) {
-		return new IntBiConsumerXAssert.Impl(functionalInterface);
+	public static <A extends LIntBiConsumerX<X>, X extends Exception> LIntBiConsumerXAssert.Impl<A, X> assertThat(LIntBiConsumerX<X> functionalInterface) {
+		return new LIntBiConsumerXAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends LongBiConsumer> LongBiConsumerAssert.Impl<A> assertThat(LongBiConsumer functionalInterface) {
-		return new LongBiConsumerAssert.Impl(functionalInterface);
+	public static <A extends LLongBiConsumer> LLongBiConsumerAssert.Impl<A> assertThat(LLongBiConsumer functionalInterface) {
+		return new LLongBiConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends LongBiConsumerX<X>, X extends Exception> LongBiConsumerXAssert.Impl<A, X> assertThat(LongBiConsumerX<X> functionalInterface) {
-		return new LongBiConsumerXAssert.Impl(functionalInterface);
+	public static <A extends LLongBiConsumerX<X>, X extends Exception> LLongBiConsumerXAssert.Impl<A, X> assertThat(LLongBiConsumerX<X> functionalInterface) {
+		return new LLongBiConsumerXAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends FloatBiConsumer> FloatBiConsumerAssert.Impl<A> assertThat(FloatBiConsumer functionalInterface) {
-		return new FloatBiConsumerAssert.Impl(functionalInterface);
+	public static <A extends LFloatBiConsumer> LFloatBiConsumerAssert.Impl<A> assertThat(LFloatBiConsumer functionalInterface) {
+		return new LFloatBiConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends FloatBiConsumerX<X>, X extends Exception> FloatBiConsumerXAssert.Impl<A, X> assertThat(FloatBiConsumerX<X> functionalInterface) {
-		return new FloatBiConsumerXAssert.Impl(functionalInterface);
+	public static <A extends LFloatBiConsumerX<X>, X extends Exception> LFloatBiConsumerXAssert.Impl<A, X> assertThat(LFloatBiConsumerX<X> functionalInterface) {
+		return new LFloatBiConsumerXAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends DoubleBiConsumer> DoubleBiConsumerAssert.Impl<A> assertThat(DoubleBiConsumer functionalInterface) {
-		return new DoubleBiConsumerAssert.Impl(functionalInterface);
+	public static <A extends LDoubleBiConsumer> LDoubleBiConsumerAssert.Impl<A> assertThat(LDoubleBiConsumer functionalInterface) {
+		return new LDoubleBiConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends DoubleBiConsumerX<X>, X extends Exception> DoubleBiConsumerXAssert.Impl<A, X> assertThat(DoubleBiConsumerX<X> functionalInterface) {
-		return new DoubleBiConsumerXAssert.Impl(functionalInterface);
+	public static <A extends LDoubleBiConsumerX<X>, X extends Exception> LDoubleBiConsumerXAssert.Impl<A, X> assertThat(LDoubleBiConsumerX<X> functionalInterface) {
+		return new LDoubleBiConsumerXAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends CharBiConsumer> CharBiConsumerAssert.Impl<A> assertThat(CharBiConsumer functionalInterface) {
-		return new CharBiConsumerAssert.Impl(functionalInterface);
+	public static <A extends LCharBiConsumer> LCharBiConsumerAssert.Impl<A> assertThat(LCharBiConsumer functionalInterface) {
+		return new LCharBiConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends CharBiConsumerX<X>, X extends Exception> CharBiConsumerXAssert.Impl<A, X> assertThat(CharBiConsumerX<X> functionalInterface) {
-		return new CharBiConsumerXAssert.Impl(functionalInterface);
+	public static <A extends LCharBiConsumerX<X>, X extends Exception> LCharBiConsumerXAssert.Impl<A, X> assertThat(LCharBiConsumerX<X> functionalInterface) {
+		return new LCharBiConsumerXAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends BooleanBiConsumer> BooleanBiConsumerAssert.Impl<A> assertThat(BooleanBiConsumer functionalInterface) {
-		return new BooleanBiConsumerAssert.Impl(functionalInterface);
+	public static <A extends LBooleanBiConsumer> LBooleanBiConsumerAssert.Impl<A> assertThat(LBooleanBiConsumer functionalInterface) {
+		return new LBooleanBiConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends BooleanBiConsumerX<X>, X extends Exception> BooleanBiConsumerXAssert.Impl<A, X> assertThat(BooleanBiConsumerX<X> functionalInterface) {
-		return new BooleanBiConsumerXAssert.Impl(functionalInterface);
+	public static <A extends LBooleanBiConsumerX<X>, X extends Exception> LBooleanBiConsumerXAssert.Impl<A, X> assertThat(LBooleanBiConsumerX<X> functionalInterface) {
+		return new LBooleanBiConsumerXAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends BooleanTriConsumer> BooleanTriConsumerAssert.Impl<A> assertThat(BooleanTriConsumer functionalInterface) {
-		return new BooleanTriConsumerAssert.Impl(functionalInterface);
+	public static <A extends LBooleanTriConsumer> LBooleanTriConsumerAssert.Impl<A> assertThat(LBooleanTriConsumer functionalInterface) {
+		return new LBooleanTriConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends BooleanTriConsumerX<X>, X extends Exception> BooleanTriConsumerXAssert.Impl<A, X> assertThat(BooleanTriConsumerX<X> functionalInterface) {
-		return new BooleanTriConsumerXAssert.Impl(functionalInterface);
+	public static <A extends LBooleanTriConsumerX<X>, X extends Exception> LBooleanTriConsumerXAssert.Impl<A, X> assertThat(LBooleanTriConsumerX<X> functionalInterface) {
+		return new LBooleanTriConsumerXAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends ObjByteConsumer<T>, T> ObjByteConsumerAssert.Impl<A, T> assertThat(ObjByteConsumer<T> functionalInterface) {
-		return new ObjByteConsumerAssert.Impl(functionalInterface);
+	public static <A extends LObjByteConsumer<T>, T> LObjByteConsumerAssert.Impl<A, T> assertThat(LObjByteConsumer<T> functionalInterface) {
+		return new LObjByteConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends ObjByteConsumerX<T, X>, T, X extends Exception> ObjByteConsumerXAssert.Impl<A, T, X> assertThat(ObjByteConsumerX<T, X> functionalInterface) {
-		return new ObjByteConsumerXAssert.Impl(functionalInterface);
+	public static <A extends LObjByteConsumerX<T, X>, T, X extends Exception> LObjByteConsumerXAssert.Impl<A, T, X> assertThat(LObjByteConsumerX<T, X> functionalInterface) {
+		return new LObjByteConsumerXAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends ObjShortConsumer<T>, T> ObjShortConsumerAssert.Impl<A, T> assertThat(ObjShortConsumer<T> functionalInterface) {
-		return new ObjShortConsumerAssert.Impl(functionalInterface);
+	public static <A extends LObjShortConsumer<T>, T> LObjShortConsumerAssert.Impl<A, T> assertThat(LObjShortConsumer<T> functionalInterface) {
+		return new LObjShortConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends ObjShortConsumerX<T, X>, T, X extends Exception> ObjShortConsumerXAssert.Impl<A, T, X> assertThat(ObjShortConsumerX<T, X> functionalInterface) {
-		return new ObjShortConsumerXAssert.Impl(functionalInterface);
+	public static <A extends LObjShortConsumerX<T, X>, T, X extends Exception> LObjShortConsumerXAssert.Impl<A, T, X> assertThat(LObjShortConsumerX<T, X> functionalInterface) {
+		return new LObjShortConsumerXAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends ObjIntConsumer<T>, T> ObjIntConsumerAssert.Impl<A, T> assertThat(ObjIntConsumer<T> functionalInterface) {
-		return new ObjIntConsumerAssert.Impl(functionalInterface);
+	public static <A extends LObjIntConsumer<T>, T> LObjIntConsumerAssert.Impl<A, T> assertThat(LObjIntConsumer<T> functionalInterface) {
+		return new LObjIntConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends ObjIntConsumerX<T, X>, T, X extends Exception> ObjIntConsumerXAssert.Impl<A, T, X> assertThat(ObjIntConsumerX<T, X> functionalInterface) {
-		return new ObjIntConsumerXAssert.Impl(functionalInterface);
+	public static <A extends LObjIntConsumerX<T, X>, T, X extends Exception> LObjIntConsumerXAssert.Impl<A, T, X> assertThat(LObjIntConsumerX<T, X> functionalInterface) {
+		return new LObjIntConsumerXAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends ObjLongConsumer<T>, T> ObjLongConsumerAssert.Impl<A, T> assertThat(ObjLongConsumer<T> functionalInterface) {
-		return new ObjLongConsumerAssert.Impl(functionalInterface);
+	public static <A extends LObjLongConsumer<T>, T> LObjLongConsumerAssert.Impl<A, T> assertThat(LObjLongConsumer<T> functionalInterface) {
+		return new LObjLongConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends ObjLongConsumerX<T, X>, T, X extends Exception> ObjLongConsumerXAssert.Impl<A, T, X> assertThat(ObjLongConsumerX<T, X> functionalInterface) {
-		return new ObjLongConsumerXAssert.Impl(functionalInterface);
+	public static <A extends LObjLongConsumerX<T, X>, T, X extends Exception> LObjLongConsumerXAssert.Impl<A, T, X> assertThat(LObjLongConsumerX<T, X> functionalInterface) {
+		return new LObjLongConsumerXAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends ObjFloatConsumer<T>, T> ObjFloatConsumerAssert.Impl<A, T> assertThat(ObjFloatConsumer<T> functionalInterface) {
-		return new ObjFloatConsumerAssert.Impl(functionalInterface);
+	public static <A extends LObjFloatConsumer<T>, T> LObjFloatConsumerAssert.Impl<A, T> assertThat(LObjFloatConsumer<T> functionalInterface) {
+		return new LObjFloatConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends ObjFloatConsumerX<T, X>, T, X extends Exception> ObjFloatConsumerXAssert.Impl<A, T, X> assertThat(ObjFloatConsumerX<T, X> functionalInterface) {
-		return new ObjFloatConsumerXAssert.Impl(functionalInterface);
+	public static <A extends LObjFloatConsumerX<T, X>, T, X extends Exception> LObjFloatConsumerXAssert.Impl<A, T, X> assertThat(LObjFloatConsumerX<T, X> functionalInterface) {
+		return new LObjFloatConsumerXAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends ObjDoubleConsumer<T>, T> ObjDoubleConsumerAssert.Impl<A, T> assertThat(ObjDoubleConsumer<T> functionalInterface) {
-		return new ObjDoubleConsumerAssert.Impl(functionalInterface);
+	public static <A extends LObjDoubleConsumer<T>, T> LObjDoubleConsumerAssert.Impl<A, T> assertThat(LObjDoubleConsumer<T> functionalInterface) {
+		return new LObjDoubleConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends ObjDoubleConsumerX<T, X>, T, X extends Exception> ObjDoubleConsumerXAssert.Impl<A, T, X> assertThat(ObjDoubleConsumerX<T, X> functionalInterface) {
-		return new ObjDoubleConsumerXAssert.Impl(functionalInterface);
+	public static <A extends LObjDoubleConsumerX<T, X>, T, X extends Exception> LObjDoubleConsumerXAssert.Impl<A, T, X> assertThat(LObjDoubleConsumerX<T, X> functionalInterface) {
+		return new LObjDoubleConsumerXAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends ObjCharConsumer<T>, T> ObjCharConsumerAssert.Impl<A, T> assertThat(ObjCharConsumer<T> functionalInterface) {
-		return new ObjCharConsumerAssert.Impl(functionalInterface);
+	public static <A extends LObjCharConsumer<T>, T> LObjCharConsumerAssert.Impl<A, T> assertThat(LObjCharConsumer<T> functionalInterface) {
+		return new LObjCharConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends ObjCharConsumerX<T, X>, T, X extends Exception> ObjCharConsumerXAssert.Impl<A, T, X> assertThat(ObjCharConsumerX<T, X> functionalInterface) {
-		return new ObjCharConsumerXAssert.Impl(functionalInterface);
+	public static <A extends LObjCharConsumerX<T, X>, T, X extends Exception> LObjCharConsumerXAssert.Impl<A, T, X> assertThat(LObjCharConsumerX<T, X> functionalInterface) {
+		return new LObjCharConsumerXAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends ObjBooleanConsumer<T>, T> ObjBooleanConsumerAssert.Impl<A, T> assertThat(ObjBooleanConsumer<T> functionalInterface) {
-		return new ObjBooleanConsumerAssert.Impl(functionalInterface);
+	public static <A extends LObjBooleanConsumer<T>, T> LObjBooleanConsumerAssert.Impl<A, T> assertThat(LObjBooleanConsumer<T> functionalInterface) {
+		return new LObjBooleanConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends ObjBooleanConsumerX<T, X>, T, X extends Exception> ObjBooleanConsumerXAssert.Impl<A, T, X> assertThat(ObjBooleanConsumerX<T, X> functionalInterface) {
-		return new ObjBooleanConsumerXAssert.Impl(functionalInterface);
+	public static <A extends LObjBooleanConsumerX<T, X>, T, X extends Exception> LObjBooleanConsumerXAssert.Impl<A, T, X> assertThat(LObjBooleanConsumerX<T, X> functionalInterface) {
+		return new LObjBooleanConsumerXAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends BiObjByteConsumer<T1, T2>, T1, T2> BiObjByteConsumerAssert.Impl<A, T1, T2> assertThat(BiObjByteConsumer<T1, T2> functionalInterface) {
-		return new BiObjByteConsumerAssert.Impl(functionalInterface);
+	public static <A extends LBiObjByteConsumer<T1, T2>, T1, T2> LBiObjByteConsumerAssert.Impl<A, T1, T2> assertThat(LBiObjByteConsumer<T1, T2> functionalInterface) {
+		return new LBiObjByteConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends BiObjByteConsumerX<T1, T2, X>, T1, T2, X extends Exception> BiObjByteConsumerXAssert.Impl<A, T1, T2, X> assertThat(BiObjByteConsumerX<T1, T2, X> functionalInterface) {
-		return new BiObjByteConsumerXAssert.Impl(functionalInterface);
+	public static <A extends LBiObjByteConsumerX<T1, T2, X>, T1, T2, X extends Exception> LBiObjByteConsumerXAssert.Impl<A, T1, T2, X> assertThat(LBiObjByteConsumerX<T1, T2, X> functionalInterface) {
+		return new LBiObjByteConsumerXAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends BiObjShortConsumer<T1, T2>, T1, T2> BiObjShortConsumerAssert.Impl<A, T1, T2> assertThat(BiObjShortConsumer<T1, T2> functionalInterface) {
-		return new BiObjShortConsumerAssert.Impl(functionalInterface);
+	public static <A extends LBiObjShortConsumer<T1, T2>, T1, T2> LBiObjShortConsumerAssert.Impl<A, T1, T2> assertThat(LBiObjShortConsumer<T1, T2> functionalInterface) {
+		return new LBiObjShortConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends BiObjShortConsumerX<T1, T2, X>, T1, T2, X extends Exception> BiObjShortConsumerXAssert.Impl<A, T1, T2, X> assertThat(BiObjShortConsumerX<T1, T2, X> functionalInterface) {
-		return new BiObjShortConsumerXAssert.Impl(functionalInterface);
+	public static <A extends LBiObjShortConsumerX<T1, T2, X>, T1, T2, X extends Exception> LBiObjShortConsumerXAssert.Impl<A, T1, T2, X> assertThat(LBiObjShortConsumerX<T1, T2, X> functionalInterface) {
+		return new LBiObjShortConsumerXAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends BiObjIntConsumer<T1, T2>, T1, T2> BiObjIntConsumerAssert.Impl<A, T1, T2> assertThat(BiObjIntConsumer<T1, T2> functionalInterface) {
-		return new BiObjIntConsumerAssert.Impl(functionalInterface);
+	public static <A extends LBiObjIntConsumer<T1, T2>, T1, T2> LBiObjIntConsumerAssert.Impl<A, T1, T2> assertThat(LBiObjIntConsumer<T1, T2> functionalInterface) {
+		return new LBiObjIntConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends BiObjIntConsumerX<T1, T2, X>, T1, T2, X extends Exception> BiObjIntConsumerXAssert.Impl<A, T1, T2, X> assertThat(BiObjIntConsumerX<T1, T2, X> functionalInterface) {
-		return new BiObjIntConsumerXAssert.Impl(functionalInterface);
+	public static <A extends LBiObjIntConsumerX<T1, T2, X>, T1, T2, X extends Exception> LBiObjIntConsumerXAssert.Impl<A, T1, T2, X> assertThat(LBiObjIntConsumerX<T1, T2, X> functionalInterface) {
+		return new LBiObjIntConsumerXAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends BiObjLongConsumer<T1, T2>, T1, T2> BiObjLongConsumerAssert.Impl<A, T1, T2> assertThat(BiObjLongConsumer<T1, T2> functionalInterface) {
-		return new BiObjLongConsumerAssert.Impl(functionalInterface);
+	public static <A extends LBiObjLongConsumer<T1, T2>, T1, T2> LBiObjLongConsumerAssert.Impl<A, T1, T2> assertThat(LBiObjLongConsumer<T1, T2> functionalInterface) {
+		return new LBiObjLongConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends BiObjLongConsumerX<T1, T2, X>, T1, T2, X extends Exception> BiObjLongConsumerXAssert.Impl<A, T1, T2, X> assertThat(BiObjLongConsumerX<T1, T2, X> functionalInterface) {
-		return new BiObjLongConsumerXAssert.Impl(functionalInterface);
+	public static <A extends LBiObjLongConsumerX<T1, T2, X>, T1, T2, X extends Exception> LBiObjLongConsumerXAssert.Impl<A, T1, T2, X> assertThat(LBiObjLongConsumerX<T1, T2, X> functionalInterface) {
+		return new LBiObjLongConsumerXAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends BiObjFloatConsumer<T1, T2>, T1, T2> BiObjFloatConsumerAssert.Impl<A, T1, T2> assertThat(BiObjFloatConsumer<T1, T2> functionalInterface) {
-		return new BiObjFloatConsumerAssert.Impl(functionalInterface);
+	public static <A extends LBiObjFloatConsumer<T1, T2>, T1, T2> LBiObjFloatConsumerAssert.Impl<A, T1, T2> assertThat(LBiObjFloatConsumer<T1, T2> functionalInterface) {
+		return new LBiObjFloatConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends BiObjFloatConsumerX<T1, T2, X>, T1, T2, X extends Exception> BiObjFloatConsumerXAssert.Impl<A, T1, T2, X> assertThat(BiObjFloatConsumerX<T1, T2, X> functionalInterface) {
-		return new BiObjFloatConsumerXAssert.Impl(functionalInterface);
+	public static <A extends LBiObjFloatConsumerX<T1, T2, X>, T1, T2, X extends Exception> LBiObjFloatConsumerXAssert.Impl<A, T1, T2, X> assertThat(LBiObjFloatConsumerX<T1, T2, X> functionalInterface) {
+		return new LBiObjFloatConsumerXAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends BiObjDoubleConsumer<T1, T2>, T1, T2> BiObjDoubleConsumerAssert.Impl<A, T1, T2> assertThat(BiObjDoubleConsumer<T1, T2> functionalInterface) {
-		return new BiObjDoubleConsumerAssert.Impl(functionalInterface);
+	public static <A extends LBiObjDoubleConsumer<T1, T2>, T1, T2> LBiObjDoubleConsumerAssert.Impl<A, T1, T2> assertThat(LBiObjDoubleConsumer<T1, T2> functionalInterface) {
+		return new LBiObjDoubleConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends BiObjDoubleConsumerX<T1, T2, X>, T1, T2, X extends Exception> BiObjDoubleConsumerXAssert.Impl<A, T1, T2, X> assertThat(BiObjDoubleConsumerX<T1, T2, X> functionalInterface) {
-		return new BiObjDoubleConsumerXAssert.Impl(functionalInterface);
+	public static <A extends LBiObjDoubleConsumerX<T1, T2, X>, T1, T2, X extends Exception> LBiObjDoubleConsumerXAssert.Impl<A, T1, T2, X> assertThat(LBiObjDoubleConsumerX<T1, T2, X> functionalInterface) {
+		return new LBiObjDoubleConsumerXAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends BiObjCharConsumer<T1, T2>, T1, T2> BiObjCharConsumerAssert.Impl<A, T1, T2> assertThat(BiObjCharConsumer<T1, T2> functionalInterface) {
-		return new BiObjCharConsumerAssert.Impl(functionalInterface);
+	public static <A extends LBiObjCharConsumer<T1, T2>, T1, T2> LBiObjCharConsumerAssert.Impl<A, T1, T2> assertThat(LBiObjCharConsumer<T1, T2> functionalInterface) {
+		return new LBiObjCharConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends BiObjCharConsumerX<T1, T2, X>, T1, T2, X extends Exception> BiObjCharConsumerXAssert.Impl<A, T1, T2, X> assertThat(BiObjCharConsumerX<T1, T2, X> functionalInterface) {
-		return new BiObjCharConsumerXAssert.Impl(functionalInterface);
+	public static <A extends LBiObjCharConsumerX<T1, T2, X>, T1, T2, X extends Exception> LBiObjCharConsumerXAssert.Impl<A, T1, T2, X> assertThat(LBiObjCharConsumerX<T1, T2, X> functionalInterface) {
+		return new LBiObjCharConsumerXAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends BiObjBooleanConsumer<T1, T2>, T1, T2> BiObjBooleanConsumerAssert.Impl<A, T1, T2> assertThat(BiObjBooleanConsumer<T1, T2> functionalInterface) {
-		return new BiObjBooleanConsumerAssert.Impl(functionalInterface);
+	public static <A extends LBiObjBooleanConsumer<T1, T2>, T1, T2> LBiObjBooleanConsumerAssert.Impl<A, T1, T2> assertThat(LBiObjBooleanConsumer<T1, T2> functionalInterface) {
+		return new LBiObjBooleanConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends BiObjBooleanConsumerX<T1, T2, X>, T1, T2, X extends Exception> BiObjBooleanConsumerXAssert.Impl<A, T1, T2, X> assertThat(BiObjBooleanConsumerX<T1, T2, X> functionalInterface) {
-		return new BiObjBooleanConsumerXAssert.Impl(functionalInterface);
+	public static <A extends LBiObjBooleanConsumerX<T1, T2, X>, T1, T2, X extends Exception> LBiObjBooleanConsumerXAssert.Impl<A, T1, T2, X> assertThat(LBiObjBooleanConsumerX<T1, T2, X> functionalInterface) {
+		return new LBiObjBooleanConsumerXAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends UnaryOperator<T>, RS extends AbstractObjectAssert<RS, T>, T> UnaryOperatorAssert.Impl<A, RS, T> assertThat(UnaryOperator<T> functionalInterface) {
-		return new UnaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LUnaryOperator<T>, RS extends AbstractObjectAssert<RS, T>, T> LUnaryOperatorAssert.Impl<A, RS, T> assertThat(LUnaryOperator<T> functionalInterface) {
+		return new LUnaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends UnaryOperatorX<T, X>, RS extends AbstractObjectAssert<RS, T>, T, X extends Exception> UnaryOperatorXAssert.Impl<A, RS, T, X> assertThat(UnaryOperatorX<T, X> functionalInterface) {
-		return new UnaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LUnaryOperatorX<T, X>, RS extends AbstractObjectAssert<RS, T>, T, X extends Exception> LUnaryOperatorXAssert.Impl<A, RS, T, X> assertThat(LUnaryOperatorX<T, X> functionalInterface) {
+		return new LUnaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BinaryOperator<T>, RS extends AbstractObjectAssert<RS, T>, T> BinaryOperatorAssert.Impl<A, RS, T> assertThat(BinaryOperator<T> functionalInterface) {
-		return new BinaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBinaryOperator<T>, RS extends AbstractObjectAssert<RS, T>, T> LBinaryOperatorAssert.Impl<A, RS, T> assertThat(LBinaryOperator<T> functionalInterface) {
+		return new LBinaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BinaryOperatorX<T, X>, RS extends AbstractObjectAssert<RS, T>, T, X extends Exception> BinaryOperatorXAssert.Impl<A, RS, T, X> assertThat(BinaryOperatorX<T, X> functionalInterface) {
-		return new BinaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBinaryOperatorX<T, X>, RS extends AbstractObjectAssert<RS, T>, T, X extends Exception> LBinaryOperatorXAssert.Impl<A, RS, T, X> assertThat(LBinaryOperatorX<T, X> functionalInterface) {
+		return new LBinaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends TernaryOperator<T>, RS extends AbstractObjectAssert<RS, T>, T> TernaryOperatorAssert.Impl<A, RS, T> assertThat(TernaryOperator<T> functionalInterface) {
-		return new TernaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LTernaryOperator<T>, RS extends AbstractObjectAssert<RS, T>, T> LTernaryOperatorAssert.Impl<A, RS, T> assertThat(LTernaryOperator<T> functionalInterface) {
+		return new LTernaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends TernaryOperatorX<T, X>, RS extends AbstractObjectAssert<RS, T>, T, X extends Exception> TernaryOperatorXAssert.Impl<A, RS, T, X> assertThat(TernaryOperatorX<T, X> functionalInterface) {
-		return new TernaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LTernaryOperatorX<T, X>, RS extends AbstractObjectAssert<RS, T>, T, X extends Exception> LTernaryOperatorXAssert.Impl<A, RS, T, X> assertThat(LTernaryOperatorX<T, X> functionalInterface) {
+		return new LTernaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ByteUnaryOperator, RS extends AbstractByteAssert<RS>> ByteUnaryOperatorAssert.Impl<A, RS> assertThat(ByteUnaryOperator functionalInterface) {
-		return new ByteUnaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LByteUnaryOperator, RS extends AbstractByteAssert<RS>> LByteUnaryOperatorAssert.Impl<A, RS> assertThat(LByteUnaryOperator functionalInterface) {
+		return new LByteUnaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ByteUnaryOperatorX<X>, RS extends AbstractByteAssert<RS>, X extends Exception> ByteUnaryOperatorXAssert.Impl<A, RS, X> assertThat(ByteUnaryOperatorX<X> functionalInterface) {
-		return new ByteUnaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LByteUnaryOperatorX<X>, RS extends AbstractByteAssert<RS>, X extends Exception> LByteUnaryOperatorXAssert.Impl<A, RS, X> assertThat(LByteUnaryOperatorX<X> functionalInterface) {
+		return new LByteUnaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ShortUnaryOperator, RS extends AbstractShortAssert<RS>> ShortUnaryOperatorAssert.Impl<A, RS> assertThat(ShortUnaryOperator functionalInterface) {
-		return new ShortUnaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LShortUnaryOperator, RS extends AbstractShortAssert<RS>> LShortUnaryOperatorAssert.Impl<A, RS> assertThat(LShortUnaryOperator functionalInterface) {
+		return new LShortUnaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ShortUnaryOperatorX<X>, RS extends AbstractShortAssert<RS>, X extends Exception> ShortUnaryOperatorXAssert.Impl<A, RS, X> assertThat(ShortUnaryOperatorX<X> functionalInterface) {
-		return new ShortUnaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LShortUnaryOperatorX<X>, RS extends AbstractShortAssert<RS>, X extends Exception> LShortUnaryOperatorXAssert.Impl<A, RS, X> assertThat(LShortUnaryOperatorX<X> functionalInterface) {
+		return new LShortUnaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends IntUnaryOperator, RS extends AbstractIntegerAssert<RS>> IntUnaryOperatorAssert.Impl<A, RS> assertThat(IntUnaryOperator functionalInterface) {
-		return new IntUnaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LIntUnaryOperator, RS extends AbstractIntegerAssert<RS>> LIntUnaryOperatorAssert.Impl<A, RS> assertThat(LIntUnaryOperator functionalInterface) {
+		return new LIntUnaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends IntUnaryOperatorX<X>, RS extends AbstractIntegerAssert<RS>, X extends Exception> IntUnaryOperatorXAssert.Impl<A, RS, X> assertThat(IntUnaryOperatorX<X> functionalInterface) {
-		return new IntUnaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LIntUnaryOperatorX<X>, RS extends AbstractIntegerAssert<RS>, X extends Exception> LIntUnaryOperatorXAssert.Impl<A, RS, X> assertThat(LIntUnaryOperatorX<X> functionalInterface) {
+		return new LIntUnaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends LongUnaryOperator, RS extends AbstractLongAssert<RS>> LongUnaryOperatorAssert.Impl<A, RS> assertThat(LongUnaryOperator functionalInterface) {
-		return new LongUnaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LLongUnaryOperator, RS extends AbstractLongAssert<RS>> LLongUnaryOperatorAssert.Impl<A, RS> assertThat(LLongUnaryOperator functionalInterface) {
+		return new LLongUnaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends LongUnaryOperatorX<X>, RS extends AbstractLongAssert<RS>, X extends Exception> LongUnaryOperatorXAssert.Impl<A, RS, X> assertThat(LongUnaryOperatorX<X> functionalInterface) {
-		return new LongUnaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LLongUnaryOperatorX<X>, RS extends AbstractLongAssert<RS>, X extends Exception> LLongUnaryOperatorXAssert.Impl<A, RS, X> assertThat(LLongUnaryOperatorX<X> functionalInterface) {
+		return new LLongUnaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends FloatUnaryOperator, RS extends AbstractFloatAssert<RS>> FloatUnaryOperatorAssert.Impl<A, RS> assertThat(FloatUnaryOperator functionalInterface) {
-		return new FloatUnaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LFloatUnaryOperator, RS extends AbstractFloatAssert<RS>> LFloatUnaryOperatorAssert.Impl<A, RS> assertThat(LFloatUnaryOperator functionalInterface) {
+		return new LFloatUnaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends FloatUnaryOperatorX<X>, RS extends AbstractFloatAssert<RS>, X extends Exception> FloatUnaryOperatorXAssert.Impl<A, RS, X> assertThat(FloatUnaryOperatorX<X> functionalInterface) {
-		return new FloatUnaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LFloatUnaryOperatorX<X>, RS extends AbstractFloatAssert<RS>, X extends Exception> LFloatUnaryOperatorXAssert.Impl<A, RS, X> assertThat(LFloatUnaryOperatorX<X> functionalInterface) {
+		return new LFloatUnaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends DoubleUnaryOperator, RS extends AbstractDoubleAssert<RS>> DoubleUnaryOperatorAssert.Impl<A, RS> assertThat(DoubleUnaryOperator functionalInterface) {
-		return new DoubleUnaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LDoubleUnaryOperator, RS extends AbstractDoubleAssert<RS>> LDoubleUnaryOperatorAssert.Impl<A, RS> assertThat(LDoubleUnaryOperator functionalInterface) {
+		return new LDoubleUnaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends DoubleUnaryOperatorX<X>, RS extends AbstractDoubleAssert<RS>, X extends Exception> DoubleUnaryOperatorXAssert.Impl<A, RS, X> assertThat(DoubleUnaryOperatorX<X> functionalInterface) {
-		return new DoubleUnaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LDoubleUnaryOperatorX<X>, RS extends AbstractDoubleAssert<RS>, X extends Exception> LDoubleUnaryOperatorXAssert.Impl<A, RS, X> assertThat(LDoubleUnaryOperatorX<X> functionalInterface) {
+		return new LDoubleUnaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends CharUnaryOperator, RS extends AbstractCharacterAssert<RS>> CharUnaryOperatorAssert.Impl<A, RS> assertThat(CharUnaryOperator functionalInterface) {
-		return new CharUnaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LCharUnaryOperator, RS extends AbstractCharacterAssert<RS>> LCharUnaryOperatorAssert.Impl<A, RS> assertThat(LCharUnaryOperator functionalInterface) {
+		return new LCharUnaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends CharUnaryOperatorX<X>, RS extends AbstractCharacterAssert<RS>, X extends Exception> CharUnaryOperatorXAssert.Impl<A, RS, X> assertThat(CharUnaryOperatorX<X> functionalInterface) {
-		return new CharUnaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LCharUnaryOperatorX<X>, RS extends AbstractCharacterAssert<RS>, X extends Exception> LCharUnaryOperatorXAssert.Impl<A, RS, X> assertThat(LCharUnaryOperatorX<X> functionalInterface) {
+		return new LCharUnaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BooleanUnaryOperator, RS extends AbstractBooleanAssert<RS>> BooleanUnaryOperatorAssert.Impl<A, RS> assertThat(BooleanUnaryOperator functionalInterface) {
-		return new BooleanUnaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBooleanUnaryOperator, RS extends AbstractBooleanAssert<RS>> LBooleanUnaryOperatorAssert.Impl<A, RS> assertThat(LBooleanUnaryOperator functionalInterface) {
+		return new LBooleanUnaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BooleanUnaryOperatorX<X>, RS extends AbstractBooleanAssert<RS>, X extends Exception> BooleanUnaryOperatorXAssert.Impl<A, RS, X> assertThat(BooleanUnaryOperatorX<X> functionalInterface) {
-		return new BooleanUnaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBooleanUnaryOperatorX<X>, RS extends AbstractBooleanAssert<RS>, X extends Exception> LBooleanUnaryOperatorXAssert.Impl<A, RS, X> assertThat(LBooleanUnaryOperatorX<X> functionalInterface) {
+		return new LBooleanUnaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ByteBinaryOperator, RS extends AbstractByteAssert<RS>> ByteBinaryOperatorAssert.Impl<A, RS> assertThat(ByteBinaryOperator functionalInterface) {
-		return new ByteBinaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LByteBinaryOperator, RS extends AbstractByteAssert<RS>> LByteBinaryOperatorAssert.Impl<A, RS> assertThat(LByteBinaryOperator functionalInterface) {
+		return new LByteBinaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ByteBinaryOperatorX<X>, RS extends AbstractByteAssert<RS>, X extends Exception> ByteBinaryOperatorXAssert.Impl<A, RS, X> assertThat(ByteBinaryOperatorX<X> functionalInterface) {
-		return new ByteBinaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LByteBinaryOperatorX<X>, RS extends AbstractByteAssert<RS>, X extends Exception> LByteBinaryOperatorXAssert.Impl<A, RS, X> assertThat(LByteBinaryOperatorX<X> functionalInterface) {
+		return new LByteBinaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ShortBinaryOperator, RS extends AbstractShortAssert<RS>> ShortBinaryOperatorAssert.Impl<A, RS> assertThat(ShortBinaryOperator functionalInterface) {
-		return new ShortBinaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LShortBinaryOperator, RS extends AbstractShortAssert<RS>> LShortBinaryOperatorAssert.Impl<A, RS> assertThat(LShortBinaryOperator functionalInterface) {
+		return new LShortBinaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ShortBinaryOperatorX<X>, RS extends AbstractShortAssert<RS>, X extends Exception> ShortBinaryOperatorXAssert.Impl<A, RS, X> assertThat(ShortBinaryOperatorX<X> functionalInterface) {
-		return new ShortBinaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LShortBinaryOperatorX<X>, RS extends AbstractShortAssert<RS>, X extends Exception> LShortBinaryOperatorXAssert.Impl<A, RS, X> assertThat(LShortBinaryOperatorX<X> functionalInterface) {
+		return new LShortBinaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends IntBinaryOperator, RS extends AbstractIntegerAssert<RS>> IntBinaryOperatorAssert.Impl<A, RS> assertThat(IntBinaryOperator functionalInterface) {
-		return new IntBinaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LIntBinaryOperator, RS extends AbstractIntegerAssert<RS>> LIntBinaryOperatorAssert.Impl<A, RS> assertThat(LIntBinaryOperator functionalInterface) {
+		return new LIntBinaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends IntBinaryOperatorX<X>, RS extends AbstractIntegerAssert<RS>, X extends Exception> IntBinaryOperatorXAssert.Impl<A, RS, X> assertThat(IntBinaryOperatorX<X> functionalInterface) {
-		return new IntBinaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LIntBinaryOperatorX<X>, RS extends AbstractIntegerAssert<RS>, X extends Exception> LIntBinaryOperatorXAssert.Impl<A, RS, X> assertThat(LIntBinaryOperatorX<X> functionalInterface) {
+		return new LIntBinaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends LongBinaryOperator, RS extends AbstractLongAssert<RS>> LongBinaryOperatorAssert.Impl<A, RS> assertThat(LongBinaryOperator functionalInterface) {
-		return new LongBinaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LLongBinaryOperator, RS extends AbstractLongAssert<RS>> LLongBinaryOperatorAssert.Impl<A, RS> assertThat(LLongBinaryOperator functionalInterface) {
+		return new LLongBinaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends LongBinaryOperatorX<X>, RS extends AbstractLongAssert<RS>, X extends Exception> LongBinaryOperatorXAssert.Impl<A, RS, X> assertThat(LongBinaryOperatorX<X> functionalInterface) {
-		return new LongBinaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LLongBinaryOperatorX<X>, RS extends AbstractLongAssert<RS>, X extends Exception> LLongBinaryOperatorXAssert.Impl<A, RS, X> assertThat(LLongBinaryOperatorX<X> functionalInterface) {
+		return new LLongBinaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends FloatBinaryOperator, RS extends AbstractFloatAssert<RS>> FloatBinaryOperatorAssert.Impl<A, RS> assertThat(FloatBinaryOperator functionalInterface) {
-		return new FloatBinaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LFloatBinaryOperator, RS extends AbstractFloatAssert<RS>> LFloatBinaryOperatorAssert.Impl<A, RS> assertThat(LFloatBinaryOperator functionalInterface) {
+		return new LFloatBinaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends FloatBinaryOperatorX<X>, RS extends AbstractFloatAssert<RS>, X extends Exception> FloatBinaryOperatorXAssert.Impl<A, RS, X> assertThat(FloatBinaryOperatorX<X> functionalInterface) {
-		return new FloatBinaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LFloatBinaryOperatorX<X>, RS extends AbstractFloatAssert<RS>, X extends Exception> LFloatBinaryOperatorXAssert.Impl<A, RS, X> assertThat(LFloatBinaryOperatorX<X> functionalInterface) {
+		return new LFloatBinaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends DoubleBinaryOperator, RS extends AbstractDoubleAssert<RS>> DoubleBinaryOperatorAssert.Impl<A, RS> assertThat(DoubleBinaryOperator functionalInterface) {
-		return new DoubleBinaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LDoubleBinaryOperator, RS extends AbstractDoubleAssert<RS>> LDoubleBinaryOperatorAssert.Impl<A, RS> assertThat(LDoubleBinaryOperator functionalInterface) {
+		return new LDoubleBinaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends DoubleBinaryOperatorX<X>, RS extends AbstractDoubleAssert<RS>, X extends Exception> DoubleBinaryOperatorXAssert.Impl<A, RS, X> assertThat(DoubleBinaryOperatorX<X> functionalInterface) {
-		return new DoubleBinaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LDoubleBinaryOperatorX<X>, RS extends AbstractDoubleAssert<RS>, X extends Exception> LDoubleBinaryOperatorXAssert.Impl<A, RS, X> assertThat(LDoubleBinaryOperatorX<X> functionalInterface) {
+		return new LDoubleBinaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends CharBinaryOperator, RS extends AbstractCharacterAssert<RS>> CharBinaryOperatorAssert.Impl<A, RS> assertThat(CharBinaryOperator functionalInterface) {
-		return new CharBinaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LCharBinaryOperator, RS extends AbstractCharacterAssert<RS>> LCharBinaryOperatorAssert.Impl<A, RS> assertThat(LCharBinaryOperator functionalInterface) {
+		return new LCharBinaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends CharBinaryOperatorX<X>, RS extends AbstractCharacterAssert<RS>, X extends Exception> CharBinaryOperatorXAssert.Impl<A, RS, X> assertThat(CharBinaryOperatorX<X> functionalInterface) {
-		return new CharBinaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LCharBinaryOperatorX<X>, RS extends AbstractCharacterAssert<RS>, X extends Exception> LCharBinaryOperatorXAssert.Impl<A, RS, X> assertThat(LCharBinaryOperatorX<X> functionalInterface) {
+		return new LCharBinaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BooleanBinaryOperator, RS extends AbstractBooleanAssert<RS>> BooleanBinaryOperatorAssert.Impl<A, RS> assertThat(BooleanBinaryOperator functionalInterface) {
-		return new BooleanBinaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBooleanBinaryOperator, RS extends AbstractBooleanAssert<RS>> LBooleanBinaryOperatorAssert.Impl<A, RS> assertThat(LBooleanBinaryOperator functionalInterface) {
+		return new LBooleanBinaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BooleanBinaryOperatorX<X>, RS extends AbstractBooleanAssert<RS>, X extends Exception> BooleanBinaryOperatorXAssert.Impl<A, RS, X> assertThat(BooleanBinaryOperatorX<X> functionalInterface) {
-		return new BooleanBinaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBooleanBinaryOperatorX<X>, RS extends AbstractBooleanAssert<RS>, X extends Exception> LBooleanBinaryOperatorXAssert.Impl<A, RS, X> assertThat(LBooleanBinaryOperatorX<X> functionalInterface) {
+		return new LBooleanBinaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BooleanTernaryOperator, RS extends AbstractBooleanAssert<RS>> BooleanTernaryOperatorAssert.Impl<A, RS> assertThat(BooleanTernaryOperator functionalInterface) {
-		return new BooleanTernaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBooleanTernaryOperator, RS extends AbstractBooleanAssert<RS>> LBooleanTernaryOperatorAssert.Impl<A, RS> assertThat(LBooleanTernaryOperator functionalInterface) {
+		return new LBooleanTernaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BooleanTernaryOperatorX<X>, RS extends AbstractBooleanAssert<RS>, X extends Exception> BooleanTernaryOperatorXAssert.Impl<A, RS, X> assertThat(BooleanTernaryOperatorX<X> functionalInterface) {
-		return new BooleanTernaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBooleanTernaryOperatorX<X>, RS extends AbstractBooleanAssert<RS>, X extends Exception> LBooleanTernaryOperatorXAssert.Impl<A, RS, X> assertThat(LBooleanTernaryOperatorX<X> functionalInterface) {
+		return new LBooleanTernaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends Function<T, R>, RS extends AbstractObjectAssert<RS, R>, T, R> FunctionAssert.Impl<A, RS, T, R> assertThat(Function<T, R> functionalInterface) {
-		return new FunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LFunction<T, R>, RS extends AbstractObjectAssert<RS, R>, T, R> LFunctionAssert.Impl<A, RS, T, R> assertThat(LFunction<T, R> functionalInterface) {
+		return new LFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends FunctionX<T, R, X>, RS extends AbstractObjectAssert<RS, R>, T, R, X extends Exception> FunctionXAssert.Impl<A, RS, T, R, X> assertThat(FunctionX<T, R, X> functionalInterface) {
-		return new FunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LFunctionX<T, R, X>, RS extends AbstractObjectAssert<RS, R>, T, R, X extends Exception> LFunctionXAssert.Impl<A, RS, T, R, X> assertThat(LFunctionX<T, R, X> functionalInterface) {
+		return new LFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiFunction<T1, T2, R>, RS extends AbstractObjectAssert<RS, R>, T1, T2, R> BiFunctionAssert.Impl<A, RS, T1, T2, R> assertThat(BiFunction<T1, T2, R> functionalInterface) {
-		return new BiFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiFunction<T1, T2, R>, RS extends AbstractObjectAssert<RS, R>, T1, T2, R> LBiFunctionAssert.Impl<A, RS, T1, T2, R> assertThat(LBiFunction<T1, T2, R> functionalInterface) {
+		return new LBiFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiFunctionX<T1, T2, R, X>, RS extends AbstractObjectAssert<RS, R>, T1, T2, R, X extends Exception> BiFunctionXAssert.Impl<A, RS, T1, T2, R, X> assertThat(BiFunctionX<T1, T2, R, X> functionalInterface) {
-		return new BiFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiFunctionX<T1, T2, R, X>, RS extends AbstractObjectAssert<RS, R>, T1, T2, R, X extends Exception> LBiFunctionXAssert.Impl<A, RS, T1, T2, R, X> assertThat(LBiFunctionX<T1, T2, R, X> functionalInterface) {
+		return new LBiFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends TriFunction<T1, T2, T3, R>, RS extends AbstractObjectAssert<RS, R>, T1, T2, T3, R> TriFunctionAssert.Impl<A, RS, T1, T2, T3, R> assertThat(TriFunction<T1, T2, T3, R> functionalInterface) {
-		return new TriFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LTriFunction<T1, T2, T3, R>, RS extends AbstractObjectAssert<RS, R>, T1, T2, T3, R> LTriFunctionAssert.Impl<A, RS, T1, T2, T3, R> assertThat(LTriFunction<T1, T2, T3, R> functionalInterface) {
+		return new LTriFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends TriFunctionX<T1, T2, T3, R, X>, RS extends AbstractObjectAssert<RS, R>, T1, T2, T3, R, X extends Exception> TriFunctionXAssert.Impl<A, RS, T1, T2, T3, R, X> assertThat(TriFunctionX<T1, T2, T3, R, X> functionalInterface) {
-		return new TriFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LTriFunctionX<T1, T2, T3, R, X>, RS extends AbstractObjectAssert<RS, R>, T1, T2, T3, R, X extends Exception> LTriFunctionXAssert.Impl<A, RS, T1, T2, T3, R, X> assertThat(LTriFunctionX<T1, T2, T3, R, X> functionalInterface) {
+		return new LTriFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ByteFunction<R>, RS extends AbstractObjectAssert<RS, R>, R> ByteFunctionAssert.Impl<A, RS, R> assertThat(ByteFunction<R> functionalInterface) {
-		return new ByteFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LByteFunction<R>, RS extends AbstractObjectAssert<RS, R>, R> LByteFunctionAssert.Impl<A, RS, R> assertThat(LByteFunction<R> functionalInterface) {
+		return new LByteFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ByteFunctionX<R, X>, RS extends AbstractObjectAssert<RS, R>, R, X extends Exception> ByteFunctionXAssert.Impl<A, RS, R, X> assertThat(ByteFunctionX<R, X> functionalInterface) {
-		return new ByteFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LByteFunctionX<R, X>, RS extends AbstractObjectAssert<RS, R>, R, X extends Exception> LByteFunctionXAssert.Impl<A, RS, R, X> assertThat(LByteFunctionX<R, X> functionalInterface) {
+		return new LByteFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ShortFunction<R>, RS extends AbstractObjectAssert<RS, R>, R> ShortFunctionAssert.Impl<A, RS, R> assertThat(ShortFunction<R> functionalInterface) {
-		return new ShortFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LShortFunction<R>, RS extends AbstractObjectAssert<RS, R>, R> LShortFunctionAssert.Impl<A, RS, R> assertThat(LShortFunction<R> functionalInterface) {
+		return new LShortFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ShortFunctionX<R, X>, RS extends AbstractObjectAssert<RS, R>, R, X extends Exception> ShortFunctionXAssert.Impl<A, RS, R, X> assertThat(ShortFunctionX<R, X> functionalInterface) {
-		return new ShortFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LShortFunctionX<R, X>, RS extends AbstractObjectAssert<RS, R>, R, X extends Exception> LShortFunctionXAssert.Impl<A, RS, R, X> assertThat(LShortFunctionX<R, X> functionalInterface) {
+		return new LShortFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends IntFunction<R>, RS extends AbstractObjectAssert<RS, R>, R> IntFunctionAssert.Impl<A, RS, R> assertThat(IntFunction<R> functionalInterface) {
-		return new IntFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LIntFunction<R>, RS extends AbstractObjectAssert<RS, R>, R> LIntFunctionAssert.Impl<A, RS, R> assertThat(LIntFunction<R> functionalInterface) {
+		return new LIntFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends IntFunctionX<R, X>, RS extends AbstractObjectAssert<RS, R>, R, X extends Exception> IntFunctionXAssert.Impl<A, RS, R, X> assertThat(IntFunctionX<R, X> functionalInterface) {
-		return new IntFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LIntFunctionX<R, X>, RS extends AbstractObjectAssert<RS, R>, R, X extends Exception> LIntFunctionXAssert.Impl<A, RS, R, X> assertThat(LIntFunctionX<R, X> functionalInterface) {
+		return new LIntFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends LongFunction<R>, RS extends AbstractObjectAssert<RS, R>, R> LongFunctionAssert.Impl<A, RS, R> assertThat(LongFunction<R> functionalInterface) {
-		return new LongFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LLongFunction<R>, RS extends AbstractObjectAssert<RS, R>, R> LLongFunctionAssert.Impl<A, RS, R> assertThat(LLongFunction<R> functionalInterface) {
+		return new LLongFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends LongFunctionX<R, X>, RS extends AbstractObjectAssert<RS, R>, R, X extends Exception> LongFunctionXAssert.Impl<A, RS, R, X> assertThat(LongFunctionX<R, X> functionalInterface) {
-		return new LongFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LLongFunctionX<R, X>, RS extends AbstractObjectAssert<RS, R>, R, X extends Exception> LLongFunctionXAssert.Impl<A, RS, R, X> assertThat(LLongFunctionX<R, X> functionalInterface) {
+		return new LLongFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends FloatFunction<R>, RS extends AbstractObjectAssert<RS, R>, R> FloatFunctionAssert.Impl<A, RS, R> assertThat(FloatFunction<R> functionalInterface) {
-		return new FloatFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LFloatFunction<R>, RS extends AbstractObjectAssert<RS, R>, R> LFloatFunctionAssert.Impl<A, RS, R> assertThat(LFloatFunction<R> functionalInterface) {
+		return new LFloatFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends FloatFunctionX<R, X>, RS extends AbstractObjectAssert<RS, R>, R, X extends Exception> FloatFunctionXAssert.Impl<A, RS, R, X> assertThat(FloatFunctionX<R, X> functionalInterface) {
-		return new FloatFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LFloatFunctionX<R, X>, RS extends AbstractObjectAssert<RS, R>, R, X extends Exception> LFloatFunctionXAssert.Impl<A, RS, R, X> assertThat(LFloatFunctionX<R, X> functionalInterface) {
+		return new LFloatFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends DoubleFunction<R>, RS extends AbstractObjectAssert<RS, R>, R> DoubleFunctionAssert.Impl<A, RS, R> assertThat(DoubleFunction<R> functionalInterface) {
-		return new DoubleFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LDoubleFunction<R>, RS extends AbstractObjectAssert<RS, R>, R> LDoubleFunctionAssert.Impl<A, RS, R> assertThat(LDoubleFunction<R> functionalInterface) {
+		return new LDoubleFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends DoubleFunctionX<R, X>, RS extends AbstractObjectAssert<RS, R>, R, X extends Exception> DoubleFunctionXAssert.Impl<A, RS, R, X> assertThat(DoubleFunctionX<R, X> functionalInterface) {
-		return new DoubleFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LDoubleFunctionX<R, X>, RS extends AbstractObjectAssert<RS, R>, R, X extends Exception> LDoubleFunctionXAssert.Impl<A, RS, R, X> assertThat(LDoubleFunctionX<R, X> functionalInterface) {
+		return new LDoubleFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends CharFunction<R>, RS extends AbstractObjectAssert<RS, R>, R> CharFunctionAssert.Impl<A, RS, R> assertThat(CharFunction<R> functionalInterface) {
-		return new CharFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LCharFunction<R>, RS extends AbstractObjectAssert<RS, R>, R> LCharFunctionAssert.Impl<A, RS, R> assertThat(LCharFunction<R> functionalInterface) {
+		return new LCharFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends CharFunctionX<R, X>, RS extends AbstractObjectAssert<RS, R>, R, X extends Exception> CharFunctionXAssert.Impl<A, RS, R, X> assertThat(CharFunctionX<R, X> functionalInterface) {
-		return new CharFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LCharFunctionX<R, X>, RS extends AbstractObjectAssert<RS, R>, R, X extends Exception> LCharFunctionXAssert.Impl<A, RS, R, X> assertThat(LCharFunctionX<R, X> functionalInterface) {
+		return new LCharFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BooleanFunction<R>, RS extends AbstractObjectAssert<RS, R>, R> BooleanFunctionAssert.Impl<A, RS, R> assertThat(BooleanFunction<R> functionalInterface) {
-		return new BooleanFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBooleanFunction<R>, RS extends AbstractObjectAssert<RS, R>, R> LBooleanFunctionAssert.Impl<A, RS, R> assertThat(LBooleanFunction<R> functionalInterface) {
+		return new LBooleanFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BooleanFunctionX<R, X>, RS extends AbstractObjectAssert<RS, R>, R, X extends Exception> BooleanFunctionXAssert.Impl<A, RS, R, X> assertThat(BooleanFunctionX<R, X> functionalInterface) {
-		return new BooleanFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBooleanFunctionX<R, X>, RS extends AbstractObjectAssert<RS, R>, R, X extends Exception> LBooleanFunctionXAssert.Impl<A, RS, R, X> assertThat(LBooleanFunctionX<R, X> functionalInterface) {
+		return new LBooleanFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ByteBiFunction<R>, RS extends AbstractObjectAssert<RS, R>, R> ByteBiFunctionAssert.Impl<A, RS, R> assertThat(ByteBiFunction<R> functionalInterface) {
-		return new ByteBiFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LByteBiFunction<R>, RS extends AbstractObjectAssert<RS, R>, R> LByteBiFunctionAssert.Impl<A, RS, R> assertThat(LByteBiFunction<R> functionalInterface) {
+		return new LByteBiFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ByteBiFunctionX<R, X>, RS extends AbstractObjectAssert<RS, R>, R, X extends Exception> ByteBiFunctionXAssert.Impl<A, RS, R, X> assertThat(ByteBiFunctionX<R, X> functionalInterface) {
-		return new ByteBiFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LByteBiFunctionX<R, X>, RS extends AbstractObjectAssert<RS, R>, R, X extends Exception> LByteBiFunctionXAssert.Impl<A, RS, R, X> assertThat(LByteBiFunctionX<R, X> functionalInterface) {
+		return new LByteBiFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ShortBiFunction<R>, RS extends AbstractObjectAssert<RS, R>, R> ShortBiFunctionAssert.Impl<A, RS, R> assertThat(ShortBiFunction<R> functionalInterface) {
-		return new ShortBiFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LShortBiFunction<R>, RS extends AbstractObjectAssert<RS, R>, R> LShortBiFunctionAssert.Impl<A, RS, R> assertThat(LShortBiFunction<R> functionalInterface) {
+		return new LShortBiFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ShortBiFunctionX<R, X>, RS extends AbstractObjectAssert<RS, R>, R, X extends Exception> ShortBiFunctionXAssert.Impl<A, RS, R, X> assertThat(ShortBiFunctionX<R, X> functionalInterface) {
-		return new ShortBiFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LShortBiFunctionX<R, X>, RS extends AbstractObjectAssert<RS, R>, R, X extends Exception> LShortBiFunctionXAssert.Impl<A, RS, R, X> assertThat(LShortBiFunctionX<R, X> functionalInterface) {
+		return new LShortBiFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends IntBiFunction<R>, RS extends AbstractObjectAssert<RS, R>, R> IntBiFunctionAssert.Impl<A, RS, R> assertThat(IntBiFunction<R> functionalInterface) {
-		return new IntBiFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LIntBiFunction<R>, RS extends AbstractObjectAssert<RS, R>, R> LIntBiFunctionAssert.Impl<A, RS, R> assertThat(LIntBiFunction<R> functionalInterface) {
+		return new LIntBiFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends IntBiFunctionX<R, X>, RS extends AbstractObjectAssert<RS, R>, R, X extends Exception> IntBiFunctionXAssert.Impl<A, RS, R, X> assertThat(IntBiFunctionX<R, X> functionalInterface) {
-		return new IntBiFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LIntBiFunctionX<R, X>, RS extends AbstractObjectAssert<RS, R>, R, X extends Exception> LIntBiFunctionXAssert.Impl<A, RS, R, X> assertThat(LIntBiFunctionX<R, X> functionalInterface) {
+		return new LIntBiFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends LongBiFunction<R>, RS extends AbstractObjectAssert<RS, R>, R> LongBiFunctionAssert.Impl<A, RS, R> assertThat(LongBiFunction<R> functionalInterface) {
-		return new LongBiFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LLongBiFunction<R>, RS extends AbstractObjectAssert<RS, R>, R> LLongBiFunctionAssert.Impl<A, RS, R> assertThat(LLongBiFunction<R> functionalInterface) {
+		return new LLongBiFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends LongBiFunctionX<R, X>, RS extends AbstractObjectAssert<RS, R>, R, X extends Exception> LongBiFunctionXAssert.Impl<A, RS, R, X> assertThat(LongBiFunctionX<R, X> functionalInterface) {
-		return new LongBiFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LLongBiFunctionX<R, X>, RS extends AbstractObjectAssert<RS, R>, R, X extends Exception> LLongBiFunctionXAssert.Impl<A, RS, R, X> assertThat(LLongBiFunctionX<R, X> functionalInterface) {
+		return new LLongBiFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends FloatBiFunction<R>, RS extends AbstractObjectAssert<RS, R>, R> FloatBiFunctionAssert.Impl<A, RS, R> assertThat(FloatBiFunction<R> functionalInterface) {
-		return new FloatBiFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LFloatBiFunction<R>, RS extends AbstractObjectAssert<RS, R>, R> LFloatBiFunctionAssert.Impl<A, RS, R> assertThat(LFloatBiFunction<R> functionalInterface) {
+		return new LFloatBiFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends FloatBiFunctionX<R, X>, RS extends AbstractObjectAssert<RS, R>, R, X extends Exception> FloatBiFunctionXAssert.Impl<A, RS, R, X> assertThat(FloatBiFunctionX<R, X> functionalInterface) {
-		return new FloatBiFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LFloatBiFunctionX<R, X>, RS extends AbstractObjectAssert<RS, R>, R, X extends Exception> LFloatBiFunctionXAssert.Impl<A, RS, R, X> assertThat(LFloatBiFunctionX<R, X> functionalInterface) {
+		return new LFloatBiFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends DoubleBiFunction<R>, RS extends AbstractObjectAssert<RS, R>, R> DoubleBiFunctionAssert.Impl<A, RS, R> assertThat(DoubleBiFunction<R> functionalInterface) {
-		return new DoubleBiFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LDoubleBiFunction<R>, RS extends AbstractObjectAssert<RS, R>, R> LDoubleBiFunctionAssert.Impl<A, RS, R> assertThat(LDoubleBiFunction<R> functionalInterface) {
+		return new LDoubleBiFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends DoubleBiFunctionX<R, X>, RS extends AbstractObjectAssert<RS, R>, R, X extends Exception> DoubleBiFunctionXAssert.Impl<A, RS, R, X> assertThat(DoubleBiFunctionX<R, X> functionalInterface) {
-		return new DoubleBiFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LDoubleBiFunctionX<R, X>, RS extends AbstractObjectAssert<RS, R>, R, X extends Exception> LDoubleBiFunctionXAssert.Impl<A, RS, R, X> assertThat(LDoubleBiFunctionX<R, X> functionalInterface) {
+		return new LDoubleBiFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends CharBiFunction<R>, RS extends AbstractObjectAssert<RS, R>, R> CharBiFunctionAssert.Impl<A, RS, R> assertThat(CharBiFunction<R> functionalInterface) {
-		return new CharBiFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LCharBiFunction<R>, RS extends AbstractObjectAssert<RS, R>, R> LCharBiFunctionAssert.Impl<A, RS, R> assertThat(LCharBiFunction<R> functionalInterface) {
+		return new LCharBiFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends CharBiFunctionX<R, X>, RS extends AbstractObjectAssert<RS, R>, R, X extends Exception> CharBiFunctionXAssert.Impl<A, RS, R, X> assertThat(CharBiFunctionX<R, X> functionalInterface) {
-		return new CharBiFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LCharBiFunctionX<R, X>, RS extends AbstractObjectAssert<RS, R>, R, X extends Exception> LCharBiFunctionXAssert.Impl<A, RS, R, X> assertThat(LCharBiFunctionX<R, X> functionalInterface) {
+		return new LCharBiFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BooleanBiFunction<R>, RS extends AbstractObjectAssert<RS, R>, R> BooleanBiFunctionAssert.Impl<A, RS, R> assertThat(BooleanBiFunction<R> functionalInterface) {
-		return new BooleanBiFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBooleanBiFunction<R>, RS extends AbstractObjectAssert<RS, R>, R> LBooleanBiFunctionAssert.Impl<A, RS, R> assertThat(LBooleanBiFunction<R> functionalInterface) {
+		return new LBooleanBiFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BooleanBiFunctionX<R, X>, RS extends AbstractObjectAssert<RS, R>, R, X extends Exception> BooleanBiFunctionXAssert.Impl<A, RS, R, X> assertThat(BooleanBiFunctionX<R, X> functionalInterface) {
-		return new BooleanBiFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBooleanBiFunctionX<R, X>, RS extends AbstractObjectAssert<RS, R>, R, X extends Exception> LBooleanBiFunctionXAssert.Impl<A, RS, R, X> assertThat(LBooleanBiFunctionX<R, X> functionalInterface) {
+		return new LBooleanBiFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BooleanTriFunction<R>, RS extends AbstractObjectAssert<RS, R>, R> BooleanTriFunctionAssert.Impl<A, RS, R> assertThat(BooleanTriFunction<R> functionalInterface) {
-		return new BooleanTriFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBooleanTriFunction<R>, RS extends AbstractObjectAssert<RS, R>, R> LBooleanTriFunctionAssert.Impl<A, RS, R> assertThat(LBooleanTriFunction<R> functionalInterface) {
+		return new LBooleanTriFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BooleanTriFunctionX<R, X>, RS extends AbstractObjectAssert<RS, R>, R, X extends Exception> BooleanTriFunctionXAssert.Impl<A, RS, R, X> assertThat(BooleanTriFunctionX<R, X> functionalInterface) {
-		return new BooleanTriFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBooleanTriFunctionX<R, X>, RS extends AbstractObjectAssert<RS, R>, R, X extends Exception> LBooleanTriFunctionXAssert.Impl<A, RS, R, X> assertThat(LBooleanTriFunctionX<R, X> functionalInterface) {
+		return new LBooleanTriFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ObjByteFunction<T, R>, RS extends AbstractObjectAssert<RS, R>, T, R> ObjByteFunctionAssert.Impl<A, RS, T, R> assertThat(ObjByteFunction<T, R> functionalInterface) {
-		return new ObjByteFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LObjByteFunction<T, R>, RS extends AbstractObjectAssert<RS, R>, T, R> LObjByteFunctionAssert.Impl<A, RS, T, R> assertThat(LObjByteFunction<T, R> functionalInterface) {
+		return new LObjByteFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ObjByteFunctionX<T, R, X>, RS extends AbstractObjectAssert<RS, R>, T, R, X extends Exception> ObjByteFunctionXAssert.Impl<A, RS, T, R, X> assertThat(ObjByteFunctionX<T, R, X> functionalInterface) {
-		return new ObjByteFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LObjByteFunctionX<T, R, X>, RS extends AbstractObjectAssert<RS, R>, T, R, X extends Exception> LObjByteFunctionXAssert.Impl<A, RS, T, R, X> assertThat(LObjByteFunctionX<T, R, X> functionalInterface) {
+		return new LObjByteFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ObjShortFunction<T, R>, RS extends AbstractObjectAssert<RS, R>, T, R> ObjShortFunctionAssert.Impl<A, RS, T, R> assertThat(ObjShortFunction<T, R> functionalInterface) {
-		return new ObjShortFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LObjShortFunction<T, R>, RS extends AbstractObjectAssert<RS, R>, T, R> LObjShortFunctionAssert.Impl<A, RS, T, R> assertThat(LObjShortFunction<T, R> functionalInterface) {
+		return new LObjShortFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ObjShortFunctionX<T, R, X>, RS extends AbstractObjectAssert<RS, R>, T, R, X extends Exception> ObjShortFunctionXAssert.Impl<A, RS, T, R, X> assertThat(ObjShortFunctionX<T, R, X> functionalInterface) {
-		return new ObjShortFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LObjShortFunctionX<T, R, X>, RS extends AbstractObjectAssert<RS, R>, T, R, X extends Exception> LObjShortFunctionXAssert.Impl<A, RS, T, R, X> assertThat(LObjShortFunctionX<T, R, X> functionalInterface) {
+		return new LObjShortFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ObjIntFunction<T, R>, RS extends AbstractObjectAssert<RS, R>, T, R> ObjIntFunctionAssert.Impl<A, RS, T, R> assertThat(ObjIntFunction<T, R> functionalInterface) {
-		return new ObjIntFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LObjIntFunction<T, R>, RS extends AbstractObjectAssert<RS, R>, T, R> LObjIntFunctionAssert.Impl<A, RS, T, R> assertThat(LObjIntFunction<T, R> functionalInterface) {
+		return new LObjIntFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ObjIntFunctionX<T, R, X>, RS extends AbstractObjectAssert<RS, R>, T, R, X extends Exception> ObjIntFunctionXAssert.Impl<A, RS, T, R, X> assertThat(ObjIntFunctionX<T, R, X> functionalInterface) {
-		return new ObjIntFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LObjIntFunctionX<T, R, X>, RS extends AbstractObjectAssert<RS, R>, T, R, X extends Exception> LObjIntFunctionXAssert.Impl<A, RS, T, R, X> assertThat(LObjIntFunctionX<T, R, X> functionalInterface) {
+		return new LObjIntFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ObjLongFunction<T, R>, RS extends AbstractObjectAssert<RS, R>, T, R> ObjLongFunctionAssert.Impl<A, RS, T, R> assertThat(ObjLongFunction<T, R> functionalInterface) {
-		return new ObjLongFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LObjLongFunction<T, R>, RS extends AbstractObjectAssert<RS, R>, T, R> LObjLongFunctionAssert.Impl<A, RS, T, R> assertThat(LObjLongFunction<T, R> functionalInterface) {
+		return new LObjLongFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ObjLongFunctionX<T, R, X>, RS extends AbstractObjectAssert<RS, R>, T, R, X extends Exception> ObjLongFunctionXAssert.Impl<A, RS, T, R, X> assertThat(ObjLongFunctionX<T, R, X> functionalInterface) {
-		return new ObjLongFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LObjLongFunctionX<T, R, X>, RS extends AbstractObjectAssert<RS, R>, T, R, X extends Exception> LObjLongFunctionXAssert.Impl<A, RS, T, R, X> assertThat(LObjLongFunctionX<T, R, X> functionalInterface) {
+		return new LObjLongFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ObjFloatFunction<T, R>, RS extends AbstractObjectAssert<RS, R>, T, R> ObjFloatFunctionAssert.Impl<A, RS, T, R> assertThat(ObjFloatFunction<T, R> functionalInterface) {
-		return new ObjFloatFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LObjFloatFunction<T, R>, RS extends AbstractObjectAssert<RS, R>, T, R> LObjFloatFunctionAssert.Impl<A, RS, T, R> assertThat(LObjFloatFunction<T, R> functionalInterface) {
+		return new LObjFloatFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ObjFloatFunctionX<T, R, X>, RS extends AbstractObjectAssert<RS, R>, T, R, X extends Exception> ObjFloatFunctionXAssert.Impl<A, RS, T, R, X> assertThat(ObjFloatFunctionX<T, R, X> functionalInterface) {
-		return new ObjFloatFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LObjFloatFunctionX<T, R, X>, RS extends AbstractObjectAssert<RS, R>, T, R, X extends Exception> LObjFloatFunctionXAssert.Impl<A, RS, T, R, X> assertThat(LObjFloatFunctionX<T, R, X> functionalInterface) {
+		return new LObjFloatFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ObjDoubleFunction<T, R>, RS extends AbstractObjectAssert<RS, R>, T, R> ObjDoubleFunctionAssert.Impl<A, RS, T, R> assertThat(ObjDoubleFunction<T, R> functionalInterface) {
-		return new ObjDoubleFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LObjDoubleFunction<T, R>, RS extends AbstractObjectAssert<RS, R>, T, R> LObjDoubleFunctionAssert.Impl<A, RS, T, R> assertThat(LObjDoubleFunction<T, R> functionalInterface) {
+		return new LObjDoubleFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ObjDoubleFunctionX<T, R, X>, RS extends AbstractObjectAssert<RS, R>, T, R, X extends Exception> ObjDoubleFunctionXAssert.Impl<A, RS, T, R, X> assertThat(ObjDoubleFunctionX<T, R, X> functionalInterface) {
-		return new ObjDoubleFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LObjDoubleFunctionX<T, R, X>, RS extends AbstractObjectAssert<RS, R>, T, R, X extends Exception> LObjDoubleFunctionXAssert.Impl<A, RS, T, R, X> assertThat(LObjDoubleFunctionX<T, R, X> functionalInterface) {
+		return new LObjDoubleFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ObjCharFunction<T, R>, RS extends AbstractObjectAssert<RS, R>, T, R> ObjCharFunctionAssert.Impl<A, RS, T, R> assertThat(ObjCharFunction<T, R> functionalInterface) {
-		return new ObjCharFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LObjCharFunction<T, R>, RS extends AbstractObjectAssert<RS, R>, T, R> LObjCharFunctionAssert.Impl<A, RS, T, R> assertThat(LObjCharFunction<T, R> functionalInterface) {
+		return new LObjCharFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ObjCharFunctionX<T, R, X>, RS extends AbstractObjectAssert<RS, R>, T, R, X extends Exception> ObjCharFunctionXAssert.Impl<A, RS, T, R, X> assertThat(ObjCharFunctionX<T, R, X> functionalInterface) {
-		return new ObjCharFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LObjCharFunctionX<T, R, X>, RS extends AbstractObjectAssert<RS, R>, T, R, X extends Exception> LObjCharFunctionXAssert.Impl<A, RS, T, R, X> assertThat(LObjCharFunctionX<T, R, X> functionalInterface) {
+		return new LObjCharFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ObjBooleanFunction<T, R>, RS extends AbstractObjectAssert<RS, R>, T, R> ObjBooleanFunctionAssert.Impl<A, RS, T, R> assertThat(ObjBooleanFunction<T, R> functionalInterface) {
-		return new ObjBooleanFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LObjBooleanFunction<T, R>, RS extends AbstractObjectAssert<RS, R>, T, R> LObjBooleanFunctionAssert.Impl<A, RS, T, R> assertThat(LObjBooleanFunction<T, R> functionalInterface) {
+		return new LObjBooleanFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ObjBooleanFunctionX<T, R, X>, RS extends AbstractObjectAssert<RS, R>, T, R, X extends Exception> ObjBooleanFunctionXAssert.Impl<A, RS, T, R, X> assertThat(ObjBooleanFunctionX<T, R, X> functionalInterface) {
-		return new ObjBooleanFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LObjBooleanFunctionX<T, R, X>, RS extends AbstractObjectAssert<RS, R>, T, R, X extends Exception> LObjBooleanFunctionXAssert.Impl<A, RS, T, R, X> assertThat(LObjBooleanFunctionX<T, R, X> functionalInterface) {
+		return new LObjBooleanFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiObjByteFunction<T1, T2, R>, RS extends AbstractObjectAssert<RS, R>, T1, T2, R> BiObjByteFunctionAssert.Impl<A, RS, T1, T2, R> assertThat(BiObjByteFunction<T1, T2, R> functionalInterface) {
-		return new BiObjByteFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiObjByteFunction<T1, T2, R>, RS extends AbstractObjectAssert<RS, R>, T1, T2, R> LBiObjByteFunctionAssert.Impl<A, RS, T1, T2, R> assertThat(LBiObjByteFunction<T1, T2, R> functionalInterface) {
+		return new LBiObjByteFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiObjByteFunctionX<T1, T2, R, X>, RS extends AbstractObjectAssert<RS, R>, T1, T2, R, X extends Exception> BiObjByteFunctionXAssert.Impl<A, RS, T1, T2, R, X> assertThat(BiObjByteFunctionX<T1, T2, R, X> functionalInterface) {
-		return new BiObjByteFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiObjByteFunctionX<T1, T2, R, X>, RS extends AbstractObjectAssert<RS, R>, T1, T2, R, X extends Exception> LBiObjByteFunctionXAssert.Impl<A, RS, T1, T2, R, X> assertThat(LBiObjByteFunctionX<T1, T2, R, X> functionalInterface) {
+		return new LBiObjByteFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiObjShortFunction<T1, T2, R>, RS extends AbstractObjectAssert<RS, R>, T1, T2, R> BiObjShortFunctionAssert.Impl<A, RS, T1, T2, R> assertThat(BiObjShortFunction<T1, T2, R> functionalInterface) {
-		return new BiObjShortFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiObjShortFunction<T1, T2, R>, RS extends AbstractObjectAssert<RS, R>, T1, T2, R> LBiObjShortFunctionAssert.Impl<A, RS, T1, T2, R> assertThat(LBiObjShortFunction<T1, T2, R> functionalInterface) {
+		return new LBiObjShortFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiObjShortFunctionX<T1, T2, R, X>, RS extends AbstractObjectAssert<RS, R>, T1, T2, R, X extends Exception> BiObjShortFunctionXAssert.Impl<A, RS, T1, T2, R, X> assertThat(BiObjShortFunctionX<T1, T2, R, X> functionalInterface) {
-		return new BiObjShortFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiObjShortFunctionX<T1, T2, R, X>, RS extends AbstractObjectAssert<RS, R>, T1, T2, R, X extends Exception> LBiObjShortFunctionXAssert.Impl<A, RS, T1, T2, R, X> assertThat(LBiObjShortFunctionX<T1, T2, R, X> functionalInterface) {
+		return new LBiObjShortFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiObjIntFunction<T1, T2, R>, RS extends AbstractObjectAssert<RS, R>, T1, T2, R> BiObjIntFunctionAssert.Impl<A, RS, T1, T2, R> assertThat(BiObjIntFunction<T1, T2, R> functionalInterface) {
-		return new BiObjIntFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiObjIntFunction<T1, T2, R>, RS extends AbstractObjectAssert<RS, R>, T1, T2, R> LBiObjIntFunctionAssert.Impl<A, RS, T1, T2, R> assertThat(LBiObjIntFunction<T1, T2, R> functionalInterface) {
+		return new LBiObjIntFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiObjIntFunctionX<T1, T2, R, X>, RS extends AbstractObjectAssert<RS, R>, T1, T2, R, X extends Exception> BiObjIntFunctionXAssert.Impl<A, RS, T1, T2, R, X> assertThat(BiObjIntFunctionX<T1, T2, R, X> functionalInterface) {
-		return new BiObjIntFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiObjIntFunctionX<T1, T2, R, X>, RS extends AbstractObjectAssert<RS, R>, T1, T2, R, X extends Exception> LBiObjIntFunctionXAssert.Impl<A, RS, T1, T2, R, X> assertThat(LBiObjIntFunctionX<T1, T2, R, X> functionalInterface) {
+		return new LBiObjIntFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiObjLongFunction<T1, T2, R>, RS extends AbstractObjectAssert<RS, R>, T1, T2, R> BiObjLongFunctionAssert.Impl<A, RS, T1, T2, R> assertThat(BiObjLongFunction<T1, T2, R> functionalInterface) {
-		return new BiObjLongFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiObjLongFunction<T1, T2, R>, RS extends AbstractObjectAssert<RS, R>, T1, T2, R> LBiObjLongFunctionAssert.Impl<A, RS, T1, T2, R> assertThat(LBiObjLongFunction<T1, T2, R> functionalInterface) {
+		return new LBiObjLongFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiObjLongFunctionX<T1, T2, R, X>, RS extends AbstractObjectAssert<RS, R>, T1, T2, R, X extends Exception> BiObjLongFunctionXAssert.Impl<A, RS, T1, T2, R, X> assertThat(BiObjLongFunctionX<T1, T2, R, X> functionalInterface) {
-		return new BiObjLongFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiObjLongFunctionX<T1, T2, R, X>, RS extends AbstractObjectAssert<RS, R>, T1, T2, R, X extends Exception> LBiObjLongFunctionXAssert.Impl<A, RS, T1, T2, R, X> assertThat(LBiObjLongFunctionX<T1, T2, R, X> functionalInterface) {
+		return new LBiObjLongFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiObjFloatFunction<T1, T2, R>, RS extends AbstractObjectAssert<RS, R>, T1, T2, R> BiObjFloatFunctionAssert.Impl<A, RS, T1, T2, R> assertThat(BiObjFloatFunction<T1, T2, R> functionalInterface) {
-		return new BiObjFloatFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiObjFloatFunction<T1, T2, R>, RS extends AbstractObjectAssert<RS, R>, T1, T2, R> LBiObjFloatFunctionAssert.Impl<A, RS, T1, T2, R> assertThat(LBiObjFloatFunction<T1, T2, R> functionalInterface) {
+		return new LBiObjFloatFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiObjFloatFunctionX<T1, T2, R, X>, RS extends AbstractObjectAssert<RS, R>, T1, T2, R, X extends Exception> BiObjFloatFunctionXAssert.Impl<A, RS, T1, T2, R, X> assertThat(BiObjFloatFunctionX<T1, T2, R, X> functionalInterface) {
-		return new BiObjFloatFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiObjFloatFunctionX<T1, T2, R, X>, RS extends AbstractObjectAssert<RS, R>, T1, T2, R, X extends Exception> LBiObjFloatFunctionXAssert.Impl<A, RS, T1, T2, R, X> assertThat(LBiObjFloatFunctionX<T1, T2, R, X> functionalInterface) {
+		return new LBiObjFloatFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiObjDoubleFunction<T1, T2, R>, RS extends AbstractObjectAssert<RS, R>, T1, T2, R> BiObjDoubleFunctionAssert.Impl<A, RS, T1, T2, R> assertThat(BiObjDoubleFunction<T1, T2, R> functionalInterface) {
-		return new BiObjDoubleFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiObjDoubleFunction<T1, T2, R>, RS extends AbstractObjectAssert<RS, R>, T1, T2, R> LBiObjDoubleFunctionAssert.Impl<A, RS, T1, T2, R> assertThat(LBiObjDoubleFunction<T1, T2, R> functionalInterface) {
+		return new LBiObjDoubleFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiObjDoubleFunctionX<T1, T2, R, X>, RS extends AbstractObjectAssert<RS, R>, T1, T2, R, X extends Exception> BiObjDoubleFunctionXAssert.Impl<A, RS, T1, T2, R, X> assertThat(BiObjDoubleFunctionX<T1, T2, R, X> functionalInterface) {
-		return new BiObjDoubleFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiObjDoubleFunctionX<T1, T2, R, X>, RS extends AbstractObjectAssert<RS, R>, T1, T2, R, X extends Exception> LBiObjDoubleFunctionXAssert.Impl<A, RS, T1, T2, R, X> assertThat(
+			LBiObjDoubleFunctionX<T1, T2, R, X> functionalInterface) {
+		return new LBiObjDoubleFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiObjCharFunction<T1, T2, R>, RS extends AbstractObjectAssert<RS, R>, T1, T2, R> BiObjCharFunctionAssert.Impl<A, RS, T1, T2, R> assertThat(BiObjCharFunction<T1, T2, R> functionalInterface) {
-		return new BiObjCharFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiObjCharFunction<T1, T2, R>, RS extends AbstractObjectAssert<RS, R>, T1, T2, R> LBiObjCharFunctionAssert.Impl<A, RS, T1, T2, R> assertThat(LBiObjCharFunction<T1, T2, R> functionalInterface) {
+		return new LBiObjCharFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiObjCharFunctionX<T1, T2, R, X>, RS extends AbstractObjectAssert<RS, R>, T1, T2, R, X extends Exception> BiObjCharFunctionXAssert.Impl<A, RS, T1, T2, R, X> assertThat(BiObjCharFunctionX<T1, T2, R, X> functionalInterface) {
-		return new BiObjCharFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiObjCharFunctionX<T1, T2, R, X>, RS extends AbstractObjectAssert<RS, R>, T1, T2, R, X extends Exception> LBiObjCharFunctionXAssert.Impl<A, RS, T1, T2, R, X> assertThat(LBiObjCharFunctionX<T1, T2, R, X> functionalInterface) {
+		return new LBiObjCharFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiObjBooleanFunction<T1, T2, R>, RS extends AbstractObjectAssert<RS, R>, T1, T2, R> BiObjBooleanFunctionAssert.Impl<A, RS, T1, T2, R> assertThat(BiObjBooleanFunction<T1, T2, R> functionalInterface) {
-		return new BiObjBooleanFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiObjBooleanFunction<T1, T2, R>, RS extends AbstractObjectAssert<RS, R>, T1, T2, R> LBiObjBooleanFunctionAssert.Impl<A, RS, T1, T2, R> assertThat(LBiObjBooleanFunction<T1, T2, R> functionalInterface) {
+		return new LBiObjBooleanFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiObjBooleanFunctionX<T1, T2, R, X>, RS extends AbstractObjectAssert<RS, R>, T1, T2, R, X extends Exception> BiObjBooleanFunctionXAssert.Impl<A, RS, T1, T2, R, X> assertThat(
-			BiObjBooleanFunctionX<T1, T2, R, X> functionalInterface) {
-		return new BiObjBooleanFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiObjBooleanFunctionX<T1, T2, R, X>, RS extends AbstractObjectAssert<RS, R>, T1, T2, R, X extends Exception> LBiObjBooleanFunctionXAssert.Impl<A, RS, T1, T2, R, X> assertThat(
+			LBiObjBooleanFunctionX<T1, T2, R, X> functionalInterface) {
+		return new LBiObjBooleanFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ToByteFunction<T>, RS extends AbstractByteAssert<RS>, T> ToByteFunctionAssert.Impl<A, RS, T> assertThat(ToByteFunction<T> functionalInterface) {
-		return new ToByteFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LToByteFunction<T>, RS extends AbstractByteAssert<RS>, T> LToByteFunctionAssert.Impl<A, RS, T> assertThat(LToByteFunction<T> functionalInterface) {
+		return new LToByteFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ToByteFunctionX<T, X>, RS extends AbstractByteAssert<RS>, T, X extends Exception> ToByteFunctionXAssert.Impl<A, RS, T, X> assertThat(ToByteFunctionX<T, X> functionalInterface) {
-		return new ToByteFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LToByteFunctionX<T, X>, RS extends AbstractByteAssert<RS>, T, X extends Exception> LToByteFunctionXAssert.Impl<A, RS, T, X> assertThat(LToByteFunctionX<T, X> functionalInterface) {
+		return new LToByteFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ToShortFunction<T>, RS extends AbstractShortAssert<RS>, T> ToShortFunctionAssert.Impl<A, RS, T> assertThat(ToShortFunction<T> functionalInterface) {
-		return new ToShortFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LToShortFunction<T>, RS extends AbstractShortAssert<RS>, T> LToShortFunctionAssert.Impl<A, RS, T> assertThat(LToShortFunction<T> functionalInterface) {
+		return new LToShortFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ToShortFunctionX<T, X>, RS extends AbstractShortAssert<RS>, T, X extends Exception> ToShortFunctionXAssert.Impl<A, RS, T, X> assertThat(ToShortFunctionX<T, X> functionalInterface) {
-		return new ToShortFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LToShortFunctionX<T, X>, RS extends AbstractShortAssert<RS>, T, X extends Exception> LToShortFunctionXAssert.Impl<A, RS, T, X> assertThat(LToShortFunctionX<T, X> functionalInterface) {
+		return new LToShortFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ToIntFunction<T>, RS extends AbstractIntegerAssert<RS>, T> ToIntFunctionAssert.Impl<A, RS, T> assertThat(ToIntFunction<T> functionalInterface) {
-		return new ToIntFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LToIntFunction<T>, RS extends AbstractIntegerAssert<RS>, T> LToIntFunctionAssert.Impl<A, RS, T> assertThat(LToIntFunction<T> functionalInterface) {
+		return new LToIntFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ToIntFunctionX<T, X>, RS extends AbstractIntegerAssert<RS>, T, X extends Exception> ToIntFunctionXAssert.Impl<A, RS, T, X> assertThat(ToIntFunctionX<T, X> functionalInterface) {
-		return new ToIntFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LToIntFunctionX<T, X>, RS extends AbstractIntegerAssert<RS>, T, X extends Exception> LToIntFunctionXAssert.Impl<A, RS, T, X> assertThat(LToIntFunctionX<T, X> functionalInterface) {
+		return new LToIntFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ToLongFunction<T>, RS extends AbstractLongAssert<RS>, T> ToLongFunctionAssert.Impl<A, RS, T> assertThat(ToLongFunction<T> functionalInterface) {
-		return new ToLongFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LToLongFunction<T>, RS extends AbstractLongAssert<RS>, T> LToLongFunctionAssert.Impl<A, RS, T> assertThat(LToLongFunction<T> functionalInterface) {
+		return new LToLongFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ToLongFunctionX<T, X>, RS extends AbstractLongAssert<RS>, T, X extends Exception> ToLongFunctionXAssert.Impl<A, RS, T, X> assertThat(ToLongFunctionX<T, X> functionalInterface) {
-		return new ToLongFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LToLongFunctionX<T, X>, RS extends AbstractLongAssert<RS>, T, X extends Exception> LToLongFunctionXAssert.Impl<A, RS, T, X> assertThat(LToLongFunctionX<T, X> functionalInterface) {
+		return new LToLongFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ToFloatFunction<T>, RS extends AbstractFloatAssert<RS>, T> ToFloatFunctionAssert.Impl<A, RS, T> assertThat(ToFloatFunction<T> functionalInterface) {
-		return new ToFloatFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LToFloatFunction<T>, RS extends AbstractFloatAssert<RS>, T> LToFloatFunctionAssert.Impl<A, RS, T> assertThat(LToFloatFunction<T> functionalInterface) {
+		return new LToFloatFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ToFloatFunctionX<T, X>, RS extends AbstractFloatAssert<RS>, T, X extends Exception> ToFloatFunctionXAssert.Impl<A, RS, T, X> assertThat(ToFloatFunctionX<T, X> functionalInterface) {
-		return new ToFloatFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LToFloatFunctionX<T, X>, RS extends AbstractFloatAssert<RS>, T, X extends Exception> LToFloatFunctionXAssert.Impl<A, RS, T, X> assertThat(LToFloatFunctionX<T, X> functionalInterface) {
+		return new LToFloatFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ToDoubleFunction<T>, RS extends AbstractDoubleAssert<RS>, T> ToDoubleFunctionAssert.Impl<A, RS, T> assertThat(ToDoubleFunction<T> functionalInterface) {
-		return new ToDoubleFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LToDoubleFunction<T>, RS extends AbstractDoubleAssert<RS>, T> LToDoubleFunctionAssert.Impl<A, RS, T> assertThat(LToDoubleFunction<T> functionalInterface) {
+		return new LToDoubleFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ToDoubleFunctionX<T, X>, RS extends AbstractDoubleAssert<RS>, T, X extends Exception> ToDoubleFunctionXAssert.Impl<A, RS, T, X> assertThat(ToDoubleFunctionX<T, X> functionalInterface) {
-		return new ToDoubleFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LToDoubleFunctionX<T, X>, RS extends AbstractDoubleAssert<RS>, T, X extends Exception> LToDoubleFunctionXAssert.Impl<A, RS, T, X> assertThat(LToDoubleFunctionX<T, X> functionalInterface) {
+		return new LToDoubleFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ToCharFunction<T>, RS extends AbstractCharacterAssert<RS>, T> ToCharFunctionAssert.Impl<A, RS, T> assertThat(ToCharFunction<T> functionalInterface) {
-		return new ToCharFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LToCharFunction<T>, RS extends AbstractCharacterAssert<RS>, T> LToCharFunctionAssert.Impl<A, RS, T> assertThat(LToCharFunction<T> functionalInterface) {
+		return new LToCharFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ToCharFunctionX<T, X>, RS extends AbstractCharacterAssert<RS>, T, X extends Exception> ToCharFunctionXAssert.Impl<A, RS, T, X> assertThat(ToCharFunctionX<T, X> functionalInterface) {
-		return new ToCharFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LToCharFunctionX<T, X>, RS extends AbstractCharacterAssert<RS>, T, X extends Exception> LToCharFunctionXAssert.Impl<A, RS, T, X> assertThat(LToCharFunctionX<T, X> functionalInterface) {
+		return new LToCharFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ToByteBiFunction<T1, T2>, RS extends AbstractByteAssert<RS>, T1, T2> ToByteBiFunctionAssert.Impl<A, RS, T1, T2> assertThat(ToByteBiFunction<T1, T2> functionalInterface) {
-		return new ToByteBiFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LToByteBiFunction<T1, T2>, RS extends AbstractByteAssert<RS>, T1, T2> LToByteBiFunctionAssert.Impl<A, RS, T1, T2> assertThat(LToByteBiFunction<T1, T2> functionalInterface) {
+		return new LToByteBiFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ToByteBiFunctionX<T1, T2, X>, RS extends AbstractByteAssert<RS>, T1, T2, X extends Exception> ToByteBiFunctionXAssert.Impl<A, RS, T1, T2, X> assertThat(ToByteBiFunctionX<T1, T2, X> functionalInterface) {
-		return new ToByteBiFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LToByteBiFunctionX<T1, T2, X>, RS extends AbstractByteAssert<RS>, T1, T2, X extends Exception> LToByteBiFunctionXAssert.Impl<A, RS, T1, T2, X> assertThat(LToByteBiFunctionX<T1, T2, X> functionalInterface) {
+		return new LToByteBiFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ToShortBiFunction<T1, T2>, RS extends AbstractShortAssert<RS>, T1, T2> ToShortBiFunctionAssert.Impl<A, RS, T1, T2> assertThat(ToShortBiFunction<T1, T2> functionalInterface) {
-		return new ToShortBiFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LToShortBiFunction<T1, T2>, RS extends AbstractShortAssert<RS>, T1, T2> LToShortBiFunctionAssert.Impl<A, RS, T1, T2> assertThat(LToShortBiFunction<T1, T2> functionalInterface) {
+		return new LToShortBiFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ToShortBiFunctionX<T1, T2, X>, RS extends AbstractShortAssert<RS>, T1, T2, X extends Exception> ToShortBiFunctionXAssert.Impl<A, RS, T1, T2, X> assertThat(ToShortBiFunctionX<T1, T2, X> functionalInterface) {
-		return new ToShortBiFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LToShortBiFunctionX<T1, T2, X>, RS extends AbstractShortAssert<RS>, T1, T2, X extends Exception> LToShortBiFunctionXAssert.Impl<A, RS, T1, T2, X> assertThat(LToShortBiFunctionX<T1, T2, X> functionalInterface) {
+		return new LToShortBiFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ToIntBiFunction<T1, T2>, RS extends AbstractIntegerAssert<RS>, T1, T2> ToIntBiFunctionAssert.Impl<A, RS, T1, T2> assertThat(ToIntBiFunction<T1, T2> functionalInterface) {
-		return new ToIntBiFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LToIntBiFunction<T1, T2>, RS extends AbstractIntegerAssert<RS>, T1, T2> LToIntBiFunctionAssert.Impl<A, RS, T1, T2> assertThat(LToIntBiFunction<T1, T2> functionalInterface) {
+		return new LToIntBiFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ToIntBiFunctionX<T1, T2, X>, RS extends AbstractIntegerAssert<RS>, T1, T2, X extends Exception> ToIntBiFunctionXAssert.Impl<A, RS, T1, T2, X> assertThat(ToIntBiFunctionX<T1, T2, X> functionalInterface) {
-		return new ToIntBiFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LToIntBiFunctionX<T1, T2, X>, RS extends AbstractIntegerAssert<RS>, T1, T2, X extends Exception> LToIntBiFunctionXAssert.Impl<A, RS, T1, T2, X> assertThat(LToIntBiFunctionX<T1, T2, X> functionalInterface) {
+		return new LToIntBiFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ToLongBiFunction<T1, T2>, RS extends AbstractLongAssert<RS>, T1, T2> ToLongBiFunctionAssert.Impl<A, RS, T1, T2> assertThat(ToLongBiFunction<T1, T2> functionalInterface) {
-		return new ToLongBiFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LToLongBiFunction<T1, T2>, RS extends AbstractLongAssert<RS>, T1, T2> LToLongBiFunctionAssert.Impl<A, RS, T1, T2> assertThat(LToLongBiFunction<T1, T2> functionalInterface) {
+		return new LToLongBiFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ToLongBiFunctionX<T1, T2, X>, RS extends AbstractLongAssert<RS>, T1, T2, X extends Exception> ToLongBiFunctionXAssert.Impl<A, RS, T1, T2, X> assertThat(ToLongBiFunctionX<T1, T2, X> functionalInterface) {
-		return new ToLongBiFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LToLongBiFunctionX<T1, T2, X>, RS extends AbstractLongAssert<RS>, T1, T2, X extends Exception> LToLongBiFunctionXAssert.Impl<A, RS, T1, T2, X> assertThat(LToLongBiFunctionX<T1, T2, X> functionalInterface) {
+		return new LToLongBiFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ToFloatBiFunction<T1, T2>, RS extends AbstractFloatAssert<RS>, T1, T2> ToFloatBiFunctionAssert.Impl<A, RS, T1, T2> assertThat(ToFloatBiFunction<T1, T2> functionalInterface) {
-		return new ToFloatBiFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LToFloatBiFunction<T1, T2>, RS extends AbstractFloatAssert<RS>, T1, T2> LToFloatBiFunctionAssert.Impl<A, RS, T1, T2> assertThat(LToFloatBiFunction<T1, T2> functionalInterface) {
+		return new LToFloatBiFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ToFloatBiFunctionX<T1, T2, X>, RS extends AbstractFloatAssert<RS>, T1, T2, X extends Exception> ToFloatBiFunctionXAssert.Impl<A, RS, T1, T2, X> assertThat(ToFloatBiFunctionX<T1, T2, X> functionalInterface) {
-		return new ToFloatBiFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LToFloatBiFunctionX<T1, T2, X>, RS extends AbstractFloatAssert<RS>, T1, T2, X extends Exception> LToFloatBiFunctionXAssert.Impl<A, RS, T1, T2, X> assertThat(LToFloatBiFunctionX<T1, T2, X> functionalInterface) {
+		return new LToFloatBiFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ToDoubleBiFunction<T1, T2>, RS extends AbstractDoubleAssert<RS>, T1, T2> ToDoubleBiFunctionAssert.Impl<A, RS, T1, T2> assertThat(ToDoubleBiFunction<T1, T2> functionalInterface) {
-		return new ToDoubleBiFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LToDoubleBiFunction<T1, T2>, RS extends AbstractDoubleAssert<RS>, T1, T2> LToDoubleBiFunctionAssert.Impl<A, RS, T1, T2> assertThat(LToDoubleBiFunction<T1, T2> functionalInterface) {
+		return new LToDoubleBiFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ToDoubleBiFunctionX<T1, T2, X>, RS extends AbstractDoubleAssert<RS>, T1, T2, X extends Exception> ToDoubleBiFunctionXAssert.Impl<A, RS, T1, T2, X> assertThat(ToDoubleBiFunctionX<T1, T2, X> functionalInterface) {
-		return new ToDoubleBiFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LToDoubleBiFunctionX<T1, T2, X>, RS extends AbstractDoubleAssert<RS>, T1, T2, X extends Exception> LToDoubleBiFunctionXAssert.Impl<A, RS, T1, T2, X> assertThat(LToDoubleBiFunctionX<T1, T2, X> functionalInterface) {
+		return new LToDoubleBiFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ToCharBiFunction<T1, T2>, RS extends AbstractCharacterAssert<RS>, T1, T2> ToCharBiFunctionAssert.Impl<A, RS, T1, T2> assertThat(ToCharBiFunction<T1, T2> functionalInterface) {
-		return new ToCharBiFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LToCharBiFunction<T1, T2>, RS extends AbstractCharacterAssert<RS>, T1, T2> LToCharBiFunctionAssert.Impl<A, RS, T1, T2> assertThat(LToCharBiFunction<T1, T2> functionalInterface) {
+		return new LToCharBiFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ToCharBiFunctionX<T1, T2, X>, RS extends AbstractCharacterAssert<RS>, T1, T2, X extends Exception> ToCharBiFunctionXAssert.Impl<A, RS, T1, T2, X> assertThat(ToCharBiFunctionX<T1, T2, X> functionalInterface) {
-		return new ToCharBiFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LToCharBiFunctionX<T1, T2, X>, RS extends AbstractCharacterAssert<RS>, T1, T2, X extends Exception> LToCharBiFunctionXAssert.Impl<A, RS, T1, T2, X> assertThat(LToCharBiFunctionX<T1, T2, X> functionalInterface) {
+		return new LToCharBiFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ObjIntToIntFunction<T>, RS extends AbstractIntegerAssert<RS>, T> ObjIntToIntFunctionAssert.Impl<A, RS, T> assertThat(ObjIntToIntFunction<T> functionalInterface) {
-		return new ObjIntToIntFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LObjIntToIntFunction<T>, RS extends AbstractIntegerAssert<RS>, T> LObjIntToIntFunctionAssert.Impl<A, RS, T> assertThat(LObjIntToIntFunction<T> functionalInterface) {
+		return new LObjIntToIntFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ObjIntToIntFunctionX<T, X>, RS extends AbstractIntegerAssert<RS>, T, X extends Exception> ObjIntToIntFunctionXAssert.Impl<A, RS, T, X> assertThat(ObjIntToIntFunctionX<T, X> functionalInterface) {
-		return new ObjIntToIntFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LObjIntToIntFunctionX<T, X>, RS extends AbstractIntegerAssert<RS>, T, X extends Exception> LObjIntToIntFunctionXAssert.Impl<A, RS, T, X> assertThat(LObjIntToIntFunctionX<T, X> functionalInterface) {
+		return new LObjIntToIntFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ByteToShortFunction, RS extends AbstractShortAssert<RS>> ByteToShortFunctionAssert.Impl<A, RS> assertThat(ByteToShortFunction functionalInterface) {
-		return new ByteToShortFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LByteToShortFunction, RS extends AbstractShortAssert<RS>> LByteToShortFunctionAssert.Impl<A, RS> assertThat(LByteToShortFunction functionalInterface) {
+		return new LByteToShortFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ByteToShortFunctionX<X>, RS extends AbstractShortAssert<RS>, X extends Exception> ByteToShortFunctionXAssert.Impl<A, RS, X> assertThat(ByteToShortFunctionX<X> functionalInterface) {
-		return new ByteToShortFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LByteToShortFunctionX<X>, RS extends AbstractShortAssert<RS>, X extends Exception> LByteToShortFunctionXAssert.Impl<A, RS, X> assertThat(LByteToShortFunctionX<X> functionalInterface) {
+		return new LByteToShortFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ByteToIntFunction, RS extends AbstractIntegerAssert<RS>> ByteToIntFunctionAssert.Impl<A, RS> assertThat(ByteToIntFunction functionalInterface) {
-		return new ByteToIntFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LByteToIntFunction, RS extends AbstractIntegerAssert<RS>> LByteToIntFunctionAssert.Impl<A, RS> assertThat(LByteToIntFunction functionalInterface) {
+		return new LByteToIntFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ByteToIntFunctionX<X>, RS extends AbstractIntegerAssert<RS>, X extends Exception> ByteToIntFunctionXAssert.Impl<A, RS, X> assertThat(ByteToIntFunctionX<X> functionalInterface) {
-		return new ByteToIntFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LByteToIntFunctionX<X>, RS extends AbstractIntegerAssert<RS>, X extends Exception> LByteToIntFunctionXAssert.Impl<A, RS, X> assertThat(LByteToIntFunctionX<X> functionalInterface) {
+		return new LByteToIntFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ByteToLongFunction, RS extends AbstractLongAssert<RS>> ByteToLongFunctionAssert.Impl<A, RS> assertThat(ByteToLongFunction functionalInterface) {
-		return new ByteToLongFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LByteToLongFunction, RS extends AbstractLongAssert<RS>> LByteToLongFunctionAssert.Impl<A, RS> assertThat(LByteToLongFunction functionalInterface) {
+		return new LByteToLongFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ByteToLongFunctionX<X>, RS extends AbstractLongAssert<RS>, X extends Exception> ByteToLongFunctionXAssert.Impl<A, RS, X> assertThat(ByteToLongFunctionX<X> functionalInterface) {
-		return new ByteToLongFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LByteToLongFunctionX<X>, RS extends AbstractLongAssert<RS>, X extends Exception> LByteToLongFunctionXAssert.Impl<A, RS, X> assertThat(LByteToLongFunctionX<X> functionalInterface) {
+		return new LByteToLongFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ByteToFloatFunction, RS extends AbstractFloatAssert<RS>> ByteToFloatFunctionAssert.Impl<A, RS> assertThat(ByteToFloatFunction functionalInterface) {
-		return new ByteToFloatFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LByteToFloatFunction, RS extends AbstractFloatAssert<RS>> LByteToFloatFunctionAssert.Impl<A, RS> assertThat(LByteToFloatFunction functionalInterface) {
+		return new LByteToFloatFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ByteToFloatFunctionX<X>, RS extends AbstractFloatAssert<RS>, X extends Exception> ByteToFloatFunctionXAssert.Impl<A, RS, X> assertThat(ByteToFloatFunctionX<X> functionalInterface) {
-		return new ByteToFloatFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LByteToFloatFunctionX<X>, RS extends AbstractFloatAssert<RS>, X extends Exception> LByteToFloatFunctionXAssert.Impl<A, RS, X> assertThat(LByteToFloatFunctionX<X> functionalInterface) {
+		return new LByteToFloatFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ByteToDoubleFunction, RS extends AbstractDoubleAssert<RS>> ByteToDoubleFunctionAssert.Impl<A, RS> assertThat(ByteToDoubleFunction functionalInterface) {
-		return new ByteToDoubleFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LByteToDoubleFunction, RS extends AbstractDoubleAssert<RS>> LByteToDoubleFunctionAssert.Impl<A, RS> assertThat(LByteToDoubleFunction functionalInterface) {
+		return new LByteToDoubleFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ByteToDoubleFunctionX<X>, RS extends AbstractDoubleAssert<RS>, X extends Exception> ByteToDoubleFunctionXAssert.Impl<A, RS, X> assertThat(ByteToDoubleFunctionX<X> functionalInterface) {
-		return new ByteToDoubleFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LByteToDoubleFunctionX<X>, RS extends AbstractDoubleAssert<RS>, X extends Exception> LByteToDoubleFunctionXAssert.Impl<A, RS, X> assertThat(LByteToDoubleFunctionX<X> functionalInterface) {
+		return new LByteToDoubleFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ByteToCharFunction, RS extends AbstractCharacterAssert<RS>> ByteToCharFunctionAssert.Impl<A, RS> assertThat(ByteToCharFunction functionalInterface) {
-		return new ByteToCharFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LByteToCharFunction, RS extends AbstractCharacterAssert<RS>> LByteToCharFunctionAssert.Impl<A, RS> assertThat(LByteToCharFunction functionalInterface) {
+		return new LByteToCharFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ByteToCharFunctionX<X>, RS extends AbstractCharacterAssert<RS>, X extends Exception> ByteToCharFunctionXAssert.Impl<A, RS, X> assertThat(ByteToCharFunctionX<X> functionalInterface) {
-		return new ByteToCharFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LByteToCharFunctionX<X>, RS extends AbstractCharacterAssert<RS>, X extends Exception> LByteToCharFunctionXAssert.Impl<A, RS, X> assertThat(LByteToCharFunctionX<X> functionalInterface) {
+		return new LByteToCharFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ShortToByteFunction, RS extends AbstractByteAssert<RS>> ShortToByteFunctionAssert.Impl<A, RS> assertThat(ShortToByteFunction functionalInterface) {
-		return new ShortToByteFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LShortToByteFunction, RS extends AbstractByteAssert<RS>> LShortToByteFunctionAssert.Impl<A, RS> assertThat(LShortToByteFunction functionalInterface) {
+		return new LShortToByteFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ShortToByteFunctionX<X>, RS extends AbstractByteAssert<RS>, X extends Exception> ShortToByteFunctionXAssert.Impl<A, RS, X> assertThat(ShortToByteFunctionX<X> functionalInterface) {
-		return new ShortToByteFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LShortToByteFunctionX<X>, RS extends AbstractByteAssert<RS>, X extends Exception> LShortToByteFunctionXAssert.Impl<A, RS, X> assertThat(LShortToByteFunctionX<X> functionalInterface) {
+		return new LShortToByteFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ShortToIntFunction, RS extends AbstractIntegerAssert<RS>> ShortToIntFunctionAssert.Impl<A, RS> assertThat(ShortToIntFunction functionalInterface) {
-		return new ShortToIntFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LShortToIntFunction, RS extends AbstractIntegerAssert<RS>> LShortToIntFunctionAssert.Impl<A, RS> assertThat(LShortToIntFunction functionalInterface) {
+		return new LShortToIntFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ShortToIntFunctionX<X>, RS extends AbstractIntegerAssert<RS>, X extends Exception> ShortToIntFunctionXAssert.Impl<A, RS, X> assertThat(ShortToIntFunctionX<X> functionalInterface) {
-		return new ShortToIntFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LShortToIntFunctionX<X>, RS extends AbstractIntegerAssert<RS>, X extends Exception> LShortToIntFunctionXAssert.Impl<A, RS, X> assertThat(LShortToIntFunctionX<X> functionalInterface) {
+		return new LShortToIntFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ShortToLongFunction, RS extends AbstractLongAssert<RS>> ShortToLongFunctionAssert.Impl<A, RS> assertThat(ShortToLongFunction functionalInterface) {
-		return new ShortToLongFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LShortToLongFunction, RS extends AbstractLongAssert<RS>> LShortToLongFunctionAssert.Impl<A, RS> assertThat(LShortToLongFunction functionalInterface) {
+		return new LShortToLongFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ShortToLongFunctionX<X>, RS extends AbstractLongAssert<RS>, X extends Exception> ShortToLongFunctionXAssert.Impl<A, RS, X> assertThat(ShortToLongFunctionX<X> functionalInterface) {
-		return new ShortToLongFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LShortToLongFunctionX<X>, RS extends AbstractLongAssert<RS>, X extends Exception> LShortToLongFunctionXAssert.Impl<A, RS, X> assertThat(LShortToLongFunctionX<X> functionalInterface) {
+		return new LShortToLongFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ShortToFloatFunction, RS extends AbstractFloatAssert<RS>> ShortToFloatFunctionAssert.Impl<A, RS> assertThat(ShortToFloatFunction functionalInterface) {
-		return new ShortToFloatFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LShortToFloatFunction, RS extends AbstractFloatAssert<RS>> LShortToFloatFunctionAssert.Impl<A, RS> assertThat(LShortToFloatFunction functionalInterface) {
+		return new LShortToFloatFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ShortToFloatFunctionX<X>, RS extends AbstractFloatAssert<RS>, X extends Exception> ShortToFloatFunctionXAssert.Impl<A, RS, X> assertThat(ShortToFloatFunctionX<X> functionalInterface) {
-		return new ShortToFloatFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LShortToFloatFunctionX<X>, RS extends AbstractFloatAssert<RS>, X extends Exception> LShortToFloatFunctionXAssert.Impl<A, RS, X> assertThat(LShortToFloatFunctionX<X> functionalInterface) {
+		return new LShortToFloatFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ShortToDoubleFunction, RS extends AbstractDoubleAssert<RS>> ShortToDoubleFunctionAssert.Impl<A, RS> assertThat(ShortToDoubleFunction functionalInterface) {
-		return new ShortToDoubleFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LShortToDoubleFunction, RS extends AbstractDoubleAssert<RS>> LShortToDoubleFunctionAssert.Impl<A, RS> assertThat(LShortToDoubleFunction functionalInterface) {
+		return new LShortToDoubleFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ShortToDoubleFunctionX<X>, RS extends AbstractDoubleAssert<RS>, X extends Exception> ShortToDoubleFunctionXAssert.Impl<A, RS, X> assertThat(ShortToDoubleFunctionX<X> functionalInterface) {
-		return new ShortToDoubleFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LShortToDoubleFunctionX<X>, RS extends AbstractDoubleAssert<RS>, X extends Exception> LShortToDoubleFunctionXAssert.Impl<A, RS, X> assertThat(LShortToDoubleFunctionX<X> functionalInterface) {
+		return new LShortToDoubleFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ShortToCharFunction, RS extends AbstractCharacterAssert<RS>> ShortToCharFunctionAssert.Impl<A, RS> assertThat(ShortToCharFunction functionalInterface) {
-		return new ShortToCharFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LShortToCharFunction, RS extends AbstractCharacterAssert<RS>> LShortToCharFunctionAssert.Impl<A, RS> assertThat(LShortToCharFunction functionalInterface) {
+		return new LShortToCharFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ShortToCharFunctionX<X>, RS extends AbstractCharacterAssert<RS>, X extends Exception> ShortToCharFunctionXAssert.Impl<A, RS, X> assertThat(ShortToCharFunctionX<X> functionalInterface) {
-		return new ShortToCharFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LShortToCharFunctionX<X>, RS extends AbstractCharacterAssert<RS>, X extends Exception> LShortToCharFunctionXAssert.Impl<A, RS, X> assertThat(LShortToCharFunctionX<X> functionalInterface) {
+		return new LShortToCharFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends IntToByteFunction, RS extends AbstractByteAssert<RS>> IntToByteFunctionAssert.Impl<A, RS> assertThat(IntToByteFunction functionalInterface) {
-		return new IntToByteFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LIntToByteFunction, RS extends AbstractByteAssert<RS>> LIntToByteFunctionAssert.Impl<A, RS> assertThat(LIntToByteFunction functionalInterface) {
+		return new LIntToByteFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends IntToByteFunctionX<X>, RS extends AbstractByteAssert<RS>, X extends Exception> IntToByteFunctionXAssert.Impl<A, RS, X> assertThat(IntToByteFunctionX<X> functionalInterface) {
-		return new IntToByteFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LIntToByteFunctionX<X>, RS extends AbstractByteAssert<RS>, X extends Exception> LIntToByteFunctionXAssert.Impl<A, RS, X> assertThat(LIntToByteFunctionX<X> functionalInterface) {
+		return new LIntToByteFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends IntToShortFunction, RS extends AbstractShortAssert<RS>> IntToShortFunctionAssert.Impl<A, RS> assertThat(IntToShortFunction functionalInterface) {
-		return new IntToShortFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LIntToShortFunction, RS extends AbstractShortAssert<RS>> LIntToShortFunctionAssert.Impl<A, RS> assertThat(LIntToShortFunction functionalInterface) {
+		return new LIntToShortFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends IntToShortFunctionX<X>, RS extends AbstractShortAssert<RS>, X extends Exception> IntToShortFunctionXAssert.Impl<A, RS, X> assertThat(IntToShortFunctionX<X> functionalInterface) {
-		return new IntToShortFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LIntToShortFunctionX<X>, RS extends AbstractShortAssert<RS>, X extends Exception> LIntToShortFunctionXAssert.Impl<A, RS, X> assertThat(LIntToShortFunctionX<X> functionalInterface) {
+		return new LIntToShortFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends IntToLongFunction, RS extends AbstractLongAssert<RS>> IntToLongFunctionAssert.Impl<A, RS> assertThat(IntToLongFunction functionalInterface) {
-		return new IntToLongFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LIntToLongFunction, RS extends AbstractLongAssert<RS>> LIntToLongFunctionAssert.Impl<A, RS> assertThat(LIntToLongFunction functionalInterface) {
+		return new LIntToLongFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends IntToLongFunctionX<X>, RS extends AbstractLongAssert<RS>, X extends Exception> IntToLongFunctionXAssert.Impl<A, RS, X> assertThat(IntToLongFunctionX<X> functionalInterface) {
-		return new IntToLongFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LIntToLongFunctionX<X>, RS extends AbstractLongAssert<RS>, X extends Exception> LIntToLongFunctionXAssert.Impl<A, RS, X> assertThat(LIntToLongFunctionX<X> functionalInterface) {
+		return new LIntToLongFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends IntToFloatFunction, RS extends AbstractFloatAssert<RS>> IntToFloatFunctionAssert.Impl<A, RS> assertThat(IntToFloatFunction functionalInterface) {
-		return new IntToFloatFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LIntToFloatFunction, RS extends AbstractFloatAssert<RS>> LIntToFloatFunctionAssert.Impl<A, RS> assertThat(LIntToFloatFunction functionalInterface) {
+		return new LIntToFloatFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends IntToFloatFunctionX<X>, RS extends AbstractFloatAssert<RS>, X extends Exception> IntToFloatFunctionXAssert.Impl<A, RS, X> assertThat(IntToFloatFunctionX<X> functionalInterface) {
-		return new IntToFloatFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LIntToFloatFunctionX<X>, RS extends AbstractFloatAssert<RS>, X extends Exception> LIntToFloatFunctionXAssert.Impl<A, RS, X> assertThat(LIntToFloatFunctionX<X> functionalInterface) {
+		return new LIntToFloatFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends IntToDoubleFunction, RS extends AbstractDoubleAssert<RS>> IntToDoubleFunctionAssert.Impl<A, RS> assertThat(IntToDoubleFunction functionalInterface) {
-		return new IntToDoubleFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LIntToDoubleFunction, RS extends AbstractDoubleAssert<RS>> LIntToDoubleFunctionAssert.Impl<A, RS> assertThat(LIntToDoubleFunction functionalInterface) {
+		return new LIntToDoubleFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends IntToDoubleFunctionX<X>, RS extends AbstractDoubleAssert<RS>, X extends Exception> IntToDoubleFunctionXAssert.Impl<A, RS, X> assertThat(IntToDoubleFunctionX<X> functionalInterface) {
-		return new IntToDoubleFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LIntToDoubleFunctionX<X>, RS extends AbstractDoubleAssert<RS>, X extends Exception> LIntToDoubleFunctionXAssert.Impl<A, RS, X> assertThat(LIntToDoubleFunctionX<X> functionalInterface) {
+		return new LIntToDoubleFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends IntToCharFunction, RS extends AbstractCharacterAssert<RS>> IntToCharFunctionAssert.Impl<A, RS> assertThat(IntToCharFunction functionalInterface) {
-		return new IntToCharFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LIntToCharFunction, RS extends AbstractCharacterAssert<RS>> LIntToCharFunctionAssert.Impl<A, RS> assertThat(LIntToCharFunction functionalInterface) {
+		return new LIntToCharFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends IntToCharFunctionX<X>, RS extends AbstractCharacterAssert<RS>, X extends Exception> IntToCharFunctionXAssert.Impl<A, RS, X> assertThat(IntToCharFunctionX<X> functionalInterface) {
-		return new IntToCharFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LIntToCharFunctionX<X>, RS extends AbstractCharacterAssert<RS>, X extends Exception> LIntToCharFunctionXAssert.Impl<A, RS, X> assertThat(LIntToCharFunctionX<X> functionalInterface) {
+		return new LIntToCharFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends LongToByteFunction, RS extends AbstractByteAssert<RS>> LongToByteFunctionAssert.Impl<A, RS> assertThat(LongToByteFunction functionalInterface) {
-		return new LongToByteFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LLongToByteFunction, RS extends AbstractByteAssert<RS>> LLongToByteFunctionAssert.Impl<A, RS> assertThat(LLongToByteFunction functionalInterface) {
+		return new LLongToByteFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends LongToByteFunctionX<X>, RS extends AbstractByteAssert<RS>, X extends Exception> LongToByteFunctionXAssert.Impl<A, RS, X> assertThat(LongToByteFunctionX<X> functionalInterface) {
-		return new LongToByteFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LLongToByteFunctionX<X>, RS extends AbstractByteAssert<RS>, X extends Exception> LLongToByteFunctionXAssert.Impl<A, RS, X> assertThat(LLongToByteFunctionX<X> functionalInterface) {
+		return new LLongToByteFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends LongToShortFunction, RS extends AbstractShortAssert<RS>> LongToShortFunctionAssert.Impl<A, RS> assertThat(LongToShortFunction functionalInterface) {
-		return new LongToShortFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LLongToShortFunction, RS extends AbstractShortAssert<RS>> LLongToShortFunctionAssert.Impl<A, RS> assertThat(LLongToShortFunction functionalInterface) {
+		return new LLongToShortFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends LongToShortFunctionX<X>, RS extends AbstractShortAssert<RS>, X extends Exception> LongToShortFunctionXAssert.Impl<A, RS, X> assertThat(LongToShortFunctionX<X> functionalInterface) {
-		return new LongToShortFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LLongToShortFunctionX<X>, RS extends AbstractShortAssert<RS>, X extends Exception> LLongToShortFunctionXAssert.Impl<A, RS, X> assertThat(LLongToShortFunctionX<X> functionalInterface) {
+		return new LLongToShortFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends LongToIntFunction, RS extends AbstractIntegerAssert<RS>> LongToIntFunctionAssert.Impl<A, RS> assertThat(LongToIntFunction functionalInterface) {
-		return new LongToIntFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LLongToIntFunction, RS extends AbstractIntegerAssert<RS>> LLongToIntFunctionAssert.Impl<A, RS> assertThat(LLongToIntFunction functionalInterface) {
+		return new LLongToIntFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends LongToIntFunctionX<X>, RS extends AbstractIntegerAssert<RS>, X extends Exception> LongToIntFunctionXAssert.Impl<A, RS, X> assertThat(LongToIntFunctionX<X> functionalInterface) {
-		return new LongToIntFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LLongToIntFunctionX<X>, RS extends AbstractIntegerAssert<RS>, X extends Exception> LLongToIntFunctionXAssert.Impl<A, RS, X> assertThat(LLongToIntFunctionX<X> functionalInterface) {
+		return new LLongToIntFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends LongToFloatFunction, RS extends AbstractFloatAssert<RS>> LongToFloatFunctionAssert.Impl<A, RS> assertThat(LongToFloatFunction functionalInterface) {
-		return new LongToFloatFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LLongToFloatFunction, RS extends AbstractFloatAssert<RS>> LLongToFloatFunctionAssert.Impl<A, RS> assertThat(LLongToFloatFunction functionalInterface) {
+		return new LLongToFloatFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends LongToFloatFunctionX<X>, RS extends AbstractFloatAssert<RS>, X extends Exception> LongToFloatFunctionXAssert.Impl<A, RS, X> assertThat(LongToFloatFunctionX<X> functionalInterface) {
-		return new LongToFloatFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LLongToFloatFunctionX<X>, RS extends AbstractFloatAssert<RS>, X extends Exception> LLongToFloatFunctionXAssert.Impl<A, RS, X> assertThat(LLongToFloatFunctionX<X> functionalInterface) {
+		return new LLongToFloatFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends LongToDoubleFunction, RS extends AbstractDoubleAssert<RS>> LongToDoubleFunctionAssert.Impl<A, RS> assertThat(LongToDoubleFunction functionalInterface) {
-		return new LongToDoubleFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LLongToDoubleFunction, RS extends AbstractDoubleAssert<RS>> LLongToDoubleFunctionAssert.Impl<A, RS> assertThat(LLongToDoubleFunction functionalInterface) {
+		return new LLongToDoubleFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends LongToDoubleFunctionX<X>, RS extends AbstractDoubleAssert<RS>, X extends Exception> LongToDoubleFunctionXAssert.Impl<A, RS, X> assertThat(LongToDoubleFunctionX<X> functionalInterface) {
-		return new LongToDoubleFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LLongToDoubleFunctionX<X>, RS extends AbstractDoubleAssert<RS>, X extends Exception> LLongToDoubleFunctionXAssert.Impl<A, RS, X> assertThat(LLongToDoubleFunctionX<X> functionalInterface) {
+		return new LLongToDoubleFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends LongToCharFunction, RS extends AbstractCharacterAssert<RS>> LongToCharFunctionAssert.Impl<A, RS> assertThat(LongToCharFunction functionalInterface) {
-		return new LongToCharFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LLongToCharFunction, RS extends AbstractCharacterAssert<RS>> LLongToCharFunctionAssert.Impl<A, RS> assertThat(LLongToCharFunction functionalInterface) {
+		return new LLongToCharFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends LongToCharFunctionX<X>, RS extends AbstractCharacterAssert<RS>, X extends Exception> LongToCharFunctionXAssert.Impl<A, RS, X> assertThat(LongToCharFunctionX<X> functionalInterface) {
-		return new LongToCharFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LLongToCharFunctionX<X>, RS extends AbstractCharacterAssert<RS>, X extends Exception> LLongToCharFunctionXAssert.Impl<A, RS, X> assertThat(LLongToCharFunctionX<X> functionalInterface) {
+		return new LLongToCharFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends FloatToByteFunction, RS extends AbstractByteAssert<RS>> FloatToByteFunctionAssert.Impl<A, RS> assertThat(FloatToByteFunction functionalInterface) {
-		return new FloatToByteFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LFloatToByteFunction, RS extends AbstractByteAssert<RS>> LFloatToByteFunctionAssert.Impl<A, RS> assertThat(LFloatToByteFunction functionalInterface) {
+		return new LFloatToByteFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends FloatToByteFunctionX<X>, RS extends AbstractByteAssert<RS>, X extends Exception> FloatToByteFunctionXAssert.Impl<A, RS, X> assertThat(FloatToByteFunctionX<X> functionalInterface) {
-		return new FloatToByteFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LFloatToByteFunctionX<X>, RS extends AbstractByteAssert<RS>, X extends Exception> LFloatToByteFunctionXAssert.Impl<A, RS, X> assertThat(LFloatToByteFunctionX<X> functionalInterface) {
+		return new LFloatToByteFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends FloatToShortFunction, RS extends AbstractShortAssert<RS>> FloatToShortFunctionAssert.Impl<A, RS> assertThat(FloatToShortFunction functionalInterface) {
-		return new FloatToShortFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LFloatToShortFunction, RS extends AbstractShortAssert<RS>> LFloatToShortFunctionAssert.Impl<A, RS> assertThat(LFloatToShortFunction functionalInterface) {
+		return new LFloatToShortFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends FloatToShortFunctionX<X>, RS extends AbstractShortAssert<RS>, X extends Exception> FloatToShortFunctionXAssert.Impl<A, RS, X> assertThat(FloatToShortFunctionX<X> functionalInterface) {
-		return new FloatToShortFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LFloatToShortFunctionX<X>, RS extends AbstractShortAssert<RS>, X extends Exception> LFloatToShortFunctionXAssert.Impl<A, RS, X> assertThat(LFloatToShortFunctionX<X> functionalInterface) {
+		return new LFloatToShortFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends FloatToIntFunction, RS extends AbstractIntegerAssert<RS>> FloatToIntFunctionAssert.Impl<A, RS> assertThat(FloatToIntFunction functionalInterface) {
-		return new FloatToIntFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LFloatToIntFunction, RS extends AbstractIntegerAssert<RS>> LFloatToIntFunctionAssert.Impl<A, RS> assertThat(LFloatToIntFunction functionalInterface) {
+		return new LFloatToIntFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends FloatToIntFunctionX<X>, RS extends AbstractIntegerAssert<RS>, X extends Exception> FloatToIntFunctionXAssert.Impl<A, RS, X> assertThat(FloatToIntFunctionX<X> functionalInterface) {
-		return new FloatToIntFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LFloatToIntFunctionX<X>, RS extends AbstractIntegerAssert<RS>, X extends Exception> LFloatToIntFunctionXAssert.Impl<A, RS, X> assertThat(LFloatToIntFunctionX<X> functionalInterface) {
+		return new LFloatToIntFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends FloatToLongFunction, RS extends AbstractLongAssert<RS>> FloatToLongFunctionAssert.Impl<A, RS> assertThat(FloatToLongFunction functionalInterface) {
-		return new FloatToLongFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LFloatToLongFunction, RS extends AbstractLongAssert<RS>> LFloatToLongFunctionAssert.Impl<A, RS> assertThat(LFloatToLongFunction functionalInterface) {
+		return new LFloatToLongFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends FloatToLongFunctionX<X>, RS extends AbstractLongAssert<RS>, X extends Exception> FloatToLongFunctionXAssert.Impl<A, RS, X> assertThat(FloatToLongFunctionX<X> functionalInterface) {
-		return new FloatToLongFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LFloatToLongFunctionX<X>, RS extends AbstractLongAssert<RS>, X extends Exception> LFloatToLongFunctionXAssert.Impl<A, RS, X> assertThat(LFloatToLongFunctionX<X> functionalInterface) {
+		return new LFloatToLongFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends FloatToDoubleFunction, RS extends AbstractDoubleAssert<RS>> FloatToDoubleFunctionAssert.Impl<A, RS> assertThat(FloatToDoubleFunction functionalInterface) {
-		return new FloatToDoubleFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LFloatToDoubleFunction, RS extends AbstractDoubleAssert<RS>> LFloatToDoubleFunctionAssert.Impl<A, RS> assertThat(LFloatToDoubleFunction functionalInterface) {
+		return new LFloatToDoubleFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends FloatToDoubleFunctionX<X>, RS extends AbstractDoubleAssert<RS>, X extends Exception> FloatToDoubleFunctionXAssert.Impl<A, RS, X> assertThat(FloatToDoubleFunctionX<X> functionalInterface) {
-		return new FloatToDoubleFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LFloatToDoubleFunctionX<X>, RS extends AbstractDoubleAssert<RS>, X extends Exception> LFloatToDoubleFunctionXAssert.Impl<A, RS, X> assertThat(LFloatToDoubleFunctionX<X> functionalInterface) {
+		return new LFloatToDoubleFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends FloatToCharFunction, RS extends AbstractCharacterAssert<RS>> FloatToCharFunctionAssert.Impl<A, RS> assertThat(FloatToCharFunction functionalInterface) {
-		return new FloatToCharFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LFloatToCharFunction, RS extends AbstractCharacterAssert<RS>> LFloatToCharFunctionAssert.Impl<A, RS> assertThat(LFloatToCharFunction functionalInterface) {
+		return new LFloatToCharFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends FloatToCharFunctionX<X>, RS extends AbstractCharacterAssert<RS>, X extends Exception> FloatToCharFunctionXAssert.Impl<A, RS, X> assertThat(FloatToCharFunctionX<X> functionalInterface) {
-		return new FloatToCharFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LFloatToCharFunctionX<X>, RS extends AbstractCharacterAssert<RS>, X extends Exception> LFloatToCharFunctionXAssert.Impl<A, RS, X> assertThat(LFloatToCharFunctionX<X> functionalInterface) {
+		return new LFloatToCharFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends DoubleToByteFunction, RS extends AbstractByteAssert<RS>> DoubleToByteFunctionAssert.Impl<A, RS> assertThat(DoubleToByteFunction functionalInterface) {
-		return new DoubleToByteFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LDoubleToByteFunction, RS extends AbstractByteAssert<RS>> LDoubleToByteFunctionAssert.Impl<A, RS> assertThat(LDoubleToByteFunction functionalInterface) {
+		return new LDoubleToByteFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends DoubleToByteFunctionX<X>, RS extends AbstractByteAssert<RS>, X extends Exception> DoubleToByteFunctionXAssert.Impl<A, RS, X> assertThat(DoubleToByteFunctionX<X> functionalInterface) {
-		return new DoubleToByteFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LDoubleToByteFunctionX<X>, RS extends AbstractByteAssert<RS>, X extends Exception> LDoubleToByteFunctionXAssert.Impl<A, RS, X> assertThat(LDoubleToByteFunctionX<X> functionalInterface) {
+		return new LDoubleToByteFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends DoubleToShortFunction, RS extends AbstractShortAssert<RS>> DoubleToShortFunctionAssert.Impl<A, RS> assertThat(DoubleToShortFunction functionalInterface) {
-		return new DoubleToShortFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LDoubleToShortFunction, RS extends AbstractShortAssert<RS>> LDoubleToShortFunctionAssert.Impl<A, RS> assertThat(LDoubleToShortFunction functionalInterface) {
+		return new LDoubleToShortFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends DoubleToShortFunctionX<X>, RS extends AbstractShortAssert<RS>, X extends Exception> DoubleToShortFunctionXAssert.Impl<A, RS, X> assertThat(DoubleToShortFunctionX<X> functionalInterface) {
-		return new DoubleToShortFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LDoubleToShortFunctionX<X>, RS extends AbstractShortAssert<RS>, X extends Exception> LDoubleToShortFunctionXAssert.Impl<A, RS, X> assertThat(LDoubleToShortFunctionX<X> functionalInterface) {
+		return new LDoubleToShortFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends DoubleToIntFunction, RS extends AbstractIntegerAssert<RS>> DoubleToIntFunctionAssert.Impl<A, RS> assertThat(DoubleToIntFunction functionalInterface) {
-		return new DoubleToIntFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LDoubleToIntFunction, RS extends AbstractIntegerAssert<RS>> LDoubleToIntFunctionAssert.Impl<A, RS> assertThat(LDoubleToIntFunction functionalInterface) {
+		return new LDoubleToIntFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends DoubleToIntFunctionX<X>, RS extends AbstractIntegerAssert<RS>, X extends Exception> DoubleToIntFunctionXAssert.Impl<A, RS, X> assertThat(DoubleToIntFunctionX<X> functionalInterface) {
-		return new DoubleToIntFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LDoubleToIntFunctionX<X>, RS extends AbstractIntegerAssert<RS>, X extends Exception> LDoubleToIntFunctionXAssert.Impl<A, RS, X> assertThat(LDoubleToIntFunctionX<X> functionalInterface) {
+		return new LDoubleToIntFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends DoubleToLongFunction, RS extends AbstractLongAssert<RS>> DoubleToLongFunctionAssert.Impl<A, RS> assertThat(DoubleToLongFunction functionalInterface) {
-		return new DoubleToLongFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LDoubleToLongFunction, RS extends AbstractLongAssert<RS>> LDoubleToLongFunctionAssert.Impl<A, RS> assertThat(LDoubleToLongFunction functionalInterface) {
+		return new LDoubleToLongFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends DoubleToLongFunctionX<X>, RS extends AbstractLongAssert<RS>, X extends Exception> DoubleToLongFunctionXAssert.Impl<A, RS, X> assertThat(DoubleToLongFunctionX<X> functionalInterface) {
-		return new DoubleToLongFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LDoubleToLongFunctionX<X>, RS extends AbstractLongAssert<RS>, X extends Exception> LDoubleToLongFunctionXAssert.Impl<A, RS, X> assertThat(LDoubleToLongFunctionX<X> functionalInterface) {
+		return new LDoubleToLongFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends DoubleToFloatFunction, RS extends AbstractFloatAssert<RS>> DoubleToFloatFunctionAssert.Impl<A, RS> assertThat(DoubleToFloatFunction functionalInterface) {
-		return new DoubleToFloatFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LDoubleToFloatFunction, RS extends AbstractFloatAssert<RS>> LDoubleToFloatFunctionAssert.Impl<A, RS> assertThat(LDoubleToFloatFunction functionalInterface) {
+		return new LDoubleToFloatFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends DoubleToFloatFunctionX<X>, RS extends AbstractFloatAssert<RS>, X extends Exception> DoubleToFloatFunctionXAssert.Impl<A, RS, X> assertThat(DoubleToFloatFunctionX<X> functionalInterface) {
-		return new DoubleToFloatFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LDoubleToFloatFunctionX<X>, RS extends AbstractFloatAssert<RS>, X extends Exception> LDoubleToFloatFunctionXAssert.Impl<A, RS, X> assertThat(LDoubleToFloatFunctionX<X> functionalInterface) {
+		return new LDoubleToFloatFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends DoubleToCharFunction, RS extends AbstractCharacterAssert<RS>> DoubleToCharFunctionAssert.Impl<A, RS> assertThat(DoubleToCharFunction functionalInterface) {
-		return new DoubleToCharFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LDoubleToCharFunction, RS extends AbstractCharacterAssert<RS>> LDoubleToCharFunctionAssert.Impl<A, RS> assertThat(LDoubleToCharFunction functionalInterface) {
+		return new LDoubleToCharFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends DoubleToCharFunctionX<X>, RS extends AbstractCharacterAssert<RS>, X extends Exception> DoubleToCharFunctionXAssert.Impl<A, RS, X> assertThat(DoubleToCharFunctionX<X> functionalInterface) {
-		return new DoubleToCharFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LDoubleToCharFunctionX<X>, RS extends AbstractCharacterAssert<RS>, X extends Exception> LDoubleToCharFunctionXAssert.Impl<A, RS, X> assertThat(LDoubleToCharFunctionX<X> functionalInterface) {
+		return new LDoubleToCharFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends CharToByteFunction, RS extends AbstractByteAssert<RS>> CharToByteFunctionAssert.Impl<A, RS> assertThat(CharToByteFunction functionalInterface) {
-		return new CharToByteFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LCharToByteFunction, RS extends AbstractByteAssert<RS>> LCharToByteFunctionAssert.Impl<A, RS> assertThat(LCharToByteFunction functionalInterface) {
+		return new LCharToByteFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends CharToByteFunctionX<X>, RS extends AbstractByteAssert<RS>, X extends Exception> CharToByteFunctionXAssert.Impl<A, RS, X> assertThat(CharToByteFunctionX<X> functionalInterface) {
-		return new CharToByteFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LCharToByteFunctionX<X>, RS extends AbstractByteAssert<RS>, X extends Exception> LCharToByteFunctionXAssert.Impl<A, RS, X> assertThat(LCharToByteFunctionX<X> functionalInterface) {
+		return new LCharToByteFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends CharToShortFunction, RS extends AbstractShortAssert<RS>> CharToShortFunctionAssert.Impl<A, RS> assertThat(CharToShortFunction functionalInterface) {
-		return new CharToShortFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LCharToShortFunction, RS extends AbstractShortAssert<RS>> LCharToShortFunctionAssert.Impl<A, RS> assertThat(LCharToShortFunction functionalInterface) {
+		return new LCharToShortFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends CharToShortFunctionX<X>, RS extends AbstractShortAssert<RS>, X extends Exception> CharToShortFunctionXAssert.Impl<A, RS, X> assertThat(CharToShortFunctionX<X> functionalInterface) {
-		return new CharToShortFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LCharToShortFunctionX<X>, RS extends AbstractShortAssert<RS>, X extends Exception> LCharToShortFunctionXAssert.Impl<A, RS, X> assertThat(LCharToShortFunctionX<X> functionalInterface) {
+		return new LCharToShortFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends CharToIntFunction, RS extends AbstractIntegerAssert<RS>> CharToIntFunctionAssert.Impl<A, RS> assertThat(CharToIntFunction functionalInterface) {
-		return new CharToIntFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LCharToIntFunction, RS extends AbstractIntegerAssert<RS>> LCharToIntFunctionAssert.Impl<A, RS> assertThat(LCharToIntFunction functionalInterface) {
+		return new LCharToIntFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends CharToIntFunctionX<X>, RS extends AbstractIntegerAssert<RS>, X extends Exception> CharToIntFunctionXAssert.Impl<A, RS, X> assertThat(CharToIntFunctionX<X> functionalInterface) {
-		return new CharToIntFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LCharToIntFunctionX<X>, RS extends AbstractIntegerAssert<RS>, X extends Exception> LCharToIntFunctionXAssert.Impl<A, RS, X> assertThat(LCharToIntFunctionX<X> functionalInterface) {
+		return new LCharToIntFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends CharToLongFunction, RS extends AbstractLongAssert<RS>> CharToLongFunctionAssert.Impl<A, RS> assertThat(CharToLongFunction functionalInterface) {
-		return new CharToLongFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LCharToLongFunction, RS extends AbstractLongAssert<RS>> LCharToLongFunctionAssert.Impl<A, RS> assertThat(LCharToLongFunction functionalInterface) {
+		return new LCharToLongFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends CharToLongFunctionX<X>, RS extends AbstractLongAssert<RS>, X extends Exception> CharToLongFunctionXAssert.Impl<A, RS, X> assertThat(CharToLongFunctionX<X> functionalInterface) {
-		return new CharToLongFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LCharToLongFunctionX<X>, RS extends AbstractLongAssert<RS>, X extends Exception> LCharToLongFunctionXAssert.Impl<A, RS, X> assertThat(LCharToLongFunctionX<X> functionalInterface) {
+		return new LCharToLongFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends CharToFloatFunction, RS extends AbstractFloatAssert<RS>> CharToFloatFunctionAssert.Impl<A, RS> assertThat(CharToFloatFunction functionalInterface) {
-		return new CharToFloatFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LCharToFloatFunction, RS extends AbstractFloatAssert<RS>> LCharToFloatFunctionAssert.Impl<A, RS> assertThat(LCharToFloatFunction functionalInterface) {
+		return new LCharToFloatFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends CharToFloatFunctionX<X>, RS extends AbstractFloatAssert<RS>, X extends Exception> CharToFloatFunctionXAssert.Impl<A, RS, X> assertThat(CharToFloatFunctionX<X> functionalInterface) {
-		return new CharToFloatFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LCharToFloatFunctionX<X>, RS extends AbstractFloatAssert<RS>, X extends Exception> LCharToFloatFunctionXAssert.Impl<A, RS, X> assertThat(LCharToFloatFunctionX<X> functionalInterface) {
+		return new LCharToFloatFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends CharToDoubleFunction, RS extends AbstractDoubleAssert<RS>> CharToDoubleFunctionAssert.Impl<A, RS> assertThat(CharToDoubleFunction functionalInterface) {
-		return new CharToDoubleFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LCharToDoubleFunction, RS extends AbstractDoubleAssert<RS>> LCharToDoubleFunctionAssert.Impl<A, RS> assertThat(LCharToDoubleFunction functionalInterface) {
+		return new LCharToDoubleFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends CharToDoubleFunctionX<X>, RS extends AbstractDoubleAssert<RS>, X extends Exception> CharToDoubleFunctionXAssert.Impl<A, RS, X> assertThat(CharToDoubleFunctionX<X> functionalInterface) {
-		return new CharToDoubleFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LCharToDoubleFunctionX<X>, RS extends AbstractDoubleAssert<RS>, X extends Exception> LCharToDoubleFunctionXAssert.Impl<A, RS, X> assertThat(LCharToDoubleFunctionX<X> functionalInterface) {
+		return new LCharToDoubleFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BooleanToByteFunction, RS extends AbstractByteAssert<RS>> BooleanToByteFunctionAssert.Impl<A, RS> assertThat(BooleanToByteFunction functionalInterface) {
-		return new BooleanToByteFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBooleanToByteFunction, RS extends AbstractByteAssert<RS>> LBooleanToByteFunctionAssert.Impl<A, RS> assertThat(LBooleanToByteFunction functionalInterface) {
+		return new LBooleanToByteFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BooleanToByteFunctionX<X>, RS extends AbstractByteAssert<RS>, X extends Exception> BooleanToByteFunctionXAssert.Impl<A, RS, X> assertThat(BooleanToByteFunctionX<X> functionalInterface) {
-		return new BooleanToByteFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBooleanToByteFunctionX<X>, RS extends AbstractByteAssert<RS>, X extends Exception> LBooleanToByteFunctionXAssert.Impl<A, RS, X> assertThat(LBooleanToByteFunctionX<X> functionalInterface) {
+		return new LBooleanToByteFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BooleanToShortFunction, RS extends AbstractShortAssert<RS>> BooleanToShortFunctionAssert.Impl<A, RS> assertThat(BooleanToShortFunction functionalInterface) {
-		return new BooleanToShortFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBooleanToShortFunction, RS extends AbstractShortAssert<RS>> LBooleanToShortFunctionAssert.Impl<A, RS> assertThat(LBooleanToShortFunction functionalInterface) {
+		return new LBooleanToShortFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BooleanToShortFunctionX<X>, RS extends AbstractShortAssert<RS>, X extends Exception> BooleanToShortFunctionXAssert.Impl<A, RS, X> assertThat(BooleanToShortFunctionX<X> functionalInterface) {
-		return new BooleanToShortFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBooleanToShortFunctionX<X>, RS extends AbstractShortAssert<RS>, X extends Exception> LBooleanToShortFunctionXAssert.Impl<A, RS, X> assertThat(LBooleanToShortFunctionX<X> functionalInterface) {
+		return new LBooleanToShortFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BooleanToIntFunction, RS extends AbstractIntegerAssert<RS>> BooleanToIntFunctionAssert.Impl<A, RS> assertThat(BooleanToIntFunction functionalInterface) {
-		return new BooleanToIntFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBooleanToIntFunction, RS extends AbstractIntegerAssert<RS>> LBooleanToIntFunctionAssert.Impl<A, RS> assertThat(LBooleanToIntFunction functionalInterface) {
+		return new LBooleanToIntFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BooleanToIntFunctionX<X>, RS extends AbstractIntegerAssert<RS>, X extends Exception> BooleanToIntFunctionXAssert.Impl<A, RS, X> assertThat(BooleanToIntFunctionX<X> functionalInterface) {
-		return new BooleanToIntFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBooleanToIntFunctionX<X>, RS extends AbstractIntegerAssert<RS>, X extends Exception> LBooleanToIntFunctionXAssert.Impl<A, RS, X> assertThat(LBooleanToIntFunctionX<X> functionalInterface) {
+		return new LBooleanToIntFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BooleanToLongFunction, RS extends AbstractLongAssert<RS>> BooleanToLongFunctionAssert.Impl<A, RS> assertThat(BooleanToLongFunction functionalInterface) {
-		return new BooleanToLongFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBooleanToLongFunction, RS extends AbstractLongAssert<RS>> LBooleanToLongFunctionAssert.Impl<A, RS> assertThat(LBooleanToLongFunction functionalInterface) {
+		return new LBooleanToLongFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BooleanToLongFunctionX<X>, RS extends AbstractLongAssert<RS>, X extends Exception> BooleanToLongFunctionXAssert.Impl<A, RS, X> assertThat(BooleanToLongFunctionX<X> functionalInterface) {
-		return new BooleanToLongFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBooleanToLongFunctionX<X>, RS extends AbstractLongAssert<RS>, X extends Exception> LBooleanToLongFunctionXAssert.Impl<A, RS, X> assertThat(LBooleanToLongFunctionX<X> functionalInterface) {
+		return new LBooleanToLongFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BooleanToFloatFunction, RS extends AbstractFloatAssert<RS>> BooleanToFloatFunctionAssert.Impl<A, RS> assertThat(BooleanToFloatFunction functionalInterface) {
-		return new BooleanToFloatFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBooleanToFloatFunction, RS extends AbstractFloatAssert<RS>> LBooleanToFloatFunctionAssert.Impl<A, RS> assertThat(LBooleanToFloatFunction functionalInterface) {
+		return new LBooleanToFloatFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BooleanToFloatFunctionX<X>, RS extends AbstractFloatAssert<RS>, X extends Exception> BooleanToFloatFunctionXAssert.Impl<A, RS, X> assertThat(BooleanToFloatFunctionX<X> functionalInterface) {
-		return new BooleanToFloatFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBooleanToFloatFunctionX<X>, RS extends AbstractFloatAssert<RS>, X extends Exception> LBooleanToFloatFunctionXAssert.Impl<A, RS, X> assertThat(LBooleanToFloatFunctionX<X> functionalInterface) {
+		return new LBooleanToFloatFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BooleanToDoubleFunction, RS extends AbstractDoubleAssert<RS>> BooleanToDoubleFunctionAssert.Impl<A, RS> assertThat(BooleanToDoubleFunction functionalInterface) {
-		return new BooleanToDoubleFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBooleanToDoubleFunction, RS extends AbstractDoubleAssert<RS>> LBooleanToDoubleFunctionAssert.Impl<A, RS> assertThat(LBooleanToDoubleFunction functionalInterface) {
+		return new LBooleanToDoubleFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BooleanToDoubleFunctionX<X>, RS extends AbstractDoubleAssert<RS>, X extends Exception> BooleanToDoubleFunctionXAssert.Impl<A, RS, X> assertThat(BooleanToDoubleFunctionX<X> functionalInterface) {
-		return new BooleanToDoubleFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBooleanToDoubleFunctionX<X>, RS extends AbstractDoubleAssert<RS>, X extends Exception> LBooleanToDoubleFunctionXAssert.Impl<A, RS, X> assertThat(LBooleanToDoubleFunctionX<X> functionalInterface) {
+		return new LBooleanToDoubleFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BooleanToCharFunction, RS extends AbstractCharacterAssert<RS>> BooleanToCharFunctionAssert.Impl<A, RS> assertThat(BooleanToCharFunction functionalInterface) {
-		return new BooleanToCharFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBooleanToCharFunction, RS extends AbstractCharacterAssert<RS>> LBooleanToCharFunctionAssert.Impl<A, RS> assertThat(LBooleanToCharFunction functionalInterface) {
+		return new LBooleanToCharFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BooleanToCharFunctionX<X>, RS extends AbstractCharacterAssert<RS>, X extends Exception> BooleanToCharFunctionXAssert.Impl<A, RS, X> assertThat(BooleanToCharFunctionX<X> functionalInterface) {
-		return new BooleanToCharFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBooleanToCharFunctionX<X>, RS extends AbstractCharacterAssert<RS>, X extends Exception> LBooleanToCharFunctionXAssert.Impl<A, RS, X> assertThat(LBooleanToCharFunctionX<X> functionalInterface) {
+		return new LBooleanToCharFunctionXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends Predicate<T>, RS extends AbstractBooleanAssert<RS>, T> PredicateAssert.Impl<A, RS, T> assertThat(Predicate<T> functionalInterface) {
-		return new PredicateAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LPredicate<T>, RS extends AbstractBooleanAssert<RS>, T> LPredicateAssert.Impl<A, RS, T> assertThat(LPredicate<T> functionalInterface) {
+		return new LPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends PredicateX<T, X>, RS extends AbstractBooleanAssert<RS>, T, X extends Exception> PredicateXAssert.Impl<A, RS, T, X> assertThat(PredicateX<T, X> functionalInterface) {
-		return new PredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LPredicateX<T, X>, RS extends AbstractBooleanAssert<RS>, T, X extends Exception> LPredicateXAssert.Impl<A, RS, T, X> assertThat(LPredicateX<T, X> functionalInterface) {
+		return new LPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiPredicate<T1, T2>, RS extends AbstractBooleanAssert<RS>, T1, T2> BiPredicateAssert.Impl<A, RS, T1, T2> assertThat(BiPredicate<T1, T2> functionalInterface) {
-		return new BiPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiPredicate<T1, T2>, RS extends AbstractBooleanAssert<RS>, T1, T2> LBiPredicateAssert.Impl<A, RS, T1, T2> assertThat(LBiPredicate<T1, T2> functionalInterface) {
+		return new LBiPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiPredicateX<T1, T2, X>, RS extends AbstractBooleanAssert<RS>, T1, T2, X extends Exception> BiPredicateXAssert.Impl<A, RS, T1, T2, X> assertThat(BiPredicateX<T1, T2, X> functionalInterface) {
-		return new BiPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiPredicateX<T1, T2, X>, RS extends AbstractBooleanAssert<RS>, T1, T2, X extends Exception> LBiPredicateXAssert.Impl<A, RS, T1, T2, X> assertThat(LBiPredicateX<T1, T2, X> functionalInterface) {
+		return new LBiPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends TriPredicate<T1, T2, T3>, RS extends AbstractBooleanAssert<RS>, T1, T2, T3> TriPredicateAssert.Impl<A, RS, T1, T2, T3> assertThat(TriPredicate<T1, T2, T3> functionalInterface) {
-		return new TriPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LTriPredicate<T1, T2, T3>, RS extends AbstractBooleanAssert<RS>, T1, T2, T3> LTriPredicateAssert.Impl<A, RS, T1, T2, T3> assertThat(LTriPredicate<T1, T2, T3> functionalInterface) {
+		return new LTriPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends TriPredicateX<T1, T2, T3, X>, RS extends AbstractBooleanAssert<RS>, T1, T2, T3, X extends Exception> TriPredicateXAssert.Impl<A, RS, T1, T2, T3, X> assertThat(TriPredicateX<T1, T2, T3, X> functionalInterface) {
-		return new TriPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LTriPredicateX<T1, T2, T3, X>, RS extends AbstractBooleanAssert<RS>, T1, T2, T3, X extends Exception> LTriPredicateXAssert.Impl<A, RS, T1, T2, T3, X> assertThat(LTriPredicateX<T1, T2, T3, X> functionalInterface) {
+		return new LTriPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BytePredicate, RS extends AbstractBooleanAssert<RS>> BytePredicateAssert.Impl<A, RS> assertThat(BytePredicate functionalInterface) {
-		return new BytePredicateAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBytePredicate, RS extends AbstractBooleanAssert<RS>> LBytePredicateAssert.Impl<A, RS> assertThat(LBytePredicate functionalInterface) {
+		return new LBytePredicateAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BytePredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Exception> BytePredicateXAssert.Impl<A, RS, X> assertThat(BytePredicateX<X> functionalInterface) {
-		return new BytePredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBytePredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Exception> LBytePredicateXAssert.Impl<A, RS, X> assertThat(LBytePredicateX<X> functionalInterface) {
+		return new LBytePredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ShortPredicate, RS extends AbstractBooleanAssert<RS>> ShortPredicateAssert.Impl<A, RS> assertThat(ShortPredicate functionalInterface) {
-		return new ShortPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LShortPredicate, RS extends AbstractBooleanAssert<RS>> LShortPredicateAssert.Impl<A, RS> assertThat(LShortPredicate functionalInterface) {
+		return new LShortPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ShortPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Exception> ShortPredicateXAssert.Impl<A, RS, X> assertThat(ShortPredicateX<X> functionalInterface) {
-		return new ShortPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LShortPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Exception> LShortPredicateXAssert.Impl<A, RS, X> assertThat(LShortPredicateX<X> functionalInterface) {
+		return new LShortPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends IntPredicate, RS extends AbstractBooleanAssert<RS>> IntPredicateAssert.Impl<A, RS> assertThat(IntPredicate functionalInterface) {
-		return new IntPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LIntPredicate, RS extends AbstractBooleanAssert<RS>> LIntPredicateAssert.Impl<A, RS> assertThat(LIntPredicate functionalInterface) {
+		return new LIntPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends IntPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Exception> IntPredicateXAssert.Impl<A, RS, X> assertThat(IntPredicateX<X> functionalInterface) {
-		return new IntPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LIntPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Exception> LIntPredicateXAssert.Impl<A, RS, X> assertThat(LIntPredicateX<X> functionalInterface) {
+		return new LIntPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends LongPredicate, RS extends AbstractBooleanAssert<RS>> LongPredicateAssert.Impl<A, RS> assertThat(LongPredicate functionalInterface) {
-		return new LongPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LLongPredicate, RS extends AbstractBooleanAssert<RS>> LLongPredicateAssert.Impl<A, RS> assertThat(LLongPredicate functionalInterface) {
+		return new LLongPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends LongPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Exception> LongPredicateXAssert.Impl<A, RS, X> assertThat(LongPredicateX<X> functionalInterface) {
-		return new LongPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LLongPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Exception> LLongPredicateXAssert.Impl<A, RS, X> assertThat(LLongPredicateX<X> functionalInterface) {
+		return new LLongPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends FloatPredicate, RS extends AbstractBooleanAssert<RS>> FloatPredicateAssert.Impl<A, RS> assertThat(FloatPredicate functionalInterface) {
-		return new FloatPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LFloatPredicate, RS extends AbstractBooleanAssert<RS>> LFloatPredicateAssert.Impl<A, RS> assertThat(LFloatPredicate functionalInterface) {
+		return new LFloatPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends FloatPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Exception> FloatPredicateXAssert.Impl<A, RS, X> assertThat(FloatPredicateX<X> functionalInterface) {
-		return new FloatPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LFloatPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Exception> LFloatPredicateXAssert.Impl<A, RS, X> assertThat(LFloatPredicateX<X> functionalInterface) {
+		return new LFloatPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends DoublePredicate, RS extends AbstractBooleanAssert<RS>> DoublePredicateAssert.Impl<A, RS> assertThat(DoublePredicate functionalInterface) {
-		return new DoublePredicateAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LDoublePredicate, RS extends AbstractBooleanAssert<RS>> LDoublePredicateAssert.Impl<A, RS> assertThat(LDoublePredicate functionalInterface) {
+		return new LDoublePredicateAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends DoublePredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Exception> DoublePredicateXAssert.Impl<A, RS, X> assertThat(DoublePredicateX<X> functionalInterface) {
-		return new DoublePredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LDoublePredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Exception> LDoublePredicateXAssert.Impl<A, RS, X> assertThat(LDoublePredicateX<X> functionalInterface) {
+		return new LDoublePredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends CharPredicate, RS extends AbstractBooleanAssert<RS>> CharPredicateAssert.Impl<A, RS> assertThat(CharPredicate functionalInterface) {
-		return new CharPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LCharPredicate, RS extends AbstractBooleanAssert<RS>> LCharPredicateAssert.Impl<A, RS> assertThat(LCharPredicate functionalInterface) {
+		return new LCharPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends CharPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Exception> CharPredicateXAssert.Impl<A, RS, X> assertThat(CharPredicateX<X> functionalInterface) {
-		return new CharPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LCharPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Exception> LCharPredicateXAssert.Impl<A, RS, X> assertThat(LCharPredicateX<X> functionalInterface) {
+		return new LCharPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiBytePredicate, RS extends AbstractBooleanAssert<RS>> BiBytePredicateAssert.Impl<A, RS> assertThat(BiBytePredicate functionalInterface) {
-		return new BiBytePredicateAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiBytePredicate, RS extends AbstractBooleanAssert<RS>> LBiBytePredicateAssert.Impl<A, RS> assertThat(LBiBytePredicate functionalInterface) {
+		return new LBiBytePredicateAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiBytePredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Exception> BiBytePredicateXAssert.Impl<A, RS, X> assertThat(BiBytePredicateX<X> functionalInterface) {
-		return new BiBytePredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiBytePredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Exception> LBiBytePredicateXAssert.Impl<A, RS, X> assertThat(LBiBytePredicateX<X> functionalInterface) {
+		return new LBiBytePredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiShortPredicate, RS extends AbstractBooleanAssert<RS>> BiShortPredicateAssert.Impl<A, RS> assertThat(BiShortPredicate functionalInterface) {
-		return new BiShortPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiShortPredicate, RS extends AbstractBooleanAssert<RS>> LBiShortPredicateAssert.Impl<A, RS> assertThat(LBiShortPredicate functionalInterface) {
+		return new LBiShortPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiShortPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Exception> BiShortPredicateXAssert.Impl<A, RS, X> assertThat(BiShortPredicateX<X> functionalInterface) {
-		return new BiShortPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiShortPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Exception> LBiShortPredicateXAssert.Impl<A, RS, X> assertThat(LBiShortPredicateX<X> functionalInterface) {
+		return new LBiShortPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiIntPredicate, RS extends AbstractBooleanAssert<RS>> BiIntPredicateAssert.Impl<A, RS> assertThat(BiIntPredicate functionalInterface) {
-		return new BiIntPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiIntPredicate, RS extends AbstractBooleanAssert<RS>> LBiIntPredicateAssert.Impl<A, RS> assertThat(LBiIntPredicate functionalInterface) {
+		return new LBiIntPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiIntPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Exception> BiIntPredicateXAssert.Impl<A, RS, X> assertThat(BiIntPredicateX<X> functionalInterface) {
-		return new BiIntPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiIntPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Exception> LBiIntPredicateXAssert.Impl<A, RS, X> assertThat(LBiIntPredicateX<X> functionalInterface) {
+		return new LBiIntPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiLongPredicate, RS extends AbstractBooleanAssert<RS>> BiLongPredicateAssert.Impl<A, RS> assertThat(BiLongPredicate functionalInterface) {
-		return new BiLongPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiLongPredicate, RS extends AbstractBooleanAssert<RS>> LBiLongPredicateAssert.Impl<A, RS> assertThat(LBiLongPredicate functionalInterface) {
+		return new LBiLongPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiLongPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Exception> BiLongPredicateXAssert.Impl<A, RS, X> assertThat(BiLongPredicateX<X> functionalInterface) {
-		return new BiLongPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiLongPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Exception> LBiLongPredicateXAssert.Impl<A, RS, X> assertThat(LBiLongPredicateX<X> functionalInterface) {
+		return new LBiLongPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiFloatPredicate, RS extends AbstractBooleanAssert<RS>> BiFloatPredicateAssert.Impl<A, RS> assertThat(BiFloatPredicate functionalInterface) {
-		return new BiFloatPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiFloatPredicate, RS extends AbstractBooleanAssert<RS>> LBiFloatPredicateAssert.Impl<A, RS> assertThat(LBiFloatPredicate functionalInterface) {
+		return new LBiFloatPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiFloatPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Exception> BiFloatPredicateXAssert.Impl<A, RS, X> assertThat(BiFloatPredicateX<X> functionalInterface) {
-		return new BiFloatPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiFloatPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Exception> LBiFloatPredicateXAssert.Impl<A, RS, X> assertThat(LBiFloatPredicateX<X> functionalInterface) {
+		return new LBiFloatPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiDoublePredicate, RS extends AbstractBooleanAssert<RS>> BiDoublePredicateAssert.Impl<A, RS> assertThat(BiDoublePredicate functionalInterface) {
-		return new BiDoublePredicateAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiDoublePredicate, RS extends AbstractBooleanAssert<RS>> LBiDoublePredicateAssert.Impl<A, RS> assertThat(LBiDoublePredicate functionalInterface) {
+		return new LBiDoublePredicateAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiDoublePredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Exception> BiDoublePredicateXAssert.Impl<A, RS, X> assertThat(BiDoublePredicateX<X> functionalInterface) {
-		return new BiDoublePredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiDoublePredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Exception> LBiDoublePredicateXAssert.Impl<A, RS, X> assertThat(LBiDoublePredicateX<X> functionalInterface) {
+		return new LBiDoublePredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiCharPredicate, RS extends AbstractBooleanAssert<RS>> BiCharPredicateAssert.Impl<A, RS> assertThat(BiCharPredicate functionalInterface) {
-		return new BiCharPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiCharPredicate, RS extends AbstractBooleanAssert<RS>> LBiCharPredicateAssert.Impl<A, RS> assertThat(LBiCharPredicate functionalInterface) {
+		return new LBiCharPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiCharPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Exception> BiCharPredicateXAssert.Impl<A, RS, X> assertThat(BiCharPredicateX<X> functionalInterface) {
-		return new BiCharPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiCharPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Exception> LBiCharPredicateXAssert.Impl<A, RS, X> assertThat(LBiCharPredicateX<X> functionalInterface) {
+		return new LBiCharPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ObjBytePredicate<T>, RS extends AbstractBooleanAssert<RS>, T> ObjBytePredicateAssert.Impl<A, RS, T> assertThat(ObjBytePredicate<T> functionalInterface) {
-		return new ObjBytePredicateAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LObjBytePredicate<T>, RS extends AbstractBooleanAssert<RS>, T> LObjBytePredicateAssert.Impl<A, RS, T> assertThat(LObjBytePredicate<T> functionalInterface) {
+		return new LObjBytePredicateAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ObjBytePredicateX<T, X>, RS extends AbstractBooleanAssert<RS>, T, X extends Exception> ObjBytePredicateXAssert.Impl<A, RS, T, X> assertThat(ObjBytePredicateX<T, X> functionalInterface) {
-		return new ObjBytePredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LObjBytePredicateX<T, X>, RS extends AbstractBooleanAssert<RS>, T, X extends Exception> LObjBytePredicateXAssert.Impl<A, RS, T, X> assertThat(LObjBytePredicateX<T, X> functionalInterface) {
+		return new LObjBytePredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ObjShortPredicate<T>, RS extends AbstractBooleanAssert<RS>, T> ObjShortPredicateAssert.Impl<A, RS, T> assertThat(ObjShortPredicate<T> functionalInterface) {
-		return new ObjShortPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LObjShortPredicate<T>, RS extends AbstractBooleanAssert<RS>, T> LObjShortPredicateAssert.Impl<A, RS, T> assertThat(LObjShortPredicate<T> functionalInterface) {
+		return new LObjShortPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ObjShortPredicateX<T, X>, RS extends AbstractBooleanAssert<RS>, T, X extends Exception> ObjShortPredicateXAssert.Impl<A, RS, T, X> assertThat(ObjShortPredicateX<T, X> functionalInterface) {
-		return new ObjShortPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LObjShortPredicateX<T, X>, RS extends AbstractBooleanAssert<RS>, T, X extends Exception> LObjShortPredicateXAssert.Impl<A, RS, T, X> assertThat(LObjShortPredicateX<T, X> functionalInterface) {
+		return new LObjShortPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ObjIntPredicate<T>, RS extends AbstractBooleanAssert<RS>, T> ObjIntPredicateAssert.Impl<A, RS, T> assertThat(ObjIntPredicate<T> functionalInterface) {
-		return new ObjIntPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LObjIntPredicate<T>, RS extends AbstractBooleanAssert<RS>, T> LObjIntPredicateAssert.Impl<A, RS, T> assertThat(LObjIntPredicate<T> functionalInterface) {
+		return new LObjIntPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ObjIntPredicateX<T, X>, RS extends AbstractBooleanAssert<RS>, T, X extends Exception> ObjIntPredicateXAssert.Impl<A, RS, T, X> assertThat(ObjIntPredicateX<T, X> functionalInterface) {
-		return new ObjIntPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LObjIntPredicateX<T, X>, RS extends AbstractBooleanAssert<RS>, T, X extends Exception> LObjIntPredicateXAssert.Impl<A, RS, T, X> assertThat(LObjIntPredicateX<T, X> functionalInterface) {
+		return new LObjIntPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ObjLongPredicate<T>, RS extends AbstractBooleanAssert<RS>, T> ObjLongPredicateAssert.Impl<A, RS, T> assertThat(ObjLongPredicate<T> functionalInterface) {
-		return new ObjLongPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LObjLongPredicate<T>, RS extends AbstractBooleanAssert<RS>, T> LObjLongPredicateAssert.Impl<A, RS, T> assertThat(LObjLongPredicate<T> functionalInterface) {
+		return new LObjLongPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ObjLongPredicateX<T, X>, RS extends AbstractBooleanAssert<RS>, T, X extends Exception> ObjLongPredicateXAssert.Impl<A, RS, T, X> assertThat(ObjLongPredicateX<T, X> functionalInterface) {
-		return new ObjLongPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LObjLongPredicateX<T, X>, RS extends AbstractBooleanAssert<RS>, T, X extends Exception> LObjLongPredicateXAssert.Impl<A, RS, T, X> assertThat(LObjLongPredicateX<T, X> functionalInterface) {
+		return new LObjLongPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ObjFloatPredicate<T>, RS extends AbstractBooleanAssert<RS>, T> ObjFloatPredicateAssert.Impl<A, RS, T> assertThat(ObjFloatPredicate<T> functionalInterface) {
-		return new ObjFloatPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LObjFloatPredicate<T>, RS extends AbstractBooleanAssert<RS>, T> LObjFloatPredicateAssert.Impl<A, RS, T> assertThat(LObjFloatPredicate<T> functionalInterface) {
+		return new LObjFloatPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ObjFloatPredicateX<T, X>, RS extends AbstractBooleanAssert<RS>, T, X extends Exception> ObjFloatPredicateXAssert.Impl<A, RS, T, X> assertThat(ObjFloatPredicateX<T, X> functionalInterface) {
-		return new ObjFloatPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LObjFloatPredicateX<T, X>, RS extends AbstractBooleanAssert<RS>, T, X extends Exception> LObjFloatPredicateXAssert.Impl<A, RS, T, X> assertThat(LObjFloatPredicateX<T, X> functionalInterface) {
+		return new LObjFloatPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ObjDoublePredicate<T>, RS extends AbstractBooleanAssert<RS>, T> ObjDoublePredicateAssert.Impl<A, RS, T> assertThat(ObjDoublePredicate<T> functionalInterface) {
-		return new ObjDoublePredicateAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LObjDoublePredicate<T>, RS extends AbstractBooleanAssert<RS>, T> LObjDoublePredicateAssert.Impl<A, RS, T> assertThat(LObjDoublePredicate<T> functionalInterface) {
+		return new LObjDoublePredicateAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ObjDoublePredicateX<T, X>, RS extends AbstractBooleanAssert<RS>, T, X extends Exception> ObjDoublePredicateXAssert.Impl<A, RS, T, X> assertThat(ObjDoublePredicateX<T, X> functionalInterface) {
-		return new ObjDoublePredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LObjDoublePredicateX<T, X>, RS extends AbstractBooleanAssert<RS>, T, X extends Exception> LObjDoublePredicateXAssert.Impl<A, RS, T, X> assertThat(LObjDoublePredicateX<T, X> functionalInterface) {
+		return new LObjDoublePredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ObjCharPredicate<T>, RS extends AbstractBooleanAssert<RS>, T> ObjCharPredicateAssert.Impl<A, RS, T> assertThat(ObjCharPredicate<T> functionalInterface) {
-		return new ObjCharPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LObjCharPredicate<T>, RS extends AbstractBooleanAssert<RS>, T> LObjCharPredicateAssert.Impl<A, RS, T> assertThat(LObjCharPredicate<T> functionalInterface) {
+		return new LObjCharPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ObjCharPredicateX<T, X>, RS extends AbstractBooleanAssert<RS>, T, X extends Exception> ObjCharPredicateXAssert.Impl<A, RS, T, X> assertThat(ObjCharPredicateX<T, X> functionalInterface) {
-		return new ObjCharPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LObjCharPredicateX<T, X>, RS extends AbstractBooleanAssert<RS>, T, X extends Exception> LObjCharPredicateXAssert.Impl<A, RS, T, X> assertThat(LObjCharPredicateX<T, X> functionalInterface) {
+		return new LObjCharPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ObjBooleanPredicate<T>, RS extends AbstractBooleanAssert<RS>, T> ObjBooleanPredicateAssert.Impl<A, RS, T> assertThat(ObjBooleanPredicate<T> functionalInterface) {
-		return new ObjBooleanPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LObjBooleanPredicate<T>, RS extends AbstractBooleanAssert<RS>, T> LObjBooleanPredicateAssert.Impl<A, RS, T> assertThat(LObjBooleanPredicate<T> functionalInterface) {
+		return new LObjBooleanPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ObjBooleanPredicateX<T, X>, RS extends AbstractBooleanAssert<RS>, T, X extends Exception> ObjBooleanPredicateXAssert.Impl<A, RS, T, X> assertThat(ObjBooleanPredicateX<T, X> functionalInterface) {
-		return new ObjBooleanPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LObjBooleanPredicateX<T, X>, RS extends AbstractBooleanAssert<RS>, T, X extends Exception> LObjBooleanPredicateXAssert.Impl<A, RS, T, X> assertThat(LObjBooleanPredicateX<T, X> functionalInterface) {
+		return new LObjBooleanPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiObjBytePredicate<T1, T2>, RS extends AbstractBooleanAssert<RS>, T1, T2> BiObjBytePredicateAssert.Impl<A, RS, T1, T2> assertThat(BiObjBytePredicate<T1, T2> functionalInterface) {
-		return new BiObjBytePredicateAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiObjBytePredicate<T1, T2>, RS extends AbstractBooleanAssert<RS>, T1, T2> LBiObjBytePredicateAssert.Impl<A, RS, T1, T2> assertThat(LBiObjBytePredicate<T1, T2> functionalInterface) {
+		return new LBiObjBytePredicateAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiObjBytePredicateX<T1, T2, X>, RS extends AbstractBooleanAssert<RS>, T1, T2, X extends Exception> BiObjBytePredicateXAssert.Impl<A, RS, T1, T2, X> assertThat(BiObjBytePredicateX<T1, T2, X> functionalInterface) {
-		return new BiObjBytePredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiObjBytePredicateX<T1, T2, X>, RS extends AbstractBooleanAssert<RS>, T1, T2, X extends Exception> LBiObjBytePredicateXAssert.Impl<A, RS, T1, T2, X> assertThat(LBiObjBytePredicateX<T1, T2, X> functionalInterface) {
+		return new LBiObjBytePredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiObjShortPredicate<T1, T2>, RS extends AbstractBooleanAssert<RS>, T1, T2> BiObjShortPredicateAssert.Impl<A, RS, T1, T2> assertThat(BiObjShortPredicate<T1, T2> functionalInterface) {
-		return new BiObjShortPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiObjShortPredicate<T1, T2>, RS extends AbstractBooleanAssert<RS>, T1, T2> LBiObjShortPredicateAssert.Impl<A, RS, T1, T2> assertThat(LBiObjShortPredicate<T1, T2> functionalInterface) {
+		return new LBiObjShortPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiObjShortPredicateX<T1, T2, X>, RS extends AbstractBooleanAssert<RS>, T1, T2, X extends Exception> BiObjShortPredicateXAssert.Impl<A, RS, T1, T2, X> assertThat(BiObjShortPredicateX<T1, T2, X> functionalInterface) {
-		return new BiObjShortPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiObjShortPredicateX<T1, T2, X>, RS extends AbstractBooleanAssert<RS>, T1, T2, X extends Exception> LBiObjShortPredicateXAssert.Impl<A, RS, T1, T2, X> assertThat(LBiObjShortPredicateX<T1, T2, X> functionalInterface) {
+		return new LBiObjShortPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiObjIntPredicate<T1, T2>, RS extends AbstractBooleanAssert<RS>, T1, T2> BiObjIntPredicateAssert.Impl<A, RS, T1, T2> assertThat(BiObjIntPredicate<T1, T2> functionalInterface) {
-		return new BiObjIntPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiObjIntPredicate<T1, T2>, RS extends AbstractBooleanAssert<RS>, T1, T2> LBiObjIntPredicateAssert.Impl<A, RS, T1, T2> assertThat(LBiObjIntPredicate<T1, T2> functionalInterface) {
+		return new LBiObjIntPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiObjIntPredicateX<T1, T2, X>, RS extends AbstractBooleanAssert<RS>, T1, T2, X extends Exception> BiObjIntPredicateXAssert.Impl<A, RS, T1, T2, X> assertThat(BiObjIntPredicateX<T1, T2, X> functionalInterface) {
-		return new BiObjIntPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiObjIntPredicateX<T1, T2, X>, RS extends AbstractBooleanAssert<RS>, T1, T2, X extends Exception> LBiObjIntPredicateXAssert.Impl<A, RS, T1, T2, X> assertThat(LBiObjIntPredicateX<T1, T2, X> functionalInterface) {
+		return new LBiObjIntPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiObjLongPredicate<T1, T2>, RS extends AbstractBooleanAssert<RS>, T1, T2> BiObjLongPredicateAssert.Impl<A, RS, T1, T2> assertThat(BiObjLongPredicate<T1, T2> functionalInterface) {
-		return new BiObjLongPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiObjLongPredicate<T1, T2>, RS extends AbstractBooleanAssert<RS>, T1, T2> LBiObjLongPredicateAssert.Impl<A, RS, T1, T2> assertThat(LBiObjLongPredicate<T1, T2> functionalInterface) {
+		return new LBiObjLongPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiObjLongPredicateX<T1, T2, X>, RS extends AbstractBooleanAssert<RS>, T1, T2, X extends Exception> BiObjLongPredicateXAssert.Impl<A, RS, T1, T2, X> assertThat(BiObjLongPredicateX<T1, T2, X> functionalInterface) {
-		return new BiObjLongPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiObjLongPredicateX<T1, T2, X>, RS extends AbstractBooleanAssert<RS>, T1, T2, X extends Exception> LBiObjLongPredicateXAssert.Impl<A, RS, T1, T2, X> assertThat(LBiObjLongPredicateX<T1, T2, X> functionalInterface) {
+		return new LBiObjLongPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiObjFloatPredicate<T1, T2>, RS extends AbstractBooleanAssert<RS>, T1, T2> BiObjFloatPredicateAssert.Impl<A, RS, T1, T2> assertThat(BiObjFloatPredicate<T1, T2> functionalInterface) {
-		return new BiObjFloatPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiObjFloatPredicate<T1, T2>, RS extends AbstractBooleanAssert<RS>, T1, T2> LBiObjFloatPredicateAssert.Impl<A, RS, T1, T2> assertThat(LBiObjFloatPredicate<T1, T2> functionalInterface) {
+		return new LBiObjFloatPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiObjFloatPredicateX<T1, T2, X>, RS extends AbstractBooleanAssert<RS>, T1, T2, X extends Exception> BiObjFloatPredicateXAssert.Impl<A, RS, T1, T2, X> assertThat(BiObjFloatPredicateX<T1, T2, X> functionalInterface) {
-		return new BiObjFloatPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiObjFloatPredicateX<T1, T2, X>, RS extends AbstractBooleanAssert<RS>, T1, T2, X extends Exception> LBiObjFloatPredicateXAssert.Impl<A, RS, T1, T2, X> assertThat(LBiObjFloatPredicateX<T1, T2, X> functionalInterface) {
+		return new LBiObjFloatPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiObjDoublePredicate<T1, T2>, RS extends AbstractBooleanAssert<RS>, T1, T2> BiObjDoublePredicateAssert.Impl<A, RS, T1, T2> assertThat(BiObjDoublePredicate<T1, T2> functionalInterface) {
-		return new BiObjDoublePredicateAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiObjDoublePredicate<T1, T2>, RS extends AbstractBooleanAssert<RS>, T1, T2> LBiObjDoublePredicateAssert.Impl<A, RS, T1, T2> assertThat(LBiObjDoublePredicate<T1, T2> functionalInterface) {
+		return new LBiObjDoublePredicateAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiObjDoublePredicateX<T1, T2, X>, RS extends AbstractBooleanAssert<RS>, T1, T2, X extends Exception> BiObjDoublePredicateXAssert.Impl<A, RS, T1, T2, X> assertThat(BiObjDoublePredicateX<T1, T2, X> functionalInterface) {
-		return new BiObjDoublePredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiObjDoublePredicateX<T1, T2, X>, RS extends AbstractBooleanAssert<RS>, T1, T2, X extends Exception> LBiObjDoublePredicateXAssert.Impl<A, RS, T1, T2, X> assertThat(LBiObjDoublePredicateX<T1, T2, X> functionalInterface) {
+		return new LBiObjDoublePredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiObjCharPredicate<T1, T2>, RS extends AbstractBooleanAssert<RS>, T1, T2> BiObjCharPredicateAssert.Impl<A, RS, T1, T2> assertThat(BiObjCharPredicate<T1, T2> functionalInterface) {
-		return new BiObjCharPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiObjCharPredicate<T1, T2>, RS extends AbstractBooleanAssert<RS>, T1, T2> LBiObjCharPredicateAssert.Impl<A, RS, T1, T2> assertThat(LBiObjCharPredicate<T1, T2> functionalInterface) {
+		return new LBiObjCharPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiObjCharPredicateX<T1, T2, X>, RS extends AbstractBooleanAssert<RS>, T1, T2, X extends Exception> BiObjCharPredicateXAssert.Impl<A, RS, T1, T2, X> assertThat(BiObjCharPredicateX<T1, T2, X> functionalInterface) {
-		return new BiObjCharPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiObjCharPredicateX<T1, T2, X>, RS extends AbstractBooleanAssert<RS>, T1, T2, X extends Exception> LBiObjCharPredicateXAssert.Impl<A, RS, T1, T2, X> assertThat(LBiObjCharPredicateX<T1, T2, X> functionalInterface) {
+		return new LBiObjCharPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiObjBooleanPredicate<T1, T2>, RS extends AbstractBooleanAssert<RS>, T1, T2> BiObjBooleanPredicateAssert.Impl<A, RS, T1, T2> assertThat(BiObjBooleanPredicate<T1, T2> functionalInterface) {
-		return new BiObjBooleanPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiObjBooleanPredicate<T1, T2>, RS extends AbstractBooleanAssert<RS>, T1, T2> LBiObjBooleanPredicateAssert.Impl<A, RS, T1, T2> assertThat(LBiObjBooleanPredicate<T1, T2> functionalInterface) {
+		return new LBiObjBooleanPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BiObjBooleanPredicateX<T1, T2, X>, RS extends AbstractBooleanAssert<RS>, T1, T2, X extends Exception> BiObjBooleanPredicateXAssert.Impl<A, RS, T1, T2, X> assertThat(BiObjBooleanPredicateX<T1, T2, X> functionalInterface) {
-		return new BiObjBooleanPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBiObjBooleanPredicateX<T1, T2, X>, RS extends AbstractBooleanAssert<RS>, T1, T2, X extends Exception> LBiObjBooleanPredicateXAssert.Impl<A, RS, T1, T2, X> assertThat(LBiObjBooleanPredicateX<T1, T2, X> functionalInterface) {
+		return new LBiObjBooleanPredicateXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends Supplier<R>, RS extends AbstractObjectAssert<RS, R>, R> SupplierAssert.Impl<A, RS, R> assertThat(Supplier<R> functionalInterface) {
-		return new SupplierAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LSupplier<R>, RS extends AbstractObjectAssert<RS, R>, R> LSupplierAssert.Impl<A, RS, R> assertThat(LSupplier<R> functionalInterface) {
+		return new LSupplierAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends SupplierX<R, X>, RS extends AbstractObjectAssert<RS, R>, R, X extends Exception> SupplierXAssert.Impl<A, RS, R, X> assertThat(SupplierX<R, X> functionalInterface) {
-		return new SupplierXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LSupplierX<R, X>, RS extends AbstractObjectAssert<RS, R>, R, X extends Exception> LSupplierXAssert.Impl<A, RS, R, X> assertThat(LSupplierX<R, X> functionalInterface) {
+		return new LSupplierXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ByteSupplier, RS extends AbstractByteAssert<RS>> ByteSupplierAssert.Impl<A, RS> assertThat(ByteSupplier functionalInterface) {
-		return new ByteSupplierAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LByteSupplier, RS extends AbstractByteAssert<RS>> LByteSupplierAssert.Impl<A, RS> assertThat(LByteSupplier functionalInterface) {
+		return new LByteSupplierAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ByteSupplierX<X>, RS extends AbstractByteAssert<RS>, X extends Exception> ByteSupplierXAssert.Impl<A, RS, X> assertThat(ByteSupplierX<X> functionalInterface) {
-		return new ByteSupplierXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LByteSupplierX<X>, RS extends AbstractByteAssert<RS>, X extends Exception> LByteSupplierXAssert.Impl<A, RS, X> assertThat(LByteSupplierX<X> functionalInterface) {
+		return new LByteSupplierXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ShortSupplier, RS extends AbstractShortAssert<RS>> ShortSupplierAssert.Impl<A, RS> assertThat(ShortSupplier functionalInterface) {
-		return new ShortSupplierAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LShortSupplier, RS extends AbstractShortAssert<RS>> LShortSupplierAssert.Impl<A, RS> assertThat(LShortSupplier functionalInterface) {
+		return new LShortSupplierAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends ShortSupplierX<X>, RS extends AbstractShortAssert<RS>, X extends Exception> ShortSupplierXAssert.Impl<A, RS, X> assertThat(ShortSupplierX<X> functionalInterface) {
-		return new ShortSupplierXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LShortSupplierX<X>, RS extends AbstractShortAssert<RS>, X extends Exception> LShortSupplierXAssert.Impl<A, RS, X> assertThat(LShortSupplierX<X> functionalInterface) {
+		return new LShortSupplierXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends IntSupplier, RS extends AbstractIntegerAssert<RS>> IntSupplierAssert.Impl<A, RS> assertThat(IntSupplier functionalInterface) {
-		return new IntSupplierAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LIntSupplier, RS extends AbstractIntegerAssert<RS>> LIntSupplierAssert.Impl<A, RS> assertThat(LIntSupplier functionalInterface) {
+		return new LIntSupplierAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends IntSupplierX<X>, RS extends AbstractIntegerAssert<RS>, X extends Exception> IntSupplierXAssert.Impl<A, RS, X> assertThat(IntSupplierX<X> functionalInterface) {
-		return new IntSupplierXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LIntSupplierX<X>, RS extends AbstractIntegerAssert<RS>, X extends Exception> LIntSupplierXAssert.Impl<A, RS, X> assertThat(LIntSupplierX<X> functionalInterface) {
+		return new LIntSupplierXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends LongSupplier, RS extends AbstractLongAssert<RS>> LongSupplierAssert.Impl<A, RS> assertThat(LongSupplier functionalInterface) {
-		return new LongSupplierAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LLongSupplier, RS extends AbstractLongAssert<RS>> LLongSupplierAssert.Impl<A, RS> assertThat(LLongSupplier functionalInterface) {
+		return new LLongSupplierAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends LongSupplierX<X>, RS extends AbstractLongAssert<RS>, X extends Exception> LongSupplierXAssert.Impl<A, RS, X> assertThat(LongSupplierX<X> functionalInterface) {
-		return new LongSupplierXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LLongSupplierX<X>, RS extends AbstractLongAssert<RS>, X extends Exception> LLongSupplierXAssert.Impl<A, RS, X> assertThat(LLongSupplierX<X> functionalInterface) {
+		return new LLongSupplierXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends FloatSupplier, RS extends AbstractFloatAssert<RS>> FloatSupplierAssert.Impl<A, RS> assertThat(FloatSupplier functionalInterface) {
-		return new FloatSupplierAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LFloatSupplier, RS extends AbstractFloatAssert<RS>> LFloatSupplierAssert.Impl<A, RS> assertThat(LFloatSupplier functionalInterface) {
+		return new LFloatSupplierAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends FloatSupplierX<X>, RS extends AbstractFloatAssert<RS>, X extends Exception> FloatSupplierXAssert.Impl<A, RS, X> assertThat(FloatSupplierX<X> functionalInterface) {
-		return new FloatSupplierXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LFloatSupplierX<X>, RS extends AbstractFloatAssert<RS>, X extends Exception> LFloatSupplierXAssert.Impl<A, RS, X> assertThat(LFloatSupplierX<X> functionalInterface) {
+		return new LFloatSupplierXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends DoubleSupplier, RS extends AbstractDoubleAssert<RS>> DoubleSupplierAssert.Impl<A, RS> assertThat(DoubleSupplier functionalInterface) {
-		return new DoubleSupplierAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LDoubleSupplier, RS extends AbstractDoubleAssert<RS>> LDoubleSupplierAssert.Impl<A, RS> assertThat(LDoubleSupplier functionalInterface) {
+		return new LDoubleSupplierAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends DoubleSupplierX<X>, RS extends AbstractDoubleAssert<RS>, X extends Exception> DoubleSupplierXAssert.Impl<A, RS, X> assertThat(DoubleSupplierX<X> functionalInterface) {
-		return new DoubleSupplierXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LDoubleSupplierX<X>, RS extends AbstractDoubleAssert<RS>, X extends Exception> LDoubleSupplierXAssert.Impl<A, RS, X> assertThat(LDoubleSupplierX<X> functionalInterface) {
+		return new LDoubleSupplierXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends CharSupplier, RS extends AbstractCharacterAssert<RS>> CharSupplierAssert.Impl<A, RS> assertThat(CharSupplier functionalInterface) {
-		return new CharSupplierAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LCharSupplier, RS extends AbstractCharacterAssert<RS>> LCharSupplierAssert.Impl<A, RS> assertThat(LCharSupplier functionalInterface) {
+		return new LCharSupplierAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends CharSupplierX<X>, RS extends AbstractCharacterAssert<RS>, X extends Exception> CharSupplierXAssert.Impl<A, RS, X> assertThat(CharSupplierX<X> functionalInterface) {
-		return new CharSupplierXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LCharSupplierX<X>, RS extends AbstractCharacterAssert<RS>, X extends Exception> LCharSupplierXAssert.Impl<A, RS, X> assertThat(LCharSupplierX<X> functionalInterface) {
+		return new LCharSupplierXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BooleanSupplier, RS extends AbstractBooleanAssert<RS>> BooleanSupplierAssert.Impl<A, RS> assertThat(BooleanSupplier functionalInterface) {
-		return new BooleanSupplierAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBooleanSupplier, RS extends AbstractBooleanAssert<RS>> LBooleanSupplierAssert.Impl<A, RS> assertThat(LBooleanSupplier functionalInterface) {
+		return new LBooleanSupplierAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends BooleanSupplierX<X>, RS extends AbstractBooleanAssert<RS>, X extends Exception> BooleanSupplierXAssert.Impl<A, RS, X> assertThat(BooleanSupplierX<X> functionalInterface) {
-		return new BooleanSupplierXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LBooleanSupplierX<X>, RS extends AbstractBooleanAssert<RS>, X extends Exception> LBooleanSupplierXAssert.Impl<A, RS, X> assertThat(LBooleanSupplierX<X> functionalInterface) {
+		return new LBooleanSupplierXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull

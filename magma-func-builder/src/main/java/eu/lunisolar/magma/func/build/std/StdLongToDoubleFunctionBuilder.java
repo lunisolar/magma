@@ -28,6 +28,7 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import java.util.function.Consumer;
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -45,7 +46,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for java.util.function.LongToDoubleFunction. */
-public final class StdLongToDoubleFunctionBuilder extends PerCaseBuilderWithDoubleProduct.Base<StdLongToDoubleFunctionBuilder, LongPredicate, java.util.function.LongToDoubleFunction> {
+public final class StdLongToDoubleFunctionBuilder extends PerCaseBuilderWithDoubleProduct.Base<StdLongToDoubleFunctionBuilder, LLongPredicate, java.util.function.LongToDoubleFunction> {
 
 	private Consumer<java.util.function.LongToDoubleFunction> consumer;
 
@@ -61,7 +62,7 @@ public final class StdLongToDoubleFunctionBuilder extends PerCaseBuilderWithDoub
 		});
 
 	public StdLongToDoubleFunctionBuilder(@Nullable Consumer<java.util.function.LongToDoubleFunction> consumer) {
-		super(EVENTUALLY_THROW, LongToDoubleFunction::constant);
+		super(EVENTUALLY_THROW, LLongToDoubleFunction::constant);
 
 		this.consumer = consumer;
 	}
@@ -94,9 +95,9 @@ public final class StdLongToDoubleFunctionBuilder extends PerCaseBuilderWithDoub
 		if (cases.isEmpty()) {
 			retval = eventuallyFinal;
 		} else {
-			final Case<LongPredicate, java.util.function.LongToDoubleFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
+			final Case<LLongPredicate, java.util.function.LongToDoubleFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = Function4U.l((long l) -> {
-				for (Case<LongPredicate, java.util.function.LongToDoubleFunction> aCase : casesArray) {
+				for (Case<LLongPredicate, java.util.function.LongToDoubleFunction> aCase : casesArray) {
 					if (aCase.casePredicate().test(l)) {
 						return aCase.caseFunction().applyAsDouble(l);
 					}

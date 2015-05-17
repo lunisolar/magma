@@ -28,6 +28,7 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import java.util.function.Consumer;
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -45,7 +46,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for java.util.function.LongConsumer. */
-public final class StdLongConsumerBuilder extends PerCaseBuilder.Base<StdLongConsumerBuilder, LongPredicate, java.util.function.LongConsumer> {
+public final class StdLongConsumerBuilder extends PerCaseBuilder.Base<StdLongConsumerBuilder, LLongPredicate, java.util.function.LongConsumer> {
 
 	private Consumer<java.util.function.LongConsumer> consumer;
 
@@ -94,9 +95,9 @@ public final class StdLongConsumerBuilder extends PerCaseBuilder.Base<StdLongCon
 		if (cases.isEmpty()) {
 			retval = eventuallyFinal;
 		} else {
-			final Case<LongPredicate, java.util.function.LongConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
+			final Case<LLongPredicate, java.util.function.LongConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = Function4U.l((long l) -> {
-				for (Case<LongPredicate, java.util.function.LongConsumer> aCase : casesArray) {
+				for (Case<LLongPredicate, java.util.function.LongConsumer> aCase : casesArray) {
 					if (aCase.casePredicate().test(l)) {
 						aCase.caseFunction().accept(l);
 						return;

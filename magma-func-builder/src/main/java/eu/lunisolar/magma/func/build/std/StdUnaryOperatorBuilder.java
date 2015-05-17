@@ -28,6 +28,7 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import java.util.function.Consumer;
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -45,7 +46,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for java.util.function.UnaryOperator. */
-public final class StdUnaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Base<StdUnaryOperatorBuilder<T>, Predicate<T>, java.util.function.UnaryOperator<T>, T> {
+public final class StdUnaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Base<StdUnaryOperatorBuilder<T>, LPredicate<T>, java.util.function.UnaryOperator<T>, T> {
 
 	private Consumer<java.util.function.UnaryOperator<T>> consumer;
 
@@ -61,7 +62,7 @@ public final class StdUnaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.
 		});
 
 	public StdUnaryOperatorBuilder(@Nullable Consumer<java.util.function.UnaryOperator<T>> consumer) {
-		super(EVENTUALLY_THROW, UnaryOperator::constant);
+		super(EVENTUALLY_THROW, LUnaryOperator::constant);
 
 		this.consumer = consumer;
 	}
@@ -94,9 +95,9 @@ public final class StdUnaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.
 		if (cases.isEmpty()) {
 			retval = eventuallyFinal;
 		} else {
-			final Case<Predicate<T>, java.util.function.UnaryOperator<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
+			final Case<LPredicate<T>, java.util.function.UnaryOperator<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = Function4U.l((T t) -> {
-				for (Case<Predicate<T>, java.util.function.UnaryOperator<T>> aCase : casesArray) {
+				for (Case<LPredicate<T>, java.util.function.UnaryOperator<T>> aCase : casesArray) {
 					if (aCase.casePredicate().test(t)) {
 						return aCase.caseFunction().apply(t);
 					}

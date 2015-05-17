@@ -28,6 +28,7 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import java.util.function.Consumer;
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -45,7 +46,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for java.util.function.DoubleSupplier. */
-public final class StdDoubleSupplierBuilder extends PerCaseBuilderWithDoubleProduct.Base<StdDoubleSupplierBuilder, BooleanSupplier, java.util.function.DoubleSupplier> {
+public final class StdDoubleSupplierBuilder extends PerCaseBuilderWithDoubleProduct.Base<StdDoubleSupplierBuilder, LBooleanSupplier, java.util.function.DoubleSupplier> {
 
 	private Consumer<java.util.function.DoubleSupplier> consumer;
 
@@ -61,7 +62,7 @@ public final class StdDoubleSupplierBuilder extends PerCaseBuilderWithDoubleProd
 		});
 
 	public StdDoubleSupplierBuilder(@Nullable Consumer<java.util.function.DoubleSupplier> consumer) {
-		super(EVENTUALLY_THROW, DoubleSupplier::of);
+		super(EVENTUALLY_THROW, LDoubleSupplier::of);
 
 		this.consumer = consumer;
 	}
@@ -94,9 +95,9 @@ public final class StdDoubleSupplierBuilder extends PerCaseBuilderWithDoubleProd
 		if (cases.isEmpty()) {
 			retval = eventuallyFinal;
 		} else {
-			final Case<BooleanSupplier, java.util.function.DoubleSupplier>[] casesArray = cases.toArray(new Case[cases.size()]);
+			final Case<LBooleanSupplier, java.util.function.DoubleSupplier>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = Function4U.l(() -> {
-				for (Case<BooleanSupplier, java.util.function.DoubleSupplier> aCase : casesArray) {
+				for (Case<LBooleanSupplier, java.util.function.DoubleSupplier> aCase : casesArray) {
 					if (aCase.casePredicate().getAsBoolean()) {
 						return aCase.caseFunction().getAsDouble();
 					}

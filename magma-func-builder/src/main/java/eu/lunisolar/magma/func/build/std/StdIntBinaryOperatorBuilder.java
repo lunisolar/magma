@@ -28,6 +28,7 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import java.util.function.Consumer;
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -45,7 +46,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for java.util.function.IntBinaryOperator. */
-public final class StdIntBinaryOperatorBuilder extends PerCaseBuilderWithIntProduct.Base<StdIntBinaryOperatorBuilder, BiIntPredicate, java.util.function.IntBinaryOperator> {
+public final class StdIntBinaryOperatorBuilder extends PerCaseBuilderWithIntProduct.Base<StdIntBinaryOperatorBuilder, LBiIntPredicate, java.util.function.IntBinaryOperator> {
 
 	private Consumer<java.util.function.IntBinaryOperator> consumer;
 
@@ -61,7 +62,7 @@ public final class StdIntBinaryOperatorBuilder extends PerCaseBuilderWithIntProd
 		});
 
 	public StdIntBinaryOperatorBuilder(@Nullable Consumer<java.util.function.IntBinaryOperator> consumer) {
-		super(EVENTUALLY_THROW, IntBinaryOperator::constant);
+		super(EVENTUALLY_THROW, LIntBinaryOperator::constant);
 
 		this.consumer = consumer;
 	}
@@ -94,9 +95,9 @@ public final class StdIntBinaryOperatorBuilder extends PerCaseBuilderWithIntProd
 		if (cases.isEmpty()) {
 			retval = eventuallyFinal;
 		} else {
-			final Case<BiIntPredicate, java.util.function.IntBinaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
+			final Case<LBiIntPredicate, java.util.function.IntBinaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = Function4U.l((int i1, int i2) -> {
-				for (Case<BiIntPredicate, java.util.function.IntBinaryOperator> aCase : casesArray) {
+				for (Case<LBiIntPredicate, java.util.function.IntBinaryOperator> aCase : casesArray) {
 					if (aCase.casePredicate().test(i1, i2)) {
 						return aCase.caseFunction().applyAsInt(i1, i2);
 					}

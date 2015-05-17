@@ -20,17 +20,17 @@
 package eu.lunisolar.magma.examples;
 
 import eu.lunisolar.magma.func.Function4U;
-import eu.lunisolar.magma.func.action.Action;
+import eu.lunisolar.magma.func.action.LAction;
 import eu.lunisolar.magma.func.asserts.DefaultFunctionalAssertions;
-import eu.lunisolar.magma.func.build.action.ActionBuilder;
-import eu.lunisolar.magma.func.build.function.FunctionBuilder;
-import eu.lunisolar.magma.func.build.function.from.ShortFunctionBuilder;
-import eu.lunisolar.magma.func.build.supplier.IntSupplierBuilder;
-import eu.lunisolar.magma.func.build.supplier.SupplierBuilder;
-import eu.lunisolar.magma.func.function.Function;
-import eu.lunisolar.magma.func.function.from.ShortFunction;
-import eu.lunisolar.magma.func.supplier.IntSupplier;
-import eu.lunisolar.magma.func.supplier.Supplier;
+import eu.lunisolar.magma.func.build.action.LActionBuilder;
+import eu.lunisolar.magma.func.build.function.LFunctionBuilder;
+import eu.lunisolar.magma.func.build.function.from.LShortFunctionBuilder;
+import eu.lunisolar.magma.func.build.supplier.LIntSupplierBuilder;
+import eu.lunisolar.magma.func.build.supplier.LSupplierBuilder;
+import eu.lunisolar.magma.func.function.LFunction;
+import eu.lunisolar.magma.func.function.from.LShortFunction;
+import eu.lunisolar.magma.func.supplier.LIntSupplier;
+import eu.lunisolar.magma.func.supplier.LSupplier;
 import org.assertj.core.api.AbstractIntegerAssert;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ObjectAssert;
@@ -43,25 +43,25 @@ public class Example2Test {
     public static final DefaultFunctionalAssertions<ObjectAssert> then = new DefaultFunctionalAssertions() {
     };
 
-    private Function<Integer, Integer> function = FunctionBuilder.<Integer, Integer>function()  // a compilation test
+    private LFunction<Integer, Integer> function = LFunctionBuilder.<Integer, Integer>function()  // a compilation test
             .inCase(i -> i <= 0).evaluate(i -> i)
             .inCase(i -> i > 0).evaluate(i -> i)
             .build();
 
-    private ShortFunction<Integer> shortFunction = ShortFunctionBuilder.<Integer>shortFunction()  // a compilation test
+    private LShortFunction<Integer> shortFunction = LShortFunctionBuilder.<Integer>shortFunction()  // a compilation test
             .inCase(i -> i <= 0).evaluate(i -> (int) i)
             .inCase(i -> i > 0).evaluate(i -> (int) i)
             .build();
 
     public static final AtomicInteger externalInfluence = new AtomicInteger(0);
 
-    private Supplier<Integer> supplier = SupplierBuilder.<Integer>supplier()  // a compilation test
+    private LSupplier<Integer> supplier = LSupplierBuilder.<Integer>supplier()  // a compilation test
             .inCase(() -> externalInfluence.get() > 0).evaluate(() -> externalInfluence.get())
             .inCase(() -> false).produce(22)
             .eventuallyProduce(33)
             .build();
 
-    private IntSupplier intSupplier = IntSupplierBuilder.intSupplier()  // a compilation test
+    private LIntSupplier intSupplier = LIntSupplierBuilder.intSupplier()  // a compilation test
             .inCase(() -> externalInfluence.get() > 0).evaluate(() -> externalInfluence.get())
             .inCase(() -> false).produce(22)
             .eventuallyProduce(33)
@@ -69,7 +69,7 @@ public class Example2Test {
 
     public static final AtomicInteger externalEffect = new AtomicInteger(0);
 
-    private Action action = ActionBuilder.action()  // a compilation test
+    private LAction action = LActionBuilder.action()  // a compilation test
             .inCase(() -> externalInfluence.get() > 0).evaluate(() -> externalInfluence.get())
             .inCase(() -> false).evaluate(Function4U::doNothing)
             .eventually(Function4U::doNothing)
@@ -98,7 +98,7 @@ public class Example2Test {
     }
 
     public void example3() {
-        then.withinCodomain((Function<Integer, AbstractIntegerAssert>) Assertions::assertThat).assertThat(function)
+        then.withinCodomain((LFunction<Integer, AbstractIntegerAssert>) Assertions::assertThat).assertThat(function)
             .inAllFollowingCases(a -> a.isInstanceOf(Integer.class))
             .doesApply(80).to(a -> a.isGreaterThan(0))
             .doesApply(81).toEqualTo(81)
@@ -155,9 +155,9 @@ public class Example2Test {
     public void example8() {
         then.withinIntegerCodomain().assertThat(shortFunction)
             .inAllFollowingCases(a -> a.isInstanceOf(Integer.class))
-            .doesApply((short)80).to(a -> a.isGreaterThan(0))
-            .doesApply((short)81).toEqualTo(81)
-            .doesApply((short)0).withException(a -> a
+            .doesApply((short) 80).to(a -> a.isGreaterThan(0))
+            .doesApply((short) 81).toEqualTo(81)
+            .doesApply((short) 0).withException(a -> a
                 .isExactlyInstanceOf(UnsupportedOperationException.class)
                 .hasMessage("Some message"));
     }
