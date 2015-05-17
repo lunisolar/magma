@@ -58,15 +58,34 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LSupplier<R> extends java.util.function.Supplier<R>, LSupplierX<R, RuntimeException>, MetaSupplier, MetaInterface.NonThrowing {
+public interface LSupplier<R> extends LSupplierX<R, RuntimeException>, MetaSupplier, MetaInterface.NonThrowing {
 
 	public static final String DESCRIPTION = "LSupplier: R doGet()";
+
+	@Override
+	@Deprecated
+	// calling this method via LSupplier interface should be discouraged.
+	default R get() {
+		return this.nestingDoGet();
+	}
 
 	@Nullable
 	public R doGet();
 
-	default R get() {
-		return doGet();
+	default R nestingDoGet() {
+		return this.doGet();
+	}
+
+	default R shovingDoGet() {
+		return this.doGet();
+	}
+
+	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoGet() method cannot be null (" + DESCRIPTION + ").";
+
+	/** Ensures the result is not null */
+	@Nonnull
+	default R nonNullDoGet() {
+		return Objects.requireNonNull(doGet(), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -77,14 +96,6 @@ public interface LSupplier<R> extends java.util.function.Supplier<R>, LSupplierX
 
 	public static <R> LSupplier<R> of(R r) {
 		return () -> r;
-	}
-
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
-
-	/** Ensures the result is not null */
-	@Nonnull
-	default R nonNull() {
-		return Objects.requireNonNull(doGet(), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -98,20 +109,14 @@ public interface LSupplier<R> extends java.util.function.Supplier<R>, LSupplierX
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <R> LSupplier<R> wrapStd(final java.util.function.Supplier<R> other) {
+	public static <R> LSupplier<R> wrap(final java.util.function.Supplier<R> other) {
 		return other::get;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <R, X extends Exception> LSupplier<R> wrap(final @Nonnull LSupplierX<R, X> other) {
-		return () -> {
-			try {
-				return other.doGet();
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoGet;
 	}
 
 	// </editor-fold>
@@ -192,22 +197,16 @@ public interface LSupplier<R> extends java.util.function.Supplier<R>, LSupplierX
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.Supplier<R> std() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LSupplier<R> nonThrowing() {
+	default LSupplier<R> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LSupplierX<R, RuntimeException> uncheck() {
-		return (LSupplierX) this;
+	default LSupplierX<R, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
@@ -215,11 +214,16 @@ public interface LSupplier<R> extends java.util.function.Supplier<R>, LSupplierX
 		return this;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LSupplierX<R, RuntimeException> shoveX() {
+		return this;
+	}
+
 	// </editor-fold>
 
 	@Nonnull
 	default LSupplier<R> nonNullable() {
-		return () -> Objects.requireNonNull(this.doGet());
+		return this::nonNullDoGet;
 	}
 
 	// <editor-fold desc="exception handling">

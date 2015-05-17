@@ -65,6 +65,20 @@ public interface LFloatBiConsumerX<X extends Exception> extends MetaConsumer, Me
 
 	public void doAccept(float f1, float f2) throws X;
 
+	default void nestingDoAccept(float f1, float f2) {
+		try {
+			this.doAccept(f1, f2);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default void shovingDoAccept(float f1, float f2) {
+		((LFloatBiConsumerX<RuntimeException>) this).doAccept(f1, f2);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -88,7 +102,7 @@ public interface LFloatBiConsumerX<X extends Exception> extends MetaConsumer, Me
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LFloatBiConsumerX<X> wrapX(final @Nonnull LFloatBiConsumer other) {
-		return other::doAccept;
+		return (LFloatBiConsumerX) other;
 	}
 
 	// </editor-fold>
@@ -134,20 +148,24 @@ public interface LFloatBiConsumerX<X extends Exception> extends MetaConsumer, Me
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LFloatBiConsumer nonThrowing() {
-		return LFloatBiConsumer.wrap(this);
+	default LFloatBiConsumer nest() {
+		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LFloatBiConsumerX<RuntimeException> uncheck() {
-		return (LFloatBiConsumerX) this;
+	default LFloatBiConsumerX<RuntimeException> nestX() {
+		return this::nestingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LFloatBiConsumer shove() {
-		LFloatBiConsumerX<RuntimeException> exceptionCast = (LFloatBiConsumerX<RuntimeException>) this;
-		return exceptionCast::doAccept;
+		return this::shovingDoAccept;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LFloatBiConsumerX<RuntimeException> shoveX() {
+		return this::shovingDoAccept;
 	}
 
 	// </editor-fold>

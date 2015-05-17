@@ -74,6 +74,15 @@ public class LBooleanToCharFunctionXTest<X extends ParseException> {
 
 
 
+    private LBooleanToCharFunctionX<ParseException> sutAlwaysThrowing = LBooleanToCharFunctionX.lX((boolean b) -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LBooleanToCharFunctionX<RuntimeException> sutAlwaysThrowingUnckeck = LBooleanToCharFunctionX.lX((boolean b) -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
     @Test
     public void testTheResult() throws ParseException {
         assertThat(sut.doApplyAsChar(true))
@@ -81,10 +90,71 @@ public class LBooleanToCharFunctionXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNonNullShouldNotModifyValue() throws ParseException {
-        assertThat(sut.nonNull(true))
+    public void testNonNullDoApplyAsChar() throws ParseException {
+        assertThat(sut.nonNullDoApplyAsChar(true))
             .isEqualTo(testValue);
     }
+
+    @Test
+    public void testNestingDoApplyAsChar_checked() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowing.nestingDoApplyAsChar(true);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(NestedException.class)
+                    .hasCauseExactlyInstanceOf(ParseException.class)
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testNestingDoApplyAsChar_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.nestingDoApplyAsChar(true);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoApplyAsChar_checked() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowing.shovingDoApplyAsChar(true);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(ParseException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoApplyAsChar_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.shovingDoApplyAsChar(true);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
 
 
     @Test
@@ -562,14 +632,29 @@ public class LBooleanToCharFunctionXTest<X extends ParseException> {
 
 
     // </editor-fold>
+//
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LBooleanToCharFunction.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isInstanceOf(LBooleanToCharFunction.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LBooleanToCharFunctionX.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isInstanceOf(LBooleanToCharFunction.class);
+    }
+
+    @Test
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isInstanceOf(LBooleanToCharFunctionX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isInstanceOf(LBooleanToCharFunctionX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

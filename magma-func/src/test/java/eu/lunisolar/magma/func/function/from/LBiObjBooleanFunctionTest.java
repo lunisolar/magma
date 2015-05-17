@@ -80,6 +80,12 @@ public class LBiObjBooleanFunctionTest<T1,T2,R,X extends ParseException> {
 
 
 
+
+    private LBiObjBooleanFunction<T1,T2,R> sutAlwaysThrowingUnckeck = LBiObjBooleanFunction.l((T1 t1,T2 t2, boolean b) -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
     @Test
     public void testTheResult() throws ParseException {
         assertThat(sut.doApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),true))
@@ -87,14 +93,45 @@ public class LBiObjBooleanFunctionTest<T1,T2,R,X extends ParseException> {
     }
 
     @Test
-    public void testNonNullShouldNotModifyValue() throws ParseException {
-        assertThat(sut.nonNull((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),true))
+    public void testNonNullDoApply() throws ParseException {
+        assertThat(sut.nonNullDoApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),true))
             .isSameAs(testValue);
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LBiObjBooleanFunction: R doApply(T1 t1,T2 t2, boolean b)).\\E")
+    @Test
+    public void testNestingDoApply_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.nestingDoApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),true);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoApply_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.shovingDoApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),true);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LBiObjBooleanFunction: R doApply(T1 t1,T2 t2, boolean b)).\\E")
     public void testNonNullCapturesNull() throws ParseException {
-        sutNull.nonNull((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),true);
+        sutNull.nonNullDoApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),true);
     }
 
 
@@ -397,14 +434,33 @@ public class LBiObjBooleanFunctionTest<T1,T2,R,X extends ParseException> {
 
 
     // </editor-fold>
+//
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LBiObjBooleanFunction.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isSameAs(sut)
+            .isInstanceOf(LBiObjBooleanFunction.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LBiObjBooleanFunctionX.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isSameAs(sut)
+            .isInstanceOf(LBiObjBooleanFunction.class);
+    }
+
+    @Test
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isSameAs(sut)
+            .isInstanceOf(LBiObjBooleanFunctionX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isSameAs(sut)
+            .isInstanceOf(LBiObjBooleanFunctionX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

@@ -74,6 +74,12 @@ public class LByteToCharFunctionTest<X extends ParseException> {
 
 
 
+
+    private LByteToCharFunction sutAlwaysThrowingUnckeck = LByteToCharFunction.l((byte b) -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
     @Test
     public void testTheResult() throws ParseException {
         assertThat(sut.doApplyAsChar((byte)100))
@@ -81,10 +87,41 @@ public class LByteToCharFunctionTest<X extends ParseException> {
     }
 
     @Test
-    public void testNonNullShouldNotModifyValue() throws ParseException {
-        assertThat(sut.nonNull((byte)100))
+    public void testNonNullDoApplyAsChar() throws ParseException {
+        assertThat(sut.nonNullDoApplyAsChar((byte)100))
             .isEqualTo(testValue);
     }
+
+    @Test
+    public void testNestingDoApplyAsChar_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.nestingDoApplyAsChar((byte)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoApplyAsChar_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.shovingDoApplyAsChar((byte)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
 
 
     @Test
@@ -606,14 +643,33 @@ public class LByteToCharFunctionTest<X extends ParseException> {
 
 
     // </editor-fold>
+//
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LByteToCharFunction.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isSameAs(sut)
+            .isInstanceOf(LByteToCharFunction.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LByteToCharFunctionX.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isSameAs(sut)
+            .isInstanceOf(LByteToCharFunction.class);
+    }
+
+    @Test
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isSameAs(sut)
+            .isInstanceOf(LByteToCharFunctionX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isSameAs(sut)
+            .isInstanceOf(LByteToCharFunctionX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

@@ -76,6 +76,15 @@ public class LIntBinaryOperatorXTest<X extends ParseException> {
     private java.util.function.IntBinaryOperator jre = (int i1,int i2) -> testValue;
 
 
+    private LIntBinaryOperatorX<ParseException> sutAlwaysThrowing = LIntBinaryOperatorX.lX((int i1,int i2) -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LIntBinaryOperatorX<RuntimeException> sutAlwaysThrowingUnckeck = LIntBinaryOperatorX.lX((int i1,int i2) -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
     @Test
     public void testTheResult() throws ParseException {
         assertThat(sut.doApplyAsInt((int)100,(int)100))
@@ -83,10 +92,71 @@ public class LIntBinaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNonNullShouldNotModifyValue() throws ParseException {
-        assertThat(sut.nonNull((int)100,(int)100))
+    public void testNonNullDoApplyAsInt() throws ParseException {
+        assertThat(sut.nonNullDoApplyAsInt((int)100,(int)100))
             .isEqualTo(testValue);
     }
+
+    @Test
+    public void testNestingDoApplyAsInt_checked() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowing.nestingDoApplyAsInt((int)100,(int)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(NestedException.class)
+                    .hasCauseExactlyInstanceOf(ParseException.class)
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testNestingDoApplyAsInt_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.nestingDoApplyAsInt((int)100,(int)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoApplyAsInt_checked() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowing.shovingDoApplyAsInt((int)100,(int)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(ParseException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoApplyAsInt_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.shovingDoApplyAsInt((int)100,(int)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
 
 
     @Test
@@ -109,7 +179,7 @@ public class LIntBinaryOperatorXTest<X extends ParseException> {
 
     @Test
     public void testWrapStdMethod() throws ParseException {
-        assertThat(LIntBinaryOperatorX.wrapStd(jre))
+        assertThat(LIntBinaryOperatorX.wrap(jre))
             .isInstanceOf(LIntBinaryOperatorX.class);
     }
 
@@ -337,19 +407,35 @@ public class LIntBinaryOperatorXTest<X extends ParseException> {
 
 
     // </editor-fold>
+//
+//    @Test
+//    public void testStd() {
+//        assertThat(sut.std()).isInstanceOf(java.util.function.IntBinaryOperator.class);
+//    }
+//
+//
     @Test
-    public void testStd() {
-        assertThat(sut.std()).isInstanceOf(java.util.function.IntBinaryOperator.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isInstanceOf(LIntBinaryOperator.class);
     }
 
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LIntBinaryOperator.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isInstanceOf(LIntBinaryOperator.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LIntBinaryOperatorX.class);
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isInstanceOf(LIntBinaryOperatorX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isInstanceOf(LIntBinaryOperatorX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

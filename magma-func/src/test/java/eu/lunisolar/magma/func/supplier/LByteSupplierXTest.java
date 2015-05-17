@@ -74,6 +74,15 @@ public class LByteSupplierXTest<X extends ParseException> {
 
 
 
+    private LByteSupplierX<ParseException> sutAlwaysThrowing = LByteSupplierX.lX(() -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LByteSupplierX<RuntimeException> sutAlwaysThrowingUnckeck = LByteSupplierX.lX(() -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
     @Test
     public void testTheResult() throws ParseException {
         assertThat(sut.doGetAsByte())
@@ -81,10 +90,71 @@ public class LByteSupplierXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNonNullShouldNotModifyValue() throws ParseException {
-        assertThat(sut.nonNull())
+    public void testNonNullDoGetAsByte() throws ParseException {
+        assertThat(sut.nonNullDoGetAsByte())
             .isEqualTo(testValue);
     }
+
+    @Test
+    public void testNestingDoGetAsByte_checked() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowing.nestingDoGetAsByte();
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(NestedException.class)
+                    .hasCauseExactlyInstanceOf(ParseException.class)
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testNestingDoGetAsByte_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.nestingDoGetAsByte();
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoGetAsByte_checked() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowing.shovingDoGetAsByte();
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(ParseException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoGetAsByte_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.shovingDoGetAsByte();
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
 
 
     @Test
@@ -491,14 +561,29 @@ public class LByteSupplierXTest<X extends ParseException> {
 
 
     // </editor-fold>
+//
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LByteSupplier.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isInstanceOf(LByteSupplier.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LByteSupplierX.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isInstanceOf(LByteSupplier.class);
+    }
+
+    @Test
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isInstanceOf(LByteSupplierX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isInstanceOf(LByteSupplierX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

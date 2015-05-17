@@ -64,6 +64,25 @@ public interface LByteUnaryOperatorX<X extends Exception> extends MetaOperator, 
 
 	public byte doApplyAsByte(byte b) throws X;
 
+	default byte nestingDoApplyAsByte(byte b) {
+		try {
+			return this.doApplyAsByte(b);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default byte shovingDoApplyAsByte(byte b) {
+		return ((LByteUnaryOperatorX<RuntimeException>) this).doApplyAsByte(b);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default byte nonNullDoApplyAsByte(byte b) throws X {
+		return doApplyAsByte(b);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +98,6 @@ public interface LByteUnaryOperatorX<X extends Exception> extends MetaOperator, 
 		return (b) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default byte nonNull(byte b) throws X {
-		return doApplyAsByte(b);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <X extends Exception> LByteUnaryOperatorX<X> lX(final @Nonnull LByteUnaryOperatorX<X> lambda) {
@@ -96,7 +110,7 @@ public interface LByteUnaryOperatorX<X extends Exception> extends MetaOperator, 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LByteUnaryOperatorX<X> wrapX(final @Nonnull LByteUnaryOperator other) {
-		return other::doApplyAsByte;
+		return (LByteUnaryOperatorX) other;
 	}
 
 	// </editor-fold>
@@ -200,20 +214,24 @@ public interface LByteUnaryOperatorX<X extends Exception> extends MetaOperator, 
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LByteUnaryOperator nonThrowing() {
-		return LByteUnaryOperator.wrap(this);
+	default LByteUnaryOperator nest() {
+		return this::nestingDoApplyAsByte;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LByteUnaryOperatorX<RuntimeException> uncheck() {
-		return (LByteUnaryOperatorX) this;
+	default LByteUnaryOperatorX<RuntimeException> nestX() {
+		return this::nestingDoApplyAsByte;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LByteUnaryOperator shove() {
-		LByteUnaryOperatorX<RuntimeException> exceptionCast = (LByteUnaryOperatorX<RuntimeException>) this;
-		return exceptionCast::doApplyAsByte;
+		return this::shovingDoApplyAsByte;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LByteUnaryOperatorX<RuntimeException> shoveX() {
+		return this::shovingDoApplyAsByte;
 	}
 
 	// </editor-fold>

@@ -74,6 +74,15 @@ public class LBooleanToIntFunctionXTest<X extends ParseException> {
 
 
 
+    private LBooleanToIntFunctionX<ParseException> sutAlwaysThrowing = LBooleanToIntFunctionX.lX((boolean b) -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LBooleanToIntFunctionX<RuntimeException> sutAlwaysThrowingUnckeck = LBooleanToIntFunctionX.lX((boolean b) -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
     @Test
     public void testTheResult() throws ParseException {
         assertThat(sut.doApplyAsInt(true))
@@ -81,10 +90,71 @@ public class LBooleanToIntFunctionXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNonNullShouldNotModifyValue() throws ParseException {
-        assertThat(sut.nonNull(true))
+    public void testNonNullDoApplyAsInt() throws ParseException {
+        assertThat(sut.nonNullDoApplyAsInt(true))
             .isEqualTo(testValue);
     }
+
+    @Test
+    public void testNestingDoApplyAsInt_checked() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowing.nestingDoApplyAsInt(true);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(NestedException.class)
+                    .hasCauseExactlyInstanceOf(ParseException.class)
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testNestingDoApplyAsInt_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.nestingDoApplyAsInt(true);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoApplyAsInt_checked() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowing.shovingDoApplyAsInt(true);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(ParseException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoApplyAsInt_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.shovingDoApplyAsInt(true);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
 
 
     @Test
@@ -562,14 +632,29 @@ public class LBooleanToIntFunctionXTest<X extends ParseException> {
 
 
     // </editor-fold>
+//
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LBooleanToIntFunction.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isInstanceOf(LBooleanToIntFunction.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LBooleanToIntFunctionX.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isInstanceOf(LBooleanToIntFunction.class);
+    }
+
+    @Test
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isInstanceOf(LBooleanToIntFunctionX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isInstanceOf(LBooleanToIntFunctionX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

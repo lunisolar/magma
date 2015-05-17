@@ -74,6 +74,15 @@ public class LShortSupplierXTest<X extends ParseException> {
 
 
 
+    private LShortSupplierX<ParseException> sutAlwaysThrowing = LShortSupplierX.lX(() -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LShortSupplierX<RuntimeException> sutAlwaysThrowingUnckeck = LShortSupplierX.lX(() -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
     @Test
     public void testTheResult() throws ParseException {
         assertThat(sut.doGetAsShort())
@@ -81,10 +90,71 @@ public class LShortSupplierXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNonNullShouldNotModifyValue() throws ParseException {
-        assertThat(sut.nonNull())
+    public void testNonNullDoGetAsShort() throws ParseException {
+        assertThat(sut.nonNullDoGetAsShort())
             .isEqualTo(testValue);
     }
+
+    @Test
+    public void testNestingDoGetAsShort_checked() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowing.nestingDoGetAsShort();
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(NestedException.class)
+                    .hasCauseExactlyInstanceOf(ParseException.class)
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testNestingDoGetAsShort_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.nestingDoGetAsShort();
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoGetAsShort_checked() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowing.shovingDoGetAsShort();
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(ParseException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoGetAsShort_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.shovingDoGetAsShort();
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
 
 
     @Test
@@ -491,14 +561,29 @@ public class LShortSupplierXTest<X extends ParseException> {
 
 
     // </editor-fold>
+//
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LShortSupplier.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isInstanceOf(LShortSupplier.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LShortSupplierX.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isInstanceOf(LShortSupplier.class);
+    }
+
+    @Test
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isInstanceOf(LShortSupplierX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isInstanceOf(LShortSupplierX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

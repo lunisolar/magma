@@ -58,15 +58,34 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBiFunction<T1, T2, R> extends java.util.function.BiFunction<T1, T2, R>, LBiFunctionX<T1, T2, R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
+public interface LBiFunction<T1, T2, R> extends LBiFunctionX<T1, T2, R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
 	public static final String DESCRIPTION = "LBiFunction: R doApply(T1 t1,T2 t2)";
+
+	@Override
+	@Deprecated
+	// calling this method via LBiFunction interface should be discouraged.
+	default R apply(T1 t1, T2 t2) {
+		return this.nestingDoApply(t1, t2);
+	}
 
 	@Nullable
 	public R doApply(T1 t1, T2 t2);
 
-	default R apply(T1 t1, T2 t2) {
-		return doApply(t1, t2);
+	default R nestingDoApply(T1 t1, T2 t2) {
+		return this.doApply(t1, t2);
+	}
+
+	default R shovingDoApply(T1 t1, T2 t2) {
+		return this.doApply(t1, t2);
+	}
+
+	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+
+	/** Ensures the result is not null */
+	@Nonnull
+	default R nonNullDoApply(T1 t1, T2 t2) {
+		return Objects.requireNonNull(doApply(t1, t2), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -84,14 +103,6 @@ public interface LBiFunction<T1, T2, R> extends java.util.function.BiFunction<T1
 		return (t1, t2) -> r;
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
-
-	/** Ensures the result is not null */
-	@Nonnull
-	default R nonNull(T1 t1, T2 t2) {
-		return Objects.requireNonNull(doApply(t1, t2), NULL_VALUE_MESSAGE_SUPPLIER);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T1, T2, R> LBiFunction<T1, T2, R> l(final @Nonnull LBiFunction<T1, T2, R> lambda) {
@@ -103,20 +114,14 @@ public interface LBiFunction<T1, T2, R> extends java.util.function.BiFunction<T1
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T1, T2, R> LBiFunction<T1, T2, R> wrapStd(final java.util.function.BiFunction<T1, T2, R> other) {
+	public static <T1, T2, R> LBiFunction<T1, T2, R> wrap(final java.util.function.BiFunction<T1, T2, R> other) {
 		return other::apply;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T1, T2, R, X extends Exception> LBiFunction<T1, T2, R> wrap(final @Nonnull LBiFunctionX<T1, T2, R, X> other) {
-		return (T1 t1, T2 t2) -> {
-			try {
-				return other.doApply(t1, t2);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApply;
 	}
 
 	// </editor-fold>
@@ -155,22 +160,16 @@ public interface LBiFunction<T1, T2, R> extends java.util.function.BiFunction<T1
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.BiFunction<T1, T2, R> std() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiFunction<T1, T2, R> nonThrowing() {
+	default LBiFunction<T1, T2, R> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiFunctionX<T1, T2, R, RuntimeException> uncheck() {
-		return (LBiFunctionX) this;
+	default LBiFunctionX<T1, T2, R, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
@@ -178,11 +177,16 @@ public interface LBiFunction<T1, T2, R> extends java.util.function.BiFunction<T1
 		return this;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBiFunctionX<T1, T2, R, RuntimeException> shoveX() {
+		return this;
+	}
+
 	// </editor-fold>
 
 	@Nonnull
 	default LBiFunction<T1, T2, R> nonNullable() {
-		return (t1, t2) -> Objects.requireNonNull(this.doApply(t1, t2));
+		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">

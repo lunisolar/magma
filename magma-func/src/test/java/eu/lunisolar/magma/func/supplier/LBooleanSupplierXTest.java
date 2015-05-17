@@ -76,6 +76,15 @@ public class LBooleanSupplierXTest<X extends ParseException> {
     private java.util.function.BooleanSupplier jre = () -> testValue;
 
 
+    private LBooleanSupplierX<ParseException> sutAlwaysThrowing = LBooleanSupplierX.lX(() -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LBooleanSupplierX<RuntimeException> sutAlwaysThrowingUnckeck = LBooleanSupplierX.lX(() -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
     @Test
     public void testTheResult() throws ParseException {
         assertThat(sut.doGetAsBoolean())
@@ -83,10 +92,71 @@ public class LBooleanSupplierXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNonNullShouldNotModifyValue() throws ParseException {
-        assertThat(sut.nonNull())
+    public void testNonNullDoGetAsBoolean() throws ParseException {
+        assertThat(sut.nonNullDoGetAsBoolean())
             .isEqualTo(testValue);
     }
+
+    @Test
+    public void testNestingDoGetAsBoolean_checked() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowing.nestingDoGetAsBoolean();
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(NestedException.class)
+                    .hasCauseExactlyInstanceOf(ParseException.class)
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testNestingDoGetAsBoolean_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.nestingDoGetAsBoolean();
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoGetAsBoolean_checked() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowing.shovingDoGetAsBoolean();
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(ParseException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoGetAsBoolean_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.shovingDoGetAsBoolean();
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
 
 
     @Test
@@ -109,7 +179,7 @@ public class LBooleanSupplierXTest<X extends ParseException> {
 
     @Test
     public void testWrapStdMethod() throws ParseException {
-        assertThat(LBooleanSupplierX.wrapStd(jre))
+        assertThat(LBooleanSupplierX.wrap(jre))
             .isInstanceOf(LBooleanSupplierX.class);
     }
 
@@ -499,19 +569,35 @@ public class LBooleanSupplierXTest<X extends ParseException> {
 
 
     // </editor-fold>
+//
+//    @Test
+//    public void testStd() {
+//        assertThat(sut.std()).isInstanceOf(java.util.function.BooleanSupplier.class);
+//    }
+//
+//
     @Test
-    public void testStd() {
-        assertThat(sut.std()).isInstanceOf(java.util.function.BooleanSupplier.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isInstanceOf(LBooleanSupplier.class);
     }
 
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LBooleanSupplier.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isInstanceOf(LBooleanSupplier.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LBooleanSupplierX.class);
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isInstanceOf(LBooleanSupplierX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isInstanceOf(LBooleanSupplierX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

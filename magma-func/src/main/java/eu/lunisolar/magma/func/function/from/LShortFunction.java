@@ -65,6 +65,22 @@ public interface LShortFunction<R> extends LShortFunctionX<R, RuntimeException>,
 	@Nullable
 	public R doApply(short s);
 
+	default R nestingDoApply(short s) {
+		return this.doApply(s);
+	}
+
+	default R shovingDoApply(short s) {
+		return this.doApply(s);
+	}
+
+	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+
+	/** Ensures the result is not null */
+	@Nonnull
+	default R nonNullDoApply(short s) {
+		return Objects.requireNonNull(doApply(s), NULL_VALUE_MESSAGE_SUPPLIER);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -80,14 +96,6 @@ public interface LShortFunction<R> extends LShortFunctionX<R, RuntimeException>,
 		return (s) -> r;
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
-
-	/** Ensures the result is not null */
-	@Nonnull
-	default R nonNull(short s) {
-		return Objects.requireNonNull(doApply(s), NULL_VALUE_MESSAGE_SUPPLIER);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <R> LShortFunction<R> l(final @Nonnull LShortFunction<R> lambda) {
@@ -100,13 +108,7 @@ public interface LShortFunction<R> extends LShortFunctionX<R, RuntimeException>,
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <R, X extends Exception> LShortFunction<R> wrap(final @Nonnull LShortFunctionX<R, X> other) {
-		return (short s) -> {
-			try {
-				return other.doApply(s);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApply;
 	}
 
 	// </editor-fold>
@@ -211,14 +213,14 @@ public interface LShortFunction<R> extends LShortFunctionX<R, RuntimeException>,
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LShortFunction<R> nonThrowing() {
+	default LShortFunction<R> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LShortFunctionX<R, RuntimeException> uncheck() {
-		return (LShortFunctionX) this;
+	default LShortFunctionX<R, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
@@ -226,11 +228,16 @@ public interface LShortFunction<R> extends LShortFunctionX<R, RuntimeException>,
 		return this;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LShortFunctionX<R, RuntimeException> shoveX() {
+		return this;
+	}
+
 	// </editor-fold>
 
 	@Nonnull
 	default LShortFunction<R> nonNullable() {
-		return (s) -> Objects.requireNonNull(this.doApply(s));
+		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">

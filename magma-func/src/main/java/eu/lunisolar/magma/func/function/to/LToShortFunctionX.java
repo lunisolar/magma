@@ -64,6 +64,25 @@ public interface LToShortFunctionX<T, X extends Exception> extends MetaFunction,
 
 	public short doApplyAsShort(T t) throws X;
 
+	default short nestingDoApplyAsShort(T t) {
+		try {
+			return this.doApplyAsShort(t);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default short shovingDoApplyAsShort(T t) {
+		return ((LToShortFunctionX<T, RuntimeException>) this).doApplyAsShort(t);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default short nonNullDoApplyAsShort(T t) throws X {
+		return doApplyAsShort(t);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +98,6 @@ public interface LToShortFunctionX<T, X extends Exception> extends MetaFunction,
 		return (t) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default short nonNull(T t) throws X {
-		return doApplyAsShort(t);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T, X extends Exception> LToShortFunctionX<T, X> lX(final @Nonnull LToShortFunctionX<T, X> lambda) {
@@ -96,7 +110,7 @@ public interface LToShortFunctionX<T, X extends Exception> extends MetaFunction,
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T, X extends Exception> LToShortFunctionX<T, X> wrapX(final @Nonnull LToShortFunction<T> other) {
-		return other::doApplyAsShort;
+		return (LToShortFunctionX) other;
 	}
 
 	// </editor-fold>
@@ -185,20 +199,24 @@ public interface LToShortFunctionX<T, X extends Exception> extends MetaFunction,
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToShortFunction<T> nonThrowing() {
-		return LToShortFunction.wrap(this);
+	default LToShortFunction<T> nest() {
+		return this::nestingDoApplyAsShort;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToShortFunctionX<T, RuntimeException> uncheck() {
-		return (LToShortFunctionX) this;
+	default LToShortFunctionX<T, RuntimeException> nestX() {
+		return this::nestingDoApplyAsShort;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LToShortFunction<T> shove() {
-		LToShortFunctionX<T, RuntimeException> exceptionCast = (LToShortFunctionX<T, RuntimeException>) this;
-		return exceptionCast::doApplyAsShort;
+		return this::shovingDoApplyAsShort;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToShortFunctionX<T, RuntimeException> shoveX() {
+		return this::shovingDoApplyAsShort;
 	}
 
 	// </editor-fold>

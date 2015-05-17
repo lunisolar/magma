@@ -74,6 +74,12 @@ public class LBytePredicateTest<X extends ParseException> {
 
 
 
+
+    private LBytePredicate sutAlwaysThrowingUnckeck = LBytePredicate.l((byte b) -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
     @Test
     public void testTheResult() throws ParseException {
         assertThat(sut.doTest((byte)100))
@@ -81,10 +87,41 @@ public class LBytePredicateTest<X extends ParseException> {
     }
 
     @Test
-    public void testNonNullShouldNotModifyValue() throws ParseException {
-        assertThat(sut.nonNull((byte)100))
+    public void testNonNullDoTest() throws ParseException {
+        assertThat(sut.nonNullDoTest((byte)100))
             .isEqualTo(testValue);
     }
+
+    @Test
+    public void testNestingDoTest_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.nestingDoTest((byte)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoTest_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.shovingDoTest((byte)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
 
     @Test
     public void testApplyAsBooleanShouldNotModifyValue() throws ParseException {
@@ -666,14 +703,33 @@ public class LBytePredicateTest<X extends ParseException> {
 
 
     // </editor-fold>
+//
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LBytePredicate.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isSameAs(sut)
+            .isInstanceOf(LBytePredicate.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LBytePredicateX.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isSameAs(sut)
+            .isInstanceOf(LBytePredicate.class);
+    }
+
+    @Test
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isSameAs(sut)
+            .isInstanceOf(LBytePredicateX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isSameAs(sut)
+            .isInstanceOf(LBytePredicateX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

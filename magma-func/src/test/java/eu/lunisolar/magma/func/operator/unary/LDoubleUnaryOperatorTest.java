@@ -76,6 +76,12 @@ public class LDoubleUnaryOperatorTest<X extends ParseException> {
     private java.util.function.DoubleUnaryOperator jre = (double d) -> testValue;
 
 
+
+    private LDoubleUnaryOperator sutAlwaysThrowingUnckeck = LDoubleUnaryOperator.l((double d) -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
     @Test
     public void testTheResult() throws ParseException {
         assertThat(sut.doApplyAsDouble((double)100))
@@ -83,10 +89,41 @@ public class LDoubleUnaryOperatorTest<X extends ParseException> {
     }
 
     @Test
-    public void testNonNullShouldNotModifyValue() throws ParseException {
-        assertThat(sut.nonNull((double)100))
+    public void testNonNullDoApplyAsDouble() throws ParseException {
+        assertThat(sut.nonNullDoApplyAsDouble((double)100))
             .isEqualTo(testValue);
     }
+
+    @Test
+    public void testNestingDoApplyAsDouble_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.nestingDoApplyAsDouble((double)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoApplyAsDouble_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.shovingDoApplyAsDouble((double)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
 
 
     @Test
@@ -109,7 +146,7 @@ public class LDoubleUnaryOperatorTest<X extends ParseException> {
 
     @Test
     public void testWrapStdMethod() throws ParseException {
-        assertThat(LDoubleUnaryOperator.wrapStd(jre))
+        assertThat(LDoubleUnaryOperator.wrap(jre))
             .isInstanceOf(LDoubleUnaryOperator.class);
     }
 
@@ -621,19 +658,39 @@ public class LDoubleUnaryOperatorTest<X extends ParseException> {
         assertThat(identityFunction.doApplyAsDouble((double)80)).isEqualTo((double)80);
     }
 
+//
+//    @Test
+//    public void testStd() {
+//        assertThat(sut.std()).isInstanceOf(java.util.function.DoubleUnaryOperator.class);
+//    }
+//
+//
     @Test
-    public void testStd() {
-        assertThat(sut.std()).isInstanceOf(java.util.function.DoubleUnaryOperator.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isSameAs(sut)
+            .isInstanceOf(LDoubleUnaryOperator.class);
     }
 
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LDoubleUnaryOperator.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isSameAs(sut)
+            .isInstanceOf(LDoubleUnaryOperator.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LDoubleUnaryOperatorX.class);
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isSameAs(sut)
+            .isInstanceOf(LDoubleUnaryOperatorX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isSameAs(sut)
+            .isInstanceOf(LDoubleUnaryOperatorX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

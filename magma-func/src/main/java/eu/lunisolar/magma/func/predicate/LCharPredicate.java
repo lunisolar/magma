@@ -64,6 +64,19 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 
 	public boolean doTest(char c);
 
+	default boolean nestingDoTest(char c) {
+		return this.doTest(c);
+	}
+
+	default boolean shovingDoTest(char c) {
+		return this.doTest(c);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default boolean nonNullDoTest(char c) {
+		return doTest(c);
+	}
+
 	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
 
 	default boolean doApplyAsBoolean(char c) {
@@ -85,11 +98,6 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 		return (c) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNull(char c) {
-		return doTest(c);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LCharPredicate l(final @Nonnull LCharPredicate lambda) {
@@ -102,13 +110,7 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LCharPredicate wrap(final @Nonnull LCharPredicateX<X> other) {
-		return (char c) -> {
-			try {
-				return other.doTest(c);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoTest;
 	}
 
 	// </editor-fold>
@@ -249,18 +251,23 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LCharPredicate nonThrowing() {
+	default LCharPredicate nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LCharPredicateX<RuntimeException> uncheck() {
-		return (LCharPredicateX) this;
+	default LCharPredicateX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LCharPredicate shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LCharPredicateX<RuntimeException> shoveX() {
 		return this;
 	}
 

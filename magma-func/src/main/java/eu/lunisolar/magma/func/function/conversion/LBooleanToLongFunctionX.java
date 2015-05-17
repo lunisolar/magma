@@ -64,6 +64,25 @@ public interface LBooleanToLongFunctionX<X extends Exception> extends MetaFuncti
 
 	public long doApplyAsLong(boolean b) throws X;
 
+	default long nestingDoApplyAsLong(boolean b) {
+		try {
+			return this.doApplyAsLong(b);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default long shovingDoApplyAsLong(boolean b) {
+		return ((LBooleanToLongFunctionX<RuntimeException>) this).doApplyAsLong(b);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default long nonNullDoApplyAsLong(boolean b) throws X {
+		return doApplyAsLong(b);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +98,6 @@ public interface LBooleanToLongFunctionX<X extends Exception> extends MetaFuncti
 		return (b) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default long nonNull(boolean b) throws X {
-		return doApplyAsLong(b);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <X extends Exception> LBooleanToLongFunctionX<X> lX(final @Nonnull LBooleanToLongFunctionX<X> lambda) {
@@ -96,7 +110,7 @@ public interface LBooleanToLongFunctionX<X extends Exception> extends MetaFuncti
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LBooleanToLongFunctionX<X> wrapX(final @Nonnull LBooleanToLongFunction other) {
-		return other::doApplyAsLong;
+		return (LBooleanToLongFunctionX) other;
 	}
 
 	// </editor-fold>
@@ -194,20 +208,24 @@ public interface LBooleanToLongFunctionX<X extends Exception> extends MetaFuncti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanToLongFunction nonThrowing() {
-		return LBooleanToLongFunction.wrap(this);
+	default LBooleanToLongFunction nest() {
+		return this::nestingDoApplyAsLong;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanToLongFunctionX<RuntimeException> uncheck() {
-		return (LBooleanToLongFunctionX) this;
+	default LBooleanToLongFunctionX<RuntimeException> nestX() {
+		return this::nestingDoApplyAsLong;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBooleanToLongFunction shove() {
-		LBooleanToLongFunctionX<RuntimeException> exceptionCast = (LBooleanToLongFunctionX<RuntimeException>) this;
-		return exceptionCast::doApplyAsLong;
+		return this::shovingDoApplyAsLong;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBooleanToLongFunctionX<RuntimeException> shoveX() {
+		return this::shovingDoApplyAsLong;
 	}
 
 	// </editor-fold>

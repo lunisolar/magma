@@ -58,13 +58,29 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LToIntBiFunction<T1, T2> extends java.util.function.ToIntBiFunction<T1, T2>, LToIntBiFunctionX<T1, T2, RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LToIntBiFunction<T1, T2> extends LToIntBiFunctionX<T1, T2, RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
 	public static final String DESCRIPTION = "LToIntBiFunction: int doApplyAsInt(T1 t1,T2 t2)";
 
+	@Override
+	@Deprecated
+	// calling this method via LToIntBiFunction interface should be discouraged.
+	default int applyAsInt(T1 t1, T2 t2) {
+		return this.nestingDoApplyAsInt(t1, t2);
+	}
+
 	public int doApplyAsInt(T1 t1, T2 t2);
 
-	default int applyAsInt(T1 t1, T2 t2) {
+	default int nestingDoApplyAsInt(T1 t1, T2 t2) {
+		return this.doApplyAsInt(t1, t2);
+	}
+
+	default int shovingDoApplyAsInt(T1 t1, T2 t2) {
+		return this.doApplyAsInt(t1, t2);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default int nonNullDoApplyAsInt(T1 t1, T2 t2) {
 		return doApplyAsInt(t1, t2);
 	}
 
@@ -83,11 +99,6 @@ public interface LToIntBiFunction<T1, T2> extends java.util.function.ToIntBiFunc
 		return (t1, t2) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default int nonNull(T1 t1, T2 t2) {
-		return doApplyAsInt(t1, t2);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T1, T2> LToIntBiFunction<T1, T2> l(final @Nonnull LToIntBiFunction<T1, T2> lambda) {
@@ -99,20 +110,14 @@ public interface LToIntBiFunction<T1, T2> extends java.util.function.ToIntBiFunc
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T1, T2> LToIntBiFunction<T1, T2> wrapStd(final java.util.function.ToIntBiFunction<T1, T2> other) {
+	public static <T1, T2> LToIntBiFunction<T1, T2> wrap(final java.util.function.ToIntBiFunction<T1, T2> other) {
 		return other::applyAsInt;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T1, T2, X extends Exception> LToIntBiFunction<T1, T2> wrap(final @Nonnull LToIntBiFunctionX<T1, T2, X> other) {
-		return (T1 t1, T2 t2) -> {
-			try {
-				return other.doApplyAsInt(t1, t2);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApplyAsInt;
 	}
 
 	// </editor-fold>
@@ -144,26 +149,25 @@ public interface LToIntBiFunction<T1, T2> extends java.util.function.ToIntBiFunc
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.ToIntBiFunction<T1, T2> std() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToIntBiFunction<T1, T2> nonThrowing() {
+	default LToIntBiFunction<T1, T2> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToIntBiFunctionX<T1, T2, RuntimeException> uncheck() {
-		return (LToIntBiFunctionX) this;
+	default LToIntBiFunctionX<T1, T2, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LToIntBiFunction<T1, T2> shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToIntBiFunctionX<T1, T2, RuntimeException> shoveX() {
 		return this;
 	}
 

@@ -65,6 +65,14 @@ public interface LBooleanBiConsumer extends LBooleanBiConsumerX<RuntimeException
 
 	public void doAccept(boolean b1, boolean b2);
 
+	default void nestingDoAccept(boolean b1, boolean b2) {
+		this.doAccept(b1, b2);
+	}
+
+	default void shovingDoAccept(boolean b1, boolean b2) {
+		this.doAccept(b1, b2);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -88,13 +96,7 @@ public interface LBooleanBiConsumer extends LBooleanBiConsumerX<RuntimeException
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LBooleanBiConsumer wrap(final @Nonnull LBooleanBiConsumerX<X> other) {
-		return (boolean b1, boolean b2) -> {
-			try {
-				other.doAccept(b1, b2);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoAccept;
 	}
 
 	// </editor-fold>
@@ -140,18 +142,23 @@ public interface LBooleanBiConsumer extends LBooleanBiConsumerX<RuntimeException
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanBiConsumer nonThrowing() {
+	default LBooleanBiConsumer nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanBiConsumerX<RuntimeException> uncheck() {
-		return (LBooleanBiConsumerX) this;
+	default LBooleanBiConsumerX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBooleanBiConsumer shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBooleanBiConsumerX<RuntimeException> shoveX() {
 		return this;
 	}
 

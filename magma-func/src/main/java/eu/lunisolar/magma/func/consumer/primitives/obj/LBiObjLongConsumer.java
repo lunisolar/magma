@@ -65,6 +65,14 @@ public interface LBiObjLongConsumer<T1, T2> extends LBiObjLongConsumerX<T1, T2, 
 
 	public void doAccept(T1 t1, T2 t2, long l);
 
+	default void nestingDoAccept(T1 t1, T2 t2, long l) {
+		this.doAccept(t1, t2, l);
+	}
+
+	default void shovingDoAccept(T1 t1, T2 t2, long l) {
+		this.doAccept(t1, t2, l);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -88,13 +96,7 @@ public interface LBiObjLongConsumer<T1, T2> extends LBiObjLongConsumerX<T1, T2, 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T1, T2, X extends Exception> LBiObjLongConsumer<T1, T2> wrap(final @Nonnull LBiObjLongConsumerX<T1, T2, X> other) {
-		return (T1 t1, T2 t2, long l) -> {
-			try {
-				other.doAccept(t1, t2, l);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoAccept;
 	}
 
 	// </editor-fold>
@@ -142,18 +144,23 @@ public interface LBiObjLongConsumer<T1, T2> extends LBiObjLongConsumerX<T1, T2, 
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiObjLongConsumer<T1, T2> nonThrowing() {
+	default LBiObjLongConsumer<T1, T2> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiObjLongConsumerX<T1, T2, RuntimeException> uncheck() {
-		return (LBiObjLongConsumerX) this;
+	default LBiObjLongConsumerX<T1, T2, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBiObjLongConsumer<T1, T2> shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBiObjLongConsumerX<T1, T2, RuntimeException> shoveX() {
 		return this;
 	}
 

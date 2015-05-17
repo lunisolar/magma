@@ -76,6 +76,12 @@ public class LToIntFunctionTest<T,X extends ParseException> {
     private java.util.function.ToIntFunction jre = (Object t) -> testValue;
 
 
+
+    private LToIntFunction<T> sutAlwaysThrowingUnckeck = LToIntFunction.l((T t) -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
     @Test
     public void testTheResult() throws ParseException {
         assertThat(sut.doApplyAsInt((T)Integer.valueOf(100)))
@@ -83,10 +89,41 @@ public class LToIntFunctionTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testNonNullShouldNotModifyValue() throws ParseException {
-        assertThat(sut.nonNull((T)Integer.valueOf(100)))
+    public void testNonNullDoApplyAsInt() throws ParseException {
+        assertThat(sut.nonNullDoApplyAsInt((T)Integer.valueOf(100)))
             .isEqualTo(testValue);
     }
+
+    @Test
+    public void testNestingDoApplyAsInt_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.nestingDoApplyAsInt((T)Integer.valueOf(100));
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoApplyAsInt_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.shovingDoApplyAsInt((T)Integer.valueOf(100));
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
 
 
     @Test
@@ -109,7 +146,7 @@ public class LToIntFunctionTest<T,X extends ParseException> {
 
     @Test
     public void testWrapStdMethod() throws ParseException {
-        assertThat(LToIntFunction.wrapStd(jre))
+        assertThat(LToIntFunction.wrap(jre))
             .isInstanceOf(LToIntFunction.class);
     }
 
@@ -585,19 +622,39 @@ public class LToIntFunctionTest<T,X extends ParseException> {
 
 
     // </editor-fold>
+//
+//    @Test
+//    public void testStd() {
+//        assertThat(sut.std()).isInstanceOf(java.util.function.ToIntFunction.class);
+//    }
+//
+//
     @Test
-    public void testStd() {
-        assertThat(sut.std()).isInstanceOf(java.util.function.ToIntFunction.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isSameAs(sut)
+            .isInstanceOf(LToIntFunction.class);
     }
 
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LToIntFunction.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isSameAs(sut)
+            .isInstanceOf(LToIntFunction.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LToIntFunctionX.class);
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isSameAs(sut)
+            .isInstanceOf(LToIntFunctionX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isSameAs(sut)
+            .isInstanceOf(LToIntFunctionX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

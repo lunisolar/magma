@@ -74,6 +74,12 @@ public class LToFloatFunctionTest<T,X extends ParseException> {
 
 
 
+
+    private LToFloatFunction<T> sutAlwaysThrowingUnckeck = LToFloatFunction.l((T t) -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
     @Test
     public void testTheResult() throws ParseException {
         assertThat(sut.doApplyAsFloat((T)Integer.valueOf(100)))
@@ -81,10 +87,41 @@ public class LToFloatFunctionTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testNonNullShouldNotModifyValue() throws ParseException {
-        assertThat(sut.nonNull((T)Integer.valueOf(100)))
+    public void testNonNullDoApplyAsFloat() throws ParseException {
+        assertThat(sut.nonNullDoApplyAsFloat((T)Integer.valueOf(100)))
             .isEqualTo(testValue);
     }
+
+    @Test
+    public void testNestingDoApplyAsFloat_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.nestingDoApplyAsFloat((T)Integer.valueOf(100));
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoApplyAsFloat_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.shovingDoApplyAsFloat((T)Integer.valueOf(100));
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
 
 
     @Test
@@ -577,14 +614,33 @@ public class LToFloatFunctionTest<T,X extends ParseException> {
 
 
     // </editor-fold>
+//
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LToFloatFunction.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isSameAs(sut)
+            .isInstanceOf(LToFloatFunction.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LToFloatFunctionX.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isSameAs(sut)
+            .isInstanceOf(LToFloatFunction.class);
+    }
+
+    @Test
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isSameAs(sut)
+            .isInstanceOf(LToFloatFunctionX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isSameAs(sut)
+            .isInstanceOf(LToFloatFunctionX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

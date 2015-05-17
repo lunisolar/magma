@@ -58,13 +58,29 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LDoubleUnaryOperator extends java.util.function.DoubleUnaryOperator, LDoubleUnaryOperatorX<RuntimeException>, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LDoubleUnaryOperator extends LDoubleUnaryOperatorX<RuntimeException>, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
 	public static final String DESCRIPTION = "LDoubleUnaryOperator: double doApplyAsDouble(double d)";
 
+	@Override
+	@Deprecated
+	// calling this method via LDoubleUnaryOperator interface should be discouraged.
+	default double applyAsDouble(double d) {
+		return this.nestingDoApplyAsDouble(d);
+	}
+
 	public double doApplyAsDouble(double d);
 
-	default double applyAsDouble(double d) {
+	default double nestingDoApplyAsDouble(double d) {
+		return this.doApplyAsDouble(d);
+	}
+
+	default double shovingDoApplyAsDouble(double d) {
+		return this.doApplyAsDouble(d);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default double nonNullDoApplyAsDouble(double d) {
 		return doApplyAsDouble(d);
 	}
 
@@ -83,11 +99,6 @@ public interface LDoubleUnaryOperator extends java.util.function.DoubleUnaryOper
 		return (d) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default double nonNull(double d) {
-		return doApplyAsDouble(d);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LDoubleUnaryOperator l(final @Nonnull LDoubleUnaryOperator lambda) {
@@ -99,20 +110,14 @@ public interface LDoubleUnaryOperator extends java.util.function.DoubleUnaryOper
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LDoubleUnaryOperator wrapStd(final java.util.function.DoubleUnaryOperator other) {
+	public static LDoubleUnaryOperator wrap(final java.util.function.DoubleUnaryOperator other) {
 		return other::applyAsDouble;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LDoubleUnaryOperator wrap(final @Nonnull LDoubleUnaryOperatorX<X> other) {
-		return (double d) -> {
-			try {
-				return other.doApplyAsDouble(d);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApplyAsDouble;
 	}
 
 	// </editor-fold>
@@ -214,26 +219,25 @@ public interface LDoubleUnaryOperator extends java.util.function.DoubleUnaryOper
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.DoubleUnaryOperator std() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoubleUnaryOperator nonThrowing() {
+	default LDoubleUnaryOperator nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoubleUnaryOperatorX<RuntimeException> uncheck() {
-		return (LDoubleUnaryOperatorX) this;
+	default LDoubleUnaryOperatorX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LDoubleUnaryOperator shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoubleUnaryOperatorX<RuntimeException> shoveX() {
 		return this;
 	}
 

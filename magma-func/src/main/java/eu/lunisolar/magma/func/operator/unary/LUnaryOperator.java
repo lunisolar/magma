@@ -58,15 +58,34 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LUnaryOperator<T> extends java.util.function.UnaryOperator<T>, LUnaryOperatorX<T, RuntimeException>, MetaOperator, MetaInterface.NonThrowing { // NOSONAR
+public interface LUnaryOperator<T> extends LUnaryOperatorX<T, RuntimeException>, MetaOperator, MetaInterface.NonThrowing { // NOSONAR
 
 	public static final String DESCRIPTION = "LUnaryOperator: T doApply(T t)";
+
+	@Override
+	@Deprecated
+	// calling this method via LUnaryOperator interface should be discouraged.
+	default T apply(T t) {
+		return this.nestingDoApply(t);
+	}
 
 	@Nullable
 	public T doApply(T t);
 
-	default T apply(T t) {
-		return doApply(t);
+	default T nestingDoApply(T t) {
+		return this.doApply(t);
+	}
+
+	default T shovingDoApply(T t) {
+		return this.doApply(t);
+	}
+
+	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+
+	/** Ensures the result is not null */
+	@Nonnull
+	default T nonNullDoApply(T t) {
+		return Objects.requireNonNull(doApply(t), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -84,14 +103,6 @@ public interface LUnaryOperator<T> extends java.util.function.UnaryOperator<T>, 
 		return (t) -> r;
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
-
-	/** Ensures the result is not null */
-	@Nonnull
-	default T nonNull(T t) {
-		return Objects.requireNonNull(doApply(t), NULL_VALUE_MESSAGE_SUPPLIER);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T> LUnaryOperator<T> l(final @Nonnull LUnaryOperator<T> lambda) {
@@ -103,20 +114,14 @@ public interface LUnaryOperator<T> extends java.util.function.UnaryOperator<T>, 
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T> LUnaryOperator<T> wrapStd(final java.util.function.UnaryOperator<T> other) {
+	public static <T> LUnaryOperator<T> wrap(final java.util.function.UnaryOperator<T> other) {
 		return other::apply;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T, X extends Exception> LUnaryOperator<T> wrap(final @Nonnull LUnaryOperatorX<T, X> other) {
-		return (T t) -> {
-			try {
-				return other.doApply(t);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApply;
 	}
 
 	// </editor-fold>
@@ -196,22 +201,16 @@ public interface LUnaryOperator<T> extends java.util.function.UnaryOperator<T>, 
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.UnaryOperator<T> std() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LUnaryOperator<T> nonThrowing() {
+	default LUnaryOperator<T> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LUnaryOperatorX<T, RuntimeException> uncheck() {
-		return (LUnaryOperatorX) this;
+	default LUnaryOperatorX<T, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
@@ -219,11 +218,16 @@ public interface LUnaryOperator<T> extends java.util.function.UnaryOperator<T>, 
 		return this;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LUnaryOperatorX<T, RuntimeException> shoveX() {
+		return this;
+	}
+
 	// </editor-fold>
 
 	@Nonnull
 	default LUnaryOperator<T> nonNullable() {
-		return (t) -> Objects.requireNonNull(this.doApply(t));
+		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">

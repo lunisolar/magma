@@ -64,6 +64,19 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 
 	public boolean doTest(short s);
 
+	default boolean nestingDoTest(short s) {
+		return this.doTest(s);
+	}
+
+	default boolean shovingDoTest(short s) {
+		return this.doTest(s);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default boolean nonNullDoTest(short s) {
+		return doTest(s);
+	}
+
 	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
 
 	default boolean doApplyAsBoolean(short s) {
@@ -85,11 +98,6 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 		return (s) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNull(short s) {
-		return doTest(s);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LShortPredicate l(final @Nonnull LShortPredicate lambda) {
@@ -102,13 +110,7 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LShortPredicate wrap(final @Nonnull LShortPredicateX<X> other) {
-		return (short s) -> {
-			try {
-				return other.doTest(s);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoTest;
 	}
 
 	// </editor-fold>
@@ -249,18 +251,23 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LShortPredicate nonThrowing() {
+	default LShortPredicate nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LShortPredicateX<RuntimeException> uncheck() {
-		return (LShortPredicateX) this;
+	default LShortPredicateX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LShortPredicate shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LShortPredicateX<RuntimeException> shoveX() {
 		return this;
 	}
 

@@ -64,6 +64,19 @@ public interface LShortToCharFunction extends LShortToCharFunctionX<RuntimeExcep
 
 	public char doApplyAsChar(short s);
 
+	default char nestingDoApplyAsChar(short s) {
+		return this.doApplyAsChar(s);
+	}
+
+	default char shovingDoApplyAsChar(short s) {
+		return this.doApplyAsChar(s);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default char nonNullDoApplyAsChar(short s) {
+		return doApplyAsChar(s);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +92,6 @@ public interface LShortToCharFunction extends LShortToCharFunctionX<RuntimeExcep
 		return (s) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default char nonNull(short s) {
-		return doApplyAsChar(s);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LShortToCharFunction l(final @Nonnull LShortToCharFunction lambda) {
@@ -96,13 +104,7 @@ public interface LShortToCharFunction extends LShortToCharFunctionX<RuntimeExcep
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LShortToCharFunction wrap(final @Nonnull LShortToCharFunctionX<X> other) {
-		return (short s) -> {
-			try {
-				return other.doApplyAsChar(s);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApplyAsChar;
 	}
 
 	// </editor-fold>
@@ -200,18 +202,23 @@ public interface LShortToCharFunction extends LShortToCharFunctionX<RuntimeExcep
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LShortToCharFunction nonThrowing() {
+	default LShortToCharFunction nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LShortToCharFunctionX<RuntimeException> uncheck() {
-		return (LShortToCharFunctionX) this;
+	default LShortToCharFunctionX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LShortToCharFunction shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LShortToCharFunctionX<RuntimeException> shoveX() {
 		return this;
 	}
 

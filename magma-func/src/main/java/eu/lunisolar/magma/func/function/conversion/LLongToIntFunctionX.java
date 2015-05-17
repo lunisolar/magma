@@ -58,11 +58,37 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LLongToIntFunctionX<X extends Exception> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LLongToIntFunctionX<X extends Exception> extends java.util.function.LongToIntFunction, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
 	public static final String DESCRIPTION = "LLongToIntFunctionX: int doApplyAsInt(long l) throws X";
 
+	@Override
+	@Deprecated
+	// calling this method via LLongToIntFunctionX interface should be discouraged.
+	default int applyAsInt(long l) {
+		return this.nestingDoApplyAsInt(l);
+	}
+
 	public int doApplyAsInt(long l) throws X;
+
+	default int nestingDoApplyAsInt(long l) {
+		try {
+			return this.doApplyAsInt(l);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default int shovingDoApplyAsInt(long l) {
+		return ((LLongToIntFunctionX<RuntimeException>) this).doApplyAsInt(l);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default int nonNullDoApplyAsInt(long l) throws X {
+		return doApplyAsInt(l);
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -79,11 +105,6 @@ public interface LLongToIntFunctionX<X extends Exception> extends MetaFunction, 
 		return (l) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default int nonNull(long l) throws X {
-		return doApplyAsInt(l);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <X extends Exception> LLongToIntFunctionX<X> lX(final @Nonnull LLongToIntFunctionX<X> lambda) {
@@ -95,14 +116,14 @@ public interface LLongToIntFunctionX<X extends Exception> extends MetaFunction, 
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Exception> LLongToIntFunctionX<X> wrapStd(final java.util.function.LongToIntFunction other) {
+	public static <X extends Exception> LLongToIntFunctionX<X> wrap(final java.util.function.LongToIntFunction other) {
 		return other::applyAsInt;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LLongToIntFunctionX<X> wrapX(final @Nonnull LLongToIntFunction other) {
-		return other::doApplyAsInt;
+		return (LLongToIntFunctionX) other;
 	}
 
 	// </editor-fold>
@@ -198,28 +219,26 @@ public interface LLongToIntFunctionX<X extends Exception> extends MetaFunction, 
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.LongToIntFunction std() {
-		return LLongToIntFunction.wrap(this)::doApplyAsInt;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LLongToIntFunction nonThrowing() {
-		return LLongToIntFunction.wrap(this);
+	default LLongToIntFunction nest() {
+		return this::nestingDoApplyAsInt;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LLongToIntFunctionX<RuntimeException> uncheck() {
-		return (LLongToIntFunctionX) this;
+	default LLongToIntFunctionX<RuntimeException> nestX() {
+		return this::nestingDoApplyAsInt;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLongToIntFunction shove() {
-		LLongToIntFunctionX<RuntimeException> exceptionCast = (LLongToIntFunctionX<RuntimeException>) this;
-		return exceptionCast::doApplyAsInt;
+		return this::shovingDoApplyAsInt;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LLongToIntFunctionX<RuntimeException> shoveX() {
+		return this::shovingDoApplyAsInt;
 	}
 
 	// </editor-fold>

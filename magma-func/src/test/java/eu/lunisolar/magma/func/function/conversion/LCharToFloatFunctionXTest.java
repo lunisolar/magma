@@ -74,6 +74,15 @@ public class LCharToFloatFunctionXTest<X extends ParseException> {
 
 
 
+    private LCharToFloatFunctionX<ParseException> sutAlwaysThrowing = LCharToFloatFunctionX.lX((char c) -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LCharToFloatFunctionX<RuntimeException> sutAlwaysThrowingUnckeck = LCharToFloatFunctionX.lX((char c) -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
     @Test
     public void testTheResult() throws ParseException {
         assertThat(sut.doApplyAsFloat((char)100))
@@ -81,10 +90,71 @@ public class LCharToFloatFunctionXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNonNullShouldNotModifyValue() throws ParseException {
-        assertThat(sut.nonNull((char)100))
+    public void testNonNullDoApplyAsFloat() throws ParseException {
+        assertThat(sut.nonNullDoApplyAsFloat((char)100))
             .isEqualTo(testValue);
     }
+
+    @Test
+    public void testNestingDoApplyAsFloat_checked() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowing.nestingDoApplyAsFloat((char)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(NestedException.class)
+                    .hasCauseExactlyInstanceOf(ParseException.class)
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testNestingDoApplyAsFloat_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.nestingDoApplyAsFloat((char)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoApplyAsFloat_checked() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowing.shovingDoApplyAsFloat((char)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(ParseException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoApplyAsFloat_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.shovingDoApplyAsFloat((char)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
 
 
     @Test
@@ -562,14 +632,29 @@ public class LCharToFloatFunctionXTest<X extends ParseException> {
 
 
     // </editor-fold>
+//
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LCharToFloatFunction.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isInstanceOf(LCharToFloatFunction.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LCharToFloatFunctionX.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isInstanceOf(LCharToFloatFunction.class);
+    }
+
+    @Test
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isInstanceOf(LCharToFloatFunctionX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isInstanceOf(LCharToFloatFunctionX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

@@ -64,6 +64,25 @@ public interface LFloatSupplierX<X extends Exception> extends MetaSupplier, Prim
 
 	public float doGetAsFloat() throws X;
 
+	default float nestingDoGetAsFloat() {
+		try {
+			return this.doGetAsFloat();
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default float shovingDoGetAsFloat() {
+		return ((LFloatSupplierX<RuntimeException>) this).doGetAsFloat();
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default float nonNullDoGetAsFloat() throws X {
+		return doGetAsFloat();
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -72,11 +91,6 @@ public interface LFloatSupplierX<X extends Exception> extends MetaSupplier, Prim
 
 	public static <X extends Exception> LFloatSupplierX<X> of(float r) {
 		return () -> r;
-	}
-
-	/** Just to mirror the method: Ensures the result is not null */
-	default float nonNull() throws X {
-		return doGetAsFloat();
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -91,7 +105,7 @@ public interface LFloatSupplierX<X extends Exception> extends MetaSupplier, Prim
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LFloatSupplierX<X> wrapX(final @Nonnull LFloatSupplier other) {
-		return other::doGetAsFloat;
+		return (LFloatSupplierX) other;
 	}
 
 	// </editor-fold>
@@ -167,20 +181,24 @@ public interface LFloatSupplierX<X extends Exception> extends MetaSupplier, Prim
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LFloatSupplier nonThrowing() {
-		return LFloatSupplier.wrap(this);
+	default LFloatSupplier nest() {
+		return this::nestingDoGetAsFloat;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LFloatSupplierX<RuntimeException> uncheck() {
-		return (LFloatSupplierX) this;
+	default LFloatSupplierX<RuntimeException> nestX() {
+		return this::nestingDoGetAsFloat;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LFloatSupplier shove() {
-		LFloatSupplierX<RuntimeException> exceptionCast = (LFloatSupplierX<RuntimeException>) this;
-		return exceptionCast::doGetAsFloat;
+		return this::shovingDoGetAsFloat;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LFloatSupplierX<RuntimeException> shoveX() {
+		return this::shovingDoGetAsFloat;
 	}
 
 	// </editor-fold>

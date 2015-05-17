@@ -64,6 +64,25 @@ public interface LByteToLongFunctionX<X extends Exception> extends MetaFunction,
 
 	public long doApplyAsLong(byte b) throws X;
 
+	default long nestingDoApplyAsLong(byte b) {
+		try {
+			return this.doApplyAsLong(b);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default long shovingDoApplyAsLong(byte b) {
+		return ((LByteToLongFunctionX<RuntimeException>) this).doApplyAsLong(b);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default long nonNullDoApplyAsLong(byte b) throws X {
+		return doApplyAsLong(b);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +98,6 @@ public interface LByteToLongFunctionX<X extends Exception> extends MetaFunction,
 		return (b) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default long nonNull(byte b) throws X {
-		return doApplyAsLong(b);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <X extends Exception> LByteToLongFunctionX<X> lX(final @Nonnull LByteToLongFunctionX<X> lambda) {
@@ -96,7 +110,7 @@ public interface LByteToLongFunctionX<X extends Exception> extends MetaFunction,
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LByteToLongFunctionX<X> wrapX(final @Nonnull LByteToLongFunction other) {
-		return other::doApplyAsLong;
+		return (LByteToLongFunctionX) other;
 	}
 
 	// </editor-fold>
@@ -194,20 +208,24 @@ public interface LByteToLongFunctionX<X extends Exception> extends MetaFunction,
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LByteToLongFunction nonThrowing() {
-		return LByteToLongFunction.wrap(this);
+	default LByteToLongFunction nest() {
+		return this::nestingDoApplyAsLong;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LByteToLongFunctionX<RuntimeException> uncheck() {
-		return (LByteToLongFunctionX) this;
+	default LByteToLongFunctionX<RuntimeException> nestX() {
+		return this::nestingDoApplyAsLong;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LByteToLongFunction shove() {
-		LByteToLongFunctionX<RuntimeException> exceptionCast = (LByteToLongFunctionX<RuntimeException>) this;
-		return exceptionCast::doApplyAsLong;
+		return this::shovingDoApplyAsLong;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LByteToLongFunctionX<RuntimeException> shoveX() {
+		return this::shovingDoApplyAsLong;
 	}
 
 	// </editor-fold>

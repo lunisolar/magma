@@ -82,6 +82,12 @@ public class LBinaryOperatorTest<T,X extends ParseException> {
     private java.util.function.BinaryOperator jre = (Object t1,Object t2) -> testValue;
 
 
+
+    private LBinaryOperator<T> sutAlwaysThrowingUnckeck = LBinaryOperator.l((T t1,T t2) -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
     @Test
     public void testTheResult() throws ParseException {
         assertThat(sut.doApply((T)Integer.valueOf(100),(T)Integer.valueOf(100)))
@@ -89,14 +95,45 @@ public class LBinaryOperatorTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testNonNullShouldNotModifyValue() throws ParseException {
-        assertThat(sut.nonNull((T)Integer.valueOf(100),(T)Integer.valueOf(100)))
+    public void testNonNullDoApply() throws ParseException {
+        assertThat(sut.nonNullDoApply((T)Integer.valueOf(100),(T)Integer.valueOf(100)))
             .isSameAs(testValue);
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LBinaryOperator: T doApply(T t1,T t2)).\\E")
+    @Test
+    public void testNestingDoApply_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.nestingDoApply((T)Integer.valueOf(100),(T)Integer.valueOf(100));
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoApply_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.shovingDoApply((T)Integer.valueOf(100),(T)Integer.valueOf(100));
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LBinaryOperator: T doApply(T t1,T t2)).\\E")
     public void testNonNullCapturesNull() throws ParseException {
-        sutNull.nonNull((T)Integer.valueOf(100),(T)Integer.valueOf(100));
+        sutNull.nonNullDoApply((T)Integer.valueOf(100),(T)Integer.valueOf(100));
     }
 
 
@@ -120,7 +157,7 @@ public class LBinaryOperatorTest<T,X extends ParseException> {
 
     @Test
     public void testWrapStdMethod() throws ParseException {
-        assertThat(LBinaryOperator.wrapStd(jre))
+        assertThat(LBinaryOperator.wrap(jre))
             .isInstanceOf(LBinaryOperator.class);
     }
 
@@ -284,19 +321,39 @@ public class LBinaryOperatorTest<T,X extends ParseException> {
 
 
     // </editor-fold>
+//
+//    @Test
+//    public void testStd() {
+//        assertThat(sut.std()).isInstanceOf(java.util.function.BinaryOperator.class);
+//    }
+//
+//
     @Test
-    public void testStd() {
-        assertThat(sut.std()).isInstanceOf(java.util.function.BinaryOperator.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isSameAs(sut)
+            .isInstanceOf(LBinaryOperator.class);
     }
 
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LBinaryOperator.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isSameAs(sut)
+            .isInstanceOf(LBinaryOperator.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LBinaryOperatorX.class);
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isSameAs(sut)
+            .isInstanceOf(LBinaryOperatorX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isSameAs(sut)
+            .isInstanceOf(LBinaryOperatorX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

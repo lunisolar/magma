@@ -74,6 +74,15 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
 
 
 
+    private LBiDoublePredicateX<ParseException> sutAlwaysThrowing = LBiDoublePredicateX.lX((double d1,double d2) -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LBiDoublePredicateX<RuntimeException> sutAlwaysThrowingUnckeck = LBiDoublePredicateX.lX((double d1,double d2) -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
     @Test
     public void testTheResult() throws ParseException {
         assertThat(sut.doTest((double)100,(double)100))
@@ -81,10 +90,71 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNonNullShouldNotModifyValue() throws ParseException {
-        assertThat(sut.nonNull((double)100,(double)100))
+    public void testNonNullDoTest() throws ParseException {
+        assertThat(sut.nonNullDoTest((double)100,(double)100))
             .isEqualTo(testValue);
     }
+
+    @Test
+    public void testNestingDoTest_checked() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowing.nestingDoTest((double)100,(double)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(NestedException.class)
+                    .hasCauseExactlyInstanceOf(ParseException.class)
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testNestingDoTest_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.nestingDoTest((double)100,(double)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoTest_checked() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowing.shovingDoTest((double)100,(double)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(ParseException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoTest_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.shovingDoTest((double)100,(double)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
 
     @Test
     public void testApplyAsBooleanShouldNotModifyValue() throws ParseException {
@@ -355,14 +425,29 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
 
 
     // </editor-fold>
+//
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LBiDoublePredicate.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isInstanceOf(LBiDoublePredicate.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LBiDoublePredicateX.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isInstanceOf(LBiDoublePredicate.class);
+    }
+
+    @Test
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isInstanceOf(LBiDoublePredicateX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isInstanceOf(LBiDoublePredicateX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

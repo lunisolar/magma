@@ -58,11 +58,37 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LDoubleUnaryOperatorX<X extends Exception> extends MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LDoubleUnaryOperatorX<X extends Exception> extends java.util.function.DoubleUnaryOperator, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
 	public static final String DESCRIPTION = "LDoubleUnaryOperatorX: double doApplyAsDouble(double d) throws X";
 
+	@Override
+	@Deprecated
+	// calling this method via LDoubleUnaryOperatorX interface should be discouraged.
+	default double applyAsDouble(double d) {
+		return this.nestingDoApplyAsDouble(d);
+	}
+
 	public double doApplyAsDouble(double d) throws X;
+
+	default double nestingDoApplyAsDouble(double d) {
+		try {
+			return this.doApplyAsDouble(d);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default double shovingDoApplyAsDouble(double d) {
+		return ((LDoubleUnaryOperatorX<RuntimeException>) this).doApplyAsDouble(d);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default double nonNullDoApplyAsDouble(double d) throws X {
+		return doApplyAsDouble(d);
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -79,11 +105,6 @@ public interface LDoubleUnaryOperatorX<X extends Exception> extends MetaOperator
 		return (d) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default double nonNull(double d) throws X {
-		return doApplyAsDouble(d);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <X extends Exception> LDoubleUnaryOperatorX<X> lX(final @Nonnull LDoubleUnaryOperatorX<X> lambda) {
@@ -95,14 +116,14 @@ public interface LDoubleUnaryOperatorX<X extends Exception> extends MetaOperator
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Exception> LDoubleUnaryOperatorX<X> wrapStd(final java.util.function.DoubleUnaryOperator other) {
+	public static <X extends Exception> LDoubleUnaryOperatorX<X> wrap(final java.util.function.DoubleUnaryOperator other) {
 		return other::applyAsDouble;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LDoubleUnaryOperatorX<X> wrapX(final @Nonnull LDoubleUnaryOperator other) {
-		return other::doApplyAsDouble;
+		return (LDoubleUnaryOperatorX) other;
 	}
 
 	// </editor-fold>
@@ -204,28 +225,26 @@ public interface LDoubleUnaryOperatorX<X extends Exception> extends MetaOperator
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.DoubleUnaryOperator std() {
-		return LDoubleUnaryOperator.wrap(this)::doApplyAsDouble;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoubleUnaryOperator nonThrowing() {
-		return LDoubleUnaryOperator.wrap(this);
+	default LDoubleUnaryOperator nest() {
+		return this::nestingDoApplyAsDouble;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoubleUnaryOperatorX<RuntimeException> uncheck() {
-		return (LDoubleUnaryOperatorX) this;
+	default LDoubleUnaryOperatorX<RuntimeException> nestX() {
+		return this::nestingDoApplyAsDouble;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LDoubleUnaryOperator shove() {
-		LDoubleUnaryOperatorX<RuntimeException> exceptionCast = (LDoubleUnaryOperatorX<RuntimeException>) this;
-		return exceptionCast::doApplyAsDouble;
+		return this::shovingDoApplyAsDouble;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoubleUnaryOperatorX<RuntimeException> shoveX() {
+		return this::shovingDoApplyAsDouble;
 	}
 
 	// </editor-fold>

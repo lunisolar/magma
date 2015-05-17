@@ -72,6 +72,15 @@ public class LDoubleBiConsumerXTest<X extends ParseException> {
 
 
 
+    private LDoubleBiConsumerX<ParseException> sutAlwaysThrowing = LDoubleBiConsumerX.lX((double d1,double d2) -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LDoubleBiConsumerX<RuntimeException> sutAlwaysThrowingUnckeck = LDoubleBiConsumerX.lX((double d1,double d2) -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
 
 
     @Test
@@ -268,14 +277,29 @@ public class LDoubleBiConsumerXTest<X extends ParseException> {
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
+//
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LDoubleBiConsumer.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isInstanceOf(LDoubleBiConsumer.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LDoubleBiConsumerX.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isInstanceOf(LDoubleBiConsumer.class);
+    }
+
+    @Test
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isInstanceOf(LDoubleBiConsumerX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isInstanceOf(LDoubleBiConsumerX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

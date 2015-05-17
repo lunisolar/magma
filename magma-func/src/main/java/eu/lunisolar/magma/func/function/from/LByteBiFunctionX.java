@@ -65,6 +65,28 @@ public interface LByteBiFunctionX<R, X extends Exception> extends MetaFunction, 
 	@Nullable
 	public R doApply(byte b1, byte b2) throws X;
 
+	default R nestingDoApply(byte b1, byte b2) {
+		try {
+			return this.doApply(b1, b2);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default R shovingDoApply(byte b1, byte b2) {
+		return ((LByteBiFunctionX<R, RuntimeException>) this).doApply(b1, b2);
+	}
+
+	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+
+	/** Ensures the result is not null */
+	@Nonnull
+	default R nonNullDoApply(byte b1, byte b2) throws X {
+		return Objects.requireNonNull(doApply(b1, b2), NULL_VALUE_MESSAGE_SUPPLIER);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -80,14 +102,6 @@ public interface LByteBiFunctionX<R, X extends Exception> extends MetaFunction, 
 		return (b1, b2) -> r;
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
-
-	/** Ensures the result is not null */
-	@Nonnull
-	default R nonNull(byte b1, byte b2) throws X {
-		return Objects.requireNonNull(doApply(b1, b2), NULL_VALUE_MESSAGE_SUPPLIER);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <R, X extends Exception> LByteBiFunctionX<R, X> lX(final @Nonnull LByteBiFunctionX<R, X> lambda) {
@@ -100,7 +114,7 @@ public interface LByteBiFunctionX<R, X extends Exception> extends MetaFunction, 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <R, X extends Exception> LByteBiFunctionX<R, X> wrapX(final @Nonnull LByteBiFunction<R> other) {
-		return other::doApply;
+		return (LByteBiFunctionX) other;
 	}
 
 	// </editor-fold>
@@ -151,27 +165,31 @@ public interface LByteBiFunctionX<R, X extends Exception> extends MetaFunction, 
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LByteBiFunction<R> nonThrowing() {
-		return LByteBiFunction.wrap(this);
+	default LByteBiFunction<R> nest() {
+		return this::nestingDoApply;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LByteBiFunctionX<R, RuntimeException> uncheck() {
-		return (LByteBiFunctionX) this;
+	default LByteBiFunctionX<R, RuntimeException> nestX() {
+		return this::nestingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LByteBiFunction<R> shove() {
-		LByteBiFunctionX<R, RuntimeException> exceptionCast = (LByteBiFunctionX<R, RuntimeException>) this;
-		return exceptionCast::doApply;
+		return this::shovingDoApply;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LByteBiFunctionX<R, RuntimeException> shoveX() {
+		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
 	default LByteBiFunctionX<R, X> nonNullableX() {
-		return (b1, b2) -> Objects.requireNonNull(this.doApply(b1, b2));
+		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">

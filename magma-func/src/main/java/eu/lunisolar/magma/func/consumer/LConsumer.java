@@ -59,14 +59,25 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LConsumer<T> extends java.util.function.Consumer<T>, LConsumerX<T, RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
+public interface LConsumer<T> extends LConsumerX<T, RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
 	public static final String DESCRIPTION = "LConsumer: void doAccept(T t)";
 
+	@Override
+	@Deprecated
+	// calling this method via LConsumer interface should be discouraged.
+	default void accept(T t) {
+		this.nestingDoAccept(t);
+	}
+
 	public void doAccept(T t);
 
-	default void accept(T t) {
-		doAccept(t);
+	default void nestingDoAccept(T t) {
+		this.doAccept(t);
+	}
+
+	default void shovingDoAccept(T t) {
+		this.doAccept(t);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -91,20 +102,14 @@ public interface LConsumer<T> extends java.util.function.Consumer<T>, LConsumerX
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T> LConsumer<T> wrapStd(final java.util.function.Consumer<T> other) {
+	public static <T> LConsumer<T> wrap(final java.util.function.Consumer<T> other) {
 		return other::accept;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T, X extends Exception> LConsumer<T> wrap(final @Nonnull LConsumerX<T, X> other) {
-		return (T t) -> {
-			try {
-				other.doAccept(t);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoAccept;
 	}
 
 	// </editor-fold>
@@ -137,26 +142,25 @@ public interface LConsumer<T> extends java.util.function.Consumer<T>, LConsumerX
 	// </editor-fold>
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.Consumer<T> std() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LConsumer<T> nonThrowing() {
+	default LConsumer<T> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LConsumerX<T, RuntimeException> uncheck() {
-		return (LConsumerX) this;
+	default LConsumerX<T, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LConsumer<T> shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LConsumerX<T, RuntimeException> shoveX() {
 		return this;
 	}
 

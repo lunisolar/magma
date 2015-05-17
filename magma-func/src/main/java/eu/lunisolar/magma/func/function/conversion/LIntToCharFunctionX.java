@@ -64,6 +64,25 @@ public interface LIntToCharFunctionX<X extends Exception> extends MetaFunction, 
 
 	public char doApplyAsChar(int i) throws X;
 
+	default char nestingDoApplyAsChar(int i) {
+		try {
+			return this.doApplyAsChar(i);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default char shovingDoApplyAsChar(int i) {
+		return ((LIntToCharFunctionX<RuntimeException>) this).doApplyAsChar(i);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default char nonNullDoApplyAsChar(int i) throws X {
+		return doApplyAsChar(i);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +98,6 @@ public interface LIntToCharFunctionX<X extends Exception> extends MetaFunction, 
 		return (i) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default char nonNull(int i) throws X {
-		return doApplyAsChar(i);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <X extends Exception> LIntToCharFunctionX<X> lX(final @Nonnull LIntToCharFunctionX<X> lambda) {
@@ -96,7 +110,7 @@ public interface LIntToCharFunctionX<X extends Exception> extends MetaFunction, 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LIntToCharFunctionX<X> wrapX(final @Nonnull LIntToCharFunction other) {
-		return other::doApplyAsChar;
+		return (LIntToCharFunctionX) other;
 	}
 
 	// </editor-fold>
@@ -194,20 +208,24 @@ public interface LIntToCharFunctionX<X extends Exception> extends MetaFunction, 
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntToCharFunction nonThrowing() {
-		return LIntToCharFunction.wrap(this);
+	default LIntToCharFunction nest() {
+		return this::nestingDoApplyAsChar;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntToCharFunctionX<RuntimeException> uncheck() {
-		return (LIntToCharFunctionX) this;
+	default LIntToCharFunctionX<RuntimeException> nestX() {
+		return this::nestingDoApplyAsChar;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LIntToCharFunction shove() {
-		LIntToCharFunctionX<RuntimeException> exceptionCast = (LIntToCharFunctionX<RuntimeException>) this;
-		return exceptionCast::doApplyAsChar;
+		return this::shovingDoApplyAsChar;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntToCharFunctionX<RuntimeException> shoveX() {
+		return this::shovingDoApplyAsChar;
 	}
 
 	// </editor-fold>

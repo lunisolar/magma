@@ -58,13 +58,29 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LLongBinaryOperator extends java.util.function.LongBinaryOperator, LLongBinaryOperatorX<RuntimeException>, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LLongBinaryOperator extends LLongBinaryOperatorX<RuntimeException>, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
 	public static final String DESCRIPTION = "LLongBinaryOperator: long doApplyAsLong(long l1,long l2)";
 
+	@Override
+	@Deprecated
+	// calling this method via LLongBinaryOperator interface should be discouraged.
+	default long applyAsLong(long l1, long l2) {
+		return this.nestingDoApplyAsLong(l1, l2);
+	}
+
 	public long doApplyAsLong(long l1, long l2);
 
-	default long applyAsLong(long l1, long l2) {
+	default long nestingDoApplyAsLong(long l1, long l2) {
+		return this.doApplyAsLong(l1, l2);
+	}
+
+	default long shovingDoApplyAsLong(long l1, long l2) {
+		return this.doApplyAsLong(l1, l2);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default long nonNullDoApplyAsLong(long l1, long l2) {
 		return doApplyAsLong(l1, l2);
 	}
 
@@ -83,11 +99,6 @@ public interface LLongBinaryOperator extends java.util.function.LongBinaryOperat
 		return (l1, l2) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default long nonNull(long l1, long l2) {
-		return doApplyAsLong(l1, l2);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LLongBinaryOperator l(final @Nonnull LLongBinaryOperator lambda) {
@@ -99,20 +110,14 @@ public interface LLongBinaryOperator extends java.util.function.LongBinaryOperat
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LLongBinaryOperator wrapStd(final java.util.function.LongBinaryOperator other) {
+	public static LLongBinaryOperator wrap(final java.util.function.LongBinaryOperator other) {
 		return other::applyAsLong;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LLongBinaryOperator wrap(final @Nonnull LLongBinaryOperatorX<X> other) {
-		return (long l1, long l2) -> {
-			try {
-				return other.doApplyAsLong(l1, l2);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApplyAsLong;
 	}
 
 	// </editor-fold>
@@ -173,26 +178,25 @@ public interface LLongBinaryOperator extends java.util.function.LongBinaryOperat
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.LongBinaryOperator std() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LLongBinaryOperator nonThrowing() {
+	default LLongBinaryOperator nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LLongBinaryOperatorX<RuntimeException> uncheck() {
-		return (LLongBinaryOperatorX) this;
+	default LLongBinaryOperatorX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLongBinaryOperator shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LLongBinaryOperatorX<RuntimeException> shoveX() {
 		return this;
 	}
 

@@ -74,6 +74,12 @@ public class LObjBooleanPredicateTest<T,X extends ParseException> {
 
 
 
+
+    private LObjBooleanPredicate<T> sutAlwaysThrowingUnckeck = LObjBooleanPredicate.l((T t, boolean b) -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
     @Test
     public void testTheResult() throws ParseException {
         assertThat(sut.doTest((T)Integer.valueOf(100),true))
@@ -81,10 +87,41 @@ public class LObjBooleanPredicateTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testNonNullShouldNotModifyValue() throws ParseException {
-        assertThat(sut.nonNull((T)Integer.valueOf(100),true))
+    public void testNonNullDoTest() throws ParseException {
+        assertThat(sut.nonNullDoTest((T)Integer.valueOf(100),true))
             .isEqualTo(testValue);
     }
+
+    @Test
+    public void testNestingDoTest_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.nestingDoTest((T)Integer.valueOf(100),true);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoTest_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.shovingDoTest((T)Integer.valueOf(100),true);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
 
     @Test
     public void testApplyAsBooleanShouldNotModifyValue() throws ParseException {
@@ -399,14 +436,33 @@ public class LObjBooleanPredicateTest<T,X extends ParseException> {
 
 
     // </editor-fold>
+//
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LObjBooleanPredicate.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isSameAs(sut)
+            .isInstanceOf(LObjBooleanPredicate.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LObjBooleanPredicateX.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isSameAs(sut)
+            .isInstanceOf(LObjBooleanPredicate.class);
+    }
+
+    @Test
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isSameAs(sut)
+            .isInstanceOf(LObjBooleanPredicateX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isSameAs(sut)
+            .isInstanceOf(LObjBooleanPredicateX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

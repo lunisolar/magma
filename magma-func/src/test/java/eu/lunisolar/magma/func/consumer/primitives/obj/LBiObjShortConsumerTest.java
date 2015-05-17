@@ -73,6 +73,12 @@ public class LBiObjShortConsumerTest<T1,T2,X extends ParseException> {
 
 
 
+    private LBiObjShortConsumer<T1,T2> sutAlwaysThrowingUnckeck = LBiObjShortConsumer.l((T1 t1,T2 t2, short s) -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
+
 
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
@@ -326,14 +332,33 @@ public class LBiObjShortConsumerTest<T1,T2,X extends ParseException> {
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
+//
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LBiObjShortConsumer.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isSameAs(sut)
+            .isInstanceOf(LBiObjShortConsumer.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LBiObjShortConsumerX.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isSameAs(sut)
+            .isInstanceOf(LBiObjShortConsumer.class);
+    }
+
+    @Test
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isSameAs(sut)
+            .isInstanceOf(LBiObjShortConsumerX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isSameAs(sut)
+            .isInstanceOf(LBiObjShortConsumerX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

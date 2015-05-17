@@ -59,14 +59,25 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LObjIntConsumer<T> extends java.util.function.ObjIntConsumer<T>, LObjIntConsumerX<T, RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
+public interface LObjIntConsumer<T> extends LObjIntConsumerX<T, RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
 	public static final String DESCRIPTION = "LObjIntConsumer: void doAccept(T t, int i)";
 
+	@Override
+	@Deprecated
+	// calling this method via LObjIntConsumer interface should be discouraged.
+	default void accept(T t, int i) {
+		this.nestingDoAccept(t, i);
+	}
+
 	public void doAccept(T t, int i);
 
-	default void accept(T t, int i) {
-		doAccept(t, i);
+	default void nestingDoAccept(T t, int i) {
+		this.doAccept(t, i);
+	}
+
+	default void shovingDoAccept(T t, int i) {
+		this.doAccept(t, i);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -91,20 +102,14 @@ public interface LObjIntConsumer<T> extends java.util.function.ObjIntConsumer<T>
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T> LObjIntConsumer<T> wrapStd(final java.util.function.ObjIntConsumer<T> other) {
+	public static <T> LObjIntConsumer<T> wrap(final java.util.function.ObjIntConsumer<T> other) {
 		return other::accept;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T, X extends Exception> LObjIntConsumer<T> wrap(final @Nonnull LObjIntConsumerX<T, X> other) {
-		return (T t, int i) -> {
-			try {
-				other.doAccept(t, i);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoAccept;
 	}
 
 	// </editor-fold>
@@ -148,26 +153,25 @@ public interface LObjIntConsumer<T> extends java.util.function.ObjIntConsumer<T>
 	// </editor-fold>
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.ObjIntConsumer<T> std() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjIntConsumer<T> nonThrowing() {
+	default LObjIntConsumer<T> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjIntConsumerX<T, RuntimeException> uncheck() {
-		return (LObjIntConsumerX) this;
+	default LObjIntConsumerX<T, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjIntConsumer<T> shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LObjIntConsumerX<T, RuntimeException> shoveX() {
 		return this;
 	}
 

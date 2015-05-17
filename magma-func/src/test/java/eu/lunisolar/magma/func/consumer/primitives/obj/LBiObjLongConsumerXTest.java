@@ -72,6 +72,15 @@ public class LBiObjLongConsumerXTest<T1,T2,X extends ParseException> {
 
 
 
+    private LBiObjLongConsumerX<T1,T2,ParseException> sutAlwaysThrowing = LBiObjLongConsumerX.lX((T1 t1,T2 t2, long l) -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LBiObjLongConsumerX<T1,T2,RuntimeException> sutAlwaysThrowingUnckeck = LBiObjLongConsumerX.lX((T1 t1,T2 t2, long l) -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
 
 
     @Test
@@ -282,14 +291,29 @@ public class LBiObjLongConsumerXTest<T1,T2,X extends ParseException> {
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
+//
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LBiObjLongConsumer.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isInstanceOf(LBiObjLongConsumer.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LBiObjLongConsumerX.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isInstanceOf(LBiObjLongConsumer.class);
+    }
+
+    @Test
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isInstanceOf(LBiObjLongConsumerX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isInstanceOf(LBiObjLongConsumerX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

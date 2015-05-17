@@ -64,6 +64,19 @@ public interface LByteSupplier extends LByteSupplierX<RuntimeException>, MetaSup
 
 	public byte doGetAsByte();
 
+	default byte nestingDoGetAsByte() {
+		return this.doGetAsByte();
+	}
+
+	default byte shovingDoGetAsByte() {
+		return this.doGetAsByte();
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default byte nonNullDoGetAsByte() {
+		return doGetAsByte();
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -72,11 +85,6 @@ public interface LByteSupplier extends LByteSupplierX<RuntimeException>, MetaSup
 
 	public static LByteSupplier of(byte r) {
 		return () -> r;
-	}
-
-	/** Just to mirror the method: Ensures the result is not null */
-	default byte nonNull() {
-		return doGetAsByte();
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -91,13 +99,7 @@ public interface LByteSupplier extends LByteSupplierX<RuntimeException>, MetaSup
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LByteSupplier wrap(final @Nonnull LByteSupplierX<X> other) {
-		return () -> {
-			try {
-				return other.doGetAsByte();
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoGetAsByte;
 	}
 
 	// </editor-fold>
@@ -173,18 +175,23 @@ public interface LByteSupplier extends LByteSupplierX<RuntimeException>, MetaSup
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LByteSupplier nonThrowing() {
+	default LByteSupplier nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LByteSupplierX<RuntimeException> uncheck() {
-		return (LByteSupplierX) this;
+	default LByteSupplierX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LByteSupplier shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LByteSupplierX<RuntimeException> shoveX() {
 		return this;
 	}
 

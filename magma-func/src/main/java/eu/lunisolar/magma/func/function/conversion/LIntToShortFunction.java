@@ -64,6 +64,19 @@ public interface LIntToShortFunction extends LIntToShortFunctionX<RuntimeExcepti
 
 	public short doApplyAsShort(int i);
 
+	default short nestingDoApplyAsShort(int i) {
+		return this.doApplyAsShort(i);
+	}
+
+	default short shovingDoApplyAsShort(int i) {
+		return this.doApplyAsShort(i);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default short nonNullDoApplyAsShort(int i) {
+		return doApplyAsShort(i);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +92,6 @@ public interface LIntToShortFunction extends LIntToShortFunctionX<RuntimeExcepti
 		return (i) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default short nonNull(int i) {
-		return doApplyAsShort(i);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LIntToShortFunction l(final @Nonnull LIntToShortFunction lambda) {
@@ -96,13 +104,7 @@ public interface LIntToShortFunction extends LIntToShortFunctionX<RuntimeExcepti
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LIntToShortFunction wrap(final @Nonnull LIntToShortFunctionX<X> other) {
-		return (int i) -> {
-			try {
-				return other.doApplyAsShort(i);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApplyAsShort;
 	}
 
 	// </editor-fold>
@@ -200,18 +202,23 @@ public interface LIntToShortFunction extends LIntToShortFunctionX<RuntimeExcepti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntToShortFunction nonThrowing() {
+	default LIntToShortFunction nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntToShortFunctionX<RuntimeException> uncheck() {
-		return (LIntToShortFunctionX) this;
+	default LIntToShortFunctionX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LIntToShortFunction shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntToShortFunctionX<RuntimeException> shoveX() {
 		return this;
 	}
 

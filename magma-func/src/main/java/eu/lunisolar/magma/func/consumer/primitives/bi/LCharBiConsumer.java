@@ -65,6 +65,14 @@ public interface LCharBiConsumer extends LCharBiConsumerX<RuntimeException>, Met
 
 	public void doAccept(char c1, char c2);
 
+	default void nestingDoAccept(char c1, char c2) {
+		this.doAccept(c1, c2);
+	}
+
+	default void shovingDoAccept(char c1, char c2) {
+		this.doAccept(c1, c2);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -88,13 +96,7 @@ public interface LCharBiConsumer extends LCharBiConsumerX<RuntimeException>, Met
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LCharBiConsumer wrap(final @Nonnull LCharBiConsumerX<X> other) {
-		return (char c1, char c2) -> {
-			try {
-				other.doAccept(c1, c2);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoAccept;
 	}
 
 	// </editor-fold>
@@ -140,18 +142,23 @@ public interface LCharBiConsumer extends LCharBiConsumerX<RuntimeException>, Met
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LCharBiConsumer nonThrowing() {
+	default LCharBiConsumer nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LCharBiConsumerX<RuntimeException> uncheck() {
-		return (LCharBiConsumerX) this;
+	default LCharBiConsumerX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LCharBiConsumer shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LCharBiConsumerX<RuntimeException> shoveX() {
 		return this;
 	}
 

@@ -59,11 +59,32 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LDoubleConsumerX<X extends Exception> extends MetaConsumer, MetaInterface.Throwing<X> {
+public interface LDoubleConsumerX<X extends Exception> extends java.util.function.DoubleConsumer, MetaConsumer, MetaInterface.Throwing<X> {
 
 	public static final String DESCRIPTION = "LDoubleConsumerX: void doAccept(double d) throws X";
 
+	@Override
+	@Deprecated
+	// calling this method via LDoubleConsumerX interface should be discouraged.
+	default void accept(double d) {
+		this.nestingDoAccept(d);
+	}
+
 	public void doAccept(double d) throws X;
+
+	default void nestingDoAccept(double d) {
+		try {
+			this.doAccept(d);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default void shovingDoAccept(double d) {
+		((LDoubleConsumerX<RuntimeException>) this).doAccept(d);
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -87,14 +108,14 @@ public interface LDoubleConsumerX<X extends Exception> extends MetaConsumer, Met
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Exception> LDoubleConsumerX<X> wrapStd(final java.util.function.DoubleConsumer other) {
+	public static <X extends Exception> LDoubleConsumerX<X> wrap(final java.util.function.DoubleConsumer other) {
 		return other::accept;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LDoubleConsumerX<X> wrapX(final @Nonnull LDoubleConsumer other) {
-		return other::doAccept;
+		return (LDoubleConsumerX) other;
 	}
 
 	// </editor-fold>
@@ -136,28 +157,26 @@ public interface LDoubleConsumerX<X extends Exception> extends MetaConsumer, Met
 	// </editor-fold>
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.DoubleConsumer std() {
-		return LDoubleConsumer.wrap(this)::doAccept;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoubleConsumer nonThrowing() {
-		return LDoubleConsumer.wrap(this);
+	default LDoubleConsumer nest() {
+		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoubleConsumerX<RuntimeException> uncheck() {
-		return (LDoubleConsumerX) this;
+	default LDoubleConsumerX<RuntimeException> nestX() {
+		return this::nestingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LDoubleConsumer shove() {
-		LDoubleConsumerX<RuntimeException> exceptionCast = (LDoubleConsumerX<RuntimeException>) this;
-		return exceptionCast::doAccept;
+		return this::shovingDoAccept;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoubleConsumerX<RuntimeException> shoveX() {
+		return this::shovingDoAccept;
 	}
 
 	// </editor-fold>

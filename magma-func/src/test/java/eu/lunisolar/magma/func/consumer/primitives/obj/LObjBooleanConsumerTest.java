@@ -73,6 +73,12 @@ public class LObjBooleanConsumerTest<T,X extends ParseException> {
 
 
 
+    private LObjBooleanConsumer<T> sutAlwaysThrowingUnckeck = LObjBooleanConsumer.l((T t, boolean b) -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
+
 
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
@@ -312,14 +318,33 @@ public class LObjBooleanConsumerTest<T,X extends ParseException> {
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
+//
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LObjBooleanConsumer.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isSameAs(sut)
+            .isInstanceOf(LObjBooleanConsumer.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LObjBooleanConsumerX.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isSameAs(sut)
+            .isInstanceOf(LObjBooleanConsumer.class);
+    }
+
+    @Test
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isSameAs(sut)
+            .isInstanceOf(LObjBooleanConsumerX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isSameAs(sut)
+            .isInstanceOf(LObjBooleanConsumerX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

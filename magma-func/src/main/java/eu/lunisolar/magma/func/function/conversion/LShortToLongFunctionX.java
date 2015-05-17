@@ -64,6 +64,25 @@ public interface LShortToLongFunctionX<X extends Exception> extends MetaFunction
 
 	public long doApplyAsLong(short s) throws X;
 
+	default long nestingDoApplyAsLong(short s) {
+		try {
+			return this.doApplyAsLong(s);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default long shovingDoApplyAsLong(short s) {
+		return ((LShortToLongFunctionX<RuntimeException>) this).doApplyAsLong(s);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default long nonNullDoApplyAsLong(short s) throws X {
+		return doApplyAsLong(s);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +98,6 @@ public interface LShortToLongFunctionX<X extends Exception> extends MetaFunction
 		return (s) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default long nonNull(short s) throws X {
-		return doApplyAsLong(s);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <X extends Exception> LShortToLongFunctionX<X> lX(final @Nonnull LShortToLongFunctionX<X> lambda) {
@@ -96,7 +110,7 @@ public interface LShortToLongFunctionX<X extends Exception> extends MetaFunction
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LShortToLongFunctionX<X> wrapX(final @Nonnull LShortToLongFunction other) {
-		return other::doApplyAsLong;
+		return (LShortToLongFunctionX) other;
 	}
 
 	// </editor-fold>
@@ -194,20 +208,24 @@ public interface LShortToLongFunctionX<X extends Exception> extends MetaFunction
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LShortToLongFunction nonThrowing() {
-		return LShortToLongFunction.wrap(this);
+	default LShortToLongFunction nest() {
+		return this::nestingDoApplyAsLong;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LShortToLongFunctionX<RuntimeException> uncheck() {
-		return (LShortToLongFunctionX) this;
+	default LShortToLongFunctionX<RuntimeException> nestX() {
+		return this::nestingDoApplyAsLong;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LShortToLongFunction shove() {
-		LShortToLongFunctionX<RuntimeException> exceptionCast = (LShortToLongFunctionX<RuntimeException>) this;
-		return exceptionCast::doApplyAsLong;
+		return this::shovingDoApplyAsLong;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LShortToLongFunctionX<RuntimeException> shoveX() {
+		return this::shovingDoApplyAsLong;
 	}
 
 	// </editor-fold>

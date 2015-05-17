@@ -74,6 +74,15 @@ public class LBooleanToShortFunctionXTest<X extends ParseException> {
 
 
 
+    private LBooleanToShortFunctionX<ParseException> sutAlwaysThrowing = LBooleanToShortFunctionX.lX((boolean b) -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LBooleanToShortFunctionX<RuntimeException> sutAlwaysThrowingUnckeck = LBooleanToShortFunctionX.lX((boolean b) -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
     @Test
     public void testTheResult() throws ParseException {
         assertThat(sut.doApplyAsShort(true))
@@ -81,10 +90,71 @@ public class LBooleanToShortFunctionXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNonNullShouldNotModifyValue() throws ParseException {
-        assertThat(sut.nonNull(true))
+    public void testNonNullDoApplyAsShort() throws ParseException {
+        assertThat(sut.nonNullDoApplyAsShort(true))
             .isEqualTo(testValue);
     }
+
+    @Test
+    public void testNestingDoApplyAsShort_checked() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowing.nestingDoApplyAsShort(true);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(NestedException.class)
+                    .hasCauseExactlyInstanceOf(ParseException.class)
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testNestingDoApplyAsShort_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.nestingDoApplyAsShort(true);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoApplyAsShort_checked() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowing.shovingDoApplyAsShort(true);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(ParseException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoApplyAsShort_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.shovingDoApplyAsShort(true);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
 
 
     @Test
@@ -562,14 +632,29 @@ public class LBooleanToShortFunctionXTest<X extends ParseException> {
 
 
     // </editor-fold>
+//
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LBooleanToShortFunction.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isInstanceOf(LBooleanToShortFunction.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LBooleanToShortFunctionX.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isInstanceOf(LBooleanToShortFunction.class);
+    }
+
+    @Test
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isInstanceOf(LBooleanToShortFunctionX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isInstanceOf(LBooleanToShortFunctionX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

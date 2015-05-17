@@ -58,13 +58,29 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LIntBinaryOperator extends java.util.function.IntBinaryOperator, LIntBinaryOperatorX<RuntimeException>, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LIntBinaryOperator extends LIntBinaryOperatorX<RuntimeException>, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
 	public static final String DESCRIPTION = "LIntBinaryOperator: int doApplyAsInt(int i1,int i2)";
 
+	@Override
+	@Deprecated
+	// calling this method via LIntBinaryOperator interface should be discouraged.
+	default int applyAsInt(int i1, int i2) {
+		return this.nestingDoApplyAsInt(i1, i2);
+	}
+
 	public int doApplyAsInt(int i1, int i2);
 
-	default int applyAsInt(int i1, int i2) {
+	default int nestingDoApplyAsInt(int i1, int i2) {
+		return this.doApplyAsInt(i1, i2);
+	}
+
+	default int shovingDoApplyAsInt(int i1, int i2) {
+		return this.doApplyAsInt(i1, i2);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default int nonNullDoApplyAsInt(int i1, int i2) {
 		return doApplyAsInt(i1, i2);
 	}
 
@@ -83,11 +99,6 @@ public interface LIntBinaryOperator extends java.util.function.IntBinaryOperator
 		return (i1, i2) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default int nonNull(int i1, int i2) {
-		return doApplyAsInt(i1, i2);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LIntBinaryOperator l(final @Nonnull LIntBinaryOperator lambda) {
@@ -99,20 +110,14 @@ public interface LIntBinaryOperator extends java.util.function.IntBinaryOperator
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LIntBinaryOperator wrapStd(final java.util.function.IntBinaryOperator other) {
+	public static LIntBinaryOperator wrap(final java.util.function.IntBinaryOperator other) {
 		return other::applyAsInt;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LIntBinaryOperator wrap(final @Nonnull LIntBinaryOperatorX<X> other) {
-		return (int i1, int i2) -> {
-			try {
-				return other.doApplyAsInt(i1, i2);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApplyAsInt;
 	}
 
 	// </editor-fold>
@@ -173,26 +178,25 @@ public interface LIntBinaryOperator extends java.util.function.IntBinaryOperator
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.IntBinaryOperator std() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntBinaryOperator nonThrowing() {
+	default LIntBinaryOperator nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntBinaryOperatorX<RuntimeException> uncheck() {
-		return (LIntBinaryOperatorX) this;
+	default LIntBinaryOperatorX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LIntBinaryOperator shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntBinaryOperatorX<RuntimeException> shoveX() {
 		return this;
 	}
 

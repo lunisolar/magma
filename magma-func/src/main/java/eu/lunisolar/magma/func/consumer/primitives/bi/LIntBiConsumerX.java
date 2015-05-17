@@ -65,6 +65,20 @@ public interface LIntBiConsumerX<X extends Exception> extends MetaConsumer, Meta
 
 	public void doAccept(int i1, int i2) throws X;
 
+	default void nestingDoAccept(int i1, int i2) {
+		try {
+			this.doAccept(i1, i2);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default void shovingDoAccept(int i1, int i2) {
+		((LIntBiConsumerX<RuntimeException>) this).doAccept(i1, i2);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -88,7 +102,7 @@ public interface LIntBiConsumerX<X extends Exception> extends MetaConsumer, Meta
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LIntBiConsumerX<X> wrapX(final @Nonnull LIntBiConsumer other) {
-		return other::doAccept;
+		return (LIntBiConsumerX) other;
 	}
 
 	// </editor-fold>
@@ -134,20 +148,24 @@ public interface LIntBiConsumerX<X extends Exception> extends MetaConsumer, Meta
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntBiConsumer nonThrowing() {
-		return LIntBiConsumer.wrap(this);
+	default LIntBiConsumer nest() {
+		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntBiConsumerX<RuntimeException> uncheck() {
-		return (LIntBiConsumerX) this;
+	default LIntBiConsumerX<RuntimeException> nestX() {
+		return this::nestingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LIntBiConsumer shove() {
-		LIntBiConsumerX<RuntimeException> exceptionCast = (LIntBiConsumerX<RuntimeException>) this;
-		return exceptionCast::doAccept;
+		return this::shovingDoAccept;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntBiConsumerX<RuntimeException> shoveX() {
+		return this::shovingDoAccept;
 	}
 
 	// </editor-fold>

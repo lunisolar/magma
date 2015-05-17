@@ -74,6 +74,12 @@ public class LBiObjDoublePredicateTest<T1,T2,X extends ParseException> {
 
 
 
+
+    private LBiObjDoublePredicate<T1,T2> sutAlwaysThrowingUnckeck = LBiObjDoublePredicate.l((T1 t1,T2 t2, double d) -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
     @Test
     public void testTheResult() throws ParseException {
         assertThat(sut.doTest((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(double)100))
@@ -81,10 +87,41 @@ public class LBiObjDoublePredicateTest<T1,T2,X extends ParseException> {
     }
 
     @Test
-    public void testNonNullShouldNotModifyValue() throws ParseException {
-        assertThat(sut.nonNull((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(double)100))
+    public void testNonNullDoTest() throws ParseException {
+        assertThat(sut.nonNullDoTest((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(double)100))
             .isEqualTo(testValue);
     }
+
+    @Test
+    public void testNestingDoTest_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.nestingDoTest((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(double)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoTest_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.shovingDoTest((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(double)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
 
     @Test
     public void testApplyAsBooleanShouldNotModifyValue() throws ParseException {
@@ -412,14 +449,33 @@ public class LBiObjDoublePredicateTest<T1,T2,X extends ParseException> {
 
 
     // </editor-fold>
+//
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LBiObjDoublePredicate.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isSameAs(sut)
+            .isInstanceOf(LBiObjDoublePredicate.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LBiObjDoublePredicateX.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isSameAs(sut)
+            .isInstanceOf(LBiObjDoublePredicate.class);
+    }
+
+    @Test
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isSameAs(sut)
+            .isInstanceOf(LBiObjDoublePredicateX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isSameAs(sut)
+            .isInstanceOf(LBiObjDoublePredicateX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

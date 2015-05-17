@@ -51,14 +51,25 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LAction extends Runnable, LActionX<RuntimeException>, MetaAction, MetaInterface.NonThrowing {
+public interface LAction extends LActionX<RuntimeException>, MetaAction, MetaInterface.NonThrowing {
 
 	public static final String DESCRIPTION = "LAction: void doExecute()";
 
+	@Override
+	@Deprecated
+	// calling this method via LAction interface should be discouraged.
+	default void run() {
+		this.nestingDoExecute();
+	}
+
 	public void doExecute();
 
-	default void run() {
-		doExecute();
+	default void nestingDoExecute() {
+		this.doExecute();
+	}
+
+	default void shovingDoExecute() {
+		this.doExecute();
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -78,20 +89,14 @@ public interface LAction extends Runnable, LActionX<RuntimeException>, MetaActio
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LAction wrapStd(final Runnable other) {
+	public static LAction wrap(final Runnable other) {
 		return other::run;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LAction wrap(final @Nonnull LActionX<X> other) {
-		return () -> {
-			try {
-				other.doExecute();
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoExecute;
 	}
 
 	// </editor-fold>
@@ -111,26 +116,25 @@ public interface LAction extends Runnable, LActionX<RuntimeException>, MetaActio
 	// </editor-fold>
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default Runnable std() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LAction nonThrowing() {
+	default LAction nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LActionX<RuntimeException> uncheck() {
-		return (LActionX) this;
+	default LActionX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LAction shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LActionX<RuntimeException> shoveX() {
 		return this;
 	}
 

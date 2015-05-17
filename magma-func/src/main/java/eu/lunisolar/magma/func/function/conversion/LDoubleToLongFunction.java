@@ -58,13 +58,29 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LDoubleToLongFunction extends java.util.function.DoubleToLongFunction, LDoubleToLongFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LDoubleToLongFunction extends LDoubleToLongFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
 	public static final String DESCRIPTION = "LDoubleToLongFunction: long doApplyAsLong(double d)";
 
+	@Override
+	@Deprecated
+	// calling this method via LDoubleToLongFunction interface should be discouraged.
+	default long applyAsLong(double d) {
+		return this.nestingDoApplyAsLong(d);
+	}
+
 	public long doApplyAsLong(double d);
 
-	default long applyAsLong(double d) {
+	default long nestingDoApplyAsLong(double d) {
+		return this.doApplyAsLong(d);
+	}
+
+	default long shovingDoApplyAsLong(double d) {
+		return this.doApplyAsLong(d);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default long nonNullDoApplyAsLong(double d) {
 		return doApplyAsLong(d);
 	}
 
@@ -83,11 +99,6 @@ public interface LDoubleToLongFunction extends java.util.function.DoubleToLongFu
 		return (d) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default long nonNull(double d) {
-		return doApplyAsLong(d);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LDoubleToLongFunction l(final @Nonnull LDoubleToLongFunction lambda) {
@@ -99,20 +110,14 @@ public interface LDoubleToLongFunction extends java.util.function.DoubleToLongFu
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LDoubleToLongFunction wrapStd(final java.util.function.DoubleToLongFunction other) {
+	public static LDoubleToLongFunction wrap(final java.util.function.DoubleToLongFunction other) {
 		return other::applyAsLong;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LDoubleToLongFunction wrap(final @Nonnull LDoubleToLongFunctionX<X> other) {
-		return (double d) -> {
-			try {
-				return other.doApplyAsLong(d);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApplyAsLong;
 	}
 
 	// </editor-fold>
@@ -208,26 +213,25 @@ public interface LDoubleToLongFunction extends java.util.function.DoubleToLongFu
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.DoubleToLongFunction std() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoubleToLongFunction nonThrowing() {
+	default LDoubleToLongFunction nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoubleToLongFunctionX<RuntimeException> uncheck() {
-		return (LDoubleToLongFunctionX) this;
+	default LDoubleToLongFunctionX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LDoubleToLongFunction shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoubleToLongFunctionX<RuntimeException> shoveX() {
 		return this;
 	}
 

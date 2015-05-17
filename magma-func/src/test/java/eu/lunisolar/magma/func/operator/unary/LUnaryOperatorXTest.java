@@ -82,6 +82,15 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
     private java.util.function.UnaryOperator jre = (Object t) -> testValue;
 
 
+    private LUnaryOperatorX<T,ParseException> sutAlwaysThrowing = LUnaryOperatorX.lX((T t) -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LUnaryOperatorX<T,RuntimeException> sutAlwaysThrowingUnckeck = LUnaryOperatorX.lX((T t) -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
     @Test
     public void testTheResult() throws ParseException {
         assertThat(sut.doApply((T)Integer.valueOf(100)))
@@ -89,14 +98,75 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testNonNullShouldNotModifyValue() throws ParseException {
-        assertThat(sut.nonNull((T)Integer.valueOf(100)))
+    public void testNonNullDoApply() throws ParseException {
+        assertThat(sut.nonNullDoApply((T)Integer.valueOf(100)))
             .isSameAs(testValue);
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LUnaryOperatorX: T doApply(T t) throws X).\\E")
+    @Test
+    public void testNestingDoApply_checked() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowing.nestingDoApply((T)Integer.valueOf(100));
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(NestedException.class)
+                    .hasCauseExactlyInstanceOf(ParseException.class)
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testNestingDoApply_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.nestingDoApply((T)Integer.valueOf(100));
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoApply_checked() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowing.shovingDoApply((T)Integer.valueOf(100));
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(ParseException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoApply_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.shovingDoApply((T)Integer.valueOf(100));
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LUnaryOperatorX: T doApply(T t) throws X).\\E")
     public void testNonNullCapturesNull() throws ParseException {
-        sutNull.nonNull((T)Integer.valueOf(100));
+        sutNull.nonNullDoApply((T)Integer.valueOf(100));
     }
 
 
@@ -120,7 +190,7 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
 
     @Test
     public void testWrapStdMethod() throws ParseException {
-        assertThat(LUnaryOperatorX.wrapStd(jre))
+        assertThat(LUnaryOperatorX.wrap(jre))
             .isInstanceOf(LUnaryOperatorX.class);
     }
 
@@ -526,19 +596,35 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
         assertThat(identityFunction.doApply((Integer )Integer.valueOf(80))).isEqualTo((Integer )Integer.valueOf(80));
     }
 
+//
+//    @Test
+//    public void testStd() {
+//        assertThat(sut.std()).isInstanceOf(java.util.function.UnaryOperator.class);
+//    }
+//
+//
     @Test
-    public void testStd() {
-        assertThat(sut.std()).isInstanceOf(java.util.function.UnaryOperator.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isInstanceOf(LUnaryOperator.class);
     }
 
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LUnaryOperator.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isInstanceOf(LUnaryOperator.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LUnaryOperatorX.class);
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isInstanceOf(LUnaryOperatorX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isInstanceOf(LUnaryOperatorX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

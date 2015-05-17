@@ -64,6 +64,19 @@ public interface LBiCharPredicate extends LBiCharPredicateX<RuntimeException>, M
 
 	public boolean doTest(char c1, char c2);
 
+	default boolean nestingDoTest(char c1, char c2) {
+		return this.doTest(c1, c2);
+	}
+
+	default boolean shovingDoTest(char c1, char c2) {
+		return this.doTest(c1, c2);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default boolean nonNullDoTest(char c1, char c2) {
+		return doTest(c1, c2);
+	}
+
 	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
 
 	default boolean doApplyAsBoolean(char c1, char c2) {
@@ -85,11 +98,6 @@ public interface LBiCharPredicate extends LBiCharPredicateX<RuntimeException>, M
 		return (c1, c2) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNull(char c1, char c2) {
-		return doTest(c1, c2);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LBiCharPredicate l(final @Nonnull LBiCharPredicate lambda) {
@@ -102,13 +110,7 @@ public interface LBiCharPredicate extends LBiCharPredicateX<RuntimeException>, M
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LBiCharPredicate wrap(final @Nonnull LBiCharPredicateX<X> other) {
-		return (char c1, char c2) -> {
-			try {
-				return other.doTest(c1, c2);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoTest;
 	}
 
 	// </editor-fold>
@@ -198,18 +200,23 @@ public interface LBiCharPredicate extends LBiCharPredicateX<RuntimeException>, M
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiCharPredicate nonThrowing() {
+	default LBiCharPredicate nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiCharPredicateX<RuntimeException> uncheck() {
-		return (LBiCharPredicateX) this;
+	default LBiCharPredicateX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBiCharPredicate shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBiCharPredicateX<RuntimeException> shoveX() {
 		return this;
 	}
 

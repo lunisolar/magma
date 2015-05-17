@@ -58,11 +58,37 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LIntBinaryOperatorX<X extends Exception> extends MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LIntBinaryOperatorX<X extends Exception> extends java.util.function.IntBinaryOperator, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
 	public static final String DESCRIPTION = "LIntBinaryOperatorX: int doApplyAsInt(int i1,int i2) throws X";
 
+	@Override
+	@Deprecated
+	// calling this method via LIntBinaryOperatorX interface should be discouraged.
+	default int applyAsInt(int i1, int i2) {
+		return this.nestingDoApplyAsInt(i1, i2);
+	}
+
 	public int doApplyAsInt(int i1, int i2) throws X;
+
+	default int nestingDoApplyAsInt(int i1, int i2) {
+		try {
+			return this.doApplyAsInt(i1, i2);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default int shovingDoApplyAsInt(int i1, int i2) {
+		return ((LIntBinaryOperatorX<RuntimeException>) this).doApplyAsInt(i1, i2);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default int nonNullDoApplyAsInt(int i1, int i2) throws X {
+		return doApplyAsInt(i1, i2);
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -79,11 +105,6 @@ public interface LIntBinaryOperatorX<X extends Exception> extends MetaOperator, 
 		return (i1, i2) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default int nonNull(int i1, int i2) throws X {
-		return doApplyAsInt(i1, i2);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <X extends Exception> LIntBinaryOperatorX<X> lX(final @Nonnull LIntBinaryOperatorX<X> lambda) {
@@ -95,14 +116,14 @@ public interface LIntBinaryOperatorX<X extends Exception> extends MetaOperator, 
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Exception> LIntBinaryOperatorX<X> wrapStd(final java.util.function.IntBinaryOperator other) {
+	public static <X extends Exception> LIntBinaryOperatorX<X> wrap(final java.util.function.IntBinaryOperator other) {
 		return other::applyAsInt;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LIntBinaryOperatorX<X> wrapX(final @Nonnull LIntBinaryOperator other) {
-		return other::doApplyAsInt;
+		return (LIntBinaryOperatorX) other;
 	}
 
 	// </editor-fold>
@@ -163,28 +184,26 @@ public interface LIntBinaryOperatorX<X extends Exception> extends MetaOperator, 
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.IntBinaryOperator std() {
-		return LIntBinaryOperator.wrap(this)::doApplyAsInt;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntBinaryOperator nonThrowing() {
-		return LIntBinaryOperator.wrap(this);
+	default LIntBinaryOperator nest() {
+		return this::nestingDoApplyAsInt;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntBinaryOperatorX<RuntimeException> uncheck() {
-		return (LIntBinaryOperatorX) this;
+	default LIntBinaryOperatorX<RuntimeException> nestX() {
+		return this::nestingDoApplyAsInt;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LIntBinaryOperator shove() {
-		LIntBinaryOperatorX<RuntimeException> exceptionCast = (LIntBinaryOperatorX<RuntimeException>) this;
-		return exceptionCast::doApplyAsInt;
+		return this::shovingDoApplyAsInt;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntBinaryOperatorX<RuntimeException> shoveX() {
+		return this::shovingDoApplyAsInt;
 	}
 
 	// </editor-fold>

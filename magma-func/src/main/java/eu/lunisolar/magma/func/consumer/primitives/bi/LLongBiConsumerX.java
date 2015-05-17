@@ -65,6 +65,20 @@ public interface LLongBiConsumerX<X extends Exception> extends MetaConsumer, Met
 
 	public void doAccept(long l1, long l2) throws X;
 
+	default void nestingDoAccept(long l1, long l2) {
+		try {
+			this.doAccept(l1, l2);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default void shovingDoAccept(long l1, long l2) {
+		((LLongBiConsumerX<RuntimeException>) this).doAccept(l1, l2);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -88,7 +102,7 @@ public interface LLongBiConsumerX<X extends Exception> extends MetaConsumer, Met
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LLongBiConsumerX<X> wrapX(final @Nonnull LLongBiConsumer other) {
-		return other::doAccept;
+		return (LLongBiConsumerX) other;
 	}
 
 	// </editor-fold>
@@ -134,20 +148,24 @@ public interface LLongBiConsumerX<X extends Exception> extends MetaConsumer, Met
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LLongBiConsumer nonThrowing() {
-		return LLongBiConsumer.wrap(this);
+	default LLongBiConsumer nest() {
+		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LLongBiConsumerX<RuntimeException> uncheck() {
-		return (LLongBiConsumerX) this;
+	default LLongBiConsumerX<RuntimeException> nestX() {
+		return this::nestingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLongBiConsumer shove() {
-		LLongBiConsumerX<RuntimeException> exceptionCast = (LLongBiConsumerX<RuntimeException>) this;
-		return exceptionCast::doAccept;
+		return this::shovingDoAccept;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LLongBiConsumerX<RuntimeException> shoveX() {
+		return this::shovingDoAccept;
 	}
 
 	// </editor-fold>

@@ -64,6 +64,19 @@ public interface LToFloatBiFunction<T1, T2> extends LToFloatBiFunctionX<T1, T2, 
 
 	public float doApplyAsFloat(T1 t1, T2 t2);
 
+	default float nestingDoApplyAsFloat(T1 t1, T2 t2) {
+		return this.doApplyAsFloat(t1, t2);
+	}
+
+	default float shovingDoApplyAsFloat(T1 t1, T2 t2) {
+		return this.doApplyAsFloat(t1, t2);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default float nonNullDoApplyAsFloat(T1 t1, T2 t2) {
+		return doApplyAsFloat(t1, t2);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +92,6 @@ public interface LToFloatBiFunction<T1, T2> extends LToFloatBiFunctionX<T1, T2, 
 		return (t1, t2) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default float nonNull(T1 t1, T2 t2) {
-		return doApplyAsFloat(t1, t2);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T1, T2> LToFloatBiFunction<T1, T2> l(final @Nonnull LToFloatBiFunction<T1, T2> lambda) {
@@ -96,13 +104,7 @@ public interface LToFloatBiFunction<T1, T2> extends LToFloatBiFunctionX<T1, T2, 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T1, T2, X extends Exception> LToFloatBiFunction<T1, T2> wrap(final @Nonnull LToFloatBiFunctionX<T1, T2, X> other) {
-		return (T1 t1, T2 t2) -> {
-			try {
-				return other.doApplyAsFloat(t1, t2);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApplyAsFloat;
 	}
 
 	// </editor-fold>
@@ -136,18 +138,23 @@ public interface LToFloatBiFunction<T1, T2> extends LToFloatBiFunctionX<T1, T2, 
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToFloatBiFunction<T1, T2> nonThrowing() {
+	default LToFloatBiFunction<T1, T2> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToFloatBiFunctionX<T1, T2, RuntimeException> uncheck() {
-		return (LToFloatBiFunctionX) this;
+	default LToFloatBiFunctionX<T1, T2, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LToFloatBiFunction<T1, T2> shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToFloatBiFunctionX<T1, T2, RuntimeException> shoveX() {
 		return this;
 	}
 

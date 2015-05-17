@@ -64,6 +64,25 @@ public interface LBytePredicateX<X extends Exception> extends MetaPredicate, Pri
 
 	public boolean doTest(byte b) throws X;
 
+	default boolean nestingDoTest(byte b) {
+		try {
+			return this.doTest(b);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default boolean shovingDoTest(byte b) {
+		return ((LBytePredicateX<RuntimeException>) this).doTest(b);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default boolean nonNullDoTest(byte b) throws X {
+		return doTest(b);
+	}
+
 	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
 
 	default boolean doApplyAsBoolean(byte b) throws X {
@@ -85,11 +104,6 @@ public interface LBytePredicateX<X extends Exception> extends MetaPredicate, Pri
 		return (b) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNull(byte b) throws X {
-		return doTest(b);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <X extends Exception> LBytePredicateX<X> lX(final @Nonnull LBytePredicateX<X> lambda) {
@@ -102,7 +116,7 @@ public interface LBytePredicateX<X extends Exception> extends MetaPredicate, Pri
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LBytePredicateX<X> wrapX(final @Nonnull LBytePredicate other) {
-		return other::doTest;
+		return (LBytePredicateX) other;
 	}
 
 	// </editor-fold>
@@ -243,20 +257,24 @@ public interface LBytePredicateX<X extends Exception> extends MetaPredicate, Pri
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBytePredicate nonThrowing() {
-		return LBytePredicate.wrap(this);
+	default LBytePredicate nest() {
+		return this::nestingDoTest;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBytePredicateX<RuntimeException> uncheck() {
-		return (LBytePredicateX) this;
+	default LBytePredicateX<RuntimeException> nestX() {
+		return this::nestingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBytePredicate shove() {
-		LBytePredicateX<RuntimeException> exceptionCast = (LBytePredicateX<RuntimeException>) this;
-		return exceptionCast::doTest;
+		return this::shovingDoTest;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBytePredicateX<RuntimeException> shoveX() {
+		return this::shovingDoTest;
 	}
 
 	// </editor-fold>

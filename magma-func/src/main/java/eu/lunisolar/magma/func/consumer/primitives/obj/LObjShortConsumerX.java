@@ -65,6 +65,20 @@ public interface LObjShortConsumerX<T, X extends Exception> extends MetaConsumer
 
 	public void doAccept(T t, short s) throws X;
 
+	default void nestingDoAccept(T t, short s) {
+		try {
+			this.doAccept(t, s);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default void shovingDoAccept(T t, short s) {
+		((LObjShortConsumerX<T, RuntimeException>) this).doAccept(t, s);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -88,7 +102,7 @@ public interface LObjShortConsumerX<T, X extends Exception> extends MetaConsumer
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T, X extends Exception> LObjShortConsumerX<T, X> wrapX(final @Nonnull LObjShortConsumer<T> other) {
-		return other::doAccept;
+		return (LObjShortConsumerX) other;
 	}
 
 	// </editor-fold>
@@ -134,20 +148,24 @@ public interface LObjShortConsumerX<T, X extends Exception> extends MetaConsumer
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjShortConsumer<T> nonThrowing() {
-		return LObjShortConsumer.wrap(this);
+	default LObjShortConsumer<T> nest() {
+		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjShortConsumerX<T, RuntimeException> uncheck() {
-		return (LObjShortConsumerX) this;
+	default LObjShortConsumerX<T, RuntimeException> nestX() {
+		return this::nestingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjShortConsumer<T> shove() {
-		LObjShortConsumerX<T, RuntimeException> exceptionCast = (LObjShortConsumerX<T, RuntimeException>) this;
-		return exceptionCast::doAccept;
+		return this::shovingDoAccept;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LObjShortConsumerX<T, RuntimeException> shoveX() {
+		return this::shovingDoAccept;
 	}
 
 	// </editor-fold>

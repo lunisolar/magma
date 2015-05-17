@@ -58,13 +58,29 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LToLongFunction<T> extends java.util.function.ToLongFunction<T>, LToLongFunctionX<T, RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LToLongFunction<T> extends LToLongFunctionX<T, RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
 	public static final String DESCRIPTION = "LToLongFunction: long doApplyAsLong(T t)";
 
+	@Override
+	@Deprecated
+	// calling this method via LToLongFunction interface should be discouraged.
+	default long applyAsLong(T t) {
+		return this.nestingDoApplyAsLong(t);
+	}
+
 	public long doApplyAsLong(T t);
 
-	default long applyAsLong(T t) {
+	default long nestingDoApplyAsLong(T t) {
+		return this.doApplyAsLong(t);
+	}
+
+	default long shovingDoApplyAsLong(T t) {
+		return this.doApplyAsLong(t);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default long nonNullDoApplyAsLong(T t) {
 		return doApplyAsLong(t);
 	}
 
@@ -83,11 +99,6 @@ public interface LToLongFunction<T> extends java.util.function.ToLongFunction<T>
 		return (t) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default long nonNull(T t) {
-		return doApplyAsLong(t);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T> LToLongFunction<T> l(final @Nonnull LToLongFunction<T> lambda) {
@@ -99,20 +110,14 @@ public interface LToLongFunction<T> extends java.util.function.ToLongFunction<T>
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T> LToLongFunction<T> wrapStd(final java.util.function.ToLongFunction<T> other) {
+	public static <T> LToLongFunction<T> wrap(final java.util.function.ToLongFunction<T> other) {
 		return other::applyAsLong;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T, X extends Exception> LToLongFunction<T> wrap(final @Nonnull LToLongFunctionX<T, X> other) {
-		return (T t) -> {
-			try {
-				return other.doApplyAsLong(t);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApplyAsLong;
 	}
 
 	// </editor-fold>
@@ -199,26 +204,25 @@ public interface LToLongFunction<T> extends java.util.function.ToLongFunction<T>
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.ToLongFunction<T> std() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToLongFunction<T> nonThrowing() {
+	default LToLongFunction<T> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToLongFunctionX<T, RuntimeException> uncheck() {
-		return (LToLongFunctionX) this;
+	default LToLongFunctionX<T, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LToLongFunction<T> shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToLongFunctionX<T, RuntimeException> shoveX() {
 		return this;
 	}
 

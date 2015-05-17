@@ -74,6 +74,15 @@ public class LShortToCharFunctionXTest<X extends ParseException> {
 
 
 
+    private LShortToCharFunctionX<ParseException> sutAlwaysThrowing = LShortToCharFunctionX.lX((short s) -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LShortToCharFunctionX<RuntimeException> sutAlwaysThrowingUnckeck = LShortToCharFunctionX.lX((short s) -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
     @Test
     public void testTheResult() throws ParseException {
         assertThat(sut.doApplyAsChar((short)100))
@@ -81,10 +90,71 @@ public class LShortToCharFunctionXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNonNullShouldNotModifyValue() throws ParseException {
-        assertThat(sut.nonNull((short)100))
+    public void testNonNullDoApplyAsChar() throws ParseException {
+        assertThat(sut.nonNullDoApplyAsChar((short)100))
             .isEqualTo(testValue);
     }
+
+    @Test
+    public void testNestingDoApplyAsChar_checked() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowing.nestingDoApplyAsChar((short)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(NestedException.class)
+                    .hasCauseExactlyInstanceOf(ParseException.class)
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testNestingDoApplyAsChar_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.nestingDoApplyAsChar((short)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoApplyAsChar_checked() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowing.shovingDoApplyAsChar((short)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(ParseException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoApplyAsChar_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.shovingDoApplyAsChar((short)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
 
 
     @Test
@@ -562,14 +632,29 @@ public class LShortToCharFunctionXTest<X extends ParseException> {
 
 
     // </editor-fold>
+//
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LShortToCharFunction.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isInstanceOf(LShortToCharFunction.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LShortToCharFunctionX.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isInstanceOf(LShortToCharFunction.class);
+    }
+
+    @Test
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isInstanceOf(LShortToCharFunctionX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isInstanceOf(LShortToCharFunctionX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

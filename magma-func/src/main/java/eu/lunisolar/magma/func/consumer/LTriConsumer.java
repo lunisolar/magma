@@ -65,6 +65,14 @@ public interface LTriConsumer<T1, T2, T3> extends LTriConsumerX<T1, T2, T3, Runt
 
 	public void doAccept(T1 t1, T2 t2, T3 t3);
 
+	default void nestingDoAccept(T1 t1, T2 t2, T3 t3) {
+		this.doAccept(t1, t2, t3);
+	}
+
+	default void shovingDoAccept(T1 t1, T2 t2, T3 t3) {
+		this.doAccept(t1, t2, t3);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -88,13 +96,7 @@ public interface LTriConsumer<T1, T2, T3> extends LTriConsumerX<T1, T2, T3, Runt
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T1, T2, T3, X extends Exception> LTriConsumer<T1, T2, T3> wrap(final @Nonnull LTriConsumerX<T1, T2, T3, X> other) {
-		return (T1 t1, T2 t2, T3 t3) -> {
-			try {
-				other.doAccept(t1, t2, t3);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoAccept;
 	}
 
 	// </editor-fold>
@@ -131,18 +133,23 @@ public interface LTriConsumer<T1, T2, T3> extends LTriConsumerX<T1, T2, T3, Runt
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LTriConsumer<T1, T2, T3> nonThrowing() {
+	default LTriConsumer<T1, T2, T3> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LTriConsumerX<T1, T2, T3, RuntimeException> uncheck() {
-		return (LTriConsumerX) this;
+	default LTriConsumerX<T1, T2, T3, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LTriConsumer<T1, T2, T3> shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LTriConsumerX<T1, T2, T3, RuntimeException> shoveX() {
 		return this;
 	}
 

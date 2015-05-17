@@ -74,6 +74,15 @@ public class LObjDoubleConsumerXTest<T,X extends ParseException> {
     private java.util.function.ObjDoubleConsumer jre = (Object t, double d) -> Function4U.doNothing();
 
 
+    private LObjDoubleConsumerX<T,ParseException> sutAlwaysThrowing = LObjDoubleConsumerX.lX((T t, double d) -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LObjDoubleConsumerX<T,RuntimeException> sutAlwaysThrowingUnckeck = LObjDoubleConsumerX.lX((T t, double d) -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
 
 
     @Test
@@ -96,7 +105,7 @@ public class LObjDoubleConsumerXTest<T,X extends ParseException> {
 
     @Test
     public void testWrapStdMethod() throws ParseException {
-        assertThat(LObjDoubleConsumerX.wrapStd(jre))
+        assertThat(LObjDoubleConsumerX.wrap(jre))
             .isInstanceOf(LObjDoubleConsumerX.class);
     }
 
@@ -276,19 +285,35 @@ public class LObjDoubleConsumerXTest<T,X extends ParseException> {
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
+//
+//    @Test
+//    public void testStd() {
+//        assertThat(sut.std()).isInstanceOf(java.util.function.ObjDoubleConsumer.class);
+//    }
+//
+//
     @Test
-    public void testStd() {
-        assertThat(sut.std()).isInstanceOf(java.util.function.ObjDoubleConsumer.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isInstanceOf(LObjDoubleConsumer.class);
     }
 
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LObjDoubleConsumer.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isInstanceOf(LObjDoubleConsumer.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LObjDoubleConsumerX.class);
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isInstanceOf(LObjDoubleConsumerX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isInstanceOf(LObjDoubleConsumerX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

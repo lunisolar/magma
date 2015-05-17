@@ -65,6 +65,22 @@ public interface LBooleanFunction<R> extends LBooleanFunctionX<R, RuntimeExcepti
 	@Nullable
 	public R doApply(boolean b);
 
+	default R nestingDoApply(boolean b) {
+		return this.doApply(b);
+	}
+
+	default R shovingDoApply(boolean b) {
+		return this.doApply(b);
+	}
+
+	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+
+	/** Ensures the result is not null */
+	@Nonnull
+	default R nonNullDoApply(boolean b) {
+		return Objects.requireNonNull(doApply(b), NULL_VALUE_MESSAGE_SUPPLIER);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -80,14 +96,6 @@ public interface LBooleanFunction<R> extends LBooleanFunctionX<R, RuntimeExcepti
 		return (b) -> r;
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
-
-	/** Ensures the result is not null */
-	@Nonnull
-	default R nonNull(boolean b) {
-		return Objects.requireNonNull(doApply(b), NULL_VALUE_MESSAGE_SUPPLIER);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <R> LBooleanFunction<R> l(final @Nonnull LBooleanFunction<R> lambda) {
@@ -100,13 +108,7 @@ public interface LBooleanFunction<R> extends LBooleanFunctionX<R, RuntimeExcepti
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <R, X extends Exception> LBooleanFunction<R> wrap(final @Nonnull LBooleanFunctionX<R, X> other) {
-		return (boolean b) -> {
-			try {
-				return other.doApply(b);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApply;
 	}
 
 	// </editor-fold>
@@ -211,14 +213,14 @@ public interface LBooleanFunction<R> extends LBooleanFunctionX<R, RuntimeExcepti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanFunction<R> nonThrowing() {
+	default LBooleanFunction<R> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanFunctionX<R, RuntimeException> uncheck() {
-		return (LBooleanFunctionX) this;
+	default LBooleanFunctionX<R, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
@@ -226,11 +228,16 @@ public interface LBooleanFunction<R> extends LBooleanFunctionX<R, RuntimeExcepti
 		return this;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBooleanFunctionX<R, RuntimeException> shoveX() {
+		return this;
+	}
+
 	// </editor-fold>
 
 	@Nonnull
 	default LBooleanFunction<R> nonNullable() {
-		return (b) -> Objects.requireNonNull(this.doApply(b));
+		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">

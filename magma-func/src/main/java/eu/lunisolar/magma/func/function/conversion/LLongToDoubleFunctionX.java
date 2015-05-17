@@ -58,11 +58,37 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LLongToDoubleFunctionX<X extends Exception> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LLongToDoubleFunctionX<X extends Exception> extends java.util.function.LongToDoubleFunction, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
 	public static final String DESCRIPTION = "LLongToDoubleFunctionX: double doApplyAsDouble(long l) throws X";
 
+	@Override
+	@Deprecated
+	// calling this method via LLongToDoubleFunctionX interface should be discouraged.
+	default double applyAsDouble(long l) {
+		return this.nestingDoApplyAsDouble(l);
+	}
+
 	public double doApplyAsDouble(long l) throws X;
+
+	default double nestingDoApplyAsDouble(long l) {
+		try {
+			return this.doApplyAsDouble(l);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default double shovingDoApplyAsDouble(long l) {
+		return ((LLongToDoubleFunctionX<RuntimeException>) this).doApplyAsDouble(l);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default double nonNullDoApplyAsDouble(long l) throws X {
+		return doApplyAsDouble(l);
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -79,11 +105,6 @@ public interface LLongToDoubleFunctionX<X extends Exception> extends MetaFunctio
 		return (l) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default double nonNull(long l) throws X {
-		return doApplyAsDouble(l);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <X extends Exception> LLongToDoubleFunctionX<X> lX(final @Nonnull LLongToDoubleFunctionX<X> lambda) {
@@ -95,14 +116,14 @@ public interface LLongToDoubleFunctionX<X extends Exception> extends MetaFunctio
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Exception> LLongToDoubleFunctionX<X> wrapStd(final java.util.function.LongToDoubleFunction other) {
+	public static <X extends Exception> LLongToDoubleFunctionX<X> wrap(final java.util.function.LongToDoubleFunction other) {
 		return other::applyAsDouble;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LLongToDoubleFunctionX<X> wrapX(final @Nonnull LLongToDoubleFunction other) {
-		return other::doApplyAsDouble;
+		return (LLongToDoubleFunctionX) other;
 	}
 
 	// </editor-fold>
@@ -198,28 +219,26 @@ public interface LLongToDoubleFunctionX<X extends Exception> extends MetaFunctio
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.LongToDoubleFunction std() {
-		return LLongToDoubleFunction.wrap(this)::doApplyAsDouble;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LLongToDoubleFunction nonThrowing() {
-		return LLongToDoubleFunction.wrap(this);
+	default LLongToDoubleFunction nest() {
+		return this::nestingDoApplyAsDouble;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LLongToDoubleFunctionX<RuntimeException> uncheck() {
-		return (LLongToDoubleFunctionX) this;
+	default LLongToDoubleFunctionX<RuntimeException> nestX() {
+		return this::nestingDoApplyAsDouble;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLongToDoubleFunction shove() {
-		LLongToDoubleFunctionX<RuntimeException> exceptionCast = (LLongToDoubleFunctionX<RuntimeException>) this;
-		return exceptionCast::doApplyAsDouble;
+		return this::shovingDoApplyAsDouble;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LLongToDoubleFunctionX<RuntimeException> shoveX() {
+		return this::shovingDoApplyAsDouble;
 	}
 
 	// </editor-fold>

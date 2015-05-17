@@ -64,6 +64,19 @@ public interface LByteToFloatFunction extends LByteToFloatFunctionX<RuntimeExcep
 
 	public float doApplyAsFloat(byte b);
 
+	default float nestingDoApplyAsFloat(byte b) {
+		return this.doApplyAsFloat(b);
+	}
+
+	default float shovingDoApplyAsFloat(byte b) {
+		return this.doApplyAsFloat(b);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default float nonNullDoApplyAsFloat(byte b) {
+		return doApplyAsFloat(b);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +92,6 @@ public interface LByteToFloatFunction extends LByteToFloatFunctionX<RuntimeExcep
 		return (b) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default float nonNull(byte b) {
-		return doApplyAsFloat(b);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LByteToFloatFunction l(final @Nonnull LByteToFloatFunction lambda) {
@@ -96,13 +104,7 @@ public interface LByteToFloatFunction extends LByteToFloatFunctionX<RuntimeExcep
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LByteToFloatFunction wrap(final @Nonnull LByteToFloatFunctionX<X> other) {
-		return (byte b) -> {
-			try {
-				return other.doApplyAsFloat(b);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApplyAsFloat;
 	}
 
 	// </editor-fold>
@@ -200,18 +202,23 @@ public interface LByteToFloatFunction extends LByteToFloatFunctionX<RuntimeExcep
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LByteToFloatFunction nonThrowing() {
+	default LByteToFloatFunction nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LByteToFloatFunctionX<RuntimeException> uncheck() {
-		return (LByteToFloatFunctionX) this;
+	default LByteToFloatFunctionX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LByteToFloatFunction shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LByteToFloatFunctionX<RuntimeException> shoveX() {
 		return this;
 	}
 

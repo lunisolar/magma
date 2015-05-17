@@ -58,15 +58,34 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LDoubleFunction<R> extends java.util.function.DoubleFunction<R>, LDoubleFunctionX<R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
+public interface LDoubleFunction<R> extends LDoubleFunctionX<R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
 	public static final String DESCRIPTION = "LDoubleFunction: R doApply(double d)";
+
+	@Override
+	@Deprecated
+	// calling this method via LDoubleFunction interface should be discouraged.
+	default R apply(double d) {
+		return this.nestingDoApply(d);
+	}
 
 	@Nullable
 	public R doApply(double d);
 
-	default R apply(double d) {
-		return doApply(d);
+	default R nestingDoApply(double d) {
+		return this.doApply(d);
+	}
+
+	default R shovingDoApply(double d) {
+		return this.doApply(d);
+	}
+
+	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+
+	/** Ensures the result is not null */
+	@Nonnull
+	default R nonNullDoApply(double d) {
+		return Objects.requireNonNull(doApply(d), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -84,14 +103,6 @@ public interface LDoubleFunction<R> extends java.util.function.DoubleFunction<R>
 		return (d) -> r;
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
-
-	/** Ensures the result is not null */
-	@Nonnull
-	default R nonNull(double d) {
-		return Objects.requireNonNull(doApply(d), NULL_VALUE_MESSAGE_SUPPLIER);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <R> LDoubleFunction<R> l(final @Nonnull LDoubleFunction<R> lambda) {
@@ -103,20 +114,14 @@ public interface LDoubleFunction<R> extends java.util.function.DoubleFunction<R>
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <R> LDoubleFunction<R> wrapStd(final java.util.function.DoubleFunction<R> other) {
+	public static <R> LDoubleFunction<R> wrap(final java.util.function.DoubleFunction<R> other) {
 		return other::apply;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <R, X extends Exception> LDoubleFunction<R> wrap(final @Nonnull LDoubleFunctionX<R, X> other) {
-		return (double d) -> {
-			try {
-				return other.doApply(d);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApply;
 	}
 
 	// </editor-fold>
@@ -219,22 +224,16 @@ public interface LDoubleFunction<R> extends java.util.function.DoubleFunction<R>
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.DoubleFunction<R> std() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoubleFunction<R> nonThrowing() {
+	default LDoubleFunction<R> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoubleFunctionX<R, RuntimeException> uncheck() {
-		return (LDoubleFunctionX) this;
+	default LDoubleFunctionX<R, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
@@ -242,11 +241,16 @@ public interface LDoubleFunction<R> extends java.util.function.DoubleFunction<R>
 		return this;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoubleFunctionX<R, RuntimeException> shoveX() {
+		return this;
+	}
+
 	// </editor-fold>
 
 	@Nonnull
 	default LDoubleFunction<R> nonNullable() {
-		return (d) -> Objects.requireNonNull(this.doApply(d));
+		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">

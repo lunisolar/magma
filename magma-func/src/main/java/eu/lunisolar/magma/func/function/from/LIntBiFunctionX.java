@@ -65,6 +65,28 @@ public interface LIntBiFunctionX<R, X extends Exception> extends MetaFunction, M
 	@Nullable
 	public R doApply(int i1, int i2) throws X;
 
+	default R nestingDoApply(int i1, int i2) {
+		try {
+			return this.doApply(i1, i2);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default R shovingDoApply(int i1, int i2) {
+		return ((LIntBiFunctionX<R, RuntimeException>) this).doApply(i1, i2);
+	}
+
+	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+
+	/** Ensures the result is not null */
+	@Nonnull
+	default R nonNullDoApply(int i1, int i2) throws X {
+		return Objects.requireNonNull(doApply(i1, i2), NULL_VALUE_MESSAGE_SUPPLIER);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -80,14 +102,6 @@ public interface LIntBiFunctionX<R, X extends Exception> extends MetaFunction, M
 		return (i1, i2) -> r;
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
-
-	/** Ensures the result is not null */
-	@Nonnull
-	default R nonNull(int i1, int i2) throws X {
-		return Objects.requireNonNull(doApply(i1, i2), NULL_VALUE_MESSAGE_SUPPLIER);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <R, X extends Exception> LIntBiFunctionX<R, X> lX(final @Nonnull LIntBiFunctionX<R, X> lambda) {
@@ -100,7 +114,7 @@ public interface LIntBiFunctionX<R, X extends Exception> extends MetaFunction, M
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <R, X extends Exception> LIntBiFunctionX<R, X> wrapX(final @Nonnull LIntBiFunction<R> other) {
-		return other::doApply;
+		return (LIntBiFunctionX) other;
 	}
 
 	// </editor-fold>
@@ -151,27 +165,31 @@ public interface LIntBiFunctionX<R, X extends Exception> extends MetaFunction, M
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntBiFunction<R> nonThrowing() {
-		return LIntBiFunction.wrap(this);
+	default LIntBiFunction<R> nest() {
+		return this::nestingDoApply;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntBiFunctionX<R, RuntimeException> uncheck() {
-		return (LIntBiFunctionX) this;
+	default LIntBiFunctionX<R, RuntimeException> nestX() {
+		return this::nestingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LIntBiFunction<R> shove() {
-		LIntBiFunctionX<R, RuntimeException> exceptionCast = (LIntBiFunctionX<R, RuntimeException>) this;
-		return exceptionCast::doApply;
+		return this::shovingDoApply;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntBiFunctionX<R, RuntimeException> shoveX() {
+		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
 	default LIntBiFunctionX<R, X> nonNullableX() {
-		return (i1, i2) -> Objects.requireNonNull(this.doApply(i1, i2));
+		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">

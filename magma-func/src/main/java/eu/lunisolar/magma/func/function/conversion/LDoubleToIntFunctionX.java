@@ -58,11 +58,37 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LDoubleToIntFunctionX<X extends Exception> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LDoubleToIntFunctionX<X extends Exception> extends java.util.function.DoubleToIntFunction, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
 	public static final String DESCRIPTION = "LDoubleToIntFunctionX: int doApplyAsInt(double d) throws X";
 
+	@Override
+	@Deprecated
+	// calling this method via LDoubleToIntFunctionX interface should be discouraged.
+	default int applyAsInt(double d) {
+		return this.nestingDoApplyAsInt(d);
+	}
+
 	public int doApplyAsInt(double d) throws X;
+
+	default int nestingDoApplyAsInt(double d) {
+		try {
+			return this.doApplyAsInt(d);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default int shovingDoApplyAsInt(double d) {
+		return ((LDoubleToIntFunctionX<RuntimeException>) this).doApplyAsInt(d);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default int nonNullDoApplyAsInt(double d) throws X {
+		return doApplyAsInt(d);
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -79,11 +105,6 @@ public interface LDoubleToIntFunctionX<X extends Exception> extends MetaFunction
 		return (d) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default int nonNull(double d) throws X {
-		return doApplyAsInt(d);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <X extends Exception> LDoubleToIntFunctionX<X> lX(final @Nonnull LDoubleToIntFunctionX<X> lambda) {
@@ -95,14 +116,14 @@ public interface LDoubleToIntFunctionX<X extends Exception> extends MetaFunction
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Exception> LDoubleToIntFunctionX<X> wrapStd(final java.util.function.DoubleToIntFunction other) {
+	public static <X extends Exception> LDoubleToIntFunctionX<X> wrap(final java.util.function.DoubleToIntFunction other) {
 		return other::applyAsInt;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LDoubleToIntFunctionX<X> wrapX(final @Nonnull LDoubleToIntFunction other) {
-		return other::doApplyAsInt;
+		return (LDoubleToIntFunctionX) other;
 	}
 
 	// </editor-fold>
@@ -198,28 +219,26 @@ public interface LDoubleToIntFunctionX<X extends Exception> extends MetaFunction
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.DoubleToIntFunction std() {
-		return LDoubleToIntFunction.wrap(this)::doApplyAsInt;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoubleToIntFunction nonThrowing() {
-		return LDoubleToIntFunction.wrap(this);
+	default LDoubleToIntFunction nest() {
+		return this::nestingDoApplyAsInt;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoubleToIntFunctionX<RuntimeException> uncheck() {
-		return (LDoubleToIntFunctionX) this;
+	default LDoubleToIntFunctionX<RuntimeException> nestX() {
+		return this::nestingDoApplyAsInt;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LDoubleToIntFunction shove() {
-		LDoubleToIntFunctionX<RuntimeException> exceptionCast = (LDoubleToIntFunctionX<RuntimeException>) this;
-		return exceptionCast::doApplyAsInt;
+		return this::shovingDoApplyAsInt;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoubleToIntFunctionX<RuntimeException> shoveX() {
+		return this::shovingDoApplyAsInt;
 	}
 
 	// </editor-fold>

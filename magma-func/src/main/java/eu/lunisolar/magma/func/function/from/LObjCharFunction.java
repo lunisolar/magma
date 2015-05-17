@@ -65,6 +65,22 @@ public interface LObjCharFunction<T, R> extends LObjCharFunctionX<T, R, RuntimeE
 	@Nullable
 	public R doApply(T t, char c);
 
+	default R nestingDoApply(T t, char c) {
+		return this.doApply(t, c);
+	}
+
+	default R shovingDoApply(T t, char c) {
+		return this.doApply(t, c);
+	}
+
+	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+
+	/** Ensures the result is not null */
+	@Nonnull
+	default R nonNullDoApply(T t, char c) {
+		return Objects.requireNonNull(doApply(t, c), NULL_VALUE_MESSAGE_SUPPLIER);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -80,14 +96,6 @@ public interface LObjCharFunction<T, R> extends LObjCharFunctionX<T, R, RuntimeE
 		return (t, c) -> r;
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
-
-	/** Ensures the result is not null */
-	@Nonnull
-	default R nonNull(T t, char c) {
-		return Objects.requireNonNull(doApply(t, c), NULL_VALUE_MESSAGE_SUPPLIER);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T, R> LObjCharFunction<T, R> l(final @Nonnull LObjCharFunction<T, R> lambda) {
@@ -100,13 +108,7 @@ public interface LObjCharFunction<T, R> extends LObjCharFunctionX<T, R, RuntimeE
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T, R, X extends Exception> LObjCharFunction<T, R> wrap(final @Nonnull LObjCharFunctionX<T, R, X> other) {
-		return (T t, char c) -> {
-			try {
-				return other.doApply(t, c);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApply;
 	}
 
 	// </editor-fold>
@@ -157,14 +159,14 @@ public interface LObjCharFunction<T, R> extends LObjCharFunctionX<T, R, RuntimeE
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjCharFunction<T, R> nonThrowing() {
+	default LObjCharFunction<T, R> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjCharFunctionX<T, R, RuntimeException> uncheck() {
-		return (LObjCharFunctionX) this;
+	default LObjCharFunctionX<T, R, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
@@ -172,11 +174,16 @@ public interface LObjCharFunction<T, R> extends LObjCharFunctionX<T, R, RuntimeE
 		return this;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LObjCharFunctionX<T, R, RuntimeException> shoveX() {
+		return this;
+	}
+
 	// </editor-fold>
 
 	@Nonnull
 	default LObjCharFunction<T, R> nonNullable() {
-		return (t, c) -> Objects.requireNonNull(this.doApply(t, c));
+		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">

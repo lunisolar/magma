@@ -65,6 +65,14 @@ public interface LLongBiConsumer extends LLongBiConsumerX<RuntimeException>, Met
 
 	public void doAccept(long l1, long l2);
 
+	default void nestingDoAccept(long l1, long l2) {
+		this.doAccept(l1, l2);
+	}
+
+	default void shovingDoAccept(long l1, long l2) {
+		this.doAccept(l1, l2);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -88,13 +96,7 @@ public interface LLongBiConsumer extends LLongBiConsumerX<RuntimeException>, Met
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LLongBiConsumer wrap(final @Nonnull LLongBiConsumerX<X> other) {
-		return (long l1, long l2) -> {
-			try {
-				other.doAccept(l1, l2);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoAccept;
 	}
 
 	// </editor-fold>
@@ -140,18 +142,23 @@ public interface LLongBiConsumer extends LLongBiConsumerX<RuntimeException>, Met
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LLongBiConsumer nonThrowing() {
+	default LLongBiConsumer nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LLongBiConsumerX<RuntimeException> uncheck() {
-		return (LLongBiConsumerX) this;
+	default LLongBiConsumerX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLongBiConsumer shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LLongBiConsumerX<RuntimeException> shoveX() {
 		return this;
 	}
 

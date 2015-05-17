@@ -64,6 +64,25 @@ public interface LFloatBinaryOperatorX<X extends Exception> extends MetaOperator
 
 	public float doApplyAsFloat(float f1, float f2) throws X;
 
+	default float nestingDoApplyAsFloat(float f1, float f2) {
+		try {
+			return this.doApplyAsFloat(f1, f2);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default float shovingDoApplyAsFloat(float f1, float f2) {
+		return ((LFloatBinaryOperatorX<RuntimeException>) this).doApplyAsFloat(f1, f2);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default float nonNullDoApplyAsFloat(float f1, float f2) throws X {
+		return doApplyAsFloat(f1, f2);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +98,6 @@ public interface LFloatBinaryOperatorX<X extends Exception> extends MetaOperator
 		return (f1, f2) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default float nonNull(float f1, float f2) throws X {
-		return doApplyAsFloat(f1, f2);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <X extends Exception> LFloatBinaryOperatorX<X> lX(final @Nonnull LFloatBinaryOperatorX<X> lambda) {
@@ -96,7 +110,7 @@ public interface LFloatBinaryOperatorX<X extends Exception> extends MetaOperator
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LFloatBinaryOperatorX<X> wrapX(final @Nonnull LFloatBinaryOperator other) {
-		return other::doApplyAsFloat;
+		return (LFloatBinaryOperatorX) other;
 	}
 
 	// </editor-fold>
@@ -159,20 +173,24 @@ public interface LFloatBinaryOperatorX<X extends Exception> extends MetaOperator
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LFloatBinaryOperator nonThrowing() {
-		return LFloatBinaryOperator.wrap(this);
+	default LFloatBinaryOperator nest() {
+		return this::nestingDoApplyAsFloat;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LFloatBinaryOperatorX<RuntimeException> uncheck() {
-		return (LFloatBinaryOperatorX) this;
+	default LFloatBinaryOperatorX<RuntimeException> nestX() {
+		return this::nestingDoApplyAsFloat;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LFloatBinaryOperator shove() {
-		LFloatBinaryOperatorX<RuntimeException> exceptionCast = (LFloatBinaryOperatorX<RuntimeException>) this;
-		return exceptionCast::doApplyAsFloat;
+		return this::shovingDoApplyAsFloat;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LFloatBinaryOperatorX<RuntimeException> shoveX() {
+		return this::shovingDoApplyAsFloat;
 	}
 
 	// </editor-fold>

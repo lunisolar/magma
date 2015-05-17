@@ -76,6 +76,12 @@ public class LToDoubleFunctionTest<T,X extends ParseException> {
     private java.util.function.ToDoubleFunction jre = (Object t) -> testValue;
 
 
+
+    private LToDoubleFunction<T> sutAlwaysThrowingUnckeck = LToDoubleFunction.l((T t) -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
     @Test
     public void testTheResult() throws ParseException {
         assertThat(sut.doApplyAsDouble((T)Integer.valueOf(100)))
@@ -83,10 +89,41 @@ public class LToDoubleFunctionTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testNonNullShouldNotModifyValue() throws ParseException {
-        assertThat(sut.nonNull((T)Integer.valueOf(100)))
+    public void testNonNullDoApplyAsDouble() throws ParseException {
+        assertThat(sut.nonNullDoApplyAsDouble((T)Integer.valueOf(100)))
             .isEqualTo(testValue);
     }
+
+    @Test
+    public void testNestingDoApplyAsDouble_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.nestingDoApplyAsDouble((T)Integer.valueOf(100));
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoApplyAsDouble_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.shovingDoApplyAsDouble((T)Integer.valueOf(100));
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
 
 
     @Test
@@ -109,7 +146,7 @@ public class LToDoubleFunctionTest<T,X extends ParseException> {
 
     @Test
     public void testWrapStdMethod() throws ParseException {
-        assertThat(LToDoubleFunction.wrapStd(jre))
+        assertThat(LToDoubleFunction.wrap(jre))
             .isInstanceOf(LToDoubleFunction.class);
     }
 
@@ -585,19 +622,39 @@ public class LToDoubleFunctionTest<T,X extends ParseException> {
 
 
     // </editor-fold>
+//
+//    @Test
+//    public void testStd() {
+//        assertThat(sut.std()).isInstanceOf(java.util.function.ToDoubleFunction.class);
+//    }
+//
+//
     @Test
-    public void testStd() {
-        assertThat(sut.std()).isInstanceOf(java.util.function.ToDoubleFunction.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isSameAs(sut)
+            .isInstanceOf(LToDoubleFunction.class);
     }
 
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LToDoubleFunction.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isSameAs(sut)
+            .isInstanceOf(LToDoubleFunction.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LToDoubleFunctionX.class);
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isSameAs(sut)
+            .isInstanceOf(LToDoubleFunctionX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isSameAs(sut)
+            .isInstanceOf(LToDoubleFunctionX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

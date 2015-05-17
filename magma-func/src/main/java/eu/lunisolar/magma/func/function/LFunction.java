@@ -58,15 +58,34 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LFunction<T, R> extends java.util.function.Function<T, R>, LFunctionX<T, R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
+public interface LFunction<T, R> extends LFunctionX<T, R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
 	public static final String DESCRIPTION = "LFunction: R doApply(T t)";
+
+	@Override
+	@Deprecated
+	// calling this method via LFunction interface should be discouraged.
+	default R apply(T t) {
+		return this.nestingDoApply(t);
+	}
 
 	@Nullable
 	public R doApply(T t);
 
-	default R apply(T t) {
-		return doApply(t);
+	default R nestingDoApply(T t) {
+		return this.doApply(t);
+	}
+
+	default R shovingDoApply(T t) {
+		return this.doApply(t);
+	}
+
+	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+
+	/** Ensures the result is not null */
+	@Nonnull
+	default R nonNullDoApply(T t) {
+		return Objects.requireNonNull(doApply(t), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -84,14 +103,6 @@ public interface LFunction<T, R> extends java.util.function.Function<T, R>, LFun
 		return (t) -> r;
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
-
-	/** Ensures the result is not null */
-	@Nonnull
-	default R nonNull(T t) {
-		return Objects.requireNonNull(doApply(t), NULL_VALUE_MESSAGE_SUPPLIER);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T, R> LFunction<T, R> l(final @Nonnull LFunction<T, R> lambda) {
@@ -103,20 +114,14 @@ public interface LFunction<T, R> extends java.util.function.Function<T, R>, LFun
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T, R> LFunction<T, R> wrapStd(final java.util.function.Function<T, R> other) {
+	public static <T, R> LFunction<T, R> wrap(final java.util.function.Function<T, R> other) {
 		return other::apply;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T, R, X extends Exception> LFunction<T, R> wrap(final @Nonnull LFunctionX<T, R, X> other) {
-		return (T t) -> {
-			try {
-				return other.doApply(t);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApply;
 	}
 
 	// </editor-fold>
@@ -216,22 +221,16 @@ public interface LFunction<T, R> extends java.util.function.Function<T, R>, LFun
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.Function<T, R> std() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LFunction<T, R> nonThrowing() {
+	default LFunction<T, R> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LFunctionX<T, R, RuntimeException> uncheck() {
-		return (LFunctionX) this;
+	default LFunctionX<T, R, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
@@ -239,11 +238,16 @@ public interface LFunction<T, R> extends java.util.function.Function<T, R>, LFun
 		return this;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LFunctionX<T, R, RuntimeException> shoveX() {
+		return this;
+	}
+
 	// </editor-fold>
 
 	@Nonnull
 	default LFunction<T, R> nonNullable() {
-		return (t) -> Objects.requireNonNull(this.doApply(t));
+		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">

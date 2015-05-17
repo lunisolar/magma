@@ -64,6 +64,25 @@ public interface LToByteFunctionX<T, X extends Exception> extends MetaFunction, 
 
 	public byte doApplyAsByte(T t) throws X;
 
+	default byte nestingDoApplyAsByte(T t) {
+		try {
+			return this.doApplyAsByte(t);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default byte shovingDoApplyAsByte(T t) {
+		return ((LToByteFunctionX<T, RuntimeException>) this).doApplyAsByte(t);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default byte nonNullDoApplyAsByte(T t) throws X {
+		return doApplyAsByte(t);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +98,6 @@ public interface LToByteFunctionX<T, X extends Exception> extends MetaFunction, 
 		return (t) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default byte nonNull(T t) throws X {
-		return doApplyAsByte(t);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T, X extends Exception> LToByteFunctionX<T, X> lX(final @Nonnull LToByteFunctionX<T, X> lambda) {
@@ -96,7 +110,7 @@ public interface LToByteFunctionX<T, X extends Exception> extends MetaFunction, 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T, X extends Exception> LToByteFunctionX<T, X> wrapX(final @Nonnull LToByteFunction<T> other) {
-		return other::doApplyAsByte;
+		return (LToByteFunctionX) other;
 	}
 
 	// </editor-fold>
@@ -185,20 +199,24 @@ public interface LToByteFunctionX<T, X extends Exception> extends MetaFunction, 
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToByteFunction<T> nonThrowing() {
-		return LToByteFunction.wrap(this);
+	default LToByteFunction<T> nest() {
+		return this::nestingDoApplyAsByte;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToByteFunctionX<T, RuntimeException> uncheck() {
-		return (LToByteFunctionX) this;
+	default LToByteFunctionX<T, RuntimeException> nestX() {
+		return this::nestingDoApplyAsByte;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LToByteFunction<T> shove() {
-		LToByteFunctionX<T, RuntimeException> exceptionCast = (LToByteFunctionX<T, RuntimeException>) this;
-		return exceptionCast::doApplyAsByte;
+		return this::shovingDoApplyAsByte;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToByteFunctionX<T, RuntimeException> shoveX() {
+		return this::shovingDoApplyAsByte;
 	}
 
 	// </editor-fold>

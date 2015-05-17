@@ -65,6 +65,20 @@ public interface LObjFloatConsumerX<T, X extends Exception> extends MetaConsumer
 
 	public void doAccept(T t, float f) throws X;
 
+	default void nestingDoAccept(T t, float f) {
+		try {
+			this.doAccept(t, f);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default void shovingDoAccept(T t, float f) {
+		((LObjFloatConsumerX<T, RuntimeException>) this).doAccept(t, f);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -88,7 +102,7 @@ public interface LObjFloatConsumerX<T, X extends Exception> extends MetaConsumer
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T, X extends Exception> LObjFloatConsumerX<T, X> wrapX(final @Nonnull LObjFloatConsumer<T> other) {
-		return other::doAccept;
+		return (LObjFloatConsumerX) other;
 	}
 
 	// </editor-fold>
@@ -134,20 +148,24 @@ public interface LObjFloatConsumerX<T, X extends Exception> extends MetaConsumer
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjFloatConsumer<T> nonThrowing() {
-		return LObjFloatConsumer.wrap(this);
+	default LObjFloatConsumer<T> nest() {
+		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjFloatConsumerX<T, RuntimeException> uncheck() {
-		return (LObjFloatConsumerX) this;
+	default LObjFloatConsumerX<T, RuntimeException> nestX() {
+		return this::nestingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjFloatConsumer<T> shove() {
-		LObjFloatConsumerX<T, RuntimeException> exceptionCast = (LObjFloatConsumerX<T, RuntimeException>) this;
-		return exceptionCast::doAccept;
+		return this::shovingDoAccept;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LObjFloatConsumerX<T, RuntimeException> shoveX() {
+		return this::shovingDoAccept;
 	}
 
 	// </editor-fold>

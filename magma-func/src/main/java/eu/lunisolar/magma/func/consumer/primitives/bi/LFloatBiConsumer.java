@@ -65,6 +65,14 @@ public interface LFloatBiConsumer extends LFloatBiConsumerX<RuntimeException>, M
 
 	public void doAccept(float f1, float f2);
 
+	default void nestingDoAccept(float f1, float f2) {
+		this.doAccept(f1, f2);
+	}
+
+	default void shovingDoAccept(float f1, float f2) {
+		this.doAccept(f1, f2);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -88,13 +96,7 @@ public interface LFloatBiConsumer extends LFloatBiConsumerX<RuntimeException>, M
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LFloatBiConsumer wrap(final @Nonnull LFloatBiConsumerX<X> other) {
-		return (float f1, float f2) -> {
-			try {
-				other.doAccept(f1, f2);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoAccept;
 	}
 
 	// </editor-fold>
@@ -140,18 +142,23 @@ public interface LFloatBiConsumer extends LFloatBiConsumerX<RuntimeException>, M
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LFloatBiConsumer nonThrowing() {
+	default LFloatBiConsumer nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LFloatBiConsumerX<RuntimeException> uncheck() {
-		return (LFloatBiConsumerX) this;
+	default LFloatBiConsumerX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LFloatBiConsumer shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LFloatBiConsumerX<RuntimeException> shoveX() {
 		return this;
 	}
 

@@ -65,6 +65,20 @@ public interface LBooleanTriConsumerX<X extends Exception> extends MetaConsumer,
 
 	public void doAccept(boolean b1, boolean b2, boolean b3) throws X;
 
+	default void nestingDoAccept(boolean b1, boolean b2, boolean b3) {
+		try {
+			this.doAccept(b1, b2, b3);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default void shovingDoAccept(boolean b1, boolean b2, boolean b3) {
+		((LBooleanTriConsumerX<RuntimeException>) this).doAccept(b1, b2, b3);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -88,7 +102,7 @@ public interface LBooleanTriConsumerX<X extends Exception> extends MetaConsumer,
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LBooleanTriConsumerX<X> wrapX(final @Nonnull LBooleanTriConsumer other) {
-		return other::doAccept;
+		return (LBooleanTriConsumerX) other;
 	}
 
 	// </editor-fold>
@@ -136,20 +150,24 @@ public interface LBooleanTriConsumerX<X extends Exception> extends MetaConsumer,
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanTriConsumer nonThrowing() {
-		return LBooleanTriConsumer.wrap(this);
+	default LBooleanTriConsumer nest() {
+		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanTriConsumerX<RuntimeException> uncheck() {
-		return (LBooleanTriConsumerX) this;
+	default LBooleanTriConsumerX<RuntimeException> nestX() {
+		return this::nestingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBooleanTriConsumer shove() {
-		LBooleanTriConsumerX<RuntimeException> exceptionCast = (LBooleanTriConsumerX<RuntimeException>) this;
-		return exceptionCast::doAccept;
+		return this::shovingDoAccept;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBooleanTriConsumerX<RuntimeException> shoveX() {
+		return this::shovingDoAccept;
 	}
 
 	// </editor-fold>

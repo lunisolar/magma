@@ -74,6 +74,12 @@ public class LToShortBiFunctionTest<T1,T2,X extends ParseException> {
 
 
 
+
+    private LToShortBiFunction<T1,T2> sutAlwaysThrowingUnckeck = LToShortBiFunction.l((T1 t1,T2 t2) -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
     @Test
     public void testTheResult() throws ParseException {
         assertThat(sut.doApplyAsShort((T1)Integer.valueOf(100),(T2)Integer.valueOf(100)))
@@ -81,10 +87,41 @@ public class LToShortBiFunctionTest<T1,T2,X extends ParseException> {
     }
 
     @Test
-    public void testNonNullShouldNotModifyValue() throws ParseException {
-        assertThat(sut.nonNull((T1)Integer.valueOf(100),(T2)Integer.valueOf(100)))
+    public void testNonNullDoApplyAsShort() throws ParseException {
+        assertThat(sut.nonNullDoApplyAsShort((T1)Integer.valueOf(100),(T2)Integer.valueOf(100)))
             .isEqualTo(testValue);
     }
+
+    @Test
+    public void testNestingDoApplyAsShort_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.nestingDoApplyAsShort((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoApplyAsShort_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.shovingDoApplyAsShort((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
 
 
     @Test
@@ -304,14 +341,33 @@ public class LToShortBiFunctionTest<T1,T2,X extends ParseException> {
 
 
     // </editor-fold>
+//
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LToShortBiFunction.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isSameAs(sut)
+            .isInstanceOf(LToShortBiFunction.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LToShortBiFunctionX.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isSameAs(sut)
+            .isInstanceOf(LToShortBiFunction.class);
+    }
+
+    @Test
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isSameAs(sut)
+            .isInstanceOf(LToShortBiFunctionX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isSameAs(sut)
+            .isInstanceOf(LToShortBiFunctionX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

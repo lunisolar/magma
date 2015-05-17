@@ -76,6 +76,15 @@ public class LToIntBiFunctionXTest<T1,T2,X extends ParseException> {
     private java.util.function.ToIntBiFunction jre = (Object t1,Object t2) -> testValue;
 
 
+    private LToIntBiFunctionX<T1,T2,ParseException> sutAlwaysThrowing = LToIntBiFunctionX.lX((T1 t1,T2 t2) -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LToIntBiFunctionX<T1,T2,RuntimeException> sutAlwaysThrowingUnckeck = LToIntBiFunctionX.lX((T1 t1,T2 t2) -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
     @Test
     public void testTheResult() throws ParseException {
         assertThat(sut.doApplyAsInt((T1)Integer.valueOf(100),(T2)Integer.valueOf(100)))
@@ -83,10 +92,71 @@ public class LToIntBiFunctionXTest<T1,T2,X extends ParseException> {
     }
 
     @Test
-    public void testNonNullShouldNotModifyValue() throws ParseException {
-        assertThat(sut.nonNull((T1)Integer.valueOf(100),(T2)Integer.valueOf(100)))
+    public void testNonNullDoApplyAsInt() throws ParseException {
+        assertThat(sut.nonNullDoApplyAsInt((T1)Integer.valueOf(100),(T2)Integer.valueOf(100)))
             .isEqualTo(testValue);
     }
+
+    @Test
+    public void testNestingDoApplyAsInt_checked() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowing.nestingDoApplyAsInt((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(NestedException.class)
+                    .hasCauseExactlyInstanceOf(ParseException.class)
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testNestingDoApplyAsInt_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.nestingDoApplyAsInt((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoApplyAsInt_checked() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowing.shovingDoApplyAsInt((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(ParseException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoApplyAsInt_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.shovingDoApplyAsInt((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
 
 
     @Test
@@ -109,7 +179,7 @@ public class LToIntBiFunctionXTest<T1,T2,X extends ParseException> {
 
     @Test
     public void testWrapStdMethod() throws ParseException {
-        assertThat(LToIntBiFunctionX.wrapStd(jre))
+        assertThat(LToIntBiFunctionX.wrap(jre))
             .isInstanceOf(LToIntBiFunctionX.class);
     }
 
@@ -268,19 +338,35 @@ public class LToIntBiFunctionXTest<T1,T2,X extends ParseException> {
 
 
     // </editor-fold>
+//
+//    @Test
+//    public void testStd() {
+//        assertThat(sut.std()).isInstanceOf(java.util.function.ToIntBiFunction.class);
+//    }
+//
+//
     @Test
-    public void testStd() {
-        assertThat(sut.std()).isInstanceOf(java.util.function.ToIntBiFunction.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isInstanceOf(LToIntBiFunction.class);
     }
 
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LToIntBiFunction.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isInstanceOf(LToIntBiFunction.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LToIntBiFunctionX.class);
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isInstanceOf(LToIntBiFunctionX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isInstanceOf(LToIntBiFunctionX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

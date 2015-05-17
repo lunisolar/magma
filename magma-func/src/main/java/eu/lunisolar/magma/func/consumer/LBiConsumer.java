@@ -59,14 +59,25 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBiConsumer<T1, T2> extends java.util.function.BiConsumer<T1, T2>, LBiConsumerX<T1, T2, RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
+public interface LBiConsumer<T1, T2> extends LBiConsumerX<T1, T2, RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
 	public static final String DESCRIPTION = "LBiConsumer: void doAccept(T1 t1,T2 t2)";
 
+	@Override
+	@Deprecated
+	// calling this method via LBiConsumer interface should be discouraged.
+	default void accept(T1 t1, T2 t2) {
+		this.nestingDoAccept(t1, t2);
+	}
+
 	public void doAccept(T1 t1, T2 t2);
 
-	default void accept(T1 t1, T2 t2) {
-		doAccept(t1, t2);
+	default void nestingDoAccept(T1 t1, T2 t2) {
+		this.doAccept(t1, t2);
+	}
+
+	default void shovingDoAccept(T1 t1, T2 t2) {
+		this.doAccept(t1, t2);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -91,20 +102,14 @@ public interface LBiConsumer<T1, T2> extends java.util.function.BiConsumer<T1, T
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T1, T2> LBiConsumer<T1, T2> wrapStd(final java.util.function.BiConsumer<T1, T2> other) {
+	public static <T1, T2> LBiConsumer<T1, T2> wrap(final java.util.function.BiConsumer<T1, T2> other) {
 		return other::accept;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T1, T2, X extends Exception> LBiConsumer<T1, T2> wrap(final @Nonnull LBiConsumerX<T1, T2, X> other) {
-		return (T1 t1, T2 t2) -> {
-			try {
-				other.doAccept(t1, t2);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoAccept;
 	}
 
 	// </editor-fold>
@@ -138,26 +143,25 @@ public interface LBiConsumer<T1, T2> extends java.util.function.BiConsumer<T1, T
 	// </editor-fold>
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.BiConsumer<T1, T2> std() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiConsumer<T1, T2> nonThrowing() {
+	default LBiConsumer<T1, T2> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiConsumerX<T1, T2, RuntimeException> uncheck() {
-		return (LBiConsumerX) this;
+	default LBiConsumerX<T1, T2, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBiConsumer<T1, T2> shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBiConsumerX<T1, T2, RuntimeException> shoveX() {
 		return this;
 	}
 

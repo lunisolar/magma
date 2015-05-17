@@ -58,11 +58,37 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LToLongBiFunctionX<T1, T2, X extends Exception> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LToLongBiFunctionX<T1, T2, X extends Exception> extends java.util.function.ToLongBiFunction<T1, T2>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
 	public static final String DESCRIPTION = "LToLongBiFunctionX: long doApplyAsLong(T1 t1,T2 t2) throws X";
 
+	@Override
+	@Deprecated
+	// calling this method via LToLongBiFunctionX interface should be discouraged.
+	default long applyAsLong(T1 t1, T2 t2) {
+		return this.nestingDoApplyAsLong(t1, t2);
+	}
+
 	public long doApplyAsLong(T1 t1, T2 t2) throws X;
+
+	default long nestingDoApplyAsLong(T1 t1, T2 t2) {
+		try {
+			return this.doApplyAsLong(t1, t2);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default long shovingDoApplyAsLong(T1 t1, T2 t2) {
+		return ((LToLongBiFunctionX<T1, T2, RuntimeException>) this).doApplyAsLong(t1, t2);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default long nonNullDoApplyAsLong(T1 t1, T2 t2) throws X {
+		return doApplyAsLong(t1, t2);
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -79,11 +105,6 @@ public interface LToLongBiFunctionX<T1, T2, X extends Exception> extends MetaFun
 		return (t1, t2) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default long nonNull(T1 t1, T2 t2) throws X {
-		return doApplyAsLong(t1, t2);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T1, T2, X extends Exception> LToLongBiFunctionX<T1, T2, X> lX(final @Nonnull LToLongBiFunctionX<T1, T2, X> lambda) {
@@ -95,14 +116,14 @@ public interface LToLongBiFunctionX<T1, T2, X extends Exception> extends MetaFun
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T1, T2, X extends Exception> LToLongBiFunctionX<T1, T2, X> wrapStd(final java.util.function.ToLongBiFunction<T1, T2> other) {
+	public static <T1, T2, X extends Exception> LToLongBiFunctionX<T1, T2, X> wrap(final java.util.function.ToLongBiFunction<T1, T2> other) {
 		return other::applyAsLong;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T1, T2, X extends Exception> LToLongBiFunctionX<T1, T2, X> wrapX(final @Nonnull LToLongBiFunction<T1, T2> other) {
-		return other::doApplyAsLong;
+		return (LToLongBiFunctionX) other;
 	}
 
 	// </editor-fold>
@@ -134,28 +155,26 @@ public interface LToLongBiFunctionX<T1, T2, X extends Exception> extends MetaFun
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.ToLongBiFunction<T1, T2> std() {
-		return LToLongBiFunction.wrap(this)::doApplyAsLong;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToLongBiFunction<T1, T2> nonThrowing() {
-		return LToLongBiFunction.wrap(this);
+	default LToLongBiFunction<T1, T2> nest() {
+		return this::nestingDoApplyAsLong;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToLongBiFunctionX<T1, T2, RuntimeException> uncheck() {
-		return (LToLongBiFunctionX) this;
+	default LToLongBiFunctionX<T1, T2, RuntimeException> nestX() {
+		return this::nestingDoApplyAsLong;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LToLongBiFunction<T1, T2> shove() {
-		LToLongBiFunctionX<T1, T2, RuntimeException> exceptionCast = (LToLongBiFunctionX<T1, T2, RuntimeException>) this;
-		return exceptionCast::doApplyAsLong;
+		return this::shovingDoApplyAsLong;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToLongBiFunctionX<T1, T2, RuntimeException> shoveX() {
+		return this::shovingDoApplyAsLong;
 	}
 
 	// </editor-fold>

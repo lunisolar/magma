@@ -64,6 +64,25 @@ public interface LBiObjBytePredicateX<T1, T2, X extends Exception> extends MetaP
 
 	public boolean doTest(T1 t1, T2 t2, byte b) throws X;
 
+	default boolean nestingDoTest(T1 t1, T2 t2, byte b) {
+		try {
+			return this.doTest(t1, t2, b);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default boolean shovingDoTest(T1 t1, T2 t2, byte b) {
+		return ((LBiObjBytePredicateX<T1, T2, RuntimeException>) this).doTest(t1, t2, b);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default boolean nonNullDoTest(T1 t1, T2 t2, byte b) throws X {
+		return doTest(t1, t2, b);
+	}
+
 	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
 
 	default boolean doApplyAsBoolean(T1 t1, T2 t2, byte b) throws X {
@@ -85,11 +104,6 @@ public interface LBiObjBytePredicateX<T1, T2, X extends Exception> extends MetaP
 		return (t1, t2, b) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNull(T1 t1, T2 t2, byte b) throws X {
-		return doTest(t1, t2, b);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T1, T2, X extends Exception> LBiObjBytePredicateX<T1, T2, X> lX(final @Nonnull LBiObjBytePredicateX<T1, T2, X> lambda) {
@@ -102,7 +116,7 @@ public interface LBiObjBytePredicateX<T1, T2, X extends Exception> extends MetaP
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T1, T2, X extends Exception> LBiObjBytePredicateX<T1, T2, X> wrapX(final @Nonnull LBiObjBytePredicate<T1, T2> other) {
-		return other::doTest;
+		return (LBiObjBytePredicateX) other;
 	}
 
 	// </editor-fold>
@@ -194,20 +208,24 @@ public interface LBiObjBytePredicateX<T1, T2, X extends Exception> extends MetaP
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiObjBytePredicate<T1, T2> nonThrowing() {
-		return LBiObjBytePredicate.wrap(this);
+	default LBiObjBytePredicate<T1, T2> nest() {
+		return this::nestingDoTest;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiObjBytePredicateX<T1, T2, RuntimeException> uncheck() {
-		return (LBiObjBytePredicateX) this;
+	default LBiObjBytePredicateX<T1, T2, RuntimeException> nestX() {
+		return this::nestingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBiObjBytePredicate<T1, T2> shove() {
-		LBiObjBytePredicateX<T1, T2, RuntimeException> exceptionCast = (LBiObjBytePredicateX<T1, T2, RuntimeException>) this;
-		return exceptionCast::doTest;
+		return this::shovingDoTest;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBiObjBytePredicateX<T1, T2, RuntimeException> shoveX() {
+		return this::shovingDoTest;
 	}
 
 	// </editor-fold>

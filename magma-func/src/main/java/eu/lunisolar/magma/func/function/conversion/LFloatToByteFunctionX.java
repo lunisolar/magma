@@ -64,6 +64,25 @@ public interface LFloatToByteFunctionX<X extends Exception> extends MetaFunction
 
 	public byte doApplyAsByte(float f) throws X;
 
+	default byte nestingDoApplyAsByte(float f) {
+		try {
+			return this.doApplyAsByte(f);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default byte shovingDoApplyAsByte(float f) {
+		return ((LFloatToByteFunctionX<RuntimeException>) this).doApplyAsByte(f);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default byte nonNullDoApplyAsByte(float f) throws X {
+		return doApplyAsByte(f);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +98,6 @@ public interface LFloatToByteFunctionX<X extends Exception> extends MetaFunction
 		return (f) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default byte nonNull(float f) throws X {
-		return doApplyAsByte(f);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <X extends Exception> LFloatToByteFunctionX<X> lX(final @Nonnull LFloatToByteFunctionX<X> lambda) {
@@ -96,7 +110,7 @@ public interface LFloatToByteFunctionX<X extends Exception> extends MetaFunction
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LFloatToByteFunctionX<X> wrapX(final @Nonnull LFloatToByteFunction other) {
-		return other::doApplyAsByte;
+		return (LFloatToByteFunctionX) other;
 	}
 
 	// </editor-fold>
@@ -194,20 +208,24 @@ public interface LFloatToByteFunctionX<X extends Exception> extends MetaFunction
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LFloatToByteFunction nonThrowing() {
-		return LFloatToByteFunction.wrap(this);
+	default LFloatToByteFunction nest() {
+		return this::nestingDoApplyAsByte;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LFloatToByteFunctionX<RuntimeException> uncheck() {
-		return (LFloatToByteFunctionX) this;
+	default LFloatToByteFunctionX<RuntimeException> nestX() {
+		return this::nestingDoApplyAsByte;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LFloatToByteFunction shove() {
-		LFloatToByteFunctionX<RuntimeException> exceptionCast = (LFloatToByteFunctionX<RuntimeException>) this;
-		return exceptionCast::doApplyAsByte;
+		return this::shovingDoApplyAsByte;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LFloatToByteFunctionX<RuntimeException> shoveX() {
+		return this::shovingDoApplyAsByte;
 	}
 
 	// </editor-fold>

@@ -72,6 +72,15 @@ public class LTriConsumerXTest<T1,T2,T3,X extends ParseException> {
 
 
 
+    private LTriConsumerX<T1,T2,T3,ParseException> sutAlwaysThrowing = LTriConsumerX.lX((T1 t1,T2 t2,T3 t3) -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LTriConsumerX<T1,T2,T3,RuntimeException> sutAlwaysThrowingUnckeck = LTriConsumerX.lX((T1 t1,T2 t2,T3 t3) -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
 
 
     @Test
@@ -242,14 +251,29 @@ public class LTriConsumerXTest<T1,T2,T3,X extends ParseException> {
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
+//
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LTriConsumer.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isInstanceOf(LTriConsumer.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LTriConsumerX.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isInstanceOf(LTriConsumer.class);
+    }
+
+    @Test
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isInstanceOf(LTriConsumerX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isInstanceOf(LTriConsumerX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

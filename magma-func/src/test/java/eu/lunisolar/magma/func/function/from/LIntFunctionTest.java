@@ -82,6 +82,12 @@ public class LIntFunctionTest<R,X extends ParseException> {
     private java.util.function.IntFunction jre = (int i) -> testValue;
 
 
+
+    private LIntFunction<R> sutAlwaysThrowingUnckeck = LIntFunction.l((int i) -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
     @Test
     public void testTheResult() throws ParseException {
         assertThat(sut.doApply((int)100))
@@ -89,14 +95,45 @@ public class LIntFunctionTest<R,X extends ParseException> {
     }
 
     @Test
-    public void testNonNullShouldNotModifyValue() throws ParseException {
-        assertThat(sut.nonNull((int)100))
+    public void testNonNullDoApply() throws ParseException {
+        assertThat(sut.nonNullDoApply((int)100))
             .isSameAs(testValue);
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LIntFunction: R doApply(int i)).\\E")
+    @Test
+    public void testNestingDoApply_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.nestingDoApply((int)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoApply_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.shovingDoApply((int)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LIntFunction: R doApply(int i)).\\E")
     public void testNonNullCapturesNull() throws ParseException {
-        sutNull.nonNull((int)100);
+        sutNull.nonNullDoApply((int)100);
     }
 
 
@@ -120,7 +157,7 @@ public class LIntFunctionTest<R,X extends ParseException> {
 
     @Test
     public void testWrapStdMethod() throws ParseException {
-        assertThat(LIntFunction.wrapStd(jre))
+        assertThat(LIntFunction.wrap(jre))
             .isInstanceOf(LIntFunction.class);
     }
 
@@ -657,19 +694,39 @@ public class LIntFunctionTest<R,X extends ParseException> {
 
 
     // </editor-fold>
+//
+//    @Test
+//    public void testStd() {
+//        assertThat(sut.std()).isInstanceOf(java.util.function.IntFunction.class);
+//    }
+//
+//
     @Test
-    public void testStd() {
-        assertThat(sut.std()).isInstanceOf(java.util.function.IntFunction.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isSameAs(sut)
+            .isInstanceOf(LIntFunction.class);
     }
 
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LIntFunction.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isSameAs(sut)
+            .isInstanceOf(LIntFunction.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LIntFunctionX.class);
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isSameAs(sut)
+            .isInstanceOf(LIntFunctionX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isSameAs(sut)
+            .isInstanceOf(LIntFunctionX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

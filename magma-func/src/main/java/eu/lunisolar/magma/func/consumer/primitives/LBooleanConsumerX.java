@@ -65,6 +65,20 @@ public interface LBooleanConsumerX<X extends Exception> extends MetaConsumer, Me
 
 	public void doAccept(boolean b) throws X;
 
+	default void nestingDoAccept(boolean b) {
+		try {
+			this.doAccept(b);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default void shovingDoAccept(boolean b) {
+		((LBooleanConsumerX<RuntimeException>) this).doAccept(b);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -88,7 +102,7 @@ public interface LBooleanConsumerX<X extends Exception> extends MetaConsumer, Me
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LBooleanConsumerX<X> wrapX(final @Nonnull LBooleanConsumer other) {
-		return other::doAccept;
+		return (LBooleanConsumerX) other;
 	}
 
 	// </editor-fold>
@@ -132,20 +146,24 @@ public interface LBooleanConsumerX<X extends Exception> extends MetaConsumer, Me
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanConsumer nonThrowing() {
-		return LBooleanConsumer.wrap(this);
+	default LBooleanConsumer nest() {
+		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanConsumerX<RuntimeException> uncheck() {
-		return (LBooleanConsumerX) this;
+	default LBooleanConsumerX<RuntimeException> nestX() {
+		return this::nestingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBooleanConsumer shove() {
-		LBooleanConsumerX<RuntimeException> exceptionCast = (LBooleanConsumerX<RuntimeException>) this;
-		return exceptionCast::doAccept;
+		return this::shovingDoAccept;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBooleanConsumerX<RuntimeException> shoveX() {
+		return this::shovingDoAccept;
 	}
 
 	// </editor-fold>

@@ -65,6 +65,22 @@ public interface LFloatBiFunction<R> extends LFloatBiFunctionX<R, RuntimeExcepti
 	@Nullable
 	public R doApply(float f1, float f2);
 
+	default R nestingDoApply(float f1, float f2) {
+		return this.doApply(f1, f2);
+	}
+
+	default R shovingDoApply(float f1, float f2) {
+		return this.doApply(f1, f2);
+	}
+
+	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+
+	/** Ensures the result is not null */
+	@Nonnull
+	default R nonNullDoApply(float f1, float f2) {
+		return Objects.requireNonNull(doApply(f1, f2), NULL_VALUE_MESSAGE_SUPPLIER);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -80,14 +96,6 @@ public interface LFloatBiFunction<R> extends LFloatBiFunctionX<R, RuntimeExcepti
 		return (f1, f2) -> r;
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
-
-	/** Ensures the result is not null */
-	@Nonnull
-	default R nonNull(float f1, float f2) {
-		return Objects.requireNonNull(doApply(f1, f2), NULL_VALUE_MESSAGE_SUPPLIER);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <R> LFloatBiFunction<R> l(final @Nonnull LFloatBiFunction<R> lambda) {
@@ -100,13 +108,7 @@ public interface LFloatBiFunction<R> extends LFloatBiFunctionX<R, RuntimeExcepti
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <R, X extends Exception> LFloatBiFunction<R> wrap(final @Nonnull LFloatBiFunctionX<R, X> other) {
-		return (float f1, float f2) -> {
-			try {
-				return other.doApply(f1, f2);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApply;
 	}
 
 	// </editor-fold>
@@ -157,14 +159,14 @@ public interface LFloatBiFunction<R> extends LFloatBiFunctionX<R, RuntimeExcepti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LFloatBiFunction<R> nonThrowing() {
+	default LFloatBiFunction<R> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LFloatBiFunctionX<R, RuntimeException> uncheck() {
-		return (LFloatBiFunctionX) this;
+	default LFloatBiFunctionX<R, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
@@ -172,11 +174,16 @@ public interface LFloatBiFunction<R> extends LFloatBiFunctionX<R, RuntimeExcepti
 		return this;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LFloatBiFunctionX<R, RuntimeException> shoveX() {
+		return this;
+	}
+
 	// </editor-fold>
 
 	@Nonnull
 	default LFloatBiFunction<R> nonNullable() {
-		return (f1, f2) -> Objects.requireNonNull(this.doApply(f1, f2));
+		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">

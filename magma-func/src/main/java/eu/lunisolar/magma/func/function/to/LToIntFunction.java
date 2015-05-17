@@ -58,13 +58,29 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LToIntFunction<T> extends java.util.function.ToIntFunction<T>, LToIntFunctionX<T, RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LToIntFunction<T> extends LToIntFunctionX<T, RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
 	public static final String DESCRIPTION = "LToIntFunction: int doApplyAsInt(T t)";
 
+	@Override
+	@Deprecated
+	// calling this method via LToIntFunction interface should be discouraged.
+	default int applyAsInt(T t) {
+		return this.nestingDoApplyAsInt(t);
+	}
+
 	public int doApplyAsInt(T t);
 
-	default int applyAsInt(T t) {
+	default int nestingDoApplyAsInt(T t) {
+		return this.doApplyAsInt(t);
+	}
+
+	default int shovingDoApplyAsInt(T t) {
+		return this.doApplyAsInt(t);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default int nonNullDoApplyAsInt(T t) {
 		return doApplyAsInt(t);
 	}
 
@@ -83,11 +99,6 @@ public interface LToIntFunction<T> extends java.util.function.ToIntFunction<T>, 
 		return (t) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default int nonNull(T t) {
-		return doApplyAsInt(t);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T> LToIntFunction<T> l(final @Nonnull LToIntFunction<T> lambda) {
@@ -99,20 +110,14 @@ public interface LToIntFunction<T> extends java.util.function.ToIntFunction<T>, 
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T> LToIntFunction<T> wrapStd(final java.util.function.ToIntFunction<T> other) {
+	public static <T> LToIntFunction<T> wrap(final java.util.function.ToIntFunction<T> other) {
 		return other::applyAsInt;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T, X extends Exception> LToIntFunction<T> wrap(final @Nonnull LToIntFunctionX<T, X> other) {
-		return (T t) -> {
-			try {
-				return other.doApplyAsInt(t);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApplyAsInt;
 	}
 
 	// </editor-fold>
@@ -199,26 +204,25 @@ public interface LToIntFunction<T> extends java.util.function.ToIntFunction<T>, 
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.ToIntFunction<T> std() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToIntFunction<T> nonThrowing() {
+	default LToIntFunction<T> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToIntFunctionX<T, RuntimeException> uncheck() {
-		return (LToIntFunctionX) this;
+	default LToIntFunctionX<T, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LToIntFunction<T> shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToIntFunctionX<T, RuntimeException> shoveX() {
 		return this;
 	}
 

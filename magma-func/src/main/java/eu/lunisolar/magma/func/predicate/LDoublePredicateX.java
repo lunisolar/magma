@@ -58,11 +58,37 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LDoublePredicateX<X extends Exception> extends MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LDoublePredicateX<X extends Exception> extends java.util.function.DoublePredicate, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
 	public static final String DESCRIPTION = "LDoublePredicateX: boolean doTest(double d) throws X";
 
+	@Override
+	@Deprecated
+	// calling this method via LDoublePredicateX interface should be discouraged.
+	default boolean test(double d) {
+		return this.nestingDoTest(d);
+	}
+
 	public boolean doTest(double d) throws X;
+
+	default boolean nestingDoTest(double d) {
+		try {
+			return this.doTest(d);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default boolean shovingDoTest(double d) {
+		return ((LDoublePredicateX<RuntimeException>) this).doTest(d);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default boolean nonNullDoTest(double d) throws X {
+		return doTest(d);
+	}
 
 	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
 
@@ -85,11 +111,6 @@ public interface LDoublePredicateX<X extends Exception> extends MetaPredicate, P
 		return (d) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNull(double d) throws X {
-		return doTest(d);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <X extends Exception> LDoublePredicateX<X> lX(final @Nonnull LDoublePredicateX<X> lambda) {
@@ -101,14 +122,14 @@ public interface LDoublePredicateX<X extends Exception> extends MetaPredicate, P
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Exception> LDoublePredicateX<X> wrapStd(final java.util.function.DoublePredicate other) {
+	public static <X extends Exception> LDoublePredicateX<X> wrap(final java.util.function.DoublePredicate other) {
 		return other::test;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LDoublePredicateX<X> wrapX(final @Nonnull LDoublePredicate other) {
-		return other::doTest;
+		return (LDoublePredicateX) other;
 	}
 
 	// </editor-fold>
@@ -247,28 +268,26 @@ public interface LDoublePredicateX<X extends Exception> extends MetaPredicate, P
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.DoublePredicate std() {
-		return LDoublePredicate.wrap(this)::doTest;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoublePredicate nonThrowing() {
-		return LDoublePredicate.wrap(this);
+	default LDoublePredicate nest() {
+		return this::nestingDoTest;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoublePredicateX<RuntimeException> uncheck() {
-		return (LDoublePredicateX) this;
+	default LDoublePredicateX<RuntimeException> nestX() {
+		return this::nestingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LDoublePredicate shove() {
-		LDoublePredicateX<RuntimeException> exceptionCast = (LDoublePredicateX<RuntimeException>) this;
-		return exceptionCast::doTest;
+		return this::shovingDoTest;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoublePredicateX<RuntimeException> shoveX() {
+		return this::shovingDoTest;
 	}
 
 	// </editor-fold>

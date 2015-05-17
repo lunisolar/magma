@@ -65,6 +65,14 @@ public interface LBiObjDoubleConsumer<T1, T2> extends LBiObjDoubleConsumerX<T1, 
 
 	public void doAccept(T1 t1, T2 t2, double d);
 
+	default void nestingDoAccept(T1 t1, T2 t2, double d) {
+		this.doAccept(t1, t2, d);
+	}
+
+	default void shovingDoAccept(T1 t1, T2 t2, double d) {
+		this.doAccept(t1, t2, d);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -88,13 +96,7 @@ public interface LBiObjDoubleConsumer<T1, T2> extends LBiObjDoubleConsumerX<T1, 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T1, T2, X extends Exception> LBiObjDoubleConsumer<T1, T2> wrap(final @Nonnull LBiObjDoubleConsumerX<T1, T2, X> other) {
-		return (T1 t1, T2 t2, double d) -> {
-			try {
-				other.doAccept(t1, t2, d);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoAccept;
 	}
 
 	// </editor-fold>
@@ -142,18 +144,23 @@ public interface LBiObjDoubleConsumer<T1, T2> extends LBiObjDoubleConsumerX<T1, 
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiObjDoubleConsumer<T1, T2> nonThrowing() {
+	default LBiObjDoubleConsumer<T1, T2> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiObjDoubleConsumerX<T1, T2, RuntimeException> uncheck() {
-		return (LBiObjDoubleConsumerX) this;
+	default LBiObjDoubleConsumerX<T1, T2, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBiObjDoubleConsumer<T1, T2> shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBiObjDoubleConsumerX<T1, T2, RuntimeException> shoveX() {
 		return this;
 	}
 

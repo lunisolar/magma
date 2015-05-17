@@ -74,6 +74,15 @@ public class LActionXTest<X extends ParseException> {
     private Runnable jre = () -> Function4U.doNothing();
 
 
+    private LActionX<ParseException> sutAlwaysThrowing = LActionX.lX(() -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LActionX<RuntimeException> sutAlwaysThrowingUnckeck = LActionX.lX(() -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
 
 
     @Test
@@ -96,7 +105,7 @@ public class LActionXTest<X extends ParseException> {
 
     @Test
     public void testWrapStdMethod() throws ParseException {
-        assertThat(LActionX.wrapStd(jre))
+        assertThat(LActionX.wrap(jre))
             .isInstanceOf(LActionX.class);
     }
 
@@ -200,19 +209,35 @@ public class LActionXTest<X extends ParseException> {
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
+//
+//    @Test
+//    public void testStd() {
+//        assertThat(sut.std()).isInstanceOf(Runnable.class);
+//    }
+//
+//
     @Test
-    public void testStd() {
-        assertThat(sut.std()).isInstanceOf(Runnable.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isInstanceOf(LAction.class);
     }
 
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LAction.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isInstanceOf(LAction.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LActionX.class);
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isInstanceOf(LActionX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isInstanceOf(LActionX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

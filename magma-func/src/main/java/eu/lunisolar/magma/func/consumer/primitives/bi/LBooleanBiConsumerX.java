@@ -65,6 +65,20 @@ public interface LBooleanBiConsumerX<X extends Exception> extends MetaConsumer, 
 
 	public void doAccept(boolean b1, boolean b2) throws X;
 
+	default void nestingDoAccept(boolean b1, boolean b2) {
+		try {
+			this.doAccept(b1, b2);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default void shovingDoAccept(boolean b1, boolean b2) {
+		((LBooleanBiConsumerX<RuntimeException>) this).doAccept(b1, b2);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -88,7 +102,7 @@ public interface LBooleanBiConsumerX<X extends Exception> extends MetaConsumer, 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LBooleanBiConsumerX<X> wrapX(final @Nonnull LBooleanBiConsumer other) {
-		return other::doAccept;
+		return (LBooleanBiConsumerX) other;
 	}
 
 	// </editor-fold>
@@ -134,20 +148,24 @@ public interface LBooleanBiConsumerX<X extends Exception> extends MetaConsumer, 
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanBiConsumer nonThrowing() {
-		return LBooleanBiConsumer.wrap(this);
+	default LBooleanBiConsumer nest() {
+		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanBiConsumerX<RuntimeException> uncheck() {
-		return (LBooleanBiConsumerX) this;
+	default LBooleanBiConsumerX<RuntimeException> nestX() {
+		return this::nestingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBooleanBiConsumer shove() {
-		LBooleanBiConsumerX<RuntimeException> exceptionCast = (LBooleanBiConsumerX<RuntimeException>) this;
-		return exceptionCast::doAccept;
+		return this::shovingDoAccept;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBooleanBiConsumerX<RuntimeException> shoveX() {
+		return this::shovingDoAccept;
 	}
 
 	// </editor-fold>

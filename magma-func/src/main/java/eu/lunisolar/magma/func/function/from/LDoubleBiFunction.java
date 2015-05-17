@@ -65,6 +65,22 @@ public interface LDoubleBiFunction<R> extends LDoubleBiFunctionX<R, RuntimeExcep
 	@Nullable
 	public R doApply(double d1, double d2);
 
+	default R nestingDoApply(double d1, double d2) {
+		return this.doApply(d1, d2);
+	}
+
+	default R shovingDoApply(double d1, double d2) {
+		return this.doApply(d1, d2);
+	}
+
+	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+
+	/** Ensures the result is not null */
+	@Nonnull
+	default R nonNullDoApply(double d1, double d2) {
+		return Objects.requireNonNull(doApply(d1, d2), NULL_VALUE_MESSAGE_SUPPLIER);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -80,14 +96,6 @@ public interface LDoubleBiFunction<R> extends LDoubleBiFunctionX<R, RuntimeExcep
 		return (d1, d2) -> r;
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
-
-	/** Ensures the result is not null */
-	@Nonnull
-	default R nonNull(double d1, double d2) {
-		return Objects.requireNonNull(doApply(d1, d2), NULL_VALUE_MESSAGE_SUPPLIER);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <R> LDoubleBiFunction<R> l(final @Nonnull LDoubleBiFunction<R> lambda) {
@@ -100,13 +108,7 @@ public interface LDoubleBiFunction<R> extends LDoubleBiFunctionX<R, RuntimeExcep
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <R, X extends Exception> LDoubleBiFunction<R> wrap(final @Nonnull LDoubleBiFunctionX<R, X> other) {
-		return (double d1, double d2) -> {
-			try {
-				return other.doApply(d1, d2);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApply;
 	}
 
 	// </editor-fold>
@@ -157,14 +159,14 @@ public interface LDoubleBiFunction<R> extends LDoubleBiFunctionX<R, RuntimeExcep
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoubleBiFunction<R> nonThrowing() {
+	default LDoubleBiFunction<R> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoubleBiFunctionX<R, RuntimeException> uncheck() {
-		return (LDoubleBiFunctionX) this;
+	default LDoubleBiFunctionX<R, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
@@ -172,11 +174,16 @@ public interface LDoubleBiFunction<R> extends LDoubleBiFunctionX<R, RuntimeExcep
 		return this;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoubleBiFunctionX<R, RuntimeException> shoveX() {
+		return this;
+	}
+
 	// </editor-fold>
 
 	@Nonnull
 	default LDoubleBiFunction<R> nonNullable() {
-		return (d1, d2) -> Objects.requireNonNull(this.doApply(d1, d2));
+		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">

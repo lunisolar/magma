@@ -65,6 +65,28 @@ public interface LShortFunctionX<R, X extends Exception> extends MetaFunction, M
 	@Nullable
 	public R doApply(short s) throws X;
 
+	default R nestingDoApply(short s) {
+		try {
+			return this.doApply(s);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default R shovingDoApply(short s) {
+		return ((LShortFunctionX<R, RuntimeException>) this).doApply(s);
+	}
+
+	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+
+	/** Ensures the result is not null */
+	@Nonnull
+	default R nonNullDoApply(short s) throws X {
+		return Objects.requireNonNull(doApply(s), NULL_VALUE_MESSAGE_SUPPLIER);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -80,14 +102,6 @@ public interface LShortFunctionX<R, X extends Exception> extends MetaFunction, M
 		return (s) -> r;
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
-
-	/** Ensures the result is not null */
-	@Nonnull
-	default R nonNull(short s) throws X {
-		return Objects.requireNonNull(doApply(s), NULL_VALUE_MESSAGE_SUPPLIER);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <R, X extends Exception> LShortFunctionX<R, X> lX(final @Nonnull LShortFunctionX<R, X> lambda) {
@@ -100,7 +114,7 @@ public interface LShortFunctionX<R, X extends Exception> extends MetaFunction, M
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <R, X extends Exception> LShortFunctionX<R, X> wrapX(final @Nonnull LShortFunction<R> other) {
-		return other::doApply;
+		return (LShortFunctionX) other;
 	}
 
 	// </editor-fold>
@@ -205,27 +219,31 @@ public interface LShortFunctionX<R, X extends Exception> extends MetaFunction, M
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LShortFunction<R> nonThrowing() {
-		return LShortFunction.wrap(this);
+	default LShortFunction<R> nest() {
+		return this::nestingDoApply;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LShortFunctionX<R, RuntimeException> uncheck() {
-		return (LShortFunctionX) this;
+	default LShortFunctionX<R, RuntimeException> nestX() {
+		return this::nestingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LShortFunction<R> shove() {
-		LShortFunctionX<R, RuntimeException> exceptionCast = (LShortFunctionX<R, RuntimeException>) this;
-		return exceptionCast::doApply;
+		return this::shovingDoApply;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LShortFunctionX<R, RuntimeException> shoveX() {
+		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
 	default LShortFunctionX<R, X> nonNullableX() {
-		return (s) -> Objects.requireNonNull(this.doApply(s));
+		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">

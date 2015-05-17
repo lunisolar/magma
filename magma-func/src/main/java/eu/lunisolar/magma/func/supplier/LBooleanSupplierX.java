@@ -58,11 +58,37 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBooleanSupplierX<X extends Exception> extends MetaSupplier, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> {
+public interface LBooleanSupplierX<X extends Exception> extends java.util.function.BooleanSupplier, MetaSupplier, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> {
 
 	public static final String DESCRIPTION = "LBooleanSupplierX: boolean doGetAsBoolean() throws X";
 
+	@Override
+	@Deprecated
+	// calling this method via LBooleanSupplierX interface should be discouraged.
+	default boolean getAsBoolean() {
+		return this.nestingDoGetAsBoolean();
+	}
+
 	public boolean doGetAsBoolean() throws X;
+
+	default boolean nestingDoGetAsBoolean() {
+		try {
+			return this.doGetAsBoolean();
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default boolean shovingDoGetAsBoolean() {
+		return ((LBooleanSupplierX<RuntimeException>) this).doGetAsBoolean();
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default boolean nonNullDoGetAsBoolean() throws X {
+		return doGetAsBoolean();
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,11 +98,6 @@ public interface LBooleanSupplierX<X extends Exception> extends MetaSupplier, Pr
 
 	public static <X extends Exception> LBooleanSupplierX<X> of(boolean r) {
 		return () -> r;
-	}
-
-	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNull() throws X {
-		return doGetAsBoolean();
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -90,14 +111,14 @@ public interface LBooleanSupplierX<X extends Exception> extends MetaSupplier, Pr
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Exception> LBooleanSupplierX<X> wrapStd(final java.util.function.BooleanSupplier other) {
+	public static <X extends Exception> LBooleanSupplierX<X> wrap(final java.util.function.BooleanSupplier other) {
 		return other::getAsBoolean;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LBooleanSupplierX<X> wrapX(final @Nonnull LBooleanSupplier other) {
-		return other::doGetAsBoolean;
+		return (LBooleanSupplierX) other;
 	}
 
 	// </editor-fold>
@@ -171,28 +192,26 @@ public interface LBooleanSupplierX<X extends Exception> extends MetaSupplier, Pr
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.BooleanSupplier std() {
-		return LBooleanSupplier.wrap(this)::doGetAsBoolean;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanSupplier nonThrowing() {
-		return LBooleanSupplier.wrap(this);
+	default LBooleanSupplier nest() {
+		return this::nestingDoGetAsBoolean;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanSupplierX<RuntimeException> uncheck() {
-		return (LBooleanSupplierX) this;
+	default LBooleanSupplierX<RuntimeException> nestX() {
+		return this::nestingDoGetAsBoolean;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBooleanSupplier shove() {
-		LBooleanSupplierX<RuntimeException> exceptionCast = (LBooleanSupplierX<RuntimeException>) this;
-		return exceptionCast::doGetAsBoolean;
+		return this::shovingDoGetAsBoolean;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBooleanSupplierX<RuntimeException> shoveX() {
+		return this::shovingDoGetAsBoolean;
 	}
 
 	// </editor-fold>

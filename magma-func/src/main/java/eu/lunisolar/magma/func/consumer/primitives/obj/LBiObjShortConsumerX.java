@@ -65,6 +65,20 @@ public interface LBiObjShortConsumerX<T1, T2, X extends Exception> extends MetaC
 
 	public void doAccept(T1 t1, T2 t2, short s) throws X;
 
+	default void nestingDoAccept(T1 t1, T2 t2, short s) {
+		try {
+			this.doAccept(t1, t2, s);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default void shovingDoAccept(T1 t1, T2 t2, short s) {
+		((LBiObjShortConsumerX<T1, T2, RuntimeException>) this).doAccept(t1, t2, s);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -88,7 +102,7 @@ public interface LBiObjShortConsumerX<T1, T2, X extends Exception> extends MetaC
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T1, T2, X extends Exception> LBiObjShortConsumerX<T1, T2, X> wrapX(final @Nonnull LBiObjShortConsumer<T1, T2> other) {
-		return other::doAccept;
+		return (LBiObjShortConsumerX) other;
 	}
 
 	// </editor-fold>
@@ -136,20 +150,24 @@ public interface LBiObjShortConsumerX<T1, T2, X extends Exception> extends MetaC
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiObjShortConsumer<T1, T2> nonThrowing() {
-		return LBiObjShortConsumer.wrap(this);
+	default LBiObjShortConsumer<T1, T2> nest() {
+		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiObjShortConsumerX<T1, T2, RuntimeException> uncheck() {
-		return (LBiObjShortConsumerX) this;
+	default LBiObjShortConsumerX<T1, T2, RuntimeException> nestX() {
+		return this::nestingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBiObjShortConsumer<T1, T2> shove() {
-		LBiObjShortConsumerX<T1, T2, RuntimeException> exceptionCast = (LBiObjShortConsumerX<T1, T2, RuntimeException>) this;
-		return exceptionCast::doAccept;
+		return this::shovingDoAccept;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBiObjShortConsumerX<T1, T2, RuntimeException> shoveX() {
+		return this::shovingDoAccept;
 	}
 
 	// </editor-fold>

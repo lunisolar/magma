@@ -58,13 +58,29 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LToDoubleFunction<T> extends java.util.function.ToDoubleFunction<T>, LToDoubleFunctionX<T, RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LToDoubleFunction<T> extends LToDoubleFunctionX<T, RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
 	public static final String DESCRIPTION = "LToDoubleFunction: double doApplyAsDouble(T t)";
 
+	@Override
+	@Deprecated
+	// calling this method via LToDoubleFunction interface should be discouraged.
+	default double applyAsDouble(T t) {
+		return this.nestingDoApplyAsDouble(t);
+	}
+
 	public double doApplyAsDouble(T t);
 
-	default double applyAsDouble(T t) {
+	default double nestingDoApplyAsDouble(T t) {
+		return this.doApplyAsDouble(t);
+	}
+
+	default double shovingDoApplyAsDouble(T t) {
+		return this.doApplyAsDouble(t);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default double nonNullDoApplyAsDouble(T t) {
 		return doApplyAsDouble(t);
 	}
 
@@ -83,11 +99,6 @@ public interface LToDoubleFunction<T> extends java.util.function.ToDoubleFunctio
 		return (t) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default double nonNull(T t) {
-		return doApplyAsDouble(t);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T> LToDoubleFunction<T> l(final @Nonnull LToDoubleFunction<T> lambda) {
@@ -99,20 +110,14 @@ public interface LToDoubleFunction<T> extends java.util.function.ToDoubleFunctio
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T> LToDoubleFunction<T> wrapStd(final java.util.function.ToDoubleFunction<T> other) {
+	public static <T> LToDoubleFunction<T> wrap(final java.util.function.ToDoubleFunction<T> other) {
 		return other::applyAsDouble;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T, X extends Exception> LToDoubleFunction<T> wrap(final @Nonnull LToDoubleFunctionX<T, X> other) {
-		return (T t) -> {
-			try {
-				return other.doApplyAsDouble(t);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApplyAsDouble;
 	}
 
 	// </editor-fold>
@@ -199,26 +204,25 @@ public interface LToDoubleFunction<T> extends java.util.function.ToDoubleFunctio
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.ToDoubleFunction<T> std() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToDoubleFunction<T> nonThrowing() {
+	default LToDoubleFunction<T> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToDoubleFunctionX<T, RuntimeException> uncheck() {
-		return (LToDoubleFunctionX) this;
+	default LToDoubleFunctionX<T, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LToDoubleFunction<T> shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToDoubleFunctionX<T, RuntimeException> shoveX() {
 		return this;
 	}
 

@@ -64,6 +64,25 @@ public interface LObjIntToIntFunctionX<T, X extends Exception> extends MetaFunct
 
 	public int doApplyAsInt(T t, int i) throws X;
 
+	default int nestingDoApplyAsInt(T t, int i) {
+		try {
+			return this.doApplyAsInt(t, i);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default int shovingDoApplyAsInt(T t, int i) {
+		return ((LObjIntToIntFunctionX<T, RuntimeException>) this).doApplyAsInt(t, i);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default int nonNullDoApplyAsInt(T t, int i) throws X {
+		return doApplyAsInt(t, i);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +98,6 @@ public interface LObjIntToIntFunctionX<T, X extends Exception> extends MetaFunct
 		return (t, i) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default int nonNull(T t, int i) throws X {
-		return doApplyAsInt(t, i);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T, X extends Exception> LObjIntToIntFunctionX<T, X> lX(final @Nonnull LObjIntToIntFunctionX<T, X> lambda) {
@@ -96,7 +110,7 @@ public interface LObjIntToIntFunctionX<T, X extends Exception> extends MetaFunct
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T, X extends Exception> LObjIntToIntFunctionX<T, X> wrapX(final @Nonnull LObjIntToIntFunction<T> other) {
-		return other::doApplyAsInt;
+		return (LObjIntToIntFunctionX) other;
 	}
 
 	// </editor-fold>
@@ -140,20 +154,24 @@ public interface LObjIntToIntFunctionX<T, X extends Exception> extends MetaFunct
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjIntToIntFunction<T> nonThrowing() {
-		return LObjIntToIntFunction.wrap(this);
+	default LObjIntToIntFunction<T> nest() {
+		return this::nestingDoApplyAsInt;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjIntToIntFunctionX<T, RuntimeException> uncheck() {
-		return (LObjIntToIntFunctionX) this;
+	default LObjIntToIntFunctionX<T, RuntimeException> nestX() {
+		return this::nestingDoApplyAsInt;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjIntToIntFunction<T> shove() {
-		LObjIntToIntFunctionX<T, RuntimeException> exceptionCast = (LObjIntToIntFunctionX<T, RuntimeException>) this;
-		return exceptionCast::doApplyAsInt;
+		return this::shovingDoApplyAsInt;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LObjIntToIntFunctionX<T, RuntimeException> shoveX() {
+		return this::shovingDoApplyAsInt;
 	}
 
 	// </editor-fold>

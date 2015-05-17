@@ -64,6 +64,19 @@ public interface LCharUnaryOperator extends LCharUnaryOperatorX<RuntimeException
 
 	public char doApplyAsChar(char c);
 
+	default char nestingDoApplyAsChar(char c) {
+		return this.doApplyAsChar(c);
+	}
+
+	default char shovingDoApplyAsChar(char c) {
+		return this.doApplyAsChar(c);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default char nonNullDoApplyAsChar(char c) {
+		return doApplyAsChar(c);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +92,6 @@ public interface LCharUnaryOperator extends LCharUnaryOperatorX<RuntimeException
 		return (c) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default char nonNull(char c) {
-		return doApplyAsChar(c);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LCharUnaryOperator l(final @Nonnull LCharUnaryOperator lambda) {
@@ -96,13 +104,7 @@ public interface LCharUnaryOperator extends LCharUnaryOperatorX<RuntimeException
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LCharUnaryOperator wrap(final @Nonnull LCharUnaryOperatorX<X> other) {
-		return (char c) -> {
-			try {
-				return other.doApplyAsChar(c);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApplyAsChar;
 	}
 
 	// </editor-fold>
@@ -206,18 +208,23 @@ public interface LCharUnaryOperator extends LCharUnaryOperatorX<RuntimeException
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LCharUnaryOperator nonThrowing() {
+	default LCharUnaryOperator nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LCharUnaryOperatorX<RuntimeException> uncheck() {
-		return (LCharUnaryOperatorX) this;
+	default LCharUnaryOperatorX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LCharUnaryOperator shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LCharUnaryOperatorX<RuntimeException> shoveX() {
 		return this;
 	}
 

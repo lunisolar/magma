@@ -64,6 +64,25 @@ public interface LToCharFunctionX<T, X extends Exception> extends MetaFunction, 
 
 	public char doApplyAsChar(T t) throws X;
 
+	default char nestingDoApplyAsChar(T t) {
+		try {
+			return this.doApplyAsChar(t);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default char shovingDoApplyAsChar(T t) {
+		return ((LToCharFunctionX<T, RuntimeException>) this).doApplyAsChar(t);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default char nonNullDoApplyAsChar(T t) throws X {
+		return doApplyAsChar(t);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +98,6 @@ public interface LToCharFunctionX<T, X extends Exception> extends MetaFunction, 
 		return (t) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default char nonNull(T t) throws X {
-		return doApplyAsChar(t);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T, X extends Exception> LToCharFunctionX<T, X> lX(final @Nonnull LToCharFunctionX<T, X> lambda) {
@@ -96,7 +110,7 @@ public interface LToCharFunctionX<T, X extends Exception> extends MetaFunction, 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T, X extends Exception> LToCharFunctionX<T, X> wrapX(final @Nonnull LToCharFunction<T> other) {
-		return other::doApplyAsChar;
+		return (LToCharFunctionX) other;
 	}
 
 	// </editor-fold>
@@ -185,20 +199,24 @@ public interface LToCharFunctionX<T, X extends Exception> extends MetaFunction, 
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToCharFunction<T> nonThrowing() {
-		return LToCharFunction.wrap(this);
+	default LToCharFunction<T> nest() {
+		return this::nestingDoApplyAsChar;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToCharFunctionX<T, RuntimeException> uncheck() {
-		return (LToCharFunctionX) this;
+	default LToCharFunctionX<T, RuntimeException> nestX() {
+		return this::nestingDoApplyAsChar;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LToCharFunction<T> shove() {
-		LToCharFunctionX<T, RuntimeException> exceptionCast = (LToCharFunctionX<T, RuntimeException>) this;
-		return exceptionCast::doApplyAsChar;
+		return this::shovingDoApplyAsChar;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToCharFunctionX<T, RuntimeException> shoveX() {
+		return this::shovingDoApplyAsChar;
 	}
 
 	// </editor-fold>

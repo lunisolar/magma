@@ -76,6 +76,15 @@ public class LDoubleSupplierXTest<X extends ParseException> {
     private java.util.function.DoubleSupplier jre = () -> testValue;
 
 
+    private LDoubleSupplierX<ParseException> sutAlwaysThrowing = LDoubleSupplierX.lX(() -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LDoubleSupplierX<RuntimeException> sutAlwaysThrowingUnckeck = LDoubleSupplierX.lX(() -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
     @Test
     public void testTheResult() throws ParseException {
         assertThat(sut.doGetAsDouble())
@@ -83,10 +92,71 @@ public class LDoubleSupplierXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNonNullShouldNotModifyValue() throws ParseException {
-        assertThat(sut.nonNull())
+    public void testNonNullDoGetAsDouble() throws ParseException {
+        assertThat(sut.nonNullDoGetAsDouble())
             .isEqualTo(testValue);
     }
+
+    @Test
+    public void testNestingDoGetAsDouble_checked() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowing.nestingDoGetAsDouble();
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(NestedException.class)
+                    .hasCauseExactlyInstanceOf(ParseException.class)
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testNestingDoGetAsDouble_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.nestingDoGetAsDouble();
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoGetAsDouble_checked() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowing.shovingDoGetAsDouble();
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(ParseException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoGetAsDouble_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.shovingDoGetAsDouble();
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
 
 
     @Test
@@ -109,7 +179,7 @@ public class LDoubleSupplierXTest<X extends ParseException> {
 
     @Test
     public void testWrapStdMethod() throws ParseException {
-        assertThat(LDoubleSupplierX.wrapStd(jre))
+        assertThat(LDoubleSupplierX.wrap(jre))
             .isInstanceOf(LDoubleSupplierX.class);
     }
 
@@ -499,19 +569,35 @@ public class LDoubleSupplierXTest<X extends ParseException> {
 
 
     // </editor-fold>
+//
+//    @Test
+//    public void testStd() {
+//        assertThat(sut.std()).isInstanceOf(java.util.function.DoubleSupplier.class);
+//    }
+//
+//
     @Test
-    public void testStd() {
-        assertThat(sut.std()).isInstanceOf(java.util.function.DoubleSupplier.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isInstanceOf(LDoubleSupplier.class);
     }
 
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LDoubleSupplier.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isInstanceOf(LDoubleSupplier.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LDoubleSupplierX.class);
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isInstanceOf(LDoubleSupplierX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isInstanceOf(LDoubleSupplierX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

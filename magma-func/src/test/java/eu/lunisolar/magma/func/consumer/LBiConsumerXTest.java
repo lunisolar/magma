@@ -74,6 +74,15 @@ public class LBiConsumerXTest<T1,T2,X extends ParseException> {
     private java.util.function.BiConsumer jre = (Object t1,Object t2) -> Function4U.doNothing();
 
 
+    private LBiConsumerX<T1,T2,ParseException> sutAlwaysThrowing = LBiConsumerX.lX((T1 t1,T2 t2) -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LBiConsumerX<T1,T2,RuntimeException> sutAlwaysThrowingUnckeck = LBiConsumerX.lX((T1 t1,T2 t2) -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
 
 
     @Test
@@ -96,7 +105,7 @@ public class LBiConsumerXTest<T1,T2,X extends ParseException> {
 
     @Test
     public void testWrapStdMethod() throws ParseException {
-        assertThat(LBiConsumerX.wrapStd(jre))
+        assertThat(LBiConsumerX.wrap(jre))
             .isInstanceOf(LBiConsumerX.class);
     }
 
@@ -242,19 +251,35 @@ public class LBiConsumerXTest<T1,T2,X extends ParseException> {
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
+//
+//    @Test
+//    public void testStd() {
+//        assertThat(sut.std()).isInstanceOf(java.util.function.BiConsumer.class);
+//    }
+//
+//
     @Test
-    public void testStd() {
-        assertThat(sut.std()).isInstanceOf(java.util.function.BiConsumer.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isInstanceOf(LBiConsumer.class);
     }
 
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LBiConsumer.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isInstanceOf(LBiConsumer.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LBiConsumerX.class);
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isInstanceOf(LBiConsumerX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isInstanceOf(LBiConsumerX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

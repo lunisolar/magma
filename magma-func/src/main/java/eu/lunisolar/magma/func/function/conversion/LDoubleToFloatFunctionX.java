@@ -64,6 +64,25 @@ public interface LDoubleToFloatFunctionX<X extends Exception> extends MetaFuncti
 
 	public float doApplyAsFloat(double d) throws X;
 
+	default float nestingDoApplyAsFloat(double d) {
+		try {
+			return this.doApplyAsFloat(d);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default float shovingDoApplyAsFloat(double d) {
+		return ((LDoubleToFloatFunctionX<RuntimeException>) this).doApplyAsFloat(d);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default float nonNullDoApplyAsFloat(double d) throws X {
+		return doApplyAsFloat(d);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +98,6 @@ public interface LDoubleToFloatFunctionX<X extends Exception> extends MetaFuncti
 		return (d) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default float nonNull(double d) throws X {
-		return doApplyAsFloat(d);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <X extends Exception> LDoubleToFloatFunctionX<X> lX(final @Nonnull LDoubleToFloatFunctionX<X> lambda) {
@@ -96,7 +110,7 @@ public interface LDoubleToFloatFunctionX<X extends Exception> extends MetaFuncti
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LDoubleToFloatFunctionX<X> wrapX(final @Nonnull LDoubleToFloatFunction other) {
-		return other::doApplyAsFloat;
+		return (LDoubleToFloatFunctionX) other;
 	}
 
 	// </editor-fold>
@@ -194,20 +208,24 @@ public interface LDoubleToFloatFunctionX<X extends Exception> extends MetaFuncti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoubleToFloatFunction nonThrowing() {
-		return LDoubleToFloatFunction.wrap(this);
+	default LDoubleToFloatFunction nest() {
+		return this::nestingDoApplyAsFloat;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoubleToFloatFunctionX<RuntimeException> uncheck() {
-		return (LDoubleToFloatFunctionX) this;
+	default LDoubleToFloatFunctionX<RuntimeException> nestX() {
+		return this::nestingDoApplyAsFloat;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LDoubleToFloatFunction shove() {
-		LDoubleToFloatFunctionX<RuntimeException> exceptionCast = (LDoubleToFloatFunctionX<RuntimeException>) this;
-		return exceptionCast::doApplyAsFloat;
+		return this::shovingDoApplyAsFloat;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoubleToFloatFunctionX<RuntimeException> shoveX() {
+		return this::shovingDoApplyAsFloat;
 	}
 
 	// </editor-fold>

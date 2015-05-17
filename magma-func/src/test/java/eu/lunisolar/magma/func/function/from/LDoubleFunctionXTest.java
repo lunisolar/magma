@@ -82,6 +82,15 @@ public class LDoubleFunctionXTest<R,X extends ParseException> {
     private java.util.function.DoubleFunction jre = (double d) -> testValue;
 
 
+    private LDoubleFunctionX<R,ParseException> sutAlwaysThrowing = LDoubleFunctionX.lX((double d) -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LDoubleFunctionX<R,RuntimeException> sutAlwaysThrowingUnckeck = LDoubleFunctionX.lX((double d) -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
     @Test
     public void testTheResult() throws ParseException {
         assertThat(sut.doApply((double)100))
@@ -89,14 +98,75 @@ public class LDoubleFunctionXTest<R,X extends ParseException> {
     }
 
     @Test
-    public void testNonNullShouldNotModifyValue() throws ParseException {
-        assertThat(sut.nonNull((double)100))
+    public void testNonNullDoApply() throws ParseException {
+        assertThat(sut.nonNullDoApply((double)100))
             .isSameAs(testValue);
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LDoubleFunctionX: R doApply(double d) throws X).\\E")
+    @Test
+    public void testNestingDoApply_checked() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowing.nestingDoApply((double)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(NestedException.class)
+                    .hasCauseExactlyInstanceOf(ParseException.class)
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testNestingDoApply_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.nestingDoApply((double)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoApply_checked() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowing.shovingDoApply((double)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(ParseException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoApply_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.shovingDoApply((double)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LDoubleFunctionX: R doApply(double d) throws X).\\E")
     public void testNonNullCapturesNull() throws ParseException {
-        sutNull.nonNull((double)100);
+        sutNull.nonNullDoApply((double)100);
     }
 
 
@@ -120,7 +190,7 @@ public class LDoubleFunctionXTest<R,X extends ParseException> {
 
     @Test
     public void testWrapStdMethod() throws ParseException {
-        assertThat(LDoubleFunctionX.wrapStd(jre))
+        assertThat(LDoubleFunctionX.wrap(jre))
             .isInstanceOf(LDoubleFunctionX.class);
     }
 
@@ -613,19 +683,35 @@ public class LDoubleFunctionXTest<R,X extends ParseException> {
 
 
     // </editor-fold>
+//
+//    @Test
+//    public void testStd() {
+//        assertThat(sut.std()).isInstanceOf(java.util.function.DoubleFunction.class);
+//    }
+//
+//
     @Test
-    public void testStd() {
-        assertThat(sut.std()).isInstanceOf(java.util.function.DoubleFunction.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isInstanceOf(LDoubleFunction.class);
     }
 
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LDoubleFunction.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isInstanceOf(LDoubleFunction.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LDoubleFunctionX.class);
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isInstanceOf(LDoubleFunctionX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isInstanceOf(LDoubleFunctionX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

@@ -64,6 +64,25 @@ public interface LIntToByteFunctionX<X extends Exception> extends MetaFunction, 
 
 	public byte doApplyAsByte(int i) throws X;
 
+	default byte nestingDoApplyAsByte(int i) {
+		try {
+			return this.doApplyAsByte(i);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default byte shovingDoApplyAsByte(int i) {
+		return ((LIntToByteFunctionX<RuntimeException>) this).doApplyAsByte(i);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default byte nonNullDoApplyAsByte(int i) throws X {
+		return doApplyAsByte(i);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +98,6 @@ public interface LIntToByteFunctionX<X extends Exception> extends MetaFunction, 
 		return (i) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default byte nonNull(int i) throws X {
-		return doApplyAsByte(i);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <X extends Exception> LIntToByteFunctionX<X> lX(final @Nonnull LIntToByteFunctionX<X> lambda) {
@@ -96,7 +110,7 @@ public interface LIntToByteFunctionX<X extends Exception> extends MetaFunction, 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LIntToByteFunctionX<X> wrapX(final @Nonnull LIntToByteFunction other) {
-		return other::doApplyAsByte;
+		return (LIntToByteFunctionX) other;
 	}
 
 	// </editor-fold>
@@ -194,20 +208,24 @@ public interface LIntToByteFunctionX<X extends Exception> extends MetaFunction, 
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntToByteFunction nonThrowing() {
-		return LIntToByteFunction.wrap(this);
+	default LIntToByteFunction nest() {
+		return this::nestingDoApplyAsByte;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntToByteFunctionX<RuntimeException> uncheck() {
-		return (LIntToByteFunctionX) this;
+	default LIntToByteFunctionX<RuntimeException> nestX() {
+		return this::nestingDoApplyAsByte;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LIntToByteFunction shove() {
-		LIntToByteFunctionX<RuntimeException> exceptionCast = (LIntToByteFunctionX<RuntimeException>) this;
-		return exceptionCast::doApplyAsByte;
+		return this::shovingDoApplyAsByte;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntToByteFunctionX<RuntimeException> shoveX() {
+		return this::shovingDoApplyAsByte;
 	}
 
 	// </editor-fold>

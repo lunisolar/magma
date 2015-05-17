@@ -58,13 +58,29 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBooleanSupplier extends java.util.function.BooleanSupplier, LBooleanSupplierX<RuntimeException>, MetaSupplier, PrimitiveCodomain<Object>, MetaInterface.NonThrowing {
+public interface LBooleanSupplier extends LBooleanSupplierX<RuntimeException>, MetaSupplier, PrimitiveCodomain<Object>, MetaInterface.NonThrowing {
 
 	public static final String DESCRIPTION = "LBooleanSupplier: boolean doGetAsBoolean()";
 
+	@Override
+	@Deprecated
+	// calling this method via LBooleanSupplier interface should be discouraged.
+	default boolean getAsBoolean() {
+		return this.nestingDoGetAsBoolean();
+	}
+
 	public boolean doGetAsBoolean();
 
-	default boolean getAsBoolean() {
+	default boolean nestingDoGetAsBoolean() {
+		return this.doGetAsBoolean();
+	}
+
+	default boolean shovingDoGetAsBoolean() {
+		return this.doGetAsBoolean();
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default boolean nonNullDoGetAsBoolean() {
 		return doGetAsBoolean();
 	}
 
@@ -78,11 +94,6 @@ public interface LBooleanSupplier extends java.util.function.BooleanSupplier, LB
 		return () -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNull() {
-		return doGetAsBoolean();
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LBooleanSupplier l(final @Nonnull LBooleanSupplier lambda) {
@@ -94,20 +105,14 @@ public interface LBooleanSupplier extends java.util.function.BooleanSupplier, LB
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LBooleanSupplier wrapStd(final java.util.function.BooleanSupplier other) {
+	public static LBooleanSupplier wrap(final java.util.function.BooleanSupplier other) {
 		return other::getAsBoolean;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LBooleanSupplier wrap(final @Nonnull LBooleanSupplierX<X> other) {
-		return () -> {
-			try {
-				return other.doGetAsBoolean();
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoGetAsBoolean;
 	}
 
 	// </editor-fold>
@@ -181,26 +186,25 @@ public interface LBooleanSupplier extends java.util.function.BooleanSupplier, LB
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.BooleanSupplier std() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanSupplier nonThrowing() {
+	default LBooleanSupplier nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanSupplierX<RuntimeException> uncheck() {
-		return (LBooleanSupplierX) this;
+	default LBooleanSupplierX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBooleanSupplier shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBooleanSupplierX<RuntimeException> shoveX() {
 		return this;
 	}
 

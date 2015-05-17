@@ -58,13 +58,29 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LIntSupplier extends java.util.function.IntSupplier, LIntSupplierX<RuntimeException>, MetaSupplier, PrimitiveCodomain<Object>, MetaInterface.NonThrowing {
+public interface LIntSupplier extends LIntSupplierX<RuntimeException>, MetaSupplier, PrimitiveCodomain<Object>, MetaInterface.NonThrowing {
 
 	public static final String DESCRIPTION = "LIntSupplier: int doGetAsInt()";
 
+	@Override
+	@Deprecated
+	// calling this method via LIntSupplier interface should be discouraged.
+	default int getAsInt() {
+		return this.nestingDoGetAsInt();
+	}
+
 	public int doGetAsInt();
 
-	default int getAsInt() {
+	default int nestingDoGetAsInt() {
+		return this.doGetAsInt();
+	}
+
+	default int shovingDoGetAsInt() {
+		return this.doGetAsInt();
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default int nonNullDoGetAsInt() {
 		return doGetAsInt();
 	}
 
@@ -78,11 +94,6 @@ public interface LIntSupplier extends java.util.function.IntSupplier, LIntSuppli
 		return () -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default int nonNull() {
-		return doGetAsInt();
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LIntSupplier l(final @Nonnull LIntSupplier lambda) {
@@ -94,20 +105,14 @@ public interface LIntSupplier extends java.util.function.IntSupplier, LIntSuppli
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LIntSupplier wrapStd(final java.util.function.IntSupplier other) {
+	public static LIntSupplier wrap(final java.util.function.IntSupplier other) {
 		return other::getAsInt;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LIntSupplier wrap(final @Nonnull LIntSupplierX<X> other) {
-		return () -> {
-			try {
-				return other.doGetAsInt();
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoGetAsInt;
 	}
 
 	// </editor-fold>
@@ -181,26 +186,25 @@ public interface LIntSupplier extends java.util.function.IntSupplier, LIntSuppli
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.IntSupplier std() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntSupplier nonThrowing() {
+	default LIntSupplier nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntSupplierX<RuntimeException> uncheck() {
-		return (LIntSupplierX) this;
+	default LIntSupplierX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LIntSupplier shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntSupplierX<RuntimeException> shoveX() {
 		return this;
 	}
 

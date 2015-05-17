@@ -65,6 +65,20 @@ public interface LTriConsumerX<T1, T2, T3, X extends Exception> extends MetaCons
 
 	public void doAccept(T1 t1, T2 t2, T3 t3) throws X;
 
+	default void nestingDoAccept(T1 t1, T2 t2, T3 t3) {
+		try {
+			this.doAccept(t1, t2, t3);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default void shovingDoAccept(T1 t1, T2 t2, T3 t3) {
+		((LTriConsumerX<T1, T2, T3, RuntimeException>) this).doAccept(t1, t2, t3);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -88,7 +102,7 @@ public interface LTriConsumerX<T1, T2, T3, X extends Exception> extends MetaCons
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T1, T2, T3, X extends Exception> LTriConsumerX<T1, T2, T3, X> wrapX(final @Nonnull LTriConsumer<T1, T2, T3> other) {
-		return other::doAccept;
+		return (LTriConsumerX) other;
 	}
 
 	// </editor-fold>
@@ -125,20 +139,24 @@ public interface LTriConsumerX<T1, T2, T3, X extends Exception> extends MetaCons
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LTriConsumer<T1, T2, T3> nonThrowing() {
-		return LTriConsumer.wrap(this);
+	default LTriConsumer<T1, T2, T3> nest() {
+		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LTriConsumerX<T1, T2, T3, RuntimeException> uncheck() {
-		return (LTriConsumerX) this;
+	default LTriConsumerX<T1, T2, T3, RuntimeException> nestX() {
+		return this::nestingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LTriConsumer<T1, T2, T3> shove() {
-		LTriConsumerX<T1, T2, T3, RuntimeException> exceptionCast = (LTriConsumerX<T1, T2, T3, RuntimeException>) this;
-		return exceptionCast::doAccept;
+		return this::shovingDoAccept;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LTriConsumerX<T1, T2, T3, RuntimeException> shoveX() {
+		return this::shovingDoAccept;
 	}
 
 	// </editor-fold>

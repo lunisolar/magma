@@ -65,6 +65,20 @@ public interface LShortConsumerX<X extends Exception> extends MetaConsumer, Meta
 
 	public void doAccept(short s) throws X;
 
+	default void nestingDoAccept(short s) {
+		try {
+			this.doAccept(s);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default void shovingDoAccept(short s) {
+		((LShortConsumerX<RuntimeException>) this).doAccept(s);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -88,7 +102,7 @@ public interface LShortConsumerX<X extends Exception> extends MetaConsumer, Meta
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LShortConsumerX<X> wrapX(final @Nonnull LShortConsumer other) {
-		return other::doAccept;
+		return (LShortConsumerX) other;
 	}
 
 	// </editor-fold>
@@ -132,20 +146,24 @@ public interface LShortConsumerX<X extends Exception> extends MetaConsumer, Meta
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LShortConsumer nonThrowing() {
-		return LShortConsumer.wrap(this);
+	default LShortConsumer nest() {
+		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LShortConsumerX<RuntimeException> uncheck() {
-		return (LShortConsumerX) this;
+	default LShortConsumerX<RuntimeException> nestX() {
+		return this::nestingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LShortConsumer shove() {
-		LShortConsumerX<RuntimeException> exceptionCast = (LShortConsumerX<RuntimeException>) this;
-		return exceptionCast::doAccept;
+		return this::shovingDoAccept;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LShortConsumerX<RuntimeException> shoveX() {
+		return this::shovingDoAccept;
 	}
 
 	// </editor-fold>

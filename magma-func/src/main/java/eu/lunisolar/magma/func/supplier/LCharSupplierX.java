@@ -64,6 +64,25 @@ public interface LCharSupplierX<X extends Exception> extends MetaSupplier, Primi
 
 	public char doGetAsChar() throws X;
 
+	default char nestingDoGetAsChar() {
+		try {
+			return this.doGetAsChar();
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default char shovingDoGetAsChar() {
+		return ((LCharSupplierX<RuntimeException>) this).doGetAsChar();
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default char nonNullDoGetAsChar() throws X {
+		return doGetAsChar();
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -72,11 +91,6 @@ public interface LCharSupplierX<X extends Exception> extends MetaSupplier, Primi
 
 	public static <X extends Exception> LCharSupplierX<X> of(char r) {
 		return () -> r;
-	}
-
-	/** Just to mirror the method: Ensures the result is not null */
-	default char nonNull() throws X {
-		return doGetAsChar();
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -91,7 +105,7 @@ public interface LCharSupplierX<X extends Exception> extends MetaSupplier, Primi
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LCharSupplierX<X> wrapX(final @Nonnull LCharSupplier other) {
-		return other::doGetAsChar;
+		return (LCharSupplierX) other;
 	}
 
 	// </editor-fold>
@@ -167,20 +181,24 @@ public interface LCharSupplierX<X extends Exception> extends MetaSupplier, Primi
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LCharSupplier nonThrowing() {
-		return LCharSupplier.wrap(this);
+	default LCharSupplier nest() {
+		return this::nestingDoGetAsChar;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LCharSupplierX<RuntimeException> uncheck() {
-		return (LCharSupplierX) this;
+	default LCharSupplierX<RuntimeException> nestX() {
+		return this::nestingDoGetAsChar;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LCharSupplier shove() {
-		LCharSupplierX<RuntimeException> exceptionCast = (LCharSupplierX<RuntimeException>) this;
-		return exceptionCast::doGetAsChar;
+		return this::shovingDoGetAsChar;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LCharSupplierX<RuntimeException> shoveX() {
+		return this::shovingDoGetAsChar;
 	}
 
 	// </editor-fold>

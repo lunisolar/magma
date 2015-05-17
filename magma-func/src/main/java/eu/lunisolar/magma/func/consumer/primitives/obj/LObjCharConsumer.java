@@ -65,6 +65,14 @@ public interface LObjCharConsumer<T> extends LObjCharConsumerX<T, RuntimeExcepti
 
 	public void doAccept(T t, char c);
 
+	default void nestingDoAccept(T t, char c) {
+		this.doAccept(t, c);
+	}
+
+	default void shovingDoAccept(T t, char c) {
+		this.doAccept(t, c);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -88,13 +96,7 @@ public interface LObjCharConsumer<T> extends LObjCharConsumerX<T, RuntimeExcepti
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T, X extends Exception> LObjCharConsumer<T> wrap(final @Nonnull LObjCharConsumerX<T, X> other) {
-		return (T t, char c) -> {
-			try {
-				other.doAccept(t, c);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoAccept;
 	}
 
 	// </editor-fold>
@@ -140,18 +142,23 @@ public interface LObjCharConsumer<T> extends LObjCharConsumerX<T, RuntimeExcepti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjCharConsumer<T> nonThrowing() {
+	default LObjCharConsumer<T> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjCharConsumerX<T, RuntimeException> uncheck() {
-		return (LObjCharConsumerX) this;
+	default LObjCharConsumerX<T, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjCharConsumer<T> shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LObjCharConsumerX<T, RuntimeException> shoveX() {
 		return this;
 	}
 

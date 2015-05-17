@@ -72,6 +72,15 @@ public class LShortConsumerXTest<X extends ParseException> {
 
 
 
+    private LShortConsumerX<ParseException> sutAlwaysThrowing = LShortConsumerX.lX((short s) -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LShortConsumerX<RuntimeException> sutAlwaysThrowingUnckeck = LShortConsumerX.lX((short s) -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
 
 
     @Test
@@ -254,14 +263,29 @@ public class LShortConsumerXTest<X extends ParseException> {
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
+//
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LShortConsumer.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isInstanceOf(LShortConsumer.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LShortConsumerX.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isInstanceOf(LShortConsumer.class);
+    }
+
+    @Test
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isInstanceOf(LShortConsumerX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isInstanceOf(LShortConsumerX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

@@ -76,6 +76,15 @@ public class LDoubleBinaryOperatorXTest<X extends ParseException> {
     private java.util.function.DoubleBinaryOperator jre = (double d1,double d2) -> testValue;
 
 
+    private LDoubleBinaryOperatorX<ParseException> sutAlwaysThrowing = LDoubleBinaryOperatorX.lX((double d1,double d2) -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LDoubleBinaryOperatorX<RuntimeException> sutAlwaysThrowingUnckeck = LDoubleBinaryOperatorX.lX((double d1,double d2) -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
     @Test
     public void testTheResult() throws ParseException {
         assertThat(sut.doApplyAsDouble((double)100,(double)100))
@@ -83,10 +92,71 @@ public class LDoubleBinaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNonNullShouldNotModifyValue() throws ParseException {
-        assertThat(sut.nonNull((double)100,(double)100))
+    public void testNonNullDoApplyAsDouble() throws ParseException {
+        assertThat(sut.nonNullDoApplyAsDouble((double)100,(double)100))
             .isEqualTo(testValue);
     }
+
+    @Test
+    public void testNestingDoApplyAsDouble_checked() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowing.nestingDoApplyAsDouble((double)100,(double)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(NestedException.class)
+                    .hasCauseExactlyInstanceOf(ParseException.class)
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testNestingDoApplyAsDouble_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.nestingDoApplyAsDouble((double)100,(double)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoApplyAsDouble_checked() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowing.shovingDoApplyAsDouble((double)100,(double)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(ParseException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoApplyAsDouble_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.shovingDoApplyAsDouble((double)100,(double)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
 
 
     @Test
@@ -109,7 +179,7 @@ public class LDoubleBinaryOperatorXTest<X extends ParseException> {
 
     @Test
     public void testWrapStdMethod() throws ParseException {
-        assertThat(LDoubleBinaryOperatorX.wrapStd(jre))
+        assertThat(LDoubleBinaryOperatorX.wrap(jre))
             .isInstanceOf(LDoubleBinaryOperatorX.class);
     }
 
@@ -337,19 +407,35 @@ public class LDoubleBinaryOperatorXTest<X extends ParseException> {
 
 
     // </editor-fold>
+//
+//    @Test
+//    public void testStd() {
+//        assertThat(sut.std()).isInstanceOf(java.util.function.DoubleBinaryOperator.class);
+//    }
+//
+//
     @Test
-    public void testStd() {
-        assertThat(sut.std()).isInstanceOf(java.util.function.DoubleBinaryOperator.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isInstanceOf(LDoubleBinaryOperator.class);
     }
 
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LDoubleBinaryOperator.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isInstanceOf(LDoubleBinaryOperator.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LDoubleBinaryOperatorX.class);
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isInstanceOf(LDoubleBinaryOperatorX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isInstanceOf(LDoubleBinaryOperatorX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

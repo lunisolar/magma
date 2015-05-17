@@ -58,11 +58,37 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LDoubleSupplierX<X extends Exception> extends MetaSupplier, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> {
+public interface LDoubleSupplierX<X extends Exception> extends java.util.function.DoubleSupplier, MetaSupplier, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> {
 
 	public static final String DESCRIPTION = "LDoubleSupplierX: double doGetAsDouble() throws X";
 
+	@Override
+	@Deprecated
+	// calling this method via LDoubleSupplierX interface should be discouraged.
+	default double getAsDouble() {
+		return this.nestingDoGetAsDouble();
+	}
+
 	public double doGetAsDouble() throws X;
+
+	default double nestingDoGetAsDouble() {
+		try {
+			return this.doGetAsDouble();
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default double shovingDoGetAsDouble() {
+		return ((LDoubleSupplierX<RuntimeException>) this).doGetAsDouble();
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default double nonNullDoGetAsDouble() throws X {
+		return doGetAsDouble();
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,11 +98,6 @@ public interface LDoubleSupplierX<X extends Exception> extends MetaSupplier, Pri
 
 	public static <X extends Exception> LDoubleSupplierX<X> of(double r) {
 		return () -> r;
-	}
-
-	/** Just to mirror the method: Ensures the result is not null */
-	default double nonNull() throws X {
-		return doGetAsDouble();
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -90,14 +111,14 @@ public interface LDoubleSupplierX<X extends Exception> extends MetaSupplier, Pri
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Exception> LDoubleSupplierX<X> wrapStd(final java.util.function.DoubleSupplier other) {
+	public static <X extends Exception> LDoubleSupplierX<X> wrap(final java.util.function.DoubleSupplier other) {
 		return other::getAsDouble;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LDoubleSupplierX<X> wrapX(final @Nonnull LDoubleSupplier other) {
-		return other::doGetAsDouble;
+		return (LDoubleSupplierX) other;
 	}
 
 	// </editor-fold>
@@ -171,28 +192,26 @@ public interface LDoubleSupplierX<X extends Exception> extends MetaSupplier, Pri
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.DoubleSupplier std() {
-		return LDoubleSupplier.wrap(this)::doGetAsDouble;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoubleSupplier nonThrowing() {
-		return LDoubleSupplier.wrap(this);
+	default LDoubleSupplier nest() {
+		return this::nestingDoGetAsDouble;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoubleSupplierX<RuntimeException> uncheck() {
-		return (LDoubleSupplierX) this;
+	default LDoubleSupplierX<RuntimeException> nestX() {
+		return this::nestingDoGetAsDouble;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LDoubleSupplier shove() {
-		LDoubleSupplierX<RuntimeException> exceptionCast = (LDoubleSupplierX<RuntimeException>) this;
-		return exceptionCast::doGetAsDouble;
+		return this::shovingDoGetAsDouble;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoubleSupplierX<RuntimeException> shoveX() {
+		return this::shovingDoGetAsDouble;
 	}
 
 	// </editor-fold>

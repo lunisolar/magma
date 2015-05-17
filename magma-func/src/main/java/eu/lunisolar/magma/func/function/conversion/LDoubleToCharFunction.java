@@ -64,6 +64,19 @@ public interface LDoubleToCharFunction extends LDoubleToCharFunctionX<RuntimeExc
 
 	public char doApplyAsChar(double d);
 
+	default char nestingDoApplyAsChar(double d) {
+		return this.doApplyAsChar(d);
+	}
+
+	default char shovingDoApplyAsChar(double d) {
+		return this.doApplyAsChar(d);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default char nonNullDoApplyAsChar(double d) {
+		return doApplyAsChar(d);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +92,6 @@ public interface LDoubleToCharFunction extends LDoubleToCharFunctionX<RuntimeExc
 		return (d) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default char nonNull(double d) {
-		return doApplyAsChar(d);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LDoubleToCharFunction l(final @Nonnull LDoubleToCharFunction lambda) {
@@ -96,13 +104,7 @@ public interface LDoubleToCharFunction extends LDoubleToCharFunctionX<RuntimeExc
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LDoubleToCharFunction wrap(final @Nonnull LDoubleToCharFunctionX<X> other) {
-		return (double d) -> {
-			try {
-				return other.doApplyAsChar(d);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApplyAsChar;
 	}
 
 	// </editor-fold>
@@ -200,18 +202,23 @@ public interface LDoubleToCharFunction extends LDoubleToCharFunctionX<RuntimeExc
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoubleToCharFunction nonThrowing() {
+	default LDoubleToCharFunction nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoubleToCharFunctionX<RuntimeException> uncheck() {
-		return (LDoubleToCharFunctionX) this;
+	default LDoubleToCharFunctionX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LDoubleToCharFunction shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoubleToCharFunctionX<RuntimeException> shoveX() {
 		return this;
 	}
 

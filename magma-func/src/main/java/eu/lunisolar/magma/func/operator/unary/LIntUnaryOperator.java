@@ -58,13 +58,29 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LIntUnaryOperator extends java.util.function.IntUnaryOperator, LIntUnaryOperatorX<RuntimeException>, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
 	public static final String DESCRIPTION = "LIntUnaryOperator: int doApplyAsInt(int i)";
 
+	@Override
+	@Deprecated
+	// calling this method via LIntUnaryOperator interface should be discouraged.
+	default int applyAsInt(int i) {
+		return this.nestingDoApplyAsInt(i);
+	}
+
 	public int doApplyAsInt(int i);
 
-	default int applyAsInt(int i) {
+	default int nestingDoApplyAsInt(int i) {
+		return this.doApplyAsInt(i);
+	}
+
+	default int shovingDoApplyAsInt(int i) {
+		return this.doApplyAsInt(i);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default int nonNullDoApplyAsInt(int i) {
 		return doApplyAsInt(i);
 	}
 
@@ -83,11 +99,6 @@ public interface LIntUnaryOperator extends java.util.function.IntUnaryOperator, 
 		return (i) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default int nonNull(int i) {
-		return doApplyAsInt(i);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LIntUnaryOperator l(final @Nonnull LIntUnaryOperator lambda) {
@@ -99,20 +110,14 @@ public interface LIntUnaryOperator extends java.util.function.IntUnaryOperator, 
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LIntUnaryOperator wrapStd(final java.util.function.IntUnaryOperator other) {
+	public static LIntUnaryOperator wrap(final java.util.function.IntUnaryOperator other) {
 		return other::applyAsInt;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LIntUnaryOperator wrap(final @Nonnull LIntUnaryOperatorX<X> other) {
-		return (int i) -> {
-			try {
-				return other.doApplyAsInt(i);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApplyAsInt;
 	}
 
 	// </editor-fold>
@@ -214,26 +219,25 @@ public interface LIntUnaryOperator extends java.util.function.IntUnaryOperator, 
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.IntUnaryOperator std() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntUnaryOperator nonThrowing() {
+	default LIntUnaryOperator nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntUnaryOperatorX<RuntimeException> uncheck() {
-		return (LIntUnaryOperatorX) this;
+	default LIntUnaryOperatorX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LIntUnaryOperator shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntUnaryOperatorX<RuntimeException> shoveX() {
 		return this;
 	}
 

@@ -75,6 +75,12 @@ public class LBiConsumerTest<T1,T2,X extends ParseException> {
 
 
 
+    private LBiConsumer<T1,T2> sutAlwaysThrowingUnckeck = LBiConsumer.l((T1 t1,T2 t2) -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
+
 
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
@@ -96,7 +102,7 @@ public class LBiConsumerTest<T1,T2,X extends ParseException> {
 
     @Test
     public void testWrapStdMethod() throws ParseException {
-        assertThat(LBiConsumer.wrapStd(jre))
+        assertThat(LBiConsumer.wrap(jre))
             .isInstanceOf(LBiConsumer.class);
     }
 
@@ -286,19 +292,39 @@ public class LBiConsumerTest<T1,T2,X extends ParseException> {
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
+//
+//    @Test
+//    public void testStd() {
+//        assertThat(sut.std()).isInstanceOf(java.util.function.BiConsumer.class);
+//    }
+//
+//
     @Test
-    public void testStd() {
-        assertThat(sut.std()).isInstanceOf(java.util.function.BiConsumer.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isSameAs(sut)
+            .isInstanceOf(LBiConsumer.class);
     }
 
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LBiConsumer.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isSameAs(sut)
+            .isInstanceOf(LBiConsumer.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LBiConsumerX.class);
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isSameAs(sut)
+            .isInstanceOf(LBiConsumerX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isSameAs(sut)
+            .isInstanceOf(LBiConsumerX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

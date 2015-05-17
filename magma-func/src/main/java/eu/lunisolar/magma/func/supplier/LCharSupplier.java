@@ -64,6 +64,19 @@ public interface LCharSupplier extends LCharSupplierX<RuntimeException>, MetaSup
 
 	public char doGetAsChar();
 
+	default char nestingDoGetAsChar() {
+		return this.doGetAsChar();
+	}
+
+	default char shovingDoGetAsChar() {
+		return this.doGetAsChar();
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default char nonNullDoGetAsChar() {
+		return doGetAsChar();
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -72,11 +85,6 @@ public interface LCharSupplier extends LCharSupplierX<RuntimeException>, MetaSup
 
 	public static LCharSupplier of(char r) {
 		return () -> r;
-	}
-
-	/** Just to mirror the method: Ensures the result is not null */
-	default char nonNull() {
-		return doGetAsChar();
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -91,13 +99,7 @@ public interface LCharSupplier extends LCharSupplierX<RuntimeException>, MetaSup
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LCharSupplier wrap(final @Nonnull LCharSupplierX<X> other) {
-		return () -> {
-			try {
-				return other.doGetAsChar();
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoGetAsChar;
 	}
 
 	// </editor-fold>
@@ -173,18 +175,23 @@ public interface LCharSupplier extends LCharSupplierX<RuntimeException>, MetaSup
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LCharSupplier nonThrowing() {
+	default LCharSupplier nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LCharSupplierX<RuntimeException> uncheck() {
-		return (LCharSupplierX) this;
+	default LCharSupplierX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LCharSupplier shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LCharSupplierX<RuntimeException> shoveX() {
 		return this;
 	}
 

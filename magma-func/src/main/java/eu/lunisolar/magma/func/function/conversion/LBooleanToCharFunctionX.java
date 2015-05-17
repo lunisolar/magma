@@ -64,6 +64,25 @@ public interface LBooleanToCharFunctionX<X extends Exception> extends MetaFuncti
 
 	public char doApplyAsChar(boolean b) throws X;
 
+	default char nestingDoApplyAsChar(boolean b) {
+		try {
+			return this.doApplyAsChar(b);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default char shovingDoApplyAsChar(boolean b) {
+		return ((LBooleanToCharFunctionX<RuntimeException>) this).doApplyAsChar(b);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default char nonNullDoApplyAsChar(boolean b) throws X {
+		return doApplyAsChar(b);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +98,6 @@ public interface LBooleanToCharFunctionX<X extends Exception> extends MetaFuncti
 		return (b) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default char nonNull(boolean b) throws X {
-		return doApplyAsChar(b);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <X extends Exception> LBooleanToCharFunctionX<X> lX(final @Nonnull LBooleanToCharFunctionX<X> lambda) {
@@ -96,7 +110,7 @@ public interface LBooleanToCharFunctionX<X extends Exception> extends MetaFuncti
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LBooleanToCharFunctionX<X> wrapX(final @Nonnull LBooleanToCharFunction other) {
-		return other::doApplyAsChar;
+		return (LBooleanToCharFunctionX) other;
 	}
 
 	// </editor-fold>
@@ -194,20 +208,24 @@ public interface LBooleanToCharFunctionX<X extends Exception> extends MetaFuncti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanToCharFunction nonThrowing() {
-		return LBooleanToCharFunction.wrap(this);
+	default LBooleanToCharFunction nest() {
+		return this::nestingDoApplyAsChar;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanToCharFunctionX<RuntimeException> uncheck() {
-		return (LBooleanToCharFunctionX) this;
+	default LBooleanToCharFunctionX<RuntimeException> nestX() {
+		return this::nestingDoApplyAsChar;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBooleanToCharFunction shove() {
-		LBooleanToCharFunctionX<RuntimeException> exceptionCast = (LBooleanToCharFunctionX<RuntimeException>) this;
-		return exceptionCast::doApplyAsChar;
+		return this::shovingDoApplyAsChar;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBooleanToCharFunctionX<RuntimeException> shoveX() {
+		return this::shovingDoApplyAsChar;
 	}
 
 	// </editor-fold>

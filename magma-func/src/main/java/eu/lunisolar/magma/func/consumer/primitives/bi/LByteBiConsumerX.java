@@ -65,6 +65,20 @@ public interface LByteBiConsumerX<X extends Exception> extends MetaConsumer, Met
 
 	public void doAccept(byte b1, byte b2) throws X;
 
+	default void nestingDoAccept(byte b1, byte b2) {
+		try {
+			this.doAccept(b1, b2);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default void shovingDoAccept(byte b1, byte b2) {
+		((LByteBiConsumerX<RuntimeException>) this).doAccept(b1, b2);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -88,7 +102,7 @@ public interface LByteBiConsumerX<X extends Exception> extends MetaConsumer, Met
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LByteBiConsumerX<X> wrapX(final @Nonnull LByteBiConsumer other) {
-		return other::doAccept;
+		return (LByteBiConsumerX) other;
 	}
 
 	// </editor-fold>
@@ -134,20 +148,24 @@ public interface LByteBiConsumerX<X extends Exception> extends MetaConsumer, Met
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LByteBiConsumer nonThrowing() {
-		return LByteBiConsumer.wrap(this);
+	default LByteBiConsumer nest() {
+		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LByteBiConsumerX<RuntimeException> uncheck() {
-		return (LByteBiConsumerX) this;
+	default LByteBiConsumerX<RuntimeException> nestX() {
+		return this::nestingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LByteBiConsumer shove() {
-		LByteBiConsumerX<RuntimeException> exceptionCast = (LByteBiConsumerX<RuntimeException>) this;
-		return exceptionCast::doAccept;
+		return this::shovingDoAccept;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LByteBiConsumerX<RuntimeException> shoveX() {
+		return this::shovingDoAccept;
 	}
 
 	// </editor-fold>

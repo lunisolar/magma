@@ -65,6 +65,28 @@ public interface LByteFunctionX<R, X extends Exception> extends MetaFunction, Me
 	@Nullable
 	public R doApply(byte b) throws X;
 
+	default R nestingDoApply(byte b) {
+		try {
+			return this.doApply(b);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default R shovingDoApply(byte b) {
+		return ((LByteFunctionX<R, RuntimeException>) this).doApply(b);
+	}
+
+	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+
+	/** Ensures the result is not null */
+	@Nonnull
+	default R nonNullDoApply(byte b) throws X {
+		return Objects.requireNonNull(doApply(b), NULL_VALUE_MESSAGE_SUPPLIER);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -80,14 +102,6 @@ public interface LByteFunctionX<R, X extends Exception> extends MetaFunction, Me
 		return (b) -> r;
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
-
-	/** Ensures the result is not null */
-	@Nonnull
-	default R nonNull(byte b) throws X {
-		return Objects.requireNonNull(doApply(b), NULL_VALUE_MESSAGE_SUPPLIER);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <R, X extends Exception> LByteFunctionX<R, X> lX(final @Nonnull LByteFunctionX<R, X> lambda) {
@@ -100,7 +114,7 @@ public interface LByteFunctionX<R, X extends Exception> extends MetaFunction, Me
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <R, X extends Exception> LByteFunctionX<R, X> wrapX(final @Nonnull LByteFunction<R> other) {
-		return other::doApply;
+		return (LByteFunctionX) other;
 	}
 
 	// </editor-fold>
@@ -205,27 +219,31 @@ public interface LByteFunctionX<R, X extends Exception> extends MetaFunction, Me
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LByteFunction<R> nonThrowing() {
-		return LByteFunction.wrap(this);
+	default LByteFunction<R> nest() {
+		return this::nestingDoApply;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LByteFunctionX<R, RuntimeException> uncheck() {
-		return (LByteFunctionX) this;
+	default LByteFunctionX<R, RuntimeException> nestX() {
+		return this::nestingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LByteFunction<R> shove() {
-		LByteFunctionX<R, RuntimeException> exceptionCast = (LByteFunctionX<R, RuntimeException>) this;
-		return exceptionCast::doApply;
+		return this::shovingDoApply;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LByteFunctionX<R, RuntimeException> shoveX() {
+		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
 	default LByteFunctionX<R, X> nonNullableX() {
-		return (b) -> Objects.requireNonNull(this.doApply(b));
+		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">

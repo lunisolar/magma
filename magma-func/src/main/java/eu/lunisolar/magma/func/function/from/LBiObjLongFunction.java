@@ -65,6 +65,22 @@ public interface LBiObjLongFunction<T1, T2, R> extends LBiObjLongFunctionX<T1, T
 	@Nullable
 	public R doApply(T1 t1, T2 t2, long l);
 
+	default R nestingDoApply(T1 t1, T2 t2, long l) {
+		return this.doApply(t1, t2, l);
+	}
+
+	default R shovingDoApply(T1 t1, T2 t2, long l) {
+		return this.doApply(t1, t2, l);
+	}
+
+	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+
+	/** Ensures the result is not null */
+	@Nonnull
+	default R nonNullDoApply(T1 t1, T2 t2, long l) {
+		return Objects.requireNonNull(doApply(t1, t2, l), NULL_VALUE_MESSAGE_SUPPLIER);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -80,14 +96,6 @@ public interface LBiObjLongFunction<T1, T2, R> extends LBiObjLongFunctionX<T1, T
 		return (t1, t2, l) -> r;
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
-
-	/** Ensures the result is not null */
-	@Nonnull
-	default R nonNull(T1 t1, T2 t2, long l) {
-		return Objects.requireNonNull(doApply(t1, t2, l), NULL_VALUE_MESSAGE_SUPPLIER);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T1, T2, R> LBiObjLongFunction<T1, T2, R> l(final @Nonnull LBiObjLongFunction<T1, T2, R> lambda) {
@@ -100,13 +108,7 @@ public interface LBiObjLongFunction<T1, T2, R> extends LBiObjLongFunctionX<T1, T
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T1, T2, R, X extends Exception> LBiObjLongFunction<T1, T2, R> wrap(final @Nonnull LBiObjLongFunctionX<T1, T2, R, X> other) {
-		return (T1 t1, T2 t2, long l) -> {
-			try {
-				return other.doApply(t1, t2, l);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApply;
 	}
 
 	// </editor-fold>
@@ -159,14 +161,14 @@ public interface LBiObjLongFunction<T1, T2, R> extends LBiObjLongFunctionX<T1, T
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiObjLongFunction<T1, T2, R> nonThrowing() {
+	default LBiObjLongFunction<T1, T2, R> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiObjLongFunctionX<T1, T2, R, RuntimeException> uncheck() {
-		return (LBiObjLongFunctionX) this;
+	default LBiObjLongFunctionX<T1, T2, R, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
@@ -174,11 +176,16 @@ public interface LBiObjLongFunction<T1, T2, R> extends LBiObjLongFunctionX<T1, T
 		return this;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBiObjLongFunctionX<T1, T2, R, RuntimeException> shoveX() {
+		return this;
+	}
+
 	// </editor-fold>
 
 	@Nonnull
 	default LBiObjLongFunction<T1, T2, R> nonNullable() {
-		return (t1, t2, l) -> Objects.requireNonNull(this.doApply(t1, t2, l));
+		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">

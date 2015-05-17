@@ -64,6 +64,25 @@ public interface LByteToShortFunctionX<X extends Exception> extends MetaFunction
 
 	public short doApplyAsShort(byte b) throws X;
 
+	default short nestingDoApplyAsShort(byte b) {
+		try {
+			return this.doApplyAsShort(b);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default short shovingDoApplyAsShort(byte b) {
+		return ((LByteToShortFunctionX<RuntimeException>) this).doApplyAsShort(b);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default short nonNullDoApplyAsShort(byte b) throws X {
+		return doApplyAsShort(b);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +98,6 @@ public interface LByteToShortFunctionX<X extends Exception> extends MetaFunction
 		return (b) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default short nonNull(byte b) throws X {
-		return doApplyAsShort(b);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <X extends Exception> LByteToShortFunctionX<X> lX(final @Nonnull LByteToShortFunctionX<X> lambda) {
@@ -96,7 +110,7 @@ public interface LByteToShortFunctionX<X extends Exception> extends MetaFunction
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LByteToShortFunctionX<X> wrapX(final @Nonnull LByteToShortFunction other) {
-		return other::doApplyAsShort;
+		return (LByteToShortFunctionX) other;
 	}
 
 	// </editor-fold>
@@ -194,20 +208,24 @@ public interface LByteToShortFunctionX<X extends Exception> extends MetaFunction
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LByteToShortFunction nonThrowing() {
-		return LByteToShortFunction.wrap(this);
+	default LByteToShortFunction nest() {
+		return this::nestingDoApplyAsShort;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LByteToShortFunctionX<RuntimeException> uncheck() {
-		return (LByteToShortFunctionX) this;
+	default LByteToShortFunctionX<RuntimeException> nestX() {
+		return this::nestingDoApplyAsShort;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LByteToShortFunction shove() {
-		LByteToShortFunctionX<RuntimeException> exceptionCast = (LByteToShortFunctionX<RuntimeException>) this;
-		return exceptionCast::doApplyAsShort;
+		return this::shovingDoApplyAsShort;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LByteToShortFunctionX<RuntimeException> shoveX() {
+		return this::shovingDoApplyAsShort;
 	}
 
 	// </editor-fold>

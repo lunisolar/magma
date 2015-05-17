@@ -65,6 +65,20 @@ public interface LCharConsumerX<X extends Exception> extends MetaConsumer, MetaI
 
 	public void doAccept(char c) throws X;
 
+	default void nestingDoAccept(char c) {
+		try {
+			this.doAccept(c);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default void shovingDoAccept(char c) {
+		((LCharConsumerX<RuntimeException>) this).doAccept(c);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -88,7 +102,7 @@ public interface LCharConsumerX<X extends Exception> extends MetaConsumer, MetaI
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LCharConsumerX<X> wrapX(final @Nonnull LCharConsumer other) {
-		return other::doAccept;
+		return (LCharConsumerX) other;
 	}
 
 	// </editor-fold>
@@ -132,20 +146,24 @@ public interface LCharConsumerX<X extends Exception> extends MetaConsumer, MetaI
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LCharConsumer nonThrowing() {
-		return LCharConsumer.wrap(this);
+	default LCharConsumer nest() {
+		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LCharConsumerX<RuntimeException> uncheck() {
-		return (LCharConsumerX) this;
+	default LCharConsumerX<RuntimeException> nestX() {
+		return this::nestingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LCharConsumer shove() {
-		LCharConsumerX<RuntimeException> exceptionCast = (LCharConsumerX<RuntimeException>) this;
-		return exceptionCast::doAccept;
+		return this::shovingDoAccept;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LCharConsumerX<RuntimeException> shoveX() {
+		return this::shovingDoAccept;
 	}
 
 	// </editor-fold>

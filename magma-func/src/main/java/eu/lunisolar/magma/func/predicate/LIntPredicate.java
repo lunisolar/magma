@@ -58,13 +58,29 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LIntPredicate extends java.util.function.IntPredicate, LIntPredicateX<RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
 	public static final String DESCRIPTION = "LIntPredicate: boolean doTest(int i)";
 
+	@Override
+	@Deprecated
+	// calling this method via LIntPredicate interface should be discouraged.
+	default boolean test(int i) {
+		return this.nestingDoTest(i);
+	}
+
 	public boolean doTest(int i);
 
-	default boolean test(int i) {
+	default boolean nestingDoTest(int i) {
+		return this.doTest(i);
+	}
+
+	default boolean shovingDoTest(int i) {
+		return this.doTest(i);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default boolean nonNullDoTest(int i) {
 		return doTest(i);
 	}
 
@@ -89,11 +105,6 @@ public interface LIntPredicate extends java.util.function.IntPredicate, LIntPred
 		return (i) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNull(int i) {
-		return doTest(i);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LIntPredicate l(final @Nonnull LIntPredicate lambda) {
@@ -105,20 +116,14 @@ public interface LIntPredicate extends java.util.function.IntPredicate, LIntPred
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LIntPredicate wrapStd(final java.util.function.IntPredicate other) {
+	public static LIntPredicate wrap(final java.util.function.IntPredicate other) {
 		return other::test;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LIntPredicate wrap(final @Nonnull LIntPredicateX<X> other) {
-		return (int i) -> {
-			try {
-				return other.doTest(i);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoTest;
 	}
 
 	// </editor-fold>
@@ -257,26 +262,25 @@ public interface LIntPredicate extends java.util.function.IntPredicate, LIntPred
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.IntPredicate std() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntPredicate nonThrowing() {
+	default LIntPredicate nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntPredicateX<RuntimeException> uncheck() {
-		return (LIntPredicateX) this;
+	default LIntPredicateX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LIntPredicate shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntPredicateX<RuntimeException> shoveX() {
 		return this;
 	}
 

@@ -64,6 +64,19 @@ public interface LCharToIntFunction extends LCharToIntFunctionX<RuntimeException
 
 	public int doApplyAsInt(char c);
 
+	default int nestingDoApplyAsInt(char c) {
+		return this.doApplyAsInt(c);
+	}
+
+	default int shovingDoApplyAsInt(char c) {
+		return this.doApplyAsInt(c);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default int nonNullDoApplyAsInt(char c) {
+		return doApplyAsInt(c);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +92,6 @@ public interface LCharToIntFunction extends LCharToIntFunctionX<RuntimeException
 		return (c) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default int nonNull(char c) {
-		return doApplyAsInt(c);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LCharToIntFunction l(final @Nonnull LCharToIntFunction lambda) {
@@ -96,13 +104,7 @@ public interface LCharToIntFunction extends LCharToIntFunctionX<RuntimeException
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LCharToIntFunction wrap(final @Nonnull LCharToIntFunctionX<X> other) {
-		return (char c) -> {
-			try {
-				return other.doApplyAsInt(c);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApplyAsInt;
 	}
 
 	// </editor-fold>
@@ -200,18 +202,23 @@ public interface LCharToIntFunction extends LCharToIntFunctionX<RuntimeException
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LCharToIntFunction nonThrowing() {
+	default LCharToIntFunction nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LCharToIntFunctionX<RuntimeException> uncheck() {
-		return (LCharToIntFunctionX) this;
+	default LCharToIntFunctionX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LCharToIntFunction shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LCharToIntFunctionX<RuntimeException> shoveX() {
 		return this;
 	}
 

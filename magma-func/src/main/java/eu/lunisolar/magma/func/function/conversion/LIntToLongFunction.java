@@ -58,13 +58,29 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LIntToLongFunction extends java.util.function.IntToLongFunction, LIntToLongFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LIntToLongFunction extends LIntToLongFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
 	public static final String DESCRIPTION = "LIntToLongFunction: long doApplyAsLong(int i)";
 
+	@Override
+	@Deprecated
+	// calling this method via LIntToLongFunction interface should be discouraged.
+	default long applyAsLong(int i) {
+		return this.nestingDoApplyAsLong(i);
+	}
+
 	public long doApplyAsLong(int i);
 
-	default long applyAsLong(int i) {
+	default long nestingDoApplyAsLong(int i) {
+		return this.doApplyAsLong(i);
+	}
+
+	default long shovingDoApplyAsLong(int i) {
+		return this.doApplyAsLong(i);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default long nonNullDoApplyAsLong(int i) {
 		return doApplyAsLong(i);
 	}
 
@@ -83,11 +99,6 @@ public interface LIntToLongFunction extends java.util.function.IntToLongFunction
 		return (i) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default long nonNull(int i) {
-		return doApplyAsLong(i);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LIntToLongFunction l(final @Nonnull LIntToLongFunction lambda) {
@@ -99,20 +110,14 @@ public interface LIntToLongFunction extends java.util.function.IntToLongFunction
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LIntToLongFunction wrapStd(final java.util.function.IntToLongFunction other) {
+	public static LIntToLongFunction wrap(final java.util.function.IntToLongFunction other) {
 		return other::applyAsLong;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LIntToLongFunction wrap(final @Nonnull LIntToLongFunctionX<X> other) {
-		return (int i) -> {
-			try {
-				return other.doApplyAsLong(i);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApplyAsLong;
 	}
 
 	// </editor-fold>
@@ -208,26 +213,25 @@ public interface LIntToLongFunction extends java.util.function.IntToLongFunction
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.IntToLongFunction std() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntToLongFunction nonThrowing() {
+	default LIntToLongFunction nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntToLongFunctionX<RuntimeException> uncheck() {
-		return (LIntToLongFunctionX) this;
+	default LIntToLongFunctionX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LIntToLongFunction shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntToLongFunctionX<RuntimeException> shoveX() {
 		return this;
 	}
 

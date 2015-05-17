@@ -64,6 +64,19 @@ public interface LShortToIntFunction extends LShortToIntFunctionX<RuntimeExcepti
 
 	public int doApplyAsInt(short s);
 
+	default int nestingDoApplyAsInt(short s) {
+		return this.doApplyAsInt(s);
+	}
+
+	default int shovingDoApplyAsInt(short s) {
+		return this.doApplyAsInt(s);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default int nonNullDoApplyAsInt(short s) {
+		return doApplyAsInt(s);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +92,6 @@ public interface LShortToIntFunction extends LShortToIntFunctionX<RuntimeExcepti
 		return (s) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default int nonNull(short s) {
-		return doApplyAsInt(s);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LShortToIntFunction l(final @Nonnull LShortToIntFunction lambda) {
@@ -96,13 +104,7 @@ public interface LShortToIntFunction extends LShortToIntFunctionX<RuntimeExcepti
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LShortToIntFunction wrap(final @Nonnull LShortToIntFunctionX<X> other) {
-		return (short s) -> {
-			try {
-				return other.doApplyAsInt(s);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApplyAsInt;
 	}
 
 	// </editor-fold>
@@ -200,18 +202,23 @@ public interface LShortToIntFunction extends LShortToIntFunctionX<RuntimeExcepti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LShortToIntFunction nonThrowing() {
+	default LShortToIntFunction nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LShortToIntFunctionX<RuntimeException> uncheck() {
-		return (LShortToIntFunctionX) this;
+	default LShortToIntFunctionX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LShortToIntFunction shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LShortToIntFunctionX<RuntimeException> shoveX() {
 		return this;
 	}
 

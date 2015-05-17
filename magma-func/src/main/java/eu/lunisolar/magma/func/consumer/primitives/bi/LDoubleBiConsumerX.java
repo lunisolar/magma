@@ -65,6 +65,20 @@ public interface LDoubleBiConsumerX<X extends Exception> extends MetaConsumer, M
 
 	public void doAccept(double d1, double d2) throws X;
 
+	default void nestingDoAccept(double d1, double d2) {
+		try {
+			this.doAccept(d1, d2);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default void shovingDoAccept(double d1, double d2) {
+		((LDoubleBiConsumerX<RuntimeException>) this).doAccept(d1, d2);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -88,7 +102,7 @@ public interface LDoubleBiConsumerX<X extends Exception> extends MetaConsumer, M
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LDoubleBiConsumerX<X> wrapX(final @Nonnull LDoubleBiConsumer other) {
-		return other::doAccept;
+		return (LDoubleBiConsumerX) other;
 	}
 
 	// </editor-fold>
@@ -134,20 +148,24 @@ public interface LDoubleBiConsumerX<X extends Exception> extends MetaConsumer, M
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoubleBiConsumer nonThrowing() {
-		return LDoubleBiConsumer.wrap(this);
+	default LDoubleBiConsumer nest() {
+		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoubleBiConsumerX<RuntimeException> uncheck() {
-		return (LDoubleBiConsumerX) this;
+	default LDoubleBiConsumerX<RuntimeException> nestX() {
+		return this::nestingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LDoubleBiConsumer shove() {
-		LDoubleBiConsumerX<RuntimeException> exceptionCast = (LDoubleBiConsumerX<RuntimeException>) this;
-		return exceptionCast::doAccept;
+		return this::shovingDoAccept;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoubleBiConsumerX<RuntimeException> shoveX() {
+		return this::shovingDoAccept;
 	}
 
 	// </editor-fold>

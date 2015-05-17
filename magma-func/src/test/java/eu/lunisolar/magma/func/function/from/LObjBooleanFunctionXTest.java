@@ -80,6 +80,15 @@ public class LObjBooleanFunctionXTest<T,R,X extends ParseException> {
 
 
 
+    private LObjBooleanFunctionX<T,R,ParseException> sutAlwaysThrowing = LObjBooleanFunctionX.lX((T t, boolean b) -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LObjBooleanFunctionX<T,R,RuntimeException> sutAlwaysThrowingUnckeck = LObjBooleanFunctionX.lX((T t, boolean b) -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
     @Test
     public void testTheResult() throws ParseException {
         assertThat(sut.doApply((T)Integer.valueOf(100),true))
@@ -87,14 +96,75 @@ public class LObjBooleanFunctionXTest<T,R,X extends ParseException> {
     }
 
     @Test
-    public void testNonNullShouldNotModifyValue() throws ParseException {
-        assertThat(sut.nonNull((T)Integer.valueOf(100),true))
+    public void testNonNullDoApply() throws ParseException {
+        assertThat(sut.nonNullDoApply((T)Integer.valueOf(100),true))
             .isSameAs(testValue);
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LObjBooleanFunctionX: R doApply(T t, boolean b) throws X).\\E")
+    @Test
+    public void testNestingDoApply_checked() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowing.nestingDoApply((T)Integer.valueOf(100),true);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(NestedException.class)
+                    .hasCauseExactlyInstanceOf(ParseException.class)
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testNestingDoApply_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.nestingDoApply((T)Integer.valueOf(100),true);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoApply_checked() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowing.shovingDoApply((T)Integer.valueOf(100),true);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(ParseException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoApply_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.shovingDoApply((T)Integer.valueOf(100),true);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LObjBooleanFunctionX: R doApply(T t, boolean b) throws X).\\E")
     public void testNonNullCapturesNull() throws ParseException {
-        sutNull.nonNull((T)Integer.valueOf(100),true);
+        sutNull.nonNullDoApply((T)Integer.valueOf(100),true);
     }
 
 
@@ -339,14 +409,29 @@ public class LObjBooleanFunctionXTest<T,R,X extends ParseException> {
 
 
     // </editor-fold>
+//
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LObjBooleanFunction.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isInstanceOf(LObjBooleanFunction.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LObjBooleanFunctionX.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isInstanceOf(LObjBooleanFunction.class);
+    }
+
+    @Test
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isInstanceOf(LObjBooleanFunctionX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isInstanceOf(LObjBooleanFunctionX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

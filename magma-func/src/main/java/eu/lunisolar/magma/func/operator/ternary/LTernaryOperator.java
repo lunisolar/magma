@@ -65,6 +65,22 @@ public interface LTernaryOperator<T> extends LTernaryOperatorX<T, RuntimeExcepti
 	@Nullable
 	public T doApply(T t1, T t2, T t3);
 
+	default T nestingDoApply(T t1, T t2, T t3) {
+		return this.doApply(t1, t2, t3);
+	}
+
+	default T shovingDoApply(T t1, T t2, T t3) {
+		return this.doApply(t1, t2, t3);
+	}
+
+	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+
+	/** Ensures the result is not null */
+	@Nonnull
+	default T nonNullDoApply(T t1, T t2, T t3) {
+		return Objects.requireNonNull(doApply(t1, t2, t3), NULL_VALUE_MESSAGE_SUPPLIER);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -80,14 +96,6 @@ public interface LTernaryOperator<T> extends LTernaryOperatorX<T, RuntimeExcepti
 		return (t1, t2, t3) -> r;
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
-
-	/** Ensures the result is not null */
-	@Nonnull
-	default T nonNull(T t1, T t2, T t3) {
-		return Objects.requireNonNull(doApply(t1, t2, t3), NULL_VALUE_MESSAGE_SUPPLIER);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T> LTernaryOperator<T> l(final @Nonnull LTernaryOperator<T> lambda) {
@@ -100,13 +108,7 @@ public interface LTernaryOperator<T> extends LTernaryOperatorX<T, RuntimeExcepti
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T, X extends Exception> LTernaryOperator<T> wrap(final @Nonnull LTernaryOperatorX<T, X> other) {
-		return (T t1, T t2, T t3) -> {
-			try {
-				return other.doApply(t1, t2, t3);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApply;
 	}
 
 	// </editor-fold>
@@ -126,14 +128,14 @@ public interface LTernaryOperator<T> extends LTernaryOperatorX<T, RuntimeExcepti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LTernaryOperator<T> nonThrowing() {
+	default LTernaryOperator<T> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LTernaryOperatorX<T, RuntimeException> uncheck() {
-		return (LTernaryOperatorX) this;
+	default LTernaryOperatorX<T, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
@@ -141,11 +143,16 @@ public interface LTernaryOperator<T> extends LTernaryOperatorX<T, RuntimeExcepti
 		return this;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LTernaryOperatorX<T, RuntimeException> shoveX() {
+		return this;
+	}
+
 	// </editor-fold>
 
 	@Nonnull
 	default LTernaryOperator<T> nonNullable() {
-		return (t1, t2, t3) -> Objects.requireNonNull(this.doApply(t1, t2, t3));
+		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">

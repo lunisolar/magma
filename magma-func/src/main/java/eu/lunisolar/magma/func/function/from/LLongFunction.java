@@ -58,15 +58,34 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LLongFunction<R> extends java.util.function.LongFunction<R>, LLongFunctionX<R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
+public interface LLongFunction<R> extends LLongFunctionX<R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
 	public static final String DESCRIPTION = "LLongFunction: R doApply(long l)";
+
+	@Override
+	@Deprecated
+	// calling this method via LLongFunction interface should be discouraged.
+	default R apply(long l) {
+		return this.nestingDoApply(l);
+	}
 
 	@Nullable
 	public R doApply(long l);
 
-	default R apply(long l) {
-		return doApply(l);
+	default R nestingDoApply(long l) {
+		return this.doApply(l);
+	}
+
+	default R shovingDoApply(long l) {
+		return this.doApply(l);
+	}
+
+	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+
+	/** Ensures the result is not null */
+	@Nonnull
+	default R nonNullDoApply(long l) {
+		return Objects.requireNonNull(doApply(l), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -84,14 +103,6 @@ public interface LLongFunction<R> extends java.util.function.LongFunction<R>, LL
 		return (l) -> r;
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
-
-	/** Ensures the result is not null */
-	@Nonnull
-	default R nonNull(long l) {
-		return Objects.requireNonNull(doApply(l), NULL_VALUE_MESSAGE_SUPPLIER);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <R> LLongFunction<R> l(final @Nonnull LLongFunction<R> lambda) {
@@ -103,20 +114,14 @@ public interface LLongFunction<R> extends java.util.function.LongFunction<R>, LL
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <R> LLongFunction<R> wrapStd(final java.util.function.LongFunction<R> other) {
+	public static <R> LLongFunction<R> wrap(final java.util.function.LongFunction<R> other) {
 		return other::apply;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <R, X extends Exception> LLongFunction<R> wrap(final @Nonnull LLongFunctionX<R, X> other) {
-		return (long l) -> {
-			try {
-				return other.doApply(l);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApply;
 	}
 
 	// </editor-fold>
@@ -219,22 +224,16 @@ public interface LLongFunction<R> extends java.util.function.LongFunction<R>, LL
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.LongFunction<R> std() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LLongFunction<R> nonThrowing() {
+	default LLongFunction<R> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LLongFunctionX<R, RuntimeException> uncheck() {
-		return (LLongFunctionX) this;
+	default LLongFunctionX<R, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
@@ -242,11 +241,16 @@ public interface LLongFunction<R> extends java.util.function.LongFunction<R>, LL
 		return this;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LLongFunctionX<R, RuntimeException> shoveX() {
+		return this;
+	}
+
 	// </editor-fold>
 
 	@Nonnull
 	default LLongFunction<R> nonNullable() {
-		return (l) -> Objects.requireNonNull(this.doApply(l));
+		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">

@@ -64,6 +64,25 @@ public interface LCharBinaryOperatorX<X extends Exception> extends MetaOperator,
 
 	public char doApplyAsChar(char c1, char c2) throws X;
 
+	default char nestingDoApplyAsChar(char c1, char c2) {
+		try {
+			return this.doApplyAsChar(c1, c2);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default char shovingDoApplyAsChar(char c1, char c2) {
+		return ((LCharBinaryOperatorX<RuntimeException>) this).doApplyAsChar(c1, c2);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default char nonNullDoApplyAsChar(char c1, char c2) throws X {
+		return doApplyAsChar(c1, c2);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +98,6 @@ public interface LCharBinaryOperatorX<X extends Exception> extends MetaOperator,
 		return (c1, c2) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default char nonNull(char c1, char c2) throws X {
-		return doApplyAsChar(c1, c2);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <X extends Exception> LCharBinaryOperatorX<X> lX(final @Nonnull LCharBinaryOperatorX<X> lambda) {
@@ -96,7 +110,7 @@ public interface LCharBinaryOperatorX<X extends Exception> extends MetaOperator,
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LCharBinaryOperatorX<X> wrapX(final @Nonnull LCharBinaryOperator other) {
-		return other::doApplyAsChar;
+		return (LCharBinaryOperatorX) other;
 	}
 
 	// </editor-fold>
@@ -159,20 +173,24 @@ public interface LCharBinaryOperatorX<X extends Exception> extends MetaOperator,
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LCharBinaryOperator nonThrowing() {
-		return LCharBinaryOperator.wrap(this);
+	default LCharBinaryOperator nest() {
+		return this::nestingDoApplyAsChar;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LCharBinaryOperatorX<RuntimeException> uncheck() {
-		return (LCharBinaryOperatorX) this;
+	default LCharBinaryOperatorX<RuntimeException> nestX() {
+		return this::nestingDoApplyAsChar;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LCharBinaryOperator shove() {
-		LCharBinaryOperatorX<RuntimeException> exceptionCast = (LCharBinaryOperatorX<RuntimeException>) this;
-		return exceptionCast::doApplyAsChar;
+		return this::shovingDoApplyAsChar;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LCharBinaryOperatorX<RuntimeException> shoveX() {
+		return this::shovingDoApplyAsChar;
 	}
 
 	// </editor-fold>

@@ -64,6 +64,19 @@ public interface LLongToByteFunction extends LLongToByteFunctionX<RuntimeExcepti
 
 	public byte doApplyAsByte(long l);
 
+	default byte nestingDoApplyAsByte(long l) {
+		return this.doApplyAsByte(l);
+	}
+
+	default byte shovingDoApplyAsByte(long l) {
+		return this.doApplyAsByte(l);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default byte nonNullDoApplyAsByte(long l) {
+		return doApplyAsByte(l);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +92,6 @@ public interface LLongToByteFunction extends LLongToByteFunctionX<RuntimeExcepti
 		return (l) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default byte nonNull(long l) {
-		return doApplyAsByte(l);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LLongToByteFunction l(final @Nonnull LLongToByteFunction lambda) {
@@ -96,13 +104,7 @@ public interface LLongToByteFunction extends LLongToByteFunctionX<RuntimeExcepti
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LLongToByteFunction wrap(final @Nonnull LLongToByteFunctionX<X> other) {
-		return (long l) -> {
-			try {
-				return other.doApplyAsByte(l);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApplyAsByte;
 	}
 
 	// </editor-fold>
@@ -200,18 +202,23 @@ public interface LLongToByteFunction extends LLongToByteFunctionX<RuntimeExcepti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LLongToByteFunction nonThrowing() {
+	default LLongToByteFunction nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LLongToByteFunctionX<RuntimeException> uncheck() {
-		return (LLongToByteFunctionX) this;
+	default LLongToByteFunctionX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLongToByteFunction shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LLongToByteFunctionX<RuntimeException> shoveX() {
 		return this;
 	}
 

@@ -58,12 +58,41 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LLongFunctionX<R, X extends Exception> extends MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
+public interface LLongFunctionX<R, X extends Exception> extends java.util.function.LongFunction<R>, MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
 	public static final String DESCRIPTION = "LLongFunctionX: R doApply(long l) throws X";
 
+	@Override
+	@Deprecated
+	// calling this method via LLongFunctionX interface should be discouraged.
+	default R apply(long l) {
+		return this.nestingDoApply(l);
+	}
+
 	@Nullable
 	public R doApply(long l) throws X;
+
+	default R nestingDoApply(long l) {
+		try {
+			return this.doApply(l);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default R shovingDoApply(long l) {
+		return ((LLongFunctionX<R, RuntimeException>) this).doApply(l);
+	}
+
+	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+
+	/** Ensures the result is not null */
+	@Nonnull
+	default R nonNullDoApply(long l) throws X {
+		return Objects.requireNonNull(doApply(l), NULL_VALUE_MESSAGE_SUPPLIER);
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -80,14 +109,6 @@ public interface LLongFunctionX<R, X extends Exception> extends MetaFunction, Me
 		return (l) -> r;
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
-
-	/** Ensures the result is not null */
-	@Nonnull
-	default R nonNull(long l) throws X {
-		return Objects.requireNonNull(doApply(l), NULL_VALUE_MESSAGE_SUPPLIER);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <R, X extends Exception> LLongFunctionX<R, X> lX(final @Nonnull LLongFunctionX<R, X> lambda) {
@@ -99,14 +120,14 @@ public interface LLongFunctionX<R, X extends Exception> extends MetaFunction, Me
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <R, X extends Exception> LLongFunctionX<R, X> wrapStd(final java.util.function.LongFunction<R> other) {
+	public static <R, X extends Exception> LLongFunctionX<R, X> wrap(final java.util.function.LongFunction<R> other) {
 		return other::apply;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <R, X extends Exception> LLongFunctionX<R, X> wrapX(final @Nonnull LLongFunction<R> other) {
-		return other::doApply;
+		return (LLongFunctionX) other;
 	}
 
 	// </editor-fold>
@@ -209,35 +230,33 @@ public interface LLongFunctionX<R, X extends Exception> extends MetaFunction, Me
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.LongFunction<R> std() {
-		return LLongFunction.wrap(this)::doApply;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LLongFunction<R> nonThrowing() {
-		return LLongFunction.wrap(this);
+	default LLongFunction<R> nest() {
+		return this::nestingDoApply;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LLongFunctionX<R, RuntimeException> uncheck() {
-		return (LLongFunctionX) this;
+	default LLongFunctionX<R, RuntimeException> nestX() {
+		return this::nestingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLongFunction<R> shove() {
-		LLongFunctionX<R, RuntimeException> exceptionCast = (LLongFunctionX<R, RuntimeException>) this;
-		return exceptionCast::doApply;
+		return this::shovingDoApply;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LLongFunctionX<R, RuntimeException> shoveX() {
+		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
 	default LLongFunctionX<R, X> nonNullableX() {
-		return (l) -> Objects.requireNonNull(this.doApply(l));
+		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">

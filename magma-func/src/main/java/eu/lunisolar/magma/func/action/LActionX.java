@@ -51,11 +51,32 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LActionX<X extends Exception> extends MetaAction, MetaInterface.Throwing<X> {
+public interface LActionX<X extends Exception> extends Runnable, MetaAction, MetaInterface.Throwing<X> {
 
 	public static final String DESCRIPTION = "LActionX: void doExecute() throws X";
 
+	@Override
+	@Deprecated
+	// calling this method via LActionX interface should be discouraged.
+	default void run() {
+		this.nestingDoExecute();
+	}
+
 	public void doExecute() throws X;
+
+	default void nestingDoExecute() {
+		try {
+			this.doExecute();
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default void shovingDoExecute() {
+		((LActionX<RuntimeException>) this).doExecute();
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -74,14 +95,14 @@ public interface LActionX<X extends Exception> extends MetaAction, MetaInterface
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Exception> LActionX<X> wrapStd(final Runnable other) {
+	public static <X extends Exception> LActionX<X> wrap(final Runnable other) {
 		return other::run;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LActionX<X> wrapX(final @Nonnull LAction other) {
-		return other::doExecute;
+		return (LActionX) other;
 	}
 
 	// </editor-fold>
@@ -101,28 +122,26 @@ public interface LActionX<X extends Exception> extends MetaAction, MetaInterface
 	// </editor-fold>
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default Runnable std() {
-		return LAction.wrap(this)::doExecute;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LAction nonThrowing() {
-		return LAction.wrap(this);
+	default LAction nest() {
+		return this::nestingDoExecute;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LActionX<RuntimeException> uncheck() {
-		return (LActionX) this;
+	default LActionX<RuntimeException> nestX() {
+		return this::nestingDoExecute;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LAction shove() {
-		LActionX<RuntimeException> exceptionCast = (LActionX<RuntimeException>) this;
-		return exceptionCast::doExecute;
+		return this::shovingDoExecute;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LActionX<RuntimeException> shoveX() {
+		return this::shovingDoExecute;
 	}
 
 	// </editor-fold>

@@ -58,13 +58,29 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LLongSupplier extends java.util.function.LongSupplier, LLongSupplierX<RuntimeException>, MetaSupplier, PrimitiveCodomain<Object>, MetaInterface.NonThrowing {
+public interface LLongSupplier extends LLongSupplierX<RuntimeException>, MetaSupplier, PrimitiveCodomain<Object>, MetaInterface.NonThrowing {
 
 	public static final String DESCRIPTION = "LLongSupplier: long doGetAsLong()";
 
+	@Override
+	@Deprecated
+	// calling this method via LLongSupplier interface should be discouraged.
+	default long getAsLong() {
+		return this.nestingDoGetAsLong();
+	}
+
 	public long doGetAsLong();
 
-	default long getAsLong() {
+	default long nestingDoGetAsLong() {
+		return this.doGetAsLong();
+	}
+
+	default long shovingDoGetAsLong() {
+		return this.doGetAsLong();
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default long nonNullDoGetAsLong() {
 		return doGetAsLong();
 	}
 
@@ -78,11 +94,6 @@ public interface LLongSupplier extends java.util.function.LongSupplier, LLongSup
 		return () -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default long nonNull() {
-		return doGetAsLong();
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LLongSupplier l(final @Nonnull LLongSupplier lambda) {
@@ -94,20 +105,14 @@ public interface LLongSupplier extends java.util.function.LongSupplier, LLongSup
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LLongSupplier wrapStd(final java.util.function.LongSupplier other) {
+	public static LLongSupplier wrap(final java.util.function.LongSupplier other) {
 		return other::getAsLong;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LLongSupplier wrap(final @Nonnull LLongSupplierX<X> other) {
-		return () -> {
-			try {
-				return other.doGetAsLong();
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoGetAsLong;
 	}
 
 	// </editor-fold>
@@ -181,26 +186,25 @@ public interface LLongSupplier extends java.util.function.LongSupplier, LLongSup
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.LongSupplier std() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LLongSupplier nonThrowing() {
+	default LLongSupplier nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LLongSupplierX<RuntimeException> uncheck() {
-		return (LLongSupplierX) this;
+	default LLongSupplierX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLongSupplier shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LLongSupplierX<RuntimeException> shoveX() {
 		return this;
 	}
 

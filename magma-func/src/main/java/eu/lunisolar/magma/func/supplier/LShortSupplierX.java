@@ -64,6 +64,25 @@ public interface LShortSupplierX<X extends Exception> extends MetaSupplier, Prim
 
 	public short doGetAsShort() throws X;
 
+	default short nestingDoGetAsShort() {
+		try {
+			return this.doGetAsShort();
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default short shovingDoGetAsShort() {
+		return ((LShortSupplierX<RuntimeException>) this).doGetAsShort();
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default short nonNullDoGetAsShort() throws X {
+		return doGetAsShort();
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -72,11 +91,6 @@ public interface LShortSupplierX<X extends Exception> extends MetaSupplier, Prim
 
 	public static <X extends Exception> LShortSupplierX<X> of(short r) {
 		return () -> r;
-	}
-
-	/** Just to mirror the method: Ensures the result is not null */
-	default short nonNull() throws X {
-		return doGetAsShort();
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -91,7 +105,7 @@ public interface LShortSupplierX<X extends Exception> extends MetaSupplier, Prim
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LShortSupplierX<X> wrapX(final @Nonnull LShortSupplier other) {
-		return other::doGetAsShort;
+		return (LShortSupplierX) other;
 	}
 
 	// </editor-fold>
@@ -167,20 +181,24 @@ public interface LShortSupplierX<X extends Exception> extends MetaSupplier, Prim
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LShortSupplier nonThrowing() {
-		return LShortSupplier.wrap(this);
+	default LShortSupplier nest() {
+		return this::nestingDoGetAsShort;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LShortSupplierX<RuntimeException> uncheck() {
-		return (LShortSupplierX) this;
+	default LShortSupplierX<RuntimeException> nestX() {
+		return this::nestingDoGetAsShort;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LShortSupplier shove() {
-		LShortSupplierX<RuntimeException> exceptionCast = (LShortSupplierX<RuntimeException>) this;
-		return exceptionCast::doGetAsShort;
+		return this::shovingDoGetAsShort;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LShortSupplierX<RuntimeException> shoveX() {
+		return this::shovingDoGetAsShort;
 	}
 
 	// </editor-fold>

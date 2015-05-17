@@ -58,11 +58,37 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LToIntBiFunctionX<T1, T2, X extends Exception> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LToIntBiFunctionX<T1, T2, X extends Exception> extends java.util.function.ToIntBiFunction<T1, T2>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
 	public static final String DESCRIPTION = "LToIntBiFunctionX: int doApplyAsInt(T1 t1,T2 t2) throws X";
 
+	@Override
+	@Deprecated
+	// calling this method via LToIntBiFunctionX interface should be discouraged.
+	default int applyAsInt(T1 t1, T2 t2) {
+		return this.nestingDoApplyAsInt(t1, t2);
+	}
+
 	public int doApplyAsInt(T1 t1, T2 t2) throws X;
+
+	default int nestingDoApplyAsInt(T1 t1, T2 t2) {
+		try {
+			return this.doApplyAsInt(t1, t2);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default int shovingDoApplyAsInt(T1 t1, T2 t2) {
+		return ((LToIntBiFunctionX<T1, T2, RuntimeException>) this).doApplyAsInt(t1, t2);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default int nonNullDoApplyAsInt(T1 t1, T2 t2) throws X {
+		return doApplyAsInt(t1, t2);
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -79,11 +105,6 @@ public interface LToIntBiFunctionX<T1, T2, X extends Exception> extends MetaFunc
 		return (t1, t2) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default int nonNull(T1 t1, T2 t2) throws X {
-		return doApplyAsInt(t1, t2);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T1, T2, X extends Exception> LToIntBiFunctionX<T1, T2, X> lX(final @Nonnull LToIntBiFunctionX<T1, T2, X> lambda) {
@@ -95,14 +116,14 @@ public interface LToIntBiFunctionX<T1, T2, X extends Exception> extends MetaFunc
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T1, T2, X extends Exception> LToIntBiFunctionX<T1, T2, X> wrapStd(final java.util.function.ToIntBiFunction<T1, T2> other) {
+	public static <T1, T2, X extends Exception> LToIntBiFunctionX<T1, T2, X> wrap(final java.util.function.ToIntBiFunction<T1, T2> other) {
 		return other::applyAsInt;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T1, T2, X extends Exception> LToIntBiFunctionX<T1, T2, X> wrapX(final @Nonnull LToIntBiFunction<T1, T2> other) {
-		return other::doApplyAsInt;
+		return (LToIntBiFunctionX) other;
 	}
 
 	// </editor-fold>
@@ -134,28 +155,26 @@ public interface LToIntBiFunctionX<T1, T2, X extends Exception> extends MetaFunc
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.ToIntBiFunction<T1, T2> std() {
-		return LToIntBiFunction.wrap(this)::doApplyAsInt;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToIntBiFunction<T1, T2> nonThrowing() {
-		return LToIntBiFunction.wrap(this);
+	default LToIntBiFunction<T1, T2> nest() {
+		return this::nestingDoApplyAsInt;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToIntBiFunctionX<T1, T2, RuntimeException> uncheck() {
-		return (LToIntBiFunctionX) this;
+	default LToIntBiFunctionX<T1, T2, RuntimeException> nestX() {
+		return this::nestingDoApplyAsInt;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LToIntBiFunction<T1, T2> shove() {
-		LToIntBiFunctionX<T1, T2, RuntimeException> exceptionCast = (LToIntBiFunctionX<T1, T2, RuntimeException>) this;
-		return exceptionCast::doApplyAsInt;
+		return this::shovingDoApplyAsInt;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToIntBiFunctionX<T1, T2, RuntimeException> shoveX() {
+		return this::shovingDoApplyAsInt;
 	}
 
 	// </editor-fold>

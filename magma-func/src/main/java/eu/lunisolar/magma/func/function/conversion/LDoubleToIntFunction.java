@@ -58,13 +58,29 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LDoubleToIntFunction extends java.util.function.DoubleToIntFunction, LDoubleToIntFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LDoubleToIntFunction extends LDoubleToIntFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
 	public static final String DESCRIPTION = "LDoubleToIntFunction: int doApplyAsInt(double d)";
 
+	@Override
+	@Deprecated
+	// calling this method via LDoubleToIntFunction interface should be discouraged.
+	default int applyAsInt(double d) {
+		return this.nestingDoApplyAsInt(d);
+	}
+
 	public int doApplyAsInt(double d);
 
-	default int applyAsInt(double d) {
+	default int nestingDoApplyAsInt(double d) {
+		return this.doApplyAsInt(d);
+	}
+
+	default int shovingDoApplyAsInt(double d) {
+		return this.doApplyAsInt(d);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default int nonNullDoApplyAsInt(double d) {
 		return doApplyAsInt(d);
 	}
 
@@ -83,11 +99,6 @@ public interface LDoubleToIntFunction extends java.util.function.DoubleToIntFunc
 		return (d) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default int nonNull(double d) {
-		return doApplyAsInt(d);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LDoubleToIntFunction l(final @Nonnull LDoubleToIntFunction lambda) {
@@ -99,20 +110,14 @@ public interface LDoubleToIntFunction extends java.util.function.DoubleToIntFunc
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LDoubleToIntFunction wrapStd(final java.util.function.DoubleToIntFunction other) {
+	public static LDoubleToIntFunction wrap(final java.util.function.DoubleToIntFunction other) {
 		return other::applyAsInt;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LDoubleToIntFunction wrap(final @Nonnull LDoubleToIntFunctionX<X> other) {
-		return (double d) -> {
-			try {
-				return other.doApplyAsInt(d);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApplyAsInt;
 	}
 
 	// </editor-fold>
@@ -208,26 +213,25 @@ public interface LDoubleToIntFunction extends java.util.function.DoubleToIntFunc
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.DoubleToIntFunction std() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoubleToIntFunction nonThrowing() {
+	default LDoubleToIntFunction nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoubleToIntFunctionX<RuntimeException> uncheck() {
-		return (LDoubleToIntFunctionX) this;
+	default LDoubleToIntFunctionX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LDoubleToIntFunction shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoubleToIntFunctionX<RuntimeException> shoveX() {
 		return this;
 	}
 

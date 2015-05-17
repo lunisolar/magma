@@ -64,6 +64,25 @@ public interface LBooleanUnaryOperatorX<X extends Exception> extends MetaLogical
 
 	public boolean doApplyAsBoolean(boolean b) throws X;
 
+	default boolean nestingDoApplyAsBoolean(boolean b) {
+		try {
+			return this.doApplyAsBoolean(b);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default boolean shovingDoApplyAsBoolean(boolean b) {
+		return ((LBooleanUnaryOperatorX<RuntimeException>) this).doApplyAsBoolean(b);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default boolean nonNullDoApplyAsBoolean(boolean b) throws X {
+		return doApplyAsBoolean(b);
+	}
+
 	/** For convinience boolean operator is also special case of predicate. */
 	default boolean doTest(boolean b) throws X {
 		return doApplyAsBoolean(b);
@@ -84,11 +103,6 @@ public interface LBooleanUnaryOperatorX<X extends Exception> extends MetaLogical
 		return (b) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNull(boolean b) throws X {
-		return doApplyAsBoolean(b);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <X extends Exception> LBooleanUnaryOperatorX<X> lX(final @Nonnull LBooleanUnaryOperatorX<X> lambda) {
@@ -101,7 +115,7 @@ public interface LBooleanUnaryOperatorX<X extends Exception> extends MetaLogical
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LBooleanUnaryOperatorX<X> wrapX(final @Nonnull LBooleanUnaryOperator other) {
-		return other::doApplyAsBoolean;
+		return (LBooleanUnaryOperatorX) other;
 	}
 
 	// </editor-fold>
@@ -248,20 +262,24 @@ public interface LBooleanUnaryOperatorX<X extends Exception> extends MetaLogical
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanUnaryOperator nonThrowing() {
-		return LBooleanUnaryOperator.wrap(this);
+	default LBooleanUnaryOperator nest() {
+		return this::nestingDoApplyAsBoolean;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanUnaryOperatorX<RuntimeException> uncheck() {
-		return (LBooleanUnaryOperatorX) this;
+	default LBooleanUnaryOperatorX<RuntimeException> nestX() {
+		return this::nestingDoApplyAsBoolean;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBooleanUnaryOperator shove() {
-		LBooleanUnaryOperatorX<RuntimeException> exceptionCast = (LBooleanUnaryOperatorX<RuntimeException>) this;
-		return exceptionCast::doApplyAsBoolean;
+		return this::shovingDoApplyAsBoolean;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBooleanUnaryOperatorX<RuntimeException> shoveX() {
+		return this::shovingDoApplyAsBoolean;
 	}
 
 	// </editor-fold>

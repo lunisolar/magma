@@ -64,6 +64,19 @@ public interface LShortToFloatFunction extends LShortToFloatFunctionX<RuntimeExc
 
 	public float doApplyAsFloat(short s);
 
+	default float nestingDoApplyAsFloat(short s) {
+		return this.doApplyAsFloat(s);
+	}
+
+	default float shovingDoApplyAsFloat(short s) {
+		return this.doApplyAsFloat(s);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default float nonNullDoApplyAsFloat(short s) {
+		return doApplyAsFloat(s);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +92,6 @@ public interface LShortToFloatFunction extends LShortToFloatFunctionX<RuntimeExc
 		return (s) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default float nonNull(short s) {
-		return doApplyAsFloat(s);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LShortToFloatFunction l(final @Nonnull LShortToFloatFunction lambda) {
@@ -96,13 +104,7 @@ public interface LShortToFloatFunction extends LShortToFloatFunctionX<RuntimeExc
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LShortToFloatFunction wrap(final @Nonnull LShortToFloatFunctionX<X> other) {
-		return (short s) -> {
-			try {
-				return other.doApplyAsFloat(s);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApplyAsFloat;
 	}
 
 	// </editor-fold>
@@ -200,18 +202,23 @@ public interface LShortToFloatFunction extends LShortToFloatFunctionX<RuntimeExc
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LShortToFloatFunction nonThrowing() {
+	default LShortToFloatFunction nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LShortToFloatFunctionX<RuntimeException> uncheck() {
-		return (LShortToFloatFunctionX) this;
+	default LShortToFloatFunctionX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LShortToFloatFunction shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LShortToFloatFunctionX<RuntimeException> shoveX() {
 		return this;
 	}
 

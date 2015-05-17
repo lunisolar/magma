@@ -64,6 +64,19 @@ public interface LToByteBiFunction<T1, T2> extends LToByteBiFunctionX<T1, T2, Ru
 
 	public byte doApplyAsByte(T1 t1, T2 t2);
 
+	default byte nestingDoApplyAsByte(T1 t1, T2 t2) {
+		return this.doApplyAsByte(t1, t2);
+	}
+
+	default byte shovingDoApplyAsByte(T1 t1, T2 t2) {
+		return this.doApplyAsByte(t1, t2);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default byte nonNullDoApplyAsByte(T1 t1, T2 t2) {
+		return doApplyAsByte(t1, t2);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +92,6 @@ public interface LToByteBiFunction<T1, T2> extends LToByteBiFunctionX<T1, T2, Ru
 		return (t1, t2) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default byte nonNull(T1 t1, T2 t2) {
-		return doApplyAsByte(t1, t2);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T1, T2> LToByteBiFunction<T1, T2> l(final @Nonnull LToByteBiFunction<T1, T2> lambda) {
@@ -96,13 +104,7 @@ public interface LToByteBiFunction<T1, T2> extends LToByteBiFunctionX<T1, T2, Ru
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T1, T2, X extends Exception> LToByteBiFunction<T1, T2> wrap(final @Nonnull LToByteBiFunctionX<T1, T2, X> other) {
-		return (T1 t1, T2 t2) -> {
-			try {
-				return other.doApplyAsByte(t1, t2);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApplyAsByte;
 	}
 
 	// </editor-fold>
@@ -136,18 +138,23 @@ public interface LToByteBiFunction<T1, T2> extends LToByteBiFunctionX<T1, T2, Ru
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToByteBiFunction<T1, T2> nonThrowing() {
+	default LToByteBiFunction<T1, T2> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToByteBiFunctionX<T1, T2, RuntimeException> uncheck() {
-		return (LToByteBiFunctionX) this;
+	default LToByteBiFunctionX<T1, T2, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LToByteBiFunction<T1, T2> shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToByteBiFunctionX<T1, T2, RuntimeException> shoveX() {
 		return this;
 	}
 

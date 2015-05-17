@@ -65,6 +65,22 @@ public interface LObjFloatFunction<T, R> extends LObjFloatFunctionX<T, R, Runtim
 	@Nullable
 	public R doApply(T t, float f);
 
+	default R nestingDoApply(T t, float f) {
+		return this.doApply(t, f);
+	}
+
+	default R shovingDoApply(T t, float f) {
+		return this.doApply(t, f);
+	}
+
+	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+
+	/** Ensures the result is not null */
+	@Nonnull
+	default R nonNullDoApply(T t, float f) {
+		return Objects.requireNonNull(doApply(t, f), NULL_VALUE_MESSAGE_SUPPLIER);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -80,14 +96,6 @@ public interface LObjFloatFunction<T, R> extends LObjFloatFunctionX<T, R, Runtim
 		return (t, f) -> r;
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
-
-	/** Ensures the result is not null */
-	@Nonnull
-	default R nonNull(T t, float f) {
-		return Objects.requireNonNull(doApply(t, f), NULL_VALUE_MESSAGE_SUPPLIER);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T, R> LObjFloatFunction<T, R> l(final @Nonnull LObjFloatFunction<T, R> lambda) {
@@ -100,13 +108,7 @@ public interface LObjFloatFunction<T, R> extends LObjFloatFunctionX<T, R, Runtim
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T, R, X extends Exception> LObjFloatFunction<T, R> wrap(final @Nonnull LObjFloatFunctionX<T, R, X> other) {
-		return (T t, float f) -> {
-			try {
-				return other.doApply(t, f);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApply;
 	}
 
 	// </editor-fold>
@@ -157,14 +159,14 @@ public interface LObjFloatFunction<T, R> extends LObjFloatFunctionX<T, R, Runtim
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjFloatFunction<T, R> nonThrowing() {
+	default LObjFloatFunction<T, R> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjFloatFunctionX<T, R, RuntimeException> uncheck() {
-		return (LObjFloatFunctionX) this;
+	default LObjFloatFunctionX<T, R, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
@@ -172,11 +174,16 @@ public interface LObjFloatFunction<T, R> extends LObjFloatFunctionX<T, R, Runtim
 		return this;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LObjFloatFunctionX<T, R, RuntimeException> shoveX() {
+		return this;
+	}
+
 	// </editor-fold>
 
 	@Nonnull
 	default LObjFloatFunction<T, R> nonNullable() {
-		return (t, f) -> Objects.requireNonNull(this.doApply(t, f));
+		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">

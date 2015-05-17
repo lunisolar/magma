@@ -58,11 +58,37 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LLongBinaryOperatorX<X extends Exception> extends MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LLongBinaryOperatorX<X extends Exception> extends java.util.function.LongBinaryOperator, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
 	public static final String DESCRIPTION = "LLongBinaryOperatorX: long doApplyAsLong(long l1,long l2) throws X";
 
+	@Override
+	@Deprecated
+	// calling this method via LLongBinaryOperatorX interface should be discouraged.
+	default long applyAsLong(long l1, long l2) {
+		return this.nestingDoApplyAsLong(l1, l2);
+	}
+
 	public long doApplyAsLong(long l1, long l2) throws X;
+
+	default long nestingDoApplyAsLong(long l1, long l2) {
+		try {
+			return this.doApplyAsLong(l1, l2);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default long shovingDoApplyAsLong(long l1, long l2) {
+		return ((LLongBinaryOperatorX<RuntimeException>) this).doApplyAsLong(l1, l2);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default long nonNullDoApplyAsLong(long l1, long l2) throws X {
+		return doApplyAsLong(l1, l2);
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -79,11 +105,6 @@ public interface LLongBinaryOperatorX<X extends Exception> extends MetaOperator,
 		return (l1, l2) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default long nonNull(long l1, long l2) throws X {
-		return doApplyAsLong(l1, l2);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <X extends Exception> LLongBinaryOperatorX<X> lX(final @Nonnull LLongBinaryOperatorX<X> lambda) {
@@ -95,14 +116,14 @@ public interface LLongBinaryOperatorX<X extends Exception> extends MetaOperator,
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Exception> LLongBinaryOperatorX<X> wrapStd(final java.util.function.LongBinaryOperator other) {
+	public static <X extends Exception> LLongBinaryOperatorX<X> wrap(final java.util.function.LongBinaryOperator other) {
 		return other::applyAsLong;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LLongBinaryOperatorX<X> wrapX(final @Nonnull LLongBinaryOperator other) {
-		return other::doApplyAsLong;
+		return (LLongBinaryOperatorX) other;
 	}
 
 	// </editor-fold>
@@ -163,28 +184,26 @@ public interface LLongBinaryOperatorX<X extends Exception> extends MetaOperator,
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.LongBinaryOperator std() {
-		return LLongBinaryOperator.wrap(this)::doApplyAsLong;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LLongBinaryOperator nonThrowing() {
-		return LLongBinaryOperator.wrap(this);
+	default LLongBinaryOperator nest() {
+		return this::nestingDoApplyAsLong;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LLongBinaryOperatorX<RuntimeException> uncheck() {
-		return (LLongBinaryOperatorX) this;
+	default LLongBinaryOperatorX<RuntimeException> nestX() {
+		return this::nestingDoApplyAsLong;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLongBinaryOperator shove() {
-		LLongBinaryOperatorX<RuntimeException> exceptionCast = (LLongBinaryOperatorX<RuntimeException>) this;
-		return exceptionCast::doApplyAsLong;
+		return this::shovingDoApplyAsLong;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LLongBinaryOperatorX<RuntimeException> shoveX() {
+		return this::shovingDoApplyAsLong;
 	}
 
 	// </editor-fold>

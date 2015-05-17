@@ -58,15 +58,34 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBinaryOperator<T> extends java.util.function.BinaryOperator<T>, LBinaryOperatorX<T, RuntimeException>, MetaOperator, MetaInterface.NonThrowing { // NOSONAR
+public interface LBinaryOperator<T> extends LBinaryOperatorX<T, RuntimeException>, MetaOperator, MetaInterface.NonThrowing { // NOSONAR
 
 	public static final String DESCRIPTION = "LBinaryOperator: T doApply(T t1,T t2)";
+
+	@Override
+	@Deprecated
+	// calling this method via LBinaryOperator interface should be discouraged.
+	default T apply(T t1, T t2) {
+		return this.nestingDoApply(t1, t2);
+	}
 
 	@Nullable
 	public T doApply(T t1, T t2);
 
-	default T apply(T t1, T t2) {
-		return doApply(t1, t2);
+	default T nestingDoApply(T t1, T t2) {
+		return this.doApply(t1, t2);
+	}
+
+	default T shovingDoApply(T t1, T t2) {
+		return this.doApply(t1, t2);
+	}
+
+	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+
+	/** Ensures the result is not null */
+	@Nonnull
+	default T nonNullDoApply(T t1, T t2) {
+		return Objects.requireNonNull(doApply(t1, t2), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -84,14 +103,6 @@ public interface LBinaryOperator<T> extends java.util.function.BinaryOperator<T>
 		return (t1, t2) -> r;
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
-
-	/** Ensures the result is not null */
-	@Nonnull
-	default T nonNull(T t1, T t2) {
-		return Objects.requireNonNull(doApply(t1, t2), NULL_VALUE_MESSAGE_SUPPLIER);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T> LBinaryOperator<T> l(final @Nonnull LBinaryOperator<T> lambda) {
@@ -103,20 +114,14 @@ public interface LBinaryOperator<T> extends java.util.function.BinaryOperator<T>
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T> LBinaryOperator<T> wrapStd(final java.util.function.BinaryOperator<T> other) {
+	public static <T> LBinaryOperator<T> wrap(final java.util.function.BinaryOperator<T> other) {
 		return other::apply;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T, X extends Exception> LBinaryOperator<T> wrap(final @Nonnull LBinaryOperatorX<T, X> other) {
-		return (T t1, T t2) -> {
-			try {
-				return other.doApply(t1, t2);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApply;
 	}
 
 	// </editor-fold>
@@ -136,22 +141,16 @@ public interface LBinaryOperator<T> extends java.util.function.BinaryOperator<T>
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.BinaryOperator<T> std() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBinaryOperator<T> nonThrowing() {
+	default LBinaryOperator<T> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBinaryOperatorX<T, RuntimeException> uncheck() {
-		return (LBinaryOperatorX) this;
+	default LBinaryOperatorX<T, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
@@ -159,11 +158,16 @@ public interface LBinaryOperator<T> extends java.util.function.BinaryOperator<T>
 		return this;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBinaryOperatorX<T, RuntimeException> shoveX() {
+		return this;
+	}
+
 	// </editor-fold>
 
 	@Nonnull
 	default LBinaryOperator<T> nonNullable() {
-		return (t1, t2) -> Objects.requireNonNull(this.doApply(t1, t2));
+		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">

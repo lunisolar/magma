@@ -65,6 +65,20 @@ public interface LCharBiConsumerX<X extends Exception> extends MetaConsumer, Met
 
 	public void doAccept(char c1, char c2) throws X;
 
+	default void nestingDoAccept(char c1, char c2) {
+		try {
+			this.doAccept(c1, c2);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default void shovingDoAccept(char c1, char c2) {
+		((LCharBiConsumerX<RuntimeException>) this).doAccept(c1, c2);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -88,7 +102,7 @@ public interface LCharBiConsumerX<X extends Exception> extends MetaConsumer, Met
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LCharBiConsumerX<X> wrapX(final @Nonnull LCharBiConsumer other) {
-		return other::doAccept;
+		return (LCharBiConsumerX) other;
 	}
 
 	// </editor-fold>
@@ -134,20 +148,24 @@ public interface LCharBiConsumerX<X extends Exception> extends MetaConsumer, Met
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LCharBiConsumer nonThrowing() {
-		return LCharBiConsumer.wrap(this);
+	default LCharBiConsumer nest() {
+		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LCharBiConsumerX<RuntimeException> uncheck() {
-		return (LCharBiConsumerX) this;
+	default LCharBiConsumerX<RuntimeException> nestX() {
+		return this::nestingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LCharBiConsumer shove() {
-		LCharBiConsumerX<RuntimeException> exceptionCast = (LCharBiConsumerX<RuntimeException>) this;
-		return exceptionCast::doAccept;
+		return this::shovingDoAccept;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LCharBiConsumerX<RuntimeException> shoveX() {
+		return this::shovingDoAccept;
 	}
 
 	// </editor-fold>

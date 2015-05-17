@@ -65,6 +65,22 @@ public interface LObjShortFunction<T, R> extends LObjShortFunctionX<T, R, Runtim
 	@Nullable
 	public R doApply(T t, short s);
 
+	default R nestingDoApply(T t, short s) {
+		return this.doApply(t, s);
+	}
+
+	default R shovingDoApply(T t, short s) {
+		return this.doApply(t, s);
+	}
+
+	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+
+	/** Ensures the result is not null */
+	@Nonnull
+	default R nonNullDoApply(T t, short s) {
+		return Objects.requireNonNull(doApply(t, s), NULL_VALUE_MESSAGE_SUPPLIER);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -80,14 +96,6 @@ public interface LObjShortFunction<T, R> extends LObjShortFunctionX<T, R, Runtim
 		return (t, s) -> r;
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
-
-	/** Ensures the result is not null */
-	@Nonnull
-	default R nonNull(T t, short s) {
-		return Objects.requireNonNull(doApply(t, s), NULL_VALUE_MESSAGE_SUPPLIER);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T, R> LObjShortFunction<T, R> l(final @Nonnull LObjShortFunction<T, R> lambda) {
@@ -100,13 +108,7 @@ public interface LObjShortFunction<T, R> extends LObjShortFunctionX<T, R, Runtim
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T, R, X extends Exception> LObjShortFunction<T, R> wrap(final @Nonnull LObjShortFunctionX<T, R, X> other) {
-		return (T t, short s) -> {
-			try {
-				return other.doApply(t, s);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApply;
 	}
 
 	// </editor-fold>
@@ -157,14 +159,14 @@ public interface LObjShortFunction<T, R> extends LObjShortFunctionX<T, R, Runtim
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjShortFunction<T, R> nonThrowing() {
+	default LObjShortFunction<T, R> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjShortFunctionX<T, R, RuntimeException> uncheck() {
-		return (LObjShortFunctionX) this;
+	default LObjShortFunctionX<T, R, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
@@ -172,11 +174,16 @@ public interface LObjShortFunction<T, R> extends LObjShortFunctionX<T, R, Runtim
 		return this;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LObjShortFunctionX<T, R, RuntimeException> shoveX() {
+		return this;
+	}
+
 	// </editor-fold>
 
 	@Nonnull
 	default LObjShortFunction<T, R> nonNullable() {
-		return (t, s) -> Objects.requireNonNull(this.doApply(t, s));
+		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">

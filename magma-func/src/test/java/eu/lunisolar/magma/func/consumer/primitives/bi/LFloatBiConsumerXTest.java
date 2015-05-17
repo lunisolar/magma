@@ -72,6 +72,15 @@ public class LFloatBiConsumerXTest<X extends ParseException> {
 
 
 
+    private LFloatBiConsumerX<ParseException> sutAlwaysThrowing = LFloatBiConsumerX.lX((float f1,float f2) -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LFloatBiConsumerX<RuntimeException> sutAlwaysThrowingUnckeck = LFloatBiConsumerX.lX((float f1,float f2) -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
 
 
     @Test
@@ -268,14 +277,29 @@ public class LFloatBiConsumerXTest<X extends ParseException> {
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
+//
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LFloatBiConsumer.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isInstanceOf(LFloatBiConsumer.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LFloatBiConsumerX.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isInstanceOf(LFloatBiConsumer.class);
+    }
+
+    @Test
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isInstanceOf(LFloatBiConsumerX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isInstanceOf(LFloatBiConsumerX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

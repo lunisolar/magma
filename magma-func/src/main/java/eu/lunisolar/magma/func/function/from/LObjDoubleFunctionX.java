@@ -65,6 +65,28 @@ public interface LObjDoubleFunctionX<T, R, X extends Exception> extends MetaFunc
 	@Nullable
 	public R doApply(T t, double d) throws X;
 
+	default R nestingDoApply(T t, double d) {
+		try {
+			return this.doApply(t, d);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default R shovingDoApply(T t, double d) {
+		return ((LObjDoubleFunctionX<T, R, RuntimeException>) this).doApply(t, d);
+	}
+
+	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+
+	/** Ensures the result is not null */
+	@Nonnull
+	default R nonNullDoApply(T t, double d) throws X {
+		return Objects.requireNonNull(doApply(t, d), NULL_VALUE_MESSAGE_SUPPLIER);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -80,14 +102,6 @@ public interface LObjDoubleFunctionX<T, R, X extends Exception> extends MetaFunc
 		return (t, d) -> r;
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
-
-	/** Ensures the result is not null */
-	@Nonnull
-	default R nonNull(T t, double d) throws X {
-		return Objects.requireNonNull(doApply(t, d), NULL_VALUE_MESSAGE_SUPPLIER);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T, R, X extends Exception> LObjDoubleFunctionX<T, R, X> lX(final @Nonnull LObjDoubleFunctionX<T, R, X> lambda) {
@@ -100,7 +114,7 @@ public interface LObjDoubleFunctionX<T, R, X extends Exception> extends MetaFunc
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T, R, X extends Exception> LObjDoubleFunctionX<T, R, X> wrapX(final @Nonnull LObjDoubleFunction<T, R> other) {
-		return other::doApply;
+		return (LObjDoubleFunctionX) other;
 	}
 
 	// </editor-fold>
@@ -151,27 +165,31 @@ public interface LObjDoubleFunctionX<T, R, X extends Exception> extends MetaFunc
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjDoubleFunction<T, R> nonThrowing() {
-		return LObjDoubleFunction.wrap(this);
+	default LObjDoubleFunction<T, R> nest() {
+		return this::nestingDoApply;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjDoubleFunctionX<T, R, RuntimeException> uncheck() {
-		return (LObjDoubleFunctionX) this;
+	default LObjDoubleFunctionX<T, R, RuntimeException> nestX() {
+		return this::nestingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjDoubleFunction<T, R> shove() {
-		LObjDoubleFunctionX<T, R, RuntimeException> exceptionCast = (LObjDoubleFunctionX<T, R, RuntimeException>) this;
-		return exceptionCast::doApply;
+		return this::shovingDoApply;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LObjDoubleFunctionX<T, R, RuntimeException> shoveX() {
+		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
 	default LObjDoubleFunctionX<T, R, X> nonNullableX() {
-		return (t, d) -> Objects.requireNonNull(this.doApply(t, d));
+		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">

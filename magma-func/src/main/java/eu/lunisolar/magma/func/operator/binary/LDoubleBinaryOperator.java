@@ -58,13 +58,29 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LDoubleBinaryOperator extends java.util.function.DoubleBinaryOperator, LDoubleBinaryOperatorX<RuntimeException>, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LDoubleBinaryOperator extends LDoubleBinaryOperatorX<RuntimeException>, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
 	public static final String DESCRIPTION = "LDoubleBinaryOperator: double doApplyAsDouble(double d1,double d2)";
 
+	@Override
+	@Deprecated
+	// calling this method via LDoubleBinaryOperator interface should be discouraged.
+	default double applyAsDouble(double d1, double d2) {
+		return this.nestingDoApplyAsDouble(d1, d2);
+	}
+
 	public double doApplyAsDouble(double d1, double d2);
 
-	default double applyAsDouble(double d1, double d2) {
+	default double nestingDoApplyAsDouble(double d1, double d2) {
+		return this.doApplyAsDouble(d1, d2);
+	}
+
+	default double shovingDoApplyAsDouble(double d1, double d2) {
+		return this.doApplyAsDouble(d1, d2);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default double nonNullDoApplyAsDouble(double d1, double d2) {
 		return doApplyAsDouble(d1, d2);
 	}
 
@@ -83,11 +99,6 @@ public interface LDoubleBinaryOperator extends java.util.function.DoubleBinaryOp
 		return (d1, d2) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default double nonNull(double d1, double d2) {
-		return doApplyAsDouble(d1, d2);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LDoubleBinaryOperator l(final @Nonnull LDoubleBinaryOperator lambda) {
@@ -99,20 +110,14 @@ public interface LDoubleBinaryOperator extends java.util.function.DoubleBinaryOp
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LDoubleBinaryOperator wrapStd(final java.util.function.DoubleBinaryOperator other) {
+	public static LDoubleBinaryOperator wrap(final java.util.function.DoubleBinaryOperator other) {
 		return other::applyAsDouble;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LDoubleBinaryOperator wrap(final @Nonnull LDoubleBinaryOperatorX<X> other) {
-		return (double d1, double d2) -> {
-			try {
-				return other.doApplyAsDouble(d1, d2);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApplyAsDouble;
 	}
 
 	// </editor-fold>
@@ -173,26 +178,25 @@ public interface LDoubleBinaryOperator extends java.util.function.DoubleBinaryOp
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.DoubleBinaryOperator std() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoubleBinaryOperator nonThrowing() {
+	default LDoubleBinaryOperator nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoubleBinaryOperatorX<RuntimeException> uncheck() {
-		return (LDoubleBinaryOperatorX) this;
+	default LDoubleBinaryOperatorX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LDoubleBinaryOperator shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoubleBinaryOperatorX<RuntimeException> shoveX() {
 		return this;
 	}
 

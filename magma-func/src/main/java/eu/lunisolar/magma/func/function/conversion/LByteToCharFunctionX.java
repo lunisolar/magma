@@ -64,6 +64,25 @@ public interface LByteToCharFunctionX<X extends Exception> extends MetaFunction,
 
 	public char doApplyAsChar(byte b) throws X;
 
+	default char nestingDoApplyAsChar(byte b) {
+		try {
+			return this.doApplyAsChar(b);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default char shovingDoApplyAsChar(byte b) {
+		return ((LByteToCharFunctionX<RuntimeException>) this).doApplyAsChar(b);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default char nonNullDoApplyAsChar(byte b) throws X {
+		return doApplyAsChar(b);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +98,6 @@ public interface LByteToCharFunctionX<X extends Exception> extends MetaFunction,
 		return (b) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default char nonNull(byte b) throws X {
-		return doApplyAsChar(b);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <X extends Exception> LByteToCharFunctionX<X> lX(final @Nonnull LByteToCharFunctionX<X> lambda) {
@@ -96,7 +110,7 @@ public interface LByteToCharFunctionX<X extends Exception> extends MetaFunction,
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LByteToCharFunctionX<X> wrapX(final @Nonnull LByteToCharFunction other) {
-		return other::doApplyAsChar;
+		return (LByteToCharFunctionX) other;
 	}
 
 	// </editor-fold>
@@ -194,20 +208,24 @@ public interface LByteToCharFunctionX<X extends Exception> extends MetaFunction,
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LByteToCharFunction nonThrowing() {
-		return LByteToCharFunction.wrap(this);
+	default LByteToCharFunction nest() {
+		return this::nestingDoApplyAsChar;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LByteToCharFunctionX<RuntimeException> uncheck() {
-		return (LByteToCharFunctionX) this;
+	default LByteToCharFunctionX<RuntimeException> nestX() {
+		return this::nestingDoApplyAsChar;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LByteToCharFunction shove() {
-		LByteToCharFunctionX<RuntimeException> exceptionCast = (LByteToCharFunctionX<RuntimeException>) this;
-		return exceptionCast::doApplyAsChar;
+		return this::shovingDoApplyAsChar;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LByteToCharFunctionX<RuntimeException> shoveX() {
+		return this::shovingDoApplyAsChar;
 	}
 
 	// </editor-fold>

@@ -65,6 +65,22 @@ public interface LShortBiFunction<R> extends LShortBiFunctionX<R, RuntimeExcepti
 	@Nullable
 	public R doApply(short s1, short s2);
 
+	default R nestingDoApply(short s1, short s2) {
+		return this.doApply(s1, s2);
+	}
+
+	default R shovingDoApply(short s1, short s2) {
+		return this.doApply(s1, s2);
+	}
+
+	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+
+	/** Ensures the result is not null */
+	@Nonnull
+	default R nonNullDoApply(short s1, short s2) {
+		return Objects.requireNonNull(doApply(s1, s2), NULL_VALUE_MESSAGE_SUPPLIER);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -80,14 +96,6 @@ public interface LShortBiFunction<R> extends LShortBiFunctionX<R, RuntimeExcepti
 		return (s1, s2) -> r;
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
-
-	/** Ensures the result is not null */
-	@Nonnull
-	default R nonNull(short s1, short s2) {
-		return Objects.requireNonNull(doApply(s1, s2), NULL_VALUE_MESSAGE_SUPPLIER);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <R> LShortBiFunction<R> l(final @Nonnull LShortBiFunction<R> lambda) {
@@ -100,13 +108,7 @@ public interface LShortBiFunction<R> extends LShortBiFunctionX<R, RuntimeExcepti
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <R, X extends Exception> LShortBiFunction<R> wrap(final @Nonnull LShortBiFunctionX<R, X> other) {
-		return (short s1, short s2) -> {
-			try {
-				return other.doApply(s1, s2);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApply;
 	}
 
 	// </editor-fold>
@@ -157,14 +159,14 @@ public interface LShortBiFunction<R> extends LShortBiFunctionX<R, RuntimeExcepti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LShortBiFunction<R> nonThrowing() {
+	default LShortBiFunction<R> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LShortBiFunctionX<R, RuntimeException> uncheck() {
-		return (LShortBiFunctionX) this;
+	default LShortBiFunctionX<R, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
@@ -172,11 +174,16 @@ public interface LShortBiFunction<R> extends LShortBiFunctionX<R, RuntimeExcepti
 		return this;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LShortBiFunctionX<R, RuntimeException> shoveX() {
+		return this;
+	}
+
 	// </editor-fold>
 
 	@Nonnull
 	default LShortBiFunction<R> nonNullable() {
-		return (s1, s2) -> Objects.requireNonNull(this.doApply(s1, s2));
+		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">

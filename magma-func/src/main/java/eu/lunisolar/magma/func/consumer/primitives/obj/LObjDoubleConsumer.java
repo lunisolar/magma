@@ -59,14 +59,25 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LObjDoubleConsumer<T> extends java.util.function.ObjDoubleConsumer<T>, LObjDoubleConsumerX<T, RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
+public interface LObjDoubleConsumer<T> extends LObjDoubleConsumerX<T, RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
 	public static final String DESCRIPTION = "LObjDoubleConsumer: void doAccept(T t, double d)";
 
+	@Override
+	@Deprecated
+	// calling this method via LObjDoubleConsumer interface should be discouraged.
+	default void accept(T t, double d) {
+		this.nestingDoAccept(t, d);
+	}
+
 	public void doAccept(T t, double d);
 
-	default void accept(T t, double d) {
-		doAccept(t, d);
+	default void nestingDoAccept(T t, double d) {
+		this.doAccept(t, d);
+	}
+
+	default void shovingDoAccept(T t, double d) {
+		this.doAccept(t, d);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -91,20 +102,14 @@ public interface LObjDoubleConsumer<T> extends java.util.function.ObjDoubleConsu
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T> LObjDoubleConsumer<T> wrapStd(final java.util.function.ObjDoubleConsumer<T> other) {
+	public static <T> LObjDoubleConsumer<T> wrap(final java.util.function.ObjDoubleConsumer<T> other) {
 		return other::accept;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T, X extends Exception> LObjDoubleConsumer<T> wrap(final @Nonnull LObjDoubleConsumerX<T, X> other) {
-		return (T t, double d) -> {
-			try {
-				other.doAccept(t, d);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoAccept;
 	}
 
 	// </editor-fold>
@@ -148,26 +153,25 @@ public interface LObjDoubleConsumer<T> extends java.util.function.ObjDoubleConsu
 	// </editor-fold>
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.ObjDoubleConsumer<T> std() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjDoubleConsumer<T> nonThrowing() {
+	default LObjDoubleConsumer<T> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjDoubleConsumerX<T, RuntimeException> uncheck() {
-		return (LObjDoubleConsumerX) this;
+	default LObjDoubleConsumerX<T, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjDoubleConsumer<T> shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LObjDoubleConsumerX<T, RuntimeException> shoveX() {
 		return this;
 	}
 

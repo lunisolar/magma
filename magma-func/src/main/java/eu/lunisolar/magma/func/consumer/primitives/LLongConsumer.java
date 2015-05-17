@@ -59,14 +59,25 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LLongConsumer extends java.util.function.LongConsumer, LLongConsumerX<RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
+public interface LLongConsumer extends LLongConsumerX<RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
 	public static final String DESCRIPTION = "LLongConsumer: void doAccept(long l)";
 
+	@Override
+	@Deprecated
+	// calling this method via LLongConsumer interface should be discouraged.
+	default void accept(long l) {
+		this.nestingDoAccept(l);
+	}
+
 	public void doAccept(long l);
 
-	default void accept(long l) {
-		doAccept(l);
+	default void nestingDoAccept(long l) {
+		this.doAccept(l);
+	}
+
+	default void shovingDoAccept(long l) {
+		this.doAccept(l);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -91,20 +102,14 @@ public interface LLongConsumer extends java.util.function.LongConsumer, LLongCon
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LLongConsumer wrapStd(final java.util.function.LongConsumer other) {
+	public static LLongConsumer wrap(final java.util.function.LongConsumer other) {
 		return other::accept;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LLongConsumer wrap(final @Nonnull LLongConsumerX<X> other) {
-		return (long l) -> {
-			try {
-				other.doAccept(l);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoAccept;
 	}
 
 	// </editor-fold>
@@ -146,26 +151,25 @@ public interface LLongConsumer extends java.util.function.LongConsumer, LLongCon
 	// </editor-fold>
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.LongConsumer std() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LLongConsumer nonThrowing() {
+	default LLongConsumer nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LLongConsumerX<RuntimeException> uncheck() {
-		return (LLongConsumerX) this;
+	default LLongConsumerX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLongConsumer shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LLongConsumerX<RuntimeException> shoveX() {
 		return this;
 	}
 

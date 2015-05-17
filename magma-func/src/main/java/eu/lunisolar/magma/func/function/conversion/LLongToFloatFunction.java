@@ -64,6 +64,19 @@ public interface LLongToFloatFunction extends LLongToFloatFunctionX<RuntimeExcep
 
 	public float doApplyAsFloat(long l);
 
+	default float nestingDoApplyAsFloat(long l) {
+		return this.doApplyAsFloat(l);
+	}
+
+	default float shovingDoApplyAsFloat(long l) {
+		return this.doApplyAsFloat(l);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default float nonNullDoApplyAsFloat(long l) {
+		return doApplyAsFloat(l);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +92,6 @@ public interface LLongToFloatFunction extends LLongToFloatFunctionX<RuntimeExcep
 		return (l) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default float nonNull(long l) {
-		return doApplyAsFloat(l);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LLongToFloatFunction l(final @Nonnull LLongToFloatFunction lambda) {
@@ -96,13 +104,7 @@ public interface LLongToFloatFunction extends LLongToFloatFunctionX<RuntimeExcep
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LLongToFloatFunction wrap(final @Nonnull LLongToFloatFunctionX<X> other) {
-		return (long l) -> {
-			try {
-				return other.doApplyAsFloat(l);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApplyAsFloat;
 	}
 
 	// </editor-fold>
@@ -200,18 +202,23 @@ public interface LLongToFloatFunction extends LLongToFloatFunctionX<RuntimeExcep
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LLongToFloatFunction nonThrowing() {
+	default LLongToFloatFunction nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LLongToFloatFunctionX<RuntimeException> uncheck() {
-		return (LLongToFloatFunctionX) this;
+	default LLongToFloatFunctionX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLongToFloatFunction shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LLongToFloatFunctionX<RuntimeException> shoveX() {
 		return this;
 	}
 

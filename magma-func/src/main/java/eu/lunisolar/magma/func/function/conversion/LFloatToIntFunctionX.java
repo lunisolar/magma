@@ -64,6 +64,25 @@ public interface LFloatToIntFunctionX<X extends Exception> extends MetaFunction,
 
 	public int doApplyAsInt(float f) throws X;
 
+	default int nestingDoApplyAsInt(float f) {
+		try {
+			return this.doApplyAsInt(f);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default int shovingDoApplyAsInt(float f) {
+		return ((LFloatToIntFunctionX<RuntimeException>) this).doApplyAsInt(f);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default int nonNullDoApplyAsInt(float f) throws X {
+		return doApplyAsInt(f);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +98,6 @@ public interface LFloatToIntFunctionX<X extends Exception> extends MetaFunction,
 		return (f) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default int nonNull(float f) throws X {
-		return doApplyAsInt(f);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <X extends Exception> LFloatToIntFunctionX<X> lX(final @Nonnull LFloatToIntFunctionX<X> lambda) {
@@ -96,7 +110,7 @@ public interface LFloatToIntFunctionX<X extends Exception> extends MetaFunction,
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LFloatToIntFunctionX<X> wrapX(final @Nonnull LFloatToIntFunction other) {
-		return other::doApplyAsInt;
+		return (LFloatToIntFunctionX) other;
 	}
 
 	// </editor-fold>
@@ -194,20 +208,24 @@ public interface LFloatToIntFunctionX<X extends Exception> extends MetaFunction,
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LFloatToIntFunction nonThrowing() {
-		return LFloatToIntFunction.wrap(this);
+	default LFloatToIntFunction nest() {
+		return this::nestingDoApplyAsInt;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LFloatToIntFunctionX<RuntimeException> uncheck() {
-		return (LFloatToIntFunctionX) this;
+	default LFloatToIntFunctionX<RuntimeException> nestX() {
+		return this::nestingDoApplyAsInt;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LFloatToIntFunction shove() {
-		LFloatToIntFunctionX<RuntimeException> exceptionCast = (LFloatToIntFunctionX<RuntimeException>) this;
-		return exceptionCast::doApplyAsInt;
+		return this::shovingDoApplyAsInt;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LFloatToIntFunctionX<RuntimeException> shoveX() {
+		return this::shovingDoApplyAsInt;
 	}
 
 	// </editor-fold>

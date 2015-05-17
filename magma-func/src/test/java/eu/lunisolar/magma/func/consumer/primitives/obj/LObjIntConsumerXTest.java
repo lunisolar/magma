@@ -74,6 +74,15 @@ public class LObjIntConsumerXTest<T,X extends ParseException> {
     private java.util.function.ObjIntConsumer jre = (Object t, int i) -> Function4U.doNothing();
 
 
+    private LObjIntConsumerX<T,ParseException> sutAlwaysThrowing = LObjIntConsumerX.lX((T t, int i) -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LObjIntConsumerX<T,RuntimeException> sutAlwaysThrowingUnckeck = LObjIntConsumerX.lX((T t, int i) -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
 
 
     @Test
@@ -96,7 +105,7 @@ public class LObjIntConsumerXTest<T,X extends ParseException> {
 
     @Test
     public void testWrapStdMethod() throws ParseException {
-        assertThat(LObjIntConsumerX.wrapStd(jre))
+        assertThat(LObjIntConsumerX.wrap(jre))
             .isInstanceOf(LObjIntConsumerX.class);
     }
 
@@ -276,19 +285,35 @@ public class LObjIntConsumerXTest<T,X extends ParseException> {
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
+//
+//    @Test
+//    public void testStd() {
+//        assertThat(sut.std()).isInstanceOf(java.util.function.ObjIntConsumer.class);
+//    }
+//
+//
     @Test
-    public void testStd() {
-        assertThat(sut.std()).isInstanceOf(java.util.function.ObjIntConsumer.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isInstanceOf(LObjIntConsumer.class);
     }
 
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LObjIntConsumer.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isInstanceOf(LObjIntConsumer.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LObjIntConsumerX.class);
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isInstanceOf(LObjIntConsumerX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isInstanceOf(LObjIntConsumerX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

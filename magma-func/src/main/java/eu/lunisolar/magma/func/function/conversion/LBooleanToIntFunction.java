@@ -64,6 +64,19 @@ public interface LBooleanToIntFunction extends LBooleanToIntFunctionX<RuntimeExc
 
 	public int doApplyAsInt(boolean b);
 
+	default int nestingDoApplyAsInt(boolean b) {
+		return this.doApplyAsInt(b);
+	}
+
+	default int shovingDoApplyAsInt(boolean b) {
+		return this.doApplyAsInt(b);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default int nonNullDoApplyAsInt(boolean b) {
+		return doApplyAsInt(b);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +92,6 @@ public interface LBooleanToIntFunction extends LBooleanToIntFunctionX<RuntimeExc
 		return (b) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default int nonNull(boolean b) {
-		return doApplyAsInt(b);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LBooleanToIntFunction l(final @Nonnull LBooleanToIntFunction lambda) {
@@ -96,13 +104,7 @@ public interface LBooleanToIntFunction extends LBooleanToIntFunctionX<RuntimeExc
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LBooleanToIntFunction wrap(final @Nonnull LBooleanToIntFunctionX<X> other) {
-		return (boolean b) -> {
-			try {
-				return other.doApplyAsInt(b);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApplyAsInt;
 	}
 
 	// </editor-fold>
@@ -200,18 +202,23 @@ public interface LBooleanToIntFunction extends LBooleanToIntFunctionX<RuntimeExc
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanToIntFunction nonThrowing() {
+	default LBooleanToIntFunction nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanToIntFunctionX<RuntimeException> uncheck() {
-		return (LBooleanToIntFunctionX) this;
+	default LBooleanToIntFunctionX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBooleanToIntFunction shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBooleanToIntFunctionX<RuntimeException> shoveX() {
 		return this;
 	}
 

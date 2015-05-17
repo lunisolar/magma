@@ -80,6 +80,15 @@ public class LBooleanTriFunctionXTest<R,X extends ParseException> {
 
 
 
+    private LBooleanTriFunctionX<R,ParseException> sutAlwaysThrowing = LBooleanTriFunctionX.lX((boolean b1,boolean b2,boolean b3) -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LBooleanTriFunctionX<R,RuntimeException> sutAlwaysThrowingUnckeck = LBooleanTriFunctionX.lX((boolean b1,boolean b2,boolean b3) -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
     @Test
     public void testTheResult() throws ParseException {
         assertThat(sut.doApply(true,true,true))
@@ -87,14 +96,75 @@ public class LBooleanTriFunctionXTest<R,X extends ParseException> {
     }
 
     @Test
-    public void testNonNullShouldNotModifyValue() throws ParseException {
-        assertThat(sut.nonNull(true,true,true))
+    public void testNonNullDoApply() throws ParseException {
+        assertThat(sut.nonNullDoApply(true,true,true))
             .isSameAs(testValue);
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LBooleanTriFunctionX: R doApply(boolean b1,boolean b2,boolean b3) throws X).\\E")
+    @Test
+    public void testNestingDoApply_checked() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowing.nestingDoApply(true,true,true);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(NestedException.class)
+                    .hasCauseExactlyInstanceOf(ParseException.class)
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testNestingDoApply_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.nestingDoApply(true,true,true);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoApply_checked() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowing.shovingDoApply(true,true,true);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(ParseException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoApply_unckeck() throws ParseException {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.shovingDoApply(true,true,true);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LBooleanTriFunctionX: R doApply(boolean b1,boolean b2,boolean b3) throws X).\\E")
     public void testNonNullCapturesNull() throws ParseException {
-        sutNull.nonNull(true,true,true);
+        sutNull.nonNullDoApply(true,true,true);
     }
 
 
@@ -353,14 +423,29 @@ public class LBooleanTriFunctionXTest<R,X extends ParseException> {
 
 
     // </editor-fold>
+//
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LBooleanTriFunction.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isInstanceOf(LBooleanTriFunction.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LBooleanTriFunctionX.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isInstanceOf(LBooleanTriFunction.class);
+    }
+
+    @Test
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isInstanceOf(LBooleanTriFunctionX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isInstanceOf(LBooleanTriFunctionX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

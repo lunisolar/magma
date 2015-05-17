@@ -64,6 +64,19 @@ public interface LDoubleToByteFunction extends LDoubleToByteFunctionX<RuntimeExc
 
 	public byte doApplyAsByte(double d);
 
+	default byte nestingDoApplyAsByte(double d) {
+		return this.doApplyAsByte(d);
+	}
+
+	default byte shovingDoApplyAsByte(double d) {
+		return this.doApplyAsByte(d);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default byte nonNullDoApplyAsByte(double d) {
+		return doApplyAsByte(d);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +92,6 @@ public interface LDoubleToByteFunction extends LDoubleToByteFunctionX<RuntimeExc
 		return (d) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default byte nonNull(double d) {
-		return doApplyAsByte(d);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LDoubleToByteFunction l(final @Nonnull LDoubleToByteFunction lambda) {
@@ -96,13 +104,7 @@ public interface LDoubleToByteFunction extends LDoubleToByteFunctionX<RuntimeExc
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LDoubleToByteFunction wrap(final @Nonnull LDoubleToByteFunctionX<X> other) {
-		return (double d) -> {
-			try {
-				return other.doApplyAsByte(d);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApplyAsByte;
 	}
 
 	// </editor-fold>
@@ -200,18 +202,23 @@ public interface LDoubleToByteFunction extends LDoubleToByteFunctionX<RuntimeExc
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoubleToByteFunction nonThrowing() {
+	default LDoubleToByteFunction nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoubleToByteFunctionX<RuntimeException> uncheck() {
-		return (LDoubleToByteFunctionX) this;
+	default LDoubleToByteFunctionX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LDoubleToByteFunction shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoubleToByteFunctionX<RuntimeException> shoveX() {
 		return this;
 	}
 

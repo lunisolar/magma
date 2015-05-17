@@ -58,12 +58,41 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LDoubleFunctionX<R, X extends Exception> extends MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
+public interface LDoubleFunctionX<R, X extends Exception> extends java.util.function.DoubleFunction<R>, MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
 	public static final String DESCRIPTION = "LDoubleFunctionX: R doApply(double d) throws X";
 
+	@Override
+	@Deprecated
+	// calling this method via LDoubleFunctionX interface should be discouraged.
+	default R apply(double d) {
+		return this.nestingDoApply(d);
+	}
+
 	@Nullable
 	public R doApply(double d) throws X;
+
+	default R nestingDoApply(double d) {
+		try {
+			return this.doApply(d);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default R shovingDoApply(double d) {
+		return ((LDoubleFunctionX<R, RuntimeException>) this).doApply(d);
+	}
+
+	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+
+	/** Ensures the result is not null */
+	@Nonnull
+	default R nonNullDoApply(double d) throws X {
+		return Objects.requireNonNull(doApply(d), NULL_VALUE_MESSAGE_SUPPLIER);
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -80,14 +109,6 @@ public interface LDoubleFunctionX<R, X extends Exception> extends MetaFunction, 
 		return (d) -> r;
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
-
-	/** Ensures the result is not null */
-	@Nonnull
-	default R nonNull(double d) throws X {
-		return Objects.requireNonNull(doApply(d), NULL_VALUE_MESSAGE_SUPPLIER);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <R, X extends Exception> LDoubleFunctionX<R, X> lX(final @Nonnull LDoubleFunctionX<R, X> lambda) {
@@ -99,14 +120,14 @@ public interface LDoubleFunctionX<R, X extends Exception> extends MetaFunction, 
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <R, X extends Exception> LDoubleFunctionX<R, X> wrapStd(final java.util.function.DoubleFunction<R> other) {
+	public static <R, X extends Exception> LDoubleFunctionX<R, X> wrap(final java.util.function.DoubleFunction<R> other) {
 		return other::apply;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <R, X extends Exception> LDoubleFunctionX<R, X> wrapX(final @Nonnull LDoubleFunction<R> other) {
-		return other::doApply;
+		return (LDoubleFunctionX) other;
 	}
 
 	// </editor-fold>
@@ -209,35 +230,33 @@ public interface LDoubleFunctionX<R, X extends Exception> extends MetaFunction, 
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.DoubleFunction<R> std() {
-		return LDoubleFunction.wrap(this)::doApply;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoubleFunction<R> nonThrowing() {
-		return LDoubleFunction.wrap(this);
+	default LDoubleFunction<R> nest() {
+		return this::nestingDoApply;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoubleFunctionX<R, RuntimeException> uncheck() {
-		return (LDoubleFunctionX) this;
+	default LDoubleFunctionX<R, RuntimeException> nestX() {
+		return this::nestingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LDoubleFunction<R> shove() {
-		LDoubleFunctionX<R, RuntimeException> exceptionCast = (LDoubleFunctionX<R, RuntimeException>) this;
-		return exceptionCast::doApply;
+		return this::shovingDoApply;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoubleFunctionX<R, RuntimeException> shoveX() {
+		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
 	default LDoubleFunctionX<R, X> nonNullableX() {
-		return (d) -> Objects.requireNonNull(this.doApply(d));
+		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">

@@ -64,6 +64,25 @@ public interface LBooleanTernaryOperatorX<X extends Exception> extends MetaLogic
 
 	public boolean doApply(boolean b1, boolean b2, boolean b3) throws X;
 
+	default boolean nestingDoApply(boolean b1, boolean b2, boolean b3) {
+		try {
+			return this.doApply(b1, b2, b3);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default boolean shovingDoApply(boolean b1, boolean b2, boolean b3) {
+		return ((LBooleanTernaryOperatorX<RuntimeException>) this).doApply(b1, b2, b3);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default boolean nonNullDoApply(boolean b1, boolean b2, boolean b3) throws X {
+		return doApply(b1, b2, b3);
+	}
+
 	/** For convinience boolean operator is also special case of predicate. */
 	default boolean doTest(boolean b1, boolean b2, boolean b3) throws X {
 		return doApply(b1, b2, b3);
@@ -84,11 +103,6 @@ public interface LBooleanTernaryOperatorX<X extends Exception> extends MetaLogic
 		return (b1, b2, b3) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNull(boolean b1, boolean b2, boolean b3) throws X {
-		return doApply(b1, b2, b3);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <X extends Exception> LBooleanTernaryOperatorX<X> lX(final @Nonnull LBooleanTernaryOperatorX<X> lambda) {
@@ -101,7 +115,7 @@ public interface LBooleanTernaryOperatorX<X extends Exception> extends MetaLogic
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LBooleanTernaryOperatorX<X> wrapX(final @Nonnull LBooleanTernaryOperator other) {
-		return other::doApply;
+		return (LBooleanTernaryOperatorX) other;
 	}
 
 	// </editor-fold>
@@ -193,20 +207,24 @@ public interface LBooleanTernaryOperatorX<X extends Exception> extends MetaLogic
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanTernaryOperator nonThrowing() {
-		return LBooleanTernaryOperator.wrap(this);
+	default LBooleanTernaryOperator nest() {
+		return this::nestingDoApply;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanTernaryOperatorX<RuntimeException> uncheck() {
-		return (LBooleanTernaryOperatorX) this;
+	default LBooleanTernaryOperatorX<RuntimeException> nestX() {
+		return this::nestingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBooleanTernaryOperator shove() {
-		LBooleanTernaryOperatorX<RuntimeException> exceptionCast = (LBooleanTernaryOperatorX<RuntimeException>) this;
-		return exceptionCast::doApply;
+		return this::shovingDoApply;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBooleanTernaryOperatorX<RuntimeException> shoveX() {
+		return this::shovingDoApply;
 	}
 
 	// </editor-fold>

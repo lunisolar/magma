@@ -64,6 +64,25 @@ public interface LShortUnaryOperatorX<X extends Exception> extends MetaOperator,
 
 	public short doApplyAsShort(short s) throws X;
 
+	default short nestingDoApplyAsShort(short s) {
+		try {
+			return this.doApplyAsShort(s);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default short shovingDoApplyAsShort(short s) {
+		return ((LShortUnaryOperatorX<RuntimeException>) this).doApplyAsShort(s);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default short nonNullDoApplyAsShort(short s) throws X {
+		return doApplyAsShort(s);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +98,6 @@ public interface LShortUnaryOperatorX<X extends Exception> extends MetaOperator,
 		return (s) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default short nonNull(short s) throws X {
-		return doApplyAsShort(s);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <X extends Exception> LShortUnaryOperatorX<X> lX(final @Nonnull LShortUnaryOperatorX<X> lambda) {
@@ -96,7 +110,7 @@ public interface LShortUnaryOperatorX<X extends Exception> extends MetaOperator,
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LShortUnaryOperatorX<X> wrapX(final @Nonnull LShortUnaryOperator other) {
-		return other::doApplyAsShort;
+		return (LShortUnaryOperatorX) other;
 	}
 
 	// </editor-fold>
@@ -200,20 +214,24 @@ public interface LShortUnaryOperatorX<X extends Exception> extends MetaOperator,
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LShortUnaryOperator nonThrowing() {
-		return LShortUnaryOperator.wrap(this);
+	default LShortUnaryOperator nest() {
+		return this::nestingDoApplyAsShort;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LShortUnaryOperatorX<RuntimeException> uncheck() {
-		return (LShortUnaryOperatorX) this;
+	default LShortUnaryOperatorX<RuntimeException> nestX() {
+		return this::nestingDoApplyAsShort;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LShortUnaryOperator shove() {
-		LShortUnaryOperatorX<RuntimeException> exceptionCast = (LShortUnaryOperatorX<RuntimeException>) this;
-		return exceptionCast::doApplyAsShort;
+		return this::shovingDoApplyAsShort;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LShortUnaryOperatorX<RuntimeException> shoveX() {
+		return this::shovingDoApplyAsShort;
 	}
 
 	// </editor-fold>

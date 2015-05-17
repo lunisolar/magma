@@ -58,13 +58,29 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LIntToDoubleFunction extends java.util.function.IntToDoubleFunction, LIntToDoubleFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LIntToDoubleFunction extends LIntToDoubleFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
 	public static final String DESCRIPTION = "LIntToDoubleFunction: double doApplyAsDouble(int i)";
 
+	@Override
+	@Deprecated
+	// calling this method via LIntToDoubleFunction interface should be discouraged.
+	default double applyAsDouble(int i) {
+		return this.nestingDoApplyAsDouble(i);
+	}
+
 	public double doApplyAsDouble(int i);
 
-	default double applyAsDouble(int i) {
+	default double nestingDoApplyAsDouble(int i) {
+		return this.doApplyAsDouble(i);
+	}
+
+	default double shovingDoApplyAsDouble(int i) {
+		return this.doApplyAsDouble(i);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default double nonNullDoApplyAsDouble(int i) {
 		return doApplyAsDouble(i);
 	}
 
@@ -83,11 +99,6 @@ public interface LIntToDoubleFunction extends java.util.function.IntToDoubleFunc
 		return (i) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default double nonNull(int i) {
-		return doApplyAsDouble(i);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LIntToDoubleFunction l(final @Nonnull LIntToDoubleFunction lambda) {
@@ -99,20 +110,14 @@ public interface LIntToDoubleFunction extends java.util.function.IntToDoubleFunc
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LIntToDoubleFunction wrapStd(final java.util.function.IntToDoubleFunction other) {
+	public static LIntToDoubleFunction wrap(final java.util.function.IntToDoubleFunction other) {
 		return other::applyAsDouble;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LIntToDoubleFunction wrap(final @Nonnull LIntToDoubleFunctionX<X> other) {
-		return (int i) -> {
-			try {
-				return other.doApplyAsDouble(i);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApplyAsDouble;
 	}
 
 	// </editor-fold>
@@ -208,26 +213,25 @@ public interface LIntToDoubleFunction extends java.util.function.IntToDoubleFunc
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.IntToDoubleFunction std() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntToDoubleFunction nonThrowing() {
+	default LIntToDoubleFunction nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntToDoubleFunctionX<RuntimeException> uncheck() {
-		return (LIntToDoubleFunctionX) this;
+	default LIntToDoubleFunctionX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LIntToDoubleFunction shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntToDoubleFunctionX<RuntimeException> shoveX() {
 		return this;
 	}
 

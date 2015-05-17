@@ -65,6 +65,20 @@ public interface LObjByteConsumerX<T, X extends Exception> extends MetaConsumer,
 
 	public void doAccept(T t, byte b) throws X;
 
+	default void nestingDoAccept(T t, byte b) {
+		try {
+			this.doAccept(t, b);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default void shovingDoAccept(T t, byte b) {
+		((LObjByteConsumerX<T, RuntimeException>) this).doAccept(t, b);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -88,7 +102,7 @@ public interface LObjByteConsumerX<T, X extends Exception> extends MetaConsumer,
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T, X extends Exception> LObjByteConsumerX<T, X> wrapX(final @Nonnull LObjByteConsumer<T> other) {
-		return other::doAccept;
+		return (LObjByteConsumerX) other;
 	}
 
 	// </editor-fold>
@@ -134,20 +148,24 @@ public interface LObjByteConsumerX<T, X extends Exception> extends MetaConsumer,
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjByteConsumer<T> nonThrowing() {
-		return LObjByteConsumer.wrap(this);
+	default LObjByteConsumer<T> nest() {
+		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjByteConsumerX<T, RuntimeException> uncheck() {
-		return (LObjByteConsumerX) this;
+	default LObjByteConsumerX<T, RuntimeException> nestX() {
+		return this::nestingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjByteConsumer<T> shove() {
-		LObjByteConsumerX<T, RuntimeException> exceptionCast = (LObjByteConsumerX<T, RuntimeException>) this;
-		return exceptionCast::doAccept;
+		return this::shovingDoAccept;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LObjByteConsumerX<T, RuntimeException> shoveX() {
+		return this::shovingDoAccept;
 	}
 
 	// </editor-fold>

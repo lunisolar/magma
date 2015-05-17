@@ -64,6 +64,25 @@ public interface LBooleanToByteFunctionX<X extends Exception> extends MetaFuncti
 
 	public byte doApplyAsByte(boolean b) throws X;
 
+	default byte nestingDoApplyAsByte(boolean b) {
+		try {
+			return this.doApplyAsByte(b);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default byte shovingDoApplyAsByte(boolean b) {
+		return ((LBooleanToByteFunctionX<RuntimeException>) this).doApplyAsByte(b);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default byte nonNullDoApplyAsByte(boolean b) throws X {
+		return doApplyAsByte(b);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +98,6 @@ public interface LBooleanToByteFunctionX<X extends Exception> extends MetaFuncti
 		return (b) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default byte nonNull(boolean b) throws X {
-		return doApplyAsByte(b);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <X extends Exception> LBooleanToByteFunctionX<X> lX(final @Nonnull LBooleanToByteFunctionX<X> lambda) {
@@ -96,7 +110,7 @@ public interface LBooleanToByteFunctionX<X extends Exception> extends MetaFuncti
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LBooleanToByteFunctionX<X> wrapX(final @Nonnull LBooleanToByteFunction other) {
-		return other::doApplyAsByte;
+		return (LBooleanToByteFunctionX) other;
 	}
 
 	// </editor-fold>
@@ -194,20 +208,24 @@ public interface LBooleanToByteFunctionX<X extends Exception> extends MetaFuncti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanToByteFunction nonThrowing() {
-		return LBooleanToByteFunction.wrap(this);
+	default LBooleanToByteFunction nest() {
+		return this::nestingDoApplyAsByte;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanToByteFunctionX<RuntimeException> uncheck() {
-		return (LBooleanToByteFunctionX) this;
+	default LBooleanToByteFunctionX<RuntimeException> nestX() {
+		return this::nestingDoApplyAsByte;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBooleanToByteFunction shove() {
-		LBooleanToByteFunctionX<RuntimeException> exceptionCast = (LBooleanToByteFunctionX<RuntimeException>) this;
-		return exceptionCast::doApplyAsByte;
+		return this::shovingDoApplyAsByte;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBooleanToByteFunctionX<RuntimeException> shoveX() {
+		return this::shovingDoApplyAsByte;
 	}
 
 	// </editor-fold>

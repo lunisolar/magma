@@ -74,6 +74,15 @@ public class LDoubleConsumerXTest<X extends ParseException> {
     private java.util.function.DoubleConsumer jre = (double d) -> Function4U.doNothing();
 
 
+    private LDoubleConsumerX<ParseException> sutAlwaysThrowing = LDoubleConsumerX.lX((double d) -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LDoubleConsumerX<RuntimeException> sutAlwaysThrowingUnckeck = LDoubleConsumerX.lX((double d) -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
 
 
     @Test
@@ -96,7 +105,7 @@ public class LDoubleConsumerXTest<X extends ParseException> {
 
     @Test
     public void testWrapStdMethod() throws ParseException {
-        assertThat(LDoubleConsumerX.wrapStd(jre))
+        assertThat(LDoubleConsumerX.wrap(jre))
             .isInstanceOf(LDoubleConsumerX.class);
     }
 
@@ -262,19 +271,35 @@ public class LDoubleConsumerXTest<X extends ParseException> {
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
+//
+//    @Test
+//    public void testStd() {
+//        assertThat(sut.std()).isInstanceOf(java.util.function.DoubleConsumer.class);
+//    }
+//
+//
     @Test
-    public void testStd() {
-        assertThat(sut.std()).isInstanceOf(java.util.function.DoubleConsumer.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isInstanceOf(LDoubleConsumer.class);
     }
 
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LDoubleConsumer.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isInstanceOf(LDoubleConsumer.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LDoubleConsumerX.class);
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isInstanceOf(LDoubleConsumerX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isInstanceOf(LDoubleConsumerX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

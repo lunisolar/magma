@@ -64,6 +64,19 @@ public interface LBooleanToShortFunction extends LBooleanToShortFunctionX<Runtim
 
 	public short doApplyAsShort(boolean b);
 
+	default short nestingDoApplyAsShort(boolean b) {
+		return this.doApplyAsShort(b);
+	}
+
+	default short shovingDoApplyAsShort(boolean b) {
+		return this.doApplyAsShort(b);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default short nonNullDoApplyAsShort(boolean b) {
+		return doApplyAsShort(b);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +92,6 @@ public interface LBooleanToShortFunction extends LBooleanToShortFunctionX<Runtim
 		return (b) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default short nonNull(boolean b) {
-		return doApplyAsShort(b);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LBooleanToShortFunction l(final @Nonnull LBooleanToShortFunction lambda) {
@@ -96,13 +104,7 @@ public interface LBooleanToShortFunction extends LBooleanToShortFunctionX<Runtim
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LBooleanToShortFunction wrap(final @Nonnull LBooleanToShortFunctionX<X> other) {
-		return (boolean b) -> {
-			try {
-				return other.doApplyAsShort(b);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApplyAsShort;
 	}
 
 	// </editor-fold>
@@ -200,18 +202,23 @@ public interface LBooleanToShortFunction extends LBooleanToShortFunctionX<Runtim
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanToShortFunction nonThrowing() {
+	default LBooleanToShortFunction nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanToShortFunctionX<RuntimeException> uncheck() {
-		return (LBooleanToShortFunctionX) this;
+	default LBooleanToShortFunctionX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBooleanToShortFunction shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBooleanToShortFunctionX<RuntimeException> shoveX() {
 		return this;
 	}
 

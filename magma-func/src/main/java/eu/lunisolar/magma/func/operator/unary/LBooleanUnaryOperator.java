@@ -64,6 +64,19 @@ public interface LBooleanUnaryOperator extends LBooleanUnaryOperatorX<RuntimeExc
 
 	public boolean doApplyAsBoolean(boolean b);
 
+	default boolean nestingDoApplyAsBoolean(boolean b) {
+		return this.doApplyAsBoolean(b);
+	}
+
+	default boolean shovingDoApplyAsBoolean(boolean b) {
+		return this.doApplyAsBoolean(b);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default boolean nonNullDoApplyAsBoolean(boolean b) {
+		return doApplyAsBoolean(b);
+	}
+
 	/** For convinience boolean operator is also special case of predicate. */
 	default boolean doTest(boolean b) {
 		return doApplyAsBoolean(b);
@@ -84,11 +97,6 @@ public interface LBooleanUnaryOperator extends LBooleanUnaryOperatorX<RuntimeExc
 		return (b) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNull(boolean b) {
-		return doApplyAsBoolean(b);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LBooleanUnaryOperator l(final @Nonnull LBooleanUnaryOperator lambda) {
@@ -101,13 +109,7 @@ public interface LBooleanUnaryOperator extends LBooleanUnaryOperatorX<RuntimeExc
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LBooleanUnaryOperator wrap(final @Nonnull LBooleanUnaryOperatorX<X> other) {
-		return (boolean b) -> {
-			try {
-				return other.doApplyAsBoolean(b);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApplyAsBoolean;
 	}
 
 	// </editor-fold>
@@ -254,18 +256,23 @@ public interface LBooleanUnaryOperator extends LBooleanUnaryOperatorX<RuntimeExc
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanUnaryOperator nonThrowing() {
+	default LBooleanUnaryOperator nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanUnaryOperatorX<RuntimeException> uncheck() {
-		return (LBooleanUnaryOperatorX) this;
+	default LBooleanUnaryOperatorX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBooleanUnaryOperator shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBooleanUnaryOperatorX<RuntimeException> shoveX() {
 		return this;
 	}
 

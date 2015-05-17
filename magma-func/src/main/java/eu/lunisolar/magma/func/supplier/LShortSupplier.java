@@ -64,6 +64,19 @@ public interface LShortSupplier extends LShortSupplierX<RuntimeException>, MetaS
 
 	public short doGetAsShort();
 
+	default short nestingDoGetAsShort() {
+		return this.doGetAsShort();
+	}
+
+	default short shovingDoGetAsShort() {
+		return this.doGetAsShort();
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default short nonNullDoGetAsShort() {
+		return doGetAsShort();
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -72,11 +85,6 @@ public interface LShortSupplier extends LShortSupplierX<RuntimeException>, MetaS
 
 	public static LShortSupplier of(short r) {
 		return () -> r;
-	}
-
-	/** Just to mirror the method: Ensures the result is not null */
-	default short nonNull() {
-		return doGetAsShort();
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -91,13 +99,7 @@ public interface LShortSupplier extends LShortSupplierX<RuntimeException>, MetaS
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LShortSupplier wrap(final @Nonnull LShortSupplierX<X> other) {
-		return () -> {
-			try {
-				return other.doGetAsShort();
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoGetAsShort;
 	}
 
 	// </editor-fold>
@@ -173,18 +175,23 @@ public interface LShortSupplier extends LShortSupplierX<RuntimeException>, MetaS
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LShortSupplier nonThrowing() {
+	default LShortSupplier nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LShortSupplierX<RuntimeException> uncheck() {
-		return (LShortSupplierX) this;
+	default LShortSupplierX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LShortSupplier shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LShortSupplierX<RuntimeException> shoveX() {
 		return this;
 	}
 

@@ -58,11 +58,37 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LDoubleToLongFunctionX<X extends Exception> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LDoubleToLongFunctionX<X extends Exception> extends java.util.function.DoubleToLongFunction, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
 	public static final String DESCRIPTION = "LDoubleToLongFunctionX: long doApplyAsLong(double d) throws X";
 
+	@Override
+	@Deprecated
+	// calling this method via LDoubleToLongFunctionX interface should be discouraged.
+	default long applyAsLong(double d) {
+		return this.nestingDoApplyAsLong(d);
+	}
+
 	public long doApplyAsLong(double d) throws X;
+
+	default long nestingDoApplyAsLong(double d) {
+		try {
+			return this.doApplyAsLong(d);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default long shovingDoApplyAsLong(double d) {
+		return ((LDoubleToLongFunctionX<RuntimeException>) this).doApplyAsLong(d);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default long nonNullDoApplyAsLong(double d) throws X {
+		return doApplyAsLong(d);
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -79,11 +105,6 @@ public interface LDoubleToLongFunctionX<X extends Exception> extends MetaFunctio
 		return (d) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default long nonNull(double d) throws X {
-		return doApplyAsLong(d);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <X extends Exception> LDoubleToLongFunctionX<X> lX(final @Nonnull LDoubleToLongFunctionX<X> lambda) {
@@ -95,14 +116,14 @@ public interface LDoubleToLongFunctionX<X extends Exception> extends MetaFunctio
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Exception> LDoubleToLongFunctionX<X> wrapStd(final java.util.function.DoubleToLongFunction other) {
+	public static <X extends Exception> LDoubleToLongFunctionX<X> wrap(final java.util.function.DoubleToLongFunction other) {
 		return other::applyAsLong;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LDoubleToLongFunctionX<X> wrapX(final @Nonnull LDoubleToLongFunction other) {
-		return other::doApplyAsLong;
+		return (LDoubleToLongFunctionX) other;
 	}
 
 	// </editor-fold>
@@ -198,28 +219,26 @@ public interface LDoubleToLongFunctionX<X extends Exception> extends MetaFunctio
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.DoubleToLongFunction std() {
-		return LDoubleToLongFunction.wrap(this)::doApplyAsLong;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoubleToLongFunction nonThrowing() {
-		return LDoubleToLongFunction.wrap(this);
+	default LDoubleToLongFunction nest() {
+		return this::nestingDoApplyAsLong;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoubleToLongFunctionX<RuntimeException> uncheck() {
-		return (LDoubleToLongFunctionX) this;
+	default LDoubleToLongFunctionX<RuntimeException> nestX() {
+		return this::nestingDoApplyAsLong;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LDoubleToLongFunction shove() {
-		LDoubleToLongFunctionX<RuntimeException> exceptionCast = (LDoubleToLongFunctionX<RuntimeException>) this;
-		return exceptionCast::doApplyAsLong;
+		return this::shovingDoApplyAsLong;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoubleToLongFunctionX<RuntimeException> shoveX() {
+		return this::shovingDoApplyAsLong;
 	}
 
 	// </editor-fold>

@@ -79,14 +79,14 @@ public class Example1Test {
 
         LPredicateX<Integer, CheckedException> predicateX = i -> potentiallyThrowing(i) != null;
 
-        long result = integerList.stream().filter(predicateX.nonThrowing()).count();
+        long result = integerList.stream().filter(predicateX.nest()).count();
 
         assertThat(result).isEqualTo(10);
     }
 
     public static LPredicateX<Integer, CheckedException> example(java.util.function.Predicate<Integer> predicateStd) {
 
-        return LPredicateX.wrapStd(predicateStd);
+        return LPredicateX.wrap(predicateStd);
 
     }
 

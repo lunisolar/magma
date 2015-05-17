@@ -58,13 +58,29 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LToLongBiFunction<T1, T2> extends java.util.function.ToLongBiFunction<T1, T2>, LToLongBiFunctionX<T1, T2, RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LToLongBiFunction<T1, T2> extends LToLongBiFunctionX<T1, T2, RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
 	public static final String DESCRIPTION = "LToLongBiFunction: long doApplyAsLong(T1 t1,T2 t2)";
 
+	@Override
+	@Deprecated
+	// calling this method via LToLongBiFunction interface should be discouraged.
+	default long applyAsLong(T1 t1, T2 t2) {
+		return this.nestingDoApplyAsLong(t1, t2);
+	}
+
 	public long doApplyAsLong(T1 t1, T2 t2);
 
-	default long applyAsLong(T1 t1, T2 t2) {
+	default long nestingDoApplyAsLong(T1 t1, T2 t2) {
+		return this.doApplyAsLong(t1, t2);
+	}
+
+	default long shovingDoApplyAsLong(T1 t1, T2 t2) {
+		return this.doApplyAsLong(t1, t2);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default long nonNullDoApplyAsLong(T1 t1, T2 t2) {
 		return doApplyAsLong(t1, t2);
 	}
 
@@ -83,11 +99,6 @@ public interface LToLongBiFunction<T1, T2> extends java.util.function.ToLongBiFu
 		return (t1, t2) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default long nonNull(T1 t1, T2 t2) {
-		return doApplyAsLong(t1, t2);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T1, T2> LToLongBiFunction<T1, T2> l(final @Nonnull LToLongBiFunction<T1, T2> lambda) {
@@ -99,20 +110,14 @@ public interface LToLongBiFunction<T1, T2> extends java.util.function.ToLongBiFu
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T1, T2> LToLongBiFunction<T1, T2> wrapStd(final java.util.function.ToLongBiFunction<T1, T2> other) {
+	public static <T1, T2> LToLongBiFunction<T1, T2> wrap(final java.util.function.ToLongBiFunction<T1, T2> other) {
 		return other::applyAsLong;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T1, T2, X extends Exception> LToLongBiFunction<T1, T2> wrap(final @Nonnull LToLongBiFunctionX<T1, T2, X> other) {
-		return (T1 t1, T2 t2) -> {
-			try {
-				return other.doApplyAsLong(t1, t2);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApplyAsLong;
 	}
 
 	// </editor-fold>
@@ -144,26 +149,25 @@ public interface LToLongBiFunction<T1, T2> extends java.util.function.ToLongBiFu
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.ToLongBiFunction<T1, T2> std() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToLongBiFunction<T1, T2> nonThrowing() {
+	default LToLongBiFunction<T1, T2> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToLongBiFunctionX<T1, T2, RuntimeException> uncheck() {
-		return (LToLongBiFunctionX) this;
+	default LToLongBiFunctionX<T1, T2, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LToLongBiFunction<T1, T2> shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToLongBiFunctionX<T1, T2, RuntimeException> shoveX() {
 		return this;
 	}
 

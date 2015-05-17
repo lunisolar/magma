@@ -65,6 +65,22 @@ public interface LIntBiFunction<R> extends LIntBiFunctionX<R, RuntimeException>,
 	@Nullable
 	public R doApply(int i1, int i2);
 
+	default R nestingDoApply(int i1, int i2) {
+		return this.doApply(i1, i2);
+	}
+
+	default R shovingDoApply(int i1, int i2) {
+		return this.doApply(i1, i2);
+	}
+
+	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+
+	/** Ensures the result is not null */
+	@Nonnull
+	default R nonNullDoApply(int i1, int i2) {
+		return Objects.requireNonNull(doApply(i1, i2), NULL_VALUE_MESSAGE_SUPPLIER);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -80,14 +96,6 @@ public interface LIntBiFunction<R> extends LIntBiFunctionX<R, RuntimeException>,
 		return (i1, i2) -> r;
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
-
-	/** Ensures the result is not null */
-	@Nonnull
-	default R nonNull(int i1, int i2) {
-		return Objects.requireNonNull(doApply(i1, i2), NULL_VALUE_MESSAGE_SUPPLIER);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <R> LIntBiFunction<R> l(final @Nonnull LIntBiFunction<R> lambda) {
@@ -100,13 +108,7 @@ public interface LIntBiFunction<R> extends LIntBiFunctionX<R, RuntimeException>,
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <R, X extends Exception> LIntBiFunction<R> wrap(final @Nonnull LIntBiFunctionX<R, X> other) {
-		return (int i1, int i2) -> {
-			try {
-				return other.doApply(i1, i2);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApply;
 	}
 
 	// </editor-fold>
@@ -157,14 +159,14 @@ public interface LIntBiFunction<R> extends LIntBiFunctionX<R, RuntimeException>,
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntBiFunction<R> nonThrowing() {
+	default LIntBiFunction<R> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntBiFunctionX<R, RuntimeException> uncheck() {
-		return (LIntBiFunctionX) this;
+	default LIntBiFunctionX<R, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
@@ -172,11 +174,16 @@ public interface LIntBiFunction<R> extends LIntBiFunctionX<R, RuntimeException>,
 		return this;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntBiFunctionX<R, RuntimeException> shoveX() {
+		return this;
+	}
+
 	// </editor-fold>
 
 	@Nonnull
 	default LIntBiFunction<R> nonNullable() {
-		return (i1, i2) -> Objects.requireNonNull(this.doApply(i1, i2));
+		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">

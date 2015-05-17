@@ -65,6 +65,22 @@ public interface LLongBiFunction<R> extends LLongBiFunctionX<R, RuntimeException
 	@Nullable
 	public R doApply(long l1, long l2);
 
+	default R nestingDoApply(long l1, long l2) {
+		return this.doApply(l1, l2);
+	}
+
+	default R shovingDoApply(long l1, long l2) {
+		return this.doApply(l1, l2);
+	}
+
+	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+
+	/** Ensures the result is not null */
+	@Nonnull
+	default R nonNullDoApply(long l1, long l2) {
+		return Objects.requireNonNull(doApply(l1, l2), NULL_VALUE_MESSAGE_SUPPLIER);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -80,14 +96,6 @@ public interface LLongBiFunction<R> extends LLongBiFunctionX<R, RuntimeException
 		return (l1, l2) -> r;
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
-
-	/** Ensures the result is not null */
-	@Nonnull
-	default R nonNull(long l1, long l2) {
-		return Objects.requireNonNull(doApply(l1, l2), NULL_VALUE_MESSAGE_SUPPLIER);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <R> LLongBiFunction<R> l(final @Nonnull LLongBiFunction<R> lambda) {
@@ -100,13 +108,7 @@ public interface LLongBiFunction<R> extends LLongBiFunctionX<R, RuntimeException
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <R, X extends Exception> LLongBiFunction<R> wrap(final @Nonnull LLongBiFunctionX<R, X> other) {
-		return (long l1, long l2) -> {
-			try {
-				return other.doApply(l1, l2);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApply;
 	}
 
 	// </editor-fold>
@@ -157,14 +159,14 @@ public interface LLongBiFunction<R> extends LLongBiFunctionX<R, RuntimeException
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LLongBiFunction<R> nonThrowing() {
+	default LLongBiFunction<R> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LLongBiFunctionX<R, RuntimeException> uncheck() {
-		return (LLongBiFunctionX) this;
+	default LLongBiFunctionX<R, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
@@ -172,11 +174,16 @@ public interface LLongBiFunction<R> extends LLongBiFunctionX<R, RuntimeException
 		return this;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LLongBiFunctionX<R, RuntimeException> shoveX() {
+		return this;
+	}
+
 	// </editor-fold>
 
 	@Nonnull
 	default LLongBiFunction<R> nonNullable() {
-		return (l1, l2) -> Objects.requireNonNull(this.doApply(l1, l2));
+		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">

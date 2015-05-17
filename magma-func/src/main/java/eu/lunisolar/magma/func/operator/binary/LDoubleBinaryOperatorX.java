@@ -58,11 +58,37 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LDoubleBinaryOperatorX<X extends Exception> extends MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LDoubleBinaryOperatorX<X extends Exception> extends java.util.function.DoubleBinaryOperator, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
 	public static final String DESCRIPTION = "LDoubleBinaryOperatorX: double doApplyAsDouble(double d1,double d2) throws X";
 
+	@Override
+	@Deprecated
+	// calling this method via LDoubleBinaryOperatorX interface should be discouraged.
+	default double applyAsDouble(double d1, double d2) {
+		return this.nestingDoApplyAsDouble(d1, d2);
+	}
+
 	public double doApplyAsDouble(double d1, double d2) throws X;
+
+	default double nestingDoApplyAsDouble(double d1, double d2) {
+		try {
+			return this.doApplyAsDouble(d1, d2);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default double shovingDoApplyAsDouble(double d1, double d2) {
+		return ((LDoubleBinaryOperatorX<RuntimeException>) this).doApplyAsDouble(d1, d2);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default double nonNullDoApplyAsDouble(double d1, double d2) throws X {
+		return doApplyAsDouble(d1, d2);
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -79,11 +105,6 @@ public interface LDoubleBinaryOperatorX<X extends Exception> extends MetaOperato
 		return (d1, d2) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default double nonNull(double d1, double d2) throws X {
-		return doApplyAsDouble(d1, d2);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <X extends Exception> LDoubleBinaryOperatorX<X> lX(final @Nonnull LDoubleBinaryOperatorX<X> lambda) {
@@ -95,14 +116,14 @@ public interface LDoubleBinaryOperatorX<X extends Exception> extends MetaOperato
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Exception> LDoubleBinaryOperatorX<X> wrapStd(final java.util.function.DoubleBinaryOperator other) {
+	public static <X extends Exception> LDoubleBinaryOperatorX<X> wrap(final java.util.function.DoubleBinaryOperator other) {
 		return other::applyAsDouble;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LDoubleBinaryOperatorX<X> wrapX(final @Nonnull LDoubleBinaryOperator other) {
-		return other::doApplyAsDouble;
+		return (LDoubleBinaryOperatorX) other;
 	}
 
 	// </editor-fold>
@@ -163,28 +184,26 @@ public interface LDoubleBinaryOperatorX<X extends Exception> extends MetaOperato
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.DoubleBinaryOperator std() {
-		return LDoubleBinaryOperator.wrap(this)::doApplyAsDouble;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoubleBinaryOperator nonThrowing() {
-		return LDoubleBinaryOperator.wrap(this);
+	default LDoubleBinaryOperator nest() {
+		return this::nestingDoApplyAsDouble;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoubleBinaryOperatorX<RuntimeException> uncheck() {
-		return (LDoubleBinaryOperatorX) this;
+	default LDoubleBinaryOperatorX<RuntimeException> nestX() {
+		return this::nestingDoApplyAsDouble;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LDoubleBinaryOperator shove() {
-		LDoubleBinaryOperatorX<RuntimeException> exceptionCast = (LDoubleBinaryOperatorX<RuntimeException>) this;
-		return exceptionCast::doApplyAsDouble;
+		return this::shovingDoApplyAsDouble;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoubleBinaryOperatorX<RuntimeException> shoveX() {
+		return this::shovingDoApplyAsDouble;
 	}
 
 	// </editor-fold>

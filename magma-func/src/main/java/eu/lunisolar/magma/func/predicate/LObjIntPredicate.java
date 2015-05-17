@@ -64,6 +64,19 @@ public interface LObjIntPredicate<T> extends LObjIntPredicateX<T, RuntimeExcepti
 
 	public boolean doTest(T t, int i);
 
+	default boolean nestingDoTest(T t, int i) {
+		return this.doTest(t, i);
+	}
+
+	default boolean shovingDoTest(T t, int i) {
+		return this.doTest(t, i);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default boolean nonNullDoTest(T t, int i) {
+		return doTest(t, i);
+	}
+
 	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
 
 	default boolean doApplyAsBoolean(T t, int i) {
@@ -85,11 +98,6 @@ public interface LObjIntPredicate<T> extends LObjIntPredicateX<T, RuntimeExcepti
 		return (t, i) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNull(T t, int i) {
-		return doTest(t, i);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T> LObjIntPredicate<T> l(final @Nonnull LObjIntPredicate<T> lambda) {
@@ -102,13 +110,7 @@ public interface LObjIntPredicate<T> extends LObjIntPredicateX<T, RuntimeExcepti
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T, X extends Exception> LObjIntPredicate<T> wrap(final @Nonnull LObjIntPredicateX<T, X> other) {
-		return (T t, int i) -> {
-			try {
-				return other.doTest(t, i);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoTest;
 	}
 
 	// </editor-fold>
@@ -198,18 +200,23 @@ public interface LObjIntPredicate<T> extends LObjIntPredicateX<T, RuntimeExcepti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjIntPredicate<T> nonThrowing() {
+	default LObjIntPredicate<T> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjIntPredicateX<T, RuntimeException> uncheck() {
-		return (LObjIntPredicateX) this;
+	default LObjIntPredicateX<T, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjIntPredicate<T> shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LObjIntPredicateX<T, RuntimeException> shoveX() {
 		return this;
 	}
 

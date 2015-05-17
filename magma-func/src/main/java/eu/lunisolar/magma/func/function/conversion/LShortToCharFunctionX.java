@@ -64,6 +64,25 @@ public interface LShortToCharFunctionX<X extends Exception> extends MetaFunction
 
 	public char doApplyAsChar(short s) throws X;
 
+	default char nestingDoApplyAsChar(short s) {
+		try {
+			return this.doApplyAsChar(s);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default char shovingDoApplyAsChar(short s) {
+		return ((LShortToCharFunctionX<RuntimeException>) this).doApplyAsChar(s);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default char nonNullDoApplyAsChar(short s) throws X {
+		return doApplyAsChar(s);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +98,6 @@ public interface LShortToCharFunctionX<X extends Exception> extends MetaFunction
 		return (s) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default char nonNull(short s) throws X {
-		return doApplyAsChar(s);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <X extends Exception> LShortToCharFunctionX<X> lX(final @Nonnull LShortToCharFunctionX<X> lambda) {
@@ -96,7 +110,7 @@ public interface LShortToCharFunctionX<X extends Exception> extends MetaFunction
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LShortToCharFunctionX<X> wrapX(final @Nonnull LShortToCharFunction other) {
-		return other::doApplyAsChar;
+		return (LShortToCharFunctionX) other;
 	}
 
 	// </editor-fold>
@@ -194,20 +208,24 @@ public interface LShortToCharFunctionX<X extends Exception> extends MetaFunction
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LShortToCharFunction nonThrowing() {
-		return LShortToCharFunction.wrap(this);
+	default LShortToCharFunction nest() {
+		return this::nestingDoApplyAsChar;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LShortToCharFunctionX<RuntimeException> uncheck() {
-		return (LShortToCharFunctionX) this;
+	default LShortToCharFunctionX<RuntimeException> nestX() {
+		return this::nestingDoApplyAsChar;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LShortToCharFunction shove() {
-		LShortToCharFunctionX<RuntimeException> exceptionCast = (LShortToCharFunctionX<RuntimeException>) this;
-		return exceptionCast::doApplyAsChar;
+		return this::shovingDoApplyAsChar;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LShortToCharFunctionX<RuntimeException> shoveX() {
+		return this::shovingDoApplyAsChar;
 	}
 
 	// </editor-fold>

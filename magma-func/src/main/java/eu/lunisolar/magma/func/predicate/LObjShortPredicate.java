@@ -64,6 +64,19 @@ public interface LObjShortPredicate<T> extends LObjShortPredicateX<T, RuntimeExc
 
 	public boolean doTest(T t, short s);
 
+	default boolean nestingDoTest(T t, short s) {
+		return this.doTest(t, s);
+	}
+
+	default boolean shovingDoTest(T t, short s) {
+		return this.doTest(t, s);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default boolean nonNullDoTest(T t, short s) {
+		return doTest(t, s);
+	}
+
 	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
 
 	default boolean doApplyAsBoolean(T t, short s) {
@@ -85,11 +98,6 @@ public interface LObjShortPredicate<T> extends LObjShortPredicateX<T, RuntimeExc
 		return (t, s) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNull(T t, short s) {
-		return doTest(t, s);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T> LObjShortPredicate<T> l(final @Nonnull LObjShortPredicate<T> lambda) {
@@ -102,13 +110,7 @@ public interface LObjShortPredicate<T> extends LObjShortPredicateX<T, RuntimeExc
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T, X extends Exception> LObjShortPredicate<T> wrap(final @Nonnull LObjShortPredicateX<T, X> other) {
-		return (T t, short s) -> {
-			try {
-				return other.doTest(t, s);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoTest;
 	}
 
 	// </editor-fold>
@@ -198,18 +200,23 @@ public interface LObjShortPredicate<T> extends LObjShortPredicateX<T, RuntimeExc
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjShortPredicate<T> nonThrowing() {
+	default LObjShortPredicate<T> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjShortPredicateX<T, RuntimeException> uncheck() {
-		return (LObjShortPredicateX) this;
+	default LObjShortPredicateX<T, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjShortPredicate<T> shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LObjShortPredicateX<T, RuntimeException> shoveX() {
 		return this;
 	}
 

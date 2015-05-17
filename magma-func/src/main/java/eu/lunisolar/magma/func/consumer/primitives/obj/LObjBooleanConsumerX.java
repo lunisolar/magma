@@ -65,6 +65,20 @@ public interface LObjBooleanConsumerX<T, X extends Exception> extends MetaConsum
 
 	public void doAccept(T t, boolean b) throws X;
 
+	default void nestingDoAccept(T t, boolean b) {
+		try {
+			this.doAccept(t, b);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default void shovingDoAccept(T t, boolean b) {
+		((LObjBooleanConsumerX<T, RuntimeException>) this).doAccept(t, b);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -88,7 +102,7 @@ public interface LObjBooleanConsumerX<T, X extends Exception> extends MetaConsum
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T, X extends Exception> LObjBooleanConsumerX<T, X> wrapX(final @Nonnull LObjBooleanConsumer<T> other) {
-		return other::doAccept;
+		return (LObjBooleanConsumerX) other;
 	}
 
 	// </editor-fold>
@@ -134,20 +148,24 @@ public interface LObjBooleanConsumerX<T, X extends Exception> extends MetaConsum
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjBooleanConsumer<T> nonThrowing() {
-		return LObjBooleanConsumer.wrap(this);
+	default LObjBooleanConsumer<T> nest() {
+		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjBooleanConsumerX<T, RuntimeException> uncheck() {
-		return (LObjBooleanConsumerX) this;
+	default LObjBooleanConsumerX<T, RuntimeException> nestX() {
+		return this::nestingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjBooleanConsumer<T> shove() {
-		LObjBooleanConsumerX<T, RuntimeException> exceptionCast = (LObjBooleanConsumerX<T, RuntimeException>) this;
-		return exceptionCast::doAccept;
+		return this::shovingDoAccept;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LObjBooleanConsumerX<T, RuntimeException> shoveX() {
+		return this::shovingDoAccept;
 	}
 
 	// </editor-fold>

@@ -74,6 +74,15 @@ public class LConsumerXTest<T,X extends ParseException> {
     private java.util.function.Consumer jre = (Object t) -> Function4U.doNothing();
 
 
+    private LConsumerX<T,ParseException> sutAlwaysThrowing = LConsumerX.lX((T t) -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LConsumerX<T,RuntimeException> sutAlwaysThrowingUnckeck = LConsumerX.lX((T t) -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
 
 
     @Test
@@ -96,7 +105,7 @@ public class LConsumerXTest<T,X extends ParseException> {
 
     @Test
     public void testWrapStdMethod() throws ParseException {
-        assertThat(LConsumerX.wrapStd(jre))
+        assertThat(LConsumerX.wrap(jre))
             .isInstanceOf(LConsumerX.class);
     }
 
@@ -234,19 +243,35 @@ public class LConsumerXTest<T,X extends ParseException> {
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
+//
+//    @Test
+//    public void testStd() {
+//        assertThat(sut.std()).isInstanceOf(java.util.function.Consumer.class);
+//    }
+//
+//
     @Test
-    public void testStd() {
-        assertThat(sut.std()).isInstanceOf(java.util.function.Consumer.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isInstanceOf(LConsumer.class);
     }
 
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LConsumer.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isInstanceOf(LConsumer.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LConsumerX.class);
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isInstanceOf(LConsumerX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isInstanceOf(LConsumerX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

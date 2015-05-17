@@ -64,6 +64,25 @@ public interface LByteBinaryOperatorX<X extends Exception> extends MetaOperator,
 
 	public byte doApplyAsByte(byte b1, byte b2) throws X;
 
+	default byte nestingDoApplyAsByte(byte b1, byte b2) {
+		try {
+			return this.doApplyAsByte(b1, b2);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default byte shovingDoApplyAsByte(byte b1, byte b2) {
+		return ((LByteBinaryOperatorX<RuntimeException>) this).doApplyAsByte(b1, b2);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default byte nonNullDoApplyAsByte(byte b1, byte b2) throws X {
+		return doApplyAsByte(b1, b2);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +98,6 @@ public interface LByteBinaryOperatorX<X extends Exception> extends MetaOperator,
 		return (b1, b2) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default byte nonNull(byte b1, byte b2) throws X {
-		return doApplyAsByte(b1, b2);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <X extends Exception> LByteBinaryOperatorX<X> lX(final @Nonnull LByteBinaryOperatorX<X> lambda) {
@@ -96,7 +110,7 @@ public interface LByteBinaryOperatorX<X extends Exception> extends MetaOperator,
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LByteBinaryOperatorX<X> wrapX(final @Nonnull LByteBinaryOperator other) {
-		return other::doApplyAsByte;
+		return (LByteBinaryOperatorX) other;
 	}
 
 	// </editor-fold>
@@ -159,20 +173,24 @@ public interface LByteBinaryOperatorX<X extends Exception> extends MetaOperator,
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LByteBinaryOperator nonThrowing() {
-		return LByteBinaryOperator.wrap(this);
+	default LByteBinaryOperator nest() {
+		return this::nestingDoApplyAsByte;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LByteBinaryOperatorX<RuntimeException> uncheck() {
-		return (LByteBinaryOperatorX) this;
+	default LByteBinaryOperatorX<RuntimeException> nestX() {
+		return this::nestingDoApplyAsByte;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LByteBinaryOperator shove() {
-		LByteBinaryOperatorX<RuntimeException> exceptionCast = (LByteBinaryOperatorX<RuntimeException>) this;
-		return exceptionCast::doApplyAsByte;
+		return this::shovingDoApplyAsByte;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LByteBinaryOperatorX<RuntimeException> shoveX() {
+		return this::shovingDoApplyAsByte;
 	}
 
 	// </editor-fold>

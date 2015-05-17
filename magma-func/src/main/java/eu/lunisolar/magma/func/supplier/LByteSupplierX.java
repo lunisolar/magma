@@ -64,6 +64,25 @@ public interface LByteSupplierX<X extends Exception> extends MetaSupplier, Primi
 
 	public byte doGetAsByte() throws X;
 
+	default byte nestingDoGetAsByte() {
+		try {
+			return this.doGetAsByte();
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default byte shovingDoGetAsByte() {
+		return ((LByteSupplierX<RuntimeException>) this).doGetAsByte();
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default byte nonNullDoGetAsByte() throws X {
+		return doGetAsByte();
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -72,11 +91,6 @@ public interface LByteSupplierX<X extends Exception> extends MetaSupplier, Primi
 
 	public static <X extends Exception> LByteSupplierX<X> of(byte r) {
 		return () -> r;
-	}
-
-	/** Just to mirror the method: Ensures the result is not null */
-	default byte nonNull() throws X {
-		return doGetAsByte();
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -91,7 +105,7 @@ public interface LByteSupplierX<X extends Exception> extends MetaSupplier, Primi
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LByteSupplierX<X> wrapX(final @Nonnull LByteSupplier other) {
-		return other::doGetAsByte;
+		return (LByteSupplierX) other;
 	}
 
 	// </editor-fold>
@@ -167,20 +181,24 @@ public interface LByteSupplierX<X extends Exception> extends MetaSupplier, Primi
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LByteSupplier nonThrowing() {
-		return LByteSupplier.wrap(this);
+	default LByteSupplier nest() {
+		return this::nestingDoGetAsByte;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LByteSupplierX<RuntimeException> uncheck() {
-		return (LByteSupplierX) this;
+	default LByteSupplierX<RuntimeException> nestX() {
+		return this::nestingDoGetAsByte;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LByteSupplier shove() {
-		LByteSupplierX<RuntimeException> exceptionCast = (LByteSupplierX<RuntimeException>) this;
-		return exceptionCast::doGetAsByte;
+		return this::shovingDoGetAsByte;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LByteSupplierX<RuntimeException> shoveX() {
+		return this::shovingDoGetAsByte;
 	}
 
 	// </editor-fold>

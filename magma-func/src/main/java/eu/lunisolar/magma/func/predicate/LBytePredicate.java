@@ -64,6 +64,19 @@ public interface LBytePredicate extends LBytePredicateX<RuntimeException>, MetaP
 
 	public boolean doTest(byte b);
 
+	default boolean nestingDoTest(byte b) {
+		return this.doTest(b);
+	}
+
+	default boolean shovingDoTest(byte b) {
+		return this.doTest(b);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default boolean nonNullDoTest(byte b) {
+		return doTest(b);
+	}
+
 	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
 
 	default boolean doApplyAsBoolean(byte b) {
@@ -85,11 +98,6 @@ public interface LBytePredicate extends LBytePredicateX<RuntimeException>, MetaP
 		return (b) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNull(byte b) {
-		return doTest(b);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LBytePredicate l(final @Nonnull LBytePredicate lambda) {
@@ -102,13 +110,7 @@ public interface LBytePredicate extends LBytePredicateX<RuntimeException>, MetaP
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LBytePredicate wrap(final @Nonnull LBytePredicateX<X> other) {
-		return (byte b) -> {
-			try {
-				return other.doTest(b);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoTest;
 	}
 
 	// </editor-fold>
@@ -249,18 +251,23 @@ public interface LBytePredicate extends LBytePredicateX<RuntimeException>, MetaP
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBytePredicate nonThrowing() {
+	default LBytePredicate nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBytePredicateX<RuntimeException> uncheck() {
-		return (LBytePredicateX) this;
+	default LBytePredicateX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBytePredicate shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBytePredicateX<RuntimeException> shoveX() {
 		return this;
 	}
 

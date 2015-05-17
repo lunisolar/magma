@@ -64,6 +64,25 @@ public interface LFloatPredicateX<X extends Exception> extends MetaPredicate, Pr
 
 	public boolean doTest(float f) throws X;
 
+	default boolean nestingDoTest(float f) {
+		try {
+			return this.doTest(f);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default boolean shovingDoTest(float f) {
+		return ((LFloatPredicateX<RuntimeException>) this).doTest(f);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default boolean nonNullDoTest(float f) throws X {
+		return doTest(f);
+	}
+
 	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
 
 	default boolean doApplyAsBoolean(float f) throws X {
@@ -85,11 +104,6 @@ public interface LFloatPredicateX<X extends Exception> extends MetaPredicate, Pr
 		return (f) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNull(float f) throws X {
-		return doTest(f);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <X extends Exception> LFloatPredicateX<X> lX(final @Nonnull LFloatPredicateX<X> lambda) {
@@ -102,7 +116,7 @@ public interface LFloatPredicateX<X extends Exception> extends MetaPredicate, Pr
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LFloatPredicateX<X> wrapX(final @Nonnull LFloatPredicate other) {
-		return other::doTest;
+		return (LFloatPredicateX) other;
 	}
 
 	// </editor-fold>
@@ -243,20 +257,24 @@ public interface LFloatPredicateX<X extends Exception> extends MetaPredicate, Pr
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LFloatPredicate nonThrowing() {
-		return LFloatPredicate.wrap(this);
+	default LFloatPredicate nest() {
+		return this::nestingDoTest;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LFloatPredicateX<RuntimeException> uncheck() {
-		return (LFloatPredicateX) this;
+	default LFloatPredicateX<RuntimeException> nestX() {
+		return this::nestingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LFloatPredicate shove() {
-		LFloatPredicateX<RuntimeException> exceptionCast = (LFloatPredicateX<RuntimeException>) this;
-		return exceptionCast::doTest;
+		return this::shovingDoTest;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LFloatPredicateX<RuntimeException> shoveX() {
+		return this::shovingDoTest;
 	}
 
 	// </editor-fold>

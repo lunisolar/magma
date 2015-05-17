@@ -65,6 +65,28 @@ public interface LBooleanTriFunctionX<R, X extends Exception> extends MetaFuncti
 	@Nullable
 	public R doApply(boolean b1, boolean b2, boolean b3) throws X;
 
+	default R nestingDoApply(boolean b1, boolean b2, boolean b3) {
+		try {
+			return this.doApply(b1, b2, b3);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default R shovingDoApply(boolean b1, boolean b2, boolean b3) {
+		return ((LBooleanTriFunctionX<R, RuntimeException>) this).doApply(b1, b2, b3);
+	}
+
+	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+
+	/** Ensures the result is not null */
+	@Nonnull
+	default R nonNullDoApply(boolean b1, boolean b2, boolean b3) throws X {
+		return Objects.requireNonNull(doApply(b1, b2, b3), NULL_VALUE_MESSAGE_SUPPLIER);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -80,14 +102,6 @@ public interface LBooleanTriFunctionX<R, X extends Exception> extends MetaFuncti
 		return (b1, b2, b3) -> r;
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
-
-	/** Ensures the result is not null */
-	@Nonnull
-	default R nonNull(boolean b1, boolean b2, boolean b3) throws X {
-		return Objects.requireNonNull(doApply(b1, b2, b3), NULL_VALUE_MESSAGE_SUPPLIER);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <R, X extends Exception> LBooleanTriFunctionX<R, X> lX(final @Nonnull LBooleanTriFunctionX<R, X> lambda) {
@@ -100,7 +114,7 @@ public interface LBooleanTriFunctionX<R, X extends Exception> extends MetaFuncti
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <R, X extends Exception> LBooleanTriFunctionX<R, X> wrapX(final @Nonnull LBooleanTriFunction<R> other) {
-		return other::doApply;
+		return (LBooleanTriFunctionX) other;
 	}
 
 	// </editor-fold>
@@ -153,27 +167,31 @@ public interface LBooleanTriFunctionX<R, X extends Exception> extends MetaFuncti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanTriFunction<R> nonThrowing() {
-		return LBooleanTriFunction.wrap(this);
+	default LBooleanTriFunction<R> nest() {
+		return this::nestingDoApply;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanTriFunctionX<R, RuntimeException> uncheck() {
-		return (LBooleanTriFunctionX) this;
+	default LBooleanTriFunctionX<R, RuntimeException> nestX() {
+		return this::nestingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBooleanTriFunction<R> shove() {
-		LBooleanTriFunctionX<R, RuntimeException> exceptionCast = (LBooleanTriFunctionX<R, RuntimeException>) this;
-		return exceptionCast::doApply;
+		return this::shovingDoApply;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBooleanTriFunctionX<R, RuntimeException> shoveX() {
+		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
 	default LBooleanTriFunctionX<R, X> nonNullableX() {
-		return (b1, b2, b3) -> Objects.requireNonNull(this.doApply(b1, b2, b3));
+		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">

@@ -58,11 +58,37 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LLongSupplierX<X extends Exception> extends MetaSupplier, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> {
+public interface LLongSupplierX<X extends Exception> extends java.util.function.LongSupplier, MetaSupplier, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> {
 
 	public static final String DESCRIPTION = "LLongSupplierX: long doGetAsLong() throws X";
 
+	@Override
+	@Deprecated
+	// calling this method via LLongSupplierX interface should be discouraged.
+	default long getAsLong() {
+		return this.nestingDoGetAsLong();
+	}
+
 	public long doGetAsLong() throws X;
+
+	default long nestingDoGetAsLong() {
+		try {
+			return this.doGetAsLong();
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default long shovingDoGetAsLong() {
+		return ((LLongSupplierX<RuntimeException>) this).doGetAsLong();
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default long nonNullDoGetAsLong() throws X {
+		return doGetAsLong();
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,11 +98,6 @@ public interface LLongSupplierX<X extends Exception> extends MetaSupplier, Primi
 
 	public static <X extends Exception> LLongSupplierX<X> of(long r) {
 		return () -> r;
-	}
-
-	/** Just to mirror the method: Ensures the result is not null */
-	default long nonNull() throws X {
-		return doGetAsLong();
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -90,14 +111,14 @@ public interface LLongSupplierX<X extends Exception> extends MetaSupplier, Primi
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Exception> LLongSupplierX<X> wrapStd(final java.util.function.LongSupplier other) {
+	public static <X extends Exception> LLongSupplierX<X> wrap(final java.util.function.LongSupplier other) {
 		return other::getAsLong;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LLongSupplierX<X> wrapX(final @Nonnull LLongSupplier other) {
-		return other::doGetAsLong;
+		return (LLongSupplierX) other;
 	}
 
 	// </editor-fold>
@@ -171,28 +192,26 @@ public interface LLongSupplierX<X extends Exception> extends MetaSupplier, Primi
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.LongSupplier std() {
-		return LLongSupplier.wrap(this)::doGetAsLong;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LLongSupplier nonThrowing() {
-		return LLongSupplier.wrap(this);
+	default LLongSupplier nest() {
+		return this::nestingDoGetAsLong;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LLongSupplierX<RuntimeException> uncheck() {
-		return (LLongSupplierX) this;
+	default LLongSupplierX<RuntimeException> nestX() {
+		return this::nestingDoGetAsLong;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLongSupplier shove() {
-		LLongSupplierX<RuntimeException> exceptionCast = (LLongSupplierX<RuntimeException>) this;
-		return exceptionCast::doGetAsLong;
+		return this::shovingDoGetAsLong;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LLongSupplierX<RuntimeException> shoveX() {
+		return this::shovingDoGetAsLong;
 	}
 
 	// </editor-fold>

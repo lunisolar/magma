@@ -64,6 +64,25 @@ public interface LDoubleToCharFunctionX<X extends Exception> extends MetaFunctio
 
 	public char doApplyAsChar(double d) throws X;
 
+	default char nestingDoApplyAsChar(double d) {
+		try {
+			return this.doApplyAsChar(d);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default char shovingDoApplyAsChar(double d) {
+		return ((LDoubleToCharFunctionX<RuntimeException>) this).doApplyAsChar(d);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default char nonNullDoApplyAsChar(double d) throws X {
+		return doApplyAsChar(d);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +98,6 @@ public interface LDoubleToCharFunctionX<X extends Exception> extends MetaFunctio
 		return (d) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default char nonNull(double d) throws X {
-		return doApplyAsChar(d);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <X extends Exception> LDoubleToCharFunctionX<X> lX(final @Nonnull LDoubleToCharFunctionX<X> lambda) {
@@ -96,7 +110,7 @@ public interface LDoubleToCharFunctionX<X extends Exception> extends MetaFunctio
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LDoubleToCharFunctionX<X> wrapX(final @Nonnull LDoubleToCharFunction other) {
-		return other::doApplyAsChar;
+		return (LDoubleToCharFunctionX) other;
 	}
 
 	// </editor-fold>
@@ -194,20 +208,24 @@ public interface LDoubleToCharFunctionX<X extends Exception> extends MetaFunctio
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoubleToCharFunction nonThrowing() {
-		return LDoubleToCharFunction.wrap(this);
+	default LDoubleToCharFunction nest() {
+		return this::nestingDoApplyAsChar;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoubleToCharFunctionX<RuntimeException> uncheck() {
-		return (LDoubleToCharFunctionX) this;
+	default LDoubleToCharFunctionX<RuntimeException> nestX() {
+		return this::nestingDoApplyAsChar;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LDoubleToCharFunction shove() {
-		LDoubleToCharFunctionX<RuntimeException> exceptionCast = (LDoubleToCharFunctionX<RuntimeException>) this;
-		return exceptionCast::doApplyAsChar;
+		return this::shovingDoApplyAsChar;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoubleToCharFunctionX<RuntimeException> shoveX() {
+		return this::shovingDoApplyAsChar;
 	}
 
 	// </editor-fold>

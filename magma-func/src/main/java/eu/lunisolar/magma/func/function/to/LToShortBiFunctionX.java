@@ -64,6 +64,25 @@ public interface LToShortBiFunctionX<T1, T2, X extends Exception> extends MetaFu
 
 	public short doApplyAsShort(T1 t1, T2 t2) throws X;
 
+	default short nestingDoApplyAsShort(T1 t1, T2 t2) {
+		try {
+			return this.doApplyAsShort(t1, t2);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default short shovingDoApplyAsShort(T1 t1, T2 t2) {
+		return ((LToShortBiFunctionX<T1, T2, RuntimeException>) this).doApplyAsShort(t1, t2);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default short nonNullDoApplyAsShort(T1 t1, T2 t2) throws X {
+		return doApplyAsShort(t1, t2);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +98,6 @@ public interface LToShortBiFunctionX<T1, T2, X extends Exception> extends MetaFu
 		return (t1, t2) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default short nonNull(T1 t1, T2 t2) throws X {
-		return doApplyAsShort(t1, t2);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T1, T2, X extends Exception> LToShortBiFunctionX<T1, T2, X> lX(final @Nonnull LToShortBiFunctionX<T1, T2, X> lambda) {
@@ -96,7 +110,7 @@ public interface LToShortBiFunctionX<T1, T2, X extends Exception> extends MetaFu
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T1, T2, X extends Exception> LToShortBiFunctionX<T1, T2, X> wrapX(final @Nonnull LToShortBiFunction<T1, T2> other) {
-		return other::doApplyAsShort;
+		return (LToShortBiFunctionX) other;
 	}
 
 	// </editor-fold>
@@ -130,20 +144,24 @@ public interface LToShortBiFunctionX<T1, T2, X extends Exception> extends MetaFu
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToShortBiFunction<T1, T2> nonThrowing() {
-		return LToShortBiFunction.wrap(this);
+	default LToShortBiFunction<T1, T2> nest() {
+		return this::nestingDoApplyAsShort;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToShortBiFunctionX<T1, T2, RuntimeException> uncheck() {
-		return (LToShortBiFunctionX) this;
+	default LToShortBiFunctionX<T1, T2, RuntimeException> nestX() {
+		return this::nestingDoApplyAsShort;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LToShortBiFunction<T1, T2> shove() {
-		LToShortBiFunctionX<T1, T2, RuntimeException> exceptionCast = (LToShortBiFunctionX<T1, T2, RuntimeException>) this;
-		return exceptionCast::doApplyAsShort;
+		return this::shovingDoApplyAsShort;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToShortBiFunctionX<T1, T2, RuntimeException> shoveX() {
+		return this::shovingDoApplyAsShort;
 	}
 
 	// </editor-fold>

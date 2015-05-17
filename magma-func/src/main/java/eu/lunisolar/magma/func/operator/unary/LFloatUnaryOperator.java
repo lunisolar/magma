@@ -64,6 +64,19 @@ public interface LFloatUnaryOperator extends LFloatUnaryOperatorX<RuntimeExcepti
 
 	public float doApplyAsFloat(float f);
 
+	default float nestingDoApplyAsFloat(float f) {
+		return this.doApplyAsFloat(f);
+	}
+
+	default float shovingDoApplyAsFloat(float f) {
+		return this.doApplyAsFloat(f);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default float nonNullDoApplyAsFloat(float f) {
+		return doApplyAsFloat(f);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +92,6 @@ public interface LFloatUnaryOperator extends LFloatUnaryOperatorX<RuntimeExcepti
 		return (f) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default float nonNull(float f) {
-		return doApplyAsFloat(f);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LFloatUnaryOperator l(final @Nonnull LFloatUnaryOperator lambda) {
@@ -96,13 +104,7 @@ public interface LFloatUnaryOperator extends LFloatUnaryOperatorX<RuntimeExcepti
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LFloatUnaryOperator wrap(final @Nonnull LFloatUnaryOperatorX<X> other) {
-		return (float f) -> {
-			try {
-				return other.doApplyAsFloat(f);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApplyAsFloat;
 	}
 
 	// </editor-fold>
@@ -206,18 +208,23 @@ public interface LFloatUnaryOperator extends LFloatUnaryOperatorX<RuntimeExcepti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LFloatUnaryOperator nonThrowing() {
+	default LFloatUnaryOperator nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LFloatUnaryOperatorX<RuntimeException> uncheck() {
-		return (LFloatUnaryOperatorX) this;
+	default LFloatUnaryOperatorX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LFloatUnaryOperator shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LFloatUnaryOperatorX<RuntimeException> shoveX() {
 		return this;
 	}
 

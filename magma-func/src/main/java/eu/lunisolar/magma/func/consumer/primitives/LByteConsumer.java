@@ -65,6 +65,14 @@ public interface LByteConsumer extends LByteConsumerX<RuntimeException>, MetaCon
 
 	public void doAccept(byte b);
 
+	default void nestingDoAccept(byte b) {
+		this.doAccept(b);
+	}
+
+	default void shovingDoAccept(byte b) {
+		this.doAccept(b);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -88,13 +96,7 @@ public interface LByteConsumer extends LByteConsumerX<RuntimeException>, MetaCon
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LByteConsumer wrap(final @Nonnull LByteConsumerX<X> other) {
-		return (byte b) -> {
-			try {
-				other.doAccept(b);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoAccept;
 	}
 
 	// </editor-fold>
@@ -138,18 +140,23 @@ public interface LByteConsumer extends LByteConsumerX<RuntimeException>, MetaCon
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LByteConsumer nonThrowing() {
+	default LByteConsumer nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LByteConsumerX<RuntimeException> uncheck() {
-		return (LByteConsumerX) this;
+	default LByteConsumerX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LByteConsumer shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LByteConsumerX<RuntimeException> shoveX() {
 		return this;
 	}
 

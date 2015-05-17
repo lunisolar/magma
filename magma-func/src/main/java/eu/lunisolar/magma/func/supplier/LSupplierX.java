@@ -58,12 +58,41 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LSupplierX<R, X extends Exception> extends MetaSupplier, MetaInterface.Throwing<X> {
+public interface LSupplierX<R, X extends Exception> extends java.util.function.Supplier<R>, MetaSupplier, MetaInterface.Throwing<X> {
 
 	public static final String DESCRIPTION = "LSupplierX: R doGet() throws X";
 
+	@Override
+	@Deprecated
+	// calling this method via LSupplierX interface should be discouraged.
+	default R get() {
+		return this.nestingDoGet();
+	}
+
 	@Nullable
 	public R doGet() throws X;
+
+	default R nestingDoGet() {
+		try {
+			return this.doGet();
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default R shovingDoGet() {
+		return ((LSupplierX<R, RuntimeException>) this).doGet();
+	}
+
+	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoGet() method cannot be null (" + DESCRIPTION + ").";
+
+	/** Ensures the result is not null */
+	@Nonnull
+	default R nonNullDoGet() throws X {
+		return Objects.requireNonNull(doGet(), NULL_VALUE_MESSAGE_SUPPLIER);
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,14 +102,6 @@ public interface LSupplierX<R, X extends Exception> extends MetaSupplier, MetaIn
 
 	public static <R, X extends Exception> LSupplierX<R, X> of(R r) {
 		return () -> r;
-	}
-
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
-
-	/** Ensures the result is not null */
-	@Nonnull
-	default R nonNull() throws X {
-		return Objects.requireNonNull(doGet(), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -94,14 +115,14 @@ public interface LSupplierX<R, X extends Exception> extends MetaSupplier, MetaIn
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <R, X extends Exception> LSupplierX<R, X> wrapStd(final java.util.function.Supplier<R> other) {
+	public static <R, X extends Exception> LSupplierX<R, X> wrap(final java.util.function.Supplier<R> other) {
 		return other::get;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <R, X extends Exception> LSupplierX<R, X> wrapX(final @Nonnull LSupplier<R> other) {
-		return other::doGet;
+		return (LSupplierX) other;
 	}
 
 	// </editor-fold>
@@ -182,35 +203,33 @@ public interface LSupplierX<R, X extends Exception> extends MetaSupplier, MetaIn
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.Supplier<R> std() {
-		return LSupplier.wrap(this)::doGet;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LSupplier<R> nonThrowing() {
-		return LSupplier.wrap(this);
+	default LSupplier<R> nest() {
+		return this::nestingDoGet;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LSupplierX<R, RuntimeException> uncheck() {
-		return (LSupplierX) this;
+	default LSupplierX<R, RuntimeException> nestX() {
+		return this::nestingDoGet;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LSupplier<R> shove() {
-		LSupplierX<R, RuntimeException> exceptionCast = (LSupplierX<R, RuntimeException>) this;
-		return exceptionCast::doGet;
+		return this::shovingDoGet;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LSupplierX<R, RuntimeException> shoveX() {
+		return this::shovingDoGet;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
 	default LSupplierX<R, X> nonNullableX() {
-		return () -> Objects.requireNonNull(this.doGet());
+		return this::nonNullDoGet;
 	}
 
 	// <editor-fold desc="exception handling">

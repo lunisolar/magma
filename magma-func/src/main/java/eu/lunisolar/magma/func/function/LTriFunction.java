@@ -65,6 +65,22 @@ public interface LTriFunction<T1, T2, T3, R> extends LTriFunctionX<T1, T2, T3, R
 	@Nullable
 	public R doApply(T1 t1, T2 t2, T3 t3);
 
+	default R nestingDoApply(T1 t1, T2 t2, T3 t3) {
+		return this.doApply(t1, t2, t3);
+	}
+
+	default R shovingDoApply(T1 t1, T2 t2, T3 t3) {
+		return this.doApply(t1, t2, t3);
+	}
+
+	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+
+	/** Ensures the result is not null */
+	@Nonnull
+	default R nonNullDoApply(T1 t1, T2 t2, T3 t3) {
+		return Objects.requireNonNull(doApply(t1, t2, t3), NULL_VALUE_MESSAGE_SUPPLIER);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -80,14 +96,6 @@ public interface LTriFunction<T1, T2, T3, R> extends LTriFunctionX<T1, T2, T3, R
 		return (t1, t2, t3) -> r;
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
-
-	/** Ensures the result is not null */
-	@Nonnull
-	default R nonNull(T1 t1, T2 t2, T3 t3) {
-		return Objects.requireNonNull(doApply(t1, t2, t3), NULL_VALUE_MESSAGE_SUPPLIER);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T1, T2, T3, R> LTriFunction<T1, T2, T3, R> l(final @Nonnull LTriFunction<T1, T2, T3, R> lambda) {
@@ -100,13 +108,7 @@ public interface LTriFunction<T1, T2, T3, R> extends LTriFunctionX<T1, T2, T3, R
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T1, T2, T3, R, X extends Exception> LTriFunction<T1, T2, T3, R> wrap(final @Nonnull LTriFunctionX<T1, T2, T3, R, X> other) {
-		return (T1 t1, T2 t2, T3 t3) -> {
-			try {
-				return other.doApply(t1, t2, t3);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApply;
 	}
 
 	// </editor-fold>
@@ -148,14 +150,14 @@ public interface LTriFunction<T1, T2, T3, R> extends LTriFunctionX<T1, T2, T3, R
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LTriFunction<T1, T2, T3, R> nonThrowing() {
+	default LTriFunction<T1, T2, T3, R> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LTriFunctionX<T1, T2, T3, R, RuntimeException> uncheck() {
-		return (LTriFunctionX) this;
+	default LTriFunctionX<T1, T2, T3, R, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
@@ -163,11 +165,16 @@ public interface LTriFunction<T1, T2, T3, R> extends LTriFunctionX<T1, T2, T3, R
 		return this;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LTriFunctionX<T1, T2, T3, R, RuntimeException> shoveX() {
+		return this;
+	}
+
 	// </editor-fold>
 
 	@Nonnull
 	default LTriFunction<T1, T2, T3, R> nonNullable() {
-		return (t1, t2, t3) -> Objects.requireNonNull(this.doApply(t1, t2, t3));
+		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">

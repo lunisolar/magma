@@ -23,8 +23,13 @@ import eu.lunisolar.magma.basics.NestedException;
 import eu.lunisolar.magma.func.asserts.DefaultFunctionalAssertions;
 import eu.lunisolar.magma.func.function.LFunction;
 import eu.lunisolar.magma.func.function.LFunctionX;
+import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ObjectAssert;
 import org.testng.annotations.Test;
+
+import java.util.function.*;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class Example3Test {
 
@@ -43,30 +48,38 @@ public class Example3Test {
 
     @Test(expectedExceptions = NestedException.class)
     public java.util.function.Function<Integer, Integer> example1() {
-        throwingAlways.std().apply(0);
 
-        return throwingAlways.std();
+        assertThat(throwingAlways).isInstanceOf(Function.class);
+
+        return throwingAlways;
     }
 
     @Test(expectedExceptions = NestedException.class)
-    public LFunction<Integer, Integer> example2() {
-        throwingAlways.nonThrowing().apply(0);
+    public LFunction<Integer, Integer> example_nest() {
+        throwingAlways.nest().apply(0);
 
-        return throwingAlways.nonThrowing();
+        return throwingAlways.nest();
     }
 
     @Test(expectedExceptions = NestedException.class)
-    public LFunctionX<Integer, Integer, RuntimeException> example3() {
-        throwingAlways.uncheck().doApply(0);
+    public LFunction<Integer, Integer> example_nestX() {
+        throwingAlways.nestX().apply(0);
 
-        return throwingAlways.uncheck();
+        return throwingAlways.nest();
     }
 
     @Test(expectedExceptions = CheckedException.class)
-    public LFunction<Integer, Integer> example_dirty() {
-        throwingAlways.shove().apply(0);
+    public LFunction<Integer, Integer> example_shove() {
+        throwingAlways.shove().doApply(0);
 
         return throwingAlways.shove();
+    }
+
+    @Test(expectedExceptions = CheckedException.class)
+    public LFunctionX<Integer, Integer, RuntimeException> example_shoveX() {
+        throwingAlways.shoveX().apply(0);
+
+        return throwingAlways.shoveX();
     }
 
     @Test(expectedExceptions = UnsupportedOperationException.class)

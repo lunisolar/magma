@@ -65,6 +65,28 @@ public interface LBiObjCharFunctionX<T1, T2, R, X extends Exception> extends Met
 	@Nullable
 	public R doApply(T1 t1, T2 t2, char c) throws X;
 
+	default R nestingDoApply(T1 t1, T2 t2, char c) {
+		try {
+			return this.doApply(t1, t2, c);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default R shovingDoApply(T1 t1, T2 t2, char c) {
+		return ((LBiObjCharFunctionX<T1, T2, R, RuntimeException>) this).doApply(t1, t2, c);
+	}
+
+	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+
+	/** Ensures the result is not null */
+	@Nonnull
+	default R nonNullDoApply(T1 t1, T2 t2, char c) throws X {
+		return Objects.requireNonNull(doApply(t1, t2, c), NULL_VALUE_MESSAGE_SUPPLIER);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -80,14 +102,6 @@ public interface LBiObjCharFunctionX<T1, T2, R, X extends Exception> extends Met
 		return (t1, t2, c) -> r;
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
-
-	/** Ensures the result is not null */
-	@Nonnull
-	default R nonNull(T1 t1, T2 t2, char c) throws X {
-		return Objects.requireNonNull(doApply(t1, t2, c), NULL_VALUE_MESSAGE_SUPPLIER);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T1, T2, R, X extends Exception> LBiObjCharFunctionX<T1, T2, R, X> lX(final @Nonnull LBiObjCharFunctionX<T1, T2, R, X> lambda) {
@@ -100,7 +114,7 @@ public interface LBiObjCharFunctionX<T1, T2, R, X extends Exception> extends Met
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T1, T2, R, X extends Exception> LBiObjCharFunctionX<T1, T2, R, X> wrapX(final @Nonnull LBiObjCharFunction<T1, T2, R> other) {
-		return other::doApply;
+		return (LBiObjCharFunctionX) other;
 	}
 
 	// </editor-fold>
@@ -153,27 +167,31 @@ public interface LBiObjCharFunctionX<T1, T2, R, X extends Exception> extends Met
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiObjCharFunction<T1, T2, R> nonThrowing() {
-		return LBiObjCharFunction.wrap(this);
+	default LBiObjCharFunction<T1, T2, R> nest() {
+		return this::nestingDoApply;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiObjCharFunctionX<T1, T2, R, RuntimeException> uncheck() {
-		return (LBiObjCharFunctionX) this;
+	default LBiObjCharFunctionX<T1, T2, R, RuntimeException> nestX() {
+		return this::nestingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBiObjCharFunction<T1, T2, R> shove() {
-		LBiObjCharFunctionX<T1, T2, R, RuntimeException> exceptionCast = (LBiObjCharFunctionX<T1, T2, R, RuntimeException>) this;
-		return exceptionCast::doApply;
+		return this::shovingDoApply;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBiObjCharFunctionX<T1, T2, R, RuntimeException> shoveX() {
+		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
 	default LBiObjCharFunctionX<T1, T2, R, X> nonNullableX() {
-		return (t1, t2, c) -> Objects.requireNonNull(this.doApply(t1, t2, c));
+		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">

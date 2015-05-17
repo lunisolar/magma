@@ -74,6 +74,15 @@ public class LLongConsumerXTest<X extends ParseException> {
     private java.util.function.LongConsumer jre = (long l) -> Function4U.doNothing();
 
 
+    private LLongConsumerX<ParseException> sutAlwaysThrowing = LLongConsumerX.lX((long l) -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LLongConsumerX<RuntimeException> sutAlwaysThrowingUnckeck = LLongConsumerX.lX((long l) -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
 
 
     @Test
@@ -96,7 +105,7 @@ public class LLongConsumerXTest<X extends ParseException> {
 
     @Test
     public void testWrapStdMethod() throws ParseException {
-        assertThat(LLongConsumerX.wrapStd(jre))
+        assertThat(LLongConsumerX.wrap(jre))
             .isInstanceOf(LLongConsumerX.class);
     }
 
@@ -262,19 +271,35 @@ public class LLongConsumerXTest<X extends ParseException> {
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
+//
+//    @Test
+//    public void testStd() {
+//        assertThat(sut.std()).isInstanceOf(java.util.function.LongConsumer.class);
+//    }
+//
+//
     @Test
-    public void testStd() {
-        assertThat(sut.std()).isInstanceOf(java.util.function.LongConsumer.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isInstanceOf(LLongConsumer.class);
     }
 
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LLongConsumer.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isInstanceOf(LLongConsumer.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LLongConsumerX.class);
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isInstanceOf(LLongConsumerX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isInstanceOf(LLongConsumerX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

@@ -65,6 +65,28 @@ public interface LFloatFunctionX<R, X extends Exception> extends MetaFunction, M
 	@Nullable
 	public R doApply(float f) throws X;
 
+	default R nestingDoApply(float f) {
+		try {
+			return this.doApply(f);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default R shovingDoApply(float f) {
+		return ((LFloatFunctionX<R, RuntimeException>) this).doApply(f);
+	}
+
+	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+
+	/** Ensures the result is not null */
+	@Nonnull
+	default R nonNullDoApply(float f) throws X {
+		return Objects.requireNonNull(doApply(f), NULL_VALUE_MESSAGE_SUPPLIER);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -80,14 +102,6 @@ public interface LFloatFunctionX<R, X extends Exception> extends MetaFunction, M
 		return (f) -> r;
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
-
-	/** Ensures the result is not null */
-	@Nonnull
-	default R nonNull(float f) throws X {
-		return Objects.requireNonNull(doApply(f), NULL_VALUE_MESSAGE_SUPPLIER);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <R, X extends Exception> LFloatFunctionX<R, X> lX(final @Nonnull LFloatFunctionX<R, X> lambda) {
@@ -100,7 +114,7 @@ public interface LFloatFunctionX<R, X extends Exception> extends MetaFunction, M
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <R, X extends Exception> LFloatFunctionX<R, X> wrapX(final @Nonnull LFloatFunction<R> other) {
-		return other::doApply;
+		return (LFloatFunctionX) other;
 	}
 
 	// </editor-fold>
@@ -205,27 +219,31 @@ public interface LFloatFunctionX<R, X extends Exception> extends MetaFunction, M
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LFloatFunction<R> nonThrowing() {
-		return LFloatFunction.wrap(this);
+	default LFloatFunction<R> nest() {
+		return this::nestingDoApply;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LFloatFunctionX<R, RuntimeException> uncheck() {
-		return (LFloatFunctionX) this;
+	default LFloatFunctionX<R, RuntimeException> nestX() {
+		return this::nestingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LFloatFunction<R> shove() {
-		LFloatFunctionX<R, RuntimeException> exceptionCast = (LFloatFunctionX<R, RuntimeException>) this;
-		return exceptionCast::doApply;
+		return this::shovingDoApply;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LFloatFunctionX<R, RuntimeException> shoveX() {
+		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
 	default LFloatFunctionX<R, X> nonNullableX() {
-		return (f) -> Objects.requireNonNull(this.doApply(f));
+		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">

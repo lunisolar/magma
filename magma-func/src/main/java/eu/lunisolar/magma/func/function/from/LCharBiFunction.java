@@ -65,6 +65,22 @@ public interface LCharBiFunction<R> extends LCharBiFunctionX<R, RuntimeException
 	@Nullable
 	public R doApply(char c1, char c2);
 
+	default R nestingDoApply(char c1, char c2) {
+		return this.doApply(c1, c2);
+	}
+
+	default R shovingDoApply(char c1, char c2) {
+		return this.doApply(c1, c2);
+	}
+
+	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+
+	/** Ensures the result is not null */
+	@Nonnull
+	default R nonNullDoApply(char c1, char c2) {
+		return Objects.requireNonNull(doApply(c1, c2), NULL_VALUE_MESSAGE_SUPPLIER);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -80,14 +96,6 @@ public interface LCharBiFunction<R> extends LCharBiFunctionX<R, RuntimeException
 		return (c1, c2) -> r;
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
-
-	/** Ensures the result is not null */
-	@Nonnull
-	default R nonNull(char c1, char c2) {
-		return Objects.requireNonNull(doApply(c1, c2), NULL_VALUE_MESSAGE_SUPPLIER);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <R> LCharBiFunction<R> l(final @Nonnull LCharBiFunction<R> lambda) {
@@ -100,13 +108,7 @@ public interface LCharBiFunction<R> extends LCharBiFunctionX<R, RuntimeException
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <R, X extends Exception> LCharBiFunction<R> wrap(final @Nonnull LCharBiFunctionX<R, X> other) {
-		return (char c1, char c2) -> {
-			try {
-				return other.doApply(c1, c2);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApply;
 	}
 
 	// </editor-fold>
@@ -157,14 +159,14 @@ public interface LCharBiFunction<R> extends LCharBiFunctionX<R, RuntimeException
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LCharBiFunction<R> nonThrowing() {
+	default LCharBiFunction<R> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LCharBiFunctionX<R, RuntimeException> uncheck() {
-		return (LCharBiFunctionX) this;
+	default LCharBiFunctionX<R, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
@@ -172,11 +174,16 @@ public interface LCharBiFunction<R> extends LCharBiFunctionX<R, RuntimeException
 		return this;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LCharBiFunctionX<R, RuntimeException> shoveX() {
+		return this;
+	}
+
 	// </editor-fold>
 
 	@Nonnull
 	default LCharBiFunction<R> nonNullable() {
-		return (c1, c2) -> Objects.requireNonNull(this.doApply(c1, c2));
+		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">

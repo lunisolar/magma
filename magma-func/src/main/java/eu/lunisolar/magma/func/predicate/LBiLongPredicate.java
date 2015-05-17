@@ -64,6 +64,19 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 
 	public boolean doTest(long l1, long l2);
 
+	default boolean nestingDoTest(long l1, long l2) {
+		return this.doTest(l1, l2);
+	}
+
+	default boolean shovingDoTest(long l1, long l2) {
+		return this.doTest(l1, l2);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default boolean nonNullDoTest(long l1, long l2) {
+		return doTest(l1, l2);
+	}
+
 	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
 
 	default boolean doApplyAsBoolean(long l1, long l2) {
@@ -85,11 +98,6 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 		return (l1, l2) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNull(long l1, long l2) {
-		return doTest(l1, l2);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LBiLongPredicate l(final @Nonnull LBiLongPredicate lambda) {
@@ -102,13 +110,7 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LBiLongPredicate wrap(final @Nonnull LBiLongPredicateX<X> other) {
-		return (long l1, long l2) -> {
-			try {
-				return other.doTest(l1, l2);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoTest;
 	}
 
 	// </editor-fold>
@@ -198,18 +200,23 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiLongPredicate nonThrowing() {
+	default LBiLongPredicate nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiLongPredicateX<RuntimeException> uncheck() {
-		return (LBiLongPredicateX) this;
+	default LBiLongPredicateX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBiLongPredicate shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBiLongPredicateX<RuntimeException> shoveX() {
 		return this;
 	}
 

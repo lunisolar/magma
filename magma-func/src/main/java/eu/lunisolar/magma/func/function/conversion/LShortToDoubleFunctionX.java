@@ -64,6 +64,25 @@ public interface LShortToDoubleFunctionX<X extends Exception> extends MetaFuncti
 
 	public double doApplyAsDouble(short s) throws X;
 
+	default double nestingDoApplyAsDouble(short s) {
+		try {
+			return this.doApplyAsDouble(s);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default double shovingDoApplyAsDouble(short s) {
+		return ((LShortToDoubleFunctionX<RuntimeException>) this).doApplyAsDouble(s);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default double nonNullDoApplyAsDouble(short s) throws X {
+		return doApplyAsDouble(s);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +98,6 @@ public interface LShortToDoubleFunctionX<X extends Exception> extends MetaFuncti
 		return (s) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default double nonNull(short s) throws X {
-		return doApplyAsDouble(s);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <X extends Exception> LShortToDoubleFunctionX<X> lX(final @Nonnull LShortToDoubleFunctionX<X> lambda) {
@@ -96,7 +110,7 @@ public interface LShortToDoubleFunctionX<X extends Exception> extends MetaFuncti
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LShortToDoubleFunctionX<X> wrapX(final @Nonnull LShortToDoubleFunction other) {
-		return other::doApplyAsDouble;
+		return (LShortToDoubleFunctionX) other;
 	}
 
 	// </editor-fold>
@@ -194,20 +208,24 @@ public interface LShortToDoubleFunctionX<X extends Exception> extends MetaFuncti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LShortToDoubleFunction nonThrowing() {
-		return LShortToDoubleFunction.wrap(this);
+	default LShortToDoubleFunction nest() {
+		return this::nestingDoApplyAsDouble;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LShortToDoubleFunctionX<RuntimeException> uncheck() {
-		return (LShortToDoubleFunctionX) this;
+	default LShortToDoubleFunctionX<RuntimeException> nestX() {
+		return this::nestingDoApplyAsDouble;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LShortToDoubleFunction shove() {
-		LShortToDoubleFunctionX<RuntimeException> exceptionCast = (LShortToDoubleFunctionX<RuntimeException>) this;
-		return exceptionCast::doApplyAsDouble;
+		return this::shovingDoApplyAsDouble;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LShortToDoubleFunctionX<RuntimeException> shoveX() {
+		return this::shovingDoApplyAsDouble;
 	}
 
 	// </editor-fold>

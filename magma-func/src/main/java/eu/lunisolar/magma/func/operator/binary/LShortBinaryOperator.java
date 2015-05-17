@@ -64,6 +64,19 @@ public interface LShortBinaryOperator extends LShortBinaryOperatorX<RuntimeExcep
 
 	public short doApplyAsShort(short s1, short s2);
 
+	default short nestingDoApplyAsShort(short s1, short s2) {
+		return this.doApplyAsShort(s1, s2);
+	}
+
+	default short shovingDoApplyAsShort(short s1, short s2) {
+		return this.doApplyAsShort(s1, s2);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default short nonNullDoApplyAsShort(short s1, short s2) {
+		return doApplyAsShort(s1, s2);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +92,6 @@ public interface LShortBinaryOperator extends LShortBinaryOperatorX<RuntimeExcep
 		return (s1, s2) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default short nonNull(short s1, short s2) {
-		return doApplyAsShort(s1, s2);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LShortBinaryOperator l(final @Nonnull LShortBinaryOperator lambda) {
@@ -96,13 +104,7 @@ public interface LShortBinaryOperator extends LShortBinaryOperatorX<RuntimeExcep
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LShortBinaryOperator wrap(final @Nonnull LShortBinaryOperatorX<X> other) {
-		return (short s1, short s2) -> {
-			try {
-				return other.doApplyAsShort(s1, s2);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApplyAsShort;
 	}
 
 	// </editor-fold>
@@ -165,18 +167,23 @@ public interface LShortBinaryOperator extends LShortBinaryOperatorX<RuntimeExcep
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LShortBinaryOperator nonThrowing() {
+	default LShortBinaryOperator nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LShortBinaryOperatorX<RuntimeException> uncheck() {
-		return (LShortBinaryOperatorX) this;
+	default LShortBinaryOperatorX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LShortBinaryOperator shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LShortBinaryOperatorX<RuntimeException> shoveX() {
 		return this;
 	}
 

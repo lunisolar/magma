@@ -58,15 +58,34 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LIntFunction<R> extends java.util.function.IntFunction<R>, LIntFunctionX<R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
+public interface LIntFunction<R> extends LIntFunctionX<R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
 	public static final String DESCRIPTION = "LIntFunction: R doApply(int i)";
+
+	@Override
+	@Deprecated
+	// calling this method via LIntFunction interface should be discouraged.
+	default R apply(int i) {
+		return this.nestingDoApply(i);
+	}
 
 	@Nullable
 	public R doApply(int i);
 
-	default R apply(int i) {
-		return doApply(i);
+	default R nestingDoApply(int i) {
+		return this.doApply(i);
+	}
+
+	default R shovingDoApply(int i) {
+		return this.doApply(i);
+	}
+
+	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+
+	/** Ensures the result is not null */
+	@Nonnull
+	default R nonNullDoApply(int i) {
+		return Objects.requireNonNull(doApply(i), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -84,14 +103,6 @@ public interface LIntFunction<R> extends java.util.function.IntFunction<R>, LInt
 		return (i) -> r;
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
-
-	/** Ensures the result is not null */
-	@Nonnull
-	default R nonNull(int i) {
-		return Objects.requireNonNull(doApply(i), NULL_VALUE_MESSAGE_SUPPLIER);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <R> LIntFunction<R> l(final @Nonnull LIntFunction<R> lambda) {
@@ -103,20 +114,14 @@ public interface LIntFunction<R> extends java.util.function.IntFunction<R>, LInt
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <R> LIntFunction<R> wrapStd(final java.util.function.IntFunction<R> other) {
+	public static <R> LIntFunction<R> wrap(final java.util.function.IntFunction<R> other) {
 		return other::apply;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <R, X extends Exception> LIntFunction<R> wrap(final @Nonnull LIntFunctionX<R, X> other) {
-		return (int i) -> {
-			try {
-				return other.doApply(i);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApply;
 	}
 
 	// </editor-fold>
@@ -219,22 +224,16 @@ public interface LIntFunction<R> extends java.util.function.IntFunction<R>, LInt
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.IntFunction<R> std() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntFunction<R> nonThrowing() {
+	default LIntFunction<R> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntFunctionX<R, RuntimeException> uncheck() {
-		return (LIntFunctionX) this;
+	default LIntFunctionX<R, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
@@ -242,11 +241,16 @@ public interface LIntFunction<R> extends java.util.function.IntFunction<R>, LInt
 		return this;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntFunctionX<R, RuntimeException> shoveX() {
+		return this;
+	}
+
 	// </editor-fold>
 
 	@Nonnull
 	default LIntFunction<R> nonNullable() {
-		return (i) -> Objects.requireNonNull(this.doApply(i));
+		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">

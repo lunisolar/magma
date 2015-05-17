@@ -65,6 +65,22 @@ public interface LObjBooleanFunction<T, R> extends LObjBooleanFunctionX<T, R, Ru
 	@Nullable
 	public R doApply(T t, boolean b);
 
+	default R nestingDoApply(T t, boolean b) {
+		return this.doApply(t, b);
+	}
+
+	default R shovingDoApply(T t, boolean b) {
+		return this.doApply(t, b);
+	}
+
+	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+
+	/** Ensures the result is not null */
+	@Nonnull
+	default R nonNullDoApply(T t, boolean b) {
+		return Objects.requireNonNull(doApply(t, b), NULL_VALUE_MESSAGE_SUPPLIER);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -80,14 +96,6 @@ public interface LObjBooleanFunction<T, R> extends LObjBooleanFunctionX<T, R, Ru
 		return (t, b) -> r;
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
-
-	/** Ensures the result is not null */
-	@Nonnull
-	default R nonNull(T t, boolean b) {
-		return Objects.requireNonNull(doApply(t, b), NULL_VALUE_MESSAGE_SUPPLIER);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T, R> LObjBooleanFunction<T, R> l(final @Nonnull LObjBooleanFunction<T, R> lambda) {
@@ -100,13 +108,7 @@ public interface LObjBooleanFunction<T, R> extends LObjBooleanFunctionX<T, R, Ru
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T, R, X extends Exception> LObjBooleanFunction<T, R> wrap(final @Nonnull LObjBooleanFunctionX<T, R, X> other) {
-		return (T t, boolean b) -> {
-			try {
-				return other.doApply(t, b);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApply;
 	}
 
 	// </editor-fold>
@@ -157,14 +159,14 @@ public interface LObjBooleanFunction<T, R> extends LObjBooleanFunctionX<T, R, Ru
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjBooleanFunction<T, R> nonThrowing() {
+	default LObjBooleanFunction<T, R> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjBooleanFunctionX<T, R, RuntimeException> uncheck() {
-		return (LObjBooleanFunctionX) this;
+	default LObjBooleanFunctionX<T, R, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
@@ -172,11 +174,16 @@ public interface LObjBooleanFunction<T, R> extends LObjBooleanFunctionX<T, R, Ru
 		return this;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LObjBooleanFunctionX<T, R, RuntimeException> shoveX() {
+		return this;
+	}
+
 	// </editor-fold>
 
 	@Nonnull
 	default LObjBooleanFunction<T, R> nonNullable() {
-		return (t, b) -> Objects.requireNonNull(this.doApply(t, b));
+		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">

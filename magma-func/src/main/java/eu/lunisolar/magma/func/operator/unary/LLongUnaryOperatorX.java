@@ -58,11 +58,37 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LLongUnaryOperatorX<X extends Exception> extends MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LLongUnaryOperatorX<X extends Exception> extends java.util.function.LongUnaryOperator, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
 	public static final String DESCRIPTION = "LLongUnaryOperatorX: long doApplyAsLong(long l) throws X";
 
+	@Override
+	@Deprecated
+	// calling this method via LLongUnaryOperatorX interface should be discouraged.
+	default long applyAsLong(long l) {
+		return this.nestingDoApplyAsLong(l);
+	}
+
 	public long doApplyAsLong(long l) throws X;
+
+	default long nestingDoApplyAsLong(long l) {
+		try {
+			return this.doApplyAsLong(l);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default long shovingDoApplyAsLong(long l) {
+		return ((LLongUnaryOperatorX<RuntimeException>) this).doApplyAsLong(l);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default long nonNullDoApplyAsLong(long l) throws X {
+		return doApplyAsLong(l);
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -79,11 +105,6 @@ public interface LLongUnaryOperatorX<X extends Exception> extends MetaOperator, 
 		return (l) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default long nonNull(long l) throws X {
-		return doApplyAsLong(l);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <X extends Exception> LLongUnaryOperatorX<X> lX(final @Nonnull LLongUnaryOperatorX<X> lambda) {
@@ -95,14 +116,14 @@ public interface LLongUnaryOperatorX<X extends Exception> extends MetaOperator, 
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Exception> LLongUnaryOperatorX<X> wrapStd(final java.util.function.LongUnaryOperator other) {
+	public static <X extends Exception> LLongUnaryOperatorX<X> wrap(final java.util.function.LongUnaryOperator other) {
 		return other::applyAsLong;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LLongUnaryOperatorX<X> wrapX(final @Nonnull LLongUnaryOperator other) {
-		return other::doApplyAsLong;
+		return (LLongUnaryOperatorX) other;
 	}
 
 	// </editor-fold>
@@ -204,28 +225,26 @@ public interface LLongUnaryOperatorX<X extends Exception> extends MetaOperator, 
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.LongUnaryOperator std() {
-		return LLongUnaryOperator.wrap(this)::doApplyAsLong;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LLongUnaryOperator nonThrowing() {
-		return LLongUnaryOperator.wrap(this);
+	default LLongUnaryOperator nest() {
+		return this::nestingDoApplyAsLong;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LLongUnaryOperatorX<RuntimeException> uncheck() {
-		return (LLongUnaryOperatorX) this;
+	default LLongUnaryOperatorX<RuntimeException> nestX() {
+		return this::nestingDoApplyAsLong;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLongUnaryOperator shove() {
-		LLongUnaryOperatorX<RuntimeException> exceptionCast = (LLongUnaryOperatorX<RuntimeException>) this;
-		return exceptionCast::doApplyAsLong;
+		return this::shovingDoApplyAsLong;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LLongUnaryOperatorX<RuntimeException> shoveX() {
+		return this::shovingDoApplyAsLong;
 	}
 
 	// </editor-fold>

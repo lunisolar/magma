@@ -59,14 +59,25 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LIntConsumer extends java.util.function.IntConsumer, LIntConsumerX<RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
+public interface LIntConsumer extends LIntConsumerX<RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
 	public static final String DESCRIPTION = "LIntConsumer: void doAccept(int i)";
 
+	@Override
+	@Deprecated
+	// calling this method via LIntConsumer interface should be discouraged.
+	default void accept(int i) {
+		this.nestingDoAccept(i);
+	}
+
 	public void doAccept(int i);
 
-	default void accept(int i) {
-		doAccept(i);
+	default void nestingDoAccept(int i) {
+		this.doAccept(i);
+	}
+
+	default void shovingDoAccept(int i) {
+		this.doAccept(i);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -91,20 +102,14 @@ public interface LIntConsumer extends java.util.function.IntConsumer, LIntConsum
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LIntConsumer wrapStd(final java.util.function.IntConsumer other) {
+	public static LIntConsumer wrap(final java.util.function.IntConsumer other) {
 		return other::accept;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LIntConsumer wrap(final @Nonnull LIntConsumerX<X> other) {
-		return (int i) -> {
-			try {
-				other.doAccept(i);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoAccept;
 	}
 
 	// </editor-fold>
@@ -146,26 +151,25 @@ public interface LIntConsumer extends java.util.function.IntConsumer, LIntConsum
 	// </editor-fold>
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.IntConsumer std() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntConsumer nonThrowing() {
+	default LIntConsumer nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntConsumerX<RuntimeException> uncheck() {
-		return (LIntConsumerX) this;
+	default LIntConsumerX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LIntConsumer shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntConsumerX<RuntimeException> shoveX() {
 		return this;
 	}
 

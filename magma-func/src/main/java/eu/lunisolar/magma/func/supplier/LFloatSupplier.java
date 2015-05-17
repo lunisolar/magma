@@ -64,6 +64,19 @@ public interface LFloatSupplier extends LFloatSupplierX<RuntimeException>, MetaS
 
 	public float doGetAsFloat();
 
+	default float nestingDoGetAsFloat() {
+		return this.doGetAsFloat();
+	}
+
+	default float shovingDoGetAsFloat() {
+		return this.doGetAsFloat();
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default float nonNullDoGetAsFloat() {
+		return doGetAsFloat();
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -72,11 +85,6 @@ public interface LFloatSupplier extends LFloatSupplierX<RuntimeException>, MetaS
 
 	public static LFloatSupplier of(float r) {
 		return () -> r;
-	}
-
-	/** Just to mirror the method: Ensures the result is not null */
-	default float nonNull() {
-		return doGetAsFloat();
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -91,13 +99,7 @@ public interface LFloatSupplier extends LFloatSupplierX<RuntimeException>, MetaS
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LFloatSupplier wrap(final @Nonnull LFloatSupplierX<X> other) {
-		return () -> {
-			try {
-				return other.doGetAsFloat();
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoGetAsFloat;
 	}
 
 	// </editor-fold>
@@ -173,18 +175,23 @@ public interface LFloatSupplier extends LFloatSupplierX<RuntimeException>, MetaS
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LFloatSupplier nonThrowing() {
+	default LFloatSupplier nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LFloatSupplierX<RuntimeException> uncheck() {
-		return (LFloatSupplierX) this;
+	default LFloatSupplierX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LFloatSupplier shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LFloatSupplierX<RuntimeException> shoveX() {
 		return this;
 	}
 

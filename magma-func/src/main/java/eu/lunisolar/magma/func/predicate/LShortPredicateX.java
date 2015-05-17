@@ -64,6 +64,25 @@ public interface LShortPredicateX<X extends Exception> extends MetaPredicate, Pr
 
 	public boolean doTest(short s) throws X;
 
+	default boolean nestingDoTest(short s) {
+		try {
+			return this.doTest(s);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default boolean shovingDoTest(short s) {
+		return ((LShortPredicateX<RuntimeException>) this).doTest(s);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default boolean nonNullDoTest(short s) throws X {
+		return doTest(s);
+	}
+
 	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
 
 	default boolean doApplyAsBoolean(short s) throws X {
@@ -85,11 +104,6 @@ public interface LShortPredicateX<X extends Exception> extends MetaPredicate, Pr
 		return (s) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNull(short s) throws X {
-		return doTest(s);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <X extends Exception> LShortPredicateX<X> lX(final @Nonnull LShortPredicateX<X> lambda) {
@@ -102,7 +116,7 @@ public interface LShortPredicateX<X extends Exception> extends MetaPredicate, Pr
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LShortPredicateX<X> wrapX(final @Nonnull LShortPredicate other) {
-		return other::doTest;
+		return (LShortPredicateX) other;
 	}
 
 	// </editor-fold>
@@ -243,20 +257,24 @@ public interface LShortPredicateX<X extends Exception> extends MetaPredicate, Pr
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LShortPredicate nonThrowing() {
-		return LShortPredicate.wrap(this);
+	default LShortPredicate nest() {
+		return this::nestingDoTest;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LShortPredicateX<RuntimeException> uncheck() {
-		return (LShortPredicateX) this;
+	default LShortPredicateX<RuntimeException> nestX() {
+		return this::nestingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LShortPredicate shove() {
-		LShortPredicateX<RuntimeException> exceptionCast = (LShortPredicateX<RuntimeException>) this;
-		return exceptionCast::doTest;
+		return this::shovingDoTest;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LShortPredicateX<RuntimeException> shoveX() {
+		return this::shovingDoTest;
 	}
 
 	// </editor-fold>

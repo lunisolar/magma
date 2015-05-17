@@ -64,6 +64,19 @@ public interface LBiObjDoublePredicate<T1, T2> extends LBiObjDoublePredicateX<T1
 
 	public boolean doTest(T1 t1, T2 t2, double d);
 
+	default boolean nestingDoTest(T1 t1, T2 t2, double d) {
+		return this.doTest(t1, t2, d);
+	}
+
+	default boolean shovingDoTest(T1 t1, T2 t2, double d) {
+		return this.doTest(t1, t2, d);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default boolean nonNullDoTest(T1 t1, T2 t2, double d) {
+		return doTest(t1, t2, d);
+	}
+
 	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
 
 	default boolean doApplyAsBoolean(T1 t1, T2 t2, double d) {
@@ -85,11 +98,6 @@ public interface LBiObjDoublePredicate<T1, T2> extends LBiObjDoublePredicateX<T1
 		return (t1, t2, d) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNull(T1 t1, T2 t2, double d) {
-		return doTest(t1, t2, d);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T1, T2> LBiObjDoublePredicate<T1, T2> l(final @Nonnull LBiObjDoublePredicate<T1, T2> lambda) {
@@ -102,13 +110,7 @@ public interface LBiObjDoublePredicate<T1, T2> extends LBiObjDoublePredicateX<T1
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T1, T2, X extends Exception> LBiObjDoublePredicate<T1, T2> wrap(final @Nonnull LBiObjDoublePredicateX<T1, T2, X> other) {
-		return (T1 t1, T2 t2, double d) -> {
-			try {
-				return other.doTest(t1, t2, d);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoTest;
 	}
 
 	// </editor-fold>
@@ -200,18 +202,23 @@ public interface LBiObjDoublePredicate<T1, T2> extends LBiObjDoublePredicateX<T1
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiObjDoublePredicate<T1, T2> nonThrowing() {
+	default LBiObjDoublePredicate<T1, T2> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiObjDoublePredicateX<T1, T2, RuntimeException> uncheck() {
-		return (LBiObjDoublePredicateX) this;
+	default LBiObjDoublePredicateX<T1, T2, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBiObjDoublePredicate<T1, T2> shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBiObjDoublePredicateX<T1, T2, RuntimeException> shoveX() {
 		return this;
 	}
 

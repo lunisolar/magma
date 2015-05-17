@@ -65,6 +65,14 @@ public interface LFloatConsumer extends LFloatConsumerX<RuntimeException>, MetaC
 
 	public void doAccept(float f);
 
+	default void nestingDoAccept(float f) {
+		this.doAccept(f);
+	}
+
+	default void shovingDoAccept(float f) {
+		this.doAccept(f);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -88,13 +96,7 @@ public interface LFloatConsumer extends LFloatConsumerX<RuntimeException>, MetaC
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LFloatConsumer wrap(final @Nonnull LFloatConsumerX<X> other) {
-		return (float f) -> {
-			try {
-				other.doAccept(f);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoAccept;
 	}
 
 	// </editor-fold>
@@ -138,18 +140,23 @@ public interface LFloatConsumer extends LFloatConsumerX<RuntimeException>, MetaC
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LFloatConsumer nonThrowing() {
+	default LFloatConsumer nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LFloatConsumerX<RuntimeException> uncheck() {
-		return (LFloatConsumerX) this;
+	default LFloatConsumerX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LFloatConsumer shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LFloatConsumerX<RuntimeException> shoveX() {
 		return this;
 	}
 

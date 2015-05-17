@@ -65,6 +65,28 @@ public interface LCharFunctionX<R, X extends Exception> extends MetaFunction, Me
 	@Nullable
 	public R doApply(char c) throws X;
 
+	default R nestingDoApply(char c) {
+		try {
+			return this.doApply(c);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default R shovingDoApply(char c) {
+		return ((LCharFunctionX<R, RuntimeException>) this).doApply(c);
+	}
+
+	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+
+	/** Ensures the result is not null */
+	@Nonnull
+	default R nonNullDoApply(char c) throws X {
+		return Objects.requireNonNull(doApply(c), NULL_VALUE_MESSAGE_SUPPLIER);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -80,14 +102,6 @@ public interface LCharFunctionX<R, X extends Exception> extends MetaFunction, Me
 		return (c) -> r;
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
-
-	/** Ensures the result is not null */
-	@Nonnull
-	default R nonNull(char c) throws X {
-		return Objects.requireNonNull(doApply(c), NULL_VALUE_MESSAGE_SUPPLIER);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <R, X extends Exception> LCharFunctionX<R, X> lX(final @Nonnull LCharFunctionX<R, X> lambda) {
@@ -100,7 +114,7 @@ public interface LCharFunctionX<R, X extends Exception> extends MetaFunction, Me
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <R, X extends Exception> LCharFunctionX<R, X> wrapX(final @Nonnull LCharFunction<R> other) {
-		return other::doApply;
+		return (LCharFunctionX) other;
 	}
 
 	// </editor-fold>
@@ -205,27 +219,31 @@ public interface LCharFunctionX<R, X extends Exception> extends MetaFunction, Me
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LCharFunction<R> nonThrowing() {
-		return LCharFunction.wrap(this);
+	default LCharFunction<R> nest() {
+		return this::nestingDoApply;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LCharFunctionX<R, RuntimeException> uncheck() {
-		return (LCharFunctionX) this;
+	default LCharFunctionX<R, RuntimeException> nestX() {
+		return this::nestingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LCharFunction<R> shove() {
-		LCharFunctionX<R, RuntimeException> exceptionCast = (LCharFunctionX<R, RuntimeException>) this;
-		return exceptionCast::doApply;
+		return this::shovingDoApply;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LCharFunctionX<R, RuntimeException> shoveX() {
+		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
 	default LCharFunctionX<R, X> nonNullableX() {
-		return (c) -> Objects.requireNonNull(this.doApply(c));
+		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">

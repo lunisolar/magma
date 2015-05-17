@@ -58,13 +58,29 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBiPredicate<T1, T2> extends java.util.function.BiPredicate<T1, T2>, LBiPredicateX<T1, T2, RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
+public interface LBiPredicate<T1, T2> extends LBiPredicateX<T1, T2, RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
 	public static final String DESCRIPTION = "LBiPredicate: boolean doTest(T1 t1,T2 t2)";
 
+	@Override
+	@Deprecated
+	// calling this method via LBiPredicate interface should be discouraged.
+	default boolean test(T1 t1, T2 t2) {
+		return this.nestingDoTest(t1, t2);
+	}
+
 	public boolean doTest(T1 t1, T2 t2);
 
-	default boolean test(T1 t1, T2 t2) {
+	default boolean nestingDoTest(T1 t1, T2 t2) {
+		return this.doTest(t1, t2);
+	}
+
+	default boolean shovingDoTest(T1 t1, T2 t2) {
+		return this.doTest(t1, t2);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default boolean nonNullDoTest(T1 t1, T2 t2) {
 		return doTest(t1, t2);
 	}
 
@@ -89,11 +105,6 @@ public interface LBiPredicate<T1, T2> extends java.util.function.BiPredicate<T1,
 		return (t1, t2) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNull(T1 t1, T2 t2) {
-		return doTest(t1, t2);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T1, T2> LBiPredicate<T1, T2> l(final @Nonnull LBiPredicate<T1, T2> lambda) {
@@ -105,20 +116,14 @@ public interface LBiPredicate<T1, T2> extends java.util.function.BiPredicate<T1,
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T1, T2> LBiPredicate<T1, T2> wrapStd(final java.util.function.BiPredicate<T1, T2> other) {
+	public static <T1, T2> LBiPredicate<T1, T2> wrap(final java.util.function.BiPredicate<T1, T2> other) {
 		return other::test;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T1, T2, X extends Exception> LBiPredicate<T1, T2> wrap(final @Nonnull LBiPredicateX<T1, T2, X> other) {
-		return (T1 t1, T2 t2) -> {
-			try {
-				return other.doTest(t1, t2);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoTest;
 	}
 
 	// </editor-fold>
@@ -196,26 +201,25 @@ public interface LBiPredicate<T1, T2> extends java.util.function.BiPredicate<T1,
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.BiPredicate<T1, T2> std() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiPredicate<T1, T2> nonThrowing() {
+	default LBiPredicate<T1, T2> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiPredicateX<T1, T2, RuntimeException> uncheck() {
-		return (LBiPredicateX) this;
+	default LBiPredicateX<T1, T2, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBiPredicate<T1, T2> shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBiPredicateX<T1, T2, RuntimeException> shoveX() {
 		return this;
 	}
 

@@ -64,6 +64,19 @@ public interface LIntToCharFunction extends LIntToCharFunctionX<RuntimeException
 
 	public char doApplyAsChar(int i);
 
+	default char nestingDoApplyAsChar(int i) {
+		return this.doApplyAsChar(i);
+	}
+
+	default char shovingDoApplyAsChar(int i) {
+		return this.doApplyAsChar(i);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default char nonNullDoApplyAsChar(int i) {
+		return doApplyAsChar(i);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +92,6 @@ public interface LIntToCharFunction extends LIntToCharFunctionX<RuntimeException
 		return (i) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default char nonNull(int i) {
-		return doApplyAsChar(i);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LIntToCharFunction l(final @Nonnull LIntToCharFunction lambda) {
@@ -96,13 +104,7 @@ public interface LIntToCharFunction extends LIntToCharFunctionX<RuntimeException
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LIntToCharFunction wrap(final @Nonnull LIntToCharFunctionX<X> other) {
-		return (int i) -> {
-			try {
-				return other.doApplyAsChar(i);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApplyAsChar;
 	}
 
 	// </editor-fold>
@@ -200,18 +202,23 @@ public interface LIntToCharFunction extends LIntToCharFunctionX<RuntimeException
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntToCharFunction nonThrowing() {
+	default LIntToCharFunction nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntToCharFunctionX<RuntimeException> uncheck() {
-		return (LIntToCharFunctionX) this;
+	default LIntToCharFunctionX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LIntToCharFunction shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntToCharFunctionX<RuntimeException> shoveX() {
 		return this;
 	}
 

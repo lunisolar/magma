@@ -74,6 +74,15 @@ public class LObjLongConsumerXTest<T,X extends ParseException> {
     private java.util.function.ObjLongConsumer jre = (Object t, long l) -> Function4U.doNothing();
 
 
+    private LObjLongConsumerX<T,ParseException> sutAlwaysThrowing = LObjLongConsumerX.lX((T t, long l) -> {
+            throw new ParseException(ORIGINAL_MESSAGE, 0);
+    });
+
+    private LObjLongConsumerX<T,RuntimeException> sutAlwaysThrowingUnckeck = LObjLongConsumerX.lX((T t, long l) -> {
+            throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
+    });
+
+
 
 
     @Test
@@ -96,7 +105,7 @@ public class LObjLongConsumerXTest<T,X extends ParseException> {
 
     @Test
     public void testWrapStdMethod() throws ParseException {
-        assertThat(LObjLongConsumerX.wrapStd(jre))
+        assertThat(LObjLongConsumerX.wrap(jre))
             .isInstanceOf(LObjLongConsumerX.class);
     }
 
@@ -276,19 +285,35 @@ public class LObjLongConsumerXTest<T,X extends ParseException> {
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
+//
+//    @Test
+//    public void testStd() {
+//        assertThat(sut.std()).isInstanceOf(java.util.function.ObjLongConsumer.class);
+//    }
+//
+//
     @Test
-    public void testStd() {
-        assertThat(sut.std()).isInstanceOf(java.util.function.ObjLongConsumer.class);
+    public void testNesting() {
+        assertThat(sut.nest())
+            .isInstanceOf(LObjLongConsumer.class);
     }
 
     @Test
-    public void testNonThrowing() {
-        assertThat(sut.nonThrowing()).isInstanceOf(LObjLongConsumer.class);
+    public void testShoving() {
+        assertThat(sut.shove())
+            .isInstanceOf(LObjLongConsumer.class);
     }
 
     @Test
-    public void testUncheck() {
-        assertThat(sut.uncheck()).isInstanceOf(LObjLongConsumerX.class);
+    public void testNestingX() {
+        assertThat(sut.nestX())
+            .isInstanceOf(LObjLongConsumerX.class);
+    }
+
+    @Test
+    public void testShovingX() {
+        assertThat(sut.shoveX())
+            .isInstanceOf(LObjLongConsumerX.class);
     }
 
     @Test(expectedExceptions = RuntimeException.class)

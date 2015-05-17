@@ -64,6 +64,19 @@ public interface LToCharBiFunction<T1, T2> extends LToCharBiFunctionX<T1, T2, Ru
 
 	public char doApplyAsChar(T1 t1, T2 t2);
 
+	default char nestingDoApplyAsChar(T1 t1, T2 t2) {
+		return this.doApplyAsChar(t1, t2);
+	}
+
+	default char shovingDoApplyAsChar(T1 t1, T2 t2) {
+		return this.doApplyAsChar(t1, t2);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default char nonNullDoApplyAsChar(T1 t1, T2 t2) {
+		return doApplyAsChar(t1, t2);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +92,6 @@ public interface LToCharBiFunction<T1, T2> extends LToCharBiFunctionX<T1, T2, Ru
 		return (t1, t2) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default char nonNull(T1 t1, T2 t2) {
-		return doApplyAsChar(t1, t2);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T1, T2> LToCharBiFunction<T1, T2> l(final @Nonnull LToCharBiFunction<T1, T2> lambda) {
@@ -96,13 +104,7 @@ public interface LToCharBiFunction<T1, T2> extends LToCharBiFunctionX<T1, T2, Ru
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T1, T2, X extends Exception> LToCharBiFunction<T1, T2> wrap(final @Nonnull LToCharBiFunctionX<T1, T2, X> other) {
-		return (T1 t1, T2 t2) -> {
-			try {
-				return other.doApplyAsChar(t1, t2);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApplyAsChar;
 	}
 
 	// </editor-fold>
@@ -136,18 +138,23 @@ public interface LToCharBiFunction<T1, T2> extends LToCharBiFunctionX<T1, T2, Ru
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToCharBiFunction<T1, T2> nonThrowing() {
+	default LToCharBiFunction<T1, T2> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToCharBiFunctionX<T1, T2, RuntimeException> uncheck() {
-		return (LToCharBiFunctionX) this;
+	default LToCharBiFunctionX<T1, T2, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LToCharBiFunction<T1, T2> shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToCharBiFunctionX<T1, T2, RuntimeException> shoveX() {
 		return this;
 	}
 

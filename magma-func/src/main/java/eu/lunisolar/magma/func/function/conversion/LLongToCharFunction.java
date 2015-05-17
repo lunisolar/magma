@@ -64,6 +64,19 @@ public interface LLongToCharFunction extends LLongToCharFunctionX<RuntimeExcepti
 
 	public char doApplyAsChar(long l);
 
+	default char nestingDoApplyAsChar(long l) {
+		return this.doApplyAsChar(l);
+	}
+
+	default char shovingDoApplyAsChar(long l) {
+		return this.doApplyAsChar(l);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default char nonNullDoApplyAsChar(long l) {
+		return doApplyAsChar(l);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +92,6 @@ public interface LLongToCharFunction extends LLongToCharFunctionX<RuntimeExcepti
 		return (l) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default char nonNull(long l) {
-		return doApplyAsChar(l);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LLongToCharFunction l(final @Nonnull LLongToCharFunction lambda) {
@@ -96,13 +104,7 @@ public interface LLongToCharFunction extends LLongToCharFunctionX<RuntimeExcepti
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LLongToCharFunction wrap(final @Nonnull LLongToCharFunctionX<X> other) {
-		return (long l) -> {
-			try {
-				return other.doApplyAsChar(l);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApplyAsChar;
 	}
 
 	// </editor-fold>
@@ -200,18 +202,23 @@ public interface LLongToCharFunction extends LLongToCharFunctionX<RuntimeExcepti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LLongToCharFunction nonThrowing() {
+	default LLongToCharFunction nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LLongToCharFunctionX<RuntimeException> uncheck() {
-		return (LLongToCharFunctionX) this;
+	default LLongToCharFunctionX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLongToCharFunction shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LLongToCharFunctionX<RuntimeException> shoveX() {
 		return this;
 	}
 

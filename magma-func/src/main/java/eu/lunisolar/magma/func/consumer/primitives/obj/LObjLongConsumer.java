@@ -59,14 +59,25 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LObjLongConsumer<T> extends java.util.function.ObjLongConsumer<T>, LObjLongConsumerX<T, RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
+public interface LObjLongConsumer<T> extends LObjLongConsumerX<T, RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
 	public static final String DESCRIPTION = "LObjLongConsumer: void doAccept(T t, long l)";
 
+	@Override
+	@Deprecated
+	// calling this method via LObjLongConsumer interface should be discouraged.
+	default void accept(T t, long l) {
+		this.nestingDoAccept(t, l);
+	}
+
 	public void doAccept(T t, long l);
 
-	default void accept(T t, long l) {
-		doAccept(t, l);
+	default void nestingDoAccept(T t, long l) {
+		this.doAccept(t, l);
+	}
+
+	default void shovingDoAccept(T t, long l) {
+		this.doAccept(t, l);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -91,20 +102,14 @@ public interface LObjLongConsumer<T> extends java.util.function.ObjLongConsumer<
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T> LObjLongConsumer<T> wrapStd(final java.util.function.ObjLongConsumer<T> other) {
+	public static <T> LObjLongConsumer<T> wrap(final java.util.function.ObjLongConsumer<T> other) {
 		return other::accept;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T, X extends Exception> LObjLongConsumer<T> wrap(final @Nonnull LObjLongConsumerX<T, X> other) {
-		return (T t, long l) -> {
-			try {
-				other.doAccept(t, l);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoAccept;
 	}
 
 	// </editor-fold>
@@ -148,26 +153,25 @@ public interface LObjLongConsumer<T> extends java.util.function.ObjLongConsumer<
 	// </editor-fold>
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.ObjLongConsumer<T> std() {
-		return this;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjLongConsumer<T> nonThrowing() {
+	default LObjLongConsumer<T> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjLongConsumerX<T, RuntimeException> uncheck() {
-		return (LObjLongConsumerX) this;
+	default LObjLongConsumerX<T, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjLongConsumer<T> shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LObjLongConsumerX<T, RuntimeException> shoveX() {
 		return this;
 	}
 

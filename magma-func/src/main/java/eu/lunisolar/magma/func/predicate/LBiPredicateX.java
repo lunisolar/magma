@@ -58,11 +58,37 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBiPredicateX<T1, T2, X extends Exception> extends MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LBiPredicateX<T1, T2, X extends Exception> extends java.util.function.BiPredicate<T1, T2>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
 	public static final String DESCRIPTION = "LBiPredicateX: boolean doTest(T1 t1,T2 t2) throws X";
 
+	@Override
+	@Deprecated
+	// calling this method via LBiPredicateX interface should be discouraged.
+	default boolean test(T1 t1, T2 t2) {
+		return this.nestingDoTest(t1, t2);
+	}
+
 	public boolean doTest(T1 t1, T2 t2) throws X;
+
+	default boolean nestingDoTest(T1 t1, T2 t2) {
+		try {
+			return this.doTest(t1, t2);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default boolean shovingDoTest(T1 t1, T2 t2) {
+		return ((LBiPredicateX<T1, T2, RuntimeException>) this).doTest(t1, t2);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default boolean nonNullDoTest(T1 t1, T2 t2) throws X {
+		return doTest(t1, t2);
+	}
 
 	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
 
@@ -85,11 +111,6 @@ public interface LBiPredicateX<T1, T2, X extends Exception> extends MetaPredicat
 		return (t1, t2) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNull(T1 t1, T2 t2) throws X {
-		return doTest(t1, t2);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T1, T2, X extends Exception> LBiPredicateX<T1, T2, X> lX(final @Nonnull LBiPredicateX<T1, T2, X> lambda) {
@@ -101,14 +122,14 @@ public interface LBiPredicateX<T1, T2, X extends Exception> extends MetaPredicat
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T1, T2, X extends Exception> LBiPredicateX<T1, T2, X> wrapStd(final java.util.function.BiPredicate<T1, T2> other) {
+	public static <T1, T2, X extends Exception> LBiPredicateX<T1, T2, X> wrap(final java.util.function.BiPredicate<T1, T2> other) {
 		return other::test;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T1, T2, X extends Exception> LBiPredicateX<T1, T2, X> wrapX(final @Nonnull LBiPredicate<T1, T2> other) {
-		return other::doTest;
+		return (LBiPredicateX) other;
 	}
 
 	// </editor-fold>
@@ -186,28 +207,26 @@ public interface LBiPredicateX<T1, T2, X extends Exception> extends MetaPredicat
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.BiPredicate<T1, T2> std() {
-		return LBiPredicate.wrap(this)::doTest;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiPredicate<T1, T2> nonThrowing() {
-		return LBiPredicate.wrap(this);
+	default LBiPredicate<T1, T2> nest() {
+		return this::nestingDoTest;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiPredicateX<T1, T2, RuntimeException> uncheck() {
-		return (LBiPredicateX) this;
+	default LBiPredicateX<T1, T2, RuntimeException> nestX() {
+		return this::nestingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBiPredicate<T1, T2> shove() {
-		LBiPredicateX<T1, T2, RuntimeException> exceptionCast = (LBiPredicateX<T1, T2, RuntimeException>) this;
-		return exceptionCast::doTest;
+		return this::shovingDoTest;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBiPredicateX<T1, T2, RuntimeException> shoveX() {
+		return this::shovingDoTest;
 	}
 
 	// </editor-fold>

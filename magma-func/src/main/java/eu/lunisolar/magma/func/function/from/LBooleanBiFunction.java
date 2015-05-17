@@ -65,6 +65,22 @@ public interface LBooleanBiFunction<R> extends LBooleanBiFunctionX<R, RuntimeExc
 	@Nullable
 	public R doApply(boolean b1, boolean b2);
 
+	default R nestingDoApply(boolean b1, boolean b2) {
+		return this.doApply(b1, b2);
+	}
+
+	default R shovingDoApply(boolean b1, boolean b2) {
+		return this.doApply(b1, b2);
+	}
+
+	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+
+	/** Ensures the result is not null */
+	@Nonnull
+	default R nonNullDoApply(boolean b1, boolean b2) {
+		return Objects.requireNonNull(doApply(b1, b2), NULL_VALUE_MESSAGE_SUPPLIER);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -80,14 +96,6 @@ public interface LBooleanBiFunction<R> extends LBooleanBiFunctionX<R, RuntimeExc
 		return (b1, b2) -> r;
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNull() method cannot be null (" + DESCRIPTION + ").";
-
-	/** Ensures the result is not null */
-	@Nonnull
-	default R nonNull(boolean b1, boolean b2) {
-		return Objects.requireNonNull(doApply(b1, b2), NULL_VALUE_MESSAGE_SUPPLIER);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <R> LBooleanBiFunction<R> l(final @Nonnull LBooleanBiFunction<R> lambda) {
@@ -100,13 +108,7 @@ public interface LBooleanBiFunction<R> extends LBooleanBiFunctionX<R, RuntimeExc
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <R, X extends Exception> LBooleanBiFunction<R> wrap(final @Nonnull LBooleanBiFunctionX<R, X> other) {
-		return (boolean b1, boolean b2) -> {
-			try {
-				return other.doApply(b1, b2);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApply;
 	}
 
 	// </editor-fold>
@@ -157,14 +159,14 @@ public interface LBooleanBiFunction<R> extends LBooleanBiFunctionX<R, RuntimeExc
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanBiFunction<R> nonThrowing() {
+	default LBooleanBiFunction<R> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanBiFunctionX<R, RuntimeException> uncheck() {
-		return (LBooleanBiFunctionX) this;
+	default LBooleanBiFunctionX<R, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
@@ -172,11 +174,16 @@ public interface LBooleanBiFunction<R> extends LBooleanBiFunctionX<R, RuntimeExc
 		return this;
 	}
 
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBooleanBiFunctionX<R, RuntimeException> shoveX() {
+		return this;
+	}
+
 	// </editor-fold>
 
 	@Nonnull
 	default LBooleanBiFunction<R> nonNullable() {
-		return (b1, b2) -> Objects.requireNonNull(this.doApply(b1, b2));
+		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">

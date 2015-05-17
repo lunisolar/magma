@@ -58,11 +58,37 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LToDoubleBiFunctionX<T1, T2, X extends Exception> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LToDoubleBiFunctionX<T1, T2, X extends Exception> extends java.util.function.ToDoubleBiFunction<T1, T2>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
 	public static final String DESCRIPTION = "LToDoubleBiFunctionX: double doApplyAsDouble(T1 t1,T2 t2) throws X";
 
+	@Override
+	@Deprecated
+	// calling this method via LToDoubleBiFunctionX interface should be discouraged.
+	default double applyAsDouble(T1 t1, T2 t2) {
+		return this.nestingDoApplyAsDouble(t1, t2);
+	}
+
 	public double doApplyAsDouble(T1 t1, T2 t2) throws X;
+
+	default double nestingDoApplyAsDouble(T1 t1, T2 t2) {
+		try {
+			return this.doApplyAsDouble(t1, t2);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new NestedException(e);
+		}
+	}
+
+	default double shovingDoApplyAsDouble(T1 t1, T2 t2) {
+		return ((LToDoubleBiFunctionX<T1, T2, RuntimeException>) this).doApplyAsDouble(t1, t2);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default double nonNullDoApplyAsDouble(T1 t1, T2 t2) throws X {
+		return doApplyAsDouble(t1, t2);
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -79,11 +105,6 @@ public interface LToDoubleBiFunctionX<T1, T2, X extends Exception> extends MetaF
 		return (t1, t2) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default double nonNull(T1 t1, T2 t2) throws X {
-		return doApplyAsDouble(t1, t2);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T1, T2, X extends Exception> LToDoubleBiFunctionX<T1, T2, X> lX(final @Nonnull LToDoubleBiFunctionX<T1, T2, X> lambda) {
@@ -95,14 +116,14 @@ public interface LToDoubleBiFunctionX<T1, T2, X extends Exception> extends MetaF
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T1, T2, X extends Exception> LToDoubleBiFunctionX<T1, T2, X> wrapStd(final java.util.function.ToDoubleBiFunction<T1, T2> other) {
+	public static <T1, T2, X extends Exception> LToDoubleBiFunctionX<T1, T2, X> wrap(final java.util.function.ToDoubleBiFunction<T1, T2> other) {
 		return other::applyAsDouble;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T1, T2, X extends Exception> LToDoubleBiFunctionX<T1, T2, X> wrapX(final @Nonnull LToDoubleBiFunction<T1, T2> other) {
-		return other::doApplyAsDouble;
+		return (LToDoubleBiFunctionX) other;
 	}
 
 	// </editor-fold>
@@ -134,28 +155,26 @@ public interface LToDoubleBiFunctionX<T1, T2, X extends Exception> extends MetaF
 
 	// <editor-fold desc="variant conversions">
 
-	/** Converts to JRE variant. */
-	@Nonnull
-	default java.util.function.ToDoubleBiFunction<T1, T2> std() {
-		return LToDoubleBiFunction.wrap(this)::doApplyAsDouble;
-	}
-
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToDoubleBiFunction<T1, T2> nonThrowing() {
-		return LToDoubleBiFunction.wrap(this);
+	default LToDoubleBiFunction<T1, T2> nest() {
+		return this::nestingDoApplyAsDouble;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToDoubleBiFunctionX<T1, T2, RuntimeException> uncheck() {
-		return (LToDoubleBiFunctionX) this;
+	default LToDoubleBiFunctionX<T1, T2, RuntimeException> nestX() {
+		return this::nestingDoApplyAsDouble;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LToDoubleBiFunction<T1, T2> shove() {
-		LToDoubleBiFunctionX<T1, T2, RuntimeException> exceptionCast = (LToDoubleBiFunctionX<T1, T2, RuntimeException>) this;
-		return exceptionCast::doApplyAsDouble;
+		return this::shovingDoApplyAsDouble;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToDoubleBiFunctionX<T1, T2, RuntimeException> shoveX() {
+		return this::shovingDoApplyAsDouble;
 	}
 
 	// </editor-fold>

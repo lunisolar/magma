@@ -64,6 +64,19 @@ public interface LIntToFloatFunction extends LIntToFloatFunctionX<RuntimeExcepti
 
 	public float doApplyAsFloat(int i);
 
+	default float nestingDoApplyAsFloat(int i) {
+		return this.doApplyAsFloat(i);
+	}
+
+	default float shovingDoApplyAsFloat(int i) {
+		return this.doApplyAsFloat(i);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default float nonNullDoApplyAsFloat(int i) {
+		return doApplyAsFloat(i);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +92,6 @@ public interface LIntToFloatFunction extends LIntToFloatFunctionX<RuntimeExcepti
 		return (i) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default float nonNull(int i) {
-		return doApplyAsFloat(i);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LIntToFloatFunction l(final @Nonnull LIntToFloatFunction lambda) {
@@ -96,13 +104,7 @@ public interface LIntToFloatFunction extends LIntToFloatFunctionX<RuntimeExcepti
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LIntToFloatFunction wrap(final @Nonnull LIntToFloatFunctionX<X> other) {
-		return (int i) -> {
-			try {
-				return other.doApplyAsFloat(i);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApplyAsFloat;
 	}
 
 	// </editor-fold>
@@ -200,18 +202,23 @@ public interface LIntToFloatFunction extends LIntToFloatFunctionX<RuntimeExcepti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntToFloatFunction nonThrowing() {
+	default LIntToFloatFunction nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntToFloatFunctionX<RuntimeException> uncheck() {
-		return (LIntToFloatFunctionX) this;
+	default LIntToFloatFunctionX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LIntToFloatFunction shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntToFloatFunctionX<RuntimeException> shoveX() {
 		return this;
 	}
 

@@ -64,6 +64,19 @@ public interface LBooleanToDoubleFunction extends LBooleanToDoubleFunctionX<Runt
 
 	public double doApplyAsDouble(boolean b);
 
+	default double nestingDoApplyAsDouble(boolean b) {
+		return this.doApplyAsDouble(b);
+	}
+
+	default double shovingDoApplyAsDouble(boolean b) {
+		return this.doApplyAsDouble(b);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default double nonNullDoApplyAsDouble(boolean b) {
+		return doApplyAsDouble(b);
+	}
+
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
@@ -79,11 +92,6 @@ public interface LBooleanToDoubleFunction extends LBooleanToDoubleFunctionX<Runt
 		return (b) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default double nonNull(boolean b) {
-		return doApplyAsDouble(b);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LBooleanToDoubleFunction l(final @Nonnull LBooleanToDoubleFunction lambda) {
@@ -96,13 +104,7 @@ public interface LBooleanToDoubleFunction extends LBooleanToDoubleFunctionX<Runt
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LBooleanToDoubleFunction wrap(final @Nonnull LBooleanToDoubleFunctionX<X> other) {
-		return (boolean b) -> {
-			try {
-				return other.doApplyAsDouble(b);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoApplyAsDouble;
 	}
 
 	// </editor-fold>
@@ -200,18 +202,23 @@ public interface LBooleanToDoubleFunction extends LBooleanToDoubleFunctionX<Runt
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanToDoubleFunction nonThrowing() {
+	default LBooleanToDoubleFunction nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanToDoubleFunctionX<RuntimeException> uncheck() {
-		return (LBooleanToDoubleFunctionX) this;
+	default LBooleanToDoubleFunctionX<RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBooleanToDoubleFunction shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBooleanToDoubleFunctionX<RuntimeException> shoveX() {
 		return this;
 	}
 

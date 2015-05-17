@@ -64,6 +64,19 @@ public interface LTriPredicate<T1, T2, T3> extends LTriPredicateX<T1, T2, T3, Ru
 
 	public boolean doTest(T1 t1, T2 t2, T3 t3);
 
+	default boolean nestingDoTest(T1 t1, T2 t2, T3 t3) {
+		return this.doTest(t1, t2, t3);
+	}
+
+	default boolean shovingDoTest(T1 t1, T2 t2, T3 t3) {
+		return this.doTest(t1, t2, t3);
+	}
+
+	/** Just to mirror the method: Ensures the result is not null */
+	default boolean nonNullDoTest(T1 t1, T2 t2, T3 t3) {
+		return doTest(t1, t2, t3);
+	}
+
 	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
 
 	default boolean doApplyAsBoolean(T1 t1, T2 t2, T3 t3) {
@@ -85,11 +98,6 @@ public interface LTriPredicate<T1, T2, T3> extends LTriPredicateX<T1, T2, T3, Ru
 		return (t1, t2, t3) -> r;
 	}
 
-	/** Just to mirror the method: Ensures the result is not null */
-	default boolean nonNull(T1 t1, T2 t2, T3 t3) {
-		return doTest(t1, t2, t3);
-	}
-
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T1, T2, T3> LTriPredicate<T1, T2, T3> l(final @Nonnull LTriPredicate<T1, T2, T3> lambda) {
@@ -102,13 +110,7 @@ public interface LTriPredicate<T1, T2, T3> extends LTriPredicateX<T1, T2, T3, Ru
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T1, T2, T3, X extends Exception> LTriPredicate<T1, T2, T3> wrap(final @Nonnull LTriPredicateX<T1, T2, T3, X> other) {
-		return (T1 t1, T2 t2, T3 t3) -> {
-			try {
-				return other.doTest(t1, t2, t3);
-			} catch (Exception e) {
-				throw ExceptionHandler.handleWrapping(e);
-			}
-		};
+		return other::nestingDoTest;
 	}
 
 	// </editor-fold>
@@ -189,18 +191,23 @@ public interface LTriPredicate<T1, T2, T3> extends LTriPredicateX<T1, T2, T3, Ru
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LTriPredicate<T1, T2, T3> nonThrowing() {
+	default LTriPredicate<T1, T2, T3> nest() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LTriPredicateX<T1, T2, T3, RuntimeException> uncheck() {
-		return (LTriPredicateX) this;
+	default LTriPredicateX<T1, T2, T3, RuntimeException> nestX() {
+		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LTriPredicate<T1, T2, T3> shove() {
+		return this;
+	}
+
+	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LTriPredicateX<T1, T2, T3, RuntimeException> shoveX() {
 		return this;
 	}
 
