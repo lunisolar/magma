@@ -99,12 +99,12 @@ public final class LByteSupplierXBuilder<X extends Exception> extends PerCaseBui
 			final Case<LBooleanSupplierX<X>, LByteSupplierX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LByteSupplierX.lX(() -> {
 				for (Case<LBooleanSupplierX<X>, LByteSupplierX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().getAsBoolean()) {
-						return aCase.caseFunction().getAsByte();
+					if (aCase.casePredicate().doGetAsBoolean()) {
+						return aCase.caseFunction().doGetAsByte();
 					}
 				}
 
-				return eventuallyFinal.getAsByte();
+				return eventuallyFinal.doGetAsByte();
 			});
 		}
 

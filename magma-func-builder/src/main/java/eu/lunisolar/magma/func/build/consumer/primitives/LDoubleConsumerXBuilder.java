@@ -99,13 +99,13 @@ public final class LDoubleConsumerXBuilder<X extends Exception> extends PerCaseB
 			final Case<LDoublePredicateX<X>, LDoubleConsumerX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LDoubleConsumerX.lX((double d) -> {
 				for (Case<LDoublePredicateX<X>, LDoubleConsumerX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(d)) {
-						aCase.caseFunction().accept(d);
+					if (aCase.casePredicate().doTest(d)) {
+						aCase.caseFunction().doAccept(d);
 						return;
 					}
 				}
 
-				eventuallyFinal.accept(d);
+				eventuallyFinal.doAccept(d);
 			});
 		}
 

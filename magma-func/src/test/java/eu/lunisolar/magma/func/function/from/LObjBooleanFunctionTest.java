@@ -61,19 +61,19 @@ public class LObjBooleanFunctionTest<T,R,X extends ParseException> {
 
 
     private LObjBooleanFunction<T,R> sut = new LObjBooleanFunction(){
-        public @Nullable Object  apply(Object t, boolean b)  {
+        public @Nullable Object  doApply(Object t, boolean b)  {
             return testValue;
         }
     };
 
     private LObjBooleanFunctionX<T,R,X> opposite = new LObjBooleanFunctionX(){
-        public @Nullable Object  apply(Object t, boolean b) throws ParseException {
+        public @Nullable Object  doApply(Object t, boolean b) throws ParseException {
             return testValue;
         }
     };
 
     private LObjBooleanFunction<T,R> sutNull = new LObjBooleanFunction(){
-        public @Nullable Object  apply(Object t, boolean b)  {
+        public @Nullable Object  doApply(Object t, boolean b)  {
             return null;
         }
     };
@@ -82,7 +82,7 @@ public class LObjBooleanFunctionTest<T,R,X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.apply((T)Integer.valueOf(100),true))
+        assertThat(sut.doApply((T)Integer.valueOf(100),true))
             .isSameAs(testValue);
     }
 
@@ -92,7 +92,7 @@ public class LObjBooleanFunctionTest<T,R,X extends ParseException> {
             .isSameAs(testValue);
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LObjBooleanFunction: R apply(T t, boolean b)).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LObjBooleanFunction: R doApply(T t, boolean b)).\\E")
     public void testNonNullCapturesNull() throws ParseException {
         sutNull.nonNull((T)Integer.valueOf(100),true);
     }
@@ -101,7 +101,7 @@ public class LObjBooleanFunctionTest<T,R,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LObjBooleanFunction: R apply(T t, boolean b)");
+            .isEqualTo("LObjBooleanFunction: R doApply(T t, boolean b)");
     }
 
     @Test
@@ -128,7 +128,7 @@ public class LObjBooleanFunctionTest<T,R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T)Integer.valueOf(100),true);
+            wrapped.doApply((T)Integer.valueOf(100),true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -150,7 +150,7 @@ public class LObjBooleanFunctionTest<T,R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T)Integer.valueOf(100),true);
+            wrapped.doApply((T)Integer.valueOf(100),true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -176,7 +176,7 @@ public class LObjBooleanFunctionTest<T,R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T)Integer.valueOf(100),true);
+            wrapped.doApply((T)Integer.valueOf(100),true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -201,7 +201,7 @@ public class LObjBooleanFunctionTest<T,R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T)Integer.valueOf(100),true);
+            wrapped.doApply((T)Integer.valueOf(100),true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -225,7 +225,7 @@ public class LObjBooleanFunctionTest<T,R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T)Integer.valueOf(100),true);
+            wrapped.doApply((T)Integer.valueOf(100),true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -266,7 +266,7 @@ public class LObjBooleanFunctionTest<T,R,X extends ParseException> {
 
         //when
         LObjBooleanFunction<Integer ,Integer > function = sutO.fromBoolean(before1,before2);
-        function.apply((Integer )Integer.valueOf(80),true);
+        function.doApply((Integer )Integer.valueOf(80),true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -301,7 +301,7 @@ public class LObjBooleanFunctionTest<T,R,X extends ParseException> {
 
         //when
         LBiFunction<Integer ,Integer ,Integer > function = sutO.from(before1,before2);
-        function.apply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        function.doApply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -338,7 +338,7 @@ public class LObjBooleanFunctionTest<T,R,X extends ParseException> {
 
         //when
         LObjBooleanFunction<Integer ,Integer > function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((Integer )Integer.valueOf(80),true);
+        Integer  finalValue = function.doApply((Integer )Integer.valueOf(80),true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -372,7 +372,7 @@ public class LObjBooleanFunctionTest<T,R,X extends ParseException> {
 
         //when
         LObjBooleanConsumer<Integer > function = sutO.then(thenFunction);
-        function.accept((Integer )Integer.valueOf(80),true);
+        function.doAccept((Integer )Integer.valueOf(80),true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -402,7 +402,7 @@ public class LObjBooleanFunctionTest<T,R,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().apply((T)Integer.valueOf(100),true);
+        sutThrowing.shove().doApply((T)Integer.valueOf(100),true);
     }
 
     @Test
@@ -420,7 +420,7 @@ public class LObjBooleanFunctionTest<T,R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T)Integer.valueOf(100),true);
+            wrapped.doApply((T)Integer.valueOf(100),true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -439,7 +439,7 @@ public class LObjBooleanFunctionTest<T,R,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LObjBooleanFunction: R apply(T t, boolean b)");
+                .contains("LObjBooleanFunction: R doApply(T t, boolean b)");
     }
 
 

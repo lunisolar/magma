@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBiConsumerX<T1, T2, X extends Exception> extends MetaConsumer, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LBiConsumerX: void accept(T1 t1,T2 t2) throws X";
+	public static final String DESCRIPTION = "LBiConsumerX: void doAccept(T1 t1,T2 t2) throws X";
 
-	public void accept(T1 t1, T2 t2) throws X;
+	public void doAccept(T1 t1, T2 t2) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +73,7 @@ public interface LBiConsumerX<T1, T2, X extends Exception> extends MetaConsumer,
 
 	/** Captures arguments but delays the evaluation. */
 	default LActionX<X> capture(T1 t1, T2 t2) {
-		return () -> this.accept(t1, t2);
+		return () -> this.doAccept(t1, t2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -94,7 +94,7 @@ public interface LBiConsumerX<T1, T2, X extends Exception> extends MetaConsumer,
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T1, T2, X extends Exception> LBiConsumerX<T1, T2, X> wrapX(final @Nonnull LBiConsumer<T1, T2> other) {
-		return other::accept;
+		return other::doAccept;
 	}
 
 	// </editor-fold>
@@ -108,7 +108,7 @@ public interface LBiConsumerX<T1, T2, X extends Exception> extends MetaConsumer,
 	default <V1, V2> LBiConsumerX<V1, V2, X> from(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final V1 v1, final V2 v2) -> this.accept(before1.apply(v1), before2.apply(v2));
+		return (final V1 v1, final V2 v2) -> this.doAccept(before1.doApply(v1), before2.doApply(v2));
 	}
 
 	// </editor-fold>
@@ -120,8 +120,8 @@ public interface LBiConsumerX<T1, T2, X extends Exception> extends MetaConsumer,
 	default LBiConsumerX<T1, T2, X> andThen(@Nonnull LBiConsumerX<? super T1, ? super T2, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
 		return (T1 t1, T2 t2) -> {
-			this.accept(t1, t2);
-			after.accept(t1, t2);
+			this.doAccept(t1, t2);
+			after.doAccept(t1, t2);
 		};
 	}
 
@@ -131,7 +131,7 @@ public interface LBiConsumerX<T1, T2, X extends Exception> extends MetaConsumer,
 	/** Converts to JRE variant. */
 	@Nonnull
 	default java.util.function.BiConsumer<T1, T2> std() {
-		return LBiConsumer.wrap(this)::accept;
+		return LBiConsumer.wrap(this)::doAccept;
 	}
 
 	/** Converts to non-throwing variant (if required). */
@@ -149,7 +149,7 @@ public interface LBiConsumerX<T1, T2, X extends Exception> extends MetaConsumer,
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBiConsumer<T1, T2> shove() {
 		LBiConsumerX<T1, T2, RuntimeException> exceptionCast = (LBiConsumerX<T1, T2, RuntimeException>) this;
-		return exceptionCast::accept;
+		return exceptionCast::doAccept;
 	}
 
 	// </editor-fold>
@@ -161,7 +161,7 @@ public interface LBiConsumerX<T1, T2, X extends Exception> extends MetaConsumer,
 	public static <T1, T2, X extends Exception, E extends Exception, Y extends Exception> LBiConsumerX<T1, T2, Y> wrapException(@Nonnull final LBiConsumerX<T1, T2, X> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
 		return (T1 t1, T2 t2) -> {
 			try {
-				other.accept(t1, t2);
+				other.doAccept(t1, t2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
 			}

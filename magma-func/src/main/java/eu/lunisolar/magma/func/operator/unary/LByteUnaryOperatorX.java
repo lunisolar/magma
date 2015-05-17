@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LByteUnaryOperatorX<X extends Exception> extends MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LByteUnaryOperatorX: byte applyAsByte(byte b) throws X";
+	public static final String DESCRIPTION = "LByteUnaryOperatorX: byte doApplyAsByte(byte b) throws X";
 
-	public byte applyAsByte(byte b) throws X;
+	public byte doApplyAsByte(byte b) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LByteUnaryOperatorX<X extends Exception> extends MetaOperator, 
 
 	/** Captures arguments but delays the evaluation. */
 	default LByteSupplierX<X> capture(byte b) {
-		return () -> this.applyAsByte(b);
+		return () -> this.doApplyAsByte(b);
 	}
 
 	public static <X extends Exception> LByteUnaryOperatorX<X> constant(byte r) {
@@ -81,7 +81,7 @@ public interface LByteUnaryOperatorX<X extends Exception> extends MetaOperator, 
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default byte nonNull(byte b) throws X {
-		return applyAsByte(b);
+		return doApplyAsByte(b);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -96,7 +96,7 @@ public interface LByteUnaryOperatorX<X extends Exception> extends MetaOperator, 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LByteUnaryOperatorX<X> wrapX(final @Nonnull LByteUnaryOperator other) {
-		return other::applyAsByte;
+		return other::doApplyAsByte;
 	}
 
 	// </editor-fold>
@@ -109,7 +109,7 @@ public interface LByteUnaryOperatorX<X extends Exception> extends MetaOperator, 
 	@Nonnull
 	default LByteUnaryOperatorX<X> fromByte(@Nonnull final LByteUnaryOperatorX<X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final byte v1) -> this.applyAsByte(before1.applyAsByte(v1));
+		return (final byte v1) -> this.doApplyAsByte(before1.doApplyAsByte(v1));
 	}
 
 	/**
@@ -118,7 +118,7 @@ public interface LByteUnaryOperatorX<X extends Exception> extends MetaOperator, 
 	@Nonnull
 	default <V1> LToByteFunctionX<V1, X> from(@Nonnull final LToByteFunctionX<? super V1, X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.applyAsByte(before1.applyAsByte(v1));
+		return (V1 v1) -> this.doApplyAsByte(before1.doApplyAsByte(v1));
 	}
 
 	// </editor-fold>
@@ -129,63 +129,63 @@ public interface LByteUnaryOperatorX<X extends Exception> extends MetaOperator, 
 	@Nonnull
 	default <V> LByteFunctionX<V, X> then(@Nonnull LByteFunctionX<? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (byte b) -> after.apply(this.applyAsByte(b));
+		return (byte b) -> after.doApply(this.doApplyAsByte(b));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LByteUnaryOperatorX<X> thenToByte(@Nonnull LByteUnaryOperatorX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (byte b) -> after.applyAsByte(this.applyAsByte(b));
+		return (byte b) -> after.doApplyAsByte(this.doApplyAsByte(b));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LByteToShortFunctionX<X> thenToShort(@Nonnull LByteToShortFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (byte b) -> after.applyAsShort(this.applyAsByte(b));
+		return (byte b) -> after.doApplyAsShort(this.doApplyAsByte(b));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LByteToIntFunctionX<X> thenToInt(@Nonnull LByteToIntFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (byte b) -> after.applyAsInt(this.applyAsByte(b));
+		return (byte b) -> after.doApplyAsInt(this.doApplyAsByte(b));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LByteToLongFunctionX<X> thenToLong(@Nonnull LByteToLongFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (byte b) -> after.applyAsLong(this.applyAsByte(b));
+		return (byte b) -> after.doApplyAsLong(this.doApplyAsByte(b));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LByteToFloatFunctionX<X> thenToFloat(@Nonnull LByteToFloatFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (byte b) -> after.applyAsFloat(this.applyAsByte(b));
+		return (byte b) -> after.doApplyAsFloat(this.doApplyAsByte(b));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LByteToDoubleFunctionX<X> thenToDouble(@Nonnull LByteToDoubleFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (byte b) -> after.applyAsDouble(this.applyAsByte(b));
+		return (byte b) -> after.doApplyAsDouble(this.doApplyAsByte(b));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LByteToCharFunctionX<X> thenToChar(@Nonnull LByteToCharFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (byte b) -> after.applyAsChar(this.applyAsByte(b));
+		return (byte b) -> after.doApplyAsChar(this.doApplyAsByte(b));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LBytePredicateX<X> thenToBoolean(@Nonnull LBytePredicateX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (byte b) -> after.test(this.applyAsByte(b));
+		return (byte b) -> after.doTest(this.doApplyAsByte(b));
 	}
 
 	// </editor-fold>
@@ -213,7 +213,7 @@ public interface LByteUnaryOperatorX<X extends Exception> extends MetaOperator, 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LByteUnaryOperator shove() {
 		LByteUnaryOperatorX<RuntimeException> exceptionCast = (LByteUnaryOperatorX<RuntimeException>) this;
-		return exceptionCast::applyAsByte;
+		return exceptionCast::doApplyAsByte;
 	}
 
 	// </editor-fold>
@@ -225,11 +225,11 @@ public interface LByteUnaryOperatorX<X extends Exception> extends MetaOperator, 
 	public static <X extends Exception, E extends Exception, Y extends Exception> LByteUnaryOperatorX<Y> wrapException(@Nonnull final LByteUnaryOperatorX<X> other, Class<E> exception, LByteSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
 		return (byte b) -> {
 			try {
-				return other.applyAsByte(b);
+				return other.doApplyAsByte(b);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsByte();
+						return supplier.doGetAsByte();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

@@ -99,12 +99,12 @@ public final class LBooleanTriFunctionBuilder<R> extends PerCaseBuilderWithProdu
 			final Case<LBooleanTernaryOperator, LBooleanTriFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LBooleanTriFunction.l((boolean b1, boolean b2, boolean b3) -> {
 				for (Case<LBooleanTernaryOperator, LBooleanTriFunction<R>> aCase : casesArray) {
-					if (aCase.casePredicate().apply(b1, b2, b3)) {
-						return aCase.caseFunction().apply(b1, b2, b3);
+					if (aCase.casePredicate().doApply(b1, b2, b3)) {
+						return aCase.caseFunction().doApply(b1, b2, b3);
 					}
 				}
 
-				return eventuallyFinal.apply(b1, b2, b3);
+				return eventuallyFinal.doApply(b1, b2, b3);
 			});
 		}
 

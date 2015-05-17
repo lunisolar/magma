@@ -99,12 +99,12 @@ public final class LBooleanFunctionBuilder<R> extends PerCaseBuilderWithProduct.
 			final Case<LBooleanUnaryOperator, LBooleanFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LBooleanFunction.l((boolean b) -> {
 				for (Case<LBooleanUnaryOperator, LBooleanFunction<R>> aCase : casesArray) {
-					if (aCase.casePredicate().applyAsBoolean(b)) {
-						return aCase.caseFunction().apply(b);
+					if (aCase.casePredicate().doApplyAsBoolean(b)) {
+						return aCase.caseFunction().doApply(b);
 					}
 				}
 
-				return eventuallyFinal.apply(b);
+				return eventuallyFinal.doApply(b);
 			});
 		}
 

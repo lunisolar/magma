@@ -99,12 +99,12 @@ public final class LDoubleBinaryOperatorXBuilder<X extends Exception> extends Pe
 			final Case<LBiDoublePredicateX<X>, LDoubleBinaryOperatorX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LDoubleBinaryOperatorX.lX((double d1, double d2) -> {
 				for (Case<LBiDoublePredicateX<X>, LDoubleBinaryOperatorX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(d1, d2)) {
-						return aCase.caseFunction().applyAsDouble(d1, d2);
+					if (aCase.casePredicate().doTest(d1, d2)) {
+						return aCase.caseFunction().doApplyAsDouble(d1, d2);
 					}
 				}
 
-				return eventuallyFinal.applyAsDouble(d1, d2);
+				return eventuallyFinal.doApplyAsDouble(d1, d2);
 			});
 		}
 

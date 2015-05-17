@@ -99,12 +99,12 @@ public final class LBinaryOperatorXBuilder<T, X extends Exception> extends PerCa
 			final Case<LBiPredicateX<T, T, X>, LBinaryOperatorX<T, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LBinaryOperatorX.lX((T t1, T t2) -> {
 				for (Case<LBiPredicateX<T, T, X>, LBinaryOperatorX<T, X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t1, t2)) {
-						return aCase.caseFunction().apply(t1, t2);
+					if (aCase.casePredicate().doTest(t1, t2)) {
+						return aCase.caseFunction().doApply(t1, t2);
 					}
 				}
 
-				return eventuallyFinal.apply(t1, t2);
+				return eventuallyFinal.doApply(t1, t2);
 			});
 		}
 

@@ -99,12 +99,12 @@ public final class LCharUnaryOperatorBuilder extends PerCaseBuilderWithCharProdu
 			final Case<LCharPredicate, LCharUnaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LCharUnaryOperator.l((char c) -> {
 				for (Case<LCharPredicate, LCharUnaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().test(c)) {
-						return aCase.caseFunction().applyAsChar(c);
+					if (aCase.casePredicate().doTest(c)) {
+						return aCase.caseFunction().doApplyAsChar(c);
 					}
 				}
 
-				return eventuallyFinal.applyAsChar(c);
+				return eventuallyFinal.doApplyAsChar(c);
 			});
 		}
 

@@ -69,7 +69,7 @@ public class LObjByteFunctionBuilderTest<T,R,X extends ParseException>{
                 .objByteFunction()
                 .build();
 
-            function.apply((T)Integer.valueOf(100),(byte)100);
+            function.doApply((T)Integer.valueOf(100),(byte)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

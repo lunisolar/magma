@@ -99,12 +99,12 @@ public final class LShortUnaryOperatorXBuilder<X extends Exception> extends PerC
 			final Case<LShortPredicateX<X>, LShortUnaryOperatorX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LShortUnaryOperatorX.lX((short s) -> {
 				for (Case<LShortPredicateX<X>, LShortUnaryOperatorX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(s)) {
-						return aCase.caseFunction().applyAsShort(s);
+					if (aCase.casePredicate().doTest(s)) {
+						return aCase.caseFunction().doApplyAsShort(s);
 					}
 				}
 
-				return eventuallyFinal.applyAsShort(s);
+				return eventuallyFinal.doApplyAsShort(s);
 			});
 		}
 

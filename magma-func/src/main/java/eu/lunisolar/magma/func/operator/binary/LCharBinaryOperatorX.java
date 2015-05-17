@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LCharBinaryOperatorX<X extends Exception> extends MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LCharBinaryOperatorX: char applyAsChar(char c1,char c2) throws X";
+	public static final String DESCRIPTION = "LCharBinaryOperatorX: char doApplyAsChar(char c1,char c2) throws X";
 
-	public char applyAsChar(char c1, char c2) throws X;
+	public char doApplyAsChar(char c1, char c2) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LCharBinaryOperatorX<X extends Exception> extends MetaOperator,
 
 	/** Captures arguments but delays the evaluation. */
 	default LCharSupplierX<X> capture(char c1, char c2) {
-		return () -> this.applyAsChar(c1, c2);
+		return () -> this.doApplyAsChar(c1, c2);
 	}
 
 	public static <X extends Exception> LCharBinaryOperatorX<X> constant(char r) {
@@ -81,7 +81,7 @@ public interface LCharBinaryOperatorX<X extends Exception> extends MetaOperator,
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default char nonNull(char c1, char c2) throws X {
-		return applyAsChar(c1, c2);
+		return doApplyAsChar(c1, c2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -96,7 +96,7 @@ public interface LCharBinaryOperatorX<X extends Exception> extends MetaOperator,
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LCharBinaryOperatorX<X> wrapX(final @Nonnull LCharBinaryOperator other) {
-		return other::applyAsChar;
+		return other::doApplyAsChar;
 	}
 
 	// </editor-fold>
@@ -129,7 +129,7 @@ public interface LCharBinaryOperatorX<X extends Exception> extends MetaOperator,
 	default LCharBinaryOperatorX<X> fromChar(@Nonnull final LCharUnaryOperatorX<X> before1, @Nonnull final LCharUnaryOperatorX<X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final char v1, final char v2) -> this.applyAsChar(before1.applyAsChar(v1), before2.applyAsChar(v2));
+		return (final char v1, final char v2) -> this.doApplyAsChar(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
 	}
 
 	/**
@@ -139,7 +139,7 @@ public interface LCharBinaryOperatorX<X extends Exception> extends MetaOperator,
 	default <V1, V2> LToCharBiFunctionX<V1, V2, X> from(@Nonnull final LToCharFunctionX<? super V1, X> before1, @Nonnull final LToCharFunctionX<? super V2, X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.applyAsChar(before1.applyAsChar(v1), before2.applyAsChar(v2));
+		return (V1 v1, V2 v2) -> this.doApplyAsChar(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
 	}
 
 	// </editor-fold>
@@ -150,7 +150,7 @@ public interface LCharBinaryOperatorX<X extends Exception> extends MetaOperator,
 	@Nonnull
 	default <V> LCharBiFunctionX<V, X> then(@Nonnull LCharFunctionX<? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c1, char c2) -> after.apply(this.applyAsChar(c1, c2));
+		return (char c1, char c2) -> after.doApply(this.doApplyAsChar(c1, c2));
 	}
 
 	// </editor-fold>
@@ -172,7 +172,7 @@ public interface LCharBinaryOperatorX<X extends Exception> extends MetaOperator,
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LCharBinaryOperator shove() {
 		LCharBinaryOperatorX<RuntimeException> exceptionCast = (LCharBinaryOperatorX<RuntimeException>) this;
-		return exceptionCast::applyAsChar;
+		return exceptionCast::doApplyAsChar;
 	}
 
 	// </editor-fold>
@@ -184,11 +184,11 @@ public interface LCharBinaryOperatorX<X extends Exception> extends MetaOperator,
 	public static <X extends Exception, E extends Exception, Y extends Exception> LCharBinaryOperatorX<Y> wrapException(@Nonnull final LCharBinaryOperatorX<X> other, Class<E> exception, LCharSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
 		return (char c1, char c2) -> {
 			try {
-				return other.applyAsChar(c1, c2);
+				return other.doApplyAsChar(c1, c2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsChar();
+						return supplier.doGetAsChar();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

@@ -61,7 +61,7 @@ public interface LIntSupplierXAssert<S extends LIntSupplierXAssert<S, A, RS, X>,
 
 		@Nonnull
 		public Evaluation<S, A, RS, Integer, Exception> doesGetAsInt() {
-			return evaluation(() -> assertFactory.apply((Integer) actual.getAsInt()));
+			return evaluation(() -> assertFactory.apply((Integer) actual.doGetAsInt()));
 		}
 
 		@Nonnull
@@ -72,7 +72,7 @@ public interface LIntSupplierXAssert<S extends LIntSupplierXAssert<S, A, RS, X>,
 
 		@Nonnull
 		public Evaluation<S, A, RS, Integer, Exception> doesGetAsInt(LAction before) {
-			before.execute();
+			before.doExecute();
 			return doesGetAsInt();
 		}
 	}

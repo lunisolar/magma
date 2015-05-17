@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LByteBinaryOperator extends LByteBinaryOperatorX<RuntimeException>, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LByteBinaryOperator: byte applyAsByte(byte b1,byte b2)";
+	public static final String DESCRIPTION = "LByteBinaryOperator: byte doApplyAsByte(byte b1,byte b2)";
 
-	// Ovverriding methods can cause problems with inference.
+	public byte doApplyAsByte(byte b1, byte b2);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LByteBinaryOperator extends LByteBinaryOperatorX<RuntimeExcepti
 
 	/** Captures arguments but delays the evaluation. */
 	default LByteSupplier capture(byte b1, byte b2) {
-		return () -> this.applyAsByte(b1, b2);
+		return () -> this.doApplyAsByte(b1, b2);
 	}
 
 	public static LByteBinaryOperator constant(byte r) {
@@ -81,7 +81,7 @@ public interface LByteBinaryOperator extends LByteBinaryOperatorX<RuntimeExcepti
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default byte nonNull(byte b1, byte b2) {
-		return applyAsByte(b1, b2);
+		return doApplyAsByte(b1, b2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -98,7 +98,7 @@ public interface LByteBinaryOperator extends LByteBinaryOperatorX<RuntimeExcepti
 	public static <X extends Exception> LByteBinaryOperator wrap(final @Nonnull LByteBinaryOperatorX<X> other) {
 		return (byte b1, byte b2) -> {
 			try {
-				return other.applyAsByte(b1, b2);
+				return other.doApplyAsByte(b1, b2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -135,7 +135,7 @@ public interface LByteBinaryOperator extends LByteBinaryOperatorX<RuntimeExcepti
 	default LByteBinaryOperator fromByte(@Nonnull final LByteUnaryOperator before1, @Nonnull final LByteUnaryOperator before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final byte v1, final byte v2) -> this.applyAsByte(before1.applyAsByte(v1), before2.applyAsByte(v2));
+		return (final byte v1, final byte v2) -> this.doApplyAsByte(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
 	}
 
 	/**
@@ -145,7 +145,7 @@ public interface LByteBinaryOperator extends LByteBinaryOperatorX<RuntimeExcepti
 	default <V1, V2> LToByteBiFunction<V1, V2> from(@Nonnull final LToByteFunction<? super V1> before1, @Nonnull final LToByteFunction<? super V2> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.applyAsByte(before1.applyAsByte(v1), before2.applyAsByte(v2));
+		return (V1 v1, V2 v2) -> this.doApplyAsByte(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
 	}
 
 	// </editor-fold>
@@ -156,7 +156,7 @@ public interface LByteBinaryOperator extends LByteBinaryOperatorX<RuntimeExcepti
 	@Nonnull
 	default <V> LByteBiFunction<V> then(@Nonnull LByteFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (byte b1, byte b2) -> after.apply(this.applyAsByte(b1, b2));
+		return (byte b1, byte b2) -> after.doApply(this.doApplyAsByte(b1, b2));
 	}
 
 	// </editor-fold>
@@ -189,11 +189,11 @@ public interface LByteBinaryOperator extends LByteBinaryOperatorX<RuntimeExcepti
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LByteBinaryOperator wrapException(@Nonnull final LByteBinaryOperator other, Class<E> exception, LByteSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (byte b1, byte b2) -> {
 			try {
-				return other.applyAsByte(b1, b2);
+				return other.doApplyAsByte(b1, b2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsByte();
+						return supplier.doGetAsByte();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

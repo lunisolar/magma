@@ -99,12 +99,12 @@ public final class LBooleanToDoubleFunctionBuilder extends PerCaseBuilderWithDou
 			final Case<LBooleanUnaryOperator, LBooleanToDoubleFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LBooleanToDoubleFunction.l((boolean b) -> {
 				for (Case<LBooleanUnaryOperator, LBooleanToDoubleFunction> aCase : casesArray) {
-					if (aCase.casePredicate().applyAsBoolean(b)) {
-						return aCase.caseFunction().applyAsDouble(b);
+					if (aCase.casePredicate().doApplyAsBoolean(b)) {
+						return aCase.caseFunction().doApplyAsDouble(b);
 					}
 				}
 
-				return eventuallyFinal.applyAsDouble(b);
+				return eventuallyFinal.doApplyAsDouble(b);
 			});
 		}
 

@@ -69,7 +69,7 @@ public class LFloatConsumerXBuilderTest<X extends ParseException>{
                 .floatConsumerX()
                 .build();
 
-            function.accept((float)100);
+            function.doAccept((float)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

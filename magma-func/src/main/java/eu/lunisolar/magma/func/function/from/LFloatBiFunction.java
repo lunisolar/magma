@@ -60,9 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LFloatBiFunction<R> extends LFloatBiFunctionX<R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LFloatBiFunction: R apply(float f1,float f2)";
+	public static final String DESCRIPTION = "LFloatBiFunction: R doApply(float f1,float f2)";
 
-	// Ovverriding methods can cause problems with inference.
+	@Nullable
+	public R doApply(float f1, float f2);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +73,7 @@ public interface LFloatBiFunction<R> extends LFloatBiFunctionX<R, RuntimeExcepti
 
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(float f1, float f2) {
-		return () -> this.apply(f1, f2);
+		return () -> this.doApply(f1, f2);
 	}
 
 	public static <R> LFloatBiFunction<R> constant(R r) {
@@ -84,7 +85,7 @@ public interface LFloatBiFunction<R> extends LFloatBiFunctionX<R, RuntimeExcepti
 	/** Ensures the result is not null */
 	@Nonnull
 	default R nonNull(float f1, float f2) {
-		return Objects.requireNonNull(apply(f1, f2), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Objects.requireNonNull(doApply(f1, f2), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -101,7 +102,7 @@ public interface LFloatBiFunction<R> extends LFloatBiFunctionX<R, RuntimeExcepti
 	public static <R, X extends Exception> LFloatBiFunction<R> wrap(final @Nonnull LFloatBiFunctionX<R, X> other) {
 		return (float f1, float f2) -> {
 			try {
-				return other.apply(f1, f2);
+				return other.doApply(f1, f2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -119,7 +120,7 @@ public interface LFloatBiFunction<R> extends LFloatBiFunctionX<R, RuntimeExcepti
 	default LFloatBiFunction<R> fromFloat(@Nonnull final LFloatUnaryOperator before1, @Nonnull final LFloatUnaryOperator before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final float v1, final float v2) -> this.apply(before1.applyAsFloat(v1), before2.applyAsFloat(v2));
+		return (final float v1, final float v2) -> this.doApply(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
 	}
 
 	/**
@@ -129,7 +130,7 @@ public interface LFloatBiFunction<R> extends LFloatBiFunctionX<R, RuntimeExcepti
 	default <V1, V2> LBiFunction<V1, V2, R> from(@Nonnull final LToFloatFunction<? super V1> before1, @Nonnull final LToFloatFunction<? super V2> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.apply(before1.applyAsFloat(v1), before2.applyAsFloat(v2));
+		return (V1 v1, V2 v2) -> this.doApply(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
 	}
 
 	// </editor-fold>
@@ -140,14 +141,14 @@ public interface LFloatBiFunction<R> extends LFloatBiFunctionX<R, RuntimeExcepti
 	@Nonnull
 	default <V> LFloatBiFunction<V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f1, float f2) -> after.apply(this.apply(f1, f2));
+		return (float f1, float f2) -> after.doApply(this.doApply(f1, f2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatBiConsumer then(@Nonnull LConsumer<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f1, float f2) -> after.accept(this.apply(f1, f2));
+		return (float f1, float f2) -> after.doAccept(this.doApply(f1, f2));
 	}
 
 	// </editor-fold>
@@ -175,7 +176,7 @@ public interface LFloatBiFunction<R> extends LFloatBiFunctionX<R, RuntimeExcepti
 
 	@Nonnull
 	default LFloatBiFunction<R> nonNullable() {
-		return (f1, f2) -> Objects.requireNonNull(this.apply(f1, f2));
+		return (f1, f2) -> Objects.requireNonNull(this.doApply(f1, f2));
 	}
 
 	// <editor-fold desc="exception handling">
@@ -185,11 +186,11 @@ public interface LFloatBiFunction<R> extends LFloatBiFunctionX<R, RuntimeExcepti
 	public static <R, X extends Exception, E extends Exception, Y extends RuntimeException> LFloatBiFunction<R> wrapException(@Nonnull final LFloatBiFunction<R> other, Class<E> exception, LSupplier<R> supplier, ExceptionHandler<E, Y> handler) {
 		return (float f1, float f2) -> {
 			try {
-				return other.apply(f1, f2);
+				return other.doApply(f1, f2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.get();
+						return supplier.doGet();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

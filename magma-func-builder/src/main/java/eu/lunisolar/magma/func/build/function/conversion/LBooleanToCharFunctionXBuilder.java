@@ -99,12 +99,12 @@ public final class LBooleanToCharFunctionXBuilder<X extends Exception> extends P
 			final Case<LBooleanUnaryOperatorX<X>, LBooleanToCharFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LBooleanToCharFunctionX.lX((boolean b) -> {
 				for (Case<LBooleanUnaryOperatorX<X>, LBooleanToCharFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().applyAsBoolean(b)) {
-						return aCase.caseFunction().applyAsChar(b);
+					if (aCase.casePredicate().doApplyAsBoolean(b)) {
+						return aCase.caseFunction().doApplyAsChar(b);
 					}
 				}
 
-				return eventuallyFinal.applyAsChar(b);
+				return eventuallyFinal.doApplyAsChar(b);
 			});
 		}
 

@@ -98,7 +98,7 @@ public final class DoubleUnaryOperatorBuilder extends PerCaseBuilderWithDoublePr
 			final Case<LDoublePredicate, java.util.function.DoubleUnaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = Function4U.l((double d) -> {
 				for (Case<LDoublePredicate, java.util.function.DoubleUnaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().test(d)) {
+					if (aCase.casePredicate().doTest(d)) {
 						return aCase.caseFunction().applyAsDouble(d);
 					}
 				}

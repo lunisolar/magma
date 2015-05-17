@@ -69,7 +69,7 @@ public class LToDoubleFunctionBuilderTest<T,X extends ParseException>{
                 .toDoubleFunction()
                 .build();
 
-            function.applyAsDouble((T)Integer.valueOf(100));
+            function.doApplyAsDouble((T)Integer.valueOf(100));
 
             fail("No exception were thrown.");
         } catch (Exception e) {

@@ -99,12 +99,12 @@ public final class LShortBinaryOperatorXBuilder<X extends Exception> extends Per
 			final Case<LBiShortPredicateX<X>, LShortBinaryOperatorX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LShortBinaryOperatorX.lX((short s1, short s2) -> {
 				for (Case<LBiShortPredicateX<X>, LShortBinaryOperatorX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(s1, s2)) {
-						return aCase.caseFunction().applyAsShort(s1, s2);
+					if (aCase.casePredicate().doTest(s1, s2)) {
+						return aCase.caseFunction().doApplyAsShort(s1, s2);
 					}
 				}
 
-				return eventuallyFinal.applyAsShort(s1, s2);
+				return eventuallyFinal.doApplyAsShort(s1, s2);
 			});
 		}
 

@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LShortSupplier extends LShortSupplierX<RuntimeException>, MetaSupplier, PrimitiveCodomain<Object>, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LShortSupplier: short getAsShort()";
+	public static final String DESCRIPTION = "LShortSupplier: short doGetAsShort()";
 
-	// Ovverriding methods can cause problems with inference.
+	public short doGetAsShort();
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -76,7 +76,7 @@ public interface LShortSupplier extends LShortSupplierX<RuntimeException>, MetaS
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default short nonNull() {
-		return getAsShort();
+		return doGetAsShort();
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -93,7 +93,7 @@ public interface LShortSupplier extends LShortSupplierX<RuntimeException>, MetaS
 	public static <X extends Exception> LShortSupplier wrap(final @Nonnull LShortSupplierX<X> other) {
 		return () -> {
 			try {
-				return other.getAsShort();
+				return other.doGetAsShort();
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -108,63 +108,63 @@ public interface LShortSupplier extends LShortSupplierX<RuntimeException>, MetaS
 	@Nonnull
 	default <V> LSupplier<V> then(@Nonnull LShortFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.apply(this.getAsShort());
+		return () -> after.doApply(this.doGetAsShort());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LByteSupplier thenToByte(@Nonnull LShortToByteFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsByte(this.getAsShort());
+		return () -> after.doApplyAsByte(this.doGetAsShort());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LShortSupplier thenToShort(@Nonnull LShortUnaryOperator after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsShort(this.getAsShort());
+		return () -> after.doApplyAsShort(this.doGetAsShort());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LIntSupplier thenToInt(@Nonnull LShortToIntFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsInt(this.getAsShort());
+		return () -> after.doApplyAsInt(this.doGetAsShort());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LLongSupplier thenToLong(@Nonnull LShortToLongFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsLong(this.getAsShort());
+		return () -> after.doApplyAsLong(this.doGetAsShort());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LFloatSupplier thenToFloat(@Nonnull LShortToFloatFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsFloat(this.getAsShort());
+		return () -> after.doApplyAsFloat(this.doGetAsShort());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LDoubleSupplier thenToDouble(@Nonnull LShortToDoubleFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsDouble(this.getAsShort());
+		return () -> after.doApplyAsDouble(this.doGetAsShort());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LCharSupplier thenToChar(@Nonnull LShortToCharFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsChar(this.getAsShort());
+		return () -> after.doApplyAsChar(this.doGetAsShort());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LBooleanSupplier thenToBoolean(@Nonnull LShortPredicate after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.test(this.getAsShort());
+		return () -> after.doTest(this.doGetAsShort());
 	}
 
 	// </editor-fold>
@@ -197,11 +197,11 @@ public interface LShortSupplier extends LShortSupplierX<RuntimeException>, MetaS
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LShortSupplier wrapException(@Nonnull final LShortSupplier other, Class<E> exception, LShortSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return () -> {
 			try {
-				return other.getAsShort();
+				return other.doGetAsShort();
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsShort();
+						return supplier.doGetAsShort();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

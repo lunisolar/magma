@@ -99,12 +99,12 @@ public final class LObjLongFunctionBuilder<T, R> extends PerCaseBuilderWithProdu
 			final Case<LObjLongPredicate<T>, LObjLongFunction<T, R>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LObjLongFunction.l((T t, long l) -> {
 				for (Case<LObjLongPredicate<T>, LObjLongFunction<T, R>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t, l)) {
-						return aCase.caseFunction().apply(t, l);
+					if (aCase.casePredicate().doTest(t, l)) {
+						return aCase.caseFunction().doApply(t, l);
 					}
 				}
 
-				return eventuallyFinal.apply(t, l);
+				return eventuallyFinal.doApply(t, l);
 			});
 		}
 

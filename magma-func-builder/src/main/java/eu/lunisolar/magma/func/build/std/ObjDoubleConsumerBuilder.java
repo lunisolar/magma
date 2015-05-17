@@ -98,7 +98,7 @@ public final class ObjDoubleConsumerBuilder<T> extends PerCaseBuilder.Base<ObjDo
 			final Case<LObjDoublePredicate<T>, java.util.function.ObjDoubleConsumer<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = Function4U.l((T t, double d) -> {
 				for (Case<LObjDoublePredicate<T>, java.util.function.ObjDoubleConsumer<T>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t, d)) {
+					if (aCase.casePredicate().doTest(t, d)) {
 						aCase.caseFunction().accept(t, d);
 						return;
 					}

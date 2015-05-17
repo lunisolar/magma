@@ -99,12 +99,12 @@ public final class LIntToShortFunctionBuilder extends PerCaseBuilderWithShortPro
 			final Case<LIntPredicate, LIntToShortFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LIntToShortFunction.l((int i) -> {
 				for (Case<LIntPredicate, LIntToShortFunction> aCase : casesArray) {
-					if (aCase.casePredicate().test(i)) {
-						return aCase.caseFunction().applyAsShort(i);
+					if (aCase.casePredicate().doTest(i)) {
+						return aCase.caseFunction().doApplyAsShort(i);
 					}
 				}
 
-				return eventuallyFinal.applyAsShort(i);
+				return eventuallyFinal.doApplyAsShort(i);
 			});
 		}
 

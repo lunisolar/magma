@@ -61,19 +61,19 @@ public class LSupplierXTest<R,X extends ParseException> {
 
 
     private LSupplierX<R,X> sut = new LSupplierX(){
-        public @Nullable Object  get() throws ParseException {
+        public @Nullable Object  doGet() throws ParseException {
             return testValue;
         }
     };
 
     private LSupplier<R> opposite = new LSupplier(){
-        public @Nullable Object  get()  {
+        public @Nullable Object  doGet()  {
             return testValue;
         }
     };
 
     private LSupplierX<R,X> sutNull = new LSupplierX(){
-        public @Nullable Object  get() throws ParseException {
+        public @Nullable Object  doGet() throws ParseException {
             return null;
         }
     };
@@ -84,7 +84,7 @@ public class LSupplierXTest<R,X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.get())
+        assertThat(sut.doGet())
             .isSameAs(testValue);
     }
 
@@ -94,7 +94,7 @@ public class LSupplierXTest<R,X extends ParseException> {
             .isSameAs(testValue);
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LSupplierX: R get() throws X).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LSupplierX: R doGet() throws X).\\E")
     public void testNonNullCapturesNull() throws ParseException {
         sutNull.nonNull();
     }
@@ -103,7 +103,7 @@ public class LSupplierXTest<R,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LSupplierX: R get() throws X");
+            .isEqualTo("LSupplierX: R doGet() throws X");
     }
 
     @Test
@@ -140,7 +140,7 @@ public class LSupplierXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.get();
+            wrapped.doGet();
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -165,7 +165,7 @@ public class LSupplierXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.get();
+            wrapped.doGet();
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -189,7 +189,7 @@ public class LSupplierXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.get();
+            wrapped.doGet();
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -226,7 +226,7 @@ public class LSupplierXTest<R,X extends ParseException> {
 
         //when
         LSupplierX<Integer ,X> function = sutO.then(thenFunction);
-        Integer  finalValue = function.get();
+        Integer  finalValue = function.doGet();
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -258,7 +258,7 @@ public class LSupplierXTest<R,X extends ParseException> {
 
         //when
         LActionX<X> function = sutO.then(thenFunction);
-        function.execute();
+        function.doExecute();
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -291,7 +291,7 @@ public class LSupplierXTest<R,X extends ParseException> {
 
         //when
         LByteSupplierX<X> function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.getAsByte();
+        byte finalValue = function.doGetAsByte();
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -325,7 +325,7 @@ public class LSupplierXTest<R,X extends ParseException> {
 
         //when
         LShortSupplierX<X> function = sutO.thenToShort(thenFunction);
-        short finalValue = function.getAsShort();
+        short finalValue = function.doGetAsShort();
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -359,7 +359,7 @@ public class LSupplierXTest<R,X extends ParseException> {
 
         //when
         LIntSupplierX<X> function = sutO.thenToInt(thenFunction);
-        int finalValue = function.getAsInt();
+        int finalValue = function.doGetAsInt();
 
         //then - finals
         assertThat(finalValue).isEqualTo((int)100);
@@ -393,7 +393,7 @@ public class LSupplierXTest<R,X extends ParseException> {
 
         //when
         LLongSupplierX<X> function = sutO.thenToLong(thenFunction);
-        long finalValue = function.getAsLong();
+        long finalValue = function.doGetAsLong();
 
         //then - finals
         assertThat(finalValue).isEqualTo((long)100);
@@ -427,7 +427,7 @@ public class LSupplierXTest<R,X extends ParseException> {
 
         //when
         LFloatSupplierX<X> function = sutO.thenToFloat(thenFunction);
-        float finalValue = function.getAsFloat();
+        float finalValue = function.doGetAsFloat();
 
         //then - finals
         assertThat(finalValue).isEqualTo((float)100);
@@ -461,7 +461,7 @@ public class LSupplierXTest<R,X extends ParseException> {
 
         //when
         LDoubleSupplierX<X> function = sutO.thenToDouble(thenFunction);
-        double finalValue = function.getAsDouble();
+        double finalValue = function.doGetAsDouble();
 
         //then - finals
         assertThat(finalValue).isEqualTo((double)100);
@@ -495,7 +495,7 @@ public class LSupplierXTest<R,X extends ParseException> {
 
         //when
         LCharSupplierX<X> function = sutO.thenToChar(thenFunction);
-        char finalValue = function.getAsChar();
+        char finalValue = function.doGetAsChar();
 
         //then - finals
         assertThat(finalValue).isEqualTo((char)100);
@@ -529,7 +529,7 @@ public class LSupplierXTest<R,X extends ParseException> {
 
         //when
         LBooleanSupplierX<X> function = sutO.thenToBoolean(thenFunction);
-        boolean finalValue = function.getAsBoolean();
+        boolean finalValue = function.doGetAsBoolean();
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -565,7 +565,7 @@ public class LSupplierXTest<R,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().get();
+        sutThrowing.shove().doGet();
     }
 
     @Test
@@ -583,7 +583,7 @@ public class LSupplierXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.get();
+            wrapped.doGet();
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -602,7 +602,7 @@ public class LSupplierXTest<R,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LSupplierX: R get() throws X");
+                .contains("LSupplierX: R doGet() throws X");
     }
 
 

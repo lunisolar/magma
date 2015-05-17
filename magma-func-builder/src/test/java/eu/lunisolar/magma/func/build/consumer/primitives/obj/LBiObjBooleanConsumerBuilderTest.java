@@ -69,7 +69,7 @@ public class LBiObjBooleanConsumerBuilderTest<T1,T2,X extends ParseException>{
                 .biObjBooleanConsumer()
                 .build();
 
-            function.accept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),true);
+            function.doAccept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),true);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

@@ -59,13 +59,13 @@ public class LShortConsumerTest<X extends ParseException> {
 
 
     private LShortConsumer sut = new LShortConsumer(){
-        public  void accept(short s)  {
+        public  void doAccept(short s)  {
             Function4U.doNothing();
         }
     };
 
     private LShortConsumerX<X> opposite = new LShortConsumerX(){
-        public  void accept(short s) throws ParseException {
+        public  void doAccept(short s) throws ParseException {
             Function4U.doNothing();
         }
     };
@@ -77,7 +77,7 @@ public class LShortConsumerTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LShortConsumer: void accept(short s)");
+            .isEqualTo("LShortConsumer: void doAccept(short s)");
     }
 
     @Test
@@ -104,7 +104,7 @@ public class LShortConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((short)100);
+            wrapped.doAccept((short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -126,7 +126,7 @@ public class LShortConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((short)100);
+            wrapped.doAccept((short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -152,7 +152,7 @@ public class LShortConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((short)100);
+            wrapped.doAccept((short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -177,7 +177,7 @@ public class LShortConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((short)100);
+            wrapped.doAccept((short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -201,7 +201,7 @@ public class LShortConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((short)100);
+            wrapped.doAccept((short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -235,7 +235,7 @@ public class LShortConsumerTest<X extends ParseException> {
 
         //when
         LShortConsumer function = sutO.fromShort(before1);
-        function.accept((short)80);
+        function.doAccept((short)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -263,7 +263,7 @@ public class LShortConsumerTest<X extends ParseException> {
 
         //when
         LConsumer<Integer > function = sutO.from(before1);
-        function.accept((Integer )Integer.valueOf(80));
+        function.doAccept((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -291,7 +291,7 @@ public class LShortConsumerTest<X extends ParseException> {
 
         //when
         LShortConsumer function = sutO.andThen(thenFunction);
-        function.accept((short)80);
+        function.doAccept((short)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -317,7 +317,7 @@ public class LShortConsumerTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().accept((short)100);
+        sutThrowing.shove().doAccept((short)100);
     }
 
     @Test
@@ -335,7 +335,7 @@ public class LShortConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((short)100);
+            wrapped.doAccept((short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -354,7 +354,7 @@ public class LShortConsumerTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LShortConsumer: void accept(short s)");
+                .contains("LShortConsumer: void doAccept(short s)");
     }
 
 

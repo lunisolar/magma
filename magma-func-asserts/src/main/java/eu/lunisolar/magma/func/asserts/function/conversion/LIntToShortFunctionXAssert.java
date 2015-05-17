@@ -63,7 +63,7 @@ public interface LIntToShortFunctionXAssert<S extends LIntToShortFunctionXAssert
 
 		@Nonnull
 		public Evaluation<S, A, RS, Short, Exception> doesApplyAsShort(int i) {
-			return evaluation(() -> assertFactory.apply((Short) actual.applyAsShort(i)));
+			return evaluation(() -> assertFactory.apply((Short) actual.doApplyAsShort(i)));
 		}
 
 	}

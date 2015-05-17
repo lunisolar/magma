@@ -69,7 +69,7 @@ public class LToFloatFunctionBuilderTest<T,X extends ParseException>{
                 .toFloatFunction()
                 .build();
 
-            function.applyAsFloat((T)Integer.valueOf(100));
+            function.doApplyAsFloat((T)Integer.valueOf(100));
 
             fail("No exception were thrown.");
         } catch (Exception e) {

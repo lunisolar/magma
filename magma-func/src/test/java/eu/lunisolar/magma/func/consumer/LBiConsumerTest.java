@@ -59,13 +59,13 @@ public class LBiConsumerTest<T1,T2,X extends ParseException> {
 
 
     private LBiConsumer<T1,T2> sut = new LBiConsumer(){
-        public  void accept(Object t1,Object t2)  {
+        public  void doAccept(Object t1,Object t2)  {
             Function4U.doNothing();
         }
     };
 
     private LBiConsumerX<T1,T2,X> opposite = new LBiConsumerX(){
-        public  void accept(Object t1,Object t2) throws ParseException {
+        public  void doAccept(Object t1,Object t2) throws ParseException {
             Function4U.doNothing();
         }
     };
@@ -79,7 +79,7 @@ public class LBiConsumerTest<T1,T2,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBiConsumer: void accept(T1 t1,T2 t2)");
+            .isEqualTo("LBiConsumer: void doAccept(T1 t1,T2 t2)");
     }
 
     @Test
@@ -112,7 +112,7 @@ public class LBiConsumerTest<T1,T2,X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            wrapped.doAccept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -134,7 +134,7 @@ public class LBiConsumerTest<T1,T2,X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            wrapped.doAccept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -160,7 +160,7 @@ public class LBiConsumerTest<T1,T2,X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            wrapped.doAccept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -185,7 +185,7 @@ public class LBiConsumerTest<T1,T2,X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            wrapped.doAccept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -209,7 +209,7 @@ public class LBiConsumerTest<T1,T2,X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            wrapped.doAccept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -249,7 +249,7 @@ public class LBiConsumerTest<T1,T2,X extends ParseException> {
 
         //when
         LBiConsumer<Integer ,Integer > function = sutO.from(before1,before2);
-        function.accept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        function.doAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -279,7 +279,7 @@ public class LBiConsumerTest<T1,T2,X extends ParseException> {
 
         //when
         LBiConsumer<Integer ,Integer > function = sutO.andThen(thenFunction);
-        function.accept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        function.doAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -310,7 +310,7 @@ public class LBiConsumerTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().accept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+        sutThrowing.shove().doAccept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
     }
 
     @Test
@@ -328,7 +328,7 @@ public class LBiConsumerTest<T1,T2,X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            wrapped.doAccept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -347,7 +347,7 @@ public class LBiConsumerTest<T1,T2,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBiConsumer: void accept(T1 t1,T2 t2)");
+                .contains("LBiConsumer: void doAccept(T1 t1,T2 t2)");
     }
 
 

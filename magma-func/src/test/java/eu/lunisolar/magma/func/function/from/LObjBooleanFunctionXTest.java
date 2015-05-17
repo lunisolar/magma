@@ -61,19 +61,19 @@ public class LObjBooleanFunctionXTest<T,R,X extends ParseException> {
 
 
     private LObjBooleanFunctionX<T,R,X> sut = new LObjBooleanFunctionX(){
-        public @Nullable Object  apply(Object t, boolean b) throws ParseException {
+        public @Nullable Object  doApply(Object t, boolean b) throws ParseException {
             return testValue;
         }
     };
 
     private LObjBooleanFunction<T,R> opposite = new LObjBooleanFunction(){
-        public @Nullable Object  apply(Object t, boolean b)  {
+        public @Nullable Object  doApply(Object t, boolean b)  {
             return testValue;
         }
     };
 
     private LObjBooleanFunctionX<T,R,X> sutNull = new LObjBooleanFunctionX(){
-        public @Nullable Object  apply(Object t, boolean b) throws ParseException {
+        public @Nullable Object  doApply(Object t, boolean b) throws ParseException {
             return null;
         }
     };
@@ -82,7 +82,7 @@ public class LObjBooleanFunctionXTest<T,R,X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.apply((T)Integer.valueOf(100),true))
+        assertThat(sut.doApply((T)Integer.valueOf(100),true))
             .isSameAs(testValue);
     }
 
@@ -92,7 +92,7 @@ public class LObjBooleanFunctionXTest<T,R,X extends ParseException> {
             .isSameAs(testValue);
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LObjBooleanFunctionX: R apply(T t, boolean b) throws X).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LObjBooleanFunctionX: R doApply(T t, boolean b) throws X).\\E")
     public void testNonNullCapturesNull() throws ParseException {
         sutNull.nonNull((T)Integer.valueOf(100),true);
     }
@@ -101,7 +101,7 @@ public class LObjBooleanFunctionXTest<T,R,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LObjBooleanFunctionX: R apply(T t, boolean b) throws X");
+            .isEqualTo("LObjBooleanFunctionX: R doApply(T t, boolean b) throws X");
     }
 
     @Test
@@ -132,7 +132,7 @@ public class LObjBooleanFunctionXTest<T,R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T)Integer.valueOf(100),true);
+            wrapped.doApply((T)Integer.valueOf(100),true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -157,7 +157,7 @@ public class LObjBooleanFunctionXTest<T,R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T)Integer.valueOf(100),true);
+            wrapped.doApply((T)Integer.valueOf(100),true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -181,7 +181,7 @@ public class LObjBooleanFunctionXTest<T,R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T)Integer.valueOf(100),true);
+            wrapped.doApply((T)Integer.valueOf(100),true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -222,7 +222,7 @@ public class LObjBooleanFunctionXTest<T,R,X extends ParseException> {
 
         //when
         LObjBooleanFunctionX<Integer ,Integer ,X> function = sutO.fromBoolean(before1,before2);
-        function.apply((Integer )Integer.valueOf(80),true);
+        function.doApply((Integer )Integer.valueOf(80),true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -257,7 +257,7 @@ public class LObjBooleanFunctionXTest<T,R,X extends ParseException> {
 
         //when
         LBiFunctionX<Integer ,Integer ,Integer ,X> function = sutO.from(before1,before2);
-        function.apply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        function.doApply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -294,7 +294,7 @@ public class LObjBooleanFunctionXTest<T,R,X extends ParseException> {
 
         //when
         LObjBooleanFunctionX<Integer ,Integer ,X> function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((Integer )Integer.valueOf(80),true);
+        Integer  finalValue = function.doApply((Integer )Integer.valueOf(80),true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -328,7 +328,7 @@ public class LObjBooleanFunctionXTest<T,R,X extends ParseException> {
 
         //when
         LObjBooleanConsumerX<Integer ,X> function = sutO.then(thenFunction);
-        function.accept((Integer )Integer.valueOf(80),true);
+        function.doAccept((Integer )Integer.valueOf(80),true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -358,7 +358,7 @@ public class LObjBooleanFunctionXTest<T,R,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().apply((T)Integer.valueOf(100),true);
+        sutThrowing.shove().doApply((T)Integer.valueOf(100),true);
     }
 
     @Test
@@ -376,7 +376,7 @@ public class LObjBooleanFunctionXTest<T,R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T)Integer.valueOf(100),true);
+            wrapped.doApply((T)Integer.valueOf(100),true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -395,7 +395,7 @@ public class LObjBooleanFunctionXTest<T,R,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LObjBooleanFunctionX: R apply(T t, boolean b) throws X");
+                .contains("LObjBooleanFunctionX: R doApply(T t, boolean b) throws X");
     }
 
 

@@ -60,9 +60,13 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LToLongFunction<T> extends java.util.function.ToLongFunction<T>, LToLongFunctionX<T, RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LToLongFunction: long applyAsLong(T t)";
+	public static final String DESCRIPTION = "LToLongFunction: long doApplyAsLong(T t)";
 
-	// Ovverriding methods can cause problems with inference.
+	public long doApplyAsLong(T t);
+
+	default long applyAsLong(T t) {
+		return doApplyAsLong(t);
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +76,7 @@ public interface LToLongFunction<T> extends java.util.function.ToLongFunction<T>
 
 	/** Captures arguments but delays the evaluation. */
 	default LLongSupplier capture(T t) {
-		return () -> this.applyAsLong(t);
+		return () -> this.doApplyAsLong(t);
 	}
 
 	public static <T> LToLongFunction<T> constant(long r) {
@@ -81,7 +85,7 @@ public interface LToLongFunction<T> extends java.util.function.ToLongFunction<T>
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default long nonNull(T t) {
-		return applyAsLong(t);
+		return doApplyAsLong(t);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -104,7 +108,7 @@ public interface LToLongFunction<T> extends java.util.function.ToLongFunction<T>
 	public static <T, X extends Exception> LToLongFunction<T> wrap(final @Nonnull LToLongFunctionX<T, X> other) {
 		return (T t) -> {
 			try {
-				return other.applyAsLong(t);
+				return other.doApplyAsLong(t);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -121,7 +125,7 @@ public interface LToLongFunction<T> extends java.util.function.ToLongFunction<T>
 	@Nonnull
 	default <V1> LToLongFunction<V1> from(@Nonnull final LFunction<? super V1, ? extends T> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final V1 v1) -> this.applyAsLong(before1.apply(v1));
+		return (final V1 v1) -> this.doApplyAsLong(before1.doApply(v1));
 	}
 
 	// </editor-fold>
@@ -132,63 +136,63 @@ public interface LToLongFunction<T> extends java.util.function.ToLongFunction<T>
 	@Nonnull
 	default <V> LFunction<T, V> then(@Nonnull LLongFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.apply(this.applyAsLong(t));
+		return (T t) -> after.doApply(this.doApplyAsLong(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToByteFunction<T> thenToByte(@Nonnull LLongToByteFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsByte(this.applyAsLong(t));
+		return (T t) -> after.doApplyAsByte(this.doApplyAsLong(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToShortFunction<T> thenToShort(@Nonnull LLongToShortFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsShort(this.applyAsLong(t));
+		return (T t) -> after.doApplyAsShort(this.doApplyAsLong(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToIntFunction<T> thenToInt(@Nonnull LLongToIntFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsInt(this.applyAsLong(t));
+		return (T t) -> after.doApplyAsInt(this.doApplyAsLong(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToLongFunction<T> thenToLong(@Nonnull LLongUnaryOperator after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsLong(this.applyAsLong(t));
+		return (T t) -> after.doApplyAsLong(this.doApplyAsLong(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToFloatFunction<T> thenToFloat(@Nonnull LLongToFloatFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsFloat(this.applyAsLong(t));
+		return (T t) -> after.doApplyAsFloat(this.doApplyAsLong(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToDoubleFunction<T> thenToDouble(@Nonnull LLongToDoubleFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsDouble(this.applyAsLong(t));
+		return (T t) -> after.doApplyAsDouble(this.doApplyAsLong(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToCharFunction<T> thenToChar(@Nonnull LLongToCharFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsChar(this.applyAsLong(t));
+		return (T t) -> after.doApplyAsChar(this.doApplyAsLong(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LPredicate<T> thenToBoolean(@Nonnull LLongPredicate after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.test(this.applyAsLong(t));
+		return (T t) -> after.doTest(this.doApplyAsLong(t));
 	}
 
 	// </editor-fold>
@@ -227,11 +231,11 @@ public interface LToLongFunction<T> extends java.util.function.ToLongFunction<T>
 	public static <T, X extends Exception, E extends Exception, Y extends RuntimeException> LToLongFunction<T> wrapException(@Nonnull final LToLongFunction<T> other, Class<E> exception, LLongSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (T t) -> {
 			try {
-				return other.applyAsLong(t);
+				return other.doApplyAsLong(t);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsLong();
+						return supplier.doGetAsLong();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

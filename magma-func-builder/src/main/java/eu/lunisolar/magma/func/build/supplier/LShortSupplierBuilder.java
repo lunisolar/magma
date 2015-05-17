@@ -99,12 +99,12 @@ public final class LShortSupplierBuilder extends PerCaseBuilderWithShortProduct.
 			final Case<LBooleanSupplier, LShortSupplier>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LShortSupplier.l(() -> {
 				for (Case<LBooleanSupplier, LShortSupplier> aCase : casesArray) {
-					if (aCase.casePredicate().getAsBoolean()) {
-						return aCase.caseFunction().getAsShort();
+					if (aCase.casePredicate().doGetAsBoolean()) {
+						return aCase.caseFunction().doGetAsShort();
 					}
 				}
 
-				return eventuallyFinal.getAsShort();
+				return eventuallyFinal.doGetAsShort();
 			});
 		}
 

@@ -60,10 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LLongFunctionX<R, X extends Exception> extends MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LLongFunctionX: R apply(long l) throws X";
+	public static final String DESCRIPTION = "LLongFunctionX: R doApply(long l) throws X";
 
 	@Nullable
-	public R apply(long l) throws X;
+	public R doApply(long l) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +73,7 @@ public interface LLongFunctionX<R, X extends Exception> extends MetaFunction, Me
 
 	/** Captures arguments but delays the evaluation. */
 	default LSupplierX<R, X> capture(long l) {
-		return () -> this.apply(l);
+		return () -> this.doApply(l);
 	}
 
 	public static <R, X extends Exception> LLongFunctionX<R, X> constant(R r) {
@@ -85,7 +85,7 @@ public interface LLongFunctionX<R, X extends Exception> extends MetaFunction, Me
 	/** Ensures the result is not null */
 	@Nonnull
 	default R nonNull(long l) throws X {
-		return Objects.requireNonNull(apply(l), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Objects.requireNonNull(doApply(l), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -106,7 +106,7 @@ public interface LLongFunctionX<R, X extends Exception> extends MetaFunction, Me
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <R, X extends Exception> LLongFunctionX<R, X> wrapX(final @Nonnull LLongFunction<R> other) {
-		return other::apply;
+		return other::doApply;
 	}
 
 	// </editor-fold>
@@ -119,7 +119,7 @@ public interface LLongFunctionX<R, X extends Exception> extends MetaFunction, Me
 	@Nonnull
 	default LLongFunctionX<R, X> fromLong(@Nonnull final LLongUnaryOperatorX<X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final long v1) -> this.apply(before1.applyAsLong(v1));
+		return (final long v1) -> this.doApply(before1.doApplyAsLong(v1));
 	}
 
 	/**
@@ -128,7 +128,7 @@ public interface LLongFunctionX<R, X extends Exception> extends MetaFunction, Me
 	@Nonnull
 	default <V1> LFunctionX<V1, R, X> from(@Nonnull final LToLongFunctionX<? super V1, X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.apply(before1.applyAsLong(v1));
+		return (V1 v1) -> this.doApply(before1.doApplyAsLong(v1));
 	}
 
 	// </editor-fold>
@@ -139,70 +139,70 @@ public interface LLongFunctionX<R, X extends Exception> extends MetaFunction, Me
 	@Nonnull
 	default <V> LLongFunctionX<V, X> then(@Nonnull LFunctionX<? super R, ? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.apply(this.apply(l));
+		return (long l) -> after.doApply(this.doApply(l));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongConsumerX<X> then(@Nonnull LConsumerX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.accept(this.apply(l));
+		return (long l) -> after.doAccept(this.doApply(l));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToByteFunctionX<X> thenToByte(@Nonnull LToByteFunctionX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.applyAsByte(this.apply(l));
+		return (long l) -> after.doApplyAsByte(this.doApply(l));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToShortFunctionX<X> thenToShort(@Nonnull LToShortFunctionX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.applyAsShort(this.apply(l));
+		return (long l) -> after.doApplyAsShort(this.doApply(l));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToIntFunctionX<X> thenToInt(@Nonnull LToIntFunctionX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.applyAsInt(this.apply(l));
+		return (long l) -> after.doApplyAsInt(this.doApply(l));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongUnaryOperatorX<X> thenToLong(@Nonnull LToLongFunctionX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.applyAsLong(this.apply(l));
+		return (long l) -> after.doApplyAsLong(this.doApply(l));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToFloatFunctionX<X> thenToFloat(@Nonnull LToFloatFunctionX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.applyAsFloat(this.apply(l));
+		return (long l) -> after.doApplyAsFloat(this.doApply(l));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToDoubleFunctionX<X> thenToDouble(@Nonnull LToDoubleFunctionX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.applyAsDouble(this.apply(l));
+		return (long l) -> after.doApplyAsDouble(this.doApply(l));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToCharFunctionX<X> thenToChar(@Nonnull LToCharFunctionX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.applyAsChar(this.apply(l));
+		return (long l) -> after.doApplyAsChar(this.doApply(l));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongPredicateX<X> thenToBoolean(@Nonnull LPredicateX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.test(this.apply(l));
+		return (long l) -> after.doTest(this.doApply(l));
 	}
 
 	// </editor-fold>
@@ -212,7 +212,7 @@ public interface LLongFunctionX<R, X extends Exception> extends MetaFunction, Me
 	/** Converts to JRE variant. */
 	@Nonnull
 	default java.util.function.LongFunction<R> std() {
-		return LLongFunction.wrap(this)::apply;
+		return LLongFunction.wrap(this)::doApply;
 	}
 
 	/** Converts to non-throwing variant (if required). */
@@ -230,14 +230,14 @@ public interface LLongFunctionX<R, X extends Exception> extends MetaFunction, Me
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLongFunction<R> shove() {
 		LLongFunctionX<R, RuntimeException> exceptionCast = (LLongFunctionX<R, RuntimeException>) this;
-		return exceptionCast::apply;
+		return exceptionCast::doApply;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
 	default LLongFunctionX<R, X> nonNullableX() {
-		return (l) -> Objects.requireNonNull(this.apply(l));
+		return (l) -> Objects.requireNonNull(this.doApply(l));
 	}
 
 	// <editor-fold desc="exception handling">
@@ -247,11 +247,11 @@ public interface LLongFunctionX<R, X extends Exception> extends MetaFunction, Me
 	public static <R, X extends Exception, E extends Exception, Y extends Exception> LLongFunctionX<R, Y> wrapException(@Nonnull final LLongFunctionX<R, X> other, Class<E> exception, LSupplierX<R, X> supplier, ExceptionHandler<E, Y> handler) {
 		return (long l) -> {
 			try {
-				return other.apply(l);
+				return other.doApply(l);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.get();
+						return supplier.doGet();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

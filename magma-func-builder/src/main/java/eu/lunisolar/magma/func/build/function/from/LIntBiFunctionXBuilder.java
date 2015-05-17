@@ -99,12 +99,12 @@ public final class LIntBiFunctionXBuilder<R, X extends Exception> extends PerCas
 			final Case<LBiIntPredicateX<X>, LIntBiFunctionX<R, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LIntBiFunctionX.lX((int i1, int i2) -> {
 				for (Case<LBiIntPredicateX<X>, LIntBiFunctionX<R, X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(i1, i2)) {
-						return aCase.caseFunction().apply(i1, i2);
+					if (aCase.casePredicate().doTest(i1, i2)) {
+						return aCase.caseFunction().doApply(i1, i2);
 					}
 				}
 
-				return eventuallyFinal.apply(i1, i2);
+				return eventuallyFinal.doApply(i1, i2);
 			});
 		}
 

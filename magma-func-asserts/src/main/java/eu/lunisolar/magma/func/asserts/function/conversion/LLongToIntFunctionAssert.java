@@ -58,7 +58,7 @@ public interface LLongToIntFunctionAssert<S extends LLongToIntFunctionAssert<S, 
 
 		@Nonnull
 		public Evaluation<S, A, RS, Integer, Exception> doesApplyAsInt(long l) {
-			return evaluation(() -> assertFactory.apply((Integer) actual.applyAsInt(l)));
+			return evaluation(() -> assertFactory.apply((Integer) actual.doApplyAsInt(l)));
 		}
 
 	}

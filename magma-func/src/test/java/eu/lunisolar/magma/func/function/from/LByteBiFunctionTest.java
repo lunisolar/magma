@@ -61,19 +61,19 @@ public class LByteBiFunctionTest<R,X extends ParseException> {
 
 
     private LByteBiFunction<R> sut = new LByteBiFunction(){
-        public @Nullable Object  apply(byte b1,byte b2)  {
+        public @Nullable Object  doApply(byte b1,byte b2)  {
             return testValue;
         }
     };
 
     private LByteBiFunctionX<R,X> opposite = new LByteBiFunctionX(){
-        public @Nullable Object  apply(byte b1,byte b2) throws ParseException {
+        public @Nullable Object  doApply(byte b1,byte b2) throws ParseException {
             return testValue;
         }
     };
 
     private LByteBiFunction<R> sutNull = new LByteBiFunction(){
-        public @Nullable Object  apply(byte b1,byte b2)  {
+        public @Nullable Object  doApply(byte b1,byte b2)  {
             return null;
         }
     };
@@ -82,7 +82,7 @@ public class LByteBiFunctionTest<R,X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.apply((byte)100,(byte)100))
+        assertThat(sut.doApply((byte)100,(byte)100))
             .isSameAs(testValue);
     }
 
@@ -92,7 +92,7 @@ public class LByteBiFunctionTest<R,X extends ParseException> {
             .isSameAs(testValue);
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LByteBiFunction: R apply(byte b1,byte b2)).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LByteBiFunction: R doApply(byte b1,byte b2)).\\E")
     public void testNonNullCapturesNull() throws ParseException {
         sutNull.nonNull((byte)100,(byte)100);
     }
@@ -101,7 +101,7 @@ public class LByteBiFunctionTest<R,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LByteBiFunction: R apply(byte b1,byte b2)");
+            .isEqualTo("LByteBiFunction: R doApply(byte b1,byte b2)");
     }
 
     @Test
@@ -128,7 +128,7 @@ public class LByteBiFunctionTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((byte)100,(byte)100);
+            wrapped.doApply((byte)100,(byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -150,7 +150,7 @@ public class LByteBiFunctionTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((byte)100,(byte)100);
+            wrapped.doApply((byte)100,(byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -176,7 +176,7 @@ public class LByteBiFunctionTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((byte)100,(byte)100);
+            wrapped.doApply((byte)100,(byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -201,7 +201,7 @@ public class LByteBiFunctionTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((byte)100,(byte)100);
+            wrapped.doApply((byte)100,(byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -225,7 +225,7 @@ public class LByteBiFunctionTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((byte)100,(byte)100);
+            wrapped.doApply((byte)100,(byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -266,7 +266,7 @@ public class LByteBiFunctionTest<R,X extends ParseException> {
 
         //when
         LByteBiFunction<Integer > function = sutO.fromByte(before1,before2);
-        function.apply((byte)80,(byte)81);
+        function.doApply((byte)80,(byte)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -301,7 +301,7 @@ public class LByteBiFunctionTest<R,X extends ParseException> {
 
         //when
         LBiFunction<Integer ,Integer ,Integer > function = sutO.from(before1,before2);
-        function.apply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        function.doApply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -338,7 +338,7 @@ public class LByteBiFunctionTest<R,X extends ParseException> {
 
         //when
         LByteBiFunction<Integer > function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((byte)80,(byte)81);
+        Integer  finalValue = function.doApply((byte)80,(byte)81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -372,7 +372,7 @@ public class LByteBiFunctionTest<R,X extends ParseException> {
 
         //when
         LByteBiConsumer function = sutO.then(thenFunction);
-        function.accept((byte)80,(byte)81);
+        function.doAccept((byte)80,(byte)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -402,7 +402,7 @@ public class LByteBiFunctionTest<R,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().apply((byte)100,(byte)100);
+        sutThrowing.shove().doApply((byte)100,(byte)100);
     }
 
     @Test
@@ -420,7 +420,7 @@ public class LByteBiFunctionTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((byte)100,(byte)100);
+            wrapped.doApply((byte)100,(byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -439,7 +439,7 @@ public class LByteBiFunctionTest<R,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LByteBiFunction: R apply(byte b1,byte b2)");
+                .contains("LByteBiFunction: R doApply(byte b1,byte b2)");
     }
 
 

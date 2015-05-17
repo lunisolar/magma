@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBooleanToByteFunction extends LBooleanToByteFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LBooleanToByteFunction: byte applyAsByte(boolean b)";
+	public static final String DESCRIPTION = "LBooleanToByteFunction: byte doApplyAsByte(boolean b)";
 
-	// Ovverriding methods can cause problems with inference.
+	public byte doApplyAsByte(boolean b);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LBooleanToByteFunction extends LBooleanToByteFunctionX<RuntimeE
 
 	/** Captures arguments but delays the evaluation. */
 	default LByteSupplier capture(boolean b) {
-		return () -> this.applyAsByte(b);
+		return () -> this.doApplyAsByte(b);
 	}
 
 	public static LBooleanToByteFunction constant(byte r) {
@@ -81,7 +81,7 @@ public interface LBooleanToByteFunction extends LBooleanToByteFunctionX<RuntimeE
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default byte nonNull(boolean b) {
-		return applyAsByte(b);
+		return doApplyAsByte(b);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -98,7 +98,7 @@ public interface LBooleanToByteFunction extends LBooleanToByteFunctionX<RuntimeE
 	public static <X extends Exception> LBooleanToByteFunction wrap(final @Nonnull LBooleanToByteFunctionX<X> other) {
 		return (boolean b) -> {
 			try {
-				return other.applyAsByte(b);
+				return other.doApplyAsByte(b);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -115,7 +115,7 @@ public interface LBooleanToByteFunction extends LBooleanToByteFunctionX<RuntimeE
 	@Nonnull
 	default LBooleanToByteFunction fromBoolean(@Nonnull final LBooleanUnaryOperator before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final boolean v1) -> this.applyAsByte(before1.applyAsBoolean(v1));
+		return (final boolean v1) -> this.doApplyAsByte(before1.doApplyAsBoolean(v1));
 	}
 
 	/**
@@ -124,7 +124,7 @@ public interface LBooleanToByteFunction extends LBooleanToByteFunctionX<RuntimeE
 	@Nonnull
 	default <V1> LToByteFunction<V1> from(@Nonnull final LPredicate<? super V1> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.applyAsByte(before1.applyAsBoolean(v1));
+		return (V1 v1) -> this.doApplyAsByte(before1.doApplyAsBoolean(v1));
 	}
 
 	// </editor-fold>
@@ -135,63 +135,63 @@ public interface LBooleanToByteFunction extends LBooleanToByteFunctionX<RuntimeE
 	@Nonnull
 	default <V> LBooleanFunction<V> then(@Nonnull LByteFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b) -> after.apply(this.applyAsByte(b));
+		return (boolean b) -> after.doApply(this.doApplyAsByte(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToByteFunction thenToByte(@Nonnull LByteUnaryOperator after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b) -> after.applyAsByte(this.applyAsByte(b));
+		return (boolean b) -> after.doApplyAsByte(this.doApplyAsByte(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToShortFunction thenToShort(@Nonnull LByteToShortFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b) -> after.applyAsShort(this.applyAsByte(b));
+		return (boolean b) -> after.doApplyAsShort(this.doApplyAsByte(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToIntFunction thenToInt(@Nonnull LByteToIntFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b) -> after.applyAsInt(this.applyAsByte(b));
+		return (boolean b) -> after.doApplyAsInt(this.doApplyAsByte(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToLongFunction thenToLong(@Nonnull LByteToLongFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b) -> after.applyAsLong(this.applyAsByte(b));
+		return (boolean b) -> after.doApplyAsLong(this.doApplyAsByte(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToFloatFunction thenToFloat(@Nonnull LByteToFloatFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b) -> after.applyAsFloat(this.applyAsByte(b));
+		return (boolean b) -> after.doApplyAsFloat(this.doApplyAsByte(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToDoubleFunction thenToDouble(@Nonnull LByteToDoubleFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b) -> after.applyAsDouble(this.applyAsByte(b));
+		return (boolean b) -> after.doApplyAsDouble(this.doApplyAsByte(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToCharFunction thenToChar(@Nonnull LByteToCharFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b) -> after.applyAsChar(this.applyAsByte(b));
+		return (boolean b) -> after.doApplyAsChar(this.doApplyAsByte(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanUnaryOperator thenToBoolean(@Nonnull LBytePredicate after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b) -> after.test(this.applyAsByte(b));
+		return (boolean b) -> after.doTest(this.doApplyAsByte(b));
 	}
 
 	// </editor-fold>
@@ -224,11 +224,11 @@ public interface LBooleanToByteFunction extends LBooleanToByteFunctionX<RuntimeE
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LBooleanToByteFunction wrapException(@Nonnull final LBooleanToByteFunction other, Class<E> exception, LByteSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (boolean b) -> {
 			try {
-				return other.applyAsByte(b);
+				return other.doApplyAsByte(b);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsByte();
+						return supplier.doGetAsByte();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

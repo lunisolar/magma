@@ -61,13 +61,13 @@ public class LToLongBiFunctionTest<T1,T2,X extends ParseException> {
 
 
     private LToLongBiFunction<T1,T2> sut = new LToLongBiFunction(){
-        public  long applyAsLong(Object t1,Object t2)  {
+        public  long doApplyAsLong(Object t1,Object t2)  {
             return testValue;
         }
     };
 
     private LToLongBiFunctionX<T1,T2,X> opposite = new LToLongBiFunctionX(){
-        public  long applyAsLong(Object t1,Object t2) throws ParseException {
+        public  long doApplyAsLong(Object t1,Object t2) throws ParseException {
             return testValue;
         }
     };
@@ -78,7 +78,7 @@ public class LToLongBiFunctionTest<T1,T2,X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.applyAsLong((T1)Integer.valueOf(100),(T2)Integer.valueOf(100)))
+        assertThat(sut.doApplyAsLong((T1)Integer.valueOf(100),(T2)Integer.valueOf(100)))
             .isEqualTo(testValue);
     }
 
@@ -92,7 +92,7 @@ public class LToLongBiFunctionTest<T1,T2,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LToLongBiFunction: long applyAsLong(T1 t1,T2 t2)");
+            .isEqualTo("LToLongBiFunction: long doApplyAsLong(T1 t1,T2 t2)");
     }
 
     @Test
@@ -125,7 +125,7 @@ public class LToLongBiFunctionTest<T1,T2,X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsLong((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            wrapped.doApplyAsLong((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -147,7 +147,7 @@ public class LToLongBiFunctionTest<T1,T2,X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsLong((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            wrapped.doApplyAsLong((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -173,7 +173,7 @@ public class LToLongBiFunctionTest<T1,T2,X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsLong((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            wrapped.doApplyAsLong((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -198,7 +198,7 @@ public class LToLongBiFunctionTest<T1,T2,X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsLong((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            wrapped.doApplyAsLong((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -222,7 +222,7 @@ public class LToLongBiFunctionTest<T1,T2,X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsLong((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            wrapped.doApplyAsLong((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -263,7 +263,7 @@ public class LToLongBiFunctionTest<T1,T2,X extends ParseException> {
 
         //when
         LToLongBiFunction<Integer ,Integer > function = sutO.from(before1,before2);
-        function.applyAsLong((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        function.doApplyAsLong((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -300,7 +300,7 @@ public class LToLongBiFunctionTest<T1,T2,X extends ParseException> {
 
         //when
         LBiFunction<Integer ,Integer ,Integer > function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        Integer  finalValue = function.doApply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -336,7 +336,7 @@ public class LToLongBiFunctionTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().applyAsLong((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+        sutThrowing.shove().doApplyAsLong((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
     }
 
     @Test
@@ -354,7 +354,7 @@ public class LToLongBiFunctionTest<T1,T2,X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsLong((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            wrapped.doApplyAsLong((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -373,7 +373,7 @@ public class LToLongBiFunctionTest<T1,T2,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LToLongBiFunction: long applyAsLong(T1 t1,T2 t2)");
+                .contains("LToLongBiFunction: long doApplyAsLong(T1 t1,T2 t2)");
     }
 
 

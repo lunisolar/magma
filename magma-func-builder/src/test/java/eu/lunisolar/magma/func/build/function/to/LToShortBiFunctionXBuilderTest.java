@@ -69,7 +69,7 @@ public class LToShortBiFunctionXBuilderTest<T1,T2,X extends ParseException>{
                 .toShortBiFunctionX()
                 .build();
 
-            function.applyAsShort((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            function.doApplyAsShort((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
 
             fail("No exception were thrown.");
         } catch (Exception e) {

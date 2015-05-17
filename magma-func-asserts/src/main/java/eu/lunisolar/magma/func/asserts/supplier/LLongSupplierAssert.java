@@ -61,7 +61,7 @@ public interface LLongSupplierAssert<S extends LLongSupplierAssert<S, A, RS>, A 
 
 		@Nonnull
 		public Evaluation<S, A, RS, Long, Exception> doesGetAsLong() {
-			return evaluation(() -> assertFactory.apply((Long) actual.getAsLong()));
+			return evaluation(() -> assertFactory.apply((Long) actual.doGetAsLong()));
 		}
 
 		@Nonnull
@@ -72,7 +72,7 @@ public interface LLongSupplierAssert<S extends LLongSupplierAssert<S, A, RS>, A 
 
 		@Nonnull
 		public Evaluation<S, A, RS, Long, Exception> doesGetAsLong(LAction before) {
-			before.execute();
+			before.doExecute();
 			return doesGetAsLong();
 		}
 	}

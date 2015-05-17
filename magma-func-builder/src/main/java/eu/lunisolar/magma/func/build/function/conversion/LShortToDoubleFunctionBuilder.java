@@ -99,12 +99,12 @@ public final class LShortToDoubleFunctionBuilder extends PerCaseBuilderWithDoubl
 			final Case<LShortPredicate, LShortToDoubleFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LShortToDoubleFunction.l((short s) -> {
 				for (Case<LShortPredicate, LShortToDoubleFunction> aCase : casesArray) {
-					if (aCase.casePredicate().test(s)) {
-						return aCase.caseFunction().applyAsDouble(s);
+					if (aCase.casePredicate().doTest(s)) {
+						return aCase.caseFunction().doApplyAsDouble(s);
 					}
 				}
 
-				return eventuallyFinal.applyAsDouble(s);
+				return eventuallyFinal.doApplyAsDouble(s);
 			});
 		}
 

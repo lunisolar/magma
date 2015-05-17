@@ -99,12 +99,12 @@ public final class LBooleanBinaryOperatorXBuilder<X extends Exception> extends P
 			final Case<LBooleanBinaryOperatorX<X>, LBooleanBinaryOperatorX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LBooleanBinaryOperatorX.lX((boolean b1, boolean b2) -> {
 				for (Case<LBooleanBinaryOperatorX<X>, LBooleanBinaryOperatorX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().applyAsBoolean(b1, b2)) {
-						return aCase.caseFunction().applyAsBoolean(b1, b2);
+					if (aCase.casePredicate().doApplyAsBoolean(b1, b2)) {
+						return aCase.caseFunction().doApplyAsBoolean(b1, b2);
 					}
 				}
 
-				return eventuallyFinal.applyAsBoolean(b1, b2);
+				return eventuallyFinal.doApplyAsBoolean(b1, b2);
 			});
 		}
 

@@ -99,12 +99,12 @@ public final class LDoubleUnaryOperatorBuilder extends PerCaseBuilderWithDoubleP
 			final Case<LDoublePredicate, LDoubleUnaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LDoubleUnaryOperator.l((double d) -> {
 				for (Case<LDoublePredicate, LDoubleUnaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().test(d)) {
-						return aCase.caseFunction().applyAsDouble(d);
+					if (aCase.casePredicate().doTest(d)) {
+						return aCase.caseFunction().doApplyAsDouble(d);
 					}
 				}
 
-				return eventuallyFinal.applyAsDouble(d);
+				return eventuallyFinal.doApplyAsDouble(d);
 			});
 		}
 

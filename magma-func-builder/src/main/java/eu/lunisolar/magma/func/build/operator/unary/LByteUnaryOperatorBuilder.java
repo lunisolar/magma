@@ -99,12 +99,12 @@ public final class LByteUnaryOperatorBuilder extends PerCaseBuilderWithByteProdu
 			final Case<LBytePredicate, LByteUnaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LByteUnaryOperator.l((byte b) -> {
 				for (Case<LBytePredicate, LByteUnaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().test(b)) {
-						return aCase.caseFunction().applyAsByte(b);
+					if (aCase.casePredicate().doTest(b)) {
+						return aCase.caseFunction().doApplyAsByte(b);
 					}
 				}
 
-				return eventuallyFinal.applyAsByte(b);
+				return eventuallyFinal.doApplyAsByte(b);
 			});
 		}
 

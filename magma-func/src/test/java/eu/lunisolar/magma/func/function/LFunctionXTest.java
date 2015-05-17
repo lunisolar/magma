@@ -61,19 +61,19 @@ public class LFunctionXTest<T,R,X extends ParseException> {
 
 
     private LFunctionX<T,R,X> sut = new LFunctionX(){
-        public @Nullable Object  apply(Object t) throws ParseException {
+        public @Nullable Object  doApply(Object t) throws ParseException {
             return testValue;
         }
     };
 
     private LFunction<T,R> opposite = new LFunction(){
-        public @Nullable Object  apply(Object t)  {
+        public @Nullable Object  doApply(Object t)  {
             return testValue;
         }
     };
 
     private LFunctionX<T,R,X> sutNull = new LFunctionX(){
-        public @Nullable Object  apply(Object t) throws ParseException {
+        public @Nullable Object  doApply(Object t) throws ParseException {
             return null;
         }
     };
@@ -84,7 +84,7 @@ public class LFunctionXTest<T,R,X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.apply((T)Integer.valueOf(100)))
+        assertThat(sut.doApply((T)Integer.valueOf(100)))
             .isSameAs(testValue);
     }
 
@@ -94,7 +94,7 @@ public class LFunctionXTest<T,R,X extends ParseException> {
             .isSameAs(testValue);
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LFunctionX: R apply(T t) throws X).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LFunctionX: R doApply(T t) throws X).\\E")
     public void testNonNullCapturesNull() throws ParseException {
         sutNull.nonNull((T)Integer.valueOf(100));
     }
@@ -103,7 +103,7 @@ public class LFunctionXTest<T,R,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LFunctionX: R apply(T t) throws X");
+            .isEqualTo("LFunctionX: R doApply(T t) throws X");
     }
 
     @Test
@@ -140,7 +140,7 @@ public class LFunctionXTest<T,R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T)Integer.valueOf(100));
+            wrapped.doApply((T)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -165,7 +165,7 @@ public class LFunctionXTest<T,R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T)Integer.valueOf(100));
+            wrapped.doApply((T)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -189,7 +189,7 @@ public class LFunctionXTest<T,R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T)Integer.valueOf(100));
+            wrapped.doApply((T)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -224,7 +224,7 @@ public class LFunctionXTest<T,R,X extends ParseException> {
 
         //when
         LFunctionX<Integer ,Integer ,X> function = sutO.from(before1);
-        function.apply((Integer )Integer.valueOf(80));
+        function.doApply((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -260,7 +260,7 @@ public class LFunctionXTest<T,R,X extends ParseException> {
 
         //when
         LFunctionX<Integer ,Integer ,X> function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((Integer )Integer.valueOf(80));
+        Integer  finalValue = function.doApply((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -293,7 +293,7 @@ public class LFunctionXTest<T,R,X extends ParseException> {
 
         //when
         LConsumerX<Integer ,X> function = sutO.then(thenFunction);
-        function.accept((Integer )Integer.valueOf(80));
+        function.doAccept((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -327,7 +327,7 @@ public class LFunctionXTest<T,R,X extends ParseException> {
 
         //when
         LToByteFunctionX<Integer ,X> function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.applyAsByte((Integer )Integer.valueOf(80));
+        byte finalValue = function.doApplyAsByte((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -362,7 +362,7 @@ public class LFunctionXTest<T,R,X extends ParseException> {
 
         //when
         LToShortFunctionX<Integer ,X> function = sutO.thenToShort(thenFunction);
-        short finalValue = function.applyAsShort((Integer )Integer.valueOf(80));
+        short finalValue = function.doApplyAsShort((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -397,7 +397,7 @@ public class LFunctionXTest<T,R,X extends ParseException> {
 
         //when
         LToIntFunctionX<Integer ,X> function = sutO.thenToInt(thenFunction);
-        int finalValue = function.applyAsInt((Integer )Integer.valueOf(80));
+        int finalValue = function.doApplyAsInt((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(finalValue).isEqualTo((int)100);
@@ -432,7 +432,7 @@ public class LFunctionXTest<T,R,X extends ParseException> {
 
         //when
         LToLongFunctionX<Integer ,X> function = sutO.thenToLong(thenFunction);
-        long finalValue = function.applyAsLong((Integer )Integer.valueOf(80));
+        long finalValue = function.doApplyAsLong((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(finalValue).isEqualTo((long)100);
@@ -467,7 +467,7 @@ public class LFunctionXTest<T,R,X extends ParseException> {
 
         //when
         LToFloatFunctionX<Integer ,X> function = sutO.thenToFloat(thenFunction);
-        float finalValue = function.applyAsFloat((Integer )Integer.valueOf(80));
+        float finalValue = function.doApplyAsFloat((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(finalValue).isEqualTo((float)100);
@@ -502,7 +502,7 @@ public class LFunctionXTest<T,R,X extends ParseException> {
 
         //when
         LToDoubleFunctionX<Integer ,X> function = sutO.thenToDouble(thenFunction);
-        double finalValue = function.applyAsDouble((Integer )Integer.valueOf(80));
+        double finalValue = function.doApplyAsDouble((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(finalValue).isEqualTo((double)100);
@@ -537,7 +537,7 @@ public class LFunctionXTest<T,R,X extends ParseException> {
 
         //when
         LToCharFunctionX<Integer ,X> function = sutO.thenToChar(thenFunction);
-        char finalValue = function.applyAsChar((Integer )Integer.valueOf(80));
+        char finalValue = function.doApplyAsChar((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(finalValue).isEqualTo((char)100);
@@ -572,7 +572,7 @@ public class LFunctionXTest<T,R,X extends ParseException> {
 
         //when
         LPredicateX<Integer ,X> function = sutO.thenToBoolean(thenFunction);
-        boolean finalValue = function.test((Integer )Integer.valueOf(80));
+        boolean finalValue = function.doTest((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -588,7 +588,7 @@ public class LFunctionXTest<T,R,X extends ParseException> {
     public void identity() throws ParseException {
         LFunctionX<Integer ,Integer ,X> identityFunction = LFunctionX.identity();
 
-        assertThat(identityFunction.apply((Integer )Integer.valueOf(80))).isEqualTo((Integer )Integer.valueOf(80));
+        assertThat(identityFunction.doApply((Integer )Integer.valueOf(80))).isEqualTo((Integer )Integer.valueOf(80));
     }
 
     @Test
@@ -615,7 +615,7 @@ public class LFunctionXTest<T,R,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().apply((T)Integer.valueOf(100));
+        sutThrowing.shove().doApply((T)Integer.valueOf(100));
     }
 
     @Test
@@ -633,7 +633,7 @@ public class LFunctionXTest<T,R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T)Integer.valueOf(100));
+            wrapped.doApply((T)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -652,7 +652,7 @@ public class LFunctionXTest<T,R,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LFunctionX: R apply(T t) throws X");
+                .contains("LFunctionX: R doApply(T t) throws X");
     }
 
 

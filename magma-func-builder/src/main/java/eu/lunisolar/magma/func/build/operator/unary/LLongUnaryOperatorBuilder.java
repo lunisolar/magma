@@ -99,12 +99,12 @@ public final class LLongUnaryOperatorBuilder extends PerCaseBuilderWithLongProdu
 			final Case<LLongPredicate, LLongUnaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LLongUnaryOperator.l((long l) -> {
 				for (Case<LLongPredicate, LLongUnaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().test(l)) {
-						return aCase.caseFunction().applyAsLong(l);
+					if (aCase.casePredicate().doTest(l)) {
+						return aCase.caseFunction().doApplyAsLong(l);
 					}
 				}
 
-				return eventuallyFinal.applyAsLong(l);
+				return eventuallyFinal.doApplyAsLong(l);
 			});
 		}
 

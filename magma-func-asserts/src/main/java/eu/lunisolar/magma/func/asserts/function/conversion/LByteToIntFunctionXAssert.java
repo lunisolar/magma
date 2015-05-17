@@ -63,7 +63,7 @@ public interface LByteToIntFunctionXAssert<S extends LByteToIntFunctionXAssert<S
 
 		@Nonnull
 		public Evaluation<S, A, RS, Integer, Exception> doesApplyAsInt(byte b) {
-			return evaluation(() -> assertFactory.apply((Integer) actual.applyAsInt(b)));
+			return evaluation(() -> assertFactory.apply((Integer) actual.doApplyAsInt(b)));
 		}
 
 	}

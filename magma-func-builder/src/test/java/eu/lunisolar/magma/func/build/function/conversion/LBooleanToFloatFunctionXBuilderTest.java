@@ -69,7 +69,7 @@ public class LBooleanToFloatFunctionXBuilderTest<X extends ParseException>{
                 .booleanToFloatFunctionX()
                 .build();
 
-            function.applyAsFloat(true);
+            function.doApplyAsFloat(true);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

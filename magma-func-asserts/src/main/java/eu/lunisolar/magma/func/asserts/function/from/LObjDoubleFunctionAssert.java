@@ -58,7 +58,7 @@ public interface LObjDoubleFunctionAssert<S extends LObjDoubleFunctionAssert<S, 
 
 		@Nonnull
 		public Evaluation<S, A, RS, R, Exception> doesApply(T t, double d) {
-			return evaluation(() -> assertFactory.apply((R) actual.apply(t, d)));
+			return evaluation(() -> assertFactory.apply((R) actual.doApply(t, d)));
 		}
 
 	}

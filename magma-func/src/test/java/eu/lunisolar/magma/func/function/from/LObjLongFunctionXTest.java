@@ -61,19 +61,19 @@ public class LObjLongFunctionXTest<T,R,X extends ParseException> {
 
 
     private LObjLongFunctionX<T,R,X> sut = new LObjLongFunctionX(){
-        public @Nullable Object  apply(Object t, long l) throws ParseException {
+        public @Nullable Object  doApply(Object t, long l) throws ParseException {
             return testValue;
         }
     };
 
     private LObjLongFunction<T,R> opposite = new LObjLongFunction(){
-        public @Nullable Object  apply(Object t, long l)  {
+        public @Nullable Object  doApply(Object t, long l)  {
             return testValue;
         }
     };
 
     private LObjLongFunctionX<T,R,X> sutNull = new LObjLongFunctionX(){
-        public @Nullable Object  apply(Object t, long l) throws ParseException {
+        public @Nullable Object  doApply(Object t, long l) throws ParseException {
             return null;
         }
     };
@@ -82,7 +82,7 @@ public class LObjLongFunctionXTest<T,R,X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.apply((T)Integer.valueOf(100),(long)100))
+        assertThat(sut.doApply((T)Integer.valueOf(100),(long)100))
             .isSameAs(testValue);
     }
 
@@ -92,7 +92,7 @@ public class LObjLongFunctionXTest<T,R,X extends ParseException> {
             .isSameAs(testValue);
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LObjLongFunctionX: R apply(T t, long l) throws X).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LObjLongFunctionX: R doApply(T t, long l) throws X).\\E")
     public void testNonNullCapturesNull() throws ParseException {
         sutNull.nonNull((T)Integer.valueOf(100),(long)100);
     }
@@ -101,7 +101,7 @@ public class LObjLongFunctionXTest<T,R,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LObjLongFunctionX: R apply(T t, long l) throws X");
+            .isEqualTo("LObjLongFunctionX: R doApply(T t, long l) throws X");
     }
 
     @Test
@@ -132,7 +132,7 @@ public class LObjLongFunctionXTest<T,R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T)Integer.valueOf(100),(long)100);
+            wrapped.doApply((T)Integer.valueOf(100),(long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -157,7 +157,7 @@ public class LObjLongFunctionXTest<T,R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T)Integer.valueOf(100),(long)100);
+            wrapped.doApply((T)Integer.valueOf(100),(long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -181,7 +181,7 @@ public class LObjLongFunctionXTest<T,R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T)Integer.valueOf(100),(long)100);
+            wrapped.doApply((T)Integer.valueOf(100),(long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -222,7 +222,7 @@ public class LObjLongFunctionXTest<T,R,X extends ParseException> {
 
         //when
         LObjLongFunctionX<Integer ,Integer ,X> function = sutO.fromLong(before1,before2);
-        function.apply((Integer )Integer.valueOf(80),(long)81);
+        function.doApply((Integer )Integer.valueOf(80),(long)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -257,7 +257,7 @@ public class LObjLongFunctionXTest<T,R,X extends ParseException> {
 
         //when
         LBiFunctionX<Integer ,Integer ,Integer ,X> function = sutO.from(before1,before2);
-        function.apply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        function.doApply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -294,7 +294,7 @@ public class LObjLongFunctionXTest<T,R,X extends ParseException> {
 
         //when
         LObjLongFunctionX<Integer ,Integer ,X> function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((Integer )Integer.valueOf(80),(long)81);
+        Integer  finalValue = function.doApply((Integer )Integer.valueOf(80),(long)81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -328,7 +328,7 @@ public class LObjLongFunctionXTest<T,R,X extends ParseException> {
 
         //when
         LObjLongConsumerX<Integer ,X> function = sutO.then(thenFunction);
-        function.accept((Integer )Integer.valueOf(80),(long)81);
+        function.doAccept((Integer )Integer.valueOf(80),(long)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -358,7 +358,7 @@ public class LObjLongFunctionXTest<T,R,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().apply((T)Integer.valueOf(100),(long)100);
+        sutThrowing.shove().doApply((T)Integer.valueOf(100),(long)100);
     }
 
     @Test
@@ -376,7 +376,7 @@ public class LObjLongFunctionXTest<T,R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T)Integer.valueOf(100),(long)100);
+            wrapped.doApply((T)Integer.valueOf(100),(long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -395,7 +395,7 @@ public class LObjLongFunctionXTest<T,R,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LObjLongFunctionX: R apply(T t, long l) throws X");
+                .contains("LObjLongFunctionX: R doApply(T t, long l) throws X");
     }
 
 

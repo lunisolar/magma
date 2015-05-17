@@ -61,13 +61,13 @@ public class LCharSupplierTest<X extends ParseException> {
 
 
     private LCharSupplier sut = new LCharSupplier(){
-        public  char getAsChar()  {
+        public  char doGetAsChar()  {
             return testValue;
         }
     };
 
     private LCharSupplierX<X> opposite = new LCharSupplierX(){
-        public  char getAsChar() throws ParseException {
+        public  char doGetAsChar() throws ParseException {
             return testValue;
         }
     };
@@ -76,7 +76,7 @@ public class LCharSupplierTest<X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.getAsChar())
+        assertThat(sut.doGetAsChar())
             .isEqualTo(testValue);
     }
 
@@ -90,7 +90,7 @@ public class LCharSupplierTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LCharSupplier: char getAsChar()");
+            .isEqualTo("LCharSupplier: char doGetAsChar()");
     }
 
     @Test
@@ -117,7 +117,7 @@ public class LCharSupplierTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.getAsChar();
+            wrapped.doGetAsChar();
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LCharSupplierTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.getAsChar();
+            wrapped.doGetAsChar();
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -165,7 +165,7 @@ public class LCharSupplierTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.getAsChar();
+            wrapped.doGetAsChar();
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -190,7 +190,7 @@ public class LCharSupplierTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.getAsChar();
+            wrapped.doGetAsChar();
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -214,7 +214,7 @@ public class LCharSupplierTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.getAsChar();
+            wrapped.doGetAsChar();
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -251,7 +251,7 @@ public class LCharSupplierTest<X extends ParseException> {
 
         //when
         LSupplier<Integer > function = sutO.then(thenFunction);
-        Integer  finalValue = function.get();
+        Integer  finalValue = function.doGet();
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -285,7 +285,7 @@ public class LCharSupplierTest<X extends ParseException> {
 
         //when
         LByteSupplier function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.getAsByte();
+        byte finalValue = function.doGetAsByte();
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -319,7 +319,7 @@ public class LCharSupplierTest<X extends ParseException> {
 
         //when
         LShortSupplier function = sutO.thenToShort(thenFunction);
-        short finalValue = function.getAsShort();
+        short finalValue = function.doGetAsShort();
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -353,7 +353,7 @@ public class LCharSupplierTest<X extends ParseException> {
 
         //when
         LIntSupplier function = sutO.thenToInt(thenFunction);
-        int finalValue = function.getAsInt();
+        int finalValue = function.doGetAsInt();
 
         //then - finals
         assertThat(finalValue).isEqualTo((int)100);
@@ -387,7 +387,7 @@ public class LCharSupplierTest<X extends ParseException> {
 
         //when
         LLongSupplier function = sutO.thenToLong(thenFunction);
-        long finalValue = function.getAsLong();
+        long finalValue = function.doGetAsLong();
 
         //then - finals
         assertThat(finalValue).isEqualTo((long)100);
@@ -421,7 +421,7 @@ public class LCharSupplierTest<X extends ParseException> {
 
         //when
         LFloatSupplier function = sutO.thenToFloat(thenFunction);
-        float finalValue = function.getAsFloat();
+        float finalValue = function.doGetAsFloat();
 
         //then - finals
         assertThat(finalValue).isEqualTo((float)100);
@@ -455,7 +455,7 @@ public class LCharSupplierTest<X extends ParseException> {
 
         //when
         LDoubleSupplier function = sutO.thenToDouble(thenFunction);
-        double finalValue = function.getAsDouble();
+        double finalValue = function.doGetAsDouble();
 
         //then - finals
         assertThat(finalValue).isEqualTo((double)100);
@@ -489,7 +489,7 @@ public class LCharSupplierTest<X extends ParseException> {
 
         //when
         LCharSupplier function = sutO.thenToChar(thenFunction);
-        char finalValue = function.getAsChar();
+        char finalValue = function.doGetAsChar();
 
         //then - finals
         assertThat(finalValue).isEqualTo((char)100);
@@ -523,7 +523,7 @@ public class LCharSupplierTest<X extends ParseException> {
 
         //when
         LBooleanSupplier function = sutO.thenToBoolean(thenFunction);
-        boolean finalValue = function.getAsBoolean();
+        boolean finalValue = function.doGetAsBoolean();
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -554,7 +554,7 @@ public class LCharSupplierTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().getAsChar();
+        sutThrowing.shove().doGetAsChar();
     }
 
     @Test
@@ -572,7 +572,7 @@ public class LCharSupplierTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.getAsChar();
+            wrapped.doGetAsChar();
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -591,7 +591,7 @@ public class LCharSupplierTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LCharSupplier: char getAsChar()");
+                .contains("LCharSupplier: char doGetAsChar()");
     }
 
 

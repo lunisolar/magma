@@ -99,12 +99,12 @@ public final class LIntToFloatFunctionBuilder extends PerCaseBuilderWithFloatPro
 			final Case<LIntPredicate, LIntToFloatFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LIntToFloatFunction.l((int i) -> {
 				for (Case<LIntPredicate, LIntToFloatFunction> aCase : casesArray) {
-					if (aCase.casePredicate().test(i)) {
-						return aCase.caseFunction().applyAsFloat(i);
+					if (aCase.casePredicate().doTest(i)) {
+						return aCase.caseFunction().doApplyAsFloat(i);
 					}
 				}
 
-				return eventuallyFinal.applyAsFloat(i);
+				return eventuallyFinal.doApplyAsFloat(i);
 			});
 		}
 

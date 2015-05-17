@@ -99,13 +99,13 @@ public final class LConsumerBuilder<T> extends PerCaseBuilder.Base<LConsumerBuil
 			final Case<LPredicate<T>, LConsumer<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LConsumer.l((T t) -> {
 				for (Case<LPredicate<T>, LConsumer<T>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t)) {
-						aCase.caseFunction().accept(t);
+					if (aCase.casePredicate().doTest(t)) {
+						aCase.caseFunction().doAccept(t);
 						return;
 					}
 				}
 
-				eventuallyFinal.accept(t);
+				eventuallyFinal.doAccept(t);
 			});
 		}
 

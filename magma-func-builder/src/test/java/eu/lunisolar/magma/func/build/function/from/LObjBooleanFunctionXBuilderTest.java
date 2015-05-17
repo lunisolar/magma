@@ -69,7 +69,7 @@ public class LObjBooleanFunctionXBuilderTest<T,R,X extends ParseException>{
                 .objBooleanFunctionX()
                 .build();
 
-            function.apply((T)Integer.valueOf(100),true);
+            function.doApply((T)Integer.valueOf(100),true);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

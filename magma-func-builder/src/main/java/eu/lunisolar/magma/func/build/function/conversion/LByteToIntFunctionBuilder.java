@@ -99,12 +99,12 @@ public final class LByteToIntFunctionBuilder extends PerCaseBuilderWithIntProduc
 			final Case<LBytePredicate, LByteToIntFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LByteToIntFunction.l((byte b) -> {
 				for (Case<LBytePredicate, LByteToIntFunction> aCase : casesArray) {
-					if (aCase.casePredicate().test(b)) {
-						return aCase.caseFunction().applyAsInt(b);
+					if (aCase.casePredicate().doTest(b)) {
+						return aCase.caseFunction().doApplyAsInt(b);
 					}
 				}
 
-				return eventuallyFinal.applyAsInt(b);
+				return eventuallyFinal.doApplyAsInt(b);
 			});
 		}
 

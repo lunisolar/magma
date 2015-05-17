@@ -99,12 +99,12 @@ public final class LFloatToIntFunctionXBuilder<X extends Exception> extends PerC
 			final Case<LFloatPredicateX<X>, LFloatToIntFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LFloatToIntFunctionX.lX((float f) -> {
 				for (Case<LFloatPredicateX<X>, LFloatToIntFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(f)) {
-						return aCase.caseFunction().applyAsInt(f);
+					if (aCase.casePredicate().doTest(f)) {
+						return aCase.caseFunction().doApplyAsInt(f);
 					}
 				}
 
-				return eventuallyFinal.applyAsInt(f);
+				return eventuallyFinal.doApplyAsInt(f);
 			});
 		}
 

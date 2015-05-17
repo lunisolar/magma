@@ -99,12 +99,12 @@ public final class LObjDoublePredicateBuilder<T> extends PerCaseBuilderWithBoole
 			final Case<LObjDoublePredicate<T>, LObjDoublePredicate<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LObjDoublePredicate.l((T t, double d) -> {
 				for (Case<LObjDoublePredicate<T>, LObjDoublePredicate<T>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t, d)) {
-						return aCase.caseFunction().test(t, d);
+					if (aCase.casePredicate().doTest(t, d)) {
+						return aCase.caseFunction().doTest(t, d);
 					}
 				}
 
-				return eventuallyFinal.test(t, d);
+				return eventuallyFinal.doTest(t, d);
 			});
 		}
 

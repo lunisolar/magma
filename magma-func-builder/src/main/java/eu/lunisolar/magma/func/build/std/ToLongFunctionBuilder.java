@@ -98,7 +98,7 @@ public final class ToLongFunctionBuilder<T> extends PerCaseBuilderWithLongProduc
 			final Case<LPredicate<T>, java.util.function.ToLongFunction<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = Function4U.l((T t) -> {
 				for (Case<LPredicate<T>, java.util.function.ToLongFunction<T>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t)) {
+					if (aCase.casePredicate().doTest(t)) {
 						return aCase.caseFunction().applyAsLong(t);
 					}
 				}

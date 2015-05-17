@@ -69,7 +69,7 @@ public class LBiShortPredicateBuilderTest<X extends ParseException>{
                 .biShortPredicate()
                 .build();
 
-            function.test((short)100,(short)100);
+            function.doTest((short)100,(short)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

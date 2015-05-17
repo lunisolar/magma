@@ -99,12 +99,12 @@ public final class LBooleanUnaryOperatorXBuilder<X extends Exception> extends Pe
 			final Case<LBooleanUnaryOperatorX<X>, LBooleanUnaryOperatorX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LBooleanUnaryOperatorX.lX((boolean b) -> {
 				for (Case<LBooleanUnaryOperatorX<X>, LBooleanUnaryOperatorX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().applyAsBoolean(b)) {
-						return aCase.caseFunction().applyAsBoolean(b);
+					if (aCase.casePredicate().doApplyAsBoolean(b)) {
+						return aCase.caseFunction().doApplyAsBoolean(b);
 					}
 				}
 
-				return eventuallyFinal.applyAsBoolean(b);
+				return eventuallyFinal.doApplyAsBoolean(b);
 			});
 		}
 

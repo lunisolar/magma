@@ -99,12 +99,12 @@ public final class LObjShortPredicateBuilder<T> extends PerCaseBuilderWithBoolea
 			final Case<LObjShortPredicate<T>, LObjShortPredicate<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LObjShortPredicate.l((T t, short s) -> {
 				for (Case<LObjShortPredicate<T>, LObjShortPredicate<T>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t, s)) {
-						return aCase.caseFunction().test(t, s);
+					if (aCase.casePredicate().doTest(t, s)) {
+						return aCase.caseFunction().doTest(t, s);
 					}
 				}
 
-				return eventuallyFinal.test(t, s);
+				return eventuallyFinal.doTest(t, s);
 			});
 		}
 

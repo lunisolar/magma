@@ -60,7 +60,7 @@ public interface LToByteBiFunctionAssert<S extends LToByteBiFunctionAssert<S, A,
 
 		@Nonnull
 		public Evaluation<S, A, RS, Byte, Exception> doesApplyAsByte(T1 t1, T2 t2) {
-			return evaluation(() -> assertFactory.apply((Byte) actual.applyAsByte(t1, t2)));
+			return evaluation(() -> assertFactory.apply((Byte) actual.doApplyAsByte(t1, t2)));
 		}
 
 	}

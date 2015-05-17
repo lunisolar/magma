@@ -55,7 +55,7 @@ public interface LObjByteConsumerAssert<S extends LObjByteConsumerAssert<S, A, T
 
 		@Nonnull
 		public SemiEvaluation<S, A, Exception> doesAccept(T t, byte b) {
-			return evaluation(() -> actual.accept(t, b));
+			return evaluation(() -> actual.doAccept(t, b));
 		}
 
 	}

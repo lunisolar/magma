@@ -55,7 +55,7 @@ public interface LIntBiConsumerAssert<S extends LIntBiConsumerAssert<S, A>, A ex
 
 		@Nonnull
 		public SemiEvaluation<S, A, Exception> doesAccept(int i1, int i2) {
-			return evaluation(() -> actual.accept(i1, i2));
+			return evaluation(() -> actual.doAccept(i1, i2));
 		}
 
 	}

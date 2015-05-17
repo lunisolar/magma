@@ -55,7 +55,7 @@ public interface LDoubleBiConsumerAssert<S extends LDoubleBiConsumerAssert<S, A>
 
 		@Nonnull
 		public SemiEvaluation<S, A, Exception> doesAccept(double d1, double d2) {
-			return evaluation(() -> actual.accept(d1, d2));
+			return evaluation(() -> actual.doAccept(d1, d2));
 		}
 
 	}

@@ -57,7 +57,7 @@ public class Example3Test {
 
     @Test(expectedExceptions = NestedException.class)
     public LFunctionX<Integer, Integer, RuntimeException> example3() {
-        throwingAlways.uncheck().apply(0);
+        throwingAlways.uncheck().doApply(0);
 
         return throwingAlways.uncheck();
     }
@@ -75,14 +75,14 @@ public class Example3Test {
                 .handleX((e) -> {
                     throw new UnsupportedOperationException(e);  // <- cannot infer exception for handle()
                 })
-                .apply(0);  // <- exception type was generalized to Exception
+                .doApply(0);  // <- exception type was generalized to Exception
     }
 
     @Test(expectedExceptions = UnsupportedOperationException.class)
     public void example5() {
         throwingAlways
                 .handleX((e) -> new UnsupportedOperationException(e))
-                .apply(0);
+                .doApply(0);
     }
 
     @Test(expectedExceptions = NestedException.class)
@@ -90,7 +90,7 @@ public class Example3Test {
         // Only RuntimeException will be handled.
         throwingAlways
                 .handleX(RuntimeException.class, (e) -> new UnsupportedOperationException(e))
-                .apply(0);
+                .doApply(0);
     }
 
 }

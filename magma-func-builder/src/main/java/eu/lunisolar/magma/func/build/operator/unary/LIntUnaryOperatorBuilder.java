@@ -99,12 +99,12 @@ public final class LIntUnaryOperatorBuilder extends PerCaseBuilderWithIntProduct
 			final Case<LIntPredicate, LIntUnaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LIntUnaryOperator.l((int i) -> {
 				for (Case<LIntPredicate, LIntUnaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().test(i)) {
-						return aCase.caseFunction().applyAsInt(i);
+					if (aCase.casePredicate().doTest(i)) {
+						return aCase.caseFunction().doApplyAsInt(i);
 					}
 				}
 
-				return eventuallyFinal.applyAsInt(i);
+				return eventuallyFinal.doApplyAsInt(i);
 			});
 		}
 

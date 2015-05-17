@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LCharToByteFunction extends LCharToByteFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LCharToByteFunction: byte applyAsByte(char c)";
+	public static final String DESCRIPTION = "LCharToByteFunction: byte doApplyAsByte(char c)";
 
-	// Ovverriding methods can cause problems with inference.
+	public byte doApplyAsByte(char c);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LCharToByteFunction extends LCharToByteFunctionX<RuntimeExcepti
 
 	/** Captures arguments but delays the evaluation. */
 	default LByteSupplier capture(char c) {
-		return () -> this.applyAsByte(c);
+		return () -> this.doApplyAsByte(c);
 	}
 
 	public static LCharToByteFunction constant(byte r) {
@@ -81,7 +81,7 @@ public interface LCharToByteFunction extends LCharToByteFunctionX<RuntimeExcepti
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default byte nonNull(char c) {
-		return applyAsByte(c);
+		return doApplyAsByte(c);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -98,7 +98,7 @@ public interface LCharToByteFunction extends LCharToByteFunctionX<RuntimeExcepti
 	public static <X extends Exception> LCharToByteFunction wrap(final @Nonnull LCharToByteFunctionX<X> other) {
 		return (char c) -> {
 			try {
-				return other.applyAsByte(c);
+				return other.doApplyAsByte(c);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -115,7 +115,7 @@ public interface LCharToByteFunction extends LCharToByteFunctionX<RuntimeExcepti
 	@Nonnull
 	default LCharToByteFunction fromChar(@Nonnull final LCharUnaryOperator before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final char v1) -> this.applyAsByte(before1.applyAsChar(v1));
+		return (final char v1) -> this.doApplyAsByte(before1.doApplyAsChar(v1));
 	}
 
 	/**
@@ -124,7 +124,7 @@ public interface LCharToByteFunction extends LCharToByteFunctionX<RuntimeExcepti
 	@Nonnull
 	default <V1> LToByteFunction<V1> from(@Nonnull final LToCharFunction<? super V1> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.applyAsByte(before1.applyAsChar(v1));
+		return (V1 v1) -> this.doApplyAsByte(before1.doApplyAsChar(v1));
 	}
 
 	// </editor-fold>
@@ -135,63 +135,63 @@ public interface LCharToByteFunction extends LCharToByteFunctionX<RuntimeExcepti
 	@Nonnull
 	default <V> LCharFunction<V> then(@Nonnull LByteFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.apply(this.applyAsByte(c));
+		return (char c) -> after.doApply(this.doApplyAsByte(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToByteFunction thenToByte(@Nonnull LByteUnaryOperator after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.applyAsByte(this.applyAsByte(c));
+		return (char c) -> after.doApplyAsByte(this.doApplyAsByte(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToShortFunction thenToShort(@Nonnull LByteToShortFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.applyAsShort(this.applyAsByte(c));
+		return (char c) -> after.doApplyAsShort(this.doApplyAsByte(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToIntFunction thenToInt(@Nonnull LByteToIntFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.applyAsInt(this.applyAsByte(c));
+		return (char c) -> after.doApplyAsInt(this.doApplyAsByte(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToLongFunction thenToLong(@Nonnull LByteToLongFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.applyAsLong(this.applyAsByte(c));
+		return (char c) -> after.doApplyAsLong(this.doApplyAsByte(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToFloatFunction thenToFloat(@Nonnull LByteToFloatFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.applyAsFloat(this.applyAsByte(c));
+		return (char c) -> after.doApplyAsFloat(this.doApplyAsByte(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToDoubleFunction thenToDouble(@Nonnull LByteToDoubleFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.applyAsDouble(this.applyAsByte(c));
+		return (char c) -> after.doApplyAsDouble(this.doApplyAsByte(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharUnaryOperator thenToChar(@Nonnull LByteToCharFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.applyAsChar(this.applyAsByte(c));
+		return (char c) -> after.doApplyAsChar(this.doApplyAsByte(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharPredicate thenToBoolean(@Nonnull LBytePredicate after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.test(this.applyAsByte(c));
+		return (char c) -> after.doTest(this.doApplyAsByte(c));
 	}
 
 	// </editor-fold>
@@ -224,11 +224,11 @@ public interface LCharToByteFunction extends LCharToByteFunctionX<RuntimeExcepti
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LCharToByteFunction wrapException(@Nonnull final LCharToByteFunction other, Class<E> exception, LByteSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (char c) -> {
 			try {
-				return other.applyAsByte(c);
+				return other.doApplyAsByte(c);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsByte();
+						return supplier.doGetAsByte();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

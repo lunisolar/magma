@@ -60,9 +60,13 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LDoubleBinaryOperator extends java.util.function.DoubleBinaryOperator, LDoubleBinaryOperatorX<RuntimeException>, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LDoubleBinaryOperator: double applyAsDouble(double d1,double d2)";
+	public static final String DESCRIPTION = "LDoubleBinaryOperator: double doApplyAsDouble(double d1,double d2)";
 
-	// Ovverriding methods can cause problems with inference.
+	public double doApplyAsDouble(double d1, double d2);
+
+	default double applyAsDouble(double d1, double d2) {
+		return doApplyAsDouble(d1, d2);
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +76,7 @@ public interface LDoubleBinaryOperator extends java.util.function.DoubleBinaryOp
 
 	/** Captures arguments but delays the evaluation. */
 	default LDoubleSupplier capture(double d1, double d2) {
-		return () -> this.applyAsDouble(d1, d2);
+		return () -> this.doApplyAsDouble(d1, d2);
 	}
 
 	public static LDoubleBinaryOperator constant(double r) {
@@ -81,7 +85,7 @@ public interface LDoubleBinaryOperator extends java.util.function.DoubleBinaryOp
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default double nonNull(double d1, double d2) {
-		return applyAsDouble(d1, d2);
+		return doApplyAsDouble(d1, d2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -104,7 +108,7 @@ public interface LDoubleBinaryOperator extends java.util.function.DoubleBinaryOp
 	public static <X extends Exception> LDoubleBinaryOperator wrap(final @Nonnull LDoubleBinaryOperatorX<X> other) {
 		return (double d1, double d2) -> {
 			try {
-				return other.applyAsDouble(d1, d2);
+				return other.doApplyAsDouble(d1, d2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -141,7 +145,7 @@ public interface LDoubleBinaryOperator extends java.util.function.DoubleBinaryOp
 	default LDoubleBinaryOperator fromDouble(@Nonnull final LDoubleUnaryOperator before1, @Nonnull final LDoubleUnaryOperator before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final double v1, final double v2) -> this.applyAsDouble(before1.applyAsDouble(v1), before2.applyAsDouble(v2));
+		return (final double v1, final double v2) -> this.doApplyAsDouble(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
 	}
 
 	/**
@@ -151,7 +155,7 @@ public interface LDoubleBinaryOperator extends java.util.function.DoubleBinaryOp
 	default <V1, V2> LToDoubleBiFunction<V1, V2> from(@Nonnull final LToDoubleFunction<? super V1> before1, @Nonnull final LToDoubleFunction<? super V2> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.applyAsDouble(before1.applyAsDouble(v1), before2.applyAsDouble(v2));
+		return (V1 v1, V2 v2) -> this.doApplyAsDouble(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
 	}
 
 	// </editor-fold>
@@ -162,7 +166,7 @@ public interface LDoubleBinaryOperator extends java.util.function.DoubleBinaryOp
 	@Nonnull
 	default <V> LDoubleBiFunction<V> then(@Nonnull LDoubleFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d1, double d2) -> after.apply(this.applyAsDouble(d1, d2));
+		return (double d1, double d2) -> after.doApply(this.doApplyAsDouble(d1, d2));
 	}
 
 	// </editor-fold>
@@ -201,11 +205,11 @@ public interface LDoubleBinaryOperator extends java.util.function.DoubleBinaryOp
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LDoubleBinaryOperator wrapException(@Nonnull final LDoubleBinaryOperator other, Class<E> exception, LDoubleSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (double d1, double d2) -> {
 			try {
-				return other.applyAsDouble(d1, d2);
+				return other.doApplyAsDouble(d1, d2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsDouble();
+						return supplier.doGetAsDouble();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

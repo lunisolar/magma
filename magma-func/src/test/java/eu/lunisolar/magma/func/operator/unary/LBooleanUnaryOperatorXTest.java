@@ -61,13 +61,13 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
 
 
     private LBooleanUnaryOperatorX<X> sut = new LBooleanUnaryOperatorX(){
-        public  boolean applyAsBoolean(boolean b) throws ParseException {
+        public  boolean doApplyAsBoolean(boolean b) throws ParseException {
             return testValue;
         }
     };
 
     private LBooleanUnaryOperator opposite = new LBooleanUnaryOperator(){
-        public  boolean applyAsBoolean(boolean b)  {
+        public  boolean doApplyAsBoolean(boolean b)  {
             return testValue;
         }
     };
@@ -76,7 +76,7 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.applyAsBoolean(true))
+        assertThat(sut.doApplyAsBoolean(true))
             .isEqualTo(testValue);
     }
 
@@ -90,7 +90,7 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBooleanUnaryOperatorX: boolean applyAsBoolean(boolean b) throws X");
+            .isEqualTo("LBooleanUnaryOperatorX: boolean doApplyAsBoolean(boolean b) throws X");
     }
 
     @Test
@@ -121,7 +121,7 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsBoolean(true);
+            wrapped.doApplyAsBoolean(true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -146,7 +146,7 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsBoolean(true);
+            wrapped.doApplyAsBoolean(true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -170,7 +170,7 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsBoolean(true);
+            wrapped.doApplyAsBoolean(true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -182,7 +182,7 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
 
     @Test
     public void testNegate() throws ParseException {
-        assertThat(sut.negate().applyAsBoolean(true))
+        assertThat(sut.negate().doApplyAsBoolean(true))
             .isEqualTo(!testValue);
     }
 
@@ -210,13 +210,13 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
         LBooleanUnaryOperatorX<X> xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.applyAsBoolean(true))
+        assertThat(andFunction.doApplyAsBoolean(true))
                 .isEqualTo(andResult);
 
-        assertThat(orFunction.applyAsBoolean(true))
+        assertThat(orFunction.doApplyAsBoolean(true))
                 .isEqualTo(orResult);
 
-        assertThat(xorFunction.applyAsBoolean(true))
+        assertThat(xorFunction.doApplyAsBoolean(true))
                 .isEqualTo(xorResult);
     }
 
@@ -226,10 +226,10 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
         LBooleanUnaryOperatorX<X> equals = LBooleanUnaryOperatorX.isEqual(true);
 
         //then
-        assertThat(equals.test(true))
+        assertThat(equals.doApplyAsBoolean(true))
                 .isTrue();
 
-        assertThat(equals.test(false))
+        assertThat(equals.doApplyAsBoolean(false))
                 .isFalse();
     }
 
@@ -258,7 +258,7 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
 
         //when
         LBooleanUnaryOperatorX<X> function = sutO.fromBoolean(before1);
-        function.applyAsBoolean(true);
+        function.doApplyAsBoolean(true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -287,7 +287,7 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
 
         //when
         LPredicateX<Integer ,X> function = sutO.from(before1);
-        function.test((Integer )Integer.valueOf(80));
+        function.doTest((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -323,7 +323,7 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
 
         //when
         LBooleanFunctionX<Integer ,X> function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply(true);
+        Integer  finalValue = function.doApply(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -358,7 +358,7 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
 
         //when
         LBooleanToByteFunctionX<X> function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.applyAsByte(true);
+        byte finalValue = function.doApplyAsByte(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -393,7 +393,7 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
 
         //when
         LBooleanToShortFunctionX<X> function = sutO.thenToShort(thenFunction);
-        short finalValue = function.applyAsShort(true);
+        short finalValue = function.doApplyAsShort(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -428,7 +428,7 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
 
         //when
         LBooleanToIntFunctionX<X> function = sutO.thenToInt(thenFunction);
-        int finalValue = function.applyAsInt(true);
+        int finalValue = function.doApplyAsInt(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo((int)100);
@@ -463,7 +463,7 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
 
         //when
         LBooleanToLongFunctionX<X> function = sutO.thenToLong(thenFunction);
-        long finalValue = function.applyAsLong(true);
+        long finalValue = function.doApplyAsLong(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo((long)100);
@@ -498,7 +498,7 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
 
         //when
         LBooleanToFloatFunctionX<X> function = sutO.thenToFloat(thenFunction);
-        float finalValue = function.applyAsFloat(true);
+        float finalValue = function.doApplyAsFloat(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo((float)100);
@@ -533,7 +533,7 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
 
         //when
         LBooleanToDoubleFunctionX<X> function = sutO.thenToDouble(thenFunction);
-        double finalValue = function.applyAsDouble(true);
+        double finalValue = function.doApplyAsDouble(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo((double)100);
@@ -568,7 +568,7 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
 
         //when
         LBooleanToCharFunctionX<X> function = sutO.thenToChar(thenFunction);
-        char finalValue = function.applyAsChar(true);
+        char finalValue = function.doApplyAsChar(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo((char)100);
@@ -603,7 +603,7 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
 
         //when
         LBooleanUnaryOperatorX<X> function = sutO.thenToBoolean(thenFunction);
-        boolean finalValue = function.applyAsBoolean(true);
+        boolean finalValue = function.doApplyAsBoolean(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -619,7 +619,7 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
     public void identity() throws ParseException {
         LBooleanUnaryOperatorX<X> identityFunction = LBooleanUnaryOperatorX.identity();
 
-        assertThat(identityFunction.applyAsBoolean(true)).isEqualTo(true);
+        assertThat(identityFunction.doApplyAsBoolean(true)).isEqualTo(true);
     }
 
     @Test
@@ -641,7 +641,7 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().applyAsBoolean(true);
+        sutThrowing.shove().doApplyAsBoolean(true);
     }
 
     @Test
@@ -659,7 +659,7 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsBoolean(true);
+            wrapped.doApplyAsBoolean(true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -678,7 +678,7 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBooleanUnaryOperatorX: boolean applyAsBoolean(boolean b) throws X");
+                .contains("LBooleanUnaryOperatorX: boolean doApplyAsBoolean(boolean b) throws X");
     }
 
 

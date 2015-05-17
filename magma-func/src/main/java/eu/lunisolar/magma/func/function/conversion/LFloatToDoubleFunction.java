@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LFloatToDoubleFunction extends LFloatToDoubleFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LFloatToDoubleFunction: double applyAsDouble(float f)";
+	public static final String DESCRIPTION = "LFloatToDoubleFunction: double doApplyAsDouble(float f)";
 
-	// Ovverriding methods can cause problems with inference.
+	public double doApplyAsDouble(float f);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LFloatToDoubleFunction extends LFloatToDoubleFunctionX<RuntimeE
 
 	/** Captures arguments but delays the evaluation. */
 	default LDoubleSupplier capture(float f) {
-		return () -> this.applyAsDouble(f);
+		return () -> this.doApplyAsDouble(f);
 	}
 
 	public static LFloatToDoubleFunction constant(double r) {
@@ -81,7 +81,7 @@ public interface LFloatToDoubleFunction extends LFloatToDoubleFunctionX<RuntimeE
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default double nonNull(float f) {
-		return applyAsDouble(f);
+		return doApplyAsDouble(f);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -98,7 +98,7 @@ public interface LFloatToDoubleFunction extends LFloatToDoubleFunctionX<RuntimeE
 	public static <X extends Exception> LFloatToDoubleFunction wrap(final @Nonnull LFloatToDoubleFunctionX<X> other) {
 		return (float f) -> {
 			try {
-				return other.applyAsDouble(f);
+				return other.doApplyAsDouble(f);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -115,7 +115,7 @@ public interface LFloatToDoubleFunction extends LFloatToDoubleFunctionX<RuntimeE
 	@Nonnull
 	default LFloatToDoubleFunction fromFloat(@Nonnull final LFloatUnaryOperator before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final float v1) -> this.applyAsDouble(before1.applyAsFloat(v1));
+		return (final float v1) -> this.doApplyAsDouble(before1.doApplyAsFloat(v1));
 	}
 
 	/**
@@ -124,7 +124,7 @@ public interface LFloatToDoubleFunction extends LFloatToDoubleFunctionX<RuntimeE
 	@Nonnull
 	default <V1> LToDoubleFunction<V1> from(@Nonnull final LToFloatFunction<? super V1> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.applyAsDouble(before1.applyAsFloat(v1));
+		return (V1 v1) -> this.doApplyAsDouble(before1.doApplyAsFloat(v1));
 	}
 
 	// </editor-fold>
@@ -135,63 +135,63 @@ public interface LFloatToDoubleFunction extends LFloatToDoubleFunctionX<RuntimeE
 	@Nonnull
 	default <V> LFloatFunction<V> then(@Nonnull LDoubleFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.apply(this.applyAsDouble(f));
+		return (float f) -> after.doApply(this.doApplyAsDouble(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToByteFunction thenToByte(@Nonnull LDoubleToByteFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsByte(this.applyAsDouble(f));
+		return (float f) -> after.doApplyAsByte(this.doApplyAsDouble(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToShortFunction thenToShort(@Nonnull LDoubleToShortFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsShort(this.applyAsDouble(f));
+		return (float f) -> after.doApplyAsShort(this.doApplyAsDouble(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToIntFunction thenToInt(@Nonnull LDoubleToIntFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsInt(this.applyAsDouble(f));
+		return (float f) -> after.doApplyAsInt(this.doApplyAsDouble(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToLongFunction thenToLong(@Nonnull LDoubleToLongFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsLong(this.applyAsDouble(f));
+		return (float f) -> after.doApplyAsLong(this.doApplyAsDouble(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatUnaryOperator thenToFloat(@Nonnull LDoubleToFloatFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsFloat(this.applyAsDouble(f));
+		return (float f) -> after.doApplyAsFloat(this.doApplyAsDouble(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToDoubleFunction thenToDouble(@Nonnull LDoubleUnaryOperator after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsDouble(this.applyAsDouble(f));
+		return (float f) -> after.doApplyAsDouble(this.doApplyAsDouble(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToCharFunction thenToChar(@Nonnull LDoubleToCharFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsChar(this.applyAsDouble(f));
+		return (float f) -> after.doApplyAsChar(this.doApplyAsDouble(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatPredicate thenToBoolean(@Nonnull LDoublePredicate after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.test(this.applyAsDouble(f));
+		return (float f) -> after.doTest(this.doApplyAsDouble(f));
 	}
 
 	// </editor-fold>
@@ -224,11 +224,11 @@ public interface LFloatToDoubleFunction extends LFloatToDoubleFunctionX<RuntimeE
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LFloatToDoubleFunction wrapException(@Nonnull final LFloatToDoubleFunction other, Class<E> exception, LDoubleSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (float f) -> {
 			try {
-				return other.applyAsDouble(f);
+				return other.doApplyAsDouble(f);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsDouble();
+						return supplier.doGetAsDouble();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

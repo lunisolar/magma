@@ -55,7 +55,7 @@ public interface LConsumerAssert<S extends LConsumerAssert<S, A, T>, A extends L
 
 		@Nonnull
 		public SemiEvaluation<S, A, Exception> doesAccept(T t) {
-			return evaluation(() -> actual.accept(t));
+			return evaluation(() -> actual.doAccept(t));
 		}
 
 	}

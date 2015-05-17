@@ -98,7 +98,7 @@ public final class DoublePredicateBuilder extends PerCaseBuilderWithBooleanProdu
 			final Case<LDoublePredicate, java.util.function.DoublePredicate>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = Function4U.l((double d) -> {
 				for (Case<LDoublePredicate, java.util.function.DoublePredicate> aCase : casesArray) {
-					if (aCase.casePredicate().test(d)) {
+					if (aCase.casePredicate().doTest(d)) {
 						return aCase.caseFunction().test(d);
 					}
 				}

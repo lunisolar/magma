@@ -99,12 +99,12 @@ public final class LBooleanFunctionXBuilder<R, X extends Exception> extends PerC
 			final Case<LBooleanUnaryOperatorX<X>, LBooleanFunctionX<R, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LBooleanFunctionX.lX((boolean b) -> {
 				for (Case<LBooleanUnaryOperatorX<X>, LBooleanFunctionX<R, X>> aCase : casesArray) {
-					if (aCase.casePredicate().applyAsBoolean(b)) {
-						return aCase.caseFunction().apply(b);
+					if (aCase.casePredicate().doApplyAsBoolean(b)) {
+						return aCase.caseFunction().doApply(b);
 					}
 				}
 
-				return eventuallyFinal.apply(b);
+				return eventuallyFinal.doApply(b);
 			});
 		}
 

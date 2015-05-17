@@ -99,12 +99,12 @@ public final class LObjDoubleFunctionBuilder<T, R> extends PerCaseBuilderWithPro
 			final Case<LObjDoublePredicate<T>, LObjDoubleFunction<T, R>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LObjDoubleFunction.l((T t, double d) -> {
 				for (Case<LObjDoublePredicate<T>, LObjDoubleFunction<T, R>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t, d)) {
-						return aCase.caseFunction().apply(t, d);
+					if (aCase.casePredicate().doTest(t, d)) {
+						return aCase.caseFunction().doApply(t, d);
 					}
 				}
 
-				return eventuallyFinal.apply(t, d);
+				return eventuallyFinal.doApply(t, d);
 			});
 		}
 

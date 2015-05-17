@@ -99,12 +99,12 @@ public final class LFunctionBuilder<T, R> extends PerCaseBuilderWithProduct.Base
 			final Case<LPredicate<T>, LFunction<T, R>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LFunction.l((T t) -> {
 				for (Case<LPredicate<T>, LFunction<T, R>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t)) {
-						return aCase.caseFunction().apply(t);
+					if (aCase.casePredicate().doTest(t)) {
+						return aCase.caseFunction().doApply(t);
 					}
 				}
 
-				return eventuallyFinal.apply(t);
+				return eventuallyFinal.doApply(t);
 			});
 		}
 

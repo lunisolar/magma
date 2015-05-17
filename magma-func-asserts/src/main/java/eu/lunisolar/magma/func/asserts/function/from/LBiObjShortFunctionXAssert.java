@@ -63,7 +63,7 @@ public interface LBiObjShortFunctionXAssert<S extends LBiObjShortFunctionXAssert
 
 		@Nonnull
 		public Evaluation<S, A, RS, R, Exception> doesApply(T1 t1, T2 t2, short s) {
-			return evaluation(() -> assertFactory.apply((R) actual.apply(t1, t2, s)));
+			return evaluation(() -> assertFactory.apply((R) actual.doApply(t1, t2, s)));
 		}
 
 	}

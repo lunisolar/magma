@@ -69,7 +69,7 @@ public class LBooleanToByteFunctionBuilderTest<X extends ParseException>{
                 .booleanToByteFunction()
                 .build();
 
-            function.applyAsByte(true);
+            function.doApplyAsByte(true);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

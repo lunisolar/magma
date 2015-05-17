@@ -99,12 +99,12 @@ public final class LToDoubleFunctionXBuilder<T, X extends Exception> extends Per
 			final Case<LPredicateX<T, X>, LToDoubleFunctionX<T, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LToDoubleFunctionX.lX((T t) -> {
 				for (Case<LPredicateX<T, X>, LToDoubleFunctionX<T, X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t)) {
-						return aCase.caseFunction().applyAsDouble(t);
+					if (aCase.casePredicate().doTest(t)) {
+						return aCase.caseFunction().doApplyAsDouble(t);
 					}
 				}
 
-				return eventuallyFinal.applyAsDouble(t);
+				return eventuallyFinal.doApplyAsDouble(t);
 			});
 		}
 

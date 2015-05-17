@@ -63,7 +63,7 @@ public interface LLongBinaryOperatorXAssert<S extends LLongBinaryOperatorXAssert
 
 		@Nonnull
 		public Evaluation<S, A, RS, Long, Exception> doesApplyAsLong(long l1, long l2) {
-			return evaluation(() -> assertFactory.apply((Long) actual.applyAsLong(l1, l2)));
+			return evaluation(() -> assertFactory.apply((Long) actual.doApplyAsLong(l1, l2)));
 		}
 
 	}

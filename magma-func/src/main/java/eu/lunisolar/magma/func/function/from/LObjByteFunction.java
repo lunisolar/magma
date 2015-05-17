@@ -60,9 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LObjByteFunction<T, R> extends LObjByteFunctionX<T, R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LObjByteFunction: R apply(T t, byte i)";
+	public static final String DESCRIPTION = "LObjByteFunction: R doApply(T t, byte i)";
 
-	// Ovverriding methods can cause problems with inference.
+	@Nullable
+	public R doApply(T t, byte i);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +73,7 @@ public interface LObjByteFunction<T, R> extends LObjByteFunctionX<T, R, RuntimeE
 
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(T t, byte i) {
-		return () -> this.apply(t, i);
+		return () -> this.doApply(t, i);
 	}
 
 	public static <T, R> LObjByteFunction<T, R> constant(R r) {
@@ -84,7 +85,7 @@ public interface LObjByteFunction<T, R> extends LObjByteFunctionX<T, R, RuntimeE
 	/** Ensures the result is not null */
 	@Nonnull
 	default R nonNull(T t, byte i) {
-		return Objects.requireNonNull(apply(t, i), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Objects.requireNonNull(doApply(t, i), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -101,7 +102,7 @@ public interface LObjByteFunction<T, R> extends LObjByteFunctionX<T, R, RuntimeE
 	public static <T, R, X extends Exception> LObjByteFunction<T, R> wrap(final @Nonnull LObjByteFunctionX<T, R, X> other) {
 		return (T t, byte i) -> {
 			try {
-				return other.apply(t, i);
+				return other.doApply(t, i);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -119,7 +120,7 @@ public interface LObjByteFunction<T, R> extends LObjByteFunctionX<T, R, RuntimeE
 	default <V1> LObjByteFunction<V1, R> fromByte(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LByteUnaryOperator before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final V1 v1, final byte v2) -> this.apply(before1.apply(v1), before2.applyAsByte(v2));
+		return (final V1 v1, final byte v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsByte(v2));
 	}
 
 	/**
@@ -129,7 +130,7 @@ public interface LObjByteFunction<T, R> extends LObjByteFunctionX<T, R, RuntimeE
 	default <V1, V2> LBiFunction<V1, V2, R> from(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToByteFunction<? super V2> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.apply(before1.apply(v1), before2.applyAsByte(v2));
+		return (V1 v1, V2 v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsByte(v2));
 	}
 
 	// </editor-fold>
@@ -140,14 +141,14 @@ public interface LObjByteFunction<T, R> extends LObjByteFunctionX<T, R, RuntimeE
 	@Nonnull
 	default <V> LObjByteFunction<T, V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t, byte i) -> after.apply(this.apply(t, i));
+		return (T t, byte i) -> after.doApply(this.doApply(t, i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LObjByteConsumer<T> then(@Nonnull LConsumer<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t, byte i) -> after.accept(this.apply(t, i));
+		return (T t, byte i) -> after.doAccept(this.doApply(t, i));
 	}
 
 	// </editor-fold>
@@ -175,7 +176,7 @@ public interface LObjByteFunction<T, R> extends LObjByteFunctionX<T, R, RuntimeE
 
 	@Nonnull
 	default LObjByteFunction<T, R> nonNullable() {
-		return (t, i) -> Objects.requireNonNull(this.apply(t, i));
+		return (t, i) -> Objects.requireNonNull(this.doApply(t, i));
 	}
 
 	// <editor-fold desc="exception handling">
@@ -185,11 +186,11 @@ public interface LObjByteFunction<T, R> extends LObjByteFunctionX<T, R, RuntimeE
 	public static <T, R, X extends Exception, E extends Exception, Y extends RuntimeException> LObjByteFunction<T, R> wrapException(@Nonnull final LObjByteFunction<T, R> other, Class<E> exception, LSupplier<R> supplier, ExceptionHandler<E, Y> handler) {
 		return (T t, byte i) -> {
 			try {
-				return other.apply(t, i);
+				return other.doApply(t, i);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.get();
+						return supplier.doGet();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

@@ -61,13 +61,13 @@ public class LDoubleToFloatFunctionXTest<X extends ParseException> {
 
 
     private LDoubleToFloatFunctionX<X> sut = new LDoubleToFloatFunctionX(){
-        public  float applyAsFloat(double d) throws ParseException {
+        public  float doApplyAsFloat(double d) throws ParseException {
             return testValue;
         }
     };
 
     private LDoubleToFloatFunction opposite = new LDoubleToFloatFunction(){
-        public  float applyAsFloat(double d)  {
+        public  float doApplyAsFloat(double d)  {
             return testValue;
         }
     };
@@ -76,7 +76,7 @@ public class LDoubleToFloatFunctionXTest<X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.applyAsFloat((double)100))
+        assertThat(sut.doApplyAsFloat((double)100))
             .isEqualTo(testValue);
     }
 
@@ -90,7 +90,7 @@ public class LDoubleToFloatFunctionXTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LDoubleToFloatFunctionX: float applyAsFloat(double d) throws X");
+            .isEqualTo("LDoubleToFloatFunctionX: float doApplyAsFloat(double d) throws X");
     }
 
     @Test
@@ -121,7 +121,7 @@ public class LDoubleToFloatFunctionXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsFloat((double)100);
+            wrapped.doApplyAsFloat((double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -146,7 +146,7 @@ public class LDoubleToFloatFunctionXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsFloat((double)100);
+            wrapped.doApplyAsFloat((double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -170,7 +170,7 @@ public class LDoubleToFloatFunctionXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsFloat((double)100);
+            wrapped.doApplyAsFloat((double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -205,7 +205,7 @@ public class LDoubleToFloatFunctionXTest<X extends ParseException> {
 
         //when
         LDoubleToFloatFunctionX<X> function = sutO.fromDouble(before1);
-        function.applyAsFloat((double)80);
+        function.doApplyAsFloat((double)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -234,7 +234,7 @@ public class LDoubleToFloatFunctionXTest<X extends ParseException> {
 
         //when
         LToFloatFunctionX<Integer ,X> function = sutO.from(before1);
-        function.applyAsFloat((Integer )Integer.valueOf(80));
+        function.doApplyAsFloat((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -270,7 +270,7 @@ public class LDoubleToFloatFunctionXTest<X extends ParseException> {
 
         //when
         LDoubleFunctionX<Integer ,X> function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((double)80);
+        Integer  finalValue = function.doApply((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -305,7 +305,7 @@ public class LDoubleToFloatFunctionXTest<X extends ParseException> {
 
         //when
         LDoubleToByteFunctionX<X> function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.applyAsByte((double)80);
+        byte finalValue = function.doApplyAsByte((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -340,7 +340,7 @@ public class LDoubleToFloatFunctionXTest<X extends ParseException> {
 
         //when
         LDoubleToShortFunctionX<X> function = sutO.thenToShort(thenFunction);
-        short finalValue = function.applyAsShort((double)80);
+        short finalValue = function.doApplyAsShort((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -375,7 +375,7 @@ public class LDoubleToFloatFunctionXTest<X extends ParseException> {
 
         //when
         LDoubleToIntFunctionX<X> function = sutO.thenToInt(thenFunction);
-        int finalValue = function.applyAsInt((double)80);
+        int finalValue = function.doApplyAsInt((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((int)100);
@@ -410,7 +410,7 @@ public class LDoubleToFloatFunctionXTest<X extends ParseException> {
 
         //when
         LDoubleToLongFunctionX<X> function = sutO.thenToLong(thenFunction);
-        long finalValue = function.applyAsLong((double)80);
+        long finalValue = function.doApplyAsLong((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((long)100);
@@ -445,7 +445,7 @@ public class LDoubleToFloatFunctionXTest<X extends ParseException> {
 
         //when
         LDoubleToFloatFunctionX<X> function = sutO.thenToFloat(thenFunction);
-        float finalValue = function.applyAsFloat((double)80);
+        float finalValue = function.doApplyAsFloat((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((float)100);
@@ -480,7 +480,7 @@ public class LDoubleToFloatFunctionXTest<X extends ParseException> {
 
         //when
         LDoubleUnaryOperatorX<X> function = sutO.thenToDouble(thenFunction);
-        double finalValue = function.applyAsDouble((double)80);
+        double finalValue = function.doApplyAsDouble((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((double)100);
@@ -515,7 +515,7 @@ public class LDoubleToFloatFunctionXTest<X extends ParseException> {
 
         //when
         LDoubleToCharFunctionX<X> function = sutO.thenToChar(thenFunction);
-        char finalValue = function.applyAsChar((double)80);
+        char finalValue = function.doApplyAsChar((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((char)100);
@@ -550,7 +550,7 @@ public class LDoubleToFloatFunctionXTest<X extends ParseException> {
 
         //when
         LDoublePredicateX<X> function = sutO.thenToBoolean(thenFunction);
-        boolean finalValue = function.test((double)80);
+        boolean finalValue = function.doTest((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -581,7 +581,7 @@ public class LDoubleToFloatFunctionXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().applyAsFloat((double)100);
+        sutThrowing.shove().doApplyAsFloat((double)100);
     }
 
     @Test
@@ -599,7 +599,7 @@ public class LDoubleToFloatFunctionXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsFloat((double)100);
+            wrapped.doApplyAsFloat((double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -618,7 +618,7 @@ public class LDoubleToFloatFunctionXTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LDoubleToFloatFunctionX: float applyAsFloat(double d) throws X");
+                .contains("LDoubleToFloatFunctionX: float doApplyAsFloat(double d) throws X");
     }
 
 

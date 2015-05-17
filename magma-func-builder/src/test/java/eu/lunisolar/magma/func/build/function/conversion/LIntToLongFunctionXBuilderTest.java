@@ -69,7 +69,7 @@ public class LIntToLongFunctionXBuilderTest<X extends ParseException>{
                 .intToLongFunctionX()
                 .build();
 
-            function.applyAsLong((int)100);
+            function.doApplyAsLong((int)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

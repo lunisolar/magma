@@ -99,12 +99,12 @@ public final class LBooleanToIntFunctionBuilder extends PerCaseBuilderWithIntPro
 			final Case<LBooleanUnaryOperator, LBooleanToIntFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LBooleanToIntFunction.l((boolean b) -> {
 				for (Case<LBooleanUnaryOperator, LBooleanToIntFunction> aCase : casesArray) {
-					if (aCase.casePredicate().applyAsBoolean(b)) {
-						return aCase.caseFunction().applyAsInt(b);
+					if (aCase.casePredicate().doApplyAsBoolean(b)) {
+						return aCase.caseFunction().doApplyAsInt(b);
 					}
 				}
 
-				return eventuallyFinal.applyAsInt(b);
+				return eventuallyFinal.doApplyAsInt(b);
 			});
 		}
 

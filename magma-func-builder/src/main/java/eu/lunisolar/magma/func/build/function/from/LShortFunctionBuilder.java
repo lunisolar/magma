@@ -99,12 +99,12 @@ public final class LShortFunctionBuilder<R> extends PerCaseBuilderWithProduct.Ba
 			final Case<LShortPredicate, LShortFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LShortFunction.l((short s) -> {
 				for (Case<LShortPredicate, LShortFunction<R>> aCase : casesArray) {
-					if (aCase.casePredicate().test(s)) {
-						return aCase.caseFunction().apply(s);
+					if (aCase.casePredicate().doTest(s)) {
+						return aCase.caseFunction().doApply(s);
 					}
 				}
 
-				return eventuallyFinal.apply(s);
+				return eventuallyFinal.doApply(s);
 			});
 		}
 

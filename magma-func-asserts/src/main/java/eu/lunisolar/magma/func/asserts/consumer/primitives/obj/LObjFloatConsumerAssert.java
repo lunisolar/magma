@@ -55,7 +55,7 @@ public interface LObjFloatConsumerAssert<S extends LObjFloatConsumerAssert<S, A,
 
 		@Nonnull
 		public SemiEvaluation<S, A, Exception> doesAccept(T t, float f) {
-			return evaluation(() -> actual.accept(t, f));
+			return evaluation(() -> actual.doAccept(t, f));
 		}
 
 	}

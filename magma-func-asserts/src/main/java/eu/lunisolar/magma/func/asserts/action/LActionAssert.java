@@ -58,12 +58,12 @@ public interface LActionAssert<S extends LActionAssert<S, A>, A extends LAction>
 
 		@Nonnull
 		public SemiEvaluation<S, A, Exception> doesExecute() {
-			return evaluation(() -> actual.execute());
+			return evaluation(() -> actual.doExecute());
 		}
 
 		@Nonnull
 		public SemiEvaluation<S, A, Exception> doesExecute(LAction before) {
-			before.execute();
+			before.doExecute();
 			return doesExecute();
 		}
 	}

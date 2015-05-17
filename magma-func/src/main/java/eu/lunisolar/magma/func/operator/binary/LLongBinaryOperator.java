@@ -60,9 +60,13 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LLongBinaryOperator extends java.util.function.LongBinaryOperator, LLongBinaryOperatorX<RuntimeException>, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LLongBinaryOperator: long applyAsLong(long l1,long l2)";
+	public static final String DESCRIPTION = "LLongBinaryOperator: long doApplyAsLong(long l1,long l2)";
 
-	// Ovverriding methods can cause problems with inference.
+	public long doApplyAsLong(long l1, long l2);
+
+	default long applyAsLong(long l1, long l2) {
+		return doApplyAsLong(l1, l2);
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +76,7 @@ public interface LLongBinaryOperator extends java.util.function.LongBinaryOperat
 
 	/** Captures arguments but delays the evaluation. */
 	default LLongSupplier capture(long l1, long l2) {
-		return () -> this.applyAsLong(l1, l2);
+		return () -> this.doApplyAsLong(l1, l2);
 	}
 
 	public static LLongBinaryOperator constant(long r) {
@@ -81,7 +85,7 @@ public interface LLongBinaryOperator extends java.util.function.LongBinaryOperat
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default long nonNull(long l1, long l2) {
-		return applyAsLong(l1, l2);
+		return doApplyAsLong(l1, l2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -104,7 +108,7 @@ public interface LLongBinaryOperator extends java.util.function.LongBinaryOperat
 	public static <X extends Exception> LLongBinaryOperator wrap(final @Nonnull LLongBinaryOperatorX<X> other) {
 		return (long l1, long l2) -> {
 			try {
-				return other.applyAsLong(l1, l2);
+				return other.doApplyAsLong(l1, l2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -141,7 +145,7 @@ public interface LLongBinaryOperator extends java.util.function.LongBinaryOperat
 	default LLongBinaryOperator fromLong(@Nonnull final LLongUnaryOperator before1, @Nonnull final LLongUnaryOperator before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final long v1, final long v2) -> this.applyAsLong(before1.applyAsLong(v1), before2.applyAsLong(v2));
+		return (final long v1, final long v2) -> this.doApplyAsLong(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
 	}
 
 	/**
@@ -151,7 +155,7 @@ public interface LLongBinaryOperator extends java.util.function.LongBinaryOperat
 	default <V1, V2> LToLongBiFunction<V1, V2> from(@Nonnull final LToLongFunction<? super V1> before1, @Nonnull final LToLongFunction<? super V2> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.applyAsLong(before1.applyAsLong(v1), before2.applyAsLong(v2));
+		return (V1 v1, V2 v2) -> this.doApplyAsLong(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
 	}
 
 	// </editor-fold>
@@ -162,7 +166,7 @@ public interface LLongBinaryOperator extends java.util.function.LongBinaryOperat
 	@Nonnull
 	default <V> LLongBiFunction<V> then(@Nonnull LLongFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l1, long l2) -> after.apply(this.applyAsLong(l1, l2));
+		return (long l1, long l2) -> after.doApply(this.doApplyAsLong(l1, l2));
 	}
 
 	// </editor-fold>
@@ -201,11 +205,11 @@ public interface LLongBinaryOperator extends java.util.function.LongBinaryOperat
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LLongBinaryOperator wrapException(@Nonnull final LLongBinaryOperator other, Class<E> exception, LLongSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (long l1, long l2) -> {
 			try {
-				return other.applyAsLong(l1, l2);
+				return other.doApplyAsLong(l1, l2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsLong();
+						return supplier.doGetAsLong();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

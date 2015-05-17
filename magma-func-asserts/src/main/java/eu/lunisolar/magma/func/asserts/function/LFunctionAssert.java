@@ -58,7 +58,7 @@ public interface LFunctionAssert<S extends LFunctionAssert<S, A, RS, T, R>, A ex
 
 		@Nonnull
 		public Evaluation<S, A, RS, R, Exception> doesApply(T t) {
-			return evaluation(() -> assertFactory.apply((R) actual.apply(t)));
+			return evaluation(() -> assertFactory.apply((R) actual.doApply(t)));
 		}
 
 	}

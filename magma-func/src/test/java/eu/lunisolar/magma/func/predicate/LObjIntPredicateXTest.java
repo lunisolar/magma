@@ -61,13 +61,13 @@ public class LObjIntPredicateXTest<T,X extends ParseException> {
 
 
     private LObjIntPredicateX<T,X> sut = new LObjIntPredicateX(){
-        public  boolean test(Object t, int i) throws ParseException {
+        public  boolean doTest(Object t, int i) throws ParseException {
             return testValue;
         }
     };
 
     private LObjIntPredicate<T> opposite = new LObjIntPredicate(){
-        public  boolean test(Object t, int i)  {
+        public  boolean doTest(Object t, int i)  {
             return testValue;
         }
     };
@@ -76,7 +76,7 @@ public class LObjIntPredicateXTest<T,X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.test((T)Integer.valueOf(100),(int)100))
+        assertThat(sut.doTest((T)Integer.valueOf(100),(int)100))
             .isEqualTo(testValue);
     }
 
@@ -88,7 +88,7 @@ public class LObjIntPredicateXTest<T,X extends ParseException> {
 
     @Test
     public void testApplyAsBooleanShouldNotModifyValue() throws ParseException {
-        assertThat(sut.applyAsBoolean((T)Integer.valueOf(100),(int)100))
+        assertThat(sut.doApplyAsBoolean((T)Integer.valueOf(100),(int)100))
             .isEqualTo(testValue);
 
     }
@@ -97,7 +97,7 @@ public class LObjIntPredicateXTest<T,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LObjIntPredicateX: boolean test(T t, int i) throws X");
+            .isEqualTo("LObjIntPredicateX: boolean doTest(T t, int i) throws X");
     }
 
     @Test
@@ -128,7 +128,7 @@ public class LObjIntPredicateXTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.test((T)Integer.valueOf(100),(int)100);
+            wrapped.doTest((T)Integer.valueOf(100),(int)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -153,7 +153,7 @@ public class LObjIntPredicateXTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.test((T)Integer.valueOf(100),(int)100);
+            wrapped.doTest((T)Integer.valueOf(100),(int)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -177,7 +177,7 @@ public class LObjIntPredicateXTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.test((T)Integer.valueOf(100),(int)100);
+            wrapped.doTest((T)Integer.valueOf(100),(int)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -189,7 +189,7 @@ public class LObjIntPredicateXTest<T,X extends ParseException> {
 
     @Test
     public void testNegate() throws ParseException {
-        assertThat(sut.negate().test((T)Integer.valueOf(100),(int)100))
+        assertThat(sut.negate().doTest((T)Integer.valueOf(100),(int)100))
             .isEqualTo(!testValue);
     }
 
@@ -217,13 +217,13 @@ public class LObjIntPredicateXTest<T,X extends ParseException> {
         LObjIntPredicateX<T,X> xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.test((T)Integer.valueOf(100),(int)100))
+        assertThat(andFunction.doTest((T)Integer.valueOf(100),(int)100))
                 .isEqualTo(andResult);
 
-        assertThat(orFunction.test((T)Integer.valueOf(100),(int)100))
+        assertThat(orFunction.doTest((T)Integer.valueOf(100),(int)100))
                 .isEqualTo(orResult);
 
-        assertThat(xorFunction.test((T)Integer.valueOf(100),(int)100))
+        assertThat(xorFunction.doTest((T)Integer.valueOf(100),(int)100))
                 .isEqualTo(xorResult);
     }
 
@@ -233,10 +233,10 @@ public class LObjIntPredicateXTest<T,X extends ParseException> {
         LObjIntPredicateX<T,X> equals = LObjIntPredicateX.isEqual((T)Integer.valueOf(100),(int)100);
 
         //then
-        assertThat(equals.test((T)Integer.valueOf(100),(int)100))
+        assertThat(equals.doTest((T)Integer.valueOf(100),(int)100))
                 .isTrue();
 
-        assertThat(equals.test((T)Integer.valueOf(0),(int)0))
+        assertThat(equals.doTest((T)Integer.valueOf(0),(int)0))
                 .isFalse();
     }
 
@@ -271,7 +271,7 @@ public class LObjIntPredicateXTest<T,X extends ParseException> {
 
         //when
         LObjIntPredicateX<Integer ,X> function = sutO.fromInt(before1,before2);
-        function.test((Integer )Integer.valueOf(80),(int)81);
+        function.doTest((Integer )Integer.valueOf(80),(int)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -306,7 +306,7 @@ public class LObjIntPredicateXTest<T,X extends ParseException> {
 
         //when
         LBiPredicateX<Integer ,Integer ,X> function = sutO.from(before1,before2);
-        function.test((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        function.doTest((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -343,7 +343,7 @@ public class LObjIntPredicateXTest<T,X extends ParseException> {
 
         //when
         LObjIntFunctionX<Integer ,Integer ,X> function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((Integer )Integer.valueOf(80),(int)81);
+        Integer  finalValue = function.doApply((Integer )Integer.valueOf(80),(int)81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -374,7 +374,7 @@ public class LObjIntPredicateXTest<T,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().test((T)Integer.valueOf(100),(int)100);
+        sutThrowing.shove().doTest((T)Integer.valueOf(100),(int)100);
     }
 
     @Test
@@ -392,7 +392,7 @@ public class LObjIntPredicateXTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.test((T)Integer.valueOf(100),(int)100);
+            wrapped.doTest((T)Integer.valueOf(100),(int)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -411,7 +411,7 @@ public class LObjIntPredicateXTest<T,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LObjIntPredicateX: boolean test(T t, int i) throws X");
+                .contains("LObjIntPredicateX: boolean doTest(T t, int i) throws X");
     }
 
 

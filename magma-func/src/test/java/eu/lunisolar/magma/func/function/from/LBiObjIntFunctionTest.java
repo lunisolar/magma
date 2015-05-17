@@ -61,19 +61,19 @@ public class LBiObjIntFunctionTest<T1,T2,R,X extends ParseException> {
 
 
     private LBiObjIntFunction<T1,T2,R> sut = new LBiObjIntFunction(){
-        public @Nullable Object  apply(Object t1,Object t2, int i)  {
+        public @Nullable Object  doApply(Object t1,Object t2, int i)  {
             return testValue;
         }
     };
 
     private LBiObjIntFunctionX<T1,T2,R,X> opposite = new LBiObjIntFunctionX(){
-        public @Nullable Object  apply(Object t1,Object t2, int i) throws ParseException {
+        public @Nullable Object  doApply(Object t1,Object t2, int i) throws ParseException {
             return testValue;
         }
     };
 
     private LBiObjIntFunction<T1,T2,R> sutNull = new LBiObjIntFunction(){
-        public @Nullable Object  apply(Object t1,Object t2, int i)  {
+        public @Nullable Object  doApply(Object t1,Object t2, int i)  {
             return null;
         }
     };
@@ -82,7 +82,7 @@ public class LBiObjIntFunctionTest<T1,T2,R,X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.apply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(int)100))
+        assertThat(sut.doApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(int)100))
             .isSameAs(testValue);
     }
 
@@ -92,7 +92,7 @@ public class LBiObjIntFunctionTest<T1,T2,R,X extends ParseException> {
             .isSameAs(testValue);
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LBiObjIntFunction: R apply(T1 t1,T2 t2, int i)).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LBiObjIntFunction: R doApply(T1 t1,T2 t2, int i)).\\E")
     public void testNonNullCapturesNull() throws ParseException {
         sutNull.nonNull((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(int)100);
     }
@@ -101,7 +101,7 @@ public class LBiObjIntFunctionTest<T1,T2,R,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBiObjIntFunction: R apply(T1 t1,T2 t2, int i)");
+            .isEqualTo("LBiObjIntFunction: R doApply(T1 t1,T2 t2, int i)");
     }
 
     @Test
@@ -128,7 +128,7 @@ public class LBiObjIntFunctionTest<T1,T2,R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(int)100);
+            wrapped.doApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(int)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -150,7 +150,7 @@ public class LBiObjIntFunctionTest<T1,T2,R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(int)100);
+            wrapped.doApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(int)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -176,7 +176,7 @@ public class LBiObjIntFunctionTest<T1,T2,R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(int)100);
+            wrapped.doApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(int)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -201,7 +201,7 @@ public class LBiObjIntFunctionTest<T1,T2,R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(int)100);
+            wrapped.doApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(int)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -225,7 +225,7 @@ public class LBiObjIntFunctionTest<T1,T2,R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(int)100);
+            wrapped.doApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(int)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -272,7 +272,7 @@ public class LBiObjIntFunctionTest<T1,T2,R,X extends ParseException> {
 
         //when
         LBiObjIntFunction<Integer ,Integer ,Integer > function = sutO.fromInt(before1,before2,before3);
-        function.apply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(int)82);
+        function.doApply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(int)82);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -313,7 +313,7 @@ public class LBiObjIntFunctionTest<T1,T2,R,X extends ParseException> {
 
         //when
         LTriFunction<Integer ,Integer ,Integer ,Integer > function = sutO.from(before1,before2,before3);
-        function.apply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(Integer )Integer.valueOf(82));
+        function.doApply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(Integer )Integer.valueOf(82));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -351,7 +351,7 @@ public class LBiObjIntFunctionTest<T1,T2,R,X extends ParseException> {
 
         //when
         LBiObjIntFunction<Integer ,Integer ,Integer > function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(int)82);
+        Integer  finalValue = function.doApply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(int)82);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -386,7 +386,7 @@ public class LBiObjIntFunctionTest<T1,T2,R,X extends ParseException> {
 
         //when
         LBiObjIntConsumer<Integer ,Integer > function = sutO.then(thenFunction);
-        function.accept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(int)82);
+        function.doAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(int)82);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -416,7 +416,7 @@ public class LBiObjIntFunctionTest<T1,T2,R,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().apply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(int)100);
+        sutThrowing.shove().doApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(int)100);
     }
 
     @Test
@@ -434,7 +434,7 @@ public class LBiObjIntFunctionTest<T1,T2,R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(int)100);
+            wrapped.doApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(int)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -453,7 +453,7 @@ public class LBiObjIntFunctionTest<T1,T2,R,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBiObjIntFunction: R apply(T1 t1,T2 t2, int i)");
+                .contains("LBiObjIntFunction: R doApply(T1 t1,T2 t2, int i)");
     }
 
 

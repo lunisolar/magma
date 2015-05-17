@@ -60,10 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LDoubleFunctionX<R, X extends Exception> extends MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LDoubleFunctionX: R apply(double d) throws X";
+	public static final String DESCRIPTION = "LDoubleFunctionX: R doApply(double d) throws X";
 
 	@Nullable
-	public R apply(double d) throws X;
+	public R doApply(double d) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +73,7 @@ public interface LDoubleFunctionX<R, X extends Exception> extends MetaFunction, 
 
 	/** Captures arguments but delays the evaluation. */
 	default LSupplierX<R, X> capture(double d) {
-		return () -> this.apply(d);
+		return () -> this.doApply(d);
 	}
 
 	public static <R, X extends Exception> LDoubleFunctionX<R, X> constant(R r) {
@@ -85,7 +85,7 @@ public interface LDoubleFunctionX<R, X extends Exception> extends MetaFunction, 
 	/** Ensures the result is not null */
 	@Nonnull
 	default R nonNull(double d) throws X {
-		return Objects.requireNonNull(apply(d), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Objects.requireNonNull(doApply(d), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -106,7 +106,7 @@ public interface LDoubleFunctionX<R, X extends Exception> extends MetaFunction, 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <R, X extends Exception> LDoubleFunctionX<R, X> wrapX(final @Nonnull LDoubleFunction<R> other) {
-		return other::apply;
+		return other::doApply;
 	}
 
 	// </editor-fold>
@@ -119,7 +119,7 @@ public interface LDoubleFunctionX<R, X extends Exception> extends MetaFunction, 
 	@Nonnull
 	default LDoubleFunctionX<R, X> fromDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final double v1) -> this.apply(before1.applyAsDouble(v1));
+		return (final double v1) -> this.doApply(before1.doApplyAsDouble(v1));
 	}
 
 	/**
@@ -128,7 +128,7 @@ public interface LDoubleFunctionX<R, X extends Exception> extends MetaFunction, 
 	@Nonnull
 	default <V1> LFunctionX<V1, R, X> from(@Nonnull final LToDoubleFunctionX<? super V1, X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.apply(before1.applyAsDouble(v1));
+		return (V1 v1) -> this.doApply(before1.doApplyAsDouble(v1));
 	}
 
 	// </editor-fold>
@@ -139,70 +139,70 @@ public interface LDoubleFunctionX<R, X extends Exception> extends MetaFunction, 
 	@Nonnull
 	default <V> LDoubleFunctionX<V, X> then(@Nonnull LFunctionX<? super R, ? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.apply(this.apply(d));
+		return (double d) -> after.doApply(this.doApply(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleConsumerX<X> then(@Nonnull LConsumerX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.accept(this.apply(d));
+		return (double d) -> after.doAccept(this.doApply(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToByteFunctionX<X> thenToByte(@Nonnull LToByteFunctionX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsByte(this.apply(d));
+		return (double d) -> after.doApplyAsByte(this.doApply(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToShortFunctionX<X> thenToShort(@Nonnull LToShortFunctionX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsShort(this.apply(d));
+		return (double d) -> after.doApplyAsShort(this.doApply(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToIntFunctionX<X> thenToInt(@Nonnull LToIntFunctionX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsInt(this.apply(d));
+		return (double d) -> after.doApplyAsInt(this.doApply(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToLongFunctionX<X> thenToLong(@Nonnull LToLongFunctionX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsLong(this.apply(d));
+		return (double d) -> after.doApplyAsLong(this.doApply(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToFloatFunctionX<X> thenToFloat(@Nonnull LToFloatFunctionX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsFloat(this.apply(d));
+		return (double d) -> after.doApplyAsFloat(this.doApply(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleUnaryOperatorX<X> thenToDouble(@Nonnull LToDoubleFunctionX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsDouble(this.apply(d));
+		return (double d) -> after.doApplyAsDouble(this.doApply(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToCharFunctionX<X> thenToChar(@Nonnull LToCharFunctionX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsChar(this.apply(d));
+		return (double d) -> after.doApplyAsChar(this.doApply(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoublePredicateX<X> thenToBoolean(@Nonnull LPredicateX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.test(this.apply(d));
+		return (double d) -> after.doTest(this.doApply(d));
 	}
 
 	// </editor-fold>
@@ -212,7 +212,7 @@ public interface LDoubleFunctionX<R, X extends Exception> extends MetaFunction, 
 	/** Converts to JRE variant. */
 	@Nonnull
 	default java.util.function.DoubleFunction<R> std() {
-		return LDoubleFunction.wrap(this)::apply;
+		return LDoubleFunction.wrap(this)::doApply;
 	}
 
 	/** Converts to non-throwing variant (if required). */
@@ -230,14 +230,14 @@ public interface LDoubleFunctionX<R, X extends Exception> extends MetaFunction, 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LDoubleFunction<R> shove() {
 		LDoubleFunctionX<R, RuntimeException> exceptionCast = (LDoubleFunctionX<R, RuntimeException>) this;
-		return exceptionCast::apply;
+		return exceptionCast::doApply;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
 	default LDoubleFunctionX<R, X> nonNullableX() {
-		return (d) -> Objects.requireNonNull(this.apply(d));
+		return (d) -> Objects.requireNonNull(this.doApply(d));
 	}
 
 	// <editor-fold desc="exception handling">
@@ -247,11 +247,11 @@ public interface LDoubleFunctionX<R, X extends Exception> extends MetaFunction, 
 	public static <R, X extends Exception, E extends Exception, Y extends Exception> LDoubleFunctionX<R, Y> wrapException(@Nonnull final LDoubleFunctionX<R, X> other, Class<E> exception, LSupplierX<R, X> supplier, ExceptionHandler<E, Y> handler) {
 		return (double d) -> {
 			try {
-				return other.apply(d);
+				return other.doApply(d);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.get();
+						return supplier.doGet();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

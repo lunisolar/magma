@@ -60,7 +60,7 @@ public interface LDoublePredicateXAssert<S extends LDoublePredicateXAssert<S, A,
 
 		@Nonnull
 		public Evaluation<S, A, RS, Boolean, Exception> doesTest(double d) {
-			return evaluation(() -> assertFactory.apply((Boolean) actual.test(d)));
+			return evaluation(() -> assertFactory.apply((Boolean) actual.doTest(d)));
 		}
 
 	}

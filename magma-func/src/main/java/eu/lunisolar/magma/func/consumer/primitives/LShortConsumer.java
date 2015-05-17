@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LShortConsumer extends LShortConsumerX<RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LShortConsumer: void accept(short s)";
+	public static final String DESCRIPTION = "LShortConsumer: void doAccept(short s)";
 
-	// Ovverriding methods can cause problems with inference.
+	public void doAccept(short s);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +73,7 @@ public interface LShortConsumer extends LShortConsumerX<RuntimeException>, MetaC
 
 	/** Captures arguments but delays the evaluation. */
 	default LAction capture(short s) {
-		return () -> this.accept(s);
+		return () -> this.doAccept(s);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -90,7 +90,7 @@ public interface LShortConsumer extends LShortConsumerX<RuntimeException>, MetaC
 	public static <X extends Exception> LShortConsumer wrap(final @Nonnull LShortConsumerX<X> other) {
 		return (short s) -> {
 			try {
-				other.accept(s);
+				other.doAccept(s);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -107,7 +107,7 @@ public interface LShortConsumer extends LShortConsumerX<RuntimeException>, MetaC
 	@Nonnull
 	default LShortConsumer fromShort(@Nonnull final LShortUnaryOperator before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final short v1) -> this.accept(before1.applyAsShort(v1));
+		return (final short v1) -> this.doAccept(before1.doApplyAsShort(v1));
 	}
 
 	/**
@@ -116,7 +116,7 @@ public interface LShortConsumer extends LShortConsumerX<RuntimeException>, MetaC
 	@Nonnull
 	default <V1> LConsumer<V1> from(@Nonnull final LToShortFunction<? super V1> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.accept(before1.applyAsShort(v1));
+		return (V1 v1) -> this.doAccept(before1.doApplyAsShort(v1));
 	}
 
 	// </editor-fold>
@@ -128,8 +128,8 @@ public interface LShortConsumer extends LShortConsumerX<RuntimeException>, MetaC
 	default LShortConsumer andThen(@Nonnull LShortConsumer after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
 		return (short s) -> {
-			this.accept(s);
-			after.accept(s);
+			this.doAccept(s);
+			after.doAccept(s);
 		};
 	}
 
@@ -162,7 +162,7 @@ public interface LShortConsumer extends LShortConsumerX<RuntimeException>, MetaC
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LShortConsumer wrapException(@Nonnull final LShortConsumer other, Class<E> exception, ExceptionHandler<E, Y> handler) {
 		return (short s) -> {
 			try {
-				other.accept(s);
+				other.doAccept(s);
 			} catch (Exception e) {
 				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
 			}

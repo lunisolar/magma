@@ -60,9 +60,13 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LIntSupplier extends java.util.function.IntSupplier, LIntSupplierX<RuntimeException>, MetaSupplier, PrimitiveCodomain<Object>, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LIntSupplier: int getAsInt()";
+	public static final String DESCRIPTION = "LIntSupplier: int doGetAsInt()";
 
-	// Ovverriding methods can cause problems with inference.
+	public int doGetAsInt();
+
+	default int getAsInt() {
+		return doGetAsInt();
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -76,7 +80,7 @@ public interface LIntSupplier extends java.util.function.IntSupplier, LIntSuppli
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default int nonNull() {
-		return getAsInt();
+		return doGetAsInt();
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -99,7 +103,7 @@ public interface LIntSupplier extends java.util.function.IntSupplier, LIntSuppli
 	public static <X extends Exception> LIntSupplier wrap(final @Nonnull LIntSupplierX<X> other) {
 		return () -> {
 			try {
-				return other.getAsInt();
+				return other.doGetAsInt();
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -114,63 +118,63 @@ public interface LIntSupplier extends java.util.function.IntSupplier, LIntSuppli
 	@Nonnull
 	default <V> LSupplier<V> then(@Nonnull LIntFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.apply(this.getAsInt());
+		return () -> after.doApply(this.doGetAsInt());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LByteSupplier thenToByte(@Nonnull LIntToByteFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsByte(this.getAsInt());
+		return () -> after.doApplyAsByte(this.doGetAsInt());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LShortSupplier thenToShort(@Nonnull LIntToShortFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsShort(this.getAsInt());
+		return () -> after.doApplyAsShort(this.doGetAsInt());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LIntSupplier thenToInt(@Nonnull LIntUnaryOperator after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsInt(this.getAsInt());
+		return () -> after.doApplyAsInt(this.doGetAsInt());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LLongSupplier thenToLong(@Nonnull LIntToLongFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsLong(this.getAsInt());
+		return () -> after.doApplyAsLong(this.doGetAsInt());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LFloatSupplier thenToFloat(@Nonnull LIntToFloatFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsFloat(this.getAsInt());
+		return () -> after.doApplyAsFloat(this.doGetAsInt());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LDoubleSupplier thenToDouble(@Nonnull LIntToDoubleFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsDouble(this.getAsInt());
+		return () -> after.doApplyAsDouble(this.doGetAsInt());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LCharSupplier thenToChar(@Nonnull LIntToCharFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsChar(this.getAsInt());
+		return () -> after.doApplyAsChar(this.doGetAsInt());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LBooleanSupplier thenToBoolean(@Nonnull LIntPredicate after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.test(this.getAsInt());
+		return () -> after.doTest(this.doGetAsInt());
 	}
 
 	// </editor-fold>
@@ -209,11 +213,11 @@ public interface LIntSupplier extends java.util.function.IntSupplier, LIntSuppli
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LIntSupplier wrapException(@Nonnull final LIntSupplier other, Class<E> exception, LIntSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return () -> {
 			try {
-				return other.getAsInt();
+				return other.doGetAsInt();
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsInt();
+						return supplier.doGetAsInt();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

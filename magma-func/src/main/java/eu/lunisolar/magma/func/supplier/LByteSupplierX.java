@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LByteSupplierX<X extends Exception> extends MetaSupplier, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LByteSupplierX: byte getAsByte() throws X";
+	public static final String DESCRIPTION = "LByteSupplierX: byte doGetAsByte() throws X";
 
-	public byte getAsByte() throws X;
+	public byte doGetAsByte() throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -76,7 +76,7 @@ public interface LByteSupplierX<X extends Exception> extends MetaSupplier, Primi
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default byte nonNull() throws X {
-		return getAsByte();
+		return doGetAsByte();
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -91,7 +91,7 @@ public interface LByteSupplierX<X extends Exception> extends MetaSupplier, Primi
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LByteSupplierX<X> wrapX(final @Nonnull LByteSupplier other) {
-		return other::getAsByte;
+		return other::doGetAsByte;
 	}
 
 	// </editor-fold>
@@ -102,63 +102,63 @@ public interface LByteSupplierX<X extends Exception> extends MetaSupplier, Primi
 	@Nonnull
 	default <V> LSupplierX<V, X> then(@Nonnull LByteFunctionX<? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.apply(this.getAsByte());
+		return () -> after.doApply(this.doGetAsByte());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LByteSupplierX<X> thenToByte(@Nonnull LByteUnaryOperatorX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsByte(this.getAsByte());
+		return () -> after.doApplyAsByte(this.doGetAsByte());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LShortSupplierX<X> thenToShort(@Nonnull LByteToShortFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsShort(this.getAsByte());
+		return () -> after.doApplyAsShort(this.doGetAsByte());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LIntSupplierX<X> thenToInt(@Nonnull LByteToIntFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsInt(this.getAsByte());
+		return () -> after.doApplyAsInt(this.doGetAsByte());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LLongSupplierX<X> thenToLong(@Nonnull LByteToLongFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsLong(this.getAsByte());
+		return () -> after.doApplyAsLong(this.doGetAsByte());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LFloatSupplierX<X> thenToFloat(@Nonnull LByteToFloatFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsFloat(this.getAsByte());
+		return () -> after.doApplyAsFloat(this.doGetAsByte());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LDoubleSupplierX<X> thenToDouble(@Nonnull LByteToDoubleFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsDouble(this.getAsByte());
+		return () -> after.doApplyAsDouble(this.doGetAsByte());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LCharSupplierX<X> thenToChar(@Nonnull LByteToCharFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsChar(this.getAsByte());
+		return () -> after.doApplyAsChar(this.doGetAsByte());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LBooleanSupplierX<X> thenToBoolean(@Nonnull LBytePredicateX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.test(this.getAsByte());
+		return () -> after.doTest(this.doGetAsByte());
 	}
 
 	// </editor-fold>
@@ -180,7 +180,7 @@ public interface LByteSupplierX<X extends Exception> extends MetaSupplier, Primi
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LByteSupplier shove() {
 		LByteSupplierX<RuntimeException> exceptionCast = (LByteSupplierX<RuntimeException>) this;
-		return exceptionCast::getAsByte;
+		return exceptionCast::doGetAsByte;
 	}
 
 	// </editor-fold>
@@ -192,11 +192,11 @@ public interface LByteSupplierX<X extends Exception> extends MetaSupplier, Primi
 	public static <X extends Exception, E extends Exception, Y extends Exception> LByteSupplierX<Y> wrapException(@Nonnull final LByteSupplierX<X> other, Class<E> exception, LByteSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
 		return () -> {
 			try {
-				return other.getAsByte();
+				return other.doGetAsByte();
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsByte();
+						return supplier.doGetAsByte();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

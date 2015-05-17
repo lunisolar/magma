@@ -69,7 +69,7 @@ public class LObjIntToIntFunctionXBuilderTest<T,X extends ParseException>{
                 .objIntToIntFunctionX()
                 .build();
 
-            function.applyAsInt((T)Integer.valueOf(100),(int)100);
+            function.doApplyAsInt((T)Integer.valueOf(100),(int)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

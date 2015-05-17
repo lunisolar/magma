@@ -58,7 +58,7 @@ public interface LDoubleToByteFunctionAssert<S extends LDoubleToByteFunctionAsse
 
 		@Nonnull
 		public Evaluation<S, A, RS, Byte, Exception> doesApplyAsByte(double d) {
-			return evaluation(() -> assertFactory.apply((Byte) actual.applyAsByte(d)));
+			return evaluation(() -> assertFactory.apply((Byte) actual.doApplyAsByte(d)));
 		}
 
 	}

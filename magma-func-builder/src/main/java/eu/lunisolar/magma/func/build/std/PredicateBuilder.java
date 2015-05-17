@@ -98,7 +98,7 @@ public final class PredicateBuilder<T> extends PerCaseBuilderWithBooleanProduct.
 			final Case<LPredicate<T>, java.util.function.Predicate<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = Function4U.l((T t) -> {
 				for (Case<LPredicate<T>, java.util.function.Predicate<T>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t)) {
+					if (aCase.casePredicate().doTest(t)) {
 						return aCase.caseFunction().test(t);
 					}
 				}

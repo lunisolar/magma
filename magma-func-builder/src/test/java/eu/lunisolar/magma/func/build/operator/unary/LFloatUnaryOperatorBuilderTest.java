@@ -69,7 +69,7 @@ public class LFloatUnaryOperatorBuilderTest<X extends ParseException>{
                 .floatUnaryOperator()
                 .build();
 
-            function.applyAsFloat((float)100);
+            function.doApplyAsFloat((float)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

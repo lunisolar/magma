@@ -60,9 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LTernaryOperator<T> extends LTernaryOperatorX<T, RuntimeException>, MetaOperator, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LTernaryOperator: T apply(T t1,T t2,T t3)";
+	public static final String DESCRIPTION = "LTernaryOperator: T doApply(T t1,T t2,T t3)";
 
-	// Ovverriding methods can cause problems with inference.
+	@Nullable
+	public T doApply(T t1, T t2, T t3);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +73,7 @@ public interface LTernaryOperator<T> extends LTernaryOperatorX<T, RuntimeExcepti
 
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<T> capture(T t1, T t2, T t3) {
-		return () -> this.apply(t1, t2, t3);
+		return () -> this.doApply(t1, t2, t3);
 	}
 
 	public static <T> LTernaryOperator<T> constant(T r) {
@@ -84,7 +85,7 @@ public interface LTernaryOperator<T> extends LTernaryOperatorX<T, RuntimeExcepti
 	/** Ensures the result is not null */
 	@Nonnull
 	default T nonNull(T t1, T t2, T t3) {
-		return Objects.requireNonNull(apply(t1, t2, t3), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Objects.requireNonNull(doApply(t1, t2, t3), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -101,7 +102,7 @@ public interface LTernaryOperator<T> extends LTernaryOperatorX<T, RuntimeExcepti
 	public static <T, X extends Exception> LTernaryOperator<T> wrap(final @Nonnull LTernaryOperatorX<T, X> other) {
 		return (T t1, T t2, T t3) -> {
 			try {
-				return other.apply(t1, t2, t3);
+				return other.doApply(t1, t2, t3);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -116,7 +117,7 @@ public interface LTernaryOperator<T> extends LTernaryOperatorX<T, RuntimeExcepti
 	@Nonnull
 	default <V> LTriFunction<T, T, T, V> then(@Nonnull LFunction<? super T, ? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t1, T t2, T t3) -> after.apply(this.apply(t1, t2, t3));
+		return (T t1, T t2, T t3) -> after.doApply(this.doApply(t1, t2, t3));
 	}
 
 	// </editor-fold>
@@ -144,7 +145,7 @@ public interface LTernaryOperator<T> extends LTernaryOperatorX<T, RuntimeExcepti
 
 	@Nonnull
 	default LTernaryOperator<T> nonNullable() {
-		return (t1, t2, t3) -> Objects.requireNonNull(this.apply(t1, t2, t3));
+		return (t1, t2, t3) -> Objects.requireNonNull(this.doApply(t1, t2, t3));
 	}
 
 	// <editor-fold desc="exception handling">
@@ -154,11 +155,11 @@ public interface LTernaryOperator<T> extends LTernaryOperatorX<T, RuntimeExcepti
 	public static <T, X extends Exception, E extends Exception, Y extends RuntimeException> LTernaryOperator<T> wrapException(@Nonnull final LTernaryOperator<T> other, Class<E> exception, LSupplier<T> supplier, ExceptionHandler<E, Y> handler) {
 		return (T t1, T t2, T t3) -> {
 			try {
-				return other.apply(t1, t2, t3);
+				return other.doApply(t1, t2, t3);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.get();
+						return supplier.doGet();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

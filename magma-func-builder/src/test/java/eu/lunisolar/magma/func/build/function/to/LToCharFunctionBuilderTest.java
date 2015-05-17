@@ -69,7 +69,7 @@ public class LToCharFunctionBuilderTest<T,X extends ParseException>{
                 .toCharFunction()
                 .build();
 
-            function.applyAsChar((T)Integer.valueOf(100));
+            function.doApplyAsChar((T)Integer.valueOf(100));
 
             fail("No exception were thrown.");
         } catch (Exception e) {

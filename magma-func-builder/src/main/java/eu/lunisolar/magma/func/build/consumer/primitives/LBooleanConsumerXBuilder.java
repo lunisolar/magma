@@ -99,13 +99,13 @@ public final class LBooleanConsumerXBuilder<X extends Exception> extends PerCase
 			final Case<LBooleanUnaryOperatorX<X>, LBooleanConsumerX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LBooleanConsumerX.lX((boolean b) -> {
 				for (Case<LBooleanUnaryOperatorX<X>, LBooleanConsumerX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().applyAsBoolean(b)) {
-						aCase.caseFunction().accept(b);
+					if (aCase.casePredicate().doApplyAsBoolean(b)) {
+						aCase.caseFunction().doAccept(b);
 						return;
 					}
 				}
 
-				eventuallyFinal.accept(b);
+				eventuallyFinal.doAccept(b);
 			});
 		}
 

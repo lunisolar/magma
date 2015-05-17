@@ -61,19 +61,19 @@ public class LBooleanTriFunctionTest<R,X extends ParseException> {
 
 
     private LBooleanTriFunction<R> sut = new LBooleanTriFunction(){
-        public @Nullable Object  apply(boolean b1,boolean b2,boolean b3)  {
+        public @Nullable Object  doApply(boolean b1,boolean b2,boolean b3)  {
             return testValue;
         }
     };
 
     private LBooleanTriFunctionX<R,X> opposite = new LBooleanTriFunctionX(){
-        public @Nullable Object  apply(boolean b1,boolean b2,boolean b3) throws ParseException {
+        public @Nullable Object  doApply(boolean b1,boolean b2,boolean b3) throws ParseException {
             return testValue;
         }
     };
 
     private LBooleanTriFunction<R> sutNull = new LBooleanTriFunction(){
-        public @Nullable Object  apply(boolean b1,boolean b2,boolean b3)  {
+        public @Nullable Object  doApply(boolean b1,boolean b2,boolean b3)  {
             return null;
         }
     };
@@ -82,7 +82,7 @@ public class LBooleanTriFunctionTest<R,X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.apply(true,true,true))
+        assertThat(sut.doApply(true,true,true))
             .isSameAs(testValue);
     }
 
@@ -92,7 +92,7 @@ public class LBooleanTriFunctionTest<R,X extends ParseException> {
             .isSameAs(testValue);
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LBooleanTriFunction: R apply(boolean b1,boolean b2,boolean b3)).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LBooleanTriFunction: R doApply(boolean b1,boolean b2,boolean b3)).\\E")
     public void testNonNullCapturesNull() throws ParseException {
         sutNull.nonNull(true,true,true);
     }
@@ -101,7 +101,7 @@ public class LBooleanTriFunctionTest<R,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBooleanTriFunction: R apply(boolean b1,boolean b2,boolean b3)");
+            .isEqualTo("LBooleanTriFunction: R doApply(boolean b1,boolean b2,boolean b3)");
     }
 
     @Test
@@ -128,7 +128,7 @@ public class LBooleanTriFunctionTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply(true,true,true);
+            wrapped.doApply(true,true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -150,7 +150,7 @@ public class LBooleanTriFunctionTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply(true,true,true);
+            wrapped.doApply(true,true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -176,7 +176,7 @@ public class LBooleanTriFunctionTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply(true,true,true);
+            wrapped.doApply(true,true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -201,7 +201,7 @@ public class LBooleanTriFunctionTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply(true,true,true);
+            wrapped.doApply(true,true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -225,7 +225,7 @@ public class LBooleanTriFunctionTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply(true,true,true);
+            wrapped.doApply(true,true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -272,7 +272,7 @@ public class LBooleanTriFunctionTest<R,X extends ParseException> {
 
         //when
         LBooleanTriFunction<Integer > function = sutO.fromBoolean(before1,before2,before3);
-        function.apply(true,true,true);
+        function.doApply(true,true,true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -313,7 +313,7 @@ public class LBooleanTriFunctionTest<R,X extends ParseException> {
 
         //when
         LTriFunction<Integer ,Integer ,Integer ,Integer > function = sutO.from(before1,before2,before3);
-        function.apply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(Integer )Integer.valueOf(82));
+        function.doApply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(Integer )Integer.valueOf(82));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -351,7 +351,7 @@ public class LBooleanTriFunctionTest<R,X extends ParseException> {
 
         //when
         LBooleanTriFunction<Integer > function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply(true,true,true);
+        Integer  finalValue = function.doApply(true,true,true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -386,7 +386,7 @@ public class LBooleanTriFunctionTest<R,X extends ParseException> {
 
         //when
         LBooleanTriConsumer function = sutO.then(thenFunction);
-        function.accept(true,true,true);
+        function.doAccept(true,true,true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -416,7 +416,7 @@ public class LBooleanTriFunctionTest<R,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().apply(true,true,true);
+        sutThrowing.shove().doApply(true,true,true);
     }
 
     @Test
@@ -434,7 +434,7 @@ public class LBooleanTriFunctionTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply(true,true,true);
+            wrapped.doApply(true,true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -453,7 +453,7 @@ public class LBooleanTriFunctionTest<R,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBooleanTriFunction: R apply(boolean b1,boolean b2,boolean b3)");
+                .contains("LBooleanTriFunction: R doApply(boolean b1,boolean b2,boolean b3)");
     }
 
 

@@ -58,7 +58,7 @@ public interface LBooleanTernaryOperatorAssert<S extends LBooleanTernaryOperator
 
 		@Nonnull
 		public Evaluation<S, A, RS, Boolean, Exception> doesApply(boolean b1, boolean b2, boolean b3) {
-			return evaluation(() -> assertFactory.apply((Boolean) actual.apply(b1, b2, b3)));
+			return evaluation(() -> assertFactory.apply((Boolean) actual.doApply(b1, b2, b3)));
 		}
 
 	}

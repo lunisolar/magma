@@ -61,9 +61,13 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LObjDoubleConsumer<T> extends java.util.function.ObjDoubleConsumer<T>, LObjDoubleConsumerX<T, RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LObjDoubleConsumer: void accept(T t, double d)";
+	public static final String DESCRIPTION = "LObjDoubleConsumer: void doAccept(T t, double d)";
 
-	// Ovverriding methods can cause problems with inference.
+	public void doAccept(T t, double d);
+
+	default void accept(T t, double d) {
+		doAccept(t, d);
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +77,7 @@ public interface LObjDoubleConsumer<T> extends java.util.function.ObjDoubleConsu
 
 	/** Captures arguments but delays the evaluation. */
 	default LAction capture(T t, double d) {
-		return () -> this.accept(t, d);
+		return () -> this.doAccept(t, d);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -96,7 +100,7 @@ public interface LObjDoubleConsumer<T> extends java.util.function.ObjDoubleConsu
 	public static <T, X extends Exception> LObjDoubleConsumer<T> wrap(final @Nonnull LObjDoubleConsumerX<T, X> other) {
 		return (T t, double d) -> {
 			try {
-				other.accept(t, d);
+				other.doAccept(t, d);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -114,7 +118,7 @@ public interface LObjDoubleConsumer<T> extends java.util.function.ObjDoubleConsu
 	default <V1> LObjDoubleConsumer<V1> fromDouble(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LDoubleUnaryOperator before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final V1 v1, final double v2) -> this.accept(before1.apply(v1), before2.applyAsDouble(v2));
+		return (final V1 v1, final double v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsDouble(v2));
 	}
 
 	/**
@@ -124,7 +128,7 @@ public interface LObjDoubleConsumer<T> extends java.util.function.ObjDoubleConsu
 	default <V1, V2> LBiConsumer<V1, V2> from(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToDoubleFunction<? super V2> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.accept(before1.apply(v1), before2.applyAsDouble(v2));
+		return (V1 v1, V2 v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsDouble(v2));
 	}
 
 	// </editor-fold>
@@ -136,8 +140,8 @@ public interface LObjDoubleConsumer<T> extends java.util.function.ObjDoubleConsu
 	default LObjDoubleConsumer<T> andThen(@Nonnull LObjDoubleConsumer<? super T> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
 		return (T t, double d) -> {
-			this.accept(t, d);
-			after.accept(t, d);
+			this.doAccept(t, d);
+			after.doAccept(t, d);
 		};
 	}
 
@@ -176,7 +180,7 @@ public interface LObjDoubleConsumer<T> extends java.util.function.ObjDoubleConsu
 	public static <T, X extends Exception, E extends Exception, Y extends RuntimeException> LObjDoubleConsumer<T> wrapException(@Nonnull final LObjDoubleConsumer<T> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
 		return (T t, double d) -> {
 			try {
-				other.accept(t, d);
+				other.doAccept(t, d);
 			} catch (Exception e) {
 				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
 			}

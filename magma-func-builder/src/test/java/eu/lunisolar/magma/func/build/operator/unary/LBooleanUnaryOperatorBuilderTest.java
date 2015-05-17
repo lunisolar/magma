@@ -69,7 +69,7 @@ public class LBooleanUnaryOperatorBuilderTest<X extends ParseException>{
                 .booleanUnaryOperator()
                 .build();
 
-            function.applyAsBoolean(true);
+            function.doApplyAsBoolean(true);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

@@ -59,13 +59,13 @@ public class LFloatConsumerTest<X extends ParseException> {
 
 
     private LFloatConsumer sut = new LFloatConsumer(){
-        public  void accept(float f)  {
+        public  void doAccept(float f)  {
             Function4U.doNothing();
         }
     };
 
     private LFloatConsumerX<X> opposite = new LFloatConsumerX(){
-        public  void accept(float f) throws ParseException {
+        public  void doAccept(float f) throws ParseException {
             Function4U.doNothing();
         }
     };
@@ -77,7 +77,7 @@ public class LFloatConsumerTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LFloatConsumer: void accept(float f)");
+            .isEqualTo("LFloatConsumer: void doAccept(float f)");
     }
 
     @Test
@@ -104,7 +104,7 @@ public class LFloatConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((float)100);
+            wrapped.doAccept((float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -126,7 +126,7 @@ public class LFloatConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((float)100);
+            wrapped.doAccept((float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -152,7 +152,7 @@ public class LFloatConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((float)100);
+            wrapped.doAccept((float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -177,7 +177,7 @@ public class LFloatConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((float)100);
+            wrapped.doAccept((float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -201,7 +201,7 @@ public class LFloatConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((float)100);
+            wrapped.doAccept((float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -235,7 +235,7 @@ public class LFloatConsumerTest<X extends ParseException> {
 
         //when
         LFloatConsumer function = sutO.fromFloat(before1);
-        function.accept((float)80);
+        function.doAccept((float)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -263,7 +263,7 @@ public class LFloatConsumerTest<X extends ParseException> {
 
         //when
         LConsumer<Integer > function = sutO.from(before1);
-        function.accept((Integer )Integer.valueOf(80));
+        function.doAccept((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -291,7 +291,7 @@ public class LFloatConsumerTest<X extends ParseException> {
 
         //when
         LFloatConsumer function = sutO.andThen(thenFunction);
-        function.accept((float)80);
+        function.doAccept((float)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -317,7 +317,7 @@ public class LFloatConsumerTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().accept((float)100);
+        sutThrowing.shove().doAccept((float)100);
     }
 
     @Test
@@ -335,7 +335,7 @@ public class LFloatConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((float)100);
+            wrapped.doAccept((float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -354,7 +354,7 @@ public class LFloatConsumerTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LFloatConsumer: void accept(float f)");
+                .contains("LFloatConsumer: void doAccept(float f)");
     }
 
 

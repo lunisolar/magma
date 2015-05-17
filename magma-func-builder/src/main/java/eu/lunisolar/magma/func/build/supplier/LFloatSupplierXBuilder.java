@@ -99,12 +99,12 @@ public final class LFloatSupplierXBuilder<X extends Exception> extends PerCaseBu
 			final Case<LBooleanSupplierX<X>, LFloatSupplierX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LFloatSupplierX.lX(() -> {
 				for (Case<LBooleanSupplierX<X>, LFloatSupplierX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().getAsBoolean()) {
-						return aCase.caseFunction().getAsFloat();
+					if (aCase.casePredicate().doGetAsBoolean()) {
+						return aCase.caseFunction().doGetAsFloat();
 					}
 				}
 
-				return eventuallyFinal.getAsFloat();
+				return eventuallyFinal.doGetAsFloat();
 			});
 		}
 

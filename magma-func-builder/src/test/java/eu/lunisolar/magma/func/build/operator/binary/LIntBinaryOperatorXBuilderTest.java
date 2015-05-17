@@ -69,7 +69,7 @@ public class LIntBinaryOperatorXBuilderTest<X extends ParseException>{
                 .intBinaryOperatorX()
                 .build();
 
-            function.applyAsInt((int)100,(int)100);
+            function.doApplyAsInt((int)100,(int)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

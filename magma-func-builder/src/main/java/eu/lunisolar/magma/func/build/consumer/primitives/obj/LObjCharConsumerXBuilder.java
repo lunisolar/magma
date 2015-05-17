@@ -99,13 +99,13 @@ public final class LObjCharConsumerXBuilder<T, X extends Exception> extends PerC
 			final Case<LObjCharPredicateX<T, X>, LObjCharConsumerX<T, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LObjCharConsumerX.lX((T t, char c) -> {
 				for (Case<LObjCharPredicateX<T, X>, LObjCharConsumerX<T, X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t, c)) {
-						aCase.caseFunction().accept(t, c);
+					if (aCase.casePredicate().doTest(t, c)) {
+						aCase.caseFunction().doAccept(t, c);
 						return;
 					}
 				}
 
-				eventuallyFinal.accept(t, c);
+				eventuallyFinal.doAccept(t, c);
 			});
 		}
 

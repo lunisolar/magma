@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LShortToFloatFunctionX<X extends Exception> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LShortToFloatFunctionX: float applyAsFloat(short s) throws X";
+	public static final String DESCRIPTION = "LShortToFloatFunctionX: float doApplyAsFloat(short s) throws X";
 
-	public float applyAsFloat(short s) throws X;
+	public float doApplyAsFloat(short s) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LShortToFloatFunctionX<X extends Exception> extends MetaFunctio
 
 	/** Captures arguments but delays the evaluation. */
 	default LFloatSupplierX<X> capture(short s) {
-		return () -> this.applyAsFloat(s);
+		return () -> this.doApplyAsFloat(s);
 	}
 
 	public static <X extends Exception> LShortToFloatFunctionX<X> constant(float r) {
@@ -81,7 +81,7 @@ public interface LShortToFloatFunctionX<X extends Exception> extends MetaFunctio
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default float nonNull(short s) throws X {
-		return applyAsFloat(s);
+		return doApplyAsFloat(s);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -96,7 +96,7 @@ public interface LShortToFloatFunctionX<X extends Exception> extends MetaFunctio
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LShortToFloatFunctionX<X> wrapX(final @Nonnull LShortToFloatFunction other) {
-		return other::applyAsFloat;
+		return other::doApplyAsFloat;
 	}
 
 	// </editor-fold>
@@ -109,7 +109,7 @@ public interface LShortToFloatFunctionX<X extends Exception> extends MetaFunctio
 	@Nonnull
 	default LShortToFloatFunctionX<X> fromShort(@Nonnull final LShortUnaryOperatorX<X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final short v1) -> this.applyAsFloat(before1.applyAsShort(v1));
+		return (final short v1) -> this.doApplyAsFloat(before1.doApplyAsShort(v1));
 	}
 
 	/**
@@ -118,7 +118,7 @@ public interface LShortToFloatFunctionX<X extends Exception> extends MetaFunctio
 	@Nonnull
 	default <V1> LToFloatFunctionX<V1, X> from(@Nonnull final LToShortFunctionX<? super V1, X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.applyAsFloat(before1.applyAsShort(v1));
+		return (V1 v1) -> this.doApplyAsFloat(before1.doApplyAsShort(v1));
 	}
 
 	// </editor-fold>
@@ -129,63 +129,63 @@ public interface LShortToFloatFunctionX<X extends Exception> extends MetaFunctio
 	@Nonnull
 	default <V> LShortFunctionX<V, X> then(@Nonnull LFloatFunctionX<? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.apply(this.applyAsFloat(s));
+		return (short s) -> after.doApply(this.doApplyAsFloat(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToByteFunctionX<X> thenToByte(@Nonnull LFloatToByteFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsByte(this.applyAsFloat(s));
+		return (short s) -> after.doApplyAsByte(this.doApplyAsFloat(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortUnaryOperatorX<X> thenToShort(@Nonnull LFloatToShortFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsShort(this.applyAsFloat(s));
+		return (short s) -> after.doApplyAsShort(this.doApplyAsFloat(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToIntFunctionX<X> thenToInt(@Nonnull LFloatToIntFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsInt(this.applyAsFloat(s));
+		return (short s) -> after.doApplyAsInt(this.doApplyAsFloat(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToLongFunctionX<X> thenToLong(@Nonnull LFloatToLongFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsLong(this.applyAsFloat(s));
+		return (short s) -> after.doApplyAsLong(this.doApplyAsFloat(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToFloatFunctionX<X> thenToFloat(@Nonnull LFloatUnaryOperatorX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsFloat(this.applyAsFloat(s));
+		return (short s) -> after.doApplyAsFloat(this.doApplyAsFloat(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToDoubleFunctionX<X> thenToDouble(@Nonnull LFloatToDoubleFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsDouble(this.applyAsFloat(s));
+		return (short s) -> after.doApplyAsDouble(this.doApplyAsFloat(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToCharFunctionX<X> thenToChar(@Nonnull LFloatToCharFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsChar(this.applyAsFloat(s));
+		return (short s) -> after.doApplyAsChar(this.doApplyAsFloat(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortPredicateX<X> thenToBoolean(@Nonnull LFloatPredicateX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.test(this.applyAsFloat(s));
+		return (short s) -> after.doTest(this.doApplyAsFloat(s));
 	}
 
 	// </editor-fold>
@@ -207,7 +207,7 @@ public interface LShortToFloatFunctionX<X extends Exception> extends MetaFunctio
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LShortToFloatFunction shove() {
 		LShortToFloatFunctionX<RuntimeException> exceptionCast = (LShortToFloatFunctionX<RuntimeException>) this;
-		return exceptionCast::applyAsFloat;
+		return exceptionCast::doApplyAsFloat;
 	}
 
 	// </editor-fold>
@@ -219,11 +219,11 @@ public interface LShortToFloatFunctionX<X extends Exception> extends MetaFunctio
 	public static <X extends Exception, E extends Exception, Y extends Exception> LShortToFloatFunctionX<Y> wrapException(@Nonnull final LShortToFloatFunctionX<X> other, Class<E> exception, LFloatSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
 		return (short s) -> {
 			try {
-				return other.applyAsFloat(s);
+				return other.doApplyAsFloat(s);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsFloat();
+						return supplier.doGetAsFloat();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

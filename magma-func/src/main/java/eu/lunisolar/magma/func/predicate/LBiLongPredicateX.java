@@ -60,14 +60,14 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBiLongPredicateX<X extends Exception> extends MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LBiLongPredicateX: boolean test(long l1,long l2) throws X";
+	public static final String DESCRIPTION = "LBiLongPredicateX: boolean doTest(long l1,long l2) throws X";
 
-	public boolean test(long l1, long l2) throws X;
+	public boolean doTest(long l1, long l2) throws X;
 
 	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
 
-	default boolean applyAsBoolean(long l1, long l2) throws X {
-		return test(l1, l2);
+	default boolean doApplyAsBoolean(long l1, long l2) throws X {
+		return doTest(l1, l2);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -78,7 +78,7 @@ public interface LBiLongPredicateX<X extends Exception> extends MetaPredicate, P
 
 	/** Captures arguments but delays the evaluation. */
 	default LBooleanSupplierX<X> capture(long l1, long l2) {
-		return () -> this.test(l1, l2);
+		return () -> this.doTest(l1, l2);
 	}
 
 	public static <X extends Exception> LBiLongPredicateX<X> constant(boolean r) {
@@ -87,7 +87,7 @@ public interface LBiLongPredicateX<X extends Exception> extends MetaPredicate, P
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(long l1, long l2) throws X {
-		return test(l1, l2);
+		return doTest(l1, l2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -102,7 +102,7 @@ public interface LBiLongPredicateX<X extends Exception> extends MetaPredicate, P
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LBiLongPredicateX<X> wrapX(final @Nonnull LBiLongPredicate other) {
-		return other::test;
+		return other::doTest;
 	}
 
 	// </editor-fold>
@@ -113,7 +113,7 @@ public interface LBiLongPredicateX<X extends Exception> extends MetaPredicate, P
 	 */
 	@Nonnull
 	default LBiLongPredicateX<X> negate() {
-		return (long l1, long l2) -> !test(l1, l2);
+		return (long l1, long l2) -> !doTest(l1, l2);
 	}
 
 	/**
@@ -122,7 +122,7 @@ public interface LBiLongPredicateX<X extends Exception> extends MetaPredicate, P
 	@Nonnull
 	default LBiLongPredicateX<X> and(@Nonnull LBiLongPredicateX<X> other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (long l1, long l2) -> test(l1, l2) && other.test(l1, l2);
+		return (long l1, long l2) -> doTest(l1, l2) && other.doTest(l1, l2);
 	}
 
 	/**
@@ -131,7 +131,7 @@ public interface LBiLongPredicateX<X extends Exception> extends MetaPredicate, P
 	@Nonnull
 	default LBiLongPredicateX<X> or(@Nonnull LBiLongPredicateX<X> other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (long l1, long l2) -> test(l1, l2) || other.test(l1, l2);
+		return (long l1, long l2) -> doTest(l1, l2) || other.doTest(l1, l2);
 	}
 
 	/**
@@ -140,7 +140,7 @@ public interface LBiLongPredicateX<X extends Exception> extends MetaPredicate, P
 	@Nonnull
 	default LBiLongPredicateX<X> xor(@Nonnull LBiLongPredicateX<X> other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (long l1, long l2) -> test(l1, l2) ^ other.test(l1, l2);
+		return (long l1, long l2) -> doTest(l1, l2) ^ other.doTest(l1, l2);
 	}
 
 	/**
@@ -162,7 +162,7 @@ public interface LBiLongPredicateX<X extends Exception> extends MetaPredicate, P
 	default LBiLongPredicateX<X> fromLong(@Nonnull final LLongUnaryOperatorX<X> before1, @Nonnull final LLongUnaryOperatorX<X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final long v1, final long v2) -> this.test(before1.applyAsLong(v1), before2.applyAsLong(v2));
+		return (final long v1, final long v2) -> this.doTest(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
 	}
 
 	/**
@@ -172,7 +172,7 @@ public interface LBiLongPredicateX<X extends Exception> extends MetaPredicate, P
 	default <V1, V2> LBiPredicateX<V1, V2, X> from(@Nonnull final LToLongFunctionX<? super V1, X> before1, @Nonnull final LToLongFunctionX<? super V2, X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.test(before1.applyAsLong(v1), before2.applyAsLong(v2));
+		return (V1 v1, V2 v2) -> this.doTest(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
 	}
 
 	// </editor-fold>
@@ -183,7 +183,7 @@ public interface LBiLongPredicateX<X extends Exception> extends MetaPredicate, P
 	@Nonnull
 	default <V> LLongBiFunctionX<V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l1, long l2) -> after.apply(this.test(l1, l2));
+		return (long l1, long l2) -> after.doApply(this.doTest(l1, l2));
 	}
 
 	// </editor-fold>
@@ -205,7 +205,7 @@ public interface LBiLongPredicateX<X extends Exception> extends MetaPredicate, P
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBiLongPredicate shove() {
 		LBiLongPredicateX<RuntimeException> exceptionCast = (LBiLongPredicateX<RuntimeException>) this;
-		return exceptionCast::test;
+		return exceptionCast::doTest;
 	}
 
 	// </editor-fold>
@@ -217,11 +217,11 @@ public interface LBiLongPredicateX<X extends Exception> extends MetaPredicate, P
 	public static <X extends Exception, E extends Exception, Y extends Exception> LBiLongPredicateX<Y> wrapException(@Nonnull final LBiLongPredicateX<X> other, Class<E> exception, LBooleanSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
 		return (long l1, long l2) -> {
 			try {
-				return other.test(l1, l2);
+				return other.doTest(l1, l2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsBoolean();
+						return supplier.doGetAsBoolean();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

@@ -59,13 +59,13 @@ public class LObjFloatConsumerTest<T,X extends ParseException> {
 
 
     private LObjFloatConsumer<T> sut = new LObjFloatConsumer(){
-        public  void accept(Object t, float f)  {
+        public  void doAccept(Object t, float f)  {
             Function4U.doNothing();
         }
     };
 
     private LObjFloatConsumerX<T,X> opposite = new LObjFloatConsumerX(){
-        public  void accept(Object t, float f) throws ParseException {
+        public  void doAccept(Object t, float f) throws ParseException {
             Function4U.doNothing();
         }
     };
@@ -77,7 +77,7 @@ public class LObjFloatConsumerTest<T,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LObjFloatConsumer: void accept(T t, float f)");
+            .isEqualTo("LObjFloatConsumer: void doAccept(T t, float f)");
     }
 
     @Test
@@ -104,7 +104,7 @@ public class LObjFloatConsumerTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((T)Integer.valueOf(100),(float)100);
+            wrapped.doAccept((T)Integer.valueOf(100),(float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -126,7 +126,7 @@ public class LObjFloatConsumerTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((T)Integer.valueOf(100),(float)100);
+            wrapped.doAccept((T)Integer.valueOf(100),(float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -152,7 +152,7 @@ public class LObjFloatConsumerTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((T)Integer.valueOf(100),(float)100);
+            wrapped.doAccept((T)Integer.valueOf(100),(float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -177,7 +177,7 @@ public class LObjFloatConsumerTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((T)Integer.valueOf(100),(float)100);
+            wrapped.doAccept((T)Integer.valueOf(100),(float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -201,7 +201,7 @@ public class LObjFloatConsumerTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((T)Integer.valueOf(100),(float)100);
+            wrapped.doAccept((T)Integer.valueOf(100),(float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -241,7 +241,7 @@ public class LObjFloatConsumerTest<T,X extends ParseException> {
 
         //when
         LObjFloatConsumer<Integer > function = sutO.fromFloat(before1,before2);
-        function.accept((Integer )Integer.valueOf(80),(float)81);
+        function.doAccept((Integer )Integer.valueOf(80),(float)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -275,7 +275,7 @@ public class LObjFloatConsumerTest<T,X extends ParseException> {
 
         //when
         LBiConsumer<Integer ,Integer > function = sutO.from(before1,before2);
-        function.accept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        function.doAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -305,7 +305,7 @@ public class LObjFloatConsumerTest<T,X extends ParseException> {
 
         //when
         LObjFloatConsumer<Integer > function = sutO.andThen(thenFunction);
-        function.accept((Integer )Integer.valueOf(80),(float)81);
+        function.doAccept((Integer )Integer.valueOf(80),(float)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -331,7 +331,7 @@ public class LObjFloatConsumerTest<T,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().accept((T)Integer.valueOf(100),(float)100);
+        sutThrowing.shove().doAccept((T)Integer.valueOf(100),(float)100);
     }
 
     @Test
@@ -349,7 +349,7 @@ public class LObjFloatConsumerTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((T)Integer.valueOf(100),(float)100);
+            wrapped.doAccept((T)Integer.valueOf(100),(float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -368,7 +368,7 @@ public class LObjFloatConsumerTest<T,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LObjFloatConsumer: void accept(T t, float f)");
+                .contains("LObjFloatConsumer: void doAccept(T t, float f)");
     }
 
 

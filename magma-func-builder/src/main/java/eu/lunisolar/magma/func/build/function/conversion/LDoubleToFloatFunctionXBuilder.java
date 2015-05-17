@@ -99,12 +99,12 @@ public final class LDoubleToFloatFunctionXBuilder<X extends Exception> extends P
 			final Case<LDoublePredicateX<X>, LDoubleToFloatFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LDoubleToFloatFunctionX.lX((double d) -> {
 				for (Case<LDoublePredicateX<X>, LDoubleToFloatFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(d)) {
-						return aCase.caseFunction().applyAsFloat(d);
+					if (aCase.casePredicate().doTest(d)) {
+						return aCase.caseFunction().doApplyAsFloat(d);
 					}
 				}
 
-				return eventuallyFinal.applyAsFloat(d);
+				return eventuallyFinal.doApplyAsFloat(d);
 			});
 		}
 

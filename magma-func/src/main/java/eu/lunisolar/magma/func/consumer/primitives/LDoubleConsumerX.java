@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LDoubleConsumerX<X extends Exception> extends MetaConsumer, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LDoubleConsumerX: void accept(double d) throws X";
+	public static final String DESCRIPTION = "LDoubleConsumerX: void doAccept(double d) throws X";
 
-	public void accept(double d) throws X;
+	public void doAccept(double d) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +73,7 @@ public interface LDoubleConsumerX<X extends Exception> extends MetaConsumer, Met
 
 	/** Captures arguments but delays the evaluation. */
 	default LActionX<X> capture(double d) {
-		return () -> this.accept(d);
+		return () -> this.doAccept(d);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -94,7 +94,7 @@ public interface LDoubleConsumerX<X extends Exception> extends MetaConsumer, Met
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LDoubleConsumerX<X> wrapX(final @Nonnull LDoubleConsumer other) {
-		return other::accept;
+		return other::doAccept;
 	}
 
 	// </editor-fold>
@@ -107,7 +107,7 @@ public interface LDoubleConsumerX<X extends Exception> extends MetaConsumer, Met
 	@Nonnull
 	default LDoubleConsumerX<X> fromDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final double v1) -> this.accept(before1.applyAsDouble(v1));
+		return (final double v1) -> this.doAccept(before1.doApplyAsDouble(v1));
 	}
 
 	/**
@@ -116,7 +116,7 @@ public interface LDoubleConsumerX<X extends Exception> extends MetaConsumer, Met
 	@Nonnull
 	default <V1> LConsumerX<V1, X> from(@Nonnull final LToDoubleFunctionX<? super V1, X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.accept(before1.applyAsDouble(v1));
+		return (V1 v1) -> this.doAccept(before1.doApplyAsDouble(v1));
 	}
 
 	// </editor-fold>
@@ -128,8 +128,8 @@ public interface LDoubleConsumerX<X extends Exception> extends MetaConsumer, Met
 	default LDoubleConsumerX<X> andThen(@Nonnull LDoubleConsumerX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
 		return (double d) -> {
-			this.accept(d);
-			after.accept(d);
+			this.doAccept(d);
+			after.doAccept(d);
 		};
 	}
 
@@ -139,7 +139,7 @@ public interface LDoubleConsumerX<X extends Exception> extends MetaConsumer, Met
 	/** Converts to JRE variant. */
 	@Nonnull
 	default java.util.function.DoubleConsumer std() {
-		return LDoubleConsumer.wrap(this)::accept;
+		return LDoubleConsumer.wrap(this)::doAccept;
 	}
 
 	/** Converts to non-throwing variant (if required). */
@@ -157,7 +157,7 @@ public interface LDoubleConsumerX<X extends Exception> extends MetaConsumer, Met
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LDoubleConsumer shove() {
 		LDoubleConsumerX<RuntimeException> exceptionCast = (LDoubleConsumerX<RuntimeException>) this;
-		return exceptionCast::accept;
+		return exceptionCast::doAccept;
 	}
 
 	// </editor-fold>
@@ -169,7 +169,7 @@ public interface LDoubleConsumerX<X extends Exception> extends MetaConsumer, Met
 	public static <X extends Exception, E extends Exception, Y extends Exception> LDoubleConsumerX<Y> wrapException(@Nonnull final LDoubleConsumerX<X> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
 		return (double d) -> {
 			try {
-				other.accept(d);
+				other.doAccept(d);
 			} catch (Exception e) {
 				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
 			}

@@ -99,12 +99,12 @@ public final class LTriPredicateBuilder<T1, T2, T3> extends PerCaseBuilderWithBo
 			final Case<LTriPredicate<T1, T2, T3>, LTriPredicate<T1, T2, T3>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LTriPredicate.l((T1 t1, T2 t2, T3 t3) -> {
 				for (Case<LTriPredicate<T1, T2, T3>, LTriPredicate<T1, T2, T3>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t1, t2, t3)) {
-						return aCase.caseFunction().test(t1, t2, t3);
+					if (aCase.casePredicate().doTest(t1, t2, t3)) {
+						return aCase.caseFunction().doTest(t1, t2, t3);
 					}
 				}
 
-				return eventuallyFinal.test(t1, t2, t3);
+				return eventuallyFinal.doTest(t1, t2, t3);
 			});
 		}
 

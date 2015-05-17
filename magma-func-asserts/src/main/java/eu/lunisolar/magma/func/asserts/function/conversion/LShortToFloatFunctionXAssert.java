@@ -63,7 +63,7 @@ public interface LShortToFloatFunctionXAssert<S extends LShortToFloatFunctionXAs
 
 		@Nonnull
 		public Evaluation<S, A, RS, Float, Exception> doesApplyAsFloat(short s) {
-			return evaluation(() -> assertFactory.apply((Float) actual.applyAsFloat(s)));
+			return evaluation(() -> assertFactory.apply((Float) actual.doApplyAsFloat(s)));
 		}
 
 	}

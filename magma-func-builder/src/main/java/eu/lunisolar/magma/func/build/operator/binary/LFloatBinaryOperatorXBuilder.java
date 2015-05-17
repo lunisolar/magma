@@ -99,12 +99,12 @@ public final class LFloatBinaryOperatorXBuilder<X extends Exception> extends Per
 			final Case<LBiFloatPredicateX<X>, LFloatBinaryOperatorX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LFloatBinaryOperatorX.lX((float f1, float f2) -> {
 				for (Case<LBiFloatPredicateX<X>, LFloatBinaryOperatorX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(f1, f2)) {
-						return aCase.caseFunction().applyAsFloat(f1, f2);
+					if (aCase.casePredicate().doTest(f1, f2)) {
+						return aCase.caseFunction().doApplyAsFloat(f1, f2);
 					}
 				}
 
-				return eventuallyFinal.applyAsFloat(f1, f2);
+				return eventuallyFinal.doApplyAsFloat(f1, f2);
 			});
 		}
 

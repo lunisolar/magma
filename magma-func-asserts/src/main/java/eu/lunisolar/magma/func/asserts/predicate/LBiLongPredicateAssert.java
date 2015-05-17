@@ -58,7 +58,7 @@ public interface LBiLongPredicateAssert<S extends LBiLongPredicateAssert<S, A, R
 
 		@Nonnull
 		public Evaluation<S, A, RS, Boolean, Exception> doesTest(long l1, long l2) {
-			return evaluation(() -> assertFactory.apply((Boolean) actual.test(l1, l2)));
+			return evaluation(() -> assertFactory.apply((Boolean) actual.doTest(l1, l2)));
 		}
 
 	}

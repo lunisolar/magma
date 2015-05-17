@@ -99,12 +99,12 @@ public final class LLongBiFunctionXBuilder<R, X extends Exception> extends PerCa
 			final Case<LBiLongPredicateX<X>, LLongBiFunctionX<R, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LLongBiFunctionX.lX((long l1, long l2) -> {
 				for (Case<LBiLongPredicateX<X>, LLongBiFunctionX<R, X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(l1, l2)) {
-						return aCase.caseFunction().apply(l1, l2);
+					if (aCase.casePredicate().doTest(l1, l2)) {
+						return aCase.caseFunction().doApply(l1, l2);
 					}
 				}
 
-				return eventuallyFinal.apply(l1, l2);
+				return eventuallyFinal.doApply(l1, l2);
 			});
 		}
 

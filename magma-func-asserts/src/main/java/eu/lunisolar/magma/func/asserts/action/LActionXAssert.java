@@ -58,12 +58,12 @@ public interface LActionXAssert<S extends LActionXAssert<S, A, X>, A extends LAc
 
 		@Nonnull
 		public SemiEvaluation<S, A, Exception> doesExecute() {
-			return evaluation(() -> actual.execute());
+			return evaluation(() -> actual.doExecute());
 		}
 
 		@Nonnull
 		public SemiEvaluation<S, A, Exception> doesExecute(LAction before) {
-			before.execute();
+			before.doExecute();
 			return doesExecute();
 		}
 	}

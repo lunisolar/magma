@@ -63,7 +63,7 @@ public interface LObjCharPredicateXAssert<S extends LObjCharPredicateXAssert<S, 
 
 		@Nonnull
 		public Evaluation<S, A, RS, Boolean, Exception> doesTest(T t, char c) {
-			return evaluation(() -> assertFactory.apply((Boolean) actual.test(t, c)));
+			return evaluation(() -> assertFactory.apply((Boolean) actual.doTest(t, c)));
 		}
 
 	}

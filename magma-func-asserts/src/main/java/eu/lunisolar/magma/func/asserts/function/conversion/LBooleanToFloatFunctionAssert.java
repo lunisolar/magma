@@ -58,7 +58,7 @@ public interface LBooleanToFloatFunctionAssert<S extends LBooleanToFloatFunction
 
 		@Nonnull
 		public Evaluation<S, A, RS, Float, Exception> doesApplyAsFloat(boolean b) {
-			return evaluation(() -> assertFactory.apply((Float) actual.applyAsFloat(b)));
+			return evaluation(() -> assertFactory.apply((Float) actual.doApplyAsFloat(b)));
 		}
 
 	}

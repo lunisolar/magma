@@ -98,7 +98,7 @@ public final class DoubleToLongFunctionBuilder extends PerCaseBuilderWithLongPro
 			final Case<LDoublePredicate, java.util.function.DoubleToLongFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = Function4U.l((double d) -> {
 				for (Case<LDoublePredicate, java.util.function.DoubleToLongFunction> aCase : casesArray) {
-					if (aCase.casePredicate().test(d)) {
+					if (aCase.casePredicate().doTest(d)) {
 						return aCase.caseFunction().applyAsLong(d);
 					}
 				}

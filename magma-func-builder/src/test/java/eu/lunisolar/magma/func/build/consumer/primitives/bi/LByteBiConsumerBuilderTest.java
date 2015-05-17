@@ -69,7 +69,7 @@ public class LByteBiConsumerBuilderTest<X extends ParseException>{
                 .byteBiConsumer()
                 .build();
 
-            function.accept((byte)100,(byte)100);
+            function.doAccept((byte)100,(byte)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

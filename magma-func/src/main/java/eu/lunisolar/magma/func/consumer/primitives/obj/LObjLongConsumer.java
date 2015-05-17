@@ -61,9 +61,13 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LObjLongConsumer<T> extends java.util.function.ObjLongConsumer<T>, LObjLongConsumerX<T, RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LObjLongConsumer: void accept(T t, long l)";
+	public static final String DESCRIPTION = "LObjLongConsumer: void doAccept(T t, long l)";
 
-	// Ovverriding methods can cause problems with inference.
+	public void doAccept(T t, long l);
+
+	default void accept(T t, long l) {
+		doAccept(t, l);
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +77,7 @@ public interface LObjLongConsumer<T> extends java.util.function.ObjLongConsumer<
 
 	/** Captures arguments but delays the evaluation. */
 	default LAction capture(T t, long l) {
-		return () -> this.accept(t, l);
+		return () -> this.doAccept(t, l);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -96,7 +100,7 @@ public interface LObjLongConsumer<T> extends java.util.function.ObjLongConsumer<
 	public static <T, X extends Exception> LObjLongConsumer<T> wrap(final @Nonnull LObjLongConsumerX<T, X> other) {
 		return (T t, long l) -> {
 			try {
-				other.accept(t, l);
+				other.doAccept(t, l);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -114,7 +118,7 @@ public interface LObjLongConsumer<T> extends java.util.function.ObjLongConsumer<
 	default <V1> LObjLongConsumer<V1> fromLong(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LLongUnaryOperator before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final V1 v1, final long v2) -> this.accept(before1.apply(v1), before2.applyAsLong(v2));
+		return (final V1 v1, final long v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsLong(v2));
 	}
 
 	/**
@@ -124,7 +128,7 @@ public interface LObjLongConsumer<T> extends java.util.function.ObjLongConsumer<
 	default <V1, V2> LBiConsumer<V1, V2> from(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToLongFunction<? super V2> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.accept(before1.apply(v1), before2.applyAsLong(v2));
+		return (V1 v1, V2 v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsLong(v2));
 	}
 
 	// </editor-fold>
@@ -136,8 +140,8 @@ public interface LObjLongConsumer<T> extends java.util.function.ObjLongConsumer<
 	default LObjLongConsumer<T> andThen(@Nonnull LObjLongConsumer<? super T> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
 		return (T t, long l) -> {
-			this.accept(t, l);
-			after.accept(t, l);
+			this.doAccept(t, l);
+			after.doAccept(t, l);
 		};
 	}
 
@@ -176,7 +180,7 @@ public interface LObjLongConsumer<T> extends java.util.function.ObjLongConsumer<
 	public static <T, X extends Exception, E extends Exception, Y extends RuntimeException> LObjLongConsumer<T> wrapException(@Nonnull final LObjLongConsumer<T> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
 		return (T t, long l) -> {
 			try {
-				other.accept(t, l);
+				other.doAccept(t, l);
 			} catch (Exception e) {
 				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
 			}

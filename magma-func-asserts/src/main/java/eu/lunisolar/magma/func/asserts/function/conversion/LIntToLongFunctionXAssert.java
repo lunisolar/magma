@@ -60,7 +60,7 @@ public interface LIntToLongFunctionXAssert<S extends LIntToLongFunctionXAssert<S
 
 		@Nonnull
 		public Evaluation<S, A, RS, Long, Exception> doesApplyAsLong(int i) {
-			return evaluation(() -> assertFactory.apply((Long) actual.applyAsLong(i)));
+			return evaluation(() -> assertFactory.apply((Long) actual.doApplyAsLong(i)));
 		}
 
 	}

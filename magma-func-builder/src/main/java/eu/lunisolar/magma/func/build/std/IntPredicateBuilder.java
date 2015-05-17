@@ -98,7 +98,7 @@ public final class IntPredicateBuilder extends PerCaseBuilderWithBooleanProduct.
 			final Case<LIntPredicate, java.util.function.IntPredicate>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = Function4U.l((int i) -> {
 				for (Case<LIntPredicate, java.util.function.IntPredicate> aCase : casesArray) {
-					if (aCase.casePredicate().test(i)) {
+					if (aCase.casePredicate().doTest(i)) {
 						return aCase.caseFunction().test(i);
 					}
 				}

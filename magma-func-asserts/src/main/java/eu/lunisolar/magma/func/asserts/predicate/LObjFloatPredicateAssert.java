@@ -58,7 +58,7 @@ public interface LObjFloatPredicateAssert<S extends LObjFloatPredicateAssert<S, 
 
 		@Nonnull
 		public Evaluation<S, A, RS, Boolean, Exception> doesTest(T t, float f) {
-			return evaluation(() -> assertFactory.apply((Boolean) actual.test(t, f)));
+			return evaluation(() -> assertFactory.apply((Boolean) actual.doTest(t, f)));
 		}
 
 	}

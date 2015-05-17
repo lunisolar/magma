@@ -99,12 +99,12 @@ public final class LDoubleUnaryOperatorXBuilder<X extends Exception> extends Per
 			final Case<LDoublePredicateX<X>, LDoubleUnaryOperatorX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LDoubleUnaryOperatorX.lX((double d) -> {
 				for (Case<LDoublePredicateX<X>, LDoubleUnaryOperatorX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(d)) {
-						return aCase.caseFunction().applyAsDouble(d);
+					if (aCase.casePredicate().doTest(d)) {
+						return aCase.caseFunction().doApplyAsDouble(d);
 					}
 				}
 
-				return eventuallyFinal.applyAsDouble(d);
+				return eventuallyFinal.doApplyAsDouble(d);
 			});
 		}
 

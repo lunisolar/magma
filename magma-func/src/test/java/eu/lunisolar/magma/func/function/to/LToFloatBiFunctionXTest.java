@@ -61,13 +61,13 @@ public class LToFloatBiFunctionXTest<T1,T2,X extends ParseException> {
 
 
     private LToFloatBiFunctionX<T1,T2,X> sut = new LToFloatBiFunctionX(){
-        public  float applyAsFloat(Object t1,Object t2) throws ParseException {
+        public  float doApplyAsFloat(Object t1,Object t2) throws ParseException {
             return testValue;
         }
     };
 
     private LToFloatBiFunction<T1,T2> opposite = new LToFloatBiFunction(){
-        public  float applyAsFloat(Object t1,Object t2)  {
+        public  float doApplyAsFloat(Object t1,Object t2)  {
             return testValue;
         }
     };
@@ -76,7 +76,7 @@ public class LToFloatBiFunctionXTest<T1,T2,X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.applyAsFloat((T1)Integer.valueOf(100),(T2)Integer.valueOf(100)))
+        assertThat(sut.doApplyAsFloat((T1)Integer.valueOf(100),(T2)Integer.valueOf(100)))
             .isEqualTo(testValue);
     }
 
@@ -90,7 +90,7 @@ public class LToFloatBiFunctionXTest<T1,T2,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LToFloatBiFunctionX: float applyAsFloat(T1 t1,T2 t2) throws X");
+            .isEqualTo("LToFloatBiFunctionX: float doApplyAsFloat(T1 t1,T2 t2) throws X");
     }
 
     @Test
@@ -121,7 +121,7 @@ public class LToFloatBiFunctionXTest<T1,T2,X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsFloat((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            wrapped.doApplyAsFloat((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -146,7 +146,7 @@ public class LToFloatBiFunctionXTest<T1,T2,X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsFloat((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            wrapped.doApplyAsFloat((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -170,7 +170,7 @@ public class LToFloatBiFunctionXTest<T1,T2,X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsFloat((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            wrapped.doApplyAsFloat((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -211,7 +211,7 @@ public class LToFloatBiFunctionXTest<T1,T2,X extends ParseException> {
 
         //when
         LToFloatBiFunctionX<Integer ,Integer ,X> function = sutO.from(before1,before2);
-        function.applyAsFloat((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        function.doApplyAsFloat((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -248,7 +248,7 @@ public class LToFloatBiFunctionXTest<T1,T2,X extends ParseException> {
 
         //when
         LBiFunctionX<Integer ,Integer ,Integer ,X> function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        Integer  finalValue = function.doApply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -279,7 +279,7 @@ public class LToFloatBiFunctionXTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().applyAsFloat((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+        sutThrowing.shove().doApplyAsFloat((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
     }
 
     @Test
@@ -297,7 +297,7 @@ public class LToFloatBiFunctionXTest<T1,T2,X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsFloat((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            wrapped.doApplyAsFloat((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -316,7 +316,7 @@ public class LToFloatBiFunctionXTest<T1,T2,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LToFloatBiFunctionX: float applyAsFloat(T1 t1,T2 t2) throws X");
+                .contains("LToFloatBiFunctionX: float doApplyAsFloat(T1 t1,T2 t2) throws X");
     }
 
 

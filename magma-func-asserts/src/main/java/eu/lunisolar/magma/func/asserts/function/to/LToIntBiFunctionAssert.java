@@ -60,7 +60,7 @@ public interface LToIntBiFunctionAssert<S extends LToIntBiFunctionAssert<S, A, R
 
 		@Nonnull
 		public Evaluation<S, A, RS, Integer, Exception> doesApplyAsInt(T1 t1, T2 t2) {
-			return evaluation(() -> assertFactory.apply((Integer) actual.applyAsInt(t1, t2)));
+			return evaluation(() -> assertFactory.apply((Integer) actual.doApplyAsInt(t1, t2)));
 		}
 
 	}

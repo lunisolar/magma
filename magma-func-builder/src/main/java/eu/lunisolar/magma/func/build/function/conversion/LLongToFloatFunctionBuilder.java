@@ -99,12 +99,12 @@ public final class LLongToFloatFunctionBuilder extends PerCaseBuilderWithFloatPr
 			final Case<LLongPredicate, LLongToFloatFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LLongToFloatFunction.l((long l) -> {
 				for (Case<LLongPredicate, LLongToFloatFunction> aCase : casesArray) {
-					if (aCase.casePredicate().test(l)) {
-						return aCase.caseFunction().applyAsFloat(l);
+					if (aCase.casePredicate().doTest(l)) {
+						return aCase.caseFunction().doApplyAsFloat(l);
 					}
 				}
 
-				return eventuallyFinal.applyAsFloat(l);
+				return eventuallyFinal.doApplyAsFloat(l);
 			});
 		}
 

@@ -69,7 +69,7 @@ public class LFloatToDoubleFunctionBuilderTest<X extends ParseException>{
                 .floatToDoubleFunction()
                 .build();
 
-            function.applyAsDouble((float)100);
+            function.doApplyAsDouble((float)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

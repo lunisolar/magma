@@ -99,12 +99,12 @@ public final class LFloatSupplierBuilder extends PerCaseBuilderWithFloatProduct.
 			final Case<LBooleanSupplier, LFloatSupplier>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LFloatSupplier.l(() -> {
 				for (Case<LBooleanSupplier, LFloatSupplier> aCase : casesArray) {
-					if (aCase.casePredicate().getAsBoolean()) {
-						return aCase.caseFunction().getAsFloat();
+					if (aCase.casePredicate().doGetAsBoolean()) {
+						return aCase.caseFunction().doGetAsFloat();
 					}
 				}
 
-				return eventuallyFinal.getAsFloat();
+				return eventuallyFinal.doGetAsFloat();
 			});
 		}
 

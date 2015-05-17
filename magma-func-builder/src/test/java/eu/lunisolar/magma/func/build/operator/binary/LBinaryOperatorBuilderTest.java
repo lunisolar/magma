@@ -69,7 +69,7 @@ public class LBinaryOperatorBuilderTest<T,X extends ParseException>{
                 .binaryOperator()
                 .build();
 
-            function.apply((T)Integer.valueOf(100),(T)Integer.valueOf(100));
+            function.doApply((T)Integer.valueOf(100),(T)Integer.valueOf(100));
 
             fail("No exception were thrown.");
         } catch (Exception e) {

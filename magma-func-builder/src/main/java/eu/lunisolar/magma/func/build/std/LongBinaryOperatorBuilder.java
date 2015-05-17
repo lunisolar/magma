@@ -98,7 +98,7 @@ public final class LongBinaryOperatorBuilder extends PerCaseBuilderWithLongProdu
 			final Case<LBiLongPredicate, java.util.function.LongBinaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = Function4U.l((long l1, long l2) -> {
 				for (Case<LBiLongPredicate, java.util.function.LongBinaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().test(l1, l2)) {
+					if (aCase.casePredicate().doTest(l1, l2)) {
 						return aCase.caseFunction().applyAsLong(l1, l2);
 					}
 				}

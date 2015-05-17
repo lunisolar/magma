@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBooleanToLongFunction extends LBooleanToLongFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LBooleanToLongFunction: long applyAsLong(boolean b)";
+	public static final String DESCRIPTION = "LBooleanToLongFunction: long doApplyAsLong(boolean b)";
 
-	// Ovverriding methods can cause problems with inference.
+	public long doApplyAsLong(boolean b);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LBooleanToLongFunction extends LBooleanToLongFunctionX<RuntimeE
 
 	/** Captures arguments but delays the evaluation. */
 	default LLongSupplier capture(boolean b) {
-		return () -> this.applyAsLong(b);
+		return () -> this.doApplyAsLong(b);
 	}
 
 	public static LBooleanToLongFunction constant(long r) {
@@ -81,7 +81,7 @@ public interface LBooleanToLongFunction extends LBooleanToLongFunctionX<RuntimeE
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default long nonNull(boolean b) {
-		return applyAsLong(b);
+		return doApplyAsLong(b);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -98,7 +98,7 @@ public interface LBooleanToLongFunction extends LBooleanToLongFunctionX<RuntimeE
 	public static <X extends Exception> LBooleanToLongFunction wrap(final @Nonnull LBooleanToLongFunctionX<X> other) {
 		return (boolean b) -> {
 			try {
-				return other.applyAsLong(b);
+				return other.doApplyAsLong(b);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -115,7 +115,7 @@ public interface LBooleanToLongFunction extends LBooleanToLongFunctionX<RuntimeE
 	@Nonnull
 	default LBooleanToLongFunction fromBoolean(@Nonnull final LBooleanUnaryOperator before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final boolean v1) -> this.applyAsLong(before1.applyAsBoolean(v1));
+		return (final boolean v1) -> this.doApplyAsLong(before1.doApplyAsBoolean(v1));
 	}
 
 	/**
@@ -124,7 +124,7 @@ public interface LBooleanToLongFunction extends LBooleanToLongFunctionX<RuntimeE
 	@Nonnull
 	default <V1> LToLongFunction<V1> from(@Nonnull final LPredicate<? super V1> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.applyAsLong(before1.applyAsBoolean(v1));
+		return (V1 v1) -> this.doApplyAsLong(before1.doApplyAsBoolean(v1));
 	}
 
 	// </editor-fold>
@@ -135,63 +135,63 @@ public interface LBooleanToLongFunction extends LBooleanToLongFunctionX<RuntimeE
 	@Nonnull
 	default <V> LBooleanFunction<V> then(@Nonnull LLongFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b) -> after.apply(this.applyAsLong(b));
+		return (boolean b) -> after.doApply(this.doApplyAsLong(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToByteFunction thenToByte(@Nonnull LLongToByteFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b) -> after.applyAsByte(this.applyAsLong(b));
+		return (boolean b) -> after.doApplyAsByte(this.doApplyAsLong(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToShortFunction thenToShort(@Nonnull LLongToShortFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b) -> after.applyAsShort(this.applyAsLong(b));
+		return (boolean b) -> after.doApplyAsShort(this.doApplyAsLong(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToIntFunction thenToInt(@Nonnull LLongToIntFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b) -> after.applyAsInt(this.applyAsLong(b));
+		return (boolean b) -> after.doApplyAsInt(this.doApplyAsLong(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToLongFunction thenToLong(@Nonnull LLongUnaryOperator after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b) -> after.applyAsLong(this.applyAsLong(b));
+		return (boolean b) -> after.doApplyAsLong(this.doApplyAsLong(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToFloatFunction thenToFloat(@Nonnull LLongToFloatFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b) -> after.applyAsFloat(this.applyAsLong(b));
+		return (boolean b) -> after.doApplyAsFloat(this.doApplyAsLong(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToDoubleFunction thenToDouble(@Nonnull LLongToDoubleFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b) -> after.applyAsDouble(this.applyAsLong(b));
+		return (boolean b) -> after.doApplyAsDouble(this.doApplyAsLong(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToCharFunction thenToChar(@Nonnull LLongToCharFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b) -> after.applyAsChar(this.applyAsLong(b));
+		return (boolean b) -> after.doApplyAsChar(this.doApplyAsLong(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanUnaryOperator thenToBoolean(@Nonnull LLongPredicate after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b) -> after.test(this.applyAsLong(b));
+		return (boolean b) -> after.doTest(this.doApplyAsLong(b));
 	}
 
 	// </editor-fold>
@@ -224,11 +224,11 @@ public interface LBooleanToLongFunction extends LBooleanToLongFunctionX<RuntimeE
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LBooleanToLongFunction wrapException(@Nonnull final LBooleanToLongFunction other, Class<E> exception, LLongSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (boolean b) -> {
 			try {
-				return other.applyAsLong(b);
+				return other.doApplyAsLong(b);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsLong();
+						return supplier.doGetAsLong();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

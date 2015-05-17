@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LObjLongConsumerX<T, X extends Exception> extends MetaConsumer, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LObjLongConsumerX: void accept(T t, long l) throws X";
+	public static final String DESCRIPTION = "LObjLongConsumerX: void doAccept(T t, long l) throws X";
 
-	public void accept(T t, long l) throws X;
+	public void doAccept(T t, long l) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +73,7 @@ public interface LObjLongConsumerX<T, X extends Exception> extends MetaConsumer,
 
 	/** Captures arguments but delays the evaluation. */
 	default LActionX<X> capture(T t, long l) {
-		return () -> this.accept(t, l);
+		return () -> this.doAccept(t, l);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -94,7 +94,7 @@ public interface LObjLongConsumerX<T, X extends Exception> extends MetaConsumer,
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T, X extends Exception> LObjLongConsumerX<T, X> wrapX(final @Nonnull LObjLongConsumer<T> other) {
-		return other::accept;
+		return other::doAccept;
 	}
 
 	// </editor-fold>
@@ -108,7 +108,7 @@ public interface LObjLongConsumerX<T, X extends Exception> extends MetaConsumer,
 	default <V1> LObjLongConsumerX<V1, X> fromLong(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LLongUnaryOperatorX<X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final V1 v1, final long v2) -> this.accept(before1.apply(v1), before2.applyAsLong(v2));
+		return (final V1 v1, final long v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsLong(v2));
 	}
 
 	/**
@@ -118,7 +118,7 @@ public interface LObjLongConsumerX<T, X extends Exception> extends MetaConsumer,
 	default <V1, V2> LBiConsumerX<V1, V2, X> from(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToLongFunctionX<? super V2, X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.accept(before1.apply(v1), before2.applyAsLong(v2));
+		return (V1 v1, V2 v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsLong(v2));
 	}
 
 	// </editor-fold>
@@ -130,8 +130,8 @@ public interface LObjLongConsumerX<T, X extends Exception> extends MetaConsumer,
 	default LObjLongConsumerX<T, X> andThen(@Nonnull LObjLongConsumerX<? super T, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
 		return (T t, long l) -> {
-			this.accept(t, l);
-			after.accept(t, l);
+			this.doAccept(t, l);
+			after.doAccept(t, l);
 		};
 	}
 
@@ -141,7 +141,7 @@ public interface LObjLongConsumerX<T, X extends Exception> extends MetaConsumer,
 	/** Converts to JRE variant. */
 	@Nonnull
 	default java.util.function.ObjLongConsumer<T> std() {
-		return LObjLongConsumer.wrap(this)::accept;
+		return LObjLongConsumer.wrap(this)::doAccept;
 	}
 
 	/** Converts to non-throwing variant (if required). */
@@ -159,7 +159,7 @@ public interface LObjLongConsumerX<T, X extends Exception> extends MetaConsumer,
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjLongConsumer<T> shove() {
 		LObjLongConsumerX<T, RuntimeException> exceptionCast = (LObjLongConsumerX<T, RuntimeException>) this;
-		return exceptionCast::accept;
+		return exceptionCast::doAccept;
 	}
 
 	// </editor-fold>
@@ -171,7 +171,7 @@ public interface LObjLongConsumerX<T, X extends Exception> extends MetaConsumer,
 	public static <T, X extends Exception, E extends Exception, Y extends Exception> LObjLongConsumerX<T, Y> wrapException(@Nonnull final LObjLongConsumerX<T, X> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
 		return (T t, long l) -> {
 			try {
-				other.accept(t, l);
+				other.doAccept(t, l);
 			} catch (Exception e) {
 				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
 			}

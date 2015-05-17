@@ -69,7 +69,7 @@ public class LBooleanToCharFunctionBuilderTest<X extends ParseException>{
                 .booleanToCharFunction()
                 .build();
 
-            function.applyAsChar(true);
+            function.doApplyAsChar(true);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

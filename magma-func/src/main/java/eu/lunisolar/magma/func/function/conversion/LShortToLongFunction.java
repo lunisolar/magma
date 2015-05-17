@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LShortToLongFunction extends LShortToLongFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LShortToLongFunction: long applyAsLong(short s)";
+	public static final String DESCRIPTION = "LShortToLongFunction: long doApplyAsLong(short s)";
 
-	// Ovverriding methods can cause problems with inference.
+	public long doApplyAsLong(short s);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LShortToLongFunction extends LShortToLongFunctionX<RuntimeExcep
 
 	/** Captures arguments but delays the evaluation. */
 	default LLongSupplier capture(short s) {
-		return () -> this.applyAsLong(s);
+		return () -> this.doApplyAsLong(s);
 	}
 
 	public static LShortToLongFunction constant(long r) {
@@ -81,7 +81,7 @@ public interface LShortToLongFunction extends LShortToLongFunctionX<RuntimeExcep
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default long nonNull(short s) {
-		return applyAsLong(s);
+		return doApplyAsLong(s);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -98,7 +98,7 @@ public interface LShortToLongFunction extends LShortToLongFunctionX<RuntimeExcep
 	public static <X extends Exception> LShortToLongFunction wrap(final @Nonnull LShortToLongFunctionX<X> other) {
 		return (short s) -> {
 			try {
-				return other.applyAsLong(s);
+				return other.doApplyAsLong(s);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -115,7 +115,7 @@ public interface LShortToLongFunction extends LShortToLongFunctionX<RuntimeExcep
 	@Nonnull
 	default LShortToLongFunction fromShort(@Nonnull final LShortUnaryOperator before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final short v1) -> this.applyAsLong(before1.applyAsShort(v1));
+		return (final short v1) -> this.doApplyAsLong(before1.doApplyAsShort(v1));
 	}
 
 	/**
@@ -124,7 +124,7 @@ public interface LShortToLongFunction extends LShortToLongFunctionX<RuntimeExcep
 	@Nonnull
 	default <V1> LToLongFunction<V1> from(@Nonnull final LToShortFunction<? super V1> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.applyAsLong(before1.applyAsShort(v1));
+		return (V1 v1) -> this.doApplyAsLong(before1.doApplyAsShort(v1));
 	}
 
 	// </editor-fold>
@@ -135,63 +135,63 @@ public interface LShortToLongFunction extends LShortToLongFunctionX<RuntimeExcep
 	@Nonnull
 	default <V> LShortFunction<V> then(@Nonnull LLongFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.apply(this.applyAsLong(s));
+		return (short s) -> after.doApply(this.doApplyAsLong(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToByteFunction thenToByte(@Nonnull LLongToByteFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsByte(this.applyAsLong(s));
+		return (short s) -> after.doApplyAsByte(this.doApplyAsLong(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortUnaryOperator thenToShort(@Nonnull LLongToShortFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsShort(this.applyAsLong(s));
+		return (short s) -> after.doApplyAsShort(this.doApplyAsLong(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToIntFunction thenToInt(@Nonnull LLongToIntFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsInt(this.applyAsLong(s));
+		return (short s) -> after.doApplyAsInt(this.doApplyAsLong(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToLongFunction thenToLong(@Nonnull LLongUnaryOperator after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsLong(this.applyAsLong(s));
+		return (short s) -> after.doApplyAsLong(this.doApplyAsLong(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToFloatFunction thenToFloat(@Nonnull LLongToFloatFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsFloat(this.applyAsLong(s));
+		return (short s) -> after.doApplyAsFloat(this.doApplyAsLong(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToDoubleFunction thenToDouble(@Nonnull LLongToDoubleFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsDouble(this.applyAsLong(s));
+		return (short s) -> after.doApplyAsDouble(this.doApplyAsLong(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToCharFunction thenToChar(@Nonnull LLongToCharFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsChar(this.applyAsLong(s));
+		return (short s) -> after.doApplyAsChar(this.doApplyAsLong(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortPredicate thenToBoolean(@Nonnull LLongPredicate after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.test(this.applyAsLong(s));
+		return (short s) -> after.doTest(this.doApplyAsLong(s));
 	}
 
 	// </editor-fold>
@@ -224,11 +224,11 @@ public interface LShortToLongFunction extends LShortToLongFunctionX<RuntimeExcep
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LShortToLongFunction wrapException(@Nonnull final LShortToLongFunction other, Class<E> exception, LLongSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (short s) -> {
 			try {
-				return other.applyAsLong(s);
+				return other.doApplyAsLong(s);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsLong();
+						return supplier.doGetAsLong();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

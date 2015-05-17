@@ -69,7 +69,7 @@ public class LCharToDoubleFunctionXBuilderTest<X extends ParseException>{
                 .charToDoubleFunctionX()
                 .build();
 
-            function.applyAsDouble((char)100);
+            function.doApplyAsDouble((char)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

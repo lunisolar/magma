@@ -99,12 +99,12 @@ public final class LShortPredicateBuilder extends PerCaseBuilderWithBooleanProdu
 			final Case<LShortPredicate, LShortPredicate>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LShortPredicate.l((short s) -> {
 				for (Case<LShortPredicate, LShortPredicate> aCase : casesArray) {
-					if (aCase.casePredicate().test(s)) {
-						return aCase.caseFunction().test(s);
+					if (aCase.casePredicate().doTest(s)) {
+						return aCase.caseFunction().doTest(s);
 					}
 				}
 
-				return eventuallyFinal.test(s);
+				return eventuallyFinal.doTest(s);
 			});
 		}
 

@@ -60,14 +60,14 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LDoublePredicateX<X extends Exception> extends MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LDoublePredicateX: boolean test(double d) throws X";
+	public static final String DESCRIPTION = "LDoublePredicateX: boolean doTest(double d) throws X";
 
-	public boolean test(double d) throws X;
+	public boolean doTest(double d) throws X;
 
 	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
 
-	default boolean applyAsBoolean(double d) throws X {
-		return test(d);
+	default boolean doApplyAsBoolean(double d) throws X {
+		return doTest(d);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -78,7 +78,7 @@ public interface LDoublePredicateX<X extends Exception> extends MetaPredicate, P
 
 	/** Captures arguments but delays the evaluation. */
 	default LBooleanSupplierX<X> capture(double d) {
-		return () -> this.test(d);
+		return () -> this.doTest(d);
 	}
 
 	public static <X extends Exception> LDoublePredicateX<X> constant(boolean r) {
@@ -87,7 +87,7 @@ public interface LDoublePredicateX<X extends Exception> extends MetaPredicate, P
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(double d) throws X {
-		return test(d);
+		return doTest(d);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -108,7 +108,7 @@ public interface LDoublePredicateX<X extends Exception> extends MetaPredicate, P
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LDoublePredicateX<X> wrapX(final @Nonnull LDoublePredicate other) {
-		return other::test;
+		return other::doTest;
 	}
 
 	// </editor-fold>
@@ -119,7 +119,7 @@ public interface LDoublePredicateX<X extends Exception> extends MetaPredicate, P
 	 */
 	@Nonnull
 	default LDoublePredicateX<X> negate() {
-		return (double d) -> !test(d);
+		return (double d) -> !doTest(d);
 	}
 
 	/**
@@ -128,7 +128,7 @@ public interface LDoublePredicateX<X extends Exception> extends MetaPredicate, P
 	@Nonnull
 	default LDoublePredicateX<X> and(@Nonnull LDoublePredicateX<X> other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (double d) -> test(d) && other.test(d);
+		return (double d) -> doTest(d) && other.doTest(d);
 	}
 
 	/**
@@ -137,7 +137,7 @@ public interface LDoublePredicateX<X extends Exception> extends MetaPredicate, P
 	@Nonnull
 	default LDoublePredicateX<X> or(@Nonnull LDoublePredicateX<X> other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (double d) -> test(d) || other.test(d);
+		return (double d) -> doTest(d) || other.doTest(d);
 	}
 
 	/**
@@ -146,7 +146,7 @@ public interface LDoublePredicateX<X extends Exception> extends MetaPredicate, P
 	@Nonnull
 	default LDoublePredicateX<X> xor(@Nonnull LDoublePredicateX<X> other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (double d) -> test(d) ^ other.test(d);
+		return (double d) -> doTest(d) ^ other.doTest(d);
 	}
 
 	@Nonnull
@@ -164,7 +164,7 @@ public interface LDoublePredicateX<X extends Exception> extends MetaPredicate, P
 	@Nonnull
 	default LDoublePredicateX<X> fromDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final double v1) -> this.test(before1.applyAsDouble(v1));
+		return (final double v1) -> this.doTest(before1.doApplyAsDouble(v1));
 	}
 
 	/**
@@ -173,7 +173,7 @@ public interface LDoublePredicateX<X extends Exception> extends MetaPredicate, P
 	@Nonnull
 	default <V1> LPredicateX<V1, X> from(@Nonnull final LToDoubleFunctionX<? super V1, X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.test(before1.applyAsDouble(v1));
+		return (V1 v1) -> this.doTest(before1.doApplyAsDouble(v1));
 	}
 
 	// </editor-fold>
@@ -184,63 +184,63 @@ public interface LDoublePredicateX<X extends Exception> extends MetaPredicate, P
 	@Nonnull
 	default <V> LDoubleFunctionX<V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.apply(this.test(d));
+		return (double d) -> after.doApply(this.doTest(d));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LDoubleToByteFunctionX<X> thenToByte(@Nonnull LBooleanToByteFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsByte(this.test(d));
+		return (double d) -> after.doApplyAsByte(this.doTest(d));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LDoubleToShortFunctionX<X> thenToShort(@Nonnull LBooleanToShortFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsShort(this.test(d));
+		return (double d) -> after.doApplyAsShort(this.doTest(d));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LDoubleToIntFunctionX<X> thenToInt(@Nonnull LBooleanToIntFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsInt(this.test(d));
+		return (double d) -> after.doApplyAsInt(this.doTest(d));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LDoubleToLongFunctionX<X> thenToLong(@Nonnull LBooleanToLongFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsLong(this.test(d));
+		return (double d) -> after.doApplyAsLong(this.doTest(d));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LDoubleToFloatFunctionX<X> thenToFloat(@Nonnull LBooleanToFloatFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsFloat(this.test(d));
+		return (double d) -> after.doApplyAsFloat(this.doTest(d));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LDoubleUnaryOperatorX<X> thenToDouble(@Nonnull LBooleanToDoubleFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsDouble(this.test(d));
+		return (double d) -> after.doApplyAsDouble(this.doTest(d));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LDoubleToCharFunctionX<X> thenToChar(@Nonnull LBooleanToCharFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsChar(this.test(d));
+		return (double d) -> after.doApplyAsChar(this.doTest(d));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LDoublePredicateX<X> thenToBoolean(@Nonnull LBooleanUnaryOperatorX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsBoolean(this.test(d));
+		return (double d) -> after.doApplyAsBoolean(this.doTest(d));
 	}
 
 	// </editor-fold>
@@ -250,7 +250,7 @@ public interface LDoublePredicateX<X extends Exception> extends MetaPredicate, P
 	/** Converts to JRE variant. */
 	@Nonnull
 	default java.util.function.DoublePredicate std() {
-		return LDoublePredicate.wrap(this)::test;
+		return LDoublePredicate.wrap(this)::doTest;
 	}
 
 	/** Converts to non-throwing variant (if required). */
@@ -268,7 +268,7 @@ public interface LDoublePredicateX<X extends Exception> extends MetaPredicate, P
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LDoublePredicate shove() {
 		LDoublePredicateX<RuntimeException> exceptionCast = (LDoublePredicateX<RuntimeException>) this;
-		return exceptionCast::test;
+		return exceptionCast::doTest;
 	}
 
 	// </editor-fold>
@@ -280,11 +280,11 @@ public interface LDoublePredicateX<X extends Exception> extends MetaPredicate, P
 	public static <X extends Exception, E extends Exception, Y extends Exception> LDoublePredicateX<Y> wrapException(@Nonnull final LDoublePredicateX<X> other, Class<E> exception, LBooleanSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
 		return (double d) -> {
 			try {
-				return other.test(d);
+				return other.doTest(d);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsBoolean();
+						return supplier.doGetAsBoolean();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

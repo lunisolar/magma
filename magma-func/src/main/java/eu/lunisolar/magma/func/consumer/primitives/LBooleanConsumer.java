@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBooleanConsumer extends LBooleanConsumerX<RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LBooleanConsumer: void accept(boolean b)";
+	public static final String DESCRIPTION = "LBooleanConsumer: void doAccept(boolean b)";
 
-	// Ovverriding methods can cause problems with inference.
+	public void doAccept(boolean b);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +73,7 @@ public interface LBooleanConsumer extends LBooleanConsumerX<RuntimeException>, M
 
 	/** Captures arguments but delays the evaluation. */
 	default LAction capture(boolean b) {
-		return () -> this.accept(b);
+		return () -> this.doAccept(b);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -90,7 +90,7 @@ public interface LBooleanConsumer extends LBooleanConsumerX<RuntimeException>, M
 	public static <X extends Exception> LBooleanConsumer wrap(final @Nonnull LBooleanConsumerX<X> other) {
 		return (boolean b) -> {
 			try {
-				other.accept(b);
+				other.doAccept(b);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -107,7 +107,7 @@ public interface LBooleanConsumer extends LBooleanConsumerX<RuntimeException>, M
 	@Nonnull
 	default LBooleanConsumer fromBoolean(@Nonnull final LBooleanUnaryOperator before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final boolean v1) -> this.accept(before1.applyAsBoolean(v1));
+		return (final boolean v1) -> this.doAccept(before1.doApplyAsBoolean(v1));
 	}
 
 	/**
@@ -116,7 +116,7 @@ public interface LBooleanConsumer extends LBooleanConsumerX<RuntimeException>, M
 	@Nonnull
 	default <V1> LConsumer<V1> from(@Nonnull final LPredicate<? super V1> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.accept(before1.applyAsBoolean(v1));
+		return (V1 v1) -> this.doAccept(before1.doApplyAsBoolean(v1));
 	}
 
 	// </editor-fold>
@@ -128,8 +128,8 @@ public interface LBooleanConsumer extends LBooleanConsumerX<RuntimeException>, M
 	default LBooleanConsumer andThen(@Nonnull LBooleanConsumer after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
 		return (boolean b) -> {
-			this.accept(b);
-			after.accept(b);
+			this.doAccept(b);
+			after.doAccept(b);
 		};
 	}
 
@@ -162,7 +162,7 @@ public interface LBooleanConsumer extends LBooleanConsumerX<RuntimeException>, M
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LBooleanConsumer wrapException(@Nonnull final LBooleanConsumer other, Class<E> exception, ExceptionHandler<E, Y> handler) {
 		return (boolean b) -> {
 			try {
-				other.accept(b);
+				other.doAccept(b);
 			} catch (Exception e) {
 				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
 			}

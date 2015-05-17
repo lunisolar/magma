@@ -99,12 +99,12 @@ public final class LIntToCharFunctionXBuilder<X extends Exception> extends PerCa
 			final Case<LIntPredicateX<X>, LIntToCharFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LIntToCharFunctionX.lX((int i) -> {
 				for (Case<LIntPredicateX<X>, LIntToCharFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(i)) {
-						return aCase.caseFunction().applyAsChar(i);
+					if (aCase.casePredicate().doTest(i)) {
+						return aCase.caseFunction().doApplyAsChar(i);
 					}
 				}
 
-				return eventuallyFinal.applyAsChar(i);
+				return eventuallyFinal.doApplyAsChar(i);
 			});
 		}
 

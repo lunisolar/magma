@@ -60,9 +60,14 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LDoubleFunction<R> extends java.util.function.DoubleFunction<R>, LDoubleFunctionX<R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LDoubleFunction: R apply(double d)";
+	public static final String DESCRIPTION = "LDoubleFunction: R doApply(double d)";
 
-	// Ovverriding methods can cause problems with inference.
+	@Nullable
+	public R doApply(double d);
+
+	default R apply(double d) {
+		return doApply(d);
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +77,7 @@ public interface LDoubleFunction<R> extends java.util.function.DoubleFunction<R>
 
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(double d) {
-		return () -> this.apply(d);
+		return () -> this.doApply(d);
 	}
 
 	public static <R> LDoubleFunction<R> constant(R r) {
@@ -84,7 +89,7 @@ public interface LDoubleFunction<R> extends java.util.function.DoubleFunction<R>
 	/** Ensures the result is not null */
 	@Nonnull
 	default R nonNull(double d) {
-		return Objects.requireNonNull(apply(d), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Objects.requireNonNull(doApply(d), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -107,7 +112,7 @@ public interface LDoubleFunction<R> extends java.util.function.DoubleFunction<R>
 	public static <R, X extends Exception> LDoubleFunction<R> wrap(final @Nonnull LDoubleFunctionX<R, X> other) {
 		return (double d) -> {
 			try {
-				return other.apply(d);
+				return other.doApply(d);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -124,7 +129,7 @@ public interface LDoubleFunction<R> extends java.util.function.DoubleFunction<R>
 	@Nonnull
 	default LDoubleFunction<R> fromDouble(@Nonnull final LDoubleUnaryOperator before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final double v1) -> this.apply(before1.applyAsDouble(v1));
+		return (final double v1) -> this.doApply(before1.doApplyAsDouble(v1));
 	}
 
 	/**
@@ -133,7 +138,7 @@ public interface LDoubleFunction<R> extends java.util.function.DoubleFunction<R>
 	@Nonnull
 	default <V1> LFunction<V1, R> from(@Nonnull final LToDoubleFunction<? super V1> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.apply(before1.applyAsDouble(v1));
+		return (V1 v1) -> this.doApply(before1.doApplyAsDouble(v1));
 	}
 
 	// </editor-fold>
@@ -144,70 +149,70 @@ public interface LDoubleFunction<R> extends java.util.function.DoubleFunction<R>
 	@Nonnull
 	default <V> LDoubleFunction<V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.apply(this.apply(d));
+		return (double d) -> after.doApply(this.doApply(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleConsumer then(@Nonnull LConsumer<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.accept(this.apply(d));
+		return (double d) -> after.doAccept(this.doApply(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToByteFunction thenToByte(@Nonnull LToByteFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsByte(this.apply(d));
+		return (double d) -> after.doApplyAsByte(this.doApply(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToShortFunction thenToShort(@Nonnull LToShortFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsShort(this.apply(d));
+		return (double d) -> after.doApplyAsShort(this.doApply(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToIntFunction thenToInt(@Nonnull LToIntFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsInt(this.apply(d));
+		return (double d) -> after.doApplyAsInt(this.doApply(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToLongFunction thenToLong(@Nonnull LToLongFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsLong(this.apply(d));
+		return (double d) -> after.doApplyAsLong(this.doApply(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToFloatFunction thenToFloat(@Nonnull LToFloatFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsFloat(this.apply(d));
+		return (double d) -> after.doApplyAsFloat(this.doApply(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleUnaryOperator thenToDouble(@Nonnull LToDoubleFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsDouble(this.apply(d));
+		return (double d) -> after.doApplyAsDouble(this.doApply(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToCharFunction thenToChar(@Nonnull LToCharFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsChar(this.apply(d));
+		return (double d) -> after.doApplyAsChar(this.doApply(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoublePredicate thenToBoolean(@Nonnull LPredicate<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.test(this.apply(d));
+		return (double d) -> after.doTest(this.doApply(d));
 	}
 
 	// </editor-fold>
@@ -241,7 +246,7 @@ public interface LDoubleFunction<R> extends java.util.function.DoubleFunction<R>
 
 	@Nonnull
 	default LDoubleFunction<R> nonNullable() {
-		return (d) -> Objects.requireNonNull(this.apply(d));
+		return (d) -> Objects.requireNonNull(this.doApply(d));
 	}
 
 	// <editor-fold desc="exception handling">
@@ -251,11 +256,11 @@ public interface LDoubleFunction<R> extends java.util.function.DoubleFunction<R>
 	public static <R, X extends Exception, E extends Exception, Y extends RuntimeException> LDoubleFunction<R> wrapException(@Nonnull final LDoubleFunction<R> other, Class<E> exception, LSupplier<R> supplier, ExceptionHandler<E, Y> handler) {
 		return (double d) -> {
 			try {
-				return other.apply(d);
+				return other.doApply(d);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.get();
+						return supplier.doGet();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

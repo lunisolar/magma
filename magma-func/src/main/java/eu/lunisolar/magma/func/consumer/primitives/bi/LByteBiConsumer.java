@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LByteBiConsumer extends LByteBiConsumerX<RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LByteBiConsumer: void accept(byte b1,byte b2)";
+	public static final String DESCRIPTION = "LByteBiConsumer: void doAccept(byte b1,byte b2)";
 
-	// Ovverriding methods can cause problems with inference.
+	public void doAccept(byte b1, byte b2);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +73,7 @@ public interface LByteBiConsumer extends LByteBiConsumerX<RuntimeException>, Met
 
 	/** Captures arguments but delays the evaluation. */
 	default LAction capture(byte b1, byte b2) {
-		return () -> this.accept(b1, b2);
+		return () -> this.doAccept(b1, b2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -90,7 +90,7 @@ public interface LByteBiConsumer extends LByteBiConsumerX<RuntimeException>, Met
 	public static <X extends Exception> LByteBiConsumer wrap(final @Nonnull LByteBiConsumerX<X> other) {
 		return (byte b1, byte b2) -> {
 			try {
-				other.accept(b1, b2);
+				other.doAccept(b1, b2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -108,7 +108,7 @@ public interface LByteBiConsumer extends LByteBiConsumerX<RuntimeException>, Met
 	default LByteBiConsumer fromByte(@Nonnull final LByteUnaryOperator before1, @Nonnull final LByteUnaryOperator before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final byte v1, final byte v2) -> this.accept(before1.applyAsByte(v1), before2.applyAsByte(v2));
+		return (final byte v1, final byte v2) -> this.doAccept(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
 	}
 
 	/**
@@ -118,7 +118,7 @@ public interface LByteBiConsumer extends LByteBiConsumerX<RuntimeException>, Met
 	default <V1, V2> LBiConsumer<V1, V2> from(@Nonnull final LToByteFunction<? super V1> before1, @Nonnull final LToByteFunction<? super V2> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.accept(before1.applyAsByte(v1), before2.applyAsByte(v2));
+		return (V1 v1, V2 v2) -> this.doAccept(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
 	}
 
 	// </editor-fold>
@@ -130,8 +130,8 @@ public interface LByteBiConsumer extends LByteBiConsumerX<RuntimeException>, Met
 	default LByteBiConsumer andThen(@Nonnull LByteBiConsumer after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
 		return (byte b1, byte b2) -> {
-			this.accept(b1, b2);
-			after.accept(b1, b2);
+			this.doAccept(b1, b2);
+			after.doAccept(b1, b2);
 		};
 	}
 
@@ -164,7 +164,7 @@ public interface LByteBiConsumer extends LByteBiConsumerX<RuntimeException>, Met
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LByteBiConsumer wrapException(@Nonnull final LByteBiConsumer other, Class<E> exception, ExceptionHandler<E, Y> handler) {
 		return (byte b1, byte b2) -> {
 			try {
-				other.accept(b1, b2);
+				other.doAccept(b1, b2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
 			}

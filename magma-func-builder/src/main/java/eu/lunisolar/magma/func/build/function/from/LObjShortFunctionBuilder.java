@@ -99,12 +99,12 @@ public final class LObjShortFunctionBuilder<T, R> extends PerCaseBuilderWithProd
 			final Case<LObjShortPredicate<T>, LObjShortFunction<T, R>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LObjShortFunction.l((T t, short s) -> {
 				for (Case<LObjShortPredicate<T>, LObjShortFunction<T, R>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t, s)) {
-						return aCase.caseFunction().apply(t, s);
+					if (aCase.casePredicate().doTest(t, s)) {
+						return aCase.caseFunction().doApply(t, s);
 					}
 				}
 
-				return eventuallyFinal.apply(t, s);
+				return eventuallyFinal.doApply(t, s);
 			});
 		}
 

@@ -61,13 +61,13 @@ public class LBiLongPredicateTest<X extends ParseException> {
 
 
     private LBiLongPredicate sut = new LBiLongPredicate(){
-        public  boolean test(long l1,long l2)  {
+        public  boolean doTest(long l1,long l2)  {
             return testValue;
         }
     };
 
     private LBiLongPredicateX<X> opposite = new LBiLongPredicateX(){
-        public  boolean test(long l1,long l2) throws ParseException {
+        public  boolean doTest(long l1,long l2) throws ParseException {
             return testValue;
         }
     };
@@ -76,7 +76,7 @@ public class LBiLongPredicateTest<X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.test((long)100,(long)100))
+        assertThat(sut.doTest((long)100,(long)100))
             .isEqualTo(testValue);
     }
 
@@ -88,7 +88,7 @@ public class LBiLongPredicateTest<X extends ParseException> {
 
     @Test
     public void testApplyAsBooleanShouldNotModifyValue() throws ParseException {
-        assertThat(sut.applyAsBoolean((long)100,(long)100))
+        assertThat(sut.doApplyAsBoolean((long)100,(long)100))
             .isEqualTo(testValue);
 
     }
@@ -97,7 +97,7 @@ public class LBiLongPredicateTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBiLongPredicate: boolean test(long l1,long l2)");
+            .isEqualTo("LBiLongPredicate: boolean doTest(long l1,long l2)");
     }
 
     @Test
@@ -124,7 +124,7 @@ public class LBiLongPredicateTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.test((long)100,(long)100);
+            wrapped.doTest((long)100,(long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -146,7 +146,7 @@ public class LBiLongPredicateTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.test((long)100,(long)100);
+            wrapped.doTest((long)100,(long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -172,7 +172,7 @@ public class LBiLongPredicateTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.test((long)100,(long)100);
+            wrapped.doTest((long)100,(long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -197,7 +197,7 @@ public class LBiLongPredicateTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.test((long)100,(long)100);
+            wrapped.doTest((long)100,(long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -221,7 +221,7 @@ public class LBiLongPredicateTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.test((long)100,(long)100);
+            wrapped.doTest((long)100,(long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -233,7 +233,7 @@ public class LBiLongPredicateTest<X extends ParseException> {
 
     @Test
     public void testNegate() throws ParseException {
-        assertThat(sut.negate().test((long)100,(long)100))
+        assertThat(sut.negate().doTest((long)100,(long)100))
             .isEqualTo(!testValue);
     }
 
@@ -261,13 +261,13 @@ public class LBiLongPredicateTest<X extends ParseException> {
         LBiLongPredicate xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.test((long)100,(long)100))
+        assertThat(andFunction.doTest((long)100,(long)100))
                 .isEqualTo(andResult);
 
-        assertThat(orFunction.test((long)100,(long)100))
+        assertThat(orFunction.doTest((long)100,(long)100))
                 .isEqualTo(orResult);
 
-        assertThat(xorFunction.test((long)100,(long)100))
+        assertThat(xorFunction.doTest((long)100,(long)100))
                 .isEqualTo(xorResult);
     }
 
@@ -277,10 +277,10 @@ public class LBiLongPredicateTest<X extends ParseException> {
         LBiLongPredicate equals = LBiLongPredicate.isEqual((long)100,(long)100);
 
         //then
-        assertThat(equals.test((long)100,(long)100))
+        assertThat(equals.doTest((long)100,(long)100))
                 .isTrue();
 
-        assertThat(equals.test((long)0,(long)0))
+        assertThat(equals.doTest((long)0,(long)0))
                 .isFalse();
     }
 
@@ -315,7 +315,7 @@ public class LBiLongPredicateTest<X extends ParseException> {
 
         //when
         LBiLongPredicate function = sutO.fromLong(before1,before2);
-        function.test((long)80,(long)81);
+        function.doTest((long)80,(long)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -350,7 +350,7 @@ public class LBiLongPredicateTest<X extends ParseException> {
 
         //when
         LBiPredicate<Integer ,Integer > function = sutO.from(before1,before2);
-        function.test((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        function.doTest((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -387,7 +387,7 @@ public class LBiLongPredicateTest<X extends ParseException> {
 
         //when
         LLongBiFunction<Integer > function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((long)80,(long)81);
+        Integer  finalValue = function.doApply((long)80,(long)81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -418,7 +418,7 @@ public class LBiLongPredicateTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().test((long)100,(long)100);
+        sutThrowing.shove().doTest((long)100,(long)100);
     }
 
     @Test
@@ -436,7 +436,7 @@ public class LBiLongPredicateTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.test((long)100,(long)100);
+            wrapped.doTest((long)100,(long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -455,7 +455,7 @@ public class LBiLongPredicateTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBiLongPredicate: boolean test(long l1,long l2)");
+                .contains("LBiLongPredicate: boolean doTest(long l1,long l2)");
     }
 
 

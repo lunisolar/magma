@@ -61,19 +61,19 @@ public class LTernaryOperatorTest<T,X extends ParseException> {
 
 
     private LTernaryOperator<T> sut = new LTernaryOperator(){
-        public @Nullable Object  apply(Object t1,Object t2,Object t3)  {
+        public @Nullable Object  doApply(Object t1,Object t2,Object t3)  {
             return testValue;
         }
     };
 
     private LTernaryOperatorX<T,X> opposite = new LTernaryOperatorX(){
-        public @Nullable Object  apply(Object t1,Object t2,Object t3) throws ParseException {
+        public @Nullable Object  doApply(Object t1,Object t2,Object t3) throws ParseException {
             return testValue;
         }
     };
 
     private LTernaryOperator<T> sutNull = new LTernaryOperator(){
-        public @Nullable Object  apply(Object t1,Object t2,Object t3)  {
+        public @Nullable Object  doApply(Object t1,Object t2,Object t3)  {
             return null;
         }
     };
@@ -82,7 +82,7 @@ public class LTernaryOperatorTest<T,X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.apply((T)Integer.valueOf(100),(T)Integer.valueOf(100),(T)Integer.valueOf(100)))
+        assertThat(sut.doApply((T)Integer.valueOf(100),(T)Integer.valueOf(100),(T)Integer.valueOf(100)))
             .isSameAs(testValue);
     }
 
@@ -92,7 +92,7 @@ public class LTernaryOperatorTest<T,X extends ParseException> {
             .isSameAs(testValue);
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LTernaryOperator: T apply(T t1,T t2,T t3)).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LTernaryOperator: T doApply(T t1,T t2,T t3)).\\E")
     public void testNonNullCapturesNull() throws ParseException {
         sutNull.nonNull((T)Integer.valueOf(100),(T)Integer.valueOf(100),(T)Integer.valueOf(100));
     }
@@ -101,7 +101,7 @@ public class LTernaryOperatorTest<T,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LTernaryOperator: T apply(T t1,T t2,T t3)");
+            .isEqualTo("LTernaryOperator: T doApply(T t1,T t2,T t3)");
     }
 
     @Test
@@ -128,7 +128,7 @@ public class LTernaryOperatorTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T)Integer.valueOf(100),(T)Integer.valueOf(100),(T)Integer.valueOf(100));
+            wrapped.doApply((T)Integer.valueOf(100),(T)Integer.valueOf(100),(T)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -150,7 +150,7 @@ public class LTernaryOperatorTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T)Integer.valueOf(100),(T)Integer.valueOf(100),(T)Integer.valueOf(100));
+            wrapped.doApply((T)Integer.valueOf(100),(T)Integer.valueOf(100),(T)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -176,7 +176,7 @@ public class LTernaryOperatorTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T)Integer.valueOf(100),(T)Integer.valueOf(100),(T)Integer.valueOf(100));
+            wrapped.doApply((T)Integer.valueOf(100),(T)Integer.valueOf(100),(T)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -201,7 +201,7 @@ public class LTernaryOperatorTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T)Integer.valueOf(100),(T)Integer.valueOf(100),(T)Integer.valueOf(100));
+            wrapped.doApply((T)Integer.valueOf(100),(T)Integer.valueOf(100),(T)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -225,7 +225,7 @@ public class LTernaryOperatorTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T)Integer.valueOf(100),(T)Integer.valueOf(100),(T)Integer.valueOf(100));
+            wrapped.doApply((T)Integer.valueOf(100),(T)Integer.valueOf(100),(T)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -265,7 +265,7 @@ public class LTernaryOperatorTest<T,X extends ParseException> {
 
         //when
         LTriFunction<Integer ,Integer ,Integer ,Integer > function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(Integer )Integer.valueOf(82));
+        Integer  finalValue = function.doApply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(Integer )Integer.valueOf(82));
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -296,7 +296,7 @@ public class LTernaryOperatorTest<T,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().apply((T)Integer.valueOf(100),(T)Integer.valueOf(100),(T)Integer.valueOf(100));
+        sutThrowing.shove().doApply((T)Integer.valueOf(100),(T)Integer.valueOf(100),(T)Integer.valueOf(100));
     }
 
     @Test
@@ -314,7 +314,7 @@ public class LTernaryOperatorTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T)Integer.valueOf(100),(T)Integer.valueOf(100),(T)Integer.valueOf(100));
+            wrapped.doApply((T)Integer.valueOf(100),(T)Integer.valueOf(100),(T)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -333,7 +333,7 @@ public class LTernaryOperatorTest<T,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LTernaryOperator: T apply(T t1,T t2,T t3)");
+                .contains("LTernaryOperator: T doApply(T t1,T t2,T t3)");
     }
 
 

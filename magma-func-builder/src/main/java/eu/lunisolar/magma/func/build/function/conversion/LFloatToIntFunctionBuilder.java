@@ -99,12 +99,12 @@ public final class LFloatToIntFunctionBuilder extends PerCaseBuilderWithIntProdu
 			final Case<LFloatPredicate, LFloatToIntFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LFloatToIntFunction.l((float f) -> {
 				for (Case<LFloatPredicate, LFloatToIntFunction> aCase : casesArray) {
-					if (aCase.casePredicate().test(f)) {
-						return aCase.caseFunction().applyAsInt(f);
+					if (aCase.casePredicate().doTest(f)) {
+						return aCase.caseFunction().doApplyAsInt(f);
 					}
 				}
 
-				return eventuallyFinal.applyAsInt(f);
+				return eventuallyFinal.doApplyAsInt(f);
 			});
 		}
 

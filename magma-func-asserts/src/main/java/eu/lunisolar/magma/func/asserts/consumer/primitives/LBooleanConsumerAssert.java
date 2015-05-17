@@ -55,7 +55,7 @@ public interface LBooleanConsumerAssert<S extends LBooleanConsumerAssert<S, A>, 
 
 		@Nonnull
 		public SemiEvaluation<S, A, Exception> doesAccept(boolean b) {
-			return evaluation(() -> actual.accept(b));
+			return evaluation(() -> actual.doAccept(b));
 		}
 
 	}

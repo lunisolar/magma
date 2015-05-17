@@ -58,7 +58,7 @@ public interface LBytePredicateAssert<S extends LBytePredicateAssert<S, A, RS>, 
 
 		@Nonnull
 		public Evaluation<S, A, RS, Boolean, Exception> doesTest(byte b) {
-			return evaluation(() -> assertFactory.apply((Boolean) actual.test(b)));
+			return evaluation(() -> assertFactory.apply((Boolean) actual.doTest(b)));
 		}
 
 	}

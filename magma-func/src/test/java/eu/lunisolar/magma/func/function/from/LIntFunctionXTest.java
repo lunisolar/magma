@@ -61,19 +61,19 @@ public class LIntFunctionXTest<R,X extends ParseException> {
 
 
     private LIntFunctionX<R,X> sut = new LIntFunctionX(){
-        public @Nullable Object  apply(int i) throws ParseException {
+        public @Nullable Object  doApply(int i) throws ParseException {
             return testValue;
         }
     };
 
     private LIntFunction<R> opposite = new LIntFunction(){
-        public @Nullable Object  apply(int i)  {
+        public @Nullable Object  doApply(int i)  {
             return testValue;
         }
     };
 
     private LIntFunctionX<R,X> sutNull = new LIntFunctionX(){
-        public @Nullable Object  apply(int i) throws ParseException {
+        public @Nullable Object  doApply(int i) throws ParseException {
             return null;
         }
     };
@@ -84,7 +84,7 @@ public class LIntFunctionXTest<R,X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.apply((int)100))
+        assertThat(sut.doApply((int)100))
             .isSameAs(testValue);
     }
 
@@ -94,7 +94,7 @@ public class LIntFunctionXTest<R,X extends ParseException> {
             .isSameAs(testValue);
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LIntFunctionX: R apply(int i) throws X).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LIntFunctionX: R doApply(int i) throws X).\\E")
     public void testNonNullCapturesNull() throws ParseException {
         sutNull.nonNull((int)100);
     }
@@ -103,7 +103,7 @@ public class LIntFunctionXTest<R,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LIntFunctionX: R apply(int i) throws X");
+            .isEqualTo("LIntFunctionX: R doApply(int i) throws X");
     }
 
     @Test
@@ -140,7 +140,7 @@ public class LIntFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((int)100);
+            wrapped.doApply((int)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -165,7 +165,7 @@ public class LIntFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((int)100);
+            wrapped.doApply((int)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -189,7 +189,7 @@ public class LIntFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((int)100);
+            wrapped.doApply((int)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -224,7 +224,7 @@ public class LIntFunctionXTest<R,X extends ParseException> {
 
         //when
         LIntFunctionX<Integer ,X> function = sutO.fromInt(before1);
-        function.apply((int)80);
+        function.doApply((int)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -253,7 +253,7 @@ public class LIntFunctionXTest<R,X extends ParseException> {
 
         //when
         LFunctionX<Integer ,Integer ,X> function = sutO.from(before1);
-        function.apply((Integer )Integer.valueOf(80));
+        function.doApply((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -289,7 +289,7 @@ public class LIntFunctionXTest<R,X extends ParseException> {
 
         //when
         LIntFunctionX<Integer ,X> function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((int)80);
+        Integer  finalValue = function.doApply((int)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -322,7 +322,7 @@ public class LIntFunctionXTest<R,X extends ParseException> {
 
         //when
         LIntConsumerX<X> function = sutO.then(thenFunction);
-        function.accept((int)80);
+        function.doAccept((int)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -356,7 +356,7 @@ public class LIntFunctionXTest<R,X extends ParseException> {
 
         //when
         LIntToByteFunctionX<X> function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.applyAsByte((int)80);
+        byte finalValue = function.doApplyAsByte((int)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -391,7 +391,7 @@ public class LIntFunctionXTest<R,X extends ParseException> {
 
         //when
         LIntToShortFunctionX<X> function = sutO.thenToShort(thenFunction);
-        short finalValue = function.applyAsShort((int)80);
+        short finalValue = function.doApplyAsShort((int)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -426,7 +426,7 @@ public class LIntFunctionXTest<R,X extends ParseException> {
 
         //when
         LIntUnaryOperatorX<X> function = sutO.thenToInt(thenFunction);
-        int finalValue = function.applyAsInt((int)80);
+        int finalValue = function.doApplyAsInt((int)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((int)100);
@@ -461,7 +461,7 @@ public class LIntFunctionXTest<R,X extends ParseException> {
 
         //when
         LIntToLongFunctionX<X> function = sutO.thenToLong(thenFunction);
-        long finalValue = function.applyAsLong((int)80);
+        long finalValue = function.doApplyAsLong((int)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((long)100);
@@ -496,7 +496,7 @@ public class LIntFunctionXTest<R,X extends ParseException> {
 
         //when
         LIntToFloatFunctionX<X> function = sutO.thenToFloat(thenFunction);
-        float finalValue = function.applyAsFloat((int)80);
+        float finalValue = function.doApplyAsFloat((int)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((float)100);
@@ -531,7 +531,7 @@ public class LIntFunctionXTest<R,X extends ParseException> {
 
         //when
         LIntToDoubleFunctionX<X> function = sutO.thenToDouble(thenFunction);
-        double finalValue = function.applyAsDouble((int)80);
+        double finalValue = function.doApplyAsDouble((int)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((double)100);
@@ -566,7 +566,7 @@ public class LIntFunctionXTest<R,X extends ParseException> {
 
         //when
         LIntToCharFunctionX<X> function = sutO.thenToChar(thenFunction);
-        char finalValue = function.applyAsChar((int)80);
+        char finalValue = function.doApplyAsChar((int)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((char)100);
@@ -601,7 +601,7 @@ public class LIntFunctionXTest<R,X extends ParseException> {
 
         //when
         LIntPredicateX<X> function = sutO.thenToBoolean(thenFunction);
-        boolean finalValue = function.test((int)80);
+        boolean finalValue = function.doTest((int)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -637,7 +637,7 @@ public class LIntFunctionXTest<R,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().apply((int)100);
+        sutThrowing.shove().doApply((int)100);
     }
 
     @Test
@@ -655,7 +655,7 @@ public class LIntFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((int)100);
+            wrapped.doApply((int)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -674,7 +674,7 @@ public class LIntFunctionXTest<R,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LIntFunctionX: R apply(int i) throws X");
+                .contains("LIntFunctionX: R doApply(int i) throws X");
     }
 
 

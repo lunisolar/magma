@@ -69,7 +69,7 @@ public class LShortUnaryOperatorBuilderTest<X extends ParseException>{
                 .shortUnaryOperator()
                 .build();
 
-            function.applyAsShort((short)100);
+            function.doApplyAsShort((short)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

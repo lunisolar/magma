@@ -63,7 +63,7 @@ public interface LDoubleToLongFunctionXAssert<S extends LDoubleToLongFunctionXAs
 
 		@Nonnull
 		public Evaluation<S, A, RS, Long, Exception> doesApplyAsLong(double d) {
-			return evaluation(() -> assertFactory.apply((Long) actual.applyAsLong(d)));
+			return evaluation(() -> assertFactory.apply((Long) actual.doApplyAsLong(d)));
 		}
 
 	}

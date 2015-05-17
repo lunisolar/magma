@@ -58,7 +58,7 @@ public interface LBooleanUnaryOperatorAssert<S extends LBooleanUnaryOperatorAsse
 
 		@Nonnull
 		public Evaluation<S, A, RS, Boolean, Exception> doesApplyAsBoolean(boolean b) {
-			return evaluation(() -> assertFactory.apply((Boolean) actual.applyAsBoolean(b)));
+			return evaluation(() -> assertFactory.apply((Boolean) actual.doApplyAsBoolean(b)));
 		}
 
 	}

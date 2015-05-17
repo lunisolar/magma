@@ -58,7 +58,7 @@ public interface LCharPredicateAssert<S extends LCharPredicateAssert<S, A, RS>, 
 
 		@Nonnull
 		public Evaluation<S, A, RS, Boolean, Exception> doesTest(char c) {
-			return evaluation(() -> assertFactory.apply((Boolean) actual.test(c)));
+			return evaluation(() -> assertFactory.apply((Boolean) actual.doTest(c)));
 		}
 
 	}

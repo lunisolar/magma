@@ -60,9 +60,13 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LIntToDoubleFunction extends java.util.function.IntToDoubleFunction, LIntToDoubleFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LIntToDoubleFunction: double applyAsDouble(int i)";
+	public static final String DESCRIPTION = "LIntToDoubleFunction: double doApplyAsDouble(int i)";
 
-	// Ovverriding methods can cause problems with inference.
+	public double doApplyAsDouble(int i);
+
+	default double applyAsDouble(int i) {
+		return doApplyAsDouble(i);
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +76,7 @@ public interface LIntToDoubleFunction extends java.util.function.IntToDoubleFunc
 
 	/** Captures arguments but delays the evaluation. */
 	default LDoubleSupplier capture(int i) {
-		return () -> this.applyAsDouble(i);
+		return () -> this.doApplyAsDouble(i);
 	}
 
 	public static LIntToDoubleFunction constant(double r) {
@@ -81,7 +85,7 @@ public interface LIntToDoubleFunction extends java.util.function.IntToDoubleFunc
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default double nonNull(int i) {
-		return applyAsDouble(i);
+		return doApplyAsDouble(i);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -104,7 +108,7 @@ public interface LIntToDoubleFunction extends java.util.function.IntToDoubleFunc
 	public static <X extends Exception> LIntToDoubleFunction wrap(final @Nonnull LIntToDoubleFunctionX<X> other) {
 		return (int i) -> {
 			try {
-				return other.applyAsDouble(i);
+				return other.doApplyAsDouble(i);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -121,7 +125,7 @@ public interface LIntToDoubleFunction extends java.util.function.IntToDoubleFunc
 	@Nonnull
 	default LIntToDoubleFunction fromInt(@Nonnull final LIntUnaryOperator before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final int v1) -> this.applyAsDouble(before1.applyAsInt(v1));
+		return (final int v1) -> this.doApplyAsDouble(before1.doApplyAsInt(v1));
 	}
 
 	/**
@@ -130,7 +134,7 @@ public interface LIntToDoubleFunction extends java.util.function.IntToDoubleFunc
 	@Nonnull
 	default <V1> LToDoubleFunction<V1> from(@Nonnull final LToIntFunction<? super V1> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.applyAsDouble(before1.applyAsInt(v1));
+		return (V1 v1) -> this.doApplyAsDouble(before1.doApplyAsInt(v1));
 	}
 
 	// </editor-fold>
@@ -141,63 +145,63 @@ public interface LIntToDoubleFunction extends java.util.function.IntToDoubleFunc
 	@Nonnull
 	default <V> LIntFunction<V> then(@Nonnull LDoubleFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.apply(this.applyAsDouble(i));
+		return (int i) -> after.doApply(this.doApplyAsDouble(i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToByteFunction thenToByte(@Nonnull LDoubleToByteFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsByte(this.applyAsDouble(i));
+		return (int i) -> after.doApplyAsByte(this.doApplyAsDouble(i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToShortFunction thenToShort(@Nonnull LDoubleToShortFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsShort(this.applyAsDouble(i));
+		return (int i) -> after.doApplyAsShort(this.doApplyAsDouble(i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntUnaryOperator thenToInt(@Nonnull LDoubleToIntFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsInt(this.applyAsDouble(i));
+		return (int i) -> after.doApplyAsInt(this.doApplyAsDouble(i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToLongFunction thenToLong(@Nonnull LDoubleToLongFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsLong(this.applyAsDouble(i));
+		return (int i) -> after.doApplyAsLong(this.doApplyAsDouble(i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToFloatFunction thenToFloat(@Nonnull LDoubleToFloatFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsFloat(this.applyAsDouble(i));
+		return (int i) -> after.doApplyAsFloat(this.doApplyAsDouble(i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToDoubleFunction thenToDouble(@Nonnull LDoubleUnaryOperator after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsDouble(this.applyAsDouble(i));
+		return (int i) -> after.doApplyAsDouble(this.doApplyAsDouble(i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToCharFunction thenToChar(@Nonnull LDoubleToCharFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsChar(this.applyAsDouble(i));
+		return (int i) -> after.doApplyAsChar(this.doApplyAsDouble(i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntPredicate thenToBoolean(@Nonnull LDoublePredicate after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.test(this.applyAsDouble(i));
+		return (int i) -> after.doTest(this.doApplyAsDouble(i));
 	}
 
 	// </editor-fold>
@@ -236,11 +240,11 @@ public interface LIntToDoubleFunction extends java.util.function.IntToDoubleFunc
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LIntToDoubleFunction wrapException(@Nonnull final LIntToDoubleFunction other, Class<E> exception, LDoubleSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (int i) -> {
 			try {
-				return other.applyAsDouble(i);
+				return other.doApplyAsDouble(i);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsDouble();
+						return supplier.doGetAsDouble();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

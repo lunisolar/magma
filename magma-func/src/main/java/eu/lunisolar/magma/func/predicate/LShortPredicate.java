@@ -60,14 +60,14 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LShortPredicate extends LShortPredicateX<RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LShortPredicate: boolean test(short s)";
+	public static final String DESCRIPTION = "LShortPredicate: boolean doTest(short s)";
 
-	// Ovverriding methods can cause problems with inference.
+	public boolean doTest(short s);
 
 	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
 
-	default boolean applyAsBoolean(short s) {
-		return test(s);
+	default boolean doApplyAsBoolean(short s) {
+		return doTest(s);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -78,7 +78,7 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 
 	/** Captures arguments but delays the evaluation. */
 	default LBooleanSupplier capture(short s) {
-		return () -> this.test(s);
+		return () -> this.doTest(s);
 	}
 
 	public static LShortPredicate constant(boolean r) {
@@ -87,7 +87,7 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(short s) {
-		return test(s);
+		return doTest(s);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -104,7 +104,7 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 	public static <X extends Exception> LShortPredicate wrap(final @Nonnull LShortPredicateX<X> other) {
 		return (short s) -> {
 			try {
-				return other.test(s);
+				return other.doTest(s);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -119,7 +119,7 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 	 */
 	@Nonnull
 	default LShortPredicate negate() {
-		return (short s) -> !test(s);
+		return (short s) -> !doTest(s);
 	}
 
 	/**
@@ -128,7 +128,7 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 	@Nonnull
 	default LShortPredicate and(@Nonnull LShortPredicate other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (short s) -> test(s) && other.test(s);
+		return (short s) -> doTest(s) && other.doTest(s);
 	}
 
 	/**
@@ -137,7 +137,7 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 	@Nonnull
 	default LShortPredicate or(@Nonnull LShortPredicate other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (short s) -> test(s) || other.test(s);
+		return (short s) -> doTest(s) || other.doTest(s);
 	}
 
 	/**
@@ -146,7 +146,7 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 	@Nonnull
 	default LShortPredicate xor(@Nonnull LShortPredicate other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (short s) -> test(s) ^ other.test(s);
+		return (short s) -> doTest(s) ^ other.doTest(s);
 	}
 
 	@Nonnull
@@ -164,7 +164,7 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 	@Nonnull
 	default LShortPredicate fromShort(@Nonnull final LShortUnaryOperator before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final short v1) -> this.test(before1.applyAsShort(v1));
+		return (final short v1) -> this.doTest(before1.doApplyAsShort(v1));
 	}
 
 	/**
@@ -173,7 +173,7 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 	@Nonnull
 	default <V1> LPredicate<V1> from(@Nonnull final LToShortFunction<? super V1> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.test(before1.applyAsShort(v1));
+		return (V1 v1) -> this.doTest(before1.doApplyAsShort(v1));
 	}
 
 	// </editor-fold>
@@ -184,63 +184,63 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 	@Nonnull
 	default <V> LShortFunction<V> then(@Nonnull LBooleanFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.apply(this.test(s));
+		return (short s) -> after.doApply(this.doTest(s));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LShortToByteFunction thenToByte(@Nonnull LBooleanToByteFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsByte(this.test(s));
+		return (short s) -> after.doApplyAsByte(this.doTest(s));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LShortUnaryOperator thenToShort(@Nonnull LBooleanToShortFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsShort(this.test(s));
+		return (short s) -> after.doApplyAsShort(this.doTest(s));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LShortToIntFunction thenToInt(@Nonnull LBooleanToIntFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsInt(this.test(s));
+		return (short s) -> after.doApplyAsInt(this.doTest(s));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LShortToLongFunction thenToLong(@Nonnull LBooleanToLongFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsLong(this.test(s));
+		return (short s) -> after.doApplyAsLong(this.doTest(s));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LShortToFloatFunction thenToFloat(@Nonnull LBooleanToFloatFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsFloat(this.test(s));
+		return (short s) -> after.doApplyAsFloat(this.doTest(s));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LShortToDoubleFunction thenToDouble(@Nonnull LBooleanToDoubleFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsDouble(this.test(s));
+		return (short s) -> after.doApplyAsDouble(this.doTest(s));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LShortToCharFunction thenToChar(@Nonnull LBooleanToCharFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsChar(this.test(s));
+		return (short s) -> after.doApplyAsChar(this.doTest(s));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LShortPredicate thenToBoolean(@Nonnull LBooleanUnaryOperator after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsBoolean(this.test(s));
+		return (short s) -> after.doApplyAsBoolean(this.doTest(s));
 	}
 
 	// </editor-fold>
@@ -273,11 +273,11 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LShortPredicate wrapException(@Nonnull final LShortPredicate other, Class<E> exception, LBooleanSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (short s) -> {
 			try {
-				return other.test(s);
+				return other.doTest(s);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsBoolean();
+						return supplier.doGetAsBoolean();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

@@ -58,7 +58,7 @@ public interface LFloatToDoubleFunctionAssert<S extends LFloatToDoubleFunctionAs
 
 		@Nonnull
 		public Evaluation<S, A, RS, Double, Exception> doesApplyAsDouble(float f) {
-			return evaluation(() -> assertFactory.apply((Double) actual.applyAsDouble(f)));
+			return evaluation(() -> assertFactory.apply((Double) actual.doApplyAsDouble(f)));
 		}
 
 	}

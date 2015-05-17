@@ -99,13 +99,13 @@ public final class LShortConsumerBuilder extends PerCaseBuilder.Base<LShortConsu
 			final Case<LShortPredicate, LShortConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LShortConsumer.l((short s) -> {
 				for (Case<LShortPredicate, LShortConsumer> aCase : casesArray) {
-					if (aCase.casePredicate().test(s)) {
-						aCase.caseFunction().accept(s);
+					if (aCase.casePredicate().doTest(s)) {
+						aCase.caseFunction().doAccept(s);
 						return;
 					}
 				}
 
-				eventuallyFinal.accept(s);
+				eventuallyFinal.doAccept(s);
 			});
 		}
 

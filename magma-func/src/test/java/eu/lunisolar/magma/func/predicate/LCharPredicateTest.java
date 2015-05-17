@@ -61,13 +61,13 @@ public class LCharPredicateTest<X extends ParseException> {
 
 
     private LCharPredicate sut = new LCharPredicate(){
-        public  boolean test(char c)  {
+        public  boolean doTest(char c)  {
             return testValue;
         }
     };
 
     private LCharPredicateX<X> opposite = new LCharPredicateX(){
-        public  boolean test(char c) throws ParseException {
+        public  boolean doTest(char c) throws ParseException {
             return testValue;
         }
     };
@@ -76,7 +76,7 @@ public class LCharPredicateTest<X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.test((char)100))
+        assertThat(sut.doTest((char)100))
             .isEqualTo(testValue);
     }
 
@@ -88,7 +88,7 @@ public class LCharPredicateTest<X extends ParseException> {
 
     @Test
     public void testApplyAsBooleanShouldNotModifyValue() throws ParseException {
-        assertThat(sut.applyAsBoolean((char)100))
+        assertThat(sut.doApplyAsBoolean((char)100))
             .isEqualTo(testValue);
 
     }
@@ -97,7 +97,7 @@ public class LCharPredicateTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LCharPredicate: boolean test(char c)");
+            .isEqualTo("LCharPredicate: boolean doTest(char c)");
     }
 
     @Test
@@ -124,7 +124,7 @@ public class LCharPredicateTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.test((char)100);
+            wrapped.doTest((char)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -146,7 +146,7 @@ public class LCharPredicateTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.test((char)100);
+            wrapped.doTest((char)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -172,7 +172,7 @@ public class LCharPredicateTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.test((char)100);
+            wrapped.doTest((char)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -197,7 +197,7 @@ public class LCharPredicateTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.test((char)100);
+            wrapped.doTest((char)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -221,7 +221,7 @@ public class LCharPredicateTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.test((char)100);
+            wrapped.doTest((char)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -233,7 +233,7 @@ public class LCharPredicateTest<X extends ParseException> {
 
     @Test
     public void testNegate() throws ParseException {
-        assertThat(sut.negate().test((char)100))
+        assertThat(sut.negate().doTest((char)100))
             .isEqualTo(!testValue);
     }
 
@@ -261,13 +261,13 @@ public class LCharPredicateTest<X extends ParseException> {
         LCharPredicate xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.test((char)100))
+        assertThat(andFunction.doTest((char)100))
                 .isEqualTo(andResult);
 
-        assertThat(orFunction.test((char)100))
+        assertThat(orFunction.doTest((char)100))
                 .isEqualTo(orResult);
 
-        assertThat(xorFunction.test((char)100))
+        assertThat(xorFunction.doTest((char)100))
                 .isEqualTo(xorResult);
     }
 
@@ -277,10 +277,10 @@ public class LCharPredicateTest<X extends ParseException> {
         LCharPredicate equals = LCharPredicate.isEqual((char)100);
 
         //then
-        assertThat(equals.test((char)100))
+        assertThat(equals.doTest((char)100))
                 .isTrue();
 
-        assertThat(equals.test((char)0))
+        assertThat(equals.doTest((char)0))
                 .isFalse();
     }
 
@@ -309,7 +309,7 @@ public class LCharPredicateTest<X extends ParseException> {
 
         //when
         LCharPredicate function = sutO.fromChar(before1);
-        function.test((char)80);
+        function.doTest((char)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -338,7 +338,7 @@ public class LCharPredicateTest<X extends ParseException> {
 
         //when
         LPredicate<Integer > function = sutO.from(before1);
-        function.test((Integer )Integer.valueOf(80));
+        function.doTest((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -374,7 +374,7 @@ public class LCharPredicateTest<X extends ParseException> {
 
         //when
         LCharFunction<Integer > function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((char)80);
+        Integer  finalValue = function.doApply((char)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -409,7 +409,7 @@ public class LCharPredicateTest<X extends ParseException> {
 
         //when
         LCharToByteFunction function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.applyAsByte((char)80);
+        byte finalValue = function.doApplyAsByte((char)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -444,7 +444,7 @@ public class LCharPredicateTest<X extends ParseException> {
 
         //when
         LCharToShortFunction function = sutO.thenToShort(thenFunction);
-        short finalValue = function.applyAsShort((char)80);
+        short finalValue = function.doApplyAsShort((char)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -479,7 +479,7 @@ public class LCharPredicateTest<X extends ParseException> {
 
         //when
         LCharToIntFunction function = sutO.thenToInt(thenFunction);
-        int finalValue = function.applyAsInt((char)80);
+        int finalValue = function.doApplyAsInt((char)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((int)100);
@@ -514,7 +514,7 @@ public class LCharPredicateTest<X extends ParseException> {
 
         //when
         LCharToLongFunction function = sutO.thenToLong(thenFunction);
-        long finalValue = function.applyAsLong((char)80);
+        long finalValue = function.doApplyAsLong((char)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((long)100);
@@ -549,7 +549,7 @@ public class LCharPredicateTest<X extends ParseException> {
 
         //when
         LCharToFloatFunction function = sutO.thenToFloat(thenFunction);
-        float finalValue = function.applyAsFloat((char)80);
+        float finalValue = function.doApplyAsFloat((char)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((float)100);
@@ -584,7 +584,7 @@ public class LCharPredicateTest<X extends ParseException> {
 
         //when
         LCharToDoubleFunction function = sutO.thenToDouble(thenFunction);
-        double finalValue = function.applyAsDouble((char)80);
+        double finalValue = function.doApplyAsDouble((char)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((double)100);
@@ -619,7 +619,7 @@ public class LCharPredicateTest<X extends ParseException> {
 
         //when
         LCharUnaryOperator function = sutO.thenToChar(thenFunction);
-        char finalValue = function.applyAsChar((char)80);
+        char finalValue = function.doApplyAsChar((char)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((char)100);
@@ -654,7 +654,7 @@ public class LCharPredicateTest<X extends ParseException> {
 
         //when
         LCharPredicate function = sutO.thenToBoolean(thenFunction);
-        boolean finalValue = function.test((char)80);
+        boolean finalValue = function.doTest((char)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -685,7 +685,7 @@ public class LCharPredicateTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().test((char)100);
+        sutThrowing.shove().doTest((char)100);
     }
 
     @Test
@@ -703,7 +703,7 @@ public class LCharPredicateTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.test((char)100);
+            wrapped.doTest((char)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -722,7 +722,7 @@ public class LCharPredicateTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LCharPredicate: boolean test(char c)");
+                .contains("LCharPredicate: boolean doTest(char c)");
     }
 
 

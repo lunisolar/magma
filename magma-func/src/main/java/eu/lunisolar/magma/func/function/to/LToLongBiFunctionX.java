@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LToLongBiFunctionX<T1, T2, X extends Exception> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LToLongBiFunctionX: long applyAsLong(T1 t1,T2 t2) throws X";
+	public static final String DESCRIPTION = "LToLongBiFunctionX: long doApplyAsLong(T1 t1,T2 t2) throws X";
 
-	public long applyAsLong(T1 t1, T2 t2) throws X;
+	public long doApplyAsLong(T1 t1, T2 t2) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LToLongBiFunctionX<T1, T2, X extends Exception> extends MetaFun
 
 	/** Captures arguments but delays the evaluation. */
 	default LLongSupplierX<X> capture(T1 t1, T2 t2) {
-		return () -> this.applyAsLong(t1, t2);
+		return () -> this.doApplyAsLong(t1, t2);
 	}
 
 	public static <T1, T2, X extends Exception> LToLongBiFunctionX<T1, T2, X> constant(long r) {
@@ -81,7 +81,7 @@ public interface LToLongBiFunctionX<T1, T2, X extends Exception> extends MetaFun
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default long nonNull(T1 t1, T2 t2) throws X {
-		return applyAsLong(t1, t2);
+		return doApplyAsLong(t1, t2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -102,7 +102,7 @@ public interface LToLongBiFunctionX<T1, T2, X extends Exception> extends MetaFun
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T1, T2, X extends Exception> LToLongBiFunctionX<T1, T2, X> wrapX(final @Nonnull LToLongBiFunction<T1, T2> other) {
-		return other::applyAsLong;
+		return other::doApplyAsLong;
 	}
 
 	// </editor-fold>
@@ -116,7 +116,7 @@ public interface LToLongBiFunctionX<T1, T2, X extends Exception> extends MetaFun
 	default <V1, V2> LToLongBiFunctionX<V1, V2, X> from(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final V1 v1, final V2 v2) -> this.applyAsLong(before1.apply(v1), before2.apply(v2));
+		return (final V1 v1, final V2 v2) -> this.doApplyAsLong(before1.doApply(v1), before2.doApply(v2));
 	}
 
 	// </editor-fold>
@@ -127,7 +127,7 @@ public interface LToLongBiFunctionX<T1, T2, X extends Exception> extends MetaFun
 	@Nonnull
 	default <V> LBiFunctionX<T1, T2, V, X> then(@Nonnull LLongFunctionX<? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T1 t1, T2 t2) -> after.apply(this.applyAsLong(t1, t2));
+		return (T1 t1, T2 t2) -> after.doApply(this.doApplyAsLong(t1, t2));
 	}
 
 	// </editor-fold>
@@ -137,7 +137,7 @@ public interface LToLongBiFunctionX<T1, T2, X extends Exception> extends MetaFun
 	/** Converts to JRE variant. */
 	@Nonnull
 	default java.util.function.ToLongBiFunction<T1, T2> std() {
-		return LToLongBiFunction.wrap(this)::applyAsLong;
+		return LToLongBiFunction.wrap(this)::doApplyAsLong;
 	}
 
 	/** Converts to non-throwing variant (if required). */
@@ -155,7 +155,7 @@ public interface LToLongBiFunctionX<T1, T2, X extends Exception> extends MetaFun
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LToLongBiFunction<T1, T2> shove() {
 		LToLongBiFunctionX<T1, T2, RuntimeException> exceptionCast = (LToLongBiFunctionX<T1, T2, RuntimeException>) this;
-		return exceptionCast::applyAsLong;
+		return exceptionCast::doApplyAsLong;
 	}
 
 	// </editor-fold>
@@ -168,11 +168,11 @@ public interface LToLongBiFunctionX<T1, T2, X extends Exception> extends MetaFun
 			ExceptionHandler<E, Y> handler) {
 		return (T1 t1, T2 t2) -> {
 			try {
-				return other.applyAsLong(t1, t2);
+				return other.doApplyAsLong(t1, t2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsLong();
+						return supplier.doGetAsLong();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

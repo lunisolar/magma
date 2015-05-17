@@ -58,7 +58,7 @@ public interface LByteBiFunctionXAssert<S extends LByteBiFunctionXAssert<S, A, R
 
 		@Nonnull
 		public Evaluation<S, A, RS, R, Exception> doesApply(byte b1, byte b2) {
-			return evaluation(() -> assertFactory.apply((R) actual.apply(b1, b2)));
+			return evaluation(() -> assertFactory.apply((R) actual.doApply(b1, b2)));
 		}
 
 	}

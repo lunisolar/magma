@@ -61,19 +61,19 @@ public class LByteFunctionXTest<R,X extends ParseException> {
 
 
     private LByteFunctionX<R,X> sut = new LByteFunctionX(){
-        public @Nullable Object  apply(byte b) throws ParseException {
+        public @Nullable Object  doApply(byte b) throws ParseException {
             return testValue;
         }
     };
 
     private LByteFunction<R> opposite = new LByteFunction(){
-        public @Nullable Object  apply(byte b)  {
+        public @Nullable Object  doApply(byte b)  {
             return testValue;
         }
     };
 
     private LByteFunctionX<R,X> sutNull = new LByteFunctionX(){
-        public @Nullable Object  apply(byte b) throws ParseException {
+        public @Nullable Object  doApply(byte b) throws ParseException {
             return null;
         }
     };
@@ -82,7 +82,7 @@ public class LByteFunctionXTest<R,X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.apply((byte)100))
+        assertThat(sut.doApply((byte)100))
             .isSameAs(testValue);
     }
 
@@ -92,7 +92,7 @@ public class LByteFunctionXTest<R,X extends ParseException> {
             .isSameAs(testValue);
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LByteFunctionX: R apply(byte b) throws X).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LByteFunctionX: R doApply(byte b) throws X).\\E")
     public void testNonNullCapturesNull() throws ParseException {
         sutNull.nonNull((byte)100);
     }
@@ -101,7 +101,7 @@ public class LByteFunctionXTest<R,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LByteFunctionX: R apply(byte b) throws X");
+            .isEqualTo("LByteFunctionX: R doApply(byte b) throws X");
     }
 
     @Test
@@ -132,7 +132,7 @@ public class LByteFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((byte)100);
+            wrapped.doApply((byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -157,7 +157,7 @@ public class LByteFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((byte)100);
+            wrapped.doApply((byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -181,7 +181,7 @@ public class LByteFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((byte)100);
+            wrapped.doApply((byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -216,7 +216,7 @@ public class LByteFunctionXTest<R,X extends ParseException> {
 
         //when
         LByteFunctionX<Integer ,X> function = sutO.fromByte(before1);
-        function.apply((byte)80);
+        function.doApply((byte)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -245,7 +245,7 @@ public class LByteFunctionXTest<R,X extends ParseException> {
 
         //when
         LFunctionX<Integer ,Integer ,X> function = sutO.from(before1);
-        function.apply((Integer )Integer.valueOf(80));
+        function.doApply((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -281,7 +281,7 @@ public class LByteFunctionXTest<R,X extends ParseException> {
 
         //when
         LByteFunctionX<Integer ,X> function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((byte)80);
+        Integer  finalValue = function.doApply((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -314,7 +314,7 @@ public class LByteFunctionXTest<R,X extends ParseException> {
 
         //when
         LByteConsumerX<X> function = sutO.then(thenFunction);
-        function.accept((byte)80);
+        function.doAccept((byte)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -348,7 +348,7 @@ public class LByteFunctionXTest<R,X extends ParseException> {
 
         //when
         LByteUnaryOperatorX<X> function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.applyAsByte((byte)80);
+        byte finalValue = function.doApplyAsByte((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -383,7 +383,7 @@ public class LByteFunctionXTest<R,X extends ParseException> {
 
         //when
         LByteToShortFunctionX<X> function = sutO.thenToShort(thenFunction);
-        short finalValue = function.applyAsShort((byte)80);
+        short finalValue = function.doApplyAsShort((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -418,7 +418,7 @@ public class LByteFunctionXTest<R,X extends ParseException> {
 
         //when
         LByteToIntFunctionX<X> function = sutO.thenToInt(thenFunction);
-        int finalValue = function.applyAsInt((byte)80);
+        int finalValue = function.doApplyAsInt((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((int)100);
@@ -453,7 +453,7 @@ public class LByteFunctionXTest<R,X extends ParseException> {
 
         //when
         LByteToLongFunctionX<X> function = sutO.thenToLong(thenFunction);
-        long finalValue = function.applyAsLong((byte)80);
+        long finalValue = function.doApplyAsLong((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((long)100);
@@ -488,7 +488,7 @@ public class LByteFunctionXTest<R,X extends ParseException> {
 
         //when
         LByteToFloatFunctionX<X> function = sutO.thenToFloat(thenFunction);
-        float finalValue = function.applyAsFloat((byte)80);
+        float finalValue = function.doApplyAsFloat((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((float)100);
@@ -523,7 +523,7 @@ public class LByteFunctionXTest<R,X extends ParseException> {
 
         //when
         LByteToDoubleFunctionX<X> function = sutO.thenToDouble(thenFunction);
-        double finalValue = function.applyAsDouble((byte)80);
+        double finalValue = function.doApplyAsDouble((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((double)100);
@@ -558,7 +558,7 @@ public class LByteFunctionXTest<R,X extends ParseException> {
 
         //when
         LByteToCharFunctionX<X> function = sutO.thenToChar(thenFunction);
-        char finalValue = function.applyAsChar((byte)80);
+        char finalValue = function.doApplyAsChar((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((char)100);
@@ -593,7 +593,7 @@ public class LByteFunctionXTest<R,X extends ParseException> {
 
         //when
         LBytePredicateX<X> function = sutO.thenToBoolean(thenFunction);
-        boolean finalValue = function.test((byte)80);
+        boolean finalValue = function.doTest((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -624,7 +624,7 @@ public class LByteFunctionXTest<R,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().apply((byte)100);
+        sutThrowing.shove().doApply((byte)100);
     }
 
     @Test
@@ -642,7 +642,7 @@ public class LByteFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((byte)100);
+            wrapped.doApply((byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -661,7 +661,7 @@ public class LByteFunctionXTest<R,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LByteFunctionX: R apply(byte b) throws X");
+                .contains("LByteFunctionX: R doApply(byte b) throws X");
     }
 
 

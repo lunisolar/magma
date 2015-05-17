@@ -58,7 +58,7 @@ public interface LCharFunctionXAssert<S extends LCharFunctionXAssert<S, A, RS, R
 
 		@Nonnull
 		public Evaluation<S, A, RS, R, Exception> doesApply(char c) {
-			return evaluation(() -> assertFactory.apply((R) actual.apply(c)));
+			return evaluation(() -> assertFactory.apply((R) actual.doApply(c)));
 		}
 
 	}

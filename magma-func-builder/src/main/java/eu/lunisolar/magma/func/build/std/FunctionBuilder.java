@@ -98,7 +98,7 @@ public final class FunctionBuilder<T, R> extends PerCaseBuilderWithProduct.Base<
 			final Case<LPredicate<T>, java.util.function.Function<T, R>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = Function4U.l((T t) -> {
 				for (Case<LPredicate<T>, java.util.function.Function<T, R>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t)) {
+					if (aCase.casePredicate().doTest(t)) {
 						return aCase.caseFunction().apply(t);
 					}
 				}

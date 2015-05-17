@@ -59,13 +59,13 @@ public class LCharBiConsumerXTest<X extends ParseException> {
 
 
     private LCharBiConsumerX<X> sut = new LCharBiConsumerX(){
-        public  void accept(char c1,char c2) throws ParseException {
+        public  void doAccept(char c1,char c2) throws ParseException {
             Function4U.doNothing();
         }
     };
 
     private LCharBiConsumer opposite = new LCharBiConsumer(){
-        public  void accept(char c1,char c2)  {
+        public  void doAccept(char c1,char c2)  {
             Function4U.doNothing();
         }
     };
@@ -77,7 +77,7 @@ public class LCharBiConsumerXTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LCharBiConsumerX: void accept(char c1,char c2) throws X");
+            .isEqualTo("LCharBiConsumerX: void doAccept(char c1,char c2) throws X");
     }
 
     @Test
@@ -108,7 +108,7 @@ public class LCharBiConsumerXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((char)100,(char)100);
+            wrapped.doAccept((char)100,(char)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -133,7 +133,7 @@ public class LCharBiConsumerXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((char)100,(char)100);
+            wrapped.doAccept((char)100,(char)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -157,7 +157,7 @@ public class LCharBiConsumerXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((char)100,(char)100);
+            wrapped.doAccept((char)100,(char)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -197,7 +197,7 @@ public class LCharBiConsumerXTest<X extends ParseException> {
 
         //when
         LCharBiConsumerX<X> function = sutO.fromChar(before1,before2);
-        function.accept((char)80,(char)81);
+        function.doAccept((char)80,(char)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -231,7 +231,7 @@ public class LCharBiConsumerXTest<X extends ParseException> {
 
         //when
         LBiConsumerX<Integer ,Integer ,X> function = sutO.from(before1,before2);
-        function.accept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        function.doAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -261,7 +261,7 @@ public class LCharBiConsumerXTest<X extends ParseException> {
 
         //when
         LCharBiConsumerX<X> function = sutO.andThen(thenFunction);
-        function.accept((char)80,(char)81);
+        function.doAccept((char)80,(char)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -287,7 +287,7 @@ public class LCharBiConsumerXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().accept((char)100,(char)100);
+        sutThrowing.shove().doAccept((char)100,(char)100);
     }
 
     @Test
@@ -305,7 +305,7 @@ public class LCharBiConsumerXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((char)100,(char)100);
+            wrapped.doAccept((char)100,(char)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -324,7 +324,7 @@ public class LCharBiConsumerXTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LCharBiConsumerX: void accept(char c1,char c2) throws X");
+                .contains("LCharBiConsumerX: void doAccept(char c1,char c2) throws X");
     }
 
 

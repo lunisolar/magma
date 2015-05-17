@@ -58,7 +58,7 @@ public interface LShortUnaryOperatorAssert<S extends LShortUnaryOperatorAssert<S
 
 		@Nonnull
 		public Evaluation<S, A, RS, Short, Exception> doesApplyAsShort(short s) {
-			return evaluation(() -> assertFactory.apply((Short) actual.applyAsShort(s)));
+			return evaluation(() -> assertFactory.apply((Short) actual.doApplyAsShort(s)));
 		}
 
 	}

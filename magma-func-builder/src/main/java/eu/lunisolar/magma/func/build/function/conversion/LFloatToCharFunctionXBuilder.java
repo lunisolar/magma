@@ -99,12 +99,12 @@ public final class LFloatToCharFunctionXBuilder<X extends Exception> extends Per
 			final Case<LFloatPredicateX<X>, LFloatToCharFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LFloatToCharFunctionX.lX((float f) -> {
 				for (Case<LFloatPredicateX<X>, LFloatToCharFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(f)) {
-						return aCase.caseFunction().applyAsChar(f);
+					if (aCase.casePredicate().doTest(f)) {
+						return aCase.caseFunction().doApplyAsChar(f);
 					}
 				}
 
-				return eventuallyFinal.applyAsChar(f);
+				return eventuallyFinal.doApplyAsChar(f);
 			});
 		}
 

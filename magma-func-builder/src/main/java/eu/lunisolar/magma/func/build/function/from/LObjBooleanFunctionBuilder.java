@@ -99,12 +99,12 @@ public final class LObjBooleanFunctionBuilder<T, R> extends PerCaseBuilderWithPr
 			final Case<LObjBooleanPredicate<T>, LObjBooleanFunction<T, R>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LObjBooleanFunction.l((T t, boolean b) -> {
 				for (Case<LObjBooleanPredicate<T>, LObjBooleanFunction<T, R>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t, b)) {
-						return aCase.caseFunction().apply(t, b);
+					if (aCase.casePredicate().doTest(t, b)) {
+						return aCase.caseFunction().doApply(t, b);
 					}
 				}
 
-				return eventuallyFinal.apply(t, b);
+				return eventuallyFinal.doApply(t, b);
 			});
 		}
 

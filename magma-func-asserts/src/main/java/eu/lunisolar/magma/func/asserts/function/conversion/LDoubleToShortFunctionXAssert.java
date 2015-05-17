@@ -63,7 +63,7 @@ public interface LDoubleToShortFunctionXAssert<S extends LDoubleToShortFunctionX
 
 		@Nonnull
 		public Evaluation<S, A, RS, Short, Exception> doesApplyAsShort(double d) {
-			return evaluation(() -> assertFactory.apply((Short) actual.applyAsShort(d)));
+			return evaluation(() -> assertFactory.apply((Short) actual.doApplyAsShort(d)));
 		}
 
 	}

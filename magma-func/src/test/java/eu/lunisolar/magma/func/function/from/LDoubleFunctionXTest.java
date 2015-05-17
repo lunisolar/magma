@@ -61,19 +61,19 @@ public class LDoubleFunctionXTest<R,X extends ParseException> {
 
 
     private LDoubleFunctionX<R,X> sut = new LDoubleFunctionX(){
-        public @Nullable Object  apply(double d) throws ParseException {
+        public @Nullable Object  doApply(double d) throws ParseException {
             return testValue;
         }
     };
 
     private LDoubleFunction<R> opposite = new LDoubleFunction(){
-        public @Nullable Object  apply(double d)  {
+        public @Nullable Object  doApply(double d)  {
             return testValue;
         }
     };
 
     private LDoubleFunctionX<R,X> sutNull = new LDoubleFunctionX(){
-        public @Nullable Object  apply(double d) throws ParseException {
+        public @Nullable Object  doApply(double d) throws ParseException {
             return null;
         }
     };
@@ -84,7 +84,7 @@ public class LDoubleFunctionXTest<R,X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.apply((double)100))
+        assertThat(sut.doApply((double)100))
             .isSameAs(testValue);
     }
 
@@ -94,7 +94,7 @@ public class LDoubleFunctionXTest<R,X extends ParseException> {
             .isSameAs(testValue);
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LDoubleFunctionX: R apply(double d) throws X).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LDoubleFunctionX: R doApply(double d) throws X).\\E")
     public void testNonNullCapturesNull() throws ParseException {
         sutNull.nonNull((double)100);
     }
@@ -103,7 +103,7 @@ public class LDoubleFunctionXTest<R,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LDoubleFunctionX: R apply(double d) throws X");
+            .isEqualTo("LDoubleFunctionX: R doApply(double d) throws X");
     }
 
     @Test
@@ -140,7 +140,7 @@ public class LDoubleFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((double)100);
+            wrapped.doApply((double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -165,7 +165,7 @@ public class LDoubleFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((double)100);
+            wrapped.doApply((double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -189,7 +189,7 @@ public class LDoubleFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((double)100);
+            wrapped.doApply((double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -224,7 +224,7 @@ public class LDoubleFunctionXTest<R,X extends ParseException> {
 
         //when
         LDoubleFunctionX<Integer ,X> function = sutO.fromDouble(before1);
-        function.apply((double)80);
+        function.doApply((double)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -253,7 +253,7 @@ public class LDoubleFunctionXTest<R,X extends ParseException> {
 
         //when
         LFunctionX<Integer ,Integer ,X> function = sutO.from(before1);
-        function.apply((Integer )Integer.valueOf(80));
+        function.doApply((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -289,7 +289,7 @@ public class LDoubleFunctionXTest<R,X extends ParseException> {
 
         //when
         LDoubleFunctionX<Integer ,X> function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((double)80);
+        Integer  finalValue = function.doApply((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -322,7 +322,7 @@ public class LDoubleFunctionXTest<R,X extends ParseException> {
 
         //when
         LDoubleConsumerX<X> function = sutO.then(thenFunction);
-        function.accept((double)80);
+        function.doAccept((double)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -356,7 +356,7 @@ public class LDoubleFunctionXTest<R,X extends ParseException> {
 
         //when
         LDoubleToByteFunctionX<X> function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.applyAsByte((double)80);
+        byte finalValue = function.doApplyAsByte((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -391,7 +391,7 @@ public class LDoubleFunctionXTest<R,X extends ParseException> {
 
         //when
         LDoubleToShortFunctionX<X> function = sutO.thenToShort(thenFunction);
-        short finalValue = function.applyAsShort((double)80);
+        short finalValue = function.doApplyAsShort((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -426,7 +426,7 @@ public class LDoubleFunctionXTest<R,X extends ParseException> {
 
         //when
         LDoubleToIntFunctionX<X> function = sutO.thenToInt(thenFunction);
-        int finalValue = function.applyAsInt((double)80);
+        int finalValue = function.doApplyAsInt((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((int)100);
@@ -461,7 +461,7 @@ public class LDoubleFunctionXTest<R,X extends ParseException> {
 
         //when
         LDoubleToLongFunctionX<X> function = sutO.thenToLong(thenFunction);
-        long finalValue = function.applyAsLong((double)80);
+        long finalValue = function.doApplyAsLong((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((long)100);
@@ -496,7 +496,7 @@ public class LDoubleFunctionXTest<R,X extends ParseException> {
 
         //when
         LDoubleToFloatFunctionX<X> function = sutO.thenToFloat(thenFunction);
-        float finalValue = function.applyAsFloat((double)80);
+        float finalValue = function.doApplyAsFloat((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((float)100);
@@ -531,7 +531,7 @@ public class LDoubleFunctionXTest<R,X extends ParseException> {
 
         //when
         LDoubleUnaryOperatorX<X> function = sutO.thenToDouble(thenFunction);
-        double finalValue = function.applyAsDouble((double)80);
+        double finalValue = function.doApplyAsDouble((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((double)100);
@@ -566,7 +566,7 @@ public class LDoubleFunctionXTest<R,X extends ParseException> {
 
         //when
         LDoubleToCharFunctionX<X> function = sutO.thenToChar(thenFunction);
-        char finalValue = function.applyAsChar((double)80);
+        char finalValue = function.doApplyAsChar((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((char)100);
@@ -601,7 +601,7 @@ public class LDoubleFunctionXTest<R,X extends ParseException> {
 
         //when
         LDoublePredicateX<X> function = sutO.thenToBoolean(thenFunction);
-        boolean finalValue = function.test((double)80);
+        boolean finalValue = function.doTest((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -637,7 +637,7 @@ public class LDoubleFunctionXTest<R,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().apply((double)100);
+        sutThrowing.shove().doApply((double)100);
     }
 
     @Test
@@ -655,7 +655,7 @@ public class LDoubleFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((double)100);
+            wrapped.doApply((double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -674,7 +674,7 @@ public class LDoubleFunctionXTest<R,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LDoubleFunctionX: R apply(double d) throws X");
+                .contains("LDoubleFunctionX: R doApply(double d) throws X");
     }
 
 

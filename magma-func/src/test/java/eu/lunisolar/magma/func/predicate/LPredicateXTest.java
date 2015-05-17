@@ -61,13 +61,13 @@ public class LPredicateXTest<T,X extends ParseException> {
 
 
     private LPredicateX<T,X> sut = new LPredicateX(){
-        public  boolean test(Object t) throws ParseException {
+        public  boolean doTest(Object t) throws ParseException {
             return testValue;
         }
     };
 
     private LPredicate<T> opposite = new LPredicate(){
-        public  boolean test(Object t)  {
+        public  boolean doTest(Object t)  {
             return testValue;
         }
     };
@@ -78,7 +78,7 @@ public class LPredicateXTest<T,X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.test((T)Integer.valueOf(100)))
+        assertThat(sut.doTest((T)Integer.valueOf(100)))
             .isEqualTo(testValue);
     }
 
@@ -90,7 +90,7 @@ public class LPredicateXTest<T,X extends ParseException> {
 
     @Test
     public void testApplyAsBooleanShouldNotModifyValue() throws ParseException {
-        assertThat(sut.applyAsBoolean((T)Integer.valueOf(100)))
+        assertThat(sut.doApplyAsBoolean((T)Integer.valueOf(100)))
             .isEqualTo(testValue);
 
     }
@@ -99,7 +99,7 @@ public class LPredicateXTest<T,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LPredicateX: boolean test(T t) throws X");
+            .isEqualTo("LPredicateX: boolean doTest(T t) throws X");
     }
 
     @Test
@@ -136,7 +136,7 @@ public class LPredicateXTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.test((T)Integer.valueOf(100));
+            wrapped.doTest((T)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -161,7 +161,7 @@ public class LPredicateXTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.test((T)Integer.valueOf(100));
+            wrapped.doTest((T)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -185,7 +185,7 @@ public class LPredicateXTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.test((T)Integer.valueOf(100));
+            wrapped.doTest((T)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -197,7 +197,7 @@ public class LPredicateXTest<T,X extends ParseException> {
 
     @Test
     public void testNegate() throws ParseException {
-        assertThat(sut.negate().test((T)Integer.valueOf(100)))
+        assertThat(sut.negate().doTest((T)Integer.valueOf(100)))
             .isEqualTo(!testValue);
     }
 
@@ -225,13 +225,13 @@ public class LPredicateXTest<T,X extends ParseException> {
         LPredicateX<T,X> xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.test((T)Integer.valueOf(100)))
+        assertThat(andFunction.doTest((T)Integer.valueOf(100)))
                 .isEqualTo(andResult);
 
-        assertThat(orFunction.test((T)Integer.valueOf(100)))
+        assertThat(orFunction.doTest((T)Integer.valueOf(100)))
                 .isEqualTo(orResult);
 
-        assertThat(xorFunction.test((T)Integer.valueOf(100)))
+        assertThat(xorFunction.doTest((T)Integer.valueOf(100)))
                 .isEqualTo(xorResult);
     }
 
@@ -241,10 +241,10 @@ public class LPredicateXTest<T,X extends ParseException> {
         LPredicateX<T,X> equals = LPredicateX.isEqual((T)Integer.valueOf(100));
 
         //then
-        assertThat(equals.test((T)Integer.valueOf(100)))
+        assertThat(equals.doTest((T)Integer.valueOf(100)))
                 .isTrue();
 
-        assertThat(equals.test((T)Integer.valueOf(0)))
+        assertThat(equals.doTest((T)Integer.valueOf(0)))
                 .isFalse();
     }
 
@@ -273,7 +273,7 @@ public class LPredicateXTest<T,X extends ParseException> {
 
         //when
         LPredicateX<Integer ,X> function = sutO.from(before1);
-        function.test((Integer )Integer.valueOf(80));
+        function.doTest((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -309,7 +309,7 @@ public class LPredicateXTest<T,X extends ParseException> {
 
         //when
         LFunctionX<Integer ,Integer ,X> function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((Integer )Integer.valueOf(80));
+        Integer  finalValue = function.doApply((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -344,7 +344,7 @@ public class LPredicateXTest<T,X extends ParseException> {
 
         //when
         LToByteFunctionX<Integer ,X> function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.applyAsByte((Integer )Integer.valueOf(80));
+        byte finalValue = function.doApplyAsByte((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -379,7 +379,7 @@ public class LPredicateXTest<T,X extends ParseException> {
 
         //when
         LToShortFunctionX<Integer ,X> function = sutO.thenToShort(thenFunction);
-        short finalValue = function.applyAsShort((Integer )Integer.valueOf(80));
+        short finalValue = function.doApplyAsShort((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -414,7 +414,7 @@ public class LPredicateXTest<T,X extends ParseException> {
 
         //when
         LToIntFunctionX<Integer ,X> function = sutO.thenToInt(thenFunction);
-        int finalValue = function.applyAsInt((Integer )Integer.valueOf(80));
+        int finalValue = function.doApplyAsInt((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(finalValue).isEqualTo((int)100);
@@ -449,7 +449,7 @@ public class LPredicateXTest<T,X extends ParseException> {
 
         //when
         LToLongFunctionX<Integer ,X> function = sutO.thenToLong(thenFunction);
-        long finalValue = function.applyAsLong((Integer )Integer.valueOf(80));
+        long finalValue = function.doApplyAsLong((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(finalValue).isEqualTo((long)100);
@@ -484,7 +484,7 @@ public class LPredicateXTest<T,X extends ParseException> {
 
         //when
         LToFloatFunctionX<Integer ,X> function = sutO.thenToFloat(thenFunction);
-        float finalValue = function.applyAsFloat((Integer )Integer.valueOf(80));
+        float finalValue = function.doApplyAsFloat((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(finalValue).isEqualTo((float)100);
@@ -519,7 +519,7 @@ public class LPredicateXTest<T,X extends ParseException> {
 
         //when
         LToDoubleFunctionX<Integer ,X> function = sutO.thenToDouble(thenFunction);
-        double finalValue = function.applyAsDouble((Integer )Integer.valueOf(80));
+        double finalValue = function.doApplyAsDouble((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(finalValue).isEqualTo((double)100);
@@ -554,7 +554,7 @@ public class LPredicateXTest<T,X extends ParseException> {
 
         //when
         LToCharFunctionX<Integer ,X> function = sutO.thenToChar(thenFunction);
-        char finalValue = function.applyAsChar((Integer )Integer.valueOf(80));
+        char finalValue = function.doApplyAsChar((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(finalValue).isEqualTo((char)100);
@@ -589,7 +589,7 @@ public class LPredicateXTest<T,X extends ParseException> {
 
         //when
         LPredicateX<Integer ,X> function = sutO.thenToBoolean(thenFunction);
-        boolean finalValue = function.test((Integer )Integer.valueOf(80));
+        boolean finalValue = function.doTest((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -625,7 +625,7 @@ public class LPredicateXTest<T,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().test((T)Integer.valueOf(100));
+        sutThrowing.shove().doTest((T)Integer.valueOf(100));
     }
 
     @Test
@@ -643,7 +643,7 @@ public class LPredicateXTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.test((T)Integer.valueOf(100));
+            wrapped.doTest((T)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -662,7 +662,7 @@ public class LPredicateXTest<T,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LPredicateX: boolean test(T t) throws X");
+                .contains("LPredicateX: boolean doTest(T t) throws X");
     }
 
 

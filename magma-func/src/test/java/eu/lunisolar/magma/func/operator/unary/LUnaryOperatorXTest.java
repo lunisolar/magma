@@ -61,19 +61,19 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
 
 
     private LUnaryOperatorX<T,X> sut = new LUnaryOperatorX(){
-        public @Nullable Object  apply(Object t) throws ParseException {
+        public @Nullable Object  doApply(Object t) throws ParseException {
             return testValue;
         }
     };
 
     private LUnaryOperator<T> opposite = new LUnaryOperator(){
-        public @Nullable Object  apply(Object t)  {
+        public @Nullable Object  doApply(Object t)  {
             return testValue;
         }
     };
 
     private LUnaryOperatorX<T,X> sutNull = new LUnaryOperatorX(){
-        public @Nullable Object  apply(Object t) throws ParseException {
+        public @Nullable Object  doApply(Object t) throws ParseException {
             return null;
         }
     };
@@ -84,7 +84,7 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.apply((T)Integer.valueOf(100)))
+        assertThat(sut.doApply((T)Integer.valueOf(100)))
             .isSameAs(testValue);
     }
 
@@ -94,7 +94,7 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
             .isSameAs(testValue);
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LUnaryOperatorX: T apply(T t) throws X).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LUnaryOperatorX: T doApply(T t) throws X).\\E")
     public void testNonNullCapturesNull() throws ParseException {
         sutNull.nonNull((T)Integer.valueOf(100));
     }
@@ -103,7 +103,7 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LUnaryOperatorX: T apply(T t) throws X");
+            .isEqualTo("LUnaryOperatorX: T doApply(T t) throws X");
     }
 
     @Test
@@ -140,7 +140,7 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T)Integer.valueOf(100));
+            wrapped.doApply((T)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -165,7 +165,7 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T)Integer.valueOf(100));
+            wrapped.doApply((T)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -189,7 +189,7 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T)Integer.valueOf(100));
+            wrapped.doApply((T)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -227,7 +227,7 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
 
         //when
         LFunctionX<Integer ,Integer ,X> function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((Integer )Integer.valueOf(80));
+        Integer  finalValue = function.doApply((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -262,7 +262,7 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
 
         //when
         LToByteFunctionX<Integer ,X> function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.applyAsByte((Integer )Integer.valueOf(80));
+        byte finalValue = function.doApplyAsByte((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -297,7 +297,7 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
 
         //when
         LToShortFunctionX<Integer ,X> function = sutO.thenToShort(thenFunction);
-        short finalValue = function.applyAsShort((Integer )Integer.valueOf(80));
+        short finalValue = function.doApplyAsShort((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -332,7 +332,7 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
 
         //when
         LToIntFunctionX<Integer ,X> function = sutO.thenToInt(thenFunction);
-        int finalValue = function.applyAsInt((Integer )Integer.valueOf(80));
+        int finalValue = function.doApplyAsInt((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(finalValue).isEqualTo((int)100);
@@ -367,7 +367,7 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
 
         //when
         LToLongFunctionX<Integer ,X> function = sutO.thenToLong(thenFunction);
-        long finalValue = function.applyAsLong((Integer )Integer.valueOf(80));
+        long finalValue = function.doApplyAsLong((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(finalValue).isEqualTo((long)100);
@@ -402,7 +402,7 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
 
         //when
         LToFloatFunctionX<Integer ,X> function = sutO.thenToFloat(thenFunction);
-        float finalValue = function.applyAsFloat((Integer )Integer.valueOf(80));
+        float finalValue = function.doApplyAsFloat((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(finalValue).isEqualTo((float)100);
@@ -437,7 +437,7 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
 
         //when
         LToDoubleFunctionX<Integer ,X> function = sutO.thenToDouble(thenFunction);
-        double finalValue = function.applyAsDouble((Integer )Integer.valueOf(80));
+        double finalValue = function.doApplyAsDouble((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(finalValue).isEqualTo((double)100);
@@ -472,7 +472,7 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
 
         //when
         LToCharFunctionX<Integer ,X> function = sutO.thenToChar(thenFunction);
-        char finalValue = function.applyAsChar((Integer )Integer.valueOf(80));
+        char finalValue = function.doApplyAsChar((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(finalValue).isEqualTo((char)100);
@@ -507,7 +507,7 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
 
         //when
         LPredicateX<Integer ,X> function = sutO.thenToBoolean(thenFunction);
-        boolean finalValue = function.test((Integer )Integer.valueOf(80));
+        boolean finalValue = function.doTest((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -523,7 +523,7 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
     public void identity() throws ParseException {
         LUnaryOperatorX<Integer ,X> identityFunction = LUnaryOperatorX.identity();
 
-        assertThat(identityFunction.apply((Integer )Integer.valueOf(80))).isEqualTo((Integer )Integer.valueOf(80));
+        assertThat(identityFunction.doApply((Integer )Integer.valueOf(80))).isEqualTo((Integer )Integer.valueOf(80));
     }
 
     @Test
@@ -550,7 +550,7 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().apply((T)Integer.valueOf(100));
+        sutThrowing.shove().doApply((T)Integer.valueOf(100));
     }
 
     @Test
@@ -568,7 +568,7 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T)Integer.valueOf(100));
+            wrapped.doApply((T)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -587,7 +587,7 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LUnaryOperatorX: T apply(T t) throws X");
+                .contains("LUnaryOperatorX: T doApply(T t) throws X");
     }
 
 

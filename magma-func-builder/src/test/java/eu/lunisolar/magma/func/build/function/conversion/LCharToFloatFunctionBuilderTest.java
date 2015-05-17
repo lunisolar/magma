@@ -69,7 +69,7 @@ public class LCharToFloatFunctionBuilderTest<X extends ParseException>{
                 .charToFloatFunction()
                 .build();
 
-            function.applyAsFloat((char)100);
+            function.doApplyAsFloat((char)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

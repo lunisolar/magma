@@ -59,13 +59,13 @@ public class LCharConsumerTest<X extends ParseException> {
 
 
     private LCharConsumer sut = new LCharConsumer(){
-        public  void accept(char c)  {
+        public  void doAccept(char c)  {
             Function4U.doNothing();
         }
     };
 
     private LCharConsumerX<X> opposite = new LCharConsumerX(){
-        public  void accept(char c) throws ParseException {
+        public  void doAccept(char c) throws ParseException {
             Function4U.doNothing();
         }
     };
@@ -77,7 +77,7 @@ public class LCharConsumerTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LCharConsumer: void accept(char c)");
+            .isEqualTo("LCharConsumer: void doAccept(char c)");
     }
 
     @Test
@@ -104,7 +104,7 @@ public class LCharConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((char)100);
+            wrapped.doAccept((char)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -126,7 +126,7 @@ public class LCharConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((char)100);
+            wrapped.doAccept((char)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -152,7 +152,7 @@ public class LCharConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((char)100);
+            wrapped.doAccept((char)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -177,7 +177,7 @@ public class LCharConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((char)100);
+            wrapped.doAccept((char)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -201,7 +201,7 @@ public class LCharConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((char)100);
+            wrapped.doAccept((char)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -235,7 +235,7 @@ public class LCharConsumerTest<X extends ParseException> {
 
         //when
         LCharConsumer function = sutO.fromChar(before1);
-        function.accept((char)80);
+        function.doAccept((char)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -263,7 +263,7 @@ public class LCharConsumerTest<X extends ParseException> {
 
         //when
         LConsumer<Integer > function = sutO.from(before1);
-        function.accept((Integer )Integer.valueOf(80));
+        function.doAccept((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -291,7 +291,7 @@ public class LCharConsumerTest<X extends ParseException> {
 
         //when
         LCharConsumer function = sutO.andThen(thenFunction);
-        function.accept((char)80);
+        function.doAccept((char)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -317,7 +317,7 @@ public class LCharConsumerTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().accept((char)100);
+        sutThrowing.shove().doAccept((char)100);
     }
 
     @Test
@@ -335,7 +335,7 @@ public class LCharConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((char)100);
+            wrapped.doAccept((char)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -354,7 +354,7 @@ public class LCharConsumerTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LCharConsumer: void accept(char c)");
+                .contains("LCharConsumer: void doAccept(char c)");
     }
 
 

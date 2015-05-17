@@ -58,7 +58,7 @@ public interface LIntPredicateXAssert<S extends LIntPredicateXAssert<S, A, RS, X
 
 		@Nonnull
 		public Evaluation<S, A, RS, Boolean, Exception> doesTest(int i) {
-			return evaluation(() -> assertFactory.apply((Boolean) actual.test(i)));
+			return evaluation(() -> assertFactory.apply((Boolean) actual.doTest(i)));
 		}
 
 	}

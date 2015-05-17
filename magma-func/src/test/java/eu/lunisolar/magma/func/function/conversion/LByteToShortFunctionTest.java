@@ -61,13 +61,13 @@ public class LByteToShortFunctionTest<X extends ParseException> {
 
 
     private LByteToShortFunction sut = new LByteToShortFunction(){
-        public  short applyAsShort(byte b)  {
+        public  short doApplyAsShort(byte b)  {
             return testValue;
         }
     };
 
     private LByteToShortFunctionX<X> opposite = new LByteToShortFunctionX(){
-        public  short applyAsShort(byte b) throws ParseException {
+        public  short doApplyAsShort(byte b) throws ParseException {
             return testValue;
         }
     };
@@ -76,7 +76,7 @@ public class LByteToShortFunctionTest<X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.applyAsShort((byte)100))
+        assertThat(sut.doApplyAsShort((byte)100))
             .isEqualTo(testValue);
     }
 
@@ -90,7 +90,7 @@ public class LByteToShortFunctionTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LByteToShortFunction: short applyAsShort(byte b)");
+            .isEqualTo("LByteToShortFunction: short doApplyAsShort(byte b)");
     }
 
     @Test
@@ -117,7 +117,7 @@ public class LByteToShortFunctionTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsShort((byte)100);
+            wrapped.doApplyAsShort((byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LByteToShortFunctionTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsShort((byte)100);
+            wrapped.doApplyAsShort((byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -165,7 +165,7 @@ public class LByteToShortFunctionTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsShort((byte)100);
+            wrapped.doApplyAsShort((byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -190,7 +190,7 @@ public class LByteToShortFunctionTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsShort((byte)100);
+            wrapped.doApplyAsShort((byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -214,7 +214,7 @@ public class LByteToShortFunctionTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsShort((byte)100);
+            wrapped.doApplyAsShort((byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -249,7 +249,7 @@ public class LByteToShortFunctionTest<X extends ParseException> {
 
         //when
         LByteToShortFunction function = sutO.fromByte(before1);
-        function.applyAsShort((byte)80);
+        function.doApplyAsShort((byte)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -278,7 +278,7 @@ public class LByteToShortFunctionTest<X extends ParseException> {
 
         //when
         LToShortFunction<Integer > function = sutO.from(before1);
-        function.applyAsShort((Integer )Integer.valueOf(80));
+        function.doApplyAsShort((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -314,7 +314,7 @@ public class LByteToShortFunctionTest<X extends ParseException> {
 
         //when
         LByteFunction<Integer > function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((byte)80);
+        Integer  finalValue = function.doApply((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -349,7 +349,7 @@ public class LByteToShortFunctionTest<X extends ParseException> {
 
         //when
         LByteUnaryOperator function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.applyAsByte((byte)80);
+        byte finalValue = function.doApplyAsByte((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -384,7 +384,7 @@ public class LByteToShortFunctionTest<X extends ParseException> {
 
         //when
         LByteToShortFunction function = sutO.thenToShort(thenFunction);
-        short finalValue = function.applyAsShort((byte)80);
+        short finalValue = function.doApplyAsShort((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -419,7 +419,7 @@ public class LByteToShortFunctionTest<X extends ParseException> {
 
         //when
         LByteToIntFunction function = sutO.thenToInt(thenFunction);
-        int finalValue = function.applyAsInt((byte)80);
+        int finalValue = function.doApplyAsInt((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((int)100);
@@ -454,7 +454,7 @@ public class LByteToShortFunctionTest<X extends ParseException> {
 
         //when
         LByteToLongFunction function = sutO.thenToLong(thenFunction);
-        long finalValue = function.applyAsLong((byte)80);
+        long finalValue = function.doApplyAsLong((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((long)100);
@@ -489,7 +489,7 @@ public class LByteToShortFunctionTest<X extends ParseException> {
 
         //when
         LByteToFloatFunction function = sutO.thenToFloat(thenFunction);
-        float finalValue = function.applyAsFloat((byte)80);
+        float finalValue = function.doApplyAsFloat((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((float)100);
@@ -524,7 +524,7 @@ public class LByteToShortFunctionTest<X extends ParseException> {
 
         //when
         LByteToDoubleFunction function = sutO.thenToDouble(thenFunction);
-        double finalValue = function.applyAsDouble((byte)80);
+        double finalValue = function.doApplyAsDouble((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((double)100);
@@ -559,7 +559,7 @@ public class LByteToShortFunctionTest<X extends ParseException> {
 
         //when
         LByteToCharFunction function = sutO.thenToChar(thenFunction);
-        char finalValue = function.applyAsChar((byte)80);
+        char finalValue = function.doApplyAsChar((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((char)100);
@@ -594,7 +594,7 @@ public class LByteToShortFunctionTest<X extends ParseException> {
 
         //when
         LBytePredicate function = sutO.thenToBoolean(thenFunction);
-        boolean finalValue = function.test((byte)80);
+        boolean finalValue = function.doTest((byte)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -625,7 +625,7 @@ public class LByteToShortFunctionTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().applyAsShort((byte)100);
+        sutThrowing.shove().doApplyAsShort((byte)100);
     }
 
     @Test
@@ -643,7 +643,7 @@ public class LByteToShortFunctionTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsShort((byte)100);
+            wrapped.doApplyAsShort((byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -662,7 +662,7 @@ public class LByteToShortFunctionTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LByteToShortFunction: short applyAsShort(byte b)");
+                .contains("LByteToShortFunction: short doApplyAsShort(byte b)");
     }
 
 

@@ -61,13 +61,13 @@ public class LFloatBinaryOperatorXTest<X extends ParseException> {
 
 
     private LFloatBinaryOperatorX<X> sut = new LFloatBinaryOperatorX(){
-        public  float applyAsFloat(float f1,float f2) throws ParseException {
+        public  float doApplyAsFloat(float f1,float f2) throws ParseException {
             return testValue;
         }
     };
 
     private LFloatBinaryOperator opposite = new LFloatBinaryOperator(){
-        public  float applyAsFloat(float f1,float f2)  {
+        public  float doApplyAsFloat(float f1,float f2)  {
             return testValue;
         }
     };
@@ -76,7 +76,7 @@ public class LFloatBinaryOperatorXTest<X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.applyAsFloat((float)100,(float)100))
+        assertThat(sut.doApplyAsFloat((float)100,(float)100))
             .isEqualTo(testValue);
     }
 
@@ -90,7 +90,7 @@ public class LFloatBinaryOperatorXTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LFloatBinaryOperatorX: float applyAsFloat(float f1,float f2) throws X");
+            .isEqualTo("LFloatBinaryOperatorX: float doApplyAsFloat(float f1,float f2) throws X");
     }
 
     @Test
@@ -121,7 +121,7 @@ public class LFloatBinaryOperatorXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsFloat((float)100,(float)100);
+            wrapped.doApplyAsFloat((float)100,(float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -146,7 +146,7 @@ public class LFloatBinaryOperatorXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsFloat((float)100,(float)100);
+            wrapped.doApplyAsFloat((float)100,(float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -170,7 +170,7 @@ public class LFloatBinaryOperatorXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsFloat((float)100,(float)100);
+            wrapped.doApplyAsFloat((float)100,(float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -191,10 +191,10 @@ public class LFloatBinaryOperatorXTest<X extends ParseException> {
         LFloatBinaryOperatorX<X> min = LFloatBinaryOperatorX.min();
 
         //then
-        assertThat(min.applyAsFloat(valueSmall, valueBig))
+        assertThat(min.doApplyAsFloat(valueSmall, valueBig))
                 .isEqualTo(valueSmall);
 
-        assertThat(min.applyAsFloat(valueBig, valueSmall))
+        assertThat(min.doApplyAsFloat(valueBig, valueSmall))
                 .isEqualTo(valueSmall);
     }
 
@@ -208,10 +208,10 @@ public class LFloatBinaryOperatorXTest<X extends ParseException> {
         LFloatBinaryOperatorX<X> max = LFloatBinaryOperatorX.max();
 
         //then
-        assertThat(max.applyAsFloat(valueSmall, valueBig))
+        assertThat(max.doApplyAsFloat(valueSmall, valueBig))
                 .isEqualTo(valueBig);
 
-        assertThat(max.applyAsFloat(valueBig, valueSmall))
+        assertThat(max.doApplyAsFloat(valueBig, valueSmall))
                 .isEqualTo(valueBig);
     }
 
@@ -245,7 +245,7 @@ public class LFloatBinaryOperatorXTest<X extends ParseException> {
 
         //when
         LFloatBinaryOperatorX<X> function = sutO.fromFloat(before1,before2);
-        function.applyAsFloat((float)80,(float)81);
+        function.doApplyAsFloat((float)80,(float)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -280,7 +280,7 @@ public class LFloatBinaryOperatorXTest<X extends ParseException> {
 
         //when
         LToFloatBiFunctionX<Integer ,Integer ,X> function = sutO.from(before1,before2);
-        function.applyAsFloat((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        function.doApplyAsFloat((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -317,7 +317,7 @@ public class LFloatBinaryOperatorXTest<X extends ParseException> {
 
         //when
         LFloatBiFunctionX<Integer ,X> function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((float)80,(float)81);
+        Integer  finalValue = function.doApply((float)80,(float)81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -348,7 +348,7 @@ public class LFloatBinaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().applyAsFloat((float)100,(float)100);
+        sutThrowing.shove().doApplyAsFloat((float)100,(float)100);
     }
 
     @Test
@@ -366,7 +366,7 @@ public class LFloatBinaryOperatorXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsFloat((float)100,(float)100);
+            wrapped.doApplyAsFloat((float)100,(float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -385,7 +385,7 @@ public class LFloatBinaryOperatorXTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LFloatBinaryOperatorX: float applyAsFloat(float f1,float f2) throws X");
+                .contains("LFloatBinaryOperatorX: float doApplyAsFloat(float f1,float f2) throws X");
     }
 
 

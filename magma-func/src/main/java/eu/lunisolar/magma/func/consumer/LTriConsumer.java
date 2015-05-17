@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LTriConsumer<T1, T2, T3> extends LTriConsumerX<T1, T2, T3, RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LTriConsumer: void accept(T1 t1,T2 t2,T3 t3)";
+	public static final String DESCRIPTION = "LTriConsumer: void doAccept(T1 t1,T2 t2,T3 t3)";
 
-	// Ovverriding methods can cause problems with inference.
+	public void doAccept(T1 t1, T2 t2, T3 t3);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +73,7 @@ public interface LTriConsumer<T1, T2, T3> extends LTriConsumerX<T1, T2, T3, Runt
 
 	/** Captures arguments but delays the evaluation. */
 	default LAction capture(T1 t1, T2 t2, T3 t3) {
-		return () -> this.accept(t1, t2, t3);
+		return () -> this.doAccept(t1, t2, t3);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -90,7 +90,7 @@ public interface LTriConsumer<T1, T2, T3> extends LTriConsumerX<T1, T2, T3, Runt
 	public static <T1, T2, T3, X extends Exception> LTriConsumer<T1, T2, T3> wrap(final @Nonnull LTriConsumerX<T1, T2, T3, X> other) {
 		return (T1 t1, T2 t2, T3 t3) -> {
 			try {
-				other.accept(t1, t2, t3);
+				other.doAccept(t1, t2, t3);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -109,7 +109,7 @@ public interface LTriConsumer<T1, T2, T3> extends LTriConsumerX<T1, T2, T3, Runt
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
 		Objects.requireNonNull(before3, Function4U.VALIDATION_MESSAGE_BEFORE3);
-		return (final V1 v1, final V2 v2, final V3 v3) -> this.accept(before1.apply(v1), before2.apply(v2), before3.apply(v3));
+		return (final V1 v1, final V2 v2, final V3 v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApply(v3));
 	}
 
 	// </editor-fold>
@@ -121,8 +121,8 @@ public interface LTriConsumer<T1, T2, T3> extends LTriConsumerX<T1, T2, T3, Runt
 	default LTriConsumer<T1, T2, T3> andThen(@Nonnull LTriConsumer<? super T1, ? super T2, ? super T3> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
 		return (T1 t1, T2 t2, T3 t3) -> {
-			this.accept(t1, t2, t3);
-			after.accept(t1, t2, t3);
+			this.doAccept(t1, t2, t3);
+			after.doAccept(t1, t2, t3);
 		};
 	}
 
@@ -155,7 +155,7 @@ public interface LTriConsumer<T1, T2, T3> extends LTriConsumerX<T1, T2, T3, Runt
 	public static <T1, T2, T3, X extends Exception, E extends Exception, Y extends RuntimeException> LTriConsumer<T1, T2, T3> wrapException(@Nonnull final LTriConsumer<T1, T2, T3> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
 		return (T1 t1, T2 t2, T3 t3) -> {
 			try {
-				other.accept(t1, t2, t3);
+				other.doAccept(t1, t2, t3);
 			} catch (Exception e) {
 				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
 			}

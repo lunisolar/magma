@@ -69,7 +69,7 @@ public class LPredicateXBuilderTest<T,X extends ParseException>{
                 .predicateX()
                 .build();
 
-            function.test((T)Integer.valueOf(100));
+            function.doTest((T)Integer.valueOf(100));
 
             fail("No exception were thrown.");
         } catch (Exception e) {

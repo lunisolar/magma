@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LShortBinaryOperator extends LShortBinaryOperatorX<RuntimeException>, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LShortBinaryOperator: short applyAsShort(short s1,short s2)";
+	public static final String DESCRIPTION = "LShortBinaryOperator: short doApplyAsShort(short s1,short s2)";
 
-	// Ovverriding methods can cause problems with inference.
+	public short doApplyAsShort(short s1, short s2);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LShortBinaryOperator extends LShortBinaryOperatorX<RuntimeExcep
 
 	/** Captures arguments but delays the evaluation. */
 	default LShortSupplier capture(short s1, short s2) {
-		return () -> this.applyAsShort(s1, s2);
+		return () -> this.doApplyAsShort(s1, s2);
 	}
 
 	public static LShortBinaryOperator constant(short r) {
@@ -81,7 +81,7 @@ public interface LShortBinaryOperator extends LShortBinaryOperatorX<RuntimeExcep
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default short nonNull(short s1, short s2) {
-		return applyAsShort(s1, s2);
+		return doApplyAsShort(s1, s2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -98,7 +98,7 @@ public interface LShortBinaryOperator extends LShortBinaryOperatorX<RuntimeExcep
 	public static <X extends Exception> LShortBinaryOperator wrap(final @Nonnull LShortBinaryOperatorX<X> other) {
 		return (short s1, short s2) -> {
 			try {
-				return other.applyAsShort(s1, s2);
+				return other.doApplyAsShort(s1, s2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -135,7 +135,7 @@ public interface LShortBinaryOperator extends LShortBinaryOperatorX<RuntimeExcep
 	default LShortBinaryOperator fromShort(@Nonnull final LShortUnaryOperator before1, @Nonnull final LShortUnaryOperator before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final short v1, final short v2) -> this.applyAsShort(before1.applyAsShort(v1), before2.applyAsShort(v2));
+		return (final short v1, final short v2) -> this.doApplyAsShort(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
 	}
 
 	/**
@@ -145,7 +145,7 @@ public interface LShortBinaryOperator extends LShortBinaryOperatorX<RuntimeExcep
 	default <V1, V2> LToShortBiFunction<V1, V2> from(@Nonnull final LToShortFunction<? super V1> before1, @Nonnull final LToShortFunction<? super V2> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.applyAsShort(before1.applyAsShort(v1), before2.applyAsShort(v2));
+		return (V1 v1, V2 v2) -> this.doApplyAsShort(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
 	}
 
 	// </editor-fold>
@@ -156,7 +156,7 @@ public interface LShortBinaryOperator extends LShortBinaryOperatorX<RuntimeExcep
 	@Nonnull
 	default <V> LShortBiFunction<V> then(@Nonnull LShortFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s1, short s2) -> after.apply(this.applyAsShort(s1, s2));
+		return (short s1, short s2) -> after.doApply(this.doApplyAsShort(s1, s2));
 	}
 
 	// </editor-fold>
@@ -189,11 +189,11 @@ public interface LShortBinaryOperator extends LShortBinaryOperatorX<RuntimeExcep
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LShortBinaryOperator wrapException(@Nonnull final LShortBinaryOperator other, Class<E> exception, LShortSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (short s1, short s2) -> {
 			try {
-				return other.applyAsShort(s1, s2);
+				return other.doApplyAsShort(s1, s2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsShort();
+						return supplier.doGetAsShort();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

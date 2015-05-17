@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LIntSupplierX<X extends Exception> extends MetaSupplier, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LIntSupplierX: int getAsInt() throws X";
+	public static final String DESCRIPTION = "LIntSupplierX: int doGetAsInt() throws X";
 
-	public int getAsInt() throws X;
+	public int doGetAsInt() throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -76,7 +76,7 @@ public interface LIntSupplierX<X extends Exception> extends MetaSupplier, Primit
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default int nonNull() throws X {
-		return getAsInt();
+		return doGetAsInt();
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -97,7 +97,7 @@ public interface LIntSupplierX<X extends Exception> extends MetaSupplier, Primit
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LIntSupplierX<X> wrapX(final @Nonnull LIntSupplier other) {
-		return other::getAsInt;
+		return other::doGetAsInt;
 	}
 
 	// </editor-fold>
@@ -108,63 +108,63 @@ public interface LIntSupplierX<X extends Exception> extends MetaSupplier, Primit
 	@Nonnull
 	default <V> LSupplierX<V, X> then(@Nonnull LIntFunctionX<? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.apply(this.getAsInt());
+		return () -> after.doApply(this.doGetAsInt());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LByteSupplierX<X> thenToByte(@Nonnull LIntToByteFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsByte(this.getAsInt());
+		return () -> after.doApplyAsByte(this.doGetAsInt());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LShortSupplierX<X> thenToShort(@Nonnull LIntToShortFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsShort(this.getAsInt());
+		return () -> after.doApplyAsShort(this.doGetAsInt());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LIntSupplierX<X> thenToInt(@Nonnull LIntUnaryOperatorX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsInt(this.getAsInt());
+		return () -> after.doApplyAsInt(this.doGetAsInt());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LLongSupplierX<X> thenToLong(@Nonnull LIntToLongFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsLong(this.getAsInt());
+		return () -> after.doApplyAsLong(this.doGetAsInt());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LFloatSupplierX<X> thenToFloat(@Nonnull LIntToFloatFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsFloat(this.getAsInt());
+		return () -> after.doApplyAsFloat(this.doGetAsInt());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LDoubleSupplierX<X> thenToDouble(@Nonnull LIntToDoubleFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsDouble(this.getAsInt());
+		return () -> after.doApplyAsDouble(this.doGetAsInt());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LCharSupplierX<X> thenToChar(@Nonnull LIntToCharFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsChar(this.getAsInt());
+		return () -> after.doApplyAsChar(this.doGetAsInt());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LBooleanSupplierX<X> thenToBoolean(@Nonnull LIntPredicateX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.test(this.getAsInt());
+		return () -> after.doTest(this.doGetAsInt());
 	}
 
 	// </editor-fold>
@@ -174,7 +174,7 @@ public interface LIntSupplierX<X extends Exception> extends MetaSupplier, Primit
 	/** Converts to JRE variant. */
 	@Nonnull
 	default java.util.function.IntSupplier std() {
-		return LIntSupplier.wrap(this)::getAsInt;
+		return LIntSupplier.wrap(this)::doGetAsInt;
 	}
 
 	/** Converts to non-throwing variant (if required). */
@@ -192,7 +192,7 @@ public interface LIntSupplierX<X extends Exception> extends MetaSupplier, Primit
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LIntSupplier shove() {
 		LIntSupplierX<RuntimeException> exceptionCast = (LIntSupplierX<RuntimeException>) this;
-		return exceptionCast::getAsInt;
+		return exceptionCast::doGetAsInt;
 	}
 
 	// </editor-fold>
@@ -204,11 +204,11 @@ public interface LIntSupplierX<X extends Exception> extends MetaSupplier, Primit
 	public static <X extends Exception, E extends Exception, Y extends Exception> LIntSupplierX<Y> wrapException(@Nonnull final LIntSupplierX<X> other, Class<E> exception, LIntSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
 		return () -> {
 			try {
-				return other.getAsInt();
+				return other.doGetAsInt();
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsInt();
+						return supplier.doGetAsInt();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

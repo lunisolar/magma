@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LCharBiConsumer extends LCharBiConsumerX<RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LCharBiConsumer: void accept(char c1,char c2)";
+	public static final String DESCRIPTION = "LCharBiConsumer: void doAccept(char c1,char c2)";
 
-	// Ovverriding methods can cause problems with inference.
+	public void doAccept(char c1, char c2);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +73,7 @@ public interface LCharBiConsumer extends LCharBiConsumerX<RuntimeException>, Met
 
 	/** Captures arguments but delays the evaluation. */
 	default LAction capture(char c1, char c2) {
-		return () -> this.accept(c1, c2);
+		return () -> this.doAccept(c1, c2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -90,7 +90,7 @@ public interface LCharBiConsumer extends LCharBiConsumerX<RuntimeException>, Met
 	public static <X extends Exception> LCharBiConsumer wrap(final @Nonnull LCharBiConsumerX<X> other) {
 		return (char c1, char c2) -> {
 			try {
-				other.accept(c1, c2);
+				other.doAccept(c1, c2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -108,7 +108,7 @@ public interface LCharBiConsumer extends LCharBiConsumerX<RuntimeException>, Met
 	default LCharBiConsumer fromChar(@Nonnull final LCharUnaryOperator before1, @Nonnull final LCharUnaryOperator before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final char v1, final char v2) -> this.accept(before1.applyAsChar(v1), before2.applyAsChar(v2));
+		return (final char v1, final char v2) -> this.doAccept(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
 	}
 
 	/**
@@ -118,7 +118,7 @@ public interface LCharBiConsumer extends LCharBiConsumerX<RuntimeException>, Met
 	default <V1, V2> LBiConsumer<V1, V2> from(@Nonnull final LToCharFunction<? super V1> before1, @Nonnull final LToCharFunction<? super V2> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.accept(before1.applyAsChar(v1), before2.applyAsChar(v2));
+		return (V1 v1, V2 v2) -> this.doAccept(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
 	}
 
 	// </editor-fold>
@@ -130,8 +130,8 @@ public interface LCharBiConsumer extends LCharBiConsumerX<RuntimeException>, Met
 	default LCharBiConsumer andThen(@Nonnull LCharBiConsumer after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
 		return (char c1, char c2) -> {
-			this.accept(c1, c2);
-			after.accept(c1, c2);
+			this.doAccept(c1, c2);
+			after.doAccept(c1, c2);
 		};
 	}
 
@@ -164,7 +164,7 @@ public interface LCharBiConsumer extends LCharBiConsumerX<RuntimeException>, Met
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LCharBiConsumer wrapException(@Nonnull final LCharBiConsumer other, Class<E> exception, ExceptionHandler<E, Y> handler) {
 		return (char c1, char c2) -> {
 			try {
-				other.accept(c1, c2);
+				other.doAccept(c1, c2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
 			}

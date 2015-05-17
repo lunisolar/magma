@@ -99,13 +99,13 @@ public final class LShortConsumerXBuilder<X extends Exception> extends PerCaseBu
 			final Case<LShortPredicateX<X>, LShortConsumerX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LShortConsumerX.lX((short s) -> {
 				for (Case<LShortPredicateX<X>, LShortConsumerX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(s)) {
-						aCase.caseFunction().accept(s);
+					if (aCase.casePredicate().doTest(s)) {
+						aCase.caseFunction().doAccept(s);
 						return;
 					}
 				}
 
-				eventuallyFinal.accept(s);
+				eventuallyFinal.doAccept(s);
 			});
 		}
 

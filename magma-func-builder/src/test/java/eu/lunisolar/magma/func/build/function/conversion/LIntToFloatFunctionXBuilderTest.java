@@ -69,7 +69,7 @@ public class LIntToFloatFunctionXBuilderTest<X extends ParseException>{
                 .intToFloatFunctionX()
                 .build();
 
-            function.applyAsFloat((int)100);
+            function.doApplyAsFloat((int)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

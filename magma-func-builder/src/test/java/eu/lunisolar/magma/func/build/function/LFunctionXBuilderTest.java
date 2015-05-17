@@ -69,7 +69,7 @@ public class LFunctionXBuilderTest<T,R,X extends ParseException>{
                 .functionX()
                 .build();
 
-            function.apply((T)Integer.valueOf(100));
+            function.doApply((T)Integer.valueOf(100));
 
             fail("No exception were thrown.");
         } catch (Exception e) {

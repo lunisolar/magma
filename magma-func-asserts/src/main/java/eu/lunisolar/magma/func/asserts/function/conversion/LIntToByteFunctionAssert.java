@@ -58,7 +58,7 @@ public interface LIntToByteFunctionAssert<S extends LIntToByteFunctionAssert<S, 
 
 		@Nonnull
 		public Evaluation<S, A, RS, Byte, Exception> doesApplyAsByte(int i) {
-			return evaluation(() -> assertFactory.apply((Byte) actual.applyAsByte(i)));
+			return evaluation(() -> assertFactory.apply((Byte) actual.doApplyAsByte(i)));
 		}
 
 	}

@@ -55,7 +55,7 @@ public interface LShortConsumerAssert<S extends LShortConsumerAssert<S, A>, A ex
 
 		@Nonnull
 		public SemiEvaluation<S, A, Exception> doesAccept(short s) {
-			return evaluation(() -> actual.accept(s));
+			return evaluation(() -> actual.doAccept(s));
 		}
 
 	}

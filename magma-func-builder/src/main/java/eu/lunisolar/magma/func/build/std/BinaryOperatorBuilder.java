@@ -98,7 +98,7 @@ public final class BinaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Ba
 			final Case<LBiPredicate<T, T>, java.util.function.BinaryOperator<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = Function4U.l((T t1, T t2) -> {
 				for (Case<LBiPredicate<T, T>, java.util.function.BinaryOperator<T>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t1, t2)) {
+					if (aCase.casePredicate().doTest(t1, t2)) {
 						return aCase.caseFunction().apply(t1, t2);
 					}
 				}

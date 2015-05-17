@@ -63,7 +63,7 @@ public interface LToFloatFunctionXAssert<S extends LToFloatFunctionXAssert<S, A,
 
 		@Nonnull
 		public Evaluation<S, A, RS, Float, Exception> doesApplyAsFloat(T t) {
-			return evaluation(() -> assertFactory.apply((Float) actual.applyAsFloat(t)));
+			return evaluation(() -> assertFactory.apply((Float) actual.doApplyAsFloat(t)));
 		}
 
 	}

@@ -99,13 +99,13 @@ public final class LFloatConsumerBuilder extends PerCaseBuilder.Base<LFloatConsu
 			final Case<LFloatPredicate, LFloatConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LFloatConsumer.l((float f) -> {
 				for (Case<LFloatPredicate, LFloatConsumer> aCase : casesArray) {
-					if (aCase.casePredicate().test(f)) {
-						aCase.caseFunction().accept(f);
+					if (aCase.casePredicate().doTest(f)) {
+						aCase.caseFunction().doAccept(f);
 						return;
 					}
 				}
 
-				eventuallyFinal.accept(f);
+				eventuallyFinal.doAccept(f);
 			});
 		}
 

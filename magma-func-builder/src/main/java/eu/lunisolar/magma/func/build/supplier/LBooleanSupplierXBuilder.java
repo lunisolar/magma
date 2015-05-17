@@ -99,12 +99,12 @@ public final class LBooleanSupplierXBuilder<X extends Exception> extends PerCase
 			final Case<LBooleanSupplierX<X>, LBooleanSupplierX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LBooleanSupplierX.lX(() -> {
 				for (Case<LBooleanSupplierX<X>, LBooleanSupplierX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().getAsBoolean()) {
-						return aCase.caseFunction().getAsBoolean();
+					if (aCase.casePredicate().doGetAsBoolean()) {
+						return aCase.caseFunction().doGetAsBoolean();
 					}
 				}
 
-				return eventuallyFinal.getAsBoolean();
+				return eventuallyFinal.doGetAsBoolean();
 			});
 		}
 

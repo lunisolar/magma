@@ -61,13 +61,13 @@ public class LShortPredicateTest<X extends ParseException> {
 
 
     private LShortPredicate sut = new LShortPredicate(){
-        public  boolean test(short s)  {
+        public  boolean doTest(short s)  {
             return testValue;
         }
     };
 
     private LShortPredicateX<X> opposite = new LShortPredicateX(){
-        public  boolean test(short s) throws ParseException {
+        public  boolean doTest(short s) throws ParseException {
             return testValue;
         }
     };
@@ -76,7 +76,7 @@ public class LShortPredicateTest<X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.test((short)100))
+        assertThat(sut.doTest((short)100))
             .isEqualTo(testValue);
     }
 
@@ -88,7 +88,7 @@ public class LShortPredicateTest<X extends ParseException> {
 
     @Test
     public void testApplyAsBooleanShouldNotModifyValue() throws ParseException {
-        assertThat(sut.applyAsBoolean((short)100))
+        assertThat(sut.doApplyAsBoolean((short)100))
             .isEqualTo(testValue);
 
     }
@@ -97,7 +97,7 @@ public class LShortPredicateTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LShortPredicate: boolean test(short s)");
+            .isEqualTo("LShortPredicate: boolean doTest(short s)");
     }
 
     @Test
@@ -124,7 +124,7 @@ public class LShortPredicateTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.test((short)100);
+            wrapped.doTest((short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -146,7 +146,7 @@ public class LShortPredicateTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.test((short)100);
+            wrapped.doTest((short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -172,7 +172,7 @@ public class LShortPredicateTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.test((short)100);
+            wrapped.doTest((short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -197,7 +197,7 @@ public class LShortPredicateTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.test((short)100);
+            wrapped.doTest((short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -221,7 +221,7 @@ public class LShortPredicateTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.test((short)100);
+            wrapped.doTest((short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -233,7 +233,7 @@ public class LShortPredicateTest<X extends ParseException> {
 
     @Test
     public void testNegate() throws ParseException {
-        assertThat(sut.negate().test((short)100))
+        assertThat(sut.negate().doTest((short)100))
             .isEqualTo(!testValue);
     }
 
@@ -261,13 +261,13 @@ public class LShortPredicateTest<X extends ParseException> {
         LShortPredicate xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.test((short)100))
+        assertThat(andFunction.doTest((short)100))
                 .isEqualTo(andResult);
 
-        assertThat(orFunction.test((short)100))
+        assertThat(orFunction.doTest((short)100))
                 .isEqualTo(orResult);
 
-        assertThat(xorFunction.test((short)100))
+        assertThat(xorFunction.doTest((short)100))
                 .isEqualTo(xorResult);
     }
 
@@ -277,10 +277,10 @@ public class LShortPredicateTest<X extends ParseException> {
         LShortPredicate equals = LShortPredicate.isEqual((short)100);
 
         //then
-        assertThat(equals.test((short)100))
+        assertThat(equals.doTest((short)100))
                 .isTrue();
 
-        assertThat(equals.test((short)0))
+        assertThat(equals.doTest((short)0))
                 .isFalse();
     }
 
@@ -309,7 +309,7 @@ public class LShortPredicateTest<X extends ParseException> {
 
         //when
         LShortPredicate function = sutO.fromShort(before1);
-        function.test((short)80);
+        function.doTest((short)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -338,7 +338,7 @@ public class LShortPredicateTest<X extends ParseException> {
 
         //when
         LPredicate<Integer > function = sutO.from(before1);
-        function.test((Integer )Integer.valueOf(80));
+        function.doTest((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -374,7 +374,7 @@ public class LShortPredicateTest<X extends ParseException> {
 
         //when
         LShortFunction<Integer > function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((short)80);
+        Integer  finalValue = function.doApply((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -409,7 +409,7 @@ public class LShortPredicateTest<X extends ParseException> {
 
         //when
         LShortToByteFunction function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.applyAsByte((short)80);
+        byte finalValue = function.doApplyAsByte((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -444,7 +444,7 @@ public class LShortPredicateTest<X extends ParseException> {
 
         //when
         LShortUnaryOperator function = sutO.thenToShort(thenFunction);
-        short finalValue = function.applyAsShort((short)80);
+        short finalValue = function.doApplyAsShort((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -479,7 +479,7 @@ public class LShortPredicateTest<X extends ParseException> {
 
         //when
         LShortToIntFunction function = sutO.thenToInt(thenFunction);
-        int finalValue = function.applyAsInt((short)80);
+        int finalValue = function.doApplyAsInt((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((int)100);
@@ -514,7 +514,7 @@ public class LShortPredicateTest<X extends ParseException> {
 
         //when
         LShortToLongFunction function = sutO.thenToLong(thenFunction);
-        long finalValue = function.applyAsLong((short)80);
+        long finalValue = function.doApplyAsLong((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((long)100);
@@ -549,7 +549,7 @@ public class LShortPredicateTest<X extends ParseException> {
 
         //when
         LShortToFloatFunction function = sutO.thenToFloat(thenFunction);
-        float finalValue = function.applyAsFloat((short)80);
+        float finalValue = function.doApplyAsFloat((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((float)100);
@@ -584,7 +584,7 @@ public class LShortPredicateTest<X extends ParseException> {
 
         //when
         LShortToDoubleFunction function = sutO.thenToDouble(thenFunction);
-        double finalValue = function.applyAsDouble((short)80);
+        double finalValue = function.doApplyAsDouble((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((double)100);
@@ -619,7 +619,7 @@ public class LShortPredicateTest<X extends ParseException> {
 
         //when
         LShortToCharFunction function = sutO.thenToChar(thenFunction);
-        char finalValue = function.applyAsChar((short)80);
+        char finalValue = function.doApplyAsChar((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((char)100);
@@ -654,7 +654,7 @@ public class LShortPredicateTest<X extends ParseException> {
 
         //when
         LShortPredicate function = sutO.thenToBoolean(thenFunction);
-        boolean finalValue = function.test((short)80);
+        boolean finalValue = function.doTest((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -685,7 +685,7 @@ public class LShortPredicateTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().test((short)100);
+        sutThrowing.shove().doTest((short)100);
     }
 
     @Test
@@ -703,7 +703,7 @@ public class LShortPredicateTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.test((short)100);
+            wrapped.doTest((short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -722,7 +722,7 @@ public class LShortPredicateTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LShortPredicate: boolean test(short s)");
+                .contains("LShortPredicate: boolean doTest(short s)");
     }
 
 

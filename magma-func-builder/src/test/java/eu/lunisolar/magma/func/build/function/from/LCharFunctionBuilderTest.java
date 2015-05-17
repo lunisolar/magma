@@ -69,7 +69,7 @@ public class LCharFunctionBuilderTest<R,X extends ParseException>{
                 .charFunction()
                 .build();
 
-            function.apply((char)100);
+            function.doApply((char)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

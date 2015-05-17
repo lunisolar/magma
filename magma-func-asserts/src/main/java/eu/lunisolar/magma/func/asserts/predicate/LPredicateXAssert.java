@@ -60,7 +60,7 @@ public interface LPredicateXAssert<S extends LPredicateXAssert<S, A, RS, T, X>, 
 
 		@Nonnull
 		public Evaluation<S, A, RS, Boolean, Exception> doesTest(T t) {
-			return evaluation(() -> assertFactory.apply((Boolean) actual.test(t)));
+			return evaluation(() -> assertFactory.apply((Boolean) actual.doTest(t)));
 		}
 
 	}

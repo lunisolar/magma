@@ -58,7 +58,7 @@ public interface LObjDoublePredicateAssert<S extends LObjDoublePredicateAssert<S
 
 		@Nonnull
 		public Evaluation<S, A, RS, Boolean, Exception> doesTest(T t, double d) {
-			return evaluation(() -> assertFactory.apply((Boolean) actual.test(t, d)));
+			return evaluation(() -> assertFactory.apply((Boolean) actual.doTest(t, d)));
 		}
 
 	}

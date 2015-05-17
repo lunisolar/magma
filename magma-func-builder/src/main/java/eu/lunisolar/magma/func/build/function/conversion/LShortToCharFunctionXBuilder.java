@@ -99,12 +99,12 @@ public final class LShortToCharFunctionXBuilder<X extends Exception> extends Per
 			final Case<LShortPredicateX<X>, LShortToCharFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LShortToCharFunctionX.lX((short s) -> {
 				for (Case<LShortPredicateX<X>, LShortToCharFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(s)) {
-						return aCase.caseFunction().applyAsChar(s);
+					if (aCase.casePredicate().doTest(s)) {
+						return aCase.caseFunction().doApplyAsChar(s);
 					}
 				}
 
-				return eventuallyFinal.applyAsChar(s);
+				return eventuallyFinal.doApplyAsChar(s);
 			});
 		}
 

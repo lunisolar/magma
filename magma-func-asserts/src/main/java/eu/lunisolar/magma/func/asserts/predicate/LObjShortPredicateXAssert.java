@@ -63,7 +63,7 @@ public interface LObjShortPredicateXAssert<S extends LObjShortPredicateXAssert<S
 
 		@Nonnull
 		public Evaluation<S, A, RS, Boolean, Exception> doesTest(T t, short s) {
-			return evaluation(() -> assertFactory.apply((Boolean) actual.test(t, s)));
+			return evaluation(() -> assertFactory.apply((Boolean) actual.doTest(t, s)));
 		}
 
 	}

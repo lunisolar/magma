@@ -99,12 +99,12 @@ public final class LDoubleSupplierBuilder extends PerCaseBuilderWithDoubleProduc
 			final Case<LBooleanSupplier, LDoubleSupplier>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LDoubleSupplier.l(() -> {
 				for (Case<LBooleanSupplier, LDoubleSupplier> aCase : casesArray) {
-					if (aCase.casePredicate().getAsBoolean()) {
-						return aCase.caseFunction().getAsDouble();
+					if (aCase.casePredicate().doGetAsBoolean()) {
+						return aCase.caseFunction().doGetAsDouble();
 					}
 				}
 
-				return eventuallyFinal.getAsDouble();
+				return eventuallyFinal.doGetAsDouble();
 			});
 		}
 

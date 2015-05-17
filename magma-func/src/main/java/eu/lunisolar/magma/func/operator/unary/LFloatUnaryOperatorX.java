@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LFloatUnaryOperatorX<X extends Exception> extends MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LFloatUnaryOperatorX: float applyAsFloat(float f) throws X";
+	public static final String DESCRIPTION = "LFloatUnaryOperatorX: float doApplyAsFloat(float f) throws X";
 
-	public float applyAsFloat(float f) throws X;
+	public float doApplyAsFloat(float f) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LFloatUnaryOperatorX<X extends Exception> extends MetaOperator,
 
 	/** Captures arguments but delays the evaluation. */
 	default LFloatSupplierX<X> capture(float f) {
-		return () -> this.applyAsFloat(f);
+		return () -> this.doApplyAsFloat(f);
 	}
 
 	public static <X extends Exception> LFloatUnaryOperatorX<X> constant(float r) {
@@ -81,7 +81,7 @@ public interface LFloatUnaryOperatorX<X extends Exception> extends MetaOperator,
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default float nonNull(float f) throws X {
-		return applyAsFloat(f);
+		return doApplyAsFloat(f);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -96,7 +96,7 @@ public interface LFloatUnaryOperatorX<X extends Exception> extends MetaOperator,
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LFloatUnaryOperatorX<X> wrapX(final @Nonnull LFloatUnaryOperator other) {
-		return other::applyAsFloat;
+		return other::doApplyAsFloat;
 	}
 
 	// </editor-fold>
@@ -109,7 +109,7 @@ public interface LFloatUnaryOperatorX<X extends Exception> extends MetaOperator,
 	@Nonnull
 	default LFloatUnaryOperatorX<X> fromFloat(@Nonnull final LFloatUnaryOperatorX<X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final float v1) -> this.applyAsFloat(before1.applyAsFloat(v1));
+		return (final float v1) -> this.doApplyAsFloat(before1.doApplyAsFloat(v1));
 	}
 
 	/**
@@ -118,7 +118,7 @@ public interface LFloatUnaryOperatorX<X extends Exception> extends MetaOperator,
 	@Nonnull
 	default <V1> LToFloatFunctionX<V1, X> from(@Nonnull final LToFloatFunctionX<? super V1, X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.applyAsFloat(before1.applyAsFloat(v1));
+		return (V1 v1) -> this.doApplyAsFloat(before1.doApplyAsFloat(v1));
 	}
 
 	// </editor-fold>
@@ -129,63 +129,63 @@ public interface LFloatUnaryOperatorX<X extends Exception> extends MetaOperator,
 	@Nonnull
 	default <V> LFloatFunctionX<V, X> then(@Nonnull LFloatFunctionX<? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.apply(this.applyAsFloat(f));
+		return (float f) -> after.doApply(this.doApplyAsFloat(f));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LFloatToByteFunctionX<X> thenToByte(@Nonnull LFloatToByteFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsByte(this.applyAsFloat(f));
+		return (float f) -> after.doApplyAsByte(this.doApplyAsFloat(f));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LFloatToShortFunctionX<X> thenToShort(@Nonnull LFloatToShortFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsShort(this.applyAsFloat(f));
+		return (float f) -> after.doApplyAsShort(this.doApplyAsFloat(f));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LFloatToIntFunctionX<X> thenToInt(@Nonnull LFloatToIntFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsInt(this.applyAsFloat(f));
+		return (float f) -> after.doApplyAsInt(this.doApplyAsFloat(f));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LFloatToLongFunctionX<X> thenToLong(@Nonnull LFloatToLongFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsLong(this.applyAsFloat(f));
+		return (float f) -> after.doApplyAsLong(this.doApplyAsFloat(f));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LFloatUnaryOperatorX<X> thenToFloat(@Nonnull LFloatUnaryOperatorX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsFloat(this.applyAsFloat(f));
+		return (float f) -> after.doApplyAsFloat(this.doApplyAsFloat(f));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LFloatToDoubleFunctionX<X> thenToDouble(@Nonnull LFloatToDoubleFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsDouble(this.applyAsFloat(f));
+		return (float f) -> after.doApplyAsDouble(this.doApplyAsFloat(f));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LFloatToCharFunctionX<X> thenToChar(@Nonnull LFloatToCharFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsChar(this.applyAsFloat(f));
+		return (float f) -> after.doApplyAsChar(this.doApplyAsFloat(f));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LFloatPredicateX<X> thenToBoolean(@Nonnull LFloatPredicateX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.test(this.applyAsFloat(f));
+		return (float f) -> after.doTest(this.doApplyAsFloat(f));
 	}
 
 	// </editor-fold>
@@ -213,7 +213,7 @@ public interface LFloatUnaryOperatorX<X extends Exception> extends MetaOperator,
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LFloatUnaryOperator shove() {
 		LFloatUnaryOperatorX<RuntimeException> exceptionCast = (LFloatUnaryOperatorX<RuntimeException>) this;
-		return exceptionCast::applyAsFloat;
+		return exceptionCast::doApplyAsFloat;
 	}
 
 	// </editor-fold>
@@ -225,11 +225,11 @@ public interface LFloatUnaryOperatorX<X extends Exception> extends MetaOperator,
 	public static <X extends Exception, E extends Exception, Y extends Exception> LFloatUnaryOperatorX<Y> wrapException(@Nonnull final LFloatUnaryOperatorX<X> other, Class<E> exception, LFloatSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
 		return (float f) -> {
 			try {
-				return other.applyAsFloat(f);
+				return other.doApplyAsFloat(f);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsFloat();
+						return supplier.doGetAsFloat();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

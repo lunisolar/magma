@@ -69,7 +69,7 @@ public class LByteBiFunctionXBuilderTest<R,X extends ParseException>{
                 .byteBiFunctionX()
                 .build();
 
-            function.apply((byte)100,(byte)100);
+            function.doApply((byte)100,(byte)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

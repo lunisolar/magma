@@ -99,12 +99,12 @@ public final class LCharToIntFunctionBuilder extends PerCaseBuilderWithIntProduc
 			final Case<LCharPredicate, LCharToIntFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LCharToIntFunction.l((char c) -> {
 				for (Case<LCharPredicate, LCharToIntFunction> aCase : casesArray) {
-					if (aCase.casePredicate().test(c)) {
-						return aCase.caseFunction().applyAsInt(c);
+					if (aCase.casePredicate().doTest(c)) {
+						return aCase.caseFunction().doApplyAsInt(c);
 					}
 				}
 
-				return eventuallyFinal.applyAsInt(c);
+				return eventuallyFinal.doApplyAsInt(c);
 			});
 		}
 

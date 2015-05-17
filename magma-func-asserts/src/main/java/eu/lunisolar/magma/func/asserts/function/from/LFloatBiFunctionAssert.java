@@ -58,7 +58,7 @@ public interface LFloatBiFunctionAssert<S extends LFloatBiFunctionAssert<S, A, R
 
 		@Nonnull
 		public Evaluation<S, A, RS, R, Exception> doesApply(float f1, float f2) {
-			return evaluation(() -> assertFactory.apply((R) actual.apply(f1, f2)));
+			return evaluation(() -> assertFactory.apply((R) actual.doApply(f1, f2)));
 		}
 
 	}

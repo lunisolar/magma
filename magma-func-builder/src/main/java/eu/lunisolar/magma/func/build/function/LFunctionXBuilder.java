@@ -99,12 +99,12 @@ public final class LFunctionXBuilder<T, R, X extends Exception> extends PerCaseB
 			final Case<LPredicateX<T, X>, LFunctionX<T, R, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LFunctionX.lX((T t) -> {
 				for (Case<LPredicateX<T, X>, LFunctionX<T, R, X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t)) {
-						return aCase.caseFunction().apply(t);
+					if (aCase.casePredicate().doTest(t)) {
+						return aCase.caseFunction().doApply(t);
 					}
 				}
 
-				return eventuallyFinal.apply(t);
+				return eventuallyFinal.doApply(t);
 			});
 		}
 

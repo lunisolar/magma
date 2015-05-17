@@ -58,7 +58,7 @@ public interface LObjLongPredicateAssert<S extends LObjLongPredicateAssert<S, A,
 
 		@Nonnull
 		public Evaluation<S, A, RS, Boolean, Exception> doesTest(T t, long l) {
-			return evaluation(() -> assertFactory.apply((Boolean) actual.test(t, l)));
+			return evaluation(() -> assertFactory.apply((Boolean) actual.doTest(t, l)));
 		}
 
 	}

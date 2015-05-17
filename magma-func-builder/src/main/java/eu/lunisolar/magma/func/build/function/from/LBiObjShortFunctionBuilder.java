@@ -99,12 +99,12 @@ public final class LBiObjShortFunctionBuilder<T1, T2, R> extends PerCaseBuilderW
 			final Case<LBiObjShortPredicate<T1, T2>, LBiObjShortFunction<T1, T2, R>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LBiObjShortFunction.l((T1 t1, T2 t2, short s) -> {
 				for (Case<LBiObjShortPredicate<T1, T2>, LBiObjShortFunction<T1, T2, R>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t1, t2, s)) {
-						return aCase.caseFunction().apply(t1, t2, s);
+					if (aCase.casePredicate().doTest(t1, t2, s)) {
+						return aCase.caseFunction().doApply(t1, t2, s);
 					}
 				}
 
-				return eventuallyFinal.apply(t1, t2, s);
+				return eventuallyFinal.doApply(t1, t2, s);
 			});
 		}
 

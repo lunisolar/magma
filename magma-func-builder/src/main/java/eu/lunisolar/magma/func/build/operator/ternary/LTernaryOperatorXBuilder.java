@@ -99,12 +99,12 @@ public final class LTernaryOperatorXBuilder<T, X extends Exception> extends PerC
 			final Case<LTriPredicateX<T, T, T, X>, LTernaryOperatorX<T, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LTernaryOperatorX.lX((T t1, T t2, T t3) -> {
 				for (Case<LTriPredicateX<T, T, T, X>, LTernaryOperatorX<T, X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t1, t2, t3)) {
-						return aCase.caseFunction().apply(t1, t2, t3);
+					if (aCase.casePredicate().doTest(t1, t2, t3)) {
+						return aCase.caseFunction().doApply(t1, t2, t3);
 					}
 				}
 
-				return eventuallyFinal.apply(t1, t2, t3);
+				return eventuallyFinal.doApply(t1, t2, t3);
 			});
 		}
 

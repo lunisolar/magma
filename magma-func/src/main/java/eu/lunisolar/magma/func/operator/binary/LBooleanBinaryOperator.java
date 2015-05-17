@@ -60,13 +60,13 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBooleanBinaryOperator extends LBooleanBinaryOperatorX<RuntimeException>, MetaLogicalOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LBooleanBinaryOperator: boolean applyAsBoolean(boolean b1,boolean b2)";
+	public static final String DESCRIPTION = "LBooleanBinaryOperator: boolean doApplyAsBoolean(boolean b1,boolean b2)";
 
-	// Ovverriding methods can cause problems with inference.
+	public boolean doApplyAsBoolean(boolean b1, boolean b2);
 
 	/** For convinience boolean operator is also special case of predicate. */
-	default boolean test(boolean b1, boolean b2) {
-		return applyAsBoolean(b1, b2);
+	default boolean doTest(boolean b1, boolean b2) {
+		return doApplyAsBoolean(b1, b2);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -77,7 +77,7 @@ public interface LBooleanBinaryOperator extends LBooleanBinaryOperatorX<RuntimeE
 
 	/** Captures arguments but delays the evaluation. */
 	default LBooleanSupplier capture(boolean b1, boolean b2) {
-		return () -> this.applyAsBoolean(b1, b2);
+		return () -> this.doApplyAsBoolean(b1, b2);
 	}
 
 	public static LBooleanBinaryOperator constant(boolean r) {
@@ -86,7 +86,7 @@ public interface LBooleanBinaryOperator extends LBooleanBinaryOperatorX<RuntimeE
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(boolean b1, boolean b2) {
-		return applyAsBoolean(b1, b2);
+		return doApplyAsBoolean(b1, b2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -103,7 +103,7 @@ public interface LBooleanBinaryOperator extends LBooleanBinaryOperatorX<RuntimeE
 	public static <X extends Exception> LBooleanBinaryOperator wrap(final @Nonnull LBooleanBinaryOperatorX<X> other) {
 		return (boolean b1, boolean b2) -> {
 			try {
-				return other.applyAsBoolean(b1, b2);
+				return other.doApplyAsBoolean(b1, b2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -118,7 +118,7 @@ public interface LBooleanBinaryOperator extends LBooleanBinaryOperatorX<RuntimeE
 	 */
 	@Nonnull
 	default LBooleanBinaryOperator negate() {
-		return (boolean b1, boolean b2) -> !applyAsBoolean(b1, b2);
+		return (boolean b1, boolean b2) -> !doApplyAsBoolean(b1, b2);
 	}
 
 	/**
@@ -127,7 +127,7 @@ public interface LBooleanBinaryOperator extends LBooleanBinaryOperatorX<RuntimeE
 	@Nonnull
 	default LBooleanBinaryOperator and(@Nonnull LBooleanBinaryOperator other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (boolean b1, boolean b2) -> applyAsBoolean(b1, b2) && other.applyAsBoolean(b1, b2);
+		return (boolean b1, boolean b2) -> doApplyAsBoolean(b1, b2) && other.doApplyAsBoolean(b1, b2);
 	}
 
 	/**
@@ -136,7 +136,7 @@ public interface LBooleanBinaryOperator extends LBooleanBinaryOperatorX<RuntimeE
 	@Nonnull
 	default LBooleanBinaryOperator or(@Nonnull LBooleanBinaryOperator other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (boolean b1, boolean b2) -> applyAsBoolean(b1, b2) || other.applyAsBoolean(b1, b2);
+		return (boolean b1, boolean b2) -> doApplyAsBoolean(b1, b2) || other.doApplyAsBoolean(b1, b2);
 	}
 
 	/**
@@ -145,7 +145,7 @@ public interface LBooleanBinaryOperator extends LBooleanBinaryOperatorX<RuntimeE
 	@Nonnull
 	default LBooleanBinaryOperator xor(@Nonnull LBooleanBinaryOperator other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (boolean b1, boolean b2) -> applyAsBoolean(b1, b2) ^ other.applyAsBoolean(b1, b2);
+		return (boolean b1, boolean b2) -> doApplyAsBoolean(b1, b2) ^ other.doApplyAsBoolean(b1, b2);
 	}
 
 	/**
@@ -194,7 +194,7 @@ public interface LBooleanBinaryOperator extends LBooleanBinaryOperatorX<RuntimeE
 	default LBooleanBinaryOperator fromBoolean(@Nonnull final LBooleanUnaryOperator before1, @Nonnull final LBooleanUnaryOperator before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final boolean v1, final boolean v2) -> this.applyAsBoolean(before1.applyAsBoolean(v1), before2.applyAsBoolean(v2));
+		return (final boolean v1, final boolean v2) -> this.doApplyAsBoolean(before1.doApplyAsBoolean(v1), before2.doApplyAsBoolean(v2));
 	}
 
 	/**
@@ -204,7 +204,7 @@ public interface LBooleanBinaryOperator extends LBooleanBinaryOperatorX<RuntimeE
 	default <V1, V2> LBiPredicate<V1, V2> from(@Nonnull final LPredicate<? super V1> before1, @Nonnull final LPredicate<? super V2> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.applyAsBoolean(before1.applyAsBoolean(v1), before2.applyAsBoolean(v2));
+		return (V1 v1, V2 v2) -> this.doApplyAsBoolean(before1.doApplyAsBoolean(v1), before2.doApplyAsBoolean(v2));
 	}
 
 	// </editor-fold>
@@ -215,7 +215,7 @@ public interface LBooleanBinaryOperator extends LBooleanBinaryOperatorX<RuntimeE
 	@Nonnull
 	default <V> LBooleanBiFunction<V> then(@Nonnull LBooleanFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b1, boolean b2) -> after.apply(this.applyAsBoolean(b1, b2));
+		return (boolean b1, boolean b2) -> after.doApply(this.doApplyAsBoolean(b1, b2));
 	}
 
 	// </editor-fold>
@@ -248,11 +248,11 @@ public interface LBooleanBinaryOperator extends LBooleanBinaryOperatorX<RuntimeE
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LBooleanBinaryOperator wrapException(@Nonnull final LBooleanBinaryOperator other, Class<E> exception, LBooleanSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (boolean b1, boolean b2) -> {
 			try {
-				return other.applyAsBoolean(b1, b2);
+				return other.doApplyAsBoolean(b1, b2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsBoolean();
+						return supplier.doGetAsBoolean();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

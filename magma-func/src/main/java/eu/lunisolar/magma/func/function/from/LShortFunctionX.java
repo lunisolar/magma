@@ -60,10 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LShortFunctionX<R, X extends Exception> extends MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LShortFunctionX: R apply(short s) throws X";
+	public static final String DESCRIPTION = "LShortFunctionX: R doApply(short s) throws X";
 
 	@Nullable
-	public R apply(short s) throws X;
+	public R doApply(short s) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +73,7 @@ public interface LShortFunctionX<R, X extends Exception> extends MetaFunction, M
 
 	/** Captures arguments but delays the evaluation. */
 	default LSupplierX<R, X> capture(short s) {
-		return () -> this.apply(s);
+		return () -> this.doApply(s);
 	}
 
 	public static <R, X extends Exception> LShortFunctionX<R, X> constant(R r) {
@@ -85,7 +85,7 @@ public interface LShortFunctionX<R, X extends Exception> extends MetaFunction, M
 	/** Ensures the result is not null */
 	@Nonnull
 	default R nonNull(short s) throws X {
-		return Objects.requireNonNull(apply(s), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Objects.requireNonNull(doApply(s), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -100,7 +100,7 @@ public interface LShortFunctionX<R, X extends Exception> extends MetaFunction, M
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <R, X extends Exception> LShortFunctionX<R, X> wrapX(final @Nonnull LShortFunction<R> other) {
-		return other::apply;
+		return other::doApply;
 	}
 
 	// </editor-fold>
@@ -113,7 +113,7 @@ public interface LShortFunctionX<R, X extends Exception> extends MetaFunction, M
 	@Nonnull
 	default LShortFunctionX<R, X> fromShort(@Nonnull final LShortUnaryOperatorX<X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final short v1) -> this.apply(before1.applyAsShort(v1));
+		return (final short v1) -> this.doApply(before1.doApplyAsShort(v1));
 	}
 
 	/**
@@ -122,7 +122,7 @@ public interface LShortFunctionX<R, X extends Exception> extends MetaFunction, M
 	@Nonnull
 	default <V1> LFunctionX<V1, R, X> from(@Nonnull final LToShortFunctionX<? super V1, X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.apply(before1.applyAsShort(v1));
+		return (V1 v1) -> this.doApply(before1.doApplyAsShort(v1));
 	}
 
 	// </editor-fold>
@@ -133,70 +133,70 @@ public interface LShortFunctionX<R, X extends Exception> extends MetaFunction, M
 	@Nonnull
 	default <V> LShortFunctionX<V, X> then(@Nonnull LFunctionX<? super R, ? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.apply(this.apply(s));
+		return (short s) -> after.doApply(this.doApply(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortConsumerX<X> then(@Nonnull LConsumerX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.accept(this.apply(s));
+		return (short s) -> after.doAccept(this.doApply(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToByteFunctionX<X> thenToByte(@Nonnull LToByteFunctionX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsByte(this.apply(s));
+		return (short s) -> after.doApplyAsByte(this.doApply(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortUnaryOperatorX<X> thenToShort(@Nonnull LToShortFunctionX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsShort(this.apply(s));
+		return (short s) -> after.doApplyAsShort(this.doApply(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToIntFunctionX<X> thenToInt(@Nonnull LToIntFunctionX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsInt(this.apply(s));
+		return (short s) -> after.doApplyAsInt(this.doApply(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToLongFunctionX<X> thenToLong(@Nonnull LToLongFunctionX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsLong(this.apply(s));
+		return (short s) -> after.doApplyAsLong(this.doApply(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToFloatFunctionX<X> thenToFloat(@Nonnull LToFloatFunctionX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsFloat(this.apply(s));
+		return (short s) -> after.doApplyAsFloat(this.doApply(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToDoubleFunctionX<X> thenToDouble(@Nonnull LToDoubleFunctionX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsDouble(this.apply(s));
+		return (short s) -> after.doApplyAsDouble(this.doApply(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToCharFunctionX<X> thenToChar(@Nonnull LToCharFunctionX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsChar(this.apply(s));
+		return (short s) -> after.doApplyAsChar(this.doApply(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortPredicateX<X> thenToBoolean(@Nonnull LPredicateX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.test(this.apply(s));
+		return (short s) -> after.doTest(this.doApply(s));
 	}
 
 	// </editor-fold>
@@ -218,14 +218,14 @@ public interface LShortFunctionX<R, X extends Exception> extends MetaFunction, M
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LShortFunction<R> shove() {
 		LShortFunctionX<R, RuntimeException> exceptionCast = (LShortFunctionX<R, RuntimeException>) this;
-		return exceptionCast::apply;
+		return exceptionCast::doApply;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
 	default LShortFunctionX<R, X> nonNullableX() {
-		return (s) -> Objects.requireNonNull(this.apply(s));
+		return (s) -> Objects.requireNonNull(this.doApply(s));
 	}
 
 	// <editor-fold desc="exception handling">
@@ -235,11 +235,11 @@ public interface LShortFunctionX<R, X extends Exception> extends MetaFunction, M
 	public static <R, X extends Exception, E extends Exception, Y extends Exception> LShortFunctionX<R, Y> wrapException(@Nonnull final LShortFunctionX<R, X> other, Class<E> exception, LSupplierX<R, X> supplier, ExceptionHandler<E, Y> handler) {
 		return (short s) -> {
 			try {
-				return other.apply(s);
+				return other.doApply(s);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.get();
+						return supplier.doGet();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

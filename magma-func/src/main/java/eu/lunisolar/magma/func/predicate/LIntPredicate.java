@@ -60,14 +60,18 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LIntPredicate extends java.util.function.IntPredicate, LIntPredicateX<RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LIntPredicate: boolean test(int i)";
+	public static final String DESCRIPTION = "LIntPredicate: boolean doTest(int i)";
 
-	// Ovverriding methods can cause problems with inference.
+	public boolean doTest(int i);
+
+	default boolean test(int i) {
+		return doTest(i);
+	}
 
 	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
 
-	default boolean applyAsBoolean(int i) {
-		return test(i);
+	default boolean doApplyAsBoolean(int i) {
+		return doTest(i);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -78,7 +82,7 @@ public interface LIntPredicate extends java.util.function.IntPredicate, LIntPred
 
 	/** Captures arguments but delays the evaluation. */
 	default LBooleanSupplier capture(int i) {
-		return () -> this.test(i);
+		return () -> this.doTest(i);
 	}
 
 	public static LIntPredicate constant(boolean r) {
@@ -87,7 +91,7 @@ public interface LIntPredicate extends java.util.function.IntPredicate, LIntPred
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(int i) {
-		return test(i);
+		return doTest(i);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -110,7 +114,7 @@ public interface LIntPredicate extends java.util.function.IntPredicate, LIntPred
 	public static <X extends Exception> LIntPredicate wrap(final @Nonnull LIntPredicateX<X> other) {
 		return (int i) -> {
 			try {
-				return other.test(i);
+				return other.doTest(i);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -125,7 +129,7 @@ public interface LIntPredicate extends java.util.function.IntPredicate, LIntPred
 	 */
 	@Nonnull
 	default LIntPredicate negate() {
-		return (int i) -> !test(i);
+		return (int i) -> !doTest(i);
 	}
 
 	/**
@@ -134,7 +138,7 @@ public interface LIntPredicate extends java.util.function.IntPredicate, LIntPred
 	@Nonnull
 	default LIntPredicate and(@Nonnull LIntPredicate other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (int i) -> test(i) && other.test(i);
+		return (int i) -> doTest(i) && other.doTest(i);
 	}
 
 	/**
@@ -143,7 +147,7 @@ public interface LIntPredicate extends java.util.function.IntPredicate, LIntPred
 	@Nonnull
 	default LIntPredicate or(@Nonnull LIntPredicate other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (int i) -> test(i) || other.test(i);
+		return (int i) -> doTest(i) || other.doTest(i);
 	}
 
 	/**
@@ -152,7 +156,7 @@ public interface LIntPredicate extends java.util.function.IntPredicate, LIntPred
 	@Nonnull
 	default LIntPredicate xor(@Nonnull LIntPredicate other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (int i) -> test(i) ^ other.test(i);
+		return (int i) -> doTest(i) ^ other.doTest(i);
 	}
 
 	@Nonnull
@@ -170,7 +174,7 @@ public interface LIntPredicate extends java.util.function.IntPredicate, LIntPred
 	@Nonnull
 	default LIntPredicate fromInt(@Nonnull final LIntUnaryOperator before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final int v1) -> this.test(before1.applyAsInt(v1));
+		return (final int v1) -> this.doTest(before1.doApplyAsInt(v1));
 	}
 
 	/**
@@ -179,7 +183,7 @@ public interface LIntPredicate extends java.util.function.IntPredicate, LIntPred
 	@Nonnull
 	default <V1> LPredicate<V1> from(@Nonnull final LToIntFunction<? super V1> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.test(before1.applyAsInt(v1));
+		return (V1 v1) -> this.doTest(before1.doApplyAsInt(v1));
 	}
 
 	// </editor-fold>
@@ -190,63 +194,63 @@ public interface LIntPredicate extends java.util.function.IntPredicate, LIntPred
 	@Nonnull
 	default <V> LIntFunction<V> then(@Nonnull LBooleanFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.apply(this.test(i));
+		return (int i) -> after.doApply(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LIntToByteFunction thenToByte(@Nonnull LBooleanToByteFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsByte(this.test(i));
+		return (int i) -> after.doApplyAsByte(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LIntToShortFunction thenToShort(@Nonnull LBooleanToShortFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsShort(this.test(i));
+		return (int i) -> after.doApplyAsShort(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LIntUnaryOperator thenToInt(@Nonnull LBooleanToIntFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsInt(this.test(i));
+		return (int i) -> after.doApplyAsInt(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LIntToLongFunction thenToLong(@Nonnull LBooleanToLongFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsLong(this.test(i));
+		return (int i) -> after.doApplyAsLong(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LIntToFloatFunction thenToFloat(@Nonnull LBooleanToFloatFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsFloat(this.test(i));
+		return (int i) -> after.doApplyAsFloat(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LIntToDoubleFunction thenToDouble(@Nonnull LBooleanToDoubleFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsDouble(this.test(i));
+		return (int i) -> after.doApplyAsDouble(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LIntToCharFunction thenToChar(@Nonnull LBooleanToCharFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsChar(this.test(i));
+		return (int i) -> after.doApplyAsChar(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LIntPredicate thenToBoolean(@Nonnull LBooleanUnaryOperator after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsBoolean(this.test(i));
+		return (int i) -> after.doApplyAsBoolean(this.doTest(i));
 	}
 
 	// </editor-fold>
@@ -285,11 +289,11 @@ public interface LIntPredicate extends java.util.function.IntPredicate, LIntPred
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LIntPredicate wrapException(@Nonnull final LIntPredicate other, Class<E> exception, LBooleanSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (int i) -> {
 			try {
-				return other.test(i);
+				return other.doTest(i);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsBoolean();
+						return supplier.doGetAsBoolean();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

@@ -63,7 +63,7 @@ public interface LFloatToCharFunctionXAssert<S extends LFloatToCharFunctionXAsse
 
 		@Nonnull
 		public Evaluation<S, A, RS, Character, Exception> doesApplyAsChar(float f) {
-			return evaluation(() -> assertFactory.apply((Character) actual.applyAsChar(f)));
+			return evaluation(() -> assertFactory.apply((Character) actual.doApplyAsChar(f)));
 		}
 
 	}

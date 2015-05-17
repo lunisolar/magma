@@ -69,7 +69,7 @@ public class LCharToIntFunctionBuilderTest<X extends ParseException>{
                 .charToIntFunction()
                 .build();
 
-            function.applyAsInt((char)100);
+            function.doApplyAsInt((char)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

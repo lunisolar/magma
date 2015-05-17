@@ -99,12 +99,12 @@ public final class LCharToLongFunctionBuilder extends PerCaseBuilderWithLongProd
 			final Case<LCharPredicate, LCharToLongFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LCharToLongFunction.l((char c) -> {
 				for (Case<LCharPredicate, LCharToLongFunction> aCase : casesArray) {
-					if (aCase.casePredicate().test(c)) {
-						return aCase.caseFunction().applyAsLong(c);
+					if (aCase.casePredicate().doTest(c)) {
+						return aCase.caseFunction().doApplyAsLong(c);
 					}
 				}
 
-				return eventuallyFinal.applyAsLong(c);
+				return eventuallyFinal.doApplyAsLong(c);
 			});
 		}
 

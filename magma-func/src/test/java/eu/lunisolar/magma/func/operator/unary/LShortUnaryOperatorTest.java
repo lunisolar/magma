@@ -61,13 +61,13 @@ public class LShortUnaryOperatorTest<X extends ParseException> {
 
 
     private LShortUnaryOperator sut = new LShortUnaryOperator(){
-        public  short applyAsShort(short s)  {
+        public  short doApplyAsShort(short s)  {
             return testValue;
         }
     };
 
     private LShortUnaryOperatorX<X> opposite = new LShortUnaryOperatorX(){
-        public  short applyAsShort(short s) throws ParseException {
+        public  short doApplyAsShort(short s) throws ParseException {
             return testValue;
         }
     };
@@ -76,7 +76,7 @@ public class LShortUnaryOperatorTest<X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.applyAsShort((short)100))
+        assertThat(sut.doApplyAsShort((short)100))
             .isEqualTo(testValue);
     }
 
@@ -90,7 +90,7 @@ public class LShortUnaryOperatorTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LShortUnaryOperator: short applyAsShort(short s)");
+            .isEqualTo("LShortUnaryOperator: short doApplyAsShort(short s)");
     }
 
     @Test
@@ -117,7 +117,7 @@ public class LShortUnaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsShort((short)100);
+            wrapped.doApplyAsShort((short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LShortUnaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsShort((short)100);
+            wrapped.doApplyAsShort((short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -165,7 +165,7 @@ public class LShortUnaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsShort((short)100);
+            wrapped.doApplyAsShort((short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -190,7 +190,7 @@ public class LShortUnaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsShort((short)100);
+            wrapped.doApplyAsShort((short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -214,7 +214,7 @@ public class LShortUnaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsShort((short)100);
+            wrapped.doApplyAsShort((short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -249,7 +249,7 @@ public class LShortUnaryOperatorTest<X extends ParseException> {
 
         //when
         LShortUnaryOperator function = sutO.fromShort(before1);
-        function.applyAsShort((short)80);
+        function.doApplyAsShort((short)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -278,7 +278,7 @@ public class LShortUnaryOperatorTest<X extends ParseException> {
 
         //when
         LToShortFunction<Integer > function = sutO.from(before1);
-        function.applyAsShort((Integer )Integer.valueOf(80));
+        function.doApplyAsShort((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -314,7 +314,7 @@ public class LShortUnaryOperatorTest<X extends ParseException> {
 
         //when
         LShortFunction<Integer > function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((short)80);
+        Integer  finalValue = function.doApply((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -349,7 +349,7 @@ public class LShortUnaryOperatorTest<X extends ParseException> {
 
         //when
         LShortToByteFunction function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.applyAsByte((short)80);
+        byte finalValue = function.doApplyAsByte((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -384,7 +384,7 @@ public class LShortUnaryOperatorTest<X extends ParseException> {
 
         //when
         LShortUnaryOperator function = sutO.thenToShort(thenFunction);
-        short finalValue = function.applyAsShort((short)80);
+        short finalValue = function.doApplyAsShort((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -419,7 +419,7 @@ public class LShortUnaryOperatorTest<X extends ParseException> {
 
         //when
         LShortToIntFunction function = sutO.thenToInt(thenFunction);
-        int finalValue = function.applyAsInt((short)80);
+        int finalValue = function.doApplyAsInt((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((int)100);
@@ -454,7 +454,7 @@ public class LShortUnaryOperatorTest<X extends ParseException> {
 
         //when
         LShortToLongFunction function = sutO.thenToLong(thenFunction);
-        long finalValue = function.applyAsLong((short)80);
+        long finalValue = function.doApplyAsLong((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((long)100);
@@ -489,7 +489,7 @@ public class LShortUnaryOperatorTest<X extends ParseException> {
 
         //when
         LShortToFloatFunction function = sutO.thenToFloat(thenFunction);
-        float finalValue = function.applyAsFloat((short)80);
+        float finalValue = function.doApplyAsFloat((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((float)100);
@@ -524,7 +524,7 @@ public class LShortUnaryOperatorTest<X extends ParseException> {
 
         //when
         LShortToDoubleFunction function = sutO.thenToDouble(thenFunction);
-        double finalValue = function.applyAsDouble((short)80);
+        double finalValue = function.doApplyAsDouble((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((double)100);
@@ -559,7 +559,7 @@ public class LShortUnaryOperatorTest<X extends ParseException> {
 
         //when
         LShortToCharFunction function = sutO.thenToChar(thenFunction);
-        char finalValue = function.applyAsChar((short)80);
+        char finalValue = function.doApplyAsChar((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((char)100);
@@ -594,7 +594,7 @@ public class LShortUnaryOperatorTest<X extends ParseException> {
 
         //when
         LShortPredicate function = sutO.thenToBoolean(thenFunction);
-        boolean finalValue = function.test((short)80);
+        boolean finalValue = function.doTest((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -610,7 +610,7 @@ public class LShortUnaryOperatorTest<X extends ParseException> {
     public void identity() throws ParseException {
         LShortUnaryOperator identityFunction = LShortUnaryOperator.identity();
 
-        assertThat(identityFunction.applyAsShort((short)80)).isEqualTo((short)80);
+        assertThat(identityFunction.doApplyAsShort((short)80)).isEqualTo((short)80);
     }
 
     @Test
@@ -632,7 +632,7 @@ public class LShortUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().applyAsShort((short)100);
+        sutThrowing.shove().doApplyAsShort((short)100);
     }
 
     @Test
@@ -650,7 +650,7 @@ public class LShortUnaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsShort((short)100);
+            wrapped.doApplyAsShort((short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -669,7 +669,7 @@ public class LShortUnaryOperatorTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LShortUnaryOperator: short applyAsShort(short s)");
+                .contains("LShortUnaryOperator: short doApplyAsShort(short s)");
     }
 
 

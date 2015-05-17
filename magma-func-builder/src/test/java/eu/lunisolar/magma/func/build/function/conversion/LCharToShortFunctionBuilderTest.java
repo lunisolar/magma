@@ -69,7 +69,7 @@ public class LCharToShortFunctionBuilderTest<X extends ParseException>{
                 .charToShortFunction()
                 .build();
 
-            function.applyAsShort((char)100);
+            function.doApplyAsShort((char)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

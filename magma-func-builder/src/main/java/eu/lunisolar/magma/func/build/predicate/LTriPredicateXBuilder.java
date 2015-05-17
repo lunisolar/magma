@@ -99,12 +99,12 @@ public final class LTriPredicateXBuilder<T1, T2, T3, X extends Exception> extend
 			final Case<LTriPredicateX<T1, T2, T3, X>, LTriPredicateX<T1, T2, T3, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LTriPredicateX.lX((T1 t1, T2 t2, T3 t3) -> {
 				for (Case<LTriPredicateX<T1, T2, T3, X>, LTriPredicateX<T1, T2, T3, X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t1, t2, t3)) {
-						return aCase.caseFunction().test(t1, t2, t3);
+					if (aCase.casePredicate().doTest(t1, t2, t3)) {
+						return aCase.caseFunction().doTest(t1, t2, t3);
 					}
 				}
 
-				return eventuallyFinal.test(t1, t2, t3);
+				return eventuallyFinal.doTest(t1, t2, t3);
 			});
 		}
 

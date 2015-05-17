@@ -69,7 +69,7 @@ public class LActionBuilderTest<X extends ParseException>{
                 .action()
                 .build();
 
-            function.execute();
+            function.doExecute();
 
             fail("No exception were thrown.");
         } catch (Exception e) {

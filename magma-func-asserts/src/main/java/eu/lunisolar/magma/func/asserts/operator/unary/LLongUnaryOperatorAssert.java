@@ -58,7 +58,7 @@ public interface LLongUnaryOperatorAssert<S extends LLongUnaryOperatorAssert<S, 
 
 		@Nonnull
 		public Evaluation<S, A, RS, Long, Exception> doesApplyAsLong(long l) {
-			return evaluation(() -> assertFactory.apply((Long) actual.applyAsLong(l)));
+			return evaluation(() -> assertFactory.apply((Long) actual.doApplyAsLong(l)));
 		}
 
 	}

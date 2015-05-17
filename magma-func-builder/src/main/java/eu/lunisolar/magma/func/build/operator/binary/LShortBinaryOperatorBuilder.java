@@ -99,12 +99,12 @@ public final class LShortBinaryOperatorBuilder extends PerCaseBuilderWithShortPr
 			final Case<LBiShortPredicate, LShortBinaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LShortBinaryOperator.l((short s1, short s2) -> {
 				for (Case<LBiShortPredicate, LShortBinaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().test(s1, s2)) {
-						return aCase.caseFunction().applyAsShort(s1, s2);
+					if (aCase.casePredicate().doTest(s1, s2)) {
+						return aCase.caseFunction().doApplyAsShort(s1, s2);
 					}
 				}
 
-				return eventuallyFinal.applyAsShort(s1, s2);
+				return eventuallyFinal.doApplyAsShort(s1, s2);
 			});
 		}
 

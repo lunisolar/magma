@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LFloatToCharFunction extends LFloatToCharFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LFloatToCharFunction: char applyAsChar(float f)";
+	public static final String DESCRIPTION = "LFloatToCharFunction: char doApplyAsChar(float f)";
 
-	// Ovverriding methods can cause problems with inference.
+	public char doApplyAsChar(float f);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LFloatToCharFunction extends LFloatToCharFunctionX<RuntimeExcep
 
 	/** Captures arguments but delays the evaluation. */
 	default LCharSupplier capture(float f) {
-		return () -> this.applyAsChar(f);
+		return () -> this.doApplyAsChar(f);
 	}
 
 	public static LFloatToCharFunction constant(char r) {
@@ -81,7 +81,7 @@ public interface LFloatToCharFunction extends LFloatToCharFunctionX<RuntimeExcep
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default char nonNull(float f) {
-		return applyAsChar(f);
+		return doApplyAsChar(f);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -98,7 +98,7 @@ public interface LFloatToCharFunction extends LFloatToCharFunctionX<RuntimeExcep
 	public static <X extends Exception> LFloatToCharFunction wrap(final @Nonnull LFloatToCharFunctionX<X> other) {
 		return (float f) -> {
 			try {
-				return other.applyAsChar(f);
+				return other.doApplyAsChar(f);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -115,7 +115,7 @@ public interface LFloatToCharFunction extends LFloatToCharFunctionX<RuntimeExcep
 	@Nonnull
 	default LFloatToCharFunction fromFloat(@Nonnull final LFloatUnaryOperator before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final float v1) -> this.applyAsChar(before1.applyAsFloat(v1));
+		return (final float v1) -> this.doApplyAsChar(before1.doApplyAsFloat(v1));
 	}
 
 	/**
@@ -124,7 +124,7 @@ public interface LFloatToCharFunction extends LFloatToCharFunctionX<RuntimeExcep
 	@Nonnull
 	default <V1> LToCharFunction<V1> from(@Nonnull final LToFloatFunction<? super V1> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.applyAsChar(before1.applyAsFloat(v1));
+		return (V1 v1) -> this.doApplyAsChar(before1.doApplyAsFloat(v1));
 	}
 
 	// </editor-fold>
@@ -135,63 +135,63 @@ public interface LFloatToCharFunction extends LFloatToCharFunctionX<RuntimeExcep
 	@Nonnull
 	default <V> LFloatFunction<V> then(@Nonnull LCharFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.apply(this.applyAsChar(f));
+		return (float f) -> after.doApply(this.doApplyAsChar(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToByteFunction thenToByte(@Nonnull LCharToByteFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsByte(this.applyAsChar(f));
+		return (float f) -> after.doApplyAsByte(this.doApplyAsChar(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToShortFunction thenToShort(@Nonnull LCharToShortFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsShort(this.applyAsChar(f));
+		return (float f) -> after.doApplyAsShort(this.doApplyAsChar(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToIntFunction thenToInt(@Nonnull LCharToIntFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsInt(this.applyAsChar(f));
+		return (float f) -> after.doApplyAsInt(this.doApplyAsChar(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToLongFunction thenToLong(@Nonnull LCharToLongFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsLong(this.applyAsChar(f));
+		return (float f) -> after.doApplyAsLong(this.doApplyAsChar(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatUnaryOperator thenToFloat(@Nonnull LCharToFloatFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsFloat(this.applyAsChar(f));
+		return (float f) -> after.doApplyAsFloat(this.doApplyAsChar(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToDoubleFunction thenToDouble(@Nonnull LCharToDoubleFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsDouble(this.applyAsChar(f));
+		return (float f) -> after.doApplyAsDouble(this.doApplyAsChar(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToCharFunction thenToChar(@Nonnull LCharUnaryOperator after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsChar(this.applyAsChar(f));
+		return (float f) -> after.doApplyAsChar(this.doApplyAsChar(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatPredicate thenToBoolean(@Nonnull LCharPredicate after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.test(this.applyAsChar(f));
+		return (float f) -> after.doTest(this.doApplyAsChar(f));
 	}
 
 	// </editor-fold>
@@ -224,11 +224,11 @@ public interface LFloatToCharFunction extends LFloatToCharFunctionX<RuntimeExcep
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LFloatToCharFunction wrapException(@Nonnull final LFloatToCharFunction other, Class<E> exception, LCharSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (float f) -> {
 			try {
-				return other.applyAsChar(f);
+				return other.doApplyAsChar(f);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsChar();
+						return supplier.doGetAsChar();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

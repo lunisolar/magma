@@ -63,7 +63,7 @@ public interface LBiShortPredicateXAssert<S extends LBiShortPredicateXAssert<S, 
 
 		@Nonnull
 		public Evaluation<S, A, RS, Boolean, Exception> doesTest(short s1, short s2) {
-			return evaluation(() -> assertFactory.apply((Boolean) actual.test(s1, s2)));
+			return evaluation(() -> assertFactory.apply((Boolean) actual.doTest(s1, s2)));
 		}
 
 	}

@@ -99,12 +99,12 @@ public final class LFloatPredicateBuilder extends PerCaseBuilderWithBooleanProdu
 			final Case<LFloatPredicate, LFloatPredicate>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LFloatPredicate.l((float f) -> {
 				for (Case<LFloatPredicate, LFloatPredicate> aCase : casesArray) {
-					if (aCase.casePredicate().test(f)) {
-						return aCase.caseFunction().test(f);
+					if (aCase.casePredicate().doTest(f)) {
+						return aCase.caseFunction().doTest(f);
 					}
 				}
 
-				return eventuallyFinal.test(f);
+				return eventuallyFinal.doTest(f);
 			});
 		}
 

@@ -99,12 +99,12 @@ public final class LDoubleToCharFunctionBuilder extends PerCaseBuilderWithCharPr
 			final Case<LDoublePredicate, LDoubleToCharFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LDoubleToCharFunction.l((double d) -> {
 				for (Case<LDoublePredicate, LDoubleToCharFunction> aCase : casesArray) {
-					if (aCase.casePredicate().test(d)) {
-						return aCase.caseFunction().applyAsChar(d);
+					if (aCase.casePredicate().doTest(d)) {
+						return aCase.caseFunction().doApplyAsChar(d);
 					}
 				}
 
-				return eventuallyFinal.applyAsChar(d);
+				return eventuallyFinal.doApplyAsChar(d);
 			});
 		}
 

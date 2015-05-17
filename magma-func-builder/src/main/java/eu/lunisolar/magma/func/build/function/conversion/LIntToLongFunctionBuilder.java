@@ -99,12 +99,12 @@ public final class LIntToLongFunctionBuilder extends PerCaseBuilderWithLongProdu
 			final Case<LIntPredicate, LIntToLongFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LIntToLongFunction.l((int i) -> {
 				for (Case<LIntPredicate, LIntToLongFunction> aCase : casesArray) {
-					if (aCase.casePredicate().test(i)) {
-						return aCase.caseFunction().applyAsLong(i);
+					if (aCase.casePredicate().doTest(i)) {
+						return aCase.caseFunction().doApplyAsLong(i);
 					}
 				}
 
-				return eventuallyFinal.applyAsLong(i);
+				return eventuallyFinal.doApplyAsLong(i);
 			});
 		}
 

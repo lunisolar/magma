@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LLongUnaryOperatorX<X extends Exception> extends MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LLongUnaryOperatorX: long applyAsLong(long l) throws X";
+	public static final String DESCRIPTION = "LLongUnaryOperatorX: long doApplyAsLong(long l) throws X";
 
-	public long applyAsLong(long l) throws X;
+	public long doApplyAsLong(long l) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LLongUnaryOperatorX<X extends Exception> extends MetaOperator, 
 
 	/** Captures arguments but delays the evaluation. */
 	default LLongSupplierX<X> capture(long l) {
-		return () -> this.applyAsLong(l);
+		return () -> this.doApplyAsLong(l);
 	}
 
 	public static <X extends Exception> LLongUnaryOperatorX<X> constant(long r) {
@@ -81,7 +81,7 @@ public interface LLongUnaryOperatorX<X extends Exception> extends MetaOperator, 
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default long nonNull(long l) throws X {
-		return applyAsLong(l);
+		return doApplyAsLong(l);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -102,7 +102,7 @@ public interface LLongUnaryOperatorX<X extends Exception> extends MetaOperator, 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LLongUnaryOperatorX<X> wrapX(final @Nonnull LLongUnaryOperator other) {
-		return other::applyAsLong;
+		return other::doApplyAsLong;
 	}
 
 	// </editor-fold>
@@ -115,7 +115,7 @@ public interface LLongUnaryOperatorX<X extends Exception> extends MetaOperator, 
 	@Nonnull
 	default LLongUnaryOperatorX<X> fromLong(@Nonnull final LLongUnaryOperatorX<X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final long v1) -> this.applyAsLong(before1.applyAsLong(v1));
+		return (final long v1) -> this.doApplyAsLong(before1.doApplyAsLong(v1));
 	}
 
 	/**
@@ -124,7 +124,7 @@ public interface LLongUnaryOperatorX<X extends Exception> extends MetaOperator, 
 	@Nonnull
 	default <V1> LToLongFunctionX<V1, X> from(@Nonnull final LToLongFunctionX<? super V1, X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.applyAsLong(before1.applyAsLong(v1));
+		return (V1 v1) -> this.doApplyAsLong(before1.doApplyAsLong(v1));
 	}
 
 	// </editor-fold>
@@ -135,63 +135,63 @@ public interface LLongUnaryOperatorX<X extends Exception> extends MetaOperator, 
 	@Nonnull
 	default <V> LLongFunctionX<V, X> then(@Nonnull LLongFunctionX<? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.apply(this.applyAsLong(l));
+		return (long l) -> after.doApply(this.doApplyAsLong(l));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LLongToByteFunctionX<X> thenToByte(@Nonnull LLongToByteFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.applyAsByte(this.applyAsLong(l));
+		return (long l) -> after.doApplyAsByte(this.doApplyAsLong(l));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LLongToShortFunctionX<X> thenToShort(@Nonnull LLongToShortFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.applyAsShort(this.applyAsLong(l));
+		return (long l) -> after.doApplyAsShort(this.doApplyAsLong(l));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LLongToIntFunctionX<X> thenToInt(@Nonnull LLongToIntFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.applyAsInt(this.applyAsLong(l));
+		return (long l) -> after.doApplyAsInt(this.doApplyAsLong(l));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LLongUnaryOperatorX<X> thenToLong(@Nonnull LLongUnaryOperatorX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.applyAsLong(this.applyAsLong(l));
+		return (long l) -> after.doApplyAsLong(this.doApplyAsLong(l));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LLongToFloatFunctionX<X> thenToFloat(@Nonnull LLongToFloatFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.applyAsFloat(this.applyAsLong(l));
+		return (long l) -> after.doApplyAsFloat(this.doApplyAsLong(l));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LLongToDoubleFunctionX<X> thenToDouble(@Nonnull LLongToDoubleFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.applyAsDouble(this.applyAsLong(l));
+		return (long l) -> after.doApplyAsDouble(this.doApplyAsLong(l));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LLongToCharFunctionX<X> thenToChar(@Nonnull LLongToCharFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.applyAsChar(this.applyAsLong(l));
+		return (long l) -> after.doApplyAsChar(this.doApplyAsLong(l));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LLongPredicateX<X> thenToBoolean(@Nonnull LLongPredicateX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.test(this.applyAsLong(l));
+		return (long l) -> after.doTest(this.doApplyAsLong(l));
 	}
 
 	// </editor-fold>
@@ -207,7 +207,7 @@ public interface LLongUnaryOperatorX<X extends Exception> extends MetaOperator, 
 	/** Converts to JRE variant. */
 	@Nonnull
 	default java.util.function.LongUnaryOperator std() {
-		return LLongUnaryOperator.wrap(this)::applyAsLong;
+		return LLongUnaryOperator.wrap(this)::doApplyAsLong;
 	}
 
 	/** Converts to non-throwing variant (if required). */
@@ -225,7 +225,7 @@ public interface LLongUnaryOperatorX<X extends Exception> extends MetaOperator, 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLongUnaryOperator shove() {
 		LLongUnaryOperatorX<RuntimeException> exceptionCast = (LLongUnaryOperatorX<RuntimeException>) this;
-		return exceptionCast::applyAsLong;
+		return exceptionCast::doApplyAsLong;
 	}
 
 	// </editor-fold>
@@ -237,11 +237,11 @@ public interface LLongUnaryOperatorX<X extends Exception> extends MetaOperator, 
 	public static <X extends Exception, E extends Exception, Y extends Exception> LLongUnaryOperatorX<Y> wrapException(@Nonnull final LLongUnaryOperatorX<X> other, Class<E> exception, LLongSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
 		return (long l) -> {
 			try {
-				return other.applyAsLong(l);
+				return other.doApplyAsLong(l);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsLong();
+						return supplier.doGetAsLong();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

@@ -69,7 +69,7 @@ public class LBiObjShortFunctionBuilderTest<T1,T2,R,X extends ParseException>{
                 .biObjShortFunction()
                 .build();
 
-            function.apply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(short)100);
+            function.doApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(short)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

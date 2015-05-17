@@ -60,14 +60,18 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBiPredicate<T1, T2> extends java.util.function.BiPredicate<T1, T2>, LBiPredicateX<T1, T2, RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LBiPredicate: boolean test(T1 t1,T2 t2)";
+	public static final String DESCRIPTION = "LBiPredicate: boolean doTest(T1 t1,T2 t2)";
 
-	// Ovverriding methods can cause problems with inference.
+	public boolean doTest(T1 t1, T2 t2);
+
+	default boolean test(T1 t1, T2 t2) {
+		return doTest(t1, t2);
+	}
 
 	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
 
-	default boolean applyAsBoolean(T1 t1, T2 t2) {
-		return test(t1, t2);
+	default boolean doApplyAsBoolean(T1 t1, T2 t2) {
+		return doTest(t1, t2);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -78,7 +82,7 @@ public interface LBiPredicate<T1, T2> extends java.util.function.BiPredicate<T1,
 
 	/** Captures arguments but delays the evaluation. */
 	default LBooleanSupplier capture(T1 t1, T2 t2) {
-		return () -> this.test(t1, t2);
+		return () -> this.doTest(t1, t2);
 	}
 
 	public static <T1, T2> LBiPredicate<T1, T2> constant(boolean r) {
@@ -87,7 +91,7 @@ public interface LBiPredicate<T1, T2> extends java.util.function.BiPredicate<T1,
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(T1 t1, T2 t2) {
-		return test(t1, t2);
+		return doTest(t1, t2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -110,7 +114,7 @@ public interface LBiPredicate<T1, T2> extends java.util.function.BiPredicate<T1,
 	public static <T1, T2, X extends Exception> LBiPredicate<T1, T2> wrap(final @Nonnull LBiPredicateX<T1, T2, X> other) {
 		return (T1 t1, T2 t2) -> {
 			try {
-				return other.test(t1, t2);
+				return other.doTest(t1, t2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -125,7 +129,7 @@ public interface LBiPredicate<T1, T2> extends java.util.function.BiPredicate<T1,
 	 */
 	@Nonnull
 	default LBiPredicate<T1, T2> negate() {
-		return (T1 t1, T2 t2) -> !test(t1, t2);
+		return (T1 t1, T2 t2) -> !doTest(t1, t2);
 	}
 
 	/**
@@ -134,7 +138,7 @@ public interface LBiPredicate<T1, T2> extends java.util.function.BiPredicate<T1,
 	@Nonnull
 	default LBiPredicate<T1, T2> and(@Nonnull LBiPredicate<? super T1, ? super T2> other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (T1 t1, T2 t2) -> test(t1, t2) && other.test(t1, t2);
+		return (T1 t1, T2 t2) -> doTest(t1, t2) && other.doTest(t1, t2);
 	}
 
 	/**
@@ -143,7 +147,7 @@ public interface LBiPredicate<T1, T2> extends java.util.function.BiPredicate<T1,
 	@Nonnull
 	default LBiPredicate<T1, T2> or(@Nonnull LBiPredicate<? super T1, ? super T2> other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (T1 t1, T2 t2) -> test(t1, t2) || other.test(t1, t2);
+		return (T1 t1, T2 t2) -> doTest(t1, t2) || other.doTest(t1, t2);
 	}
 
 	/**
@@ -152,7 +156,7 @@ public interface LBiPredicate<T1, T2> extends java.util.function.BiPredicate<T1,
 	@Nonnull
 	default LBiPredicate<T1, T2> xor(@Nonnull LBiPredicate<? super T1, ? super T2> other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (T1 t1, T2 t2) -> test(t1, t2) ^ other.test(t1, t2);
+		return (T1 t1, T2 t2) -> doTest(t1, t2) ^ other.doTest(t1, t2);
 	}
 
 	/**
@@ -174,7 +178,7 @@ public interface LBiPredicate<T1, T2> extends java.util.function.BiPredicate<T1,
 	default <V1, V2> LBiPredicate<V1, V2> from(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final V1 v1, final V2 v2) -> this.test(before1.apply(v1), before2.apply(v2));
+		return (final V1 v1, final V2 v2) -> this.doTest(before1.doApply(v1), before2.doApply(v2));
 	}
 
 	// </editor-fold>
@@ -185,7 +189,7 @@ public interface LBiPredicate<T1, T2> extends java.util.function.BiPredicate<T1,
 	@Nonnull
 	default <V> LBiFunction<T1, T2, V> then(@Nonnull LBooleanFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T1 t1, T2 t2) -> after.apply(this.test(t1, t2));
+		return (T1 t1, T2 t2) -> after.doApply(this.doTest(t1, t2));
 	}
 
 	// </editor-fold>
@@ -224,11 +228,11 @@ public interface LBiPredicate<T1, T2> extends java.util.function.BiPredicate<T1,
 	public static <T1, T2, X extends Exception, E extends Exception, Y extends RuntimeException> LBiPredicate<T1, T2> wrapException(@Nonnull final LBiPredicate<T1, T2> other, Class<E> exception, LBooleanSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (T1 t1, T2 t2) -> {
 			try {
-				return other.test(t1, t2);
+				return other.doTest(t1, t2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsBoolean();
+						return supplier.doGetAsBoolean();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

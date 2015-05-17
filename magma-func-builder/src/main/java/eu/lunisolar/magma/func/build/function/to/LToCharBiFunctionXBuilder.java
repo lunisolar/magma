@@ -99,12 +99,12 @@ public final class LToCharBiFunctionXBuilder<T1, T2, X extends Exception> extend
 			final Case<LBiPredicateX<T1, T2, X>, LToCharBiFunctionX<T1, T2, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LToCharBiFunctionX.lX((T1 t1, T2 t2) -> {
 				for (Case<LBiPredicateX<T1, T2, X>, LToCharBiFunctionX<T1, T2, X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t1, t2)) {
-						return aCase.caseFunction().applyAsChar(t1, t2);
+					if (aCase.casePredicate().doTest(t1, t2)) {
+						return aCase.caseFunction().doApplyAsChar(t1, t2);
 					}
 				}
 
-				return eventuallyFinal.applyAsChar(t1, t2);
+				return eventuallyFinal.doApplyAsChar(t1, t2);
 			});
 		}
 

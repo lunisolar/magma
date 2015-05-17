@@ -59,13 +59,13 @@ public class LShortBiConsumerXTest<X extends ParseException> {
 
 
     private LShortBiConsumerX<X> sut = new LShortBiConsumerX(){
-        public  void accept(short s1,short s2) throws ParseException {
+        public  void doAccept(short s1,short s2) throws ParseException {
             Function4U.doNothing();
         }
     };
 
     private LShortBiConsumer opposite = new LShortBiConsumer(){
-        public  void accept(short s1,short s2)  {
+        public  void doAccept(short s1,short s2)  {
             Function4U.doNothing();
         }
     };
@@ -77,7 +77,7 @@ public class LShortBiConsumerXTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LShortBiConsumerX: void accept(short s1,short s2) throws X");
+            .isEqualTo("LShortBiConsumerX: void doAccept(short s1,short s2) throws X");
     }
 
     @Test
@@ -108,7 +108,7 @@ public class LShortBiConsumerXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((short)100,(short)100);
+            wrapped.doAccept((short)100,(short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -133,7 +133,7 @@ public class LShortBiConsumerXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((short)100,(short)100);
+            wrapped.doAccept((short)100,(short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -157,7 +157,7 @@ public class LShortBiConsumerXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((short)100,(short)100);
+            wrapped.doAccept((short)100,(short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -197,7 +197,7 @@ public class LShortBiConsumerXTest<X extends ParseException> {
 
         //when
         LShortBiConsumerX<X> function = sutO.fromShort(before1,before2);
-        function.accept((short)80,(short)81);
+        function.doAccept((short)80,(short)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -231,7 +231,7 @@ public class LShortBiConsumerXTest<X extends ParseException> {
 
         //when
         LBiConsumerX<Integer ,Integer ,X> function = sutO.from(before1,before2);
-        function.accept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        function.doAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -261,7 +261,7 @@ public class LShortBiConsumerXTest<X extends ParseException> {
 
         //when
         LShortBiConsumerX<X> function = sutO.andThen(thenFunction);
-        function.accept((short)80,(short)81);
+        function.doAccept((short)80,(short)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -287,7 +287,7 @@ public class LShortBiConsumerXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().accept((short)100,(short)100);
+        sutThrowing.shove().doAccept((short)100,(short)100);
     }
 
     @Test
@@ -305,7 +305,7 @@ public class LShortBiConsumerXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((short)100,(short)100);
+            wrapped.doAccept((short)100,(short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -324,7 +324,7 @@ public class LShortBiConsumerXTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LShortBiConsumerX: void accept(short s1,short s2) throws X");
+                .contains("LShortBiConsumerX: void doAccept(short s1,short s2) throws X");
     }
 
 

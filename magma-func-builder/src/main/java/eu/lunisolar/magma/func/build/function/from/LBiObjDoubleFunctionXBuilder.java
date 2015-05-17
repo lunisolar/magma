@@ -99,12 +99,12 @@ public final class LBiObjDoubleFunctionXBuilder<T1, T2, R, X extends Exception> 
 			final Case<LBiObjDoublePredicateX<T1, T2, X>, LBiObjDoubleFunctionX<T1, T2, R, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LBiObjDoubleFunctionX.lX((T1 t1, T2 t2, double d) -> {
 				for (Case<LBiObjDoublePredicateX<T1, T2, X>, LBiObjDoubleFunctionX<T1, T2, R, X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t1, t2, d)) {
-						return aCase.caseFunction().apply(t1, t2, d);
+					if (aCase.casePredicate().doTest(t1, t2, d)) {
+						return aCase.caseFunction().doApply(t1, t2, d);
 					}
 				}
 
-				return eventuallyFinal.apply(t1, t2, d);
+				return eventuallyFinal.doApply(t1, t2, d);
 			});
 		}
 

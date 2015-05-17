@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LToShortBiFunctionX<T1, T2, X extends Exception> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LToShortBiFunctionX: short applyAsShort(T1 t1,T2 t2) throws X";
+	public static final String DESCRIPTION = "LToShortBiFunctionX: short doApplyAsShort(T1 t1,T2 t2) throws X";
 
-	public short applyAsShort(T1 t1, T2 t2) throws X;
+	public short doApplyAsShort(T1 t1, T2 t2) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LToShortBiFunctionX<T1, T2, X extends Exception> extends MetaFu
 
 	/** Captures arguments but delays the evaluation. */
 	default LShortSupplierX<X> capture(T1 t1, T2 t2) {
-		return () -> this.applyAsShort(t1, t2);
+		return () -> this.doApplyAsShort(t1, t2);
 	}
 
 	public static <T1, T2, X extends Exception> LToShortBiFunctionX<T1, T2, X> constant(short r) {
@@ -81,7 +81,7 @@ public interface LToShortBiFunctionX<T1, T2, X extends Exception> extends MetaFu
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default short nonNull(T1 t1, T2 t2) throws X {
-		return applyAsShort(t1, t2);
+		return doApplyAsShort(t1, t2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -96,7 +96,7 @@ public interface LToShortBiFunctionX<T1, T2, X extends Exception> extends MetaFu
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T1, T2, X extends Exception> LToShortBiFunctionX<T1, T2, X> wrapX(final @Nonnull LToShortBiFunction<T1, T2> other) {
-		return other::applyAsShort;
+		return other::doApplyAsShort;
 	}
 
 	// </editor-fold>
@@ -110,7 +110,7 @@ public interface LToShortBiFunctionX<T1, T2, X extends Exception> extends MetaFu
 	default <V1, V2> LToShortBiFunctionX<V1, V2, X> from(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final V1 v1, final V2 v2) -> this.applyAsShort(before1.apply(v1), before2.apply(v2));
+		return (final V1 v1, final V2 v2) -> this.doApplyAsShort(before1.doApply(v1), before2.doApply(v2));
 	}
 
 	// </editor-fold>
@@ -121,7 +121,7 @@ public interface LToShortBiFunctionX<T1, T2, X extends Exception> extends MetaFu
 	@Nonnull
 	default <V> LBiFunctionX<T1, T2, V, X> then(@Nonnull LShortFunctionX<? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T1 t1, T2 t2) -> after.apply(this.applyAsShort(t1, t2));
+		return (T1 t1, T2 t2) -> after.doApply(this.doApplyAsShort(t1, t2));
 	}
 
 	// </editor-fold>
@@ -143,7 +143,7 @@ public interface LToShortBiFunctionX<T1, T2, X extends Exception> extends MetaFu
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LToShortBiFunction<T1, T2> shove() {
 		LToShortBiFunctionX<T1, T2, RuntimeException> exceptionCast = (LToShortBiFunctionX<T1, T2, RuntimeException>) this;
-		return exceptionCast::applyAsShort;
+		return exceptionCast::doApplyAsShort;
 	}
 
 	// </editor-fold>
@@ -156,11 +156,11 @@ public interface LToShortBiFunctionX<T1, T2, X extends Exception> extends MetaFu
 			ExceptionHandler<E, Y> handler) {
 		return (T1 t1, T2 t2) -> {
 			try {
-				return other.applyAsShort(t1, t2);
+				return other.doApplyAsShort(t1, t2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsShort();
+						return supplier.doGetAsShort();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

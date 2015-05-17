@@ -60,9 +60,13 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LDoubleSupplier extends java.util.function.DoubleSupplier, LDoubleSupplierX<RuntimeException>, MetaSupplier, PrimitiveCodomain<Object>, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LDoubleSupplier: double getAsDouble()";
+	public static final String DESCRIPTION = "LDoubleSupplier: double doGetAsDouble()";
 
-	// Ovverriding methods can cause problems with inference.
+	public double doGetAsDouble();
+
+	default double getAsDouble() {
+		return doGetAsDouble();
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -76,7 +80,7 @@ public interface LDoubleSupplier extends java.util.function.DoubleSupplier, LDou
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default double nonNull() {
-		return getAsDouble();
+		return doGetAsDouble();
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -99,7 +103,7 @@ public interface LDoubleSupplier extends java.util.function.DoubleSupplier, LDou
 	public static <X extends Exception> LDoubleSupplier wrap(final @Nonnull LDoubleSupplierX<X> other) {
 		return () -> {
 			try {
-				return other.getAsDouble();
+				return other.doGetAsDouble();
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -114,63 +118,63 @@ public interface LDoubleSupplier extends java.util.function.DoubleSupplier, LDou
 	@Nonnull
 	default <V> LSupplier<V> then(@Nonnull LDoubleFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.apply(this.getAsDouble());
+		return () -> after.doApply(this.doGetAsDouble());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LByteSupplier thenToByte(@Nonnull LDoubleToByteFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsByte(this.getAsDouble());
+		return () -> after.doApplyAsByte(this.doGetAsDouble());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LShortSupplier thenToShort(@Nonnull LDoubleToShortFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsShort(this.getAsDouble());
+		return () -> after.doApplyAsShort(this.doGetAsDouble());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LIntSupplier thenToInt(@Nonnull LDoubleToIntFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsInt(this.getAsDouble());
+		return () -> after.doApplyAsInt(this.doGetAsDouble());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LLongSupplier thenToLong(@Nonnull LDoubleToLongFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsLong(this.getAsDouble());
+		return () -> after.doApplyAsLong(this.doGetAsDouble());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LFloatSupplier thenToFloat(@Nonnull LDoubleToFloatFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsFloat(this.getAsDouble());
+		return () -> after.doApplyAsFloat(this.doGetAsDouble());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LDoubleSupplier thenToDouble(@Nonnull LDoubleUnaryOperator after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsDouble(this.getAsDouble());
+		return () -> after.doApplyAsDouble(this.doGetAsDouble());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LCharSupplier thenToChar(@Nonnull LDoubleToCharFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsChar(this.getAsDouble());
+		return () -> after.doApplyAsChar(this.doGetAsDouble());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LBooleanSupplier thenToBoolean(@Nonnull LDoublePredicate after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.test(this.getAsDouble());
+		return () -> after.doTest(this.doGetAsDouble());
 	}
 
 	// </editor-fold>
@@ -209,11 +213,11 @@ public interface LDoubleSupplier extends java.util.function.DoubleSupplier, LDou
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LDoubleSupplier wrapException(@Nonnull final LDoubleSupplier other, Class<E> exception, LDoubleSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return () -> {
 			try {
-				return other.getAsDouble();
+				return other.doGetAsDouble();
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsDouble();
+						return supplier.doGetAsDouble();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

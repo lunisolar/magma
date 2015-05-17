@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LToDoubleBiFunctionX<T1, T2, X extends Exception> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LToDoubleBiFunctionX: double applyAsDouble(T1 t1,T2 t2) throws X";
+	public static final String DESCRIPTION = "LToDoubleBiFunctionX: double doApplyAsDouble(T1 t1,T2 t2) throws X";
 
-	public double applyAsDouble(T1 t1, T2 t2) throws X;
+	public double doApplyAsDouble(T1 t1, T2 t2) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LToDoubleBiFunctionX<T1, T2, X extends Exception> extends MetaF
 
 	/** Captures arguments but delays the evaluation. */
 	default LDoubleSupplierX<X> capture(T1 t1, T2 t2) {
-		return () -> this.applyAsDouble(t1, t2);
+		return () -> this.doApplyAsDouble(t1, t2);
 	}
 
 	public static <T1, T2, X extends Exception> LToDoubleBiFunctionX<T1, T2, X> constant(double r) {
@@ -81,7 +81,7 @@ public interface LToDoubleBiFunctionX<T1, T2, X extends Exception> extends MetaF
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default double nonNull(T1 t1, T2 t2) throws X {
-		return applyAsDouble(t1, t2);
+		return doApplyAsDouble(t1, t2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -102,7 +102,7 @@ public interface LToDoubleBiFunctionX<T1, T2, X extends Exception> extends MetaF
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T1, T2, X extends Exception> LToDoubleBiFunctionX<T1, T2, X> wrapX(final @Nonnull LToDoubleBiFunction<T1, T2> other) {
-		return other::applyAsDouble;
+		return other::doApplyAsDouble;
 	}
 
 	// </editor-fold>
@@ -116,7 +116,7 @@ public interface LToDoubleBiFunctionX<T1, T2, X extends Exception> extends MetaF
 	default <V1, V2> LToDoubleBiFunctionX<V1, V2, X> from(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final V1 v1, final V2 v2) -> this.applyAsDouble(before1.apply(v1), before2.apply(v2));
+		return (final V1 v1, final V2 v2) -> this.doApplyAsDouble(before1.doApply(v1), before2.doApply(v2));
 	}
 
 	// </editor-fold>
@@ -127,7 +127,7 @@ public interface LToDoubleBiFunctionX<T1, T2, X extends Exception> extends MetaF
 	@Nonnull
 	default <V> LBiFunctionX<T1, T2, V, X> then(@Nonnull LDoubleFunctionX<? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T1 t1, T2 t2) -> after.apply(this.applyAsDouble(t1, t2));
+		return (T1 t1, T2 t2) -> after.doApply(this.doApplyAsDouble(t1, t2));
 	}
 
 	// </editor-fold>
@@ -137,7 +137,7 @@ public interface LToDoubleBiFunctionX<T1, T2, X extends Exception> extends MetaF
 	/** Converts to JRE variant. */
 	@Nonnull
 	default java.util.function.ToDoubleBiFunction<T1, T2> std() {
-		return LToDoubleBiFunction.wrap(this)::applyAsDouble;
+		return LToDoubleBiFunction.wrap(this)::doApplyAsDouble;
 	}
 
 	/** Converts to non-throwing variant (if required). */
@@ -155,7 +155,7 @@ public interface LToDoubleBiFunctionX<T1, T2, X extends Exception> extends MetaF
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LToDoubleBiFunction<T1, T2> shove() {
 		LToDoubleBiFunctionX<T1, T2, RuntimeException> exceptionCast = (LToDoubleBiFunctionX<T1, T2, RuntimeException>) this;
-		return exceptionCast::applyAsDouble;
+		return exceptionCast::doApplyAsDouble;
 	}
 
 	// </editor-fold>
@@ -168,11 +168,11 @@ public interface LToDoubleBiFunctionX<T1, T2, X extends Exception> extends MetaF
 			ExceptionHandler<E, Y> handler) {
 		return (T1 t1, T2 t2) -> {
 			try {
-				return other.applyAsDouble(t1, t2);
+				return other.doApplyAsDouble(t1, t2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsDouble();
+						return supplier.doGetAsDouble();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

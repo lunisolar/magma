@@ -61,13 +61,13 @@ public class LToCharFunctionTest<T,X extends ParseException> {
 
 
     private LToCharFunction<T> sut = new LToCharFunction(){
-        public  char applyAsChar(Object t)  {
+        public  char doApplyAsChar(Object t)  {
             return testValue;
         }
     };
 
     private LToCharFunctionX<T,X> opposite = new LToCharFunctionX(){
-        public  char applyAsChar(Object t) throws ParseException {
+        public  char doApplyAsChar(Object t) throws ParseException {
             return testValue;
         }
     };
@@ -76,7 +76,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.applyAsChar((T)Integer.valueOf(100)))
+        assertThat(sut.doApplyAsChar((T)Integer.valueOf(100)))
             .isEqualTo(testValue);
     }
 
@@ -90,7 +90,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LToCharFunction: char applyAsChar(T t)");
+            .isEqualTo("LToCharFunction: char doApplyAsChar(T t)");
     }
 
     @Test
@@ -117,7 +117,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsChar((T)Integer.valueOf(100));
+            wrapped.doApplyAsChar((T)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsChar((T)Integer.valueOf(100));
+            wrapped.doApplyAsChar((T)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -165,7 +165,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsChar((T)Integer.valueOf(100));
+            wrapped.doApplyAsChar((T)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -190,7 +190,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsChar((T)Integer.valueOf(100));
+            wrapped.doApplyAsChar((T)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -214,7 +214,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsChar((T)Integer.valueOf(100));
+            wrapped.doApplyAsChar((T)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -249,7 +249,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
 
         //when
         LToCharFunction<Integer > function = sutO.from(before1);
-        function.applyAsChar((Integer )Integer.valueOf(80));
+        function.doApplyAsChar((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -285,7 +285,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
 
         //when
         LFunction<Integer ,Integer > function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((Integer )Integer.valueOf(80));
+        Integer  finalValue = function.doApply((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -320,7 +320,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
 
         //when
         LToByteFunction<Integer > function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.applyAsByte((Integer )Integer.valueOf(80));
+        byte finalValue = function.doApplyAsByte((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -355,7 +355,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
 
         //when
         LToShortFunction<Integer > function = sutO.thenToShort(thenFunction);
-        short finalValue = function.applyAsShort((Integer )Integer.valueOf(80));
+        short finalValue = function.doApplyAsShort((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -390,7 +390,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
 
         //when
         LToIntFunction<Integer > function = sutO.thenToInt(thenFunction);
-        int finalValue = function.applyAsInt((Integer )Integer.valueOf(80));
+        int finalValue = function.doApplyAsInt((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(finalValue).isEqualTo((int)100);
@@ -425,7 +425,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
 
         //when
         LToLongFunction<Integer > function = sutO.thenToLong(thenFunction);
-        long finalValue = function.applyAsLong((Integer )Integer.valueOf(80));
+        long finalValue = function.doApplyAsLong((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(finalValue).isEqualTo((long)100);
@@ -460,7 +460,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
 
         //when
         LToFloatFunction<Integer > function = sutO.thenToFloat(thenFunction);
-        float finalValue = function.applyAsFloat((Integer )Integer.valueOf(80));
+        float finalValue = function.doApplyAsFloat((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(finalValue).isEqualTo((float)100);
@@ -495,7 +495,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
 
         //when
         LToDoubleFunction<Integer > function = sutO.thenToDouble(thenFunction);
-        double finalValue = function.applyAsDouble((Integer )Integer.valueOf(80));
+        double finalValue = function.doApplyAsDouble((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(finalValue).isEqualTo((double)100);
@@ -530,7 +530,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
 
         //when
         LToCharFunction<Integer > function = sutO.thenToChar(thenFunction);
-        char finalValue = function.applyAsChar((Integer )Integer.valueOf(80));
+        char finalValue = function.doApplyAsChar((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(finalValue).isEqualTo((char)100);
@@ -565,7 +565,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
 
         //when
         LPredicate<Integer > function = sutO.thenToBoolean(thenFunction);
-        boolean finalValue = function.test((Integer )Integer.valueOf(80));
+        boolean finalValue = function.doTest((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -596,7 +596,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().applyAsChar((T)Integer.valueOf(100));
+        sutThrowing.shove().doApplyAsChar((T)Integer.valueOf(100));
     }
 
     @Test
@@ -614,7 +614,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsChar((T)Integer.valueOf(100));
+            wrapped.doApplyAsChar((T)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -633,7 +633,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LToCharFunction: char applyAsChar(T t)");
+                .contains("LToCharFunction: char doApplyAsChar(T t)");
     }
 
 

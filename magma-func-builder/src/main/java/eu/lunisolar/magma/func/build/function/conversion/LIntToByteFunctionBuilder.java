@@ -99,12 +99,12 @@ public final class LIntToByteFunctionBuilder extends PerCaseBuilderWithByteProdu
 			final Case<LIntPredicate, LIntToByteFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LIntToByteFunction.l((int i) -> {
 				for (Case<LIntPredicate, LIntToByteFunction> aCase : casesArray) {
-					if (aCase.casePredicate().test(i)) {
-						return aCase.caseFunction().applyAsByte(i);
+					if (aCase.casePredicate().doTest(i)) {
+						return aCase.caseFunction().doApplyAsByte(i);
 					}
 				}
 
-				return eventuallyFinal.applyAsByte(i);
+				return eventuallyFinal.doApplyAsByte(i);
 			});
 		}
 

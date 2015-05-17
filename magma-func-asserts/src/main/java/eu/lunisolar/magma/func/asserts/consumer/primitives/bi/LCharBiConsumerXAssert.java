@@ -55,7 +55,7 @@ public interface LCharBiConsumerXAssert<S extends LCharBiConsumerXAssert<S, A, X
 
 		@Nonnull
 		public SemiEvaluation<S, A, Exception> doesAccept(char c1, char c2) {
-			return evaluation(() -> actual.accept(c1, c2));
+			return evaluation(() -> actual.doAccept(c1, c2));
 		}
 
 	}

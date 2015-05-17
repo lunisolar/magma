@@ -99,12 +99,12 @@ public final class LObjByteFunctionXBuilder<T, R, X extends Exception> extends P
 			final Case<LObjBytePredicateX<T, X>, LObjByteFunctionX<T, R, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LObjByteFunctionX.lX((T t, byte i) -> {
 				for (Case<LObjBytePredicateX<T, X>, LObjByteFunctionX<T, R, X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t, i)) {
-						return aCase.caseFunction().apply(t, i);
+					if (aCase.casePredicate().doTest(t, i)) {
+						return aCase.caseFunction().doApply(t, i);
 					}
 				}
 
-				return eventuallyFinal.apply(t, i);
+				return eventuallyFinal.doApply(t, i);
 			});
 		}
 

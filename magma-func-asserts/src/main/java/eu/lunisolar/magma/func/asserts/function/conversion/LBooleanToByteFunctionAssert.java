@@ -58,7 +58,7 @@ public interface LBooleanToByteFunctionAssert<S extends LBooleanToByteFunctionAs
 
 		@Nonnull
 		public Evaluation<S, A, RS, Byte, Exception> doesApplyAsByte(boolean b) {
-			return evaluation(() -> assertFactory.apply((Byte) actual.applyAsByte(b)));
+			return evaluation(() -> assertFactory.apply((Byte) actual.doApplyAsByte(b)));
 		}
 
 	}

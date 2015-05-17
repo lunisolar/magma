@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LLongBiConsumer extends LLongBiConsumerX<RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LLongBiConsumer: void accept(long l1,long l2)";
+	public static final String DESCRIPTION = "LLongBiConsumer: void doAccept(long l1,long l2)";
 
-	// Ovverriding methods can cause problems with inference.
+	public void doAccept(long l1, long l2);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +73,7 @@ public interface LLongBiConsumer extends LLongBiConsumerX<RuntimeException>, Met
 
 	/** Captures arguments but delays the evaluation. */
 	default LAction capture(long l1, long l2) {
-		return () -> this.accept(l1, l2);
+		return () -> this.doAccept(l1, l2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -90,7 +90,7 @@ public interface LLongBiConsumer extends LLongBiConsumerX<RuntimeException>, Met
 	public static <X extends Exception> LLongBiConsumer wrap(final @Nonnull LLongBiConsumerX<X> other) {
 		return (long l1, long l2) -> {
 			try {
-				other.accept(l1, l2);
+				other.doAccept(l1, l2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -108,7 +108,7 @@ public interface LLongBiConsumer extends LLongBiConsumerX<RuntimeException>, Met
 	default LLongBiConsumer fromLong(@Nonnull final LLongUnaryOperator before1, @Nonnull final LLongUnaryOperator before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final long v1, final long v2) -> this.accept(before1.applyAsLong(v1), before2.applyAsLong(v2));
+		return (final long v1, final long v2) -> this.doAccept(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
 	}
 
 	/**
@@ -118,7 +118,7 @@ public interface LLongBiConsumer extends LLongBiConsumerX<RuntimeException>, Met
 	default <V1, V2> LBiConsumer<V1, V2> from(@Nonnull final LToLongFunction<? super V1> before1, @Nonnull final LToLongFunction<? super V2> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.accept(before1.applyAsLong(v1), before2.applyAsLong(v2));
+		return (V1 v1, V2 v2) -> this.doAccept(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
 	}
 
 	// </editor-fold>
@@ -130,8 +130,8 @@ public interface LLongBiConsumer extends LLongBiConsumerX<RuntimeException>, Met
 	default LLongBiConsumer andThen(@Nonnull LLongBiConsumer after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
 		return (long l1, long l2) -> {
-			this.accept(l1, l2);
-			after.accept(l1, l2);
+			this.doAccept(l1, l2);
+			after.doAccept(l1, l2);
 		};
 	}
 
@@ -164,7 +164,7 @@ public interface LLongBiConsumer extends LLongBiConsumerX<RuntimeException>, Met
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LLongBiConsumer wrapException(@Nonnull final LLongBiConsumer other, Class<E> exception, ExceptionHandler<E, Y> handler) {
 		return (long l1, long l2) -> {
 			try {
-				other.accept(l1, l2);
+				other.doAccept(l1, l2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
 			}

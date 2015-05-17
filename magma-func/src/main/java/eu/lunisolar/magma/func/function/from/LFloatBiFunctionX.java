@@ -60,10 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LFloatBiFunctionX<R, X extends Exception> extends MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LFloatBiFunctionX: R apply(float f1,float f2) throws X";
+	public static final String DESCRIPTION = "LFloatBiFunctionX: R doApply(float f1,float f2) throws X";
 
 	@Nullable
-	public R apply(float f1, float f2) throws X;
+	public R doApply(float f1, float f2) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +73,7 @@ public interface LFloatBiFunctionX<R, X extends Exception> extends MetaFunction,
 
 	/** Captures arguments but delays the evaluation. */
 	default LSupplierX<R, X> capture(float f1, float f2) {
-		return () -> this.apply(f1, f2);
+		return () -> this.doApply(f1, f2);
 	}
 
 	public static <R, X extends Exception> LFloatBiFunctionX<R, X> constant(R r) {
@@ -85,7 +85,7 @@ public interface LFloatBiFunctionX<R, X extends Exception> extends MetaFunction,
 	/** Ensures the result is not null */
 	@Nonnull
 	default R nonNull(float f1, float f2) throws X {
-		return Objects.requireNonNull(apply(f1, f2), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Objects.requireNonNull(doApply(f1, f2), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -100,7 +100,7 @@ public interface LFloatBiFunctionX<R, X extends Exception> extends MetaFunction,
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <R, X extends Exception> LFloatBiFunctionX<R, X> wrapX(final @Nonnull LFloatBiFunction<R> other) {
-		return other::apply;
+		return other::doApply;
 	}
 
 	// </editor-fold>
@@ -114,7 +114,7 @@ public interface LFloatBiFunctionX<R, X extends Exception> extends MetaFunction,
 	default LFloatBiFunctionX<R, X> fromFloat(@Nonnull final LFloatUnaryOperatorX<X> before1, @Nonnull final LFloatUnaryOperatorX<X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final float v1, final float v2) -> this.apply(before1.applyAsFloat(v1), before2.applyAsFloat(v2));
+		return (final float v1, final float v2) -> this.doApply(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
 	}
 
 	/**
@@ -124,7 +124,7 @@ public interface LFloatBiFunctionX<R, X extends Exception> extends MetaFunction,
 	default <V1, V2> LBiFunctionX<V1, V2, R, X> from(@Nonnull final LToFloatFunctionX<? super V1, X> before1, @Nonnull final LToFloatFunctionX<? super V2, X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.apply(before1.applyAsFloat(v1), before2.applyAsFloat(v2));
+		return (V1 v1, V2 v2) -> this.doApply(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
 	}
 
 	// </editor-fold>
@@ -135,14 +135,14 @@ public interface LFloatBiFunctionX<R, X extends Exception> extends MetaFunction,
 	@Nonnull
 	default <V> LFloatBiFunctionX<V, X> then(@Nonnull LFunctionX<? super R, ? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f1, float f2) -> after.apply(this.apply(f1, f2));
+		return (float f1, float f2) -> after.doApply(this.doApply(f1, f2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatBiConsumerX<X> then(@Nonnull LConsumerX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f1, float f2) -> after.accept(this.apply(f1, f2));
+		return (float f1, float f2) -> after.doAccept(this.doApply(f1, f2));
 	}
 
 	// </editor-fold>
@@ -164,14 +164,14 @@ public interface LFloatBiFunctionX<R, X extends Exception> extends MetaFunction,
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LFloatBiFunction<R> shove() {
 		LFloatBiFunctionX<R, RuntimeException> exceptionCast = (LFloatBiFunctionX<R, RuntimeException>) this;
-		return exceptionCast::apply;
+		return exceptionCast::doApply;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
 	default LFloatBiFunctionX<R, X> nonNullableX() {
-		return (f1, f2) -> Objects.requireNonNull(this.apply(f1, f2));
+		return (f1, f2) -> Objects.requireNonNull(this.doApply(f1, f2));
 	}
 
 	// <editor-fold desc="exception handling">
@@ -181,11 +181,11 @@ public interface LFloatBiFunctionX<R, X extends Exception> extends MetaFunction,
 	public static <R, X extends Exception, E extends Exception, Y extends Exception> LFloatBiFunctionX<R, Y> wrapException(@Nonnull final LFloatBiFunctionX<R, X> other, Class<E> exception, LSupplierX<R, X> supplier, ExceptionHandler<E, Y> handler) {
 		return (float f1, float f2) -> {
 			try {
-				return other.apply(f1, f2);
+				return other.doApply(f1, f2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.get();
+						return supplier.doGet();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

@@ -98,7 +98,7 @@ public final class DoubleSupplierBuilder extends PerCaseBuilderWithDoubleProduct
 			final Case<LBooleanSupplier, java.util.function.DoubleSupplier>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = Function4U.l(() -> {
 				for (Case<LBooleanSupplier, java.util.function.DoubleSupplier> aCase : casesArray) {
-					if (aCase.casePredicate().getAsBoolean()) {
+					if (aCase.casePredicate().doGetAsBoolean()) {
 						return aCase.caseFunction().getAsDouble();
 					}
 				}

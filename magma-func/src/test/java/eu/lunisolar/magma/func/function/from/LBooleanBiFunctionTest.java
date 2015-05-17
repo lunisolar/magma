@@ -61,19 +61,19 @@ public class LBooleanBiFunctionTest<R,X extends ParseException> {
 
 
     private LBooleanBiFunction<R> sut = new LBooleanBiFunction(){
-        public @Nullable Object  apply(boolean b1,boolean b2)  {
+        public @Nullable Object  doApply(boolean b1,boolean b2)  {
             return testValue;
         }
     };
 
     private LBooleanBiFunctionX<R,X> opposite = new LBooleanBiFunctionX(){
-        public @Nullable Object  apply(boolean b1,boolean b2) throws ParseException {
+        public @Nullable Object  doApply(boolean b1,boolean b2) throws ParseException {
             return testValue;
         }
     };
 
     private LBooleanBiFunction<R> sutNull = new LBooleanBiFunction(){
-        public @Nullable Object  apply(boolean b1,boolean b2)  {
+        public @Nullable Object  doApply(boolean b1,boolean b2)  {
             return null;
         }
     };
@@ -82,7 +82,7 @@ public class LBooleanBiFunctionTest<R,X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.apply(true,true))
+        assertThat(sut.doApply(true,true))
             .isSameAs(testValue);
     }
 
@@ -92,7 +92,7 @@ public class LBooleanBiFunctionTest<R,X extends ParseException> {
             .isSameAs(testValue);
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LBooleanBiFunction: R apply(boolean b1,boolean b2)).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LBooleanBiFunction: R doApply(boolean b1,boolean b2)).\\E")
     public void testNonNullCapturesNull() throws ParseException {
         sutNull.nonNull(true,true);
     }
@@ -101,7 +101,7 @@ public class LBooleanBiFunctionTest<R,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBooleanBiFunction: R apply(boolean b1,boolean b2)");
+            .isEqualTo("LBooleanBiFunction: R doApply(boolean b1,boolean b2)");
     }
 
     @Test
@@ -128,7 +128,7 @@ public class LBooleanBiFunctionTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply(true,true);
+            wrapped.doApply(true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -150,7 +150,7 @@ public class LBooleanBiFunctionTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply(true,true);
+            wrapped.doApply(true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -176,7 +176,7 @@ public class LBooleanBiFunctionTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply(true,true);
+            wrapped.doApply(true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -201,7 +201,7 @@ public class LBooleanBiFunctionTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply(true,true);
+            wrapped.doApply(true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -225,7 +225,7 @@ public class LBooleanBiFunctionTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply(true,true);
+            wrapped.doApply(true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -266,7 +266,7 @@ public class LBooleanBiFunctionTest<R,X extends ParseException> {
 
         //when
         LBooleanBiFunction<Integer > function = sutO.fromBoolean(before1,before2);
-        function.apply(true,true);
+        function.doApply(true,true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -301,7 +301,7 @@ public class LBooleanBiFunctionTest<R,X extends ParseException> {
 
         //when
         LBiFunction<Integer ,Integer ,Integer > function = sutO.from(before1,before2);
-        function.apply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        function.doApply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -338,7 +338,7 @@ public class LBooleanBiFunctionTest<R,X extends ParseException> {
 
         //when
         LBooleanBiFunction<Integer > function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply(true,true);
+        Integer  finalValue = function.doApply(true,true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -372,7 +372,7 @@ public class LBooleanBiFunctionTest<R,X extends ParseException> {
 
         //when
         LBooleanBiConsumer function = sutO.then(thenFunction);
-        function.accept(true,true);
+        function.doAccept(true,true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -402,7 +402,7 @@ public class LBooleanBiFunctionTest<R,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().apply(true,true);
+        sutThrowing.shove().doApply(true,true);
     }
 
     @Test
@@ -420,7 +420,7 @@ public class LBooleanBiFunctionTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply(true,true);
+            wrapped.doApply(true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -439,7 +439,7 @@ public class LBooleanBiFunctionTest<R,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBooleanBiFunction: R apply(boolean b1,boolean b2)");
+                .contains("LBooleanBiFunction: R doApply(boolean b1,boolean b2)");
     }
 
 

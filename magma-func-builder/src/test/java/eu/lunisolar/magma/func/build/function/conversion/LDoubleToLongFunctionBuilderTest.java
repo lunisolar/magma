@@ -69,7 +69,7 @@ public class LDoubleToLongFunctionBuilderTest<X extends ParseException>{
                 .doubleToLongFunction()
                 .build();
 
-            function.applyAsLong((double)100);
+            function.doApplyAsLong((double)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

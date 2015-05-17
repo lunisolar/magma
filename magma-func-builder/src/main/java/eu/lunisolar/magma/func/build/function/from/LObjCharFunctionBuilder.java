@@ -99,12 +99,12 @@ public final class LObjCharFunctionBuilder<T, R> extends PerCaseBuilderWithProdu
 			final Case<LObjCharPredicate<T>, LObjCharFunction<T, R>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LObjCharFunction.l((T t, char c) -> {
 				for (Case<LObjCharPredicate<T>, LObjCharFunction<T, R>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t, c)) {
-						return aCase.caseFunction().apply(t, c);
+					if (aCase.casePredicate().doTest(t, c)) {
+						return aCase.caseFunction().doApply(t, c);
 					}
 				}
 
-				return eventuallyFinal.apply(t, c);
+				return eventuallyFinal.doApply(t, c);
 			});
 		}
 

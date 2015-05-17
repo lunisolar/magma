@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LFloatConsumer extends LFloatConsumerX<RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LFloatConsumer: void accept(float f)";
+	public static final String DESCRIPTION = "LFloatConsumer: void doAccept(float f)";
 
-	// Ovverriding methods can cause problems with inference.
+	public void doAccept(float f);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +73,7 @@ public interface LFloatConsumer extends LFloatConsumerX<RuntimeException>, MetaC
 
 	/** Captures arguments but delays the evaluation. */
 	default LAction capture(float f) {
-		return () -> this.accept(f);
+		return () -> this.doAccept(f);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -90,7 +90,7 @@ public interface LFloatConsumer extends LFloatConsumerX<RuntimeException>, MetaC
 	public static <X extends Exception> LFloatConsumer wrap(final @Nonnull LFloatConsumerX<X> other) {
 		return (float f) -> {
 			try {
-				other.accept(f);
+				other.doAccept(f);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -107,7 +107,7 @@ public interface LFloatConsumer extends LFloatConsumerX<RuntimeException>, MetaC
 	@Nonnull
 	default LFloatConsumer fromFloat(@Nonnull final LFloatUnaryOperator before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final float v1) -> this.accept(before1.applyAsFloat(v1));
+		return (final float v1) -> this.doAccept(before1.doApplyAsFloat(v1));
 	}
 
 	/**
@@ -116,7 +116,7 @@ public interface LFloatConsumer extends LFloatConsumerX<RuntimeException>, MetaC
 	@Nonnull
 	default <V1> LConsumer<V1> from(@Nonnull final LToFloatFunction<? super V1> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.accept(before1.applyAsFloat(v1));
+		return (V1 v1) -> this.doAccept(before1.doApplyAsFloat(v1));
 	}
 
 	// </editor-fold>
@@ -128,8 +128,8 @@ public interface LFloatConsumer extends LFloatConsumerX<RuntimeException>, MetaC
 	default LFloatConsumer andThen(@Nonnull LFloatConsumer after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
 		return (float f) -> {
-			this.accept(f);
-			after.accept(f);
+			this.doAccept(f);
+			after.doAccept(f);
 		};
 	}
 
@@ -162,7 +162,7 @@ public interface LFloatConsumer extends LFloatConsumerX<RuntimeException>, MetaC
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LFloatConsumer wrapException(@Nonnull final LFloatConsumer other, Class<E> exception, ExceptionHandler<E, Y> handler) {
 		return (float f) -> {
 			try {
-				other.accept(f);
+				other.doAccept(f);
 			} catch (Exception e) {
 				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
 			}

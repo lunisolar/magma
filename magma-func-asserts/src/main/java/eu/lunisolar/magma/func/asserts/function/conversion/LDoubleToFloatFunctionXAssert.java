@@ -63,7 +63,7 @@ public interface LDoubleToFloatFunctionXAssert<S extends LDoubleToFloatFunctionX
 
 		@Nonnull
 		public Evaluation<S, A, RS, Float, Exception> doesApplyAsFloat(double d) {
-			return evaluation(() -> assertFactory.apply((Float) actual.applyAsFloat(d)));
+			return evaluation(() -> assertFactory.apply((Float) actual.doApplyAsFloat(d)));
 		}
 
 	}

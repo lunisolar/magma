@@ -61,19 +61,19 @@ public class LFloatFunctionXTest<R,X extends ParseException> {
 
 
     private LFloatFunctionX<R,X> sut = new LFloatFunctionX(){
-        public @Nullable Object  apply(float f) throws ParseException {
+        public @Nullable Object  doApply(float f) throws ParseException {
             return testValue;
         }
     };
 
     private LFloatFunction<R> opposite = new LFloatFunction(){
-        public @Nullable Object  apply(float f)  {
+        public @Nullable Object  doApply(float f)  {
             return testValue;
         }
     };
 
     private LFloatFunctionX<R,X> sutNull = new LFloatFunctionX(){
-        public @Nullable Object  apply(float f) throws ParseException {
+        public @Nullable Object  doApply(float f) throws ParseException {
             return null;
         }
     };
@@ -82,7 +82,7 @@ public class LFloatFunctionXTest<R,X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.apply((float)100))
+        assertThat(sut.doApply((float)100))
             .isSameAs(testValue);
     }
 
@@ -92,7 +92,7 @@ public class LFloatFunctionXTest<R,X extends ParseException> {
             .isSameAs(testValue);
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LFloatFunctionX: R apply(float f) throws X).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LFloatFunctionX: R doApply(float f) throws X).\\E")
     public void testNonNullCapturesNull() throws ParseException {
         sutNull.nonNull((float)100);
     }
@@ -101,7 +101,7 @@ public class LFloatFunctionXTest<R,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LFloatFunctionX: R apply(float f) throws X");
+            .isEqualTo("LFloatFunctionX: R doApply(float f) throws X");
     }
 
     @Test
@@ -132,7 +132,7 @@ public class LFloatFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((float)100);
+            wrapped.doApply((float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -157,7 +157,7 @@ public class LFloatFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((float)100);
+            wrapped.doApply((float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -181,7 +181,7 @@ public class LFloatFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((float)100);
+            wrapped.doApply((float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -216,7 +216,7 @@ public class LFloatFunctionXTest<R,X extends ParseException> {
 
         //when
         LFloatFunctionX<Integer ,X> function = sutO.fromFloat(before1);
-        function.apply((float)80);
+        function.doApply((float)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -245,7 +245,7 @@ public class LFloatFunctionXTest<R,X extends ParseException> {
 
         //when
         LFunctionX<Integer ,Integer ,X> function = sutO.from(before1);
-        function.apply((Integer )Integer.valueOf(80));
+        function.doApply((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -281,7 +281,7 @@ public class LFloatFunctionXTest<R,X extends ParseException> {
 
         //when
         LFloatFunctionX<Integer ,X> function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((float)80);
+        Integer  finalValue = function.doApply((float)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -314,7 +314,7 @@ public class LFloatFunctionXTest<R,X extends ParseException> {
 
         //when
         LFloatConsumerX<X> function = sutO.then(thenFunction);
-        function.accept((float)80);
+        function.doAccept((float)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -348,7 +348,7 @@ public class LFloatFunctionXTest<R,X extends ParseException> {
 
         //when
         LFloatToByteFunctionX<X> function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.applyAsByte((float)80);
+        byte finalValue = function.doApplyAsByte((float)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -383,7 +383,7 @@ public class LFloatFunctionXTest<R,X extends ParseException> {
 
         //when
         LFloatToShortFunctionX<X> function = sutO.thenToShort(thenFunction);
-        short finalValue = function.applyAsShort((float)80);
+        short finalValue = function.doApplyAsShort((float)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -418,7 +418,7 @@ public class LFloatFunctionXTest<R,X extends ParseException> {
 
         //when
         LFloatToIntFunctionX<X> function = sutO.thenToInt(thenFunction);
-        int finalValue = function.applyAsInt((float)80);
+        int finalValue = function.doApplyAsInt((float)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((int)100);
@@ -453,7 +453,7 @@ public class LFloatFunctionXTest<R,X extends ParseException> {
 
         //when
         LFloatToLongFunctionX<X> function = sutO.thenToLong(thenFunction);
-        long finalValue = function.applyAsLong((float)80);
+        long finalValue = function.doApplyAsLong((float)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((long)100);
@@ -488,7 +488,7 @@ public class LFloatFunctionXTest<R,X extends ParseException> {
 
         //when
         LFloatUnaryOperatorX<X> function = sutO.thenToFloat(thenFunction);
-        float finalValue = function.applyAsFloat((float)80);
+        float finalValue = function.doApplyAsFloat((float)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((float)100);
@@ -523,7 +523,7 @@ public class LFloatFunctionXTest<R,X extends ParseException> {
 
         //when
         LFloatToDoubleFunctionX<X> function = sutO.thenToDouble(thenFunction);
-        double finalValue = function.applyAsDouble((float)80);
+        double finalValue = function.doApplyAsDouble((float)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((double)100);
@@ -558,7 +558,7 @@ public class LFloatFunctionXTest<R,X extends ParseException> {
 
         //when
         LFloatToCharFunctionX<X> function = sutO.thenToChar(thenFunction);
-        char finalValue = function.applyAsChar((float)80);
+        char finalValue = function.doApplyAsChar((float)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((char)100);
@@ -593,7 +593,7 @@ public class LFloatFunctionXTest<R,X extends ParseException> {
 
         //when
         LFloatPredicateX<X> function = sutO.thenToBoolean(thenFunction);
-        boolean finalValue = function.test((float)80);
+        boolean finalValue = function.doTest((float)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -624,7 +624,7 @@ public class LFloatFunctionXTest<R,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().apply((float)100);
+        sutThrowing.shove().doApply((float)100);
     }
 
     @Test
@@ -642,7 +642,7 @@ public class LFloatFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((float)100);
+            wrapped.doApply((float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -661,7 +661,7 @@ public class LFloatFunctionXTest<R,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LFloatFunctionX: R apply(float f) throws X");
+                .contains("LFloatFunctionX: R doApply(float f) throws X");
     }
 
 

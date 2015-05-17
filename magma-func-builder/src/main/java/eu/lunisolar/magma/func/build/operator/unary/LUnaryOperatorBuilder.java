@@ -99,12 +99,12 @@ public final class LUnaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Ba
 			final Case<LPredicate<T>, LUnaryOperator<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LUnaryOperator.l((T t) -> {
 				for (Case<LPredicate<T>, LUnaryOperator<T>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t)) {
-						return aCase.caseFunction().apply(t);
+					if (aCase.casePredicate().doTest(t)) {
+						return aCase.caseFunction().doApply(t);
 					}
 				}
 
-				return eventuallyFinal.apply(t);
+				return eventuallyFinal.doApply(t);
 			});
 		}
 

@@ -99,12 +99,12 @@ public final class LBooleanToShortFunctionXBuilder<X extends Exception> extends 
 			final Case<LBooleanUnaryOperatorX<X>, LBooleanToShortFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LBooleanToShortFunctionX.lX((boolean b) -> {
 				for (Case<LBooleanUnaryOperatorX<X>, LBooleanToShortFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().applyAsBoolean(b)) {
-						return aCase.caseFunction().applyAsShort(b);
+					if (aCase.casePredicate().doApplyAsBoolean(b)) {
+						return aCase.caseFunction().doApplyAsShort(b);
 					}
 				}
 
-				return eventuallyFinal.applyAsShort(b);
+				return eventuallyFinal.doApplyAsShort(b);
 			});
 		}
 

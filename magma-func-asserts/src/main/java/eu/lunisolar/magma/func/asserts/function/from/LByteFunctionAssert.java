@@ -58,7 +58,7 @@ public interface LByteFunctionAssert<S extends LByteFunctionAssert<S, A, RS, R>,
 
 		@Nonnull
 		public Evaluation<S, A, RS, R, Exception> doesApply(byte b) {
-			return evaluation(() -> assertFactory.apply((R) actual.apply(b)));
+			return evaluation(() -> assertFactory.apply((R) actual.doApply(b)));
 		}
 
 	}

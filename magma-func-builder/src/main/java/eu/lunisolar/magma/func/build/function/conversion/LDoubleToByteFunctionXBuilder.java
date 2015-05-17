@@ -99,12 +99,12 @@ public final class LDoubleToByteFunctionXBuilder<X extends Exception> extends Pe
 			final Case<LDoublePredicateX<X>, LDoubleToByteFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LDoubleToByteFunctionX.lX((double d) -> {
 				for (Case<LDoublePredicateX<X>, LDoubleToByteFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(d)) {
-						return aCase.caseFunction().applyAsByte(d);
+					if (aCase.casePredicate().doTest(d)) {
+						return aCase.caseFunction().doApplyAsByte(d);
 					}
 				}
 
-				return eventuallyFinal.applyAsByte(d);
+				return eventuallyFinal.doApplyAsByte(d);
 			});
 		}
 

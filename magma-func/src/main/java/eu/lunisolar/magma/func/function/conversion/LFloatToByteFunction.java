@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LFloatToByteFunction extends LFloatToByteFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LFloatToByteFunction: byte applyAsByte(float f)";
+	public static final String DESCRIPTION = "LFloatToByteFunction: byte doApplyAsByte(float f)";
 
-	// Ovverriding methods can cause problems with inference.
+	public byte doApplyAsByte(float f);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LFloatToByteFunction extends LFloatToByteFunctionX<RuntimeExcep
 
 	/** Captures arguments but delays the evaluation. */
 	default LByteSupplier capture(float f) {
-		return () -> this.applyAsByte(f);
+		return () -> this.doApplyAsByte(f);
 	}
 
 	public static LFloatToByteFunction constant(byte r) {
@@ -81,7 +81,7 @@ public interface LFloatToByteFunction extends LFloatToByteFunctionX<RuntimeExcep
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default byte nonNull(float f) {
-		return applyAsByte(f);
+		return doApplyAsByte(f);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -98,7 +98,7 @@ public interface LFloatToByteFunction extends LFloatToByteFunctionX<RuntimeExcep
 	public static <X extends Exception> LFloatToByteFunction wrap(final @Nonnull LFloatToByteFunctionX<X> other) {
 		return (float f) -> {
 			try {
-				return other.applyAsByte(f);
+				return other.doApplyAsByte(f);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -115,7 +115,7 @@ public interface LFloatToByteFunction extends LFloatToByteFunctionX<RuntimeExcep
 	@Nonnull
 	default LFloatToByteFunction fromFloat(@Nonnull final LFloatUnaryOperator before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final float v1) -> this.applyAsByte(before1.applyAsFloat(v1));
+		return (final float v1) -> this.doApplyAsByte(before1.doApplyAsFloat(v1));
 	}
 
 	/**
@@ -124,7 +124,7 @@ public interface LFloatToByteFunction extends LFloatToByteFunctionX<RuntimeExcep
 	@Nonnull
 	default <V1> LToByteFunction<V1> from(@Nonnull final LToFloatFunction<? super V1> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.applyAsByte(before1.applyAsFloat(v1));
+		return (V1 v1) -> this.doApplyAsByte(before1.doApplyAsFloat(v1));
 	}
 
 	// </editor-fold>
@@ -135,63 +135,63 @@ public interface LFloatToByteFunction extends LFloatToByteFunctionX<RuntimeExcep
 	@Nonnull
 	default <V> LFloatFunction<V> then(@Nonnull LByteFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.apply(this.applyAsByte(f));
+		return (float f) -> after.doApply(this.doApplyAsByte(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToByteFunction thenToByte(@Nonnull LByteUnaryOperator after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsByte(this.applyAsByte(f));
+		return (float f) -> after.doApplyAsByte(this.doApplyAsByte(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToShortFunction thenToShort(@Nonnull LByteToShortFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsShort(this.applyAsByte(f));
+		return (float f) -> after.doApplyAsShort(this.doApplyAsByte(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToIntFunction thenToInt(@Nonnull LByteToIntFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsInt(this.applyAsByte(f));
+		return (float f) -> after.doApplyAsInt(this.doApplyAsByte(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToLongFunction thenToLong(@Nonnull LByteToLongFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsLong(this.applyAsByte(f));
+		return (float f) -> after.doApplyAsLong(this.doApplyAsByte(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatUnaryOperator thenToFloat(@Nonnull LByteToFloatFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsFloat(this.applyAsByte(f));
+		return (float f) -> after.doApplyAsFloat(this.doApplyAsByte(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToDoubleFunction thenToDouble(@Nonnull LByteToDoubleFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsDouble(this.applyAsByte(f));
+		return (float f) -> after.doApplyAsDouble(this.doApplyAsByte(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToCharFunction thenToChar(@Nonnull LByteToCharFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsChar(this.applyAsByte(f));
+		return (float f) -> after.doApplyAsChar(this.doApplyAsByte(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatPredicate thenToBoolean(@Nonnull LBytePredicate after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.test(this.applyAsByte(f));
+		return (float f) -> after.doTest(this.doApplyAsByte(f));
 	}
 
 	// </editor-fold>
@@ -224,11 +224,11 @@ public interface LFloatToByteFunction extends LFloatToByteFunctionX<RuntimeExcep
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LFloatToByteFunction wrapException(@Nonnull final LFloatToByteFunction other, Class<E> exception, LByteSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (float f) -> {
 			try {
-				return other.applyAsByte(f);
+				return other.doApplyAsByte(f);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsByte();
+						return supplier.doGetAsByte();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

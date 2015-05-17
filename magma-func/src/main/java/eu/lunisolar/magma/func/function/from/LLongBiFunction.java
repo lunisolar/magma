@@ -60,9 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LLongBiFunction<R> extends LLongBiFunctionX<R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LLongBiFunction: R apply(long l1,long l2)";
+	public static final String DESCRIPTION = "LLongBiFunction: R doApply(long l1,long l2)";
 
-	// Ovverriding methods can cause problems with inference.
+	@Nullable
+	public R doApply(long l1, long l2);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +73,7 @@ public interface LLongBiFunction<R> extends LLongBiFunctionX<R, RuntimeException
 
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(long l1, long l2) {
-		return () -> this.apply(l1, l2);
+		return () -> this.doApply(l1, l2);
 	}
 
 	public static <R> LLongBiFunction<R> constant(R r) {
@@ -84,7 +85,7 @@ public interface LLongBiFunction<R> extends LLongBiFunctionX<R, RuntimeException
 	/** Ensures the result is not null */
 	@Nonnull
 	default R nonNull(long l1, long l2) {
-		return Objects.requireNonNull(apply(l1, l2), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Objects.requireNonNull(doApply(l1, l2), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -101,7 +102,7 @@ public interface LLongBiFunction<R> extends LLongBiFunctionX<R, RuntimeException
 	public static <R, X extends Exception> LLongBiFunction<R> wrap(final @Nonnull LLongBiFunctionX<R, X> other) {
 		return (long l1, long l2) -> {
 			try {
-				return other.apply(l1, l2);
+				return other.doApply(l1, l2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -119,7 +120,7 @@ public interface LLongBiFunction<R> extends LLongBiFunctionX<R, RuntimeException
 	default LLongBiFunction<R> fromLong(@Nonnull final LLongUnaryOperator before1, @Nonnull final LLongUnaryOperator before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final long v1, final long v2) -> this.apply(before1.applyAsLong(v1), before2.applyAsLong(v2));
+		return (final long v1, final long v2) -> this.doApply(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
 	}
 
 	/**
@@ -129,7 +130,7 @@ public interface LLongBiFunction<R> extends LLongBiFunctionX<R, RuntimeException
 	default <V1, V2> LBiFunction<V1, V2, R> from(@Nonnull final LToLongFunction<? super V1> before1, @Nonnull final LToLongFunction<? super V2> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.apply(before1.applyAsLong(v1), before2.applyAsLong(v2));
+		return (V1 v1, V2 v2) -> this.doApply(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
 	}
 
 	// </editor-fold>
@@ -140,14 +141,14 @@ public interface LLongBiFunction<R> extends LLongBiFunctionX<R, RuntimeException
 	@Nonnull
 	default <V> LLongBiFunction<V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l1, long l2) -> after.apply(this.apply(l1, l2));
+		return (long l1, long l2) -> after.doApply(this.doApply(l1, l2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongBiConsumer then(@Nonnull LConsumer<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l1, long l2) -> after.accept(this.apply(l1, l2));
+		return (long l1, long l2) -> after.doAccept(this.doApply(l1, l2));
 	}
 
 	// </editor-fold>
@@ -175,7 +176,7 @@ public interface LLongBiFunction<R> extends LLongBiFunctionX<R, RuntimeException
 
 	@Nonnull
 	default LLongBiFunction<R> nonNullable() {
-		return (l1, l2) -> Objects.requireNonNull(this.apply(l1, l2));
+		return (l1, l2) -> Objects.requireNonNull(this.doApply(l1, l2));
 	}
 
 	// <editor-fold desc="exception handling">
@@ -185,11 +186,11 @@ public interface LLongBiFunction<R> extends LLongBiFunctionX<R, RuntimeException
 	public static <R, X extends Exception, E extends Exception, Y extends RuntimeException> LLongBiFunction<R> wrapException(@Nonnull final LLongBiFunction<R> other, Class<E> exception, LSupplier<R> supplier, ExceptionHandler<E, Y> handler) {
 		return (long l1, long l2) -> {
 			try {
-				return other.apply(l1, l2);
+				return other.doApply(l1, l2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.get();
+						return supplier.doGet();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

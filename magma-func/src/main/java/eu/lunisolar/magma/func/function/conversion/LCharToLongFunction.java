@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LCharToLongFunction extends LCharToLongFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LCharToLongFunction: long applyAsLong(char c)";
+	public static final String DESCRIPTION = "LCharToLongFunction: long doApplyAsLong(char c)";
 
-	// Ovverriding methods can cause problems with inference.
+	public long doApplyAsLong(char c);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LCharToLongFunction extends LCharToLongFunctionX<RuntimeExcepti
 
 	/** Captures arguments but delays the evaluation. */
 	default LLongSupplier capture(char c) {
-		return () -> this.applyAsLong(c);
+		return () -> this.doApplyAsLong(c);
 	}
 
 	public static LCharToLongFunction constant(long r) {
@@ -81,7 +81,7 @@ public interface LCharToLongFunction extends LCharToLongFunctionX<RuntimeExcepti
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default long nonNull(char c) {
-		return applyAsLong(c);
+		return doApplyAsLong(c);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -98,7 +98,7 @@ public interface LCharToLongFunction extends LCharToLongFunctionX<RuntimeExcepti
 	public static <X extends Exception> LCharToLongFunction wrap(final @Nonnull LCharToLongFunctionX<X> other) {
 		return (char c) -> {
 			try {
-				return other.applyAsLong(c);
+				return other.doApplyAsLong(c);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -115,7 +115,7 @@ public interface LCharToLongFunction extends LCharToLongFunctionX<RuntimeExcepti
 	@Nonnull
 	default LCharToLongFunction fromChar(@Nonnull final LCharUnaryOperator before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final char v1) -> this.applyAsLong(before1.applyAsChar(v1));
+		return (final char v1) -> this.doApplyAsLong(before1.doApplyAsChar(v1));
 	}
 
 	/**
@@ -124,7 +124,7 @@ public interface LCharToLongFunction extends LCharToLongFunctionX<RuntimeExcepti
 	@Nonnull
 	default <V1> LToLongFunction<V1> from(@Nonnull final LToCharFunction<? super V1> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.applyAsLong(before1.applyAsChar(v1));
+		return (V1 v1) -> this.doApplyAsLong(before1.doApplyAsChar(v1));
 	}
 
 	// </editor-fold>
@@ -135,63 +135,63 @@ public interface LCharToLongFunction extends LCharToLongFunctionX<RuntimeExcepti
 	@Nonnull
 	default <V> LCharFunction<V> then(@Nonnull LLongFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.apply(this.applyAsLong(c));
+		return (char c) -> after.doApply(this.doApplyAsLong(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToByteFunction thenToByte(@Nonnull LLongToByteFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.applyAsByte(this.applyAsLong(c));
+		return (char c) -> after.doApplyAsByte(this.doApplyAsLong(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToShortFunction thenToShort(@Nonnull LLongToShortFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.applyAsShort(this.applyAsLong(c));
+		return (char c) -> after.doApplyAsShort(this.doApplyAsLong(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToIntFunction thenToInt(@Nonnull LLongToIntFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.applyAsInt(this.applyAsLong(c));
+		return (char c) -> after.doApplyAsInt(this.doApplyAsLong(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToLongFunction thenToLong(@Nonnull LLongUnaryOperator after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.applyAsLong(this.applyAsLong(c));
+		return (char c) -> after.doApplyAsLong(this.doApplyAsLong(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToFloatFunction thenToFloat(@Nonnull LLongToFloatFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.applyAsFloat(this.applyAsLong(c));
+		return (char c) -> after.doApplyAsFloat(this.doApplyAsLong(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToDoubleFunction thenToDouble(@Nonnull LLongToDoubleFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.applyAsDouble(this.applyAsLong(c));
+		return (char c) -> after.doApplyAsDouble(this.doApplyAsLong(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharUnaryOperator thenToChar(@Nonnull LLongToCharFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.applyAsChar(this.applyAsLong(c));
+		return (char c) -> after.doApplyAsChar(this.doApplyAsLong(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharPredicate thenToBoolean(@Nonnull LLongPredicate after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.test(this.applyAsLong(c));
+		return (char c) -> after.doTest(this.doApplyAsLong(c));
 	}
 
 	// </editor-fold>
@@ -224,11 +224,11 @@ public interface LCharToLongFunction extends LCharToLongFunctionX<RuntimeExcepti
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LCharToLongFunction wrapException(@Nonnull final LCharToLongFunction other, Class<E> exception, LLongSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (char c) -> {
 			try {
-				return other.applyAsLong(c);
+				return other.doApplyAsLong(c);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsLong();
+						return supplier.doGetAsLong();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

@@ -60,9 +60,14 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LFunction<T, R> extends java.util.function.Function<T, R>, LFunctionX<T, R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LFunction: R apply(T t)";
+	public static final String DESCRIPTION = "LFunction: R doApply(T t)";
 
-	// Ovverriding methods can cause problems with inference.
+	@Nullable
+	public R doApply(T t);
+
+	default R apply(T t) {
+		return doApply(t);
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +77,7 @@ public interface LFunction<T, R> extends java.util.function.Function<T, R>, LFun
 
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(T t) {
-		return () -> this.apply(t);
+		return () -> this.doApply(t);
 	}
 
 	public static <T, R> LFunction<T, R> constant(R r) {
@@ -84,7 +89,7 @@ public interface LFunction<T, R> extends java.util.function.Function<T, R>, LFun
 	/** Ensures the result is not null */
 	@Nonnull
 	default R nonNull(T t) {
-		return Objects.requireNonNull(apply(t), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Objects.requireNonNull(doApply(t), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -107,7 +112,7 @@ public interface LFunction<T, R> extends java.util.function.Function<T, R>, LFun
 	public static <T, R, X extends Exception> LFunction<T, R> wrap(final @Nonnull LFunctionX<T, R, X> other) {
 		return (T t) -> {
 			try {
-				return other.apply(t);
+				return other.doApply(t);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -124,7 +129,7 @@ public interface LFunction<T, R> extends java.util.function.Function<T, R>, LFun
 	@Nonnull
 	default <V1> LFunction<V1, R> from(@Nonnull final LFunction<? super V1, ? extends T> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final V1 v1) -> this.apply(before1.apply(v1));
+		return (final V1 v1) -> this.doApply(before1.doApply(v1));
 	}
 
 	// </editor-fold>
@@ -135,70 +140,70 @@ public interface LFunction<T, R> extends java.util.function.Function<T, R>, LFun
 	@Nonnull
 	default <V> LFunction<T, V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.apply(this.apply(t));
+		return (T t) -> after.doApply(this.doApply(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LConsumer<T> then(@Nonnull LConsumer<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.accept(this.apply(t));
+		return (T t) -> after.doAccept(this.doApply(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToByteFunction<T> thenToByte(@Nonnull LToByteFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsByte(this.apply(t));
+		return (T t) -> after.doApplyAsByte(this.doApply(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToShortFunction<T> thenToShort(@Nonnull LToShortFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsShort(this.apply(t));
+		return (T t) -> after.doApplyAsShort(this.doApply(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToIntFunction<T> thenToInt(@Nonnull LToIntFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsInt(this.apply(t));
+		return (T t) -> after.doApplyAsInt(this.doApply(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToLongFunction<T> thenToLong(@Nonnull LToLongFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsLong(this.apply(t));
+		return (T t) -> after.doApplyAsLong(this.doApply(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToFloatFunction<T> thenToFloat(@Nonnull LToFloatFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsFloat(this.apply(t));
+		return (T t) -> after.doApplyAsFloat(this.doApply(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToDoubleFunction<T> thenToDouble(@Nonnull LToDoubleFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsDouble(this.apply(t));
+		return (T t) -> after.doApplyAsDouble(this.doApply(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToCharFunction<T> thenToChar(@Nonnull LToCharFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsChar(this.apply(t));
+		return (T t) -> after.doApplyAsChar(this.doApply(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LPredicate<T> thenToBoolean(@Nonnull LPredicate<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.test(this.apply(t));
+		return (T t) -> after.doTest(this.doApply(t));
 	}
 
 	// </editor-fold>
@@ -238,7 +243,7 @@ public interface LFunction<T, R> extends java.util.function.Function<T, R>, LFun
 
 	@Nonnull
 	default LFunction<T, R> nonNullable() {
-		return (t) -> Objects.requireNonNull(this.apply(t));
+		return (t) -> Objects.requireNonNull(this.doApply(t));
 	}
 
 	// <editor-fold desc="exception handling">
@@ -248,11 +253,11 @@ public interface LFunction<T, R> extends java.util.function.Function<T, R>, LFun
 	public static <T, R, X extends Exception, E extends Exception, Y extends RuntimeException> LFunction<T, R> wrapException(@Nonnull final LFunction<T, R> other, Class<E> exception, LSupplier<R> supplier, ExceptionHandler<E, Y> handler) {
 		return (T t) -> {
 			try {
-				return other.apply(t);
+				return other.doApply(t);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.get();
+						return supplier.doGet();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

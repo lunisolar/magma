@@ -61,19 +61,19 @@ public class LIntBiFunctionXTest<R,X extends ParseException> {
 
 
     private LIntBiFunctionX<R,X> sut = new LIntBiFunctionX(){
-        public @Nullable Object  apply(int i1,int i2) throws ParseException {
+        public @Nullable Object  doApply(int i1,int i2) throws ParseException {
             return testValue;
         }
     };
 
     private LIntBiFunction<R> opposite = new LIntBiFunction(){
-        public @Nullable Object  apply(int i1,int i2)  {
+        public @Nullable Object  doApply(int i1,int i2)  {
             return testValue;
         }
     };
 
     private LIntBiFunctionX<R,X> sutNull = new LIntBiFunctionX(){
-        public @Nullable Object  apply(int i1,int i2) throws ParseException {
+        public @Nullable Object  doApply(int i1,int i2) throws ParseException {
             return null;
         }
     };
@@ -82,7 +82,7 @@ public class LIntBiFunctionXTest<R,X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.apply((int)100,(int)100))
+        assertThat(sut.doApply((int)100,(int)100))
             .isSameAs(testValue);
     }
 
@@ -92,7 +92,7 @@ public class LIntBiFunctionXTest<R,X extends ParseException> {
             .isSameAs(testValue);
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LIntBiFunctionX: R apply(int i1,int i2) throws X).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LIntBiFunctionX: R doApply(int i1,int i2) throws X).\\E")
     public void testNonNullCapturesNull() throws ParseException {
         sutNull.nonNull((int)100,(int)100);
     }
@@ -101,7 +101,7 @@ public class LIntBiFunctionXTest<R,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LIntBiFunctionX: R apply(int i1,int i2) throws X");
+            .isEqualTo("LIntBiFunctionX: R doApply(int i1,int i2) throws X");
     }
 
     @Test
@@ -132,7 +132,7 @@ public class LIntBiFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((int)100,(int)100);
+            wrapped.doApply((int)100,(int)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -157,7 +157,7 @@ public class LIntBiFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((int)100,(int)100);
+            wrapped.doApply((int)100,(int)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -181,7 +181,7 @@ public class LIntBiFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((int)100,(int)100);
+            wrapped.doApply((int)100,(int)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -222,7 +222,7 @@ public class LIntBiFunctionXTest<R,X extends ParseException> {
 
         //when
         LIntBiFunctionX<Integer ,X> function = sutO.fromInt(before1,before2);
-        function.apply((int)80,(int)81);
+        function.doApply((int)80,(int)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -257,7 +257,7 @@ public class LIntBiFunctionXTest<R,X extends ParseException> {
 
         //when
         LBiFunctionX<Integer ,Integer ,Integer ,X> function = sutO.from(before1,before2);
-        function.apply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        function.doApply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -294,7 +294,7 @@ public class LIntBiFunctionXTest<R,X extends ParseException> {
 
         //when
         LIntBiFunctionX<Integer ,X> function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((int)80,(int)81);
+        Integer  finalValue = function.doApply((int)80,(int)81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -328,7 +328,7 @@ public class LIntBiFunctionXTest<R,X extends ParseException> {
 
         //when
         LIntBiConsumerX<X> function = sutO.then(thenFunction);
-        function.accept((int)80,(int)81);
+        function.doAccept((int)80,(int)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -358,7 +358,7 @@ public class LIntBiFunctionXTest<R,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().apply((int)100,(int)100);
+        sutThrowing.shove().doApply((int)100,(int)100);
     }
 
     @Test
@@ -376,7 +376,7 @@ public class LIntBiFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((int)100,(int)100);
+            wrapped.doApply((int)100,(int)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -395,7 +395,7 @@ public class LIntBiFunctionXTest<R,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LIntBiFunctionX: R apply(int i1,int i2) throws X");
+                .contains("LIntBiFunctionX: R doApply(int i1,int i2) throws X");
     }
 
 

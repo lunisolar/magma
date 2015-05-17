@@ -60,10 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LSupplierX<R, X extends Exception> extends MetaSupplier, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LSupplierX: R get() throws X";
+	public static final String DESCRIPTION = "LSupplierX: R doGet() throws X";
 
 	@Nullable
-	public R get() throws X;
+	public R doGet() throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -80,7 +80,7 @@ public interface LSupplierX<R, X extends Exception> extends MetaSupplier, MetaIn
 	/** Ensures the result is not null */
 	@Nonnull
 	default R nonNull() throws X {
-		return Objects.requireNonNull(get(), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Objects.requireNonNull(doGet(), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -101,7 +101,7 @@ public interface LSupplierX<R, X extends Exception> extends MetaSupplier, MetaIn
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <R, X extends Exception> LSupplierX<R, X> wrapX(final @Nonnull LSupplier<R> other) {
-		return other::get;
+		return other::doGet;
 	}
 
 	// </editor-fold>
@@ -112,70 +112,70 @@ public interface LSupplierX<R, X extends Exception> extends MetaSupplier, MetaIn
 	@Nonnull
 	default <V> LSupplierX<V, X> then(@Nonnull LFunctionX<? super R, ? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.apply(this.get());
+		return () -> after.doApply(this.doGet());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LActionX<X> then(@Nonnull LConsumerX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.accept(this.get());
+		return () -> after.doAccept(this.doGet());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LByteSupplierX<X> thenToByte(@Nonnull LToByteFunctionX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsByte(this.get());
+		return () -> after.doApplyAsByte(this.doGet());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LShortSupplierX<X> thenToShort(@Nonnull LToShortFunctionX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsShort(this.get());
+		return () -> after.doApplyAsShort(this.doGet());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LIntSupplierX<X> thenToInt(@Nonnull LToIntFunctionX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsInt(this.get());
+		return () -> after.doApplyAsInt(this.doGet());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LLongSupplierX<X> thenToLong(@Nonnull LToLongFunctionX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsLong(this.get());
+		return () -> after.doApplyAsLong(this.doGet());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LFloatSupplierX<X> thenToFloat(@Nonnull LToFloatFunctionX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsFloat(this.get());
+		return () -> after.doApplyAsFloat(this.doGet());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LDoubleSupplierX<X> thenToDouble(@Nonnull LToDoubleFunctionX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsDouble(this.get());
+		return () -> after.doApplyAsDouble(this.doGet());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LCharSupplierX<X> thenToChar(@Nonnull LToCharFunctionX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsChar(this.get());
+		return () -> after.doApplyAsChar(this.doGet());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LBooleanSupplierX<X> thenToBoolean(@Nonnull LPredicateX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.test(this.get());
+		return () -> after.doTest(this.doGet());
 	}
 
 	// </editor-fold>
@@ -185,7 +185,7 @@ public interface LSupplierX<R, X extends Exception> extends MetaSupplier, MetaIn
 	/** Converts to JRE variant. */
 	@Nonnull
 	default java.util.function.Supplier<R> std() {
-		return LSupplier.wrap(this)::get;
+		return LSupplier.wrap(this)::doGet;
 	}
 
 	/** Converts to non-throwing variant (if required). */
@@ -203,14 +203,14 @@ public interface LSupplierX<R, X extends Exception> extends MetaSupplier, MetaIn
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LSupplier<R> shove() {
 		LSupplierX<R, RuntimeException> exceptionCast = (LSupplierX<R, RuntimeException>) this;
-		return exceptionCast::get;
+		return exceptionCast::doGet;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
 	default LSupplierX<R, X> nonNullableX() {
-		return () -> Objects.requireNonNull(this.get());
+		return () -> Objects.requireNonNull(this.doGet());
 	}
 
 	// <editor-fold desc="exception handling">
@@ -220,11 +220,11 @@ public interface LSupplierX<R, X extends Exception> extends MetaSupplier, MetaIn
 	public static <R, X extends Exception, E extends Exception, Y extends Exception> LSupplierX<R, Y> wrapException(@Nonnull final LSupplierX<R, X> other, Class<E> exception, LSupplierX<R, X> supplier, ExceptionHandler<E, Y> handler) {
 		return () -> {
 			try {
-				return other.get();
+				return other.doGet();
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.get();
+						return supplier.doGet();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

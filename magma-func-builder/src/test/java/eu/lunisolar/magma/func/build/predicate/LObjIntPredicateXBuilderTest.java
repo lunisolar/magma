@@ -69,7 +69,7 @@ public class LObjIntPredicateXBuilderTest<T,X extends ParseException>{
                 .objIntPredicateX()
                 .build();
 
-            function.test((T)Integer.valueOf(100),(int)100);
+            function.doTest((T)Integer.valueOf(100),(int)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

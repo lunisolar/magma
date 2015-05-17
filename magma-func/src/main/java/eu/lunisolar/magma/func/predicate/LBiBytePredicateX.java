@@ -60,14 +60,14 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBiBytePredicateX<X extends Exception> extends MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LBiBytePredicateX: boolean test(byte b1,byte b2) throws X";
+	public static final String DESCRIPTION = "LBiBytePredicateX: boolean doTest(byte b1,byte b2) throws X";
 
-	public boolean test(byte b1, byte b2) throws X;
+	public boolean doTest(byte b1, byte b2) throws X;
 
 	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
 
-	default boolean applyAsBoolean(byte b1, byte b2) throws X {
-		return test(b1, b2);
+	default boolean doApplyAsBoolean(byte b1, byte b2) throws X {
+		return doTest(b1, b2);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -78,7 +78,7 @@ public interface LBiBytePredicateX<X extends Exception> extends MetaPredicate, P
 
 	/** Captures arguments but delays the evaluation. */
 	default LBooleanSupplierX<X> capture(byte b1, byte b2) {
-		return () -> this.test(b1, b2);
+		return () -> this.doTest(b1, b2);
 	}
 
 	public static <X extends Exception> LBiBytePredicateX<X> constant(boolean r) {
@@ -87,7 +87,7 @@ public interface LBiBytePredicateX<X extends Exception> extends MetaPredicate, P
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(byte b1, byte b2) throws X {
-		return test(b1, b2);
+		return doTest(b1, b2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -102,7 +102,7 @@ public interface LBiBytePredicateX<X extends Exception> extends MetaPredicate, P
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LBiBytePredicateX<X> wrapX(final @Nonnull LBiBytePredicate other) {
-		return other::test;
+		return other::doTest;
 	}
 
 	// </editor-fold>
@@ -113,7 +113,7 @@ public interface LBiBytePredicateX<X extends Exception> extends MetaPredicate, P
 	 */
 	@Nonnull
 	default LBiBytePredicateX<X> negate() {
-		return (byte b1, byte b2) -> !test(b1, b2);
+		return (byte b1, byte b2) -> !doTest(b1, b2);
 	}
 
 	/**
@@ -122,7 +122,7 @@ public interface LBiBytePredicateX<X extends Exception> extends MetaPredicate, P
 	@Nonnull
 	default LBiBytePredicateX<X> and(@Nonnull LBiBytePredicateX<X> other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (byte b1, byte b2) -> test(b1, b2) && other.test(b1, b2);
+		return (byte b1, byte b2) -> doTest(b1, b2) && other.doTest(b1, b2);
 	}
 
 	/**
@@ -131,7 +131,7 @@ public interface LBiBytePredicateX<X extends Exception> extends MetaPredicate, P
 	@Nonnull
 	default LBiBytePredicateX<X> or(@Nonnull LBiBytePredicateX<X> other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (byte b1, byte b2) -> test(b1, b2) || other.test(b1, b2);
+		return (byte b1, byte b2) -> doTest(b1, b2) || other.doTest(b1, b2);
 	}
 
 	/**
@@ -140,7 +140,7 @@ public interface LBiBytePredicateX<X extends Exception> extends MetaPredicate, P
 	@Nonnull
 	default LBiBytePredicateX<X> xor(@Nonnull LBiBytePredicateX<X> other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (byte b1, byte b2) -> test(b1, b2) ^ other.test(b1, b2);
+		return (byte b1, byte b2) -> doTest(b1, b2) ^ other.doTest(b1, b2);
 	}
 
 	/**
@@ -162,7 +162,7 @@ public interface LBiBytePredicateX<X extends Exception> extends MetaPredicate, P
 	default LBiBytePredicateX<X> fromByte(@Nonnull final LByteUnaryOperatorX<X> before1, @Nonnull final LByteUnaryOperatorX<X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final byte v1, final byte v2) -> this.test(before1.applyAsByte(v1), before2.applyAsByte(v2));
+		return (final byte v1, final byte v2) -> this.doTest(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
 	}
 
 	/**
@@ -172,7 +172,7 @@ public interface LBiBytePredicateX<X extends Exception> extends MetaPredicate, P
 	default <V1, V2> LBiPredicateX<V1, V2, X> from(@Nonnull final LToByteFunctionX<? super V1, X> before1, @Nonnull final LToByteFunctionX<? super V2, X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.test(before1.applyAsByte(v1), before2.applyAsByte(v2));
+		return (V1 v1, V2 v2) -> this.doTest(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
 	}
 
 	// </editor-fold>
@@ -183,7 +183,7 @@ public interface LBiBytePredicateX<X extends Exception> extends MetaPredicate, P
 	@Nonnull
 	default <V> LByteBiFunctionX<V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (byte b1, byte b2) -> after.apply(this.test(b1, b2));
+		return (byte b1, byte b2) -> after.doApply(this.doTest(b1, b2));
 	}
 
 	// </editor-fold>
@@ -205,7 +205,7 @@ public interface LBiBytePredicateX<X extends Exception> extends MetaPredicate, P
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBiBytePredicate shove() {
 		LBiBytePredicateX<RuntimeException> exceptionCast = (LBiBytePredicateX<RuntimeException>) this;
-		return exceptionCast::test;
+		return exceptionCast::doTest;
 	}
 
 	// </editor-fold>
@@ -217,11 +217,11 @@ public interface LBiBytePredicateX<X extends Exception> extends MetaPredicate, P
 	public static <X extends Exception, E extends Exception, Y extends Exception> LBiBytePredicateX<Y> wrapException(@Nonnull final LBiBytePredicateX<X> other, Class<E> exception, LBooleanSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
 		return (byte b1, byte b2) -> {
 			try {
-				return other.test(b1, b2);
+				return other.doTest(b1, b2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsBoolean();
+						return supplier.doGetAsBoolean();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

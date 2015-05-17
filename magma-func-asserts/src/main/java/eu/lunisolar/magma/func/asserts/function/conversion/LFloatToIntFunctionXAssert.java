@@ -63,7 +63,7 @@ public interface LFloatToIntFunctionXAssert<S extends LFloatToIntFunctionXAssert
 
 		@Nonnull
 		public Evaluation<S, A, RS, Integer, Exception> doesApplyAsInt(float f) {
-			return evaluation(() -> assertFactory.apply((Integer) actual.applyAsInt(f)));
+			return evaluation(() -> assertFactory.apply((Integer) actual.doApplyAsInt(f)));
 		}
 
 	}

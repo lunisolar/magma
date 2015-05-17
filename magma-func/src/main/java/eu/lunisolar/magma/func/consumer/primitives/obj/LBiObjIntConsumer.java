@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBiObjIntConsumer<T1, T2> extends LBiObjIntConsumerX<T1, T2, RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LBiObjIntConsumer: void accept(T1 t1,T2 t2, int i)";
+	public static final String DESCRIPTION = "LBiObjIntConsumer: void doAccept(T1 t1,T2 t2, int i)";
 
-	// Ovverriding methods can cause problems with inference.
+	public void doAccept(T1 t1, T2 t2, int i);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +73,7 @@ public interface LBiObjIntConsumer<T1, T2> extends LBiObjIntConsumerX<T1, T2, Ru
 
 	/** Captures arguments but delays the evaluation. */
 	default LAction capture(T1 t1, T2 t2, int i) {
-		return () -> this.accept(t1, t2, i);
+		return () -> this.doAccept(t1, t2, i);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -90,7 +90,7 @@ public interface LBiObjIntConsumer<T1, T2> extends LBiObjIntConsumerX<T1, T2, Ru
 	public static <T1, T2, X extends Exception> LBiObjIntConsumer<T1, T2> wrap(final @Nonnull LBiObjIntConsumerX<T1, T2, X> other) {
 		return (T1 t1, T2 t2, int i) -> {
 			try {
-				other.accept(t1, t2, i);
+				other.doAccept(t1, t2, i);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -109,7 +109,7 @@ public interface LBiObjIntConsumer<T1, T2> extends LBiObjIntConsumerX<T1, T2, Ru
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
 		Objects.requireNonNull(before3, Function4U.VALIDATION_MESSAGE_BEFORE3);
-		return (final V1 v1, final V2 v2, final int v3) -> this.accept(before1.apply(v1), before2.apply(v2), before3.applyAsInt(v3));
+		return (final V1 v1, final V2 v2, final int v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsInt(v3));
 	}
 
 	/**
@@ -120,7 +120,7 @@ public interface LBiObjIntConsumer<T1, T2> extends LBiObjIntConsumerX<T1, T2, Ru
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
 		Objects.requireNonNull(before3, Function4U.VALIDATION_MESSAGE_BEFORE3);
-		return (V1 v1, V2 v2, V3 v3) -> this.accept(before1.apply(v1), before2.apply(v2), before3.applyAsInt(v3));
+		return (V1 v1, V2 v2, V3 v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsInt(v3));
 	}
 
 	// </editor-fold>
@@ -132,8 +132,8 @@ public interface LBiObjIntConsumer<T1, T2> extends LBiObjIntConsumerX<T1, T2, Ru
 	default LBiObjIntConsumer<T1, T2> andThen(@Nonnull LBiObjIntConsumer<? super T1, ? super T2> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
 		return (T1 t1, T2 t2, int i) -> {
-			this.accept(t1, t2, i);
-			after.accept(t1, t2, i);
+			this.doAccept(t1, t2, i);
+			after.doAccept(t1, t2, i);
 		};
 	}
 
@@ -166,7 +166,7 @@ public interface LBiObjIntConsumer<T1, T2> extends LBiObjIntConsumerX<T1, T2, Ru
 	public static <T1, T2, X extends Exception, E extends Exception, Y extends RuntimeException> LBiObjIntConsumer<T1, T2> wrapException(@Nonnull final LBiObjIntConsumer<T1, T2> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
 		return (T1 t1, T2 t2, int i) -> {
 			try {
-				other.accept(t1, t2, i);
+				other.doAccept(t1, t2, i);
 			} catch (Exception e) {
 				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
 			}

@@ -99,12 +99,12 @@ public final class LSupplierBuilder<R> extends PerCaseBuilderWithProduct.Base<LS
 			final Case<LBooleanSupplier, LSupplier<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LSupplier.l(() -> {
 				for (Case<LBooleanSupplier, LSupplier<R>> aCase : casesArray) {
-					if (aCase.casePredicate().getAsBoolean()) {
-						return aCase.caseFunction().get();
+					if (aCase.casePredicate().doGetAsBoolean()) {
+						return aCase.caseFunction().doGet();
 					}
 				}
 
-				return eventuallyFinal.get();
+				return eventuallyFinal.doGet();
 			});
 		}
 

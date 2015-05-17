@@ -71,7 +71,7 @@ public interface SupplierAssert<S extends SupplierAssert<S, A, RS, R>, A extends
 
 		@Nonnull
 		public Evaluation<S, A, RS, R, Exception> doesGet(LAction before) {
-			before.execute();
+			before.doExecute();
 			return doesGet();
 		}
 	}

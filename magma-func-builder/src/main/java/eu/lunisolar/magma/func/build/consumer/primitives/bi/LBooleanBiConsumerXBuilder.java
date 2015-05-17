@@ -99,13 +99,13 @@ public final class LBooleanBiConsumerXBuilder<X extends Exception> extends PerCa
 			final Case<LBooleanBinaryOperatorX<X>, LBooleanBiConsumerX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LBooleanBiConsumerX.lX((boolean b1, boolean b2) -> {
 				for (Case<LBooleanBinaryOperatorX<X>, LBooleanBiConsumerX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().applyAsBoolean(b1, b2)) {
-						aCase.caseFunction().accept(b1, b2);
+					if (aCase.casePredicate().doApplyAsBoolean(b1, b2)) {
+						aCase.caseFunction().doAccept(b1, b2);
 						return;
 					}
 				}
 
-				eventuallyFinal.accept(b1, b2);
+				eventuallyFinal.doAccept(b1, b2);
 			});
 		}
 

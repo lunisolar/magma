@@ -59,13 +59,13 @@ public class LDoubleConsumerTest<X extends ParseException> {
 
 
     private LDoubleConsumer sut = new LDoubleConsumer(){
-        public  void accept(double d)  {
+        public  void doAccept(double d)  {
             Function4U.doNothing();
         }
     };
 
     private LDoubleConsumerX<X> opposite = new LDoubleConsumerX(){
-        public  void accept(double d) throws ParseException {
+        public  void doAccept(double d) throws ParseException {
             Function4U.doNothing();
         }
     };
@@ -79,7 +79,7 @@ public class LDoubleConsumerTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LDoubleConsumer: void accept(double d)");
+            .isEqualTo("LDoubleConsumer: void doAccept(double d)");
     }
 
     @Test
@@ -112,7 +112,7 @@ public class LDoubleConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((double)100);
+            wrapped.doAccept((double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -134,7 +134,7 @@ public class LDoubleConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((double)100);
+            wrapped.doAccept((double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -160,7 +160,7 @@ public class LDoubleConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((double)100);
+            wrapped.doAccept((double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -185,7 +185,7 @@ public class LDoubleConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((double)100);
+            wrapped.doAccept((double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -209,7 +209,7 @@ public class LDoubleConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((double)100);
+            wrapped.doAccept((double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -243,7 +243,7 @@ public class LDoubleConsumerTest<X extends ParseException> {
 
         //when
         LDoubleConsumer function = sutO.fromDouble(before1);
-        function.accept((double)80);
+        function.doAccept((double)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -271,7 +271,7 @@ public class LDoubleConsumerTest<X extends ParseException> {
 
         //when
         LConsumer<Integer > function = sutO.from(before1);
-        function.accept((Integer )Integer.valueOf(80));
+        function.doAccept((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -299,7 +299,7 @@ public class LDoubleConsumerTest<X extends ParseException> {
 
         //when
         LDoubleConsumer function = sutO.andThen(thenFunction);
-        function.accept((double)80);
+        function.doAccept((double)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -330,7 +330,7 @@ public class LDoubleConsumerTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().accept((double)100);
+        sutThrowing.shove().doAccept((double)100);
     }
 
     @Test
@@ -348,7 +348,7 @@ public class LDoubleConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((double)100);
+            wrapped.doAccept((double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -367,7 +367,7 @@ public class LDoubleConsumerTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LDoubleConsumer: void accept(double d)");
+                .contains("LDoubleConsumer: void doAccept(double d)");
     }
 
 

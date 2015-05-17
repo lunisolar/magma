@@ -99,12 +99,12 @@ public final class LByteBiFunctionXBuilder<R, X extends Exception> extends PerCa
 			final Case<LBiBytePredicateX<X>, LByteBiFunctionX<R, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LByteBiFunctionX.lX((byte b1, byte b2) -> {
 				for (Case<LBiBytePredicateX<X>, LByteBiFunctionX<R, X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(b1, b2)) {
-						return aCase.caseFunction().apply(b1, b2);
+					if (aCase.casePredicate().doTest(b1, b2)) {
+						return aCase.caseFunction().doApply(b1, b2);
 					}
 				}
 
-				return eventuallyFinal.apply(b1, b2);
+				return eventuallyFinal.doApply(b1, b2);
 			});
 		}
 

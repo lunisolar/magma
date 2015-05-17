@@ -99,12 +99,12 @@ public final class LByteToCharFunctionBuilder extends PerCaseBuilderWithCharProd
 			final Case<LBytePredicate, LByteToCharFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LByteToCharFunction.l((byte b) -> {
 				for (Case<LBytePredicate, LByteToCharFunction> aCase : casesArray) {
-					if (aCase.casePredicate().test(b)) {
-						return aCase.caseFunction().applyAsChar(b);
+					if (aCase.casePredicate().doTest(b)) {
+						return aCase.caseFunction().doApplyAsChar(b);
 					}
 				}
 
-				return eventuallyFinal.applyAsChar(b);
+				return eventuallyFinal.doApplyAsChar(b);
 			});
 		}
 

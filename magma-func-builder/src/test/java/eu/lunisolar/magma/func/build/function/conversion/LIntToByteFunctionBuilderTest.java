@@ -69,7 +69,7 @@ public class LIntToByteFunctionBuilderTest<X extends ParseException>{
                 .intToByteFunction()
                 .build();
 
-            function.applyAsByte((int)100);
+            function.doApplyAsByte((int)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

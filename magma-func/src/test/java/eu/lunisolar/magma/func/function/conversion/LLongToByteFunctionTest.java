@@ -61,13 +61,13 @@ public class LLongToByteFunctionTest<X extends ParseException> {
 
 
     private LLongToByteFunction sut = new LLongToByteFunction(){
-        public  byte applyAsByte(long l)  {
+        public  byte doApplyAsByte(long l)  {
             return testValue;
         }
     };
 
     private LLongToByteFunctionX<X> opposite = new LLongToByteFunctionX(){
-        public  byte applyAsByte(long l) throws ParseException {
+        public  byte doApplyAsByte(long l) throws ParseException {
             return testValue;
         }
     };
@@ -76,7 +76,7 @@ public class LLongToByteFunctionTest<X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.applyAsByte((long)100))
+        assertThat(sut.doApplyAsByte((long)100))
             .isEqualTo(testValue);
     }
 
@@ -90,7 +90,7 @@ public class LLongToByteFunctionTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LLongToByteFunction: byte applyAsByte(long l)");
+            .isEqualTo("LLongToByteFunction: byte doApplyAsByte(long l)");
     }
 
     @Test
@@ -117,7 +117,7 @@ public class LLongToByteFunctionTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsByte((long)100);
+            wrapped.doApplyAsByte((long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LLongToByteFunctionTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsByte((long)100);
+            wrapped.doApplyAsByte((long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -165,7 +165,7 @@ public class LLongToByteFunctionTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsByte((long)100);
+            wrapped.doApplyAsByte((long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -190,7 +190,7 @@ public class LLongToByteFunctionTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsByte((long)100);
+            wrapped.doApplyAsByte((long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -214,7 +214,7 @@ public class LLongToByteFunctionTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsByte((long)100);
+            wrapped.doApplyAsByte((long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -249,7 +249,7 @@ public class LLongToByteFunctionTest<X extends ParseException> {
 
         //when
         LLongToByteFunction function = sutO.fromLong(before1);
-        function.applyAsByte((long)80);
+        function.doApplyAsByte((long)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -278,7 +278,7 @@ public class LLongToByteFunctionTest<X extends ParseException> {
 
         //when
         LToByteFunction<Integer > function = sutO.from(before1);
-        function.applyAsByte((Integer )Integer.valueOf(80));
+        function.doApplyAsByte((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -314,7 +314,7 @@ public class LLongToByteFunctionTest<X extends ParseException> {
 
         //when
         LLongFunction<Integer > function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((long)80);
+        Integer  finalValue = function.doApply((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -349,7 +349,7 @@ public class LLongToByteFunctionTest<X extends ParseException> {
 
         //when
         LLongToByteFunction function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.applyAsByte((long)80);
+        byte finalValue = function.doApplyAsByte((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -384,7 +384,7 @@ public class LLongToByteFunctionTest<X extends ParseException> {
 
         //when
         LLongToShortFunction function = sutO.thenToShort(thenFunction);
-        short finalValue = function.applyAsShort((long)80);
+        short finalValue = function.doApplyAsShort((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -419,7 +419,7 @@ public class LLongToByteFunctionTest<X extends ParseException> {
 
         //when
         LLongToIntFunction function = sutO.thenToInt(thenFunction);
-        int finalValue = function.applyAsInt((long)80);
+        int finalValue = function.doApplyAsInt((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((int)100);
@@ -454,7 +454,7 @@ public class LLongToByteFunctionTest<X extends ParseException> {
 
         //when
         LLongUnaryOperator function = sutO.thenToLong(thenFunction);
-        long finalValue = function.applyAsLong((long)80);
+        long finalValue = function.doApplyAsLong((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((long)100);
@@ -489,7 +489,7 @@ public class LLongToByteFunctionTest<X extends ParseException> {
 
         //when
         LLongToFloatFunction function = sutO.thenToFloat(thenFunction);
-        float finalValue = function.applyAsFloat((long)80);
+        float finalValue = function.doApplyAsFloat((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((float)100);
@@ -524,7 +524,7 @@ public class LLongToByteFunctionTest<X extends ParseException> {
 
         //when
         LLongToDoubleFunction function = sutO.thenToDouble(thenFunction);
-        double finalValue = function.applyAsDouble((long)80);
+        double finalValue = function.doApplyAsDouble((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((double)100);
@@ -559,7 +559,7 @@ public class LLongToByteFunctionTest<X extends ParseException> {
 
         //when
         LLongToCharFunction function = sutO.thenToChar(thenFunction);
-        char finalValue = function.applyAsChar((long)80);
+        char finalValue = function.doApplyAsChar((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((char)100);
@@ -594,7 +594,7 @@ public class LLongToByteFunctionTest<X extends ParseException> {
 
         //when
         LLongPredicate function = sutO.thenToBoolean(thenFunction);
-        boolean finalValue = function.test((long)80);
+        boolean finalValue = function.doTest((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -625,7 +625,7 @@ public class LLongToByteFunctionTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().applyAsByte((long)100);
+        sutThrowing.shove().doApplyAsByte((long)100);
     }
 
     @Test
@@ -643,7 +643,7 @@ public class LLongToByteFunctionTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsByte((long)100);
+            wrapped.doApplyAsByte((long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -662,7 +662,7 @@ public class LLongToByteFunctionTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LLongToByteFunction: byte applyAsByte(long l)");
+                .contains("LLongToByteFunction: byte doApplyAsByte(long l)");
     }
 
 

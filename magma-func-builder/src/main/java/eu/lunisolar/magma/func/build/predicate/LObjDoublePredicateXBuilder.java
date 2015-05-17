@@ -99,12 +99,12 @@ public final class LObjDoublePredicateXBuilder<T, X extends Exception> extends P
 			final Case<LObjDoublePredicateX<T, X>, LObjDoublePredicateX<T, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LObjDoublePredicateX.lX((T t, double d) -> {
 				for (Case<LObjDoublePredicateX<T, X>, LObjDoublePredicateX<T, X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t, d)) {
-						return aCase.caseFunction().test(t, d);
+					if (aCase.casePredicate().doTest(t, d)) {
+						return aCase.caseFunction().doTest(t, d);
 					}
 				}
 
-				return eventuallyFinal.test(t, d);
+				return eventuallyFinal.doTest(t, d);
 			});
 		}
 

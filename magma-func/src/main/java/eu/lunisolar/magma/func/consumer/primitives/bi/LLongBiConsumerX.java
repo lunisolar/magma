@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LLongBiConsumerX<X extends Exception> extends MetaConsumer, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LLongBiConsumerX: void accept(long l1,long l2) throws X";
+	public static final String DESCRIPTION = "LLongBiConsumerX: void doAccept(long l1,long l2) throws X";
 
-	public void accept(long l1, long l2) throws X;
+	public void doAccept(long l1, long l2) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +73,7 @@ public interface LLongBiConsumerX<X extends Exception> extends MetaConsumer, Met
 
 	/** Captures arguments but delays the evaluation. */
 	default LActionX<X> capture(long l1, long l2) {
-		return () -> this.accept(l1, l2);
+		return () -> this.doAccept(l1, l2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -88,7 +88,7 @@ public interface LLongBiConsumerX<X extends Exception> extends MetaConsumer, Met
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LLongBiConsumerX<X> wrapX(final @Nonnull LLongBiConsumer other) {
-		return other::accept;
+		return other::doAccept;
 	}
 
 	// </editor-fold>
@@ -102,7 +102,7 @@ public interface LLongBiConsumerX<X extends Exception> extends MetaConsumer, Met
 	default LLongBiConsumerX<X> fromLong(@Nonnull final LLongUnaryOperatorX<X> before1, @Nonnull final LLongUnaryOperatorX<X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final long v1, final long v2) -> this.accept(before1.applyAsLong(v1), before2.applyAsLong(v2));
+		return (final long v1, final long v2) -> this.doAccept(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
 	}
 
 	/**
@@ -112,7 +112,7 @@ public interface LLongBiConsumerX<X extends Exception> extends MetaConsumer, Met
 	default <V1, V2> LBiConsumerX<V1, V2, X> from(@Nonnull final LToLongFunctionX<? super V1, X> before1, @Nonnull final LToLongFunctionX<? super V2, X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.accept(before1.applyAsLong(v1), before2.applyAsLong(v2));
+		return (V1 v1, V2 v2) -> this.doAccept(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
 	}
 
 	// </editor-fold>
@@ -124,8 +124,8 @@ public interface LLongBiConsumerX<X extends Exception> extends MetaConsumer, Met
 	default LLongBiConsumerX<X> andThen(@Nonnull LLongBiConsumerX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
 		return (long l1, long l2) -> {
-			this.accept(l1, l2);
-			after.accept(l1, l2);
+			this.doAccept(l1, l2);
+			after.doAccept(l1, l2);
 		};
 	}
 
@@ -147,7 +147,7 @@ public interface LLongBiConsumerX<X extends Exception> extends MetaConsumer, Met
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLongBiConsumer shove() {
 		LLongBiConsumerX<RuntimeException> exceptionCast = (LLongBiConsumerX<RuntimeException>) this;
-		return exceptionCast::accept;
+		return exceptionCast::doAccept;
 	}
 
 	// </editor-fold>
@@ -159,7 +159,7 @@ public interface LLongBiConsumerX<X extends Exception> extends MetaConsumer, Met
 	public static <X extends Exception, E extends Exception, Y extends Exception> LLongBiConsumerX<Y> wrapException(@Nonnull final LLongBiConsumerX<X> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
 		return (long l1, long l2) -> {
 			try {
-				other.accept(l1, l2);
+				other.doAccept(l1, l2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
 			}

@@ -99,13 +99,13 @@ public final class LLongBiConsumerXBuilder<X extends Exception> extends PerCaseB
 			final Case<LBiLongPredicateX<X>, LLongBiConsumerX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LLongBiConsumerX.lX((long l1, long l2) -> {
 				for (Case<LBiLongPredicateX<X>, LLongBiConsumerX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(l1, l2)) {
-						aCase.caseFunction().accept(l1, l2);
+					if (aCase.casePredicate().doTest(l1, l2)) {
+						aCase.caseFunction().doAccept(l1, l2);
 						return;
 					}
 				}
 
-				eventuallyFinal.accept(l1, l2);
+				eventuallyFinal.doAccept(l1, l2);
 			});
 		}
 

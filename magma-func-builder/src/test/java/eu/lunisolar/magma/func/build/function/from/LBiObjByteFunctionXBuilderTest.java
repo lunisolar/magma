@@ -69,7 +69,7 @@ public class LBiObjByteFunctionXBuilderTest<T1,T2,R,X extends ParseException>{
                 .biObjByteFunctionX()
                 .build();
 
-            function.apply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(byte)100);
+            function.doApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(byte)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

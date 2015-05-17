@@ -60,14 +60,18 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LPredicate<T> extends java.util.function.Predicate<T>, LPredicateX<T, RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LPredicate: boolean test(T t)";
+	public static final String DESCRIPTION = "LPredicate: boolean doTest(T t)";
 
-	// Ovverriding methods can cause problems with inference.
+	public boolean doTest(T t);
+
+	default boolean test(T t) {
+		return doTest(t);
+	}
 
 	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
 
-	default boolean applyAsBoolean(T t) {
-		return test(t);
+	default boolean doApplyAsBoolean(T t) {
+		return doTest(t);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -78,7 +82,7 @@ public interface LPredicate<T> extends java.util.function.Predicate<T>, LPredica
 
 	/** Captures arguments but delays the evaluation. */
 	default LBooleanSupplier capture(T t) {
-		return () -> this.test(t);
+		return () -> this.doTest(t);
 	}
 
 	public static <T> LPredicate<T> constant(boolean r) {
@@ -87,7 +91,7 @@ public interface LPredicate<T> extends java.util.function.Predicate<T>, LPredica
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(T t) {
-		return test(t);
+		return doTest(t);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -110,7 +114,7 @@ public interface LPredicate<T> extends java.util.function.Predicate<T>, LPredica
 	public static <T, X extends Exception> LPredicate<T> wrap(final @Nonnull LPredicateX<T, X> other) {
 		return (T t) -> {
 			try {
-				return other.test(t);
+				return other.doTest(t);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -125,7 +129,7 @@ public interface LPredicate<T> extends java.util.function.Predicate<T>, LPredica
 	 */
 	@Nonnull
 	default LPredicate<T> negate() {
-		return (T t) -> !test(t);
+		return (T t) -> !doTest(t);
 	}
 
 	/**
@@ -134,7 +138,7 @@ public interface LPredicate<T> extends java.util.function.Predicate<T>, LPredica
 	@Nonnull
 	default LPredicate<T> and(@Nonnull LPredicate<? super T> other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (T t) -> test(t) && other.test(t);
+		return (T t) -> doTest(t) && other.doTest(t);
 	}
 
 	/**
@@ -143,7 +147,7 @@ public interface LPredicate<T> extends java.util.function.Predicate<T>, LPredica
 	@Nonnull
 	default LPredicate<T> or(@Nonnull LPredicate<? super T> other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (T t) -> test(t) || other.test(t);
+		return (T t) -> doTest(t) || other.doTest(t);
 	}
 
 	/**
@@ -152,7 +156,7 @@ public interface LPredicate<T> extends java.util.function.Predicate<T>, LPredica
 	@Nonnull
 	default LPredicate<T> xor(@Nonnull LPredicate<? super T> other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (T t) -> test(t) ^ other.test(t);
+		return (T t) -> doTest(t) ^ other.doTest(t);
 	}
 
 	@Nonnull
@@ -170,7 +174,7 @@ public interface LPredicate<T> extends java.util.function.Predicate<T>, LPredica
 	@Nonnull
 	default <V1> LPredicate<V1> from(@Nonnull final LFunction<? super V1, ? extends T> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final V1 v1) -> this.test(before1.apply(v1));
+		return (final V1 v1) -> this.doTest(before1.doApply(v1));
 	}
 
 	// </editor-fold>
@@ -181,63 +185,63 @@ public interface LPredicate<T> extends java.util.function.Predicate<T>, LPredica
 	@Nonnull
 	default <V> LFunction<T, V> then(@Nonnull LBooleanFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.apply(this.test(t));
+		return (T t) -> after.doApply(this.doTest(t));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LToByteFunction<T> thenToByte(@Nonnull LBooleanToByteFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsByte(this.test(t));
+		return (T t) -> after.doApplyAsByte(this.doTest(t));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LToShortFunction<T> thenToShort(@Nonnull LBooleanToShortFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsShort(this.test(t));
+		return (T t) -> after.doApplyAsShort(this.doTest(t));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LToIntFunction<T> thenToInt(@Nonnull LBooleanToIntFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsInt(this.test(t));
+		return (T t) -> after.doApplyAsInt(this.doTest(t));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LToLongFunction<T> thenToLong(@Nonnull LBooleanToLongFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsLong(this.test(t));
+		return (T t) -> after.doApplyAsLong(this.doTest(t));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LToFloatFunction<T> thenToFloat(@Nonnull LBooleanToFloatFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsFloat(this.test(t));
+		return (T t) -> after.doApplyAsFloat(this.doTest(t));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LToDoubleFunction<T> thenToDouble(@Nonnull LBooleanToDoubleFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsDouble(this.test(t));
+		return (T t) -> after.doApplyAsDouble(this.doTest(t));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LToCharFunction<T> thenToChar(@Nonnull LBooleanToCharFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsChar(this.test(t));
+		return (T t) -> after.doApplyAsChar(this.doTest(t));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LPredicate<T> thenToBoolean(@Nonnull LBooleanUnaryOperator after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsBoolean(this.test(t));
+		return (T t) -> after.doApplyAsBoolean(this.doTest(t));
 	}
 
 	// </editor-fold>
@@ -276,11 +280,11 @@ public interface LPredicate<T> extends java.util.function.Predicate<T>, LPredica
 	public static <T, X extends Exception, E extends Exception, Y extends RuntimeException> LPredicate<T> wrapException(@Nonnull final LPredicate<T> other, Class<E> exception, LBooleanSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (T t) -> {
 			try {
-				return other.test(t);
+				return other.doTest(t);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsBoolean();
+						return supplier.doGetAsBoolean();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

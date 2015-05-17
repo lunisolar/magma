@@ -99,12 +99,12 @@ public final class LBiLongPredicateBuilder extends PerCaseBuilderWithBooleanProd
 			final Case<LBiLongPredicate, LBiLongPredicate>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LBiLongPredicate.l((long l1, long l2) -> {
 				for (Case<LBiLongPredicate, LBiLongPredicate> aCase : casesArray) {
-					if (aCase.casePredicate().test(l1, l2)) {
-						return aCase.caseFunction().test(l1, l2);
+					if (aCase.casePredicate().doTest(l1, l2)) {
+						return aCase.caseFunction().doTest(l1, l2);
 					}
 				}
 
-				return eventuallyFinal.test(l1, l2);
+				return eventuallyFinal.doTest(l1, l2);
 			});
 		}
 

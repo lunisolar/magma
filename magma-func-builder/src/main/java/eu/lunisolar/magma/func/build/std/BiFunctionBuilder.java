@@ -98,7 +98,7 @@ public final class BiFunctionBuilder<T1, T2, R> extends PerCaseBuilderWithProduc
 			final Case<LBiPredicate<T1, T2>, java.util.function.BiFunction<T1, T2, R>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = Function4U.l((T1 t1, T2 t2) -> {
 				for (Case<LBiPredicate<T1, T2>, java.util.function.BiFunction<T1, T2, R>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t1, t2)) {
+					if (aCase.casePredicate().doTest(t1, t2)) {
 						return aCase.caseFunction().apply(t1, t2);
 					}
 				}

@@ -60,9 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LObjLongFunction<T, R> extends LObjLongFunctionX<T, R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LObjLongFunction: R apply(T t, long l)";
+	public static final String DESCRIPTION = "LObjLongFunction: R doApply(T t, long l)";
 
-	// Ovverriding methods can cause problems with inference.
+	@Nullable
+	public R doApply(T t, long l);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +73,7 @@ public interface LObjLongFunction<T, R> extends LObjLongFunctionX<T, R, RuntimeE
 
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(T t, long l) {
-		return () -> this.apply(t, l);
+		return () -> this.doApply(t, l);
 	}
 
 	public static <T, R> LObjLongFunction<T, R> constant(R r) {
@@ -84,7 +85,7 @@ public interface LObjLongFunction<T, R> extends LObjLongFunctionX<T, R, RuntimeE
 	/** Ensures the result is not null */
 	@Nonnull
 	default R nonNull(T t, long l) {
-		return Objects.requireNonNull(apply(t, l), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Objects.requireNonNull(doApply(t, l), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -101,7 +102,7 @@ public interface LObjLongFunction<T, R> extends LObjLongFunctionX<T, R, RuntimeE
 	public static <T, R, X extends Exception> LObjLongFunction<T, R> wrap(final @Nonnull LObjLongFunctionX<T, R, X> other) {
 		return (T t, long l) -> {
 			try {
-				return other.apply(t, l);
+				return other.doApply(t, l);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -119,7 +120,7 @@ public interface LObjLongFunction<T, R> extends LObjLongFunctionX<T, R, RuntimeE
 	default <V1> LObjLongFunction<V1, R> fromLong(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LLongUnaryOperator before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final V1 v1, final long v2) -> this.apply(before1.apply(v1), before2.applyAsLong(v2));
+		return (final V1 v1, final long v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsLong(v2));
 	}
 
 	/**
@@ -129,7 +130,7 @@ public interface LObjLongFunction<T, R> extends LObjLongFunctionX<T, R, RuntimeE
 	default <V1, V2> LBiFunction<V1, V2, R> from(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToLongFunction<? super V2> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.apply(before1.apply(v1), before2.applyAsLong(v2));
+		return (V1 v1, V2 v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsLong(v2));
 	}
 
 	// </editor-fold>
@@ -140,14 +141,14 @@ public interface LObjLongFunction<T, R> extends LObjLongFunctionX<T, R, RuntimeE
 	@Nonnull
 	default <V> LObjLongFunction<T, V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t, long l) -> after.apply(this.apply(t, l));
+		return (T t, long l) -> after.doApply(this.doApply(t, l));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LObjLongConsumer<T> then(@Nonnull LConsumer<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t, long l) -> after.accept(this.apply(t, l));
+		return (T t, long l) -> after.doAccept(this.doApply(t, l));
 	}
 
 	// </editor-fold>
@@ -175,7 +176,7 @@ public interface LObjLongFunction<T, R> extends LObjLongFunctionX<T, R, RuntimeE
 
 	@Nonnull
 	default LObjLongFunction<T, R> nonNullable() {
-		return (t, l) -> Objects.requireNonNull(this.apply(t, l));
+		return (t, l) -> Objects.requireNonNull(this.doApply(t, l));
 	}
 
 	// <editor-fold desc="exception handling">
@@ -185,11 +186,11 @@ public interface LObjLongFunction<T, R> extends LObjLongFunctionX<T, R, RuntimeE
 	public static <T, R, X extends Exception, E extends Exception, Y extends RuntimeException> LObjLongFunction<T, R> wrapException(@Nonnull final LObjLongFunction<T, R> other, Class<E> exception, LSupplier<R> supplier, ExceptionHandler<E, Y> handler) {
 		return (T t, long l) -> {
 			try {
-				return other.apply(t, l);
+				return other.doApply(t, l);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.get();
+						return supplier.doGet();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

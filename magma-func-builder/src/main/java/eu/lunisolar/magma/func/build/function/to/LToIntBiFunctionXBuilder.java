@@ -99,12 +99,12 @@ public final class LToIntBiFunctionXBuilder<T1, T2, X extends Exception> extends
 			final Case<LBiPredicateX<T1, T2, X>, LToIntBiFunctionX<T1, T2, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LToIntBiFunctionX.lX((T1 t1, T2 t2) -> {
 				for (Case<LBiPredicateX<T1, T2, X>, LToIntBiFunctionX<T1, T2, X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t1, t2)) {
-						return aCase.caseFunction().applyAsInt(t1, t2);
+					if (aCase.casePredicate().doTest(t1, t2)) {
+						return aCase.caseFunction().doApplyAsInt(t1, t2);
 					}
 				}
 
-				return eventuallyFinal.applyAsInt(t1, t2);
+				return eventuallyFinal.doApplyAsInt(t1, t2);
 			});
 		}
 

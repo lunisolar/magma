@@ -99,13 +99,13 @@ public final class LActionXBuilder<X extends Exception> extends PerCaseBuilder.B
 			final Case<LBooleanSupplierX<X>, LActionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LActionX.lX(() -> {
 				for (Case<LBooleanSupplierX<X>, LActionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().getAsBoolean()) {
-						aCase.caseFunction().execute();
+					if (aCase.casePredicate().doGetAsBoolean()) {
+						aCase.caseFunction().doExecute();
 						return;
 					}
 				}
 
-				eventuallyFinal.execute();
+				eventuallyFinal.doExecute();
 			});
 		}
 

@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LObjIntConsumerX<T, X extends Exception> extends MetaConsumer, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LObjIntConsumerX: void accept(T t, int i) throws X";
+	public static final String DESCRIPTION = "LObjIntConsumerX: void doAccept(T t, int i) throws X";
 
-	public void accept(T t, int i) throws X;
+	public void doAccept(T t, int i) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +73,7 @@ public interface LObjIntConsumerX<T, X extends Exception> extends MetaConsumer, 
 
 	/** Captures arguments but delays the evaluation. */
 	default LActionX<X> capture(T t, int i) {
-		return () -> this.accept(t, i);
+		return () -> this.doAccept(t, i);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -94,7 +94,7 @@ public interface LObjIntConsumerX<T, X extends Exception> extends MetaConsumer, 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T, X extends Exception> LObjIntConsumerX<T, X> wrapX(final @Nonnull LObjIntConsumer<T> other) {
-		return other::accept;
+		return other::doAccept;
 	}
 
 	// </editor-fold>
@@ -108,7 +108,7 @@ public interface LObjIntConsumerX<T, X extends Exception> extends MetaConsumer, 
 	default <V1> LObjIntConsumerX<V1, X> fromInt(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LIntUnaryOperatorX<X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final V1 v1, final int v2) -> this.accept(before1.apply(v1), before2.applyAsInt(v2));
+		return (final V1 v1, final int v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsInt(v2));
 	}
 
 	/**
@@ -118,7 +118,7 @@ public interface LObjIntConsumerX<T, X extends Exception> extends MetaConsumer, 
 	default <V1, V2> LBiConsumerX<V1, V2, X> from(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToIntFunctionX<? super V2, X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.accept(before1.apply(v1), before2.applyAsInt(v2));
+		return (V1 v1, V2 v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsInt(v2));
 	}
 
 	// </editor-fold>
@@ -130,8 +130,8 @@ public interface LObjIntConsumerX<T, X extends Exception> extends MetaConsumer, 
 	default LObjIntConsumerX<T, X> andThen(@Nonnull LObjIntConsumerX<? super T, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
 		return (T t, int i) -> {
-			this.accept(t, i);
-			after.accept(t, i);
+			this.doAccept(t, i);
+			after.doAccept(t, i);
 		};
 	}
 
@@ -141,7 +141,7 @@ public interface LObjIntConsumerX<T, X extends Exception> extends MetaConsumer, 
 	/** Converts to JRE variant. */
 	@Nonnull
 	default java.util.function.ObjIntConsumer<T> std() {
-		return LObjIntConsumer.wrap(this)::accept;
+		return LObjIntConsumer.wrap(this)::doAccept;
 	}
 
 	/** Converts to non-throwing variant (if required). */
@@ -159,7 +159,7 @@ public interface LObjIntConsumerX<T, X extends Exception> extends MetaConsumer, 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjIntConsumer<T> shove() {
 		LObjIntConsumerX<T, RuntimeException> exceptionCast = (LObjIntConsumerX<T, RuntimeException>) this;
-		return exceptionCast::accept;
+		return exceptionCast::doAccept;
 	}
 
 	// </editor-fold>
@@ -171,7 +171,7 @@ public interface LObjIntConsumerX<T, X extends Exception> extends MetaConsumer, 
 	public static <T, X extends Exception, E extends Exception, Y extends Exception> LObjIntConsumerX<T, Y> wrapException(@Nonnull final LObjIntConsumerX<T, X> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
 		return (T t, int i) -> {
 			try {
-				other.accept(t, i);
+				other.doAccept(t, i);
 			} catch (Exception e) {
 				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
 			}

@@ -69,7 +69,7 @@ public class LCharBiConsumerXBuilderTest<X extends ParseException>{
                 .charBiConsumerX()
                 .build();
 
-            function.accept((char)100,(char)100);
+            function.doAccept((char)100,(char)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

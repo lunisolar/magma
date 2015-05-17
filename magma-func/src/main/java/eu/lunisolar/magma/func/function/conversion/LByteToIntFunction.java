@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LByteToIntFunction extends LByteToIntFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LByteToIntFunction: int applyAsInt(byte b)";
+	public static final String DESCRIPTION = "LByteToIntFunction: int doApplyAsInt(byte b)";
 
-	// Ovverriding methods can cause problems with inference.
+	public int doApplyAsInt(byte b);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LByteToIntFunction extends LByteToIntFunctionX<RuntimeException
 
 	/** Captures arguments but delays the evaluation. */
 	default LIntSupplier capture(byte b) {
-		return () -> this.applyAsInt(b);
+		return () -> this.doApplyAsInt(b);
 	}
 
 	public static LByteToIntFunction constant(int r) {
@@ -81,7 +81,7 @@ public interface LByteToIntFunction extends LByteToIntFunctionX<RuntimeException
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default int nonNull(byte b) {
-		return applyAsInt(b);
+		return doApplyAsInt(b);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -98,7 +98,7 @@ public interface LByteToIntFunction extends LByteToIntFunctionX<RuntimeException
 	public static <X extends Exception> LByteToIntFunction wrap(final @Nonnull LByteToIntFunctionX<X> other) {
 		return (byte b) -> {
 			try {
-				return other.applyAsInt(b);
+				return other.doApplyAsInt(b);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -115,7 +115,7 @@ public interface LByteToIntFunction extends LByteToIntFunctionX<RuntimeException
 	@Nonnull
 	default LByteToIntFunction fromByte(@Nonnull final LByteUnaryOperator before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final byte v1) -> this.applyAsInt(before1.applyAsByte(v1));
+		return (final byte v1) -> this.doApplyAsInt(before1.doApplyAsByte(v1));
 	}
 
 	/**
@@ -124,7 +124,7 @@ public interface LByteToIntFunction extends LByteToIntFunctionX<RuntimeException
 	@Nonnull
 	default <V1> LToIntFunction<V1> from(@Nonnull final LToByteFunction<? super V1> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.applyAsInt(before1.applyAsByte(v1));
+		return (V1 v1) -> this.doApplyAsInt(before1.doApplyAsByte(v1));
 	}
 
 	// </editor-fold>
@@ -135,63 +135,63 @@ public interface LByteToIntFunction extends LByteToIntFunctionX<RuntimeException
 	@Nonnull
 	default <V> LByteFunction<V> then(@Nonnull LIntFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (byte b) -> after.apply(this.applyAsInt(b));
+		return (byte b) -> after.doApply(this.doApplyAsInt(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteUnaryOperator thenToByte(@Nonnull LIntToByteFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (byte b) -> after.applyAsByte(this.applyAsInt(b));
+		return (byte b) -> after.doApplyAsByte(this.doApplyAsInt(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToShortFunction thenToShort(@Nonnull LIntToShortFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (byte b) -> after.applyAsShort(this.applyAsInt(b));
+		return (byte b) -> after.doApplyAsShort(this.doApplyAsInt(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToIntFunction thenToInt(@Nonnull LIntUnaryOperator after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (byte b) -> after.applyAsInt(this.applyAsInt(b));
+		return (byte b) -> after.doApplyAsInt(this.doApplyAsInt(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToLongFunction thenToLong(@Nonnull LIntToLongFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (byte b) -> after.applyAsLong(this.applyAsInt(b));
+		return (byte b) -> after.doApplyAsLong(this.doApplyAsInt(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToFloatFunction thenToFloat(@Nonnull LIntToFloatFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (byte b) -> after.applyAsFloat(this.applyAsInt(b));
+		return (byte b) -> after.doApplyAsFloat(this.doApplyAsInt(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToDoubleFunction thenToDouble(@Nonnull LIntToDoubleFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (byte b) -> after.applyAsDouble(this.applyAsInt(b));
+		return (byte b) -> after.doApplyAsDouble(this.doApplyAsInt(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToCharFunction thenToChar(@Nonnull LIntToCharFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (byte b) -> after.applyAsChar(this.applyAsInt(b));
+		return (byte b) -> after.doApplyAsChar(this.doApplyAsInt(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBytePredicate thenToBoolean(@Nonnull LIntPredicate after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (byte b) -> after.test(this.applyAsInt(b));
+		return (byte b) -> after.doTest(this.doApplyAsInt(b));
 	}
 
 	// </editor-fold>
@@ -224,11 +224,11 @@ public interface LByteToIntFunction extends LByteToIntFunctionX<RuntimeException
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LByteToIntFunction wrapException(@Nonnull final LByteToIntFunction other, Class<E> exception, LIntSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (byte b) -> {
 			try {
-				return other.applyAsInt(b);
+				return other.doApplyAsInt(b);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsInt();
+						return supplier.doGetAsInt();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

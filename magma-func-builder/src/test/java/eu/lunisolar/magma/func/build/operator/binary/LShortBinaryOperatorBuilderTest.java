@@ -69,7 +69,7 @@ public class LShortBinaryOperatorBuilderTest<X extends ParseException>{
                 .shortBinaryOperator()
                 .build();
 
-            function.applyAsShort((short)100,(short)100);
+            function.doApplyAsShort((short)100,(short)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

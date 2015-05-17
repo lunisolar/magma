@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LByteConsumerX<X extends Exception> extends MetaConsumer, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LByteConsumerX: void accept(byte b) throws X";
+	public static final String DESCRIPTION = "LByteConsumerX: void doAccept(byte b) throws X";
 
-	public void accept(byte b) throws X;
+	public void doAccept(byte b) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +73,7 @@ public interface LByteConsumerX<X extends Exception> extends MetaConsumer, MetaI
 
 	/** Captures arguments but delays the evaluation. */
 	default LActionX<X> capture(byte b) {
-		return () -> this.accept(b);
+		return () -> this.doAccept(b);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -88,7 +88,7 @@ public interface LByteConsumerX<X extends Exception> extends MetaConsumer, MetaI
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LByteConsumerX<X> wrapX(final @Nonnull LByteConsumer other) {
-		return other::accept;
+		return other::doAccept;
 	}
 
 	// </editor-fold>
@@ -101,7 +101,7 @@ public interface LByteConsumerX<X extends Exception> extends MetaConsumer, MetaI
 	@Nonnull
 	default LByteConsumerX<X> fromByte(@Nonnull final LByteUnaryOperatorX<X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final byte v1) -> this.accept(before1.applyAsByte(v1));
+		return (final byte v1) -> this.doAccept(before1.doApplyAsByte(v1));
 	}
 
 	/**
@@ -110,7 +110,7 @@ public interface LByteConsumerX<X extends Exception> extends MetaConsumer, MetaI
 	@Nonnull
 	default <V1> LConsumerX<V1, X> from(@Nonnull final LToByteFunctionX<? super V1, X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.accept(before1.applyAsByte(v1));
+		return (V1 v1) -> this.doAccept(before1.doApplyAsByte(v1));
 	}
 
 	// </editor-fold>
@@ -122,8 +122,8 @@ public interface LByteConsumerX<X extends Exception> extends MetaConsumer, MetaI
 	default LByteConsumerX<X> andThen(@Nonnull LByteConsumerX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
 		return (byte b) -> {
-			this.accept(b);
-			after.accept(b);
+			this.doAccept(b);
+			after.doAccept(b);
 		};
 	}
 
@@ -145,7 +145,7 @@ public interface LByteConsumerX<X extends Exception> extends MetaConsumer, MetaI
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LByteConsumer shove() {
 		LByteConsumerX<RuntimeException> exceptionCast = (LByteConsumerX<RuntimeException>) this;
-		return exceptionCast::accept;
+		return exceptionCast::doAccept;
 	}
 
 	// </editor-fold>
@@ -157,7 +157,7 @@ public interface LByteConsumerX<X extends Exception> extends MetaConsumer, MetaI
 	public static <X extends Exception, E extends Exception, Y extends Exception> LByteConsumerX<Y> wrapException(@Nonnull final LByteConsumerX<X> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
 		return (byte b) -> {
 			try {
-				other.accept(b);
+				other.doAccept(b);
 			} catch (Exception e) {
 				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
 			}

@@ -61,13 +61,13 @@ public class LLongBinaryOperatorXTest<X extends ParseException> {
 
 
     private LLongBinaryOperatorX<X> sut = new LLongBinaryOperatorX(){
-        public  long applyAsLong(long l1,long l2) throws ParseException {
+        public  long doApplyAsLong(long l1,long l2) throws ParseException {
             return testValue;
         }
     };
 
     private LLongBinaryOperator opposite = new LLongBinaryOperator(){
-        public  long applyAsLong(long l1,long l2)  {
+        public  long doApplyAsLong(long l1,long l2)  {
             return testValue;
         }
     };
@@ -78,7 +78,7 @@ public class LLongBinaryOperatorXTest<X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.applyAsLong((long)100,(long)100))
+        assertThat(sut.doApplyAsLong((long)100,(long)100))
             .isEqualTo(testValue);
     }
 
@@ -92,7 +92,7 @@ public class LLongBinaryOperatorXTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LLongBinaryOperatorX: long applyAsLong(long l1,long l2) throws X");
+            .isEqualTo("LLongBinaryOperatorX: long doApplyAsLong(long l1,long l2) throws X");
     }
 
     @Test
@@ -129,7 +129,7 @@ public class LLongBinaryOperatorXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsLong((long)100,(long)100);
+            wrapped.doApplyAsLong((long)100,(long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -154,7 +154,7 @@ public class LLongBinaryOperatorXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsLong((long)100,(long)100);
+            wrapped.doApplyAsLong((long)100,(long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -178,7 +178,7 @@ public class LLongBinaryOperatorXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsLong((long)100,(long)100);
+            wrapped.doApplyAsLong((long)100,(long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -199,10 +199,10 @@ public class LLongBinaryOperatorXTest<X extends ParseException> {
         LLongBinaryOperatorX<X> min = LLongBinaryOperatorX.min();
 
         //then
-        assertThat(min.applyAsLong(valueSmall, valueBig))
+        assertThat(min.doApplyAsLong(valueSmall, valueBig))
                 .isEqualTo(valueSmall);
 
-        assertThat(min.applyAsLong(valueBig, valueSmall))
+        assertThat(min.doApplyAsLong(valueBig, valueSmall))
                 .isEqualTo(valueSmall);
     }
 
@@ -216,10 +216,10 @@ public class LLongBinaryOperatorXTest<X extends ParseException> {
         LLongBinaryOperatorX<X> max = LLongBinaryOperatorX.max();
 
         //then
-        assertThat(max.applyAsLong(valueSmall, valueBig))
+        assertThat(max.doApplyAsLong(valueSmall, valueBig))
                 .isEqualTo(valueBig);
 
-        assertThat(max.applyAsLong(valueBig, valueSmall))
+        assertThat(max.doApplyAsLong(valueBig, valueSmall))
                 .isEqualTo(valueBig);
     }
 
@@ -253,7 +253,7 @@ public class LLongBinaryOperatorXTest<X extends ParseException> {
 
         //when
         LLongBinaryOperatorX<X> function = sutO.fromLong(before1,before2);
-        function.applyAsLong((long)80,(long)81);
+        function.doApplyAsLong((long)80,(long)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -288,7 +288,7 @@ public class LLongBinaryOperatorXTest<X extends ParseException> {
 
         //when
         LToLongBiFunctionX<Integer ,Integer ,X> function = sutO.from(before1,before2);
-        function.applyAsLong((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        function.doApplyAsLong((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -325,7 +325,7 @@ public class LLongBinaryOperatorXTest<X extends ParseException> {
 
         //when
         LLongBiFunctionX<Integer ,X> function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((long)80,(long)81);
+        Integer  finalValue = function.doApply((long)80,(long)81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -361,7 +361,7 @@ public class LLongBinaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().applyAsLong((long)100,(long)100);
+        sutThrowing.shove().doApplyAsLong((long)100,(long)100);
     }
 
     @Test
@@ -379,7 +379,7 @@ public class LLongBinaryOperatorXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsLong((long)100,(long)100);
+            wrapped.doApplyAsLong((long)100,(long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -398,7 +398,7 @@ public class LLongBinaryOperatorXTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LLongBinaryOperatorX: long applyAsLong(long l1,long l2) throws X");
+                .contains("LLongBinaryOperatorX: long doApplyAsLong(long l1,long l2) throws X");
     }
 
 

@@ -99,12 +99,12 @@ public final class LBiFunctionBuilder<T1, T2, R> extends PerCaseBuilderWithProdu
 			final Case<LBiPredicate<T1, T2>, LBiFunction<T1, T2, R>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LBiFunction.l((T1 t1, T2 t2) -> {
 				for (Case<LBiPredicate<T1, T2>, LBiFunction<T1, T2, R>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t1, t2)) {
-						return aCase.caseFunction().apply(t1, t2);
+					if (aCase.casePredicate().doTest(t1, t2)) {
+						return aCase.caseFunction().doApply(t1, t2);
 					}
 				}
 
-				return eventuallyFinal.apply(t1, t2);
+				return eventuallyFinal.doApply(t1, t2);
 			});
 		}
 

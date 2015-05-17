@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LCharToFloatFunctionX<X extends Exception> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LCharToFloatFunctionX: float applyAsFloat(char c) throws X";
+	public static final String DESCRIPTION = "LCharToFloatFunctionX: float doApplyAsFloat(char c) throws X";
 
-	public float applyAsFloat(char c) throws X;
+	public float doApplyAsFloat(char c) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LCharToFloatFunctionX<X extends Exception> extends MetaFunction
 
 	/** Captures arguments but delays the evaluation. */
 	default LFloatSupplierX<X> capture(char c) {
-		return () -> this.applyAsFloat(c);
+		return () -> this.doApplyAsFloat(c);
 	}
 
 	public static <X extends Exception> LCharToFloatFunctionX<X> constant(float r) {
@@ -81,7 +81,7 @@ public interface LCharToFloatFunctionX<X extends Exception> extends MetaFunction
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default float nonNull(char c) throws X {
-		return applyAsFloat(c);
+		return doApplyAsFloat(c);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -96,7 +96,7 @@ public interface LCharToFloatFunctionX<X extends Exception> extends MetaFunction
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LCharToFloatFunctionX<X> wrapX(final @Nonnull LCharToFloatFunction other) {
-		return other::applyAsFloat;
+		return other::doApplyAsFloat;
 	}
 
 	// </editor-fold>
@@ -109,7 +109,7 @@ public interface LCharToFloatFunctionX<X extends Exception> extends MetaFunction
 	@Nonnull
 	default LCharToFloatFunctionX<X> fromChar(@Nonnull final LCharUnaryOperatorX<X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final char v1) -> this.applyAsFloat(before1.applyAsChar(v1));
+		return (final char v1) -> this.doApplyAsFloat(before1.doApplyAsChar(v1));
 	}
 
 	/**
@@ -118,7 +118,7 @@ public interface LCharToFloatFunctionX<X extends Exception> extends MetaFunction
 	@Nonnull
 	default <V1> LToFloatFunctionX<V1, X> from(@Nonnull final LToCharFunctionX<? super V1, X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.applyAsFloat(before1.applyAsChar(v1));
+		return (V1 v1) -> this.doApplyAsFloat(before1.doApplyAsChar(v1));
 	}
 
 	// </editor-fold>
@@ -129,63 +129,63 @@ public interface LCharToFloatFunctionX<X extends Exception> extends MetaFunction
 	@Nonnull
 	default <V> LCharFunctionX<V, X> then(@Nonnull LFloatFunctionX<? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.apply(this.applyAsFloat(c));
+		return (char c) -> after.doApply(this.doApplyAsFloat(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToByteFunctionX<X> thenToByte(@Nonnull LFloatToByteFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.applyAsByte(this.applyAsFloat(c));
+		return (char c) -> after.doApplyAsByte(this.doApplyAsFloat(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToShortFunctionX<X> thenToShort(@Nonnull LFloatToShortFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.applyAsShort(this.applyAsFloat(c));
+		return (char c) -> after.doApplyAsShort(this.doApplyAsFloat(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToIntFunctionX<X> thenToInt(@Nonnull LFloatToIntFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.applyAsInt(this.applyAsFloat(c));
+		return (char c) -> after.doApplyAsInt(this.doApplyAsFloat(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToLongFunctionX<X> thenToLong(@Nonnull LFloatToLongFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.applyAsLong(this.applyAsFloat(c));
+		return (char c) -> after.doApplyAsLong(this.doApplyAsFloat(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToFloatFunctionX<X> thenToFloat(@Nonnull LFloatUnaryOperatorX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.applyAsFloat(this.applyAsFloat(c));
+		return (char c) -> after.doApplyAsFloat(this.doApplyAsFloat(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToDoubleFunctionX<X> thenToDouble(@Nonnull LFloatToDoubleFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.applyAsDouble(this.applyAsFloat(c));
+		return (char c) -> after.doApplyAsDouble(this.doApplyAsFloat(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharUnaryOperatorX<X> thenToChar(@Nonnull LFloatToCharFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.applyAsChar(this.applyAsFloat(c));
+		return (char c) -> after.doApplyAsChar(this.doApplyAsFloat(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharPredicateX<X> thenToBoolean(@Nonnull LFloatPredicateX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.test(this.applyAsFloat(c));
+		return (char c) -> after.doTest(this.doApplyAsFloat(c));
 	}
 
 	// </editor-fold>
@@ -207,7 +207,7 @@ public interface LCharToFloatFunctionX<X extends Exception> extends MetaFunction
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LCharToFloatFunction shove() {
 		LCharToFloatFunctionX<RuntimeException> exceptionCast = (LCharToFloatFunctionX<RuntimeException>) this;
-		return exceptionCast::applyAsFloat;
+		return exceptionCast::doApplyAsFloat;
 	}
 
 	// </editor-fold>
@@ -219,11 +219,11 @@ public interface LCharToFloatFunctionX<X extends Exception> extends MetaFunction
 	public static <X extends Exception, E extends Exception, Y extends Exception> LCharToFloatFunctionX<Y> wrapException(@Nonnull final LCharToFloatFunctionX<X> other, Class<E> exception, LFloatSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
 		return (char c) -> {
 			try {
-				return other.applyAsFloat(c);
+				return other.doApplyAsFloat(c);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsFloat();
+						return supplier.doGetAsFloat();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

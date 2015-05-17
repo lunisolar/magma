@@ -99,12 +99,12 @@ public final class LLongBinaryOperatorXBuilder<X extends Exception> extends PerC
 			final Case<LBiLongPredicateX<X>, LLongBinaryOperatorX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LLongBinaryOperatorX.lX((long l1, long l2) -> {
 				for (Case<LBiLongPredicateX<X>, LLongBinaryOperatorX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(l1, l2)) {
-						return aCase.caseFunction().applyAsLong(l1, l2);
+					if (aCase.casePredicate().doTest(l1, l2)) {
+						return aCase.caseFunction().doApplyAsLong(l1, l2);
 					}
 				}
 
-				return eventuallyFinal.applyAsLong(l1, l2);
+				return eventuallyFinal.doApplyAsLong(l1, l2);
 			});
 		}
 

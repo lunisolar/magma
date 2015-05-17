@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LToByteFunction<T> extends LToByteFunctionX<T, RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LToByteFunction: byte applyAsByte(T t)";
+	public static final String DESCRIPTION = "LToByteFunction: byte doApplyAsByte(T t)";
 
-	// Ovverriding methods can cause problems with inference.
+	public byte doApplyAsByte(T t);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LToByteFunction<T> extends LToByteFunctionX<T, RuntimeException
 
 	/** Captures arguments but delays the evaluation. */
 	default LByteSupplier capture(T t) {
-		return () -> this.applyAsByte(t);
+		return () -> this.doApplyAsByte(t);
 	}
 
 	public static <T> LToByteFunction<T> constant(byte r) {
@@ -81,7 +81,7 @@ public interface LToByteFunction<T> extends LToByteFunctionX<T, RuntimeException
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default byte nonNull(T t) {
-		return applyAsByte(t);
+		return doApplyAsByte(t);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -98,7 +98,7 @@ public interface LToByteFunction<T> extends LToByteFunctionX<T, RuntimeException
 	public static <T, X extends Exception> LToByteFunction<T> wrap(final @Nonnull LToByteFunctionX<T, X> other) {
 		return (T t) -> {
 			try {
-				return other.applyAsByte(t);
+				return other.doApplyAsByte(t);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -115,7 +115,7 @@ public interface LToByteFunction<T> extends LToByteFunctionX<T, RuntimeException
 	@Nonnull
 	default <V1> LToByteFunction<V1> from(@Nonnull final LFunction<? super V1, ? extends T> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final V1 v1) -> this.applyAsByte(before1.apply(v1));
+		return (final V1 v1) -> this.doApplyAsByte(before1.doApply(v1));
 	}
 
 	// </editor-fold>
@@ -126,63 +126,63 @@ public interface LToByteFunction<T> extends LToByteFunctionX<T, RuntimeException
 	@Nonnull
 	default <V> LFunction<T, V> then(@Nonnull LByteFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.apply(this.applyAsByte(t));
+		return (T t) -> after.doApply(this.doApplyAsByte(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToByteFunction<T> thenToByte(@Nonnull LByteUnaryOperator after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsByte(this.applyAsByte(t));
+		return (T t) -> after.doApplyAsByte(this.doApplyAsByte(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToShortFunction<T> thenToShort(@Nonnull LByteToShortFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsShort(this.applyAsByte(t));
+		return (T t) -> after.doApplyAsShort(this.doApplyAsByte(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToIntFunction<T> thenToInt(@Nonnull LByteToIntFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsInt(this.applyAsByte(t));
+		return (T t) -> after.doApplyAsInt(this.doApplyAsByte(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToLongFunction<T> thenToLong(@Nonnull LByteToLongFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsLong(this.applyAsByte(t));
+		return (T t) -> after.doApplyAsLong(this.doApplyAsByte(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToFloatFunction<T> thenToFloat(@Nonnull LByteToFloatFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsFloat(this.applyAsByte(t));
+		return (T t) -> after.doApplyAsFloat(this.doApplyAsByte(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToDoubleFunction<T> thenToDouble(@Nonnull LByteToDoubleFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsDouble(this.applyAsByte(t));
+		return (T t) -> after.doApplyAsDouble(this.doApplyAsByte(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToCharFunction<T> thenToChar(@Nonnull LByteToCharFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsChar(this.applyAsByte(t));
+		return (T t) -> after.doApplyAsChar(this.doApplyAsByte(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LPredicate<T> thenToBoolean(@Nonnull LBytePredicate after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.test(this.applyAsByte(t));
+		return (T t) -> after.doTest(this.doApplyAsByte(t));
 	}
 
 	// </editor-fold>
@@ -215,11 +215,11 @@ public interface LToByteFunction<T> extends LToByteFunctionX<T, RuntimeException
 	public static <T, X extends Exception, E extends Exception, Y extends RuntimeException> LToByteFunction<T> wrapException(@Nonnull final LToByteFunction<T> other, Class<E> exception, LByteSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (T t) -> {
 			try {
-				return other.applyAsByte(t);
+				return other.doApplyAsByte(t);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsByte();
+						return supplier.doGetAsByte();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

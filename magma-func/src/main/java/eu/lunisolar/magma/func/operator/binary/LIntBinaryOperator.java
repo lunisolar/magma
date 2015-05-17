@@ -60,9 +60,13 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LIntBinaryOperator extends java.util.function.IntBinaryOperator, LIntBinaryOperatorX<RuntimeException>, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LIntBinaryOperator: int applyAsInt(int i1,int i2)";
+	public static final String DESCRIPTION = "LIntBinaryOperator: int doApplyAsInt(int i1,int i2)";
 
-	// Ovverriding methods can cause problems with inference.
+	public int doApplyAsInt(int i1, int i2);
+
+	default int applyAsInt(int i1, int i2) {
+		return doApplyAsInt(i1, i2);
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +76,7 @@ public interface LIntBinaryOperator extends java.util.function.IntBinaryOperator
 
 	/** Captures arguments but delays the evaluation. */
 	default LIntSupplier capture(int i1, int i2) {
-		return () -> this.applyAsInt(i1, i2);
+		return () -> this.doApplyAsInt(i1, i2);
 	}
 
 	public static LIntBinaryOperator constant(int r) {
@@ -81,7 +85,7 @@ public interface LIntBinaryOperator extends java.util.function.IntBinaryOperator
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default int nonNull(int i1, int i2) {
-		return applyAsInt(i1, i2);
+		return doApplyAsInt(i1, i2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -104,7 +108,7 @@ public interface LIntBinaryOperator extends java.util.function.IntBinaryOperator
 	public static <X extends Exception> LIntBinaryOperator wrap(final @Nonnull LIntBinaryOperatorX<X> other) {
 		return (int i1, int i2) -> {
 			try {
-				return other.applyAsInt(i1, i2);
+				return other.doApplyAsInt(i1, i2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -141,7 +145,7 @@ public interface LIntBinaryOperator extends java.util.function.IntBinaryOperator
 	default LIntBinaryOperator fromInt(@Nonnull final LIntUnaryOperator before1, @Nonnull final LIntUnaryOperator before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final int v1, final int v2) -> this.applyAsInt(before1.applyAsInt(v1), before2.applyAsInt(v2));
+		return (final int v1, final int v2) -> this.doApplyAsInt(before1.doApplyAsInt(v1), before2.doApplyAsInt(v2));
 	}
 
 	/**
@@ -151,7 +155,7 @@ public interface LIntBinaryOperator extends java.util.function.IntBinaryOperator
 	default <V1, V2> LToIntBiFunction<V1, V2> from(@Nonnull final LToIntFunction<? super V1> before1, @Nonnull final LToIntFunction<? super V2> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.applyAsInt(before1.applyAsInt(v1), before2.applyAsInt(v2));
+		return (V1 v1, V2 v2) -> this.doApplyAsInt(before1.doApplyAsInt(v1), before2.doApplyAsInt(v2));
 	}
 
 	// </editor-fold>
@@ -162,7 +166,7 @@ public interface LIntBinaryOperator extends java.util.function.IntBinaryOperator
 	@Nonnull
 	default <V> LIntBiFunction<V> then(@Nonnull LIntFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i1, int i2) -> after.apply(this.applyAsInt(i1, i2));
+		return (int i1, int i2) -> after.doApply(this.doApplyAsInt(i1, i2));
 	}
 
 	// </editor-fold>
@@ -201,11 +205,11 @@ public interface LIntBinaryOperator extends java.util.function.IntBinaryOperator
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LIntBinaryOperator wrapException(@Nonnull final LIntBinaryOperator other, Class<E> exception, LIntSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (int i1, int i2) -> {
 			try {
-				return other.applyAsInt(i1, i2);
+				return other.doApplyAsInt(i1, i2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsInt();
+						return supplier.doGetAsInt();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

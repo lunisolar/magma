@@ -99,12 +99,12 @@ public final class LBooleanToFloatFunctionBuilder extends PerCaseBuilderWithFloa
 			final Case<LBooleanUnaryOperator, LBooleanToFloatFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LBooleanToFloatFunction.l((boolean b) -> {
 				for (Case<LBooleanUnaryOperator, LBooleanToFloatFunction> aCase : casesArray) {
-					if (aCase.casePredicate().applyAsBoolean(b)) {
-						return aCase.caseFunction().applyAsFloat(b);
+					if (aCase.casePredicate().doApplyAsBoolean(b)) {
+						return aCase.caseFunction().doApplyAsFloat(b);
 					}
 				}
 
-				return eventuallyFinal.applyAsFloat(b);
+				return eventuallyFinal.doApplyAsFloat(b);
 			});
 		}
 

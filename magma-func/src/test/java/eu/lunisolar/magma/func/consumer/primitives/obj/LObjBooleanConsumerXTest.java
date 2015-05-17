@@ -59,13 +59,13 @@ public class LObjBooleanConsumerXTest<T,X extends ParseException> {
 
 
     private LObjBooleanConsumerX<T,X> sut = new LObjBooleanConsumerX(){
-        public  void accept(Object t, boolean b) throws ParseException {
+        public  void doAccept(Object t, boolean b) throws ParseException {
             Function4U.doNothing();
         }
     };
 
     private LObjBooleanConsumer<T> opposite = new LObjBooleanConsumer(){
-        public  void accept(Object t, boolean b)  {
+        public  void doAccept(Object t, boolean b)  {
             Function4U.doNothing();
         }
     };
@@ -77,7 +77,7 @@ public class LObjBooleanConsumerXTest<T,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LObjBooleanConsumerX: void accept(T t, boolean b) throws X");
+            .isEqualTo("LObjBooleanConsumerX: void doAccept(T t, boolean b) throws X");
     }
 
     @Test
@@ -108,7 +108,7 @@ public class LObjBooleanConsumerXTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((T)Integer.valueOf(100),true);
+            wrapped.doAccept((T)Integer.valueOf(100),true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -133,7 +133,7 @@ public class LObjBooleanConsumerXTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((T)Integer.valueOf(100),true);
+            wrapped.doAccept((T)Integer.valueOf(100),true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -157,7 +157,7 @@ public class LObjBooleanConsumerXTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((T)Integer.valueOf(100),true);
+            wrapped.doAccept((T)Integer.valueOf(100),true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -197,7 +197,7 @@ public class LObjBooleanConsumerXTest<T,X extends ParseException> {
 
         //when
         LObjBooleanConsumerX<Integer ,X> function = sutO.fromBoolean(before1,before2);
-        function.accept((Integer )Integer.valueOf(80),true);
+        function.doAccept((Integer )Integer.valueOf(80),true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -231,7 +231,7 @@ public class LObjBooleanConsumerXTest<T,X extends ParseException> {
 
         //when
         LBiConsumerX<Integer ,Integer ,X> function = sutO.from(before1,before2);
-        function.accept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        function.doAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -261,7 +261,7 @@ public class LObjBooleanConsumerXTest<T,X extends ParseException> {
 
         //when
         LObjBooleanConsumerX<Integer ,X> function = sutO.andThen(thenFunction);
-        function.accept((Integer )Integer.valueOf(80),true);
+        function.doAccept((Integer )Integer.valueOf(80),true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -287,7 +287,7 @@ public class LObjBooleanConsumerXTest<T,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().accept((T)Integer.valueOf(100),true);
+        sutThrowing.shove().doAccept((T)Integer.valueOf(100),true);
     }
 
     @Test
@@ -305,7 +305,7 @@ public class LObjBooleanConsumerXTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((T)Integer.valueOf(100),true);
+            wrapped.doAccept((T)Integer.valueOf(100),true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -324,7 +324,7 @@ public class LObjBooleanConsumerXTest<T,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LObjBooleanConsumerX: void accept(T t, boolean b) throws X");
+                .contains("LObjBooleanConsumerX: void doAccept(T t, boolean b) throws X");
     }
 
 

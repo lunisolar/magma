@@ -98,7 +98,7 @@ public final class DoubleBinaryOperatorBuilder extends PerCaseBuilderWithDoubleP
 			final Case<LBiDoublePredicate, java.util.function.DoubleBinaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = Function4U.l((double d1, double d2) -> {
 				for (Case<LBiDoublePredicate, java.util.function.DoubleBinaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().test(d1, d2)) {
+					if (aCase.casePredicate().doTest(d1, d2)) {
 						return aCase.caseFunction().applyAsDouble(d1, d2);
 					}
 				}

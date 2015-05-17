@@ -63,7 +63,7 @@ public interface LCharToByteFunctionXAssert<S extends LCharToByteFunctionXAssert
 
 		@Nonnull
 		public Evaluation<S, A, RS, Byte, Exception> doesApplyAsByte(char c) {
-			return evaluation(() -> assertFactory.apply((Byte) actual.applyAsByte(c)));
+			return evaluation(() -> assertFactory.apply((Byte) actual.doApplyAsByte(c)));
 		}
 
 	}

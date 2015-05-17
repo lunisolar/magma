@@ -60,10 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LShortBiFunctionX<R, X extends Exception> extends MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LShortBiFunctionX: R apply(short s1,short s2) throws X";
+	public static final String DESCRIPTION = "LShortBiFunctionX: R doApply(short s1,short s2) throws X";
 
 	@Nullable
-	public R apply(short s1, short s2) throws X;
+	public R doApply(short s1, short s2) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +73,7 @@ public interface LShortBiFunctionX<R, X extends Exception> extends MetaFunction,
 
 	/** Captures arguments but delays the evaluation. */
 	default LSupplierX<R, X> capture(short s1, short s2) {
-		return () -> this.apply(s1, s2);
+		return () -> this.doApply(s1, s2);
 	}
 
 	public static <R, X extends Exception> LShortBiFunctionX<R, X> constant(R r) {
@@ -85,7 +85,7 @@ public interface LShortBiFunctionX<R, X extends Exception> extends MetaFunction,
 	/** Ensures the result is not null */
 	@Nonnull
 	default R nonNull(short s1, short s2) throws X {
-		return Objects.requireNonNull(apply(s1, s2), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Objects.requireNonNull(doApply(s1, s2), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -100,7 +100,7 @@ public interface LShortBiFunctionX<R, X extends Exception> extends MetaFunction,
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <R, X extends Exception> LShortBiFunctionX<R, X> wrapX(final @Nonnull LShortBiFunction<R> other) {
-		return other::apply;
+		return other::doApply;
 	}
 
 	// </editor-fold>
@@ -114,7 +114,7 @@ public interface LShortBiFunctionX<R, X extends Exception> extends MetaFunction,
 	default LShortBiFunctionX<R, X> fromShort(@Nonnull final LShortUnaryOperatorX<X> before1, @Nonnull final LShortUnaryOperatorX<X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final short v1, final short v2) -> this.apply(before1.applyAsShort(v1), before2.applyAsShort(v2));
+		return (final short v1, final short v2) -> this.doApply(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
 	}
 
 	/**
@@ -124,7 +124,7 @@ public interface LShortBiFunctionX<R, X extends Exception> extends MetaFunction,
 	default <V1, V2> LBiFunctionX<V1, V2, R, X> from(@Nonnull final LToShortFunctionX<? super V1, X> before1, @Nonnull final LToShortFunctionX<? super V2, X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.apply(before1.applyAsShort(v1), before2.applyAsShort(v2));
+		return (V1 v1, V2 v2) -> this.doApply(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
 	}
 
 	// </editor-fold>
@@ -135,14 +135,14 @@ public interface LShortBiFunctionX<R, X extends Exception> extends MetaFunction,
 	@Nonnull
 	default <V> LShortBiFunctionX<V, X> then(@Nonnull LFunctionX<? super R, ? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s1, short s2) -> after.apply(this.apply(s1, s2));
+		return (short s1, short s2) -> after.doApply(this.doApply(s1, s2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortBiConsumerX<X> then(@Nonnull LConsumerX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s1, short s2) -> after.accept(this.apply(s1, s2));
+		return (short s1, short s2) -> after.doAccept(this.doApply(s1, s2));
 	}
 
 	// </editor-fold>
@@ -164,14 +164,14 @@ public interface LShortBiFunctionX<R, X extends Exception> extends MetaFunction,
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LShortBiFunction<R> shove() {
 		LShortBiFunctionX<R, RuntimeException> exceptionCast = (LShortBiFunctionX<R, RuntimeException>) this;
-		return exceptionCast::apply;
+		return exceptionCast::doApply;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
 	default LShortBiFunctionX<R, X> nonNullableX() {
-		return (s1, s2) -> Objects.requireNonNull(this.apply(s1, s2));
+		return (s1, s2) -> Objects.requireNonNull(this.doApply(s1, s2));
 	}
 
 	// <editor-fold desc="exception handling">
@@ -181,11 +181,11 @@ public interface LShortBiFunctionX<R, X extends Exception> extends MetaFunction,
 	public static <R, X extends Exception, E extends Exception, Y extends Exception> LShortBiFunctionX<R, Y> wrapException(@Nonnull final LShortBiFunctionX<R, X> other, Class<E> exception, LSupplierX<R, X> supplier, ExceptionHandler<E, Y> handler) {
 		return (short s1, short s2) -> {
 			try {
-				return other.apply(s1, s2);
+				return other.doApply(s1, s2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.get();
+						return supplier.doGet();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

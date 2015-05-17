@@ -60,14 +60,14 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LBiLongPredicate: boolean test(long l1,long l2)";
+	public static final String DESCRIPTION = "LBiLongPredicate: boolean doTest(long l1,long l2)";
 
-	// Ovverriding methods can cause problems with inference.
+	public boolean doTest(long l1, long l2);
 
 	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
 
-	default boolean applyAsBoolean(long l1, long l2) {
-		return test(l1, l2);
+	default boolean doApplyAsBoolean(long l1, long l2) {
+		return doTest(l1, l2);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -78,7 +78,7 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 
 	/** Captures arguments but delays the evaluation. */
 	default LBooleanSupplier capture(long l1, long l2) {
-		return () -> this.test(l1, l2);
+		return () -> this.doTest(l1, l2);
 	}
 
 	public static LBiLongPredicate constant(boolean r) {
@@ -87,7 +87,7 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(long l1, long l2) {
-		return test(l1, l2);
+		return doTest(l1, l2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -104,7 +104,7 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 	public static <X extends Exception> LBiLongPredicate wrap(final @Nonnull LBiLongPredicateX<X> other) {
 		return (long l1, long l2) -> {
 			try {
-				return other.test(l1, l2);
+				return other.doTest(l1, l2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -119,7 +119,7 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 	 */
 	@Nonnull
 	default LBiLongPredicate negate() {
-		return (long l1, long l2) -> !test(l1, l2);
+		return (long l1, long l2) -> !doTest(l1, l2);
 	}
 
 	/**
@@ -128,7 +128,7 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 	@Nonnull
 	default LBiLongPredicate and(@Nonnull LBiLongPredicate other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (long l1, long l2) -> test(l1, l2) && other.test(l1, l2);
+		return (long l1, long l2) -> doTest(l1, l2) && other.doTest(l1, l2);
 	}
 
 	/**
@@ -137,7 +137,7 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 	@Nonnull
 	default LBiLongPredicate or(@Nonnull LBiLongPredicate other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (long l1, long l2) -> test(l1, l2) || other.test(l1, l2);
+		return (long l1, long l2) -> doTest(l1, l2) || other.doTest(l1, l2);
 	}
 
 	/**
@@ -146,7 +146,7 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 	@Nonnull
 	default LBiLongPredicate xor(@Nonnull LBiLongPredicate other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (long l1, long l2) -> test(l1, l2) ^ other.test(l1, l2);
+		return (long l1, long l2) -> doTest(l1, l2) ^ other.doTest(l1, l2);
 	}
 
 	/**
@@ -168,7 +168,7 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 	default LBiLongPredicate fromLong(@Nonnull final LLongUnaryOperator before1, @Nonnull final LLongUnaryOperator before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final long v1, final long v2) -> this.test(before1.applyAsLong(v1), before2.applyAsLong(v2));
+		return (final long v1, final long v2) -> this.doTest(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
 	}
 
 	/**
@@ -178,7 +178,7 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 	default <V1, V2> LBiPredicate<V1, V2> from(@Nonnull final LToLongFunction<? super V1> before1, @Nonnull final LToLongFunction<? super V2> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.test(before1.applyAsLong(v1), before2.applyAsLong(v2));
+		return (V1 v1, V2 v2) -> this.doTest(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
 	}
 
 	// </editor-fold>
@@ -189,7 +189,7 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 	@Nonnull
 	default <V> LLongBiFunction<V> then(@Nonnull LBooleanFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l1, long l2) -> after.apply(this.test(l1, l2));
+		return (long l1, long l2) -> after.doApply(this.doTest(l1, l2));
 	}
 
 	// </editor-fold>
@@ -222,11 +222,11 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LBiLongPredicate wrapException(@Nonnull final LBiLongPredicate other, Class<E> exception, LBooleanSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (long l1, long l2) -> {
 			try {
-				return other.test(l1, l2);
+				return other.doTest(l1, l2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsBoolean();
+						return supplier.doGetAsBoolean();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

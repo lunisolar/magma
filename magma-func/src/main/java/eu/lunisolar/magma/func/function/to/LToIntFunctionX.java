@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LToIntFunctionX<T, X extends Exception> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LToIntFunctionX: int applyAsInt(T t) throws X";
+	public static final String DESCRIPTION = "LToIntFunctionX: int doApplyAsInt(T t) throws X";
 
-	public int applyAsInt(T t) throws X;
+	public int doApplyAsInt(T t) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LToIntFunctionX<T, X extends Exception> extends MetaFunction, P
 
 	/** Captures arguments but delays the evaluation. */
 	default LIntSupplierX<X> capture(T t) {
-		return () -> this.applyAsInt(t);
+		return () -> this.doApplyAsInt(t);
 	}
 
 	public static <T, X extends Exception> LToIntFunctionX<T, X> constant(int r) {
@@ -81,7 +81,7 @@ public interface LToIntFunctionX<T, X extends Exception> extends MetaFunction, P
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default int nonNull(T t) throws X {
-		return applyAsInt(t);
+		return doApplyAsInt(t);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -102,7 +102,7 @@ public interface LToIntFunctionX<T, X extends Exception> extends MetaFunction, P
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T, X extends Exception> LToIntFunctionX<T, X> wrapX(final @Nonnull LToIntFunction<T> other) {
-		return other::applyAsInt;
+		return other::doApplyAsInt;
 	}
 
 	// </editor-fold>
@@ -115,7 +115,7 @@ public interface LToIntFunctionX<T, X extends Exception> extends MetaFunction, P
 	@Nonnull
 	default <V1> LToIntFunctionX<V1, X> from(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final V1 v1) -> this.applyAsInt(before1.apply(v1));
+		return (final V1 v1) -> this.doApplyAsInt(before1.doApply(v1));
 	}
 
 	// </editor-fold>
@@ -126,63 +126,63 @@ public interface LToIntFunctionX<T, X extends Exception> extends MetaFunction, P
 	@Nonnull
 	default <V> LFunctionX<T, V, X> then(@Nonnull LIntFunctionX<? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.apply(this.applyAsInt(t));
+		return (T t) -> after.doApply(this.doApplyAsInt(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToByteFunctionX<T, X> thenToByte(@Nonnull LIntToByteFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsByte(this.applyAsInt(t));
+		return (T t) -> after.doApplyAsByte(this.doApplyAsInt(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToShortFunctionX<T, X> thenToShort(@Nonnull LIntToShortFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsShort(this.applyAsInt(t));
+		return (T t) -> after.doApplyAsShort(this.doApplyAsInt(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToIntFunctionX<T, X> thenToInt(@Nonnull LIntUnaryOperatorX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsInt(this.applyAsInt(t));
+		return (T t) -> after.doApplyAsInt(this.doApplyAsInt(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToLongFunctionX<T, X> thenToLong(@Nonnull LIntToLongFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsLong(this.applyAsInt(t));
+		return (T t) -> after.doApplyAsLong(this.doApplyAsInt(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToFloatFunctionX<T, X> thenToFloat(@Nonnull LIntToFloatFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsFloat(this.applyAsInt(t));
+		return (T t) -> after.doApplyAsFloat(this.doApplyAsInt(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToDoubleFunctionX<T, X> thenToDouble(@Nonnull LIntToDoubleFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsDouble(this.applyAsInt(t));
+		return (T t) -> after.doApplyAsDouble(this.doApplyAsInt(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToCharFunctionX<T, X> thenToChar(@Nonnull LIntToCharFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsChar(this.applyAsInt(t));
+		return (T t) -> after.doApplyAsChar(this.doApplyAsInt(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LPredicateX<T, X> thenToBoolean(@Nonnull LIntPredicateX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.test(this.applyAsInt(t));
+		return (T t) -> after.doTest(this.doApplyAsInt(t));
 	}
 
 	// </editor-fold>
@@ -192,7 +192,7 @@ public interface LToIntFunctionX<T, X extends Exception> extends MetaFunction, P
 	/** Converts to JRE variant. */
 	@Nonnull
 	default java.util.function.ToIntFunction<T> std() {
-		return LToIntFunction.wrap(this)::applyAsInt;
+		return LToIntFunction.wrap(this)::doApplyAsInt;
 	}
 
 	/** Converts to non-throwing variant (if required). */
@@ -210,7 +210,7 @@ public interface LToIntFunctionX<T, X extends Exception> extends MetaFunction, P
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LToIntFunction<T> shove() {
 		LToIntFunctionX<T, RuntimeException> exceptionCast = (LToIntFunctionX<T, RuntimeException>) this;
-		return exceptionCast::applyAsInt;
+		return exceptionCast::doApplyAsInt;
 	}
 
 	// </editor-fold>
@@ -222,11 +222,11 @@ public interface LToIntFunctionX<T, X extends Exception> extends MetaFunction, P
 	public static <T, X extends Exception, E extends Exception, Y extends Exception> LToIntFunctionX<T, Y> wrapException(@Nonnull final LToIntFunctionX<T, X> other, Class<E> exception, LIntSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
 		return (T t) -> {
 			try {
-				return other.applyAsInt(t);
+				return other.doApplyAsInt(t);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsInt();
+						return supplier.doGetAsInt();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

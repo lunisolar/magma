@@ -55,7 +55,7 @@ public interface LBiObjLongConsumerAssert<S extends LBiObjLongConsumerAssert<S, 
 
 		@Nonnull
 		public SemiEvaluation<S, A, Exception> doesAccept(T1 t1, T2 t2, long l) {
-			return evaluation(() -> actual.accept(t1, t2, l));
+			return evaluation(() -> actual.doAccept(t1, t2, l));
 		}
 
 	}

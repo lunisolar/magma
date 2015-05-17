@@ -69,7 +69,7 @@ public class LObjCharPredicateXBuilderTest<T,X extends ParseException>{
                 .objCharPredicateX()
                 .build();
 
-            function.test((T)Integer.valueOf(100),(char)100);
+            function.doTest((T)Integer.valueOf(100),(char)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

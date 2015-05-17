@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LDoubleToCharFunctionX<X extends Exception> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LDoubleToCharFunctionX: char applyAsChar(double d) throws X";
+	public static final String DESCRIPTION = "LDoubleToCharFunctionX: char doApplyAsChar(double d) throws X";
 
-	public char applyAsChar(double d) throws X;
+	public char doApplyAsChar(double d) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LDoubleToCharFunctionX<X extends Exception> extends MetaFunctio
 
 	/** Captures arguments but delays the evaluation. */
 	default LCharSupplierX<X> capture(double d) {
-		return () -> this.applyAsChar(d);
+		return () -> this.doApplyAsChar(d);
 	}
 
 	public static <X extends Exception> LDoubleToCharFunctionX<X> constant(char r) {
@@ -81,7 +81,7 @@ public interface LDoubleToCharFunctionX<X extends Exception> extends MetaFunctio
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default char nonNull(double d) throws X {
-		return applyAsChar(d);
+		return doApplyAsChar(d);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -96,7 +96,7 @@ public interface LDoubleToCharFunctionX<X extends Exception> extends MetaFunctio
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LDoubleToCharFunctionX<X> wrapX(final @Nonnull LDoubleToCharFunction other) {
-		return other::applyAsChar;
+		return other::doApplyAsChar;
 	}
 
 	// </editor-fold>
@@ -109,7 +109,7 @@ public interface LDoubleToCharFunctionX<X extends Exception> extends MetaFunctio
 	@Nonnull
 	default LDoubleToCharFunctionX<X> fromDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final double v1) -> this.applyAsChar(before1.applyAsDouble(v1));
+		return (final double v1) -> this.doApplyAsChar(before1.doApplyAsDouble(v1));
 	}
 
 	/**
@@ -118,7 +118,7 @@ public interface LDoubleToCharFunctionX<X extends Exception> extends MetaFunctio
 	@Nonnull
 	default <V1> LToCharFunctionX<V1, X> from(@Nonnull final LToDoubleFunctionX<? super V1, X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.applyAsChar(before1.applyAsDouble(v1));
+		return (V1 v1) -> this.doApplyAsChar(before1.doApplyAsDouble(v1));
 	}
 
 	// </editor-fold>
@@ -129,63 +129,63 @@ public interface LDoubleToCharFunctionX<X extends Exception> extends MetaFunctio
 	@Nonnull
 	default <V> LDoubleFunctionX<V, X> then(@Nonnull LCharFunctionX<? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.apply(this.applyAsChar(d));
+		return (double d) -> after.doApply(this.doApplyAsChar(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToByteFunctionX<X> thenToByte(@Nonnull LCharToByteFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsByte(this.applyAsChar(d));
+		return (double d) -> after.doApplyAsByte(this.doApplyAsChar(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToShortFunctionX<X> thenToShort(@Nonnull LCharToShortFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsShort(this.applyAsChar(d));
+		return (double d) -> after.doApplyAsShort(this.doApplyAsChar(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToIntFunctionX<X> thenToInt(@Nonnull LCharToIntFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsInt(this.applyAsChar(d));
+		return (double d) -> after.doApplyAsInt(this.doApplyAsChar(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToLongFunctionX<X> thenToLong(@Nonnull LCharToLongFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsLong(this.applyAsChar(d));
+		return (double d) -> after.doApplyAsLong(this.doApplyAsChar(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToFloatFunctionX<X> thenToFloat(@Nonnull LCharToFloatFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsFloat(this.applyAsChar(d));
+		return (double d) -> after.doApplyAsFloat(this.doApplyAsChar(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleUnaryOperatorX<X> thenToDouble(@Nonnull LCharToDoubleFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsDouble(this.applyAsChar(d));
+		return (double d) -> after.doApplyAsDouble(this.doApplyAsChar(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToCharFunctionX<X> thenToChar(@Nonnull LCharUnaryOperatorX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsChar(this.applyAsChar(d));
+		return (double d) -> after.doApplyAsChar(this.doApplyAsChar(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoublePredicateX<X> thenToBoolean(@Nonnull LCharPredicateX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.test(this.applyAsChar(d));
+		return (double d) -> after.doTest(this.doApplyAsChar(d));
 	}
 
 	// </editor-fold>
@@ -207,7 +207,7 @@ public interface LDoubleToCharFunctionX<X extends Exception> extends MetaFunctio
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LDoubleToCharFunction shove() {
 		LDoubleToCharFunctionX<RuntimeException> exceptionCast = (LDoubleToCharFunctionX<RuntimeException>) this;
-		return exceptionCast::applyAsChar;
+		return exceptionCast::doApplyAsChar;
 	}
 
 	// </editor-fold>
@@ -219,11 +219,11 @@ public interface LDoubleToCharFunctionX<X extends Exception> extends MetaFunctio
 	public static <X extends Exception, E extends Exception, Y extends Exception> LDoubleToCharFunctionX<Y> wrapException(@Nonnull final LDoubleToCharFunctionX<X> other, Class<E> exception, LCharSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
 		return (double d) -> {
 			try {
-				return other.applyAsChar(d);
+				return other.doApplyAsChar(d);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsChar();
+						return supplier.doGetAsChar();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

@@ -58,7 +58,7 @@ public interface LPredicateAssert<S extends LPredicateAssert<S, A, RS, T>, A ext
 
 		@Nonnull
 		public Evaluation<S, A, RS, Boolean, Exception> doesTest(T t) {
-			return evaluation(() -> assertFactory.apply((Boolean) actual.test(t)));
+			return evaluation(() -> assertFactory.apply((Boolean) actual.doTest(t)));
 		}
 
 	}

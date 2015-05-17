@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LIntToByteFunctionX<X extends Exception> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LIntToByteFunctionX: byte applyAsByte(int i) throws X";
+	public static final String DESCRIPTION = "LIntToByteFunctionX: byte doApplyAsByte(int i) throws X";
 
-	public byte applyAsByte(int i) throws X;
+	public byte doApplyAsByte(int i) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LIntToByteFunctionX<X extends Exception> extends MetaFunction, 
 
 	/** Captures arguments but delays the evaluation. */
 	default LByteSupplierX<X> capture(int i) {
-		return () -> this.applyAsByte(i);
+		return () -> this.doApplyAsByte(i);
 	}
 
 	public static <X extends Exception> LIntToByteFunctionX<X> constant(byte r) {
@@ -81,7 +81,7 @@ public interface LIntToByteFunctionX<X extends Exception> extends MetaFunction, 
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default byte nonNull(int i) throws X {
-		return applyAsByte(i);
+		return doApplyAsByte(i);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -96,7 +96,7 @@ public interface LIntToByteFunctionX<X extends Exception> extends MetaFunction, 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LIntToByteFunctionX<X> wrapX(final @Nonnull LIntToByteFunction other) {
-		return other::applyAsByte;
+		return other::doApplyAsByte;
 	}
 
 	// </editor-fold>
@@ -109,7 +109,7 @@ public interface LIntToByteFunctionX<X extends Exception> extends MetaFunction, 
 	@Nonnull
 	default LIntToByteFunctionX<X> fromInt(@Nonnull final LIntUnaryOperatorX<X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final int v1) -> this.applyAsByte(before1.applyAsInt(v1));
+		return (final int v1) -> this.doApplyAsByte(before1.doApplyAsInt(v1));
 	}
 
 	/**
@@ -118,7 +118,7 @@ public interface LIntToByteFunctionX<X extends Exception> extends MetaFunction, 
 	@Nonnull
 	default <V1> LToByteFunctionX<V1, X> from(@Nonnull final LToIntFunctionX<? super V1, X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.applyAsByte(before1.applyAsInt(v1));
+		return (V1 v1) -> this.doApplyAsByte(before1.doApplyAsInt(v1));
 	}
 
 	// </editor-fold>
@@ -129,63 +129,63 @@ public interface LIntToByteFunctionX<X extends Exception> extends MetaFunction, 
 	@Nonnull
 	default <V> LIntFunctionX<V, X> then(@Nonnull LByteFunctionX<? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.apply(this.applyAsByte(i));
+		return (int i) -> after.doApply(this.doApplyAsByte(i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToByteFunctionX<X> thenToByte(@Nonnull LByteUnaryOperatorX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsByte(this.applyAsByte(i));
+		return (int i) -> after.doApplyAsByte(this.doApplyAsByte(i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToShortFunctionX<X> thenToShort(@Nonnull LByteToShortFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsShort(this.applyAsByte(i));
+		return (int i) -> after.doApplyAsShort(this.doApplyAsByte(i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntUnaryOperatorX<X> thenToInt(@Nonnull LByteToIntFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsInt(this.applyAsByte(i));
+		return (int i) -> after.doApplyAsInt(this.doApplyAsByte(i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToLongFunctionX<X> thenToLong(@Nonnull LByteToLongFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsLong(this.applyAsByte(i));
+		return (int i) -> after.doApplyAsLong(this.doApplyAsByte(i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToFloatFunctionX<X> thenToFloat(@Nonnull LByteToFloatFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsFloat(this.applyAsByte(i));
+		return (int i) -> after.doApplyAsFloat(this.doApplyAsByte(i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToDoubleFunctionX<X> thenToDouble(@Nonnull LByteToDoubleFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsDouble(this.applyAsByte(i));
+		return (int i) -> after.doApplyAsDouble(this.doApplyAsByte(i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToCharFunctionX<X> thenToChar(@Nonnull LByteToCharFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsChar(this.applyAsByte(i));
+		return (int i) -> after.doApplyAsChar(this.doApplyAsByte(i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntPredicateX<X> thenToBoolean(@Nonnull LBytePredicateX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.test(this.applyAsByte(i));
+		return (int i) -> after.doTest(this.doApplyAsByte(i));
 	}
 
 	// </editor-fold>
@@ -207,7 +207,7 @@ public interface LIntToByteFunctionX<X extends Exception> extends MetaFunction, 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LIntToByteFunction shove() {
 		LIntToByteFunctionX<RuntimeException> exceptionCast = (LIntToByteFunctionX<RuntimeException>) this;
-		return exceptionCast::applyAsByte;
+		return exceptionCast::doApplyAsByte;
 	}
 
 	// </editor-fold>
@@ -219,11 +219,11 @@ public interface LIntToByteFunctionX<X extends Exception> extends MetaFunction, 
 	public static <X extends Exception, E extends Exception, Y extends Exception> LIntToByteFunctionX<Y> wrapException(@Nonnull final LIntToByteFunctionX<X> other, Class<E> exception, LByteSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
 		return (int i) -> {
 			try {
-				return other.applyAsByte(i);
+				return other.doApplyAsByte(i);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsByte();
+						return supplier.doGetAsByte();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

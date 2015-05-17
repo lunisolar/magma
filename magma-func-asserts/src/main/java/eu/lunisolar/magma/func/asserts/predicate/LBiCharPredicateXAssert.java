@@ -60,7 +60,7 @@ public interface LBiCharPredicateXAssert<S extends LBiCharPredicateXAssert<S, A,
 
 		@Nonnull
 		public Evaluation<S, A, RS, Boolean, Exception> doesTest(char c1, char c2) {
-			return evaluation(() -> assertFactory.apply((Boolean) actual.test(c1, c2)));
+			return evaluation(() -> assertFactory.apply((Boolean) actual.doTest(c1, c2)));
 		}
 
 	}

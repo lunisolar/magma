@@ -69,7 +69,7 @@ public class LFloatSupplierBuilderTest<X extends ParseException>{
                 .floatSupplier()
                 .build();
 
-            function.getAsFloat();
+            function.doGetAsFloat();
 
             fail("No exception were thrown.");
         } catch (Exception e) {

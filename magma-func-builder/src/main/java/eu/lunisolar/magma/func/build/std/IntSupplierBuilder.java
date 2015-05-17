@@ -98,7 +98,7 @@ public final class IntSupplierBuilder extends PerCaseBuilderWithIntProduct.Base<
 			final Case<LBooleanSupplier, java.util.function.IntSupplier>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = Function4U.l(() -> {
 				for (Case<LBooleanSupplier, java.util.function.IntSupplier> aCase : casesArray) {
-					if (aCase.casePredicate().getAsBoolean()) {
+					if (aCase.casePredicate().doGetAsBoolean()) {
 						return aCase.caseFunction().getAsInt();
 					}
 				}

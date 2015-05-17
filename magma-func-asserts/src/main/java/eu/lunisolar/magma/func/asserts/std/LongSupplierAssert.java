@@ -71,7 +71,7 @@ public interface LongSupplierAssert<S extends LongSupplierAssert<S, A, RS>, A ex
 
 		@Nonnull
 		public Evaluation<S, A, RS, Long, Exception> doesGetAsLong(LAction before) {
-			before.execute();
+			before.doExecute();
 			return doesGetAsLong();
 		}
 	}

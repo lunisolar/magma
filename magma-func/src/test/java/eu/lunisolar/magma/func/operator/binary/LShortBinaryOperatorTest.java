@@ -61,13 +61,13 @@ public class LShortBinaryOperatorTest<X extends ParseException> {
 
 
     private LShortBinaryOperator sut = new LShortBinaryOperator(){
-        public  short applyAsShort(short s1,short s2)  {
+        public  short doApplyAsShort(short s1,short s2)  {
             return testValue;
         }
     };
 
     private LShortBinaryOperatorX<X> opposite = new LShortBinaryOperatorX(){
-        public  short applyAsShort(short s1,short s2) throws ParseException {
+        public  short doApplyAsShort(short s1,short s2) throws ParseException {
             return testValue;
         }
     };
@@ -76,7 +76,7 @@ public class LShortBinaryOperatorTest<X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.applyAsShort((short)100,(short)100))
+        assertThat(sut.doApplyAsShort((short)100,(short)100))
             .isEqualTo(testValue);
     }
 
@@ -90,7 +90,7 @@ public class LShortBinaryOperatorTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LShortBinaryOperator: short applyAsShort(short s1,short s2)");
+            .isEqualTo("LShortBinaryOperator: short doApplyAsShort(short s1,short s2)");
     }
 
     @Test
@@ -117,7 +117,7 @@ public class LShortBinaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsShort((short)100,(short)100);
+            wrapped.doApplyAsShort((short)100,(short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LShortBinaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsShort((short)100,(short)100);
+            wrapped.doApplyAsShort((short)100,(short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -165,7 +165,7 @@ public class LShortBinaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsShort((short)100,(short)100);
+            wrapped.doApplyAsShort((short)100,(short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -190,7 +190,7 @@ public class LShortBinaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsShort((short)100,(short)100);
+            wrapped.doApplyAsShort((short)100,(short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -214,7 +214,7 @@ public class LShortBinaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsShort((short)100,(short)100);
+            wrapped.doApplyAsShort((short)100,(short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -235,10 +235,10 @@ public class LShortBinaryOperatorTest<X extends ParseException> {
         LShortBinaryOperator min = LShortBinaryOperator.min();
 
         //then
-        assertThat(min.applyAsShort(valueSmall, valueBig))
+        assertThat(min.doApplyAsShort(valueSmall, valueBig))
                 .isEqualTo(valueSmall);
 
-        assertThat(min.applyAsShort(valueBig, valueSmall))
+        assertThat(min.doApplyAsShort(valueBig, valueSmall))
                 .isEqualTo(valueSmall);
     }
 
@@ -252,10 +252,10 @@ public class LShortBinaryOperatorTest<X extends ParseException> {
         LShortBinaryOperator max = LShortBinaryOperator.max();
 
         //then
-        assertThat(max.applyAsShort(valueSmall, valueBig))
+        assertThat(max.doApplyAsShort(valueSmall, valueBig))
                 .isEqualTo(valueBig);
 
-        assertThat(max.applyAsShort(valueBig, valueSmall))
+        assertThat(max.doApplyAsShort(valueBig, valueSmall))
                 .isEqualTo(valueBig);
     }
 
@@ -289,7 +289,7 @@ public class LShortBinaryOperatorTest<X extends ParseException> {
 
         //when
         LShortBinaryOperator function = sutO.fromShort(before1,before2);
-        function.applyAsShort((short)80,(short)81);
+        function.doApplyAsShort((short)80,(short)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -324,7 +324,7 @@ public class LShortBinaryOperatorTest<X extends ParseException> {
 
         //when
         LToShortBiFunction<Integer ,Integer > function = sutO.from(before1,before2);
-        function.applyAsShort((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        function.doApplyAsShort((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -361,7 +361,7 @@ public class LShortBinaryOperatorTest<X extends ParseException> {
 
         //when
         LShortBiFunction<Integer > function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((short)80,(short)81);
+        Integer  finalValue = function.doApply((short)80,(short)81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -392,7 +392,7 @@ public class LShortBinaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().applyAsShort((short)100,(short)100);
+        sutThrowing.shove().doApplyAsShort((short)100,(short)100);
     }
 
     @Test
@@ -410,7 +410,7 @@ public class LShortBinaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsShort((short)100,(short)100);
+            wrapped.doApplyAsShort((short)100,(short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -429,7 +429,7 @@ public class LShortBinaryOperatorTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LShortBinaryOperator: short applyAsShort(short s1,short s2)");
+                .contains("LShortBinaryOperator: short doApplyAsShort(short s1,short s2)");
     }
 
 

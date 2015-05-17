@@ -58,7 +58,7 @@ public interface LFloatToShortFunctionAssert<S extends LFloatToShortFunctionAsse
 
 		@Nonnull
 		public Evaluation<S, A, RS, Short, Exception> doesApplyAsShort(float f) {
-			return evaluation(() -> assertFactory.apply((Short) actual.applyAsShort(f)));
+			return evaluation(() -> assertFactory.apply((Short) actual.doApplyAsShort(f)));
 		}
 
 	}

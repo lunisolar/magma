@@ -61,13 +61,13 @@ public class LLongToCharFunctionXTest<X extends ParseException> {
 
 
     private LLongToCharFunctionX<X> sut = new LLongToCharFunctionX(){
-        public  char applyAsChar(long l) throws ParseException {
+        public  char doApplyAsChar(long l) throws ParseException {
             return testValue;
         }
     };
 
     private LLongToCharFunction opposite = new LLongToCharFunction(){
-        public  char applyAsChar(long l)  {
+        public  char doApplyAsChar(long l)  {
             return testValue;
         }
     };
@@ -76,7 +76,7 @@ public class LLongToCharFunctionXTest<X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.applyAsChar((long)100))
+        assertThat(sut.doApplyAsChar((long)100))
             .isEqualTo(testValue);
     }
 
@@ -90,7 +90,7 @@ public class LLongToCharFunctionXTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LLongToCharFunctionX: char applyAsChar(long l) throws X");
+            .isEqualTo("LLongToCharFunctionX: char doApplyAsChar(long l) throws X");
     }
 
     @Test
@@ -121,7 +121,7 @@ public class LLongToCharFunctionXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsChar((long)100);
+            wrapped.doApplyAsChar((long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -146,7 +146,7 @@ public class LLongToCharFunctionXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsChar((long)100);
+            wrapped.doApplyAsChar((long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -170,7 +170,7 @@ public class LLongToCharFunctionXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsChar((long)100);
+            wrapped.doApplyAsChar((long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -205,7 +205,7 @@ public class LLongToCharFunctionXTest<X extends ParseException> {
 
         //when
         LLongToCharFunctionX<X> function = sutO.fromLong(before1);
-        function.applyAsChar((long)80);
+        function.doApplyAsChar((long)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -234,7 +234,7 @@ public class LLongToCharFunctionXTest<X extends ParseException> {
 
         //when
         LToCharFunctionX<Integer ,X> function = sutO.from(before1);
-        function.applyAsChar((Integer )Integer.valueOf(80));
+        function.doApplyAsChar((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -270,7 +270,7 @@ public class LLongToCharFunctionXTest<X extends ParseException> {
 
         //when
         LLongFunctionX<Integer ,X> function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((long)80);
+        Integer  finalValue = function.doApply((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -305,7 +305,7 @@ public class LLongToCharFunctionXTest<X extends ParseException> {
 
         //when
         LLongToByteFunctionX<X> function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.applyAsByte((long)80);
+        byte finalValue = function.doApplyAsByte((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -340,7 +340,7 @@ public class LLongToCharFunctionXTest<X extends ParseException> {
 
         //when
         LLongToShortFunctionX<X> function = sutO.thenToShort(thenFunction);
-        short finalValue = function.applyAsShort((long)80);
+        short finalValue = function.doApplyAsShort((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -375,7 +375,7 @@ public class LLongToCharFunctionXTest<X extends ParseException> {
 
         //when
         LLongToIntFunctionX<X> function = sutO.thenToInt(thenFunction);
-        int finalValue = function.applyAsInt((long)80);
+        int finalValue = function.doApplyAsInt((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((int)100);
@@ -410,7 +410,7 @@ public class LLongToCharFunctionXTest<X extends ParseException> {
 
         //when
         LLongUnaryOperatorX<X> function = sutO.thenToLong(thenFunction);
-        long finalValue = function.applyAsLong((long)80);
+        long finalValue = function.doApplyAsLong((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((long)100);
@@ -445,7 +445,7 @@ public class LLongToCharFunctionXTest<X extends ParseException> {
 
         //when
         LLongToFloatFunctionX<X> function = sutO.thenToFloat(thenFunction);
-        float finalValue = function.applyAsFloat((long)80);
+        float finalValue = function.doApplyAsFloat((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((float)100);
@@ -480,7 +480,7 @@ public class LLongToCharFunctionXTest<X extends ParseException> {
 
         //when
         LLongToDoubleFunctionX<X> function = sutO.thenToDouble(thenFunction);
-        double finalValue = function.applyAsDouble((long)80);
+        double finalValue = function.doApplyAsDouble((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((double)100);
@@ -515,7 +515,7 @@ public class LLongToCharFunctionXTest<X extends ParseException> {
 
         //when
         LLongToCharFunctionX<X> function = sutO.thenToChar(thenFunction);
-        char finalValue = function.applyAsChar((long)80);
+        char finalValue = function.doApplyAsChar((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((char)100);
@@ -550,7 +550,7 @@ public class LLongToCharFunctionXTest<X extends ParseException> {
 
         //when
         LLongPredicateX<X> function = sutO.thenToBoolean(thenFunction);
-        boolean finalValue = function.test((long)80);
+        boolean finalValue = function.doTest((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -581,7 +581,7 @@ public class LLongToCharFunctionXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().applyAsChar((long)100);
+        sutThrowing.shove().doApplyAsChar((long)100);
     }
 
     @Test
@@ -599,7 +599,7 @@ public class LLongToCharFunctionXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsChar((long)100);
+            wrapped.doApplyAsChar((long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -618,7 +618,7 @@ public class LLongToCharFunctionXTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LLongToCharFunctionX: char applyAsChar(long l) throws X");
+                .contains("LLongToCharFunctionX: char doApplyAsChar(long l) throws X");
     }
 
 

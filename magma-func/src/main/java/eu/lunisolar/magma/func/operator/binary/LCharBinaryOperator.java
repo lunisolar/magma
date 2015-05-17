@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LCharBinaryOperator extends LCharBinaryOperatorX<RuntimeException>, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LCharBinaryOperator: char applyAsChar(char c1,char c2)";
+	public static final String DESCRIPTION = "LCharBinaryOperator: char doApplyAsChar(char c1,char c2)";
 
-	// Ovverriding methods can cause problems with inference.
+	public char doApplyAsChar(char c1, char c2);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LCharBinaryOperator extends LCharBinaryOperatorX<RuntimeExcepti
 
 	/** Captures arguments but delays the evaluation. */
 	default LCharSupplier capture(char c1, char c2) {
-		return () -> this.applyAsChar(c1, c2);
+		return () -> this.doApplyAsChar(c1, c2);
 	}
 
 	public static LCharBinaryOperator constant(char r) {
@@ -81,7 +81,7 @@ public interface LCharBinaryOperator extends LCharBinaryOperatorX<RuntimeExcepti
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default char nonNull(char c1, char c2) {
-		return applyAsChar(c1, c2);
+		return doApplyAsChar(c1, c2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -98,7 +98,7 @@ public interface LCharBinaryOperator extends LCharBinaryOperatorX<RuntimeExcepti
 	public static <X extends Exception> LCharBinaryOperator wrap(final @Nonnull LCharBinaryOperatorX<X> other) {
 		return (char c1, char c2) -> {
 			try {
-				return other.applyAsChar(c1, c2);
+				return other.doApplyAsChar(c1, c2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -135,7 +135,7 @@ public interface LCharBinaryOperator extends LCharBinaryOperatorX<RuntimeExcepti
 	default LCharBinaryOperator fromChar(@Nonnull final LCharUnaryOperator before1, @Nonnull final LCharUnaryOperator before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final char v1, final char v2) -> this.applyAsChar(before1.applyAsChar(v1), before2.applyAsChar(v2));
+		return (final char v1, final char v2) -> this.doApplyAsChar(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
 	}
 
 	/**
@@ -145,7 +145,7 @@ public interface LCharBinaryOperator extends LCharBinaryOperatorX<RuntimeExcepti
 	default <V1, V2> LToCharBiFunction<V1, V2> from(@Nonnull final LToCharFunction<? super V1> before1, @Nonnull final LToCharFunction<? super V2> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.applyAsChar(before1.applyAsChar(v1), before2.applyAsChar(v2));
+		return (V1 v1, V2 v2) -> this.doApplyAsChar(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
 	}
 
 	// </editor-fold>
@@ -156,7 +156,7 @@ public interface LCharBinaryOperator extends LCharBinaryOperatorX<RuntimeExcepti
 	@Nonnull
 	default <V> LCharBiFunction<V> then(@Nonnull LCharFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c1, char c2) -> after.apply(this.applyAsChar(c1, c2));
+		return (char c1, char c2) -> after.doApply(this.doApplyAsChar(c1, c2));
 	}
 
 	// </editor-fold>
@@ -189,11 +189,11 @@ public interface LCharBinaryOperator extends LCharBinaryOperatorX<RuntimeExcepti
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LCharBinaryOperator wrapException(@Nonnull final LCharBinaryOperator other, Class<E> exception, LCharSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (char c1, char c2) -> {
 			try {
-				return other.applyAsChar(c1, c2);
+				return other.doApplyAsChar(c1, c2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsChar();
+						return supplier.doGetAsChar();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

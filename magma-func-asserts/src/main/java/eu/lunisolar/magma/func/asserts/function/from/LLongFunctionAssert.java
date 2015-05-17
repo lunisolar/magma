@@ -58,7 +58,7 @@ public interface LLongFunctionAssert<S extends LLongFunctionAssert<S, A, RS, R>,
 
 		@Nonnull
 		public Evaluation<S, A, RS, R, Exception> doesApply(long l) {
-			return evaluation(() -> assertFactory.apply((R) actual.apply(l)));
+			return evaluation(() -> assertFactory.apply((R) actual.doApply(l)));
 		}
 
 	}

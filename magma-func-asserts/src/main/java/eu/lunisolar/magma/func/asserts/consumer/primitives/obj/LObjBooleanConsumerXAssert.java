@@ -55,7 +55,7 @@ public interface LObjBooleanConsumerXAssert<S extends LObjBooleanConsumerXAssert
 
 		@Nonnull
 		public SemiEvaluation<S, A, Exception> doesAccept(T t, boolean b) {
-			return evaluation(() -> actual.accept(t, b));
+			return evaluation(() -> actual.doAccept(t, b));
 		}
 
 	}

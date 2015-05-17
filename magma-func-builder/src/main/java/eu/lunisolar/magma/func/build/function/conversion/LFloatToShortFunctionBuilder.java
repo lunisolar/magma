@@ -99,12 +99,12 @@ public final class LFloatToShortFunctionBuilder extends PerCaseBuilderWithShortP
 			final Case<LFloatPredicate, LFloatToShortFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LFloatToShortFunction.l((float f) -> {
 				for (Case<LFloatPredicate, LFloatToShortFunction> aCase : casesArray) {
-					if (aCase.casePredicate().test(f)) {
-						return aCase.caseFunction().applyAsShort(f);
+					if (aCase.casePredicate().doTest(f)) {
+						return aCase.caseFunction().doApplyAsShort(f);
 					}
 				}
 
-				return eventuallyFinal.applyAsShort(f);
+				return eventuallyFinal.doApplyAsShort(f);
 			});
 		}
 

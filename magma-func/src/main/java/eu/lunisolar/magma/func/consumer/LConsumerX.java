@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LConsumerX<T, X extends Exception> extends MetaConsumer, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LConsumerX: void accept(T t) throws X";
+	public static final String DESCRIPTION = "LConsumerX: void doAccept(T t) throws X";
 
-	public void accept(T t) throws X;
+	public void doAccept(T t) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +73,7 @@ public interface LConsumerX<T, X extends Exception> extends MetaConsumer, MetaIn
 
 	/** Captures arguments but delays the evaluation. */
 	default LActionX<X> capture(T t) {
-		return () -> this.accept(t);
+		return () -> this.doAccept(t);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -94,7 +94,7 @@ public interface LConsumerX<T, X extends Exception> extends MetaConsumer, MetaIn
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T, X extends Exception> LConsumerX<T, X> wrapX(final @Nonnull LConsumer<T> other) {
-		return other::accept;
+		return other::doAccept;
 	}
 
 	// </editor-fold>
@@ -107,7 +107,7 @@ public interface LConsumerX<T, X extends Exception> extends MetaConsumer, MetaIn
 	@Nonnull
 	default <V1> LConsumerX<V1, X> from(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final V1 v1) -> this.accept(before1.apply(v1));
+		return (final V1 v1) -> this.doAccept(before1.doApply(v1));
 	}
 
 	// </editor-fold>
@@ -119,8 +119,8 @@ public interface LConsumerX<T, X extends Exception> extends MetaConsumer, MetaIn
 	default LConsumerX<T, X> andThen(@Nonnull LConsumerX<? super T, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
 		return (T t) -> {
-			this.accept(t);
-			after.accept(t);
+			this.doAccept(t);
+			after.doAccept(t);
 		};
 	}
 
@@ -130,7 +130,7 @@ public interface LConsumerX<T, X extends Exception> extends MetaConsumer, MetaIn
 	/** Converts to JRE variant. */
 	@Nonnull
 	default java.util.function.Consumer<T> std() {
-		return LConsumer.wrap(this)::accept;
+		return LConsumer.wrap(this)::doAccept;
 	}
 
 	/** Converts to non-throwing variant (if required). */
@@ -148,7 +148,7 @@ public interface LConsumerX<T, X extends Exception> extends MetaConsumer, MetaIn
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LConsumer<T> shove() {
 		LConsumerX<T, RuntimeException> exceptionCast = (LConsumerX<T, RuntimeException>) this;
-		return exceptionCast::accept;
+		return exceptionCast::doAccept;
 	}
 
 	// </editor-fold>
@@ -160,7 +160,7 @@ public interface LConsumerX<T, X extends Exception> extends MetaConsumer, MetaIn
 	public static <T, X extends Exception, E extends Exception, Y extends Exception> LConsumerX<T, Y> wrapException(@Nonnull final LConsumerX<T, X> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
 		return (T t) -> {
 			try {
-				other.accept(t);
+				other.doAccept(t);
 			} catch (Exception e) {
 				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
 			}

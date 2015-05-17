@@ -99,12 +99,12 @@ public final class LShortToByteFunctionBuilder extends PerCaseBuilderWithBytePro
 			final Case<LShortPredicate, LShortToByteFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LShortToByteFunction.l((short s) -> {
 				for (Case<LShortPredicate, LShortToByteFunction> aCase : casesArray) {
-					if (aCase.casePredicate().test(s)) {
-						return aCase.caseFunction().applyAsByte(s);
+					if (aCase.casePredicate().doTest(s)) {
+						return aCase.caseFunction().doApplyAsByte(s);
 					}
 				}
 
-				return eventuallyFinal.applyAsByte(s);
+				return eventuallyFinal.doApplyAsByte(s);
 			});
 		}
 

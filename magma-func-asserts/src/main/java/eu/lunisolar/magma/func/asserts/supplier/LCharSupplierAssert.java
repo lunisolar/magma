@@ -61,7 +61,7 @@ public interface LCharSupplierAssert<S extends LCharSupplierAssert<S, A, RS>, A 
 
 		@Nonnull
 		public Evaluation<S, A, RS, Character, Exception> doesGetAsChar() {
-			return evaluation(() -> assertFactory.apply((Character) actual.getAsChar()));
+			return evaluation(() -> assertFactory.apply((Character) actual.doGetAsChar()));
 		}
 
 		@Nonnull
@@ -72,7 +72,7 @@ public interface LCharSupplierAssert<S extends LCharSupplierAssert<S, A, RS>, A 
 
 		@Nonnull
 		public Evaluation<S, A, RS, Character, Exception> doesGetAsChar(LAction before) {
-			before.execute();
+			before.doExecute();
 			return doesGetAsChar();
 		}
 	}

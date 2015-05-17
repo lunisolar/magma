@@ -61,19 +61,19 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
 
 
     private LBooleanFunctionX<R,X> sut = new LBooleanFunctionX(){
-        public @Nullable Object  apply(boolean b) throws ParseException {
+        public @Nullable Object  doApply(boolean b) throws ParseException {
             return testValue;
         }
     };
 
     private LBooleanFunction<R> opposite = new LBooleanFunction(){
-        public @Nullable Object  apply(boolean b)  {
+        public @Nullable Object  doApply(boolean b)  {
             return testValue;
         }
     };
 
     private LBooleanFunctionX<R,X> sutNull = new LBooleanFunctionX(){
-        public @Nullable Object  apply(boolean b) throws ParseException {
+        public @Nullable Object  doApply(boolean b) throws ParseException {
             return null;
         }
     };
@@ -82,7 +82,7 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.apply(true))
+        assertThat(sut.doApply(true))
             .isSameAs(testValue);
     }
 
@@ -92,7 +92,7 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
             .isSameAs(testValue);
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LBooleanFunctionX: R apply(boolean b) throws X).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LBooleanFunctionX: R doApply(boolean b) throws X).\\E")
     public void testNonNullCapturesNull() throws ParseException {
         sutNull.nonNull(true);
     }
@@ -101,7 +101,7 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBooleanFunctionX: R apply(boolean b) throws X");
+            .isEqualTo("LBooleanFunctionX: R doApply(boolean b) throws X");
     }
 
     @Test
@@ -132,7 +132,7 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply(true);
+            wrapped.doApply(true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -157,7 +157,7 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply(true);
+            wrapped.doApply(true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -181,7 +181,7 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply(true);
+            wrapped.doApply(true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -216,7 +216,7 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
 
         //when
         LBooleanFunctionX<Integer ,X> function = sutO.fromBoolean(before1);
-        function.apply(true);
+        function.doApply(true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -245,7 +245,7 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
 
         //when
         LFunctionX<Integer ,Integer ,X> function = sutO.from(before1);
-        function.apply((Integer )Integer.valueOf(80));
+        function.doApply((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -281,7 +281,7 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
 
         //when
         LBooleanFunctionX<Integer ,X> function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply(true);
+        Integer  finalValue = function.doApply(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -314,7 +314,7 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
 
         //when
         LBooleanConsumerX<X> function = sutO.then(thenFunction);
-        function.accept(true);
+        function.doAccept(true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -348,7 +348,7 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
 
         //when
         LBooleanToByteFunctionX<X> function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.applyAsByte(true);
+        byte finalValue = function.doApplyAsByte(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -383,7 +383,7 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
 
         //when
         LBooleanToShortFunctionX<X> function = sutO.thenToShort(thenFunction);
-        short finalValue = function.applyAsShort(true);
+        short finalValue = function.doApplyAsShort(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -418,7 +418,7 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
 
         //when
         LBooleanToIntFunctionX<X> function = sutO.thenToInt(thenFunction);
-        int finalValue = function.applyAsInt(true);
+        int finalValue = function.doApplyAsInt(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo((int)100);
@@ -453,7 +453,7 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
 
         //when
         LBooleanToLongFunctionX<X> function = sutO.thenToLong(thenFunction);
-        long finalValue = function.applyAsLong(true);
+        long finalValue = function.doApplyAsLong(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo((long)100);
@@ -488,7 +488,7 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
 
         //when
         LBooleanToFloatFunctionX<X> function = sutO.thenToFloat(thenFunction);
-        float finalValue = function.applyAsFloat(true);
+        float finalValue = function.doApplyAsFloat(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo((float)100);
@@ -523,7 +523,7 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
 
         //when
         LBooleanToDoubleFunctionX<X> function = sutO.thenToDouble(thenFunction);
-        double finalValue = function.applyAsDouble(true);
+        double finalValue = function.doApplyAsDouble(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo((double)100);
@@ -558,7 +558,7 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
 
         //when
         LBooleanToCharFunctionX<X> function = sutO.thenToChar(thenFunction);
-        char finalValue = function.applyAsChar(true);
+        char finalValue = function.doApplyAsChar(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo((char)100);
@@ -593,7 +593,7 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
 
         //when
         LBooleanUnaryOperatorX<X> function = sutO.thenToBoolean(thenFunction);
-        boolean finalValue = function.applyAsBoolean(true);
+        boolean finalValue = function.doApplyAsBoolean(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -624,7 +624,7 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().apply(true);
+        sutThrowing.shove().doApply(true);
     }
 
     @Test
@@ -642,7 +642,7 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply(true);
+            wrapped.doApply(true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -661,7 +661,7 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBooleanFunctionX: R apply(boolean b) throws X");
+                .contains("LBooleanFunctionX: R doApply(boolean b) throws X");
     }
 
 

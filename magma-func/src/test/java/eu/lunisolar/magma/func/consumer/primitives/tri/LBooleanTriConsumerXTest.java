@@ -59,13 +59,13 @@ public class LBooleanTriConsumerXTest<X extends ParseException> {
 
 
     private LBooleanTriConsumerX<X> sut = new LBooleanTriConsumerX(){
-        public  void accept(boolean b1,boolean b2,boolean b3) throws ParseException {
+        public  void doAccept(boolean b1,boolean b2,boolean b3) throws ParseException {
             Function4U.doNothing();
         }
     };
 
     private LBooleanTriConsumer opposite = new LBooleanTriConsumer(){
-        public  void accept(boolean b1,boolean b2,boolean b3)  {
+        public  void doAccept(boolean b1,boolean b2,boolean b3)  {
             Function4U.doNothing();
         }
     };
@@ -77,7 +77,7 @@ public class LBooleanTriConsumerXTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBooleanTriConsumerX: void accept(boolean b1,boolean b2,boolean b3) throws X");
+            .isEqualTo("LBooleanTriConsumerX: void doAccept(boolean b1,boolean b2,boolean b3) throws X");
     }
 
     @Test
@@ -108,7 +108,7 @@ public class LBooleanTriConsumerXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept(true,true,true);
+            wrapped.doAccept(true,true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -133,7 +133,7 @@ public class LBooleanTriConsumerXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept(true,true,true);
+            wrapped.doAccept(true,true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -157,7 +157,7 @@ public class LBooleanTriConsumerXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept(true,true,true);
+            wrapped.doAccept(true,true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -203,7 +203,7 @@ public class LBooleanTriConsumerXTest<X extends ParseException> {
 
         //when
         LBooleanTriConsumerX<X> function = sutO.fromBoolean(before1,before2,before3);
-        function.accept(true,true,true);
+        function.doAccept(true,true,true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -243,7 +243,7 @@ public class LBooleanTriConsumerXTest<X extends ParseException> {
 
         //when
         LTriConsumerX<Integer ,Integer ,Integer ,X> function = sutO.from(before1,before2,before3);
-        function.accept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(Integer )Integer.valueOf(82));
+        function.doAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(Integer )Integer.valueOf(82));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -275,7 +275,7 @@ public class LBooleanTriConsumerXTest<X extends ParseException> {
 
         //when
         LBooleanTriConsumerX<X> function = sutO.andThen(thenFunction);
-        function.accept(true,true,true);
+        function.doAccept(true,true,true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -301,7 +301,7 @@ public class LBooleanTriConsumerXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().accept(true,true,true);
+        sutThrowing.shove().doAccept(true,true,true);
     }
 
     @Test
@@ -319,7 +319,7 @@ public class LBooleanTriConsumerXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept(true,true,true);
+            wrapped.doAccept(true,true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -338,7 +338,7 @@ public class LBooleanTriConsumerXTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBooleanTriConsumerX: void accept(boolean b1,boolean b2,boolean b3) throws X");
+                .contains("LBooleanTriConsumerX: void doAccept(boolean b1,boolean b2,boolean b3) throws X");
     }
 
 

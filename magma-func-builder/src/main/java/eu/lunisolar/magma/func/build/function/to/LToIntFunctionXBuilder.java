@@ -99,12 +99,12 @@ public final class LToIntFunctionXBuilder<T, X extends Exception> extends PerCas
 			final Case<LPredicateX<T, X>, LToIntFunctionX<T, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LToIntFunctionX.lX((T t) -> {
 				for (Case<LPredicateX<T, X>, LToIntFunctionX<T, X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t)) {
-						return aCase.caseFunction().applyAsInt(t);
+					if (aCase.casePredicate().doTest(t)) {
+						return aCase.caseFunction().doApplyAsInt(t);
 					}
 				}
 
-				return eventuallyFinal.applyAsInt(t);
+				return eventuallyFinal.doApplyAsInt(t);
 			});
 		}
 

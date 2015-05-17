@@ -61,13 +61,13 @@ public class LByteBinaryOperatorTest<X extends ParseException> {
 
 
     private LByteBinaryOperator sut = new LByteBinaryOperator(){
-        public  byte applyAsByte(byte b1,byte b2)  {
+        public  byte doApplyAsByte(byte b1,byte b2)  {
             return testValue;
         }
     };
 
     private LByteBinaryOperatorX<X> opposite = new LByteBinaryOperatorX(){
-        public  byte applyAsByte(byte b1,byte b2) throws ParseException {
+        public  byte doApplyAsByte(byte b1,byte b2) throws ParseException {
             return testValue;
         }
     };
@@ -76,7 +76,7 @@ public class LByteBinaryOperatorTest<X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.applyAsByte((byte)100,(byte)100))
+        assertThat(sut.doApplyAsByte((byte)100,(byte)100))
             .isEqualTo(testValue);
     }
 
@@ -90,7 +90,7 @@ public class LByteBinaryOperatorTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LByteBinaryOperator: byte applyAsByte(byte b1,byte b2)");
+            .isEqualTo("LByteBinaryOperator: byte doApplyAsByte(byte b1,byte b2)");
     }
 
     @Test
@@ -117,7 +117,7 @@ public class LByteBinaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsByte((byte)100,(byte)100);
+            wrapped.doApplyAsByte((byte)100,(byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LByteBinaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsByte((byte)100,(byte)100);
+            wrapped.doApplyAsByte((byte)100,(byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -165,7 +165,7 @@ public class LByteBinaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsByte((byte)100,(byte)100);
+            wrapped.doApplyAsByte((byte)100,(byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -190,7 +190,7 @@ public class LByteBinaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsByte((byte)100,(byte)100);
+            wrapped.doApplyAsByte((byte)100,(byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -214,7 +214,7 @@ public class LByteBinaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsByte((byte)100,(byte)100);
+            wrapped.doApplyAsByte((byte)100,(byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -235,10 +235,10 @@ public class LByteBinaryOperatorTest<X extends ParseException> {
         LByteBinaryOperator min = LByteBinaryOperator.min();
 
         //then
-        assertThat(min.applyAsByte(valueSmall, valueBig))
+        assertThat(min.doApplyAsByte(valueSmall, valueBig))
                 .isEqualTo(valueSmall);
 
-        assertThat(min.applyAsByte(valueBig, valueSmall))
+        assertThat(min.doApplyAsByte(valueBig, valueSmall))
                 .isEqualTo(valueSmall);
     }
 
@@ -252,10 +252,10 @@ public class LByteBinaryOperatorTest<X extends ParseException> {
         LByteBinaryOperator max = LByteBinaryOperator.max();
 
         //then
-        assertThat(max.applyAsByte(valueSmall, valueBig))
+        assertThat(max.doApplyAsByte(valueSmall, valueBig))
                 .isEqualTo(valueBig);
 
-        assertThat(max.applyAsByte(valueBig, valueSmall))
+        assertThat(max.doApplyAsByte(valueBig, valueSmall))
                 .isEqualTo(valueBig);
     }
 
@@ -289,7 +289,7 @@ public class LByteBinaryOperatorTest<X extends ParseException> {
 
         //when
         LByteBinaryOperator function = sutO.fromByte(before1,before2);
-        function.applyAsByte((byte)80,(byte)81);
+        function.doApplyAsByte((byte)80,(byte)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -324,7 +324,7 @@ public class LByteBinaryOperatorTest<X extends ParseException> {
 
         //when
         LToByteBiFunction<Integer ,Integer > function = sutO.from(before1,before2);
-        function.applyAsByte((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        function.doApplyAsByte((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -361,7 +361,7 @@ public class LByteBinaryOperatorTest<X extends ParseException> {
 
         //when
         LByteBiFunction<Integer > function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((byte)80,(byte)81);
+        Integer  finalValue = function.doApply((byte)80,(byte)81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -392,7 +392,7 @@ public class LByteBinaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().applyAsByte((byte)100,(byte)100);
+        sutThrowing.shove().doApplyAsByte((byte)100,(byte)100);
     }
 
     @Test
@@ -410,7 +410,7 @@ public class LByteBinaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsByte((byte)100,(byte)100);
+            wrapped.doApplyAsByte((byte)100,(byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -429,7 +429,7 @@ public class LByteBinaryOperatorTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LByteBinaryOperator: byte applyAsByte(byte b1,byte b2)");
+                .contains("LByteBinaryOperator: byte doApplyAsByte(byte b1,byte b2)");
     }
 
 

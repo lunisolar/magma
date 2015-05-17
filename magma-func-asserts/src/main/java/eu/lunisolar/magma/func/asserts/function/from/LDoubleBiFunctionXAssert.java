@@ -60,7 +60,7 @@ public interface LDoubleBiFunctionXAssert<S extends LDoubleBiFunctionXAssert<S, 
 
 		@Nonnull
 		public Evaluation<S, A, RS, R, Exception> doesApply(double d1, double d2) {
-			return evaluation(() -> assertFactory.apply((R) actual.apply(d1, d2)));
+			return evaluation(() -> assertFactory.apply((R) actual.doApply(d1, d2)));
 		}
 
 	}

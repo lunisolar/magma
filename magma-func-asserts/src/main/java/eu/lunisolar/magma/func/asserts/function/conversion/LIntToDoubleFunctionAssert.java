@@ -58,7 +58,7 @@ public interface LIntToDoubleFunctionAssert<S extends LIntToDoubleFunctionAssert
 
 		@Nonnull
 		public Evaluation<S, A, RS, Double, Exception> doesApplyAsDouble(int i) {
-			return evaluation(() -> assertFactory.apply((Double) actual.applyAsDouble(i)));
+			return evaluation(() -> assertFactory.apply((Double) actual.doApplyAsDouble(i)));
 		}
 
 	}

@@ -99,12 +99,12 @@ public final class LLongSupplierBuilder extends PerCaseBuilderWithLongProduct.Ba
 			final Case<LBooleanSupplier, LLongSupplier>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LLongSupplier.l(() -> {
 				for (Case<LBooleanSupplier, LLongSupplier> aCase : casesArray) {
-					if (aCase.casePredicate().getAsBoolean()) {
-						return aCase.caseFunction().getAsLong();
+					if (aCase.casePredicate().doGetAsBoolean()) {
+						return aCase.caseFunction().doGetAsLong();
 					}
 				}
 
-				return eventuallyFinal.getAsLong();
+				return eventuallyFinal.doGetAsLong();
 			});
 		}
 

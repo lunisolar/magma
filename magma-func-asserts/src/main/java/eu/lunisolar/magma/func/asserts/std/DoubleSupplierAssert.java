@@ -71,7 +71,7 @@ public interface DoubleSupplierAssert<S extends DoubleSupplierAssert<S, A, RS>, 
 
 		@Nonnull
 		public Evaluation<S, A, RS, Double, Exception> doesGetAsDouble(LAction before) {
-			before.execute();
+			before.doExecute();
 			return doesGetAsDouble();
 		}
 	}

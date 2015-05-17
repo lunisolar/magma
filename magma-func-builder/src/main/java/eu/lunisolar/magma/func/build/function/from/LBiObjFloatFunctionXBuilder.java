@@ -99,12 +99,12 @@ public final class LBiObjFloatFunctionXBuilder<T1, T2, R, X extends Exception> e
 			final Case<LBiObjFloatPredicateX<T1, T2, X>, LBiObjFloatFunctionX<T1, T2, R, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LBiObjFloatFunctionX.lX((T1 t1, T2 t2, float f) -> {
 				for (Case<LBiObjFloatPredicateX<T1, T2, X>, LBiObjFloatFunctionX<T1, T2, R, X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t1, t2, f)) {
-						return aCase.caseFunction().apply(t1, t2, f);
+					if (aCase.casePredicate().doTest(t1, t2, f)) {
+						return aCase.caseFunction().doApply(t1, t2, f);
 					}
 				}
 
-				return eventuallyFinal.apply(t1, t2, f);
+				return eventuallyFinal.doApply(t1, t2, f);
 			});
 		}
 

@@ -58,7 +58,7 @@ public interface LShortToDoubleFunctionAssert<S extends LShortToDoubleFunctionAs
 
 		@Nonnull
 		public Evaluation<S, A, RS, Double, Exception> doesApplyAsDouble(short s) {
-			return evaluation(() -> assertFactory.apply((Double) actual.applyAsDouble(s)));
+			return evaluation(() -> assertFactory.apply((Double) actual.doApplyAsDouble(s)));
 		}
 
 	}

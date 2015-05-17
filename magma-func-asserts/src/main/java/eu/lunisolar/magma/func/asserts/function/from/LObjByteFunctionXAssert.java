@@ -60,7 +60,7 @@ public interface LObjByteFunctionXAssert<S extends LObjByteFunctionXAssert<S, A,
 
 		@Nonnull
 		public Evaluation<S, A, RS, R, Exception> doesApply(T t, byte i) {
-			return evaluation(() -> assertFactory.apply((R) actual.apply(t, i)));
+			return evaluation(() -> assertFactory.apply((R) actual.doApply(t, i)));
 		}
 
 	}

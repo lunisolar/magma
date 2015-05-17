@@ -99,12 +99,12 @@ public final class LBiPredicateBuilder<T1, T2> extends PerCaseBuilderWithBoolean
 			final Case<LBiPredicate<T1, T2>, LBiPredicate<T1, T2>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LBiPredicate.l((T1 t1, T2 t2) -> {
 				for (Case<LBiPredicate<T1, T2>, LBiPredicate<T1, T2>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t1, t2)) {
-						return aCase.caseFunction().test(t1, t2);
+					if (aCase.casePredicate().doTest(t1, t2)) {
+						return aCase.caseFunction().doTest(t1, t2);
 					}
 				}
 
-				return eventuallyFinal.test(t1, t2);
+				return eventuallyFinal.doTest(t1, t2);
 			});
 		}
 

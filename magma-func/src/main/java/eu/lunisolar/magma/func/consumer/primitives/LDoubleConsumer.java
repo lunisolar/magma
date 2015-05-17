@@ -61,9 +61,13 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LDoubleConsumer extends java.util.function.DoubleConsumer, LDoubleConsumerX<RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LDoubleConsumer: void accept(double d)";
+	public static final String DESCRIPTION = "LDoubleConsumer: void doAccept(double d)";
 
-	// Ovverriding methods can cause problems with inference.
+	public void doAccept(double d);
+
+	default void accept(double d) {
+		doAccept(d);
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +77,7 @@ public interface LDoubleConsumer extends java.util.function.DoubleConsumer, LDou
 
 	/** Captures arguments but delays the evaluation. */
 	default LAction capture(double d) {
-		return () -> this.accept(d);
+		return () -> this.doAccept(d);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -96,7 +100,7 @@ public interface LDoubleConsumer extends java.util.function.DoubleConsumer, LDou
 	public static <X extends Exception> LDoubleConsumer wrap(final @Nonnull LDoubleConsumerX<X> other) {
 		return (double d) -> {
 			try {
-				other.accept(d);
+				other.doAccept(d);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -113,7 +117,7 @@ public interface LDoubleConsumer extends java.util.function.DoubleConsumer, LDou
 	@Nonnull
 	default LDoubleConsumer fromDouble(@Nonnull final LDoubleUnaryOperator before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final double v1) -> this.accept(before1.applyAsDouble(v1));
+		return (final double v1) -> this.doAccept(before1.doApplyAsDouble(v1));
 	}
 
 	/**
@@ -122,7 +126,7 @@ public interface LDoubleConsumer extends java.util.function.DoubleConsumer, LDou
 	@Nonnull
 	default <V1> LConsumer<V1> from(@Nonnull final LToDoubleFunction<? super V1> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.accept(before1.applyAsDouble(v1));
+		return (V1 v1) -> this.doAccept(before1.doApplyAsDouble(v1));
 	}
 
 	// </editor-fold>
@@ -134,8 +138,8 @@ public interface LDoubleConsumer extends java.util.function.DoubleConsumer, LDou
 	default LDoubleConsumer andThen(@Nonnull LDoubleConsumer after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
 		return (double d) -> {
-			this.accept(d);
-			after.accept(d);
+			this.doAccept(d);
+			after.doAccept(d);
 		};
 	}
 
@@ -174,7 +178,7 @@ public interface LDoubleConsumer extends java.util.function.DoubleConsumer, LDou
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LDoubleConsumer wrapException(@Nonnull final LDoubleConsumer other, Class<E> exception, ExceptionHandler<E, Y> handler) {
 		return (double d) -> {
 			try {
-				other.accept(d);
+				other.doAccept(d);
 			} catch (Exception e) {
 				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
 			}

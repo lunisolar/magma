@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LObjBooleanConsumerX<T, X extends Exception> extends MetaConsumer, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LObjBooleanConsumerX: void accept(T t, boolean b) throws X";
+	public static final String DESCRIPTION = "LObjBooleanConsumerX: void doAccept(T t, boolean b) throws X";
 
-	public void accept(T t, boolean b) throws X;
+	public void doAccept(T t, boolean b) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +73,7 @@ public interface LObjBooleanConsumerX<T, X extends Exception> extends MetaConsum
 
 	/** Captures arguments but delays the evaluation. */
 	default LActionX<X> capture(T t, boolean b) {
-		return () -> this.accept(t, b);
+		return () -> this.doAccept(t, b);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -88,7 +88,7 @@ public interface LObjBooleanConsumerX<T, X extends Exception> extends MetaConsum
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T, X extends Exception> LObjBooleanConsumerX<T, X> wrapX(final @Nonnull LObjBooleanConsumer<T> other) {
-		return other::accept;
+		return other::doAccept;
 	}
 
 	// </editor-fold>
@@ -102,7 +102,7 @@ public interface LObjBooleanConsumerX<T, X extends Exception> extends MetaConsum
 	default <V1> LObjBooleanConsumerX<V1, X> fromBoolean(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LBooleanUnaryOperatorX<X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final V1 v1, final boolean v2) -> this.accept(before1.apply(v1), before2.applyAsBoolean(v2));
+		return (final V1 v1, final boolean v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsBoolean(v2));
 	}
 
 	/**
@@ -112,7 +112,7 @@ public interface LObjBooleanConsumerX<T, X extends Exception> extends MetaConsum
 	default <V1, V2> LBiConsumerX<V1, V2, X> from(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LPredicateX<? super V2, X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.accept(before1.apply(v1), before2.applyAsBoolean(v2));
+		return (V1 v1, V2 v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsBoolean(v2));
 	}
 
 	// </editor-fold>
@@ -124,8 +124,8 @@ public interface LObjBooleanConsumerX<T, X extends Exception> extends MetaConsum
 	default LObjBooleanConsumerX<T, X> andThen(@Nonnull LObjBooleanConsumerX<? super T, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
 		return (T t, boolean b) -> {
-			this.accept(t, b);
-			after.accept(t, b);
+			this.doAccept(t, b);
+			after.doAccept(t, b);
 		};
 	}
 
@@ -147,7 +147,7 @@ public interface LObjBooleanConsumerX<T, X extends Exception> extends MetaConsum
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjBooleanConsumer<T> shove() {
 		LObjBooleanConsumerX<T, RuntimeException> exceptionCast = (LObjBooleanConsumerX<T, RuntimeException>) this;
-		return exceptionCast::accept;
+		return exceptionCast::doAccept;
 	}
 
 	// </editor-fold>
@@ -159,7 +159,7 @@ public interface LObjBooleanConsumerX<T, X extends Exception> extends MetaConsum
 	public static <T, X extends Exception, E extends Exception, Y extends Exception> LObjBooleanConsumerX<T, Y> wrapException(@Nonnull final LObjBooleanConsumerX<T, X> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
 		return (T t, boolean b) -> {
 			try {
-				other.accept(t, b);
+				other.doAccept(t, b);
 			} catch (Exception e) {
 				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
 			}

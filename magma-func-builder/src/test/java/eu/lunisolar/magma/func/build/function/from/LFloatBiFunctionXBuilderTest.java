@@ -69,7 +69,7 @@ public class LFloatBiFunctionXBuilderTest<R,X extends ParseException>{
                 .floatBiFunctionX()
                 .build();
 
-            function.apply((float)100,(float)100);
+            function.doApply((float)100,(float)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

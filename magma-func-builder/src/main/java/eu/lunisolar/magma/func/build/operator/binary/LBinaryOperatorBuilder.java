@@ -99,12 +99,12 @@ public final class LBinaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.B
 			final Case<LBiPredicate<T, T>, LBinaryOperator<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LBinaryOperator.l((T t1, T t2) -> {
 				for (Case<LBiPredicate<T, T>, LBinaryOperator<T>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t1, t2)) {
-						return aCase.caseFunction().apply(t1, t2);
+					if (aCase.casePredicate().doTest(t1, t2)) {
+						return aCase.caseFunction().doApply(t1, t2);
 					}
 				}
 
-				return eventuallyFinal.apply(t1, t2);
+				return eventuallyFinal.doApply(t1, t2);
 			});
 		}
 

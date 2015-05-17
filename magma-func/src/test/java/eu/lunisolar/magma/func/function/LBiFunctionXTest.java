@@ -61,19 +61,19 @@ public class LBiFunctionXTest<T1,T2,R,X extends ParseException> {
 
 
     private LBiFunctionX<T1,T2,R,X> sut = new LBiFunctionX(){
-        public @Nullable Object  apply(Object t1,Object t2) throws ParseException {
+        public @Nullable Object  doApply(Object t1,Object t2) throws ParseException {
             return testValue;
         }
     };
 
     private LBiFunction<T1,T2,R> opposite = new LBiFunction(){
-        public @Nullable Object  apply(Object t1,Object t2)  {
+        public @Nullable Object  doApply(Object t1,Object t2)  {
             return testValue;
         }
     };
 
     private LBiFunctionX<T1,T2,R,X> sutNull = new LBiFunctionX(){
-        public @Nullable Object  apply(Object t1,Object t2) throws ParseException {
+        public @Nullable Object  doApply(Object t1,Object t2) throws ParseException {
             return null;
         }
     };
@@ -84,7 +84,7 @@ public class LBiFunctionXTest<T1,T2,R,X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.apply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100)))
+        assertThat(sut.doApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100)))
             .isSameAs(testValue);
     }
 
@@ -94,7 +94,7 @@ public class LBiFunctionXTest<T1,T2,R,X extends ParseException> {
             .isSameAs(testValue);
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LBiFunctionX: R apply(T1 t1,T2 t2) throws X).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LBiFunctionX: R doApply(T1 t1,T2 t2) throws X).\\E")
     public void testNonNullCapturesNull() throws ParseException {
         sutNull.nonNull((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
     }
@@ -103,7 +103,7 @@ public class LBiFunctionXTest<T1,T2,R,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBiFunctionX: R apply(T1 t1,T2 t2) throws X");
+            .isEqualTo("LBiFunctionX: R doApply(T1 t1,T2 t2) throws X");
     }
 
     @Test
@@ -140,7 +140,7 @@ public class LBiFunctionXTest<T1,T2,R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            wrapped.doApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -165,7 +165,7 @@ public class LBiFunctionXTest<T1,T2,R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            wrapped.doApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -189,7 +189,7 @@ public class LBiFunctionXTest<T1,T2,R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            wrapped.doApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -230,7 +230,7 @@ public class LBiFunctionXTest<T1,T2,R,X extends ParseException> {
 
         //when
         LBiFunctionX<Integer ,Integer ,Integer ,X> function = sutO.from(before1,before2);
-        function.apply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        function.doApply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -267,7 +267,7 @@ public class LBiFunctionXTest<T1,T2,R,X extends ParseException> {
 
         //when
         LBiFunctionX<Integer ,Integer ,Integer ,X> function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        Integer  finalValue = function.doApply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -301,7 +301,7 @@ public class LBiFunctionXTest<T1,T2,R,X extends ParseException> {
 
         //when
         LBiConsumerX<Integer ,Integer ,X> function = sutO.then(thenFunction);
-        function.accept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        function.doAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -336,7 +336,7 @@ public class LBiFunctionXTest<T1,T2,R,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().apply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+        sutThrowing.shove().doApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
     }
 
     @Test
@@ -354,7 +354,7 @@ public class LBiFunctionXTest<T1,T2,R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            wrapped.doApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -373,7 +373,7 @@ public class LBiFunctionXTest<T1,T2,R,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBiFunctionX: R apply(T1 t1,T2 t2) throws X");
+                .contains("LBiFunctionX: R doApply(T1 t1,T2 t2) throws X");
     }
 
 

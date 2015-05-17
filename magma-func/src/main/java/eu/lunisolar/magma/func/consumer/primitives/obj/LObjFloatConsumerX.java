@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LObjFloatConsumerX<T, X extends Exception> extends MetaConsumer, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LObjFloatConsumerX: void accept(T t, float f) throws X";
+	public static final String DESCRIPTION = "LObjFloatConsumerX: void doAccept(T t, float f) throws X";
 
-	public void accept(T t, float f) throws X;
+	public void doAccept(T t, float f) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +73,7 @@ public interface LObjFloatConsumerX<T, X extends Exception> extends MetaConsumer
 
 	/** Captures arguments but delays the evaluation. */
 	default LActionX<X> capture(T t, float f) {
-		return () -> this.accept(t, f);
+		return () -> this.doAccept(t, f);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -88,7 +88,7 @@ public interface LObjFloatConsumerX<T, X extends Exception> extends MetaConsumer
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T, X extends Exception> LObjFloatConsumerX<T, X> wrapX(final @Nonnull LObjFloatConsumer<T> other) {
-		return other::accept;
+		return other::doAccept;
 	}
 
 	// </editor-fold>
@@ -102,7 +102,7 @@ public interface LObjFloatConsumerX<T, X extends Exception> extends MetaConsumer
 	default <V1> LObjFloatConsumerX<V1, X> fromFloat(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LFloatUnaryOperatorX<X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final V1 v1, final float v2) -> this.accept(before1.apply(v1), before2.applyAsFloat(v2));
+		return (final V1 v1, final float v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsFloat(v2));
 	}
 
 	/**
@@ -112,7 +112,7 @@ public interface LObjFloatConsumerX<T, X extends Exception> extends MetaConsumer
 	default <V1, V2> LBiConsumerX<V1, V2, X> from(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToFloatFunctionX<? super V2, X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.accept(before1.apply(v1), before2.applyAsFloat(v2));
+		return (V1 v1, V2 v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsFloat(v2));
 	}
 
 	// </editor-fold>
@@ -124,8 +124,8 @@ public interface LObjFloatConsumerX<T, X extends Exception> extends MetaConsumer
 	default LObjFloatConsumerX<T, X> andThen(@Nonnull LObjFloatConsumerX<? super T, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
 		return (T t, float f) -> {
-			this.accept(t, f);
-			after.accept(t, f);
+			this.doAccept(t, f);
+			after.doAccept(t, f);
 		};
 	}
 
@@ -147,7 +147,7 @@ public interface LObjFloatConsumerX<T, X extends Exception> extends MetaConsumer
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjFloatConsumer<T> shove() {
 		LObjFloatConsumerX<T, RuntimeException> exceptionCast = (LObjFloatConsumerX<T, RuntimeException>) this;
-		return exceptionCast::accept;
+		return exceptionCast::doAccept;
 	}
 
 	// </editor-fold>
@@ -159,7 +159,7 @@ public interface LObjFloatConsumerX<T, X extends Exception> extends MetaConsumer
 	public static <T, X extends Exception, E extends Exception, Y extends Exception> LObjFloatConsumerX<T, Y> wrapException(@Nonnull final LObjFloatConsumerX<T, X> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
 		return (T t, float f) -> {
 			try {
-				other.accept(t, f);
+				other.doAccept(t, f);
 			} catch (Exception e) {
 				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
 			}

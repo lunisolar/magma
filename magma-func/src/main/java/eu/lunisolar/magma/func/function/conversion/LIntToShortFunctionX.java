@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LIntToShortFunctionX<X extends Exception> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LIntToShortFunctionX: short applyAsShort(int i) throws X";
+	public static final String DESCRIPTION = "LIntToShortFunctionX: short doApplyAsShort(int i) throws X";
 
-	public short applyAsShort(int i) throws X;
+	public short doApplyAsShort(int i) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LIntToShortFunctionX<X extends Exception> extends MetaFunction,
 
 	/** Captures arguments but delays the evaluation. */
 	default LShortSupplierX<X> capture(int i) {
-		return () -> this.applyAsShort(i);
+		return () -> this.doApplyAsShort(i);
 	}
 
 	public static <X extends Exception> LIntToShortFunctionX<X> constant(short r) {
@@ -81,7 +81,7 @@ public interface LIntToShortFunctionX<X extends Exception> extends MetaFunction,
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default short nonNull(int i) throws X {
-		return applyAsShort(i);
+		return doApplyAsShort(i);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -96,7 +96,7 @@ public interface LIntToShortFunctionX<X extends Exception> extends MetaFunction,
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LIntToShortFunctionX<X> wrapX(final @Nonnull LIntToShortFunction other) {
-		return other::applyAsShort;
+		return other::doApplyAsShort;
 	}
 
 	// </editor-fold>
@@ -109,7 +109,7 @@ public interface LIntToShortFunctionX<X extends Exception> extends MetaFunction,
 	@Nonnull
 	default LIntToShortFunctionX<X> fromInt(@Nonnull final LIntUnaryOperatorX<X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final int v1) -> this.applyAsShort(before1.applyAsInt(v1));
+		return (final int v1) -> this.doApplyAsShort(before1.doApplyAsInt(v1));
 	}
 
 	/**
@@ -118,7 +118,7 @@ public interface LIntToShortFunctionX<X extends Exception> extends MetaFunction,
 	@Nonnull
 	default <V1> LToShortFunctionX<V1, X> from(@Nonnull final LToIntFunctionX<? super V1, X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.applyAsShort(before1.applyAsInt(v1));
+		return (V1 v1) -> this.doApplyAsShort(before1.doApplyAsInt(v1));
 	}
 
 	// </editor-fold>
@@ -129,63 +129,63 @@ public interface LIntToShortFunctionX<X extends Exception> extends MetaFunction,
 	@Nonnull
 	default <V> LIntFunctionX<V, X> then(@Nonnull LShortFunctionX<? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.apply(this.applyAsShort(i));
+		return (int i) -> after.doApply(this.doApplyAsShort(i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToByteFunctionX<X> thenToByte(@Nonnull LShortToByteFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsByte(this.applyAsShort(i));
+		return (int i) -> after.doApplyAsByte(this.doApplyAsShort(i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToShortFunctionX<X> thenToShort(@Nonnull LShortUnaryOperatorX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsShort(this.applyAsShort(i));
+		return (int i) -> after.doApplyAsShort(this.doApplyAsShort(i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntUnaryOperatorX<X> thenToInt(@Nonnull LShortToIntFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsInt(this.applyAsShort(i));
+		return (int i) -> after.doApplyAsInt(this.doApplyAsShort(i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToLongFunctionX<X> thenToLong(@Nonnull LShortToLongFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsLong(this.applyAsShort(i));
+		return (int i) -> after.doApplyAsLong(this.doApplyAsShort(i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToFloatFunctionX<X> thenToFloat(@Nonnull LShortToFloatFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsFloat(this.applyAsShort(i));
+		return (int i) -> after.doApplyAsFloat(this.doApplyAsShort(i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToDoubleFunctionX<X> thenToDouble(@Nonnull LShortToDoubleFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsDouble(this.applyAsShort(i));
+		return (int i) -> after.doApplyAsDouble(this.doApplyAsShort(i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToCharFunctionX<X> thenToChar(@Nonnull LShortToCharFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsChar(this.applyAsShort(i));
+		return (int i) -> after.doApplyAsChar(this.doApplyAsShort(i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntPredicateX<X> thenToBoolean(@Nonnull LShortPredicateX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.test(this.applyAsShort(i));
+		return (int i) -> after.doTest(this.doApplyAsShort(i));
 	}
 
 	// </editor-fold>
@@ -207,7 +207,7 @@ public interface LIntToShortFunctionX<X extends Exception> extends MetaFunction,
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LIntToShortFunction shove() {
 		LIntToShortFunctionX<RuntimeException> exceptionCast = (LIntToShortFunctionX<RuntimeException>) this;
-		return exceptionCast::applyAsShort;
+		return exceptionCast::doApplyAsShort;
 	}
 
 	// </editor-fold>
@@ -219,11 +219,11 @@ public interface LIntToShortFunctionX<X extends Exception> extends MetaFunction,
 	public static <X extends Exception, E extends Exception, Y extends Exception> LIntToShortFunctionX<Y> wrapException(@Nonnull final LIntToShortFunctionX<X> other, Class<E> exception, LShortSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
 		return (int i) -> {
 			try {
-				return other.applyAsShort(i);
+				return other.doApplyAsShort(i);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsShort();
+						return supplier.doGetAsShort();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

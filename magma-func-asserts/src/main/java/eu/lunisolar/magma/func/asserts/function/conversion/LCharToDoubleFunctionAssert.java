@@ -58,7 +58,7 @@ public interface LCharToDoubleFunctionAssert<S extends LCharToDoubleFunctionAsse
 
 		@Nonnull
 		public Evaluation<S, A, RS, Double, Exception> doesApplyAsDouble(char c) {
-			return evaluation(() -> assertFactory.apply((Double) actual.applyAsDouble(c)));
+			return evaluation(() -> assertFactory.apply((Double) actual.doApplyAsDouble(c)));
 		}
 
 	}

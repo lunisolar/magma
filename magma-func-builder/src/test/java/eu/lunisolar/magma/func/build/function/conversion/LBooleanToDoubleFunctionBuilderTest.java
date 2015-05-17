@@ -69,7 +69,7 @@ public class LBooleanToDoubleFunctionBuilderTest<X extends ParseException>{
                 .booleanToDoubleFunction()
                 .build();
 
-            function.applyAsDouble(true);
+            function.doApplyAsDouble(true);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

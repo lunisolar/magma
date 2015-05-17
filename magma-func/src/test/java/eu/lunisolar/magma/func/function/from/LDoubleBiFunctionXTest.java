@@ -61,19 +61,19 @@ public class LDoubleBiFunctionXTest<R,X extends ParseException> {
 
 
     private LDoubleBiFunctionX<R,X> sut = new LDoubleBiFunctionX(){
-        public @Nullable Object  apply(double d1,double d2) throws ParseException {
+        public @Nullable Object  doApply(double d1,double d2) throws ParseException {
             return testValue;
         }
     };
 
     private LDoubleBiFunction<R> opposite = new LDoubleBiFunction(){
-        public @Nullable Object  apply(double d1,double d2)  {
+        public @Nullable Object  doApply(double d1,double d2)  {
             return testValue;
         }
     };
 
     private LDoubleBiFunctionX<R,X> sutNull = new LDoubleBiFunctionX(){
-        public @Nullable Object  apply(double d1,double d2) throws ParseException {
+        public @Nullable Object  doApply(double d1,double d2) throws ParseException {
             return null;
         }
     };
@@ -82,7 +82,7 @@ public class LDoubleBiFunctionXTest<R,X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.apply((double)100,(double)100))
+        assertThat(sut.doApply((double)100,(double)100))
             .isSameAs(testValue);
     }
 
@@ -92,7 +92,7 @@ public class LDoubleBiFunctionXTest<R,X extends ParseException> {
             .isSameAs(testValue);
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LDoubleBiFunctionX: R apply(double d1,double d2) throws X).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LDoubleBiFunctionX: R doApply(double d1,double d2) throws X).\\E")
     public void testNonNullCapturesNull() throws ParseException {
         sutNull.nonNull((double)100,(double)100);
     }
@@ -101,7 +101,7 @@ public class LDoubleBiFunctionXTest<R,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LDoubleBiFunctionX: R apply(double d1,double d2) throws X");
+            .isEqualTo("LDoubleBiFunctionX: R doApply(double d1,double d2) throws X");
     }
 
     @Test
@@ -132,7 +132,7 @@ public class LDoubleBiFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((double)100,(double)100);
+            wrapped.doApply((double)100,(double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -157,7 +157,7 @@ public class LDoubleBiFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((double)100,(double)100);
+            wrapped.doApply((double)100,(double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -181,7 +181,7 @@ public class LDoubleBiFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((double)100,(double)100);
+            wrapped.doApply((double)100,(double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -222,7 +222,7 @@ public class LDoubleBiFunctionXTest<R,X extends ParseException> {
 
         //when
         LDoubleBiFunctionX<Integer ,X> function = sutO.fromDouble(before1,before2);
-        function.apply((double)80,(double)81);
+        function.doApply((double)80,(double)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -257,7 +257,7 @@ public class LDoubleBiFunctionXTest<R,X extends ParseException> {
 
         //when
         LBiFunctionX<Integer ,Integer ,Integer ,X> function = sutO.from(before1,before2);
-        function.apply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        function.doApply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -294,7 +294,7 @@ public class LDoubleBiFunctionXTest<R,X extends ParseException> {
 
         //when
         LDoubleBiFunctionX<Integer ,X> function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((double)80,(double)81);
+        Integer  finalValue = function.doApply((double)80,(double)81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -328,7 +328,7 @@ public class LDoubleBiFunctionXTest<R,X extends ParseException> {
 
         //when
         LDoubleBiConsumerX<X> function = sutO.then(thenFunction);
-        function.accept((double)80,(double)81);
+        function.doAccept((double)80,(double)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -358,7 +358,7 @@ public class LDoubleBiFunctionXTest<R,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().apply((double)100,(double)100);
+        sutThrowing.shove().doApply((double)100,(double)100);
     }
 
     @Test
@@ -376,7 +376,7 @@ public class LDoubleBiFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((double)100,(double)100);
+            wrapped.doApply((double)100,(double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -395,7 +395,7 @@ public class LDoubleBiFunctionXTest<R,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LDoubleBiFunctionX: R apply(double d1,double d2) throws X");
+                .contains("LDoubleBiFunctionX: R doApply(double d1,double d2) throws X");
     }
 
 

@@ -60,14 +60,18 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LLongPredicate extends java.util.function.LongPredicate, LLongPredicateX<RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LLongPredicate: boolean test(long l)";
+	public static final String DESCRIPTION = "LLongPredicate: boolean doTest(long l)";
 
-	// Ovverriding methods can cause problems with inference.
+	public boolean doTest(long l);
+
+	default boolean test(long l) {
+		return doTest(l);
+	}
 
 	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
 
-	default boolean applyAsBoolean(long l) {
-		return test(l);
+	default boolean doApplyAsBoolean(long l) {
+		return doTest(l);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -78,7 +82,7 @@ public interface LLongPredicate extends java.util.function.LongPredicate, LLongP
 
 	/** Captures arguments but delays the evaluation. */
 	default LBooleanSupplier capture(long l) {
-		return () -> this.test(l);
+		return () -> this.doTest(l);
 	}
 
 	public static LLongPredicate constant(boolean r) {
@@ -87,7 +91,7 @@ public interface LLongPredicate extends java.util.function.LongPredicate, LLongP
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(long l) {
-		return test(l);
+		return doTest(l);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -110,7 +114,7 @@ public interface LLongPredicate extends java.util.function.LongPredicate, LLongP
 	public static <X extends Exception> LLongPredicate wrap(final @Nonnull LLongPredicateX<X> other) {
 		return (long l) -> {
 			try {
-				return other.test(l);
+				return other.doTest(l);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -125,7 +129,7 @@ public interface LLongPredicate extends java.util.function.LongPredicate, LLongP
 	 */
 	@Nonnull
 	default LLongPredicate negate() {
-		return (long l) -> !test(l);
+		return (long l) -> !doTest(l);
 	}
 
 	/**
@@ -134,7 +138,7 @@ public interface LLongPredicate extends java.util.function.LongPredicate, LLongP
 	@Nonnull
 	default LLongPredicate and(@Nonnull LLongPredicate other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (long l) -> test(l) && other.test(l);
+		return (long l) -> doTest(l) && other.doTest(l);
 	}
 
 	/**
@@ -143,7 +147,7 @@ public interface LLongPredicate extends java.util.function.LongPredicate, LLongP
 	@Nonnull
 	default LLongPredicate or(@Nonnull LLongPredicate other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (long l) -> test(l) || other.test(l);
+		return (long l) -> doTest(l) || other.doTest(l);
 	}
 
 	/**
@@ -152,7 +156,7 @@ public interface LLongPredicate extends java.util.function.LongPredicate, LLongP
 	@Nonnull
 	default LLongPredicate xor(@Nonnull LLongPredicate other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (long l) -> test(l) ^ other.test(l);
+		return (long l) -> doTest(l) ^ other.doTest(l);
 	}
 
 	@Nonnull
@@ -170,7 +174,7 @@ public interface LLongPredicate extends java.util.function.LongPredicate, LLongP
 	@Nonnull
 	default LLongPredicate fromLong(@Nonnull final LLongUnaryOperator before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final long v1) -> this.test(before1.applyAsLong(v1));
+		return (final long v1) -> this.doTest(before1.doApplyAsLong(v1));
 	}
 
 	/**
@@ -179,7 +183,7 @@ public interface LLongPredicate extends java.util.function.LongPredicate, LLongP
 	@Nonnull
 	default <V1> LPredicate<V1> from(@Nonnull final LToLongFunction<? super V1> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.test(before1.applyAsLong(v1));
+		return (V1 v1) -> this.doTest(before1.doApplyAsLong(v1));
 	}
 
 	// </editor-fold>
@@ -190,63 +194,63 @@ public interface LLongPredicate extends java.util.function.LongPredicate, LLongP
 	@Nonnull
 	default <V> LLongFunction<V> then(@Nonnull LBooleanFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.apply(this.test(l));
+		return (long l) -> after.doApply(this.doTest(l));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LLongToByteFunction thenToByte(@Nonnull LBooleanToByteFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.applyAsByte(this.test(l));
+		return (long l) -> after.doApplyAsByte(this.doTest(l));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LLongToShortFunction thenToShort(@Nonnull LBooleanToShortFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.applyAsShort(this.test(l));
+		return (long l) -> after.doApplyAsShort(this.doTest(l));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LLongToIntFunction thenToInt(@Nonnull LBooleanToIntFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.applyAsInt(this.test(l));
+		return (long l) -> after.doApplyAsInt(this.doTest(l));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LLongUnaryOperator thenToLong(@Nonnull LBooleanToLongFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.applyAsLong(this.test(l));
+		return (long l) -> after.doApplyAsLong(this.doTest(l));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LLongToFloatFunction thenToFloat(@Nonnull LBooleanToFloatFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.applyAsFloat(this.test(l));
+		return (long l) -> after.doApplyAsFloat(this.doTest(l));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LLongToDoubleFunction thenToDouble(@Nonnull LBooleanToDoubleFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.applyAsDouble(this.test(l));
+		return (long l) -> after.doApplyAsDouble(this.doTest(l));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LLongToCharFunction thenToChar(@Nonnull LBooleanToCharFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.applyAsChar(this.test(l));
+		return (long l) -> after.doApplyAsChar(this.doTest(l));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LLongPredicate thenToBoolean(@Nonnull LBooleanUnaryOperator after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.applyAsBoolean(this.test(l));
+		return (long l) -> after.doApplyAsBoolean(this.doTest(l));
 	}
 
 	// </editor-fold>
@@ -285,11 +289,11 @@ public interface LLongPredicate extends java.util.function.LongPredicate, LLongP
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LLongPredicate wrapException(@Nonnull final LLongPredicate other, Class<E> exception, LBooleanSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (long l) -> {
 			try {
-				return other.test(l);
+				return other.doTest(l);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsBoolean();
+						return supplier.doGetAsBoolean();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

@@ -58,7 +58,7 @@ public interface LIntBiFunctionAssert<S extends LIntBiFunctionAssert<S, A, RS, R
 
 		@Nonnull
 		public Evaluation<S, A, RS, R, Exception> doesApply(int i1, int i2) {
-			return evaluation(() -> assertFactory.apply((R) actual.apply(i1, i2)));
+			return evaluation(() -> assertFactory.apply((R) actual.doApply(i1, i2)));
 		}
 
 	}

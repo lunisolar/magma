@@ -99,13 +99,13 @@ public final class LBooleanBiConsumerBuilder extends PerCaseBuilder.Base<LBoolea
 			final Case<LBooleanBinaryOperator, LBooleanBiConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LBooleanBiConsumer.l((boolean b1, boolean b2) -> {
 				for (Case<LBooleanBinaryOperator, LBooleanBiConsumer> aCase : casesArray) {
-					if (aCase.casePredicate().applyAsBoolean(b1, b2)) {
-						aCase.caseFunction().accept(b1, b2);
+					if (aCase.casePredicate().doApplyAsBoolean(b1, b2)) {
+						aCase.caseFunction().doAccept(b1, b2);
 						return;
 					}
 				}
 
-				eventuallyFinal.accept(b1, b2);
+				eventuallyFinal.doAccept(b1, b2);
 			});
 		}
 

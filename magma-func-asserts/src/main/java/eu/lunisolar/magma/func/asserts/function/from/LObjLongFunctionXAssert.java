@@ -60,7 +60,7 @@ public interface LObjLongFunctionXAssert<S extends LObjLongFunctionXAssert<S, A,
 
 		@Nonnull
 		public Evaluation<S, A, RS, R, Exception> doesApply(T t, long l) {
-			return evaluation(() -> assertFactory.apply((R) actual.apply(t, l)));
+			return evaluation(() -> assertFactory.apply((R) actual.doApply(t, l)));
 		}
 
 	}

@@ -60,9 +60,13 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LIntUnaryOperator extends java.util.function.IntUnaryOperator, LIntUnaryOperatorX<RuntimeException>, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LIntUnaryOperator: int applyAsInt(int i)";
+	public static final String DESCRIPTION = "LIntUnaryOperator: int doApplyAsInt(int i)";
 
-	// Ovverriding methods can cause problems with inference.
+	public int doApplyAsInt(int i);
+
+	default int applyAsInt(int i) {
+		return doApplyAsInt(i);
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +76,7 @@ public interface LIntUnaryOperator extends java.util.function.IntUnaryOperator, 
 
 	/** Captures arguments but delays the evaluation. */
 	default LIntSupplier capture(int i) {
-		return () -> this.applyAsInt(i);
+		return () -> this.doApplyAsInt(i);
 	}
 
 	public static LIntUnaryOperator constant(int r) {
@@ -81,7 +85,7 @@ public interface LIntUnaryOperator extends java.util.function.IntUnaryOperator, 
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default int nonNull(int i) {
-		return applyAsInt(i);
+		return doApplyAsInt(i);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -104,7 +108,7 @@ public interface LIntUnaryOperator extends java.util.function.IntUnaryOperator, 
 	public static <X extends Exception> LIntUnaryOperator wrap(final @Nonnull LIntUnaryOperatorX<X> other) {
 		return (int i) -> {
 			try {
-				return other.applyAsInt(i);
+				return other.doApplyAsInt(i);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -121,7 +125,7 @@ public interface LIntUnaryOperator extends java.util.function.IntUnaryOperator, 
 	@Nonnull
 	default LIntUnaryOperator fromInt(@Nonnull final LIntUnaryOperator before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final int v1) -> this.applyAsInt(before1.applyAsInt(v1));
+		return (final int v1) -> this.doApplyAsInt(before1.doApplyAsInt(v1));
 	}
 
 	/**
@@ -130,7 +134,7 @@ public interface LIntUnaryOperator extends java.util.function.IntUnaryOperator, 
 	@Nonnull
 	default <V1> LToIntFunction<V1> from(@Nonnull final LToIntFunction<? super V1> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.applyAsInt(before1.applyAsInt(v1));
+		return (V1 v1) -> this.doApplyAsInt(before1.doApplyAsInt(v1));
 	}
 
 	// </editor-fold>
@@ -141,63 +145,63 @@ public interface LIntUnaryOperator extends java.util.function.IntUnaryOperator, 
 	@Nonnull
 	default <V> LIntFunction<V> then(@Nonnull LIntFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.apply(this.applyAsInt(i));
+		return (int i) -> after.doApply(this.doApplyAsInt(i));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LIntToByteFunction thenToByte(@Nonnull LIntToByteFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsByte(this.applyAsInt(i));
+		return (int i) -> after.doApplyAsByte(this.doApplyAsInt(i));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LIntToShortFunction thenToShort(@Nonnull LIntToShortFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsShort(this.applyAsInt(i));
+		return (int i) -> after.doApplyAsShort(this.doApplyAsInt(i));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LIntUnaryOperator thenToInt(@Nonnull LIntUnaryOperator after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsInt(this.applyAsInt(i));
+		return (int i) -> after.doApplyAsInt(this.doApplyAsInt(i));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LIntToLongFunction thenToLong(@Nonnull LIntToLongFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsLong(this.applyAsInt(i));
+		return (int i) -> after.doApplyAsLong(this.doApplyAsInt(i));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LIntToFloatFunction thenToFloat(@Nonnull LIntToFloatFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsFloat(this.applyAsInt(i));
+		return (int i) -> after.doApplyAsFloat(this.doApplyAsInt(i));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LIntToDoubleFunction thenToDouble(@Nonnull LIntToDoubleFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsDouble(this.applyAsInt(i));
+		return (int i) -> after.doApplyAsDouble(this.doApplyAsInt(i));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LIntToCharFunction thenToChar(@Nonnull LIntToCharFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsChar(this.applyAsInt(i));
+		return (int i) -> after.doApplyAsChar(this.doApplyAsInt(i));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LIntPredicate thenToBoolean(@Nonnull LIntPredicate after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.test(this.applyAsInt(i));
+		return (int i) -> after.doTest(this.doApplyAsInt(i));
 	}
 
 	// </editor-fold>
@@ -242,11 +246,11 @@ public interface LIntUnaryOperator extends java.util.function.IntUnaryOperator, 
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LIntUnaryOperator wrapException(@Nonnull final LIntUnaryOperator other, Class<E> exception, LIntSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (int i) -> {
 			try {
-				return other.applyAsInt(i);
+				return other.doApplyAsInt(i);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsInt();
+						return supplier.doGetAsInt();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

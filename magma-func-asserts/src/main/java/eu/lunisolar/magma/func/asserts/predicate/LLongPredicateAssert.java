@@ -58,7 +58,7 @@ public interface LLongPredicateAssert<S extends LLongPredicateAssert<S, A, RS>, 
 
 		@Nonnull
 		public Evaluation<S, A, RS, Boolean, Exception> doesTest(long l) {
-			return evaluation(() -> assertFactory.apply((Boolean) actual.test(l)));
+			return evaluation(() -> assertFactory.apply((Boolean) actual.doTest(l)));
 		}
 
 	}

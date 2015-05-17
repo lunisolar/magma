@@ -69,7 +69,7 @@ public class LDoubleSupplierXBuilderTest<X extends ParseException>{
                 .doubleSupplierX()
                 .build();
 
-            function.getAsDouble();
+            function.doGetAsDouble();
 
             fail("No exception were thrown.");
         } catch (Exception e) {

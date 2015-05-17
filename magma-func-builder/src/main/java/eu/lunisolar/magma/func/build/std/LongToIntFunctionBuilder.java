@@ -98,7 +98,7 @@ public final class LongToIntFunctionBuilder extends PerCaseBuilderWithIntProduct
 			final Case<LLongPredicate, java.util.function.LongToIntFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = Function4U.l((long l) -> {
 				for (Case<LLongPredicate, java.util.function.LongToIntFunction> aCase : casesArray) {
-					if (aCase.casePredicate().test(l)) {
+					if (aCase.casePredicate().doTest(l)) {
 						return aCase.caseFunction().applyAsInt(l);
 					}
 				}

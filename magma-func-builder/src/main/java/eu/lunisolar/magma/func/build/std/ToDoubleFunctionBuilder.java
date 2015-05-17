@@ -98,7 +98,7 @@ public final class ToDoubleFunctionBuilder<T> extends PerCaseBuilderWithDoublePr
 			final Case<LPredicate<T>, java.util.function.ToDoubleFunction<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = Function4U.l((T t) -> {
 				for (Case<LPredicate<T>, java.util.function.ToDoubleFunction<T>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t)) {
+					if (aCase.casePredicate().doTest(t)) {
 						return aCase.caseFunction().applyAsDouble(t);
 					}
 				}

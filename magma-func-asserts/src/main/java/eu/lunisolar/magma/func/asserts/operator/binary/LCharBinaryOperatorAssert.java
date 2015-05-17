@@ -58,7 +58,7 @@ public interface LCharBinaryOperatorAssert<S extends LCharBinaryOperatorAssert<S
 
 		@Nonnull
 		public Evaluation<S, A, RS, Character, Exception> doesApplyAsChar(char c1, char c2) {
-			return evaluation(() -> assertFactory.apply((Character) actual.applyAsChar(c1, c2)));
+			return evaluation(() -> assertFactory.apply((Character) actual.doApplyAsChar(c1, c2)));
 		}
 
 	}

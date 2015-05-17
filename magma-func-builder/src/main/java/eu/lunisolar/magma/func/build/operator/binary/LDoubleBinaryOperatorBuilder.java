@@ -99,12 +99,12 @@ public final class LDoubleBinaryOperatorBuilder extends PerCaseBuilderWithDouble
 			final Case<LBiDoublePredicate, LDoubleBinaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LDoubleBinaryOperator.l((double d1, double d2) -> {
 				for (Case<LBiDoublePredicate, LDoubleBinaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().test(d1, d2)) {
-						return aCase.caseFunction().applyAsDouble(d1, d2);
+					if (aCase.casePredicate().doTest(d1, d2)) {
+						return aCase.caseFunction().doApplyAsDouble(d1, d2);
 					}
 				}
 
-				return eventuallyFinal.applyAsDouble(d1, d2);
+				return eventuallyFinal.doApplyAsDouble(d1, d2);
 			});
 		}
 

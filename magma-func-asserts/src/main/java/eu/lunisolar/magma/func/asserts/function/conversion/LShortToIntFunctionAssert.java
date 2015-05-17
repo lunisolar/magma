@@ -58,7 +58,7 @@ public interface LShortToIntFunctionAssert<S extends LShortToIntFunctionAssert<S
 
 		@Nonnull
 		public Evaluation<S, A, RS, Integer, Exception> doesApplyAsInt(short s) {
-			return evaluation(() -> assertFactory.apply((Integer) actual.applyAsInt(s)));
+			return evaluation(() -> assertFactory.apply((Integer) actual.doApplyAsInt(s)));
 		}
 
 	}

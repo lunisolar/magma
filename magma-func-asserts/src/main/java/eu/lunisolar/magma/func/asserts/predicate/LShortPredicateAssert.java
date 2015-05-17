@@ -58,7 +58,7 @@ public interface LShortPredicateAssert<S extends LShortPredicateAssert<S, A, RS>
 
 		@Nonnull
 		public Evaluation<S, A, RS, Boolean, Exception> doesTest(short s) {
-			return evaluation(() -> assertFactory.apply((Boolean) actual.test(s)));
+			return evaluation(() -> assertFactory.apply((Boolean) actual.doTest(s)));
 		}
 
 	}

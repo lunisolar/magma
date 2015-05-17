@@ -99,13 +99,13 @@ public final class LIntBiConsumerXBuilder<X extends Exception> extends PerCaseBu
 			final Case<LBiIntPredicateX<X>, LIntBiConsumerX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LIntBiConsumerX.lX((int i1, int i2) -> {
 				for (Case<LBiIntPredicateX<X>, LIntBiConsumerX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(i1, i2)) {
-						aCase.caseFunction().accept(i1, i2);
+					if (aCase.casePredicate().doTest(i1, i2)) {
+						aCase.caseFunction().doAccept(i1, i2);
 						return;
 					}
 				}
 
-				eventuallyFinal.accept(i1, i2);
+				eventuallyFinal.doAccept(i1, i2);
 			});
 		}
 

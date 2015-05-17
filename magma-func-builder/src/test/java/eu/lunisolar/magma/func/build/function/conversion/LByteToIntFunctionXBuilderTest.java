@@ -69,7 +69,7 @@ public class LByteToIntFunctionXBuilderTest<X extends ParseException>{
                 .byteToIntFunctionX()
                 .build();
 
-            function.applyAsInt((byte)100);
+            function.doApplyAsInt((byte)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

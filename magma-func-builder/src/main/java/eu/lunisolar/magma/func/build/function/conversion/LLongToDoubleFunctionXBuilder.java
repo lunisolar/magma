@@ -99,12 +99,12 @@ public final class LLongToDoubleFunctionXBuilder<X extends Exception> extends Pe
 			final Case<LLongPredicateX<X>, LLongToDoubleFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LLongToDoubleFunctionX.lX((long l) -> {
 				for (Case<LLongPredicateX<X>, LLongToDoubleFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(l)) {
-						return aCase.caseFunction().applyAsDouble(l);
+					if (aCase.casePredicate().doTest(l)) {
+						return aCase.caseFunction().doApplyAsDouble(l);
 					}
 				}
 
-				return eventuallyFinal.applyAsDouble(l);
+				return eventuallyFinal.doApplyAsDouble(l);
 			});
 		}
 

@@ -60,14 +60,14 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBiFloatPredicateX<X extends Exception> extends MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LBiFloatPredicateX: boolean test(float f1,float f2) throws X";
+	public static final String DESCRIPTION = "LBiFloatPredicateX: boolean doTest(float f1,float f2) throws X";
 
-	public boolean test(float f1, float f2) throws X;
+	public boolean doTest(float f1, float f2) throws X;
 
 	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
 
-	default boolean applyAsBoolean(float f1, float f2) throws X {
-		return test(f1, f2);
+	default boolean doApplyAsBoolean(float f1, float f2) throws X {
+		return doTest(f1, f2);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -78,7 +78,7 @@ public interface LBiFloatPredicateX<X extends Exception> extends MetaPredicate, 
 
 	/** Captures arguments but delays the evaluation. */
 	default LBooleanSupplierX<X> capture(float f1, float f2) {
-		return () -> this.test(f1, f2);
+		return () -> this.doTest(f1, f2);
 	}
 
 	public static <X extends Exception> LBiFloatPredicateX<X> constant(boolean r) {
@@ -87,7 +87,7 @@ public interface LBiFloatPredicateX<X extends Exception> extends MetaPredicate, 
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(float f1, float f2) throws X {
-		return test(f1, f2);
+		return doTest(f1, f2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -102,7 +102,7 @@ public interface LBiFloatPredicateX<X extends Exception> extends MetaPredicate, 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LBiFloatPredicateX<X> wrapX(final @Nonnull LBiFloatPredicate other) {
-		return other::test;
+		return other::doTest;
 	}
 
 	// </editor-fold>
@@ -113,7 +113,7 @@ public interface LBiFloatPredicateX<X extends Exception> extends MetaPredicate, 
 	 */
 	@Nonnull
 	default LBiFloatPredicateX<X> negate() {
-		return (float f1, float f2) -> !test(f1, f2);
+		return (float f1, float f2) -> !doTest(f1, f2);
 	}
 
 	/**
@@ -122,7 +122,7 @@ public interface LBiFloatPredicateX<X extends Exception> extends MetaPredicate, 
 	@Nonnull
 	default LBiFloatPredicateX<X> and(@Nonnull LBiFloatPredicateX<X> other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (float f1, float f2) -> test(f1, f2) && other.test(f1, f2);
+		return (float f1, float f2) -> doTest(f1, f2) && other.doTest(f1, f2);
 	}
 
 	/**
@@ -131,7 +131,7 @@ public interface LBiFloatPredicateX<X extends Exception> extends MetaPredicate, 
 	@Nonnull
 	default LBiFloatPredicateX<X> or(@Nonnull LBiFloatPredicateX<X> other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (float f1, float f2) -> test(f1, f2) || other.test(f1, f2);
+		return (float f1, float f2) -> doTest(f1, f2) || other.doTest(f1, f2);
 	}
 
 	/**
@@ -140,7 +140,7 @@ public interface LBiFloatPredicateX<X extends Exception> extends MetaPredicate, 
 	@Nonnull
 	default LBiFloatPredicateX<X> xor(@Nonnull LBiFloatPredicateX<X> other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (float f1, float f2) -> test(f1, f2) ^ other.test(f1, f2);
+		return (float f1, float f2) -> doTest(f1, f2) ^ other.doTest(f1, f2);
 	}
 
 	/**
@@ -162,7 +162,7 @@ public interface LBiFloatPredicateX<X extends Exception> extends MetaPredicate, 
 	default LBiFloatPredicateX<X> fromFloat(@Nonnull final LFloatUnaryOperatorX<X> before1, @Nonnull final LFloatUnaryOperatorX<X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final float v1, final float v2) -> this.test(before1.applyAsFloat(v1), before2.applyAsFloat(v2));
+		return (final float v1, final float v2) -> this.doTest(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
 	}
 
 	/**
@@ -172,7 +172,7 @@ public interface LBiFloatPredicateX<X extends Exception> extends MetaPredicate, 
 	default <V1, V2> LBiPredicateX<V1, V2, X> from(@Nonnull final LToFloatFunctionX<? super V1, X> before1, @Nonnull final LToFloatFunctionX<? super V2, X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.test(before1.applyAsFloat(v1), before2.applyAsFloat(v2));
+		return (V1 v1, V2 v2) -> this.doTest(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
 	}
 
 	// </editor-fold>
@@ -183,7 +183,7 @@ public interface LBiFloatPredicateX<X extends Exception> extends MetaPredicate, 
 	@Nonnull
 	default <V> LFloatBiFunctionX<V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f1, float f2) -> after.apply(this.test(f1, f2));
+		return (float f1, float f2) -> after.doApply(this.doTest(f1, f2));
 	}
 
 	// </editor-fold>
@@ -205,7 +205,7 @@ public interface LBiFloatPredicateX<X extends Exception> extends MetaPredicate, 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBiFloatPredicate shove() {
 		LBiFloatPredicateX<RuntimeException> exceptionCast = (LBiFloatPredicateX<RuntimeException>) this;
-		return exceptionCast::test;
+		return exceptionCast::doTest;
 	}
 
 	// </editor-fold>
@@ -217,11 +217,11 @@ public interface LBiFloatPredicateX<X extends Exception> extends MetaPredicate, 
 	public static <X extends Exception, E extends Exception, Y extends Exception> LBiFloatPredicateX<Y> wrapException(@Nonnull final LBiFloatPredicateX<X> other, Class<E> exception, LBooleanSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
 		return (float f1, float f2) -> {
 			try {
-				return other.test(f1, f2);
+				return other.doTest(f1, f2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsBoolean();
+						return supplier.doGetAsBoolean();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

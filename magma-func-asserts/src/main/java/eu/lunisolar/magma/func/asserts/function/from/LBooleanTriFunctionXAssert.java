@@ -60,7 +60,7 @@ public interface LBooleanTriFunctionXAssert<S extends LBooleanTriFunctionXAssert
 
 		@Nonnull
 		public Evaluation<S, A, RS, R, Exception> doesApply(boolean b1, boolean b2, boolean b3) {
-			return evaluation(() -> assertFactory.apply((R) actual.apply(b1, b2, b3)));
+			return evaluation(() -> assertFactory.apply((R) actual.doApply(b1, b2, b3)));
 		}
 
 	}

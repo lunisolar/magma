@@ -63,7 +63,7 @@ public interface LShortToCharFunctionXAssert<S extends LShortToCharFunctionXAsse
 
 		@Nonnull
 		public Evaluation<S, A, RS, Character, Exception> doesApplyAsChar(short s) {
-			return evaluation(() -> assertFactory.apply((Character) actual.applyAsChar(s)));
+			return evaluation(() -> assertFactory.apply((Character) actual.doApplyAsChar(s)));
 		}
 
 	}

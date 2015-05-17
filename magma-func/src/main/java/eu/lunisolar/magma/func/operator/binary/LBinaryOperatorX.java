@@ -60,10 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBinaryOperatorX<T, X extends Exception> extends MetaOperator, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LBinaryOperatorX: T apply(T t1,T t2) throws X";
+	public static final String DESCRIPTION = "LBinaryOperatorX: T doApply(T t1,T t2) throws X";
 
 	@Nullable
-	public T apply(T t1, T t2) throws X;
+	public T doApply(T t1, T t2) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +73,7 @@ public interface LBinaryOperatorX<T, X extends Exception> extends MetaOperator, 
 
 	/** Captures arguments but delays the evaluation. */
 	default LSupplierX<T, X> capture(T t1, T t2) {
-		return () -> this.apply(t1, t2);
+		return () -> this.doApply(t1, t2);
 	}
 
 	public static <T, X extends Exception> LBinaryOperatorX<T, X> constant(T r) {
@@ -85,7 +85,7 @@ public interface LBinaryOperatorX<T, X extends Exception> extends MetaOperator, 
 	/** Ensures the result is not null */
 	@Nonnull
 	default T nonNull(T t1, T t2) throws X {
-		return Objects.requireNonNull(apply(t1, t2), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Objects.requireNonNull(doApply(t1, t2), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -106,7 +106,7 @@ public interface LBinaryOperatorX<T, X extends Exception> extends MetaOperator, 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T, X extends Exception> LBinaryOperatorX<T, X> wrapX(final @Nonnull LBinaryOperator<T> other) {
-		return other::apply;
+		return other::doApply;
 	}
 
 	// </editor-fold>
@@ -119,7 +119,7 @@ public interface LBinaryOperatorX<T, X extends Exception> extends MetaOperator, 
 	@Nonnull
 	default <V> LBiFunctionX<T, T, V, X> then(@Nonnull LFunctionX<? super T, ? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t1, T t2) -> after.apply(this.apply(t1, t2));
+		return (T t1, T t2) -> after.doApply(this.doApply(t1, t2));
 	}
 
 	// </editor-fold>
@@ -129,7 +129,7 @@ public interface LBinaryOperatorX<T, X extends Exception> extends MetaOperator, 
 	/** Converts to JRE variant. */
 	@Nonnull
 	default java.util.function.BinaryOperator<T> std() {
-		return LBinaryOperator.wrap(this)::apply;
+		return LBinaryOperator.wrap(this)::doApply;
 	}
 
 	/** Converts to non-throwing variant (if required). */
@@ -147,14 +147,14 @@ public interface LBinaryOperatorX<T, X extends Exception> extends MetaOperator, 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBinaryOperator<T> shove() {
 		LBinaryOperatorX<T, RuntimeException> exceptionCast = (LBinaryOperatorX<T, RuntimeException>) this;
-		return exceptionCast::apply;
+		return exceptionCast::doApply;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
 	default LBinaryOperatorX<T, X> nonNullableX() {
-		return (t1, t2) -> Objects.requireNonNull(this.apply(t1, t2));
+		return (t1, t2) -> Objects.requireNonNull(this.doApply(t1, t2));
 	}
 
 	// <editor-fold desc="exception handling">
@@ -164,11 +164,11 @@ public interface LBinaryOperatorX<T, X extends Exception> extends MetaOperator, 
 	public static <T, X extends Exception, E extends Exception, Y extends Exception> LBinaryOperatorX<T, Y> wrapException(@Nonnull final LBinaryOperatorX<T, X> other, Class<E> exception, LSupplierX<T, X> supplier, ExceptionHandler<E, Y> handler) {
 		return (T t1, T t2) -> {
 			try {
-				return other.apply(t1, t2);
+				return other.doApply(t1, t2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.get();
+						return supplier.doGet();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

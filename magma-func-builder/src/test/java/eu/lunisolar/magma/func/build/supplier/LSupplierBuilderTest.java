@@ -69,7 +69,7 @@ public class LSupplierBuilderTest<R,X extends ParseException>{
                 .supplier()
                 .build();
 
-            function.get();
+            function.doGet();
 
             fail("No exception were thrown.");
         } catch (Exception e) {

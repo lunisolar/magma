@@ -99,12 +99,12 @@ public final class LCharUnaryOperatorXBuilder<X extends Exception> extends PerCa
 			final Case<LCharPredicateX<X>, LCharUnaryOperatorX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LCharUnaryOperatorX.lX((char c) -> {
 				for (Case<LCharPredicateX<X>, LCharUnaryOperatorX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(c)) {
-						return aCase.caseFunction().applyAsChar(c);
+					if (aCase.casePredicate().doTest(c)) {
+						return aCase.caseFunction().doApplyAsChar(c);
 					}
 				}
 
-				return eventuallyFinal.applyAsChar(c);
+				return eventuallyFinal.doApplyAsChar(c);
 			});
 		}
 

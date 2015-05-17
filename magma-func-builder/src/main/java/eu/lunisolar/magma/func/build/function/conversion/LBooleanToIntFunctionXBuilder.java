@@ -99,12 +99,12 @@ public final class LBooleanToIntFunctionXBuilder<X extends Exception> extends Pe
 			final Case<LBooleanUnaryOperatorX<X>, LBooleanToIntFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LBooleanToIntFunctionX.lX((boolean b) -> {
 				for (Case<LBooleanUnaryOperatorX<X>, LBooleanToIntFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().applyAsBoolean(b)) {
-						return aCase.caseFunction().applyAsInt(b);
+					if (aCase.casePredicate().doApplyAsBoolean(b)) {
+						return aCase.caseFunction().doApplyAsInt(b);
 					}
 				}
 
-				return eventuallyFinal.applyAsInt(b);
+				return eventuallyFinal.doApplyAsInt(b);
 			});
 		}
 

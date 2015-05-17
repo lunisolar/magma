@@ -99,12 +99,12 @@ public final class LCharToByteFunctionXBuilder<X extends Exception> extends PerC
 			final Case<LCharPredicateX<X>, LCharToByteFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LCharToByteFunctionX.lX((char c) -> {
 				for (Case<LCharPredicateX<X>, LCharToByteFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(c)) {
-						return aCase.caseFunction().applyAsByte(c);
+					if (aCase.casePredicate().doTest(c)) {
+						return aCase.caseFunction().doApplyAsByte(c);
 					}
 				}
 
-				return eventuallyFinal.applyAsByte(c);
+				return eventuallyFinal.doApplyAsByte(c);
 			});
 		}
 

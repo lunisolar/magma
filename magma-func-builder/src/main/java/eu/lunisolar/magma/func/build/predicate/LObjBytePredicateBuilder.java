@@ -99,12 +99,12 @@ public final class LObjBytePredicateBuilder<T> extends PerCaseBuilderWithBoolean
 			final Case<LObjBytePredicate<T>, LObjBytePredicate<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LObjBytePredicate.l((T t, byte b) -> {
 				for (Case<LObjBytePredicate<T>, LObjBytePredicate<T>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t, b)) {
-						return aCase.caseFunction().test(t, b);
+					if (aCase.casePredicate().doTest(t, b)) {
+						return aCase.caseFunction().doTest(t, b);
 					}
 				}
 
-				return eventuallyFinal.test(t, b);
+				return eventuallyFinal.doTest(t, b);
 			});
 		}
 

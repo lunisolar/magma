@@ -61,13 +61,13 @@ public class LDoubleBinaryOperatorTest<X extends ParseException> {
 
 
     private LDoubleBinaryOperator sut = new LDoubleBinaryOperator(){
-        public  double applyAsDouble(double d1,double d2)  {
+        public  double doApplyAsDouble(double d1,double d2)  {
             return testValue;
         }
     };
 
     private LDoubleBinaryOperatorX<X> opposite = new LDoubleBinaryOperatorX(){
-        public  double applyAsDouble(double d1,double d2) throws ParseException {
+        public  double doApplyAsDouble(double d1,double d2) throws ParseException {
             return testValue;
         }
     };
@@ -78,7 +78,7 @@ public class LDoubleBinaryOperatorTest<X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.applyAsDouble((double)100,(double)100))
+        assertThat(sut.doApplyAsDouble((double)100,(double)100))
             .isEqualTo(testValue);
     }
 
@@ -92,7 +92,7 @@ public class LDoubleBinaryOperatorTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LDoubleBinaryOperator: double applyAsDouble(double d1,double d2)");
+            .isEqualTo("LDoubleBinaryOperator: double doApplyAsDouble(double d1,double d2)");
     }
 
     @Test
@@ -125,7 +125,7 @@ public class LDoubleBinaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsDouble((double)100,(double)100);
+            wrapped.doApplyAsDouble((double)100,(double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -147,7 +147,7 @@ public class LDoubleBinaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsDouble((double)100,(double)100);
+            wrapped.doApplyAsDouble((double)100,(double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -173,7 +173,7 @@ public class LDoubleBinaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsDouble((double)100,(double)100);
+            wrapped.doApplyAsDouble((double)100,(double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -198,7 +198,7 @@ public class LDoubleBinaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsDouble((double)100,(double)100);
+            wrapped.doApplyAsDouble((double)100,(double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -222,7 +222,7 @@ public class LDoubleBinaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsDouble((double)100,(double)100);
+            wrapped.doApplyAsDouble((double)100,(double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -243,10 +243,10 @@ public class LDoubleBinaryOperatorTest<X extends ParseException> {
         LDoubleBinaryOperator min = LDoubleBinaryOperator.min();
 
         //then
-        assertThat(min.applyAsDouble(valueSmall, valueBig))
+        assertThat(min.doApplyAsDouble(valueSmall, valueBig))
                 .isEqualTo(valueSmall);
 
-        assertThat(min.applyAsDouble(valueBig, valueSmall))
+        assertThat(min.doApplyAsDouble(valueBig, valueSmall))
                 .isEqualTo(valueSmall);
     }
 
@@ -260,10 +260,10 @@ public class LDoubleBinaryOperatorTest<X extends ParseException> {
         LDoubleBinaryOperator max = LDoubleBinaryOperator.max();
 
         //then
-        assertThat(max.applyAsDouble(valueSmall, valueBig))
+        assertThat(max.doApplyAsDouble(valueSmall, valueBig))
                 .isEqualTo(valueBig);
 
-        assertThat(max.applyAsDouble(valueBig, valueSmall))
+        assertThat(max.doApplyAsDouble(valueBig, valueSmall))
                 .isEqualTo(valueBig);
     }
 
@@ -297,7 +297,7 @@ public class LDoubleBinaryOperatorTest<X extends ParseException> {
 
         //when
         LDoubleBinaryOperator function = sutO.fromDouble(before1,before2);
-        function.applyAsDouble((double)80,(double)81);
+        function.doApplyAsDouble((double)80,(double)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -332,7 +332,7 @@ public class LDoubleBinaryOperatorTest<X extends ParseException> {
 
         //when
         LToDoubleBiFunction<Integer ,Integer > function = sutO.from(before1,before2);
-        function.applyAsDouble((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        function.doApplyAsDouble((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -369,7 +369,7 @@ public class LDoubleBinaryOperatorTest<X extends ParseException> {
 
         //when
         LDoubleBiFunction<Integer > function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((double)80,(double)81);
+        Integer  finalValue = function.doApply((double)80,(double)81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -405,7 +405,7 @@ public class LDoubleBinaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().applyAsDouble((double)100,(double)100);
+        sutThrowing.shove().doApplyAsDouble((double)100,(double)100);
     }
 
     @Test
@@ -423,7 +423,7 @@ public class LDoubleBinaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsDouble((double)100,(double)100);
+            wrapped.doApplyAsDouble((double)100,(double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -442,7 +442,7 @@ public class LDoubleBinaryOperatorTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LDoubleBinaryOperator: double applyAsDouble(double d1,double d2)");
+                .contains("LDoubleBinaryOperator: double doApplyAsDouble(double d1,double d2)");
     }
 
 

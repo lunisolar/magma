@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LObjCharConsumer<T> extends LObjCharConsumerX<T, RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LObjCharConsumer: void accept(T t, char c)";
+	public static final String DESCRIPTION = "LObjCharConsumer: void doAccept(T t, char c)";
 
-	// Ovverriding methods can cause problems with inference.
+	public void doAccept(T t, char c);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +73,7 @@ public interface LObjCharConsumer<T> extends LObjCharConsumerX<T, RuntimeExcepti
 
 	/** Captures arguments but delays the evaluation. */
 	default LAction capture(T t, char c) {
-		return () -> this.accept(t, c);
+		return () -> this.doAccept(t, c);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -90,7 +90,7 @@ public interface LObjCharConsumer<T> extends LObjCharConsumerX<T, RuntimeExcepti
 	public static <T, X extends Exception> LObjCharConsumer<T> wrap(final @Nonnull LObjCharConsumerX<T, X> other) {
 		return (T t, char c) -> {
 			try {
-				other.accept(t, c);
+				other.doAccept(t, c);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -108,7 +108,7 @@ public interface LObjCharConsumer<T> extends LObjCharConsumerX<T, RuntimeExcepti
 	default <V1> LObjCharConsumer<V1> fromChar(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LCharUnaryOperator before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final V1 v1, final char v2) -> this.accept(before1.apply(v1), before2.applyAsChar(v2));
+		return (final V1 v1, final char v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsChar(v2));
 	}
 
 	/**
@@ -118,7 +118,7 @@ public interface LObjCharConsumer<T> extends LObjCharConsumerX<T, RuntimeExcepti
 	default <V1, V2> LBiConsumer<V1, V2> from(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToCharFunction<? super V2> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.accept(before1.apply(v1), before2.applyAsChar(v2));
+		return (V1 v1, V2 v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsChar(v2));
 	}
 
 	// </editor-fold>
@@ -130,8 +130,8 @@ public interface LObjCharConsumer<T> extends LObjCharConsumerX<T, RuntimeExcepti
 	default LObjCharConsumer<T> andThen(@Nonnull LObjCharConsumer<? super T> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
 		return (T t, char c) -> {
-			this.accept(t, c);
-			after.accept(t, c);
+			this.doAccept(t, c);
+			after.doAccept(t, c);
 		};
 	}
 
@@ -164,7 +164,7 @@ public interface LObjCharConsumer<T> extends LObjCharConsumerX<T, RuntimeExcepti
 	public static <T, X extends Exception, E extends Exception, Y extends RuntimeException> LObjCharConsumer<T> wrapException(@Nonnull final LObjCharConsumer<T> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
 		return (T t, char c) -> {
 			try {
-				other.accept(t, c);
+				other.doAccept(t, c);
 			} catch (Exception e) {
 				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
 			}

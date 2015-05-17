@@ -99,12 +99,12 @@ public final class LObjBooleanFunctionXBuilder<T, R, X extends Exception> extend
 			final Case<LObjBooleanPredicateX<T, X>, LObjBooleanFunctionX<T, R, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LObjBooleanFunctionX.lX((T t, boolean b) -> {
 				for (Case<LObjBooleanPredicateX<T, X>, LObjBooleanFunctionX<T, R, X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t, b)) {
-						return aCase.caseFunction().apply(t, b);
+					if (aCase.casePredicate().doTest(t, b)) {
+						return aCase.caseFunction().doApply(t, b);
 					}
 				}
 
-				return eventuallyFinal.apply(t, b);
+				return eventuallyFinal.doApply(t, b);
 			});
 		}
 

@@ -60,14 +60,14 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBiFloatPredicate extends LBiFloatPredicateX<RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LBiFloatPredicate: boolean test(float f1,float f2)";
+	public static final String DESCRIPTION = "LBiFloatPredicate: boolean doTest(float f1,float f2)";
 
-	// Ovverriding methods can cause problems with inference.
+	public boolean doTest(float f1, float f2);
 
 	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
 
-	default boolean applyAsBoolean(float f1, float f2) {
-		return test(f1, f2);
+	default boolean doApplyAsBoolean(float f1, float f2) {
+		return doTest(f1, f2);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -78,7 +78,7 @@ public interface LBiFloatPredicate extends LBiFloatPredicateX<RuntimeException>,
 
 	/** Captures arguments but delays the evaluation. */
 	default LBooleanSupplier capture(float f1, float f2) {
-		return () -> this.test(f1, f2);
+		return () -> this.doTest(f1, f2);
 	}
 
 	public static LBiFloatPredicate constant(boolean r) {
@@ -87,7 +87,7 @@ public interface LBiFloatPredicate extends LBiFloatPredicateX<RuntimeException>,
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(float f1, float f2) {
-		return test(f1, f2);
+		return doTest(f1, f2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -104,7 +104,7 @@ public interface LBiFloatPredicate extends LBiFloatPredicateX<RuntimeException>,
 	public static <X extends Exception> LBiFloatPredicate wrap(final @Nonnull LBiFloatPredicateX<X> other) {
 		return (float f1, float f2) -> {
 			try {
-				return other.test(f1, f2);
+				return other.doTest(f1, f2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -119,7 +119,7 @@ public interface LBiFloatPredicate extends LBiFloatPredicateX<RuntimeException>,
 	 */
 	@Nonnull
 	default LBiFloatPredicate negate() {
-		return (float f1, float f2) -> !test(f1, f2);
+		return (float f1, float f2) -> !doTest(f1, f2);
 	}
 
 	/**
@@ -128,7 +128,7 @@ public interface LBiFloatPredicate extends LBiFloatPredicateX<RuntimeException>,
 	@Nonnull
 	default LBiFloatPredicate and(@Nonnull LBiFloatPredicate other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (float f1, float f2) -> test(f1, f2) && other.test(f1, f2);
+		return (float f1, float f2) -> doTest(f1, f2) && other.doTest(f1, f2);
 	}
 
 	/**
@@ -137,7 +137,7 @@ public interface LBiFloatPredicate extends LBiFloatPredicateX<RuntimeException>,
 	@Nonnull
 	default LBiFloatPredicate or(@Nonnull LBiFloatPredicate other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (float f1, float f2) -> test(f1, f2) || other.test(f1, f2);
+		return (float f1, float f2) -> doTest(f1, f2) || other.doTest(f1, f2);
 	}
 
 	/**
@@ -146,7 +146,7 @@ public interface LBiFloatPredicate extends LBiFloatPredicateX<RuntimeException>,
 	@Nonnull
 	default LBiFloatPredicate xor(@Nonnull LBiFloatPredicate other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (float f1, float f2) -> test(f1, f2) ^ other.test(f1, f2);
+		return (float f1, float f2) -> doTest(f1, f2) ^ other.doTest(f1, f2);
 	}
 
 	/**
@@ -168,7 +168,7 @@ public interface LBiFloatPredicate extends LBiFloatPredicateX<RuntimeException>,
 	default LBiFloatPredicate fromFloat(@Nonnull final LFloatUnaryOperator before1, @Nonnull final LFloatUnaryOperator before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final float v1, final float v2) -> this.test(before1.applyAsFloat(v1), before2.applyAsFloat(v2));
+		return (final float v1, final float v2) -> this.doTest(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
 	}
 
 	/**
@@ -178,7 +178,7 @@ public interface LBiFloatPredicate extends LBiFloatPredicateX<RuntimeException>,
 	default <V1, V2> LBiPredicate<V1, V2> from(@Nonnull final LToFloatFunction<? super V1> before1, @Nonnull final LToFloatFunction<? super V2> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.test(before1.applyAsFloat(v1), before2.applyAsFloat(v2));
+		return (V1 v1, V2 v2) -> this.doTest(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
 	}
 
 	// </editor-fold>
@@ -189,7 +189,7 @@ public interface LBiFloatPredicate extends LBiFloatPredicateX<RuntimeException>,
 	@Nonnull
 	default <V> LFloatBiFunction<V> then(@Nonnull LBooleanFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f1, float f2) -> after.apply(this.test(f1, f2));
+		return (float f1, float f2) -> after.doApply(this.doTest(f1, f2));
 	}
 
 	// </editor-fold>
@@ -222,11 +222,11 @@ public interface LBiFloatPredicate extends LBiFloatPredicateX<RuntimeException>,
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LBiFloatPredicate wrapException(@Nonnull final LBiFloatPredicate other, Class<E> exception, LBooleanSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (float f1, float f2) -> {
 			try {
-				return other.test(f1, f2);
+				return other.doTest(f1, f2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsBoolean();
+						return supplier.doGetAsBoolean();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

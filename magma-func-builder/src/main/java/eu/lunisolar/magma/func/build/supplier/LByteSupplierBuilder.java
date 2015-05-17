@@ -99,12 +99,12 @@ public final class LByteSupplierBuilder extends PerCaseBuilderWithByteProduct.Ba
 			final Case<LBooleanSupplier, LByteSupplier>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LByteSupplier.l(() -> {
 				for (Case<LBooleanSupplier, LByteSupplier> aCase : casesArray) {
-					if (aCase.casePredicate().getAsBoolean()) {
-						return aCase.caseFunction().getAsByte();
+					if (aCase.casePredicate().doGetAsBoolean()) {
+						return aCase.caseFunction().doGetAsByte();
 					}
 				}
 
-				return eventuallyFinal.getAsByte();
+				return eventuallyFinal.doGetAsByte();
 			});
 		}
 

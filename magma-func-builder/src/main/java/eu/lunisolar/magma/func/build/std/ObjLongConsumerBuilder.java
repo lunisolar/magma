@@ -98,7 +98,7 @@ public final class ObjLongConsumerBuilder<T> extends PerCaseBuilder.Base<ObjLong
 			final Case<LObjLongPredicate<T>, java.util.function.ObjLongConsumer<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = Function4U.l((T t, long l) -> {
 				for (Case<LObjLongPredicate<T>, java.util.function.ObjLongConsumer<T>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t, l)) {
+					if (aCase.casePredicate().doTest(t, l)) {
 						aCase.caseFunction().accept(t, l);
 						return;
 					}

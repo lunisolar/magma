@@ -60,7 +60,7 @@ public interface LObjCharFunctionXAssert<S extends LObjCharFunctionXAssert<S, A,
 
 		@Nonnull
 		public Evaluation<S, A, RS, R, Exception> doesApply(T t, char c) {
-			return evaluation(() -> assertFactory.apply((R) actual.apply(t, c)));
+			return evaluation(() -> assertFactory.apply((R) actual.doApply(t, c)));
 		}
 
 	}

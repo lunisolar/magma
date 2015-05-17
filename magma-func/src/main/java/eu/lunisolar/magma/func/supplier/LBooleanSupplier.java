@@ -60,9 +60,13 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBooleanSupplier extends java.util.function.BooleanSupplier, LBooleanSupplierX<RuntimeException>, MetaSupplier, PrimitiveCodomain<Object>, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LBooleanSupplier: boolean getAsBoolean()";
+	public static final String DESCRIPTION = "LBooleanSupplier: boolean doGetAsBoolean()";
 
-	// Ovverriding methods can cause problems with inference.
+	public boolean doGetAsBoolean();
+
+	default boolean getAsBoolean() {
+		return doGetAsBoolean();
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -76,7 +80,7 @@ public interface LBooleanSupplier extends java.util.function.BooleanSupplier, LB
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull() {
-		return getAsBoolean();
+		return doGetAsBoolean();
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -99,7 +103,7 @@ public interface LBooleanSupplier extends java.util.function.BooleanSupplier, LB
 	public static <X extends Exception> LBooleanSupplier wrap(final @Nonnull LBooleanSupplierX<X> other) {
 		return () -> {
 			try {
-				return other.getAsBoolean();
+				return other.doGetAsBoolean();
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -114,63 +118,63 @@ public interface LBooleanSupplier extends java.util.function.BooleanSupplier, LB
 	@Nonnull
 	default <V> LSupplier<V> then(@Nonnull LBooleanFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.apply(this.getAsBoolean());
+		return () -> after.doApply(this.doGetAsBoolean());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LByteSupplier thenToByte(@Nonnull LBooleanToByteFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsByte(this.getAsBoolean());
+		return () -> after.doApplyAsByte(this.doGetAsBoolean());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LShortSupplier thenToShort(@Nonnull LBooleanToShortFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsShort(this.getAsBoolean());
+		return () -> after.doApplyAsShort(this.doGetAsBoolean());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LIntSupplier thenToInt(@Nonnull LBooleanToIntFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsInt(this.getAsBoolean());
+		return () -> after.doApplyAsInt(this.doGetAsBoolean());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LLongSupplier thenToLong(@Nonnull LBooleanToLongFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsLong(this.getAsBoolean());
+		return () -> after.doApplyAsLong(this.doGetAsBoolean());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LFloatSupplier thenToFloat(@Nonnull LBooleanToFloatFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsFloat(this.getAsBoolean());
+		return () -> after.doApplyAsFloat(this.doGetAsBoolean());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LDoubleSupplier thenToDouble(@Nonnull LBooleanToDoubleFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsDouble(this.getAsBoolean());
+		return () -> after.doApplyAsDouble(this.doGetAsBoolean());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LCharSupplier thenToChar(@Nonnull LBooleanToCharFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsChar(this.getAsBoolean());
+		return () -> after.doApplyAsChar(this.doGetAsBoolean());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LBooleanSupplier thenToBoolean(@Nonnull LBooleanUnaryOperator after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsBoolean(this.getAsBoolean());
+		return () -> after.doApplyAsBoolean(this.doGetAsBoolean());
 	}
 
 	// </editor-fold>
@@ -209,11 +213,11 @@ public interface LBooleanSupplier extends java.util.function.BooleanSupplier, LB
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LBooleanSupplier wrapException(@Nonnull final LBooleanSupplier other, Class<E> exception, LBooleanSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return () -> {
 			try {
-				return other.getAsBoolean();
+				return other.doGetAsBoolean();
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsBoolean();
+						return supplier.doGetAsBoolean();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

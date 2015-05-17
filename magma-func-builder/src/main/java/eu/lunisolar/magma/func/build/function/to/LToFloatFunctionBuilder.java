@@ -99,12 +99,12 @@ public final class LToFloatFunctionBuilder<T> extends PerCaseBuilderWithFloatPro
 			final Case<LPredicate<T>, LToFloatFunction<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LToFloatFunction.l((T t) -> {
 				for (Case<LPredicate<T>, LToFloatFunction<T>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t)) {
-						return aCase.caseFunction().applyAsFloat(t);
+					if (aCase.casePredicate().doTest(t)) {
+						return aCase.caseFunction().doApplyAsFloat(t);
 					}
 				}
 
-				return eventuallyFinal.applyAsFloat(t);
+				return eventuallyFinal.doApplyAsFloat(t);
 			});
 		}
 

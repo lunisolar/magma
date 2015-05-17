@@ -69,7 +69,7 @@ public class LTriPredicateBuilderTest<T1,T2,T3,X extends ParseException>{
                 .triPredicate()
                 .build();
 
-            function.test((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100));
+            function.doTest((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100));
 
             fail("No exception were thrown.");
         } catch (Exception e) {

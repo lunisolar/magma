@@ -69,7 +69,7 @@ public class LIntConsumerXBuilderTest<X extends ParseException>{
                 .intConsumerX()
                 .build();
 
-            function.accept((int)100);
+            function.doAccept((int)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

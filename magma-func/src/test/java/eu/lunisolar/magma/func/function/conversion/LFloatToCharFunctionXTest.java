@@ -61,13 +61,13 @@ public class LFloatToCharFunctionXTest<X extends ParseException> {
 
 
     private LFloatToCharFunctionX<X> sut = new LFloatToCharFunctionX(){
-        public  char applyAsChar(float f) throws ParseException {
+        public  char doApplyAsChar(float f) throws ParseException {
             return testValue;
         }
     };
 
     private LFloatToCharFunction opposite = new LFloatToCharFunction(){
-        public  char applyAsChar(float f)  {
+        public  char doApplyAsChar(float f)  {
             return testValue;
         }
     };
@@ -76,7 +76,7 @@ public class LFloatToCharFunctionXTest<X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.applyAsChar((float)100))
+        assertThat(sut.doApplyAsChar((float)100))
             .isEqualTo(testValue);
     }
 
@@ -90,7 +90,7 @@ public class LFloatToCharFunctionXTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LFloatToCharFunctionX: char applyAsChar(float f) throws X");
+            .isEqualTo("LFloatToCharFunctionX: char doApplyAsChar(float f) throws X");
     }
 
     @Test
@@ -121,7 +121,7 @@ public class LFloatToCharFunctionXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsChar((float)100);
+            wrapped.doApplyAsChar((float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -146,7 +146,7 @@ public class LFloatToCharFunctionXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsChar((float)100);
+            wrapped.doApplyAsChar((float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -170,7 +170,7 @@ public class LFloatToCharFunctionXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsChar((float)100);
+            wrapped.doApplyAsChar((float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -205,7 +205,7 @@ public class LFloatToCharFunctionXTest<X extends ParseException> {
 
         //when
         LFloatToCharFunctionX<X> function = sutO.fromFloat(before1);
-        function.applyAsChar((float)80);
+        function.doApplyAsChar((float)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -234,7 +234,7 @@ public class LFloatToCharFunctionXTest<X extends ParseException> {
 
         //when
         LToCharFunctionX<Integer ,X> function = sutO.from(before1);
-        function.applyAsChar((Integer )Integer.valueOf(80));
+        function.doApplyAsChar((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -270,7 +270,7 @@ public class LFloatToCharFunctionXTest<X extends ParseException> {
 
         //when
         LFloatFunctionX<Integer ,X> function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((float)80);
+        Integer  finalValue = function.doApply((float)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -305,7 +305,7 @@ public class LFloatToCharFunctionXTest<X extends ParseException> {
 
         //when
         LFloatToByteFunctionX<X> function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.applyAsByte((float)80);
+        byte finalValue = function.doApplyAsByte((float)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -340,7 +340,7 @@ public class LFloatToCharFunctionXTest<X extends ParseException> {
 
         //when
         LFloatToShortFunctionX<X> function = sutO.thenToShort(thenFunction);
-        short finalValue = function.applyAsShort((float)80);
+        short finalValue = function.doApplyAsShort((float)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -375,7 +375,7 @@ public class LFloatToCharFunctionXTest<X extends ParseException> {
 
         //when
         LFloatToIntFunctionX<X> function = sutO.thenToInt(thenFunction);
-        int finalValue = function.applyAsInt((float)80);
+        int finalValue = function.doApplyAsInt((float)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((int)100);
@@ -410,7 +410,7 @@ public class LFloatToCharFunctionXTest<X extends ParseException> {
 
         //when
         LFloatToLongFunctionX<X> function = sutO.thenToLong(thenFunction);
-        long finalValue = function.applyAsLong((float)80);
+        long finalValue = function.doApplyAsLong((float)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((long)100);
@@ -445,7 +445,7 @@ public class LFloatToCharFunctionXTest<X extends ParseException> {
 
         //when
         LFloatUnaryOperatorX<X> function = sutO.thenToFloat(thenFunction);
-        float finalValue = function.applyAsFloat((float)80);
+        float finalValue = function.doApplyAsFloat((float)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((float)100);
@@ -480,7 +480,7 @@ public class LFloatToCharFunctionXTest<X extends ParseException> {
 
         //when
         LFloatToDoubleFunctionX<X> function = sutO.thenToDouble(thenFunction);
-        double finalValue = function.applyAsDouble((float)80);
+        double finalValue = function.doApplyAsDouble((float)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((double)100);
@@ -515,7 +515,7 @@ public class LFloatToCharFunctionXTest<X extends ParseException> {
 
         //when
         LFloatToCharFunctionX<X> function = sutO.thenToChar(thenFunction);
-        char finalValue = function.applyAsChar((float)80);
+        char finalValue = function.doApplyAsChar((float)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((char)100);
@@ -550,7 +550,7 @@ public class LFloatToCharFunctionXTest<X extends ParseException> {
 
         //when
         LFloatPredicateX<X> function = sutO.thenToBoolean(thenFunction);
-        boolean finalValue = function.test((float)80);
+        boolean finalValue = function.doTest((float)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -581,7 +581,7 @@ public class LFloatToCharFunctionXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().applyAsChar((float)100);
+        sutThrowing.shove().doApplyAsChar((float)100);
     }
 
     @Test
@@ -599,7 +599,7 @@ public class LFloatToCharFunctionXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsChar((float)100);
+            wrapped.doApplyAsChar((float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -618,7 +618,7 @@ public class LFloatToCharFunctionXTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LFloatToCharFunctionX: char applyAsChar(float f) throws X");
+                .contains("LFloatToCharFunctionX: char doApplyAsChar(float f) throws X");
     }
 
 

@@ -59,13 +59,13 @@ public class LDoubleBiConsumerXTest<X extends ParseException> {
 
 
     private LDoubleBiConsumerX<X> sut = new LDoubleBiConsumerX(){
-        public  void accept(double d1,double d2) throws ParseException {
+        public  void doAccept(double d1,double d2) throws ParseException {
             Function4U.doNothing();
         }
     };
 
     private LDoubleBiConsumer opposite = new LDoubleBiConsumer(){
-        public  void accept(double d1,double d2)  {
+        public  void doAccept(double d1,double d2)  {
             Function4U.doNothing();
         }
     };
@@ -77,7 +77,7 @@ public class LDoubleBiConsumerXTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LDoubleBiConsumerX: void accept(double d1,double d2) throws X");
+            .isEqualTo("LDoubleBiConsumerX: void doAccept(double d1,double d2) throws X");
     }
 
     @Test
@@ -108,7 +108,7 @@ public class LDoubleBiConsumerXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((double)100,(double)100);
+            wrapped.doAccept((double)100,(double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -133,7 +133,7 @@ public class LDoubleBiConsumerXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((double)100,(double)100);
+            wrapped.doAccept((double)100,(double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -157,7 +157,7 @@ public class LDoubleBiConsumerXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((double)100,(double)100);
+            wrapped.doAccept((double)100,(double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -197,7 +197,7 @@ public class LDoubleBiConsumerXTest<X extends ParseException> {
 
         //when
         LDoubleBiConsumerX<X> function = sutO.fromDouble(before1,before2);
-        function.accept((double)80,(double)81);
+        function.doAccept((double)80,(double)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -231,7 +231,7 @@ public class LDoubleBiConsumerXTest<X extends ParseException> {
 
         //when
         LBiConsumerX<Integer ,Integer ,X> function = sutO.from(before1,before2);
-        function.accept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        function.doAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -261,7 +261,7 @@ public class LDoubleBiConsumerXTest<X extends ParseException> {
 
         //when
         LDoubleBiConsumerX<X> function = sutO.andThen(thenFunction);
-        function.accept((double)80,(double)81);
+        function.doAccept((double)80,(double)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -287,7 +287,7 @@ public class LDoubleBiConsumerXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().accept((double)100,(double)100);
+        sutThrowing.shove().doAccept((double)100,(double)100);
     }
 
     @Test
@@ -305,7 +305,7 @@ public class LDoubleBiConsumerXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((double)100,(double)100);
+            wrapped.doAccept((double)100,(double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -324,7 +324,7 @@ public class LDoubleBiConsumerXTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LDoubleBiConsumerX: void accept(double d1,double d2) throws X");
+                .contains("LDoubleBiConsumerX: void doAccept(double d1,double d2) throws X");
     }
 
 

@@ -61,13 +61,13 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
 
 
     private LDoubleUnaryOperatorX<X> sut = new LDoubleUnaryOperatorX(){
-        public  double applyAsDouble(double d) throws ParseException {
+        public  double doApplyAsDouble(double d) throws ParseException {
             return testValue;
         }
     };
 
     private LDoubleUnaryOperator opposite = new LDoubleUnaryOperator(){
-        public  double applyAsDouble(double d)  {
+        public  double doApplyAsDouble(double d)  {
             return testValue;
         }
     };
@@ -78,7 +78,7 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.applyAsDouble((double)100))
+        assertThat(sut.doApplyAsDouble((double)100))
             .isEqualTo(testValue);
     }
 
@@ -92,7 +92,7 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LDoubleUnaryOperatorX: double applyAsDouble(double d) throws X");
+            .isEqualTo("LDoubleUnaryOperatorX: double doApplyAsDouble(double d) throws X");
     }
 
     @Test
@@ -129,7 +129,7 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsDouble((double)100);
+            wrapped.doApplyAsDouble((double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -154,7 +154,7 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsDouble((double)100);
+            wrapped.doApplyAsDouble((double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -178,7 +178,7 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsDouble((double)100);
+            wrapped.doApplyAsDouble((double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -213,7 +213,7 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
 
         //when
         LDoubleUnaryOperatorX<X> function = sutO.fromDouble(before1);
-        function.applyAsDouble((double)80);
+        function.doApplyAsDouble((double)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -242,7 +242,7 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
 
         //when
         LToDoubleFunctionX<Integer ,X> function = sutO.from(before1);
-        function.applyAsDouble((Integer )Integer.valueOf(80));
+        function.doApplyAsDouble((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -278,7 +278,7 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
 
         //when
         LDoubleFunctionX<Integer ,X> function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((double)80);
+        Integer  finalValue = function.doApply((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -313,7 +313,7 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
 
         //when
         LDoubleToByteFunctionX<X> function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.applyAsByte((double)80);
+        byte finalValue = function.doApplyAsByte((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -348,7 +348,7 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
 
         //when
         LDoubleToShortFunctionX<X> function = sutO.thenToShort(thenFunction);
-        short finalValue = function.applyAsShort((double)80);
+        short finalValue = function.doApplyAsShort((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -383,7 +383,7 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
 
         //when
         LDoubleToIntFunctionX<X> function = sutO.thenToInt(thenFunction);
-        int finalValue = function.applyAsInt((double)80);
+        int finalValue = function.doApplyAsInt((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((int)100);
@@ -418,7 +418,7 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
 
         //when
         LDoubleToLongFunctionX<X> function = sutO.thenToLong(thenFunction);
-        long finalValue = function.applyAsLong((double)80);
+        long finalValue = function.doApplyAsLong((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((long)100);
@@ -453,7 +453,7 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
 
         //when
         LDoubleToFloatFunctionX<X> function = sutO.thenToFloat(thenFunction);
-        float finalValue = function.applyAsFloat((double)80);
+        float finalValue = function.doApplyAsFloat((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((float)100);
@@ -488,7 +488,7 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
 
         //when
         LDoubleUnaryOperatorX<X> function = sutO.thenToDouble(thenFunction);
-        double finalValue = function.applyAsDouble((double)80);
+        double finalValue = function.doApplyAsDouble((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((double)100);
@@ -523,7 +523,7 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
 
         //when
         LDoubleToCharFunctionX<X> function = sutO.thenToChar(thenFunction);
-        char finalValue = function.applyAsChar((double)80);
+        char finalValue = function.doApplyAsChar((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((char)100);
@@ -558,7 +558,7 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
 
         //when
         LDoublePredicateX<X> function = sutO.thenToBoolean(thenFunction);
-        boolean finalValue = function.test((double)80);
+        boolean finalValue = function.doTest((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -574,7 +574,7 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
     public void identity() throws ParseException {
         LDoubleUnaryOperatorX<X> identityFunction = LDoubleUnaryOperatorX.identity();
 
-        assertThat(identityFunction.applyAsDouble((double)80)).isEqualTo((double)80);
+        assertThat(identityFunction.doApplyAsDouble((double)80)).isEqualTo((double)80);
     }
 
     @Test
@@ -601,7 +601,7 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().applyAsDouble((double)100);
+        sutThrowing.shove().doApplyAsDouble((double)100);
     }
 
     @Test
@@ -619,7 +619,7 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsDouble((double)100);
+            wrapped.doApplyAsDouble((double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -638,7 +638,7 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LDoubleUnaryOperatorX: double applyAsDouble(double d) throws X");
+                .contains("LDoubleUnaryOperatorX: double doApplyAsDouble(double d) throws X");
     }
 
 

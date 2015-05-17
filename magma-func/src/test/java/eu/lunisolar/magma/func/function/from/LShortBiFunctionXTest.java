@@ -61,19 +61,19 @@ public class LShortBiFunctionXTest<R,X extends ParseException> {
 
 
     private LShortBiFunctionX<R,X> sut = new LShortBiFunctionX(){
-        public @Nullable Object  apply(short s1,short s2) throws ParseException {
+        public @Nullable Object  doApply(short s1,short s2) throws ParseException {
             return testValue;
         }
     };
 
     private LShortBiFunction<R> opposite = new LShortBiFunction(){
-        public @Nullable Object  apply(short s1,short s2)  {
+        public @Nullable Object  doApply(short s1,short s2)  {
             return testValue;
         }
     };
 
     private LShortBiFunctionX<R,X> sutNull = new LShortBiFunctionX(){
-        public @Nullable Object  apply(short s1,short s2) throws ParseException {
+        public @Nullable Object  doApply(short s1,short s2) throws ParseException {
             return null;
         }
     };
@@ -82,7 +82,7 @@ public class LShortBiFunctionXTest<R,X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.apply((short)100,(short)100))
+        assertThat(sut.doApply((short)100,(short)100))
             .isSameAs(testValue);
     }
 
@@ -92,7 +92,7 @@ public class LShortBiFunctionXTest<R,X extends ParseException> {
             .isSameAs(testValue);
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LShortBiFunctionX: R apply(short s1,short s2) throws X).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LShortBiFunctionX: R doApply(short s1,short s2) throws X).\\E")
     public void testNonNullCapturesNull() throws ParseException {
         sutNull.nonNull((short)100,(short)100);
     }
@@ -101,7 +101,7 @@ public class LShortBiFunctionXTest<R,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LShortBiFunctionX: R apply(short s1,short s2) throws X");
+            .isEqualTo("LShortBiFunctionX: R doApply(short s1,short s2) throws X");
     }
 
     @Test
@@ -132,7 +132,7 @@ public class LShortBiFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((short)100,(short)100);
+            wrapped.doApply((short)100,(short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -157,7 +157,7 @@ public class LShortBiFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((short)100,(short)100);
+            wrapped.doApply((short)100,(short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -181,7 +181,7 @@ public class LShortBiFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((short)100,(short)100);
+            wrapped.doApply((short)100,(short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -222,7 +222,7 @@ public class LShortBiFunctionXTest<R,X extends ParseException> {
 
         //when
         LShortBiFunctionX<Integer ,X> function = sutO.fromShort(before1,before2);
-        function.apply((short)80,(short)81);
+        function.doApply((short)80,(short)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -257,7 +257,7 @@ public class LShortBiFunctionXTest<R,X extends ParseException> {
 
         //when
         LBiFunctionX<Integer ,Integer ,Integer ,X> function = sutO.from(before1,before2);
-        function.apply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        function.doApply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -294,7 +294,7 @@ public class LShortBiFunctionXTest<R,X extends ParseException> {
 
         //when
         LShortBiFunctionX<Integer ,X> function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((short)80,(short)81);
+        Integer  finalValue = function.doApply((short)80,(short)81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -328,7 +328,7 @@ public class LShortBiFunctionXTest<R,X extends ParseException> {
 
         //when
         LShortBiConsumerX<X> function = sutO.then(thenFunction);
-        function.accept((short)80,(short)81);
+        function.doAccept((short)80,(short)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -358,7 +358,7 @@ public class LShortBiFunctionXTest<R,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().apply((short)100,(short)100);
+        sutThrowing.shove().doApply((short)100,(short)100);
     }
 
     @Test
@@ -376,7 +376,7 @@ public class LShortBiFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((short)100,(short)100);
+            wrapped.doApply((short)100,(short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -395,7 +395,7 @@ public class LShortBiFunctionXTest<R,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LShortBiFunctionX: R apply(short s1,short s2) throws X");
+                .contains("LShortBiFunctionX: R doApply(short s1,short s2) throws X");
     }
 
 

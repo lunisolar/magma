@@ -58,7 +58,7 @@ public interface LLongBiFunctionXAssert<S extends LLongBiFunctionXAssert<S, A, R
 
 		@Nonnull
 		public Evaluation<S, A, RS, R, Exception> doesApply(long l1, long l2) {
-			return evaluation(() -> assertFactory.apply((R) actual.apply(l1, l2)));
+			return evaluation(() -> assertFactory.apply((R) actual.doApply(l1, l2)));
 		}
 
 	}

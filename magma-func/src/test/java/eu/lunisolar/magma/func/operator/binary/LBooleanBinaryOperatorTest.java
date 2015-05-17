@@ -61,13 +61,13 @@ public class LBooleanBinaryOperatorTest<X extends ParseException> {
 
 
     private LBooleanBinaryOperator sut = new LBooleanBinaryOperator(){
-        public  boolean applyAsBoolean(boolean b1,boolean b2)  {
+        public  boolean doApplyAsBoolean(boolean b1,boolean b2)  {
             return testValue;
         }
     };
 
     private LBooleanBinaryOperatorX<X> opposite = new LBooleanBinaryOperatorX(){
-        public  boolean applyAsBoolean(boolean b1,boolean b2) throws ParseException {
+        public  boolean doApplyAsBoolean(boolean b1,boolean b2) throws ParseException {
             return testValue;
         }
     };
@@ -76,7 +76,7 @@ public class LBooleanBinaryOperatorTest<X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.applyAsBoolean(true,true))
+        assertThat(sut.doApplyAsBoolean(true,true))
             .isEqualTo(testValue);
     }
 
@@ -90,7 +90,7 @@ public class LBooleanBinaryOperatorTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBooleanBinaryOperator: boolean applyAsBoolean(boolean b1,boolean b2)");
+            .isEqualTo("LBooleanBinaryOperator: boolean doApplyAsBoolean(boolean b1,boolean b2)");
     }
 
     @Test
@@ -117,7 +117,7 @@ public class LBooleanBinaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsBoolean(true,true);
+            wrapped.doApplyAsBoolean(true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LBooleanBinaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsBoolean(true,true);
+            wrapped.doApplyAsBoolean(true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -165,7 +165,7 @@ public class LBooleanBinaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsBoolean(true,true);
+            wrapped.doApplyAsBoolean(true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -190,7 +190,7 @@ public class LBooleanBinaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsBoolean(true,true);
+            wrapped.doApplyAsBoolean(true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -214,7 +214,7 @@ public class LBooleanBinaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsBoolean(true,true);
+            wrapped.doApplyAsBoolean(true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -226,7 +226,7 @@ public class LBooleanBinaryOperatorTest<X extends ParseException> {
 
     @Test
     public void testNegate() throws ParseException {
-        assertThat(sut.negate().applyAsBoolean(true,true))
+        assertThat(sut.negate().doApplyAsBoolean(true,true))
             .isEqualTo(!testValue);
     }
 
@@ -254,13 +254,13 @@ public class LBooleanBinaryOperatorTest<X extends ParseException> {
         LBooleanBinaryOperator xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.applyAsBoolean(true,true))
+        assertThat(andFunction.doApplyAsBoolean(true,true))
                 .isEqualTo(andResult);
 
-        assertThat(orFunction.applyAsBoolean(true,true))
+        assertThat(orFunction.doApplyAsBoolean(true,true))
                 .isEqualTo(orResult);
 
-        assertThat(xorFunction.applyAsBoolean(true,true))
+        assertThat(xorFunction.doApplyAsBoolean(true,true))
                 .isEqualTo(xorResult);
     }
 
@@ -270,10 +270,10 @@ public class LBooleanBinaryOperatorTest<X extends ParseException> {
         LBooleanBinaryOperator equals = LBooleanBinaryOperator.isEqual(true,true);
 
         //then
-        assertThat(equals.test(true,true))
+        assertThat(equals.doApplyAsBoolean(true,true))
                 .isTrue();
 
-        assertThat(equals.test(false,false))
+        assertThat(equals.doApplyAsBoolean(false,false))
                 .isFalse();
     }
 
@@ -286,13 +286,13 @@ public class LBooleanBinaryOperatorTest<X extends ParseException> {
         LBooleanBinaryOperator xorFunction = LBooleanBinaryOperator.xor();
 
         //then
-        assertThat(andFunction.applyAsBoolean(value1, value2))
+        assertThat(andFunction.doApplyAsBoolean(value1, value2))
                 .isEqualTo(andResult);
 
-        assertThat(orFunction.applyAsBoolean(value1, value2))
+        assertThat(orFunction.doApplyAsBoolean(value1, value2))
                 .isEqualTo(orResult);
 
-        assertThat(xorFunction.applyAsBoolean(value1, value2))
+        assertThat(xorFunction.doApplyAsBoolean(value1, value2))
                 .isEqualTo(xorResult);
     }
 
@@ -326,7 +326,7 @@ public class LBooleanBinaryOperatorTest<X extends ParseException> {
 
         //when
         LBooleanBinaryOperator function = sutO.fromBoolean(before1,before2);
-        function.applyAsBoolean(true,true);
+        function.doApplyAsBoolean(true,true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -361,7 +361,7 @@ public class LBooleanBinaryOperatorTest<X extends ParseException> {
 
         //when
         LBiPredicate<Integer ,Integer > function = sutO.from(before1,before2);
-        function.test((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        function.doTest((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -398,7 +398,7 @@ public class LBooleanBinaryOperatorTest<X extends ParseException> {
 
         //when
         LBooleanBiFunction<Integer > function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply(true,true);
+        Integer  finalValue = function.doApply(true,true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -429,7 +429,7 @@ public class LBooleanBinaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().applyAsBoolean(true,true);
+        sutThrowing.shove().doApplyAsBoolean(true,true);
     }
 
     @Test
@@ -447,7 +447,7 @@ public class LBooleanBinaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsBoolean(true,true);
+            wrapped.doApplyAsBoolean(true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -466,7 +466,7 @@ public class LBooleanBinaryOperatorTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBooleanBinaryOperator: boolean applyAsBoolean(boolean b1,boolean b2)");
+                .contains("LBooleanBinaryOperator: boolean doApplyAsBoolean(boolean b1,boolean b2)");
     }
 
 

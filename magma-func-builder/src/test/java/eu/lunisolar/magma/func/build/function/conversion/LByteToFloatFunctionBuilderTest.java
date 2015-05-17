@@ -69,7 +69,7 @@ public class LByteToFloatFunctionBuilderTest<X extends ParseException>{
                 .byteToFloatFunction()
                 .build();
 
-            function.applyAsFloat((byte)100);
+            function.doApplyAsFloat((byte)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

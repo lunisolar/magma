@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LByteToLongFunction extends LByteToLongFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LByteToLongFunction: long applyAsLong(byte b)";
+	public static final String DESCRIPTION = "LByteToLongFunction: long doApplyAsLong(byte b)";
 
-	// Ovverriding methods can cause problems with inference.
+	public long doApplyAsLong(byte b);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LByteToLongFunction extends LByteToLongFunctionX<RuntimeExcepti
 
 	/** Captures arguments but delays the evaluation. */
 	default LLongSupplier capture(byte b) {
-		return () -> this.applyAsLong(b);
+		return () -> this.doApplyAsLong(b);
 	}
 
 	public static LByteToLongFunction constant(long r) {
@@ -81,7 +81,7 @@ public interface LByteToLongFunction extends LByteToLongFunctionX<RuntimeExcepti
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default long nonNull(byte b) {
-		return applyAsLong(b);
+		return doApplyAsLong(b);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -98,7 +98,7 @@ public interface LByteToLongFunction extends LByteToLongFunctionX<RuntimeExcepti
 	public static <X extends Exception> LByteToLongFunction wrap(final @Nonnull LByteToLongFunctionX<X> other) {
 		return (byte b) -> {
 			try {
-				return other.applyAsLong(b);
+				return other.doApplyAsLong(b);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -115,7 +115,7 @@ public interface LByteToLongFunction extends LByteToLongFunctionX<RuntimeExcepti
 	@Nonnull
 	default LByteToLongFunction fromByte(@Nonnull final LByteUnaryOperator before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final byte v1) -> this.applyAsLong(before1.applyAsByte(v1));
+		return (final byte v1) -> this.doApplyAsLong(before1.doApplyAsByte(v1));
 	}
 
 	/**
@@ -124,7 +124,7 @@ public interface LByteToLongFunction extends LByteToLongFunctionX<RuntimeExcepti
 	@Nonnull
 	default <V1> LToLongFunction<V1> from(@Nonnull final LToByteFunction<? super V1> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.applyAsLong(before1.applyAsByte(v1));
+		return (V1 v1) -> this.doApplyAsLong(before1.doApplyAsByte(v1));
 	}
 
 	// </editor-fold>
@@ -135,63 +135,63 @@ public interface LByteToLongFunction extends LByteToLongFunctionX<RuntimeExcepti
 	@Nonnull
 	default <V> LByteFunction<V> then(@Nonnull LLongFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (byte b) -> after.apply(this.applyAsLong(b));
+		return (byte b) -> after.doApply(this.doApplyAsLong(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteUnaryOperator thenToByte(@Nonnull LLongToByteFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (byte b) -> after.applyAsByte(this.applyAsLong(b));
+		return (byte b) -> after.doApplyAsByte(this.doApplyAsLong(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToShortFunction thenToShort(@Nonnull LLongToShortFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (byte b) -> after.applyAsShort(this.applyAsLong(b));
+		return (byte b) -> after.doApplyAsShort(this.doApplyAsLong(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToIntFunction thenToInt(@Nonnull LLongToIntFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (byte b) -> after.applyAsInt(this.applyAsLong(b));
+		return (byte b) -> after.doApplyAsInt(this.doApplyAsLong(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToLongFunction thenToLong(@Nonnull LLongUnaryOperator after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (byte b) -> after.applyAsLong(this.applyAsLong(b));
+		return (byte b) -> after.doApplyAsLong(this.doApplyAsLong(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToFloatFunction thenToFloat(@Nonnull LLongToFloatFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (byte b) -> after.applyAsFloat(this.applyAsLong(b));
+		return (byte b) -> after.doApplyAsFloat(this.doApplyAsLong(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToDoubleFunction thenToDouble(@Nonnull LLongToDoubleFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (byte b) -> after.applyAsDouble(this.applyAsLong(b));
+		return (byte b) -> after.doApplyAsDouble(this.doApplyAsLong(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToCharFunction thenToChar(@Nonnull LLongToCharFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (byte b) -> after.applyAsChar(this.applyAsLong(b));
+		return (byte b) -> after.doApplyAsChar(this.doApplyAsLong(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBytePredicate thenToBoolean(@Nonnull LLongPredicate after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (byte b) -> after.test(this.applyAsLong(b));
+		return (byte b) -> after.doTest(this.doApplyAsLong(b));
 	}
 
 	// </editor-fold>
@@ -224,11 +224,11 @@ public interface LByteToLongFunction extends LByteToLongFunctionX<RuntimeExcepti
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LByteToLongFunction wrapException(@Nonnull final LByteToLongFunction other, Class<E> exception, LLongSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (byte b) -> {
 			try {
-				return other.applyAsLong(b);
+				return other.doApplyAsLong(b);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsLong();
+						return supplier.doGetAsLong();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

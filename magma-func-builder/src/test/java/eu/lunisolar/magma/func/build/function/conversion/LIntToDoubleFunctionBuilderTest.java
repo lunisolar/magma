@@ -69,7 +69,7 @@ public class LIntToDoubleFunctionBuilderTest<X extends ParseException>{
                 .intToDoubleFunction()
                 .build();
 
-            function.applyAsDouble((int)100);
+            function.doApplyAsDouble((int)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

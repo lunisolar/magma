@@ -63,7 +63,7 @@ public interface LIntUnaryOperatorXAssert<S extends LIntUnaryOperatorXAssert<S, 
 
 		@Nonnull
 		public Evaluation<S, A, RS, Integer, Exception> doesApplyAsInt(int i) {
-			return evaluation(() -> assertFactory.apply((Integer) actual.applyAsInt(i)));
+			return evaluation(() -> assertFactory.apply((Integer) actual.doApplyAsInt(i)));
 		}
 
 	}

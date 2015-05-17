@@ -69,7 +69,7 @@ public class LDoubleBiFunctionXBuilderTest<R,X extends ParseException>{
                 .doubleBiFunctionX()
                 .build();
 
-            function.apply((double)100,(double)100);
+            function.doApply((double)100,(double)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

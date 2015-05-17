@@ -69,7 +69,7 @@ public class LByteToDoubleFunctionBuilderTest<X extends ParseException>{
                 .byteToDoubleFunction()
                 .build();
 
-            function.applyAsDouble((byte)100);
+            function.doApplyAsDouble((byte)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

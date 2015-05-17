@@ -60,9 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LDoubleBiFunction<R> extends LDoubleBiFunctionX<R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LDoubleBiFunction: R apply(double d1,double d2)";
+	public static final String DESCRIPTION = "LDoubleBiFunction: R doApply(double d1,double d2)";
 
-	// Ovverriding methods can cause problems with inference.
+	@Nullable
+	public R doApply(double d1, double d2);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +73,7 @@ public interface LDoubleBiFunction<R> extends LDoubleBiFunctionX<R, RuntimeExcep
 
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(double d1, double d2) {
-		return () -> this.apply(d1, d2);
+		return () -> this.doApply(d1, d2);
 	}
 
 	public static <R> LDoubleBiFunction<R> constant(R r) {
@@ -84,7 +85,7 @@ public interface LDoubleBiFunction<R> extends LDoubleBiFunctionX<R, RuntimeExcep
 	/** Ensures the result is not null */
 	@Nonnull
 	default R nonNull(double d1, double d2) {
-		return Objects.requireNonNull(apply(d1, d2), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Objects.requireNonNull(doApply(d1, d2), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -101,7 +102,7 @@ public interface LDoubleBiFunction<R> extends LDoubleBiFunctionX<R, RuntimeExcep
 	public static <R, X extends Exception> LDoubleBiFunction<R> wrap(final @Nonnull LDoubleBiFunctionX<R, X> other) {
 		return (double d1, double d2) -> {
 			try {
-				return other.apply(d1, d2);
+				return other.doApply(d1, d2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -119,7 +120,7 @@ public interface LDoubleBiFunction<R> extends LDoubleBiFunctionX<R, RuntimeExcep
 	default LDoubleBiFunction<R> fromDouble(@Nonnull final LDoubleUnaryOperator before1, @Nonnull final LDoubleUnaryOperator before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final double v1, final double v2) -> this.apply(before1.applyAsDouble(v1), before2.applyAsDouble(v2));
+		return (final double v1, final double v2) -> this.doApply(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
 	}
 
 	/**
@@ -129,7 +130,7 @@ public interface LDoubleBiFunction<R> extends LDoubleBiFunctionX<R, RuntimeExcep
 	default <V1, V2> LBiFunction<V1, V2, R> from(@Nonnull final LToDoubleFunction<? super V1> before1, @Nonnull final LToDoubleFunction<? super V2> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.apply(before1.applyAsDouble(v1), before2.applyAsDouble(v2));
+		return (V1 v1, V2 v2) -> this.doApply(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
 	}
 
 	// </editor-fold>
@@ -140,14 +141,14 @@ public interface LDoubleBiFunction<R> extends LDoubleBiFunctionX<R, RuntimeExcep
 	@Nonnull
 	default <V> LDoubleBiFunction<V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d1, double d2) -> after.apply(this.apply(d1, d2));
+		return (double d1, double d2) -> after.doApply(this.doApply(d1, d2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleBiConsumer then(@Nonnull LConsumer<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d1, double d2) -> after.accept(this.apply(d1, d2));
+		return (double d1, double d2) -> after.doAccept(this.doApply(d1, d2));
 	}
 
 	// </editor-fold>
@@ -175,7 +176,7 @@ public interface LDoubleBiFunction<R> extends LDoubleBiFunctionX<R, RuntimeExcep
 
 	@Nonnull
 	default LDoubleBiFunction<R> nonNullable() {
-		return (d1, d2) -> Objects.requireNonNull(this.apply(d1, d2));
+		return (d1, d2) -> Objects.requireNonNull(this.doApply(d1, d2));
 	}
 
 	// <editor-fold desc="exception handling">
@@ -185,11 +186,11 @@ public interface LDoubleBiFunction<R> extends LDoubleBiFunctionX<R, RuntimeExcep
 	public static <R, X extends Exception, E extends Exception, Y extends RuntimeException> LDoubleBiFunction<R> wrapException(@Nonnull final LDoubleBiFunction<R> other, Class<E> exception, LSupplier<R> supplier, ExceptionHandler<E, Y> handler) {
 		return (double d1, double d2) -> {
 			try {
-				return other.apply(d1, d2);
+				return other.doApply(d1, d2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.get();
+						return supplier.doGet();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

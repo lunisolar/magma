@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LObjIntToIntFunctionX<T, X extends Exception> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LObjIntToIntFunctionX: int applyAsInt(T t, int i) throws X";
+	public static final String DESCRIPTION = "LObjIntToIntFunctionX: int doApplyAsInt(T t, int i) throws X";
 
-	public int applyAsInt(T t, int i) throws X;
+	public int doApplyAsInt(T t, int i) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LObjIntToIntFunctionX<T, X extends Exception> extends MetaFunct
 
 	/** Captures arguments but delays the evaluation. */
 	default LIntSupplierX<X> capture(T t, int i) {
-		return () -> this.applyAsInt(t, i);
+		return () -> this.doApplyAsInt(t, i);
 	}
 
 	public static <T, X extends Exception> LObjIntToIntFunctionX<T, X> constant(int r) {
@@ -81,7 +81,7 @@ public interface LObjIntToIntFunctionX<T, X extends Exception> extends MetaFunct
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default int nonNull(T t, int i) throws X {
-		return applyAsInt(t, i);
+		return doApplyAsInt(t, i);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -96,7 +96,7 @@ public interface LObjIntToIntFunctionX<T, X extends Exception> extends MetaFunct
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T, X extends Exception> LObjIntToIntFunctionX<T, X> wrapX(final @Nonnull LObjIntToIntFunction<T> other) {
-		return other::applyAsInt;
+		return other::doApplyAsInt;
 	}
 
 	// </editor-fold>
@@ -110,7 +110,7 @@ public interface LObjIntToIntFunctionX<T, X extends Exception> extends MetaFunct
 	default <V1> LObjIntToIntFunctionX<V1, X> fromInt(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LIntUnaryOperatorX<X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final V1 v1, final int v2) -> this.applyAsInt(before1.apply(v1), before2.applyAsInt(v2));
+		return (final V1 v1, final int v2) -> this.doApplyAsInt(before1.doApply(v1), before2.doApplyAsInt(v2));
 	}
 
 	/**
@@ -120,7 +120,7 @@ public interface LObjIntToIntFunctionX<T, X extends Exception> extends MetaFunct
 	default <V1, V2> LToIntBiFunctionX<V1, V2, X> from(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToIntFunctionX<? super V2, X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.applyAsInt(before1.apply(v1), before2.applyAsInt(v2));
+		return (V1 v1, V2 v2) -> this.doApplyAsInt(before1.doApply(v1), before2.doApplyAsInt(v2));
 	}
 
 	// </editor-fold>
@@ -131,7 +131,7 @@ public interface LObjIntToIntFunctionX<T, X extends Exception> extends MetaFunct
 	@Nonnull
 	default <V> LObjIntFunctionX<T, V, X> then(@Nonnull LIntFunctionX<? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t, int i) -> after.apply(this.applyAsInt(t, i));
+		return (T t, int i) -> after.doApply(this.doApplyAsInt(t, i));
 	}
 
 	// </editor-fold>
@@ -153,7 +153,7 @@ public interface LObjIntToIntFunctionX<T, X extends Exception> extends MetaFunct
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjIntToIntFunction<T> shove() {
 		LObjIntToIntFunctionX<T, RuntimeException> exceptionCast = (LObjIntToIntFunctionX<T, RuntimeException>) this;
-		return exceptionCast::applyAsInt;
+		return exceptionCast::doApplyAsInt;
 	}
 
 	// </editor-fold>
@@ -165,11 +165,11 @@ public interface LObjIntToIntFunctionX<T, X extends Exception> extends MetaFunct
 	public static <T, X extends Exception, E extends Exception, Y extends Exception> LObjIntToIntFunctionX<T, Y> wrapException(@Nonnull final LObjIntToIntFunctionX<T, X> other, Class<E> exception, LIntSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
 		return (T t, int i) -> {
 			try {
-				return other.applyAsInt(t, i);
+				return other.doApplyAsInt(t, i);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsInt();
+						return supplier.doGetAsInt();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

@@ -59,13 +59,13 @@ public class LBooleanConsumerTest<X extends ParseException> {
 
 
     private LBooleanConsumer sut = new LBooleanConsumer(){
-        public  void accept(boolean b)  {
+        public  void doAccept(boolean b)  {
             Function4U.doNothing();
         }
     };
 
     private LBooleanConsumerX<X> opposite = new LBooleanConsumerX(){
-        public  void accept(boolean b) throws ParseException {
+        public  void doAccept(boolean b) throws ParseException {
             Function4U.doNothing();
         }
     };
@@ -77,7 +77,7 @@ public class LBooleanConsumerTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBooleanConsumer: void accept(boolean b)");
+            .isEqualTo("LBooleanConsumer: void doAccept(boolean b)");
     }
 
     @Test
@@ -104,7 +104,7 @@ public class LBooleanConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept(true);
+            wrapped.doAccept(true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -126,7 +126,7 @@ public class LBooleanConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept(true);
+            wrapped.doAccept(true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -152,7 +152,7 @@ public class LBooleanConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept(true);
+            wrapped.doAccept(true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -177,7 +177,7 @@ public class LBooleanConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept(true);
+            wrapped.doAccept(true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -201,7 +201,7 @@ public class LBooleanConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept(true);
+            wrapped.doAccept(true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -235,7 +235,7 @@ public class LBooleanConsumerTest<X extends ParseException> {
 
         //when
         LBooleanConsumer function = sutO.fromBoolean(before1);
-        function.accept(true);
+        function.doAccept(true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -263,7 +263,7 @@ public class LBooleanConsumerTest<X extends ParseException> {
 
         //when
         LConsumer<Integer > function = sutO.from(before1);
-        function.accept((Integer )Integer.valueOf(80));
+        function.doAccept((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -291,7 +291,7 @@ public class LBooleanConsumerTest<X extends ParseException> {
 
         //when
         LBooleanConsumer function = sutO.andThen(thenFunction);
-        function.accept(true);
+        function.doAccept(true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -317,7 +317,7 @@ public class LBooleanConsumerTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().accept(true);
+        sutThrowing.shove().doAccept(true);
     }
 
     @Test
@@ -335,7 +335,7 @@ public class LBooleanConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept(true);
+            wrapped.doAccept(true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -354,7 +354,7 @@ public class LBooleanConsumerTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBooleanConsumer: void accept(boolean b)");
+                .contains("LBooleanConsumer: void doAccept(boolean b)");
     }
 
 

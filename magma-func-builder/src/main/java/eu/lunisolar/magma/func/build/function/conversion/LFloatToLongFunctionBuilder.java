@@ -99,12 +99,12 @@ public final class LFloatToLongFunctionBuilder extends PerCaseBuilderWithLongPro
 			final Case<LFloatPredicate, LFloatToLongFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LFloatToLongFunction.l((float f) -> {
 				for (Case<LFloatPredicate, LFloatToLongFunction> aCase : casesArray) {
-					if (aCase.casePredicate().test(f)) {
-						return aCase.caseFunction().applyAsLong(f);
+					if (aCase.casePredicate().doTest(f)) {
+						return aCase.caseFunction().doApplyAsLong(f);
 					}
 				}
 
-				return eventuallyFinal.applyAsLong(f);
+				return eventuallyFinal.doApplyAsLong(f);
 			});
 		}
 

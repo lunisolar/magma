@@ -61,13 +61,13 @@ public class LBiShortPredicateXTest<X extends ParseException> {
 
 
     private LBiShortPredicateX<X> sut = new LBiShortPredicateX(){
-        public  boolean test(short s1,short s2) throws ParseException {
+        public  boolean doTest(short s1,short s2) throws ParseException {
             return testValue;
         }
     };
 
     private LBiShortPredicate opposite = new LBiShortPredicate(){
-        public  boolean test(short s1,short s2)  {
+        public  boolean doTest(short s1,short s2)  {
             return testValue;
         }
     };
@@ -76,7 +76,7 @@ public class LBiShortPredicateXTest<X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.test((short)100,(short)100))
+        assertThat(sut.doTest((short)100,(short)100))
             .isEqualTo(testValue);
     }
 
@@ -88,7 +88,7 @@ public class LBiShortPredicateXTest<X extends ParseException> {
 
     @Test
     public void testApplyAsBooleanShouldNotModifyValue() throws ParseException {
-        assertThat(sut.applyAsBoolean((short)100,(short)100))
+        assertThat(sut.doApplyAsBoolean((short)100,(short)100))
             .isEqualTo(testValue);
 
     }
@@ -97,7 +97,7 @@ public class LBiShortPredicateXTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBiShortPredicateX: boolean test(short s1,short s2) throws X");
+            .isEqualTo("LBiShortPredicateX: boolean doTest(short s1,short s2) throws X");
     }
 
     @Test
@@ -128,7 +128,7 @@ public class LBiShortPredicateXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.test((short)100,(short)100);
+            wrapped.doTest((short)100,(short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -153,7 +153,7 @@ public class LBiShortPredicateXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.test((short)100,(short)100);
+            wrapped.doTest((short)100,(short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -177,7 +177,7 @@ public class LBiShortPredicateXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.test((short)100,(short)100);
+            wrapped.doTest((short)100,(short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -189,7 +189,7 @@ public class LBiShortPredicateXTest<X extends ParseException> {
 
     @Test
     public void testNegate() throws ParseException {
-        assertThat(sut.negate().test((short)100,(short)100))
+        assertThat(sut.negate().doTest((short)100,(short)100))
             .isEqualTo(!testValue);
     }
 
@@ -217,13 +217,13 @@ public class LBiShortPredicateXTest<X extends ParseException> {
         LBiShortPredicateX<X> xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.test((short)100,(short)100))
+        assertThat(andFunction.doTest((short)100,(short)100))
                 .isEqualTo(andResult);
 
-        assertThat(orFunction.test((short)100,(short)100))
+        assertThat(orFunction.doTest((short)100,(short)100))
                 .isEqualTo(orResult);
 
-        assertThat(xorFunction.test((short)100,(short)100))
+        assertThat(xorFunction.doTest((short)100,(short)100))
                 .isEqualTo(xorResult);
     }
 
@@ -233,10 +233,10 @@ public class LBiShortPredicateXTest<X extends ParseException> {
         LBiShortPredicateX<X> equals = LBiShortPredicateX.isEqual((short)100,(short)100);
 
         //then
-        assertThat(equals.test((short)100,(short)100))
+        assertThat(equals.doTest((short)100,(short)100))
                 .isTrue();
 
-        assertThat(equals.test((short)0,(short)0))
+        assertThat(equals.doTest((short)0,(short)0))
                 .isFalse();
     }
 
@@ -271,7 +271,7 @@ public class LBiShortPredicateXTest<X extends ParseException> {
 
         //when
         LBiShortPredicateX<X> function = sutO.fromShort(before1,before2);
-        function.test((short)80,(short)81);
+        function.doTest((short)80,(short)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -306,7 +306,7 @@ public class LBiShortPredicateXTest<X extends ParseException> {
 
         //when
         LBiPredicateX<Integer ,Integer ,X> function = sutO.from(before1,before2);
-        function.test((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        function.doTest((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -343,7 +343,7 @@ public class LBiShortPredicateXTest<X extends ParseException> {
 
         //when
         LShortBiFunctionX<Integer ,X> function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((short)80,(short)81);
+        Integer  finalValue = function.doApply((short)80,(short)81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -374,7 +374,7 @@ public class LBiShortPredicateXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().test((short)100,(short)100);
+        sutThrowing.shove().doTest((short)100,(short)100);
     }
 
     @Test
@@ -392,7 +392,7 @@ public class LBiShortPredicateXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.test((short)100,(short)100);
+            wrapped.doTest((short)100,(short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -411,7 +411,7 @@ public class LBiShortPredicateXTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBiShortPredicateX: boolean test(short s1,short s2) throws X");
+                .contains("LBiShortPredicateX: boolean doTest(short s1,short s2) throws X");
     }
 
 

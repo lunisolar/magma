@@ -99,12 +99,12 @@ public final class LToFloatBiFunctionXBuilder<T1, T2, X extends Exception> exten
 			final Case<LBiPredicateX<T1, T2, X>, LToFloatBiFunctionX<T1, T2, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LToFloatBiFunctionX.lX((T1 t1, T2 t2) -> {
 				for (Case<LBiPredicateX<T1, T2, X>, LToFloatBiFunctionX<T1, T2, X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t1, t2)) {
-						return aCase.caseFunction().applyAsFloat(t1, t2);
+					if (aCase.casePredicate().doTest(t1, t2)) {
+						return aCase.caseFunction().doApplyAsFloat(t1, t2);
 					}
 				}
 
-				return eventuallyFinal.applyAsFloat(t1, t2);
+				return eventuallyFinal.doApplyAsFloat(t1, t2);
 			});
 		}
 

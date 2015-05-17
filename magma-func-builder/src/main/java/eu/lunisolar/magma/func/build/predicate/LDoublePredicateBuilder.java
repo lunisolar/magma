@@ -99,12 +99,12 @@ public final class LDoublePredicateBuilder extends PerCaseBuilderWithBooleanProd
 			final Case<LDoublePredicate, LDoublePredicate>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LDoublePredicate.l((double d) -> {
 				for (Case<LDoublePredicate, LDoublePredicate> aCase : casesArray) {
-					if (aCase.casePredicate().test(d)) {
-						return aCase.caseFunction().test(d);
+					if (aCase.casePredicate().doTest(d)) {
+						return aCase.caseFunction().doTest(d);
 					}
 				}
 
-				return eventuallyFinal.test(d);
+				return eventuallyFinal.doTest(d);
 			});
 		}
 

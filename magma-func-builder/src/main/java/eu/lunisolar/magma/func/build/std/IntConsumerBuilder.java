@@ -98,7 +98,7 @@ public final class IntConsumerBuilder extends PerCaseBuilder.Base<IntConsumerBui
 			final Case<LIntPredicate, java.util.function.IntConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = Function4U.l((int i) -> {
 				for (Case<LIntPredicate, java.util.function.IntConsumer> aCase : casesArray) {
-					if (aCase.casePredicate().test(i)) {
+					if (aCase.casePredicate().doTest(i)) {
 						aCase.caseFunction().accept(i);
 						return;
 					}

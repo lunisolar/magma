@@ -99,12 +99,12 @@ public final class LObjFloatFunctionBuilder<T, R> extends PerCaseBuilderWithProd
 			final Case<LObjFloatPredicate<T>, LObjFloatFunction<T, R>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LObjFloatFunction.l((T t, float f) -> {
 				for (Case<LObjFloatPredicate<T>, LObjFloatFunction<T, R>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t, f)) {
-						return aCase.caseFunction().apply(t, f);
+					if (aCase.casePredicate().doTest(t, f)) {
+						return aCase.caseFunction().doApply(t, f);
 					}
 				}
 
-				return eventuallyFinal.apply(t, f);
+				return eventuallyFinal.doApply(t, f);
 			});
 		}
 

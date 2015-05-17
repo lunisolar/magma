@@ -60,9 +60,14 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LIntFunction<R> extends java.util.function.IntFunction<R>, LIntFunctionX<R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LIntFunction: R apply(int i)";
+	public static final String DESCRIPTION = "LIntFunction: R doApply(int i)";
 
-	// Ovverriding methods can cause problems with inference.
+	@Nullable
+	public R doApply(int i);
+
+	default R apply(int i) {
+		return doApply(i);
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +77,7 @@ public interface LIntFunction<R> extends java.util.function.IntFunction<R>, LInt
 
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(int i) {
-		return () -> this.apply(i);
+		return () -> this.doApply(i);
 	}
 
 	public static <R> LIntFunction<R> constant(R r) {
@@ -84,7 +89,7 @@ public interface LIntFunction<R> extends java.util.function.IntFunction<R>, LInt
 	/** Ensures the result is not null */
 	@Nonnull
 	default R nonNull(int i) {
-		return Objects.requireNonNull(apply(i), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Objects.requireNonNull(doApply(i), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -107,7 +112,7 @@ public interface LIntFunction<R> extends java.util.function.IntFunction<R>, LInt
 	public static <R, X extends Exception> LIntFunction<R> wrap(final @Nonnull LIntFunctionX<R, X> other) {
 		return (int i) -> {
 			try {
-				return other.apply(i);
+				return other.doApply(i);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -124,7 +129,7 @@ public interface LIntFunction<R> extends java.util.function.IntFunction<R>, LInt
 	@Nonnull
 	default LIntFunction<R> fromInt(@Nonnull final LIntUnaryOperator before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final int v1) -> this.apply(before1.applyAsInt(v1));
+		return (final int v1) -> this.doApply(before1.doApplyAsInt(v1));
 	}
 
 	/**
@@ -133,7 +138,7 @@ public interface LIntFunction<R> extends java.util.function.IntFunction<R>, LInt
 	@Nonnull
 	default <V1> LFunction<V1, R> from(@Nonnull final LToIntFunction<? super V1> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.apply(before1.applyAsInt(v1));
+		return (V1 v1) -> this.doApply(before1.doApplyAsInt(v1));
 	}
 
 	// </editor-fold>
@@ -144,70 +149,70 @@ public interface LIntFunction<R> extends java.util.function.IntFunction<R>, LInt
 	@Nonnull
 	default <V> LIntFunction<V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.apply(this.apply(i));
+		return (int i) -> after.doApply(this.doApply(i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntConsumer then(@Nonnull LConsumer<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.accept(this.apply(i));
+		return (int i) -> after.doAccept(this.doApply(i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToByteFunction thenToByte(@Nonnull LToByteFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsByte(this.apply(i));
+		return (int i) -> after.doApplyAsByte(this.doApply(i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToShortFunction thenToShort(@Nonnull LToShortFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsShort(this.apply(i));
+		return (int i) -> after.doApplyAsShort(this.doApply(i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntUnaryOperator thenToInt(@Nonnull LToIntFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsInt(this.apply(i));
+		return (int i) -> after.doApplyAsInt(this.doApply(i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToLongFunction thenToLong(@Nonnull LToLongFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsLong(this.apply(i));
+		return (int i) -> after.doApplyAsLong(this.doApply(i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToFloatFunction thenToFloat(@Nonnull LToFloatFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsFloat(this.apply(i));
+		return (int i) -> after.doApplyAsFloat(this.doApply(i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToDoubleFunction thenToDouble(@Nonnull LToDoubleFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsDouble(this.apply(i));
+		return (int i) -> after.doApplyAsDouble(this.doApply(i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToCharFunction thenToChar(@Nonnull LToCharFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsChar(this.apply(i));
+		return (int i) -> after.doApplyAsChar(this.doApply(i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntPredicate thenToBoolean(@Nonnull LPredicate<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.test(this.apply(i));
+		return (int i) -> after.doTest(this.doApply(i));
 	}
 
 	// </editor-fold>
@@ -241,7 +246,7 @@ public interface LIntFunction<R> extends java.util.function.IntFunction<R>, LInt
 
 	@Nonnull
 	default LIntFunction<R> nonNullable() {
-		return (i) -> Objects.requireNonNull(this.apply(i));
+		return (i) -> Objects.requireNonNull(this.doApply(i));
 	}
 
 	// <editor-fold desc="exception handling">
@@ -251,11 +256,11 @@ public interface LIntFunction<R> extends java.util.function.IntFunction<R>, LInt
 	public static <R, X extends Exception, E extends Exception, Y extends RuntimeException> LIntFunction<R> wrapException(@Nonnull final LIntFunction<R> other, Class<E> exception, LSupplier<R> supplier, ExceptionHandler<E, Y> handler) {
 		return (int i) -> {
 			try {
-				return other.apply(i);
+				return other.doApply(i);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.get();
+						return supplier.doGet();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

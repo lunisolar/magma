@@ -55,7 +55,7 @@ public class PartialCaseWithLongProduct<SELF extends PartialCaseWithLongProduct<
 
 	/** Finalize the case build by providing second required value for the Case. */
 	public final PCB produce(long directValue) {
-		return this.evaluate(superContext().directToFunction.apply(directValue));
+		return this.evaluate(superContext().directToFunction.doApply(directValue));
 	}
 
 	public static final class The<PCB extends PerCaseBuilderWithLongProduct<PCB, P, F, The<PCB, P, F>>, P, F> extends PartialCaseWithLongProduct<The<PCB, P, F>, PCB, P, F> {

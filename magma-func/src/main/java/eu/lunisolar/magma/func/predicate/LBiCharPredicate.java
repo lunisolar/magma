@@ -60,14 +60,14 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBiCharPredicate extends LBiCharPredicateX<RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LBiCharPredicate: boolean test(char c1,char c2)";
+	public static final String DESCRIPTION = "LBiCharPredicate: boolean doTest(char c1,char c2)";
 
-	// Ovverriding methods can cause problems with inference.
+	public boolean doTest(char c1, char c2);
 
 	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
 
-	default boolean applyAsBoolean(char c1, char c2) {
-		return test(c1, c2);
+	default boolean doApplyAsBoolean(char c1, char c2) {
+		return doTest(c1, c2);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -78,7 +78,7 @@ public interface LBiCharPredicate extends LBiCharPredicateX<RuntimeException>, M
 
 	/** Captures arguments but delays the evaluation. */
 	default LBooleanSupplier capture(char c1, char c2) {
-		return () -> this.test(c1, c2);
+		return () -> this.doTest(c1, c2);
 	}
 
 	public static LBiCharPredicate constant(boolean r) {
@@ -87,7 +87,7 @@ public interface LBiCharPredicate extends LBiCharPredicateX<RuntimeException>, M
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(char c1, char c2) {
-		return test(c1, c2);
+		return doTest(c1, c2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -104,7 +104,7 @@ public interface LBiCharPredicate extends LBiCharPredicateX<RuntimeException>, M
 	public static <X extends Exception> LBiCharPredicate wrap(final @Nonnull LBiCharPredicateX<X> other) {
 		return (char c1, char c2) -> {
 			try {
-				return other.test(c1, c2);
+				return other.doTest(c1, c2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -119,7 +119,7 @@ public interface LBiCharPredicate extends LBiCharPredicateX<RuntimeException>, M
 	 */
 	@Nonnull
 	default LBiCharPredicate negate() {
-		return (char c1, char c2) -> !test(c1, c2);
+		return (char c1, char c2) -> !doTest(c1, c2);
 	}
 
 	/**
@@ -128,7 +128,7 @@ public interface LBiCharPredicate extends LBiCharPredicateX<RuntimeException>, M
 	@Nonnull
 	default LBiCharPredicate and(@Nonnull LBiCharPredicate other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (char c1, char c2) -> test(c1, c2) && other.test(c1, c2);
+		return (char c1, char c2) -> doTest(c1, c2) && other.doTest(c1, c2);
 	}
 
 	/**
@@ -137,7 +137,7 @@ public interface LBiCharPredicate extends LBiCharPredicateX<RuntimeException>, M
 	@Nonnull
 	default LBiCharPredicate or(@Nonnull LBiCharPredicate other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (char c1, char c2) -> test(c1, c2) || other.test(c1, c2);
+		return (char c1, char c2) -> doTest(c1, c2) || other.doTest(c1, c2);
 	}
 
 	/**
@@ -146,7 +146,7 @@ public interface LBiCharPredicate extends LBiCharPredicateX<RuntimeException>, M
 	@Nonnull
 	default LBiCharPredicate xor(@Nonnull LBiCharPredicate other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (char c1, char c2) -> test(c1, c2) ^ other.test(c1, c2);
+		return (char c1, char c2) -> doTest(c1, c2) ^ other.doTest(c1, c2);
 	}
 
 	/**
@@ -168,7 +168,7 @@ public interface LBiCharPredicate extends LBiCharPredicateX<RuntimeException>, M
 	default LBiCharPredicate fromChar(@Nonnull final LCharUnaryOperator before1, @Nonnull final LCharUnaryOperator before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final char v1, final char v2) -> this.test(before1.applyAsChar(v1), before2.applyAsChar(v2));
+		return (final char v1, final char v2) -> this.doTest(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
 	}
 
 	/**
@@ -178,7 +178,7 @@ public interface LBiCharPredicate extends LBiCharPredicateX<RuntimeException>, M
 	default <V1, V2> LBiPredicate<V1, V2> from(@Nonnull final LToCharFunction<? super V1> before1, @Nonnull final LToCharFunction<? super V2> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.test(before1.applyAsChar(v1), before2.applyAsChar(v2));
+		return (V1 v1, V2 v2) -> this.doTest(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
 	}
 
 	// </editor-fold>
@@ -189,7 +189,7 @@ public interface LBiCharPredicate extends LBiCharPredicateX<RuntimeException>, M
 	@Nonnull
 	default <V> LCharBiFunction<V> then(@Nonnull LBooleanFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c1, char c2) -> after.apply(this.test(c1, c2));
+		return (char c1, char c2) -> after.doApply(this.doTest(c1, c2));
 	}
 
 	// </editor-fold>
@@ -222,11 +222,11 @@ public interface LBiCharPredicate extends LBiCharPredicateX<RuntimeException>, M
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LBiCharPredicate wrapException(@Nonnull final LBiCharPredicate other, Class<E> exception, LBooleanSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (char c1, char c2) -> {
 			try {
-				return other.test(c1, c2);
+				return other.doTest(c1, c2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsBoolean();
+						return supplier.doGetAsBoolean();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

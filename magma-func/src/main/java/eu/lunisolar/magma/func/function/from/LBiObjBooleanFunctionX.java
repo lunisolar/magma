@@ -60,10 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBiObjBooleanFunctionX<T1, T2, R, X extends Exception> extends MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LBiObjBooleanFunctionX: R apply(T1 t1,T2 t2, boolean b) throws X";
+	public static final String DESCRIPTION = "LBiObjBooleanFunctionX: R doApply(T1 t1,T2 t2, boolean b) throws X";
 
 	@Nullable
-	public R apply(T1 t1, T2 t2, boolean b) throws X;
+	public R doApply(T1 t1, T2 t2, boolean b) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +73,7 @@ public interface LBiObjBooleanFunctionX<T1, T2, R, X extends Exception> extends 
 
 	/** Captures arguments but delays the evaluation. */
 	default LSupplierX<R, X> capture(T1 t1, T2 t2, boolean b) {
-		return () -> this.apply(t1, t2, b);
+		return () -> this.doApply(t1, t2, b);
 	}
 
 	public static <T1, T2, R, X extends Exception> LBiObjBooleanFunctionX<T1, T2, R, X> constant(R r) {
@@ -85,7 +85,7 @@ public interface LBiObjBooleanFunctionX<T1, T2, R, X extends Exception> extends 
 	/** Ensures the result is not null */
 	@Nonnull
 	default R nonNull(T1 t1, T2 t2, boolean b) throws X {
-		return Objects.requireNonNull(apply(t1, t2, b), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Objects.requireNonNull(doApply(t1, t2, b), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -100,7 +100,7 @@ public interface LBiObjBooleanFunctionX<T1, T2, R, X extends Exception> extends 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T1, T2, R, X extends Exception> LBiObjBooleanFunctionX<T1, T2, R, X> wrapX(final @Nonnull LBiObjBooleanFunction<T1, T2, R> other) {
-		return other::apply;
+		return other::doApply;
 	}
 
 	// </editor-fold>
@@ -115,7 +115,7 @@ public interface LBiObjBooleanFunctionX<T1, T2, R, X extends Exception> extends 
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
 		Objects.requireNonNull(before3, Function4U.VALIDATION_MESSAGE_BEFORE3);
-		return (final V1 v1, final V2 v2, final boolean v3) -> this.apply(before1.apply(v1), before2.apply(v2), before3.applyAsBoolean(v3));
+		return (final V1 v1, final V2 v2, final boolean v3) -> this.doApply(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsBoolean(v3));
 	}
 
 	/**
@@ -126,7 +126,7 @@ public interface LBiObjBooleanFunctionX<T1, T2, R, X extends Exception> extends 
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
 		Objects.requireNonNull(before3, Function4U.VALIDATION_MESSAGE_BEFORE3);
-		return (V1 v1, V2 v2, V3 v3) -> this.apply(before1.apply(v1), before2.apply(v2), before3.applyAsBoolean(v3));
+		return (V1 v1, V2 v2, V3 v3) -> this.doApply(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsBoolean(v3));
 	}
 
 	// </editor-fold>
@@ -137,14 +137,14 @@ public interface LBiObjBooleanFunctionX<T1, T2, R, X extends Exception> extends 
 	@Nonnull
 	default <V> LBiObjBooleanFunctionX<T1, T2, V, X> then(@Nonnull LFunctionX<? super R, ? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T1 t1, T2 t2, boolean b) -> after.apply(this.apply(t1, t2, b));
+		return (T1 t1, T2 t2, boolean b) -> after.doApply(this.doApply(t1, t2, b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBiObjBooleanConsumerX<T1, T2, X> then(@Nonnull LConsumerX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T1 t1, T2 t2, boolean b) -> after.accept(this.apply(t1, t2, b));
+		return (T1 t1, T2 t2, boolean b) -> after.doAccept(this.doApply(t1, t2, b));
 	}
 
 	// </editor-fold>
@@ -166,14 +166,14 @@ public interface LBiObjBooleanFunctionX<T1, T2, R, X extends Exception> extends 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBiObjBooleanFunction<T1, T2, R> shove() {
 		LBiObjBooleanFunctionX<T1, T2, R, RuntimeException> exceptionCast = (LBiObjBooleanFunctionX<T1, T2, R, RuntimeException>) this;
-		return exceptionCast::apply;
+		return exceptionCast::doApply;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
 	default LBiObjBooleanFunctionX<T1, T2, R, X> nonNullableX() {
-		return (t1, t2, b) -> Objects.requireNonNull(this.apply(t1, t2, b));
+		return (t1, t2, b) -> Objects.requireNonNull(this.doApply(t1, t2, b));
 	}
 
 	// <editor-fold desc="exception handling">
@@ -184,11 +184,11 @@ public interface LBiObjBooleanFunctionX<T1, T2, R, X extends Exception> extends 
 			ExceptionHandler<E, Y> handler) {
 		return (T1 t1, T2 t2, boolean b) -> {
 			try {
-				return other.apply(t1, t2, b);
+				return other.doApply(t1, t2, b);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.get();
+						return supplier.doGet();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

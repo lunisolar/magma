@@ -99,12 +99,12 @@ public final class LDoublePredicateXBuilder<X extends Exception> extends PerCase
 			final Case<LDoublePredicateX<X>, LDoublePredicateX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LDoublePredicateX.lX((double d) -> {
 				for (Case<LDoublePredicateX<X>, LDoublePredicateX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(d)) {
-						return aCase.caseFunction().test(d);
+					if (aCase.casePredicate().doTest(d)) {
+						return aCase.caseFunction().doTest(d);
 					}
 				}
 
-				return eventuallyFinal.test(d);
+				return eventuallyFinal.doTest(d);
 			});
 		}
 

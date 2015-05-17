@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LToCharBiFunction<T1, T2> extends LToCharBiFunctionX<T1, T2, RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LToCharBiFunction: char applyAsChar(T1 t1,T2 t2)";
+	public static final String DESCRIPTION = "LToCharBiFunction: char doApplyAsChar(T1 t1,T2 t2)";
 
-	// Ovverriding methods can cause problems with inference.
+	public char doApplyAsChar(T1 t1, T2 t2);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LToCharBiFunction<T1, T2> extends LToCharBiFunctionX<T1, T2, Ru
 
 	/** Captures arguments but delays the evaluation. */
 	default LCharSupplier capture(T1 t1, T2 t2) {
-		return () -> this.applyAsChar(t1, t2);
+		return () -> this.doApplyAsChar(t1, t2);
 	}
 
 	public static <T1, T2> LToCharBiFunction<T1, T2> constant(char r) {
@@ -81,7 +81,7 @@ public interface LToCharBiFunction<T1, T2> extends LToCharBiFunctionX<T1, T2, Ru
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default char nonNull(T1 t1, T2 t2) {
-		return applyAsChar(t1, t2);
+		return doApplyAsChar(t1, t2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -98,7 +98,7 @@ public interface LToCharBiFunction<T1, T2> extends LToCharBiFunctionX<T1, T2, Ru
 	public static <T1, T2, X extends Exception> LToCharBiFunction<T1, T2> wrap(final @Nonnull LToCharBiFunctionX<T1, T2, X> other) {
 		return (T1 t1, T2 t2) -> {
 			try {
-				return other.applyAsChar(t1, t2);
+				return other.doApplyAsChar(t1, t2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -116,7 +116,7 @@ public interface LToCharBiFunction<T1, T2> extends LToCharBiFunctionX<T1, T2, Ru
 	default <V1, V2> LToCharBiFunction<V1, V2> from(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final V1 v1, final V2 v2) -> this.applyAsChar(before1.apply(v1), before2.apply(v2));
+		return (final V1 v1, final V2 v2) -> this.doApplyAsChar(before1.doApply(v1), before2.doApply(v2));
 	}
 
 	// </editor-fold>
@@ -127,7 +127,7 @@ public interface LToCharBiFunction<T1, T2> extends LToCharBiFunctionX<T1, T2, Ru
 	@Nonnull
 	default <V> LBiFunction<T1, T2, V> then(@Nonnull LCharFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T1 t1, T2 t2) -> after.apply(this.applyAsChar(t1, t2));
+		return (T1 t1, T2 t2) -> after.doApply(this.doApplyAsChar(t1, t2));
 	}
 
 	// </editor-fold>
@@ -161,11 +161,11 @@ public interface LToCharBiFunction<T1, T2> extends LToCharBiFunctionX<T1, T2, Ru
 			ExceptionHandler<E, Y> handler) {
 		return (T1 t1, T2 t2) -> {
 			try {
-				return other.applyAsChar(t1, t2);
+				return other.doApplyAsChar(t1, t2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsChar();
+						return supplier.doGetAsChar();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

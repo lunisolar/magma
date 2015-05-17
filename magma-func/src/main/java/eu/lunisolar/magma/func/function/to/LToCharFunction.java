@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LToCharFunction<T> extends LToCharFunctionX<T, RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LToCharFunction: char applyAsChar(T t)";
+	public static final String DESCRIPTION = "LToCharFunction: char doApplyAsChar(T t)";
 
-	// Ovverriding methods can cause problems with inference.
+	public char doApplyAsChar(T t);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LToCharFunction<T> extends LToCharFunctionX<T, RuntimeException
 
 	/** Captures arguments but delays the evaluation. */
 	default LCharSupplier capture(T t) {
-		return () -> this.applyAsChar(t);
+		return () -> this.doApplyAsChar(t);
 	}
 
 	public static <T> LToCharFunction<T> constant(char r) {
@@ -81,7 +81,7 @@ public interface LToCharFunction<T> extends LToCharFunctionX<T, RuntimeException
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default char nonNull(T t) {
-		return applyAsChar(t);
+		return doApplyAsChar(t);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -98,7 +98,7 @@ public interface LToCharFunction<T> extends LToCharFunctionX<T, RuntimeException
 	public static <T, X extends Exception> LToCharFunction<T> wrap(final @Nonnull LToCharFunctionX<T, X> other) {
 		return (T t) -> {
 			try {
-				return other.applyAsChar(t);
+				return other.doApplyAsChar(t);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -115,7 +115,7 @@ public interface LToCharFunction<T> extends LToCharFunctionX<T, RuntimeException
 	@Nonnull
 	default <V1> LToCharFunction<V1> from(@Nonnull final LFunction<? super V1, ? extends T> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final V1 v1) -> this.applyAsChar(before1.apply(v1));
+		return (final V1 v1) -> this.doApplyAsChar(before1.doApply(v1));
 	}
 
 	// </editor-fold>
@@ -126,63 +126,63 @@ public interface LToCharFunction<T> extends LToCharFunctionX<T, RuntimeException
 	@Nonnull
 	default <V> LFunction<T, V> then(@Nonnull LCharFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.apply(this.applyAsChar(t));
+		return (T t) -> after.doApply(this.doApplyAsChar(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToByteFunction<T> thenToByte(@Nonnull LCharToByteFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsByte(this.applyAsChar(t));
+		return (T t) -> after.doApplyAsByte(this.doApplyAsChar(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToShortFunction<T> thenToShort(@Nonnull LCharToShortFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsShort(this.applyAsChar(t));
+		return (T t) -> after.doApplyAsShort(this.doApplyAsChar(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToIntFunction<T> thenToInt(@Nonnull LCharToIntFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsInt(this.applyAsChar(t));
+		return (T t) -> after.doApplyAsInt(this.doApplyAsChar(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToLongFunction<T> thenToLong(@Nonnull LCharToLongFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsLong(this.applyAsChar(t));
+		return (T t) -> after.doApplyAsLong(this.doApplyAsChar(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToFloatFunction<T> thenToFloat(@Nonnull LCharToFloatFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsFloat(this.applyAsChar(t));
+		return (T t) -> after.doApplyAsFloat(this.doApplyAsChar(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToDoubleFunction<T> thenToDouble(@Nonnull LCharToDoubleFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsDouble(this.applyAsChar(t));
+		return (T t) -> after.doApplyAsDouble(this.doApplyAsChar(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToCharFunction<T> thenToChar(@Nonnull LCharUnaryOperator after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsChar(this.applyAsChar(t));
+		return (T t) -> after.doApplyAsChar(this.doApplyAsChar(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LPredicate<T> thenToBoolean(@Nonnull LCharPredicate after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.test(this.applyAsChar(t));
+		return (T t) -> after.doTest(this.doApplyAsChar(t));
 	}
 
 	// </editor-fold>
@@ -215,11 +215,11 @@ public interface LToCharFunction<T> extends LToCharFunctionX<T, RuntimeException
 	public static <T, X extends Exception, E extends Exception, Y extends RuntimeException> LToCharFunction<T> wrapException(@Nonnull final LToCharFunction<T> other, Class<E> exception, LCharSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (T t) -> {
 			try {
-				return other.applyAsChar(t);
+				return other.doApplyAsChar(t);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsChar();
+						return supplier.doGetAsChar();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

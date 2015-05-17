@@ -99,12 +99,12 @@ public final class LBytePredicateBuilder extends PerCaseBuilderWithBooleanProduc
 			final Case<LBytePredicate, LBytePredicate>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LBytePredicate.l((byte b) -> {
 				for (Case<LBytePredicate, LBytePredicate> aCase : casesArray) {
-					if (aCase.casePredicate().test(b)) {
-						return aCase.caseFunction().test(b);
+					if (aCase.casePredicate().doTest(b)) {
+						return aCase.caseFunction().doTest(b);
 					}
 				}
 
-				return eventuallyFinal.test(b);
+				return eventuallyFinal.doTest(b);
 			});
 		}
 

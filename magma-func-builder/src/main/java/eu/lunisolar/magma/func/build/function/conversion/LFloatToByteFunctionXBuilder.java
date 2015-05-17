@@ -99,12 +99,12 @@ public final class LFloatToByteFunctionXBuilder<X extends Exception> extends Per
 			final Case<LFloatPredicateX<X>, LFloatToByteFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LFloatToByteFunctionX.lX((float f) -> {
 				for (Case<LFloatPredicateX<X>, LFloatToByteFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(f)) {
-						return aCase.caseFunction().applyAsByte(f);
+					if (aCase.casePredicate().doTest(f)) {
+						return aCase.caseFunction().doApplyAsByte(f);
 					}
 				}
 
-				return eventuallyFinal.applyAsByte(f);
+				return eventuallyFinal.doApplyAsByte(f);
 			});
 		}
 

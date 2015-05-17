@@ -59,13 +59,13 @@ public class LObjBooleanConsumerTest<T,X extends ParseException> {
 
 
     private LObjBooleanConsumer<T> sut = new LObjBooleanConsumer(){
-        public  void accept(Object t, boolean b)  {
+        public  void doAccept(Object t, boolean b)  {
             Function4U.doNothing();
         }
     };
 
     private LObjBooleanConsumerX<T,X> opposite = new LObjBooleanConsumerX(){
-        public  void accept(Object t, boolean b) throws ParseException {
+        public  void doAccept(Object t, boolean b) throws ParseException {
             Function4U.doNothing();
         }
     };
@@ -77,7 +77,7 @@ public class LObjBooleanConsumerTest<T,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LObjBooleanConsumer: void accept(T t, boolean b)");
+            .isEqualTo("LObjBooleanConsumer: void doAccept(T t, boolean b)");
     }
 
     @Test
@@ -104,7 +104,7 @@ public class LObjBooleanConsumerTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((T)Integer.valueOf(100),true);
+            wrapped.doAccept((T)Integer.valueOf(100),true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -126,7 +126,7 @@ public class LObjBooleanConsumerTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((T)Integer.valueOf(100),true);
+            wrapped.doAccept((T)Integer.valueOf(100),true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -152,7 +152,7 @@ public class LObjBooleanConsumerTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((T)Integer.valueOf(100),true);
+            wrapped.doAccept((T)Integer.valueOf(100),true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -177,7 +177,7 @@ public class LObjBooleanConsumerTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((T)Integer.valueOf(100),true);
+            wrapped.doAccept((T)Integer.valueOf(100),true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -201,7 +201,7 @@ public class LObjBooleanConsumerTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((T)Integer.valueOf(100),true);
+            wrapped.doAccept((T)Integer.valueOf(100),true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -241,7 +241,7 @@ public class LObjBooleanConsumerTest<T,X extends ParseException> {
 
         //when
         LObjBooleanConsumer<Integer > function = sutO.fromBoolean(before1,before2);
-        function.accept((Integer )Integer.valueOf(80),true);
+        function.doAccept((Integer )Integer.valueOf(80),true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -275,7 +275,7 @@ public class LObjBooleanConsumerTest<T,X extends ParseException> {
 
         //when
         LBiConsumer<Integer ,Integer > function = sutO.from(before1,before2);
-        function.accept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        function.doAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -305,7 +305,7 @@ public class LObjBooleanConsumerTest<T,X extends ParseException> {
 
         //when
         LObjBooleanConsumer<Integer > function = sutO.andThen(thenFunction);
-        function.accept((Integer )Integer.valueOf(80),true);
+        function.doAccept((Integer )Integer.valueOf(80),true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -331,7 +331,7 @@ public class LObjBooleanConsumerTest<T,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().accept((T)Integer.valueOf(100),true);
+        sutThrowing.shove().doAccept((T)Integer.valueOf(100),true);
     }
 
     @Test
@@ -349,7 +349,7 @@ public class LObjBooleanConsumerTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((T)Integer.valueOf(100),true);
+            wrapped.doAccept((T)Integer.valueOf(100),true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -368,7 +368,7 @@ public class LObjBooleanConsumerTest<T,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LObjBooleanConsumer: void accept(T t, boolean b)");
+                .contains("LObjBooleanConsumer: void doAccept(T t, boolean b)");
     }
 
 

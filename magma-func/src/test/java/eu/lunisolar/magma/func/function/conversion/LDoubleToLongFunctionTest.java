@@ -61,13 +61,13 @@ public class LDoubleToLongFunctionTest<X extends ParseException> {
 
 
     private LDoubleToLongFunction sut = new LDoubleToLongFunction(){
-        public  long applyAsLong(double d)  {
+        public  long doApplyAsLong(double d)  {
             return testValue;
         }
     };
 
     private LDoubleToLongFunctionX<X> opposite = new LDoubleToLongFunctionX(){
-        public  long applyAsLong(double d) throws ParseException {
+        public  long doApplyAsLong(double d) throws ParseException {
             return testValue;
         }
     };
@@ -78,7 +78,7 @@ public class LDoubleToLongFunctionTest<X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.applyAsLong((double)100))
+        assertThat(sut.doApplyAsLong((double)100))
             .isEqualTo(testValue);
     }
 
@@ -92,7 +92,7 @@ public class LDoubleToLongFunctionTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LDoubleToLongFunction: long applyAsLong(double d)");
+            .isEqualTo("LDoubleToLongFunction: long doApplyAsLong(double d)");
     }
 
     @Test
@@ -125,7 +125,7 @@ public class LDoubleToLongFunctionTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsLong((double)100);
+            wrapped.doApplyAsLong((double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -147,7 +147,7 @@ public class LDoubleToLongFunctionTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsLong((double)100);
+            wrapped.doApplyAsLong((double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -173,7 +173,7 @@ public class LDoubleToLongFunctionTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsLong((double)100);
+            wrapped.doApplyAsLong((double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -198,7 +198,7 @@ public class LDoubleToLongFunctionTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsLong((double)100);
+            wrapped.doApplyAsLong((double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -222,7 +222,7 @@ public class LDoubleToLongFunctionTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsLong((double)100);
+            wrapped.doApplyAsLong((double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -257,7 +257,7 @@ public class LDoubleToLongFunctionTest<X extends ParseException> {
 
         //when
         LDoubleToLongFunction function = sutO.fromDouble(before1);
-        function.applyAsLong((double)80);
+        function.doApplyAsLong((double)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -286,7 +286,7 @@ public class LDoubleToLongFunctionTest<X extends ParseException> {
 
         //when
         LToLongFunction<Integer > function = sutO.from(before1);
-        function.applyAsLong((Integer )Integer.valueOf(80));
+        function.doApplyAsLong((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -322,7 +322,7 @@ public class LDoubleToLongFunctionTest<X extends ParseException> {
 
         //when
         LDoubleFunction<Integer > function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((double)80);
+        Integer  finalValue = function.doApply((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -357,7 +357,7 @@ public class LDoubleToLongFunctionTest<X extends ParseException> {
 
         //when
         LDoubleToByteFunction function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.applyAsByte((double)80);
+        byte finalValue = function.doApplyAsByte((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -392,7 +392,7 @@ public class LDoubleToLongFunctionTest<X extends ParseException> {
 
         //when
         LDoubleToShortFunction function = sutO.thenToShort(thenFunction);
-        short finalValue = function.applyAsShort((double)80);
+        short finalValue = function.doApplyAsShort((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -427,7 +427,7 @@ public class LDoubleToLongFunctionTest<X extends ParseException> {
 
         //when
         LDoubleToIntFunction function = sutO.thenToInt(thenFunction);
-        int finalValue = function.applyAsInt((double)80);
+        int finalValue = function.doApplyAsInt((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((int)100);
@@ -462,7 +462,7 @@ public class LDoubleToLongFunctionTest<X extends ParseException> {
 
         //when
         LDoubleToLongFunction function = sutO.thenToLong(thenFunction);
-        long finalValue = function.applyAsLong((double)80);
+        long finalValue = function.doApplyAsLong((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((long)100);
@@ -497,7 +497,7 @@ public class LDoubleToLongFunctionTest<X extends ParseException> {
 
         //when
         LDoubleToFloatFunction function = sutO.thenToFloat(thenFunction);
-        float finalValue = function.applyAsFloat((double)80);
+        float finalValue = function.doApplyAsFloat((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((float)100);
@@ -532,7 +532,7 @@ public class LDoubleToLongFunctionTest<X extends ParseException> {
 
         //when
         LDoubleUnaryOperator function = sutO.thenToDouble(thenFunction);
-        double finalValue = function.applyAsDouble((double)80);
+        double finalValue = function.doApplyAsDouble((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((double)100);
@@ -567,7 +567,7 @@ public class LDoubleToLongFunctionTest<X extends ParseException> {
 
         //when
         LDoubleToCharFunction function = sutO.thenToChar(thenFunction);
-        char finalValue = function.applyAsChar((double)80);
+        char finalValue = function.doApplyAsChar((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((char)100);
@@ -602,7 +602,7 @@ public class LDoubleToLongFunctionTest<X extends ParseException> {
 
         //when
         LDoublePredicate function = sutO.thenToBoolean(thenFunction);
-        boolean finalValue = function.test((double)80);
+        boolean finalValue = function.doTest((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -638,7 +638,7 @@ public class LDoubleToLongFunctionTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().applyAsLong((double)100);
+        sutThrowing.shove().doApplyAsLong((double)100);
     }
 
     @Test
@@ -656,7 +656,7 @@ public class LDoubleToLongFunctionTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsLong((double)100);
+            wrapped.doApplyAsLong((double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -675,7 +675,7 @@ public class LDoubleToLongFunctionTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LDoubleToLongFunction: long applyAsLong(double d)");
+                .contains("LDoubleToLongFunction: long doApplyAsLong(double d)");
     }
 
 

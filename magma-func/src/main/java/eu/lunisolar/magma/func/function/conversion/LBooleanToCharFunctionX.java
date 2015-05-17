@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBooleanToCharFunctionX<X extends Exception> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LBooleanToCharFunctionX: char applyAsChar(boolean b) throws X";
+	public static final String DESCRIPTION = "LBooleanToCharFunctionX: char doApplyAsChar(boolean b) throws X";
 
-	public char applyAsChar(boolean b) throws X;
+	public char doApplyAsChar(boolean b) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LBooleanToCharFunctionX<X extends Exception> extends MetaFuncti
 
 	/** Captures arguments but delays the evaluation. */
 	default LCharSupplierX<X> capture(boolean b) {
-		return () -> this.applyAsChar(b);
+		return () -> this.doApplyAsChar(b);
 	}
 
 	public static <X extends Exception> LBooleanToCharFunctionX<X> constant(char r) {
@@ -81,7 +81,7 @@ public interface LBooleanToCharFunctionX<X extends Exception> extends MetaFuncti
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default char nonNull(boolean b) throws X {
-		return applyAsChar(b);
+		return doApplyAsChar(b);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -96,7 +96,7 @@ public interface LBooleanToCharFunctionX<X extends Exception> extends MetaFuncti
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LBooleanToCharFunctionX<X> wrapX(final @Nonnull LBooleanToCharFunction other) {
-		return other::applyAsChar;
+		return other::doApplyAsChar;
 	}
 
 	// </editor-fold>
@@ -109,7 +109,7 @@ public interface LBooleanToCharFunctionX<X extends Exception> extends MetaFuncti
 	@Nonnull
 	default LBooleanToCharFunctionX<X> fromBoolean(@Nonnull final LBooleanUnaryOperatorX<X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final boolean v1) -> this.applyAsChar(before1.applyAsBoolean(v1));
+		return (final boolean v1) -> this.doApplyAsChar(before1.doApplyAsBoolean(v1));
 	}
 
 	/**
@@ -118,7 +118,7 @@ public interface LBooleanToCharFunctionX<X extends Exception> extends MetaFuncti
 	@Nonnull
 	default <V1> LToCharFunctionX<V1, X> from(@Nonnull final LPredicateX<? super V1, X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.applyAsChar(before1.applyAsBoolean(v1));
+		return (V1 v1) -> this.doApplyAsChar(before1.doApplyAsBoolean(v1));
 	}
 
 	// </editor-fold>
@@ -129,63 +129,63 @@ public interface LBooleanToCharFunctionX<X extends Exception> extends MetaFuncti
 	@Nonnull
 	default <V> LBooleanFunctionX<V, X> then(@Nonnull LCharFunctionX<? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b) -> after.apply(this.applyAsChar(b));
+		return (boolean b) -> after.doApply(this.doApplyAsChar(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToByteFunctionX<X> thenToByte(@Nonnull LCharToByteFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b) -> after.applyAsByte(this.applyAsChar(b));
+		return (boolean b) -> after.doApplyAsByte(this.doApplyAsChar(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToShortFunctionX<X> thenToShort(@Nonnull LCharToShortFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b) -> after.applyAsShort(this.applyAsChar(b));
+		return (boolean b) -> after.doApplyAsShort(this.doApplyAsChar(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToIntFunctionX<X> thenToInt(@Nonnull LCharToIntFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b) -> after.applyAsInt(this.applyAsChar(b));
+		return (boolean b) -> after.doApplyAsInt(this.doApplyAsChar(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToLongFunctionX<X> thenToLong(@Nonnull LCharToLongFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b) -> after.applyAsLong(this.applyAsChar(b));
+		return (boolean b) -> after.doApplyAsLong(this.doApplyAsChar(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToFloatFunctionX<X> thenToFloat(@Nonnull LCharToFloatFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b) -> after.applyAsFloat(this.applyAsChar(b));
+		return (boolean b) -> after.doApplyAsFloat(this.doApplyAsChar(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToDoubleFunctionX<X> thenToDouble(@Nonnull LCharToDoubleFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b) -> after.applyAsDouble(this.applyAsChar(b));
+		return (boolean b) -> after.doApplyAsDouble(this.doApplyAsChar(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToCharFunctionX<X> thenToChar(@Nonnull LCharUnaryOperatorX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b) -> after.applyAsChar(this.applyAsChar(b));
+		return (boolean b) -> after.doApplyAsChar(this.doApplyAsChar(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanUnaryOperatorX<X> thenToBoolean(@Nonnull LCharPredicateX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b) -> after.test(this.applyAsChar(b));
+		return (boolean b) -> after.doTest(this.doApplyAsChar(b));
 	}
 
 	// </editor-fold>
@@ -207,7 +207,7 @@ public interface LBooleanToCharFunctionX<X extends Exception> extends MetaFuncti
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBooleanToCharFunction shove() {
 		LBooleanToCharFunctionX<RuntimeException> exceptionCast = (LBooleanToCharFunctionX<RuntimeException>) this;
-		return exceptionCast::applyAsChar;
+		return exceptionCast::doApplyAsChar;
 	}
 
 	// </editor-fold>
@@ -219,11 +219,11 @@ public interface LBooleanToCharFunctionX<X extends Exception> extends MetaFuncti
 	public static <X extends Exception, E extends Exception, Y extends Exception> LBooleanToCharFunctionX<Y> wrapException(@Nonnull final LBooleanToCharFunctionX<X> other, Class<E> exception, LCharSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
 		return (boolean b) -> {
 			try {
-				return other.applyAsChar(b);
+				return other.doApplyAsChar(b);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsChar();
+						return supplier.doGetAsChar();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

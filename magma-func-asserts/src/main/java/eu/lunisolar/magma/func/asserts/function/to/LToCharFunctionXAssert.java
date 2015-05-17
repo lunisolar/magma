@@ -63,7 +63,7 @@ public interface LToCharFunctionXAssert<S extends LToCharFunctionXAssert<S, A, R
 
 		@Nonnull
 		public Evaluation<S, A, RS, Character, Exception> doesApplyAsChar(T t) {
-			return evaluation(() -> assertFactory.apply((Character) actual.applyAsChar(t)));
+			return evaluation(() -> assertFactory.apply((Character) actual.doApplyAsChar(t)));
 		}
 
 	}

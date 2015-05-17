@@ -99,12 +99,12 @@ public final class LObjIntToIntFunctionXBuilder<T, X extends Exception> extends 
 			final Case<LObjIntPredicateX<T, X>, LObjIntToIntFunctionX<T, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LObjIntToIntFunctionX.lX((T t, int i) -> {
 				for (Case<LObjIntPredicateX<T, X>, LObjIntToIntFunctionX<T, X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t, i)) {
-						return aCase.caseFunction().applyAsInt(t, i);
+					if (aCase.casePredicate().doTest(t, i)) {
+						return aCase.caseFunction().doApplyAsInt(t, i);
 					}
 				}
 
-				return eventuallyFinal.applyAsInt(t, i);
+				return eventuallyFinal.doApplyAsInt(t, i);
 			});
 		}
 

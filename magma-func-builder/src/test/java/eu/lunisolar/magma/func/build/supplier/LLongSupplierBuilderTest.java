@@ -69,7 +69,7 @@ public class LLongSupplierBuilderTest<X extends ParseException>{
                 .longSupplier()
                 .build();
 
-            function.getAsLong();
+            function.doGetAsLong();
 
             fail("No exception were thrown.");
         } catch (Exception e) {

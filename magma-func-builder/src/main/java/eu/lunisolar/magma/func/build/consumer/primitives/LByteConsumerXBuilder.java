@@ -99,13 +99,13 @@ public final class LByteConsumerXBuilder<X extends Exception> extends PerCaseBui
 			final Case<LBytePredicateX<X>, LByteConsumerX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LByteConsumerX.lX((byte b) -> {
 				for (Case<LBytePredicateX<X>, LByteConsumerX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(b)) {
-						aCase.caseFunction().accept(b);
+					if (aCase.casePredicate().doTest(b)) {
+						aCase.caseFunction().doAccept(b);
 						return;
 					}
 				}
 
-				eventuallyFinal.accept(b);
+				eventuallyFinal.doAccept(b);
 			});
 		}
 

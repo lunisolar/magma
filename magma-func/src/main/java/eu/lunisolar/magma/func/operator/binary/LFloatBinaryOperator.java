@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LFloatBinaryOperator extends LFloatBinaryOperatorX<RuntimeException>, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LFloatBinaryOperator: float applyAsFloat(float f1,float f2)";
+	public static final String DESCRIPTION = "LFloatBinaryOperator: float doApplyAsFloat(float f1,float f2)";
 
-	// Ovverriding methods can cause problems with inference.
+	public float doApplyAsFloat(float f1, float f2);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LFloatBinaryOperator extends LFloatBinaryOperatorX<RuntimeExcep
 
 	/** Captures arguments but delays the evaluation. */
 	default LFloatSupplier capture(float f1, float f2) {
-		return () -> this.applyAsFloat(f1, f2);
+		return () -> this.doApplyAsFloat(f1, f2);
 	}
 
 	public static LFloatBinaryOperator constant(float r) {
@@ -81,7 +81,7 @@ public interface LFloatBinaryOperator extends LFloatBinaryOperatorX<RuntimeExcep
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default float nonNull(float f1, float f2) {
-		return applyAsFloat(f1, f2);
+		return doApplyAsFloat(f1, f2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -98,7 +98,7 @@ public interface LFloatBinaryOperator extends LFloatBinaryOperatorX<RuntimeExcep
 	public static <X extends Exception> LFloatBinaryOperator wrap(final @Nonnull LFloatBinaryOperatorX<X> other) {
 		return (float f1, float f2) -> {
 			try {
-				return other.applyAsFloat(f1, f2);
+				return other.doApplyAsFloat(f1, f2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -135,7 +135,7 @@ public interface LFloatBinaryOperator extends LFloatBinaryOperatorX<RuntimeExcep
 	default LFloatBinaryOperator fromFloat(@Nonnull final LFloatUnaryOperator before1, @Nonnull final LFloatUnaryOperator before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final float v1, final float v2) -> this.applyAsFloat(before1.applyAsFloat(v1), before2.applyAsFloat(v2));
+		return (final float v1, final float v2) -> this.doApplyAsFloat(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
 	}
 
 	/**
@@ -145,7 +145,7 @@ public interface LFloatBinaryOperator extends LFloatBinaryOperatorX<RuntimeExcep
 	default <V1, V2> LToFloatBiFunction<V1, V2> from(@Nonnull final LToFloatFunction<? super V1> before1, @Nonnull final LToFloatFunction<? super V2> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.applyAsFloat(before1.applyAsFloat(v1), before2.applyAsFloat(v2));
+		return (V1 v1, V2 v2) -> this.doApplyAsFloat(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
 	}
 
 	// </editor-fold>
@@ -156,7 +156,7 @@ public interface LFloatBinaryOperator extends LFloatBinaryOperatorX<RuntimeExcep
 	@Nonnull
 	default <V> LFloatBiFunction<V> then(@Nonnull LFloatFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f1, float f2) -> after.apply(this.applyAsFloat(f1, f2));
+		return (float f1, float f2) -> after.doApply(this.doApplyAsFloat(f1, f2));
 	}
 
 	// </editor-fold>
@@ -189,11 +189,11 @@ public interface LFloatBinaryOperator extends LFloatBinaryOperatorX<RuntimeExcep
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LFloatBinaryOperator wrapException(@Nonnull final LFloatBinaryOperator other, Class<E> exception, LFloatSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (float f1, float f2) -> {
 			try {
-				return other.applyAsFloat(f1, f2);
+				return other.doApplyAsFloat(f1, f2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsFloat();
+						return supplier.doGetAsFloat();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

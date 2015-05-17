@@ -58,7 +58,7 @@ public interface LUnaryOperatorXAssert<S extends LUnaryOperatorXAssert<S, A, RS,
 
 		@Nonnull
 		public Evaluation<S, A, RS, T, Exception> doesApply(T t) {
-			return evaluation(() -> assertFactory.apply((T) actual.apply(t)));
+			return evaluation(() -> assertFactory.apply((T) actual.doApply(t)));
 		}
 
 	}

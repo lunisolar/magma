@@ -99,12 +99,12 @@ public final class LObjByteFunctionBuilder<T, R> extends PerCaseBuilderWithProdu
 			final Case<LObjBytePredicate<T>, LObjByteFunction<T, R>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LObjByteFunction.l((T t, byte i) -> {
 				for (Case<LObjBytePredicate<T>, LObjByteFunction<T, R>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t, i)) {
-						return aCase.caseFunction().apply(t, i);
+					if (aCase.casePredicate().doTest(t, i)) {
+						return aCase.caseFunction().doApply(t, i);
 					}
 				}
 
-				return eventuallyFinal.apply(t, i);
+				return eventuallyFinal.doApply(t, i);
 			});
 		}
 

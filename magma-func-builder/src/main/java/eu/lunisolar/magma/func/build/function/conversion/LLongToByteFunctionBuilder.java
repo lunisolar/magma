@@ -99,12 +99,12 @@ public final class LLongToByteFunctionBuilder extends PerCaseBuilderWithByteProd
 			final Case<LLongPredicate, LLongToByteFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LLongToByteFunction.l((long l) -> {
 				for (Case<LLongPredicate, LLongToByteFunction> aCase : casesArray) {
-					if (aCase.casePredicate().test(l)) {
-						return aCase.caseFunction().applyAsByte(l);
+					if (aCase.casePredicate().doTest(l)) {
+						return aCase.caseFunction().doApplyAsByte(l);
 					}
 				}
 
-				return eventuallyFinal.applyAsByte(l);
+				return eventuallyFinal.doApplyAsByte(l);
 			});
 		}
 

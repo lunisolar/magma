@@ -99,12 +99,12 @@ public final class LBooleanTernaryOperatorBuilder extends PerCaseBuilderWithBool
 			final Case<LBooleanTernaryOperator, LBooleanTernaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LBooleanTernaryOperator.l((boolean b1, boolean b2, boolean b3) -> {
 				for (Case<LBooleanTernaryOperator, LBooleanTernaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().apply(b1, b2, b3)) {
-						return aCase.caseFunction().apply(b1, b2, b3);
+					if (aCase.casePredicate().doApply(b1, b2, b3)) {
+						return aCase.caseFunction().doApply(b1, b2, b3);
 					}
 				}
 
-				return eventuallyFinal.apply(b1, b2, b3);
+				return eventuallyFinal.doApply(b1, b2, b3);
 			});
 		}
 

@@ -61,13 +61,13 @@ public class LBooleanTernaryOperatorTest<X extends ParseException> {
 
 
     private LBooleanTernaryOperator sut = new LBooleanTernaryOperator(){
-        public  boolean apply(boolean b1,boolean b2,boolean b3)  {
+        public  boolean doApply(boolean b1,boolean b2,boolean b3)  {
             return testValue;
         }
     };
 
     private LBooleanTernaryOperatorX<X> opposite = new LBooleanTernaryOperatorX(){
-        public  boolean apply(boolean b1,boolean b2,boolean b3) throws ParseException {
+        public  boolean doApply(boolean b1,boolean b2,boolean b3) throws ParseException {
             return testValue;
         }
     };
@@ -76,7 +76,7 @@ public class LBooleanTernaryOperatorTest<X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.apply(true,true,true))
+        assertThat(sut.doApply(true,true,true))
             .isEqualTo(testValue);
     }
 
@@ -90,7 +90,7 @@ public class LBooleanTernaryOperatorTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBooleanTernaryOperator: boolean apply(boolean b1,boolean b2,boolean b3)");
+            .isEqualTo("LBooleanTernaryOperator: boolean doApply(boolean b1,boolean b2,boolean b3)");
     }
 
     @Test
@@ -117,7 +117,7 @@ public class LBooleanTernaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.apply(true,true,true);
+            wrapped.doApply(true,true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LBooleanTernaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.apply(true,true,true);
+            wrapped.doApply(true,true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -165,7 +165,7 @@ public class LBooleanTernaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.apply(true,true,true);
+            wrapped.doApply(true,true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -190,7 +190,7 @@ public class LBooleanTernaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.apply(true,true,true);
+            wrapped.doApply(true,true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -214,7 +214,7 @@ public class LBooleanTernaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.apply(true,true,true);
+            wrapped.doApply(true,true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -226,7 +226,7 @@ public class LBooleanTernaryOperatorTest<X extends ParseException> {
 
     @Test
     public void testNegate() throws ParseException {
-        assertThat(sut.negate().apply(true,true,true))
+        assertThat(sut.negate().doApply(true,true,true))
             .isEqualTo(!testValue);
     }
 
@@ -254,13 +254,13 @@ public class LBooleanTernaryOperatorTest<X extends ParseException> {
         LBooleanTernaryOperator xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.apply(true,true,true))
+        assertThat(andFunction.doApply(true,true,true))
                 .isEqualTo(andResult);
 
-        assertThat(orFunction.apply(true,true,true))
+        assertThat(orFunction.doApply(true,true,true))
                 .isEqualTo(orResult);
 
-        assertThat(xorFunction.apply(true,true,true))
+        assertThat(xorFunction.doApply(true,true,true))
                 .isEqualTo(xorResult);
     }
 
@@ -270,10 +270,10 @@ public class LBooleanTernaryOperatorTest<X extends ParseException> {
         LBooleanTernaryOperator equals = LBooleanTernaryOperator.isEqual(true,true,true);
 
         //then
-        assertThat(equals.test(true,true,true))
+        assertThat(equals.doApply(true,true,true))
                 .isTrue();
 
-        assertThat(equals.test(false,false,false))
+        assertThat(equals.doApply(false,false,false))
                 .isFalse();
     }
 
@@ -314,7 +314,7 @@ public class LBooleanTernaryOperatorTest<X extends ParseException> {
 
         //when
         LBooleanTernaryOperator function = sutO.fromBoolean(before1,before2,before3);
-        function.apply(true,true,true);
+        function.doApply(true,true,true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -355,7 +355,7 @@ public class LBooleanTernaryOperatorTest<X extends ParseException> {
 
         //when
         LTriPredicate<Integer ,Integer ,Integer > function = sutO.from(before1,before2,before3);
-        function.test((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(Integer )Integer.valueOf(82));
+        function.doTest((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(Integer )Integer.valueOf(82));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -393,7 +393,7 @@ public class LBooleanTernaryOperatorTest<X extends ParseException> {
 
         //when
         LBooleanTriFunction<Integer > function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply(true,true,true);
+        Integer  finalValue = function.doApply(true,true,true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -424,7 +424,7 @@ public class LBooleanTernaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().apply(true,true,true);
+        sutThrowing.shove().doApply(true,true,true);
     }
 
     @Test
@@ -442,7 +442,7 @@ public class LBooleanTernaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.apply(true,true,true);
+            wrapped.doApply(true,true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -461,7 +461,7 @@ public class LBooleanTernaryOperatorTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBooleanTernaryOperator: boolean apply(boolean b1,boolean b2,boolean b3)");
+                .contains("LBooleanTernaryOperator: boolean doApply(boolean b1,boolean b2,boolean b3)");
     }
 
 

@@ -61,13 +61,13 @@ public class LShortToFloatFunctionXTest<X extends ParseException> {
 
 
     private LShortToFloatFunctionX<X> sut = new LShortToFloatFunctionX(){
-        public  float applyAsFloat(short s) throws ParseException {
+        public  float doApplyAsFloat(short s) throws ParseException {
             return testValue;
         }
     };
 
     private LShortToFloatFunction opposite = new LShortToFloatFunction(){
-        public  float applyAsFloat(short s)  {
+        public  float doApplyAsFloat(short s)  {
             return testValue;
         }
     };
@@ -76,7 +76,7 @@ public class LShortToFloatFunctionXTest<X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.applyAsFloat((short)100))
+        assertThat(sut.doApplyAsFloat((short)100))
             .isEqualTo(testValue);
     }
 
@@ -90,7 +90,7 @@ public class LShortToFloatFunctionXTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LShortToFloatFunctionX: float applyAsFloat(short s) throws X");
+            .isEqualTo("LShortToFloatFunctionX: float doApplyAsFloat(short s) throws X");
     }
 
     @Test
@@ -121,7 +121,7 @@ public class LShortToFloatFunctionXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsFloat((short)100);
+            wrapped.doApplyAsFloat((short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -146,7 +146,7 @@ public class LShortToFloatFunctionXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsFloat((short)100);
+            wrapped.doApplyAsFloat((short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -170,7 +170,7 @@ public class LShortToFloatFunctionXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsFloat((short)100);
+            wrapped.doApplyAsFloat((short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -205,7 +205,7 @@ public class LShortToFloatFunctionXTest<X extends ParseException> {
 
         //when
         LShortToFloatFunctionX<X> function = sutO.fromShort(before1);
-        function.applyAsFloat((short)80);
+        function.doApplyAsFloat((short)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -234,7 +234,7 @@ public class LShortToFloatFunctionXTest<X extends ParseException> {
 
         //when
         LToFloatFunctionX<Integer ,X> function = sutO.from(before1);
-        function.applyAsFloat((Integer )Integer.valueOf(80));
+        function.doApplyAsFloat((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -270,7 +270,7 @@ public class LShortToFloatFunctionXTest<X extends ParseException> {
 
         //when
         LShortFunctionX<Integer ,X> function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((short)80);
+        Integer  finalValue = function.doApply((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -305,7 +305,7 @@ public class LShortToFloatFunctionXTest<X extends ParseException> {
 
         //when
         LShortToByteFunctionX<X> function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.applyAsByte((short)80);
+        byte finalValue = function.doApplyAsByte((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -340,7 +340,7 @@ public class LShortToFloatFunctionXTest<X extends ParseException> {
 
         //when
         LShortUnaryOperatorX<X> function = sutO.thenToShort(thenFunction);
-        short finalValue = function.applyAsShort((short)80);
+        short finalValue = function.doApplyAsShort((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -375,7 +375,7 @@ public class LShortToFloatFunctionXTest<X extends ParseException> {
 
         //when
         LShortToIntFunctionX<X> function = sutO.thenToInt(thenFunction);
-        int finalValue = function.applyAsInt((short)80);
+        int finalValue = function.doApplyAsInt((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((int)100);
@@ -410,7 +410,7 @@ public class LShortToFloatFunctionXTest<X extends ParseException> {
 
         //when
         LShortToLongFunctionX<X> function = sutO.thenToLong(thenFunction);
-        long finalValue = function.applyAsLong((short)80);
+        long finalValue = function.doApplyAsLong((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((long)100);
@@ -445,7 +445,7 @@ public class LShortToFloatFunctionXTest<X extends ParseException> {
 
         //when
         LShortToFloatFunctionX<X> function = sutO.thenToFloat(thenFunction);
-        float finalValue = function.applyAsFloat((short)80);
+        float finalValue = function.doApplyAsFloat((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((float)100);
@@ -480,7 +480,7 @@ public class LShortToFloatFunctionXTest<X extends ParseException> {
 
         //when
         LShortToDoubleFunctionX<X> function = sutO.thenToDouble(thenFunction);
-        double finalValue = function.applyAsDouble((short)80);
+        double finalValue = function.doApplyAsDouble((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((double)100);
@@ -515,7 +515,7 @@ public class LShortToFloatFunctionXTest<X extends ParseException> {
 
         //when
         LShortToCharFunctionX<X> function = sutO.thenToChar(thenFunction);
-        char finalValue = function.applyAsChar((short)80);
+        char finalValue = function.doApplyAsChar((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((char)100);
@@ -550,7 +550,7 @@ public class LShortToFloatFunctionXTest<X extends ParseException> {
 
         //when
         LShortPredicateX<X> function = sutO.thenToBoolean(thenFunction);
-        boolean finalValue = function.test((short)80);
+        boolean finalValue = function.doTest((short)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -581,7 +581,7 @@ public class LShortToFloatFunctionXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().applyAsFloat((short)100);
+        sutThrowing.shove().doApplyAsFloat((short)100);
     }
 
     @Test
@@ -599,7 +599,7 @@ public class LShortToFloatFunctionXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsFloat((short)100);
+            wrapped.doApplyAsFloat((short)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -618,7 +618,7 @@ public class LShortToFloatFunctionXTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LShortToFloatFunctionX: float applyAsFloat(short s) throws X");
+                .contains("LShortToFloatFunctionX: float doApplyAsFloat(short s) throws X");
     }
 
 

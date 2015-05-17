@@ -53,9 +53,9 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LActionX<X extends Exception> extends MetaAction, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LActionX: void execute() throws X";
+	public static final String DESCRIPTION = "LActionX: void doExecute() throws X";
 
-	public void execute() throws X;
+	public void doExecute() throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -81,7 +81,7 @@ public interface LActionX<X extends Exception> extends MetaAction, MetaInterface
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LActionX<X> wrapX(final @Nonnull LAction other) {
-		return other::execute;
+		return other::doExecute;
 	}
 
 	// </editor-fold>
@@ -93,8 +93,8 @@ public interface LActionX<X extends Exception> extends MetaAction, MetaInterface
 	default LActionX<X> andThen(@Nonnull LActionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
 		return () -> {
-			this.execute();
-			after.execute();
+			this.doExecute();
+			after.doExecute();
 		};
 	}
 
@@ -104,7 +104,7 @@ public interface LActionX<X extends Exception> extends MetaAction, MetaInterface
 	/** Converts to JRE variant. */
 	@Nonnull
 	default Runnable std() {
-		return LAction.wrap(this)::execute;
+		return LAction.wrap(this)::doExecute;
 	}
 
 	/** Converts to non-throwing variant (if required). */
@@ -122,7 +122,7 @@ public interface LActionX<X extends Exception> extends MetaAction, MetaInterface
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LAction shove() {
 		LActionX<RuntimeException> exceptionCast = (LActionX<RuntimeException>) this;
-		return exceptionCast::execute;
+		return exceptionCast::doExecute;
 	}
 
 	// </editor-fold>
@@ -134,7 +134,7 @@ public interface LActionX<X extends Exception> extends MetaAction, MetaInterface
 	public static <X extends Exception, E extends Exception, Y extends Exception> LActionX<Y> wrapException(@Nonnull final LActionX<X> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
 		return () -> {
 			try {
-				other.execute();
+				other.doExecute();
 			} catch (Exception e) {
 				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
 			}

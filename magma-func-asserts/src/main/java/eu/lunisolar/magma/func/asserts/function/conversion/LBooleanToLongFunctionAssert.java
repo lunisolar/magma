@@ -58,7 +58,7 @@ public interface LBooleanToLongFunctionAssert<S extends LBooleanToLongFunctionAs
 
 		@Nonnull
 		public Evaluation<S, A, RS, Long, Exception> doesApplyAsLong(boolean b) {
-			return evaluation(() -> assertFactory.apply((Long) actual.applyAsLong(b)));
+			return evaluation(() -> assertFactory.apply((Long) actual.doApplyAsLong(b)));
 		}
 
 	}

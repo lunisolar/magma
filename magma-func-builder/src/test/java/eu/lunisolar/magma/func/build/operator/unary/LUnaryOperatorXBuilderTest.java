@@ -69,7 +69,7 @@ public class LUnaryOperatorXBuilderTest<T,X extends ParseException>{
                 .unaryOperatorX()
                 .build();
 
-            function.apply((T)Integer.valueOf(100));
+            function.doApply((T)Integer.valueOf(100));
 
             fail("No exception were thrown.");
         } catch (Exception e) {

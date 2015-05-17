@@ -63,7 +63,7 @@ public interface LByteToShortFunctionXAssert<S extends LByteToShortFunctionXAsse
 
 		@Nonnull
 		public Evaluation<S, A, RS, Short, Exception> doesApplyAsShort(byte b) {
-			return evaluation(() -> assertFactory.apply((Short) actual.applyAsShort(b)));
+			return evaluation(() -> assertFactory.apply((Short) actual.doApplyAsShort(b)));
 		}
 
 	}

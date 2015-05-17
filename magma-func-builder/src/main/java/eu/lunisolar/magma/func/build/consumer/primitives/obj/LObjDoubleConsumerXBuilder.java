@@ -99,13 +99,13 @@ public final class LObjDoubleConsumerXBuilder<T, X extends Exception> extends Pe
 			final Case<LObjDoublePredicateX<T, X>, LObjDoubleConsumerX<T, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LObjDoubleConsumerX.lX((T t, double d) -> {
 				for (Case<LObjDoublePredicateX<T, X>, LObjDoubleConsumerX<T, X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t, d)) {
-						aCase.caseFunction().accept(t, d);
+					if (aCase.casePredicate().doTest(t, d)) {
+						aCase.caseFunction().doAccept(t, d);
 						return;
 					}
 				}
 
-				eventuallyFinal.accept(t, d);
+				eventuallyFinal.doAccept(t, d);
 			});
 		}
 

@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LFloatToLongFunctionX<X extends Exception> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LFloatToLongFunctionX: long applyAsLong(float f) throws X";
+	public static final String DESCRIPTION = "LFloatToLongFunctionX: long doApplyAsLong(float f) throws X";
 
-	public long applyAsLong(float f) throws X;
+	public long doApplyAsLong(float f) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LFloatToLongFunctionX<X extends Exception> extends MetaFunction
 
 	/** Captures arguments but delays the evaluation. */
 	default LLongSupplierX<X> capture(float f) {
-		return () -> this.applyAsLong(f);
+		return () -> this.doApplyAsLong(f);
 	}
 
 	public static <X extends Exception> LFloatToLongFunctionX<X> constant(long r) {
@@ -81,7 +81,7 @@ public interface LFloatToLongFunctionX<X extends Exception> extends MetaFunction
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default long nonNull(float f) throws X {
-		return applyAsLong(f);
+		return doApplyAsLong(f);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -96,7 +96,7 @@ public interface LFloatToLongFunctionX<X extends Exception> extends MetaFunction
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LFloatToLongFunctionX<X> wrapX(final @Nonnull LFloatToLongFunction other) {
-		return other::applyAsLong;
+		return other::doApplyAsLong;
 	}
 
 	// </editor-fold>
@@ -109,7 +109,7 @@ public interface LFloatToLongFunctionX<X extends Exception> extends MetaFunction
 	@Nonnull
 	default LFloatToLongFunctionX<X> fromFloat(@Nonnull final LFloatUnaryOperatorX<X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final float v1) -> this.applyAsLong(before1.applyAsFloat(v1));
+		return (final float v1) -> this.doApplyAsLong(before1.doApplyAsFloat(v1));
 	}
 
 	/**
@@ -118,7 +118,7 @@ public interface LFloatToLongFunctionX<X extends Exception> extends MetaFunction
 	@Nonnull
 	default <V1> LToLongFunctionX<V1, X> from(@Nonnull final LToFloatFunctionX<? super V1, X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.applyAsLong(before1.applyAsFloat(v1));
+		return (V1 v1) -> this.doApplyAsLong(before1.doApplyAsFloat(v1));
 	}
 
 	// </editor-fold>
@@ -129,63 +129,63 @@ public interface LFloatToLongFunctionX<X extends Exception> extends MetaFunction
 	@Nonnull
 	default <V> LFloatFunctionX<V, X> then(@Nonnull LLongFunctionX<? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.apply(this.applyAsLong(f));
+		return (float f) -> after.doApply(this.doApplyAsLong(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToByteFunctionX<X> thenToByte(@Nonnull LLongToByteFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsByte(this.applyAsLong(f));
+		return (float f) -> after.doApplyAsByte(this.doApplyAsLong(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToShortFunctionX<X> thenToShort(@Nonnull LLongToShortFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsShort(this.applyAsLong(f));
+		return (float f) -> after.doApplyAsShort(this.doApplyAsLong(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToIntFunctionX<X> thenToInt(@Nonnull LLongToIntFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsInt(this.applyAsLong(f));
+		return (float f) -> after.doApplyAsInt(this.doApplyAsLong(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToLongFunctionX<X> thenToLong(@Nonnull LLongUnaryOperatorX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsLong(this.applyAsLong(f));
+		return (float f) -> after.doApplyAsLong(this.doApplyAsLong(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatUnaryOperatorX<X> thenToFloat(@Nonnull LLongToFloatFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsFloat(this.applyAsLong(f));
+		return (float f) -> after.doApplyAsFloat(this.doApplyAsLong(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToDoubleFunctionX<X> thenToDouble(@Nonnull LLongToDoubleFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsDouble(this.applyAsLong(f));
+		return (float f) -> after.doApplyAsDouble(this.doApplyAsLong(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToCharFunctionX<X> thenToChar(@Nonnull LLongToCharFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsChar(this.applyAsLong(f));
+		return (float f) -> after.doApplyAsChar(this.doApplyAsLong(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatPredicateX<X> thenToBoolean(@Nonnull LLongPredicateX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.test(this.applyAsLong(f));
+		return (float f) -> after.doTest(this.doApplyAsLong(f));
 	}
 
 	// </editor-fold>
@@ -207,7 +207,7 @@ public interface LFloatToLongFunctionX<X extends Exception> extends MetaFunction
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LFloatToLongFunction shove() {
 		LFloatToLongFunctionX<RuntimeException> exceptionCast = (LFloatToLongFunctionX<RuntimeException>) this;
-		return exceptionCast::applyAsLong;
+		return exceptionCast::doApplyAsLong;
 	}
 
 	// </editor-fold>
@@ -219,11 +219,11 @@ public interface LFloatToLongFunctionX<X extends Exception> extends MetaFunction
 	public static <X extends Exception, E extends Exception, Y extends Exception> LFloatToLongFunctionX<Y> wrapException(@Nonnull final LFloatToLongFunctionX<X> other, Class<E> exception, LLongSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
 		return (float f) -> {
 			try {
-				return other.applyAsLong(f);
+				return other.doApplyAsLong(f);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsLong();
+						return supplier.doGetAsLong();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

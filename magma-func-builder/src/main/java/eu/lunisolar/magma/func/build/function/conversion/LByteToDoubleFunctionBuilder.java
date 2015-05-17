@@ -99,12 +99,12 @@ public final class LByteToDoubleFunctionBuilder extends PerCaseBuilderWithDouble
 			final Case<LBytePredicate, LByteToDoubleFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LByteToDoubleFunction.l((byte b) -> {
 				for (Case<LBytePredicate, LByteToDoubleFunction> aCase : casesArray) {
-					if (aCase.casePredicate().test(b)) {
-						return aCase.caseFunction().applyAsDouble(b);
+					if (aCase.casePredicate().doTest(b)) {
+						return aCase.caseFunction().doApplyAsDouble(b);
 					}
 				}
 
-				return eventuallyFinal.applyAsDouble(b);
+				return eventuallyFinal.doApplyAsDouble(b);
 			});
 		}
 

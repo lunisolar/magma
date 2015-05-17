@@ -99,12 +99,12 @@ public final class LLongToByteFunctionXBuilder<X extends Exception> extends PerC
 			final Case<LLongPredicateX<X>, LLongToByteFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LLongToByteFunctionX.lX((long l) -> {
 				for (Case<LLongPredicateX<X>, LLongToByteFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(l)) {
-						return aCase.caseFunction().applyAsByte(l);
+					if (aCase.casePredicate().doTest(l)) {
+						return aCase.caseFunction().doApplyAsByte(l);
 					}
 				}
 
-				return eventuallyFinal.applyAsByte(l);
+				return eventuallyFinal.doApplyAsByte(l);
 			});
 		}
 

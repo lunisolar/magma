@@ -99,13 +99,13 @@ public final class LBiObjByteConsumerXBuilder<T1, T2, X extends Exception> exten
 			final Case<LBiObjBytePredicateX<T1, T2, X>, LBiObjByteConsumerX<T1, T2, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LBiObjByteConsumerX.lX((T1 t1, T2 t2, byte b) -> {
 				for (Case<LBiObjBytePredicateX<T1, T2, X>, LBiObjByteConsumerX<T1, T2, X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t1, t2, b)) {
-						aCase.caseFunction().accept(t1, t2, b);
+					if (aCase.casePredicate().doTest(t1, t2, b)) {
+						aCase.caseFunction().doAccept(t1, t2, b);
 						return;
 					}
 				}
 
-				eventuallyFinal.accept(t1, t2, b);
+				eventuallyFinal.doAccept(t1, t2, b);
 			});
 		}
 

@@ -58,7 +58,7 @@ public interface LBiDoublePredicateAssert<S extends LBiDoublePredicateAssert<S, 
 
 		@Nonnull
 		public Evaluation<S, A, RS, Boolean, Exception> doesTest(double d1, double d2) {
-			return evaluation(() -> assertFactory.apply((Boolean) actual.test(d1, d2)));
+			return evaluation(() -> assertFactory.apply((Boolean) actual.doTest(d1, d2)));
 		}
 
 	}

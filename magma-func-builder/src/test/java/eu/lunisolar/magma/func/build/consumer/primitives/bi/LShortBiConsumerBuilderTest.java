@@ -69,7 +69,7 @@ public class LShortBiConsumerBuilderTest<X extends ParseException>{
                 .shortBiConsumer()
                 .build();
 
-            function.accept((short)100,(short)100);
+            function.doAccept((short)100,(short)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

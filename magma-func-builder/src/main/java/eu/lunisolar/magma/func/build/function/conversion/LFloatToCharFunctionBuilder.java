@@ -99,12 +99,12 @@ public final class LFloatToCharFunctionBuilder extends PerCaseBuilderWithCharPro
 			final Case<LFloatPredicate, LFloatToCharFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LFloatToCharFunction.l((float f) -> {
 				for (Case<LFloatPredicate, LFloatToCharFunction> aCase : casesArray) {
-					if (aCase.casePredicate().test(f)) {
-						return aCase.caseFunction().applyAsChar(f);
+					if (aCase.casePredicate().doTest(f)) {
+						return aCase.caseFunction().doApplyAsChar(f);
 					}
 				}
 
-				return eventuallyFinal.applyAsChar(f);
+				return eventuallyFinal.doApplyAsChar(f);
 			});
 		}
 

@@ -99,12 +99,12 @@ public final class LLongToIntFunctionBuilder extends PerCaseBuilderWithIntProduc
 			final Case<LLongPredicate, LLongToIntFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LLongToIntFunction.l((long l) -> {
 				for (Case<LLongPredicate, LLongToIntFunction> aCase : casesArray) {
-					if (aCase.casePredicate().test(l)) {
-						return aCase.caseFunction().applyAsInt(l);
+					if (aCase.casePredicate().doTest(l)) {
+						return aCase.caseFunction().doApplyAsInt(l);
 					}
 				}
 
-				return eventuallyFinal.applyAsInt(l);
+				return eventuallyFinal.doApplyAsInt(l);
 			});
 		}
 

@@ -99,13 +99,13 @@ public final class LCharConsumerBuilder extends PerCaseBuilder.Base<LCharConsume
 			final Case<LCharPredicate, LCharConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LCharConsumer.l((char c) -> {
 				for (Case<LCharPredicate, LCharConsumer> aCase : casesArray) {
-					if (aCase.casePredicate().test(c)) {
-						aCase.caseFunction().accept(c);
+					if (aCase.casePredicate().doTest(c)) {
+						aCase.caseFunction().doAccept(c);
 						return;
 					}
 				}
 
-				eventuallyFinal.accept(c);
+				eventuallyFinal.doAccept(c);
 			});
 		}
 

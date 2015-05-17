@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LToCharFunctionX<T, X extends Exception> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LToCharFunctionX: char applyAsChar(T t) throws X";
+	public static final String DESCRIPTION = "LToCharFunctionX: char doApplyAsChar(T t) throws X";
 
-	public char applyAsChar(T t) throws X;
+	public char doApplyAsChar(T t) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LToCharFunctionX<T, X extends Exception> extends MetaFunction, 
 
 	/** Captures arguments but delays the evaluation. */
 	default LCharSupplierX<X> capture(T t) {
-		return () -> this.applyAsChar(t);
+		return () -> this.doApplyAsChar(t);
 	}
 
 	public static <T, X extends Exception> LToCharFunctionX<T, X> constant(char r) {
@@ -81,7 +81,7 @@ public interface LToCharFunctionX<T, X extends Exception> extends MetaFunction, 
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default char nonNull(T t) throws X {
-		return applyAsChar(t);
+		return doApplyAsChar(t);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -96,7 +96,7 @@ public interface LToCharFunctionX<T, X extends Exception> extends MetaFunction, 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T, X extends Exception> LToCharFunctionX<T, X> wrapX(final @Nonnull LToCharFunction<T> other) {
-		return other::applyAsChar;
+		return other::doApplyAsChar;
 	}
 
 	// </editor-fold>
@@ -109,7 +109,7 @@ public interface LToCharFunctionX<T, X extends Exception> extends MetaFunction, 
 	@Nonnull
 	default <V1> LToCharFunctionX<V1, X> from(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final V1 v1) -> this.applyAsChar(before1.apply(v1));
+		return (final V1 v1) -> this.doApplyAsChar(before1.doApply(v1));
 	}
 
 	// </editor-fold>
@@ -120,63 +120,63 @@ public interface LToCharFunctionX<T, X extends Exception> extends MetaFunction, 
 	@Nonnull
 	default <V> LFunctionX<T, V, X> then(@Nonnull LCharFunctionX<? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.apply(this.applyAsChar(t));
+		return (T t) -> after.doApply(this.doApplyAsChar(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToByteFunctionX<T, X> thenToByte(@Nonnull LCharToByteFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsByte(this.applyAsChar(t));
+		return (T t) -> after.doApplyAsByte(this.doApplyAsChar(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToShortFunctionX<T, X> thenToShort(@Nonnull LCharToShortFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsShort(this.applyAsChar(t));
+		return (T t) -> after.doApplyAsShort(this.doApplyAsChar(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToIntFunctionX<T, X> thenToInt(@Nonnull LCharToIntFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsInt(this.applyAsChar(t));
+		return (T t) -> after.doApplyAsInt(this.doApplyAsChar(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToLongFunctionX<T, X> thenToLong(@Nonnull LCharToLongFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsLong(this.applyAsChar(t));
+		return (T t) -> after.doApplyAsLong(this.doApplyAsChar(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToFloatFunctionX<T, X> thenToFloat(@Nonnull LCharToFloatFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsFloat(this.applyAsChar(t));
+		return (T t) -> after.doApplyAsFloat(this.doApplyAsChar(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToDoubleFunctionX<T, X> thenToDouble(@Nonnull LCharToDoubleFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsDouble(this.applyAsChar(t));
+		return (T t) -> after.doApplyAsDouble(this.doApplyAsChar(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToCharFunctionX<T, X> thenToChar(@Nonnull LCharUnaryOperatorX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsChar(this.applyAsChar(t));
+		return (T t) -> after.doApplyAsChar(this.doApplyAsChar(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LPredicateX<T, X> thenToBoolean(@Nonnull LCharPredicateX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.test(this.applyAsChar(t));
+		return (T t) -> after.doTest(this.doApplyAsChar(t));
 	}
 
 	// </editor-fold>
@@ -198,7 +198,7 @@ public interface LToCharFunctionX<T, X extends Exception> extends MetaFunction, 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LToCharFunction<T> shove() {
 		LToCharFunctionX<T, RuntimeException> exceptionCast = (LToCharFunctionX<T, RuntimeException>) this;
-		return exceptionCast::applyAsChar;
+		return exceptionCast::doApplyAsChar;
 	}
 
 	// </editor-fold>
@@ -210,11 +210,11 @@ public interface LToCharFunctionX<T, X extends Exception> extends MetaFunction, 
 	public static <T, X extends Exception, E extends Exception, Y extends Exception> LToCharFunctionX<T, Y> wrapException(@Nonnull final LToCharFunctionX<T, X> other, Class<E> exception, LCharSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
 		return (T t) -> {
 			try {
-				return other.applyAsChar(t);
+				return other.doApplyAsChar(t);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsChar();
+						return supplier.doGetAsChar();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

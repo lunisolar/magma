@@ -69,7 +69,7 @@ public class LByteBinaryOperatorBuilderTest<X extends ParseException>{
                 .byteBinaryOperator()
                 .build();
 
-            function.applyAsByte((byte)100,(byte)100);
+            function.doApplyAsByte((byte)100,(byte)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

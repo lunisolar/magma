@@ -61,13 +61,13 @@ public class LBooleanToFloatFunctionTest<X extends ParseException> {
 
 
     private LBooleanToFloatFunction sut = new LBooleanToFloatFunction(){
-        public  float applyAsFloat(boolean b)  {
+        public  float doApplyAsFloat(boolean b)  {
             return testValue;
         }
     };
 
     private LBooleanToFloatFunctionX<X> opposite = new LBooleanToFloatFunctionX(){
-        public  float applyAsFloat(boolean b) throws ParseException {
+        public  float doApplyAsFloat(boolean b) throws ParseException {
             return testValue;
         }
     };
@@ -76,7 +76,7 @@ public class LBooleanToFloatFunctionTest<X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.applyAsFloat(true))
+        assertThat(sut.doApplyAsFloat(true))
             .isEqualTo(testValue);
     }
 
@@ -90,7 +90,7 @@ public class LBooleanToFloatFunctionTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBooleanToFloatFunction: float applyAsFloat(boolean b)");
+            .isEqualTo("LBooleanToFloatFunction: float doApplyAsFloat(boolean b)");
     }
 
     @Test
@@ -117,7 +117,7 @@ public class LBooleanToFloatFunctionTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsFloat(true);
+            wrapped.doApplyAsFloat(true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LBooleanToFloatFunctionTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsFloat(true);
+            wrapped.doApplyAsFloat(true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -165,7 +165,7 @@ public class LBooleanToFloatFunctionTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsFloat(true);
+            wrapped.doApplyAsFloat(true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -190,7 +190,7 @@ public class LBooleanToFloatFunctionTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsFloat(true);
+            wrapped.doApplyAsFloat(true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -214,7 +214,7 @@ public class LBooleanToFloatFunctionTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsFloat(true);
+            wrapped.doApplyAsFloat(true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -249,7 +249,7 @@ public class LBooleanToFloatFunctionTest<X extends ParseException> {
 
         //when
         LBooleanToFloatFunction function = sutO.fromBoolean(before1);
-        function.applyAsFloat(true);
+        function.doApplyAsFloat(true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -278,7 +278,7 @@ public class LBooleanToFloatFunctionTest<X extends ParseException> {
 
         //when
         LToFloatFunction<Integer > function = sutO.from(before1);
-        function.applyAsFloat((Integer )Integer.valueOf(80));
+        function.doApplyAsFloat((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -314,7 +314,7 @@ public class LBooleanToFloatFunctionTest<X extends ParseException> {
 
         //when
         LBooleanFunction<Integer > function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply(true);
+        Integer  finalValue = function.doApply(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -349,7 +349,7 @@ public class LBooleanToFloatFunctionTest<X extends ParseException> {
 
         //when
         LBooleanToByteFunction function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.applyAsByte(true);
+        byte finalValue = function.doApplyAsByte(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -384,7 +384,7 @@ public class LBooleanToFloatFunctionTest<X extends ParseException> {
 
         //when
         LBooleanToShortFunction function = sutO.thenToShort(thenFunction);
-        short finalValue = function.applyAsShort(true);
+        short finalValue = function.doApplyAsShort(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -419,7 +419,7 @@ public class LBooleanToFloatFunctionTest<X extends ParseException> {
 
         //when
         LBooleanToIntFunction function = sutO.thenToInt(thenFunction);
-        int finalValue = function.applyAsInt(true);
+        int finalValue = function.doApplyAsInt(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo((int)100);
@@ -454,7 +454,7 @@ public class LBooleanToFloatFunctionTest<X extends ParseException> {
 
         //when
         LBooleanToLongFunction function = sutO.thenToLong(thenFunction);
-        long finalValue = function.applyAsLong(true);
+        long finalValue = function.doApplyAsLong(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo((long)100);
@@ -489,7 +489,7 @@ public class LBooleanToFloatFunctionTest<X extends ParseException> {
 
         //when
         LBooleanToFloatFunction function = sutO.thenToFloat(thenFunction);
-        float finalValue = function.applyAsFloat(true);
+        float finalValue = function.doApplyAsFloat(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo((float)100);
@@ -524,7 +524,7 @@ public class LBooleanToFloatFunctionTest<X extends ParseException> {
 
         //when
         LBooleanToDoubleFunction function = sutO.thenToDouble(thenFunction);
-        double finalValue = function.applyAsDouble(true);
+        double finalValue = function.doApplyAsDouble(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo((double)100);
@@ -559,7 +559,7 @@ public class LBooleanToFloatFunctionTest<X extends ParseException> {
 
         //when
         LBooleanToCharFunction function = sutO.thenToChar(thenFunction);
-        char finalValue = function.applyAsChar(true);
+        char finalValue = function.doApplyAsChar(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo((char)100);
@@ -594,7 +594,7 @@ public class LBooleanToFloatFunctionTest<X extends ParseException> {
 
         //when
         LBooleanUnaryOperator function = sutO.thenToBoolean(thenFunction);
-        boolean finalValue = function.applyAsBoolean(true);
+        boolean finalValue = function.doApplyAsBoolean(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -625,7 +625,7 @@ public class LBooleanToFloatFunctionTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().applyAsFloat(true);
+        sutThrowing.shove().doApplyAsFloat(true);
     }
 
     @Test
@@ -643,7 +643,7 @@ public class LBooleanToFloatFunctionTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsFloat(true);
+            wrapped.doApplyAsFloat(true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -662,7 +662,7 @@ public class LBooleanToFloatFunctionTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBooleanToFloatFunction: float applyAsFloat(boolean b)");
+                .contains("LBooleanToFloatFunction: float doApplyAsFloat(boolean b)");
     }
 
 

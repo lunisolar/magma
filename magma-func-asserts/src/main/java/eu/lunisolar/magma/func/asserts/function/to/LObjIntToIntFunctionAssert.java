@@ -58,7 +58,7 @@ public interface LObjIntToIntFunctionAssert<S extends LObjIntToIntFunctionAssert
 
 		@Nonnull
 		public Evaluation<S, A, RS, Integer, Exception> doesApplyAsInt(T t, int i) {
-			return evaluation(() -> assertFactory.apply((Integer) actual.applyAsInt(t, i)));
+			return evaluation(() -> assertFactory.apply((Integer) actual.doApplyAsInt(t, i)));
 		}
 
 	}

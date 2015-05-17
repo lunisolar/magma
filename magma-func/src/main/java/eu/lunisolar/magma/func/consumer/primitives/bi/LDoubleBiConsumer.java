@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LDoubleBiConsumer extends LDoubleBiConsumerX<RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LDoubleBiConsumer: void accept(double d1,double d2)";
+	public static final String DESCRIPTION = "LDoubleBiConsumer: void doAccept(double d1,double d2)";
 
-	// Ovverriding methods can cause problems with inference.
+	public void doAccept(double d1, double d2);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +73,7 @@ public interface LDoubleBiConsumer extends LDoubleBiConsumerX<RuntimeException>,
 
 	/** Captures arguments but delays the evaluation. */
 	default LAction capture(double d1, double d2) {
-		return () -> this.accept(d1, d2);
+		return () -> this.doAccept(d1, d2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -90,7 +90,7 @@ public interface LDoubleBiConsumer extends LDoubleBiConsumerX<RuntimeException>,
 	public static <X extends Exception> LDoubleBiConsumer wrap(final @Nonnull LDoubleBiConsumerX<X> other) {
 		return (double d1, double d2) -> {
 			try {
-				other.accept(d1, d2);
+				other.doAccept(d1, d2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -108,7 +108,7 @@ public interface LDoubleBiConsumer extends LDoubleBiConsumerX<RuntimeException>,
 	default LDoubleBiConsumer fromDouble(@Nonnull final LDoubleUnaryOperator before1, @Nonnull final LDoubleUnaryOperator before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final double v1, final double v2) -> this.accept(before1.applyAsDouble(v1), before2.applyAsDouble(v2));
+		return (final double v1, final double v2) -> this.doAccept(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
 	}
 
 	/**
@@ -118,7 +118,7 @@ public interface LDoubleBiConsumer extends LDoubleBiConsumerX<RuntimeException>,
 	default <V1, V2> LBiConsumer<V1, V2> from(@Nonnull final LToDoubleFunction<? super V1> before1, @Nonnull final LToDoubleFunction<? super V2> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.accept(before1.applyAsDouble(v1), before2.applyAsDouble(v2));
+		return (V1 v1, V2 v2) -> this.doAccept(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
 	}
 
 	// </editor-fold>
@@ -130,8 +130,8 @@ public interface LDoubleBiConsumer extends LDoubleBiConsumerX<RuntimeException>,
 	default LDoubleBiConsumer andThen(@Nonnull LDoubleBiConsumer after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
 		return (double d1, double d2) -> {
-			this.accept(d1, d2);
-			after.accept(d1, d2);
+			this.doAccept(d1, d2);
+			after.doAccept(d1, d2);
 		};
 	}
 
@@ -164,7 +164,7 @@ public interface LDoubleBiConsumer extends LDoubleBiConsumerX<RuntimeException>,
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LDoubleBiConsumer wrapException(@Nonnull final LDoubleBiConsumer other, Class<E> exception, ExceptionHandler<E, Y> handler) {
 		return (double d1, double d2) -> {
 			try {
-				other.accept(d1, d2);
+				other.doAccept(d1, d2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
 			}

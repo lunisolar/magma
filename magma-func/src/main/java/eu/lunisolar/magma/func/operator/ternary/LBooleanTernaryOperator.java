@@ -60,13 +60,13 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBooleanTernaryOperator extends LBooleanTernaryOperatorX<RuntimeException>, MetaLogicalOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LBooleanTernaryOperator: boolean apply(boolean b1,boolean b2,boolean b3)";
+	public static final String DESCRIPTION = "LBooleanTernaryOperator: boolean doApply(boolean b1,boolean b2,boolean b3)";
 
-	// Ovverriding methods can cause problems with inference.
+	public boolean doApply(boolean b1, boolean b2, boolean b3);
 
 	/** For convinience boolean operator is also special case of predicate. */
-	default boolean test(boolean b1, boolean b2, boolean b3) {
-		return apply(b1, b2, b3);
+	default boolean doTest(boolean b1, boolean b2, boolean b3) {
+		return doApply(b1, b2, b3);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -77,7 +77,7 @@ public interface LBooleanTernaryOperator extends LBooleanTernaryOperatorX<Runtim
 
 	/** Captures arguments but delays the evaluation. */
 	default LBooleanSupplier capture(boolean b1, boolean b2, boolean b3) {
-		return () -> this.apply(b1, b2, b3);
+		return () -> this.doApply(b1, b2, b3);
 	}
 
 	public static LBooleanTernaryOperator constant(boolean r) {
@@ -86,7 +86,7 @@ public interface LBooleanTernaryOperator extends LBooleanTernaryOperatorX<Runtim
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(boolean b1, boolean b2, boolean b3) {
-		return apply(b1, b2, b3);
+		return doApply(b1, b2, b3);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -103,7 +103,7 @@ public interface LBooleanTernaryOperator extends LBooleanTernaryOperatorX<Runtim
 	public static <X extends Exception> LBooleanTernaryOperator wrap(final @Nonnull LBooleanTernaryOperatorX<X> other) {
 		return (boolean b1, boolean b2, boolean b3) -> {
 			try {
-				return other.apply(b1, b2, b3);
+				return other.doApply(b1, b2, b3);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -118,7 +118,7 @@ public interface LBooleanTernaryOperator extends LBooleanTernaryOperatorX<Runtim
 	 */
 	@Nonnull
 	default LBooleanTernaryOperator negate() {
-		return (boolean b1, boolean b2, boolean b3) -> !apply(b1, b2, b3);
+		return (boolean b1, boolean b2, boolean b3) -> !doApply(b1, b2, b3);
 	}
 
 	/**
@@ -127,7 +127,7 @@ public interface LBooleanTernaryOperator extends LBooleanTernaryOperatorX<Runtim
 	@Nonnull
 	default LBooleanTernaryOperator and(@Nonnull LBooleanTernaryOperator other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (boolean b1, boolean b2, boolean b3) -> apply(b1, b2, b3) && other.apply(b1, b2, b3);
+		return (boolean b1, boolean b2, boolean b3) -> doApply(b1, b2, b3) && other.doApply(b1, b2, b3);
 	}
 
 	/**
@@ -136,7 +136,7 @@ public interface LBooleanTernaryOperator extends LBooleanTernaryOperatorX<Runtim
 	@Nonnull
 	default LBooleanTernaryOperator or(@Nonnull LBooleanTernaryOperator other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (boolean b1, boolean b2, boolean b3) -> apply(b1, b2, b3) || other.apply(b1, b2, b3);
+		return (boolean b1, boolean b2, boolean b3) -> doApply(b1, b2, b3) || other.doApply(b1, b2, b3);
 	}
 
 	/**
@@ -145,7 +145,7 @@ public interface LBooleanTernaryOperator extends LBooleanTernaryOperatorX<Runtim
 	@Nonnull
 	default LBooleanTernaryOperator xor(@Nonnull LBooleanTernaryOperator other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (boolean b1, boolean b2, boolean b3) -> apply(b1, b2, b3) ^ other.apply(b1, b2, b3);
+		return (boolean b1, boolean b2, boolean b3) -> doApply(b1, b2, b3) ^ other.doApply(b1, b2, b3);
 	}
 
 	/**
@@ -168,7 +168,7 @@ public interface LBooleanTernaryOperator extends LBooleanTernaryOperatorX<Runtim
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
 		Objects.requireNonNull(before3, Function4U.VALIDATION_MESSAGE_BEFORE3);
-		return (final boolean v1, final boolean v2, final boolean v3) -> this.apply(before1.applyAsBoolean(v1), before2.applyAsBoolean(v2), before3.applyAsBoolean(v3));
+		return (final boolean v1, final boolean v2, final boolean v3) -> this.doApply(before1.doApplyAsBoolean(v1), before2.doApplyAsBoolean(v2), before3.doApplyAsBoolean(v3));
 	}
 
 	/**
@@ -179,7 +179,7 @@ public interface LBooleanTernaryOperator extends LBooleanTernaryOperatorX<Runtim
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
 		Objects.requireNonNull(before3, Function4U.VALIDATION_MESSAGE_BEFORE3);
-		return (V1 v1, V2 v2, V3 v3) -> this.apply(before1.applyAsBoolean(v1), before2.applyAsBoolean(v2), before3.applyAsBoolean(v3));
+		return (V1 v1, V2 v2, V3 v3) -> this.doApply(before1.doApplyAsBoolean(v1), before2.doApplyAsBoolean(v2), before3.doApplyAsBoolean(v3));
 	}
 
 	// </editor-fold>
@@ -190,7 +190,7 @@ public interface LBooleanTernaryOperator extends LBooleanTernaryOperatorX<Runtim
 	@Nonnull
 	default <V> LBooleanTriFunction<V> then(@Nonnull LBooleanFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b1, boolean b2, boolean b3) -> after.apply(this.apply(b1, b2, b3));
+		return (boolean b1, boolean b2, boolean b3) -> after.doApply(this.doApply(b1, b2, b3));
 	}
 
 	// </editor-fold>
@@ -223,11 +223,11 @@ public interface LBooleanTernaryOperator extends LBooleanTernaryOperatorX<Runtim
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LBooleanTernaryOperator wrapException(@Nonnull final LBooleanTernaryOperator other, Class<E> exception, LBooleanSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (boolean b1, boolean b2, boolean b3) -> {
 			try {
-				return other.apply(b1, b2, b3);
+				return other.doApply(b1, b2, b3);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsBoolean();
+						return supplier.doGetAsBoolean();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

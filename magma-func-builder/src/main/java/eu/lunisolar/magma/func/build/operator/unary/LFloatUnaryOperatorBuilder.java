@@ -99,12 +99,12 @@ public final class LFloatUnaryOperatorBuilder extends PerCaseBuilderWithFloatPro
 			final Case<LFloatPredicate, LFloatUnaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LFloatUnaryOperator.l((float f) -> {
 				for (Case<LFloatPredicate, LFloatUnaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().test(f)) {
-						return aCase.caseFunction().applyAsFloat(f);
+					if (aCase.casePredicate().doTest(f)) {
+						return aCase.caseFunction().doApplyAsFloat(f);
 					}
 				}
 
-				return eventuallyFinal.applyAsFloat(f);
+				return eventuallyFinal.doApplyAsFloat(f);
 			});
 		}
 

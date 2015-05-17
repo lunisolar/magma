@@ -69,7 +69,7 @@ public class LObjByteConsumerBuilderTest<T,X extends ParseException>{
                 .objByteConsumer()
                 .build();
 
-            function.accept((T)Integer.valueOf(100),(byte)100);
+            function.doAccept((T)Integer.valueOf(100),(byte)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

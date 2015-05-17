@@ -99,12 +99,12 @@ public final class LIntToDoubleFunctionBuilder extends PerCaseBuilderWithDoubleP
 			final Case<LIntPredicate, LIntToDoubleFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LIntToDoubleFunction.l((int i) -> {
 				for (Case<LIntPredicate, LIntToDoubleFunction> aCase : casesArray) {
-					if (aCase.casePredicate().test(i)) {
-						return aCase.caseFunction().applyAsDouble(i);
+					if (aCase.casePredicate().doTest(i)) {
+						return aCase.caseFunction().doApplyAsDouble(i);
 					}
 				}
 
-				return eventuallyFinal.applyAsDouble(i);
+				return eventuallyFinal.doApplyAsDouble(i);
 			});
 		}
 

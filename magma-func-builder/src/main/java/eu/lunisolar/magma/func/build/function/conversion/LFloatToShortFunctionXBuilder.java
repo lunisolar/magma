@@ -99,12 +99,12 @@ public final class LFloatToShortFunctionXBuilder<X extends Exception> extends Pe
 			final Case<LFloatPredicateX<X>, LFloatToShortFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LFloatToShortFunctionX.lX((float f) -> {
 				for (Case<LFloatPredicateX<X>, LFloatToShortFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(f)) {
-						return aCase.caseFunction().applyAsShort(f);
+					if (aCase.casePredicate().doTest(f)) {
+						return aCase.caseFunction().doApplyAsShort(f);
 					}
 				}
 
-				return eventuallyFinal.applyAsShort(f);
+				return eventuallyFinal.doApplyAsShort(f);
 			});
 		}
 

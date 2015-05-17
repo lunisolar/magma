@@ -58,7 +58,7 @@ public interface LBooleanToShortFunctionAssert<S extends LBooleanToShortFunction
 
 		@Nonnull
 		public Evaluation<S, A, RS, Short, Exception> doesApplyAsShort(boolean b) {
-			return evaluation(() -> assertFactory.apply((Short) actual.applyAsShort(b)));
+			return evaluation(() -> assertFactory.apply((Short) actual.doApplyAsShort(b)));
 		}
 
 	}

@@ -69,7 +69,7 @@ public class LCharSupplierXBuilderTest<X extends ParseException>{
                 .charSupplierX()
                 .build();
 
-            function.getAsChar();
+            function.doGetAsChar();
 
             fail("No exception were thrown.");
         } catch (Exception e) {

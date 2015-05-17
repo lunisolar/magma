@@ -60,7 +60,7 @@ public interface LToCharBiFunctionAssert<S extends LToCharBiFunctionAssert<S, A,
 
 		@Nonnull
 		public Evaluation<S, A, RS, Character, Exception> doesApplyAsChar(T1 t1, T2 t2) {
-			return evaluation(() -> assertFactory.apply((Character) actual.applyAsChar(t1, t2)));
+			return evaluation(() -> assertFactory.apply((Character) actual.doApplyAsChar(t1, t2)));
 		}
 
 	}

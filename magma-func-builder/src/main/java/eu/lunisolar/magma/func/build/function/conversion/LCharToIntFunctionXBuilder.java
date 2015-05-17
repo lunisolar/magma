@@ -99,12 +99,12 @@ public final class LCharToIntFunctionXBuilder<X extends Exception> extends PerCa
 			final Case<LCharPredicateX<X>, LCharToIntFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LCharToIntFunctionX.lX((char c) -> {
 				for (Case<LCharPredicateX<X>, LCharToIntFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(c)) {
-						return aCase.caseFunction().applyAsInt(c);
+					if (aCase.casePredicate().doTest(c)) {
+						return aCase.caseFunction().doApplyAsInt(c);
 					}
 				}
 
-				return eventuallyFinal.applyAsInt(c);
+				return eventuallyFinal.doApplyAsInt(c);
 			});
 		}
 

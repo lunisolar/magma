@@ -59,13 +59,13 @@ public class LIntConsumerTest<X extends ParseException> {
 
 
     private LIntConsumer sut = new LIntConsumer(){
-        public  void accept(int i)  {
+        public  void doAccept(int i)  {
             Function4U.doNothing();
         }
     };
 
     private LIntConsumerX<X> opposite = new LIntConsumerX(){
-        public  void accept(int i) throws ParseException {
+        public  void doAccept(int i) throws ParseException {
             Function4U.doNothing();
         }
     };
@@ -79,7 +79,7 @@ public class LIntConsumerTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LIntConsumer: void accept(int i)");
+            .isEqualTo("LIntConsumer: void doAccept(int i)");
     }
 
     @Test
@@ -112,7 +112,7 @@ public class LIntConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((int)100);
+            wrapped.doAccept((int)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -134,7 +134,7 @@ public class LIntConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((int)100);
+            wrapped.doAccept((int)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -160,7 +160,7 @@ public class LIntConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((int)100);
+            wrapped.doAccept((int)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -185,7 +185,7 @@ public class LIntConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((int)100);
+            wrapped.doAccept((int)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -209,7 +209,7 @@ public class LIntConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((int)100);
+            wrapped.doAccept((int)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -243,7 +243,7 @@ public class LIntConsumerTest<X extends ParseException> {
 
         //when
         LIntConsumer function = sutO.fromInt(before1);
-        function.accept((int)80);
+        function.doAccept((int)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -271,7 +271,7 @@ public class LIntConsumerTest<X extends ParseException> {
 
         //when
         LConsumer<Integer > function = sutO.from(before1);
-        function.accept((Integer )Integer.valueOf(80));
+        function.doAccept((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -299,7 +299,7 @@ public class LIntConsumerTest<X extends ParseException> {
 
         //when
         LIntConsumer function = sutO.andThen(thenFunction);
-        function.accept((int)80);
+        function.doAccept((int)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -330,7 +330,7 @@ public class LIntConsumerTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().accept((int)100);
+        sutThrowing.shove().doAccept((int)100);
     }
 
     @Test
@@ -348,7 +348,7 @@ public class LIntConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((int)100);
+            wrapped.doAccept((int)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -367,7 +367,7 @@ public class LIntConsumerTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LIntConsumer: void accept(int i)");
+                .contains("LIntConsumer: void doAccept(int i)");
     }
 
 

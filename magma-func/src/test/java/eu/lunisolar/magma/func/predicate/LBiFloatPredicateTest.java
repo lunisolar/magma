@@ -61,13 +61,13 @@ public class LBiFloatPredicateTest<X extends ParseException> {
 
 
     private LBiFloatPredicate sut = new LBiFloatPredicate(){
-        public  boolean test(float f1,float f2)  {
+        public  boolean doTest(float f1,float f2)  {
             return testValue;
         }
     };
 
     private LBiFloatPredicateX<X> opposite = new LBiFloatPredicateX(){
-        public  boolean test(float f1,float f2) throws ParseException {
+        public  boolean doTest(float f1,float f2) throws ParseException {
             return testValue;
         }
     };
@@ -76,7 +76,7 @@ public class LBiFloatPredicateTest<X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.test((float)100,(float)100))
+        assertThat(sut.doTest((float)100,(float)100))
             .isEqualTo(testValue);
     }
 
@@ -88,7 +88,7 @@ public class LBiFloatPredicateTest<X extends ParseException> {
 
     @Test
     public void testApplyAsBooleanShouldNotModifyValue() throws ParseException {
-        assertThat(sut.applyAsBoolean((float)100,(float)100))
+        assertThat(sut.doApplyAsBoolean((float)100,(float)100))
             .isEqualTo(testValue);
 
     }
@@ -97,7 +97,7 @@ public class LBiFloatPredicateTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBiFloatPredicate: boolean test(float f1,float f2)");
+            .isEqualTo("LBiFloatPredicate: boolean doTest(float f1,float f2)");
     }
 
     @Test
@@ -124,7 +124,7 @@ public class LBiFloatPredicateTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.test((float)100,(float)100);
+            wrapped.doTest((float)100,(float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -146,7 +146,7 @@ public class LBiFloatPredicateTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.test((float)100,(float)100);
+            wrapped.doTest((float)100,(float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -172,7 +172,7 @@ public class LBiFloatPredicateTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.test((float)100,(float)100);
+            wrapped.doTest((float)100,(float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -197,7 +197,7 @@ public class LBiFloatPredicateTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.test((float)100,(float)100);
+            wrapped.doTest((float)100,(float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -221,7 +221,7 @@ public class LBiFloatPredicateTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.test((float)100,(float)100);
+            wrapped.doTest((float)100,(float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -233,7 +233,7 @@ public class LBiFloatPredicateTest<X extends ParseException> {
 
     @Test
     public void testNegate() throws ParseException {
-        assertThat(sut.negate().test((float)100,(float)100))
+        assertThat(sut.negate().doTest((float)100,(float)100))
             .isEqualTo(!testValue);
     }
 
@@ -261,13 +261,13 @@ public class LBiFloatPredicateTest<X extends ParseException> {
         LBiFloatPredicate xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.test((float)100,(float)100))
+        assertThat(andFunction.doTest((float)100,(float)100))
                 .isEqualTo(andResult);
 
-        assertThat(orFunction.test((float)100,(float)100))
+        assertThat(orFunction.doTest((float)100,(float)100))
                 .isEqualTo(orResult);
 
-        assertThat(xorFunction.test((float)100,(float)100))
+        assertThat(xorFunction.doTest((float)100,(float)100))
                 .isEqualTo(xorResult);
     }
 
@@ -277,10 +277,10 @@ public class LBiFloatPredicateTest<X extends ParseException> {
         LBiFloatPredicate equals = LBiFloatPredicate.isEqual((float)100,(float)100);
 
         //then
-        assertThat(equals.test((float)100,(float)100))
+        assertThat(equals.doTest((float)100,(float)100))
                 .isTrue();
 
-        assertThat(equals.test((float)0,(float)0))
+        assertThat(equals.doTest((float)0,(float)0))
                 .isFalse();
     }
 
@@ -315,7 +315,7 @@ public class LBiFloatPredicateTest<X extends ParseException> {
 
         //when
         LBiFloatPredicate function = sutO.fromFloat(before1,before2);
-        function.test((float)80,(float)81);
+        function.doTest((float)80,(float)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -350,7 +350,7 @@ public class LBiFloatPredicateTest<X extends ParseException> {
 
         //when
         LBiPredicate<Integer ,Integer > function = sutO.from(before1,before2);
-        function.test((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        function.doTest((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -387,7 +387,7 @@ public class LBiFloatPredicateTest<X extends ParseException> {
 
         //when
         LFloatBiFunction<Integer > function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((float)80,(float)81);
+        Integer  finalValue = function.doApply((float)80,(float)81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -418,7 +418,7 @@ public class LBiFloatPredicateTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().test((float)100,(float)100);
+        sutThrowing.shove().doTest((float)100,(float)100);
     }
 
     @Test
@@ -436,7 +436,7 @@ public class LBiFloatPredicateTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.test((float)100,(float)100);
+            wrapped.doTest((float)100,(float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -455,7 +455,7 @@ public class LBiFloatPredicateTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBiFloatPredicate: boolean test(float f1,float f2)");
+                .contains("LBiFloatPredicate: boolean doTest(float f1,float f2)");
     }
 
 

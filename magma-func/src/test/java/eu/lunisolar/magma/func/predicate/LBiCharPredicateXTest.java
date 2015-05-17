@@ -61,13 +61,13 @@ public class LBiCharPredicateXTest<X extends ParseException> {
 
 
     private LBiCharPredicateX<X> sut = new LBiCharPredicateX(){
-        public  boolean test(char c1,char c2) throws ParseException {
+        public  boolean doTest(char c1,char c2) throws ParseException {
             return testValue;
         }
     };
 
     private LBiCharPredicate opposite = new LBiCharPredicate(){
-        public  boolean test(char c1,char c2)  {
+        public  boolean doTest(char c1,char c2)  {
             return testValue;
         }
     };
@@ -76,7 +76,7 @@ public class LBiCharPredicateXTest<X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.test((char)100,(char)100))
+        assertThat(sut.doTest((char)100,(char)100))
             .isEqualTo(testValue);
     }
 
@@ -88,7 +88,7 @@ public class LBiCharPredicateXTest<X extends ParseException> {
 
     @Test
     public void testApplyAsBooleanShouldNotModifyValue() throws ParseException {
-        assertThat(sut.applyAsBoolean((char)100,(char)100))
+        assertThat(sut.doApplyAsBoolean((char)100,(char)100))
             .isEqualTo(testValue);
 
     }
@@ -97,7 +97,7 @@ public class LBiCharPredicateXTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBiCharPredicateX: boolean test(char c1,char c2) throws X");
+            .isEqualTo("LBiCharPredicateX: boolean doTest(char c1,char c2) throws X");
     }
 
     @Test
@@ -128,7 +128,7 @@ public class LBiCharPredicateXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.test((char)100,(char)100);
+            wrapped.doTest((char)100,(char)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -153,7 +153,7 @@ public class LBiCharPredicateXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.test((char)100,(char)100);
+            wrapped.doTest((char)100,(char)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -177,7 +177,7 @@ public class LBiCharPredicateXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.test((char)100,(char)100);
+            wrapped.doTest((char)100,(char)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -189,7 +189,7 @@ public class LBiCharPredicateXTest<X extends ParseException> {
 
     @Test
     public void testNegate() throws ParseException {
-        assertThat(sut.negate().test((char)100,(char)100))
+        assertThat(sut.negate().doTest((char)100,(char)100))
             .isEqualTo(!testValue);
     }
 
@@ -217,13 +217,13 @@ public class LBiCharPredicateXTest<X extends ParseException> {
         LBiCharPredicateX<X> xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.test((char)100,(char)100))
+        assertThat(andFunction.doTest((char)100,(char)100))
                 .isEqualTo(andResult);
 
-        assertThat(orFunction.test((char)100,(char)100))
+        assertThat(orFunction.doTest((char)100,(char)100))
                 .isEqualTo(orResult);
 
-        assertThat(xorFunction.test((char)100,(char)100))
+        assertThat(xorFunction.doTest((char)100,(char)100))
                 .isEqualTo(xorResult);
     }
 
@@ -233,10 +233,10 @@ public class LBiCharPredicateXTest<X extends ParseException> {
         LBiCharPredicateX<X> equals = LBiCharPredicateX.isEqual((char)100,(char)100);
 
         //then
-        assertThat(equals.test((char)100,(char)100))
+        assertThat(equals.doTest((char)100,(char)100))
                 .isTrue();
 
-        assertThat(equals.test((char)0,(char)0))
+        assertThat(equals.doTest((char)0,(char)0))
                 .isFalse();
     }
 
@@ -271,7 +271,7 @@ public class LBiCharPredicateXTest<X extends ParseException> {
 
         //when
         LBiCharPredicateX<X> function = sutO.fromChar(before1,before2);
-        function.test((char)80,(char)81);
+        function.doTest((char)80,(char)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -306,7 +306,7 @@ public class LBiCharPredicateXTest<X extends ParseException> {
 
         //when
         LBiPredicateX<Integer ,Integer ,X> function = sutO.from(before1,before2);
-        function.test((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        function.doTest((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -343,7 +343,7 @@ public class LBiCharPredicateXTest<X extends ParseException> {
 
         //when
         LCharBiFunctionX<Integer ,X> function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((char)80,(char)81);
+        Integer  finalValue = function.doApply((char)80,(char)81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -374,7 +374,7 @@ public class LBiCharPredicateXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().test((char)100,(char)100);
+        sutThrowing.shove().doTest((char)100,(char)100);
     }
 
     @Test
@@ -392,7 +392,7 @@ public class LBiCharPredicateXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.test((char)100,(char)100);
+            wrapped.doTest((char)100,(char)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -411,7 +411,7 @@ public class LBiCharPredicateXTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBiCharPredicateX: boolean test(char c1,char c2) throws X");
+                .contains("LBiCharPredicateX: boolean doTest(char c1,char c2) throws X");
     }
 
 

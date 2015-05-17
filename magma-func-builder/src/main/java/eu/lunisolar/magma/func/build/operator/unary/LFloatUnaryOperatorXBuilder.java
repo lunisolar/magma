@@ -99,12 +99,12 @@ public final class LFloatUnaryOperatorXBuilder<X extends Exception> extends PerC
 			final Case<LFloatPredicateX<X>, LFloatUnaryOperatorX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LFloatUnaryOperatorX.lX((float f) -> {
 				for (Case<LFloatPredicateX<X>, LFloatUnaryOperatorX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(f)) {
-						return aCase.caseFunction().applyAsFloat(f);
+					if (aCase.casePredicate().doTest(f)) {
+						return aCase.caseFunction().doApplyAsFloat(f);
 					}
 				}
 
-				return eventuallyFinal.applyAsFloat(f);
+				return eventuallyFinal.doApplyAsFloat(f);
 			});
 		}
 

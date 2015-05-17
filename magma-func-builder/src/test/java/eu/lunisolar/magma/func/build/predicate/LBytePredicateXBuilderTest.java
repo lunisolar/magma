@@ -69,7 +69,7 @@ public class LBytePredicateXBuilderTest<X extends ParseException>{
                 .bytePredicateX()
                 .build();
 
-            function.test((byte)100);
+            function.doTest((byte)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

@@ -59,13 +59,13 @@ public class LByteConsumerXTest<X extends ParseException> {
 
 
     private LByteConsumerX<X> sut = new LByteConsumerX(){
-        public  void accept(byte b) throws ParseException {
+        public  void doAccept(byte b) throws ParseException {
             Function4U.doNothing();
         }
     };
 
     private LByteConsumer opposite = new LByteConsumer(){
-        public  void accept(byte b)  {
+        public  void doAccept(byte b)  {
             Function4U.doNothing();
         }
     };
@@ -77,7 +77,7 @@ public class LByteConsumerXTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LByteConsumerX: void accept(byte b) throws X");
+            .isEqualTo("LByteConsumerX: void doAccept(byte b) throws X");
     }
 
     @Test
@@ -108,7 +108,7 @@ public class LByteConsumerXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((byte)100);
+            wrapped.doAccept((byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -133,7 +133,7 @@ public class LByteConsumerXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((byte)100);
+            wrapped.doAccept((byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -157,7 +157,7 @@ public class LByteConsumerXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((byte)100);
+            wrapped.doAccept((byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -191,7 +191,7 @@ public class LByteConsumerXTest<X extends ParseException> {
 
         //when
         LByteConsumerX<X> function = sutO.fromByte(before1);
-        function.accept((byte)80);
+        function.doAccept((byte)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -219,7 +219,7 @@ public class LByteConsumerXTest<X extends ParseException> {
 
         //when
         LConsumerX<Integer ,X> function = sutO.from(before1);
-        function.accept((Integer )Integer.valueOf(80));
+        function.doAccept((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -247,7 +247,7 @@ public class LByteConsumerXTest<X extends ParseException> {
 
         //when
         LByteConsumerX<X> function = sutO.andThen(thenFunction);
-        function.accept((byte)80);
+        function.doAccept((byte)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -273,7 +273,7 @@ public class LByteConsumerXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().accept((byte)100);
+        sutThrowing.shove().doAccept((byte)100);
     }
 
     @Test
@@ -291,7 +291,7 @@ public class LByteConsumerXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((byte)100);
+            wrapped.doAccept((byte)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -310,7 +310,7 @@ public class LByteConsumerXTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LByteConsumerX: void accept(byte b) throws X");
+                .contains("LByteConsumerX: void doAccept(byte b) throws X");
     }
 
 

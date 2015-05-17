@@ -63,7 +63,7 @@ public interface LObjBooleanFunctionXAssert<S extends LObjBooleanFunctionXAssert
 
 		@Nonnull
 		public Evaluation<S, A, RS, R, Exception> doesApply(T t, boolean b) {
-			return evaluation(() -> assertFactory.apply((R) actual.apply(t, b)));
+			return evaluation(() -> assertFactory.apply((R) actual.doApply(t, b)));
 		}
 
 	}

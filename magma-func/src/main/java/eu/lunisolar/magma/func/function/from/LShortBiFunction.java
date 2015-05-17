@@ -60,9 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LShortBiFunction<R> extends LShortBiFunctionX<R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LShortBiFunction: R apply(short s1,short s2)";
+	public static final String DESCRIPTION = "LShortBiFunction: R doApply(short s1,short s2)";
 
-	// Ovverriding methods can cause problems with inference.
+	@Nullable
+	public R doApply(short s1, short s2);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +73,7 @@ public interface LShortBiFunction<R> extends LShortBiFunctionX<R, RuntimeExcepti
 
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(short s1, short s2) {
-		return () -> this.apply(s1, s2);
+		return () -> this.doApply(s1, s2);
 	}
 
 	public static <R> LShortBiFunction<R> constant(R r) {
@@ -84,7 +85,7 @@ public interface LShortBiFunction<R> extends LShortBiFunctionX<R, RuntimeExcepti
 	/** Ensures the result is not null */
 	@Nonnull
 	default R nonNull(short s1, short s2) {
-		return Objects.requireNonNull(apply(s1, s2), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Objects.requireNonNull(doApply(s1, s2), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -101,7 +102,7 @@ public interface LShortBiFunction<R> extends LShortBiFunctionX<R, RuntimeExcepti
 	public static <R, X extends Exception> LShortBiFunction<R> wrap(final @Nonnull LShortBiFunctionX<R, X> other) {
 		return (short s1, short s2) -> {
 			try {
-				return other.apply(s1, s2);
+				return other.doApply(s1, s2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -119,7 +120,7 @@ public interface LShortBiFunction<R> extends LShortBiFunctionX<R, RuntimeExcepti
 	default LShortBiFunction<R> fromShort(@Nonnull final LShortUnaryOperator before1, @Nonnull final LShortUnaryOperator before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final short v1, final short v2) -> this.apply(before1.applyAsShort(v1), before2.applyAsShort(v2));
+		return (final short v1, final short v2) -> this.doApply(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
 	}
 
 	/**
@@ -129,7 +130,7 @@ public interface LShortBiFunction<R> extends LShortBiFunctionX<R, RuntimeExcepti
 	default <V1, V2> LBiFunction<V1, V2, R> from(@Nonnull final LToShortFunction<? super V1> before1, @Nonnull final LToShortFunction<? super V2> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.apply(before1.applyAsShort(v1), before2.applyAsShort(v2));
+		return (V1 v1, V2 v2) -> this.doApply(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
 	}
 
 	// </editor-fold>
@@ -140,14 +141,14 @@ public interface LShortBiFunction<R> extends LShortBiFunctionX<R, RuntimeExcepti
 	@Nonnull
 	default <V> LShortBiFunction<V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s1, short s2) -> after.apply(this.apply(s1, s2));
+		return (short s1, short s2) -> after.doApply(this.doApply(s1, s2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortBiConsumer then(@Nonnull LConsumer<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s1, short s2) -> after.accept(this.apply(s1, s2));
+		return (short s1, short s2) -> after.doAccept(this.doApply(s1, s2));
 	}
 
 	// </editor-fold>
@@ -175,7 +176,7 @@ public interface LShortBiFunction<R> extends LShortBiFunctionX<R, RuntimeExcepti
 
 	@Nonnull
 	default LShortBiFunction<R> nonNullable() {
-		return (s1, s2) -> Objects.requireNonNull(this.apply(s1, s2));
+		return (s1, s2) -> Objects.requireNonNull(this.doApply(s1, s2));
 	}
 
 	// <editor-fold desc="exception handling">
@@ -185,11 +186,11 @@ public interface LShortBiFunction<R> extends LShortBiFunctionX<R, RuntimeExcepti
 	public static <R, X extends Exception, E extends Exception, Y extends RuntimeException> LShortBiFunction<R> wrapException(@Nonnull final LShortBiFunction<R> other, Class<E> exception, LSupplier<R> supplier, ExceptionHandler<E, Y> handler) {
 		return (short s1, short s2) -> {
 			try {
-				return other.apply(s1, s2);
+				return other.doApply(s1, s2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.get();
+						return supplier.doGet();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

@@ -69,7 +69,7 @@ public class LBooleanSupplierXBuilderTest<X extends ParseException>{
                 .booleanSupplierX()
                 .build();
 
-            function.getAsBoolean();
+            function.doGetAsBoolean();
 
             fail("No exception were thrown.");
         } catch (Exception e) {

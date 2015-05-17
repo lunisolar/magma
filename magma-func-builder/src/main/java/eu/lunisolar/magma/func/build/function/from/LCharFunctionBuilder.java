@@ -99,12 +99,12 @@ public final class LCharFunctionBuilder<R> extends PerCaseBuilderWithProduct.Bas
 			final Case<LCharPredicate, LCharFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LCharFunction.l((char c) -> {
 				for (Case<LCharPredicate, LCharFunction<R>> aCase : casesArray) {
-					if (aCase.casePredicate().test(c)) {
-						return aCase.caseFunction().apply(c);
+					if (aCase.casePredicate().doTest(c)) {
+						return aCase.caseFunction().doApply(c);
 					}
 				}
 
-				return eventuallyFinal.apply(c);
+				return eventuallyFinal.doApply(c);
 			});
 		}
 

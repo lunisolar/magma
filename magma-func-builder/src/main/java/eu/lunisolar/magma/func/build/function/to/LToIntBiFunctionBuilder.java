@@ -99,12 +99,12 @@ public final class LToIntBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithInt
 			final Case<LBiPredicate<T1, T2>, LToIntBiFunction<T1, T2>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LToIntBiFunction.l((T1 t1, T2 t2) -> {
 				for (Case<LBiPredicate<T1, T2>, LToIntBiFunction<T1, T2>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t1, t2)) {
-						return aCase.caseFunction().applyAsInt(t1, t2);
+					if (aCase.casePredicate().doTest(t1, t2)) {
+						return aCase.caseFunction().doApplyAsInt(t1, t2);
 					}
 				}
 
-				return eventuallyFinal.applyAsInt(t1, t2);
+				return eventuallyFinal.doApplyAsInt(t1, t2);
 			});
 		}
 

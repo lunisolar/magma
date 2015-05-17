@@ -60,9 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LObjBooleanFunction<T, R> extends LObjBooleanFunctionX<T, R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LObjBooleanFunction: R apply(T t, boolean b)";
+	public static final String DESCRIPTION = "LObjBooleanFunction: R doApply(T t, boolean b)";
 
-	// Ovverriding methods can cause problems with inference.
+	@Nullable
+	public R doApply(T t, boolean b);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +73,7 @@ public interface LObjBooleanFunction<T, R> extends LObjBooleanFunctionX<T, R, Ru
 
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(T t, boolean b) {
-		return () -> this.apply(t, b);
+		return () -> this.doApply(t, b);
 	}
 
 	public static <T, R> LObjBooleanFunction<T, R> constant(R r) {
@@ -84,7 +85,7 @@ public interface LObjBooleanFunction<T, R> extends LObjBooleanFunctionX<T, R, Ru
 	/** Ensures the result is not null */
 	@Nonnull
 	default R nonNull(T t, boolean b) {
-		return Objects.requireNonNull(apply(t, b), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Objects.requireNonNull(doApply(t, b), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -101,7 +102,7 @@ public interface LObjBooleanFunction<T, R> extends LObjBooleanFunctionX<T, R, Ru
 	public static <T, R, X extends Exception> LObjBooleanFunction<T, R> wrap(final @Nonnull LObjBooleanFunctionX<T, R, X> other) {
 		return (T t, boolean b) -> {
 			try {
-				return other.apply(t, b);
+				return other.doApply(t, b);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -119,7 +120,7 @@ public interface LObjBooleanFunction<T, R> extends LObjBooleanFunctionX<T, R, Ru
 	default <V1> LObjBooleanFunction<V1, R> fromBoolean(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LBooleanUnaryOperator before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final V1 v1, final boolean v2) -> this.apply(before1.apply(v1), before2.applyAsBoolean(v2));
+		return (final V1 v1, final boolean v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsBoolean(v2));
 	}
 
 	/**
@@ -129,7 +130,7 @@ public interface LObjBooleanFunction<T, R> extends LObjBooleanFunctionX<T, R, Ru
 	default <V1, V2> LBiFunction<V1, V2, R> from(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LPredicate<? super V2> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.apply(before1.apply(v1), before2.applyAsBoolean(v2));
+		return (V1 v1, V2 v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsBoolean(v2));
 	}
 
 	// </editor-fold>
@@ -140,14 +141,14 @@ public interface LObjBooleanFunction<T, R> extends LObjBooleanFunctionX<T, R, Ru
 	@Nonnull
 	default <V> LObjBooleanFunction<T, V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t, boolean b) -> after.apply(this.apply(t, b));
+		return (T t, boolean b) -> after.doApply(this.doApply(t, b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LObjBooleanConsumer<T> then(@Nonnull LConsumer<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t, boolean b) -> after.accept(this.apply(t, b));
+		return (T t, boolean b) -> after.doAccept(this.doApply(t, b));
 	}
 
 	// </editor-fold>
@@ -175,7 +176,7 @@ public interface LObjBooleanFunction<T, R> extends LObjBooleanFunctionX<T, R, Ru
 
 	@Nonnull
 	default LObjBooleanFunction<T, R> nonNullable() {
-		return (t, b) -> Objects.requireNonNull(this.apply(t, b));
+		return (t, b) -> Objects.requireNonNull(this.doApply(t, b));
 	}
 
 	// <editor-fold desc="exception handling">
@@ -186,11 +187,11 @@ public interface LObjBooleanFunction<T, R> extends LObjBooleanFunctionX<T, R, Ru
 			ExceptionHandler<E, Y> handler) {
 		return (T t, boolean b) -> {
 			try {
-				return other.apply(t, b);
+				return other.doApply(t, b);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.get();
+						return supplier.doGet();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LFloatSupplier extends LFloatSupplierX<RuntimeException>, MetaSupplier, PrimitiveCodomain<Object>, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LFloatSupplier: float getAsFloat()";
+	public static final String DESCRIPTION = "LFloatSupplier: float doGetAsFloat()";
 
-	// Ovverriding methods can cause problems with inference.
+	public float doGetAsFloat();
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -76,7 +76,7 @@ public interface LFloatSupplier extends LFloatSupplierX<RuntimeException>, MetaS
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default float nonNull() {
-		return getAsFloat();
+		return doGetAsFloat();
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -93,7 +93,7 @@ public interface LFloatSupplier extends LFloatSupplierX<RuntimeException>, MetaS
 	public static <X extends Exception> LFloatSupplier wrap(final @Nonnull LFloatSupplierX<X> other) {
 		return () -> {
 			try {
-				return other.getAsFloat();
+				return other.doGetAsFloat();
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -108,63 +108,63 @@ public interface LFloatSupplier extends LFloatSupplierX<RuntimeException>, MetaS
 	@Nonnull
 	default <V> LSupplier<V> then(@Nonnull LFloatFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.apply(this.getAsFloat());
+		return () -> after.doApply(this.doGetAsFloat());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LByteSupplier thenToByte(@Nonnull LFloatToByteFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsByte(this.getAsFloat());
+		return () -> after.doApplyAsByte(this.doGetAsFloat());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LShortSupplier thenToShort(@Nonnull LFloatToShortFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsShort(this.getAsFloat());
+		return () -> after.doApplyAsShort(this.doGetAsFloat());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LIntSupplier thenToInt(@Nonnull LFloatToIntFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsInt(this.getAsFloat());
+		return () -> after.doApplyAsInt(this.doGetAsFloat());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LLongSupplier thenToLong(@Nonnull LFloatToLongFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsLong(this.getAsFloat());
+		return () -> after.doApplyAsLong(this.doGetAsFloat());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LFloatSupplier thenToFloat(@Nonnull LFloatUnaryOperator after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsFloat(this.getAsFloat());
+		return () -> after.doApplyAsFloat(this.doGetAsFloat());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LDoubleSupplier thenToDouble(@Nonnull LFloatToDoubleFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsDouble(this.getAsFloat());
+		return () -> after.doApplyAsDouble(this.doGetAsFloat());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LCharSupplier thenToChar(@Nonnull LFloatToCharFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsChar(this.getAsFloat());
+		return () -> after.doApplyAsChar(this.doGetAsFloat());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LBooleanSupplier thenToBoolean(@Nonnull LFloatPredicate after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.test(this.getAsFloat());
+		return () -> after.doTest(this.doGetAsFloat());
 	}
 
 	// </editor-fold>
@@ -197,11 +197,11 @@ public interface LFloatSupplier extends LFloatSupplierX<RuntimeException>, MetaS
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LFloatSupplier wrapException(@Nonnull final LFloatSupplier other, Class<E> exception, LFloatSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return () -> {
 			try {
-				return other.getAsFloat();
+				return other.doGetAsFloat();
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsFloat();
+						return supplier.doGetAsFloat();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

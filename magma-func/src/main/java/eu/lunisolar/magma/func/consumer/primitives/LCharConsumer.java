@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LCharConsumer extends LCharConsumerX<RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LCharConsumer: void accept(char c)";
+	public static final String DESCRIPTION = "LCharConsumer: void doAccept(char c)";
 
-	// Ovverriding methods can cause problems with inference.
+	public void doAccept(char c);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +73,7 @@ public interface LCharConsumer extends LCharConsumerX<RuntimeException>, MetaCon
 
 	/** Captures arguments but delays the evaluation. */
 	default LAction capture(char c) {
-		return () -> this.accept(c);
+		return () -> this.doAccept(c);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -90,7 +90,7 @@ public interface LCharConsumer extends LCharConsumerX<RuntimeException>, MetaCon
 	public static <X extends Exception> LCharConsumer wrap(final @Nonnull LCharConsumerX<X> other) {
 		return (char c) -> {
 			try {
-				other.accept(c);
+				other.doAccept(c);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -107,7 +107,7 @@ public interface LCharConsumer extends LCharConsumerX<RuntimeException>, MetaCon
 	@Nonnull
 	default LCharConsumer fromChar(@Nonnull final LCharUnaryOperator before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final char v1) -> this.accept(before1.applyAsChar(v1));
+		return (final char v1) -> this.doAccept(before1.doApplyAsChar(v1));
 	}
 
 	/**
@@ -116,7 +116,7 @@ public interface LCharConsumer extends LCharConsumerX<RuntimeException>, MetaCon
 	@Nonnull
 	default <V1> LConsumer<V1> from(@Nonnull final LToCharFunction<? super V1> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.accept(before1.applyAsChar(v1));
+		return (V1 v1) -> this.doAccept(before1.doApplyAsChar(v1));
 	}
 
 	// </editor-fold>
@@ -128,8 +128,8 @@ public interface LCharConsumer extends LCharConsumerX<RuntimeException>, MetaCon
 	default LCharConsumer andThen(@Nonnull LCharConsumer after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
 		return (char c) -> {
-			this.accept(c);
-			after.accept(c);
+			this.doAccept(c);
+			after.doAccept(c);
 		};
 	}
 
@@ -162,7 +162,7 @@ public interface LCharConsumer extends LCharConsumerX<RuntimeException>, MetaCon
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LCharConsumer wrapException(@Nonnull final LCharConsumer other, Class<E> exception, ExceptionHandler<E, Y> handler) {
 		return (char c) -> {
 			try {
-				other.accept(c);
+				other.doAccept(c);
 			} catch (Exception e) {
 				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
 			}

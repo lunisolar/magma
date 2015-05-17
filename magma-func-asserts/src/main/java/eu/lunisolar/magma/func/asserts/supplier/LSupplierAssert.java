@@ -61,7 +61,7 @@ public interface LSupplierAssert<S extends LSupplierAssert<S, A, RS, R>, A exten
 
 		@Nonnull
 		public Evaluation<S, A, RS, R, Exception> doesGet() {
-			return evaluation(() -> assertFactory.apply((R) actual.get()));
+			return evaluation(() -> assertFactory.apply((R) actual.doGet()));
 		}
 
 		@Nonnull
@@ -72,7 +72,7 @@ public interface LSupplierAssert<S extends LSupplierAssert<S, A, RS, R>, A exten
 
 		@Nonnull
 		public Evaluation<S, A, RS, R, Exception> doesGet(LAction before) {
-			before.execute();
+			before.doExecute();
 			return doesGet();
 		}
 	}

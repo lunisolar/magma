@@ -60,14 +60,18 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LDoublePredicate extends java.util.function.DoublePredicate, LDoublePredicateX<RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LDoublePredicate: boolean test(double d)";
+	public static final String DESCRIPTION = "LDoublePredicate: boolean doTest(double d)";
 
-	// Ovverriding methods can cause problems with inference.
+	public boolean doTest(double d);
+
+	default boolean test(double d) {
+		return doTest(d);
+	}
 
 	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
 
-	default boolean applyAsBoolean(double d) {
-		return test(d);
+	default boolean doApplyAsBoolean(double d) {
+		return doTest(d);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -78,7 +82,7 @@ public interface LDoublePredicate extends java.util.function.DoublePredicate, LD
 
 	/** Captures arguments but delays the evaluation. */
 	default LBooleanSupplier capture(double d) {
-		return () -> this.test(d);
+		return () -> this.doTest(d);
 	}
 
 	public static LDoublePredicate constant(boolean r) {
@@ -87,7 +91,7 @@ public interface LDoublePredicate extends java.util.function.DoublePredicate, LD
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(double d) {
-		return test(d);
+		return doTest(d);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -110,7 +114,7 @@ public interface LDoublePredicate extends java.util.function.DoublePredicate, LD
 	public static <X extends Exception> LDoublePredicate wrap(final @Nonnull LDoublePredicateX<X> other) {
 		return (double d) -> {
 			try {
-				return other.test(d);
+				return other.doTest(d);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -125,7 +129,7 @@ public interface LDoublePredicate extends java.util.function.DoublePredicate, LD
 	 */
 	@Nonnull
 	default LDoublePredicate negate() {
-		return (double d) -> !test(d);
+		return (double d) -> !doTest(d);
 	}
 
 	/**
@@ -134,7 +138,7 @@ public interface LDoublePredicate extends java.util.function.DoublePredicate, LD
 	@Nonnull
 	default LDoublePredicate and(@Nonnull LDoublePredicate other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (double d) -> test(d) && other.test(d);
+		return (double d) -> doTest(d) && other.doTest(d);
 	}
 
 	/**
@@ -143,7 +147,7 @@ public interface LDoublePredicate extends java.util.function.DoublePredicate, LD
 	@Nonnull
 	default LDoublePredicate or(@Nonnull LDoublePredicate other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (double d) -> test(d) || other.test(d);
+		return (double d) -> doTest(d) || other.doTest(d);
 	}
 
 	/**
@@ -152,7 +156,7 @@ public interface LDoublePredicate extends java.util.function.DoublePredicate, LD
 	@Nonnull
 	default LDoublePredicate xor(@Nonnull LDoublePredicate other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (double d) -> test(d) ^ other.test(d);
+		return (double d) -> doTest(d) ^ other.doTest(d);
 	}
 
 	@Nonnull
@@ -170,7 +174,7 @@ public interface LDoublePredicate extends java.util.function.DoublePredicate, LD
 	@Nonnull
 	default LDoublePredicate fromDouble(@Nonnull final LDoubleUnaryOperator before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final double v1) -> this.test(before1.applyAsDouble(v1));
+		return (final double v1) -> this.doTest(before1.doApplyAsDouble(v1));
 	}
 
 	/**
@@ -179,7 +183,7 @@ public interface LDoublePredicate extends java.util.function.DoublePredicate, LD
 	@Nonnull
 	default <V1> LPredicate<V1> from(@Nonnull final LToDoubleFunction<? super V1> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.test(before1.applyAsDouble(v1));
+		return (V1 v1) -> this.doTest(before1.doApplyAsDouble(v1));
 	}
 
 	// </editor-fold>
@@ -190,63 +194,63 @@ public interface LDoublePredicate extends java.util.function.DoublePredicate, LD
 	@Nonnull
 	default <V> LDoubleFunction<V> then(@Nonnull LBooleanFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.apply(this.test(d));
+		return (double d) -> after.doApply(this.doTest(d));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LDoubleToByteFunction thenToByte(@Nonnull LBooleanToByteFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsByte(this.test(d));
+		return (double d) -> after.doApplyAsByte(this.doTest(d));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LDoubleToShortFunction thenToShort(@Nonnull LBooleanToShortFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsShort(this.test(d));
+		return (double d) -> after.doApplyAsShort(this.doTest(d));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LDoubleToIntFunction thenToInt(@Nonnull LBooleanToIntFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsInt(this.test(d));
+		return (double d) -> after.doApplyAsInt(this.doTest(d));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LDoubleToLongFunction thenToLong(@Nonnull LBooleanToLongFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsLong(this.test(d));
+		return (double d) -> after.doApplyAsLong(this.doTest(d));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LDoubleToFloatFunction thenToFloat(@Nonnull LBooleanToFloatFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsFloat(this.test(d));
+		return (double d) -> after.doApplyAsFloat(this.doTest(d));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LDoubleUnaryOperator thenToDouble(@Nonnull LBooleanToDoubleFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsDouble(this.test(d));
+		return (double d) -> after.doApplyAsDouble(this.doTest(d));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LDoubleToCharFunction thenToChar(@Nonnull LBooleanToCharFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsChar(this.test(d));
+		return (double d) -> after.doApplyAsChar(this.doTest(d));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LDoublePredicate thenToBoolean(@Nonnull LBooleanUnaryOperator after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsBoolean(this.test(d));
+		return (double d) -> after.doApplyAsBoolean(this.doTest(d));
 	}
 
 	// </editor-fold>
@@ -285,11 +289,11 @@ public interface LDoublePredicate extends java.util.function.DoublePredicate, LD
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LDoublePredicate wrapException(@Nonnull final LDoublePredicate other, Class<E> exception, LBooleanSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (double d) -> {
 			try {
-				return other.test(d);
+				return other.doTest(d);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsBoolean();
+						return supplier.doGetAsBoolean();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

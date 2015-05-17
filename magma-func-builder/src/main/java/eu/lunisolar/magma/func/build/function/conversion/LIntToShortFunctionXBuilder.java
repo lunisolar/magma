@@ -99,12 +99,12 @@ public final class LIntToShortFunctionXBuilder<X extends Exception> extends PerC
 			final Case<LIntPredicateX<X>, LIntToShortFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LIntToShortFunctionX.lX((int i) -> {
 				for (Case<LIntPredicateX<X>, LIntToShortFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(i)) {
-						return aCase.caseFunction().applyAsShort(i);
+					if (aCase.casePredicate().doTest(i)) {
+						return aCase.caseFunction().doApplyAsShort(i);
 					}
 				}
 
-				return eventuallyFinal.applyAsShort(i);
+				return eventuallyFinal.doApplyAsShort(i);
 			});
 		}
 

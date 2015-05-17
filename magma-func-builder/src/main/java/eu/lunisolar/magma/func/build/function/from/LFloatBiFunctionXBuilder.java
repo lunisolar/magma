@@ -99,12 +99,12 @@ public final class LFloatBiFunctionXBuilder<R, X extends Exception> extends PerC
 			final Case<LBiFloatPredicateX<X>, LFloatBiFunctionX<R, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LFloatBiFunctionX.lX((float f1, float f2) -> {
 				for (Case<LBiFloatPredicateX<X>, LFloatBiFunctionX<R, X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(f1, f2)) {
-						return aCase.caseFunction().apply(f1, f2);
+					if (aCase.casePredicate().doTest(f1, f2)) {
+						return aCase.caseFunction().doApply(f1, f2);
 					}
 				}
 
-				return eventuallyFinal.apply(f1, f2);
+				return eventuallyFinal.doApply(f1, f2);
 			});
 		}
 

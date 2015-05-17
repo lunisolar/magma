@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBiObjFloatConsumerX<T1, T2, X extends Exception> extends MetaConsumer, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LBiObjFloatConsumerX: void accept(T1 t1,T2 t2, float f) throws X";
+	public static final String DESCRIPTION = "LBiObjFloatConsumerX: void doAccept(T1 t1,T2 t2, float f) throws X";
 
-	public void accept(T1 t1, T2 t2, float f) throws X;
+	public void doAccept(T1 t1, T2 t2, float f) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +73,7 @@ public interface LBiObjFloatConsumerX<T1, T2, X extends Exception> extends MetaC
 
 	/** Captures arguments but delays the evaluation. */
 	default LActionX<X> capture(T1 t1, T2 t2, float f) {
-		return () -> this.accept(t1, t2, f);
+		return () -> this.doAccept(t1, t2, f);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -88,7 +88,7 @@ public interface LBiObjFloatConsumerX<T1, T2, X extends Exception> extends MetaC
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T1, T2, X extends Exception> LBiObjFloatConsumerX<T1, T2, X> wrapX(final @Nonnull LBiObjFloatConsumer<T1, T2> other) {
-		return other::accept;
+		return other::doAccept;
 	}
 
 	// </editor-fold>
@@ -103,7 +103,7 @@ public interface LBiObjFloatConsumerX<T1, T2, X extends Exception> extends MetaC
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
 		Objects.requireNonNull(before3, Function4U.VALIDATION_MESSAGE_BEFORE3);
-		return (final V1 v1, final V2 v2, final float v3) -> this.accept(before1.apply(v1), before2.apply(v2), before3.applyAsFloat(v3));
+		return (final V1 v1, final V2 v2, final float v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsFloat(v3));
 	}
 
 	/**
@@ -114,7 +114,7 @@ public interface LBiObjFloatConsumerX<T1, T2, X extends Exception> extends MetaC
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
 		Objects.requireNonNull(before3, Function4U.VALIDATION_MESSAGE_BEFORE3);
-		return (V1 v1, V2 v2, V3 v3) -> this.accept(before1.apply(v1), before2.apply(v2), before3.applyAsFloat(v3));
+		return (V1 v1, V2 v2, V3 v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsFloat(v3));
 	}
 
 	// </editor-fold>
@@ -126,8 +126,8 @@ public interface LBiObjFloatConsumerX<T1, T2, X extends Exception> extends MetaC
 	default LBiObjFloatConsumerX<T1, T2, X> andThen(@Nonnull LBiObjFloatConsumerX<? super T1, ? super T2, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
 		return (T1 t1, T2 t2, float f) -> {
-			this.accept(t1, t2, f);
-			after.accept(t1, t2, f);
+			this.doAccept(t1, t2, f);
+			after.doAccept(t1, t2, f);
 		};
 	}
 
@@ -149,7 +149,7 @@ public interface LBiObjFloatConsumerX<T1, T2, X extends Exception> extends MetaC
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBiObjFloatConsumer<T1, T2> shove() {
 		LBiObjFloatConsumerX<T1, T2, RuntimeException> exceptionCast = (LBiObjFloatConsumerX<T1, T2, RuntimeException>) this;
-		return exceptionCast::accept;
+		return exceptionCast::doAccept;
 	}
 
 	// </editor-fold>
@@ -161,7 +161,7 @@ public interface LBiObjFloatConsumerX<T1, T2, X extends Exception> extends MetaC
 	public static <T1, T2, X extends Exception, E extends Exception, Y extends Exception> LBiObjFloatConsumerX<T1, T2, Y> wrapException(@Nonnull final LBiObjFloatConsumerX<T1, T2, X> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
 		return (T1 t1, T2 t2, float f) -> {
 			try {
-				other.accept(t1, t2, f);
+				other.doAccept(t1, t2, f);
 			} catch (Exception e) {
 				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
 			}

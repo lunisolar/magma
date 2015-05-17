@@ -69,7 +69,7 @@ public class LBooleanBinaryOperatorBuilderTest<X extends ParseException>{
                 .booleanBinaryOperator()
                 .build();
 
-            function.applyAsBoolean(true,true);
+            function.doApplyAsBoolean(true,true);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

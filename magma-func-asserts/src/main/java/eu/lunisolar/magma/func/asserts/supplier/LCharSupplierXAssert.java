@@ -63,7 +63,7 @@ public interface LCharSupplierXAssert<S extends LCharSupplierXAssert<S, A, RS, X
 
 		@Nonnull
 		public Evaluation<S, A, RS, Character, Exception> doesGetAsChar() {
-			return evaluation(() -> assertFactory.apply((Character) actual.getAsChar()));
+			return evaluation(() -> assertFactory.apply((Character) actual.doGetAsChar()));
 		}
 
 		@Nonnull
@@ -74,7 +74,7 @@ public interface LCharSupplierXAssert<S extends LCharSupplierXAssert<S, A, RS, X
 
 		@Nonnull
 		public Evaluation<S, A, RS, Character, Exception> doesGetAsChar(LAction before) {
-			before.execute();
+			before.doExecute();
 			return doesGetAsChar();
 		}
 	}

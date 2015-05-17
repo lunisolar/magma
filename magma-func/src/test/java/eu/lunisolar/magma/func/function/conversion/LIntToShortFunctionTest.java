@@ -61,13 +61,13 @@ public class LIntToShortFunctionTest<X extends ParseException> {
 
 
     private LIntToShortFunction sut = new LIntToShortFunction(){
-        public  short applyAsShort(int i)  {
+        public  short doApplyAsShort(int i)  {
             return testValue;
         }
     };
 
     private LIntToShortFunctionX<X> opposite = new LIntToShortFunctionX(){
-        public  short applyAsShort(int i) throws ParseException {
+        public  short doApplyAsShort(int i) throws ParseException {
             return testValue;
         }
     };
@@ -76,7 +76,7 @@ public class LIntToShortFunctionTest<X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.applyAsShort((int)100))
+        assertThat(sut.doApplyAsShort((int)100))
             .isEqualTo(testValue);
     }
 
@@ -90,7 +90,7 @@ public class LIntToShortFunctionTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LIntToShortFunction: short applyAsShort(int i)");
+            .isEqualTo("LIntToShortFunction: short doApplyAsShort(int i)");
     }
 
     @Test
@@ -117,7 +117,7 @@ public class LIntToShortFunctionTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsShort((int)100);
+            wrapped.doApplyAsShort((int)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LIntToShortFunctionTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsShort((int)100);
+            wrapped.doApplyAsShort((int)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -165,7 +165,7 @@ public class LIntToShortFunctionTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsShort((int)100);
+            wrapped.doApplyAsShort((int)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -190,7 +190,7 @@ public class LIntToShortFunctionTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsShort((int)100);
+            wrapped.doApplyAsShort((int)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -214,7 +214,7 @@ public class LIntToShortFunctionTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsShort((int)100);
+            wrapped.doApplyAsShort((int)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -249,7 +249,7 @@ public class LIntToShortFunctionTest<X extends ParseException> {
 
         //when
         LIntToShortFunction function = sutO.fromInt(before1);
-        function.applyAsShort((int)80);
+        function.doApplyAsShort((int)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -278,7 +278,7 @@ public class LIntToShortFunctionTest<X extends ParseException> {
 
         //when
         LToShortFunction<Integer > function = sutO.from(before1);
-        function.applyAsShort((Integer )Integer.valueOf(80));
+        function.doApplyAsShort((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -314,7 +314,7 @@ public class LIntToShortFunctionTest<X extends ParseException> {
 
         //when
         LIntFunction<Integer > function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((int)80);
+        Integer  finalValue = function.doApply((int)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -349,7 +349,7 @@ public class LIntToShortFunctionTest<X extends ParseException> {
 
         //when
         LIntToByteFunction function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.applyAsByte((int)80);
+        byte finalValue = function.doApplyAsByte((int)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -384,7 +384,7 @@ public class LIntToShortFunctionTest<X extends ParseException> {
 
         //when
         LIntToShortFunction function = sutO.thenToShort(thenFunction);
-        short finalValue = function.applyAsShort((int)80);
+        short finalValue = function.doApplyAsShort((int)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -419,7 +419,7 @@ public class LIntToShortFunctionTest<X extends ParseException> {
 
         //when
         LIntUnaryOperator function = sutO.thenToInt(thenFunction);
-        int finalValue = function.applyAsInt((int)80);
+        int finalValue = function.doApplyAsInt((int)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((int)100);
@@ -454,7 +454,7 @@ public class LIntToShortFunctionTest<X extends ParseException> {
 
         //when
         LIntToLongFunction function = sutO.thenToLong(thenFunction);
-        long finalValue = function.applyAsLong((int)80);
+        long finalValue = function.doApplyAsLong((int)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((long)100);
@@ -489,7 +489,7 @@ public class LIntToShortFunctionTest<X extends ParseException> {
 
         //when
         LIntToFloatFunction function = sutO.thenToFloat(thenFunction);
-        float finalValue = function.applyAsFloat((int)80);
+        float finalValue = function.doApplyAsFloat((int)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((float)100);
@@ -524,7 +524,7 @@ public class LIntToShortFunctionTest<X extends ParseException> {
 
         //when
         LIntToDoubleFunction function = sutO.thenToDouble(thenFunction);
-        double finalValue = function.applyAsDouble((int)80);
+        double finalValue = function.doApplyAsDouble((int)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((double)100);
@@ -559,7 +559,7 @@ public class LIntToShortFunctionTest<X extends ParseException> {
 
         //when
         LIntToCharFunction function = sutO.thenToChar(thenFunction);
-        char finalValue = function.applyAsChar((int)80);
+        char finalValue = function.doApplyAsChar((int)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((char)100);
@@ -594,7 +594,7 @@ public class LIntToShortFunctionTest<X extends ParseException> {
 
         //when
         LIntPredicate function = sutO.thenToBoolean(thenFunction);
-        boolean finalValue = function.test((int)80);
+        boolean finalValue = function.doTest((int)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -625,7 +625,7 @@ public class LIntToShortFunctionTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().applyAsShort((int)100);
+        sutThrowing.shove().doApplyAsShort((int)100);
     }
 
     @Test
@@ -643,7 +643,7 @@ public class LIntToShortFunctionTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsShort((int)100);
+            wrapped.doApplyAsShort((int)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -662,7 +662,7 @@ public class LIntToShortFunctionTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LIntToShortFunction: short applyAsShort(int i)");
+                .contains("LIntToShortFunction: short doApplyAsShort(int i)");
     }
 
 

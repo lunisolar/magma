@@ -99,12 +99,12 @@ public final class LObjIntToIntFunctionBuilder<T> extends PerCaseBuilderWithIntP
 			final Case<LObjIntPredicate<T>, LObjIntToIntFunction<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LObjIntToIntFunction.l((T t, int i) -> {
 				for (Case<LObjIntPredicate<T>, LObjIntToIntFunction<T>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t, i)) {
-						return aCase.caseFunction().applyAsInt(t, i);
+					if (aCase.casePredicate().doTest(t, i)) {
+						return aCase.caseFunction().doApplyAsInt(t, i);
 					}
 				}
 
-				return eventuallyFinal.applyAsInt(t, i);
+				return eventuallyFinal.doApplyAsInt(t, i);
 			});
 		}
 

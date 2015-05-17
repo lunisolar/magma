@@ -99,12 +99,12 @@ public final class LToByteFunctionXBuilder<T, X extends Exception> extends PerCa
 			final Case<LPredicateX<T, X>, LToByteFunctionX<T, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LToByteFunctionX.lX((T t) -> {
 				for (Case<LPredicateX<T, X>, LToByteFunctionX<T, X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t)) {
-						return aCase.caseFunction().applyAsByte(t);
+					if (aCase.casePredicate().doTest(t)) {
+						return aCase.caseFunction().doApplyAsByte(t);
 					}
 				}
 
-				return eventuallyFinal.applyAsByte(t);
+				return eventuallyFinal.doApplyAsByte(t);
 			});
 		}
 

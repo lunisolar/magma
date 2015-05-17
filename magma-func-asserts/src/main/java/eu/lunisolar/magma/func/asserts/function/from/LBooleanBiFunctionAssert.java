@@ -58,7 +58,7 @@ public interface LBooleanBiFunctionAssert<S extends LBooleanBiFunctionAssert<S, 
 
 		@Nonnull
 		public Evaluation<S, A, RS, R, Exception> doesApply(boolean b1, boolean b2) {
-			return evaluation(() -> assertFactory.apply((R) actual.apply(b1, b2)));
+			return evaluation(() -> assertFactory.apply((R) actual.doApply(b1, b2)));
 		}
 
 	}

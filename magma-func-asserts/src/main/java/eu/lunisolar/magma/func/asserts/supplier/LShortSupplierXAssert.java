@@ -61,7 +61,7 @@ public interface LShortSupplierXAssert<S extends LShortSupplierXAssert<S, A, RS,
 
 		@Nonnull
 		public Evaluation<S, A, RS, Short, Exception> doesGetAsShort() {
-			return evaluation(() -> assertFactory.apply((Short) actual.getAsShort()));
+			return evaluation(() -> assertFactory.apply((Short) actual.doGetAsShort()));
 		}
 
 		@Nonnull
@@ -72,7 +72,7 @@ public interface LShortSupplierXAssert<S extends LShortSupplierXAssert<S, A, RS,
 
 		@Nonnull
 		public Evaluation<S, A, RS, Short, Exception> doesGetAsShort(LAction before) {
-			before.execute();
+			before.doExecute();
 			return doesGetAsShort();
 		}
 	}

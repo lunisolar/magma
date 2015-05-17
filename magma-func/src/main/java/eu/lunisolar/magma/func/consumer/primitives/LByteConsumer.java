@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LByteConsumer extends LByteConsumerX<RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LByteConsumer: void accept(byte b)";
+	public static final String DESCRIPTION = "LByteConsumer: void doAccept(byte b)";
 
-	// Ovverriding methods can cause problems with inference.
+	public void doAccept(byte b);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +73,7 @@ public interface LByteConsumer extends LByteConsumerX<RuntimeException>, MetaCon
 
 	/** Captures arguments but delays the evaluation. */
 	default LAction capture(byte b) {
-		return () -> this.accept(b);
+		return () -> this.doAccept(b);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -90,7 +90,7 @@ public interface LByteConsumer extends LByteConsumerX<RuntimeException>, MetaCon
 	public static <X extends Exception> LByteConsumer wrap(final @Nonnull LByteConsumerX<X> other) {
 		return (byte b) -> {
 			try {
-				other.accept(b);
+				other.doAccept(b);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -107,7 +107,7 @@ public interface LByteConsumer extends LByteConsumerX<RuntimeException>, MetaCon
 	@Nonnull
 	default LByteConsumer fromByte(@Nonnull final LByteUnaryOperator before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final byte v1) -> this.accept(before1.applyAsByte(v1));
+		return (final byte v1) -> this.doAccept(before1.doApplyAsByte(v1));
 	}
 
 	/**
@@ -116,7 +116,7 @@ public interface LByteConsumer extends LByteConsumerX<RuntimeException>, MetaCon
 	@Nonnull
 	default <V1> LConsumer<V1> from(@Nonnull final LToByteFunction<? super V1> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.accept(before1.applyAsByte(v1));
+		return (V1 v1) -> this.doAccept(before1.doApplyAsByte(v1));
 	}
 
 	// </editor-fold>
@@ -128,8 +128,8 @@ public interface LByteConsumer extends LByteConsumerX<RuntimeException>, MetaCon
 	default LByteConsumer andThen(@Nonnull LByteConsumer after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
 		return (byte b) -> {
-			this.accept(b);
-			after.accept(b);
+			this.doAccept(b);
+			after.doAccept(b);
 		};
 	}
 
@@ -162,7 +162,7 @@ public interface LByteConsumer extends LByteConsumerX<RuntimeException>, MetaCon
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LByteConsumer wrapException(@Nonnull final LByteConsumer other, Class<E> exception, ExceptionHandler<E, Y> handler) {
 		return (byte b) -> {
 			try {
-				other.accept(b);
+				other.doAccept(b);
 			} catch (Exception e) {
 				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
 			}

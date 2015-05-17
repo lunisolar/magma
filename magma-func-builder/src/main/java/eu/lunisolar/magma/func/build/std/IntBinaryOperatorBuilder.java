@@ -98,7 +98,7 @@ public final class IntBinaryOperatorBuilder extends PerCaseBuilderWithIntProduct
 			final Case<LBiIntPredicate, java.util.function.IntBinaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = Function4U.l((int i1, int i2) -> {
 				for (Case<LBiIntPredicate, java.util.function.IntBinaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().test(i1, i2)) {
+					if (aCase.casePredicate().doTest(i1, i2)) {
 						return aCase.caseFunction().applyAsInt(i1, i2);
 					}
 				}

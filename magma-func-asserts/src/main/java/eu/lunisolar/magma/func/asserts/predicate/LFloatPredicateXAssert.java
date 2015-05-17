@@ -60,7 +60,7 @@ public interface LFloatPredicateXAssert<S extends LFloatPredicateXAssert<S, A, R
 
 		@Nonnull
 		public Evaluation<S, A, RS, Boolean, Exception> doesTest(float f) {
-			return evaluation(() -> assertFactory.apply((Boolean) actual.test(f)));
+			return evaluation(() -> assertFactory.apply((Boolean) actual.doTest(f)));
 		}
 
 	}

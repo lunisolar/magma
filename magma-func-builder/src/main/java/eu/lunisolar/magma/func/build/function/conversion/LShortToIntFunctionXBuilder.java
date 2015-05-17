@@ -99,12 +99,12 @@ public final class LShortToIntFunctionXBuilder<X extends Exception> extends PerC
 			final Case<LShortPredicateX<X>, LShortToIntFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LShortToIntFunctionX.lX((short s) -> {
 				for (Case<LShortPredicateX<X>, LShortToIntFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(s)) {
-						return aCase.caseFunction().applyAsInt(s);
+					if (aCase.casePredicate().doTest(s)) {
+						return aCase.caseFunction().doApplyAsInt(s);
 					}
 				}
 
-				return eventuallyFinal.applyAsInt(s);
+				return eventuallyFinal.doApplyAsInt(s);
 			});
 		}
 

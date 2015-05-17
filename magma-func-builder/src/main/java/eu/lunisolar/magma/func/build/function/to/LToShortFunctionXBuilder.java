@@ -99,12 +99,12 @@ public final class LToShortFunctionXBuilder<T, X extends Exception> extends PerC
 			final Case<LPredicateX<T, X>, LToShortFunctionX<T, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LToShortFunctionX.lX((T t) -> {
 				for (Case<LPredicateX<T, X>, LToShortFunctionX<T, X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t)) {
-						return aCase.caseFunction().applyAsShort(t);
+					if (aCase.casePredicate().doTest(t)) {
+						return aCase.caseFunction().doApplyAsShort(t);
 					}
 				}
 
-				return eventuallyFinal.applyAsShort(t);
+				return eventuallyFinal.doApplyAsShort(t);
 			});
 		}
 

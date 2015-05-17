@@ -99,12 +99,12 @@ public final class LToDoubleFunctionBuilder<T> extends PerCaseBuilderWithDoubleP
 			final Case<LPredicate<T>, LToDoubleFunction<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LToDoubleFunction.l((T t) -> {
 				for (Case<LPredicate<T>, LToDoubleFunction<T>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t)) {
-						return aCase.caseFunction().applyAsDouble(t);
+					if (aCase.casePredicate().doTest(t)) {
+						return aCase.caseFunction().doApplyAsDouble(t);
 					}
 				}
 
-				return eventuallyFinal.applyAsDouble(t);
+				return eventuallyFinal.doApplyAsDouble(t);
 			});
 		}
 

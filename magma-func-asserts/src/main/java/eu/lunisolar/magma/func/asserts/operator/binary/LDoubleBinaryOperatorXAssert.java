@@ -63,7 +63,7 @@ public interface LDoubleBinaryOperatorXAssert<S extends LDoubleBinaryOperatorXAs
 
 		@Nonnull
 		public Evaluation<S, A, RS, Double, Exception> doesApplyAsDouble(double d1, double d2) {
-			return evaluation(() -> assertFactory.apply((Double) actual.applyAsDouble(d1, d2)));
+			return evaluation(() -> assertFactory.apply((Double) actual.doApplyAsDouble(d1, d2)));
 		}
 
 	}

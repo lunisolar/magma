@@ -69,7 +69,7 @@ public class LBooleanToLongFunctionBuilderTest<X extends ParseException>{
                 .booleanToLongFunction()
                 .build();
 
-            function.applyAsLong(true);
+            function.doApplyAsLong(true);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

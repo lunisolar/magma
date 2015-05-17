@@ -58,7 +58,7 @@ public interface LFloatToByteFunctionAssert<S extends LFloatToByteFunctionAssert
 
 		@Nonnull
 		public Evaluation<S, A, RS, Byte, Exception> doesApplyAsByte(float f) {
-			return evaluation(() -> assertFactory.apply((Byte) actual.applyAsByte(f)));
+			return evaluation(() -> assertFactory.apply((Byte) actual.doApplyAsByte(f)));
 		}
 
 	}

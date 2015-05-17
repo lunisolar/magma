@@ -58,7 +58,7 @@ public interface LObjShortFunctionAssert<S extends LObjShortFunctionAssert<S, A,
 
 		@Nonnull
 		public Evaluation<S, A, RS, R, Exception> doesApply(T t, short s) {
-			return evaluation(() -> assertFactory.apply((R) actual.apply(t, s)));
+			return evaluation(() -> assertFactory.apply((R) actual.doApply(t, s)));
 		}
 
 	}

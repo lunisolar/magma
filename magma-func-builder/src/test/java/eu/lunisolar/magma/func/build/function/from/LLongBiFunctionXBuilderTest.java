@@ -69,7 +69,7 @@ public class LLongBiFunctionXBuilderTest<R,X extends ParseException>{
                 .longBiFunctionX()
                 .build();
 
-            function.apply((long)100,(long)100);
+            function.doApply((long)100,(long)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

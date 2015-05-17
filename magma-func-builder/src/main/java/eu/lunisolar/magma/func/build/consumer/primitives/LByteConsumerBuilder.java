@@ -99,13 +99,13 @@ public final class LByteConsumerBuilder extends PerCaseBuilder.Base<LByteConsume
 			final Case<LBytePredicate, LByteConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LByteConsumer.l((byte b) -> {
 				for (Case<LBytePredicate, LByteConsumer> aCase : casesArray) {
-					if (aCase.casePredicate().test(b)) {
-						aCase.caseFunction().accept(b);
+					if (aCase.casePredicate().doTest(b)) {
+						aCase.caseFunction().doAccept(b);
 						return;
 					}
 				}
 
-				eventuallyFinal.accept(b);
+				eventuallyFinal.doAccept(b);
 			});
 		}
 

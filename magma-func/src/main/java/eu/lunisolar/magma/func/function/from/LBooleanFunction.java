@@ -60,9 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBooleanFunction<R> extends LBooleanFunctionX<R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LBooleanFunction: R apply(boolean b)";
+	public static final String DESCRIPTION = "LBooleanFunction: R doApply(boolean b)";
 
-	// Ovverriding methods can cause problems with inference.
+	@Nullable
+	public R doApply(boolean b);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +73,7 @@ public interface LBooleanFunction<R> extends LBooleanFunctionX<R, RuntimeExcepti
 
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(boolean b) {
-		return () -> this.apply(b);
+		return () -> this.doApply(b);
 	}
 
 	public static <R> LBooleanFunction<R> constant(R r) {
@@ -84,7 +85,7 @@ public interface LBooleanFunction<R> extends LBooleanFunctionX<R, RuntimeExcepti
 	/** Ensures the result is not null */
 	@Nonnull
 	default R nonNull(boolean b) {
-		return Objects.requireNonNull(apply(b), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Objects.requireNonNull(doApply(b), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -101,7 +102,7 @@ public interface LBooleanFunction<R> extends LBooleanFunctionX<R, RuntimeExcepti
 	public static <R, X extends Exception> LBooleanFunction<R> wrap(final @Nonnull LBooleanFunctionX<R, X> other) {
 		return (boolean b) -> {
 			try {
-				return other.apply(b);
+				return other.doApply(b);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -118,7 +119,7 @@ public interface LBooleanFunction<R> extends LBooleanFunctionX<R, RuntimeExcepti
 	@Nonnull
 	default LBooleanFunction<R> fromBoolean(@Nonnull final LBooleanUnaryOperator before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final boolean v1) -> this.apply(before1.applyAsBoolean(v1));
+		return (final boolean v1) -> this.doApply(before1.doApplyAsBoolean(v1));
 	}
 
 	/**
@@ -127,7 +128,7 @@ public interface LBooleanFunction<R> extends LBooleanFunctionX<R, RuntimeExcepti
 	@Nonnull
 	default <V1> LFunction<V1, R> from(@Nonnull final LPredicate<? super V1> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.apply(before1.applyAsBoolean(v1));
+		return (V1 v1) -> this.doApply(before1.doApplyAsBoolean(v1));
 	}
 
 	// </editor-fold>
@@ -138,70 +139,70 @@ public interface LBooleanFunction<R> extends LBooleanFunctionX<R, RuntimeExcepti
 	@Nonnull
 	default <V> LBooleanFunction<V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b) -> after.apply(this.apply(b));
+		return (boolean b) -> after.doApply(this.doApply(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanConsumer then(@Nonnull LConsumer<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b) -> after.accept(this.apply(b));
+		return (boolean b) -> after.doAccept(this.doApply(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToByteFunction thenToByte(@Nonnull LToByteFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b) -> after.applyAsByte(this.apply(b));
+		return (boolean b) -> after.doApplyAsByte(this.doApply(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToShortFunction thenToShort(@Nonnull LToShortFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b) -> after.applyAsShort(this.apply(b));
+		return (boolean b) -> after.doApplyAsShort(this.doApply(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToIntFunction thenToInt(@Nonnull LToIntFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b) -> after.applyAsInt(this.apply(b));
+		return (boolean b) -> after.doApplyAsInt(this.doApply(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToLongFunction thenToLong(@Nonnull LToLongFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b) -> after.applyAsLong(this.apply(b));
+		return (boolean b) -> after.doApplyAsLong(this.doApply(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToFloatFunction thenToFloat(@Nonnull LToFloatFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b) -> after.applyAsFloat(this.apply(b));
+		return (boolean b) -> after.doApplyAsFloat(this.doApply(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToDoubleFunction thenToDouble(@Nonnull LToDoubleFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b) -> after.applyAsDouble(this.apply(b));
+		return (boolean b) -> after.doApplyAsDouble(this.doApply(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToCharFunction thenToChar(@Nonnull LToCharFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b) -> after.applyAsChar(this.apply(b));
+		return (boolean b) -> after.doApplyAsChar(this.doApply(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanUnaryOperator thenToBoolean(@Nonnull LPredicate<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b) -> after.test(this.apply(b));
+		return (boolean b) -> after.doTest(this.doApply(b));
 	}
 
 	// </editor-fold>
@@ -229,7 +230,7 @@ public interface LBooleanFunction<R> extends LBooleanFunctionX<R, RuntimeExcepti
 
 	@Nonnull
 	default LBooleanFunction<R> nonNullable() {
-		return (b) -> Objects.requireNonNull(this.apply(b));
+		return (b) -> Objects.requireNonNull(this.doApply(b));
 	}
 
 	// <editor-fold desc="exception handling">
@@ -239,11 +240,11 @@ public interface LBooleanFunction<R> extends LBooleanFunctionX<R, RuntimeExcepti
 	public static <R, X extends Exception, E extends Exception, Y extends RuntimeException> LBooleanFunction<R> wrapException(@Nonnull final LBooleanFunction<R> other, Class<E> exception, LSupplier<R> supplier, ExceptionHandler<E, Y> handler) {
 		return (boolean b) -> {
 			try {
-				return other.apply(b);
+				return other.doApply(b);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.get();
+						return supplier.doGet();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

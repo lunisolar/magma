@@ -61,19 +61,19 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
 
     private LLongFunctionX<R,X> sut = new LLongFunctionX(){
-        public @Nullable Object  apply(long l) throws ParseException {
+        public @Nullable Object  doApply(long l) throws ParseException {
             return testValue;
         }
     };
 
     private LLongFunction<R> opposite = new LLongFunction(){
-        public @Nullable Object  apply(long l)  {
+        public @Nullable Object  doApply(long l)  {
             return testValue;
         }
     };
 
     private LLongFunctionX<R,X> sutNull = new LLongFunctionX(){
-        public @Nullable Object  apply(long l) throws ParseException {
+        public @Nullable Object  doApply(long l) throws ParseException {
             return null;
         }
     };
@@ -84,7 +84,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.apply((long)100))
+        assertThat(sut.doApply((long)100))
             .isSameAs(testValue);
     }
 
@@ -94,7 +94,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
             .isSameAs(testValue);
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LLongFunctionX: R apply(long l) throws X).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LLongFunctionX: R doApply(long l) throws X).\\E")
     public void testNonNullCapturesNull() throws ParseException {
         sutNull.nonNull((long)100);
     }
@@ -103,7 +103,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LLongFunctionX: R apply(long l) throws X");
+            .isEqualTo("LLongFunctionX: R doApply(long l) throws X");
     }
 
     @Test
@@ -140,7 +140,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((long)100);
+            wrapped.doApply((long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -165,7 +165,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((long)100);
+            wrapped.doApply((long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -189,7 +189,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((long)100);
+            wrapped.doApply((long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -224,7 +224,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
         //when
         LLongFunctionX<Integer ,X> function = sutO.fromLong(before1);
-        function.apply((long)80);
+        function.doApply((long)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -253,7 +253,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
         //when
         LFunctionX<Integer ,Integer ,X> function = sutO.from(before1);
-        function.apply((Integer )Integer.valueOf(80));
+        function.doApply((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -289,7 +289,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
         //when
         LLongFunctionX<Integer ,X> function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((long)80);
+        Integer  finalValue = function.doApply((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -322,7 +322,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
         //when
         LLongConsumerX<X> function = sutO.then(thenFunction);
-        function.accept((long)80);
+        function.doAccept((long)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -356,7 +356,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
         //when
         LLongToByteFunctionX<X> function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.applyAsByte((long)80);
+        byte finalValue = function.doApplyAsByte((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -391,7 +391,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
         //when
         LLongToShortFunctionX<X> function = sutO.thenToShort(thenFunction);
-        short finalValue = function.applyAsShort((long)80);
+        short finalValue = function.doApplyAsShort((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -426,7 +426,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
         //when
         LLongToIntFunctionX<X> function = sutO.thenToInt(thenFunction);
-        int finalValue = function.applyAsInt((long)80);
+        int finalValue = function.doApplyAsInt((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((int)100);
@@ -461,7 +461,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
         //when
         LLongUnaryOperatorX<X> function = sutO.thenToLong(thenFunction);
-        long finalValue = function.applyAsLong((long)80);
+        long finalValue = function.doApplyAsLong((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((long)100);
@@ -496,7 +496,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
         //when
         LLongToFloatFunctionX<X> function = sutO.thenToFloat(thenFunction);
-        float finalValue = function.applyAsFloat((long)80);
+        float finalValue = function.doApplyAsFloat((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((float)100);
@@ -531,7 +531,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
         //when
         LLongToDoubleFunctionX<X> function = sutO.thenToDouble(thenFunction);
-        double finalValue = function.applyAsDouble((long)80);
+        double finalValue = function.doApplyAsDouble((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((double)100);
@@ -566,7 +566,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
         //when
         LLongToCharFunctionX<X> function = sutO.thenToChar(thenFunction);
-        char finalValue = function.applyAsChar((long)80);
+        char finalValue = function.doApplyAsChar((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((char)100);
@@ -601,7 +601,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
         //when
         LLongPredicateX<X> function = sutO.thenToBoolean(thenFunction);
-        boolean finalValue = function.test((long)80);
+        boolean finalValue = function.doTest((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -637,7 +637,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().apply((long)100);
+        sutThrowing.shove().doApply((long)100);
     }
 
     @Test
@@ -655,7 +655,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((long)100);
+            wrapped.doApply((long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -674,7 +674,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LLongFunctionX: R apply(long l) throws X");
+                .contains("LLongFunctionX: R doApply(long l) throws X");
     }
 
 

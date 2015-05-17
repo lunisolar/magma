@@ -58,7 +58,7 @@ public interface LToShortFunctionAssert<S extends LToShortFunctionAssert<S, A, R
 
 		@Nonnull
 		public Evaluation<S, A, RS, Short, Exception> doesApplyAsShort(T t) {
-			return evaluation(() -> assertFactory.apply((Short) actual.applyAsShort(t)));
+			return evaluation(() -> assertFactory.apply((Short) actual.doApplyAsShort(t)));
 		}
 
 	}

@@ -99,12 +99,12 @@ public final class LToByteBiFunctionXBuilder<T1, T2, X extends Exception> extend
 			final Case<LBiPredicateX<T1, T2, X>, LToByteBiFunctionX<T1, T2, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LToByteBiFunctionX.lX((T1 t1, T2 t2) -> {
 				for (Case<LBiPredicateX<T1, T2, X>, LToByteBiFunctionX<T1, T2, X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t1, t2)) {
-						return aCase.caseFunction().applyAsByte(t1, t2);
+					if (aCase.casePredicate().doTest(t1, t2)) {
+						return aCase.caseFunction().doApplyAsByte(t1, t2);
 					}
 				}
 
-				return eventuallyFinal.applyAsByte(t1, t2);
+				return eventuallyFinal.doApplyAsByte(t1, t2);
 			});
 		}
 

@@ -58,7 +58,7 @@ public interface LBiIntPredicateAssert<S extends LBiIntPredicateAssert<S, A, RS>
 
 		@Nonnull
 		public Evaluation<S, A, RS, Boolean, Exception> doesTest(int i1, int i2) {
-			return evaluation(() -> assertFactory.apply((Boolean) actual.test(i1, i2)));
+			return evaluation(() -> assertFactory.apply((Boolean) actual.doTest(i1, i2)));
 		}
 
 	}

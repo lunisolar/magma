@@ -99,12 +99,12 @@ public final class LFloatBinaryOperatorBuilder extends PerCaseBuilderWithFloatPr
 			final Case<LBiFloatPredicate, LFloatBinaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LFloatBinaryOperator.l((float f1, float f2) -> {
 				for (Case<LBiFloatPredicate, LFloatBinaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().test(f1, f2)) {
-						return aCase.caseFunction().applyAsFloat(f1, f2);
+					if (aCase.casePredicate().doTest(f1, f2)) {
+						return aCase.caseFunction().doApplyAsFloat(f1, f2);
 					}
 				}
 
-				return eventuallyFinal.applyAsFloat(f1, f2);
+				return eventuallyFinal.doApplyAsFloat(f1, f2);
 			});
 		}
 

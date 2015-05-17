@@ -69,7 +69,7 @@ public class LToIntBiFunctionXBuilderTest<T1,T2,X extends ParseException>{
                 .toIntBiFunctionX()
                 .build();
 
-            function.applyAsInt((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            function.doApplyAsInt((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
 
             fail("No exception were thrown.");
         } catch (Exception e) {

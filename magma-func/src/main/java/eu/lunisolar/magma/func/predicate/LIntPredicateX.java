@@ -60,14 +60,14 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LIntPredicateX<X extends Exception> extends MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LIntPredicateX: boolean test(int i) throws X";
+	public static final String DESCRIPTION = "LIntPredicateX: boolean doTest(int i) throws X";
 
-	public boolean test(int i) throws X;
+	public boolean doTest(int i) throws X;
 
 	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
 
-	default boolean applyAsBoolean(int i) throws X {
-		return test(i);
+	default boolean doApplyAsBoolean(int i) throws X {
+		return doTest(i);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -78,7 +78,7 @@ public interface LIntPredicateX<X extends Exception> extends MetaPredicate, Prim
 
 	/** Captures arguments but delays the evaluation. */
 	default LBooleanSupplierX<X> capture(int i) {
-		return () -> this.test(i);
+		return () -> this.doTest(i);
 	}
 
 	public static <X extends Exception> LIntPredicateX<X> constant(boolean r) {
@@ -87,7 +87,7 @@ public interface LIntPredicateX<X extends Exception> extends MetaPredicate, Prim
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(int i) throws X {
-		return test(i);
+		return doTest(i);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -108,7 +108,7 @@ public interface LIntPredicateX<X extends Exception> extends MetaPredicate, Prim
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LIntPredicateX<X> wrapX(final @Nonnull LIntPredicate other) {
-		return other::test;
+		return other::doTest;
 	}
 
 	// </editor-fold>
@@ -119,7 +119,7 @@ public interface LIntPredicateX<X extends Exception> extends MetaPredicate, Prim
 	 */
 	@Nonnull
 	default LIntPredicateX<X> negate() {
-		return (int i) -> !test(i);
+		return (int i) -> !doTest(i);
 	}
 
 	/**
@@ -128,7 +128,7 @@ public interface LIntPredicateX<X extends Exception> extends MetaPredicate, Prim
 	@Nonnull
 	default LIntPredicateX<X> and(@Nonnull LIntPredicateX<X> other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (int i) -> test(i) && other.test(i);
+		return (int i) -> doTest(i) && other.doTest(i);
 	}
 
 	/**
@@ -137,7 +137,7 @@ public interface LIntPredicateX<X extends Exception> extends MetaPredicate, Prim
 	@Nonnull
 	default LIntPredicateX<X> or(@Nonnull LIntPredicateX<X> other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (int i) -> test(i) || other.test(i);
+		return (int i) -> doTest(i) || other.doTest(i);
 	}
 
 	/**
@@ -146,7 +146,7 @@ public interface LIntPredicateX<X extends Exception> extends MetaPredicate, Prim
 	@Nonnull
 	default LIntPredicateX<X> xor(@Nonnull LIntPredicateX<X> other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (int i) -> test(i) ^ other.test(i);
+		return (int i) -> doTest(i) ^ other.doTest(i);
 	}
 
 	@Nonnull
@@ -164,7 +164,7 @@ public interface LIntPredicateX<X extends Exception> extends MetaPredicate, Prim
 	@Nonnull
 	default LIntPredicateX<X> fromInt(@Nonnull final LIntUnaryOperatorX<X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final int v1) -> this.test(before1.applyAsInt(v1));
+		return (final int v1) -> this.doTest(before1.doApplyAsInt(v1));
 	}
 
 	/**
@@ -173,7 +173,7 @@ public interface LIntPredicateX<X extends Exception> extends MetaPredicate, Prim
 	@Nonnull
 	default <V1> LPredicateX<V1, X> from(@Nonnull final LToIntFunctionX<? super V1, X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.test(before1.applyAsInt(v1));
+		return (V1 v1) -> this.doTest(before1.doApplyAsInt(v1));
 	}
 
 	// </editor-fold>
@@ -184,63 +184,63 @@ public interface LIntPredicateX<X extends Exception> extends MetaPredicate, Prim
 	@Nonnull
 	default <V> LIntFunctionX<V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.apply(this.test(i));
+		return (int i) -> after.doApply(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LIntToByteFunctionX<X> thenToByte(@Nonnull LBooleanToByteFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsByte(this.test(i));
+		return (int i) -> after.doApplyAsByte(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LIntToShortFunctionX<X> thenToShort(@Nonnull LBooleanToShortFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsShort(this.test(i));
+		return (int i) -> after.doApplyAsShort(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LIntUnaryOperatorX<X> thenToInt(@Nonnull LBooleanToIntFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsInt(this.test(i));
+		return (int i) -> after.doApplyAsInt(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LIntToLongFunctionX<X> thenToLong(@Nonnull LBooleanToLongFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsLong(this.test(i));
+		return (int i) -> after.doApplyAsLong(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LIntToFloatFunctionX<X> thenToFloat(@Nonnull LBooleanToFloatFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsFloat(this.test(i));
+		return (int i) -> after.doApplyAsFloat(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LIntToDoubleFunctionX<X> thenToDouble(@Nonnull LBooleanToDoubleFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsDouble(this.test(i));
+		return (int i) -> after.doApplyAsDouble(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LIntToCharFunctionX<X> thenToChar(@Nonnull LBooleanToCharFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsChar(this.test(i));
+		return (int i) -> after.doApplyAsChar(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LIntPredicateX<X> thenToBoolean(@Nonnull LBooleanUnaryOperatorX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsBoolean(this.test(i));
+		return (int i) -> after.doApplyAsBoolean(this.doTest(i));
 	}
 
 	// </editor-fold>
@@ -250,7 +250,7 @@ public interface LIntPredicateX<X extends Exception> extends MetaPredicate, Prim
 	/** Converts to JRE variant. */
 	@Nonnull
 	default java.util.function.IntPredicate std() {
-		return LIntPredicate.wrap(this)::test;
+		return LIntPredicate.wrap(this)::doTest;
 	}
 
 	/** Converts to non-throwing variant (if required). */
@@ -268,7 +268,7 @@ public interface LIntPredicateX<X extends Exception> extends MetaPredicate, Prim
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LIntPredicate shove() {
 		LIntPredicateX<RuntimeException> exceptionCast = (LIntPredicateX<RuntimeException>) this;
-		return exceptionCast::test;
+		return exceptionCast::doTest;
 	}
 
 	// </editor-fold>
@@ -280,11 +280,11 @@ public interface LIntPredicateX<X extends Exception> extends MetaPredicate, Prim
 	public static <X extends Exception, E extends Exception, Y extends Exception> LIntPredicateX<Y> wrapException(@Nonnull final LIntPredicateX<X> other, Class<E> exception, LBooleanSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
 		return (int i) -> {
 			try {
-				return other.test(i);
+				return other.doTest(i);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsBoolean();
+						return supplier.doGetAsBoolean();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

@@ -58,7 +58,7 @@ public interface LCharToFloatFunctionAssert<S extends LCharToFloatFunctionAssert
 
 		@Nonnull
 		public Evaluation<S, A, RS, Float, Exception> doesApplyAsFloat(char c) {
-			return evaluation(() -> assertFactory.apply((Float) actual.applyAsFloat(c)));
+			return evaluation(() -> assertFactory.apply((Float) actual.doApplyAsFloat(c)));
 		}
 
 	}

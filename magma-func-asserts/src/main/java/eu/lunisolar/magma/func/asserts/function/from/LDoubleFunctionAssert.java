@@ -58,7 +58,7 @@ public interface LDoubleFunctionAssert<S extends LDoubleFunctionAssert<S, A, RS,
 
 		@Nonnull
 		public Evaluation<S, A, RS, R, Exception> doesApply(double d) {
-			return evaluation(() -> assertFactory.apply((R) actual.apply(d)));
+			return evaluation(() -> assertFactory.apply((R) actual.doApply(d)));
 		}
 
 	}

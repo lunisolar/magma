@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LObjFloatConsumer<T> extends LObjFloatConsumerX<T, RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LObjFloatConsumer: void accept(T t, float f)";
+	public static final String DESCRIPTION = "LObjFloatConsumer: void doAccept(T t, float f)";
 
-	// Ovverriding methods can cause problems with inference.
+	public void doAccept(T t, float f);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +73,7 @@ public interface LObjFloatConsumer<T> extends LObjFloatConsumerX<T, RuntimeExcep
 
 	/** Captures arguments but delays the evaluation. */
 	default LAction capture(T t, float f) {
-		return () -> this.accept(t, f);
+		return () -> this.doAccept(t, f);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -90,7 +90,7 @@ public interface LObjFloatConsumer<T> extends LObjFloatConsumerX<T, RuntimeExcep
 	public static <T, X extends Exception> LObjFloatConsumer<T> wrap(final @Nonnull LObjFloatConsumerX<T, X> other) {
 		return (T t, float f) -> {
 			try {
-				other.accept(t, f);
+				other.doAccept(t, f);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -108,7 +108,7 @@ public interface LObjFloatConsumer<T> extends LObjFloatConsumerX<T, RuntimeExcep
 	default <V1> LObjFloatConsumer<V1> fromFloat(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LFloatUnaryOperator before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final V1 v1, final float v2) -> this.accept(before1.apply(v1), before2.applyAsFloat(v2));
+		return (final V1 v1, final float v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsFloat(v2));
 	}
 
 	/**
@@ -118,7 +118,7 @@ public interface LObjFloatConsumer<T> extends LObjFloatConsumerX<T, RuntimeExcep
 	default <V1, V2> LBiConsumer<V1, V2> from(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToFloatFunction<? super V2> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.accept(before1.apply(v1), before2.applyAsFloat(v2));
+		return (V1 v1, V2 v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsFloat(v2));
 	}
 
 	// </editor-fold>
@@ -130,8 +130,8 @@ public interface LObjFloatConsumer<T> extends LObjFloatConsumerX<T, RuntimeExcep
 	default LObjFloatConsumer<T> andThen(@Nonnull LObjFloatConsumer<? super T> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
 		return (T t, float f) -> {
-			this.accept(t, f);
-			after.accept(t, f);
+			this.doAccept(t, f);
+			after.doAccept(t, f);
 		};
 	}
 
@@ -164,7 +164,7 @@ public interface LObjFloatConsumer<T> extends LObjFloatConsumerX<T, RuntimeExcep
 	public static <T, X extends Exception, E extends Exception, Y extends RuntimeException> LObjFloatConsumer<T> wrapException(@Nonnull final LObjFloatConsumer<T> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
 		return (T t, float f) -> {
 			try {
-				other.accept(t, f);
+				other.doAccept(t, f);
 			} catch (Exception e) {
 				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
 			}

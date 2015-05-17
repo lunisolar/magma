@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LShortToCharFunction extends LShortToCharFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LShortToCharFunction: char applyAsChar(short s)";
+	public static final String DESCRIPTION = "LShortToCharFunction: char doApplyAsChar(short s)";
 
-	// Ovverriding methods can cause problems with inference.
+	public char doApplyAsChar(short s);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LShortToCharFunction extends LShortToCharFunctionX<RuntimeExcep
 
 	/** Captures arguments but delays the evaluation. */
 	default LCharSupplier capture(short s) {
-		return () -> this.applyAsChar(s);
+		return () -> this.doApplyAsChar(s);
 	}
 
 	public static LShortToCharFunction constant(char r) {
@@ -81,7 +81,7 @@ public interface LShortToCharFunction extends LShortToCharFunctionX<RuntimeExcep
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default char nonNull(short s) {
-		return applyAsChar(s);
+		return doApplyAsChar(s);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -98,7 +98,7 @@ public interface LShortToCharFunction extends LShortToCharFunctionX<RuntimeExcep
 	public static <X extends Exception> LShortToCharFunction wrap(final @Nonnull LShortToCharFunctionX<X> other) {
 		return (short s) -> {
 			try {
-				return other.applyAsChar(s);
+				return other.doApplyAsChar(s);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -115,7 +115,7 @@ public interface LShortToCharFunction extends LShortToCharFunctionX<RuntimeExcep
 	@Nonnull
 	default LShortToCharFunction fromShort(@Nonnull final LShortUnaryOperator before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final short v1) -> this.applyAsChar(before1.applyAsShort(v1));
+		return (final short v1) -> this.doApplyAsChar(before1.doApplyAsShort(v1));
 	}
 
 	/**
@@ -124,7 +124,7 @@ public interface LShortToCharFunction extends LShortToCharFunctionX<RuntimeExcep
 	@Nonnull
 	default <V1> LToCharFunction<V1> from(@Nonnull final LToShortFunction<? super V1> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.applyAsChar(before1.applyAsShort(v1));
+		return (V1 v1) -> this.doApplyAsChar(before1.doApplyAsShort(v1));
 	}
 
 	// </editor-fold>
@@ -135,63 +135,63 @@ public interface LShortToCharFunction extends LShortToCharFunctionX<RuntimeExcep
 	@Nonnull
 	default <V> LShortFunction<V> then(@Nonnull LCharFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.apply(this.applyAsChar(s));
+		return (short s) -> after.doApply(this.doApplyAsChar(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToByteFunction thenToByte(@Nonnull LCharToByteFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsByte(this.applyAsChar(s));
+		return (short s) -> after.doApplyAsByte(this.doApplyAsChar(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortUnaryOperator thenToShort(@Nonnull LCharToShortFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsShort(this.applyAsChar(s));
+		return (short s) -> after.doApplyAsShort(this.doApplyAsChar(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToIntFunction thenToInt(@Nonnull LCharToIntFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsInt(this.applyAsChar(s));
+		return (short s) -> after.doApplyAsInt(this.doApplyAsChar(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToLongFunction thenToLong(@Nonnull LCharToLongFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsLong(this.applyAsChar(s));
+		return (short s) -> after.doApplyAsLong(this.doApplyAsChar(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToFloatFunction thenToFloat(@Nonnull LCharToFloatFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsFloat(this.applyAsChar(s));
+		return (short s) -> after.doApplyAsFloat(this.doApplyAsChar(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToDoubleFunction thenToDouble(@Nonnull LCharToDoubleFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsDouble(this.applyAsChar(s));
+		return (short s) -> after.doApplyAsDouble(this.doApplyAsChar(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToCharFunction thenToChar(@Nonnull LCharUnaryOperator after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsChar(this.applyAsChar(s));
+		return (short s) -> after.doApplyAsChar(this.doApplyAsChar(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortPredicate thenToBoolean(@Nonnull LCharPredicate after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.test(this.applyAsChar(s));
+		return (short s) -> after.doTest(this.doApplyAsChar(s));
 	}
 
 	// </editor-fold>
@@ -224,11 +224,11 @@ public interface LShortToCharFunction extends LShortToCharFunctionX<RuntimeExcep
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LShortToCharFunction wrapException(@Nonnull final LShortToCharFunction other, Class<E> exception, LCharSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (short s) -> {
 			try {
-				return other.applyAsChar(s);
+				return other.doApplyAsChar(s);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsChar();
+						return supplier.doGetAsChar();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

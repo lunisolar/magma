@@ -99,13 +99,13 @@ public final class LCharBiConsumerBuilder extends PerCaseBuilder.Base<LCharBiCon
 			final Case<LBiCharPredicate, LCharBiConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LCharBiConsumer.l((char c1, char c2) -> {
 				for (Case<LBiCharPredicate, LCharBiConsumer> aCase : casesArray) {
-					if (aCase.casePredicate().test(c1, c2)) {
-						aCase.caseFunction().accept(c1, c2);
+					if (aCase.casePredicate().doTest(c1, c2)) {
+						aCase.caseFunction().doAccept(c1, c2);
 						return;
 					}
 				}
 
-				eventuallyFinal.accept(c1, c2);
+				eventuallyFinal.doAccept(c1, c2);
 			});
 		}
 

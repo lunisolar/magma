@@ -58,7 +58,7 @@ public interface LBinaryOperatorXAssert<S extends LBinaryOperatorXAssert<S, A, R
 
 		@Nonnull
 		public Evaluation<S, A, RS, T, Exception> doesApply(T t1, T t2) {
-			return evaluation(() -> assertFactory.apply((T) actual.apply(t1, t2)));
+			return evaluation(() -> assertFactory.apply((T) actual.doApply(t1, t2)));
 		}
 
 	}

@@ -99,12 +99,12 @@ public final class LLongFunctionBuilder<R> extends PerCaseBuilderWithProduct.Bas
 			final Case<LLongPredicate, LLongFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LLongFunction.l((long l) -> {
 				for (Case<LLongPredicate, LLongFunction<R>> aCase : casesArray) {
-					if (aCase.casePredicate().test(l)) {
-						return aCase.caseFunction().apply(l);
+					if (aCase.casePredicate().doTest(l)) {
+						return aCase.caseFunction().doApply(l);
 					}
 				}
 
-				return eventuallyFinal.apply(l);
+				return eventuallyFinal.doApply(l);
 			});
 		}
 

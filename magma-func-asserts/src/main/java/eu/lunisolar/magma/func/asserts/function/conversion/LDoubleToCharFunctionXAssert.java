@@ -63,7 +63,7 @@ public interface LDoubleToCharFunctionXAssert<S extends LDoubleToCharFunctionXAs
 
 		@Nonnull
 		public Evaluation<S, A, RS, Character, Exception> doesApplyAsChar(double d) {
-			return evaluation(() -> assertFactory.apply((Character) actual.applyAsChar(d)));
+			return evaluation(() -> assertFactory.apply((Character) actual.doApplyAsChar(d)));
 		}
 
 	}

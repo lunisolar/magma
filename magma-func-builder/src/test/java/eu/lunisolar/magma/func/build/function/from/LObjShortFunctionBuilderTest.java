@@ -69,7 +69,7 @@ public class LObjShortFunctionBuilderTest<T,R,X extends ParseException>{
                 .objShortFunction()
                 .build();
 
-            function.apply((T)Integer.valueOf(100),(short)100);
+            function.doApply((T)Integer.valueOf(100),(short)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

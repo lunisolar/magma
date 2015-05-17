@@ -69,7 +69,7 @@ public abstract class PerCaseBuilderWithFloatProduct<PCB extends PerCaseBuilderW
 
 	/** Sets the function to evaluate _eventually_ when input data do not match any case. */
 	public final PCB eventuallyProduce(float directValue) {
-		eventually = directToFunction.apply(directValue);
+		eventually = directToFunction.doApply(directValue);
 		return self();
 	}
 

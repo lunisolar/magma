@@ -69,7 +69,7 @@ public class LToCharBiFunctionBuilderTest<T1,T2,X extends ParseException>{
                 .toCharBiFunction()
                 .build();
 
-            function.applyAsChar((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            function.doApplyAsChar((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
 
             fail("No exception were thrown.");
         } catch (Exception e) {

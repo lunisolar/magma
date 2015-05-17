@@ -99,12 +99,12 @@ public final class LBooleanToLongFunctionBuilder extends PerCaseBuilderWithLongP
 			final Case<LBooleanUnaryOperator, LBooleanToLongFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LBooleanToLongFunction.l((boolean b) -> {
 				for (Case<LBooleanUnaryOperator, LBooleanToLongFunction> aCase : casesArray) {
-					if (aCase.casePredicate().applyAsBoolean(b)) {
-						return aCase.caseFunction().applyAsLong(b);
+					if (aCase.casePredicate().doApplyAsBoolean(b)) {
+						return aCase.caseFunction().doApplyAsLong(b);
 					}
 				}
 
-				return eventuallyFinal.applyAsLong(b);
+				return eventuallyFinal.doApplyAsLong(b);
 			});
 		}
 

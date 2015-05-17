@@ -69,7 +69,7 @@ public class LBooleanToIntFunctionXBuilderTest<X extends ParseException>{
                 .booleanToIntFunctionX()
                 .build();
 
-            function.applyAsInt(true);
+            function.doApplyAsInt(true);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

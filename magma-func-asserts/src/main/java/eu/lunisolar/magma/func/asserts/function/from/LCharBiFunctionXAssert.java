@@ -58,7 +58,7 @@ public interface LCharBiFunctionXAssert<S extends LCharBiFunctionXAssert<S, A, R
 
 		@Nonnull
 		public Evaluation<S, A, RS, R, Exception> doesApply(char c1, char c2) {
-			return evaluation(() -> assertFactory.apply((R) actual.apply(c1, c2)));
+			return evaluation(() -> assertFactory.apply((R) actual.doApply(c1, c2)));
 		}
 
 	}

@@ -58,7 +58,7 @@ public interface LIntFunctionXAssert<S extends LIntFunctionXAssert<S, A, RS, R, 
 
 		@Nonnull
 		public Evaluation<S, A, RS, R, Exception> doesApply(int i) {
-			return evaluation(() -> assertFactory.apply((R) actual.apply(i)));
+			return evaluation(() -> assertFactory.apply((R) actual.doApply(i)));
 		}
 
 	}

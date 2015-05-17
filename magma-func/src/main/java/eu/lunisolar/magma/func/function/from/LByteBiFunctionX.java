@@ -60,10 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LByteBiFunctionX<R, X extends Exception> extends MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LByteBiFunctionX: R apply(byte b1,byte b2) throws X";
+	public static final String DESCRIPTION = "LByteBiFunctionX: R doApply(byte b1,byte b2) throws X";
 
 	@Nullable
-	public R apply(byte b1, byte b2) throws X;
+	public R doApply(byte b1, byte b2) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +73,7 @@ public interface LByteBiFunctionX<R, X extends Exception> extends MetaFunction, 
 
 	/** Captures arguments but delays the evaluation. */
 	default LSupplierX<R, X> capture(byte b1, byte b2) {
-		return () -> this.apply(b1, b2);
+		return () -> this.doApply(b1, b2);
 	}
 
 	public static <R, X extends Exception> LByteBiFunctionX<R, X> constant(R r) {
@@ -85,7 +85,7 @@ public interface LByteBiFunctionX<R, X extends Exception> extends MetaFunction, 
 	/** Ensures the result is not null */
 	@Nonnull
 	default R nonNull(byte b1, byte b2) throws X {
-		return Objects.requireNonNull(apply(b1, b2), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Objects.requireNonNull(doApply(b1, b2), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -100,7 +100,7 @@ public interface LByteBiFunctionX<R, X extends Exception> extends MetaFunction, 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <R, X extends Exception> LByteBiFunctionX<R, X> wrapX(final @Nonnull LByteBiFunction<R> other) {
-		return other::apply;
+		return other::doApply;
 	}
 
 	// </editor-fold>
@@ -114,7 +114,7 @@ public interface LByteBiFunctionX<R, X extends Exception> extends MetaFunction, 
 	default LByteBiFunctionX<R, X> fromByte(@Nonnull final LByteUnaryOperatorX<X> before1, @Nonnull final LByteUnaryOperatorX<X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final byte v1, final byte v2) -> this.apply(before1.applyAsByte(v1), before2.applyAsByte(v2));
+		return (final byte v1, final byte v2) -> this.doApply(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
 	}
 
 	/**
@@ -124,7 +124,7 @@ public interface LByteBiFunctionX<R, X extends Exception> extends MetaFunction, 
 	default <V1, V2> LBiFunctionX<V1, V2, R, X> from(@Nonnull final LToByteFunctionX<? super V1, X> before1, @Nonnull final LToByteFunctionX<? super V2, X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.apply(before1.applyAsByte(v1), before2.applyAsByte(v2));
+		return (V1 v1, V2 v2) -> this.doApply(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
 	}
 
 	// </editor-fold>
@@ -135,14 +135,14 @@ public interface LByteBiFunctionX<R, X extends Exception> extends MetaFunction, 
 	@Nonnull
 	default <V> LByteBiFunctionX<V, X> then(@Nonnull LFunctionX<? super R, ? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (byte b1, byte b2) -> after.apply(this.apply(b1, b2));
+		return (byte b1, byte b2) -> after.doApply(this.doApply(b1, b2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteBiConsumerX<X> then(@Nonnull LConsumerX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (byte b1, byte b2) -> after.accept(this.apply(b1, b2));
+		return (byte b1, byte b2) -> after.doAccept(this.doApply(b1, b2));
 	}
 
 	// </editor-fold>
@@ -164,14 +164,14 @@ public interface LByteBiFunctionX<R, X extends Exception> extends MetaFunction, 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LByteBiFunction<R> shove() {
 		LByteBiFunctionX<R, RuntimeException> exceptionCast = (LByteBiFunctionX<R, RuntimeException>) this;
-		return exceptionCast::apply;
+		return exceptionCast::doApply;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
 	default LByteBiFunctionX<R, X> nonNullableX() {
-		return (b1, b2) -> Objects.requireNonNull(this.apply(b1, b2));
+		return (b1, b2) -> Objects.requireNonNull(this.doApply(b1, b2));
 	}
 
 	// <editor-fold desc="exception handling">
@@ -181,11 +181,11 @@ public interface LByteBiFunctionX<R, X extends Exception> extends MetaFunction, 
 	public static <R, X extends Exception, E extends Exception, Y extends Exception> LByteBiFunctionX<R, Y> wrapException(@Nonnull final LByteBiFunctionX<R, X> other, Class<E> exception, LSupplierX<R, X> supplier, ExceptionHandler<E, Y> handler) {
 		return (byte b1, byte b2) -> {
 			try {
-				return other.apply(b1, b2);
+				return other.doApply(b1, b2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.get();
+						return supplier.doGet();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

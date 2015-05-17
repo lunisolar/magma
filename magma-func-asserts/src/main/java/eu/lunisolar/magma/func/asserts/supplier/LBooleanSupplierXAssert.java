@@ -63,7 +63,7 @@ public interface LBooleanSupplierXAssert<S extends LBooleanSupplierXAssert<S, A,
 
 		@Nonnull
 		public Evaluation<S, A, RS, Boolean, Exception> doesGetAsBoolean() {
-			return evaluation(() -> assertFactory.apply((Boolean) actual.getAsBoolean()));
+			return evaluation(() -> assertFactory.apply((Boolean) actual.doGetAsBoolean()));
 		}
 
 		@Nonnull
@@ -74,7 +74,7 @@ public interface LBooleanSupplierXAssert<S extends LBooleanSupplierXAssert<S, A,
 
 		@Nonnull
 		public Evaluation<S, A, RS, Boolean, Exception> doesGetAsBoolean(LAction before) {
-			before.execute();
+			before.doExecute();
 			return doesGetAsBoolean();
 		}
 	}

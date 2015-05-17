@@ -99,12 +99,12 @@ public final class LToFloatFunctionXBuilder<T, X extends Exception> extends PerC
 			final Case<LPredicateX<T, X>, LToFloatFunctionX<T, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LToFloatFunctionX.lX((T t) -> {
 				for (Case<LPredicateX<T, X>, LToFloatFunctionX<T, X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t)) {
-						return aCase.caseFunction().applyAsFloat(t);
+					if (aCase.casePredicate().doTest(t)) {
+						return aCase.caseFunction().doApplyAsFloat(t);
 					}
 				}
 
-				return eventuallyFinal.applyAsFloat(t);
+				return eventuallyFinal.doApplyAsFloat(t);
 			});
 		}
 

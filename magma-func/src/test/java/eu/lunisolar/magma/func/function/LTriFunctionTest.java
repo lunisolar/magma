@@ -61,19 +61,19 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
 
 
     private LTriFunction<T1,T2,T3,R> sut = new LTriFunction(){
-        public @Nullable Object  apply(Object t1,Object t2,Object t3)  {
+        public @Nullable Object  doApply(Object t1,Object t2,Object t3)  {
             return testValue;
         }
     };
 
     private LTriFunctionX<T1,T2,T3,R,X> opposite = new LTriFunctionX(){
-        public @Nullable Object  apply(Object t1,Object t2,Object t3) throws ParseException {
+        public @Nullable Object  doApply(Object t1,Object t2,Object t3) throws ParseException {
             return testValue;
         }
     };
 
     private LTriFunction<T1,T2,T3,R> sutNull = new LTriFunction(){
-        public @Nullable Object  apply(Object t1,Object t2,Object t3)  {
+        public @Nullable Object  doApply(Object t1,Object t2,Object t3)  {
             return null;
         }
     };
@@ -82,7 +82,7 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.apply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100)))
+        assertThat(sut.doApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100)))
             .isSameAs(testValue);
     }
 
@@ -92,7 +92,7 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
             .isSameAs(testValue);
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LTriFunction: R apply(T1 t1,T2 t2,T3 t3)).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LTriFunction: R doApply(T1 t1,T2 t2,T3 t3)).\\E")
     public void testNonNullCapturesNull() throws ParseException {
         sutNull.nonNull((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100));
     }
@@ -101,7 +101,7 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LTriFunction: R apply(T1 t1,T2 t2,T3 t3)");
+            .isEqualTo("LTriFunction: R doApply(T1 t1,T2 t2,T3 t3)");
     }
 
     @Test
@@ -128,7 +128,7 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100));
+            wrapped.doApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -150,7 +150,7 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100));
+            wrapped.doApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -176,7 +176,7 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100));
+            wrapped.doApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -201,7 +201,7 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100));
+            wrapped.doApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -225,7 +225,7 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100));
+            wrapped.doApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -272,7 +272,7 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
 
         //when
         LTriFunction<Integer ,Integer ,Integer ,Integer > function = sutO.from(before1,before2,before3);
-        function.apply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(Integer )Integer.valueOf(82));
+        function.doApply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(Integer )Integer.valueOf(82));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -310,7 +310,7 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
 
         //when
         LTriFunction<Integer ,Integer ,Integer ,Integer > function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(Integer )Integer.valueOf(82));
+        Integer  finalValue = function.doApply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(Integer )Integer.valueOf(82));
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -345,7 +345,7 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
 
         //when
         LTriConsumer<Integer ,Integer ,Integer > function = sutO.then(thenFunction);
-        function.accept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(Integer )Integer.valueOf(82));
+        function.doAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(Integer )Integer.valueOf(82));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -375,7 +375,7 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().apply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100));
+        sutThrowing.shove().doApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100));
     }
 
     @Test
@@ -393,7 +393,7 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100));
+            wrapped.doApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -412,7 +412,7 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LTriFunction: R apply(T1 t1,T2 t2,T3 t3)");
+                .contains("LTriFunction: R doApply(T1 t1,T2 t2,T3 t3)");
     }
 
 

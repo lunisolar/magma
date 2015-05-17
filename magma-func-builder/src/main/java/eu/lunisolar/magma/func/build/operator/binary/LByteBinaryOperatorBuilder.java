@@ -99,12 +99,12 @@ public final class LByteBinaryOperatorBuilder extends PerCaseBuilderWithByteProd
 			final Case<LBiBytePredicate, LByteBinaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LByteBinaryOperator.l((byte b1, byte b2) -> {
 				for (Case<LBiBytePredicate, LByteBinaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().test(b1, b2)) {
-						return aCase.caseFunction().applyAsByte(b1, b2);
+					if (aCase.casePredicate().doTest(b1, b2)) {
+						return aCase.caseFunction().doApplyAsByte(b1, b2);
 					}
 				}
 
-				return eventuallyFinal.applyAsByte(b1, b2);
+				return eventuallyFinal.doApplyAsByte(b1, b2);
 			});
 		}
 

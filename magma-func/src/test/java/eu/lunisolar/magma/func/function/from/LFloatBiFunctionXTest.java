@@ -61,19 +61,19 @@ public class LFloatBiFunctionXTest<R,X extends ParseException> {
 
 
     private LFloatBiFunctionX<R,X> sut = new LFloatBiFunctionX(){
-        public @Nullable Object  apply(float f1,float f2) throws ParseException {
+        public @Nullable Object  doApply(float f1,float f2) throws ParseException {
             return testValue;
         }
     };
 
     private LFloatBiFunction<R> opposite = new LFloatBiFunction(){
-        public @Nullable Object  apply(float f1,float f2)  {
+        public @Nullable Object  doApply(float f1,float f2)  {
             return testValue;
         }
     };
 
     private LFloatBiFunctionX<R,X> sutNull = new LFloatBiFunctionX(){
-        public @Nullable Object  apply(float f1,float f2) throws ParseException {
+        public @Nullable Object  doApply(float f1,float f2) throws ParseException {
             return null;
         }
     };
@@ -82,7 +82,7 @@ public class LFloatBiFunctionXTest<R,X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.apply((float)100,(float)100))
+        assertThat(sut.doApply((float)100,(float)100))
             .isSameAs(testValue);
     }
 
@@ -92,7 +92,7 @@ public class LFloatBiFunctionXTest<R,X extends ParseException> {
             .isSameAs(testValue);
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LFloatBiFunctionX: R apply(float f1,float f2) throws X).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LFloatBiFunctionX: R doApply(float f1,float f2) throws X).\\E")
     public void testNonNullCapturesNull() throws ParseException {
         sutNull.nonNull((float)100,(float)100);
     }
@@ -101,7 +101,7 @@ public class LFloatBiFunctionXTest<R,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LFloatBiFunctionX: R apply(float f1,float f2) throws X");
+            .isEqualTo("LFloatBiFunctionX: R doApply(float f1,float f2) throws X");
     }
 
     @Test
@@ -132,7 +132,7 @@ public class LFloatBiFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((float)100,(float)100);
+            wrapped.doApply((float)100,(float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -157,7 +157,7 @@ public class LFloatBiFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((float)100,(float)100);
+            wrapped.doApply((float)100,(float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -181,7 +181,7 @@ public class LFloatBiFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((float)100,(float)100);
+            wrapped.doApply((float)100,(float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -222,7 +222,7 @@ public class LFloatBiFunctionXTest<R,X extends ParseException> {
 
         //when
         LFloatBiFunctionX<Integer ,X> function = sutO.fromFloat(before1,before2);
-        function.apply((float)80,(float)81);
+        function.doApply((float)80,(float)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -257,7 +257,7 @@ public class LFloatBiFunctionXTest<R,X extends ParseException> {
 
         //when
         LBiFunctionX<Integer ,Integer ,Integer ,X> function = sutO.from(before1,before2);
-        function.apply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        function.doApply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -294,7 +294,7 @@ public class LFloatBiFunctionXTest<R,X extends ParseException> {
 
         //when
         LFloatBiFunctionX<Integer ,X> function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((float)80,(float)81);
+        Integer  finalValue = function.doApply((float)80,(float)81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -328,7 +328,7 @@ public class LFloatBiFunctionXTest<R,X extends ParseException> {
 
         //when
         LFloatBiConsumerX<X> function = sutO.then(thenFunction);
-        function.accept((float)80,(float)81);
+        function.doAccept((float)80,(float)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -358,7 +358,7 @@ public class LFloatBiFunctionXTest<R,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().apply((float)100,(float)100);
+        sutThrowing.shove().doApply((float)100,(float)100);
     }
 
     @Test
@@ -376,7 +376,7 @@ public class LFloatBiFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((float)100,(float)100);
+            wrapped.doApply((float)100,(float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -395,7 +395,7 @@ public class LFloatBiFunctionXTest<R,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LFloatBiFunctionX: R apply(float f1,float f2) throws X");
+                .contains("LFloatBiFunctionX: R doApply(float f1,float f2) throws X");
     }
 
 

@@ -60,13 +60,13 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBooleanBinaryOperatorX<X extends Exception> extends MetaLogicalOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LBooleanBinaryOperatorX: boolean applyAsBoolean(boolean b1,boolean b2) throws X";
+	public static final String DESCRIPTION = "LBooleanBinaryOperatorX: boolean doApplyAsBoolean(boolean b1,boolean b2) throws X";
 
-	public boolean applyAsBoolean(boolean b1, boolean b2) throws X;
+	public boolean doApplyAsBoolean(boolean b1, boolean b2) throws X;
 
 	/** For convinience boolean operator is also special case of predicate. */
-	default boolean test(boolean b1, boolean b2) throws X {
-		return applyAsBoolean(b1, b2);
+	default boolean doTest(boolean b1, boolean b2) throws X {
+		return doApplyAsBoolean(b1, b2);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -77,7 +77,7 @@ public interface LBooleanBinaryOperatorX<X extends Exception> extends MetaLogica
 
 	/** Captures arguments but delays the evaluation. */
 	default LBooleanSupplierX<X> capture(boolean b1, boolean b2) {
-		return () -> this.applyAsBoolean(b1, b2);
+		return () -> this.doApplyAsBoolean(b1, b2);
 	}
 
 	public static <X extends Exception> LBooleanBinaryOperatorX<X> constant(boolean r) {
@@ -86,7 +86,7 @@ public interface LBooleanBinaryOperatorX<X extends Exception> extends MetaLogica
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(boolean b1, boolean b2) throws X {
-		return applyAsBoolean(b1, b2);
+		return doApplyAsBoolean(b1, b2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -101,7 +101,7 @@ public interface LBooleanBinaryOperatorX<X extends Exception> extends MetaLogica
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LBooleanBinaryOperatorX<X> wrapX(final @Nonnull LBooleanBinaryOperator other) {
-		return other::applyAsBoolean;
+		return other::doApplyAsBoolean;
 	}
 
 	// </editor-fold>
@@ -112,7 +112,7 @@ public interface LBooleanBinaryOperatorX<X extends Exception> extends MetaLogica
 	 */
 	@Nonnull
 	default LBooleanBinaryOperatorX<X> negate() {
-		return (boolean b1, boolean b2) -> !applyAsBoolean(b1, b2);
+		return (boolean b1, boolean b2) -> !doApplyAsBoolean(b1, b2);
 	}
 
 	/**
@@ -121,7 +121,7 @@ public interface LBooleanBinaryOperatorX<X extends Exception> extends MetaLogica
 	@Nonnull
 	default LBooleanBinaryOperatorX<X> and(@Nonnull LBooleanBinaryOperatorX<X> other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (boolean b1, boolean b2) -> applyAsBoolean(b1, b2) && other.applyAsBoolean(b1, b2);
+		return (boolean b1, boolean b2) -> doApplyAsBoolean(b1, b2) && other.doApplyAsBoolean(b1, b2);
 	}
 
 	/**
@@ -130,7 +130,7 @@ public interface LBooleanBinaryOperatorX<X extends Exception> extends MetaLogica
 	@Nonnull
 	default LBooleanBinaryOperatorX<X> or(@Nonnull LBooleanBinaryOperatorX<X> other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (boolean b1, boolean b2) -> applyAsBoolean(b1, b2) || other.applyAsBoolean(b1, b2);
+		return (boolean b1, boolean b2) -> doApplyAsBoolean(b1, b2) || other.doApplyAsBoolean(b1, b2);
 	}
 
 	/**
@@ -139,7 +139,7 @@ public interface LBooleanBinaryOperatorX<X extends Exception> extends MetaLogica
 	@Nonnull
 	default LBooleanBinaryOperatorX<X> xor(@Nonnull LBooleanBinaryOperatorX<X> other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (boolean b1, boolean b2) -> applyAsBoolean(b1, b2) ^ other.applyAsBoolean(b1, b2);
+		return (boolean b1, boolean b2) -> doApplyAsBoolean(b1, b2) ^ other.doApplyAsBoolean(b1, b2);
 	}
 
 	/**
@@ -188,7 +188,7 @@ public interface LBooleanBinaryOperatorX<X extends Exception> extends MetaLogica
 	default LBooleanBinaryOperatorX<X> fromBoolean(@Nonnull final LBooleanUnaryOperatorX<X> before1, @Nonnull final LBooleanUnaryOperatorX<X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final boolean v1, final boolean v2) -> this.applyAsBoolean(before1.applyAsBoolean(v1), before2.applyAsBoolean(v2));
+		return (final boolean v1, final boolean v2) -> this.doApplyAsBoolean(before1.doApplyAsBoolean(v1), before2.doApplyAsBoolean(v2));
 	}
 
 	/**
@@ -198,7 +198,7 @@ public interface LBooleanBinaryOperatorX<X extends Exception> extends MetaLogica
 	default <V1, V2> LBiPredicateX<V1, V2, X> from(@Nonnull final LPredicateX<? super V1, X> before1, @Nonnull final LPredicateX<? super V2, X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.applyAsBoolean(before1.applyAsBoolean(v1), before2.applyAsBoolean(v2));
+		return (V1 v1, V2 v2) -> this.doApplyAsBoolean(before1.doApplyAsBoolean(v1), before2.doApplyAsBoolean(v2));
 	}
 
 	// </editor-fold>
@@ -209,7 +209,7 @@ public interface LBooleanBinaryOperatorX<X extends Exception> extends MetaLogica
 	@Nonnull
 	default <V> LBooleanBiFunctionX<V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b1, boolean b2) -> after.apply(this.applyAsBoolean(b1, b2));
+		return (boolean b1, boolean b2) -> after.doApply(this.doApplyAsBoolean(b1, b2));
 	}
 
 	// </editor-fold>
@@ -231,7 +231,7 @@ public interface LBooleanBinaryOperatorX<X extends Exception> extends MetaLogica
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBooleanBinaryOperator shove() {
 		LBooleanBinaryOperatorX<RuntimeException> exceptionCast = (LBooleanBinaryOperatorX<RuntimeException>) this;
-		return exceptionCast::applyAsBoolean;
+		return exceptionCast::doApplyAsBoolean;
 	}
 
 	// </editor-fold>
@@ -243,11 +243,11 @@ public interface LBooleanBinaryOperatorX<X extends Exception> extends MetaLogica
 	public static <X extends Exception, E extends Exception, Y extends Exception> LBooleanBinaryOperatorX<Y> wrapException(@Nonnull final LBooleanBinaryOperatorX<X> other, Class<E> exception, LBooleanSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
 		return (boolean b1, boolean b2) -> {
 			try {
-				return other.applyAsBoolean(b1, b2);
+				return other.doApplyAsBoolean(b1, b2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsBoolean();
+						return supplier.doGetAsBoolean();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

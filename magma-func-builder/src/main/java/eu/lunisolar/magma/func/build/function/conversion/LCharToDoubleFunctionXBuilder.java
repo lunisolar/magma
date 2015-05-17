@@ -99,12 +99,12 @@ public final class LCharToDoubleFunctionXBuilder<X extends Exception> extends Pe
 			final Case<LCharPredicateX<X>, LCharToDoubleFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LCharToDoubleFunctionX.lX((char c) -> {
 				for (Case<LCharPredicateX<X>, LCharToDoubleFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(c)) {
-						return aCase.caseFunction().applyAsDouble(c);
+					if (aCase.casePredicate().doTest(c)) {
+						return aCase.caseFunction().doApplyAsDouble(c);
 					}
 				}
 
-				return eventuallyFinal.applyAsDouble(c);
+				return eventuallyFinal.doApplyAsDouble(c);
 			});
 		}
 

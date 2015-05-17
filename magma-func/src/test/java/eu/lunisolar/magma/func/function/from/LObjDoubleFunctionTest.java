@@ -61,19 +61,19 @@ public class LObjDoubleFunctionTest<T,R,X extends ParseException> {
 
 
     private LObjDoubleFunction<T,R> sut = new LObjDoubleFunction(){
-        public @Nullable Object  apply(Object t, double d)  {
+        public @Nullable Object  doApply(Object t, double d)  {
             return testValue;
         }
     };
 
     private LObjDoubleFunctionX<T,R,X> opposite = new LObjDoubleFunctionX(){
-        public @Nullable Object  apply(Object t, double d) throws ParseException {
+        public @Nullable Object  doApply(Object t, double d) throws ParseException {
             return testValue;
         }
     };
 
     private LObjDoubleFunction<T,R> sutNull = new LObjDoubleFunction(){
-        public @Nullable Object  apply(Object t, double d)  {
+        public @Nullable Object  doApply(Object t, double d)  {
             return null;
         }
     };
@@ -82,7 +82,7 @@ public class LObjDoubleFunctionTest<T,R,X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.apply((T)Integer.valueOf(100),(double)100))
+        assertThat(sut.doApply((T)Integer.valueOf(100),(double)100))
             .isSameAs(testValue);
     }
 
@@ -92,7 +92,7 @@ public class LObjDoubleFunctionTest<T,R,X extends ParseException> {
             .isSameAs(testValue);
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LObjDoubleFunction: R apply(T t, double d)).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LObjDoubleFunction: R doApply(T t, double d)).\\E")
     public void testNonNullCapturesNull() throws ParseException {
         sutNull.nonNull((T)Integer.valueOf(100),(double)100);
     }
@@ -101,7 +101,7 @@ public class LObjDoubleFunctionTest<T,R,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LObjDoubleFunction: R apply(T t, double d)");
+            .isEqualTo("LObjDoubleFunction: R doApply(T t, double d)");
     }
 
     @Test
@@ -128,7 +128,7 @@ public class LObjDoubleFunctionTest<T,R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T)Integer.valueOf(100),(double)100);
+            wrapped.doApply((T)Integer.valueOf(100),(double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -150,7 +150,7 @@ public class LObjDoubleFunctionTest<T,R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T)Integer.valueOf(100),(double)100);
+            wrapped.doApply((T)Integer.valueOf(100),(double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -176,7 +176,7 @@ public class LObjDoubleFunctionTest<T,R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T)Integer.valueOf(100),(double)100);
+            wrapped.doApply((T)Integer.valueOf(100),(double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -201,7 +201,7 @@ public class LObjDoubleFunctionTest<T,R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T)Integer.valueOf(100),(double)100);
+            wrapped.doApply((T)Integer.valueOf(100),(double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -225,7 +225,7 @@ public class LObjDoubleFunctionTest<T,R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T)Integer.valueOf(100),(double)100);
+            wrapped.doApply((T)Integer.valueOf(100),(double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -266,7 +266,7 @@ public class LObjDoubleFunctionTest<T,R,X extends ParseException> {
 
         //when
         LObjDoubleFunction<Integer ,Integer > function = sutO.fromDouble(before1,before2);
-        function.apply((Integer )Integer.valueOf(80),(double)81);
+        function.doApply((Integer )Integer.valueOf(80),(double)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -301,7 +301,7 @@ public class LObjDoubleFunctionTest<T,R,X extends ParseException> {
 
         //when
         LBiFunction<Integer ,Integer ,Integer > function = sutO.from(before1,before2);
-        function.apply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        function.doApply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -338,7 +338,7 @@ public class LObjDoubleFunctionTest<T,R,X extends ParseException> {
 
         //when
         LObjDoubleFunction<Integer ,Integer > function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((Integer )Integer.valueOf(80),(double)81);
+        Integer  finalValue = function.doApply((Integer )Integer.valueOf(80),(double)81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -372,7 +372,7 @@ public class LObjDoubleFunctionTest<T,R,X extends ParseException> {
 
         //when
         LObjDoubleConsumer<Integer > function = sutO.then(thenFunction);
-        function.accept((Integer )Integer.valueOf(80),(double)81);
+        function.doAccept((Integer )Integer.valueOf(80),(double)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -402,7 +402,7 @@ public class LObjDoubleFunctionTest<T,R,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().apply((T)Integer.valueOf(100),(double)100);
+        sutThrowing.shove().doApply((T)Integer.valueOf(100),(double)100);
     }
 
     @Test
@@ -420,7 +420,7 @@ public class LObjDoubleFunctionTest<T,R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((T)Integer.valueOf(100),(double)100);
+            wrapped.doApply((T)Integer.valueOf(100),(double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -439,7 +439,7 @@ public class LObjDoubleFunctionTest<T,R,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LObjDoubleFunction: R apply(T t, double d)");
+                .contains("LObjDoubleFunction: R doApply(T t, double d)");
     }
 
 

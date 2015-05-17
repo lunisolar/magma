@@ -99,12 +99,12 @@ public final class LLongToShortFunctionXBuilder<X extends Exception> extends Per
 			final Case<LLongPredicateX<X>, LLongToShortFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LLongToShortFunctionX.lX((long l) -> {
 				for (Case<LLongPredicateX<X>, LLongToShortFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(l)) {
-						return aCase.caseFunction().applyAsShort(l);
+					if (aCase.casePredicate().doTest(l)) {
+						return aCase.caseFunction().doApplyAsShort(l);
 					}
 				}
 
-				return eventuallyFinal.applyAsShort(l);
+				return eventuallyFinal.doApplyAsShort(l);
 			});
 		}
 

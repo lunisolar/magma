@@ -55,7 +55,7 @@ public interface LObjShortConsumerAssert<S extends LObjShortConsumerAssert<S, A,
 
 		@Nonnull
 		public SemiEvaluation<S, A, Exception> doesAccept(T t, short s) {
-			return evaluation(() -> actual.accept(t, s));
+			return evaluation(() -> actual.doAccept(t, s));
 		}
 
 	}

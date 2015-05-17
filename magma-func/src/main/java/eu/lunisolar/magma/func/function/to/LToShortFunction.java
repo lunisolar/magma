@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LToShortFunction<T> extends LToShortFunctionX<T, RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LToShortFunction: short applyAsShort(T t)";
+	public static final String DESCRIPTION = "LToShortFunction: short doApplyAsShort(T t)";
 
-	// Ovverriding methods can cause problems with inference.
+	public short doApplyAsShort(T t);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LToShortFunction<T> extends LToShortFunctionX<T, RuntimeExcepti
 
 	/** Captures arguments but delays the evaluation. */
 	default LShortSupplier capture(T t) {
-		return () -> this.applyAsShort(t);
+		return () -> this.doApplyAsShort(t);
 	}
 
 	public static <T> LToShortFunction<T> constant(short r) {
@@ -81,7 +81,7 @@ public interface LToShortFunction<T> extends LToShortFunctionX<T, RuntimeExcepti
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default short nonNull(T t) {
-		return applyAsShort(t);
+		return doApplyAsShort(t);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -98,7 +98,7 @@ public interface LToShortFunction<T> extends LToShortFunctionX<T, RuntimeExcepti
 	public static <T, X extends Exception> LToShortFunction<T> wrap(final @Nonnull LToShortFunctionX<T, X> other) {
 		return (T t) -> {
 			try {
-				return other.applyAsShort(t);
+				return other.doApplyAsShort(t);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -115,7 +115,7 @@ public interface LToShortFunction<T> extends LToShortFunctionX<T, RuntimeExcepti
 	@Nonnull
 	default <V1> LToShortFunction<V1> from(@Nonnull final LFunction<? super V1, ? extends T> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final V1 v1) -> this.applyAsShort(before1.apply(v1));
+		return (final V1 v1) -> this.doApplyAsShort(before1.doApply(v1));
 	}
 
 	// </editor-fold>
@@ -126,63 +126,63 @@ public interface LToShortFunction<T> extends LToShortFunctionX<T, RuntimeExcepti
 	@Nonnull
 	default <V> LFunction<T, V> then(@Nonnull LShortFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.apply(this.applyAsShort(t));
+		return (T t) -> after.doApply(this.doApplyAsShort(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToByteFunction<T> thenToByte(@Nonnull LShortToByteFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsByte(this.applyAsShort(t));
+		return (T t) -> after.doApplyAsByte(this.doApplyAsShort(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToShortFunction<T> thenToShort(@Nonnull LShortUnaryOperator after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsShort(this.applyAsShort(t));
+		return (T t) -> after.doApplyAsShort(this.doApplyAsShort(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToIntFunction<T> thenToInt(@Nonnull LShortToIntFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsInt(this.applyAsShort(t));
+		return (T t) -> after.doApplyAsInt(this.doApplyAsShort(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToLongFunction<T> thenToLong(@Nonnull LShortToLongFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsLong(this.applyAsShort(t));
+		return (T t) -> after.doApplyAsLong(this.doApplyAsShort(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToFloatFunction<T> thenToFloat(@Nonnull LShortToFloatFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsFloat(this.applyAsShort(t));
+		return (T t) -> after.doApplyAsFloat(this.doApplyAsShort(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToDoubleFunction<T> thenToDouble(@Nonnull LShortToDoubleFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsDouble(this.applyAsShort(t));
+		return (T t) -> after.doApplyAsDouble(this.doApplyAsShort(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToCharFunction<T> thenToChar(@Nonnull LShortToCharFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsChar(this.applyAsShort(t));
+		return (T t) -> after.doApplyAsChar(this.doApplyAsShort(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LPredicate<T> thenToBoolean(@Nonnull LShortPredicate after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.test(this.applyAsShort(t));
+		return (T t) -> after.doTest(this.doApplyAsShort(t));
 	}
 
 	// </editor-fold>
@@ -215,11 +215,11 @@ public interface LToShortFunction<T> extends LToShortFunctionX<T, RuntimeExcepti
 	public static <T, X extends Exception, E extends Exception, Y extends RuntimeException> LToShortFunction<T> wrapException(@Nonnull final LToShortFunction<T> other, Class<E> exception, LShortSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (T t) -> {
 			try {
-				return other.applyAsShort(t);
+				return other.doApplyAsShort(t);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsShort();
+						return supplier.doGetAsShort();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

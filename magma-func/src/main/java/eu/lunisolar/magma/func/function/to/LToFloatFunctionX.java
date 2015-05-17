@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LToFloatFunctionX<T, X extends Exception> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LToFloatFunctionX: float applyAsFloat(T t) throws X";
+	public static final String DESCRIPTION = "LToFloatFunctionX: float doApplyAsFloat(T t) throws X";
 
-	public float applyAsFloat(T t) throws X;
+	public float doApplyAsFloat(T t) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LToFloatFunctionX<T, X extends Exception> extends MetaFunction,
 
 	/** Captures arguments but delays the evaluation. */
 	default LFloatSupplierX<X> capture(T t) {
-		return () -> this.applyAsFloat(t);
+		return () -> this.doApplyAsFloat(t);
 	}
 
 	public static <T, X extends Exception> LToFloatFunctionX<T, X> constant(float r) {
@@ -81,7 +81,7 @@ public interface LToFloatFunctionX<T, X extends Exception> extends MetaFunction,
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default float nonNull(T t) throws X {
-		return applyAsFloat(t);
+		return doApplyAsFloat(t);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -96,7 +96,7 @@ public interface LToFloatFunctionX<T, X extends Exception> extends MetaFunction,
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T, X extends Exception> LToFloatFunctionX<T, X> wrapX(final @Nonnull LToFloatFunction<T> other) {
-		return other::applyAsFloat;
+		return other::doApplyAsFloat;
 	}
 
 	// </editor-fold>
@@ -109,7 +109,7 @@ public interface LToFloatFunctionX<T, X extends Exception> extends MetaFunction,
 	@Nonnull
 	default <V1> LToFloatFunctionX<V1, X> from(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final V1 v1) -> this.applyAsFloat(before1.apply(v1));
+		return (final V1 v1) -> this.doApplyAsFloat(before1.doApply(v1));
 	}
 
 	// </editor-fold>
@@ -120,63 +120,63 @@ public interface LToFloatFunctionX<T, X extends Exception> extends MetaFunction,
 	@Nonnull
 	default <V> LFunctionX<T, V, X> then(@Nonnull LFloatFunctionX<? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.apply(this.applyAsFloat(t));
+		return (T t) -> after.doApply(this.doApplyAsFloat(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToByteFunctionX<T, X> thenToByte(@Nonnull LFloatToByteFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsByte(this.applyAsFloat(t));
+		return (T t) -> after.doApplyAsByte(this.doApplyAsFloat(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToShortFunctionX<T, X> thenToShort(@Nonnull LFloatToShortFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsShort(this.applyAsFloat(t));
+		return (T t) -> after.doApplyAsShort(this.doApplyAsFloat(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToIntFunctionX<T, X> thenToInt(@Nonnull LFloatToIntFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsInt(this.applyAsFloat(t));
+		return (T t) -> after.doApplyAsInt(this.doApplyAsFloat(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToLongFunctionX<T, X> thenToLong(@Nonnull LFloatToLongFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsLong(this.applyAsFloat(t));
+		return (T t) -> after.doApplyAsLong(this.doApplyAsFloat(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToFloatFunctionX<T, X> thenToFloat(@Nonnull LFloatUnaryOperatorX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsFloat(this.applyAsFloat(t));
+		return (T t) -> after.doApplyAsFloat(this.doApplyAsFloat(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToDoubleFunctionX<T, X> thenToDouble(@Nonnull LFloatToDoubleFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsDouble(this.applyAsFloat(t));
+		return (T t) -> after.doApplyAsDouble(this.doApplyAsFloat(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToCharFunctionX<T, X> thenToChar(@Nonnull LFloatToCharFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsChar(this.applyAsFloat(t));
+		return (T t) -> after.doApplyAsChar(this.doApplyAsFloat(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LPredicateX<T, X> thenToBoolean(@Nonnull LFloatPredicateX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.test(this.applyAsFloat(t));
+		return (T t) -> after.doTest(this.doApplyAsFloat(t));
 	}
 
 	// </editor-fold>
@@ -198,7 +198,7 @@ public interface LToFloatFunctionX<T, X extends Exception> extends MetaFunction,
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LToFloatFunction<T> shove() {
 		LToFloatFunctionX<T, RuntimeException> exceptionCast = (LToFloatFunctionX<T, RuntimeException>) this;
-		return exceptionCast::applyAsFloat;
+		return exceptionCast::doApplyAsFloat;
 	}
 
 	// </editor-fold>
@@ -210,11 +210,11 @@ public interface LToFloatFunctionX<T, X extends Exception> extends MetaFunction,
 	public static <T, X extends Exception, E extends Exception, Y extends Exception> LToFloatFunctionX<T, Y> wrapException(@Nonnull final LToFloatFunctionX<T, X> other, Class<E> exception, LFloatSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
 		return (T t) -> {
 			try {
-				return other.applyAsFloat(t);
+				return other.doApplyAsFloat(t);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsFloat();
+						return supplier.doGetAsFloat();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

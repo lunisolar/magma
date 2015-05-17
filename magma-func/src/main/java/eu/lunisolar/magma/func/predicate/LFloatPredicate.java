@@ -60,14 +60,14 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LFloatPredicate: boolean test(float f)";
+	public static final String DESCRIPTION = "LFloatPredicate: boolean doTest(float f)";
 
-	// Ovverriding methods can cause problems with inference.
+	public boolean doTest(float f);
 
 	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
 
-	default boolean applyAsBoolean(float f) {
-		return test(f);
+	default boolean doApplyAsBoolean(float f) {
+		return doTest(f);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -78,7 +78,7 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 
 	/** Captures arguments but delays the evaluation. */
 	default LBooleanSupplier capture(float f) {
-		return () -> this.test(f);
+		return () -> this.doTest(f);
 	}
 
 	public static LFloatPredicate constant(boolean r) {
@@ -87,7 +87,7 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(float f) {
-		return test(f);
+		return doTest(f);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -104,7 +104,7 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 	public static <X extends Exception> LFloatPredicate wrap(final @Nonnull LFloatPredicateX<X> other) {
 		return (float f) -> {
 			try {
-				return other.test(f);
+				return other.doTest(f);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -119,7 +119,7 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 	 */
 	@Nonnull
 	default LFloatPredicate negate() {
-		return (float f) -> !test(f);
+		return (float f) -> !doTest(f);
 	}
 
 	/**
@@ -128,7 +128,7 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 	@Nonnull
 	default LFloatPredicate and(@Nonnull LFloatPredicate other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (float f) -> test(f) && other.test(f);
+		return (float f) -> doTest(f) && other.doTest(f);
 	}
 
 	/**
@@ -137,7 +137,7 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 	@Nonnull
 	default LFloatPredicate or(@Nonnull LFloatPredicate other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (float f) -> test(f) || other.test(f);
+		return (float f) -> doTest(f) || other.doTest(f);
 	}
 
 	/**
@@ -146,7 +146,7 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 	@Nonnull
 	default LFloatPredicate xor(@Nonnull LFloatPredicate other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (float f) -> test(f) ^ other.test(f);
+		return (float f) -> doTest(f) ^ other.doTest(f);
 	}
 
 	@Nonnull
@@ -164,7 +164,7 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 	@Nonnull
 	default LFloatPredicate fromFloat(@Nonnull final LFloatUnaryOperator before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final float v1) -> this.test(before1.applyAsFloat(v1));
+		return (final float v1) -> this.doTest(before1.doApplyAsFloat(v1));
 	}
 
 	/**
@@ -173,7 +173,7 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 	@Nonnull
 	default <V1> LPredicate<V1> from(@Nonnull final LToFloatFunction<? super V1> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.test(before1.applyAsFloat(v1));
+		return (V1 v1) -> this.doTest(before1.doApplyAsFloat(v1));
 	}
 
 	// </editor-fold>
@@ -184,63 +184,63 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 	@Nonnull
 	default <V> LFloatFunction<V> then(@Nonnull LBooleanFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.apply(this.test(f));
+		return (float f) -> after.doApply(this.doTest(f));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LFloatToByteFunction thenToByte(@Nonnull LBooleanToByteFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsByte(this.test(f));
+		return (float f) -> after.doApplyAsByte(this.doTest(f));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LFloatToShortFunction thenToShort(@Nonnull LBooleanToShortFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsShort(this.test(f));
+		return (float f) -> after.doApplyAsShort(this.doTest(f));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LFloatToIntFunction thenToInt(@Nonnull LBooleanToIntFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsInt(this.test(f));
+		return (float f) -> after.doApplyAsInt(this.doTest(f));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LFloatToLongFunction thenToLong(@Nonnull LBooleanToLongFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsLong(this.test(f));
+		return (float f) -> after.doApplyAsLong(this.doTest(f));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LFloatUnaryOperator thenToFloat(@Nonnull LBooleanToFloatFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsFloat(this.test(f));
+		return (float f) -> after.doApplyAsFloat(this.doTest(f));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LFloatToDoubleFunction thenToDouble(@Nonnull LBooleanToDoubleFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsDouble(this.test(f));
+		return (float f) -> after.doApplyAsDouble(this.doTest(f));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LFloatToCharFunction thenToChar(@Nonnull LBooleanToCharFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsChar(this.test(f));
+		return (float f) -> after.doApplyAsChar(this.doTest(f));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LFloatPredicate thenToBoolean(@Nonnull LBooleanUnaryOperator after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsBoolean(this.test(f));
+		return (float f) -> after.doApplyAsBoolean(this.doTest(f));
 	}
 
 	// </editor-fold>
@@ -273,11 +273,11 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LFloatPredicate wrapException(@Nonnull final LFloatPredicate other, Class<E> exception, LBooleanSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (float f) -> {
 			try {
-				return other.test(f);
+				return other.doTest(f);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsBoolean();
+						return supplier.doGetAsBoolean();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

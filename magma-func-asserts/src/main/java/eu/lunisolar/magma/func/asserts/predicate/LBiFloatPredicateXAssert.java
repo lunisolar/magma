@@ -63,7 +63,7 @@ public interface LBiFloatPredicateXAssert<S extends LBiFloatPredicateXAssert<S, 
 
 		@Nonnull
 		public Evaluation<S, A, RS, Boolean, Exception> doesTest(float f1, float f2) {
-			return evaluation(() -> assertFactory.apply((Boolean) actual.test(f1, f2)));
+			return evaluation(() -> assertFactory.apply((Boolean) actual.doTest(f1, f2)));
 		}
 
 	}

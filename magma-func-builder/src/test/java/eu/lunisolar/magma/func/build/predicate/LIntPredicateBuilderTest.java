@@ -69,7 +69,7 @@ public class LIntPredicateBuilderTest<X extends ParseException>{
                 .intPredicate()
                 .build();
 
-            function.test((int)100);
+            function.doTest((int)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

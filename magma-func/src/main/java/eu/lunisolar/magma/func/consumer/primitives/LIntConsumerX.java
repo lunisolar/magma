@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LIntConsumerX<X extends Exception> extends MetaConsumer, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LIntConsumerX: void accept(int i) throws X";
+	public static final String DESCRIPTION = "LIntConsumerX: void doAccept(int i) throws X";
 
-	public void accept(int i) throws X;
+	public void doAccept(int i) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +73,7 @@ public interface LIntConsumerX<X extends Exception> extends MetaConsumer, MetaIn
 
 	/** Captures arguments but delays the evaluation. */
 	default LActionX<X> capture(int i) {
-		return () -> this.accept(i);
+		return () -> this.doAccept(i);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -94,7 +94,7 @@ public interface LIntConsumerX<X extends Exception> extends MetaConsumer, MetaIn
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LIntConsumerX<X> wrapX(final @Nonnull LIntConsumer other) {
-		return other::accept;
+		return other::doAccept;
 	}
 
 	// </editor-fold>
@@ -107,7 +107,7 @@ public interface LIntConsumerX<X extends Exception> extends MetaConsumer, MetaIn
 	@Nonnull
 	default LIntConsumerX<X> fromInt(@Nonnull final LIntUnaryOperatorX<X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final int v1) -> this.accept(before1.applyAsInt(v1));
+		return (final int v1) -> this.doAccept(before1.doApplyAsInt(v1));
 	}
 
 	/**
@@ -116,7 +116,7 @@ public interface LIntConsumerX<X extends Exception> extends MetaConsumer, MetaIn
 	@Nonnull
 	default <V1> LConsumerX<V1, X> from(@Nonnull final LToIntFunctionX<? super V1, X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.accept(before1.applyAsInt(v1));
+		return (V1 v1) -> this.doAccept(before1.doApplyAsInt(v1));
 	}
 
 	// </editor-fold>
@@ -128,8 +128,8 @@ public interface LIntConsumerX<X extends Exception> extends MetaConsumer, MetaIn
 	default LIntConsumerX<X> andThen(@Nonnull LIntConsumerX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
 		return (int i) -> {
-			this.accept(i);
-			after.accept(i);
+			this.doAccept(i);
+			after.doAccept(i);
 		};
 	}
 
@@ -139,7 +139,7 @@ public interface LIntConsumerX<X extends Exception> extends MetaConsumer, MetaIn
 	/** Converts to JRE variant. */
 	@Nonnull
 	default java.util.function.IntConsumer std() {
-		return LIntConsumer.wrap(this)::accept;
+		return LIntConsumer.wrap(this)::doAccept;
 	}
 
 	/** Converts to non-throwing variant (if required). */
@@ -157,7 +157,7 @@ public interface LIntConsumerX<X extends Exception> extends MetaConsumer, MetaIn
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LIntConsumer shove() {
 		LIntConsumerX<RuntimeException> exceptionCast = (LIntConsumerX<RuntimeException>) this;
-		return exceptionCast::accept;
+		return exceptionCast::doAccept;
 	}
 
 	// </editor-fold>
@@ -169,7 +169,7 @@ public interface LIntConsumerX<X extends Exception> extends MetaConsumer, MetaIn
 	public static <X extends Exception, E extends Exception, Y extends Exception> LIntConsumerX<Y> wrapException(@Nonnull final LIntConsumerX<X> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
 		return (int i) -> {
 			try {
-				other.accept(i);
+				other.doAccept(i);
 			} catch (Exception e) {
 				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
 			}

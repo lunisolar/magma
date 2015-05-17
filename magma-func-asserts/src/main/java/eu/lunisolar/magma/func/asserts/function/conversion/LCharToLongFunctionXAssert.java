@@ -63,7 +63,7 @@ public interface LCharToLongFunctionXAssert<S extends LCharToLongFunctionXAssert
 
 		@Nonnull
 		public Evaluation<S, A, RS, Long, Exception> doesApplyAsLong(char c) {
-			return evaluation(() -> assertFactory.apply((Long) actual.applyAsLong(c)));
+			return evaluation(() -> assertFactory.apply((Long) actual.doApplyAsLong(c)));
 		}
 
 	}

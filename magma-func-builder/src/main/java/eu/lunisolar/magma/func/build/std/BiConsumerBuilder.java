@@ -98,7 +98,7 @@ public final class BiConsumerBuilder<T1, T2> extends PerCaseBuilder.Base<BiConsu
 			final Case<LBiPredicate<T1, T2>, java.util.function.BiConsumer<T1, T2>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = Function4U.l((T1 t1, T2 t2) -> {
 				for (Case<LBiPredicate<T1, T2>, java.util.function.BiConsumer<T1, T2>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t1, t2)) {
+					if (aCase.casePredicate().doTest(t1, t2)) {
 						aCase.caseFunction().accept(t1, t2);
 						return;
 					}

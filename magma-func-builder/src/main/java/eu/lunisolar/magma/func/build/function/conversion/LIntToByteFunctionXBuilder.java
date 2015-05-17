@@ -99,12 +99,12 @@ public final class LIntToByteFunctionXBuilder<X extends Exception> extends PerCa
 			final Case<LIntPredicateX<X>, LIntToByteFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LIntToByteFunctionX.lX((int i) -> {
 				for (Case<LIntPredicateX<X>, LIntToByteFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(i)) {
-						return aCase.caseFunction().applyAsByte(i);
+					if (aCase.casePredicate().doTest(i)) {
+						return aCase.caseFunction().doApplyAsByte(i);
 					}
 				}
 
-				return eventuallyFinal.applyAsByte(i);
+				return eventuallyFinal.doApplyAsByte(i);
 			});
 		}
 

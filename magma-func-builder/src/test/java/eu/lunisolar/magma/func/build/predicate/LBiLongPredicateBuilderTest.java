@@ -69,7 +69,7 @@ public class LBiLongPredicateBuilderTest<X extends ParseException>{
                 .biLongPredicate()
                 .build();
 
-            function.test((long)100,(long)100);
+            function.doTest((long)100,(long)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

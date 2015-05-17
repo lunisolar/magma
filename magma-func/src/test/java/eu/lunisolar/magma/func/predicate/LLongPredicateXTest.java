@@ -61,13 +61,13 @@ public class LLongPredicateXTest<X extends ParseException> {
 
 
     private LLongPredicateX<X> sut = new LLongPredicateX(){
-        public  boolean test(long l) throws ParseException {
+        public  boolean doTest(long l) throws ParseException {
             return testValue;
         }
     };
 
     private LLongPredicate opposite = new LLongPredicate(){
-        public  boolean test(long l)  {
+        public  boolean doTest(long l)  {
             return testValue;
         }
     };
@@ -78,7 +78,7 @@ public class LLongPredicateXTest<X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.test((long)100))
+        assertThat(sut.doTest((long)100))
             .isEqualTo(testValue);
     }
 
@@ -90,7 +90,7 @@ public class LLongPredicateXTest<X extends ParseException> {
 
     @Test
     public void testApplyAsBooleanShouldNotModifyValue() throws ParseException {
-        assertThat(sut.applyAsBoolean((long)100))
+        assertThat(sut.doApplyAsBoolean((long)100))
             .isEqualTo(testValue);
 
     }
@@ -99,7 +99,7 @@ public class LLongPredicateXTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LLongPredicateX: boolean test(long l) throws X");
+            .isEqualTo("LLongPredicateX: boolean doTest(long l) throws X");
     }
 
     @Test
@@ -136,7 +136,7 @@ public class LLongPredicateXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.test((long)100);
+            wrapped.doTest((long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -161,7 +161,7 @@ public class LLongPredicateXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.test((long)100);
+            wrapped.doTest((long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -185,7 +185,7 @@ public class LLongPredicateXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.test((long)100);
+            wrapped.doTest((long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -197,7 +197,7 @@ public class LLongPredicateXTest<X extends ParseException> {
 
     @Test
     public void testNegate() throws ParseException {
-        assertThat(sut.negate().test((long)100))
+        assertThat(sut.negate().doTest((long)100))
             .isEqualTo(!testValue);
     }
 
@@ -225,13 +225,13 @@ public class LLongPredicateXTest<X extends ParseException> {
         LLongPredicateX<X> xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.test((long)100))
+        assertThat(andFunction.doTest((long)100))
                 .isEqualTo(andResult);
 
-        assertThat(orFunction.test((long)100))
+        assertThat(orFunction.doTest((long)100))
                 .isEqualTo(orResult);
 
-        assertThat(xorFunction.test((long)100))
+        assertThat(xorFunction.doTest((long)100))
                 .isEqualTo(xorResult);
     }
 
@@ -241,10 +241,10 @@ public class LLongPredicateXTest<X extends ParseException> {
         LLongPredicateX<X> equals = LLongPredicateX.isEqual((long)100);
 
         //then
-        assertThat(equals.test((long)100))
+        assertThat(equals.doTest((long)100))
                 .isTrue();
 
-        assertThat(equals.test((long)0))
+        assertThat(equals.doTest((long)0))
                 .isFalse();
     }
 
@@ -273,7 +273,7 @@ public class LLongPredicateXTest<X extends ParseException> {
 
         //when
         LLongPredicateX<X> function = sutO.fromLong(before1);
-        function.test((long)80);
+        function.doTest((long)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -302,7 +302,7 @@ public class LLongPredicateXTest<X extends ParseException> {
 
         //when
         LPredicateX<Integer ,X> function = sutO.from(before1);
-        function.test((Integer )Integer.valueOf(80));
+        function.doTest((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -338,7 +338,7 @@ public class LLongPredicateXTest<X extends ParseException> {
 
         //when
         LLongFunctionX<Integer ,X> function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((long)80);
+        Integer  finalValue = function.doApply((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -373,7 +373,7 @@ public class LLongPredicateXTest<X extends ParseException> {
 
         //when
         LLongToByteFunctionX<X> function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.applyAsByte((long)80);
+        byte finalValue = function.doApplyAsByte((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -408,7 +408,7 @@ public class LLongPredicateXTest<X extends ParseException> {
 
         //when
         LLongToShortFunctionX<X> function = sutO.thenToShort(thenFunction);
-        short finalValue = function.applyAsShort((long)80);
+        short finalValue = function.doApplyAsShort((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -443,7 +443,7 @@ public class LLongPredicateXTest<X extends ParseException> {
 
         //when
         LLongToIntFunctionX<X> function = sutO.thenToInt(thenFunction);
-        int finalValue = function.applyAsInt((long)80);
+        int finalValue = function.doApplyAsInt((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((int)100);
@@ -478,7 +478,7 @@ public class LLongPredicateXTest<X extends ParseException> {
 
         //when
         LLongUnaryOperatorX<X> function = sutO.thenToLong(thenFunction);
-        long finalValue = function.applyAsLong((long)80);
+        long finalValue = function.doApplyAsLong((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((long)100);
@@ -513,7 +513,7 @@ public class LLongPredicateXTest<X extends ParseException> {
 
         //when
         LLongToFloatFunctionX<X> function = sutO.thenToFloat(thenFunction);
-        float finalValue = function.applyAsFloat((long)80);
+        float finalValue = function.doApplyAsFloat((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((float)100);
@@ -548,7 +548,7 @@ public class LLongPredicateXTest<X extends ParseException> {
 
         //when
         LLongToDoubleFunctionX<X> function = sutO.thenToDouble(thenFunction);
-        double finalValue = function.applyAsDouble((long)80);
+        double finalValue = function.doApplyAsDouble((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((double)100);
@@ -583,7 +583,7 @@ public class LLongPredicateXTest<X extends ParseException> {
 
         //when
         LLongToCharFunctionX<X> function = sutO.thenToChar(thenFunction);
-        char finalValue = function.applyAsChar((long)80);
+        char finalValue = function.doApplyAsChar((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((char)100);
@@ -618,7 +618,7 @@ public class LLongPredicateXTest<X extends ParseException> {
 
         //when
         LLongPredicateX<X> function = sutO.thenToBoolean(thenFunction);
-        boolean finalValue = function.test((long)80);
+        boolean finalValue = function.doTest((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -654,7 +654,7 @@ public class LLongPredicateXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().test((long)100);
+        sutThrowing.shove().doTest((long)100);
     }
 
     @Test
@@ -672,7 +672,7 @@ public class LLongPredicateXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.test((long)100);
+            wrapped.doTest((long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -691,7 +691,7 @@ public class LLongPredicateXTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LLongPredicateX: boolean test(long l) throws X");
+                .contains("LLongPredicateX: boolean doTest(long l) throws X");
     }
 
 

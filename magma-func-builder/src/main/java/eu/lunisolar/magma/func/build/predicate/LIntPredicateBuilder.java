@@ -99,12 +99,12 @@ public final class LIntPredicateBuilder extends PerCaseBuilderWithBooleanProduct
 			final Case<LIntPredicate, LIntPredicate>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LIntPredicate.l((int i) -> {
 				for (Case<LIntPredicate, LIntPredicate> aCase : casesArray) {
-					if (aCase.casePredicate().test(i)) {
-						return aCase.caseFunction().test(i);
+					if (aCase.casePredicate().doTest(i)) {
+						return aCase.caseFunction().doTest(i);
 					}
 				}
 
-				return eventuallyFinal.test(i);
+				return eventuallyFinal.doTest(i);
 			});
 		}
 

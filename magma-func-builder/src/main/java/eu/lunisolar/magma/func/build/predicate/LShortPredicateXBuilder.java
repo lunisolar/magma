@@ -99,12 +99,12 @@ public final class LShortPredicateXBuilder<X extends Exception> extends PerCaseB
 			final Case<LShortPredicateX<X>, LShortPredicateX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LShortPredicateX.lX((short s) -> {
 				for (Case<LShortPredicateX<X>, LShortPredicateX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(s)) {
-						return aCase.caseFunction().test(s);
+					if (aCase.casePredicate().doTest(s)) {
+						return aCase.caseFunction().doTest(s);
 					}
 				}
 
-				return eventuallyFinal.test(s);
+				return eventuallyFinal.doTest(s);
 			});
 		}
 

@@ -60,10 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LDoubleBiFunctionX<R, X extends Exception> extends MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LDoubleBiFunctionX: R apply(double d1,double d2) throws X";
+	public static final String DESCRIPTION = "LDoubleBiFunctionX: R doApply(double d1,double d2) throws X";
 
 	@Nullable
-	public R apply(double d1, double d2) throws X;
+	public R doApply(double d1, double d2) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +73,7 @@ public interface LDoubleBiFunctionX<R, X extends Exception> extends MetaFunction
 
 	/** Captures arguments but delays the evaluation. */
 	default LSupplierX<R, X> capture(double d1, double d2) {
-		return () -> this.apply(d1, d2);
+		return () -> this.doApply(d1, d2);
 	}
 
 	public static <R, X extends Exception> LDoubleBiFunctionX<R, X> constant(R r) {
@@ -85,7 +85,7 @@ public interface LDoubleBiFunctionX<R, X extends Exception> extends MetaFunction
 	/** Ensures the result is not null */
 	@Nonnull
 	default R nonNull(double d1, double d2) throws X {
-		return Objects.requireNonNull(apply(d1, d2), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Objects.requireNonNull(doApply(d1, d2), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -100,7 +100,7 @@ public interface LDoubleBiFunctionX<R, X extends Exception> extends MetaFunction
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <R, X extends Exception> LDoubleBiFunctionX<R, X> wrapX(final @Nonnull LDoubleBiFunction<R> other) {
-		return other::apply;
+		return other::doApply;
 	}
 
 	// </editor-fold>
@@ -114,7 +114,7 @@ public interface LDoubleBiFunctionX<R, X extends Exception> extends MetaFunction
 	default LDoubleBiFunctionX<R, X> fromDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1, @Nonnull final LDoubleUnaryOperatorX<X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final double v1, final double v2) -> this.apply(before1.applyAsDouble(v1), before2.applyAsDouble(v2));
+		return (final double v1, final double v2) -> this.doApply(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
 	}
 
 	/**
@@ -124,7 +124,7 @@ public interface LDoubleBiFunctionX<R, X extends Exception> extends MetaFunction
 	default <V1, V2> LBiFunctionX<V1, V2, R, X> from(@Nonnull final LToDoubleFunctionX<? super V1, X> before1, @Nonnull final LToDoubleFunctionX<? super V2, X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.apply(before1.applyAsDouble(v1), before2.applyAsDouble(v2));
+		return (V1 v1, V2 v2) -> this.doApply(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
 	}
 
 	// </editor-fold>
@@ -135,14 +135,14 @@ public interface LDoubleBiFunctionX<R, X extends Exception> extends MetaFunction
 	@Nonnull
 	default <V> LDoubleBiFunctionX<V, X> then(@Nonnull LFunctionX<? super R, ? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d1, double d2) -> after.apply(this.apply(d1, d2));
+		return (double d1, double d2) -> after.doApply(this.doApply(d1, d2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleBiConsumerX<X> then(@Nonnull LConsumerX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d1, double d2) -> after.accept(this.apply(d1, d2));
+		return (double d1, double d2) -> after.doAccept(this.doApply(d1, d2));
 	}
 
 	// </editor-fold>
@@ -164,14 +164,14 @@ public interface LDoubleBiFunctionX<R, X extends Exception> extends MetaFunction
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LDoubleBiFunction<R> shove() {
 		LDoubleBiFunctionX<R, RuntimeException> exceptionCast = (LDoubleBiFunctionX<R, RuntimeException>) this;
-		return exceptionCast::apply;
+		return exceptionCast::doApply;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
 	default LDoubleBiFunctionX<R, X> nonNullableX() {
-		return (d1, d2) -> Objects.requireNonNull(this.apply(d1, d2));
+		return (d1, d2) -> Objects.requireNonNull(this.doApply(d1, d2));
 	}
 
 	// <editor-fold desc="exception handling">
@@ -181,11 +181,11 @@ public interface LDoubleBiFunctionX<R, X extends Exception> extends MetaFunction
 	public static <R, X extends Exception, E extends Exception, Y extends Exception> LDoubleBiFunctionX<R, Y> wrapException(@Nonnull final LDoubleBiFunctionX<R, X> other, Class<E> exception, LSupplierX<R, X> supplier, ExceptionHandler<E, Y> handler) {
 		return (double d1, double d2) -> {
 			try {
-				return other.apply(d1, d2);
+				return other.doApply(d1, d2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.get();
+						return supplier.doGet();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

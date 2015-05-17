@@ -60,9 +60,14 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBiFunction<T1, T2, R> extends java.util.function.BiFunction<T1, T2, R>, LBiFunctionX<T1, T2, R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LBiFunction: R apply(T1 t1,T2 t2)";
+	public static final String DESCRIPTION = "LBiFunction: R doApply(T1 t1,T2 t2)";
 
-	// Ovverriding methods can cause problems with inference.
+	@Nullable
+	public R doApply(T1 t1, T2 t2);
+
+	default R apply(T1 t1, T2 t2) {
+		return doApply(t1, t2);
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +77,7 @@ public interface LBiFunction<T1, T2, R> extends java.util.function.BiFunction<T1
 
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(T1 t1, T2 t2) {
-		return () -> this.apply(t1, t2);
+		return () -> this.doApply(t1, t2);
 	}
 
 	public static <T1, T2, R> LBiFunction<T1, T2, R> constant(R r) {
@@ -84,7 +89,7 @@ public interface LBiFunction<T1, T2, R> extends java.util.function.BiFunction<T1
 	/** Ensures the result is not null */
 	@Nonnull
 	default R nonNull(T1 t1, T2 t2) {
-		return Objects.requireNonNull(apply(t1, t2), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Objects.requireNonNull(doApply(t1, t2), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -107,7 +112,7 @@ public interface LBiFunction<T1, T2, R> extends java.util.function.BiFunction<T1
 	public static <T1, T2, R, X extends Exception> LBiFunction<T1, T2, R> wrap(final @Nonnull LBiFunctionX<T1, T2, R, X> other) {
 		return (T1 t1, T2 t2) -> {
 			try {
-				return other.apply(t1, t2);
+				return other.doApply(t1, t2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -125,7 +130,7 @@ public interface LBiFunction<T1, T2, R> extends java.util.function.BiFunction<T1
 	default <V1, V2> LBiFunction<V1, V2, R> from(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final V1 v1, final V2 v2) -> this.apply(before1.apply(v1), before2.apply(v2));
+		return (final V1 v1, final V2 v2) -> this.doApply(before1.doApply(v1), before2.doApply(v2));
 	}
 
 	// </editor-fold>
@@ -136,14 +141,14 @@ public interface LBiFunction<T1, T2, R> extends java.util.function.BiFunction<T1
 	@Nonnull
 	default <V> LBiFunction<T1, T2, V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T1 t1, T2 t2) -> after.apply(this.apply(t1, t2));
+		return (T1 t1, T2 t2) -> after.doApply(this.doApply(t1, t2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBiConsumer<T1, T2> then(@Nonnull LConsumer<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T1 t1, T2 t2) -> after.accept(this.apply(t1, t2));
+		return (T1 t1, T2 t2) -> after.doAccept(this.doApply(t1, t2));
 	}
 
 	// </editor-fold>
@@ -177,7 +182,7 @@ public interface LBiFunction<T1, T2, R> extends java.util.function.BiFunction<T1
 
 	@Nonnull
 	default LBiFunction<T1, T2, R> nonNullable() {
-		return (t1, t2) -> Objects.requireNonNull(this.apply(t1, t2));
+		return (t1, t2) -> Objects.requireNonNull(this.doApply(t1, t2));
 	}
 
 	// <editor-fold desc="exception handling">
@@ -187,11 +192,11 @@ public interface LBiFunction<T1, T2, R> extends java.util.function.BiFunction<T1
 	public static <T1, T2, R, X extends Exception, E extends Exception, Y extends RuntimeException> LBiFunction<T1, T2, R> wrapException(@Nonnull final LBiFunction<T1, T2, R> other, Class<E> exception, LSupplier<R> supplier, ExceptionHandler<E, Y> handler) {
 		return (T1 t1, T2 t2) -> {
 			try {
-				return other.apply(t1, t2);
+				return other.doApply(t1, t2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.get();
+						return supplier.doGet();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

@@ -99,13 +99,13 @@ public final class LShortBiConsumerXBuilder<X extends Exception> extends PerCase
 			final Case<LBiShortPredicateX<X>, LShortBiConsumerX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LShortBiConsumerX.lX((short s1, short s2) -> {
 				for (Case<LBiShortPredicateX<X>, LShortBiConsumerX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(s1, s2)) {
-						aCase.caseFunction().accept(s1, s2);
+					if (aCase.casePredicate().doTest(s1, s2)) {
+						aCase.caseFunction().doAccept(s1, s2);
 						return;
 					}
 				}
 
-				eventuallyFinal.accept(s1, s2);
+				eventuallyFinal.doAccept(s1, s2);
 			});
 		}
 

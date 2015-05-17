@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LShortBiConsumer extends LShortBiConsumerX<RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LShortBiConsumer: void accept(short s1,short s2)";
+	public static final String DESCRIPTION = "LShortBiConsumer: void doAccept(short s1,short s2)";
 
-	// Ovverriding methods can cause problems with inference.
+	public void doAccept(short s1, short s2);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +73,7 @@ public interface LShortBiConsumer extends LShortBiConsumerX<RuntimeException>, M
 
 	/** Captures arguments but delays the evaluation. */
 	default LAction capture(short s1, short s2) {
-		return () -> this.accept(s1, s2);
+		return () -> this.doAccept(s1, s2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -90,7 +90,7 @@ public interface LShortBiConsumer extends LShortBiConsumerX<RuntimeException>, M
 	public static <X extends Exception> LShortBiConsumer wrap(final @Nonnull LShortBiConsumerX<X> other) {
 		return (short s1, short s2) -> {
 			try {
-				other.accept(s1, s2);
+				other.doAccept(s1, s2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -108,7 +108,7 @@ public interface LShortBiConsumer extends LShortBiConsumerX<RuntimeException>, M
 	default LShortBiConsumer fromShort(@Nonnull final LShortUnaryOperator before1, @Nonnull final LShortUnaryOperator before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final short v1, final short v2) -> this.accept(before1.applyAsShort(v1), before2.applyAsShort(v2));
+		return (final short v1, final short v2) -> this.doAccept(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
 	}
 
 	/**
@@ -118,7 +118,7 @@ public interface LShortBiConsumer extends LShortBiConsumerX<RuntimeException>, M
 	default <V1, V2> LBiConsumer<V1, V2> from(@Nonnull final LToShortFunction<? super V1> before1, @Nonnull final LToShortFunction<? super V2> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.accept(before1.applyAsShort(v1), before2.applyAsShort(v2));
+		return (V1 v1, V2 v2) -> this.doAccept(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
 	}
 
 	// </editor-fold>
@@ -130,8 +130,8 @@ public interface LShortBiConsumer extends LShortBiConsumerX<RuntimeException>, M
 	default LShortBiConsumer andThen(@Nonnull LShortBiConsumer after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
 		return (short s1, short s2) -> {
-			this.accept(s1, s2);
-			after.accept(s1, s2);
+			this.doAccept(s1, s2);
+			after.doAccept(s1, s2);
 		};
 	}
 
@@ -164,7 +164,7 @@ public interface LShortBiConsumer extends LShortBiConsumerX<RuntimeException>, M
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LShortBiConsumer wrapException(@Nonnull final LShortBiConsumer other, Class<E> exception, ExceptionHandler<E, Y> handler) {
 		return (short s1, short s2) -> {
 			try {
-				other.accept(s1, s2);
+				other.doAccept(s1, s2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
 			}

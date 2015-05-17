@@ -69,7 +69,7 @@ public abstract class PerCaseBuilderWithShortProduct<PCB extends PerCaseBuilderW
 
 	/** Sets the function to evaluate _eventually_ when input data do not match any case. */
 	public final PCB eventuallyProduce(short directValue) {
-		eventually = directToFunction.apply(directValue);
+		eventually = directToFunction.doApply(directValue);
 		return self();
 	}
 

@@ -61,13 +61,13 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
 
 
     private LLongUnaryOperator sut = new LLongUnaryOperator(){
-        public  long applyAsLong(long l)  {
+        public  long doApplyAsLong(long l)  {
             return testValue;
         }
     };
 
     private LLongUnaryOperatorX<X> opposite = new LLongUnaryOperatorX(){
-        public  long applyAsLong(long l) throws ParseException {
+        public  long doApplyAsLong(long l) throws ParseException {
             return testValue;
         }
     };
@@ -78,7 +78,7 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.applyAsLong((long)100))
+        assertThat(sut.doApplyAsLong((long)100))
             .isEqualTo(testValue);
     }
 
@@ -92,7 +92,7 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LLongUnaryOperator: long applyAsLong(long l)");
+            .isEqualTo("LLongUnaryOperator: long doApplyAsLong(long l)");
     }
 
     @Test
@@ -125,7 +125,7 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsLong((long)100);
+            wrapped.doApplyAsLong((long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -147,7 +147,7 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsLong((long)100);
+            wrapped.doApplyAsLong((long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -173,7 +173,7 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsLong((long)100);
+            wrapped.doApplyAsLong((long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -198,7 +198,7 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsLong((long)100);
+            wrapped.doApplyAsLong((long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -222,7 +222,7 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsLong((long)100);
+            wrapped.doApplyAsLong((long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -257,7 +257,7 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
 
         //when
         LLongUnaryOperator function = sutO.fromLong(before1);
-        function.applyAsLong((long)80);
+        function.doApplyAsLong((long)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -286,7 +286,7 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
 
         //when
         LToLongFunction<Integer > function = sutO.from(before1);
-        function.applyAsLong((Integer )Integer.valueOf(80));
+        function.doApplyAsLong((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -322,7 +322,7 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
 
         //when
         LLongFunction<Integer > function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((long)80);
+        Integer  finalValue = function.doApply((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -357,7 +357,7 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
 
         //when
         LLongToByteFunction function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.applyAsByte((long)80);
+        byte finalValue = function.doApplyAsByte((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -392,7 +392,7 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
 
         //when
         LLongToShortFunction function = sutO.thenToShort(thenFunction);
-        short finalValue = function.applyAsShort((long)80);
+        short finalValue = function.doApplyAsShort((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -427,7 +427,7 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
 
         //when
         LLongToIntFunction function = sutO.thenToInt(thenFunction);
-        int finalValue = function.applyAsInt((long)80);
+        int finalValue = function.doApplyAsInt((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((int)100);
@@ -462,7 +462,7 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
 
         //when
         LLongUnaryOperator function = sutO.thenToLong(thenFunction);
-        long finalValue = function.applyAsLong((long)80);
+        long finalValue = function.doApplyAsLong((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((long)100);
@@ -497,7 +497,7 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
 
         //when
         LLongToFloatFunction function = sutO.thenToFloat(thenFunction);
-        float finalValue = function.applyAsFloat((long)80);
+        float finalValue = function.doApplyAsFloat((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((float)100);
@@ -532,7 +532,7 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
 
         //when
         LLongToDoubleFunction function = sutO.thenToDouble(thenFunction);
-        double finalValue = function.applyAsDouble((long)80);
+        double finalValue = function.doApplyAsDouble((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((double)100);
@@ -567,7 +567,7 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
 
         //when
         LLongToCharFunction function = sutO.thenToChar(thenFunction);
-        char finalValue = function.applyAsChar((long)80);
+        char finalValue = function.doApplyAsChar((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((char)100);
@@ -602,7 +602,7 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
 
         //when
         LLongPredicate function = sutO.thenToBoolean(thenFunction);
-        boolean finalValue = function.test((long)80);
+        boolean finalValue = function.doTest((long)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -618,7 +618,7 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
     public void identity() throws ParseException {
         LLongUnaryOperator identityFunction = LLongUnaryOperator.identity();
 
-        assertThat(identityFunction.applyAsLong((long)80)).isEqualTo((long)80);
+        assertThat(identityFunction.doApplyAsLong((long)80)).isEqualTo((long)80);
     }
 
     @Test
@@ -645,7 +645,7 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().applyAsLong((long)100);
+        sutThrowing.shove().doApplyAsLong((long)100);
     }
 
     @Test
@@ -663,7 +663,7 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsLong((long)100);
+            wrapped.doApplyAsLong((long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -682,7 +682,7 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LLongUnaryOperator: long applyAsLong(long l)");
+                .contains("LLongUnaryOperator: long doApplyAsLong(long l)");
     }
 
 

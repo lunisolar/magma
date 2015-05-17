@@ -55,7 +55,7 @@ public class PartialCaseWithIntProduct<SELF extends PartialCaseWithIntProduct<SE
 
 	/** Finalize the case build by providing second required value for the Case. */
 	public final PCB produce(int directValue) {
-		return this.evaluate(superContext().directToFunction.apply(directValue));
+		return this.evaluate(superContext().directToFunction.doApply(directValue));
 	}
 
 	public static final class The<PCB extends PerCaseBuilderWithIntProduct<PCB, P, F, The<PCB, P, F>>, P, F> extends PartialCaseWithIntProduct<The<PCB, P, F>, PCB, P, F> {

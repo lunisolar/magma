@@ -99,12 +99,12 @@ public final class LBiObjFloatFunctionBuilder<T1, T2, R> extends PerCaseBuilderW
 			final Case<LBiObjFloatPredicate<T1, T2>, LBiObjFloatFunction<T1, T2, R>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LBiObjFloatFunction.l((T1 t1, T2 t2, float f) -> {
 				for (Case<LBiObjFloatPredicate<T1, T2>, LBiObjFloatFunction<T1, T2, R>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t1, t2, f)) {
-						return aCase.caseFunction().apply(t1, t2, f);
+					if (aCase.casePredicate().doTest(t1, t2, f)) {
+						return aCase.caseFunction().doApply(t1, t2, f);
 					}
 				}
 
-				return eventuallyFinal.apply(t1, t2, f);
+				return eventuallyFinal.doApply(t1, t2, f);
 			});
 		}
 

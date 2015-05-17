@@ -61,13 +61,13 @@ public class LToByteBiFunctionXTest<T1,T2,X extends ParseException> {
 
 
     private LToByteBiFunctionX<T1,T2,X> sut = new LToByteBiFunctionX(){
-        public  byte applyAsByte(Object t1,Object t2) throws ParseException {
+        public  byte doApplyAsByte(Object t1,Object t2) throws ParseException {
             return testValue;
         }
     };
 
     private LToByteBiFunction<T1,T2> opposite = new LToByteBiFunction(){
-        public  byte applyAsByte(Object t1,Object t2)  {
+        public  byte doApplyAsByte(Object t1,Object t2)  {
             return testValue;
         }
     };
@@ -76,7 +76,7 @@ public class LToByteBiFunctionXTest<T1,T2,X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.applyAsByte((T1)Integer.valueOf(100),(T2)Integer.valueOf(100)))
+        assertThat(sut.doApplyAsByte((T1)Integer.valueOf(100),(T2)Integer.valueOf(100)))
             .isEqualTo(testValue);
     }
 
@@ -90,7 +90,7 @@ public class LToByteBiFunctionXTest<T1,T2,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LToByteBiFunctionX: byte applyAsByte(T1 t1,T2 t2) throws X");
+            .isEqualTo("LToByteBiFunctionX: byte doApplyAsByte(T1 t1,T2 t2) throws X");
     }
 
     @Test
@@ -121,7 +121,7 @@ public class LToByteBiFunctionXTest<T1,T2,X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsByte((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            wrapped.doApplyAsByte((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -146,7 +146,7 @@ public class LToByteBiFunctionXTest<T1,T2,X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsByte((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            wrapped.doApplyAsByte((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -170,7 +170,7 @@ public class LToByteBiFunctionXTest<T1,T2,X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsByte((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            wrapped.doApplyAsByte((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -211,7 +211,7 @@ public class LToByteBiFunctionXTest<T1,T2,X extends ParseException> {
 
         //when
         LToByteBiFunctionX<Integer ,Integer ,X> function = sutO.from(before1,before2);
-        function.applyAsByte((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        function.doApplyAsByte((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -248,7 +248,7 @@ public class LToByteBiFunctionXTest<T1,T2,X extends ParseException> {
 
         //when
         LBiFunctionX<Integer ,Integer ,Integer ,X> function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        Integer  finalValue = function.doApply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -279,7 +279,7 @@ public class LToByteBiFunctionXTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().applyAsByte((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+        sutThrowing.shove().doApplyAsByte((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
     }
 
     @Test
@@ -297,7 +297,7 @@ public class LToByteBiFunctionXTest<T1,T2,X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsByte((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            wrapped.doApplyAsByte((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -316,7 +316,7 @@ public class LToByteBiFunctionXTest<T1,T2,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LToByteBiFunctionX: byte applyAsByte(T1 t1,T2 t2) throws X");
+                .contains("LToByteBiFunctionX: byte doApplyAsByte(T1 t1,T2 t2) throws X");
     }
 
 

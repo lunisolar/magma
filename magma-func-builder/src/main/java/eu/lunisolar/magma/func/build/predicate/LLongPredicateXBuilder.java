@@ -99,12 +99,12 @@ public final class LLongPredicateXBuilder<X extends Exception> extends PerCaseBu
 			final Case<LLongPredicateX<X>, LLongPredicateX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LLongPredicateX.lX((long l) -> {
 				for (Case<LLongPredicateX<X>, LLongPredicateX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(l)) {
-						return aCase.caseFunction().test(l);
+					if (aCase.casePredicate().doTest(l)) {
+						return aCase.caseFunction().doTest(l);
 					}
 				}
 
-				return eventuallyFinal.test(l);
+				return eventuallyFinal.doTest(l);
 			});
 		}
 

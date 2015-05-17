@@ -61,13 +61,13 @@ public class LObjIntToIntFunctionTest<T,X extends ParseException> {
 
 
     private LObjIntToIntFunction<T> sut = new LObjIntToIntFunction(){
-        public  int applyAsInt(Object t, int i)  {
+        public  int doApplyAsInt(Object t, int i)  {
             return testValue;
         }
     };
 
     private LObjIntToIntFunctionX<T,X> opposite = new LObjIntToIntFunctionX(){
-        public  int applyAsInt(Object t, int i) throws ParseException {
+        public  int doApplyAsInt(Object t, int i) throws ParseException {
             return testValue;
         }
     };
@@ -76,7 +76,7 @@ public class LObjIntToIntFunctionTest<T,X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.applyAsInt((T)Integer.valueOf(100),(int)100))
+        assertThat(sut.doApplyAsInt((T)Integer.valueOf(100),(int)100))
             .isEqualTo(testValue);
     }
 
@@ -90,7 +90,7 @@ public class LObjIntToIntFunctionTest<T,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LObjIntToIntFunction: int applyAsInt(T t, int i)");
+            .isEqualTo("LObjIntToIntFunction: int doApplyAsInt(T t, int i)");
     }
 
     @Test
@@ -117,7 +117,7 @@ public class LObjIntToIntFunctionTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsInt((T)Integer.valueOf(100),(int)100);
+            wrapped.doApplyAsInt((T)Integer.valueOf(100),(int)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LObjIntToIntFunctionTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsInt((T)Integer.valueOf(100),(int)100);
+            wrapped.doApplyAsInt((T)Integer.valueOf(100),(int)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -165,7 +165,7 @@ public class LObjIntToIntFunctionTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsInt((T)Integer.valueOf(100),(int)100);
+            wrapped.doApplyAsInt((T)Integer.valueOf(100),(int)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -190,7 +190,7 @@ public class LObjIntToIntFunctionTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsInt((T)Integer.valueOf(100),(int)100);
+            wrapped.doApplyAsInt((T)Integer.valueOf(100),(int)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -214,7 +214,7 @@ public class LObjIntToIntFunctionTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsInt((T)Integer.valueOf(100),(int)100);
+            wrapped.doApplyAsInt((T)Integer.valueOf(100),(int)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -255,7 +255,7 @@ public class LObjIntToIntFunctionTest<T,X extends ParseException> {
 
         //when
         LObjIntToIntFunction<Integer > function = sutO.fromInt(before1,before2);
-        function.applyAsInt((Integer )Integer.valueOf(80),(int)81);
+        function.doApplyAsInt((Integer )Integer.valueOf(80),(int)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -290,7 +290,7 @@ public class LObjIntToIntFunctionTest<T,X extends ParseException> {
 
         //when
         LToIntBiFunction<Integer ,Integer > function = sutO.from(before1,before2);
-        function.applyAsInt((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        function.doApplyAsInt((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -327,7 +327,7 @@ public class LObjIntToIntFunctionTest<T,X extends ParseException> {
 
         //when
         LObjIntFunction<Integer ,Integer > function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((Integer )Integer.valueOf(80),(int)81);
+        Integer  finalValue = function.doApply((Integer )Integer.valueOf(80),(int)81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -358,7 +358,7 @@ public class LObjIntToIntFunctionTest<T,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().applyAsInt((T)Integer.valueOf(100),(int)100);
+        sutThrowing.shove().doApplyAsInt((T)Integer.valueOf(100),(int)100);
     }
 
     @Test
@@ -376,7 +376,7 @@ public class LObjIntToIntFunctionTest<T,X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsInt((T)Integer.valueOf(100),(int)100);
+            wrapped.doApplyAsInt((T)Integer.valueOf(100),(int)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -395,7 +395,7 @@ public class LObjIntToIntFunctionTest<T,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LObjIntToIntFunction: int applyAsInt(T t, int i)");
+                .contains("LObjIntToIntFunction: int doApplyAsInt(T t, int i)");
     }
 
 

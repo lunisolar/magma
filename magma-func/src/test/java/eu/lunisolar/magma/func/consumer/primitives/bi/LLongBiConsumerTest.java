@@ -59,13 +59,13 @@ public class LLongBiConsumerTest<X extends ParseException> {
 
 
     private LLongBiConsumer sut = new LLongBiConsumer(){
-        public  void accept(long l1,long l2)  {
+        public  void doAccept(long l1,long l2)  {
             Function4U.doNothing();
         }
     };
 
     private LLongBiConsumerX<X> opposite = new LLongBiConsumerX(){
-        public  void accept(long l1,long l2) throws ParseException {
+        public  void doAccept(long l1,long l2) throws ParseException {
             Function4U.doNothing();
         }
     };
@@ -77,7 +77,7 @@ public class LLongBiConsumerTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LLongBiConsumer: void accept(long l1,long l2)");
+            .isEqualTo("LLongBiConsumer: void doAccept(long l1,long l2)");
     }
 
     @Test
@@ -104,7 +104,7 @@ public class LLongBiConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((long)100,(long)100);
+            wrapped.doAccept((long)100,(long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -126,7 +126,7 @@ public class LLongBiConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((long)100,(long)100);
+            wrapped.doAccept((long)100,(long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -152,7 +152,7 @@ public class LLongBiConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((long)100,(long)100);
+            wrapped.doAccept((long)100,(long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -177,7 +177,7 @@ public class LLongBiConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((long)100,(long)100);
+            wrapped.doAccept((long)100,(long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -201,7 +201,7 @@ public class LLongBiConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((long)100,(long)100);
+            wrapped.doAccept((long)100,(long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -241,7 +241,7 @@ public class LLongBiConsumerTest<X extends ParseException> {
 
         //when
         LLongBiConsumer function = sutO.fromLong(before1,before2);
-        function.accept((long)80,(long)81);
+        function.doAccept((long)80,(long)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -275,7 +275,7 @@ public class LLongBiConsumerTest<X extends ParseException> {
 
         //when
         LBiConsumer<Integer ,Integer > function = sutO.from(before1,before2);
-        function.accept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        function.doAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -305,7 +305,7 @@ public class LLongBiConsumerTest<X extends ParseException> {
 
         //when
         LLongBiConsumer function = sutO.andThen(thenFunction);
-        function.accept((long)80,(long)81);
+        function.doAccept((long)80,(long)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -331,7 +331,7 @@ public class LLongBiConsumerTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().accept((long)100,(long)100);
+        sutThrowing.shove().doAccept((long)100,(long)100);
     }
 
     @Test
@@ -349,7 +349,7 @@ public class LLongBiConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((long)100,(long)100);
+            wrapped.doAccept((long)100,(long)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -368,7 +368,7 @@ public class LLongBiConsumerTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LLongBiConsumer: void accept(long l1,long l2)");
+                .contains("LLongBiConsumer: void doAccept(long l1,long l2)");
     }
 
 

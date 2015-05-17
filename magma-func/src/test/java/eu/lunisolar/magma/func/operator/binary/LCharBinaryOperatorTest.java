@@ -61,13 +61,13 @@ public class LCharBinaryOperatorTest<X extends ParseException> {
 
 
     private LCharBinaryOperator sut = new LCharBinaryOperator(){
-        public  char applyAsChar(char c1,char c2)  {
+        public  char doApplyAsChar(char c1,char c2)  {
             return testValue;
         }
     };
 
     private LCharBinaryOperatorX<X> opposite = new LCharBinaryOperatorX(){
-        public  char applyAsChar(char c1,char c2) throws ParseException {
+        public  char doApplyAsChar(char c1,char c2) throws ParseException {
             return testValue;
         }
     };
@@ -76,7 +76,7 @@ public class LCharBinaryOperatorTest<X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.applyAsChar((char)100,(char)100))
+        assertThat(sut.doApplyAsChar((char)100,(char)100))
             .isEqualTo(testValue);
     }
 
@@ -90,7 +90,7 @@ public class LCharBinaryOperatorTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LCharBinaryOperator: char applyAsChar(char c1,char c2)");
+            .isEqualTo("LCharBinaryOperator: char doApplyAsChar(char c1,char c2)");
     }
 
     @Test
@@ -117,7 +117,7 @@ public class LCharBinaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsChar((char)100,(char)100);
+            wrapped.doApplyAsChar((char)100,(char)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LCharBinaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsChar((char)100,(char)100);
+            wrapped.doApplyAsChar((char)100,(char)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -165,7 +165,7 @@ public class LCharBinaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsChar((char)100,(char)100);
+            wrapped.doApplyAsChar((char)100,(char)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -190,7 +190,7 @@ public class LCharBinaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsChar((char)100,(char)100);
+            wrapped.doApplyAsChar((char)100,(char)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -214,7 +214,7 @@ public class LCharBinaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsChar((char)100,(char)100);
+            wrapped.doApplyAsChar((char)100,(char)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -235,10 +235,10 @@ public class LCharBinaryOperatorTest<X extends ParseException> {
         LCharBinaryOperator min = LCharBinaryOperator.min();
 
         //then
-        assertThat(min.applyAsChar(valueSmall, valueBig))
+        assertThat(min.doApplyAsChar(valueSmall, valueBig))
                 .isEqualTo(valueSmall);
 
-        assertThat(min.applyAsChar(valueBig, valueSmall))
+        assertThat(min.doApplyAsChar(valueBig, valueSmall))
                 .isEqualTo(valueSmall);
     }
 
@@ -252,10 +252,10 @@ public class LCharBinaryOperatorTest<X extends ParseException> {
         LCharBinaryOperator max = LCharBinaryOperator.max();
 
         //then
-        assertThat(max.applyAsChar(valueSmall, valueBig))
+        assertThat(max.doApplyAsChar(valueSmall, valueBig))
                 .isEqualTo(valueBig);
 
-        assertThat(max.applyAsChar(valueBig, valueSmall))
+        assertThat(max.doApplyAsChar(valueBig, valueSmall))
                 .isEqualTo(valueBig);
     }
 
@@ -289,7 +289,7 @@ public class LCharBinaryOperatorTest<X extends ParseException> {
 
         //when
         LCharBinaryOperator function = sutO.fromChar(before1,before2);
-        function.applyAsChar((char)80,(char)81);
+        function.doApplyAsChar((char)80,(char)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -324,7 +324,7 @@ public class LCharBinaryOperatorTest<X extends ParseException> {
 
         //when
         LToCharBiFunction<Integer ,Integer > function = sutO.from(before1,before2);
-        function.applyAsChar((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        function.doApplyAsChar((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -361,7 +361,7 @@ public class LCharBinaryOperatorTest<X extends ParseException> {
 
         //when
         LCharBiFunction<Integer > function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((char)80,(char)81);
+        Integer  finalValue = function.doApply((char)80,(char)81);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -392,7 +392,7 @@ public class LCharBinaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().applyAsChar((char)100,(char)100);
+        sutThrowing.shove().doApplyAsChar((char)100,(char)100);
     }
 
     @Test
@@ -410,7 +410,7 @@ public class LCharBinaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsChar((char)100,(char)100);
+            wrapped.doApplyAsChar((char)100,(char)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -429,7 +429,7 @@ public class LCharBinaryOperatorTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LCharBinaryOperator: char applyAsChar(char c1,char c2)");
+                .contains("LCharBinaryOperator: char doApplyAsChar(char c1,char c2)");
     }
 
 

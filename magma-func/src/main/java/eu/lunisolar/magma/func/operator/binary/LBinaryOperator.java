@@ -60,9 +60,14 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBinaryOperator<T> extends java.util.function.BinaryOperator<T>, LBinaryOperatorX<T, RuntimeException>, MetaOperator, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LBinaryOperator: T apply(T t1,T t2)";
+	public static final String DESCRIPTION = "LBinaryOperator: T doApply(T t1,T t2)";
 
-	// Ovverriding methods can cause problems with inference.
+	@Nullable
+	public T doApply(T t1, T t2);
+
+	default T apply(T t1, T t2) {
+		return doApply(t1, t2);
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +77,7 @@ public interface LBinaryOperator<T> extends java.util.function.BinaryOperator<T>
 
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<T> capture(T t1, T t2) {
-		return () -> this.apply(t1, t2);
+		return () -> this.doApply(t1, t2);
 	}
 
 	public static <T> LBinaryOperator<T> constant(T r) {
@@ -84,7 +89,7 @@ public interface LBinaryOperator<T> extends java.util.function.BinaryOperator<T>
 	/** Ensures the result is not null */
 	@Nonnull
 	default T nonNull(T t1, T t2) {
-		return Objects.requireNonNull(apply(t1, t2), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Objects.requireNonNull(doApply(t1, t2), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -107,7 +112,7 @@ public interface LBinaryOperator<T> extends java.util.function.BinaryOperator<T>
 	public static <T, X extends Exception> LBinaryOperator<T> wrap(final @Nonnull LBinaryOperatorX<T, X> other) {
 		return (T t1, T t2) -> {
 			try {
-				return other.apply(t1, t2);
+				return other.doApply(t1, t2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -124,7 +129,7 @@ public interface LBinaryOperator<T> extends java.util.function.BinaryOperator<T>
 	@Nonnull
 	default <V> LBiFunction<T, T, V> then(@Nonnull LFunction<? super T, ? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t1, T t2) -> after.apply(this.apply(t1, t2));
+		return (T t1, T t2) -> after.doApply(this.doApply(t1, t2));
 	}
 
 	// </editor-fold>
@@ -158,7 +163,7 @@ public interface LBinaryOperator<T> extends java.util.function.BinaryOperator<T>
 
 	@Nonnull
 	default LBinaryOperator<T> nonNullable() {
-		return (t1, t2) -> Objects.requireNonNull(this.apply(t1, t2));
+		return (t1, t2) -> Objects.requireNonNull(this.doApply(t1, t2));
 	}
 
 	// <editor-fold desc="exception handling">
@@ -168,11 +173,11 @@ public interface LBinaryOperator<T> extends java.util.function.BinaryOperator<T>
 	public static <T, X extends Exception, E extends Exception, Y extends RuntimeException> LBinaryOperator<T> wrapException(@Nonnull final LBinaryOperator<T> other, Class<E> exception, LSupplier<T> supplier, ExceptionHandler<E, Y> handler) {
 		return (T t1, T t2) -> {
 			try {
-				return other.apply(t1, t2);
+				return other.doApply(t1, t2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.get();
+						return supplier.doGet();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

@@ -99,12 +99,12 @@ public final class LIntPredicateXBuilder<X extends Exception> extends PerCaseBui
 			final Case<LIntPredicateX<X>, LIntPredicateX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LIntPredicateX.lX((int i) -> {
 				for (Case<LIntPredicateX<X>, LIntPredicateX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(i)) {
-						return aCase.caseFunction().test(i);
+					if (aCase.casePredicate().doTest(i)) {
+						return aCase.caseFunction().doTest(i);
 					}
 				}
 
-				return eventuallyFinal.test(i);
+				return eventuallyFinal.doTest(i);
 			});
 		}
 

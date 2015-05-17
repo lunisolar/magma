@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LDoubleToFloatFunctionX<X extends Exception> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LDoubleToFloatFunctionX: float applyAsFloat(double d) throws X";
+	public static final String DESCRIPTION = "LDoubleToFloatFunctionX: float doApplyAsFloat(double d) throws X";
 
-	public float applyAsFloat(double d) throws X;
+	public float doApplyAsFloat(double d) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LDoubleToFloatFunctionX<X extends Exception> extends MetaFuncti
 
 	/** Captures arguments but delays the evaluation. */
 	default LFloatSupplierX<X> capture(double d) {
-		return () -> this.applyAsFloat(d);
+		return () -> this.doApplyAsFloat(d);
 	}
 
 	public static <X extends Exception> LDoubleToFloatFunctionX<X> constant(float r) {
@@ -81,7 +81,7 @@ public interface LDoubleToFloatFunctionX<X extends Exception> extends MetaFuncti
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default float nonNull(double d) throws X {
-		return applyAsFloat(d);
+		return doApplyAsFloat(d);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -96,7 +96,7 @@ public interface LDoubleToFloatFunctionX<X extends Exception> extends MetaFuncti
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LDoubleToFloatFunctionX<X> wrapX(final @Nonnull LDoubleToFloatFunction other) {
-		return other::applyAsFloat;
+		return other::doApplyAsFloat;
 	}
 
 	// </editor-fold>
@@ -109,7 +109,7 @@ public interface LDoubleToFloatFunctionX<X extends Exception> extends MetaFuncti
 	@Nonnull
 	default LDoubleToFloatFunctionX<X> fromDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final double v1) -> this.applyAsFloat(before1.applyAsDouble(v1));
+		return (final double v1) -> this.doApplyAsFloat(before1.doApplyAsDouble(v1));
 	}
 
 	/**
@@ -118,7 +118,7 @@ public interface LDoubleToFloatFunctionX<X extends Exception> extends MetaFuncti
 	@Nonnull
 	default <V1> LToFloatFunctionX<V1, X> from(@Nonnull final LToDoubleFunctionX<? super V1, X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.applyAsFloat(before1.applyAsDouble(v1));
+		return (V1 v1) -> this.doApplyAsFloat(before1.doApplyAsDouble(v1));
 	}
 
 	// </editor-fold>
@@ -129,63 +129,63 @@ public interface LDoubleToFloatFunctionX<X extends Exception> extends MetaFuncti
 	@Nonnull
 	default <V> LDoubleFunctionX<V, X> then(@Nonnull LFloatFunctionX<? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.apply(this.applyAsFloat(d));
+		return (double d) -> after.doApply(this.doApplyAsFloat(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToByteFunctionX<X> thenToByte(@Nonnull LFloatToByteFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsByte(this.applyAsFloat(d));
+		return (double d) -> after.doApplyAsByte(this.doApplyAsFloat(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToShortFunctionX<X> thenToShort(@Nonnull LFloatToShortFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsShort(this.applyAsFloat(d));
+		return (double d) -> after.doApplyAsShort(this.doApplyAsFloat(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToIntFunctionX<X> thenToInt(@Nonnull LFloatToIntFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsInt(this.applyAsFloat(d));
+		return (double d) -> after.doApplyAsInt(this.doApplyAsFloat(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToLongFunctionX<X> thenToLong(@Nonnull LFloatToLongFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsLong(this.applyAsFloat(d));
+		return (double d) -> after.doApplyAsLong(this.doApplyAsFloat(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToFloatFunctionX<X> thenToFloat(@Nonnull LFloatUnaryOperatorX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsFloat(this.applyAsFloat(d));
+		return (double d) -> after.doApplyAsFloat(this.doApplyAsFloat(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleUnaryOperatorX<X> thenToDouble(@Nonnull LFloatToDoubleFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsDouble(this.applyAsFloat(d));
+		return (double d) -> after.doApplyAsDouble(this.doApplyAsFloat(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToCharFunctionX<X> thenToChar(@Nonnull LFloatToCharFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsChar(this.applyAsFloat(d));
+		return (double d) -> after.doApplyAsChar(this.doApplyAsFloat(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoublePredicateX<X> thenToBoolean(@Nonnull LFloatPredicateX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.test(this.applyAsFloat(d));
+		return (double d) -> after.doTest(this.doApplyAsFloat(d));
 	}
 
 	// </editor-fold>
@@ -207,7 +207,7 @@ public interface LDoubleToFloatFunctionX<X extends Exception> extends MetaFuncti
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LDoubleToFloatFunction shove() {
 		LDoubleToFloatFunctionX<RuntimeException> exceptionCast = (LDoubleToFloatFunctionX<RuntimeException>) this;
-		return exceptionCast::applyAsFloat;
+		return exceptionCast::doApplyAsFloat;
 	}
 
 	// </editor-fold>
@@ -219,11 +219,11 @@ public interface LDoubleToFloatFunctionX<X extends Exception> extends MetaFuncti
 	public static <X extends Exception, E extends Exception, Y extends Exception> LDoubleToFloatFunctionX<Y> wrapException(@Nonnull final LDoubleToFloatFunctionX<X> other, Class<E> exception, LFloatSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
 		return (double d) -> {
 			try {
-				return other.applyAsFloat(d);
+				return other.doApplyAsFloat(d);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsFloat();
+						return supplier.doGetAsFloat();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

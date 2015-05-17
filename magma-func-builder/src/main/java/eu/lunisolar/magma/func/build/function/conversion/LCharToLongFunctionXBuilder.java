@@ -99,12 +99,12 @@ public final class LCharToLongFunctionXBuilder<X extends Exception> extends PerC
 			final Case<LCharPredicateX<X>, LCharToLongFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LCharToLongFunctionX.lX((char c) -> {
 				for (Case<LCharPredicateX<X>, LCharToLongFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(c)) {
-						return aCase.caseFunction().applyAsLong(c);
+					if (aCase.casePredicate().doTest(c)) {
+						return aCase.caseFunction().doApplyAsLong(c);
 					}
 				}
 
-				return eventuallyFinal.applyAsLong(c);
+				return eventuallyFinal.doApplyAsLong(c);
 			});
 		}
 

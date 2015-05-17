@@ -99,12 +99,12 @@ public final class LShortBiFunctionXBuilder<R, X extends Exception> extends PerC
 			final Case<LBiShortPredicateX<X>, LShortBiFunctionX<R, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LShortBiFunctionX.lX((short s1, short s2) -> {
 				for (Case<LBiShortPredicateX<X>, LShortBiFunctionX<R, X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(s1, s2)) {
-						return aCase.caseFunction().apply(s1, s2);
+					if (aCase.casePredicate().doTest(s1, s2)) {
+						return aCase.caseFunction().doApply(s1, s2);
 					}
 				}
 
-				return eventuallyFinal.apply(s1, s2);
+				return eventuallyFinal.doApply(s1, s2);
 			});
 		}
 

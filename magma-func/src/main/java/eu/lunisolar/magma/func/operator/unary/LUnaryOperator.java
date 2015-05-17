@@ -60,9 +60,14 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LUnaryOperator<T> extends java.util.function.UnaryOperator<T>, LUnaryOperatorX<T, RuntimeException>, MetaOperator, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LUnaryOperator: T apply(T t)";
+	public static final String DESCRIPTION = "LUnaryOperator: T doApply(T t)";
 
-	// Ovverriding methods can cause problems with inference.
+	@Nullable
+	public T doApply(T t);
+
+	default T apply(T t) {
+		return doApply(t);
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +77,7 @@ public interface LUnaryOperator<T> extends java.util.function.UnaryOperator<T>, 
 
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<T> capture(T t) {
-		return () -> this.apply(t);
+		return () -> this.doApply(t);
 	}
 
 	public static <T> LUnaryOperator<T> constant(T r) {
@@ -84,7 +89,7 @@ public interface LUnaryOperator<T> extends java.util.function.UnaryOperator<T>, 
 	/** Ensures the result is not null */
 	@Nonnull
 	default T nonNull(T t) {
-		return Objects.requireNonNull(apply(t), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Objects.requireNonNull(doApply(t), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -107,7 +112,7 @@ public interface LUnaryOperator<T> extends java.util.function.UnaryOperator<T>, 
 	public static <T, X extends Exception> LUnaryOperator<T> wrap(final @Nonnull LUnaryOperatorX<T, X> other) {
 		return (T t) -> {
 			try {
-				return other.apply(t);
+				return other.doApply(t);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -122,63 +127,63 @@ public interface LUnaryOperator<T> extends java.util.function.UnaryOperator<T>, 
 	@Nonnull
 	default <V> LFunction<T, V> then(@Nonnull LFunction<? super T, ? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.apply(this.apply(t));
+		return (T t) -> after.doApply(this.doApply(t));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LToByteFunction<T> thenToByte(@Nonnull LToByteFunction<? super T> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsByte(this.apply(t));
+		return (T t) -> after.doApplyAsByte(this.doApply(t));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LToShortFunction<T> thenToShort(@Nonnull LToShortFunction<? super T> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsShort(this.apply(t));
+		return (T t) -> after.doApplyAsShort(this.doApply(t));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LToIntFunction<T> thenToInt(@Nonnull LToIntFunction<? super T> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsInt(this.apply(t));
+		return (T t) -> after.doApplyAsInt(this.doApply(t));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LToLongFunction<T> thenToLong(@Nonnull LToLongFunction<? super T> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsLong(this.apply(t));
+		return (T t) -> after.doApplyAsLong(this.doApply(t));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LToFloatFunction<T> thenToFloat(@Nonnull LToFloatFunction<? super T> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsFloat(this.apply(t));
+		return (T t) -> after.doApplyAsFloat(this.doApply(t));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LToDoubleFunction<T> thenToDouble(@Nonnull LToDoubleFunction<? super T> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsDouble(this.apply(t));
+		return (T t) -> after.doApplyAsDouble(this.doApply(t));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LToCharFunction<T> thenToChar(@Nonnull LToCharFunction<? super T> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsChar(this.apply(t));
+		return (T t) -> after.doApplyAsChar(this.doApply(t));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LPredicate<T> thenToBoolean(@Nonnull LPredicate<? super T> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.test(this.apply(t));
+		return (T t) -> after.doTest(this.doApply(t));
 	}
 
 	// </editor-fold>
@@ -218,7 +223,7 @@ public interface LUnaryOperator<T> extends java.util.function.UnaryOperator<T>, 
 
 	@Nonnull
 	default LUnaryOperator<T> nonNullable() {
-		return (t) -> Objects.requireNonNull(this.apply(t));
+		return (t) -> Objects.requireNonNull(this.doApply(t));
 	}
 
 	// <editor-fold desc="exception handling">
@@ -228,11 +233,11 @@ public interface LUnaryOperator<T> extends java.util.function.UnaryOperator<T>, 
 	public static <T, X extends Exception, E extends Exception, Y extends RuntimeException> LUnaryOperator<T> wrapException(@Nonnull final LUnaryOperator<T> other, Class<E> exception, LSupplier<T> supplier, ExceptionHandler<E, Y> handler) {
 		return (T t) -> {
 			try {
-				return other.apply(t);
+				return other.doApply(t);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.get();
+						return supplier.doGet();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

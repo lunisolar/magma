@@ -69,7 +69,7 @@ public class LByteUnaryOperatorBuilderTest<X extends ParseException>{
                 .byteUnaryOperator()
                 .build();
 
-            function.applyAsByte((byte)100);
+            function.doApplyAsByte((byte)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

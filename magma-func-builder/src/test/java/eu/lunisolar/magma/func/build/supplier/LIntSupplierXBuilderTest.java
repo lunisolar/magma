@@ -69,7 +69,7 @@ public class LIntSupplierXBuilderTest<X extends ParseException>{
                 .intSupplierX()
                 .build();
 
-            function.getAsInt();
+            function.doGetAsInt();
 
             fail("No exception were thrown.");
         } catch (Exception e) {

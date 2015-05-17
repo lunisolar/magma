@@ -69,7 +69,7 @@ public class LShortPredicateXBuilderTest<X extends ParseException>{
                 .shortPredicateX()
                 .build();
 
-            function.test((short)100);
+            function.doTest((short)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

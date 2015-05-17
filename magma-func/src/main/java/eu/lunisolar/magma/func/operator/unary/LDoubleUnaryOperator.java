@@ -60,9 +60,13 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LDoubleUnaryOperator extends java.util.function.DoubleUnaryOperator, LDoubleUnaryOperatorX<RuntimeException>, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LDoubleUnaryOperator: double applyAsDouble(double d)";
+	public static final String DESCRIPTION = "LDoubleUnaryOperator: double doApplyAsDouble(double d)";
 
-	// Ovverriding methods can cause problems with inference.
+	public double doApplyAsDouble(double d);
+
+	default double applyAsDouble(double d) {
+		return doApplyAsDouble(d);
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +76,7 @@ public interface LDoubleUnaryOperator extends java.util.function.DoubleUnaryOper
 
 	/** Captures arguments but delays the evaluation. */
 	default LDoubleSupplier capture(double d) {
-		return () -> this.applyAsDouble(d);
+		return () -> this.doApplyAsDouble(d);
 	}
 
 	public static LDoubleUnaryOperator constant(double r) {
@@ -81,7 +85,7 @@ public interface LDoubleUnaryOperator extends java.util.function.DoubleUnaryOper
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default double nonNull(double d) {
-		return applyAsDouble(d);
+		return doApplyAsDouble(d);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -104,7 +108,7 @@ public interface LDoubleUnaryOperator extends java.util.function.DoubleUnaryOper
 	public static <X extends Exception> LDoubleUnaryOperator wrap(final @Nonnull LDoubleUnaryOperatorX<X> other) {
 		return (double d) -> {
 			try {
-				return other.applyAsDouble(d);
+				return other.doApplyAsDouble(d);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -121,7 +125,7 @@ public interface LDoubleUnaryOperator extends java.util.function.DoubleUnaryOper
 	@Nonnull
 	default LDoubleUnaryOperator fromDouble(@Nonnull final LDoubleUnaryOperator before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final double v1) -> this.applyAsDouble(before1.applyAsDouble(v1));
+		return (final double v1) -> this.doApplyAsDouble(before1.doApplyAsDouble(v1));
 	}
 
 	/**
@@ -130,7 +134,7 @@ public interface LDoubleUnaryOperator extends java.util.function.DoubleUnaryOper
 	@Nonnull
 	default <V1> LToDoubleFunction<V1> from(@Nonnull final LToDoubleFunction<? super V1> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.applyAsDouble(before1.applyAsDouble(v1));
+		return (V1 v1) -> this.doApplyAsDouble(before1.doApplyAsDouble(v1));
 	}
 
 	// </editor-fold>
@@ -141,63 +145,63 @@ public interface LDoubleUnaryOperator extends java.util.function.DoubleUnaryOper
 	@Nonnull
 	default <V> LDoubleFunction<V> then(@Nonnull LDoubleFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.apply(this.applyAsDouble(d));
+		return (double d) -> after.doApply(this.doApplyAsDouble(d));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LDoubleToByteFunction thenToByte(@Nonnull LDoubleToByteFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsByte(this.applyAsDouble(d));
+		return (double d) -> after.doApplyAsByte(this.doApplyAsDouble(d));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LDoubleToShortFunction thenToShort(@Nonnull LDoubleToShortFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsShort(this.applyAsDouble(d));
+		return (double d) -> after.doApplyAsShort(this.doApplyAsDouble(d));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LDoubleToIntFunction thenToInt(@Nonnull LDoubleToIntFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsInt(this.applyAsDouble(d));
+		return (double d) -> after.doApplyAsInt(this.doApplyAsDouble(d));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LDoubleToLongFunction thenToLong(@Nonnull LDoubleToLongFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsLong(this.applyAsDouble(d));
+		return (double d) -> after.doApplyAsLong(this.doApplyAsDouble(d));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LDoubleToFloatFunction thenToFloat(@Nonnull LDoubleToFloatFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsFloat(this.applyAsDouble(d));
+		return (double d) -> after.doApplyAsFloat(this.doApplyAsDouble(d));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LDoubleUnaryOperator thenToDouble(@Nonnull LDoubleUnaryOperator after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsDouble(this.applyAsDouble(d));
+		return (double d) -> after.doApplyAsDouble(this.doApplyAsDouble(d));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LDoubleToCharFunction thenToChar(@Nonnull LDoubleToCharFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsChar(this.applyAsDouble(d));
+		return (double d) -> after.doApplyAsChar(this.doApplyAsDouble(d));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LDoublePredicate thenToBoolean(@Nonnull LDoublePredicate after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.test(this.applyAsDouble(d));
+		return (double d) -> after.doTest(this.doApplyAsDouble(d));
 	}
 
 	// </editor-fold>
@@ -242,11 +246,11 @@ public interface LDoubleUnaryOperator extends java.util.function.DoubleUnaryOper
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LDoubleUnaryOperator wrapException(@Nonnull final LDoubleUnaryOperator other, Class<E> exception, LDoubleSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (double d) -> {
 			try {
-				return other.applyAsDouble(d);
+				return other.doApplyAsDouble(d);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsDouble();
+						return supplier.doGetAsDouble();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

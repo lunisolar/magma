@@ -99,12 +99,12 @@ public final class LDoubleFunctionXBuilder<R, X extends Exception> extends PerCa
 			final Case<LDoublePredicateX<X>, LDoubleFunctionX<R, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LDoubleFunctionX.lX((double d) -> {
 				for (Case<LDoublePredicateX<X>, LDoubleFunctionX<R, X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(d)) {
-						return aCase.caseFunction().apply(d);
+					if (aCase.casePredicate().doTest(d)) {
+						return aCase.caseFunction().doApply(d);
 					}
 				}
 
-				return eventuallyFinal.apply(d);
+				return eventuallyFinal.doApply(d);
 			});
 		}
 

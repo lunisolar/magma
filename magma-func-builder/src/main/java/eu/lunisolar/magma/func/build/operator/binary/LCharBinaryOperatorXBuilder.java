@@ -99,12 +99,12 @@ public final class LCharBinaryOperatorXBuilder<X extends Exception> extends PerC
 			final Case<LBiCharPredicateX<X>, LCharBinaryOperatorX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LCharBinaryOperatorX.lX((char c1, char c2) -> {
 				for (Case<LBiCharPredicateX<X>, LCharBinaryOperatorX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(c1, c2)) {
-						return aCase.caseFunction().applyAsChar(c1, c2);
+					if (aCase.casePredicate().doTest(c1, c2)) {
+						return aCase.caseFunction().doApplyAsChar(c1, c2);
 					}
 				}
 
-				return eventuallyFinal.applyAsChar(c1, c2);
+				return eventuallyFinal.doApplyAsChar(c1, c2);
 			});
 		}
 

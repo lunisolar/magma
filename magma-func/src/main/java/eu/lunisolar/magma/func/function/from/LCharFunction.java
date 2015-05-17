@@ -60,9 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LCharFunction<R> extends LCharFunctionX<R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LCharFunction: R apply(char c)";
+	public static final String DESCRIPTION = "LCharFunction: R doApply(char c)";
 
-	// Ovverriding methods can cause problems with inference.
+	@Nullable
+	public R doApply(char c);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +73,7 @@ public interface LCharFunction<R> extends LCharFunctionX<R, RuntimeException>, M
 
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(char c) {
-		return () -> this.apply(c);
+		return () -> this.doApply(c);
 	}
 
 	public static <R> LCharFunction<R> constant(R r) {
@@ -84,7 +85,7 @@ public interface LCharFunction<R> extends LCharFunctionX<R, RuntimeException>, M
 	/** Ensures the result is not null */
 	@Nonnull
 	default R nonNull(char c) {
-		return Objects.requireNonNull(apply(c), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Objects.requireNonNull(doApply(c), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -101,7 +102,7 @@ public interface LCharFunction<R> extends LCharFunctionX<R, RuntimeException>, M
 	public static <R, X extends Exception> LCharFunction<R> wrap(final @Nonnull LCharFunctionX<R, X> other) {
 		return (char c) -> {
 			try {
-				return other.apply(c);
+				return other.doApply(c);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -118,7 +119,7 @@ public interface LCharFunction<R> extends LCharFunctionX<R, RuntimeException>, M
 	@Nonnull
 	default LCharFunction<R> fromChar(@Nonnull final LCharUnaryOperator before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final char v1) -> this.apply(before1.applyAsChar(v1));
+		return (final char v1) -> this.doApply(before1.doApplyAsChar(v1));
 	}
 
 	/**
@@ -127,7 +128,7 @@ public interface LCharFunction<R> extends LCharFunctionX<R, RuntimeException>, M
 	@Nonnull
 	default <V1> LFunction<V1, R> from(@Nonnull final LToCharFunction<? super V1> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.apply(before1.applyAsChar(v1));
+		return (V1 v1) -> this.doApply(before1.doApplyAsChar(v1));
 	}
 
 	// </editor-fold>
@@ -138,70 +139,70 @@ public interface LCharFunction<R> extends LCharFunctionX<R, RuntimeException>, M
 	@Nonnull
 	default <V> LCharFunction<V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.apply(this.apply(c));
+		return (char c) -> after.doApply(this.doApply(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharConsumer then(@Nonnull LConsumer<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.accept(this.apply(c));
+		return (char c) -> after.doAccept(this.doApply(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToByteFunction thenToByte(@Nonnull LToByteFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.applyAsByte(this.apply(c));
+		return (char c) -> after.doApplyAsByte(this.doApply(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToShortFunction thenToShort(@Nonnull LToShortFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.applyAsShort(this.apply(c));
+		return (char c) -> after.doApplyAsShort(this.doApply(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToIntFunction thenToInt(@Nonnull LToIntFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.applyAsInt(this.apply(c));
+		return (char c) -> after.doApplyAsInt(this.doApply(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToLongFunction thenToLong(@Nonnull LToLongFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.applyAsLong(this.apply(c));
+		return (char c) -> after.doApplyAsLong(this.doApply(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToFloatFunction thenToFloat(@Nonnull LToFloatFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.applyAsFloat(this.apply(c));
+		return (char c) -> after.doApplyAsFloat(this.doApply(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToDoubleFunction thenToDouble(@Nonnull LToDoubleFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.applyAsDouble(this.apply(c));
+		return (char c) -> after.doApplyAsDouble(this.doApply(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharUnaryOperator thenToChar(@Nonnull LToCharFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.applyAsChar(this.apply(c));
+		return (char c) -> after.doApplyAsChar(this.doApply(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharPredicate thenToBoolean(@Nonnull LPredicate<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.test(this.apply(c));
+		return (char c) -> after.doTest(this.doApply(c));
 	}
 
 	// </editor-fold>
@@ -229,7 +230,7 @@ public interface LCharFunction<R> extends LCharFunctionX<R, RuntimeException>, M
 
 	@Nonnull
 	default LCharFunction<R> nonNullable() {
-		return (c) -> Objects.requireNonNull(this.apply(c));
+		return (c) -> Objects.requireNonNull(this.doApply(c));
 	}
 
 	// <editor-fold desc="exception handling">
@@ -239,11 +240,11 @@ public interface LCharFunction<R> extends LCharFunctionX<R, RuntimeException>, M
 	public static <R, X extends Exception, E extends Exception, Y extends RuntimeException> LCharFunction<R> wrapException(@Nonnull final LCharFunction<R> other, Class<E> exception, LSupplier<R> supplier, ExceptionHandler<E, Y> handler) {
 		return (char c) -> {
 			try {
-				return other.apply(c);
+				return other.doApply(c);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.get();
+						return supplier.doGet();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

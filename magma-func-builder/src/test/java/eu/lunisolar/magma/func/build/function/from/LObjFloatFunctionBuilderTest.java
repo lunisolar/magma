@@ -69,7 +69,7 @@ public class LObjFloatFunctionBuilderTest<T,R,X extends ParseException>{
                 .objFloatFunction()
                 .build();
 
-            function.apply((T)Integer.valueOf(100),(float)100);
+            function.doApply((T)Integer.valueOf(100),(float)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

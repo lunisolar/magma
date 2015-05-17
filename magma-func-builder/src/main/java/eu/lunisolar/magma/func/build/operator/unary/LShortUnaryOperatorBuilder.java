@@ -99,12 +99,12 @@ public final class LShortUnaryOperatorBuilder extends PerCaseBuilderWithShortPro
 			final Case<LShortPredicate, LShortUnaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LShortUnaryOperator.l((short s) -> {
 				for (Case<LShortPredicate, LShortUnaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().test(s)) {
-						return aCase.caseFunction().applyAsShort(s);
+					if (aCase.casePredicate().doTest(s)) {
+						return aCase.caseFunction().doApplyAsShort(s);
 					}
 				}
 
-				return eventuallyFinal.applyAsShort(s);
+				return eventuallyFinal.doApplyAsShort(s);
 			});
 		}
 

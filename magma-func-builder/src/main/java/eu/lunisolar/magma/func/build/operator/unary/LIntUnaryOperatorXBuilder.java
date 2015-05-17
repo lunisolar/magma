@@ -99,12 +99,12 @@ public final class LIntUnaryOperatorXBuilder<X extends Exception> extends PerCas
 			final Case<LIntPredicateX<X>, LIntUnaryOperatorX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LIntUnaryOperatorX.lX((int i) -> {
 				for (Case<LIntPredicateX<X>, LIntUnaryOperatorX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(i)) {
-						return aCase.caseFunction().applyAsInt(i);
+					if (aCase.casePredicate().doTest(i)) {
+						return aCase.caseFunction().doApplyAsInt(i);
 					}
 				}
 
-				return eventuallyFinal.applyAsInt(i);
+				return eventuallyFinal.doApplyAsInt(i);
 			});
 		}
 

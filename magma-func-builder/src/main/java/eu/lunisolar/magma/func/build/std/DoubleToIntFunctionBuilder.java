@@ -98,7 +98,7 @@ public final class DoubleToIntFunctionBuilder extends PerCaseBuilderWithIntProdu
 			final Case<LDoublePredicate, java.util.function.DoubleToIntFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = Function4U.l((double d) -> {
 				for (Case<LDoublePredicate, java.util.function.DoubleToIntFunction> aCase : casesArray) {
-					if (aCase.casePredicate().test(d)) {
+					if (aCase.casePredicate().doTest(d)) {
 						return aCase.caseFunction().applyAsInt(d);
 					}
 				}

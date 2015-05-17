@@ -69,7 +69,7 @@ public class LCharToLongFunctionBuilderTest<X extends ParseException>{
                 .charToLongFunction()
                 .build();
 
-            function.applyAsLong((char)100);
+            function.doApplyAsLong((char)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

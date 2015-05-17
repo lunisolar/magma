@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBooleanBiConsumer extends LBooleanBiConsumerX<RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LBooleanBiConsumer: void accept(boolean b1,boolean b2)";
+	public static final String DESCRIPTION = "LBooleanBiConsumer: void doAccept(boolean b1,boolean b2)";
 
-	// Ovverriding methods can cause problems with inference.
+	public void doAccept(boolean b1, boolean b2);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +73,7 @@ public interface LBooleanBiConsumer extends LBooleanBiConsumerX<RuntimeException
 
 	/** Captures arguments but delays the evaluation. */
 	default LAction capture(boolean b1, boolean b2) {
-		return () -> this.accept(b1, b2);
+		return () -> this.doAccept(b1, b2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -90,7 +90,7 @@ public interface LBooleanBiConsumer extends LBooleanBiConsumerX<RuntimeException
 	public static <X extends Exception> LBooleanBiConsumer wrap(final @Nonnull LBooleanBiConsumerX<X> other) {
 		return (boolean b1, boolean b2) -> {
 			try {
-				other.accept(b1, b2);
+				other.doAccept(b1, b2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -108,7 +108,7 @@ public interface LBooleanBiConsumer extends LBooleanBiConsumerX<RuntimeException
 	default LBooleanBiConsumer fromBoolean(@Nonnull final LBooleanUnaryOperator before1, @Nonnull final LBooleanUnaryOperator before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final boolean v1, final boolean v2) -> this.accept(before1.applyAsBoolean(v1), before2.applyAsBoolean(v2));
+		return (final boolean v1, final boolean v2) -> this.doAccept(before1.doApplyAsBoolean(v1), before2.doApplyAsBoolean(v2));
 	}
 
 	/**
@@ -118,7 +118,7 @@ public interface LBooleanBiConsumer extends LBooleanBiConsumerX<RuntimeException
 	default <V1, V2> LBiConsumer<V1, V2> from(@Nonnull final LPredicate<? super V1> before1, @Nonnull final LPredicate<? super V2> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.accept(before1.applyAsBoolean(v1), before2.applyAsBoolean(v2));
+		return (V1 v1, V2 v2) -> this.doAccept(before1.doApplyAsBoolean(v1), before2.doApplyAsBoolean(v2));
 	}
 
 	// </editor-fold>
@@ -130,8 +130,8 @@ public interface LBooleanBiConsumer extends LBooleanBiConsumerX<RuntimeException
 	default LBooleanBiConsumer andThen(@Nonnull LBooleanBiConsumer after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
 		return (boolean b1, boolean b2) -> {
-			this.accept(b1, b2);
-			after.accept(b1, b2);
+			this.doAccept(b1, b2);
+			after.doAccept(b1, b2);
 		};
 	}
 
@@ -164,7 +164,7 @@ public interface LBooleanBiConsumer extends LBooleanBiConsumerX<RuntimeException
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LBooleanBiConsumer wrapException(@Nonnull final LBooleanBiConsumer other, Class<E> exception, ExceptionHandler<E, Y> handler) {
 		return (boolean b1, boolean b2) -> {
 			try {
-				other.accept(b1, b2);
+				other.doAccept(b1, b2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
 			}

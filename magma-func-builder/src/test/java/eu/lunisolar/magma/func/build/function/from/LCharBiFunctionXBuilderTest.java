@@ -69,7 +69,7 @@ public class LCharBiFunctionXBuilderTest<R,X extends ParseException>{
                 .charBiFunctionX()
                 .build();
 
-            function.apply((char)100,(char)100);
+            function.doApply((char)100,(char)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

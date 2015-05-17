@@ -69,7 +69,7 @@ public class LLongBinaryOperatorXBuilderTest<X extends ParseException>{
                 .longBinaryOperatorX()
                 .build();
 
-            function.applyAsLong((long)100,(long)100);
+            function.doApplyAsLong((long)100,(long)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

@@ -58,7 +58,7 @@ public interface LCharUnaryOperatorAssert<S extends LCharUnaryOperatorAssert<S, 
 
 		@Nonnull
 		public Evaluation<S, A, RS, Character, Exception> doesApplyAsChar(char c) {
-			return evaluation(() -> assertFactory.apply((Character) actual.applyAsChar(c)));
+			return evaluation(() -> assertFactory.apply((Character) actual.doApplyAsChar(c)));
 		}
 
 	}

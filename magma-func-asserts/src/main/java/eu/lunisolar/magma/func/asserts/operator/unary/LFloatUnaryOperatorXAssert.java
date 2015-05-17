@@ -63,7 +63,7 @@ public interface LFloatUnaryOperatorXAssert<S extends LFloatUnaryOperatorXAssert
 
 		@Nonnull
 		public Evaluation<S, A, RS, Float, Exception> doesApplyAsFloat(float f) {
-			return evaluation(() -> assertFactory.apply((Float) actual.applyAsFloat(f)));
+			return evaluation(() -> assertFactory.apply((Float) actual.doApplyAsFloat(f)));
 		}
 
 	}

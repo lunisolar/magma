@@ -63,7 +63,7 @@ public interface LBiObjDoubleFunctionXAssert<S extends LBiObjDoubleFunctionXAsse
 
 		@Nonnull
 		public Evaluation<S, A, RS, R, Exception> doesApply(T1 t1, T2 t2, double d) {
-			return evaluation(() -> assertFactory.apply((R) actual.apply(t1, t2, d)));
+			return evaluation(() -> assertFactory.apply((R) actual.doApply(t1, t2, d)));
 		}
 
 	}

@@ -69,7 +69,7 @@ public class LCharToByteFunctionXBuilderTest<X extends ParseException>{
                 .charToByteFunctionX()
                 .build();
 
-            function.applyAsByte((char)100);
+            function.doApplyAsByte((char)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

@@ -69,7 +69,7 @@ public class LCharBinaryOperatorBuilderTest<X extends ParseException>{
                 .charBinaryOperator()
                 .build();
 
-            function.applyAsChar((char)100,(char)100);
+            function.doApplyAsChar((char)100,(char)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

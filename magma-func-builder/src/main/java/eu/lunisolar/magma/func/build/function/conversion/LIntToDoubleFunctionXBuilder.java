@@ -99,12 +99,12 @@ public final class LIntToDoubleFunctionXBuilder<X extends Exception> extends Per
 			final Case<LIntPredicateX<X>, LIntToDoubleFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LIntToDoubleFunctionX.lX((int i) -> {
 				for (Case<LIntPredicateX<X>, LIntToDoubleFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(i)) {
-						return aCase.caseFunction().applyAsDouble(i);
+					if (aCase.casePredicate().doTest(i)) {
+						return aCase.caseFunction().doApplyAsDouble(i);
 					}
 				}
 
-				return eventuallyFinal.applyAsDouble(i);
+				return eventuallyFinal.doApplyAsDouble(i);
 			});
 		}
 

@@ -61,13 +61,13 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
 
 
     private LCharUnaryOperator sut = new LCharUnaryOperator(){
-        public  char applyAsChar(char c)  {
+        public  char doApplyAsChar(char c)  {
             return testValue;
         }
     };
 
     private LCharUnaryOperatorX<X> opposite = new LCharUnaryOperatorX(){
-        public  char applyAsChar(char c) throws ParseException {
+        public  char doApplyAsChar(char c) throws ParseException {
             return testValue;
         }
     };
@@ -76,7 +76,7 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.applyAsChar((char)100))
+        assertThat(sut.doApplyAsChar((char)100))
             .isEqualTo(testValue);
     }
 
@@ -90,7 +90,7 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LCharUnaryOperator: char applyAsChar(char c)");
+            .isEqualTo("LCharUnaryOperator: char doApplyAsChar(char c)");
     }
 
     @Test
@@ -117,7 +117,7 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsChar((char)100);
+            wrapped.doApplyAsChar((char)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsChar((char)100);
+            wrapped.doApplyAsChar((char)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -165,7 +165,7 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsChar((char)100);
+            wrapped.doApplyAsChar((char)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -190,7 +190,7 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsChar((char)100);
+            wrapped.doApplyAsChar((char)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -214,7 +214,7 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsChar((char)100);
+            wrapped.doApplyAsChar((char)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -249,7 +249,7 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
 
         //when
         LCharUnaryOperator function = sutO.fromChar(before1);
-        function.applyAsChar((char)80);
+        function.doApplyAsChar((char)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -278,7 +278,7 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
 
         //when
         LToCharFunction<Integer > function = sutO.from(before1);
-        function.applyAsChar((Integer )Integer.valueOf(80));
+        function.doApplyAsChar((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -314,7 +314,7 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
 
         //when
         LCharFunction<Integer > function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((char)80);
+        Integer  finalValue = function.doApply((char)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -349,7 +349,7 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
 
         //when
         LCharToByteFunction function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.applyAsByte((char)80);
+        byte finalValue = function.doApplyAsByte((char)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -384,7 +384,7 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
 
         //when
         LCharToShortFunction function = sutO.thenToShort(thenFunction);
-        short finalValue = function.applyAsShort((char)80);
+        short finalValue = function.doApplyAsShort((char)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -419,7 +419,7 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
 
         //when
         LCharToIntFunction function = sutO.thenToInt(thenFunction);
-        int finalValue = function.applyAsInt((char)80);
+        int finalValue = function.doApplyAsInt((char)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((int)100);
@@ -454,7 +454,7 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
 
         //when
         LCharToLongFunction function = sutO.thenToLong(thenFunction);
-        long finalValue = function.applyAsLong((char)80);
+        long finalValue = function.doApplyAsLong((char)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((long)100);
@@ -489,7 +489,7 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
 
         //when
         LCharToFloatFunction function = sutO.thenToFloat(thenFunction);
-        float finalValue = function.applyAsFloat((char)80);
+        float finalValue = function.doApplyAsFloat((char)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((float)100);
@@ -524,7 +524,7 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
 
         //when
         LCharToDoubleFunction function = sutO.thenToDouble(thenFunction);
-        double finalValue = function.applyAsDouble((char)80);
+        double finalValue = function.doApplyAsDouble((char)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((double)100);
@@ -559,7 +559,7 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
 
         //when
         LCharUnaryOperator function = sutO.thenToChar(thenFunction);
-        char finalValue = function.applyAsChar((char)80);
+        char finalValue = function.doApplyAsChar((char)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((char)100);
@@ -594,7 +594,7 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
 
         //when
         LCharPredicate function = sutO.thenToBoolean(thenFunction);
-        boolean finalValue = function.test((char)80);
+        boolean finalValue = function.doTest((char)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -610,7 +610,7 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
     public void identity() throws ParseException {
         LCharUnaryOperator identityFunction = LCharUnaryOperator.identity();
 
-        assertThat(identityFunction.applyAsChar((char)80)).isEqualTo((char)80);
+        assertThat(identityFunction.doApplyAsChar((char)80)).isEqualTo((char)80);
     }
 
     @Test
@@ -632,7 +632,7 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().applyAsChar((char)100);
+        sutThrowing.shove().doApplyAsChar((char)100);
     }
 
     @Test
@@ -650,7 +650,7 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsChar((char)100);
+            wrapped.doApplyAsChar((char)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -669,7 +669,7 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LCharUnaryOperator: char applyAsChar(char c)");
+                .contains("LCharUnaryOperator: char doApplyAsChar(char c)");
     }
 
 

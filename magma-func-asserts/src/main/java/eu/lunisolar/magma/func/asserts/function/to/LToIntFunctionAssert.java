@@ -58,7 +58,7 @@ public interface LToIntFunctionAssert<S extends LToIntFunctionAssert<S, A, RS, T
 
 		@Nonnull
 		public Evaluation<S, A, RS, Integer, Exception> doesApplyAsInt(T t) {
-			return evaluation(() -> assertFactory.apply((Integer) actual.applyAsInt(t)));
+			return evaluation(() -> assertFactory.apply((Integer) actual.doApplyAsInt(t)));
 		}
 
 	}

@@ -61,13 +61,13 @@ public class LToCharBiFunctionXTest<T1,T2,X extends ParseException> {
 
 
     private LToCharBiFunctionX<T1,T2,X> sut = new LToCharBiFunctionX(){
-        public  char applyAsChar(Object t1,Object t2) throws ParseException {
+        public  char doApplyAsChar(Object t1,Object t2) throws ParseException {
             return testValue;
         }
     };
 
     private LToCharBiFunction<T1,T2> opposite = new LToCharBiFunction(){
-        public  char applyAsChar(Object t1,Object t2)  {
+        public  char doApplyAsChar(Object t1,Object t2)  {
             return testValue;
         }
     };
@@ -76,7 +76,7 @@ public class LToCharBiFunctionXTest<T1,T2,X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.applyAsChar((T1)Integer.valueOf(100),(T2)Integer.valueOf(100)))
+        assertThat(sut.doApplyAsChar((T1)Integer.valueOf(100),(T2)Integer.valueOf(100)))
             .isEqualTo(testValue);
     }
 
@@ -90,7 +90,7 @@ public class LToCharBiFunctionXTest<T1,T2,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LToCharBiFunctionX: char applyAsChar(T1 t1,T2 t2) throws X");
+            .isEqualTo("LToCharBiFunctionX: char doApplyAsChar(T1 t1,T2 t2) throws X");
     }
 
     @Test
@@ -121,7 +121,7 @@ public class LToCharBiFunctionXTest<T1,T2,X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsChar((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            wrapped.doApplyAsChar((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -146,7 +146,7 @@ public class LToCharBiFunctionXTest<T1,T2,X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsChar((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            wrapped.doApplyAsChar((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -170,7 +170,7 @@ public class LToCharBiFunctionXTest<T1,T2,X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsChar((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            wrapped.doApplyAsChar((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -211,7 +211,7 @@ public class LToCharBiFunctionXTest<T1,T2,X extends ParseException> {
 
         //when
         LToCharBiFunctionX<Integer ,Integer ,X> function = sutO.from(before1,before2);
-        function.applyAsChar((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        function.doApplyAsChar((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -248,7 +248,7 @@ public class LToCharBiFunctionXTest<T1,T2,X extends ParseException> {
 
         //when
         LBiFunctionX<Integer ,Integer ,Integer ,X> function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        Integer  finalValue = function.doApply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -279,7 +279,7 @@ public class LToCharBiFunctionXTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().applyAsChar((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+        sutThrowing.shove().doApplyAsChar((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
     }
 
     @Test
@@ -297,7 +297,7 @@ public class LToCharBiFunctionXTest<T1,T2,X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsChar((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            wrapped.doApplyAsChar((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -316,7 +316,7 @@ public class LToCharBiFunctionXTest<T1,T2,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LToCharBiFunctionX: char applyAsChar(T1 t1,T2 t2) throws X");
+                .contains("LToCharBiFunctionX: char doApplyAsChar(T1 t1,T2 t2) throws X");
     }
 
 

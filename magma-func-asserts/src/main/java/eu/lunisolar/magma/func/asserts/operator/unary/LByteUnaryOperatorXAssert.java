@@ -60,7 +60,7 @@ public interface LByteUnaryOperatorXAssert<S extends LByteUnaryOperatorXAssert<S
 
 		@Nonnull
 		public Evaluation<S, A, RS, Byte, Exception> doesApplyAsByte(byte b) {
-			return evaluation(() -> assertFactory.apply((Byte) actual.applyAsByte(b)));
+			return evaluation(() -> assertFactory.apply((Byte) actual.doApplyAsByte(b)));
 		}
 
 	}

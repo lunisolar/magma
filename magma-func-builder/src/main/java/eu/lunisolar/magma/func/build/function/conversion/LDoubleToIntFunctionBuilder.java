@@ -99,12 +99,12 @@ public final class LDoubleToIntFunctionBuilder extends PerCaseBuilderWithIntProd
 			final Case<LDoublePredicate, LDoubleToIntFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LDoubleToIntFunction.l((double d) -> {
 				for (Case<LDoublePredicate, LDoubleToIntFunction> aCase : casesArray) {
-					if (aCase.casePredicate().test(d)) {
-						return aCase.caseFunction().applyAsInt(d);
+					if (aCase.casePredicate().doTest(d)) {
+						return aCase.caseFunction().doApplyAsInt(d);
 					}
 				}
 
-				return eventuallyFinal.applyAsInt(d);
+				return eventuallyFinal.doApplyAsInt(d);
 			});
 		}
 

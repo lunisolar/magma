@@ -63,7 +63,7 @@ public interface LShortToLongFunctionXAssert<S extends LShortToLongFunctionXAsse
 
 		@Nonnull
 		public Evaluation<S, A, RS, Long, Exception> doesApplyAsLong(short s) {
-			return evaluation(() -> assertFactory.apply((Long) actual.applyAsLong(s)));
+			return evaluation(() -> assertFactory.apply((Long) actual.doApplyAsLong(s)));
 		}
 
 	}

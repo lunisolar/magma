@@ -99,13 +99,13 @@ public final class LTriConsumerBuilder<T1, T2, T3> extends PerCaseBuilder.Base<L
 			final Case<LTriPredicate<T1, T2, T3>, LTriConsumer<T1, T2, T3>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LTriConsumer.l((T1 t1, T2 t2, T3 t3) -> {
 				for (Case<LTriPredicate<T1, T2, T3>, LTriConsumer<T1, T2, T3>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t1, t2, t3)) {
-						aCase.caseFunction().accept(t1, t2, t3);
+					if (aCase.casePredicate().doTest(t1, t2, t3)) {
+						aCase.caseFunction().doAccept(t1, t2, t3);
 						return;
 					}
 				}
 
-				eventuallyFinal.accept(t1, t2, t3);
+				eventuallyFinal.doAccept(t1, t2, t3);
 			});
 		}
 

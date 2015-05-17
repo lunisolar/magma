@@ -99,13 +99,13 @@ public final class LBiObjCharConsumerBuilder<T1, T2> extends PerCaseBuilder.Base
 			final Case<LBiObjCharPredicate<T1, T2>, LBiObjCharConsumer<T1, T2>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LBiObjCharConsumer.l((T1 t1, T2 t2, char c) -> {
 				for (Case<LBiObjCharPredicate<T1, T2>, LBiObjCharConsumer<T1, T2>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t1, t2, c)) {
-						aCase.caseFunction().accept(t1, t2, c);
+					if (aCase.casePredicate().doTest(t1, t2, c)) {
+						aCase.caseFunction().doAccept(t1, t2, c);
 						return;
 					}
 				}
 
-				eventuallyFinal.accept(t1, t2, c);
+				eventuallyFinal.doAccept(t1, t2, c);
 			});
 		}
 

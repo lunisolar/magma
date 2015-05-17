@@ -99,12 +99,12 @@ public final class LCharSupplierBuilder extends PerCaseBuilderWithCharProduct.Ba
 			final Case<LBooleanSupplier, LCharSupplier>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LCharSupplier.l(() -> {
 				for (Case<LBooleanSupplier, LCharSupplier> aCase : casesArray) {
-					if (aCase.casePredicate().getAsBoolean()) {
-						return aCase.caseFunction().getAsChar();
+					if (aCase.casePredicate().doGetAsBoolean()) {
+						return aCase.caseFunction().doGetAsChar();
 					}
 				}
 
-				return eventuallyFinal.getAsChar();
+				return eventuallyFinal.doGetAsChar();
 			});
 		}
 

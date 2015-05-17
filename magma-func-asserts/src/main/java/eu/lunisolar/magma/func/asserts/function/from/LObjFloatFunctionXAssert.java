@@ -63,7 +63,7 @@ public interface LObjFloatFunctionXAssert<S extends LObjFloatFunctionXAssert<S, 
 
 		@Nonnull
 		public Evaluation<S, A, RS, R, Exception> doesApply(T t, float f) {
-			return evaluation(() -> assertFactory.apply((R) actual.apply(t, f)));
+			return evaluation(() -> assertFactory.apply((R) actual.doApply(t, f)));
 		}
 
 	}

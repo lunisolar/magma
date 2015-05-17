@@ -98,7 +98,7 @@ public final class ToIntFunctionBuilder<T> extends PerCaseBuilderWithIntProduct.
 			final Case<LPredicate<T>, java.util.function.ToIntFunction<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = Function4U.l((T t) -> {
 				for (Case<LPredicate<T>, java.util.function.ToIntFunction<T>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t)) {
+					if (aCase.casePredicate().doTest(t)) {
 						return aCase.caseFunction().applyAsInt(t);
 					}
 				}

@@ -60,9 +60,13 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LToDoubleBiFunction<T1, T2> extends java.util.function.ToDoubleBiFunction<T1, T2>, LToDoubleBiFunctionX<T1, T2, RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LToDoubleBiFunction: double applyAsDouble(T1 t1,T2 t2)";
+	public static final String DESCRIPTION = "LToDoubleBiFunction: double doApplyAsDouble(T1 t1,T2 t2)";
 
-	// Ovverriding methods can cause problems with inference.
+	public double doApplyAsDouble(T1 t1, T2 t2);
+
+	default double applyAsDouble(T1 t1, T2 t2) {
+		return doApplyAsDouble(t1, t2);
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +76,7 @@ public interface LToDoubleBiFunction<T1, T2> extends java.util.function.ToDouble
 
 	/** Captures arguments but delays the evaluation. */
 	default LDoubleSupplier capture(T1 t1, T2 t2) {
-		return () -> this.applyAsDouble(t1, t2);
+		return () -> this.doApplyAsDouble(t1, t2);
 	}
 
 	public static <T1, T2> LToDoubleBiFunction<T1, T2> constant(double r) {
@@ -81,7 +85,7 @@ public interface LToDoubleBiFunction<T1, T2> extends java.util.function.ToDouble
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default double nonNull(T1 t1, T2 t2) {
-		return applyAsDouble(t1, t2);
+		return doApplyAsDouble(t1, t2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -104,7 +108,7 @@ public interface LToDoubleBiFunction<T1, T2> extends java.util.function.ToDouble
 	public static <T1, T2, X extends Exception> LToDoubleBiFunction<T1, T2> wrap(final @Nonnull LToDoubleBiFunctionX<T1, T2, X> other) {
 		return (T1 t1, T2 t2) -> {
 			try {
-				return other.applyAsDouble(t1, t2);
+				return other.doApplyAsDouble(t1, t2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -122,7 +126,7 @@ public interface LToDoubleBiFunction<T1, T2> extends java.util.function.ToDouble
 	default <V1, V2> LToDoubleBiFunction<V1, V2> from(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final V1 v1, final V2 v2) -> this.applyAsDouble(before1.apply(v1), before2.apply(v2));
+		return (final V1 v1, final V2 v2) -> this.doApplyAsDouble(before1.doApply(v1), before2.doApply(v2));
 	}
 
 	// </editor-fold>
@@ -133,7 +137,7 @@ public interface LToDoubleBiFunction<T1, T2> extends java.util.function.ToDouble
 	@Nonnull
 	default <V> LBiFunction<T1, T2, V> then(@Nonnull LDoubleFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T1 t1, T2 t2) -> after.apply(this.applyAsDouble(t1, t2));
+		return (T1 t1, T2 t2) -> after.doApply(this.doApplyAsDouble(t1, t2));
 	}
 
 	// </editor-fold>
@@ -173,11 +177,11 @@ public interface LToDoubleBiFunction<T1, T2> extends java.util.function.ToDouble
 			ExceptionHandler<E, Y> handler) {
 		return (T1 t1, T2 t2) -> {
 			try {
-				return other.applyAsDouble(t1, t2);
+				return other.doApplyAsDouble(t1, t2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsDouble();
+						return supplier.doGetAsDouble();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

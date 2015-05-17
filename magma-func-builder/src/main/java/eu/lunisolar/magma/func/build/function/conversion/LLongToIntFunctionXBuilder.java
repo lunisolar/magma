@@ -99,12 +99,12 @@ public final class LLongToIntFunctionXBuilder<X extends Exception> extends PerCa
 			final Case<LLongPredicateX<X>, LLongToIntFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LLongToIntFunctionX.lX((long l) -> {
 				for (Case<LLongPredicateX<X>, LLongToIntFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(l)) {
-						return aCase.caseFunction().applyAsInt(l);
+					if (aCase.casePredicate().doTest(l)) {
+						return aCase.caseFunction().doApplyAsInt(l);
 					}
 				}
 
-				return eventuallyFinal.applyAsInt(l);
+				return eventuallyFinal.doApplyAsInt(l);
 			});
 		}
 

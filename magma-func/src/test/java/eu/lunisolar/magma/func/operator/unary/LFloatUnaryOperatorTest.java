@@ -61,13 +61,13 @@ public class LFloatUnaryOperatorTest<X extends ParseException> {
 
 
     private LFloatUnaryOperator sut = new LFloatUnaryOperator(){
-        public  float applyAsFloat(float f)  {
+        public  float doApplyAsFloat(float f)  {
             return testValue;
         }
     };
 
     private LFloatUnaryOperatorX<X> opposite = new LFloatUnaryOperatorX(){
-        public  float applyAsFloat(float f) throws ParseException {
+        public  float doApplyAsFloat(float f) throws ParseException {
             return testValue;
         }
     };
@@ -76,7 +76,7 @@ public class LFloatUnaryOperatorTest<X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.applyAsFloat((float)100))
+        assertThat(sut.doApplyAsFloat((float)100))
             .isEqualTo(testValue);
     }
 
@@ -90,7 +90,7 @@ public class LFloatUnaryOperatorTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LFloatUnaryOperator: float applyAsFloat(float f)");
+            .isEqualTo("LFloatUnaryOperator: float doApplyAsFloat(float f)");
     }
 
     @Test
@@ -117,7 +117,7 @@ public class LFloatUnaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsFloat((float)100);
+            wrapped.doApplyAsFloat((float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -139,7 +139,7 @@ public class LFloatUnaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsFloat((float)100);
+            wrapped.doApplyAsFloat((float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -165,7 +165,7 @@ public class LFloatUnaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsFloat((float)100);
+            wrapped.doApplyAsFloat((float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -190,7 +190,7 @@ public class LFloatUnaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsFloat((float)100);
+            wrapped.doApplyAsFloat((float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -214,7 +214,7 @@ public class LFloatUnaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsFloat((float)100);
+            wrapped.doApplyAsFloat((float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -249,7 +249,7 @@ public class LFloatUnaryOperatorTest<X extends ParseException> {
 
         //when
         LFloatUnaryOperator function = sutO.fromFloat(before1);
-        function.applyAsFloat((float)80);
+        function.doApplyAsFloat((float)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -278,7 +278,7 @@ public class LFloatUnaryOperatorTest<X extends ParseException> {
 
         //when
         LToFloatFunction<Integer > function = sutO.from(before1);
-        function.applyAsFloat((Integer )Integer.valueOf(80));
+        function.doApplyAsFloat((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -314,7 +314,7 @@ public class LFloatUnaryOperatorTest<X extends ParseException> {
 
         //when
         LFloatFunction<Integer > function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((float)80);
+        Integer  finalValue = function.doApply((float)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -349,7 +349,7 @@ public class LFloatUnaryOperatorTest<X extends ParseException> {
 
         //when
         LFloatToByteFunction function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.applyAsByte((float)80);
+        byte finalValue = function.doApplyAsByte((float)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -384,7 +384,7 @@ public class LFloatUnaryOperatorTest<X extends ParseException> {
 
         //when
         LFloatToShortFunction function = sutO.thenToShort(thenFunction);
-        short finalValue = function.applyAsShort((float)80);
+        short finalValue = function.doApplyAsShort((float)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -419,7 +419,7 @@ public class LFloatUnaryOperatorTest<X extends ParseException> {
 
         //when
         LFloatToIntFunction function = sutO.thenToInt(thenFunction);
-        int finalValue = function.applyAsInt((float)80);
+        int finalValue = function.doApplyAsInt((float)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((int)100);
@@ -454,7 +454,7 @@ public class LFloatUnaryOperatorTest<X extends ParseException> {
 
         //when
         LFloatToLongFunction function = sutO.thenToLong(thenFunction);
-        long finalValue = function.applyAsLong((float)80);
+        long finalValue = function.doApplyAsLong((float)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((long)100);
@@ -489,7 +489,7 @@ public class LFloatUnaryOperatorTest<X extends ParseException> {
 
         //when
         LFloatUnaryOperator function = sutO.thenToFloat(thenFunction);
-        float finalValue = function.applyAsFloat((float)80);
+        float finalValue = function.doApplyAsFloat((float)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((float)100);
@@ -524,7 +524,7 @@ public class LFloatUnaryOperatorTest<X extends ParseException> {
 
         //when
         LFloatToDoubleFunction function = sutO.thenToDouble(thenFunction);
-        double finalValue = function.applyAsDouble((float)80);
+        double finalValue = function.doApplyAsDouble((float)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((double)100);
@@ -559,7 +559,7 @@ public class LFloatUnaryOperatorTest<X extends ParseException> {
 
         //when
         LFloatToCharFunction function = sutO.thenToChar(thenFunction);
-        char finalValue = function.applyAsChar((float)80);
+        char finalValue = function.doApplyAsChar((float)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((char)100);
@@ -594,7 +594,7 @@ public class LFloatUnaryOperatorTest<X extends ParseException> {
 
         //when
         LFloatPredicate function = sutO.thenToBoolean(thenFunction);
-        boolean finalValue = function.test((float)80);
+        boolean finalValue = function.doTest((float)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -610,7 +610,7 @@ public class LFloatUnaryOperatorTest<X extends ParseException> {
     public void identity() throws ParseException {
         LFloatUnaryOperator identityFunction = LFloatUnaryOperator.identity();
 
-        assertThat(identityFunction.applyAsFloat((float)80)).isEqualTo((float)80);
+        assertThat(identityFunction.doApplyAsFloat((float)80)).isEqualTo((float)80);
     }
 
     @Test
@@ -632,7 +632,7 @@ public class LFloatUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().applyAsFloat((float)100);
+        sutThrowing.shove().doApplyAsFloat((float)100);
     }
 
     @Test
@@ -650,7 +650,7 @@ public class LFloatUnaryOperatorTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsFloat((float)100);
+            wrapped.doApplyAsFloat((float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -669,7 +669,7 @@ public class LFloatUnaryOperatorTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LFloatUnaryOperator: float applyAsFloat(float f)");
+                .contains("LFloatUnaryOperator: float doApplyAsFloat(float f)");
     }
 
 

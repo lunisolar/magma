@@ -63,7 +63,7 @@ public interface LByteToFloatFunctionXAssert<S extends LByteToFloatFunctionXAsse
 
 		@Nonnull
 		public Evaluation<S, A, RS, Float, Exception> doesApplyAsFloat(byte b) {
-			return evaluation(() -> assertFactory.apply((Float) actual.applyAsFloat(b)));
+			return evaluation(() -> assertFactory.apply((Float) actual.doApplyAsFloat(b)));
 		}
 
 	}

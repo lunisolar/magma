@@ -58,7 +58,7 @@ public interface LDoubleToIntFunctionAssert<S extends LDoubleToIntFunctionAssert
 
 		@Nonnull
 		public Evaluation<S, A, RS, Integer, Exception> doesApplyAsInt(double d) {
-			return evaluation(() -> assertFactory.apply((Integer) actual.applyAsInt(d)));
+			return evaluation(() -> assertFactory.apply((Integer) actual.doApplyAsInt(d)));
 		}
 
 	}

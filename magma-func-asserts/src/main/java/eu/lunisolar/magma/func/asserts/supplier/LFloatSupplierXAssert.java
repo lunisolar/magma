@@ -61,7 +61,7 @@ public interface LFloatSupplierXAssert<S extends LFloatSupplierXAssert<S, A, RS,
 
 		@Nonnull
 		public Evaluation<S, A, RS, Float, Exception> doesGetAsFloat() {
-			return evaluation(() -> assertFactory.apply((Float) actual.getAsFloat()));
+			return evaluation(() -> assertFactory.apply((Float) actual.doGetAsFloat()));
 		}
 
 		@Nonnull
@@ -72,7 +72,7 @@ public interface LFloatSupplierXAssert<S extends LFloatSupplierXAssert<S, A, RS,
 
 		@Nonnull
 		public Evaluation<S, A, RS, Float, Exception> doesGetAsFloat(LAction before) {
-			before.execute();
+			before.doExecute();
 			return doesGetAsFloat();
 		}
 	}

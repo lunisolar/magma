@@ -69,7 +69,7 @@ public class LObjDoubleFunctionBuilderTest<T,R,X extends ParseException>{
                 .objDoubleFunction()
                 .build();
 
-            function.apply((T)Integer.valueOf(100),(double)100);
+            function.doApply((T)Integer.valueOf(100),(double)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

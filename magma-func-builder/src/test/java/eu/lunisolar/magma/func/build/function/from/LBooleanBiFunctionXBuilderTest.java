@@ -69,7 +69,7 @@ public class LBooleanBiFunctionXBuilderTest<R,X extends ParseException>{
                 .booleanBiFunctionX()
                 .build();
 
-            function.apply(true,true);
+            function.doApply(true,true);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

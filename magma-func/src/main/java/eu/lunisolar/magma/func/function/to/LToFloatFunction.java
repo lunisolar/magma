@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LToFloatFunction<T> extends LToFloatFunctionX<T, RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LToFloatFunction: float applyAsFloat(T t)";
+	public static final String DESCRIPTION = "LToFloatFunction: float doApplyAsFloat(T t)";
 
-	// Ovverriding methods can cause problems with inference.
+	public float doApplyAsFloat(T t);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LToFloatFunction<T> extends LToFloatFunctionX<T, RuntimeExcepti
 
 	/** Captures arguments but delays the evaluation. */
 	default LFloatSupplier capture(T t) {
-		return () -> this.applyAsFloat(t);
+		return () -> this.doApplyAsFloat(t);
 	}
 
 	public static <T> LToFloatFunction<T> constant(float r) {
@@ -81,7 +81,7 @@ public interface LToFloatFunction<T> extends LToFloatFunctionX<T, RuntimeExcepti
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default float nonNull(T t) {
-		return applyAsFloat(t);
+		return doApplyAsFloat(t);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -98,7 +98,7 @@ public interface LToFloatFunction<T> extends LToFloatFunctionX<T, RuntimeExcepti
 	public static <T, X extends Exception> LToFloatFunction<T> wrap(final @Nonnull LToFloatFunctionX<T, X> other) {
 		return (T t) -> {
 			try {
-				return other.applyAsFloat(t);
+				return other.doApplyAsFloat(t);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -115,7 +115,7 @@ public interface LToFloatFunction<T> extends LToFloatFunctionX<T, RuntimeExcepti
 	@Nonnull
 	default <V1> LToFloatFunction<V1> from(@Nonnull final LFunction<? super V1, ? extends T> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final V1 v1) -> this.applyAsFloat(before1.apply(v1));
+		return (final V1 v1) -> this.doApplyAsFloat(before1.doApply(v1));
 	}
 
 	// </editor-fold>
@@ -126,63 +126,63 @@ public interface LToFloatFunction<T> extends LToFloatFunctionX<T, RuntimeExcepti
 	@Nonnull
 	default <V> LFunction<T, V> then(@Nonnull LFloatFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.apply(this.applyAsFloat(t));
+		return (T t) -> after.doApply(this.doApplyAsFloat(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToByteFunction<T> thenToByte(@Nonnull LFloatToByteFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsByte(this.applyAsFloat(t));
+		return (T t) -> after.doApplyAsByte(this.doApplyAsFloat(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToShortFunction<T> thenToShort(@Nonnull LFloatToShortFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsShort(this.applyAsFloat(t));
+		return (T t) -> after.doApplyAsShort(this.doApplyAsFloat(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToIntFunction<T> thenToInt(@Nonnull LFloatToIntFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsInt(this.applyAsFloat(t));
+		return (T t) -> after.doApplyAsInt(this.doApplyAsFloat(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToLongFunction<T> thenToLong(@Nonnull LFloatToLongFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsLong(this.applyAsFloat(t));
+		return (T t) -> after.doApplyAsLong(this.doApplyAsFloat(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToFloatFunction<T> thenToFloat(@Nonnull LFloatUnaryOperator after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsFloat(this.applyAsFloat(t));
+		return (T t) -> after.doApplyAsFloat(this.doApplyAsFloat(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToDoubleFunction<T> thenToDouble(@Nonnull LFloatToDoubleFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsDouble(this.applyAsFloat(t));
+		return (T t) -> after.doApplyAsDouble(this.doApplyAsFloat(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToCharFunction<T> thenToChar(@Nonnull LFloatToCharFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsChar(this.applyAsFloat(t));
+		return (T t) -> after.doApplyAsChar(this.doApplyAsFloat(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LPredicate<T> thenToBoolean(@Nonnull LFloatPredicate after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.test(this.applyAsFloat(t));
+		return (T t) -> after.doTest(this.doApplyAsFloat(t));
 	}
 
 	// </editor-fold>
@@ -215,11 +215,11 @@ public interface LToFloatFunction<T> extends LToFloatFunctionX<T, RuntimeExcepti
 	public static <T, X extends Exception, E extends Exception, Y extends RuntimeException> LToFloatFunction<T> wrapException(@Nonnull final LToFloatFunction<T> other, Class<E> exception, LFloatSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (T t) -> {
 			try {
-				return other.applyAsFloat(t);
+				return other.doApplyAsFloat(t);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsFloat();
+						return supplier.doGetAsFloat();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

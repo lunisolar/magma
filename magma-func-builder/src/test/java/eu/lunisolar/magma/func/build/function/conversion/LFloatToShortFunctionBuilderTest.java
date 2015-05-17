@@ -69,7 +69,7 @@ public class LFloatToShortFunctionBuilderTest<X extends ParseException>{
                 .floatToShortFunction()
                 .build();
 
-            function.applyAsShort((float)100);
+            function.doApplyAsShort((float)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

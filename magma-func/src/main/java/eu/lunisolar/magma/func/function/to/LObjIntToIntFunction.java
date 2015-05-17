@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LObjIntToIntFunction<T> extends LObjIntToIntFunctionX<T, RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LObjIntToIntFunction: int applyAsInt(T t, int i)";
+	public static final String DESCRIPTION = "LObjIntToIntFunction: int doApplyAsInt(T t, int i)";
 
-	// Ovverriding methods can cause problems with inference.
+	public int doApplyAsInt(T t, int i);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LObjIntToIntFunction<T> extends LObjIntToIntFunctionX<T, Runtim
 
 	/** Captures arguments but delays the evaluation. */
 	default LIntSupplier capture(T t, int i) {
-		return () -> this.applyAsInt(t, i);
+		return () -> this.doApplyAsInt(t, i);
 	}
 
 	public static <T> LObjIntToIntFunction<T> constant(int r) {
@@ -81,7 +81,7 @@ public interface LObjIntToIntFunction<T> extends LObjIntToIntFunctionX<T, Runtim
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default int nonNull(T t, int i) {
-		return applyAsInt(t, i);
+		return doApplyAsInt(t, i);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -98,7 +98,7 @@ public interface LObjIntToIntFunction<T> extends LObjIntToIntFunctionX<T, Runtim
 	public static <T, X extends Exception> LObjIntToIntFunction<T> wrap(final @Nonnull LObjIntToIntFunctionX<T, X> other) {
 		return (T t, int i) -> {
 			try {
-				return other.applyAsInt(t, i);
+				return other.doApplyAsInt(t, i);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -116,7 +116,7 @@ public interface LObjIntToIntFunction<T> extends LObjIntToIntFunctionX<T, Runtim
 	default <V1> LObjIntToIntFunction<V1> fromInt(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LIntUnaryOperator before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final V1 v1, final int v2) -> this.applyAsInt(before1.apply(v1), before2.applyAsInt(v2));
+		return (final V1 v1, final int v2) -> this.doApplyAsInt(before1.doApply(v1), before2.doApplyAsInt(v2));
 	}
 
 	/**
@@ -126,7 +126,7 @@ public interface LObjIntToIntFunction<T> extends LObjIntToIntFunctionX<T, Runtim
 	default <V1, V2> LToIntBiFunction<V1, V2> from(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToIntFunction<? super V2> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.applyAsInt(before1.apply(v1), before2.applyAsInt(v2));
+		return (V1 v1, V2 v2) -> this.doApplyAsInt(before1.doApply(v1), before2.doApplyAsInt(v2));
 	}
 
 	// </editor-fold>
@@ -137,7 +137,7 @@ public interface LObjIntToIntFunction<T> extends LObjIntToIntFunctionX<T, Runtim
 	@Nonnull
 	default <V> LObjIntFunction<T, V> then(@Nonnull LIntFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t, int i) -> after.apply(this.applyAsInt(t, i));
+		return (T t, int i) -> after.doApply(this.doApplyAsInt(t, i));
 	}
 
 	// </editor-fold>
@@ -170,11 +170,11 @@ public interface LObjIntToIntFunction<T> extends LObjIntToIntFunctionX<T, Runtim
 	public static <T, X extends Exception, E extends Exception, Y extends RuntimeException> LObjIntToIntFunction<T> wrapException(@Nonnull final LObjIntToIntFunction<T> other, Class<E> exception, LIntSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (T t, int i) -> {
 			try {
-				return other.applyAsInt(t, i);
+				return other.doApplyAsInt(t, i);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsInt();
+						return supplier.doGetAsInt();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

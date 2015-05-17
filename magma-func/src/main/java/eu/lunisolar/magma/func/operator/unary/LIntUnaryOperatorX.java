@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LIntUnaryOperatorX<X extends Exception> extends MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LIntUnaryOperatorX: int applyAsInt(int i) throws X";
+	public static final String DESCRIPTION = "LIntUnaryOperatorX: int doApplyAsInt(int i) throws X";
 
-	public int applyAsInt(int i) throws X;
+	public int doApplyAsInt(int i) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LIntUnaryOperatorX<X extends Exception> extends MetaOperator, P
 
 	/** Captures arguments but delays the evaluation. */
 	default LIntSupplierX<X> capture(int i) {
-		return () -> this.applyAsInt(i);
+		return () -> this.doApplyAsInt(i);
 	}
 
 	public static <X extends Exception> LIntUnaryOperatorX<X> constant(int r) {
@@ -81,7 +81,7 @@ public interface LIntUnaryOperatorX<X extends Exception> extends MetaOperator, P
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default int nonNull(int i) throws X {
-		return applyAsInt(i);
+		return doApplyAsInt(i);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -102,7 +102,7 @@ public interface LIntUnaryOperatorX<X extends Exception> extends MetaOperator, P
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LIntUnaryOperatorX<X> wrapX(final @Nonnull LIntUnaryOperator other) {
-		return other::applyAsInt;
+		return other::doApplyAsInt;
 	}
 
 	// </editor-fold>
@@ -115,7 +115,7 @@ public interface LIntUnaryOperatorX<X extends Exception> extends MetaOperator, P
 	@Nonnull
 	default LIntUnaryOperatorX<X> fromInt(@Nonnull final LIntUnaryOperatorX<X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final int v1) -> this.applyAsInt(before1.applyAsInt(v1));
+		return (final int v1) -> this.doApplyAsInt(before1.doApplyAsInt(v1));
 	}
 
 	/**
@@ -124,7 +124,7 @@ public interface LIntUnaryOperatorX<X extends Exception> extends MetaOperator, P
 	@Nonnull
 	default <V1> LToIntFunctionX<V1, X> from(@Nonnull final LToIntFunctionX<? super V1, X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.applyAsInt(before1.applyAsInt(v1));
+		return (V1 v1) -> this.doApplyAsInt(before1.doApplyAsInt(v1));
 	}
 
 	// </editor-fold>
@@ -135,63 +135,63 @@ public interface LIntUnaryOperatorX<X extends Exception> extends MetaOperator, P
 	@Nonnull
 	default <V> LIntFunctionX<V, X> then(@Nonnull LIntFunctionX<? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.apply(this.applyAsInt(i));
+		return (int i) -> after.doApply(this.doApplyAsInt(i));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LIntToByteFunctionX<X> thenToByte(@Nonnull LIntToByteFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsByte(this.applyAsInt(i));
+		return (int i) -> after.doApplyAsByte(this.doApplyAsInt(i));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LIntToShortFunctionX<X> thenToShort(@Nonnull LIntToShortFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsShort(this.applyAsInt(i));
+		return (int i) -> after.doApplyAsShort(this.doApplyAsInt(i));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LIntUnaryOperatorX<X> thenToInt(@Nonnull LIntUnaryOperatorX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsInt(this.applyAsInt(i));
+		return (int i) -> after.doApplyAsInt(this.doApplyAsInt(i));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LIntToLongFunctionX<X> thenToLong(@Nonnull LIntToLongFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsLong(this.applyAsInt(i));
+		return (int i) -> after.doApplyAsLong(this.doApplyAsInt(i));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LIntToFloatFunctionX<X> thenToFloat(@Nonnull LIntToFloatFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsFloat(this.applyAsInt(i));
+		return (int i) -> after.doApplyAsFloat(this.doApplyAsInt(i));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LIntToDoubleFunctionX<X> thenToDouble(@Nonnull LIntToDoubleFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsDouble(this.applyAsInt(i));
+		return (int i) -> after.doApplyAsDouble(this.doApplyAsInt(i));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LIntToCharFunctionX<X> thenToChar(@Nonnull LIntToCharFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsChar(this.applyAsInt(i));
+		return (int i) -> after.doApplyAsChar(this.doApplyAsInt(i));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LIntPredicateX<X> thenToBoolean(@Nonnull LIntPredicateX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.test(this.applyAsInt(i));
+		return (int i) -> after.doTest(this.doApplyAsInt(i));
 	}
 
 	// </editor-fold>
@@ -207,7 +207,7 @@ public interface LIntUnaryOperatorX<X extends Exception> extends MetaOperator, P
 	/** Converts to JRE variant. */
 	@Nonnull
 	default java.util.function.IntUnaryOperator std() {
-		return LIntUnaryOperator.wrap(this)::applyAsInt;
+		return LIntUnaryOperator.wrap(this)::doApplyAsInt;
 	}
 
 	/** Converts to non-throwing variant (if required). */
@@ -225,7 +225,7 @@ public interface LIntUnaryOperatorX<X extends Exception> extends MetaOperator, P
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LIntUnaryOperator shove() {
 		LIntUnaryOperatorX<RuntimeException> exceptionCast = (LIntUnaryOperatorX<RuntimeException>) this;
-		return exceptionCast::applyAsInt;
+		return exceptionCast::doApplyAsInt;
 	}
 
 	// </editor-fold>
@@ -237,11 +237,11 @@ public interface LIntUnaryOperatorX<X extends Exception> extends MetaOperator, P
 	public static <X extends Exception, E extends Exception, Y extends Exception> LIntUnaryOperatorX<Y> wrapException(@Nonnull final LIntUnaryOperatorX<X> other, Class<E> exception, LIntSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
 		return (int i) -> {
 			try {
-				return other.applyAsInt(i);
+				return other.doApplyAsInt(i);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsInt();
+						return supplier.doGetAsInt();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

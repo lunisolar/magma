@@ -69,7 +69,7 @@ public class LShortBiFunctionBuilderTest<R,X extends ParseException>{
                 .shortBiFunction()
                 .build();
 
-            function.apply((short)100,(short)100);
+            function.doApply((short)100,(short)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

@@ -60,14 +60,14 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LObjCharPredicateX<T, X extends Exception> extends MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LObjCharPredicateX: boolean test(T t, char c) throws X";
+	public static final String DESCRIPTION = "LObjCharPredicateX: boolean doTest(T t, char c) throws X";
 
-	public boolean test(T t, char c) throws X;
+	public boolean doTest(T t, char c) throws X;
 
 	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
 
-	default boolean applyAsBoolean(T t, char c) throws X {
-		return test(t, c);
+	default boolean doApplyAsBoolean(T t, char c) throws X {
+		return doTest(t, c);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -78,7 +78,7 @@ public interface LObjCharPredicateX<T, X extends Exception> extends MetaPredicat
 
 	/** Captures arguments but delays the evaluation. */
 	default LBooleanSupplierX<X> capture(T t, char c) {
-		return () -> this.test(t, c);
+		return () -> this.doTest(t, c);
 	}
 
 	public static <T, X extends Exception> LObjCharPredicateX<T, X> constant(boolean r) {
@@ -87,7 +87,7 @@ public interface LObjCharPredicateX<T, X extends Exception> extends MetaPredicat
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(T t, char c) throws X {
-		return test(t, c);
+		return doTest(t, c);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -102,7 +102,7 @@ public interface LObjCharPredicateX<T, X extends Exception> extends MetaPredicat
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T, X extends Exception> LObjCharPredicateX<T, X> wrapX(final @Nonnull LObjCharPredicate<T> other) {
-		return other::test;
+		return other::doTest;
 	}
 
 	// </editor-fold>
@@ -113,7 +113,7 @@ public interface LObjCharPredicateX<T, X extends Exception> extends MetaPredicat
 	 */
 	@Nonnull
 	default LObjCharPredicateX<T, X> negate() {
-		return (T t, char c) -> !test(t, c);
+		return (T t, char c) -> !doTest(t, c);
 	}
 
 	/**
@@ -122,7 +122,7 @@ public interface LObjCharPredicateX<T, X extends Exception> extends MetaPredicat
 	@Nonnull
 	default LObjCharPredicateX<T, X> and(@Nonnull LObjCharPredicateX<? super T, X> other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (T t, char c) -> test(t, c) && other.test(t, c);
+		return (T t, char c) -> doTest(t, c) && other.doTest(t, c);
 	}
 
 	/**
@@ -131,7 +131,7 @@ public interface LObjCharPredicateX<T, X extends Exception> extends MetaPredicat
 	@Nonnull
 	default LObjCharPredicateX<T, X> or(@Nonnull LObjCharPredicateX<? super T, X> other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (T t, char c) -> test(t, c) || other.test(t, c);
+		return (T t, char c) -> doTest(t, c) || other.doTest(t, c);
 	}
 
 	/**
@@ -140,7 +140,7 @@ public interface LObjCharPredicateX<T, X extends Exception> extends MetaPredicat
 	@Nonnull
 	default LObjCharPredicateX<T, X> xor(@Nonnull LObjCharPredicateX<? super T, X> other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (T t, char c) -> test(t, c) ^ other.test(t, c);
+		return (T t, char c) -> doTest(t, c) ^ other.doTest(t, c);
 	}
 
 	/**
@@ -162,7 +162,7 @@ public interface LObjCharPredicateX<T, X extends Exception> extends MetaPredicat
 	default <V1> LObjCharPredicateX<V1, X> fromChar(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LCharUnaryOperatorX<X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final V1 v1, final char v2) -> this.test(before1.apply(v1), before2.applyAsChar(v2));
+		return (final V1 v1, final char v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsChar(v2));
 	}
 
 	/**
@@ -172,7 +172,7 @@ public interface LObjCharPredicateX<T, X extends Exception> extends MetaPredicat
 	default <V1, V2> LBiPredicateX<V1, V2, X> from(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToCharFunctionX<? super V2, X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.test(before1.apply(v1), before2.applyAsChar(v2));
+		return (V1 v1, V2 v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsChar(v2));
 	}
 
 	// </editor-fold>
@@ -183,7 +183,7 @@ public interface LObjCharPredicateX<T, X extends Exception> extends MetaPredicat
 	@Nonnull
 	default <V> LObjCharFunctionX<T, V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t, char c) -> after.apply(this.test(t, c));
+		return (T t, char c) -> after.doApply(this.doTest(t, c));
 	}
 
 	// </editor-fold>
@@ -205,7 +205,7 @@ public interface LObjCharPredicateX<T, X extends Exception> extends MetaPredicat
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjCharPredicate<T> shove() {
 		LObjCharPredicateX<T, RuntimeException> exceptionCast = (LObjCharPredicateX<T, RuntimeException>) this;
-		return exceptionCast::test;
+		return exceptionCast::doTest;
 	}
 
 	// </editor-fold>
@@ -217,11 +217,11 @@ public interface LObjCharPredicateX<T, X extends Exception> extends MetaPredicat
 	public static <T, X extends Exception, E extends Exception, Y extends Exception> LObjCharPredicateX<T, Y> wrapException(@Nonnull final LObjCharPredicateX<T, X> other, Class<E> exception, LBooleanSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
 		return (T t, char c) -> {
 			try {
-				return other.test(t, c);
+				return other.doTest(t, c);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsBoolean();
+						return supplier.doGetAsBoolean();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

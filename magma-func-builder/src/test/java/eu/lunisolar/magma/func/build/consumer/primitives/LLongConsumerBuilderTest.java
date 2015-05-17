@@ -69,7 +69,7 @@ public class LLongConsumerBuilderTest<X extends ParseException>{
                 .longConsumer()
                 .build();
 
-            function.accept((long)100);
+            function.doAccept((long)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LDoubleToByteFunction extends LDoubleToByteFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LDoubleToByteFunction: byte applyAsByte(double d)";
+	public static final String DESCRIPTION = "LDoubleToByteFunction: byte doApplyAsByte(double d)";
 
-	// Ovverriding methods can cause problems with inference.
+	public byte doApplyAsByte(double d);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LDoubleToByteFunction extends LDoubleToByteFunctionX<RuntimeExc
 
 	/** Captures arguments but delays the evaluation. */
 	default LByteSupplier capture(double d) {
-		return () -> this.applyAsByte(d);
+		return () -> this.doApplyAsByte(d);
 	}
 
 	public static LDoubleToByteFunction constant(byte r) {
@@ -81,7 +81,7 @@ public interface LDoubleToByteFunction extends LDoubleToByteFunctionX<RuntimeExc
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default byte nonNull(double d) {
-		return applyAsByte(d);
+		return doApplyAsByte(d);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -98,7 +98,7 @@ public interface LDoubleToByteFunction extends LDoubleToByteFunctionX<RuntimeExc
 	public static <X extends Exception> LDoubleToByteFunction wrap(final @Nonnull LDoubleToByteFunctionX<X> other) {
 		return (double d) -> {
 			try {
-				return other.applyAsByte(d);
+				return other.doApplyAsByte(d);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -115,7 +115,7 @@ public interface LDoubleToByteFunction extends LDoubleToByteFunctionX<RuntimeExc
 	@Nonnull
 	default LDoubleToByteFunction fromDouble(@Nonnull final LDoubleUnaryOperator before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final double v1) -> this.applyAsByte(before1.applyAsDouble(v1));
+		return (final double v1) -> this.doApplyAsByte(before1.doApplyAsDouble(v1));
 	}
 
 	/**
@@ -124,7 +124,7 @@ public interface LDoubleToByteFunction extends LDoubleToByteFunctionX<RuntimeExc
 	@Nonnull
 	default <V1> LToByteFunction<V1> from(@Nonnull final LToDoubleFunction<? super V1> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.applyAsByte(before1.applyAsDouble(v1));
+		return (V1 v1) -> this.doApplyAsByte(before1.doApplyAsDouble(v1));
 	}
 
 	// </editor-fold>
@@ -135,63 +135,63 @@ public interface LDoubleToByteFunction extends LDoubleToByteFunctionX<RuntimeExc
 	@Nonnull
 	default <V> LDoubleFunction<V> then(@Nonnull LByteFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.apply(this.applyAsByte(d));
+		return (double d) -> after.doApply(this.doApplyAsByte(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToByteFunction thenToByte(@Nonnull LByteUnaryOperator after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsByte(this.applyAsByte(d));
+		return (double d) -> after.doApplyAsByte(this.doApplyAsByte(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToShortFunction thenToShort(@Nonnull LByteToShortFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsShort(this.applyAsByte(d));
+		return (double d) -> after.doApplyAsShort(this.doApplyAsByte(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToIntFunction thenToInt(@Nonnull LByteToIntFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsInt(this.applyAsByte(d));
+		return (double d) -> after.doApplyAsInt(this.doApplyAsByte(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToLongFunction thenToLong(@Nonnull LByteToLongFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsLong(this.applyAsByte(d));
+		return (double d) -> after.doApplyAsLong(this.doApplyAsByte(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToFloatFunction thenToFloat(@Nonnull LByteToFloatFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsFloat(this.applyAsByte(d));
+		return (double d) -> after.doApplyAsFloat(this.doApplyAsByte(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleUnaryOperator thenToDouble(@Nonnull LByteToDoubleFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsDouble(this.applyAsByte(d));
+		return (double d) -> after.doApplyAsDouble(this.doApplyAsByte(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToCharFunction thenToChar(@Nonnull LByteToCharFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.applyAsChar(this.applyAsByte(d));
+		return (double d) -> after.doApplyAsChar(this.doApplyAsByte(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoublePredicate thenToBoolean(@Nonnull LBytePredicate after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d) -> after.test(this.applyAsByte(d));
+		return (double d) -> after.doTest(this.doApplyAsByte(d));
 	}
 
 	// </editor-fold>
@@ -224,11 +224,11 @@ public interface LDoubleToByteFunction extends LDoubleToByteFunctionX<RuntimeExc
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LDoubleToByteFunction wrapException(@Nonnull final LDoubleToByteFunction other, Class<E> exception, LByteSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (double d) -> {
 			try {
-				return other.applyAsByte(d);
+				return other.doApplyAsByte(d);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsByte();
+						return supplier.doGetAsByte();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

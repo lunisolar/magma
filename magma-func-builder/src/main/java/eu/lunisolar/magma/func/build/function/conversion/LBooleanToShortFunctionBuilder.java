@@ -99,12 +99,12 @@ public final class LBooleanToShortFunctionBuilder extends PerCaseBuilderWithShor
 			final Case<LBooleanUnaryOperator, LBooleanToShortFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LBooleanToShortFunction.l((boolean b) -> {
 				for (Case<LBooleanUnaryOperator, LBooleanToShortFunction> aCase : casesArray) {
-					if (aCase.casePredicate().applyAsBoolean(b)) {
-						return aCase.caseFunction().applyAsShort(b);
+					if (aCase.casePredicate().doApplyAsBoolean(b)) {
+						return aCase.caseFunction().doApplyAsShort(b);
 					}
 				}
 
-				return eventuallyFinal.applyAsShort(b);
+				return eventuallyFinal.doApplyAsShort(b);
 			});
 		}
 

@@ -58,7 +58,7 @@ public interface LIntBinaryOperatorAssert<S extends LIntBinaryOperatorAssert<S, 
 
 		@Nonnull
 		public Evaluation<S, A, RS, Integer, Exception> doesApplyAsInt(int i1, int i2) {
-			return evaluation(() -> assertFactory.apply((Integer) actual.applyAsInt(i1, i2)));
+			return evaluation(() -> assertFactory.apply((Integer) actual.doApplyAsInt(i1, i2)));
 		}
 
 	}

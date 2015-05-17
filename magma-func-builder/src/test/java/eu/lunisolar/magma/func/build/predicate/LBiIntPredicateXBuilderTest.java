@@ -69,7 +69,7 @@ public class LBiIntPredicateXBuilderTest<X extends ParseException>{
                 .biIntPredicateX()
                 .build();
 
-            function.test((int)100,(int)100);
+            function.doTest((int)100,(int)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

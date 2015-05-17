@@ -99,12 +99,12 @@ public final class LCharToFloatFunctionBuilder extends PerCaseBuilderWithFloatPr
 			final Case<LCharPredicate, LCharToFloatFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LCharToFloatFunction.l((char c) -> {
 				for (Case<LCharPredicate, LCharToFloatFunction> aCase : casesArray) {
-					if (aCase.casePredicate().test(c)) {
-						return aCase.caseFunction().applyAsFloat(c);
+					if (aCase.casePredicate().doTest(c)) {
+						return aCase.caseFunction().doApplyAsFloat(c);
 					}
 				}
 
-				return eventuallyFinal.applyAsFloat(c);
+				return eventuallyFinal.doApplyAsFloat(c);
 			});
 		}
 

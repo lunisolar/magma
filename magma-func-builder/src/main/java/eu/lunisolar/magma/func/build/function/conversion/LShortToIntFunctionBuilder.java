@@ -99,12 +99,12 @@ public final class LShortToIntFunctionBuilder extends PerCaseBuilderWithIntProdu
 			final Case<LShortPredicate, LShortToIntFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LShortToIntFunction.l((short s) -> {
 				for (Case<LShortPredicate, LShortToIntFunction> aCase : casesArray) {
-					if (aCase.casePredicate().test(s)) {
-						return aCase.caseFunction().applyAsInt(s);
+					if (aCase.casePredicate().doTest(s)) {
+						return aCase.caseFunction().doApplyAsInt(s);
 					}
 				}
 
-				return eventuallyFinal.applyAsInt(s);
+				return eventuallyFinal.doApplyAsInt(s);
 			});
 		}
 

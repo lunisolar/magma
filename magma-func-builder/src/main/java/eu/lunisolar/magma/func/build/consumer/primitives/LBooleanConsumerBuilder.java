@@ -99,13 +99,13 @@ public final class LBooleanConsumerBuilder extends PerCaseBuilder.Base<LBooleanC
 			final Case<LBooleanUnaryOperator, LBooleanConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LBooleanConsumer.l((boolean b) -> {
 				for (Case<LBooleanUnaryOperator, LBooleanConsumer> aCase : casesArray) {
-					if (aCase.casePredicate().applyAsBoolean(b)) {
-						aCase.caseFunction().accept(b);
+					if (aCase.casePredicate().doApplyAsBoolean(b)) {
+						aCase.caseFunction().doAccept(b);
 						return;
 					}
 				}
 
-				eventuallyFinal.accept(b);
+				eventuallyFinal.doAccept(b);
 			});
 		}
 

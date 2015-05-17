@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LCharUnaryOperatorX<X extends Exception> extends MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LCharUnaryOperatorX: char applyAsChar(char c) throws X";
+	public static final String DESCRIPTION = "LCharUnaryOperatorX: char doApplyAsChar(char c) throws X";
 
-	public char applyAsChar(char c) throws X;
+	public char doApplyAsChar(char c) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LCharUnaryOperatorX<X extends Exception> extends MetaOperator, 
 
 	/** Captures arguments but delays the evaluation. */
 	default LCharSupplierX<X> capture(char c) {
-		return () -> this.applyAsChar(c);
+		return () -> this.doApplyAsChar(c);
 	}
 
 	public static <X extends Exception> LCharUnaryOperatorX<X> constant(char r) {
@@ -81,7 +81,7 @@ public interface LCharUnaryOperatorX<X extends Exception> extends MetaOperator, 
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default char nonNull(char c) throws X {
-		return applyAsChar(c);
+		return doApplyAsChar(c);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -96,7 +96,7 @@ public interface LCharUnaryOperatorX<X extends Exception> extends MetaOperator, 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LCharUnaryOperatorX<X> wrapX(final @Nonnull LCharUnaryOperator other) {
-		return other::applyAsChar;
+		return other::doApplyAsChar;
 	}
 
 	// </editor-fold>
@@ -109,7 +109,7 @@ public interface LCharUnaryOperatorX<X extends Exception> extends MetaOperator, 
 	@Nonnull
 	default LCharUnaryOperatorX<X> fromChar(@Nonnull final LCharUnaryOperatorX<X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final char v1) -> this.applyAsChar(before1.applyAsChar(v1));
+		return (final char v1) -> this.doApplyAsChar(before1.doApplyAsChar(v1));
 	}
 
 	/**
@@ -118,7 +118,7 @@ public interface LCharUnaryOperatorX<X extends Exception> extends MetaOperator, 
 	@Nonnull
 	default <V1> LToCharFunctionX<V1, X> from(@Nonnull final LToCharFunctionX<? super V1, X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.applyAsChar(before1.applyAsChar(v1));
+		return (V1 v1) -> this.doApplyAsChar(before1.doApplyAsChar(v1));
 	}
 
 	// </editor-fold>
@@ -129,63 +129,63 @@ public interface LCharUnaryOperatorX<X extends Exception> extends MetaOperator, 
 	@Nonnull
 	default <V> LCharFunctionX<V, X> then(@Nonnull LCharFunctionX<? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.apply(this.applyAsChar(c));
+		return (char c) -> after.doApply(this.doApplyAsChar(c));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LCharToByteFunctionX<X> thenToByte(@Nonnull LCharToByteFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.applyAsByte(this.applyAsChar(c));
+		return (char c) -> after.doApplyAsByte(this.doApplyAsChar(c));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LCharToShortFunctionX<X> thenToShort(@Nonnull LCharToShortFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.applyAsShort(this.applyAsChar(c));
+		return (char c) -> after.doApplyAsShort(this.doApplyAsChar(c));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LCharToIntFunctionX<X> thenToInt(@Nonnull LCharToIntFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.applyAsInt(this.applyAsChar(c));
+		return (char c) -> after.doApplyAsInt(this.doApplyAsChar(c));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LCharToLongFunctionX<X> thenToLong(@Nonnull LCharToLongFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.applyAsLong(this.applyAsChar(c));
+		return (char c) -> after.doApplyAsLong(this.doApplyAsChar(c));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LCharToFloatFunctionX<X> thenToFloat(@Nonnull LCharToFloatFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.applyAsFloat(this.applyAsChar(c));
+		return (char c) -> after.doApplyAsFloat(this.doApplyAsChar(c));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LCharToDoubleFunctionX<X> thenToDouble(@Nonnull LCharToDoubleFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.applyAsDouble(this.applyAsChar(c));
+		return (char c) -> after.doApplyAsDouble(this.doApplyAsChar(c));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LCharUnaryOperatorX<X> thenToChar(@Nonnull LCharUnaryOperatorX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.applyAsChar(this.applyAsChar(c));
+		return (char c) -> after.doApplyAsChar(this.doApplyAsChar(c));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LCharPredicateX<X> thenToBoolean(@Nonnull LCharPredicateX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (char c) -> after.test(this.applyAsChar(c));
+		return (char c) -> after.doTest(this.doApplyAsChar(c));
 	}
 
 	// </editor-fold>
@@ -213,7 +213,7 @@ public interface LCharUnaryOperatorX<X extends Exception> extends MetaOperator, 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LCharUnaryOperator shove() {
 		LCharUnaryOperatorX<RuntimeException> exceptionCast = (LCharUnaryOperatorX<RuntimeException>) this;
-		return exceptionCast::applyAsChar;
+		return exceptionCast::doApplyAsChar;
 	}
 
 	// </editor-fold>
@@ -225,11 +225,11 @@ public interface LCharUnaryOperatorX<X extends Exception> extends MetaOperator, 
 	public static <X extends Exception, E extends Exception, Y extends Exception> LCharUnaryOperatorX<Y> wrapException(@Nonnull final LCharUnaryOperatorX<X> other, Class<E> exception, LCharSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
 		return (char c) -> {
 			try {
-				return other.applyAsChar(c);
+				return other.doApplyAsChar(c);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsChar();
+						return supplier.doGetAsChar();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

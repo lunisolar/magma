@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LToIntBiFunctionX<T1, T2, X extends Exception> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LToIntBiFunctionX: int applyAsInt(T1 t1,T2 t2) throws X";
+	public static final String DESCRIPTION = "LToIntBiFunctionX: int doApplyAsInt(T1 t1,T2 t2) throws X";
 
-	public int applyAsInt(T1 t1, T2 t2) throws X;
+	public int doApplyAsInt(T1 t1, T2 t2) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LToIntBiFunctionX<T1, T2, X extends Exception> extends MetaFunc
 
 	/** Captures arguments but delays the evaluation. */
 	default LIntSupplierX<X> capture(T1 t1, T2 t2) {
-		return () -> this.applyAsInt(t1, t2);
+		return () -> this.doApplyAsInt(t1, t2);
 	}
 
 	public static <T1, T2, X extends Exception> LToIntBiFunctionX<T1, T2, X> constant(int r) {
@@ -81,7 +81,7 @@ public interface LToIntBiFunctionX<T1, T2, X extends Exception> extends MetaFunc
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default int nonNull(T1 t1, T2 t2) throws X {
-		return applyAsInt(t1, t2);
+		return doApplyAsInt(t1, t2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -102,7 +102,7 @@ public interface LToIntBiFunctionX<T1, T2, X extends Exception> extends MetaFunc
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T1, T2, X extends Exception> LToIntBiFunctionX<T1, T2, X> wrapX(final @Nonnull LToIntBiFunction<T1, T2> other) {
-		return other::applyAsInt;
+		return other::doApplyAsInt;
 	}
 
 	// </editor-fold>
@@ -116,7 +116,7 @@ public interface LToIntBiFunctionX<T1, T2, X extends Exception> extends MetaFunc
 	default <V1, V2> LToIntBiFunctionX<V1, V2, X> from(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final V1 v1, final V2 v2) -> this.applyAsInt(before1.apply(v1), before2.apply(v2));
+		return (final V1 v1, final V2 v2) -> this.doApplyAsInt(before1.doApply(v1), before2.doApply(v2));
 	}
 
 	// </editor-fold>
@@ -127,7 +127,7 @@ public interface LToIntBiFunctionX<T1, T2, X extends Exception> extends MetaFunc
 	@Nonnull
 	default <V> LBiFunctionX<T1, T2, V, X> then(@Nonnull LIntFunctionX<? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T1 t1, T2 t2) -> after.apply(this.applyAsInt(t1, t2));
+		return (T1 t1, T2 t2) -> after.doApply(this.doApplyAsInt(t1, t2));
 	}
 
 	// </editor-fold>
@@ -137,7 +137,7 @@ public interface LToIntBiFunctionX<T1, T2, X extends Exception> extends MetaFunc
 	/** Converts to JRE variant. */
 	@Nonnull
 	default java.util.function.ToIntBiFunction<T1, T2> std() {
-		return LToIntBiFunction.wrap(this)::applyAsInt;
+		return LToIntBiFunction.wrap(this)::doApplyAsInt;
 	}
 
 	/** Converts to non-throwing variant (if required). */
@@ -155,7 +155,7 @@ public interface LToIntBiFunctionX<T1, T2, X extends Exception> extends MetaFunc
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LToIntBiFunction<T1, T2> shove() {
 		LToIntBiFunctionX<T1, T2, RuntimeException> exceptionCast = (LToIntBiFunctionX<T1, T2, RuntimeException>) this;
-		return exceptionCast::applyAsInt;
+		return exceptionCast::doApplyAsInt;
 	}
 
 	// </editor-fold>
@@ -168,11 +168,11 @@ public interface LToIntBiFunctionX<T1, T2, X extends Exception> extends MetaFunc
 			ExceptionHandler<E, Y> handler) {
 		return (T1 t1, T2 t2) -> {
 			try {
-				return other.applyAsInt(t1, t2);
+				return other.doApplyAsInt(t1, t2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsInt();
+						return supplier.doGetAsInt();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

@@ -60,9 +60,13 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LToLongBiFunction<T1, T2> extends java.util.function.ToLongBiFunction<T1, T2>, LToLongBiFunctionX<T1, T2, RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LToLongBiFunction: long applyAsLong(T1 t1,T2 t2)";
+	public static final String DESCRIPTION = "LToLongBiFunction: long doApplyAsLong(T1 t1,T2 t2)";
 
-	// Ovverriding methods can cause problems with inference.
+	public long doApplyAsLong(T1 t1, T2 t2);
+
+	default long applyAsLong(T1 t1, T2 t2) {
+		return doApplyAsLong(t1, t2);
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +76,7 @@ public interface LToLongBiFunction<T1, T2> extends java.util.function.ToLongBiFu
 
 	/** Captures arguments but delays the evaluation. */
 	default LLongSupplier capture(T1 t1, T2 t2) {
-		return () -> this.applyAsLong(t1, t2);
+		return () -> this.doApplyAsLong(t1, t2);
 	}
 
 	public static <T1, T2> LToLongBiFunction<T1, T2> constant(long r) {
@@ -81,7 +85,7 @@ public interface LToLongBiFunction<T1, T2> extends java.util.function.ToLongBiFu
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default long nonNull(T1 t1, T2 t2) {
-		return applyAsLong(t1, t2);
+		return doApplyAsLong(t1, t2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -104,7 +108,7 @@ public interface LToLongBiFunction<T1, T2> extends java.util.function.ToLongBiFu
 	public static <T1, T2, X extends Exception> LToLongBiFunction<T1, T2> wrap(final @Nonnull LToLongBiFunctionX<T1, T2, X> other) {
 		return (T1 t1, T2 t2) -> {
 			try {
-				return other.applyAsLong(t1, t2);
+				return other.doApplyAsLong(t1, t2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -122,7 +126,7 @@ public interface LToLongBiFunction<T1, T2> extends java.util.function.ToLongBiFu
 	default <V1, V2> LToLongBiFunction<V1, V2> from(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final V1 v1, final V2 v2) -> this.applyAsLong(before1.apply(v1), before2.apply(v2));
+		return (final V1 v1, final V2 v2) -> this.doApplyAsLong(before1.doApply(v1), before2.doApply(v2));
 	}
 
 	// </editor-fold>
@@ -133,7 +137,7 @@ public interface LToLongBiFunction<T1, T2> extends java.util.function.ToLongBiFu
 	@Nonnull
 	default <V> LBiFunction<T1, T2, V> then(@Nonnull LLongFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T1 t1, T2 t2) -> after.apply(this.applyAsLong(t1, t2));
+		return (T1 t1, T2 t2) -> after.doApply(this.doApplyAsLong(t1, t2));
 	}
 
 	// </editor-fold>
@@ -173,11 +177,11 @@ public interface LToLongBiFunction<T1, T2> extends java.util.function.ToLongBiFu
 			ExceptionHandler<E, Y> handler) {
 		return (T1 t1, T2 t2) -> {
 			try {
-				return other.applyAsLong(t1, t2);
+				return other.doApplyAsLong(t1, t2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsLong();
+						return supplier.doGetAsLong();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

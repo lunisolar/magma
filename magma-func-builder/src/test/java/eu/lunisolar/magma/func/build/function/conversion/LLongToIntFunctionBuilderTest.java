@@ -69,7 +69,7 @@ public class LLongToIntFunctionBuilderTest<X extends ParseException>{
                 .longToIntFunction()
                 .build();
 
-            function.applyAsInt((long)100);
+            function.doApplyAsInt((long)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

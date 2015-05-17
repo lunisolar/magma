@@ -99,12 +99,12 @@ public final class LBiObjLongPredicateBuilder<T1, T2> extends PerCaseBuilderWith
 			final Case<LBiObjLongPredicate<T1, T2>, LBiObjLongPredicate<T1, T2>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LBiObjLongPredicate.l((T1 t1, T2 t2, long l) -> {
 				for (Case<LBiObjLongPredicate<T1, T2>, LBiObjLongPredicate<T1, T2>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t1, t2, l)) {
-						return aCase.caseFunction().test(t1, t2, l);
+					if (aCase.casePredicate().doTest(t1, t2, l)) {
+						return aCase.caseFunction().doTest(t1, t2, l);
 					}
 				}
 
-				return eventuallyFinal.test(t1, t2, l);
+				return eventuallyFinal.doTest(t1, t2, l);
 			});
 		}
 

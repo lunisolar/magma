@@ -99,12 +99,12 @@ public final class LDoubleToShortFunctionBuilder extends PerCaseBuilderWithShort
 			final Case<LDoublePredicate, LDoubleToShortFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LDoubleToShortFunction.l((double d) -> {
 				for (Case<LDoublePredicate, LDoubleToShortFunction> aCase : casesArray) {
-					if (aCase.casePredicate().test(d)) {
-						return aCase.caseFunction().applyAsShort(d);
+					if (aCase.casePredicate().doTest(d)) {
+						return aCase.caseFunction().doApplyAsShort(d);
 					}
 				}
 
-				return eventuallyFinal.applyAsShort(d);
+				return eventuallyFinal.doApplyAsShort(d);
 			});
 		}
 

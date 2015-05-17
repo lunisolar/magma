@@ -60,9 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBiObjDoubleFunction<T1, T2, R> extends LBiObjDoubleFunctionX<T1, T2, R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LBiObjDoubleFunction: R apply(T1 t1,T2 t2, double d)";
+	public static final String DESCRIPTION = "LBiObjDoubleFunction: R doApply(T1 t1,T2 t2, double d)";
 
-	// Ovverriding methods can cause problems with inference.
+	@Nullable
+	public R doApply(T1 t1, T2 t2, double d);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +73,7 @@ public interface LBiObjDoubleFunction<T1, T2, R> extends LBiObjDoubleFunctionX<T
 
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(T1 t1, T2 t2, double d) {
-		return () -> this.apply(t1, t2, d);
+		return () -> this.doApply(t1, t2, d);
 	}
 
 	public static <T1, T2, R> LBiObjDoubleFunction<T1, T2, R> constant(R r) {
@@ -84,7 +85,7 @@ public interface LBiObjDoubleFunction<T1, T2, R> extends LBiObjDoubleFunctionX<T
 	/** Ensures the result is not null */
 	@Nonnull
 	default R nonNull(T1 t1, T2 t2, double d) {
-		return Objects.requireNonNull(apply(t1, t2, d), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Objects.requireNonNull(doApply(t1, t2, d), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -101,7 +102,7 @@ public interface LBiObjDoubleFunction<T1, T2, R> extends LBiObjDoubleFunctionX<T
 	public static <T1, T2, R, X extends Exception> LBiObjDoubleFunction<T1, T2, R> wrap(final @Nonnull LBiObjDoubleFunctionX<T1, T2, R, X> other) {
 		return (T1 t1, T2 t2, double d) -> {
 			try {
-				return other.apply(t1, t2, d);
+				return other.doApply(t1, t2, d);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -120,7 +121,7 @@ public interface LBiObjDoubleFunction<T1, T2, R> extends LBiObjDoubleFunctionX<T
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
 		Objects.requireNonNull(before3, Function4U.VALIDATION_MESSAGE_BEFORE3);
-		return (final V1 v1, final V2 v2, final double v3) -> this.apply(before1.apply(v1), before2.apply(v2), before3.applyAsDouble(v3));
+		return (final V1 v1, final V2 v2, final double v3) -> this.doApply(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsDouble(v3));
 	}
 
 	/**
@@ -131,7 +132,7 @@ public interface LBiObjDoubleFunction<T1, T2, R> extends LBiObjDoubleFunctionX<T
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
 		Objects.requireNonNull(before3, Function4U.VALIDATION_MESSAGE_BEFORE3);
-		return (V1 v1, V2 v2, V3 v3) -> this.apply(before1.apply(v1), before2.apply(v2), before3.applyAsDouble(v3));
+		return (V1 v1, V2 v2, V3 v3) -> this.doApply(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsDouble(v3));
 	}
 
 	// </editor-fold>
@@ -142,14 +143,14 @@ public interface LBiObjDoubleFunction<T1, T2, R> extends LBiObjDoubleFunctionX<T
 	@Nonnull
 	default <V> LBiObjDoubleFunction<T1, T2, V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T1 t1, T2 t2, double d) -> after.apply(this.apply(t1, t2, d));
+		return (T1 t1, T2 t2, double d) -> after.doApply(this.doApply(t1, t2, d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBiObjDoubleConsumer<T1, T2> then(@Nonnull LConsumer<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T1 t1, T2 t2, double d) -> after.accept(this.apply(t1, t2, d));
+		return (T1 t1, T2 t2, double d) -> after.doAccept(this.doApply(t1, t2, d));
 	}
 
 	// </editor-fold>
@@ -177,7 +178,7 @@ public interface LBiObjDoubleFunction<T1, T2, R> extends LBiObjDoubleFunctionX<T
 
 	@Nonnull
 	default LBiObjDoubleFunction<T1, T2, R> nonNullable() {
-		return (t1, t2, d) -> Objects.requireNonNull(this.apply(t1, t2, d));
+		return (t1, t2, d) -> Objects.requireNonNull(this.doApply(t1, t2, d));
 	}
 
 	// <editor-fold desc="exception handling">
@@ -188,11 +189,11 @@ public interface LBiObjDoubleFunction<T1, T2, R> extends LBiObjDoubleFunctionX<T
 			ExceptionHandler<E, Y> handler) {
 		return (T1 t1, T2 t2, double d) -> {
 			try {
-				return other.apply(t1, t2, d);
+				return other.doApply(t1, t2, d);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.get();
+						return supplier.doGet();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

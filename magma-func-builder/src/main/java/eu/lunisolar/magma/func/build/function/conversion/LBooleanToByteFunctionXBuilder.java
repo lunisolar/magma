@@ -99,12 +99,12 @@ public final class LBooleanToByteFunctionXBuilder<X extends Exception> extends P
 			final Case<LBooleanUnaryOperatorX<X>, LBooleanToByteFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LBooleanToByteFunctionX.lX((boolean b) -> {
 				for (Case<LBooleanUnaryOperatorX<X>, LBooleanToByteFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().applyAsBoolean(b)) {
-						return aCase.caseFunction().applyAsByte(b);
+					if (aCase.casePredicate().doApplyAsBoolean(b)) {
+						return aCase.caseFunction().doApplyAsByte(b);
 					}
 				}
 
-				return eventuallyFinal.applyAsByte(b);
+				return eventuallyFinal.doApplyAsByte(b);
 			});
 		}
 

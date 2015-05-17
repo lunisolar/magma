@@ -99,12 +99,12 @@ public final class LByteUnaryOperatorXBuilder<X extends Exception> extends PerCa
 			final Case<LBytePredicateX<X>, LByteUnaryOperatorX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LByteUnaryOperatorX.lX((byte b) -> {
 				for (Case<LBytePredicateX<X>, LByteUnaryOperatorX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(b)) {
-						return aCase.caseFunction().applyAsByte(b);
+					if (aCase.casePredicate().doTest(b)) {
+						return aCase.caseFunction().doApplyAsByte(b);
 					}
 				}
 
-				return eventuallyFinal.applyAsByte(b);
+				return eventuallyFinal.doApplyAsByte(b);
 			});
 		}
 

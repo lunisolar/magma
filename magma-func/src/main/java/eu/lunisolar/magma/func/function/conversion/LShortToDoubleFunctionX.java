@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LShortToDoubleFunctionX<X extends Exception> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LShortToDoubleFunctionX: double applyAsDouble(short s) throws X";
+	public static final String DESCRIPTION = "LShortToDoubleFunctionX: double doApplyAsDouble(short s) throws X";
 
-	public double applyAsDouble(short s) throws X;
+	public double doApplyAsDouble(short s) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LShortToDoubleFunctionX<X extends Exception> extends MetaFuncti
 
 	/** Captures arguments but delays the evaluation. */
 	default LDoubleSupplierX<X> capture(short s) {
-		return () -> this.applyAsDouble(s);
+		return () -> this.doApplyAsDouble(s);
 	}
 
 	public static <X extends Exception> LShortToDoubleFunctionX<X> constant(double r) {
@@ -81,7 +81,7 @@ public interface LShortToDoubleFunctionX<X extends Exception> extends MetaFuncti
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default double nonNull(short s) throws X {
-		return applyAsDouble(s);
+		return doApplyAsDouble(s);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -96,7 +96,7 @@ public interface LShortToDoubleFunctionX<X extends Exception> extends MetaFuncti
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LShortToDoubleFunctionX<X> wrapX(final @Nonnull LShortToDoubleFunction other) {
-		return other::applyAsDouble;
+		return other::doApplyAsDouble;
 	}
 
 	// </editor-fold>
@@ -109,7 +109,7 @@ public interface LShortToDoubleFunctionX<X extends Exception> extends MetaFuncti
 	@Nonnull
 	default LShortToDoubleFunctionX<X> fromShort(@Nonnull final LShortUnaryOperatorX<X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final short v1) -> this.applyAsDouble(before1.applyAsShort(v1));
+		return (final short v1) -> this.doApplyAsDouble(before1.doApplyAsShort(v1));
 	}
 
 	/**
@@ -118,7 +118,7 @@ public interface LShortToDoubleFunctionX<X extends Exception> extends MetaFuncti
 	@Nonnull
 	default <V1> LToDoubleFunctionX<V1, X> from(@Nonnull final LToShortFunctionX<? super V1, X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.applyAsDouble(before1.applyAsShort(v1));
+		return (V1 v1) -> this.doApplyAsDouble(before1.doApplyAsShort(v1));
 	}
 
 	// </editor-fold>
@@ -129,63 +129,63 @@ public interface LShortToDoubleFunctionX<X extends Exception> extends MetaFuncti
 	@Nonnull
 	default <V> LShortFunctionX<V, X> then(@Nonnull LDoubleFunctionX<? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.apply(this.applyAsDouble(s));
+		return (short s) -> after.doApply(this.doApplyAsDouble(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToByteFunctionX<X> thenToByte(@Nonnull LDoubleToByteFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsByte(this.applyAsDouble(s));
+		return (short s) -> after.doApplyAsByte(this.doApplyAsDouble(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortUnaryOperatorX<X> thenToShort(@Nonnull LDoubleToShortFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsShort(this.applyAsDouble(s));
+		return (short s) -> after.doApplyAsShort(this.doApplyAsDouble(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToIntFunctionX<X> thenToInt(@Nonnull LDoubleToIntFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsInt(this.applyAsDouble(s));
+		return (short s) -> after.doApplyAsInt(this.doApplyAsDouble(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToLongFunctionX<X> thenToLong(@Nonnull LDoubleToLongFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsLong(this.applyAsDouble(s));
+		return (short s) -> after.doApplyAsLong(this.doApplyAsDouble(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToFloatFunctionX<X> thenToFloat(@Nonnull LDoubleToFloatFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsFloat(this.applyAsDouble(s));
+		return (short s) -> after.doApplyAsFloat(this.doApplyAsDouble(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToDoubleFunctionX<X> thenToDouble(@Nonnull LDoubleUnaryOperatorX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsDouble(this.applyAsDouble(s));
+		return (short s) -> after.doApplyAsDouble(this.doApplyAsDouble(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToCharFunctionX<X> thenToChar(@Nonnull LDoubleToCharFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsChar(this.applyAsDouble(s));
+		return (short s) -> after.doApplyAsChar(this.doApplyAsDouble(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortPredicateX<X> thenToBoolean(@Nonnull LDoublePredicateX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.test(this.applyAsDouble(s));
+		return (short s) -> after.doTest(this.doApplyAsDouble(s));
 	}
 
 	// </editor-fold>
@@ -207,7 +207,7 @@ public interface LShortToDoubleFunctionX<X extends Exception> extends MetaFuncti
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LShortToDoubleFunction shove() {
 		LShortToDoubleFunctionX<RuntimeException> exceptionCast = (LShortToDoubleFunctionX<RuntimeException>) this;
-		return exceptionCast::applyAsDouble;
+		return exceptionCast::doApplyAsDouble;
 	}
 
 	// </editor-fold>
@@ -219,11 +219,11 @@ public interface LShortToDoubleFunctionX<X extends Exception> extends MetaFuncti
 	public static <X extends Exception, E extends Exception, Y extends Exception> LShortToDoubleFunctionX<Y> wrapException(@Nonnull final LShortToDoubleFunctionX<X> other, Class<E> exception, LDoubleSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
 		return (short s) -> {
 			try {
-				return other.applyAsDouble(s);
+				return other.doApplyAsDouble(s);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsDouble();
+						return supplier.doGetAsDouble();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

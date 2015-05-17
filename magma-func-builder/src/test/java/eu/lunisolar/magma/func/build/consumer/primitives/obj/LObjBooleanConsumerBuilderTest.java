@@ -69,7 +69,7 @@ public class LObjBooleanConsumerBuilderTest<T,X extends ParseException>{
                 .objBooleanConsumer()
                 .build();
 
-            function.accept((T)Integer.valueOf(100),true);
+            function.doAccept((T)Integer.valueOf(100),true);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

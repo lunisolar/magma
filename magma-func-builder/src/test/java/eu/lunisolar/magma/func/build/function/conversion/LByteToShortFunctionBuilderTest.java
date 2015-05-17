@@ -69,7 +69,7 @@ public class LByteToShortFunctionBuilderTest<X extends ParseException>{
                 .byteToShortFunction()
                 .build();
 
-            function.applyAsShort((byte)100);
+            function.doApplyAsShort((byte)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

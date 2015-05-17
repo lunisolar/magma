@@ -99,12 +99,12 @@ public final class LByteToIntFunctionXBuilder<X extends Exception> extends PerCa
 			final Case<LBytePredicateX<X>, LByteToIntFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LByteToIntFunctionX.lX((byte b) -> {
 				for (Case<LBytePredicateX<X>, LByteToIntFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(b)) {
-						return aCase.caseFunction().applyAsInt(b);
+					if (aCase.casePredicate().doTest(b)) {
+						return aCase.caseFunction().doApplyAsInt(b);
 					}
 				}
 
-				return eventuallyFinal.applyAsInt(b);
+				return eventuallyFinal.doApplyAsInt(b);
 			});
 		}
 

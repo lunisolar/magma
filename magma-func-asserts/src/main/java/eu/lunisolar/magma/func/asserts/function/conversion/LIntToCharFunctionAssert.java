@@ -58,7 +58,7 @@ public interface LIntToCharFunctionAssert<S extends LIntToCharFunctionAssert<S, 
 
 		@Nonnull
 		public Evaluation<S, A, RS, Character, Exception> doesApplyAsChar(int i) {
-			return evaluation(() -> assertFactory.apply((Character) actual.applyAsChar(i)));
+			return evaluation(() -> assertFactory.apply((Character) actual.doApplyAsChar(i)));
 		}
 
 	}

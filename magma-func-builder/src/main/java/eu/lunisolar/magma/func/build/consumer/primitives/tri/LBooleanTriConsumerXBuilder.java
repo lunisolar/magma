@@ -99,13 +99,13 @@ public final class LBooleanTriConsumerXBuilder<X extends Exception> extends PerC
 			final Case<LBooleanTernaryOperatorX<X>, LBooleanTriConsumerX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LBooleanTriConsumerX.lX((boolean b1, boolean b2, boolean b3) -> {
 				for (Case<LBooleanTernaryOperatorX<X>, LBooleanTriConsumerX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().apply(b1, b2, b3)) {
-						aCase.caseFunction().accept(b1, b2, b3);
+					if (aCase.casePredicate().doApply(b1, b2, b3)) {
+						aCase.caseFunction().doAccept(b1, b2, b3);
 						return;
 					}
 				}
 
-				eventuallyFinal.accept(b1, b2, b3);
+				eventuallyFinal.doAccept(b1, b2, b3);
 			});
 		}
 

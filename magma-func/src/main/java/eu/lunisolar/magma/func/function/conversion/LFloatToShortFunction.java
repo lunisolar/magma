@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LFloatToShortFunction extends LFloatToShortFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LFloatToShortFunction: short applyAsShort(float f)";
+	public static final String DESCRIPTION = "LFloatToShortFunction: short doApplyAsShort(float f)";
 
-	// Ovverriding methods can cause problems with inference.
+	public short doApplyAsShort(float f);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LFloatToShortFunction extends LFloatToShortFunctionX<RuntimeExc
 
 	/** Captures arguments but delays the evaluation. */
 	default LShortSupplier capture(float f) {
-		return () -> this.applyAsShort(f);
+		return () -> this.doApplyAsShort(f);
 	}
 
 	public static LFloatToShortFunction constant(short r) {
@@ -81,7 +81,7 @@ public interface LFloatToShortFunction extends LFloatToShortFunctionX<RuntimeExc
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default short nonNull(float f) {
-		return applyAsShort(f);
+		return doApplyAsShort(f);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -98,7 +98,7 @@ public interface LFloatToShortFunction extends LFloatToShortFunctionX<RuntimeExc
 	public static <X extends Exception> LFloatToShortFunction wrap(final @Nonnull LFloatToShortFunctionX<X> other) {
 		return (float f) -> {
 			try {
-				return other.applyAsShort(f);
+				return other.doApplyAsShort(f);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -115,7 +115,7 @@ public interface LFloatToShortFunction extends LFloatToShortFunctionX<RuntimeExc
 	@Nonnull
 	default LFloatToShortFunction fromFloat(@Nonnull final LFloatUnaryOperator before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final float v1) -> this.applyAsShort(before1.applyAsFloat(v1));
+		return (final float v1) -> this.doApplyAsShort(before1.doApplyAsFloat(v1));
 	}
 
 	/**
@@ -124,7 +124,7 @@ public interface LFloatToShortFunction extends LFloatToShortFunctionX<RuntimeExc
 	@Nonnull
 	default <V1> LToShortFunction<V1> from(@Nonnull final LToFloatFunction<? super V1> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.applyAsShort(before1.applyAsFloat(v1));
+		return (V1 v1) -> this.doApplyAsShort(before1.doApplyAsFloat(v1));
 	}
 
 	// </editor-fold>
@@ -135,63 +135,63 @@ public interface LFloatToShortFunction extends LFloatToShortFunctionX<RuntimeExc
 	@Nonnull
 	default <V> LFloatFunction<V> then(@Nonnull LShortFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.apply(this.applyAsShort(f));
+		return (float f) -> after.doApply(this.doApplyAsShort(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToByteFunction thenToByte(@Nonnull LShortToByteFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsByte(this.applyAsShort(f));
+		return (float f) -> after.doApplyAsByte(this.doApplyAsShort(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToShortFunction thenToShort(@Nonnull LShortUnaryOperator after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsShort(this.applyAsShort(f));
+		return (float f) -> after.doApplyAsShort(this.doApplyAsShort(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToIntFunction thenToInt(@Nonnull LShortToIntFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsInt(this.applyAsShort(f));
+		return (float f) -> after.doApplyAsInt(this.doApplyAsShort(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToLongFunction thenToLong(@Nonnull LShortToLongFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsLong(this.applyAsShort(f));
+		return (float f) -> after.doApplyAsLong(this.doApplyAsShort(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatUnaryOperator thenToFloat(@Nonnull LShortToFloatFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsFloat(this.applyAsShort(f));
+		return (float f) -> after.doApplyAsFloat(this.doApplyAsShort(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToDoubleFunction thenToDouble(@Nonnull LShortToDoubleFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsDouble(this.applyAsShort(f));
+		return (float f) -> after.doApplyAsDouble(this.doApplyAsShort(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToCharFunction thenToChar(@Nonnull LShortToCharFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsChar(this.applyAsShort(f));
+		return (float f) -> after.doApplyAsChar(this.doApplyAsShort(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatPredicate thenToBoolean(@Nonnull LShortPredicate after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.test(this.applyAsShort(f));
+		return (float f) -> after.doTest(this.doApplyAsShort(f));
 	}
 
 	// </editor-fold>
@@ -224,11 +224,11 @@ public interface LFloatToShortFunction extends LFloatToShortFunctionX<RuntimeExc
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LFloatToShortFunction wrapException(@Nonnull final LFloatToShortFunction other, Class<E> exception, LShortSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (float f) -> {
 			try {
-				return other.applyAsShort(f);
+				return other.doApplyAsShort(f);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsShort();
+						return supplier.doGetAsShort();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

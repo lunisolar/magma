@@ -63,7 +63,7 @@ public interface LBooleanToCharFunctionXAssert<S extends LBooleanToCharFunctionX
 
 		@Nonnull
 		public Evaluation<S, A, RS, Character, Exception> doesApplyAsChar(boolean b) {
-			return evaluation(() -> assertFactory.apply((Character) actual.applyAsChar(b)));
+			return evaluation(() -> assertFactory.apply((Character) actual.doApplyAsChar(b)));
 		}
 
 	}

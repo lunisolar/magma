@@ -69,7 +69,7 @@ public class LObjCharConsumerXBuilderTest<T,X extends ParseException>{
                 .objCharConsumerX()
                 .build();
 
-            function.accept((T)Integer.valueOf(100),(char)100);
+            function.doAccept((T)Integer.valueOf(100),(char)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

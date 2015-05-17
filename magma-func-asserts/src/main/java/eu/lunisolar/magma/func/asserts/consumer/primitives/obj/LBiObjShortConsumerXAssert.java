@@ -55,7 +55,7 @@ public interface LBiObjShortConsumerXAssert<S extends LBiObjShortConsumerXAssert
 
 		@Nonnull
 		public SemiEvaluation<S, A, Exception> doesAccept(T1 t1, T2 t2, short s) {
-			return evaluation(() -> actual.accept(t1, t2, s));
+			return evaluation(() -> actual.doAccept(t1, t2, s));
 		}
 
 	}

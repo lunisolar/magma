@@ -63,7 +63,7 @@ public interface LBooleanBinaryOperatorXAssert<S extends LBooleanBinaryOperatorX
 
 		@Nonnull
 		public Evaluation<S, A, RS, Boolean, Exception> doesApplyAsBoolean(boolean b1, boolean b2) {
-			return evaluation(() -> assertFactory.apply((Boolean) actual.applyAsBoolean(b1, b2)));
+			return evaluation(() -> assertFactory.apply((Boolean) actual.doApplyAsBoolean(b1, b2)));
 		}
 
 	}

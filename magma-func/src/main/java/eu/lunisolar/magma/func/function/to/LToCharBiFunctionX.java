@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LToCharBiFunctionX<T1, T2, X extends Exception> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LToCharBiFunctionX: char applyAsChar(T1 t1,T2 t2) throws X";
+	public static final String DESCRIPTION = "LToCharBiFunctionX: char doApplyAsChar(T1 t1,T2 t2) throws X";
 
-	public char applyAsChar(T1 t1, T2 t2) throws X;
+	public char doApplyAsChar(T1 t1, T2 t2) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LToCharBiFunctionX<T1, T2, X extends Exception> extends MetaFun
 
 	/** Captures arguments but delays the evaluation. */
 	default LCharSupplierX<X> capture(T1 t1, T2 t2) {
-		return () -> this.applyAsChar(t1, t2);
+		return () -> this.doApplyAsChar(t1, t2);
 	}
 
 	public static <T1, T2, X extends Exception> LToCharBiFunctionX<T1, T2, X> constant(char r) {
@@ -81,7 +81,7 @@ public interface LToCharBiFunctionX<T1, T2, X extends Exception> extends MetaFun
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default char nonNull(T1 t1, T2 t2) throws X {
-		return applyAsChar(t1, t2);
+		return doApplyAsChar(t1, t2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -96,7 +96,7 @@ public interface LToCharBiFunctionX<T1, T2, X extends Exception> extends MetaFun
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T1, T2, X extends Exception> LToCharBiFunctionX<T1, T2, X> wrapX(final @Nonnull LToCharBiFunction<T1, T2> other) {
-		return other::applyAsChar;
+		return other::doApplyAsChar;
 	}
 
 	// </editor-fold>
@@ -110,7 +110,7 @@ public interface LToCharBiFunctionX<T1, T2, X extends Exception> extends MetaFun
 	default <V1, V2> LToCharBiFunctionX<V1, V2, X> from(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final V1 v1, final V2 v2) -> this.applyAsChar(before1.apply(v1), before2.apply(v2));
+		return (final V1 v1, final V2 v2) -> this.doApplyAsChar(before1.doApply(v1), before2.doApply(v2));
 	}
 
 	// </editor-fold>
@@ -121,7 +121,7 @@ public interface LToCharBiFunctionX<T1, T2, X extends Exception> extends MetaFun
 	@Nonnull
 	default <V> LBiFunctionX<T1, T2, V, X> then(@Nonnull LCharFunctionX<? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T1 t1, T2 t2) -> after.apply(this.applyAsChar(t1, t2));
+		return (T1 t1, T2 t2) -> after.doApply(this.doApplyAsChar(t1, t2));
 	}
 
 	// </editor-fold>
@@ -143,7 +143,7 @@ public interface LToCharBiFunctionX<T1, T2, X extends Exception> extends MetaFun
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LToCharBiFunction<T1, T2> shove() {
 		LToCharBiFunctionX<T1, T2, RuntimeException> exceptionCast = (LToCharBiFunctionX<T1, T2, RuntimeException>) this;
-		return exceptionCast::applyAsChar;
+		return exceptionCast::doApplyAsChar;
 	}
 
 	// </editor-fold>
@@ -156,11 +156,11 @@ public interface LToCharBiFunctionX<T1, T2, X extends Exception> extends MetaFun
 			ExceptionHandler<E, Y> handler) {
 		return (T1 t1, T2 t2) -> {
 			try {
-				return other.applyAsChar(t1, t2);
+				return other.doApplyAsChar(t1, t2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsChar();
+						return supplier.doGetAsChar();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

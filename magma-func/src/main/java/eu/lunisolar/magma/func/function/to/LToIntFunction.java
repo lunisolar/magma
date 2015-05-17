@@ -60,9 +60,13 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LToIntFunction<T> extends java.util.function.ToIntFunction<T>, LToIntFunctionX<T, RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LToIntFunction: int applyAsInt(T t)";
+	public static final String DESCRIPTION = "LToIntFunction: int doApplyAsInt(T t)";
 
-	// Ovverriding methods can cause problems with inference.
+	public int doApplyAsInt(T t);
+
+	default int applyAsInt(T t) {
+		return doApplyAsInt(t);
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +76,7 @@ public interface LToIntFunction<T> extends java.util.function.ToIntFunction<T>, 
 
 	/** Captures arguments but delays the evaluation. */
 	default LIntSupplier capture(T t) {
-		return () -> this.applyAsInt(t);
+		return () -> this.doApplyAsInt(t);
 	}
 
 	public static <T> LToIntFunction<T> constant(int r) {
@@ -81,7 +85,7 @@ public interface LToIntFunction<T> extends java.util.function.ToIntFunction<T>, 
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default int nonNull(T t) {
-		return applyAsInt(t);
+		return doApplyAsInt(t);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -104,7 +108,7 @@ public interface LToIntFunction<T> extends java.util.function.ToIntFunction<T>, 
 	public static <T, X extends Exception> LToIntFunction<T> wrap(final @Nonnull LToIntFunctionX<T, X> other) {
 		return (T t) -> {
 			try {
-				return other.applyAsInt(t);
+				return other.doApplyAsInt(t);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -121,7 +125,7 @@ public interface LToIntFunction<T> extends java.util.function.ToIntFunction<T>, 
 	@Nonnull
 	default <V1> LToIntFunction<V1> from(@Nonnull final LFunction<? super V1, ? extends T> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final V1 v1) -> this.applyAsInt(before1.apply(v1));
+		return (final V1 v1) -> this.doApplyAsInt(before1.doApply(v1));
 	}
 
 	// </editor-fold>
@@ -132,63 +136,63 @@ public interface LToIntFunction<T> extends java.util.function.ToIntFunction<T>, 
 	@Nonnull
 	default <V> LFunction<T, V> then(@Nonnull LIntFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.apply(this.applyAsInt(t));
+		return (T t) -> after.doApply(this.doApplyAsInt(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToByteFunction<T> thenToByte(@Nonnull LIntToByteFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsByte(this.applyAsInt(t));
+		return (T t) -> after.doApplyAsByte(this.doApplyAsInt(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToShortFunction<T> thenToShort(@Nonnull LIntToShortFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsShort(this.applyAsInt(t));
+		return (T t) -> after.doApplyAsShort(this.doApplyAsInt(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToIntFunction<T> thenToInt(@Nonnull LIntUnaryOperator after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsInt(this.applyAsInt(t));
+		return (T t) -> after.doApplyAsInt(this.doApplyAsInt(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToLongFunction<T> thenToLong(@Nonnull LIntToLongFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsLong(this.applyAsInt(t));
+		return (T t) -> after.doApplyAsLong(this.doApplyAsInt(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToFloatFunction<T> thenToFloat(@Nonnull LIntToFloatFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsFloat(this.applyAsInt(t));
+		return (T t) -> after.doApplyAsFloat(this.doApplyAsInt(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToDoubleFunction<T> thenToDouble(@Nonnull LIntToDoubleFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsDouble(this.applyAsInt(t));
+		return (T t) -> after.doApplyAsDouble(this.doApplyAsInt(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LToCharFunction<T> thenToChar(@Nonnull LIntToCharFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.applyAsChar(this.applyAsInt(t));
+		return (T t) -> after.doApplyAsChar(this.doApplyAsInt(t));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LPredicate<T> thenToBoolean(@Nonnull LIntPredicate after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t) -> after.test(this.applyAsInt(t));
+		return (T t) -> after.doTest(this.doApplyAsInt(t));
 	}
 
 	// </editor-fold>
@@ -227,11 +231,11 @@ public interface LToIntFunction<T> extends java.util.function.ToIntFunction<T>, 
 	public static <T, X extends Exception, E extends Exception, Y extends RuntimeException> LToIntFunction<T> wrapException(@Nonnull final LToIntFunction<T> other, Class<E> exception, LIntSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (T t) -> {
 			try {
-				return other.applyAsInt(t);
+				return other.doApplyAsInt(t);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsInt();
+						return supplier.doGetAsInt();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

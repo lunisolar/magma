@@ -58,7 +58,7 @@ public interface LDoubleUnaryOperatorAssert<S extends LDoubleUnaryOperatorAssert
 
 		@Nonnull
 		public Evaluation<S, A, RS, Double, Exception> doesApplyAsDouble(double d) {
-			return evaluation(() -> assertFactory.apply((Double) actual.applyAsDouble(d)));
+			return evaluation(() -> assertFactory.apply((Double) actual.doApplyAsDouble(d)));
 		}
 
 	}

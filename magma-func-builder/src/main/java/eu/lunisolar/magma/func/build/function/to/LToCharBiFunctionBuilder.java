@@ -99,12 +99,12 @@ public final class LToCharBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithCh
 			final Case<LBiPredicate<T1, T2>, LToCharBiFunction<T1, T2>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LToCharBiFunction.l((T1 t1, T2 t2) -> {
 				for (Case<LBiPredicate<T1, T2>, LToCharBiFunction<T1, T2>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t1, t2)) {
-						return aCase.caseFunction().applyAsChar(t1, t2);
+					if (aCase.casePredicate().doTest(t1, t2)) {
+						return aCase.caseFunction().doApplyAsChar(t1, t2);
 					}
 				}
 
-				return eventuallyFinal.applyAsChar(t1, t2);
+				return eventuallyFinal.doApplyAsChar(t1, t2);
 			});
 		}
 

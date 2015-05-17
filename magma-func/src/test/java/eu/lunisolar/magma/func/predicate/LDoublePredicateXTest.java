@@ -61,13 +61,13 @@ public class LDoublePredicateXTest<X extends ParseException> {
 
 
     private LDoublePredicateX<X> sut = new LDoublePredicateX(){
-        public  boolean test(double d) throws ParseException {
+        public  boolean doTest(double d) throws ParseException {
             return testValue;
         }
     };
 
     private LDoublePredicate opposite = new LDoublePredicate(){
-        public  boolean test(double d)  {
+        public  boolean doTest(double d)  {
             return testValue;
         }
     };
@@ -78,7 +78,7 @@ public class LDoublePredicateXTest<X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.test((double)100))
+        assertThat(sut.doTest((double)100))
             .isEqualTo(testValue);
     }
 
@@ -90,7 +90,7 @@ public class LDoublePredicateXTest<X extends ParseException> {
 
     @Test
     public void testApplyAsBooleanShouldNotModifyValue() throws ParseException {
-        assertThat(sut.applyAsBoolean((double)100))
+        assertThat(sut.doApplyAsBoolean((double)100))
             .isEqualTo(testValue);
 
     }
@@ -99,7 +99,7 @@ public class LDoublePredicateXTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LDoublePredicateX: boolean test(double d) throws X");
+            .isEqualTo("LDoublePredicateX: boolean doTest(double d) throws X");
     }
 
     @Test
@@ -136,7 +136,7 @@ public class LDoublePredicateXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.test((double)100);
+            wrapped.doTest((double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -161,7 +161,7 @@ public class LDoublePredicateXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.test((double)100);
+            wrapped.doTest((double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -185,7 +185,7 @@ public class LDoublePredicateXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.test((double)100);
+            wrapped.doTest((double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -197,7 +197,7 @@ public class LDoublePredicateXTest<X extends ParseException> {
 
     @Test
     public void testNegate() throws ParseException {
-        assertThat(sut.negate().test((double)100))
+        assertThat(sut.negate().doTest((double)100))
             .isEqualTo(!testValue);
     }
 
@@ -225,13 +225,13 @@ public class LDoublePredicateXTest<X extends ParseException> {
         LDoublePredicateX<X> xorFunction = fun1.xor(fun2);
 
         //then
-        assertThat(andFunction.test((double)100))
+        assertThat(andFunction.doTest((double)100))
                 .isEqualTo(andResult);
 
-        assertThat(orFunction.test((double)100))
+        assertThat(orFunction.doTest((double)100))
                 .isEqualTo(orResult);
 
-        assertThat(xorFunction.test((double)100))
+        assertThat(xorFunction.doTest((double)100))
                 .isEqualTo(xorResult);
     }
 
@@ -241,10 +241,10 @@ public class LDoublePredicateXTest<X extends ParseException> {
         LDoublePredicateX<X> equals = LDoublePredicateX.isEqual((double)100);
 
         //then
-        assertThat(equals.test((double)100))
+        assertThat(equals.doTest((double)100))
                 .isTrue();
 
-        assertThat(equals.test((double)0))
+        assertThat(equals.doTest((double)0))
                 .isFalse();
     }
 
@@ -273,7 +273,7 @@ public class LDoublePredicateXTest<X extends ParseException> {
 
         //when
         LDoublePredicateX<X> function = sutO.fromDouble(before1);
-        function.test((double)80);
+        function.doTest((double)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -302,7 +302,7 @@ public class LDoublePredicateXTest<X extends ParseException> {
 
         //when
         LPredicateX<Integer ,X> function = sutO.from(before1);
-        function.test((Integer )Integer.valueOf(80));
+        function.doTest((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -338,7 +338,7 @@ public class LDoublePredicateXTest<X extends ParseException> {
 
         //when
         LDoubleFunctionX<Integer ,X> function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((double)80);
+        Integer  finalValue = function.doApply((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -373,7 +373,7 @@ public class LDoublePredicateXTest<X extends ParseException> {
 
         //when
         LDoubleToByteFunctionX<X> function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.applyAsByte((double)80);
+        byte finalValue = function.doApplyAsByte((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -408,7 +408,7 @@ public class LDoublePredicateXTest<X extends ParseException> {
 
         //when
         LDoubleToShortFunctionX<X> function = sutO.thenToShort(thenFunction);
-        short finalValue = function.applyAsShort((double)80);
+        short finalValue = function.doApplyAsShort((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -443,7 +443,7 @@ public class LDoublePredicateXTest<X extends ParseException> {
 
         //when
         LDoubleToIntFunctionX<X> function = sutO.thenToInt(thenFunction);
-        int finalValue = function.applyAsInt((double)80);
+        int finalValue = function.doApplyAsInt((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((int)100);
@@ -478,7 +478,7 @@ public class LDoublePredicateXTest<X extends ParseException> {
 
         //when
         LDoubleToLongFunctionX<X> function = sutO.thenToLong(thenFunction);
-        long finalValue = function.applyAsLong((double)80);
+        long finalValue = function.doApplyAsLong((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((long)100);
@@ -513,7 +513,7 @@ public class LDoublePredicateXTest<X extends ParseException> {
 
         //when
         LDoubleToFloatFunctionX<X> function = sutO.thenToFloat(thenFunction);
-        float finalValue = function.applyAsFloat((double)80);
+        float finalValue = function.doApplyAsFloat((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((float)100);
@@ -548,7 +548,7 @@ public class LDoublePredicateXTest<X extends ParseException> {
 
         //when
         LDoubleUnaryOperatorX<X> function = sutO.thenToDouble(thenFunction);
-        double finalValue = function.applyAsDouble((double)80);
+        double finalValue = function.doApplyAsDouble((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((double)100);
@@ -583,7 +583,7 @@ public class LDoublePredicateXTest<X extends ParseException> {
 
         //when
         LDoubleToCharFunctionX<X> function = sutO.thenToChar(thenFunction);
-        char finalValue = function.applyAsChar((double)80);
+        char finalValue = function.doApplyAsChar((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((char)100);
@@ -618,7 +618,7 @@ public class LDoublePredicateXTest<X extends ParseException> {
 
         //when
         LDoublePredicateX<X> function = sutO.thenToBoolean(thenFunction);
-        boolean finalValue = function.test((double)80);
+        boolean finalValue = function.doTest((double)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -654,7 +654,7 @@ public class LDoublePredicateXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().test((double)100);
+        sutThrowing.shove().doTest((double)100);
     }
 
     @Test
@@ -672,7 +672,7 @@ public class LDoublePredicateXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.test((double)100);
+            wrapped.doTest((double)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -691,7 +691,7 @@ public class LDoublePredicateXTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LDoublePredicateX: boolean test(double d) throws X");
+                .contains("LDoublePredicateX: boolean doTest(double d) throws X");
     }
 
 

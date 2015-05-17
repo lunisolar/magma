@@ -69,7 +69,7 @@ public class LByteToLongFunctionBuilderTest<X extends ParseException>{
                 .byteToLongFunction()
                 .build();
 
-            function.applyAsLong((byte)100);
+            function.doApplyAsLong((byte)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

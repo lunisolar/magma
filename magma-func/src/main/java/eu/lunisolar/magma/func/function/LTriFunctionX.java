@@ -60,10 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LTriFunctionX<T1, T2, T3, R, X extends Exception> extends MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LTriFunctionX: R apply(T1 t1,T2 t2,T3 t3) throws X";
+	public static final String DESCRIPTION = "LTriFunctionX: R doApply(T1 t1,T2 t2,T3 t3) throws X";
 
 	@Nullable
-	public R apply(T1 t1, T2 t2, T3 t3) throws X;
+	public R doApply(T1 t1, T2 t2, T3 t3) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +73,7 @@ public interface LTriFunctionX<T1, T2, T3, R, X extends Exception> extends MetaF
 
 	/** Captures arguments but delays the evaluation. */
 	default LSupplierX<R, X> capture(T1 t1, T2 t2, T3 t3) {
-		return () -> this.apply(t1, t2, t3);
+		return () -> this.doApply(t1, t2, t3);
 	}
 
 	public static <T1, T2, T3, R, X extends Exception> LTriFunctionX<T1, T2, T3, R, X> constant(R r) {
@@ -85,7 +85,7 @@ public interface LTriFunctionX<T1, T2, T3, R, X extends Exception> extends MetaF
 	/** Ensures the result is not null */
 	@Nonnull
 	default R nonNull(T1 t1, T2 t2, T3 t3) throws X {
-		return Objects.requireNonNull(apply(t1, t2, t3), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Objects.requireNonNull(doApply(t1, t2, t3), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -100,7 +100,7 @@ public interface LTriFunctionX<T1, T2, T3, R, X extends Exception> extends MetaF
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T1, T2, T3, R, X extends Exception> LTriFunctionX<T1, T2, T3, R, X> wrapX(final @Nonnull LTriFunction<T1, T2, T3, R> other) {
-		return other::apply;
+		return other::doApply;
 	}
 
 	// </editor-fold>
@@ -115,7 +115,7 @@ public interface LTriFunctionX<T1, T2, T3, R, X extends Exception> extends MetaF
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
 		Objects.requireNonNull(before3, Function4U.VALIDATION_MESSAGE_BEFORE3);
-		return (final V1 v1, final V2 v2, final V3 v3) -> this.apply(before1.apply(v1), before2.apply(v2), before3.apply(v3));
+		return (final V1 v1, final V2 v2, final V3 v3) -> this.doApply(before1.doApply(v1), before2.doApply(v2), before3.doApply(v3));
 	}
 
 	// </editor-fold>
@@ -126,14 +126,14 @@ public interface LTriFunctionX<T1, T2, T3, R, X extends Exception> extends MetaF
 	@Nonnull
 	default <V> LTriFunctionX<T1, T2, T3, V, X> then(@Nonnull LFunctionX<? super R, ? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T1 t1, T2 t2, T3 t3) -> after.apply(this.apply(t1, t2, t3));
+		return (T1 t1, T2 t2, T3 t3) -> after.doApply(this.doApply(t1, t2, t3));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LTriConsumerX<T1, T2, T3, X> then(@Nonnull LConsumerX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T1 t1, T2 t2, T3 t3) -> after.accept(this.apply(t1, t2, t3));
+		return (T1 t1, T2 t2, T3 t3) -> after.doAccept(this.doApply(t1, t2, t3));
 	}
 
 	// </editor-fold>
@@ -155,14 +155,14 @@ public interface LTriFunctionX<T1, T2, T3, R, X extends Exception> extends MetaF
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LTriFunction<T1, T2, T3, R> shove() {
 		LTriFunctionX<T1, T2, T3, R, RuntimeException> exceptionCast = (LTriFunctionX<T1, T2, T3, R, RuntimeException>) this;
-		return exceptionCast::apply;
+		return exceptionCast::doApply;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
 	default LTriFunctionX<T1, T2, T3, R, X> nonNullableX() {
-		return (t1, t2, t3) -> Objects.requireNonNull(this.apply(t1, t2, t3));
+		return (t1, t2, t3) -> Objects.requireNonNull(this.doApply(t1, t2, t3));
 	}
 
 	// <editor-fold desc="exception handling">
@@ -173,11 +173,11 @@ public interface LTriFunctionX<T1, T2, T3, R, X extends Exception> extends MetaF
 			ExceptionHandler<E, Y> handler) {
 		return (T1 t1, T2 t2, T3 t3) -> {
 			try {
-				return other.apply(t1, t2, t3);
+				return other.doApply(t1, t2, t3);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.get();
+						return supplier.doGet();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

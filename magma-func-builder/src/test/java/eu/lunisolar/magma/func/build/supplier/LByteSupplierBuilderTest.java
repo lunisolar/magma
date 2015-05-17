@@ -69,7 +69,7 @@ public class LByteSupplierBuilderTest<X extends ParseException>{
                 .byteSupplier()
                 .build();
 
-            function.getAsByte();
+            function.doGetAsByte();
 
             fail("No exception were thrown.");
         } catch (Exception e) {

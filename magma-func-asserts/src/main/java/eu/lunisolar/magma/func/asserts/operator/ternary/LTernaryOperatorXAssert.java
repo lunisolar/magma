@@ -58,7 +58,7 @@ public interface LTernaryOperatorXAssert<S extends LTernaryOperatorXAssert<S, A,
 
 		@Nonnull
 		public Evaluation<S, A, RS, T, Exception> doesApply(T t1, T t2, T t3) {
-			return evaluation(() -> assertFactory.apply((T) actual.apply(t1, t2, t3)));
+			return evaluation(() -> assertFactory.apply((T) actual.doApply(t1, t2, t3)));
 		}
 
 	}

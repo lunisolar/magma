@@ -69,7 +69,7 @@ public class LToFloatBiFunctionXBuilderTest<T1,T2,X extends ParseException>{
                 .toFloatBiFunctionX()
                 .build();
 
-            function.applyAsFloat((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            function.doApplyAsFloat((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
 
             fail("No exception were thrown.");
         } catch (Exception e) {

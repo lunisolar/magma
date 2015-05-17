@@ -60,9 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LFloatFunction<R> extends LFloatFunctionX<R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LFloatFunction: R apply(float f)";
+	public static final String DESCRIPTION = "LFloatFunction: R doApply(float f)";
 
-	// Ovverriding methods can cause problems with inference.
+	@Nullable
+	public R doApply(float f);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +73,7 @@ public interface LFloatFunction<R> extends LFloatFunctionX<R, RuntimeException>,
 
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(float f) {
-		return () -> this.apply(f);
+		return () -> this.doApply(f);
 	}
 
 	public static <R> LFloatFunction<R> constant(R r) {
@@ -84,7 +85,7 @@ public interface LFloatFunction<R> extends LFloatFunctionX<R, RuntimeException>,
 	/** Ensures the result is not null */
 	@Nonnull
 	default R nonNull(float f) {
-		return Objects.requireNonNull(apply(f), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Objects.requireNonNull(doApply(f), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -101,7 +102,7 @@ public interface LFloatFunction<R> extends LFloatFunctionX<R, RuntimeException>,
 	public static <R, X extends Exception> LFloatFunction<R> wrap(final @Nonnull LFloatFunctionX<R, X> other) {
 		return (float f) -> {
 			try {
-				return other.apply(f);
+				return other.doApply(f);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -118,7 +119,7 @@ public interface LFloatFunction<R> extends LFloatFunctionX<R, RuntimeException>,
 	@Nonnull
 	default LFloatFunction<R> fromFloat(@Nonnull final LFloatUnaryOperator before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final float v1) -> this.apply(before1.applyAsFloat(v1));
+		return (final float v1) -> this.doApply(before1.doApplyAsFloat(v1));
 	}
 
 	/**
@@ -127,7 +128,7 @@ public interface LFloatFunction<R> extends LFloatFunctionX<R, RuntimeException>,
 	@Nonnull
 	default <V1> LFunction<V1, R> from(@Nonnull final LToFloatFunction<? super V1> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.apply(before1.applyAsFloat(v1));
+		return (V1 v1) -> this.doApply(before1.doApplyAsFloat(v1));
 	}
 
 	// </editor-fold>
@@ -138,70 +139,70 @@ public interface LFloatFunction<R> extends LFloatFunctionX<R, RuntimeException>,
 	@Nonnull
 	default <V> LFloatFunction<V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.apply(this.apply(f));
+		return (float f) -> after.doApply(this.doApply(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatConsumer then(@Nonnull LConsumer<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.accept(this.apply(f));
+		return (float f) -> after.doAccept(this.doApply(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToByteFunction thenToByte(@Nonnull LToByteFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsByte(this.apply(f));
+		return (float f) -> after.doApplyAsByte(this.doApply(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToShortFunction thenToShort(@Nonnull LToShortFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsShort(this.apply(f));
+		return (float f) -> after.doApplyAsShort(this.doApply(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToIntFunction thenToInt(@Nonnull LToIntFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsInt(this.apply(f));
+		return (float f) -> after.doApplyAsInt(this.doApply(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToLongFunction thenToLong(@Nonnull LToLongFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsLong(this.apply(f));
+		return (float f) -> after.doApplyAsLong(this.doApply(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatUnaryOperator thenToFloat(@Nonnull LToFloatFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsFloat(this.apply(f));
+		return (float f) -> after.doApplyAsFloat(this.doApply(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToDoubleFunction thenToDouble(@Nonnull LToDoubleFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsDouble(this.apply(f));
+		return (float f) -> after.doApplyAsDouble(this.doApply(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToCharFunction thenToChar(@Nonnull LToCharFunction<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.applyAsChar(this.apply(f));
+		return (float f) -> after.doApplyAsChar(this.doApply(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatPredicate thenToBoolean(@Nonnull LPredicate<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f) -> after.test(this.apply(f));
+		return (float f) -> after.doTest(this.doApply(f));
 	}
 
 	// </editor-fold>
@@ -229,7 +230,7 @@ public interface LFloatFunction<R> extends LFloatFunctionX<R, RuntimeException>,
 
 	@Nonnull
 	default LFloatFunction<R> nonNullable() {
-		return (f) -> Objects.requireNonNull(this.apply(f));
+		return (f) -> Objects.requireNonNull(this.doApply(f));
 	}
 
 	// <editor-fold desc="exception handling">
@@ -239,11 +240,11 @@ public interface LFloatFunction<R> extends LFloatFunctionX<R, RuntimeException>,
 	public static <R, X extends Exception, E extends Exception, Y extends RuntimeException> LFloatFunction<R> wrapException(@Nonnull final LFloatFunction<R> other, Class<E> exception, LSupplier<R> supplier, ExceptionHandler<E, Y> handler) {
 		return (float f) -> {
 			try {
-				return other.apply(f);
+				return other.doApply(f);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.get();
+						return supplier.doGet();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

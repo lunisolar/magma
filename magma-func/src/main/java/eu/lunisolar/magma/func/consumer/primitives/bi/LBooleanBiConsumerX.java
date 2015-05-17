@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBooleanBiConsumerX<X extends Exception> extends MetaConsumer, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LBooleanBiConsumerX: void accept(boolean b1,boolean b2) throws X";
+	public static final String DESCRIPTION = "LBooleanBiConsumerX: void doAccept(boolean b1,boolean b2) throws X";
 
-	public void accept(boolean b1, boolean b2) throws X;
+	public void doAccept(boolean b1, boolean b2) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +73,7 @@ public interface LBooleanBiConsumerX<X extends Exception> extends MetaConsumer, 
 
 	/** Captures arguments but delays the evaluation. */
 	default LActionX<X> capture(boolean b1, boolean b2) {
-		return () -> this.accept(b1, b2);
+		return () -> this.doAccept(b1, b2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -88,7 +88,7 @@ public interface LBooleanBiConsumerX<X extends Exception> extends MetaConsumer, 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LBooleanBiConsumerX<X> wrapX(final @Nonnull LBooleanBiConsumer other) {
-		return other::accept;
+		return other::doAccept;
 	}
 
 	// </editor-fold>
@@ -102,7 +102,7 @@ public interface LBooleanBiConsumerX<X extends Exception> extends MetaConsumer, 
 	default LBooleanBiConsumerX<X> fromBoolean(@Nonnull final LBooleanUnaryOperatorX<X> before1, @Nonnull final LBooleanUnaryOperatorX<X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final boolean v1, final boolean v2) -> this.accept(before1.applyAsBoolean(v1), before2.applyAsBoolean(v2));
+		return (final boolean v1, final boolean v2) -> this.doAccept(before1.doApplyAsBoolean(v1), before2.doApplyAsBoolean(v2));
 	}
 
 	/**
@@ -112,7 +112,7 @@ public interface LBooleanBiConsumerX<X extends Exception> extends MetaConsumer, 
 	default <V1, V2> LBiConsumerX<V1, V2, X> from(@Nonnull final LPredicateX<? super V1, X> before1, @Nonnull final LPredicateX<? super V2, X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.accept(before1.applyAsBoolean(v1), before2.applyAsBoolean(v2));
+		return (V1 v1, V2 v2) -> this.doAccept(before1.doApplyAsBoolean(v1), before2.doApplyAsBoolean(v2));
 	}
 
 	// </editor-fold>
@@ -124,8 +124,8 @@ public interface LBooleanBiConsumerX<X extends Exception> extends MetaConsumer, 
 	default LBooleanBiConsumerX<X> andThen(@Nonnull LBooleanBiConsumerX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
 		return (boolean b1, boolean b2) -> {
-			this.accept(b1, b2);
-			after.accept(b1, b2);
+			this.doAccept(b1, b2);
+			after.doAccept(b1, b2);
 		};
 	}
 
@@ -147,7 +147,7 @@ public interface LBooleanBiConsumerX<X extends Exception> extends MetaConsumer, 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBooleanBiConsumer shove() {
 		LBooleanBiConsumerX<RuntimeException> exceptionCast = (LBooleanBiConsumerX<RuntimeException>) this;
-		return exceptionCast::accept;
+		return exceptionCast::doAccept;
 	}
 
 	// </editor-fold>
@@ -159,7 +159,7 @@ public interface LBooleanBiConsumerX<X extends Exception> extends MetaConsumer, 
 	public static <X extends Exception, E extends Exception, Y extends Exception> LBooleanBiConsumerX<Y> wrapException(@Nonnull final LBooleanBiConsumerX<X> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
 		return (boolean b1, boolean b2) -> {
 			try {
-				other.accept(b1, b2);
+				other.doAccept(b1, b2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
 			}

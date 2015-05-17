@@ -61,9 +61,13 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LIntConsumer extends java.util.function.IntConsumer, LIntConsumerX<RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LIntConsumer: void accept(int i)";
+	public static final String DESCRIPTION = "LIntConsumer: void doAccept(int i)";
 
-	// Ovverriding methods can cause problems with inference.
+	public void doAccept(int i);
+
+	default void accept(int i) {
+		doAccept(i);
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +77,7 @@ public interface LIntConsumer extends java.util.function.IntConsumer, LIntConsum
 
 	/** Captures arguments but delays the evaluation. */
 	default LAction capture(int i) {
-		return () -> this.accept(i);
+		return () -> this.doAccept(i);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -96,7 +100,7 @@ public interface LIntConsumer extends java.util.function.IntConsumer, LIntConsum
 	public static <X extends Exception> LIntConsumer wrap(final @Nonnull LIntConsumerX<X> other) {
 		return (int i) -> {
 			try {
-				other.accept(i);
+				other.doAccept(i);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -113,7 +117,7 @@ public interface LIntConsumer extends java.util.function.IntConsumer, LIntConsum
 	@Nonnull
 	default LIntConsumer fromInt(@Nonnull final LIntUnaryOperator before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final int v1) -> this.accept(before1.applyAsInt(v1));
+		return (final int v1) -> this.doAccept(before1.doApplyAsInt(v1));
 	}
 
 	/**
@@ -122,7 +126,7 @@ public interface LIntConsumer extends java.util.function.IntConsumer, LIntConsum
 	@Nonnull
 	default <V1> LConsumer<V1> from(@Nonnull final LToIntFunction<? super V1> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.accept(before1.applyAsInt(v1));
+		return (V1 v1) -> this.doAccept(before1.doApplyAsInt(v1));
 	}
 
 	// </editor-fold>
@@ -134,8 +138,8 @@ public interface LIntConsumer extends java.util.function.IntConsumer, LIntConsum
 	default LIntConsumer andThen(@Nonnull LIntConsumer after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
 		return (int i) -> {
-			this.accept(i);
-			after.accept(i);
+			this.doAccept(i);
+			after.doAccept(i);
 		};
 	}
 
@@ -174,7 +178,7 @@ public interface LIntConsumer extends java.util.function.IntConsumer, LIntConsum
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LIntConsumer wrapException(@Nonnull final LIntConsumer other, Class<E> exception, ExceptionHandler<E, Y> handler) {
 		return (int i) -> {
 			try {
-				other.accept(i);
+				other.doAccept(i);
 			} catch (Exception e) {
 				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
 			}

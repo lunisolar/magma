@@ -60,9 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBooleanTriFunction<R> extends LBooleanTriFunctionX<R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LBooleanTriFunction: R apply(boolean b1,boolean b2,boolean b3)";
+	public static final String DESCRIPTION = "LBooleanTriFunction: R doApply(boolean b1,boolean b2,boolean b3)";
 
-	// Ovverriding methods can cause problems with inference.
+	@Nullable
+	public R doApply(boolean b1, boolean b2, boolean b3);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +73,7 @@ public interface LBooleanTriFunction<R> extends LBooleanTriFunctionX<R, RuntimeE
 
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(boolean b1, boolean b2, boolean b3) {
-		return () -> this.apply(b1, b2, b3);
+		return () -> this.doApply(b1, b2, b3);
 	}
 
 	public static <R> LBooleanTriFunction<R> constant(R r) {
@@ -84,7 +85,7 @@ public interface LBooleanTriFunction<R> extends LBooleanTriFunctionX<R, RuntimeE
 	/** Ensures the result is not null */
 	@Nonnull
 	default R nonNull(boolean b1, boolean b2, boolean b3) {
-		return Objects.requireNonNull(apply(b1, b2, b3), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Objects.requireNonNull(doApply(b1, b2, b3), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -101,7 +102,7 @@ public interface LBooleanTriFunction<R> extends LBooleanTriFunctionX<R, RuntimeE
 	public static <R, X extends Exception> LBooleanTriFunction<R> wrap(final @Nonnull LBooleanTriFunctionX<R, X> other) {
 		return (boolean b1, boolean b2, boolean b3) -> {
 			try {
-				return other.apply(b1, b2, b3);
+				return other.doApply(b1, b2, b3);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -120,7 +121,7 @@ public interface LBooleanTriFunction<R> extends LBooleanTriFunctionX<R, RuntimeE
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
 		Objects.requireNonNull(before3, Function4U.VALIDATION_MESSAGE_BEFORE3);
-		return (final boolean v1, final boolean v2, final boolean v3) -> this.apply(before1.applyAsBoolean(v1), before2.applyAsBoolean(v2), before3.applyAsBoolean(v3));
+		return (final boolean v1, final boolean v2, final boolean v3) -> this.doApply(before1.doApplyAsBoolean(v1), before2.doApplyAsBoolean(v2), before3.doApplyAsBoolean(v3));
 	}
 
 	/**
@@ -131,7 +132,7 @@ public interface LBooleanTriFunction<R> extends LBooleanTriFunctionX<R, RuntimeE
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
 		Objects.requireNonNull(before3, Function4U.VALIDATION_MESSAGE_BEFORE3);
-		return (V1 v1, V2 v2, V3 v3) -> this.apply(before1.applyAsBoolean(v1), before2.applyAsBoolean(v2), before3.applyAsBoolean(v3));
+		return (V1 v1, V2 v2, V3 v3) -> this.doApply(before1.doApplyAsBoolean(v1), before2.doApplyAsBoolean(v2), before3.doApplyAsBoolean(v3));
 	}
 
 	// </editor-fold>
@@ -142,14 +143,14 @@ public interface LBooleanTriFunction<R> extends LBooleanTriFunctionX<R, RuntimeE
 	@Nonnull
 	default <V> LBooleanTriFunction<V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b1, boolean b2, boolean b3) -> after.apply(this.apply(b1, b2, b3));
+		return (boolean b1, boolean b2, boolean b3) -> after.doApply(this.doApply(b1, b2, b3));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanTriConsumer then(@Nonnull LConsumer<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b1, boolean b2, boolean b3) -> after.accept(this.apply(b1, b2, b3));
+		return (boolean b1, boolean b2, boolean b3) -> after.doAccept(this.doApply(b1, b2, b3));
 	}
 
 	// </editor-fold>
@@ -177,7 +178,7 @@ public interface LBooleanTriFunction<R> extends LBooleanTriFunctionX<R, RuntimeE
 
 	@Nonnull
 	default LBooleanTriFunction<R> nonNullable() {
-		return (b1, b2, b3) -> Objects.requireNonNull(this.apply(b1, b2, b3));
+		return (b1, b2, b3) -> Objects.requireNonNull(this.doApply(b1, b2, b3));
 	}
 
 	// <editor-fold desc="exception handling">
@@ -187,11 +188,11 @@ public interface LBooleanTriFunction<R> extends LBooleanTriFunctionX<R, RuntimeE
 	public static <R, X extends Exception, E extends Exception, Y extends RuntimeException> LBooleanTriFunction<R> wrapException(@Nonnull final LBooleanTriFunction<R> other, Class<E> exception, LSupplier<R> supplier, ExceptionHandler<E, Y> handler) {
 		return (boolean b1, boolean b2, boolean b3) -> {
 			try {
-				return other.apply(b1, b2, b3);
+				return other.doApply(b1, b2, b3);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.get();
+						return supplier.doGet();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

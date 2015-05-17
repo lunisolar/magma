@@ -69,7 +69,7 @@ public class LDoubleBinaryOperatorXBuilderTest<X extends ParseException>{
                 .doubleBinaryOperatorX()
                 .build();
 
-            function.applyAsDouble((double)100,(double)100);
+            function.doApplyAsDouble((double)100,(double)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

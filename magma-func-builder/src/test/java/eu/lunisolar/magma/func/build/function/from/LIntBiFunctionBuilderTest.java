@@ -69,7 +69,7 @@ public class LIntBiFunctionBuilderTest<R,X extends ParseException>{
                 .intBiFunction()
                 .build();
 
-            function.apply((int)100,(int)100);
+            function.doApply((int)100,(int)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

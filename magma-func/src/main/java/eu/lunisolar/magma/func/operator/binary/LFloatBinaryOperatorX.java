@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LFloatBinaryOperatorX<X extends Exception> extends MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LFloatBinaryOperatorX: float applyAsFloat(float f1,float f2) throws X";
+	public static final String DESCRIPTION = "LFloatBinaryOperatorX: float doApplyAsFloat(float f1,float f2) throws X";
 
-	public float applyAsFloat(float f1, float f2) throws X;
+	public float doApplyAsFloat(float f1, float f2) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LFloatBinaryOperatorX<X extends Exception> extends MetaOperator
 
 	/** Captures arguments but delays the evaluation. */
 	default LFloatSupplierX<X> capture(float f1, float f2) {
-		return () -> this.applyAsFloat(f1, f2);
+		return () -> this.doApplyAsFloat(f1, f2);
 	}
 
 	public static <X extends Exception> LFloatBinaryOperatorX<X> constant(float r) {
@@ -81,7 +81,7 @@ public interface LFloatBinaryOperatorX<X extends Exception> extends MetaOperator
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default float nonNull(float f1, float f2) throws X {
-		return applyAsFloat(f1, f2);
+		return doApplyAsFloat(f1, f2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -96,7 +96,7 @@ public interface LFloatBinaryOperatorX<X extends Exception> extends MetaOperator
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LFloatBinaryOperatorX<X> wrapX(final @Nonnull LFloatBinaryOperator other) {
-		return other::applyAsFloat;
+		return other::doApplyAsFloat;
 	}
 
 	// </editor-fold>
@@ -129,7 +129,7 @@ public interface LFloatBinaryOperatorX<X extends Exception> extends MetaOperator
 	default LFloatBinaryOperatorX<X> fromFloat(@Nonnull final LFloatUnaryOperatorX<X> before1, @Nonnull final LFloatUnaryOperatorX<X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final float v1, final float v2) -> this.applyAsFloat(before1.applyAsFloat(v1), before2.applyAsFloat(v2));
+		return (final float v1, final float v2) -> this.doApplyAsFloat(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
 	}
 
 	/**
@@ -139,7 +139,7 @@ public interface LFloatBinaryOperatorX<X extends Exception> extends MetaOperator
 	default <V1, V2> LToFloatBiFunctionX<V1, V2, X> from(@Nonnull final LToFloatFunctionX<? super V1, X> before1, @Nonnull final LToFloatFunctionX<? super V2, X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.applyAsFloat(before1.applyAsFloat(v1), before2.applyAsFloat(v2));
+		return (V1 v1, V2 v2) -> this.doApplyAsFloat(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
 	}
 
 	// </editor-fold>
@@ -150,7 +150,7 @@ public interface LFloatBinaryOperatorX<X extends Exception> extends MetaOperator
 	@Nonnull
 	default <V> LFloatBiFunctionX<V, X> then(@Nonnull LFloatFunctionX<? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (float f1, float f2) -> after.apply(this.applyAsFloat(f1, f2));
+		return (float f1, float f2) -> after.doApply(this.doApplyAsFloat(f1, f2));
 	}
 
 	// </editor-fold>
@@ -172,7 +172,7 @@ public interface LFloatBinaryOperatorX<X extends Exception> extends MetaOperator
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LFloatBinaryOperator shove() {
 		LFloatBinaryOperatorX<RuntimeException> exceptionCast = (LFloatBinaryOperatorX<RuntimeException>) this;
-		return exceptionCast::applyAsFloat;
+		return exceptionCast::doApplyAsFloat;
 	}
 
 	// </editor-fold>
@@ -184,11 +184,11 @@ public interface LFloatBinaryOperatorX<X extends Exception> extends MetaOperator
 	public static <X extends Exception, E extends Exception, Y extends Exception> LFloatBinaryOperatorX<Y> wrapException(@Nonnull final LFloatBinaryOperatorX<X> other, Class<E> exception, LFloatSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
 		return (float f1, float f2) -> {
 			try {
-				return other.applyAsFloat(f1, f2);
+				return other.doApplyAsFloat(f1, f2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsFloat();
+						return supplier.doGetAsFloat();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

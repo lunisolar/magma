@@ -59,13 +59,13 @@ public class LBooleanBiConsumerTest<X extends ParseException> {
 
 
     private LBooleanBiConsumer sut = new LBooleanBiConsumer(){
-        public  void accept(boolean b1,boolean b2)  {
+        public  void doAccept(boolean b1,boolean b2)  {
             Function4U.doNothing();
         }
     };
 
     private LBooleanBiConsumerX<X> opposite = new LBooleanBiConsumerX(){
-        public  void accept(boolean b1,boolean b2) throws ParseException {
+        public  void doAccept(boolean b1,boolean b2) throws ParseException {
             Function4U.doNothing();
         }
     };
@@ -77,7 +77,7 @@ public class LBooleanBiConsumerTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBooleanBiConsumer: void accept(boolean b1,boolean b2)");
+            .isEqualTo("LBooleanBiConsumer: void doAccept(boolean b1,boolean b2)");
     }
 
     @Test
@@ -104,7 +104,7 @@ public class LBooleanBiConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept(true,true);
+            wrapped.doAccept(true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -126,7 +126,7 @@ public class LBooleanBiConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept(true,true);
+            wrapped.doAccept(true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -152,7 +152,7 @@ public class LBooleanBiConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept(true,true);
+            wrapped.doAccept(true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -177,7 +177,7 @@ public class LBooleanBiConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept(true,true);
+            wrapped.doAccept(true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -201,7 +201,7 @@ public class LBooleanBiConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept(true,true);
+            wrapped.doAccept(true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -241,7 +241,7 @@ public class LBooleanBiConsumerTest<X extends ParseException> {
 
         //when
         LBooleanBiConsumer function = sutO.fromBoolean(before1,before2);
-        function.accept(true,true);
+        function.doAccept(true,true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -275,7 +275,7 @@ public class LBooleanBiConsumerTest<X extends ParseException> {
 
         //when
         LBiConsumer<Integer ,Integer > function = sutO.from(before1,before2);
-        function.accept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        function.doAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -305,7 +305,7 @@ public class LBooleanBiConsumerTest<X extends ParseException> {
 
         //when
         LBooleanBiConsumer function = sutO.andThen(thenFunction);
-        function.accept(true,true);
+        function.doAccept(true,true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -331,7 +331,7 @@ public class LBooleanBiConsumerTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().accept(true,true);
+        sutThrowing.shove().doAccept(true,true);
     }
 
     @Test
@@ -349,7 +349,7 @@ public class LBooleanBiConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept(true,true);
+            wrapped.doAccept(true,true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -368,7 +368,7 @@ public class LBooleanBiConsumerTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBooleanBiConsumer: void accept(boolean b1,boolean b2)");
+                .contains("LBooleanBiConsumer: void doAccept(boolean b1,boolean b2)");
     }
 
 

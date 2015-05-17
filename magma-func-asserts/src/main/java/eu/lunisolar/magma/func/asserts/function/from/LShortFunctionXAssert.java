@@ -58,7 +58,7 @@ public interface LShortFunctionXAssert<S extends LShortFunctionXAssert<S, A, RS,
 
 		@Nonnull
 		public Evaluation<S, A, RS, R, Exception> doesApply(short s) {
-			return evaluation(() -> assertFactory.apply((R) actual.apply(s)));
+			return evaluation(() -> assertFactory.apply((R) actual.doApply(s)));
 		}
 
 	}

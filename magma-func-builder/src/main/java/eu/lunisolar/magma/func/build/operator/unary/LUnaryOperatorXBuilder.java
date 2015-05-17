@@ -99,12 +99,12 @@ public final class LUnaryOperatorXBuilder<T, X extends Exception> extends PerCas
 			final Case<LPredicateX<T, X>, LUnaryOperatorX<T, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LUnaryOperatorX.lX((T t) -> {
 				for (Case<LPredicateX<T, X>, LUnaryOperatorX<T, X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t)) {
-						return aCase.caseFunction().apply(t);
+					if (aCase.casePredicate().doTest(t)) {
+						return aCase.caseFunction().doApply(t);
 					}
 				}
 
-				return eventuallyFinal.apply(t);
+				return eventuallyFinal.doApply(t);
 			});
 		}
 

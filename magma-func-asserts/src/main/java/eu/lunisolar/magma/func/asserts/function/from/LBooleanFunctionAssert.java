@@ -58,7 +58,7 @@ public interface LBooleanFunctionAssert<S extends LBooleanFunctionAssert<S, A, R
 
 		@Nonnull
 		public Evaluation<S, A, RS, R, Exception> doesApply(boolean b) {
-			return evaluation(() -> assertFactory.apply((R) actual.apply(b)));
+			return evaluation(() -> assertFactory.apply((R) actual.doApply(b)));
 		}
 
 	}

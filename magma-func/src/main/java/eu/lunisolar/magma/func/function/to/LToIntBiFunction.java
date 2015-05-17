@@ -60,9 +60,13 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LToIntBiFunction<T1, T2> extends java.util.function.ToIntBiFunction<T1, T2>, LToIntBiFunctionX<T1, T2, RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LToIntBiFunction: int applyAsInt(T1 t1,T2 t2)";
+	public static final String DESCRIPTION = "LToIntBiFunction: int doApplyAsInt(T1 t1,T2 t2)";
 
-	// Ovverriding methods can cause problems with inference.
+	public int doApplyAsInt(T1 t1, T2 t2);
+
+	default int applyAsInt(T1 t1, T2 t2) {
+		return doApplyAsInt(t1, t2);
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +76,7 @@ public interface LToIntBiFunction<T1, T2> extends java.util.function.ToIntBiFunc
 
 	/** Captures arguments but delays the evaluation. */
 	default LIntSupplier capture(T1 t1, T2 t2) {
-		return () -> this.applyAsInt(t1, t2);
+		return () -> this.doApplyAsInt(t1, t2);
 	}
 
 	public static <T1, T2> LToIntBiFunction<T1, T2> constant(int r) {
@@ -81,7 +85,7 @@ public interface LToIntBiFunction<T1, T2> extends java.util.function.ToIntBiFunc
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default int nonNull(T1 t1, T2 t2) {
-		return applyAsInt(t1, t2);
+		return doApplyAsInt(t1, t2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -104,7 +108,7 @@ public interface LToIntBiFunction<T1, T2> extends java.util.function.ToIntBiFunc
 	public static <T1, T2, X extends Exception> LToIntBiFunction<T1, T2> wrap(final @Nonnull LToIntBiFunctionX<T1, T2, X> other) {
 		return (T1 t1, T2 t2) -> {
 			try {
-				return other.applyAsInt(t1, t2);
+				return other.doApplyAsInt(t1, t2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -122,7 +126,7 @@ public interface LToIntBiFunction<T1, T2> extends java.util.function.ToIntBiFunc
 	default <V1, V2> LToIntBiFunction<V1, V2> from(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final V1 v1, final V2 v2) -> this.applyAsInt(before1.apply(v1), before2.apply(v2));
+		return (final V1 v1, final V2 v2) -> this.doApplyAsInt(before1.doApply(v1), before2.doApply(v2));
 	}
 
 	// </editor-fold>
@@ -133,7 +137,7 @@ public interface LToIntBiFunction<T1, T2> extends java.util.function.ToIntBiFunc
 	@Nonnull
 	default <V> LBiFunction<T1, T2, V> then(@Nonnull LIntFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T1 t1, T2 t2) -> after.apply(this.applyAsInt(t1, t2));
+		return (T1 t1, T2 t2) -> after.doApply(this.doApplyAsInt(t1, t2));
 	}
 
 	// </editor-fold>
@@ -173,11 +177,11 @@ public interface LToIntBiFunction<T1, T2> extends java.util.function.ToIntBiFunc
 			ExceptionHandler<E, Y> handler) {
 		return (T1 t1, T2 t2) -> {
 			try {
-				return other.applyAsInt(t1, t2);
+				return other.doApplyAsInt(t1, t2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsInt();
+						return supplier.doGetAsInt();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

@@ -99,12 +99,12 @@ public final class LBooleanSupplierBuilder extends PerCaseBuilderWithBooleanProd
 			final Case<LBooleanSupplier, LBooleanSupplier>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LBooleanSupplier.l(() -> {
 				for (Case<LBooleanSupplier, LBooleanSupplier> aCase : casesArray) {
-					if (aCase.casePredicate().getAsBoolean()) {
-						return aCase.caseFunction().getAsBoolean();
+					if (aCase.casePredicate().doGetAsBoolean()) {
+						return aCase.caseFunction().doGetAsBoolean();
 					}
 				}
 
-				return eventuallyFinal.getAsBoolean();
+				return eventuallyFinal.doGetAsBoolean();
 			});
 		}
 

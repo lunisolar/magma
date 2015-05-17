@@ -99,13 +99,13 @@ public final class LLongConsumerBuilder extends PerCaseBuilder.Base<LLongConsume
 			final Case<LLongPredicate, LLongConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LLongConsumer.l((long l) -> {
 				for (Case<LLongPredicate, LLongConsumer> aCase : casesArray) {
-					if (aCase.casePredicate().test(l)) {
-						aCase.caseFunction().accept(l);
+					if (aCase.casePredicate().doTest(l)) {
+						aCase.caseFunction().doAccept(l);
 						return;
 					}
 				}
 
-				eventuallyFinal.accept(l);
+				eventuallyFinal.doAccept(l);
 			});
 		}
 

@@ -69,7 +69,7 @@ public class LToByteFunctionBuilderTest<T,X extends ParseException>{
                 .toByteFunction()
                 .build();
 
-            function.applyAsByte((T)Integer.valueOf(100));
+            function.doApplyAsByte((T)Integer.valueOf(100));
 
             fail("No exception were thrown.");
         } catch (Exception e) {

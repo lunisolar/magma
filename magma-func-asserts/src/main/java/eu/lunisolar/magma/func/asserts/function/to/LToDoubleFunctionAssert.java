@@ -58,7 +58,7 @@ public interface LToDoubleFunctionAssert<S extends LToDoubleFunctionAssert<S, A,
 
 		@Nonnull
 		public Evaluation<S, A, RS, Double, Exception> doesApplyAsDouble(T t) {
-			return evaluation(() -> assertFactory.apply((Double) actual.applyAsDouble(t)));
+			return evaluation(() -> assertFactory.apply((Double) actual.doApplyAsDouble(t)));
 		}
 
 	}

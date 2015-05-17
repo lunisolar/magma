@@ -58,7 +58,7 @@ public interface LIntToFloatFunctionAssert<S extends LIntToFloatFunctionAssert<S
 
 		@Nonnull
 		public Evaluation<S, A, RS, Float, Exception> doesApplyAsFloat(int i) {
-			return evaluation(() -> assertFactory.apply((Float) actual.applyAsFloat(i)));
+			return evaluation(() -> assertFactory.apply((Float) actual.doApplyAsFloat(i)));
 		}
 
 	}

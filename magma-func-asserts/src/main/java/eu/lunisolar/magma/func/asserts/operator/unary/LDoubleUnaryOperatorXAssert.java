@@ -63,7 +63,7 @@ public interface LDoubleUnaryOperatorXAssert<S extends LDoubleUnaryOperatorXAsse
 
 		@Nonnull
 		public Evaluation<S, A, RS, Double, Exception> doesApplyAsDouble(double d) {
-			return evaluation(() -> assertFactory.apply((Double) actual.applyAsDouble(d)));
+			return evaluation(() -> assertFactory.apply((Double) actual.doApplyAsDouble(d)));
 		}
 
 	}

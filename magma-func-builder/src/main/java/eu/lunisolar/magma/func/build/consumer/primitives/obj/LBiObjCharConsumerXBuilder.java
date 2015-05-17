@@ -99,13 +99,13 @@ public final class LBiObjCharConsumerXBuilder<T1, T2, X extends Exception> exten
 			final Case<LBiObjCharPredicateX<T1, T2, X>, LBiObjCharConsumerX<T1, T2, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LBiObjCharConsumerX.lX((T1 t1, T2 t2, char c) -> {
 				for (Case<LBiObjCharPredicateX<T1, T2, X>, LBiObjCharConsumerX<T1, T2, X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t1, t2, c)) {
-						aCase.caseFunction().accept(t1, t2, c);
+					if (aCase.casePredicate().doTest(t1, t2, c)) {
+						aCase.caseFunction().doAccept(t1, t2, c);
 						return;
 					}
 				}
 
-				eventuallyFinal.accept(t1, t2, c);
+				eventuallyFinal.doAccept(t1, t2, c);
 			});
 		}
 

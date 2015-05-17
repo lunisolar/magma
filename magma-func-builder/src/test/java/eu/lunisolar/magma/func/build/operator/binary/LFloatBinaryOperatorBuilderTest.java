@@ -69,7 +69,7 @@ public class LFloatBinaryOperatorBuilderTest<X extends ParseException>{
                 .floatBinaryOperator()
                 .build();
 
-            function.applyAsFloat((float)100,(float)100);
+            function.doApplyAsFloat((float)100,(float)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

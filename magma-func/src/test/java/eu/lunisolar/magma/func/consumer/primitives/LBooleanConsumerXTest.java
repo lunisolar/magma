@@ -59,13 +59,13 @@ public class LBooleanConsumerXTest<X extends ParseException> {
 
 
     private LBooleanConsumerX<X> sut = new LBooleanConsumerX(){
-        public  void accept(boolean b) throws ParseException {
+        public  void doAccept(boolean b) throws ParseException {
             Function4U.doNothing();
         }
     };
 
     private LBooleanConsumer opposite = new LBooleanConsumer(){
-        public  void accept(boolean b)  {
+        public  void doAccept(boolean b)  {
             Function4U.doNothing();
         }
     };
@@ -77,7 +77,7 @@ public class LBooleanConsumerXTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LBooleanConsumerX: void accept(boolean b) throws X");
+            .isEqualTo("LBooleanConsumerX: void doAccept(boolean b) throws X");
     }
 
     @Test
@@ -108,7 +108,7 @@ public class LBooleanConsumerXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept(true);
+            wrapped.doAccept(true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -133,7 +133,7 @@ public class LBooleanConsumerXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept(true);
+            wrapped.doAccept(true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -157,7 +157,7 @@ public class LBooleanConsumerXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept(true);
+            wrapped.doAccept(true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -191,7 +191,7 @@ public class LBooleanConsumerXTest<X extends ParseException> {
 
         //when
         LBooleanConsumerX<X> function = sutO.fromBoolean(before1);
-        function.accept(true);
+        function.doAccept(true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -219,7 +219,7 @@ public class LBooleanConsumerXTest<X extends ParseException> {
 
         //when
         LConsumerX<Integer ,X> function = sutO.from(before1);
-        function.accept((Integer )Integer.valueOf(80));
+        function.doAccept((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -247,7 +247,7 @@ public class LBooleanConsumerXTest<X extends ParseException> {
 
         //when
         LBooleanConsumerX<X> function = sutO.andThen(thenFunction);
-        function.accept(true);
+        function.doAccept(true);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -273,7 +273,7 @@ public class LBooleanConsumerXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().accept(true);
+        sutThrowing.shove().doAccept(true);
     }
 
     @Test
@@ -291,7 +291,7 @@ public class LBooleanConsumerXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept(true);
+            wrapped.doAccept(true);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -310,7 +310,7 @@ public class LBooleanConsumerXTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LBooleanConsumerX: void accept(boolean b) throws X");
+                .contains("LBooleanConsumerX: void doAccept(boolean b) throws X");
     }
 
 

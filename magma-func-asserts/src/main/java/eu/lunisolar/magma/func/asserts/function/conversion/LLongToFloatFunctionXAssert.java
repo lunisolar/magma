@@ -63,7 +63,7 @@ public interface LLongToFloatFunctionXAssert<S extends LLongToFloatFunctionXAsse
 
 		@Nonnull
 		public Evaluation<S, A, RS, Float, Exception> doesApplyAsFloat(long l) {
-			return evaluation(() -> assertFactory.apply((Float) actual.applyAsFloat(l)));
+			return evaluation(() -> assertFactory.apply((Float) actual.doApplyAsFloat(l)));
 		}
 
 	}

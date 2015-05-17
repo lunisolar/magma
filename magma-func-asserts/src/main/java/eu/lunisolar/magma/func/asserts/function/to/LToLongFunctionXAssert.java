@@ -60,7 +60,7 @@ public interface LToLongFunctionXAssert<S extends LToLongFunctionXAssert<S, A, R
 
 		@Nonnull
 		public Evaluation<S, A, RS, Long, Exception> doesApplyAsLong(T t) {
-			return evaluation(() -> assertFactory.apply((Long) actual.applyAsLong(t)));
+			return evaluation(() -> assertFactory.apply((Long) actual.doApplyAsLong(t)));
 		}
 
 	}

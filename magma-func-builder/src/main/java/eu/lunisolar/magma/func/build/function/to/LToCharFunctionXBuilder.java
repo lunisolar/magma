@@ -99,12 +99,12 @@ public final class LToCharFunctionXBuilder<T, X extends Exception> extends PerCa
 			final Case<LPredicateX<T, X>, LToCharFunctionX<T, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LToCharFunctionX.lX((T t) -> {
 				for (Case<LPredicateX<T, X>, LToCharFunctionX<T, X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t)) {
-						return aCase.caseFunction().applyAsChar(t);
+					if (aCase.casePredicate().doTest(t)) {
+						return aCase.caseFunction().doApplyAsChar(t);
 					}
 				}
 
-				return eventuallyFinal.applyAsChar(t);
+				return eventuallyFinal.doApplyAsChar(t);
 			});
 		}
 

@@ -69,7 +69,7 @@ public class LFloatPredicateBuilderTest<X extends ParseException>{
                 .floatPredicate()
                 .build();
 
-            function.test((float)100);
+            function.doTest((float)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

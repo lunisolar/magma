@@ -55,7 +55,7 @@ public interface LFloatBiConsumerAssert<S extends LFloatBiConsumerAssert<S, A>, 
 
 		@Nonnull
 		public SemiEvaluation<S, A, Exception> doesAccept(float f1, float f2) {
-			return evaluation(() -> actual.accept(f1, f2));
+			return evaluation(() -> actual.doAccept(f1, f2));
 		}
 
 	}

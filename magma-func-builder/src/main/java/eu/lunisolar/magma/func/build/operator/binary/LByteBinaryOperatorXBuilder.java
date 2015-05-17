@@ -99,12 +99,12 @@ public final class LByteBinaryOperatorXBuilder<X extends Exception> extends PerC
 			final Case<LBiBytePredicateX<X>, LByteBinaryOperatorX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LByteBinaryOperatorX.lX((byte b1, byte b2) -> {
 				for (Case<LBiBytePredicateX<X>, LByteBinaryOperatorX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(b1, b2)) {
-						return aCase.caseFunction().applyAsByte(b1, b2);
+					if (aCase.casePredicate().doTest(b1, b2)) {
+						return aCase.caseFunction().doApplyAsByte(b1, b2);
 					}
 				}
 
-				return eventuallyFinal.applyAsByte(b1, b2);
+				return eventuallyFinal.doApplyAsByte(b1, b2);
 			});
 		}
 

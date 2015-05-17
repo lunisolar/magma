@@ -69,7 +69,7 @@ public class LObjShortConsumerXBuilderTest<T,X extends ParseException>{
                 .objShortConsumerX()
                 .build();
 
-            function.accept((T)Integer.valueOf(100),(short)100);
+            function.doAccept((T)Integer.valueOf(100),(short)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

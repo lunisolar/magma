@@ -69,7 +69,7 @@ public class LLongToFloatFunctionXBuilderTest<X extends ParseException>{
                 .longToFloatFunctionX()
                 .build();
 
-            function.applyAsFloat((long)100);
+            function.doApplyAsFloat((long)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

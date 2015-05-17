@@ -60,9 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LObjDoubleFunction<T, R> extends LObjDoubleFunctionX<T, R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LObjDoubleFunction: R apply(T t, double d)";
+	public static final String DESCRIPTION = "LObjDoubleFunction: R doApply(T t, double d)";
 
-	// Ovverriding methods can cause problems with inference.
+	@Nullable
+	public R doApply(T t, double d);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +73,7 @@ public interface LObjDoubleFunction<T, R> extends LObjDoubleFunctionX<T, R, Runt
 
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(T t, double d) {
-		return () -> this.apply(t, d);
+		return () -> this.doApply(t, d);
 	}
 
 	public static <T, R> LObjDoubleFunction<T, R> constant(R r) {
@@ -84,7 +85,7 @@ public interface LObjDoubleFunction<T, R> extends LObjDoubleFunctionX<T, R, Runt
 	/** Ensures the result is not null */
 	@Nonnull
 	default R nonNull(T t, double d) {
-		return Objects.requireNonNull(apply(t, d), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Objects.requireNonNull(doApply(t, d), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -101,7 +102,7 @@ public interface LObjDoubleFunction<T, R> extends LObjDoubleFunctionX<T, R, Runt
 	public static <T, R, X extends Exception> LObjDoubleFunction<T, R> wrap(final @Nonnull LObjDoubleFunctionX<T, R, X> other) {
 		return (T t, double d) -> {
 			try {
-				return other.apply(t, d);
+				return other.doApply(t, d);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -119,7 +120,7 @@ public interface LObjDoubleFunction<T, R> extends LObjDoubleFunctionX<T, R, Runt
 	default <V1> LObjDoubleFunction<V1, R> fromDouble(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LDoubleUnaryOperator before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final V1 v1, final double v2) -> this.apply(before1.apply(v1), before2.applyAsDouble(v2));
+		return (final V1 v1, final double v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsDouble(v2));
 	}
 
 	/**
@@ -129,7 +130,7 @@ public interface LObjDoubleFunction<T, R> extends LObjDoubleFunctionX<T, R, Runt
 	default <V1, V2> LBiFunction<V1, V2, R> from(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToDoubleFunction<? super V2> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.apply(before1.apply(v1), before2.applyAsDouble(v2));
+		return (V1 v1, V2 v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsDouble(v2));
 	}
 
 	// </editor-fold>
@@ -140,14 +141,14 @@ public interface LObjDoubleFunction<T, R> extends LObjDoubleFunctionX<T, R, Runt
 	@Nonnull
 	default <V> LObjDoubleFunction<T, V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t, double d) -> after.apply(this.apply(t, d));
+		return (T t, double d) -> after.doApply(this.doApply(t, d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LObjDoubleConsumer<T> then(@Nonnull LConsumer<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t, double d) -> after.accept(this.apply(t, d));
+		return (T t, double d) -> after.doAccept(this.doApply(t, d));
 	}
 
 	// </editor-fold>
@@ -175,7 +176,7 @@ public interface LObjDoubleFunction<T, R> extends LObjDoubleFunctionX<T, R, Runt
 
 	@Nonnull
 	default LObjDoubleFunction<T, R> nonNullable() {
-		return (t, d) -> Objects.requireNonNull(this.apply(t, d));
+		return (t, d) -> Objects.requireNonNull(this.doApply(t, d));
 	}
 
 	// <editor-fold desc="exception handling">
@@ -185,11 +186,11 @@ public interface LObjDoubleFunction<T, R> extends LObjDoubleFunctionX<T, R, Runt
 	public static <T, R, X extends Exception, E extends Exception, Y extends RuntimeException> LObjDoubleFunction<T, R> wrapException(@Nonnull final LObjDoubleFunction<T, R> other, Class<E> exception, LSupplier<R> supplier, ExceptionHandler<E, Y> handler) {
 		return (T t, double d) -> {
 			try {
-				return other.apply(t, d);
+				return other.doApply(t, d);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.get();
+						return supplier.doGet();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

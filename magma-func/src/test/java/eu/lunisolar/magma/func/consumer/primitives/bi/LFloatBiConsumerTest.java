@@ -59,13 +59,13 @@ public class LFloatBiConsumerTest<X extends ParseException> {
 
 
     private LFloatBiConsumer sut = new LFloatBiConsumer(){
-        public  void accept(float f1,float f2)  {
+        public  void doAccept(float f1,float f2)  {
             Function4U.doNothing();
         }
     };
 
     private LFloatBiConsumerX<X> opposite = new LFloatBiConsumerX(){
-        public  void accept(float f1,float f2) throws ParseException {
+        public  void doAccept(float f1,float f2) throws ParseException {
             Function4U.doNothing();
         }
     };
@@ -77,7 +77,7 @@ public class LFloatBiConsumerTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LFloatBiConsumer: void accept(float f1,float f2)");
+            .isEqualTo("LFloatBiConsumer: void doAccept(float f1,float f2)");
     }
 
     @Test
@@ -104,7 +104,7 @@ public class LFloatBiConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((float)100,(float)100);
+            wrapped.doAccept((float)100,(float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -126,7 +126,7 @@ public class LFloatBiConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((float)100,(float)100);
+            wrapped.doAccept((float)100,(float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -152,7 +152,7 @@ public class LFloatBiConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((float)100,(float)100);
+            wrapped.doAccept((float)100,(float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -177,7 +177,7 @@ public class LFloatBiConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((float)100,(float)100);
+            wrapped.doAccept((float)100,(float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -201,7 +201,7 @@ public class LFloatBiConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((float)100,(float)100);
+            wrapped.doAccept((float)100,(float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -241,7 +241,7 @@ public class LFloatBiConsumerTest<X extends ParseException> {
 
         //when
         LFloatBiConsumer function = sutO.fromFloat(before1,before2);
-        function.accept((float)80,(float)81);
+        function.doAccept((float)80,(float)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -275,7 +275,7 @@ public class LFloatBiConsumerTest<X extends ParseException> {
 
         //when
         LBiConsumer<Integer ,Integer > function = sutO.from(before1,before2);
-        function.accept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
+        function.doAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -305,7 +305,7 @@ public class LFloatBiConsumerTest<X extends ParseException> {
 
         //when
         LFloatBiConsumer function = sutO.andThen(thenFunction);
-        function.accept((float)80,(float)81);
+        function.doAccept((float)80,(float)81);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -331,7 +331,7 @@ public class LFloatBiConsumerTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().accept((float)100,(float)100);
+        sutThrowing.shove().doAccept((float)100,(float)100);
     }
 
     @Test
@@ -349,7 +349,7 @@ public class LFloatBiConsumerTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.accept((float)100,(float)100);
+            wrapped.doAccept((float)100,(float)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -368,7 +368,7 @@ public class LFloatBiConsumerTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LFloatBiConsumer: void accept(float f1,float f2)");
+                .contains("LFloatBiConsumer: void doAccept(float f1,float f2)");
     }
 
 

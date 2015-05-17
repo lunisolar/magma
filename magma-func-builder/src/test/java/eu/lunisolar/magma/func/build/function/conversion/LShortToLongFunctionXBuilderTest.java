@@ -69,7 +69,7 @@ public class LShortToLongFunctionXBuilderTest<X extends ParseException>{
                 .shortToLongFunctionX()
                 .build();
 
-            function.applyAsLong((short)100);
+            function.doApplyAsLong((short)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

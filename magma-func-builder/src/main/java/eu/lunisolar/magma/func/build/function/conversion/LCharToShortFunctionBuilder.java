@@ -99,12 +99,12 @@ public final class LCharToShortFunctionBuilder extends PerCaseBuilderWithShortPr
 			final Case<LCharPredicate, LCharToShortFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LCharToShortFunction.l((char c) -> {
 				for (Case<LCharPredicate, LCharToShortFunction> aCase : casesArray) {
-					if (aCase.casePredicate().test(c)) {
-						return aCase.caseFunction().applyAsShort(c);
+					if (aCase.casePredicate().doTest(c)) {
+						return aCase.caseFunction().doApplyAsShort(c);
 					}
 				}
 
-				return eventuallyFinal.applyAsShort(c);
+				return eventuallyFinal.doApplyAsShort(c);
 			});
 		}
 

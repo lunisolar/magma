@@ -69,7 +69,7 @@ public class LDoubleBiConsumerXBuilderTest<X extends ParseException>{
                 .doubleBiConsumerX()
                 .build();
 
-            function.accept((double)100,(double)100);
+            function.doAccept((double)100,(double)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

@@ -99,12 +99,12 @@ public final class LLongToFloatFunctionXBuilder<X extends Exception> extends Per
 			final Case<LLongPredicateX<X>, LLongToFloatFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LLongToFloatFunctionX.lX((long l) -> {
 				for (Case<LLongPredicateX<X>, LLongToFloatFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(l)) {
-						return aCase.caseFunction().applyAsFloat(l);
+					if (aCase.casePredicate().doTest(l)) {
+						return aCase.caseFunction().doApplyAsFloat(l);
 					}
 				}
 
-				return eventuallyFinal.applyAsFloat(l);
+				return eventuallyFinal.doApplyAsFloat(l);
 			});
 		}
 

@@ -60,14 +60,14 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBiObjFloatPredicateX<T1, T2, X extends Exception> extends MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LBiObjFloatPredicateX: boolean test(T1 t1,T2 t2, float f) throws X";
+	public static final String DESCRIPTION = "LBiObjFloatPredicateX: boolean doTest(T1 t1,T2 t2, float f) throws X";
 
-	public boolean test(T1 t1, T2 t2, float f) throws X;
+	public boolean doTest(T1 t1, T2 t2, float f) throws X;
 
 	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
 
-	default boolean applyAsBoolean(T1 t1, T2 t2, float f) throws X {
-		return test(t1, t2, f);
+	default boolean doApplyAsBoolean(T1 t1, T2 t2, float f) throws X {
+		return doTest(t1, t2, f);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -78,7 +78,7 @@ public interface LBiObjFloatPredicateX<T1, T2, X extends Exception> extends Meta
 
 	/** Captures arguments but delays the evaluation. */
 	default LBooleanSupplierX<X> capture(T1 t1, T2 t2, float f) {
-		return () -> this.test(t1, t2, f);
+		return () -> this.doTest(t1, t2, f);
 	}
 
 	public static <T1, T2, X extends Exception> LBiObjFloatPredicateX<T1, T2, X> constant(boolean r) {
@@ -87,7 +87,7 @@ public interface LBiObjFloatPredicateX<T1, T2, X extends Exception> extends Meta
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(T1 t1, T2 t2, float f) throws X {
-		return test(t1, t2, f);
+		return doTest(t1, t2, f);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -102,7 +102,7 @@ public interface LBiObjFloatPredicateX<T1, T2, X extends Exception> extends Meta
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T1, T2, X extends Exception> LBiObjFloatPredicateX<T1, T2, X> wrapX(final @Nonnull LBiObjFloatPredicate<T1, T2> other) {
-		return other::test;
+		return other::doTest;
 	}
 
 	// </editor-fold>
@@ -113,7 +113,7 @@ public interface LBiObjFloatPredicateX<T1, T2, X extends Exception> extends Meta
 	 */
 	@Nonnull
 	default LBiObjFloatPredicateX<T1, T2, X> negate() {
-		return (T1 t1, T2 t2, float f) -> !test(t1, t2, f);
+		return (T1 t1, T2 t2, float f) -> !doTest(t1, t2, f);
 	}
 
 	/**
@@ -122,7 +122,7 @@ public interface LBiObjFloatPredicateX<T1, T2, X extends Exception> extends Meta
 	@Nonnull
 	default LBiObjFloatPredicateX<T1, T2, X> and(@Nonnull LBiObjFloatPredicateX<? super T1, ? super T2, X> other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (T1 t1, T2 t2, float f) -> test(t1, t2, f) && other.test(t1, t2, f);
+		return (T1 t1, T2 t2, float f) -> doTest(t1, t2, f) && other.doTest(t1, t2, f);
 	}
 
 	/**
@@ -131,7 +131,7 @@ public interface LBiObjFloatPredicateX<T1, T2, X extends Exception> extends Meta
 	@Nonnull
 	default LBiObjFloatPredicateX<T1, T2, X> or(@Nonnull LBiObjFloatPredicateX<? super T1, ? super T2, X> other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (T1 t1, T2 t2, float f) -> test(t1, t2, f) || other.test(t1, t2, f);
+		return (T1 t1, T2 t2, float f) -> doTest(t1, t2, f) || other.doTest(t1, t2, f);
 	}
 
 	/**
@@ -140,7 +140,7 @@ public interface LBiObjFloatPredicateX<T1, T2, X extends Exception> extends Meta
 	@Nonnull
 	default LBiObjFloatPredicateX<T1, T2, X> xor(@Nonnull LBiObjFloatPredicateX<? super T1, ? super T2, X> other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (T1 t1, T2 t2, float f) -> test(t1, t2, f) ^ other.test(t1, t2, f);
+		return (T1 t1, T2 t2, float f) -> doTest(t1, t2, f) ^ other.doTest(t1, t2, f);
 	}
 
 	/**
@@ -163,7 +163,7 @@ public interface LBiObjFloatPredicateX<T1, T2, X extends Exception> extends Meta
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
 		Objects.requireNonNull(before3, Function4U.VALIDATION_MESSAGE_BEFORE3);
-		return (final V1 v1, final V2 v2, final float v3) -> this.test(before1.apply(v1), before2.apply(v2), before3.applyAsFloat(v3));
+		return (final V1 v1, final V2 v2, final float v3) -> this.doTest(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsFloat(v3));
 	}
 
 	/**
@@ -174,7 +174,7 @@ public interface LBiObjFloatPredicateX<T1, T2, X extends Exception> extends Meta
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
 		Objects.requireNonNull(before3, Function4U.VALIDATION_MESSAGE_BEFORE3);
-		return (V1 v1, V2 v2, V3 v3) -> this.test(before1.apply(v1), before2.apply(v2), before3.applyAsFloat(v3));
+		return (V1 v1, V2 v2, V3 v3) -> this.doTest(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsFloat(v3));
 	}
 
 	// </editor-fold>
@@ -185,7 +185,7 @@ public interface LBiObjFloatPredicateX<T1, T2, X extends Exception> extends Meta
 	@Nonnull
 	default <V> LBiObjFloatFunctionX<T1, T2, V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T1 t1, T2 t2, float f) -> after.apply(this.test(t1, t2, f));
+		return (T1 t1, T2 t2, float f) -> after.doApply(this.doTest(t1, t2, f));
 	}
 
 	// </editor-fold>
@@ -207,7 +207,7 @@ public interface LBiObjFloatPredicateX<T1, T2, X extends Exception> extends Meta
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBiObjFloatPredicate<T1, T2> shove() {
 		LBiObjFloatPredicateX<T1, T2, RuntimeException> exceptionCast = (LBiObjFloatPredicateX<T1, T2, RuntimeException>) this;
-		return exceptionCast::test;
+		return exceptionCast::doTest;
 	}
 
 	// </editor-fold>
@@ -220,11 +220,11 @@ public interface LBiObjFloatPredicateX<T1, T2, X extends Exception> extends Meta
 			ExceptionHandler<E, Y> handler) {
 		return (T1 t1, T2 t2, float f) -> {
 			try {
-				return other.test(t1, t2, f);
+				return other.doTest(t1, t2, f);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsBoolean();
+						return supplier.doGetAsBoolean();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

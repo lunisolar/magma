@@ -53,18 +53,18 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LAction extends Runnable, LActionX<RuntimeException>, MetaAction, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LAction: void execute()";
+	public static final String DESCRIPTION = "LAction: void doExecute()";
 
-	public void execute();
+	public void doExecute();
+
+	default void run() {
+		doExecute();
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LAction.DESCRIPTION;
-	}
-
-	default void run() {
-		execute();
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -87,7 +87,7 @@ public interface LAction extends Runnable, LActionX<RuntimeException>, MetaActio
 	public static <X extends Exception> LAction wrap(final @Nonnull LActionX<X> other) {
 		return () -> {
 			try {
-				other.execute();
+				other.doExecute();
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -103,8 +103,8 @@ public interface LAction extends Runnable, LActionX<RuntimeException>, MetaActio
 	default LAction andThen(@Nonnull LAction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
 		return () -> {
-			this.execute();
-			after.execute();
+			this.doExecute();
+			after.doExecute();
 		};
 	}
 
@@ -143,7 +143,7 @@ public interface LAction extends Runnable, LActionX<RuntimeException>, MetaActio
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LAction wrapException(@Nonnull final LAction other, Class<E> exception, ExceptionHandler<E, Y> handler) {
 		return () -> {
 			try {
-				other.execute();
+				other.doExecute();
 			} catch (Exception e) {
 				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
 			}

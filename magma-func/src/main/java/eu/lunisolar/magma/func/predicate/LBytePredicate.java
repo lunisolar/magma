@@ -60,14 +60,14 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBytePredicate extends LBytePredicateX<RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LBytePredicate: boolean test(byte b)";
+	public static final String DESCRIPTION = "LBytePredicate: boolean doTest(byte b)";
 
-	// Ovverriding methods can cause problems with inference.
+	public boolean doTest(byte b);
 
 	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
 
-	default boolean applyAsBoolean(byte b) {
-		return test(b);
+	default boolean doApplyAsBoolean(byte b) {
+		return doTest(b);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -78,7 +78,7 @@ public interface LBytePredicate extends LBytePredicateX<RuntimeException>, MetaP
 
 	/** Captures arguments but delays the evaluation. */
 	default LBooleanSupplier capture(byte b) {
-		return () -> this.test(b);
+		return () -> this.doTest(b);
 	}
 
 	public static LBytePredicate constant(boolean r) {
@@ -87,7 +87,7 @@ public interface LBytePredicate extends LBytePredicateX<RuntimeException>, MetaP
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(byte b) {
-		return test(b);
+		return doTest(b);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -104,7 +104,7 @@ public interface LBytePredicate extends LBytePredicateX<RuntimeException>, MetaP
 	public static <X extends Exception> LBytePredicate wrap(final @Nonnull LBytePredicateX<X> other) {
 		return (byte b) -> {
 			try {
-				return other.test(b);
+				return other.doTest(b);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -119,7 +119,7 @@ public interface LBytePredicate extends LBytePredicateX<RuntimeException>, MetaP
 	 */
 	@Nonnull
 	default LBytePredicate negate() {
-		return (byte b) -> !test(b);
+		return (byte b) -> !doTest(b);
 	}
 
 	/**
@@ -128,7 +128,7 @@ public interface LBytePredicate extends LBytePredicateX<RuntimeException>, MetaP
 	@Nonnull
 	default LBytePredicate and(@Nonnull LBytePredicate other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (byte b) -> test(b) && other.test(b);
+		return (byte b) -> doTest(b) && other.doTest(b);
 	}
 
 	/**
@@ -137,7 +137,7 @@ public interface LBytePredicate extends LBytePredicateX<RuntimeException>, MetaP
 	@Nonnull
 	default LBytePredicate or(@Nonnull LBytePredicate other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (byte b) -> test(b) || other.test(b);
+		return (byte b) -> doTest(b) || other.doTest(b);
 	}
 
 	/**
@@ -146,7 +146,7 @@ public interface LBytePredicate extends LBytePredicateX<RuntimeException>, MetaP
 	@Nonnull
 	default LBytePredicate xor(@Nonnull LBytePredicate other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (byte b) -> test(b) ^ other.test(b);
+		return (byte b) -> doTest(b) ^ other.doTest(b);
 	}
 
 	@Nonnull
@@ -164,7 +164,7 @@ public interface LBytePredicate extends LBytePredicateX<RuntimeException>, MetaP
 	@Nonnull
 	default LBytePredicate fromByte(@Nonnull final LByteUnaryOperator before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final byte v1) -> this.test(before1.applyAsByte(v1));
+		return (final byte v1) -> this.doTest(before1.doApplyAsByte(v1));
 	}
 
 	/**
@@ -173,7 +173,7 @@ public interface LBytePredicate extends LBytePredicateX<RuntimeException>, MetaP
 	@Nonnull
 	default <V1> LPredicate<V1> from(@Nonnull final LToByteFunction<? super V1> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.test(before1.applyAsByte(v1));
+		return (V1 v1) -> this.doTest(before1.doApplyAsByte(v1));
 	}
 
 	// </editor-fold>
@@ -184,63 +184,63 @@ public interface LBytePredicate extends LBytePredicateX<RuntimeException>, MetaP
 	@Nonnull
 	default <V> LByteFunction<V> then(@Nonnull LBooleanFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (byte b) -> after.apply(this.test(b));
+		return (byte b) -> after.doApply(this.doTest(b));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LByteUnaryOperator thenToByte(@Nonnull LBooleanToByteFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (byte b) -> after.applyAsByte(this.test(b));
+		return (byte b) -> after.doApplyAsByte(this.doTest(b));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LByteToShortFunction thenToShort(@Nonnull LBooleanToShortFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (byte b) -> after.applyAsShort(this.test(b));
+		return (byte b) -> after.doApplyAsShort(this.doTest(b));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LByteToIntFunction thenToInt(@Nonnull LBooleanToIntFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (byte b) -> after.applyAsInt(this.test(b));
+		return (byte b) -> after.doApplyAsInt(this.doTest(b));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LByteToLongFunction thenToLong(@Nonnull LBooleanToLongFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (byte b) -> after.applyAsLong(this.test(b));
+		return (byte b) -> after.doApplyAsLong(this.doTest(b));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LByteToFloatFunction thenToFloat(@Nonnull LBooleanToFloatFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (byte b) -> after.applyAsFloat(this.test(b));
+		return (byte b) -> after.doApplyAsFloat(this.doTest(b));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LByteToDoubleFunction thenToDouble(@Nonnull LBooleanToDoubleFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (byte b) -> after.applyAsDouble(this.test(b));
+		return (byte b) -> after.doApplyAsDouble(this.doTest(b));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LByteToCharFunction thenToChar(@Nonnull LBooleanToCharFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (byte b) -> after.applyAsChar(this.test(b));
+		return (byte b) -> after.doApplyAsChar(this.doTest(b));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LBytePredicate thenToBoolean(@Nonnull LBooleanUnaryOperator after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (byte b) -> after.applyAsBoolean(this.test(b));
+		return (byte b) -> after.doApplyAsBoolean(this.doTest(b));
 	}
 
 	// </editor-fold>
@@ -273,11 +273,11 @@ public interface LBytePredicate extends LBytePredicateX<RuntimeException>, MetaP
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LBytePredicate wrapException(@Nonnull final LBytePredicate other, Class<E> exception, LBooleanSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (byte b) -> {
 			try {
-				return other.test(b);
+				return other.doTest(b);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsBoolean();
+						return supplier.doGetAsBoolean();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

@@ -69,7 +69,7 @@ public class LObjLongPredicateXBuilderTest<T,X extends ParseException>{
                 .objLongPredicateX()
                 .build();
 
-            function.test((T)Integer.valueOf(100),(long)100);
+            function.doTest((T)Integer.valueOf(100),(long)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

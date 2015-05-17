@@ -99,12 +99,12 @@ public final class LFloatFunctionBuilder<R> extends PerCaseBuilderWithProduct.Ba
 			final Case<LFloatPredicate, LFloatFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LFloatFunction.l((float f) -> {
 				for (Case<LFloatPredicate, LFloatFunction<R>> aCase : casesArray) {
-					if (aCase.casePredicate().test(f)) {
-						return aCase.caseFunction().apply(f);
+					if (aCase.casePredicate().doTest(f)) {
+						return aCase.caseFunction().doApply(f);
 					}
 				}
 
-				return eventuallyFinal.apply(f);
+				return eventuallyFinal.doApply(f);
 			});
 		}
 

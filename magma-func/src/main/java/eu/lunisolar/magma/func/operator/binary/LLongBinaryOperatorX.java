@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LLongBinaryOperatorX<X extends Exception> extends MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LLongBinaryOperatorX: long applyAsLong(long l1,long l2) throws X";
+	public static final String DESCRIPTION = "LLongBinaryOperatorX: long doApplyAsLong(long l1,long l2) throws X";
 
-	public long applyAsLong(long l1, long l2) throws X;
+	public long doApplyAsLong(long l1, long l2) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LLongBinaryOperatorX<X extends Exception> extends MetaOperator,
 
 	/** Captures arguments but delays the evaluation. */
 	default LLongSupplierX<X> capture(long l1, long l2) {
-		return () -> this.applyAsLong(l1, l2);
+		return () -> this.doApplyAsLong(l1, l2);
 	}
 
 	public static <X extends Exception> LLongBinaryOperatorX<X> constant(long r) {
@@ -81,7 +81,7 @@ public interface LLongBinaryOperatorX<X extends Exception> extends MetaOperator,
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default long nonNull(long l1, long l2) throws X {
-		return applyAsLong(l1, l2);
+		return doApplyAsLong(l1, l2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -102,7 +102,7 @@ public interface LLongBinaryOperatorX<X extends Exception> extends MetaOperator,
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LLongBinaryOperatorX<X> wrapX(final @Nonnull LLongBinaryOperator other) {
-		return other::applyAsLong;
+		return other::doApplyAsLong;
 	}
 
 	// </editor-fold>
@@ -135,7 +135,7 @@ public interface LLongBinaryOperatorX<X extends Exception> extends MetaOperator,
 	default LLongBinaryOperatorX<X> fromLong(@Nonnull final LLongUnaryOperatorX<X> before1, @Nonnull final LLongUnaryOperatorX<X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final long v1, final long v2) -> this.applyAsLong(before1.applyAsLong(v1), before2.applyAsLong(v2));
+		return (final long v1, final long v2) -> this.doApplyAsLong(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
 	}
 
 	/**
@@ -145,7 +145,7 @@ public interface LLongBinaryOperatorX<X extends Exception> extends MetaOperator,
 	default <V1, V2> LToLongBiFunctionX<V1, V2, X> from(@Nonnull final LToLongFunctionX<? super V1, X> before1, @Nonnull final LToLongFunctionX<? super V2, X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.applyAsLong(before1.applyAsLong(v1), before2.applyAsLong(v2));
+		return (V1 v1, V2 v2) -> this.doApplyAsLong(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
 	}
 
 	// </editor-fold>
@@ -156,7 +156,7 @@ public interface LLongBinaryOperatorX<X extends Exception> extends MetaOperator,
 	@Nonnull
 	default <V> LLongBiFunctionX<V, X> then(@Nonnull LLongFunctionX<? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l1, long l2) -> after.apply(this.applyAsLong(l1, l2));
+		return (long l1, long l2) -> after.doApply(this.doApplyAsLong(l1, l2));
 	}
 
 	// </editor-fold>
@@ -166,7 +166,7 @@ public interface LLongBinaryOperatorX<X extends Exception> extends MetaOperator,
 	/** Converts to JRE variant. */
 	@Nonnull
 	default java.util.function.LongBinaryOperator std() {
-		return LLongBinaryOperator.wrap(this)::applyAsLong;
+		return LLongBinaryOperator.wrap(this)::doApplyAsLong;
 	}
 
 	/** Converts to non-throwing variant (if required). */
@@ -184,7 +184,7 @@ public interface LLongBinaryOperatorX<X extends Exception> extends MetaOperator,
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLongBinaryOperator shove() {
 		LLongBinaryOperatorX<RuntimeException> exceptionCast = (LLongBinaryOperatorX<RuntimeException>) this;
-		return exceptionCast::applyAsLong;
+		return exceptionCast::doApplyAsLong;
 	}
 
 	// </editor-fold>
@@ -196,11 +196,11 @@ public interface LLongBinaryOperatorX<X extends Exception> extends MetaOperator,
 	public static <X extends Exception, E extends Exception, Y extends Exception> LLongBinaryOperatorX<Y> wrapException(@Nonnull final LLongBinaryOperatorX<X> other, Class<E> exception, LLongSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
 		return (long l1, long l2) -> {
 			try {
-				return other.applyAsLong(l1, l2);
+				return other.doApplyAsLong(l1, l2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsLong();
+						return supplier.doGetAsLong();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

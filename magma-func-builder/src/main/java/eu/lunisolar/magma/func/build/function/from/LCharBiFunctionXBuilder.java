@@ -99,12 +99,12 @@ public final class LCharBiFunctionXBuilder<R, X extends Exception> extends PerCa
 			final Case<LBiCharPredicateX<X>, LCharBiFunctionX<R, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LCharBiFunctionX.lX((char c1, char c2) -> {
 				for (Case<LBiCharPredicateX<X>, LCharBiFunctionX<R, X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(c1, c2)) {
-						return aCase.caseFunction().apply(c1, c2);
+					if (aCase.casePredicate().doTest(c1, c2)) {
+						return aCase.caseFunction().doApply(c1, c2);
 					}
 				}
 
-				return eventuallyFinal.apply(c1, c2);
+				return eventuallyFinal.doApply(c1, c2);
 			});
 		}
 

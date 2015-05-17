@@ -60,7 +60,7 @@ public interface LToFloatBiFunctionAssert<S extends LToFloatBiFunctionAssert<S, 
 
 		@Nonnull
 		public Evaluation<S, A, RS, Float, Exception> doesApplyAsFloat(T1 t1, T2 t2) {
-			return evaluation(() -> assertFactory.apply((Float) actual.applyAsFloat(t1, t2)));
+			return evaluation(() -> assertFactory.apply((Float) actual.doApplyAsFloat(t1, t2)));
 		}
 
 	}

@@ -69,7 +69,7 @@ public class LFloatToCharFunctionXBuilderTest<X extends ParseException>{
                 .floatToCharFunctionX()
                 .build();
 
-            function.applyAsChar((float)100);
+            function.doApplyAsChar((float)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

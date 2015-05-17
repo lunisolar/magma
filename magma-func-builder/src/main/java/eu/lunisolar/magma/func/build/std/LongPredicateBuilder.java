@@ -98,7 +98,7 @@ public final class LongPredicateBuilder extends PerCaseBuilderWithBooleanProduct
 			final Case<LLongPredicate, java.util.function.LongPredicate>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = Function4U.l((long l) -> {
 				for (Case<LLongPredicate, java.util.function.LongPredicate> aCase : casesArray) {
-					if (aCase.casePredicate().test(l)) {
+					if (aCase.casePredicate().doTest(l)) {
 						return aCase.caseFunction().test(l);
 					}
 				}

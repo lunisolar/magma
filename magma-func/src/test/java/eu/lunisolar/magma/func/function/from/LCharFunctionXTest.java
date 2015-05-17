@@ -61,19 +61,19 @@ public class LCharFunctionXTest<R,X extends ParseException> {
 
 
     private LCharFunctionX<R,X> sut = new LCharFunctionX(){
-        public @Nullable Object  apply(char c) throws ParseException {
+        public @Nullable Object  doApply(char c) throws ParseException {
             return testValue;
         }
     };
 
     private LCharFunction<R> opposite = new LCharFunction(){
-        public @Nullable Object  apply(char c)  {
+        public @Nullable Object  doApply(char c)  {
             return testValue;
         }
     };
 
     private LCharFunctionX<R,X> sutNull = new LCharFunctionX(){
-        public @Nullable Object  apply(char c) throws ParseException {
+        public @Nullable Object  doApply(char c) throws ParseException {
             return null;
         }
     };
@@ -82,7 +82,7 @@ public class LCharFunctionXTest<R,X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.apply((char)100))
+        assertThat(sut.doApply((char)100))
             .isSameAs(testValue);
     }
 
@@ -92,7 +92,7 @@ public class LCharFunctionXTest<R,X extends ParseException> {
             .isSameAs(testValue);
     }
 
-    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LCharFunctionX: R apply(char c) throws X).\\E")
+    @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNull() method cannot be null (LCharFunctionX: R doApply(char c) throws X).\\E")
     public void testNonNullCapturesNull() throws ParseException {
         sutNull.nonNull((char)100);
     }
@@ -101,7 +101,7 @@ public class LCharFunctionXTest<R,X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LCharFunctionX: R apply(char c) throws X");
+            .isEqualTo("LCharFunctionX: R doApply(char c) throws X");
     }
 
     @Test
@@ -132,7 +132,7 @@ public class LCharFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((char)100);
+            wrapped.doApply((char)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -157,7 +157,7 @@ public class LCharFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((char)100);
+            wrapped.doApply((char)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -181,7 +181,7 @@ public class LCharFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((char)100);
+            wrapped.doApply((char)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -216,7 +216,7 @@ public class LCharFunctionXTest<R,X extends ParseException> {
 
         //when
         LCharFunctionX<Integer ,X> function = sutO.fromChar(before1);
-        function.apply((char)80);
+        function.doApply((char)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -245,7 +245,7 @@ public class LCharFunctionXTest<R,X extends ParseException> {
 
         //when
         LFunctionX<Integer ,Integer ,X> function = sutO.from(before1);
-        function.apply((Integer )Integer.valueOf(80));
+        function.doApply((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -281,7 +281,7 @@ public class LCharFunctionXTest<R,X extends ParseException> {
 
         //when
         LCharFunctionX<Integer ,X> function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((char)80);
+        Integer  finalValue = function.doApply((char)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -314,7 +314,7 @@ public class LCharFunctionXTest<R,X extends ParseException> {
 
         //when
         LCharConsumerX<X> function = sutO.then(thenFunction);
-        function.accept((char)80);
+        function.doAccept((char)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -348,7 +348,7 @@ public class LCharFunctionXTest<R,X extends ParseException> {
 
         //when
         LCharToByteFunctionX<X> function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.applyAsByte((char)80);
+        byte finalValue = function.doApplyAsByte((char)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -383,7 +383,7 @@ public class LCharFunctionXTest<R,X extends ParseException> {
 
         //when
         LCharToShortFunctionX<X> function = sutO.thenToShort(thenFunction);
-        short finalValue = function.applyAsShort((char)80);
+        short finalValue = function.doApplyAsShort((char)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -418,7 +418,7 @@ public class LCharFunctionXTest<R,X extends ParseException> {
 
         //when
         LCharToIntFunctionX<X> function = sutO.thenToInt(thenFunction);
-        int finalValue = function.applyAsInt((char)80);
+        int finalValue = function.doApplyAsInt((char)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((int)100);
@@ -453,7 +453,7 @@ public class LCharFunctionXTest<R,X extends ParseException> {
 
         //when
         LCharToLongFunctionX<X> function = sutO.thenToLong(thenFunction);
-        long finalValue = function.applyAsLong((char)80);
+        long finalValue = function.doApplyAsLong((char)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((long)100);
@@ -488,7 +488,7 @@ public class LCharFunctionXTest<R,X extends ParseException> {
 
         //when
         LCharToFloatFunctionX<X> function = sutO.thenToFloat(thenFunction);
-        float finalValue = function.applyAsFloat((char)80);
+        float finalValue = function.doApplyAsFloat((char)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((float)100);
@@ -523,7 +523,7 @@ public class LCharFunctionXTest<R,X extends ParseException> {
 
         //when
         LCharToDoubleFunctionX<X> function = sutO.thenToDouble(thenFunction);
-        double finalValue = function.applyAsDouble((char)80);
+        double finalValue = function.doApplyAsDouble((char)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((double)100);
@@ -558,7 +558,7 @@ public class LCharFunctionXTest<R,X extends ParseException> {
 
         //when
         LCharUnaryOperatorX<X> function = sutO.thenToChar(thenFunction);
-        char finalValue = function.applyAsChar((char)80);
+        char finalValue = function.doApplyAsChar((char)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((char)100);
@@ -593,7 +593,7 @@ public class LCharFunctionXTest<R,X extends ParseException> {
 
         //when
         LCharPredicateX<X> function = sutO.thenToBoolean(thenFunction);
-        boolean finalValue = function.test((char)80);
+        boolean finalValue = function.doTest((char)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -624,7 +624,7 @@ public class LCharFunctionXTest<R,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().apply((char)100);
+        sutThrowing.shove().doApply((char)100);
     }
 
     @Test
@@ -642,7 +642,7 @@ public class LCharFunctionXTest<R,X extends ParseException> {
 
         // then
         try {
-            wrapped.apply((char)100);
+            wrapped.doApply((char)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -661,7 +661,7 @@ public class LCharFunctionXTest<R,X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LCharFunctionX: R apply(char c) throws X");
+                .contains("LCharFunctionX: R doApply(char c) throws X");
     }
 
 

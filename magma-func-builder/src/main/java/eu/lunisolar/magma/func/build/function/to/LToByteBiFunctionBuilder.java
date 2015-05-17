@@ -99,12 +99,12 @@ public final class LToByteBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithBy
 			final Case<LBiPredicate<T1, T2>, LToByteBiFunction<T1, T2>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LToByteBiFunction.l((T1 t1, T2 t2) -> {
 				for (Case<LBiPredicate<T1, T2>, LToByteBiFunction<T1, T2>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t1, t2)) {
-						return aCase.caseFunction().applyAsByte(t1, t2);
+					if (aCase.casePredicate().doTest(t1, t2)) {
+						return aCase.caseFunction().doApplyAsByte(t1, t2);
 					}
 				}
 
-				return eventuallyFinal.applyAsByte(t1, t2);
+				return eventuallyFinal.doApplyAsByte(t1, t2);
 			});
 		}
 

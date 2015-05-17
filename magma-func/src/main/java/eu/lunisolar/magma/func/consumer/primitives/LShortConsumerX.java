@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LShortConsumerX<X extends Exception> extends MetaConsumer, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LShortConsumerX: void accept(short s) throws X";
+	public static final String DESCRIPTION = "LShortConsumerX: void doAccept(short s) throws X";
 
-	public void accept(short s) throws X;
+	public void doAccept(short s) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +73,7 @@ public interface LShortConsumerX<X extends Exception> extends MetaConsumer, Meta
 
 	/** Captures arguments but delays the evaluation. */
 	default LActionX<X> capture(short s) {
-		return () -> this.accept(s);
+		return () -> this.doAccept(s);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -88,7 +88,7 @@ public interface LShortConsumerX<X extends Exception> extends MetaConsumer, Meta
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LShortConsumerX<X> wrapX(final @Nonnull LShortConsumer other) {
-		return other::accept;
+		return other::doAccept;
 	}
 
 	// </editor-fold>
@@ -101,7 +101,7 @@ public interface LShortConsumerX<X extends Exception> extends MetaConsumer, Meta
 	@Nonnull
 	default LShortConsumerX<X> fromShort(@Nonnull final LShortUnaryOperatorX<X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final short v1) -> this.accept(before1.applyAsShort(v1));
+		return (final short v1) -> this.doAccept(before1.doApplyAsShort(v1));
 	}
 
 	/**
@@ -110,7 +110,7 @@ public interface LShortConsumerX<X extends Exception> extends MetaConsumer, Meta
 	@Nonnull
 	default <V1> LConsumerX<V1, X> from(@Nonnull final LToShortFunctionX<? super V1, X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.accept(before1.applyAsShort(v1));
+		return (V1 v1) -> this.doAccept(before1.doApplyAsShort(v1));
 	}
 
 	// </editor-fold>
@@ -122,8 +122,8 @@ public interface LShortConsumerX<X extends Exception> extends MetaConsumer, Meta
 	default LShortConsumerX<X> andThen(@Nonnull LShortConsumerX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
 		return (short s) -> {
-			this.accept(s);
-			after.accept(s);
+			this.doAccept(s);
+			after.doAccept(s);
 		};
 	}
 
@@ -145,7 +145,7 @@ public interface LShortConsumerX<X extends Exception> extends MetaConsumer, Meta
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LShortConsumer shove() {
 		LShortConsumerX<RuntimeException> exceptionCast = (LShortConsumerX<RuntimeException>) this;
-		return exceptionCast::accept;
+		return exceptionCast::doAccept;
 	}
 
 	// </editor-fold>
@@ -157,7 +157,7 @@ public interface LShortConsumerX<X extends Exception> extends MetaConsumer, Meta
 	public static <X extends Exception, E extends Exception, Y extends Exception> LShortConsumerX<Y> wrapException(@Nonnull final LShortConsumerX<X> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
 		return (short s) -> {
 			try {
-				other.accept(s);
+				other.doAccept(s);
 			} catch (Exception e) {
 				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
 			}

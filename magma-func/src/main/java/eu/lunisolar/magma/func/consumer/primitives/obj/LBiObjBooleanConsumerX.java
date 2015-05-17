@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBiObjBooleanConsumerX<T1, T2, X extends Exception> extends MetaConsumer, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LBiObjBooleanConsumerX: void accept(T1 t1,T2 t2, boolean b) throws X";
+	public static final String DESCRIPTION = "LBiObjBooleanConsumerX: void doAccept(T1 t1,T2 t2, boolean b) throws X";
 
-	public void accept(T1 t1, T2 t2, boolean b) throws X;
+	public void doAccept(T1 t1, T2 t2, boolean b) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +73,7 @@ public interface LBiObjBooleanConsumerX<T1, T2, X extends Exception> extends Met
 
 	/** Captures arguments but delays the evaluation. */
 	default LActionX<X> capture(T1 t1, T2 t2, boolean b) {
-		return () -> this.accept(t1, t2, b);
+		return () -> this.doAccept(t1, t2, b);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -88,7 +88,7 @@ public interface LBiObjBooleanConsumerX<T1, T2, X extends Exception> extends Met
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T1, T2, X extends Exception> LBiObjBooleanConsumerX<T1, T2, X> wrapX(final @Nonnull LBiObjBooleanConsumer<T1, T2> other) {
-		return other::accept;
+		return other::doAccept;
 	}
 
 	// </editor-fold>
@@ -103,7 +103,7 @@ public interface LBiObjBooleanConsumerX<T1, T2, X extends Exception> extends Met
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
 		Objects.requireNonNull(before3, Function4U.VALIDATION_MESSAGE_BEFORE3);
-		return (final V1 v1, final V2 v2, final boolean v3) -> this.accept(before1.apply(v1), before2.apply(v2), before3.applyAsBoolean(v3));
+		return (final V1 v1, final V2 v2, final boolean v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsBoolean(v3));
 	}
 
 	/**
@@ -114,7 +114,7 @@ public interface LBiObjBooleanConsumerX<T1, T2, X extends Exception> extends Met
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
 		Objects.requireNonNull(before3, Function4U.VALIDATION_MESSAGE_BEFORE3);
-		return (V1 v1, V2 v2, V3 v3) -> this.accept(before1.apply(v1), before2.apply(v2), before3.applyAsBoolean(v3));
+		return (V1 v1, V2 v2, V3 v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsBoolean(v3));
 	}
 
 	// </editor-fold>
@@ -126,8 +126,8 @@ public interface LBiObjBooleanConsumerX<T1, T2, X extends Exception> extends Met
 	default LBiObjBooleanConsumerX<T1, T2, X> andThen(@Nonnull LBiObjBooleanConsumerX<? super T1, ? super T2, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
 		return (T1 t1, T2 t2, boolean b) -> {
-			this.accept(t1, t2, b);
-			after.accept(t1, t2, b);
+			this.doAccept(t1, t2, b);
+			after.doAccept(t1, t2, b);
 		};
 	}
 
@@ -149,7 +149,7 @@ public interface LBiObjBooleanConsumerX<T1, T2, X extends Exception> extends Met
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBiObjBooleanConsumer<T1, T2> shove() {
 		LBiObjBooleanConsumerX<T1, T2, RuntimeException> exceptionCast = (LBiObjBooleanConsumerX<T1, T2, RuntimeException>) this;
-		return exceptionCast::accept;
+		return exceptionCast::doAccept;
 	}
 
 	// </editor-fold>
@@ -161,7 +161,7 @@ public interface LBiObjBooleanConsumerX<T1, T2, X extends Exception> extends Met
 	public static <T1, T2, X extends Exception, E extends Exception, Y extends Exception> LBiObjBooleanConsumerX<T1, T2, Y> wrapException(@Nonnull final LBiObjBooleanConsumerX<T1, T2, X> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
 		return (T1 t1, T2 t2, boolean b) -> {
 			try {
-				other.accept(t1, t2, b);
+				other.doAccept(t1, t2, b);
 			} catch (Exception e) {
 				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
 			}

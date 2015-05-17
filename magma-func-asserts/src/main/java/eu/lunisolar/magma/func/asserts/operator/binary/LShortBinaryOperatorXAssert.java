@@ -63,7 +63,7 @@ public interface LShortBinaryOperatorXAssert<S extends LShortBinaryOperatorXAsse
 
 		@Nonnull
 		public Evaluation<S, A, RS, Short, Exception> doesApplyAsShort(short s1, short s2) {
-			return evaluation(() -> assertFactory.apply((Short) actual.applyAsShort(s1, s2)));
+			return evaluation(() -> assertFactory.apply((Short) actual.doApplyAsShort(s1, s2)));
 		}
 
 	}

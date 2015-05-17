@@ -63,7 +63,7 @@ public interface LDoubleSupplierXAssert<S extends LDoubleSupplierXAssert<S, A, R
 
 		@Nonnull
 		public Evaluation<S, A, RS, Double, Exception> doesGetAsDouble() {
-			return evaluation(() -> assertFactory.apply((Double) actual.getAsDouble()));
+			return evaluation(() -> assertFactory.apply((Double) actual.doGetAsDouble()));
 		}
 
 		@Nonnull
@@ -74,7 +74,7 @@ public interface LDoubleSupplierXAssert<S extends LDoubleSupplierXAssert<S, A, R
 
 		@Nonnull
 		public Evaluation<S, A, RS, Double, Exception> doesGetAsDouble(LAction before) {
-			before.execute();
+			before.doExecute();
 			return doesGetAsDouble();
 		}
 	}

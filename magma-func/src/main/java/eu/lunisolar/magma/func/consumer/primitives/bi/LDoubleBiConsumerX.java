@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LDoubleBiConsumerX<X extends Exception> extends MetaConsumer, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LDoubleBiConsumerX: void accept(double d1,double d2) throws X";
+	public static final String DESCRIPTION = "LDoubleBiConsumerX: void doAccept(double d1,double d2) throws X";
 
-	public void accept(double d1, double d2) throws X;
+	public void doAccept(double d1, double d2) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +73,7 @@ public interface LDoubleBiConsumerX<X extends Exception> extends MetaConsumer, M
 
 	/** Captures arguments but delays the evaluation. */
 	default LActionX<X> capture(double d1, double d2) {
-		return () -> this.accept(d1, d2);
+		return () -> this.doAccept(d1, d2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -88,7 +88,7 @@ public interface LDoubleBiConsumerX<X extends Exception> extends MetaConsumer, M
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LDoubleBiConsumerX<X> wrapX(final @Nonnull LDoubleBiConsumer other) {
-		return other::accept;
+		return other::doAccept;
 	}
 
 	// </editor-fold>
@@ -102,7 +102,7 @@ public interface LDoubleBiConsumerX<X extends Exception> extends MetaConsumer, M
 	default LDoubleBiConsumerX<X> fromDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1, @Nonnull final LDoubleUnaryOperatorX<X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final double v1, final double v2) -> this.accept(before1.applyAsDouble(v1), before2.applyAsDouble(v2));
+		return (final double v1, final double v2) -> this.doAccept(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
 	}
 
 	/**
@@ -112,7 +112,7 @@ public interface LDoubleBiConsumerX<X extends Exception> extends MetaConsumer, M
 	default <V1, V2> LBiConsumerX<V1, V2, X> from(@Nonnull final LToDoubleFunctionX<? super V1, X> before1, @Nonnull final LToDoubleFunctionX<? super V2, X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.accept(before1.applyAsDouble(v1), before2.applyAsDouble(v2));
+		return (V1 v1, V2 v2) -> this.doAccept(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
 	}
 
 	// </editor-fold>
@@ -124,8 +124,8 @@ public interface LDoubleBiConsumerX<X extends Exception> extends MetaConsumer, M
 	default LDoubleBiConsumerX<X> andThen(@Nonnull LDoubleBiConsumerX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
 		return (double d1, double d2) -> {
-			this.accept(d1, d2);
-			after.accept(d1, d2);
+			this.doAccept(d1, d2);
+			after.doAccept(d1, d2);
 		};
 	}
 
@@ -147,7 +147,7 @@ public interface LDoubleBiConsumerX<X extends Exception> extends MetaConsumer, M
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LDoubleBiConsumer shove() {
 		LDoubleBiConsumerX<RuntimeException> exceptionCast = (LDoubleBiConsumerX<RuntimeException>) this;
-		return exceptionCast::accept;
+		return exceptionCast::doAccept;
 	}
 
 	// </editor-fold>
@@ -159,7 +159,7 @@ public interface LDoubleBiConsumerX<X extends Exception> extends MetaConsumer, M
 	public static <X extends Exception, E extends Exception, Y extends Exception> LDoubleBiConsumerX<Y> wrapException(@Nonnull final LDoubleBiConsumerX<X> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
 		return (double d1, double d2) -> {
 			try {
-				other.accept(d1, d2);
+				other.doAccept(d1, d2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
 			}

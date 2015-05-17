@@ -60,9 +60,13 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LIntToLongFunction extends java.util.function.IntToLongFunction, LIntToLongFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LIntToLongFunction: long applyAsLong(int i)";
+	public static final String DESCRIPTION = "LIntToLongFunction: long doApplyAsLong(int i)";
 
-	// Ovverriding methods can cause problems with inference.
+	public long doApplyAsLong(int i);
+
+	default long applyAsLong(int i) {
+		return doApplyAsLong(i);
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +76,7 @@ public interface LIntToLongFunction extends java.util.function.IntToLongFunction
 
 	/** Captures arguments but delays the evaluation. */
 	default LLongSupplier capture(int i) {
-		return () -> this.applyAsLong(i);
+		return () -> this.doApplyAsLong(i);
 	}
 
 	public static LIntToLongFunction constant(long r) {
@@ -81,7 +85,7 @@ public interface LIntToLongFunction extends java.util.function.IntToLongFunction
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default long nonNull(int i) {
-		return applyAsLong(i);
+		return doApplyAsLong(i);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -104,7 +108,7 @@ public interface LIntToLongFunction extends java.util.function.IntToLongFunction
 	public static <X extends Exception> LIntToLongFunction wrap(final @Nonnull LIntToLongFunctionX<X> other) {
 		return (int i) -> {
 			try {
-				return other.applyAsLong(i);
+				return other.doApplyAsLong(i);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -121,7 +125,7 @@ public interface LIntToLongFunction extends java.util.function.IntToLongFunction
 	@Nonnull
 	default LIntToLongFunction fromInt(@Nonnull final LIntUnaryOperator before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final int v1) -> this.applyAsLong(before1.applyAsInt(v1));
+		return (final int v1) -> this.doApplyAsLong(before1.doApplyAsInt(v1));
 	}
 
 	/**
@@ -130,7 +134,7 @@ public interface LIntToLongFunction extends java.util.function.IntToLongFunction
 	@Nonnull
 	default <V1> LToLongFunction<V1> from(@Nonnull final LToIntFunction<? super V1> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.applyAsLong(before1.applyAsInt(v1));
+		return (V1 v1) -> this.doApplyAsLong(before1.doApplyAsInt(v1));
 	}
 
 	// </editor-fold>
@@ -141,63 +145,63 @@ public interface LIntToLongFunction extends java.util.function.IntToLongFunction
 	@Nonnull
 	default <V> LIntFunction<V> then(@Nonnull LLongFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.apply(this.applyAsLong(i));
+		return (int i) -> after.doApply(this.doApplyAsLong(i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToByteFunction thenToByte(@Nonnull LLongToByteFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsByte(this.applyAsLong(i));
+		return (int i) -> after.doApplyAsByte(this.doApplyAsLong(i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToShortFunction thenToShort(@Nonnull LLongToShortFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsShort(this.applyAsLong(i));
+		return (int i) -> after.doApplyAsShort(this.doApplyAsLong(i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntUnaryOperator thenToInt(@Nonnull LLongToIntFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsInt(this.applyAsLong(i));
+		return (int i) -> after.doApplyAsInt(this.doApplyAsLong(i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToLongFunction thenToLong(@Nonnull LLongUnaryOperator after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsLong(this.applyAsLong(i));
+		return (int i) -> after.doApplyAsLong(this.doApplyAsLong(i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToFloatFunction thenToFloat(@Nonnull LLongToFloatFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsFloat(this.applyAsLong(i));
+		return (int i) -> after.doApplyAsFloat(this.doApplyAsLong(i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToDoubleFunction thenToDouble(@Nonnull LLongToDoubleFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsDouble(this.applyAsLong(i));
+		return (int i) -> after.doApplyAsDouble(this.doApplyAsLong(i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntToCharFunction thenToChar(@Nonnull LLongToCharFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.applyAsChar(this.applyAsLong(i));
+		return (int i) -> after.doApplyAsChar(this.doApplyAsLong(i));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntPredicate thenToBoolean(@Nonnull LLongPredicate after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (int i) -> after.test(this.applyAsLong(i));
+		return (int i) -> after.doTest(this.doApplyAsLong(i));
 	}
 
 	// </editor-fold>
@@ -236,11 +240,11 @@ public interface LIntToLongFunction extends java.util.function.IntToLongFunction
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LIntToLongFunction wrapException(@Nonnull final LIntToLongFunction other, Class<E> exception, LLongSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (int i) -> {
 			try {
-				return other.applyAsLong(i);
+				return other.doApplyAsLong(i);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsLong();
+						return supplier.doGetAsLong();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

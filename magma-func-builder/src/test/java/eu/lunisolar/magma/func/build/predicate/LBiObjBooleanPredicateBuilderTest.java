@@ -69,7 +69,7 @@ public class LBiObjBooleanPredicateBuilderTest<T1,T2,X extends ParseException>{
                 .biObjBooleanPredicate()
                 .build();
 
-            function.test((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),true);
+            function.doTest((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),true);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

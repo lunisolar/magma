@@ -58,7 +58,7 @@ public interface LLongToDoubleFunctionAssert<S extends LLongToDoubleFunctionAsse
 
 		@Nonnull
 		public Evaluation<S, A, RS, Double, Exception> doesApplyAsDouble(long l) {
-			return evaluation(() -> assertFactory.apply((Double) actual.applyAsDouble(l)));
+			return evaluation(() -> assertFactory.apply((Double) actual.doApplyAsDouble(l)));
 		}
 
 	}

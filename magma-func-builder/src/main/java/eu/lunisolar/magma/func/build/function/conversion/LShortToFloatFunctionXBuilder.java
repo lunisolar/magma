@@ -99,12 +99,12 @@ public final class LShortToFloatFunctionXBuilder<X extends Exception> extends Pe
 			final Case<LShortPredicateX<X>, LShortToFloatFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LShortToFloatFunctionX.lX((short s) -> {
 				for (Case<LShortPredicateX<X>, LShortToFloatFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(s)) {
-						return aCase.caseFunction().applyAsFloat(s);
+					if (aCase.casePredicate().doTest(s)) {
+						return aCase.caseFunction().doApplyAsFloat(s);
 					}
 				}
 
-				return eventuallyFinal.applyAsFloat(s);
+				return eventuallyFinal.doApplyAsFloat(s);
 			});
 		}
 

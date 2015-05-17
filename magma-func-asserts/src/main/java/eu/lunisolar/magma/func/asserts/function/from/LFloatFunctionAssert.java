@@ -58,7 +58,7 @@ public interface LFloatFunctionAssert<S extends LFloatFunctionAssert<S, A, RS, R
 
 		@Nonnull
 		public Evaluation<S, A, RS, R, Exception> doesApply(float f) {
-			return evaluation(() -> assertFactory.apply((R) actual.apply(f)));
+			return evaluation(() -> assertFactory.apply((R) actual.doApply(f)));
 		}
 
 	}

@@ -63,7 +63,7 @@ public interface LCharToIntFunctionXAssert<S extends LCharToIntFunctionXAssert<S
 
 		@Nonnull
 		public Evaluation<S, A, RS, Integer, Exception> doesApplyAsInt(char c) {
-			return evaluation(() -> assertFactory.apply((Integer) actual.applyAsInt(c)));
+			return evaluation(() -> assertFactory.apply((Integer) actual.doApplyAsInt(c)));
 		}
 
 	}

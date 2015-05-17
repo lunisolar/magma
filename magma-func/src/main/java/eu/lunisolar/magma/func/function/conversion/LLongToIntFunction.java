@@ -60,9 +60,13 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LLongToIntFunction extends java.util.function.LongToIntFunction, LLongToIntFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LLongToIntFunction: int applyAsInt(long l)";
+	public static final String DESCRIPTION = "LLongToIntFunction: int doApplyAsInt(long l)";
 
-	// Ovverriding methods can cause problems with inference.
+	public int doApplyAsInt(long l);
+
+	default int applyAsInt(long l) {
+		return doApplyAsInt(l);
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +76,7 @@ public interface LLongToIntFunction extends java.util.function.LongToIntFunction
 
 	/** Captures arguments but delays the evaluation. */
 	default LIntSupplier capture(long l) {
-		return () -> this.applyAsInt(l);
+		return () -> this.doApplyAsInt(l);
 	}
 
 	public static LLongToIntFunction constant(int r) {
@@ -81,7 +85,7 @@ public interface LLongToIntFunction extends java.util.function.LongToIntFunction
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default int nonNull(long l) {
-		return applyAsInt(l);
+		return doApplyAsInt(l);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -104,7 +108,7 @@ public interface LLongToIntFunction extends java.util.function.LongToIntFunction
 	public static <X extends Exception> LLongToIntFunction wrap(final @Nonnull LLongToIntFunctionX<X> other) {
 		return (long l) -> {
 			try {
-				return other.applyAsInt(l);
+				return other.doApplyAsInt(l);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -121,7 +125,7 @@ public interface LLongToIntFunction extends java.util.function.LongToIntFunction
 	@Nonnull
 	default LLongToIntFunction fromLong(@Nonnull final LLongUnaryOperator before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final long v1) -> this.applyAsInt(before1.applyAsLong(v1));
+		return (final long v1) -> this.doApplyAsInt(before1.doApplyAsLong(v1));
 	}
 
 	/**
@@ -130,7 +134,7 @@ public interface LLongToIntFunction extends java.util.function.LongToIntFunction
 	@Nonnull
 	default <V1> LToIntFunction<V1> from(@Nonnull final LToLongFunction<? super V1> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.applyAsInt(before1.applyAsLong(v1));
+		return (V1 v1) -> this.doApplyAsInt(before1.doApplyAsLong(v1));
 	}
 
 	// </editor-fold>
@@ -141,63 +145,63 @@ public interface LLongToIntFunction extends java.util.function.LongToIntFunction
 	@Nonnull
 	default <V> LLongFunction<V> then(@Nonnull LIntFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.apply(this.applyAsInt(l));
+		return (long l) -> after.doApply(this.doApplyAsInt(l));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToByteFunction thenToByte(@Nonnull LIntToByteFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.applyAsByte(this.applyAsInt(l));
+		return (long l) -> after.doApplyAsByte(this.doApplyAsInt(l));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToShortFunction thenToShort(@Nonnull LIntToShortFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.applyAsShort(this.applyAsInt(l));
+		return (long l) -> after.doApplyAsShort(this.doApplyAsInt(l));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToIntFunction thenToInt(@Nonnull LIntUnaryOperator after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.applyAsInt(this.applyAsInt(l));
+		return (long l) -> after.doApplyAsInt(this.doApplyAsInt(l));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongUnaryOperator thenToLong(@Nonnull LIntToLongFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.applyAsLong(this.applyAsInt(l));
+		return (long l) -> after.doApplyAsLong(this.doApplyAsInt(l));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToFloatFunction thenToFloat(@Nonnull LIntToFloatFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.applyAsFloat(this.applyAsInt(l));
+		return (long l) -> after.doApplyAsFloat(this.doApplyAsInt(l));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToDoubleFunction thenToDouble(@Nonnull LIntToDoubleFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.applyAsDouble(this.applyAsInt(l));
+		return (long l) -> after.doApplyAsDouble(this.doApplyAsInt(l));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToCharFunction thenToChar(@Nonnull LIntToCharFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.applyAsChar(this.applyAsInt(l));
+		return (long l) -> after.doApplyAsChar(this.doApplyAsInt(l));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongPredicate thenToBoolean(@Nonnull LIntPredicate after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.test(this.applyAsInt(l));
+		return (long l) -> after.doTest(this.doApplyAsInt(l));
 	}
 
 	// </editor-fold>
@@ -236,11 +240,11 @@ public interface LLongToIntFunction extends java.util.function.LongToIntFunction
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LLongToIntFunction wrapException(@Nonnull final LLongToIntFunction other, Class<E> exception, LIntSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (long l) -> {
 			try {
-				return other.applyAsInt(l);
+				return other.doApplyAsInt(l);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsInt();
+						return supplier.doGetAsInt();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

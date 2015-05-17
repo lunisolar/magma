@@ -55,7 +55,7 @@ public interface LFloatConsumerXAssert<S extends LFloatConsumerXAssert<S, A, X>,
 
 		@Nonnull
 		public SemiEvaluation<S, A, Exception> doesAccept(float f) {
-			return evaluation(() -> actual.accept(f));
+			return evaluation(() -> actual.doAccept(f));
 		}
 
 	}

@@ -99,12 +99,12 @@ public final class LBooleanToDoubleFunctionXBuilder<X extends Exception> extends
 			final Case<LBooleanUnaryOperatorX<X>, LBooleanToDoubleFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LBooleanToDoubleFunctionX.lX((boolean b) -> {
 				for (Case<LBooleanUnaryOperatorX<X>, LBooleanToDoubleFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().applyAsBoolean(b)) {
-						return aCase.caseFunction().applyAsDouble(b);
+					if (aCase.casePredicate().doApplyAsBoolean(b)) {
+						return aCase.caseFunction().doApplyAsDouble(b);
 					}
 				}
 
-				return eventuallyFinal.applyAsDouble(b);
+				return eventuallyFinal.doApplyAsDouble(b);
 			});
 		}
 

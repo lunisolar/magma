@@ -69,7 +69,7 @@ public class LBooleanConsumerBuilderTest<X extends ParseException>{
                 .booleanConsumer()
                 .build();
 
-            function.accept(true);
+            function.doAccept(true);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

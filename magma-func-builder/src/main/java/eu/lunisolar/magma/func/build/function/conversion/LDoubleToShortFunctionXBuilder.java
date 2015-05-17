@@ -99,12 +99,12 @@ public final class LDoubleToShortFunctionXBuilder<X extends Exception> extends P
 			final Case<LDoublePredicateX<X>, LDoubleToShortFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LDoubleToShortFunctionX.lX((double d) -> {
 				for (Case<LDoublePredicateX<X>, LDoubleToShortFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(d)) {
-						return aCase.caseFunction().applyAsShort(d);
+					if (aCase.casePredicate().doTest(d)) {
+						return aCase.caseFunction().doApplyAsShort(d);
 					}
 				}
 
-				return eventuallyFinal.applyAsShort(d);
+				return eventuallyFinal.doApplyAsShort(d);
 			});
 		}
 

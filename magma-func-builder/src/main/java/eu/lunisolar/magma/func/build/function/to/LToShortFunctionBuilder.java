@@ -99,12 +99,12 @@ public final class LToShortFunctionBuilder<T> extends PerCaseBuilderWithShortPro
 			final Case<LPredicate<T>, LToShortFunction<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LToShortFunction.l((T t) -> {
 				for (Case<LPredicate<T>, LToShortFunction<T>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t)) {
-						return aCase.caseFunction().applyAsShort(t);
+					if (aCase.casePredicate().doTest(t)) {
+						return aCase.caseFunction().doApplyAsShort(t);
 					}
 				}
 
-				return eventuallyFinal.applyAsShort(t);
+				return eventuallyFinal.doApplyAsShort(t);
 			});
 		}
 

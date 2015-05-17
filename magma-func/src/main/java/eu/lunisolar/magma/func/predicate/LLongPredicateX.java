@@ -60,14 +60,14 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LLongPredicateX<X extends Exception> extends MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LLongPredicateX: boolean test(long l) throws X";
+	public static final String DESCRIPTION = "LLongPredicateX: boolean doTest(long l) throws X";
 
-	public boolean test(long l) throws X;
+	public boolean doTest(long l) throws X;
 
 	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
 
-	default boolean applyAsBoolean(long l) throws X {
-		return test(l);
+	default boolean doApplyAsBoolean(long l) throws X {
+		return doTest(l);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -78,7 +78,7 @@ public interface LLongPredicateX<X extends Exception> extends MetaPredicate, Pri
 
 	/** Captures arguments but delays the evaluation. */
 	default LBooleanSupplierX<X> capture(long l) {
-		return () -> this.test(l);
+		return () -> this.doTest(l);
 	}
 
 	public static <X extends Exception> LLongPredicateX<X> constant(boolean r) {
@@ -87,7 +87,7 @@ public interface LLongPredicateX<X extends Exception> extends MetaPredicate, Pri
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull(long l) throws X {
-		return test(l);
+		return doTest(l);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -108,7 +108,7 @@ public interface LLongPredicateX<X extends Exception> extends MetaPredicate, Pri
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LLongPredicateX<X> wrapX(final @Nonnull LLongPredicate other) {
-		return other::test;
+		return other::doTest;
 	}
 
 	// </editor-fold>
@@ -119,7 +119,7 @@ public interface LLongPredicateX<X extends Exception> extends MetaPredicate, Pri
 	 */
 	@Nonnull
 	default LLongPredicateX<X> negate() {
-		return (long l) -> !test(l);
+		return (long l) -> !doTest(l);
 	}
 
 	/**
@@ -128,7 +128,7 @@ public interface LLongPredicateX<X extends Exception> extends MetaPredicate, Pri
 	@Nonnull
 	default LLongPredicateX<X> and(@Nonnull LLongPredicateX<X> other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (long l) -> test(l) && other.test(l);
+		return (long l) -> doTest(l) && other.doTest(l);
 	}
 
 	/**
@@ -137,7 +137,7 @@ public interface LLongPredicateX<X extends Exception> extends MetaPredicate, Pri
 	@Nonnull
 	default LLongPredicateX<X> or(@Nonnull LLongPredicateX<X> other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (long l) -> test(l) || other.test(l);
+		return (long l) -> doTest(l) || other.doTest(l);
 	}
 
 	/**
@@ -146,7 +146,7 @@ public interface LLongPredicateX<X extends Exception> extends MetaPredicate, Pri
 	@Nonnull
 	default LLongPredicateX<X> xor(@Nonnull LLongPredicateX<X> other) {
 		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
-		return (long l) -> test(l) ^ other.test(l);
+		return (long l) -> doTest(l) ^ other.doTest(l);
 	}
 
 	@Nonnull
@@ -164,7 +164,7 @@ public interface LLongPredicateX<X extends Exception> extends MetaPredicate, Pri
 	@Nonnull
 	default LLongPredicateX<X> fromLong(@Nonnull final LLongUnaryOperatorX<X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final long v1) -> this.test(before1.applyAsLong(v1));
+		return (final long v1) -> this.doTest(before1.doApplyAsLong(v1));
 	}
 
 	/**
@@ -173,7 +173,7 @@ public interface LLongPredicateX<X extends Exception> extends MetaPredicate, Pri
 	@Nonnull
 	default <V1> LPredicateX<V1, X> from(@Nonnull final LToLongFunctionX<? super V1, X> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.test(before1.applyAsLong(v1));
+		return (V1 v1) -> this.doTest(before1.doApplyAsLong(v1));
 	}
 
 	// </editor-fold>
@@ -184,63 +184,63 @@ public interface LLongPredicateX<X extends Exception> extends MetaPredicate, Pri
 	@Nonnull
 	default <V> LLongFunctionX<V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.apply(this.test(l));
+		return (long l) -> after.doApply(this.doTest(l));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LLongToByteFunctionX<X> thenToByte(@Nonnull LBooleanToByteFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.applyAsByte(this.test(l));
+		return (long l) -> after.doApplyAsByte(this.doTest(l));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LLongToShortFunctionX<X> thenToShort(@Nonnull LBooleanToShortFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.applyAsShort(this.test(l));
+		return (long l) -> after.doApplyAsShort(this.doTest(l));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LLongToIntFunctionX<X> thenToInt(@Nonnull LBooleanToIntFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.applyAsInt(this.test(l));
+		return (long l) -> after.doApplyAsInt(this.doTest(l));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LLongUnaryOperatorX<X> thenToLong(@Nonnull LBooleanToLongFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.applyAsLong(this.test(l));
+		return (long l) -> after.doApplyAsLong(this.doTest(l));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LLongToFloatFunctionX<X> thenToFloat(@Nonnull LBooleanToFloatFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.applyAsFloat(this.test(l));
+		return (long l) -> after.doApplyAsFloat(this.doTest(l));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LLongToDoubleFunctionX<X> thenToDouble(@Nonnull LBooleanToDoubleFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.applyAsDouble(this.test(l));
+		return (long l) -> after.doApplyAsDouble(this.doTest(l));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LLongToCharFunctionX<X> thenToChar(@Nonnull LBooleanToCharFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.applyAsChar(this.test(l));
+		return (long l) -> after.doApplyAsChar(this.doTest(l));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LLongPredicateX<X> thenToBoolean(@Nonnull LBooleanUnaryOperatorX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (long l) -> after.applyAsBoolean(this.test(l));
+		return (long l) -> after.doApplyAsBoolean(this.doTest(l));
 	}
 
 	// </editor-fold>
@@ -250,7 +250,7 @@ public interface LLongPredicateX<X extends Exception> extends MetaPredicate, Pri
 	/** Converts to JRE variant. */
 	@Nonnull
 	default java.util.function.LongPredicate std() {
-		return LLongPredicate.wrap(this)::test;
+		return LLongPredicate.wrap(this)::doTest;
 	}
 
 	/** Converts to non-throwing variant (if required). */
@@ -268,7 +268,7 @@ public interface LLongPredicateX<X extends Exception> extends MetaPredicate, Pri
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLongPredicate shove() {
 		LLongPredicateX<RuntimeException> exceptionCast = (LLongPredicateX<RuntimeException>) this;
-		return exceptionCast::test;
+		return exceptionCast::doTest;
 	}
 
 	// </editor-fold>
@@ -280,11 +280,11 @@ public interface LLongPredicateX<X extends Exception> extends MetaPredicate, Pri
 	public static <X extends Exception, E extends Exception, Y extends Exception> LLongPredicateX<Y> wrapException(@Nonnull final LLongPredicateX<X> other, Class<E> exception, LBooleanSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
 		return (long l) -> {
 			try {
-				return other.test(l);
+				return other.doTest(l);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsBoolean();
+						return supplier.doGetAsBoolean();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

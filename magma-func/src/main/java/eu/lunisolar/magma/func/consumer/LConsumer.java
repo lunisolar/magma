@@ -61,9 +61,13 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LConsumer<T> extends java.util.function.Consumer<T>, LConsumerX<T, RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LConsumer: void accept(T t)";
+	public static final String DESCRIPTION = "LConsumer: void doAccept(T t)";
 
-	// Ovverriding methods can cause problems with inference.
+	public void doAccept(T t);
+
+	default void accept(T t) {
+		doAccept(t);
+	}
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +77,7 @@ public interface LConsumer<T> extends java.util.function.Consumer<T>, LConsumerX
 
 	/** Captures arguments but delays the evaluation. */
 	default LAction capture(T t) {
-		return () -> this.accept(t);
+		return () -> this.doAccept(t);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -96,7 +100,7 @@ public interface LConsumer<T> extends java.util.function.Consumer<T>, LConsumerX
 	public static <T, X extends Exception> LConsumer<T> wrap(final @Nonnull LConsumerX<T, X> other) {
 		return (T t) -> {
 			try {
-				other.accept(t);
+				other.doAccept(t);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -113,7 +117,7 @@ public interface LConsumer<T> extends java.util.function.Consumer<T>, LConsumerX
 	@Nonnull
 	default <V1> LConsumer<V1> from(@Nonnull final LFunction<? super V1, ? extends T> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final V1 v1) -> this.accept(before1.apply(v1));
+		return (final V1 v1) -> this.doAccept(before1.doApply(v1));
 	}
 
 	// </editor-fold>
@@ -125,8 +129,8 @@ public interface LConsumer<T> extends java.util.function.Consumer<T>, LConsumerX
 	default LConsumer<T> andThen(@Nonnull LConsumer<? super T> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
 		return (T t) -> {
-			this.accept(t);
-			after.accept(t);
+			this.doAccept(t);
+			after.doAccept(t);
 		};
 	}
 
@@ -165,7 +169,7 @@ public interface LConsumer<T> extends java.util.function.Consumer<T>, LConsumerX
 	public static <T, X extends Exception, E extends Exception, Y extends RuntimeException> LConsumer<T> wrapException(@Nonnull final LConsumer<T> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
 		return (T t) -> {
 			try {
-				other.accept(t);
+				other.doAccept(t);
 			} catch (Exception e) {
 				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
 			}

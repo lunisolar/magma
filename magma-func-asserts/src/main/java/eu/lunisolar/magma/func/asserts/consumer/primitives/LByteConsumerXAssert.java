@@ -55,7 +55,7 @@ public interface LByteConsumerXAssert<S extends LByteConsumerXAssert<S, A, X>, A
 
 		@Nonnull
 		public SemiEvaluation<S, A, Exception> doesAccept(byte b) {
-			return evaluation(() -> actual.accept(b));
+			return evaluation(() -> actual.doAccept(b));
 		}
 
 	}

@@ -59,13 +59,13 @@ public class LActionTest<X extends ParseException> {
 
 
     private LAction sut = new LAction(){
-        public  void execute()  {
+        public  void doExecute()  {
             Function4U.doNothing();
         }
     };
 
     private LActionX<X> opposite = new LActionX(){
-        public  void execute() throws ParseException {
+        public  void doExecute() throws ParseException {
             Function4U.doNothing();
         }
     };
@@ -79,7 +79,7 @@ public class LActionTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LAction: void execute()");
+            .isEqualTo("LAction: void doExecute()");
     }
 
     @Test
@@ -112,7 +112,7 @@ public class LActionTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.execute();
+            wrapped.doExecute();
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -134,7 +134,7 @@ public class LActionTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.execute();
+            wrapped.doExecute();
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -160,7 +160,7 @@ public class LActionTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.execute();
+            wrapped.doExecute();
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -185,7 +185,7 @@ public class LActionTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.execute();
+            wrapped.doExecute();
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -209,7 +209,7 @@ public class LActionTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.execute();
+            wrapped.doExecute();
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -237,7 +237,7 @@ public class LActionTest<X extends ParseException> {
 
         //when
         LAction function = sutO.andThen(thenFunction);
-        function.execute();
+        function.doExecute();
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -268,7 +268,7 @@ public class LActionTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().execute();
+        sutThrowing.shove().doExecute();
     }
 
     @Test
@@ -286,7 +286,7 @@ public class LActionTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.execute();
+            wrapped.doExecute();
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -305,7 +305,7 @@ public class LActionTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LAction: void execute()");
+                .contains("LAction: void doExecute()");
     }
 
 

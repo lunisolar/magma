@@ -99,12 +99,12 @@ public final class LBooleanToLongFunctionXBuilder<X extends Exception> extends P
 			final Case<LBooleanUnaryOperatorX<X>, LBooleanToLongFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LBooleanToLongFunctionX.lX((boolean b) -> {
 				for (Case<LBooleanUnaryOperatorX<X>, LBooleanToLongFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().applyAsBoolean(b)) {
-						return aCase.caseFunction().applyAsLong(b);
+					if (aCase.casePredicate().doApplyAsBoolean(b)) {
+						return aCase.caseFunction().doApplyAsLong(b);
 					}
 				}
 
-				return eventuallyFinal.applyAsLong(b);
+				return eventuallyFinal.doApplyAsLong(b);
 			});
 		}
 

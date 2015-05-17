@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LShortToByteFunction extends LShortToByteFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LShortToByteFunction: byte applyAsByte(short s)";
+	public static final String DESCRIPTION = "LShortToByteFunction: byte doApplyAsByte(short s)";
 
-	// Ovverriding methods can cause problems with inference.
+	public byte doApplyAsByte(short s);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LShortToByteFunction extends LShortToByteFunctionX<RuntimeExcep
 
 	/** Captures arguments but delays the evaluation. */
 	default LByteSupplier capture(short s) {
-		return () -> this.applyAsByte(s);
+		return () -> this.doApplyAsByte(s);
 	}
 
 	public static LShortToByteFunction constant(byte r) {
@@ -81,7 +81,7 @@ public interface LShortToByteFunction extends LShortToByteFunctionX<RuntimeExcep
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default byte nonNull(short s) {
-		return applyAsByte(s);
+		return doApplyAsByte(s);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -98,7 +98,7 @@ public interface LShortToByteFunction extends LShortToByteFunctionX<RuntimeExcep
 	public static <X extends Exception> LShortToByteFunction wrap(final @Nonnull LShortToByteFunctionX<X> other) {
 		return (short s) -> {
 			try {
-				return other.applyAsByte(s);
+				return other.doApplyAsByte(s);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -115,7 +115,7 @@ public interface LShortToByteFunction extends LShortToByteFunctionX<RuntimeExcep
 	@Nonnull
 	default LShortToByteFunction fromShort(@Nonnull final LShortUnaryOperator before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (final short v1) -> this.applyAsByte(before1.applyAsShort(v1));
+		return (final short v1) -> this.doApplyAsByte(before1.doApplyAsShort(v1));
 	}
 
 	/**
@@ -124,7 +124,7 @@ public interface LShortToByteFunction extends LShortToByteFunctionX<RuntimeExcep
 	@Nonnull
 	default <V1> LToByteFunction<V1> from(@Nonnull final LToShortFunction<? super V1> before1) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		return (V1 v1) -> this.applyAsByte(before1.applyAsShort(v1));
+		return (V1 v1) -> this.doApplyAsByte(before1.doApplyAsShort(v1));
 	}
 
 	// </editor-fold>
@@ -135,63 +135,63 @@ public interface LShortToByteFunction extends LShortToByteFunctionX<RuntimeExcep
 	@Nonnull
 	default <V> LShortFunction<V> then(@Nonnull LByteFunction<? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.apply(this.applyAsByte(s));
+		return (short s) -> after.doApply(this.doApplyAsByte(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToByteFunction thenToByte(@Nonnull LByteUnaryOperator after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsByte(this.applyAsByte(s));
+		return (short s) -> after.doApplyAsByte(this.doApplyAsByte(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortUnaryOperator thenToShort(@Nonnull LByteToShortFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsShort(this.applyAsByte(s));
+		return (short s) -> after.doApplyAsShort(this.doApplyAsByte(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToIntFunction thenToInt(@Nonnull LByteToIntFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsInt(this.applyAsByte(s));
+		return (short s) -> after.doApplyAsInt(this.doApplyAsByte(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToLongFunction thenToLong(@Nonnull LByteToLongFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsLong(this.applyAsByte(s));
+		return (short s) -> after.doApplyAsLong(this.doApplyAsByte(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToFloatFunction thenToFloat(@Nonnull LByteToFloatFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsFloat(this.applyAsByte(s));
+		return (short s) -> after.doApplyAsFloat(this.doApplyAsByte(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToDoubleFunction thenToDouble(@Nonnull LByteToDoubleFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsDouble(this.applyAsByte(s));
+		return (short s) -> after.doApplyAsDouble(this.doApplyAsByte(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToCharFunction thenToChar(@Nonnull LByteToCharFunction after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.applyAsChar(this.applyAsByte(s));
+		return (short s) -> after.doApplyAsChar(this.doApplyAsByte(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortPredicate thenToBoolean(@Nonnull LBytePredicate after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s) -> after.test(this.applyAsByte(s));
+		return (short s) -> after.doTest(this.doApplyAsByte(s));
 	}
 
 	// </editor-fold>
@@ -224,11 +224,11 @@ public interface LShortToByteFunction extends LShortToByteFunctionX<RuntimeExcep
 	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LShortToByteFunction wrapException(@Nonnull final LShortToByteFunction other, Class<E> exception, LByteSupplier supplier, ExceptionHandler<E, Y> handler) {
 		return (short s) -> {
 			try {
-				return other.applyAsByte(s);
+				return other.doApplyAsByte(s);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsByte();
+						return supplier.doGetAsByte();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

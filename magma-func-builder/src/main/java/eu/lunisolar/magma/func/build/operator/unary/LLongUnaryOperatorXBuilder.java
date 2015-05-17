@@ -99,12 +99,12 @@ public final class LLongUnaryOperatorXBuilder<X extends Exception> extends PerCa
 			final Case<LLongPredicateX<X>, LLongUnaryOperatorX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LLongUnaryOperatorX.lX((long l) -> {
 				for (Case<LLongPredicateX<X>, LLongUnaryOperatorX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(l)) {
-						return aCase.caseFunction().applyAsLong(l);
+					if (aCase.casePredicate().doTest(l)) {
+						return aCase.caseFunction().doApplyAsLong(l);
 					}
 				}
 
-				return eventuallyFinal.applyAsLong(l);
+				return eventuallyFinal.doApplyAsLong(l);
 			});
 		}
 

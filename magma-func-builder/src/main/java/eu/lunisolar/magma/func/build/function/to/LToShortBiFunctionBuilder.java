@@ -99,12 +99,12 @@ public final class LToShortBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithS
 			final Case<LBiPredicate<T1, T2>, LToShortBiFunction<T1, T2>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LToShortBiFunction.l((T1 t1, T2 t2) -> {
 				for (Case<LBiPredicate<T1, T2>, LToShortBiFunction<T1, T2>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t1, t2)) {
-						return aCase.caseFunction().applyAsShort(t1, t2);
+					if (aCase.casePredicate().doTest(t1, t2)) {
+						return aCase.caseFunction().doApplyAsShort(t1, t2);
 					}
 				}
 
-				return eventuallyFinal.applyAsShort(t1, t2);
+				return eventuallyFinal.doApplyAsShort(t1, t2);
 			});
 		}
 

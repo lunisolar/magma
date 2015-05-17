@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LShortBinaryOperatorX<X extends Exception> extends MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LShortBinaryOperatorX: short applyAsShort(short s1,short s2) throws X";
+	public static final String DESCRIPTION = "LShortBinaryOperatorX: short doApplyAsShort(short s1,short s2) throws X";
 
-	public short applyAsShort(short s1, short s2) throws X;
+	public short doApplyAsShort(short s1, short s2) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LShortBinaryOperatorX<X extends Exception> extends MetaOperator
 
 	/** Captures arguments but delays the evaluation. */
 	default LShortSupplierX<X> capture(short s1, short s2) {
-		return () -> this.applyAsShort(s1, s2);
+		return () -> this.doApplyAsShort(s1, s2);
 	}
 
 	public static <X extends Exception> LShortBinaryOperatorX<X> constant(short r) {
@@ -81,7 +81,7 @@ public interface LShortBinaryOperatorX<X extends Exception> extends MetaOperator
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default short nonNull(short s1, short s2) throws X {
-		return applyAsShort(s1, s2);
+		return doApplyAsShort(s1, s2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -96,7 +96,7 @@ public interface LShortBinaryOperatorX<X extends Exception> extends MetaOperator
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LShortBinaryOperatorX<X> wrapX(final @Nonnull LShortBinaryOperator other) {
-		return other::applyAsShort;
+		return other::doApplyAsShort;
 	}
 
 	// </editor-fold>
@@ -129,7 +129,7 @@ public interface LShortBinaryOperatorX<X extends Exception> extends MetaOperator
 	default LShortBinaryOperatorX<X> fromShort(@Nonnull final LShortUnaryOperatorX<X> before1, @Nonnull final LShortUnaryOperatorX<X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final short v1, final short v2) -> this.applyAsShort(before1.applyAsShort(v1), before2.applyAsShort(v2));
+		return (final short v1, final short v2) -> this.doApplyAsShort(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
 	}
 
 	/**
@@ -139,7 +139,7 @@ public interface LShortBinaryOperatorX<X extends Exception> extends MetaOperator
 	default <V1, V2> LToShortBiFunctionX<V1, V2, X> from(@Nonnull final LToShortFunctionX<? super V1, X> before1, @Nonnull final LToShortFunctionX<? super V2, X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.applyAsShort(before1.applyAsShort(v1), before2.applyAsShort(v2));
+		return (V1 v1, V2 v2) -> this.doApplyAsShort(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
 	}
 
 	// </editor-fold>
@@ -150,7 +150,7 @@ public interface LShortBinaryOperatorX<X extends Exception> extends MetaOperator
 	@Nonnull
 	default <V> LShortBiFunctionX<V, X> then(@Nonnull LShortFunctionX<? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (short s1, short s2) -> after.apply(this.applyAsShort(s1, s2));
+		return (short s1, short s2) -> after.doApply(this.doApplyAsShort(s1, s2));
 	}
 
 	// </editor-fold>
@@ -172,7 +172,7 @@ public interface LShortBinaryOperatorX<X extends Exception> extends MetaOperator
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LShortBinaryOperator shove() {
 		LShortBinaryOperatorX<RuntimeException> exceptionCast = (LShortBinaryOperatorX<RuntimeException>) this;
-		return exceptionCast::applyAsShort;
+		return exceptionCast::doApplyAsShort;
 	}
 
 	// </editor-fold>
@@ -184,11 +184,11 @@ public interface LShortBinaryOperatorX<X extends Exception> extends MetaOperator
 	public static <X extends Exception, E extends Exception, Y extends Exception> LShortBinaryOperatorX<Y> wrapException(@Nonnull final LShortBinaryOperatorX<X> other, Class<E> exception, LShortSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
 		return (short s1, short s2) -> {
 			try {
-				return other.applyAsShort(s1, s2);
+				return other.doApplyAsShort(s1, s2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsShort();
+						return supplier.doGetAsShort();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

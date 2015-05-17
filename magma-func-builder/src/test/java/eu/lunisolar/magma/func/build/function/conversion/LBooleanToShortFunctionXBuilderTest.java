@@ -69,7 +69,7 @@ public class LBooleanToShortFunctionXBuilderTest<X extends ParseException>{
                 .booleanToShortFunctionX()
                 .build();
 
-            function.applyAsShort(true);
+            function.doApplyAsShort(true);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

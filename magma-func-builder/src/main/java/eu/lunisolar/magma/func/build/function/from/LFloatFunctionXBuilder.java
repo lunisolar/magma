@@ -99,12 +99,12 @@ public final class LFloatFunctionXBuilder<R, X extends Exception> extends PerCas
 			final Case<LFloatPredicateX<X>, LFloatFunctionX<R, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LFloatFunctionX.lX((float f) -> {
 				for (Case<LFloatPredicateX<X>, LFloatFunctionX<R, X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(f)) {
-						return aCase.caseFunction().apply(f);
+					if (aCase.casePredicate().doTest(f)) {
+						return aCase.caseFunction().doApply(f);
 					}
 				}
 
-				return eventuallyFinal.apply(f);
+				return eventuallyFinal.doApply(f);
 			});
 		}
 

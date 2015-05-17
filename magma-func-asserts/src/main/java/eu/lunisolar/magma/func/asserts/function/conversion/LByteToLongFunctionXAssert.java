@@ -63,7 +63,7 @@ public interface LByteToLongFunctionXAssert<S extends LByteToLongFunctionXAssert
 
 		@Nonnull
 		public Evaluation<S, A, RS, Long, Exception> doesApplyAsLong(byte b) {
-			return evaluation(() -> assertFactory.apply((Long) actual.applyAsLong(b)));
+			return evaluation(() -> assertFactory.apply((Long) actual.doApplyAsLong(b)));
 		}
 
 	}

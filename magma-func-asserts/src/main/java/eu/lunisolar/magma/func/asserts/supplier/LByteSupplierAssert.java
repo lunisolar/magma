@@ -61,7 +61,7 @@ public interface LByteSupplierAssert<S extends LByteSupplierAssert<S, A, RS>, A 
 
 		@Nonnull
 		public Evaluation<S, A, RS, Byte, Exception> doesGetAsByte() {
-			return evaluation(() -> assertFactory.apply((Byte) actual.getAsByte()));
+			return evaluation(() -> assertFactory.apply((Byte) actual.doGetAsByte()));
 		}
 
 		@Nonnull
@@ -72,7 +72,7 @@ public interface LByteSupplierAssert<S extends LByteSupplierAssert<S, A, RS>, A 
 
 		@Nonnull
 		public Evaluation<S, A, RS, Byte, Exception> doesGetAsByte(LAction before) {
-			before.execute();
+			before.doExecute();
 			return doesGetAsByte();
 		}
 	}

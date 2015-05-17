@@ -98,7 +98,7 @@ public final class SupplierBuilder<R> extends PerCaseBuilderWithProduct.Base<Sup
 			final Case<LBooleanSupplier, java.util.function.Supplier<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = Function4U.l(() -> {
 				for (Case<LBooleanSupplier, java.util.function.Supplier<R>> aCase : casesArray) {
-					if (aCase.casePredicate().getAsBoolean()) {
+					if (aCase.casePredicate().doGetAsBoolean()) {
 						return aCase.caseFunction().get();
 					}
 				}

@@ -69,7 +69,7 @@ public class LObjShortPredicateBuilderTest<T,X extends ParseException>{
                 .objShortPredicate()
                 .build();
 
-            function.test((T)Integer.valueOf(100),(short)100);
+            function.doTest((T)Integer.valueOf(100),(short)100);
 
             fail("No exception were thrown.");
         } catch (Exception e) {

@@ -99,12 +99,12 @@ public final class LTernaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.
 			final Case<LTriPredicate<T, T, T>, LTernaryOperator<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LTernaryOperator.l((T t1, T t2, T t3) -> {
 				for (Case<LTriPredicate<T, T, T>, LTernaryOperator<T>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t1, t2, t3)) {
-						return aCase.caseFunction().apply(t1, t2, t3);
+					if (aCase.casePredicate().doTest(t1, t2, t3)) {
+						return aCase.caseFunction().doApply(t1, t2, t3);
 					}
 				}
 
-				return eventuallyFinal.apply(t1, t2, t3);
+				return eventuallyFinal.doApply(t1, t2, t3);
 			});
 		}
 

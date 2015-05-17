@@ -63,7 +63,7 @@ public interface LBooleanToIntFunctionXAssert<S extends LBooleanToIntFunctionXAs
 
 		@Nonnull
 		public Evaluation<S, A, RS, Integer, Exception> doesApplyAsInt(boolean b) {
-			return evaluation(() -> assertFactory.apply((Integer) actual.applyAsInt(b)));
+			return evaluation(() -> assertFactory.apply((Integer) actual.doApplyAsInt(b)));
 		}
 
 	}

@@ -98,7 +98,7 @@ public final class DoubleFunctionBuilder<R> extends PerCaseBuilderWithProduct.Ba
 			final Case<LDoublePredicate, java.util.function.DoubleFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = Function4U.l((double d) -> {
 				for (Case<LDoublePredicate, java.util.function.DoubleFunction<R>> aCase : casesArray) {
-					if (aCase.casePredicate().test(d)) {
+					if (aCase.casePredicate().doTest(d)) {
 						return aCase.caseFunction().apply(d);
 					}
 				}

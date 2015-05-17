@@ -61,13 +61,13 @@ public class LIntUnaryOperatorXTest<X extends ParseException> {
 
 
     private LIntUnaryOperatorX<X> sut = new LIntUnaryOperatorX(){
-        public  int applyAsInt(int i) throws ParseException {
+        public  int doApplyAsInt(int i) throws ParseException {
             return testValue;
         }
     };
 
     private LIntUnaryOperator opposite = new LIntUnaryOperator(){
-        public  int applyAsInt(int i)  {
+        public  int doApplyAsInt(int i)  {
             return testValue;
         }
     };
@@ -78,7 +78,7 @@ public class LIntUnaryOperatorXTest<X extends ParseException> {
 
     @Test
     public void testTheResult() throws ParseException {
-        assertThat(sut.applyAsInt((int)100))
+        assertThat(sut.doApplyAsInt((int)100))
             .isEqualTo(testValue);
     }
 
@@ -92,7 +92,7 @@ public class LIntUnaryOperatorXTest<X extends ParseException> {
     @Test
     public void testFunctionalInterfaceDescription() throws ParseException {
         assertThat(sut.functionalInterfaceDescription())
-            .isEqualTo("LIntUnaryOperatorX: int applyAsInt(int i) throws X");
+            .isEqualTo("LIntUnaryOperatorX: int doApplyAsInt(int i) throws X");
     }
 
     @Test
@@ -129,7 +129,7 @@ public class LIntUnaryOperatorXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsInt((int)100);
+            wrapped.doApplyAsInt((int)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -154,7 +154,7 @@ public class LIntUnaryOperatorXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsInt((int)100);
+            wrapped.doApplyAsInt((int)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -178,7 +178,7 @@ public class LIntUnaryOperatorXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsInt((int)100);
+            wrapped.doApplyAsInt((int)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -213,7 +213,7 @@ public class LIntUnaryOperatorXTest<X extends ParseException> {
 
         //when
         LIntUnaryOperatorX<X> function = sutO.fromInt(before1);
-        function.applyAsInt((int)80);
+        function.doApplyAsInt((int)80);
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -242,7 +242,7 @@ public class LIntUnaryOperatorXTest<X extends ParseException> {
 
         //when
         LToIntFunctionX<Integer ,X> function = sutO.from(before1);
-        function.applyAsInt((Integer )Integer.valueOf(80));
+        function.doApplyAsInt((Integer )Integer.valueOf(80));
 
         //then - finals
         assertThat(mainFunctionCalled.get()).isEqualTo(true);
@@ -278,7 +278,7 @@ public class LIntUnaryOperatorXTest<X extends ParseException> {
 
         //when
         LIntFunctionX<Integer ,X> function = sutO.then(thenFunction);
-        Integer  finalValue = function.apply((int)80);
+        Integer  finalValue = function.doApply((int)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(Integer.valueOf(100));
@@ -313,7 +313,7 @@ public class LIntUnaryOperatorXTest<X extends ParseException> {
 
         //when
         LIntToByteFunctionX<X> function = sutO.thenToByte(thenFunction);
-        byte finalValue = function.applyAsByte((int)80);
+        byte finalValue = function.doApplyAsByte((int)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((byte)100);
@@ -348,7 +348,7 @@ public class LIntUnaryOperatorXTest<X extends ParseException> {
 
         //when
         LIntToShortFunctionX<X> function = sutO.thenToShort(thenFunction);
-        short finalValue = function.applyAsShort((int)80);
+        short finalValue = function.doApplyAsShort((int)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((short)100);
@@ -383,7 +383,7 @@ public class LIntUnaryOperatorXTest<X extends ParseException> {
 
         //when
         LIntUnaryOperatorX<X> function = sutO.thenToInt(thenFunction);
-        int finalValue = function.applyAsInt((int)80);
+        int finalValue = function.doApplyAsInt((int)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((int)100);
@@ -418,7 +418,7 @@ public class LIntUnaryOperatorXTest<X extends ParseException> {
 
         //when
         LIntToLongFunctionX<X> function = sutO.thenToLong(thenFunction);
-        long finalValue = function.applyAsLong((int)80);
+        long finalValue = function.doApplyAsLong((int)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((long)100);
@@ -453,7 +453,7 @@ public class LIntUnaryOperatorXTest<X extends ParseException> {
 
         //when
         LIntToFloatFunctionX<X> function = sutO.thenToFloat(thenFunction);
-        float finalValue = function.applyAsFloat((int)80);
+        float finalValue = function.doApplyAsFloat((int)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((float)100);
@@ -488,7 +488,7 @@ public class LIntUnaryOperatorXTest<X extends ParseException> {
 
         //when
         LIntToDoubleFunctionX<X> function = sutO.thenToDouble(thenFunction);
-        double finalValue = function.applyAsDouble((int)80);
+        double finalValue = function.doApplyAsDouble((int)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((double)100);
@@ -523,7 +523,7 @@ public class LIntUnaryOperatorXTest<X extends ParseException> {
 
         //when
         LIntToCharFunctionX<X> function = sutO.thenToChar(thenFunction);
-        char finalValue = function.applyAsChar((int)80);
+        char finalValue = function.doApplyAsChar((int)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo((char)100);
@@ -558,7 +558,7 @@ public class LIntUnaryOperatorXTest<X extends ParseException> {
 
         //when
         LIntPredicateX<X> function = sutO.thenToBoolean(thenFunction);
-        boolean finalValue = function.test((int)80);
+        boolean finalValue = function.doTest((int)80);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -574,7 +574,7 @@ public class LIntUnaryOperatorXTest<X extends ParseException> {
     public void identity() throws ParseException {
         LIntUnaryOperatorX<X> identityFunction = LIntUnaryOperatorX.identity();
 
-        assertThat(identityFunction.applyAsInt((int)80)).isEqualTo((int)80);
+        assertThat(identityFunction.doApplyAsInt((int)80)).isEqualTo((int)80);
     }
 
     @Test
@@ -601,7 +601,7 @@ public class LIntUnaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().applyAsInt((int)100);
+        sutThrowing.shove().doApplyAsInt((int)100);
     }
 
     @Test
@@ -619,7 +619,7 @@ public class LIntUnaryOperatorXTest<X extends ParseException> {
 
         // then
         try {
-            wrapped.applyAsInt((int)100);
+            wrapped.doApplyAsInt((int)100);
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
@@ -638,7 +638,7 @@ public class LIntUnaryOperatorXTest<X extends ParseException> {
 
         assertThat(String.format("%s", sut))
                 .isInstanceOf(String.class)
-                .contains("LIntUnaryOperatorX: int applyAsInt(int i) throws X");
+                .contains("LIntUnaryOperatorX: int doApplyAsInt(int i) throws X");
     }
 
 

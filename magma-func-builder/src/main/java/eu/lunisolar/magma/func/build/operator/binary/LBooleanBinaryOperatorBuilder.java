@@ -99,12 +99,12 @@ public final class LBooleanBinaryOperatorBuilder extends PerCaseBuilderWithBoole
 			final Case<LBooleanBinaryOperator, LBooleanBinaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LBooleanBinaryOperator.l((boolean b1, boolean b2) -> {
 				for (Case<LBooleanBinaryOperator, LBooleanBinaryOperator> aCase : casesArray) {
-					if (aCase.casePredicate().applyAsBoolean(b1, b2)) {
-						return aCase.caseFunction().applyAsBoolean(b1, b2);
+					if (aCase.casePredicate().doApplyAsBoolean(b1, b2)) {
+						return aCase.caseFunction().doApplyAsBoolean(b1, b2);
 					}
 				}
 
-				return eventuallyFinal.applyAsBoolean(b1, b2);
+				return eventuallyFinal.doApplyAsBoolean(b1, b2);
 			});
 		}
 

@@ -69,7 +69,7 @@ public class LToShortFunctionXBuilderTest<T,X extends ParseException>{
                 .toShortFunctionX()
                 .build();
 
-            function.applyAsShort((T)Integer.valueOf(100));
+            function.doApplyAsShort((T)Integer.valueOf(100));
 
             fail("No exception were thrown.");
         } catch (Exception e) {

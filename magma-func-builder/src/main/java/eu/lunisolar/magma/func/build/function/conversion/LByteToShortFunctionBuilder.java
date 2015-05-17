@@ -99,12 +99,12 @@ public final class LByteToShortFunctionBuilder extends PerCaseBuilderWithShortPr
 			final Case<LBytePredicate, LByteToShortFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LByteToShortFunction.l((byte b) -> {
 				for (Case<LBytePredicate, LByteToShortFunction> aCase : casesArray) {
-					if (aCase.casePredicate().test(b)) {
-						return aCase.caseFunction().applyAsShort(b);
+					if (aCase.casePredicate().doTest(b)) {
+						return aCase.caseFunction().doApplyAsShort(b);
 					}
 				}
 
-				return eventuallyFinal.applyAsShort(b);
+				return eventuallyFinal.doApplyAsShort(b);
 			});
 		}
 

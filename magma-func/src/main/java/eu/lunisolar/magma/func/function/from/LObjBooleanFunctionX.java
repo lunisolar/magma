@@ -60,10 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LObjBooleanFunctionX<T, R, X extends Exception> extends MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LObjBooleanFunctionX: R apply(T t, boolean b) throws X";
+	public static final String DESCRIPTION = "LObjBooleanFunctionX: R doApply(T t, boolean b) throws X";
 
 	@Nullable
-	public R apply(T t, boolean b) throws X;
+	public R doApply(T t, boolean b) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -73,7 +73,7 @@ public interface LObjBooleanFunctionX<T, R, X extends Exception> extends MetaFun
 
 	/** Captures arguments but delays the evaluation. */
 	default LSupplierX<R, X> capture(T t, boolean b) {
-		return () -> this.apply(t, b);
+		return () -> this.doApply(t, b);
 	}
 
 	public static <T, R, X extends Exception> LObjBooleanFunctionX<T, R, X> constant(R r) {
@@ -85,7 +85,7 @@ public interface LObjBooleanFunctionX<T, R, X extends Exception> extends MetaFun
 	/** Ensures the result is not null */
 	@Nonnull
 	default R nonNull(T t, boolean b) throws X {
-		return Objects.requireNonNull(apply(t, b), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Objects.requireNonNull(doApply(t, b), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -100,7 +100,7 @@ public interface LObjBooleanFunctionX<T, R, X extends Exception> extends MetaFun
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <T, R, X extends Exception> LObjBooleanFunctionX<T, R, X> wrapX(final @Nonnull LObjBooleanFunction<T, R> other) {
-		return other::apply;
+		return other::doApply;
 	}
 
 	// </editor-fold>
@@ -114,7 +114,7 @@ public interface LObjBooleanFunctionX<T, R, X extends Exception> extends MetaFun
 	default <V1> LObjBooleanFunctionX<V1, R, X> fromBoolean(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LBooleanUnaryOperatorX<X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final V1 v1, final boolean v2) -> this.apply(before1.apply(v1), before2.applyAsBoolean(v2));
+		return (final V1 v1, final boolean v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsBoolean(v2));
 	}
 
 	/**
@@ -124,7 +124,7 @@ public interface LObjBooleanFunctionX<T, R, X extends Exception> extends MetaFun
 	default <V1, V2> LBiFunctionX<V1, V2, R, X> from(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LPredicateX<? super V2, X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.apply(before1.apply(v1), before2.applyAsBoolean(v2));
+		return (V1 v1, V2 v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsBoolean(v2));
 	}
 
 	// </editor-fold>
@@ -135,14 +135,14 @@ public interface LObjBooleanFunctionX<T, R, X extends Exception> extends MetaFun
 	@Nonnull
 	default <V> LObjBooleanFunctionX<T, V, X> then(@Nonnull LFunctionX<? super R, ? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t, boolean b) -> after.apply(this.apply(t, b));
+		return (T t, boolean b) -> after.doApply(this.doApply(t, b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LObjBooleanConsumerX<T, X> then(@Nonnull LConsumerX<? super R, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (T t, boolean b) -> after.accept(this.apply(t, b));
+		return (T t, boolean b) -> after.doAccept(this.doApply(t, b));
 	}
 
 	// </editor-fold>
@@ -164,14 +164,14 @@ public interface LObjBooleanFunctionX<T, R, X extends Exception> extends MetaFun
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjBooleanFunction<T, R> shove() {
 		LObjBooleanFunctionX<T, R, RuntimeException> exceptionCast = (LObjBooleanFunctionX<T, R, RuntimeException>) this;
-		return exceptionCast::apply;
+		return exceptionCast::doApply;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
 	default LObjBooleanFunctionX<T, R, X> nonNullableX() {
-		return (t, b) -> Objects.requireNonNull(this.apply(t, b));
+		return (t, b) -> Objects.requireNonNull(this.doApply(t, b));
 	}
 
 	// <editor-fold desc="exception handling">
@@ -182,11 +182,11 @@ public interface LObjBooleanFunctionX<T, R, X extends Exception> extends MetaFun
 			ExceptionHandler<E, Y> handler) {
 		return (T t, boolean b) -> {
 			try {
-				return other.apply(t, b);
+				return other.doApply(t, b);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.get();
+						return supplier.doGet();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

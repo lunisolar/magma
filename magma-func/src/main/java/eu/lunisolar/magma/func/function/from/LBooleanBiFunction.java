@@ -60,9 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBooleanBiFunction<R> extends LBooleanBiFunctionX<R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LBooleanBiFunction: R apply(boolean b1,boolean b2)";
+	public static final String DESCRIPTION = "LBooleanBiFunction: R doApply(boolean b1,boolean b2)";
 
-	// Ovverriding methods can cause problems with inference.
+	@Nullable
+	public R doApply(boolean b1, boolean b2);
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +73,7 @@ public interface LBooleanBiFunction<R> extends LBooleanBiFunctionX<R, RuntimeExc
 
 	/** Captures arguments but delays the evaluation. */
 	default LSupplier<R> capture(boolean b1, boolean b2) {
-		return () -> this.apply(b1, b2);
+		return () -> this.doApply(b1, b2);
 	}
 
 	public static <R> LBooleanBiFunction<R> constant(R r) {
@@ -84,7 +85,7 @@ public interface LBooleanBiFunction<R> extends LBooleanBiFunctionX<R, RuntimeExc
 	/** Ensures the result is not null */
 	@Nonnull
 	default R nonNull(boolean b1, boolean b2) {
-		return Objects.requireNonNull(apply(b1, b2), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Objects.requireNonNull(doApply(b1, b2), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -101,7 +102,7 @@ public interface LBooleanBiFunction<R> extends LBooleanBiFunctionX<R, RuntimeExc
 	public static <R, X extends Exception> LBooleanBiFunction<R> wrap(final @Nonnull LBooleanBiFunctionX<R, X> other) {
 		return (boolean b1, boolean b2) -> {
 			try {
-				return other.apply(b1, b2);
+				return other.doApply(b1, b2);
 			} catch (Exception e) {
 				throw ExceptionHandler.handleWrapping(e);
 			}
@@ -119,7 +120,7 @@ public interface LBooleanBiFunction<R> extends LBooleanBiFunctionX<R, RuntimeExc
 	default LBooleanBiFunction<R> fromBoolean(@Nonnull final LBooleanUnaryOperator before1, @Nonnull final LBooleanUnaryOperator before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final boolean v1, final boolean v2) -> this.apply(before1.applyAsBoolean(v1), before2.applyAsBoolean(v2));
+		return (final boolean v1, final boolean v2) -> this.doApply(before1.doApplyAsBoolean(v1), before2.doApplyAsBoolean(v2));
 	}
 
 	/**
@@ -129,7 +130,7 @@ public interface LBooleanBiFunction<R> extends LBooleanBiFunctionX<R, RuntimeExc
 	default <V1, V2> LBiFunction<V1, V2, R> from(@Nonnull final LPredicate<? super V1> before1, @Nonnull final LPredicate<? super V2> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.apply(before1.applyAsBoolean(v1), before2.applyAsBoolean(v2));
+		return (V1 v1, V2 v2) -> this.doApply(before1.doApplyAsBoolean(v1), before2.doApplyAsBoolean(v2));
 	}
 
 	// </editor-fold>
@@ -140,14 +141,14 @@ public interface LBooleanBiFunction<R> extends LBooleanBiFunctionX<R, RuntimeExc
 	@Nonnull
 	default <V> LBooleanBiFunction<V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b1, boolean b2) -> after.apply(this.apply(b1, b2));
+		return (boolean b1, boolean b2) -> after.doApply(this.doApply(b1, b2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanBiConsumer then(@Nonnull LConsumer<? super R> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (boolean b1, boolean b2) -> after.accept(this.apply(b1, b2));
+		return (boolean b1, boolean b2) -> after.doAccept(this.doApply(b1, b2));
 	}
 
 	// </editor-fold>
@@ -175,7 +176,7 @@ public interface LBooleanBiFunction<R> extends LBooleanBiFunctionX<R, RuntimeExc
 
 	@Nonnull
 	default LBooleanBiFunction<R> nonNullable() {
-		return (b1, b2) -> Objects.requireNonNull(this.apply(b1, b2));
+		return (b1, b2) -> Objects.requireNonNull(this.doApply(b1, b2));
 	}
 
 	// <editor-fold desc="exception handling">
@@ -185,11 +186,11 @@ public interface LBooleanBiFunction<R> extends LBooleanBiFunctionX<R, RuntimeExc
 	public static <R, X extends Exception, E extends Exception, Y extends RuntimeException> LBooleanBiFunction<R> wrapException(@Nonnull final LBooleanBiFunction<R> other, Class<E> exception, LSupplier<R> supplier, ExceptionHandler<E, Y> handler) {
 		return (boolean b1, boolean b2) -> {
 			try {
-				return other.apply(b1, b2);
+				return other.doApply(b1, b2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.get();
+						return supplier.doGet();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

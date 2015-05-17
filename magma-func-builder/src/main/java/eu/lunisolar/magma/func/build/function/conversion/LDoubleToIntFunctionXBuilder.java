@@ -99,12 +99,12 @@ public final class LDoubleToIntFunctionXBuilder<X extends Exception> extends Per
 			final Case<LDoublePredicateX<X>, LDoubleToIntFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LDoubleToIntFunctionX.lX((double d) -> {
 				for (Case<LDoublePredicateX<X>, LDoubleToIntFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(d)) {
-						return aCase.caseFunction().applyAsInt(d);
+					if (aCase.casePredicate().doTest(d)) {
+						return aCase.caseFunction().doApplyAsInt(d);
 					}
 				}
 
-				return eventuallyFinal.applyAsInt(d);
+				return eventuallyFinal.doApplyAsInt(d);
 			});
 		}
 

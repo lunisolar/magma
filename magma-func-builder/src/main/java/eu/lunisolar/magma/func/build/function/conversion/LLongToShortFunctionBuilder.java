@@ -99,12 +99,12 @@ public final class LLongToShortFunctionBuilder extends PerCaseBuilderWithShortPr
 			final Case<LLongPredicate, LLongToShortFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LLongToShortFunction.l((long l) -> {
 				for (Case<LLongPredicate, LLongToShortFunction> aCase : casesArray) {
-					if (aCase.casePredicate().test(l)) {
-						return aCase.caseFunction().applyAsShort(l);
+					if (aCase.casePredicate().doTest(l)) {
+						return aCase.caseFunction().doApplyAsShort(l);
 					}
 				}
 
-				return eventuallyFinal.applyAsShort(l);
+				return eventuallyFinal.doApplyAsShort(l);
 			});
 		}
 

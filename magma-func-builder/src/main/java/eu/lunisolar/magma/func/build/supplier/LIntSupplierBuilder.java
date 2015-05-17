@@ -99,12 +99,12 @@ public final class LIntSupplierBuilder extends PerCaseBuilderWithIntProduct.Base
 			final Case<LBooleanSupplier, LIntSupplier>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LIntSupplier.l(() -> {
 				for (Case<LBooleanSupplier, LIntSupplier> aCase : casesArray) {
-					if (aCase.casePredicate().getAsBoolean()) {
-						return aCase.caseFunction().getAsInt();
+					if (aCase.casePredicate().doGetAsBoolean()) {
+						return aCase.caseFunction().doGetAsInt();
 					}
 				}
 
-				return eventuallyFinal.getAsInt();
+				return eventuallyFinal.doGetAsInt();
 			});
 		}
 

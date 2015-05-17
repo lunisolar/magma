@@ -99,12 +99,12 @@ public final class LToByteFunctionBuilder<T> extends PerCaseBuilderWithByteProdu
 			final Case<LPredicate<T>, LToByteFunction<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LToByteFunction.l((T t) -> {
 				for (Case<LPredicate<T>, LToByteFunction<T>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t)) {
-						return aCase.caseFunction().applyAsByte(t);
+					if (aCase.casePredicate().doTest(t)) {
+						return aCase.caseFunction().doApplyAsByte(t);
 					}
 				}
 
-				return eventuallyFinal.applyAsByte(t);
+				return eventuallyFinal.doApplyAsByte(t);
 			});
 		}
 

@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBooleanSupplierX<X extends Exception> extends MetaSupplier, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LBooleanSupplierX: boolean getAsBoolean() throws X";
+	public static final String DESCRIPTION = "LBooleanSupplierX: boolean doGetAsBoolean() throws X";
 
-	public boolean getAsBoolean() throws X;
+	public boolean doGetAsBoolean() throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -76,7 +76,7 @@ public interface LBooleanSupplierX<X extends Exception> extends MetaSupplier, Pr
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default boolean nonNull() throws X {
-		return getAsBoolean();
+		return doGetAsBoolean();
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -97,7 +97,7 @@ public interface LBooleanSupplierX<X extends Exception> extends MetaSupplier, Pr
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LBooleanSupplierX<X> wrapX(final @Nonnull LBooleanSupplier other) {
-		return other::getAsBoolean;
+		return other::doGetAsBoolean;
 	}
 
 	// </editor-fold>
@@ -108,63 +108,63 @@ public interface LBooleanSupplierX<X extends Exception> extends MetaSupplier, Pr
 	@Nonnull
 	default <V> LSupplierX<V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.apply(this.getAsBoolean());
+		return () -> after.doApply(this.doGetAsBoolean());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LByteSupplierX<X> thenToByte(@Nonnull LBooleanToByteFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsByte(this.getAsBoolean());
+		return () -> after.doApplyAsByte(this.doGetAsBoolean());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LShortSupplierX<X> thenToShort(@Nonnull LBooleanToShortFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsShort(this.getAsBoolean());
+		return () -> after.doApplyAsShort(this.doGetAsBoolean());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LIntSupplierX<X> thenToInt(@Nonnull LBooleanToIntFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsInt(this.getAsBoolean());
+		return () -> after.doApplyAsInt(this.doGetAsBoolean());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LLongSupplierX<X> thenToLong(@Nonnull LBooleanToLongFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsLong(this.getAsBoolean());
+		return () -> after.doApplyAsLong(this.doGetAsBoolean());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LFloatSupplierX<X> thenToFloat(@Nonnull LBooleanToFloatFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsFloat(this.getAsBoolean());
+		return () -> after.doApplyAsFloat(this.doGetAsBoolean());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LDoubleSupplierX<X> thenToDouble(@Nonnull LBooleanToDoubleFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsDouble(this.getAsBoolean());
+		return () -> after.doApplyAsDouble(this.doGetAsBoolean());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LCharSupplierX<X> thenToChar(@Nonnull LBooleanToCharFunctionX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsChar(this.getAsBoolean());
+		return () -> after.doApplyAsChar(this.doGetAsBoolean());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LBooleanSupplierX<X> thenToBoolean(@Nonnull LBooleanUnaryOperatorX<X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return () -> after.applyAsBoolean(this.getAsBoolean());
+		return () -> after.doApplyAsBoolean(this.doGetAsBoolean());
 	}
 
 	// </editor-fold>
@@ -174,7 +174,7 @@ public interface LBooleanSupplierX<X extends Exception> extends MetaSupplier, Pr
 	/** Converts to JRE variant. */
 	@Nonnull
 	default java.util.function.BooleanSupplier std() {
-		return LBooleanSupplier.wrap(this)::getAsBoolean;
+		return LBooleanSupplier.wrap(this)::doGetAsBoolean;
 	}
 
 	/** Converts to non-throwing variant (if required). */
@@ -192,7 +192,7 @@ public interface LBooleanSupplierX<X extends Exception> extends MetaSupplier, Pr
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBooleanSupplier shove() {
 		LBooleanSupplierX<RuntimeException> exceptionCast = (LBooleanSupplierX<RuntimeException>) this;
-		return exceptionCast::getAsBoolean;
+		return exceptionCast::doGetAsBoolean;
 	}
 
 	// </editor-fold>
@@ -204,11 +204,11 @@ public interface LBooleanSupplierX<X extends Exception> extends MetaSupplier, Pr
 	public static <X extends Exception, E extends Exception, Y extends Exception> LBooleanSupplierX<Y> wrapException(@Nonnull final LBooleanSupplierX<X> other, Class<E> exception, LBooleanSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
 		return () -> {
 			try {
-				return other.getAsBoolean();
+				return other.doGetAsBoolean();
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsBoolean();
+						return supplier.doGetAsBoolean();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

@@ -99,12 +99,12 @@ public final class LLongToDoubleFunctionBuilder extends PerCaseBuilderWithDouble
 			final Case<LLongPredicate, LLongToDoubleFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LLongToDoubleFunction.l((long l) -> {
 				for (Case<LLongPredicate, LLongToDoubleFunction> aCase : casesArray) {
-					if (aCase.casePredicate().test(l)) {
-						return aCase.caseFunction().applyAsDouble(l);
+					if (aCase.casePredicate().doTest(l)) {
+						return aCase.caseFunction().doApplyAsDouble(l);
 					}
 				}
 
-				return eventuallyFinal.applyAsDouble(l);
+				return eventuallyFinal.doApplyAsDouble(l);
 			});
 		}
 

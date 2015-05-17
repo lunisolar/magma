@@ -99,12 +99,12 @@ public final class LToLongFunctionXBuilder<T, X extends Exception> extends PerCa
 			final Case<LPredicateX<T, X>, LToLongFunctionX<T, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LToLongFunctionX.lX((T t) -> {
 				for (Case<LPredicateX<T, X>, LToLongFunctionX<T, X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t)) {
-						return aCase.caseFunction().applyAsLong(t);
+					if (aCase.casePredicate().doTest(t)) {
+						return aCase.caseFunction().doApplyAsLong(t);
 					}
 				}
 
-				return eventuallyFinal.applyAsLong(t);
+				return eventuallyFinal.doApplyAsLong(t);
 			});
 		}
 

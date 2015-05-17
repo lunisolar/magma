@@ -99,12 +99,12 @@ public final class LBiObjBooleanFunctionBuilder<T1, T2, R> extends PerCaseBuilde
 			final Case<LBiObjBooleanPredicate<T1, T2>, LBiObjBooleanFunction<T1, T2, R>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LBiObjBooleanFunction.l((T1 t1, T2 t2, boolean b) -> {
 				for (Case<LBiObjBooleanPredicate<T1, T2>, LBiObjBooleanFunction<T1, T2, R>> aCase : casesArray) {
-					if (aCase.casePredicate().test(t1, t2, b)) {
-						return aCase.caseFunction().apply(t1, t2, b);
+					if (aCase.casePredicate().doTest(t1, t2, b)) {
+						return aCase.caseFunction().doApply(t1, t2, b);
 					}
 				}
 
-				return eventuallyFinal.apply(t1, t2, b);
+				return eventuallyFinal.doApply(t1, t2, b);
 			});
 		}
 

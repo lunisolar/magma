@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LDoubleBinaryOperatorX<X extends Exception> extends MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LDoubleBinaryOperatorX: double applyAsDouble(double d1,double d2) throws X";
+	public static final String DESCRIPTION = "LDoubleBinaryOperatorX: double doApplyAsDouble(double d1,double d2) throws X";
 
-	public double applyAsDouble(double d1, double d2) throws X;
+	public double doApplyAsDouble(double d1, double d2) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LDoubleBinaryOperatorX<X extends Exception> extends MetaOperato
 
 	/** Captures arguments but delays the evaluation. */
 	default LDoubleSupplierX<X> capture(double d1, double d2) {
-		return () -> this.applyAsDouble(d1, d2);
+		return () -> this.doApplyAsDouble(d1, d2);
 	}
 
 	public static <X extends Exception> LDoubleBinaryOperatorX<X> constant(double r) {
@@ -81,7 +81,7 @@ public interface LDoubleBinaryOperatorX<X extends Exception> extends MetaOperato
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default double nonNull(double d1, double d2) throws X {
-		return applyAsDouble(d1, d2);
+		return doApplyAsDouble(d1, d2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -102,7 +102,7 @@ public interface LDoubleBinaryOperatorX<X extends Exception> extends MetaOperato
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LDoubleBinaryOperatorX<X> wrapX(final @Nonnull LDoubleBinaryOperator other) {
-		return other::applyAsDouble;
+		return other::doApplyAsDouble;
 	}
 
 	// </editor-fold>
@@ -135,7 +135,7 @@ public interface LDoubleBinaryOperatorX<X extends Exception> extends MetaOperato
 	default LDoubleBinaryOperatorX<X> fromDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1, @Nonnull final LDoubleUnaryOperatorX<X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final double v1, final double v2) -> this.applyAsDouble(before1.applyAsDouble(v1), before2.applyAsDouble(v2));
+		return (final double v1, final double v2) -> this.doApplyAsDouble(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
 	}
 
 	/**
@@ -145,7 +145,7 @@ public interface LDoubleBinaryOperatorX<X extends Exception> extends MetaOperato
 	default <V1, V2> LToDoubleBiFunctionX<V1, V2, X> from(@Nonnull final LToDoubleFunctionX<? super V1, X> before1, @Nonnull final LToDoubleFunctionX<? super V2, X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.applyAsDouble(before1.applyAsDouble(v1), before2.applyAsDouble(v2));
+		return (V1 v1, V2 v2) -> this.doApplyAsDouble(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
 	}
 
 	// </editor-fold>
@@ -156,7 +156,7 @@ public interface LDoubleBinaryOperatorX<X extends Exception> extends MetaOperato
 	@Nonnull
 	default <V> LDoubleBiFunctionX<V, X> then(@Nonnull LDoubleFunctionX<? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (double d1, double d2) -> after.apply(this.applyAsDouble(d1, d2));
+		return (double d1, double d2) -> after.doApply(this.doApplyAsDouble(d1, d2));
 	}
 
 	// </editor-fold>
@@ -166,7 +166,7 @@ public interface LDoubleBinaryOperatorX<X extends Exception> extends MetaOperato
 	/** Converts to JRE variant. */
 	@Nonnull
 	default java.util.function.DoubleBinaryOperator std() {
-		return LDoubleBinaryOperator.wrap(this)::applyAsDouble;
+		return LDoubleBinaryOperator.wrap(this)::doApplyAsDouble;
 	}
 
 	/** Converts to non-throwing variant (if required). */
@@ -184,7 +184,7 @@ public interface LDoubleBinaryOperatorX<X extends Exception> extends MetaOperato
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LDoubleBinaryOperator shove() {
 		LDoubleBinaryOperatorX<RuntimeException> exceptionCast = (LDoubleBinaryOperatorX<RuntimeException>) this;
-		return exceptionCast::applyAsDouble;
+		return exceptionCast::doApplyAsDouble;
 	}
 
 	// </editor-fold>
@@ -196,11 +196,11 @@ public interface LDoubleBinaryOperatorX<X extends Exception> extends MetaOperato
 	public static <X extends Exception, E extends Exception, Y extends Exception> LDoubleBinaryOperatorX<Y> wrapException(@Nonnull final LDoubleBinaryOperatorX<X> other, Class<E> exception, LDoubleSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
 		return (double d1, double d2) -> {
 			try {
-				return other.applyAsDouble(d1, d2);
+				return other.doApplyAsDouble(d1, d2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsDouble();
+						return supplier.doGetAsDouble();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);

@@ -58,7 +58,7 @@ public interface LFloatToLongFunctionAssert<S extends LFloatToLongFunctionAssert
 
 		@Nonnull
 		public Evaluation<S, A, RS, Long, Exception> doesApplyAsLong(float f) {
-			return evaluation(() -> assertFactory.apply((Long) actual.applyAsLong(f)));
+			return evaluation(() -> assertFactory.apply((Long) actual.doApplyAsLong(f)));
 		}
 
 	}

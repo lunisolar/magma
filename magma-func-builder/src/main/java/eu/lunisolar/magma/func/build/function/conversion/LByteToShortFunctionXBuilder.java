@@ -99,12 +99,12 @@ public final class LByteToShortFunctionXBuilder<X extends Exception> extends Per
 			final Case<LBytePredicateX<X>, LByteToShortFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LByteToShortFunctionX.lX((byte b) -> {
 				for (Case<LBytePredicateX<X>, LByteToShortFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().test(b)) {
-						return aCase.caseFunction().applyAsShort(b);
+					if (aCase.casePredicate().doTest(b)) {
+						return aCase.caseFunction().doApplyAsShort(b);
 					}
 				}
 
-				return eventuallyFinal.applyAsShort(b);
+				return eventuallyFinal.doApplyAsShort(b);
 			});
 		}
 

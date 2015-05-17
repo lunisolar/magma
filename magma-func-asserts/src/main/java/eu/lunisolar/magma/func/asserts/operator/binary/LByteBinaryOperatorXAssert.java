@@ -63,7 +63,7 @@ public interface LByteBinaryOperatorXAssert<S extends LByteBinaryOperatorXAssert
 
 		@Nonnull
 		public Evaluation<S, A, RS, Byte, Exception> doesApplyAsByte(byte b1, byte b2) {
-			return evaluation(() -> assertFactory.apply((Byte) actual.applyAsByte(b1, b2)));
+			return evaluation(() -> assertFactory.apply((Byte) actual.doApplyAsByte(b1, b2)));
 		}
 
 	}

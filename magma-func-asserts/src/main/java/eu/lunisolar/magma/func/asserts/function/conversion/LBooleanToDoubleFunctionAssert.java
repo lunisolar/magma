@@ -58,7 +58,7 @@ public interface LBooleanToDoubleFunctionAssert<S extends LBooleanToDoubleFuncti
 
 		@Nonnull
 		public Evaluation<S, A, RS, Double, Exception> doesApplyAsDouble(boolean b) {
-			return evaluation(() -> assertFactory.apply((Double) actual.applyAsDouble(b)));
+			return evaluation(() -> assertFactory.apply((Double) actual.doApplyAsDouble(b)));
 		}
 
 	}

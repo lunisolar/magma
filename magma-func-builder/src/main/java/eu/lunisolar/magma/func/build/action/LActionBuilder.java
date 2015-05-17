@@ -99,13 +99,13 @@ public final class LActionBuilder extends PerCaseBuilder.Base<LActionBuilder, LB
 			final Case<LBooleanSupplier, LAction>[] casesArray = cases.toArray(new Case[cases.size()]);
 			retval = LAction.l(() -> {
 				for (Case<LBooleanSupplier, LAction> aCase : casesArray) {
-					if (aCase.casePredicate().getAsBoolean()) {
-						aCase.caseFunction().execute();
+					if (aCase.casePredicate().doGetAsBoolean()) {
+						aCase.caseFunction().doExecute();
 						return;
 					}
 				}
 
-				eventuallyFinal.execute();
+				eventuallyFinal.doExecute();
 			});
 		}
 

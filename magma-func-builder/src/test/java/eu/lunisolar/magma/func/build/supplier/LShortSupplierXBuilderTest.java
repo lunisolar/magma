@@ -69,7 +69,7 @@ public class LShortSupplierXBuilderTest<X extends ParseException>{
                 .shortSupplierX()
                 .build();
 
-            function.getAsShort();
+            function.doGetAsShort();
 
             fail("No exception were thrown.");
         } catch (Exception e) {

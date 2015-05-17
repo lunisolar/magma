@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LByteBinaryOperatorX<X extends Exception> extends MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LByteBinaryOperatorX: byte applyAsByte(byte b1,byte b2) throws X";
+	public static final String DESCRIPTION = "LByteBinaryOperatorX: byte doApplyAsByte(byte b1,byte b2) throws X";
 
-	public byte applyAsByte(byte b1, byte b2) throws X;
+	public byte doApplyAsByte(byte b1, byte b2) throws X;
 
 	/** Returns desxription of the functional interface. */
 	@Nonnull
@@ -72,7 +72,7 @@ public interface LByteBinaryOperatorX<X extends Exception> extends MetaOperator,
 
 	/** Captures arguments but delays the evaluation. */
 	default LByteSupplierX<X> capture(byte b1, byte b2) {
-		return () -> this.applyAsByte(b1, b2);
+		return () -> this.doApplyAsByte(b1, b2);
 	}
 
 	public static <X extends Exception> LByteBinaryOperatorX<X> constant(byte r) {
@@ -81,7 +81,7 @@ public interface LByteBinaryOperatorX<X extends Exception> extends MetaOperator,
 
 	/** Just to mirror the method: Ensures the result is not null */
 	default byte nonNull(byte b1, byte b2) throws X {
-		return applyAsByte(b1, b2);
+		return doApplyAsByte(b1, b2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -96,7 +96,7 @@ public interface LByteBinaryOperatorX<X extends Exception> extends MetaOperator,
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
 	public static <X extends Exception> LByteBinaryOperatorX<X> wrapX(final @Nonnull LByteBinaryOperator other) {
-		return other::applyAsByte;
+		return other::doApplyAsByte;
 	}
 
 	// </editor-fold>
@@ -129,7 +129,7 @@ public interface LByteBinaryOperatorX<X extends Exception> extends MetaOperator,
 	default LByteBinaryOperatorX<X> fromByte(@Nonnull final LByteUnaryOperatorX<X> before1, @Nonnull final LByteUnaryOperatorX<X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (final byte v1, final byte v2) -> this.applyAsByte(before1.applyAsByte(v1), before2.applyAsByte(v2));
+		return (final byte v1, final byte v2) -> this.doApplyAsByte(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
 	}
 
 	/**
@@ -139,7 +139,7 @@ public interface LByteBinaryOperatorX<X extends Exception> extends MetaOperator,
 	default <V1, V2> LToByteBiFunctionX<V1, V2, X> from(@Nonnull final LToByteFunctionX<? super V1, X> before1, @Nonnull final LToByteFunctionX<? super V2, X> before2) {
 		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
 		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		return (V1 v1, V2 v2) -> this.applyAsByte(before1.applyAsByte(v1), before2.applyAsByte(v2));
+		return (V1 v1, V2 v2) -> this.doApplyAsByte(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
 	}
 
 	// </editor-fold>
@@ -150,7 +150,7 @@ public interface LByteBinaryOperatorX<X extends Exception> extends MetaOperator,
 	@Nonnull
 	default <V> LByteBiFunctionX<V, X> then(@Nonnull LByteFunctionX<? extends V, X> after) {
 		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
-		return (byte b1, byte b2) -> after.apply(this.applyAsByte(b1, b2));
+		return (byte b1, byte b2) -> after.doApply(this.doApplyAsByte(b1, b2));
 	}
 
 	// </editor-fold>
@@ -172,7 +172,7 @@ public interface LByteBinaryOperatorX<X extends Exception> extends MetaOperator,
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LByteBinaryOperator shove() {
 		LByteBinaryOperatorX<RuntimeException> exceptionCast = (LByteBinaryOperatorX<RuntimeException>) this;
-		return exceptionCast::applyAsByte;
+		return exceptionCast::doApplyAsByte;
 	}
 
 	// </editor-fold>
@@ -184,11 +184,11 @@ public interface LByteBinaryOperatorX<X extends Exception> extends MetaOperator,
 	public static <X extends Exception, E extends Exception, Y extends Exception> LByteBinaryOperatorX<Y> wrapException(@Nonnull final LByteBinaryOperatorX<X> other, Class<E> exception, LByteSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
 		return (byte b1, byte b2) -> {
 			try {
-				return other.applyAsByte(b1, b2);
+				return other.doApplyAsByte(b1, b2);
 			} catch (Exception e) {
 				try {
 					if (supplier != null) {
-						return supplier.getAsByte();
+						return supplier.doGetAsByte();
 					}
 				} catch (Exception supplierException) {
 					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
