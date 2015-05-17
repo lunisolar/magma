@@ -2061,218 +2061,218 @@ public interface FunctionalAssertions {
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.UnaryOperator<T>, RS extends AbstractObjectAssert<RS, T>, T> StdUnaryOperatorAssert.Impl<A, RS, T> assertThat(java.util.function.UnaryOperator<T> functionalInterface) {
-		return new StdUnaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends java.util.function.UnaryOperator<T>, RS extends AbstractObjectAssert<RS, T>, T> UnaryOperatorAssert.Impl<A, RS, T> assertThat(java.util.function.UnaryOperator<T> functionalInterface) {
+		return new UnaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.BinaryOperator<T>, RS extends AbstractObjectAssert<RS, T>, T> StdBinaryOperatorAssert.Impl<A, RS, T> assertThat(java.util.function.BinaryOperator<T> functionalInterface) {
-		return new StdBinaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends java.util.function.BinaryOperator<T>, RS extends AbstractObjectAssert<RS, T>, T> BinaryOperatorAssert.Impl<A, RS, T> assertThat(java.util.function.BinaryOperator<T> functionalInterface) {
+		return new BinaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.IntUnaryOperator, RS extends AbstractIntegerAssert<RS>> StdIntUnaryOperatorAssert.Impl<A, RS> assertThat(java.util.function.IntUnaryOperator functionalInterface) {
-		return new StdIntUnaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends java.util.function.IntUnaryOperator, RS extends AbstractIntegerAssert<RS>> IntUnaryOperatorAssert.Impl<A, RS> assertThat(java.util.function.IntUnaryOperator functionalInterface) {
+		return new IntUnaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.LongUnaryOperator, RS extends AbstractLongAssert<RS>> StdLongUnaryOperatorAssert.Impl<A, RS> assertThat(java.util.function.LongUnaryOperator functionalInterface) {
-		return new StdLongUnaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends java.util.function.LongUnaryOperator, RS extends AbstractLongAssert<RS>> LongUnaryOperatorAssert.Impl<A, RS> assertThat(java.util.function.LongUnaryOperator functionalInterface) {
+		return new LongUnaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.DoubleUnaryOperator, RS extends AbstractDoubleAssert<RS>> StdDoubleUnaryOperatorAssert.Impl<A, RS> assertThat(java.util.function.DoubleUnaryOperator functionalInterface) {
-		return new StdDoubleUnaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends java.util.function.DoubleUnaryOperator, RS extends AbstractDoubleAssert<RS>> DoubleUnaryOperatorAssert.Impl<A, RS> assertThat(java.util.function.DoubleUnaryOperator functionalInterface) {
+		return new DoubleUnaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.IntBinaryOperator, RS extends AbstractIntegerAssert<RS>> StdIntBinaryOperatorAssert.Impl<A, RS> assertThat(java.util.function.IntBinaryOperator functionalInterface) {
-		return new StdIntBinaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends java.util.function.IntBinaryOperator, RS extends AbstractIntegerAssert<RS>> IntBinaryOperatorAssert.Impl<A, RS> assertThat(java.util.function.IntBinaryOperator functionalInterface) {
+		return new IntBinaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.LongBinaryOperator, RS extends AbstractLongAssert<RS>> StdLongBinaryOperatorAssert.Impl<A, RS> assertThat(java.util.function.LongBinaryOperator functionalInterface) {
-		return new StdLongBinaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends java.util.function.LongBinaryOperator, RS extends AbstractLongAssert<RS>> LongBinaryOperatorAssert.Impl<A, RS> assertThat(java.util.function.LongBinaryOperator functionalInterface) {
+		return new LongBinaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.DoubleBinaryOperator, RS extends AbstractDoubleAssert<RS>> StdDoubleBinaryOperatorAssert.Impl<A, RS> assertThat(java.util.function.DoubleBinaryOperator functionalInterface) {
-		return new StdDoubleBinaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends java.util.function.DoubleBinaryOperator, RS extends AbstractDoubleAssert<RS>> DoubleBinaryOperatorAssert.Impl<A, RS> assertThat(java.util.function.DoubleBinaryOperator functionalInterface) {
+		return new DoubleBinaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.Function<T, R>, RS extends AbstractObjectAssert<RS, R>, T, R> StdFunctionAssert.Impl<A, RS, T, R> assertThat(java.util.function.Function<T, R> functionalInterface) {
-		return new StdFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends java.util.function.Function<T, R>, RS extends AbstractObjectAssert<RS, R>, T, R> FunctionAssert.Impl<A, RS, T, R> assertThat(java.util.function.Function<T, R> functionalInterface) {
+		return new FunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.BiFunction<T1, T2, R>, RS extends AbstractObjectAssert<RS, R>, T1, T2, R> StdBiFunctionAssert.Impl<A, RS, T1, T2, R> assertThat(java.util.function.BiFunction<T1, T2, R> functionalInterface) {
-		return new StdBiFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends java.util.function.BiFunction<T1, T2, R>, RS extends AbstractObjectAssert<RS, R>, T1, T2, R> BiFunctionAssert.Impl<A, RS, T1, T2, R> assertThat(java.util.function.BiFunction<T1, T2, R> functionalInterface) {
+		return new BiFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.IntFunction<R>, RS extends AbstractObjectAssert<RS, R>, R> StdIntFunctionAssert.Impl<A, RS, R> assertThat(java.util.function.IntFunction<R> functionalInterface) {
-		return new StdIntFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends java.util.function.IntFunction<R>, RS extends AbstractObjectAssert<RS, R>, R> IntFunctionAssert.Impl<A, RS, R> assertThat(java.util.function.IntFunction<R> functionalInterface) {
+		return new IntFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.LongFunction<R>, RS extends AbstractObjectAssert<RS, R>, R> StdLongFunctionAssert.Impl<A, RS, R> assertThat(java.util.function.LongFunction<R> functionalInterface) {
-		return new StdLongFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends java.util.function.LongFunction<R>, RS extends AbstractObjectAssert<RS, R>, R> LongFunctionAssert.Impl<A, RS, R> assertThat(java.util.function.LongFunction<R> functionalInterface) {
+		return new LongFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.DoubleFunction<R>, RS extends AbstractObjectAssert<RS, R>, R> StdDoubleFunctionAssert.Impl<A, RS, R> assertThat(java.util.function.DoubleFunction<R> functionalInterface) {
-		return new StdDoubleFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends java.util.function.DoubleFunction<R>, RS extends AbstractObjectAssert<RS, R>, R> DoubleFunctionAssert.Impl<A, RS, R> assertThat(java.util.function.DoubleFunction<R> functionalInterface) {
+		return new DoubleFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.ToIntFunction<T>, RS extends AbstractIntegerAssert<RS>, T> StdToIntFunctionAssert.Impl<A, RS, T> assertThat(java.util.function.ToIntFunction<T> functionalInterface) {
-		return new StdToIntFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends java.util.function.ToIntFunction<T>, RS extends AbstractIntegerAssert<RS>, T> ToIntFunctionAssert.Impl<A, RS, T> assertThat(java.util.function.ToIntFunction<T> functionalInterface) {
+		return new ToIntFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.ToLongFunction<T>, RS extends AbstractLongAssert<RS>, T> StdToLongFunctionAssert.Impl<A, RS, T> assertThat(java.util.function.ToLongFunction<T> functionalInterface) {
-		return new StdToLongFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends java.util.function.ToLongFunction<T>, RS extends AbstractLongAssert<RS>, T> ToLongFunctionAssert.Impl<A, RS, T> assertThat(java.util.function.ToLongFunction<T> functionalInterface) {
+		return new ToLongFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.ToDoubleFunction<T>, RS extends AbstractDoubleAssert<RS>, T> StdToDoubleFunctionAssert.Impl<A, RS, T> assertThat(java.util.function.ToDoubleFunction<T> functionalInterface) {
-		return new StdToDoubleFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends java.util.function.ToDoubleFunction<T>, RS extends AbstractDoubleAssert<RS>, T> ToDoubleFunctionAssert.Impl<A, RS, T> assertThat(java.util.function.ToDoubleFunction<T> functionalInterface) {
+		return new ToDoubleFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.ToIntBiFunction<T1, T2>, RS extends AbstractIntegerAssert<RS>, T1, T2> StdToIntBiFunctionAssert.Impl<A, RS, T1, T2> assertThat(java.util.function.ToIntBiFunction<T1, T2> functionalInterface) {
-		return new StdToIntBiFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends java.util.function.ToIntBiFunction<T1, T2>, RS extends AbstractIntegerAssert<RS>, T1, T2> ToIntBiFunctionAssert.Impl<A, RS, T1, T2> assertThat(java.util.function.ToIntBiFunction<T1, T2> functionalInterface) {
+		return new ToIntBiFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.ToLongBiFunction<T1, T2>, RS extends AbstractLongAssert<RS>, T1, T2> StdToLongBiFunctionAssert.Impl<A, RS, T1, T2> assertThat(java.util.function.ToLongBiFunction<T1, T2> functionalInterface) {
-		return new StdToLongBiFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends java.util.function.ToLongBiFunction<T1, T2>, RS extends AbstractLongAssert<RS>, T1, T2> ToLongBiFunctionAssert.Impl<A, RS, T1, T2> assertThat(java.util.function.ToLongBiFunction<T1, T2> functionalInterface) {
+		return new ToLongBiFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.ToDoubleBiFunction<T1, T2>, RS extends AbstractDoubleAssert<RS>, T1, T2> StdToDoubleBiFunctionAssert.Impl<A, RS, T1, T2> assertThat(java.util.function.ToDoubleBiFunction<T1, T2> functionalInterface) {
-		return new StdToDoubleBiFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends java.util.function.ToDoubleBiFunction<T1, T2>, RS extends AbstractDoubleAssert<RS>, T1, T2> ToDoubleBiFunctionAssert.Impl<A, RS, T1, T2> assertThat(java.util.function.ToDoubleBiFunction<T1, T2> functionalInterface) {
+		return new ToDoubleBiFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.IntToLongFunction, RS extends AbstractLongAssert<RS>> StdIntToLongFunctionAssert.Impl<A, RS> assertThat(java.util.function.IntToLongFunction functionalInterface) {
-		return new StdIntToLongFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends java.util.function.IntToLongFunction, RS extends AbstractLongAssert<RS>> IntToLongFunctionAssert.Impl<A, RS> assertThat(java.util.function.IntToLongFunction functionalInterface) {
+		return new IntToLongFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.IntToDoubleFunction, RS extends AbstractDoubleAssert<RS>> StdIntToDoubleFunctionAssert.Impl<A, RS> assertThat(java.util.function.IntToDoubleFunction functionalInterface) {
-		return new StdIntToDoubleFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends java.util.function.IntToDoubleFunction, RS extends AbstractDoubleAssert<RS>> IntToDoubleFunctionAssert.Impl<A, RS> assertThat(java.util.function.IntToDoubleFunction functionalInterface) {
+		return new IntToDoubleFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.LongToIntFunction, RS extends AbstractIntegerAssert<RS>> StdLongToIntFunctionAssert.Impl<A, RS> assertThat(java.util.function.LongToIntFunction functionalInterface) {
-		return new StdLongToIntFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends java.util.function.LongToIntFunction, RS extends AbstractIntegerAssert<RS>> LongToIntFunctionAssert.Impl<A, RS> assertThat(java.util.function.LongToIntFunction functionalInterface) {
+		return new LongToIntFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.LongToDoubleFunction, RS extends AbstractDoubleAssert<RS>> StdLongToDoubleFunctionAssert.Impl<A, RS> assertThat(java.util.function.LongToDoubleFunction functionalInterface) {
-		return new StdLongToDoubleFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends java.util.function.LongToDoubleFunction, RS extends AbstractDoubleAssert<RS>> LongToDoubleFunctionAssert.Impl<A, RS> assertThat(java.util.function.LongToDoubleFunction functionalInterface) {
+		return new LongToDoubleFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.DoubleToIntFunction, RS extends AbstractIntegerAssert<RS>> StdDoubleToIntFunctionAssert.Impl<A, RS> assertThat(java.util.function.DoubleToIntFunction functionalInterface) {
-		return new StdDoubleToIntFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends java.util.function.DoubleToIntFunction, RS extends AbstractIntegerAssert<RS>> DoubleToIntFunctionAssert.Impl<A, RS> assertThat(java.util.function.DoubleToIntFunction functionalInterface) {
+		return new DoubleToIntFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.DoubleToLongFunction, RS extends AbstractLongAssert<RS>> StdDoubleToLongFunctionAssert.Impl<A, RS> assertThat(java.util.function.DoubleToLongFunction functionalInterface) {
-		return new StdDoubleToLongFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends java.util.function.DoubleToLongFunction, RS extends AbstractLongAssert<RS>> DoubleToLongFunctionAssert.Impl<A, RS> assertThat(java.util.function.DoubleToLongFunction functionalInterface) {
+		return new DoubleToLongFunctionAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.Predicate<T>, RS extends AbstractBooleanAssert<RS>, T> StdPredicateAssert.Impl<A, RS, T> assertThat(java.util.function.Predicate<T> functionalInterface) {
-		return new StdPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends java.util.function.Predicate<T>, RS extends AbstractBooleanAssert<RS>, T> PredicateAssert.Impl<A, RS, T> assertThat(java.util.function.Predicate<T> functionalInterface) {
+		return new PredicateAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.BiPredicate<T1, T2>, RS extends AbstractBooleanAssert<RS>, T1, T2> StdBiPredicateAssert.Impl<A, RS, T1, T2> assertThat(java.util.function.BiPredicate<T1, T2> functionalInterface) {
-		return new StdBiPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends java.util.function.BiPredicate<T1, T2>, RS extends AbstractBooleanAssert<RS>, T1, T2> BiPredicateAssert.Impl<A, RS, T1, T2> assertThat(java.util.function.BiPredicate<T1, T2> functionalInterface) {
+		return new BiPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.IntPredicate, RS extends AbstractBooleanAssert<RS>> StdIntPredicateAssert.Impl<A, RS> assertThat(java.util.function.IntPredicate functionalInterface) {
-		return new StdIntPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends java.util.function.IntPredicate, RS extends AbstractBooleanAssert<RS>> IntPredicateAssert.Impl<A, RS> assertThat(java.util.function.IntPredicate functionalInterface) {
+		return new IntPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.LongPredicate, RS extends AbstractBooleanAssert<RS>> StdLongPredicateAssert.Impl<A, RS> assertThat(java.util.function.LongPredicate functionalInterface) {
-		return new StdLongPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends java.util.function.LongPredicate, RS extends AbstractBooleanAssert<RS>> LongPredicateAssert.Impl<A, RS> assertThat(java.util.function.LongPredicate functionalInterface) {
+		return new LongPredicateAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.DoublePredicate, RS extends AbstractBooleanAssert<RS>> StdDoublePredicateAssert.Impl<A, RS> assertThat(java.util.function.DoublePredicate functionalInterface) {
-		return new StdDoublePredicateAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends java.util.function.DoublePredicate, RS extends AbstractBooleanAssert<RS>> DoublePredicateAssert.Impl<A, RS> assertThat(java.util.function.DoublePredicate functionalInterface) {
+		return new DoublePredicateAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.Supplier<R>, RS extends AbstractObjectAssert<RS, R>, R> StdSupplierAssert.Impl<A, RS, R> assertThat(java.util.function.Supplier<R> functionalInterface) {
-		return new StdSupplierAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends java.util.function.Supplier<R>, RS extends AbstractObjectAssert<RS, R>, R> SupplierAssert.Impl<A, RS, R> assertThat(java.util.function.Supplier<R> functionalInterface) {
+		return new SupplierAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.IntSupplier, RS extends AbstractIntegerAssert<RS>> StdIntSupplierAssert.Impl<A, RS> assertThat(java.util.function.IntSupplier functionalInterface) {
-		return new StdIntSupplierAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends java.util.function.IntSupplier, RS extends AbstractIntegerAssert<RS>> IntSupplierAssert.Impl<A, RS> assertThat(java.util.function.IntSupplier functionalInterface) {
+		return new IntSupplierAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.LongSupplier, RS extends AbstractLongAssert<RS>> StdLongSupplierAssert.Impl<A, RS> assertThat(java.util.function.LongSupplier functionalInterface) {
-		return new StdLongSupplierAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends java.util.function.LongSupplier, RS extends AbstractLongAssert<RS>> LongSupplierAssert.Impl<A, RS> assertThat(java.util.function.LongSupplier functionalInterface) {
+		return new LongSupplierAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.DoubleSupplier, RS extends AbstractDoubleAssert<RS>> StdDoubleSupplierAssert.Impl<A, RS> assertThat(java.util.function.DoubleSupplier functionalInterface) {
-		return new StdDoubleSupplierAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends java.util.function.DoubleSupplier, RS extends AbstractDoubleAssert<RS>> DoubleSupplierAssert.Impl<A, RS> assertThat(java.util.function.DoubleSupplier functionalInterface) {
+		return new DoubleSupplierAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.BooleanSupplier, RS extends AbstractBooleanAssert<RS>> StdBooleanSupplierAssert.Impl<A, RS> assertThat(java.util.function.BooleanSupplier functionalInterface) {
-		return new StdBooleanSupplierAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends java.util.function.BooleanSupplier, RS extends AbstractBooleanAssert<RS>> BooleanSupplierAssert.Impl<A, RS> assertThat(java.util.function.BooleanSupplier functionalInterface) {
+		return new BooleanSupplierAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.Consumer<T>, T> StdConsumerAssert.Impl<A, T> assertThat(java.util.function.Consumer<T> functionalInterface) {
-		return new StdConsumerAssert.Impl(functionalInterface);
+	public static <A extends java.util.function.Consumer<T>, T> ConsumerAssert.Impl<A, T> assertThat(java.util.function.Consumer<T> functionalInterface) {
+		return new ConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.BiConsumer<T1, T2>, T1, T2> StdBiConsumerAssert.Impl<A, T1, T2> assertThat(java.util.function.BiConsumer<T1, T2> functionalInterface) {
-		return new StdBiConsumerAssert.Impl(functionalInterface);
+	public static <A extends java.util.function.BiConsumer<T1, T2>, T1, T2> BiConsumerAssert.Impl<A, T1, T2> assertThat(java.util.function.BiConsumer<T1, T2> functionalInterface) {
+		return new BiConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.IntConsumer> StdIntConsumerAssert.Impl<A> assertThat(java.util.function.IntConsumer functionalInterface) {
-		return new StdIntConsumerAssert.Impl(functionalInterface);
+	public static <A extends java.util.function.IntConsumer> IntConsumerAssert.Impl<A> assertThat(java.util.function.IntConsumer functionalInterface) {
+		return new IntConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.LongConsumer> StdLongConsumerAssert.Impl<A> assertThat(java.util.function.LongConsumer functionalInterface) {
-		return new StdLongConsumerAssert.Impl(functionalInterface);
+	public static <A extends java.util.function.LongConsumer> LongConsumerAssert.Impl<A> assertThat(java.util.function.LongConsumer functionalInterface) {
+		return new LongConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.DoubleConsumer> StdDoubleConsumerAssert.Impl<A> assertThat(java.util.function.DoubleConsumer functionalInterface) {
-		return new StdDoubleConsumerAssert.Impl(functionalInterface);
+	public static <A extends java.util.function.DoubleConsumer> DoubleConsumerAssert.Impl<A> assertThat(java.util.function.DoubleConsumer functionalInterface) {
+		return new DoubleConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.ObjIntConsumer<T>, T> StdObjIntConsumerAssert.Impl<A, T> assertThat(java.util.function.ObjIntConsumer<T> functionalInterface) {
-		return new StdObjIntConsumerAssert.Impl(functionalInterface);
+	public static <A extends java.util.function.ObjIntConsumer<T>, T> ObjIntConsumerAssert.Impl<A, T> assertThat(java.util.function.ObjIntConsumer<T> functionalInterface) {
+		return new ObjIntConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.ObjLongConsumer<T>, T> StdObjLongConsumerAssert.Impl<A, T> assertThat(java.util.function.ObjLongConsumer<T> functionalInterface) {
-		return new StdObjLongConsumerAssert.Impl(functionalInterface);
+	public static <A extends java.util.function.ObjLongConsumer<T>, T> ObjLongConsumerAssert.Impl<A, T> assertThat(java.util.function.ObjLongConsumer<T> functionalInterface) {
+		return new ObjLongConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	public static <A extends java.util.function.ObjDoubleConsumer<T>, T> StdObjDoubleConsumerAssert.Impl<A, T> assertThat(java.util.function.ObjDoubleConsumer<T> functionalInterface) {
-		return new StdObjDoubleConsumerAssert.Impl(functionalInterface);
+	public static <A extends java.util.function.ObjDoubleConsumer<T>, T> ObjDoubleConsumerAssert.Impl<A, T> assertThat(java.util.function.ObjDoubleConsumer<T> functionalInterface) {
+		return new ObjDoubleConsumerAssert.Impl(functionalInterface);
 	}
 
 }

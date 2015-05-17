@@ -2763,261 +2763,261 @@ public interface DefaultFunctionalAssertions<OS extends Assert> extends BasicAss
 	}
 
 	@Nonnull
-	default <A extends java.util.function.UnaryOperator<T>, T> StdUnaryOperatorAssert.Impl<A, ? extends OS, T> assertThat(java.util.function.UnaryOperator<T> functionalInterface) { // NOSONAR
+	default <A extends java.util.function.UnaryOperator<T>, T> UnaryOperatorAssert.Impl<A, ? extends OS, T> assertThat(java.util.function.UnaryOperator<T> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new StdUnaryOperatorAssert.Impl(functionalInterface, assertFunc);
+		return new UnaryOperatorAssert.Impl(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.BinaryOperator<T>, T> StdBinaryOperatorAssert.Impl<A, ? extends OS, T> assertThat(java.util.function.BinaryOperator<T> functionalInterface) { // NOSONAR
+	default <A extends java.util.function.BinaryOperator<T>, T> BinaryOperatorAssert.Impl<A, ? extends OS, T> assertThat(java.util.function.BinaryOperator<T> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new StdBinaryOperatorAssert.Impl(functionalInterface, assertFunc);
+		return new BinaryOperatorAssert.Impl(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.IntUnaryOperator> StdIntUnaryOperatorAssert.Impl<A, ? extends AbstractIntegerAssert> assertThat(java.util.function.IntUnaryOperator functionalInterface) {
+	default <A extends java.util.function.IntUnaryOperator> IntUnaryOperatorAssert.Impl<A, ? extends AbstractIntegerAssert> assertThat(java.util.function.IntUnaryOperator functionalInterface) {
 		Function<Integer, AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new StdIntUnaryOperatorAssert.Impl(functionalInterface, assertFunc);
+		return new IntUnaryOperatorAssert.Impl(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.LongUnaryOperator> StdLongUnaryOperatorAssert.Impl<A, ? extends AbstractLongAssert> assertThat(java.util.function.LongUnaryOperator functionalInterface) {
+	default <A extends java.util.function.LongUnaryOperator> LongUnaryOperatorAssert.Impl<A, ? extends AbstractLongAssert> assertThat(java.util.function.LongUnaryOperator functionalInterface) {
 		Function<Long, AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new StdLongUnaryOperatorAssert.Impl(functionalInterface, assertFunc);
+		return new LongUnaryOperatorAssert.Impl(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.DoubleUnaryOperator> StdDoubleUnaryOperatorAssert.Impl<A, ? extends AbstractDoubleAssert> assertThat(java.util.function.DoubleUnaryOperator functionalInterface) {
+	default <A extends java.util.function.DoubleUnaryOperator> DoubleUnaryOperatorAssert.Impl<A, ? extends AbstractDoubleAssert> assertThat(java.util.function.DoubleUnaryOperator functionalInterface) {
 		Function<Double, AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new StdDoubleUnaryOperatorAssert.Impl(functionalInterface, assertFunc);
+		return new DoubleUnaryOperatorAssert.Impl(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.IntBinaryOperator> StdIntBinaryOperatorAssert.Impl<A, ? extends AbstractIntegerAssert> assertThat(java.util.function.IntBinaryOperator functionalInterface) {
+	default <A extends java.util.function.IntBinaryOperator> IntBinaryOperatorAssert.Impl<A, ? extends AbstractIntegerAssert> assertThat(java.util.function.IntBinaryOperator functionalInterface) {
 		Function<Integer, AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new StdIntBinaryOperatorAssert.Impl(functionalInterface, assertFunc);
+		return new IntBinaryOperatorAssert.Impl(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.LongBinaryOperator> StdLongBinaryOperatorAssert.Impl<A, ? extends AbstractLongAssert> assertThat(java.util.function.LongBinaryOperator functionalInterface) {
+	default <A extends java.util.function.LongBinaryOperator> LongBinaryOperatorAssert.Impl<A, ? extends AbstractLongAssert> assertThat(java.util.function.LongBinaryOperator functionalInterface) {
 		Function<Long, AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new StdLongBinaryOperatorAssert.Impl(functionalInterface, assertFunc);
+		return new LongBinaryOperatorAssert.Impl(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.DoubleBinaryOperator> StdDoubleBinaryOperatorAssert.Impl<A, ? extends AbstractDoubleAssert> assertThat(java.util.function.DoubleBinaryOperator functionalInterface) {
+	default <A extends java.util.function.DoubleBinaryOperator> DoubleBinaryOperatorAssert.Impl<A, ? extends AbstractDoubleAssert> assertThat(java.util.function.DoubleBinaryOperator functionalInterface) {
 		Function<Double, AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new StdDoubleBinaryOperatorAssert.Impl(functionalInterface, assertFunc);
+		return new DoubleBinaryOperatorAssert.Impl(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.Function<T, R>, T, R> StdFunctionAssert.Impl<A, ? extends OS, T, R> assertThat(java.util.function.Function<T, R> functionalInterface) { // NOSONAR
+	default <A extends java.util.function.Function<T, R>, T, R> FunctionAssert.Impl<A, ? extends OS, T, R> assertThat(java.util.function.Function<T, R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new StdFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new FunctionAssert.Impl(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.BiFunction<T1, T2, R>, T1, T2, R> StdBiFunctionAssert.Impl<A, ? extends OS, T1, T2, R> assertThat(java.util.function.BiFunction<T1, T2, R> functionalInterface) { // NOSONAR
+	default <A extends java.util.function.BiFunction<T1, T2, R>, T1, T2, R> BiFunctionAssert.Impl<A, ? extends OS, T1, T2, R> assertThat(java.util.function.BiFunction<T1, T2, R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new StdBiFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new BiFunctionAssert.Impl(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.IntFunction<R>, R> StdIntFunctionAssert.Impl<A, ? extends OS, R> assertThat(java.util.function.IntFunction<R> functionalInterface) { // NOSONAR
+	default <A extends java.util.function.IntFunction<R>, R> IntFunctionAssert.Impl<A, ? extends OS, R> assertThat(java.util.function.IntFunction<R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new StdIntFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new IntFunctionAssert.Impl(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.LongFunction<R>, R> StdLongFunctionAssert.Impl<A, ? extends OS, R> assertThat(java.util.function.LongFunction<R> functionalInterface) { // NOSONAR
+	default <A extends java.util.function.LongFunction<R>, R> LongFunctionAssert.Impl<A, ? extends OS, R> assertThat(java.util.function.LongFunction<R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new StdLongFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LongFunctionAssert.Impl(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.DoubleFunction<R>, R> StdDoubleFunctionAssert.Impl<A, ? extends OS, R> assertThat(java.util.function.DoubleFunction<R> functionalInterface) { // NOSONAR
+	default <A extends java.util.function.DoubleFunction<R>, R> DoubleFunctionAssert.Impl<A, ? extends OS, R> assertThat(java.util.function.DoubleFunction<R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new StdDoubleFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new DoubleFunctionAssert.Impl(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.ToIntFunction<T>, T> StdToIntFunctionAssert.Impl<A, ? extends AbstractIntegerAssert, T> assertThat(java.util.function.ToIntFunction<T> functionalInterface) {
+	default <A extends java.util.function.ToIntFunction<T>, T> ToIntFunctionAssert.Impl<A, ? extends AbstractIntegerAssert, T> assertThat(java.util.function.ToIntFunction<T> functionalInterface) {
 		Function<Integer, AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new StdToIntFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new ToIntFunctionAssert.Impl(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.ToLongFunction<T>, T> StdToLongFunctionAssert.Impl<A, ? extends AbstractLongAssert, T> assertThat(java.util.function.ToLongFunction<T> functionalInterface) {
+	default <A extends java.util.function.ToLongFunction<T>, T> ToLongFunctionAssert.Impl<A, ? extends AbstractLongAssert, T> assertThat(java.util.function.ToLongFunction<T> functionalInterface) {
 		Function<Long, AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new StdToLongFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new ToLongFunctionAssert.Impl(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.ToDoubleFunction<T>, T> StdToDoubleFunctionAssert.Impl<A, ? extends AbstractDoubleAssert, T> assertThat(java.util.function.ToDoubleFunction<T> functionalInterface) {
+	default <A extends java.util.function.ToDoubleFunction<T>, T> ToDoubleFunctionAssert.Impl<A, ? extends AbstractDoubleAssert, T> assertThat(java.util.function.ToDoubleFunction<T> functionalInterface) {
 		Function<Double, AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new StdToDoubleFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new ToDoubleFunctionAssert.Impl(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.ToIntBiFunction<T1, T2>, T1, T2> StdToIntBiFunctionAssert.Impl<A, ? extends AbstractIntegerAssert, T1, T2> assertThat(java.util.function.ToIntBiFunction<T1, T2> functionalInterface) {
+	default <A extends java.util.function.ToIntBiFunction<T1, T2>, T1, T2> ToIntBiFunctionAssert.Impl<A, ? extends AbstractIntegerAssert, T1, T2> assertThat(java.util.function.ToIntBiFunction<T1, T2> functionalInterface) {
 		Function<Integer, AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new StdToIntBiFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new ToIntBiFunctionAssert.Impl(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.ToLongBiFunction<T1, T2>, T1, T2> StdToLongBiFunctionAssert.Impl<A, ? extends AbstractLongAssert, T1, T2> assertThat(java.util.function.ToLongBiFunction<T1, T2> functionalInterface) {
+	default <A extends java.util.function.ToLongBiFunction<T1, T2>, T1, T2> ToLongBiFunctionAssert.Impl<A, ? extends AbstractLongAssert, T1, T2> assertThat(java.util.function.ToLongBiFunction<T1, T2> functionalInterface) {
 		Function<Long, AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new StdToLongBiFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new ToLongBiFunctionAssert.Impl(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.ToDoubleBiFunction<T1, T2>, T1, T2> StdToDoubleBiFunctionAssert.Impl<A, ? extends AbstractDoubleAssert, T1, T2> assertThat(java.util.function.ToDoubleBiFunction<T1, T2> functionalInterface) {
+	default <A extends java.util.function.ToDoubleBiFunction<T1, T2>, T1, T2> ToDoubleBiFunctionAssert.Impl<A, ? extends AbstractDoubleAssert, T1, T2> assertThat(java.util.function.ToDoubleBiFunction<T1, T2> functionalInterface) {
 		Function<Double, AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new StdToDoubleBiFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new ToDoubleBiFunctionAssert.Impl(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.IntToLongFunction> StdIntToLongFunctionAssert.Impl<A, ? extends AbstractLongAssert> assertThat(java.util.function.IntToLongFunction functionalInterface) {
+	default <A extends java.util.function.IntToLongFunction> IntToLongFunctionAssert.Impl<A, ? extends AbstractLongAssert> assertThat(java.util.function.IntToLongFunction functionalInterface) {
 		Function<Long, AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new StdIntToLongFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new IntToLongFunctionAssert.Impl(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.IntToDoubleFunction> StdIntToDoubleFunctionAssert.Impl<A, ? extends AbstractDoubleAssert> assertThat(java.util.function.IntToDoubleFunction functionalInterface) {
+	default <A extends java.util.function.IntToDoubleFunction> IntToDoubleFunctionAssert.Impl<A, ? extends AbstractDoubleAssert> assertThat(java.util.function.IntToDoubleFunction functionalInterface) {
 		Function<Double, AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new StdIntToDoubleFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new IntToDoubleFunctionAssert.Impl(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.LongToIntFunction> StdLongToIntFunctionAssert.Impl<A, ? extends AbstractIntegerAssert> assertThat(java.util.function.LongToIntFunction functionalInterface) {
+	default <A extends java.util.function.LongToIntFunction> LongToIntFunctionAssert.Impl<A, ? extends AbstractIntegerAssert> assertThat(java.util.function.LongToIntFunction functionalInterface) {
 		Function<Integer, AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new StdLongToIntFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LongToIntFunctionAssert.Impl(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.LongToDoubleFunction> StdLongToDoubleFunctionAssert.Impl<A, ? extends AbstractDoubleAssert> assertThat(java.util.function.LongToDoubleFunction functionalInterface) {
+	default <A extends java.util.function.LongToDoubleFunction> LongToDoubleFunctionAssert.Impl<A, ? extends AbstractDoubleAssert> assertThat(java.util.function.LongToDoubleFunction functionalInterface) {
 		Function<Double, AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new StdLongToDoubleFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LongToDoubleFunctionAssert.Impl(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.DoubleToIntFunction> StdDoubleToIntFunctionAssert.Impl<A, ? extends AbstractIntegerAssert> assertThat(java.util.function.DoubleToIntFunction functionalInterface) {
+	default <A extends java.util.function.DoubleToIntFunction> DoubleToIntFunctionAssert.Impl<A, ? extends AbstractIntegerAssert> assertThat(java.util.function.DoubleToIntFunction functionalInterface) {
 		Function<Integer, AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new StdDoubleToIntFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new DoubleToIntFunctionAssert.Impl(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.DoubleToLongFunction> StdDoubleToLongFunctionAssert.Impl<A, ? extends AbstractLongAssert> assertThat(java.util.function.DoubleToLongFunction functionalInterface) {
+	default <A extends java.util.function.DoubleToLongFunction> DoubleToLongFunctionAssert.Impl<A, ? extends AbstractLongAssert> assertThat(java.util.function.DoubleToLongFunction functionalInterface) {
 		Function<Long, AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new StdDoubleToLongFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new DoubleToLongFunctionAssert.Impl(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.Predicate<T>, T> StdPredicateAssert.Impl<A, ? extends AbstractBooleanAssert, T> assertThat(java.util.function.Predicate<T> functionalInterface) {
+	default <A extends java.util.function.Predicate<T>, T> PredicateAssert.Impl<A, ? extends AbstractBooleanAssert, T> assertThat(java.util.function.Predicate<T> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new StdPredicateAssert.Impl(functionalInterface, assertFunc);
+		return new PredicateAssert.Impl(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.BiPredicate<T1, T2>, T1, T2> StdBiPredicateAssert.Impl<A, ? extends AbstractBooleanAssert, T1, T2> assertThat(java.util.function.BiPredicate<T1, T2> functionalInterface) {
+	default <A extends java.util.function.BiPredicate<T1, T2>, T1, T2> BiPredicateAssert.Impl<A, ? extends AbstractBooleanAssert, T1, T2> assertThat(java.util.function.BiPredicate<T1, T2> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new StdBiPredicateAssert.Impl(functionalInterface, assertFunc);
+		return new BiPredicateAssert.Impl(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.IntPredicate> StdIntPredicateAssert.Impl<A, ? extends AbstractBooleanAssert> assertThat(java.util.function.IntPredicate functionalInterface) {
+	default <A extends java.util.function.IntPredicate> IntPredicateAssert.Impl<A, ? extends AbstractBooleanAssert> assertThat(java.util.function.IntPredicate functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new StdIntPredicateAssert.Impl(functionalInterface, assertFunc);
+		return new IntPredicateAssert.Impl(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.LongPredicate> StdLongPredicateAssert.Impl<A, ? extends AbstractBooleanAssert> assertThat(java.util.function.LongPredicate functionalInterface) {
+	default <A extends java.util.function.LongPredicate> LongPredicateAssert.Impl<A, ? extends AbstractBooleanAssert> assertThat(java.util.function.LongPredicate functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new StdLongPredicateAssert.Impl(functionalInterface, assertFunc);
+		return new LongPredicateAssert.Impl(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.DoublePredicate> StdDoublePredicateAssert.Impl<A, ? extends AbstractBooleanAssert> assertThat(java.util.function.DoublePredicate functionalInterface) {
+	default <A extends java.util.function.DoublePredicate> DoublePredicateAssert.Impl<A, ? extends AbstractBooleanAssert> assertThat(java.util.function.DoublePredicate functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new StdDoublePredicateAssert.Impl(functionalInterface, assertFunc);
+		return new DoublePredicateAssert.Impl(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.Supplier<R>, R> StdSupplierAssert.Impl<A, ? extends OS, R> assertThat(java.util.function.Supplier<R> functionalInterface) { // NOSONAR
+	default <A extends java.util.function.Supplier<R>, R> SupplierAssert.Impl<A, ? extends OS, R> assertThat(java.util.function.Supplier<R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new StdSupplierAssert.Impl(functionalInterface, assertFunc);
+		return new SupplierAssert.Impl(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.IntSupplier> StdIntSupplierAssert.Impl<A, ? extends AbstractIntegerAssert> assertThat(java.util.function.IntSupplier functionalInterface) {
+	default <A extends java.util.function.IntSupplier> IntSupplierAssert.Impl<A, ? extends AbstractIntegerAssert> assertThat(java.util.function.IntSupplier functionalInterface) {
 		Function<Integer, AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new StdIntSupplierAssert.Impl(functionalInterface, assertFunc);
+		return new IntSupplierAssert.Impl(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.LongSupplier> StdLongSupplierAssert.Impl<A, ? extends AbstractLongAssert> assertThat(java.util.function.LongSupplier functionalInterface) {
+	default <A extends java.util.function.LongSupplier> LongSupplierAssert.Impl<A, ? extends AbstractLongAssert> assertThat(java.util.function.LongSupplier functionalInterface) {
 		Function<Long, AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new StdLongSupplierAssert.Impl(functionalInterface, assertFunc);
+		return new LongSupplierAssert.Impl(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.DoubleSupplier> StdDoubleSupplierAssert.Impl<A, ? extends AbstractDoubleAssert> assertThat(java.util.function.DoubleSupplier functionalInterface) {
+	default <A extends java.util.function.DoubleSupplier> DoubleSupplierAssert.Impl<A, ? extends AbstractDoubleAssert> assertThat(java.util.function.DoubleSupplier functionalInterface) {
 		Function<Double, AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new StdDoubleSupplierAssert.Impl(functionalInterface, assertFunc);
+		return new DoubleSupplierAssert.Impl(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.BooleanSupplier> StdBooleanSupplierAssert.Impl<A, ? extends AbstractBooleanAssert> assertThat(java.util.function.BooleanSupplier functionalInterface) {
+	default <A extends java.util.function.BooleanSupplier> BooleanSupplierAssert.Impl<A, ? extends AbstractBooleanAssert> assertThat(java.util.function.BooleanSupplier functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new StdBooleanSupplierAssert.Impl(functionalInterface, assertFunc);
+		return new BooleanSupplierAssert.Impl(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.Consumer<T>, T> StdConsumerAssert.Impl<A, T> assertThat(java.util.function.Consumer<T> functionalInterface) {
-		return new StdConsumerAssert.Impl(functionalInterface);
+	default <A extends java.util.function.Consumer<T>, T> ConsumerAssert.Impl<A, T> assertThat(java.util.function.Consumer<T> functionalInterface) {
+		return new ConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.BiConsumer<T1, T2>, T1, T2> StdBiConsumerAssert.Impl<A, T1, T2> assertThat(java.util.function.BiConsumer<T1, T2> functionalInterface) {
-		return new StdBiConsumerAssert.Impl(functionalInterface);
+	default <A extends java.util.function.BiConsumer<T1, T2>, T1, T2> BiConsumerAssert.Impl<A, T1, T2> assertThat(java.util.function.BiConsumer<T1, T2> functionalInterface) {
+		return new BiConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.IntConsumer> StdIntConsumerAssert.Impl<A> assertThat(java.util.function.IntConsumer functionalInterface) {
-		return new StdIntConsumerAssert.Impl(functionalInterface);
+	default <A extends java.util.function.IntConsumer> IntConsumerAssert.Impl<A> assertThat(java.util.function.IntConsumer functionalInterface) {
+		return new IntConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.LongConsumer> StdLongConsumerAssert.Impl<A> assertThat(java.util.function.LongConsumer functionalInterface) {
-		return new StdLongConsumerAssert.Impl(functionalInterface);
+	default <A extends java.util.function.LongConsumer> LongConsumerAssert.Impl<A> assertThat(java.util.function.LongConsumer functionalInterface) {
+		return new LongConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.DoubleConsumer> StdDoubleConsumerAssert.Impl<A> assertThat(java.util.function.DoubleConsumer functionalInterface) {
-		return new StdDoubleConsumerAssert.Impl(functionalInterface);
+	default <A extends java.util.function.DoubleConsumer> DoubleConsumerAssert.Impl<A> assertThat(java.util.function.DoubleConsumer functionalInterface) {
+		return new DoubleConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.ObjIntConsumer<T>, T> StdObjIntConsumerAssert.Impl<A, T> assertThat(java.util.function.ObjIntConsumer<T> functionalInterface) {
-		return new StdObjIntConsumerAssert.Impl(functionalInterface);
+	default <A extends java.util.function.ObjIntConsumer<T>, T> ObjIntConsumerAssert.Impl<A, T> assertThat(java.util.function.ObjIntConsumer<T> functionalInterface) {
+		return new ObjIntConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.ObjLongConsumer<T>, T> StdObjLongConsumerAssert.Impl<A, T> assertThat(java.util.function.ObjLongConsumer<T> functionalInterface) {
-		return new StdObjLongConsumerAssert.Impl(functionalInterface);
+	default <A extends java.util.function.ObjLongConsumer<T>, T> ObjLongConsumerAssert.Impl<A, T> assertThat(java.util.function.ObjLongConsumer<T> functionalInterface) {
+		return new ObjLongConsumerAssert.Impl(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.ObjDoubleConsumer<T>, T> StdObjDoubleConsumerAssert.Impl<A, T> assertThat(java.util.function.ObjDoubleConsumer<T> functionalInterface) {
-		return new StdObjDoubleConsumerAssert.Impl(functionalInterface);
+	default <A extends java.util.function.ObjDoubleConsumer<T>, T> ObjDoubleConsumerAssert.Impl<A, T> assertThat(java.util.function.ObjDoubleConsumer<T> functionalInterface) {
+		return new ObjDoubleConsumerAssert.Impl(functionalInterface);
 	}
 
 }
