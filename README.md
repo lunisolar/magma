@@ -1,13 +1,13 @@
 Lunisolar Magma
 ===============
 
-
-Status: ![https://img.shields.io/github/release/lunisolar/magma.svg](https://img.shields.io/github/release/lunisolar/magma.svg)
+![https://img.shields.io/github/license/lunisolar/magma.svg](https://img.shields.io/github/license/lunisolar/magma.svg)
+![https://img.shields.io/github/release/lunisolar/magma.svg](https://img.shields.io/github/release/lunisolar/magma.svg)
 ![https://img.shields.io/github/tag/lunisolar/magma.svg](https://img.shields.io/github/tag/lunisolar/magma.svg)
 [![Build Status](https://travis-ci.org/lunisolar/magma.svg?branch=master)](https://travis-ci.org/lunisolar/magma)
 
 -----------------------------------------
-#### What it is?
+#### What is it?
 
 A library of throwing and non-throwing functional interfaces (lambda interfaces) for Java 8, supplemented with assertion classes and builders.
 
