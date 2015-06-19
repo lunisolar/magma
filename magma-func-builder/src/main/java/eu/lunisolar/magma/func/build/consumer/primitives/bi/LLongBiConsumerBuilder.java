@@ -20,11 +20,13 @@
 package eu.lunisolar.magma.func.build.consumer.primitives.bi;
 
 import eu.lunisolar.magma.func.consumer.primitives.bi.*;
+import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -51,6 +53,8 @@ public final class LLongBiConsumerBuilder extends PerCaseBuilder.Base<LLongBiCon
 
 	private Consumer<LLongBiConsumer> consumer;
 
+	private @Nullable HandlingInstructions handling;
+
 	public static final LLongBiConsumer EVENTUALLY_THROW = LLongBiConsumer.l((long l1, long l2) -> {
 		String message;
 		try {
@@ -59,7 +63,7 @@ public final class LLongBiConsumerBuilder extends PerCaseBuilder.Base<LLongBiCon
 				message = "No case specified for input data (no details can be provided).";
 			}
 
-			throw new UnsupportedOperationException(message);
+			throw new IllegalStateException(message);
 		});
 
 	public LLongBiConsumerBuilder(@Nullable Consumer<LLongBiConsumer> consumer) {
@@ -85,6 +89,17 @@ public final class LLongBiConsumerBuilder extends PerCaseBuilder.Base<LLongBiCon
 		return new LLongBiConsumerBuilder(consumer);
 	}
 
+	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
+	@Nonnull
+	public final LLongBiConsumerBuilder withHandling(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+		Null.nonNullArg(handling, "handling");
+		if (this.handling != null) {
+			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+		}
+		this.handling = handling;
+		return self();
+	}
+
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
 	@Nonnull
 	public final LLongBiConsumer build() {
@@ -93,11 +108,9 @@ public final class LLongBiConsumerBuilder extends PerCaseBuilder.Base<LLongBiCon
 
 		LLongBiConsumer retval;
 
-		if (cases.isEmpty()) {
-			retval = eventuallyFinal;
-		} else {
-			final Case<LBiLongPredicate, LLongBiConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
-			retval = LLongBiConsumer.l((long l1, long l2) -> {
+		final Case<LBiLongPredicate, LLongBiConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = LLongBiConsumer.l((long l1, long l2) -> {
+			try {
 				for (Case<LBiLongPredicate, LLongBiConsumer> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(l1, l2)) {
 						aCase.caseFunction().doAccept(l1, l2);
@@ -106,13 +119,20 @@ public final class LLongBiConsumerBuilder extends PerCaseBuilder.Base<LLongBiCon
 				}
 
 				eventuallyFinal.doAccept(l1, l2);
-			});
-		}
+			} catch (Throwable e) {
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);
 		}
 		return retval;
+	}
+
+	public final LLongBiConsumer build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+		this.withHandling(handling);
+		return build();
 	}
 
 }

@@ -24,6 +24,7 @@ import java.util.Comparator; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -78,7 +79,7 @@ public interface LTernaryOperator<T> extends LTernaryOperatorX<T, RuntimeExcepti
 	/** Ensures the result is not null */
 	@Nonnull
 	default T nonNullDoApply(T t1, T t2, T t3) {
-		return Objects.requireNonNull(doApply(t1, t2, t3), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Null.requireNonNull(doApply(t1, t2, t3), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -99,7 +100,7 @@ public interface LTernaryOperator<T> extends LTernaryOperatorX<T, RuntimeExcepti
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T> LTernaryOperator<T> l(final @Nonnull LTernaryOperator<T> lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -107,7 +108,7 @@ public interface LTernaryOperator<T> extends LTernaryOperatorX<T, RuntimeExcepti
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, X extends Exception> LTernaryOperator<T> wrap(final @Nonnull LTernaryOperatorX<T, X> other) {
+	public static <T, X extends Throwable> LTernaryOperator<T> wrap(final @Nonnull LTernaryOperatorX<T, X> other) {
 		return other::nestingDoApply;
 	}
 
@@ -118,12 +119,11 @@ public interface LTernaryOperator<T> extends LTernaryOperatorX<T, RuntimeExcepti
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default <V> LTriFunction<T, T, T, V> then(@Nonnull LFunction<? super T, ? extends V> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (T t1, T t2, T t3) -> after.doApply(this.doApply(t1, t2, t3));
 	}
 
 	// </editor-fold>
-
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
@@ -154,62 +154,5 @@ public interface LTernaryOperator<T> extends LTernaryOperatorX<T, RuntimeExcepti
 	default LTernaryOperator<T> nonNullable() {
 		return this::nonNullDoApply;
 	}
-
-	// <editor-fold desc="exception handling">
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <T, X extends Exception, E extends Exception, Y extends RuntimeException> LTernaryOperator<T> wrapException(@Nonnull final LTernaryOperator<T> other, Class<E> exception, LSupplier<T> supplier, ExceptionHandler<E, Y> handler) {
-		return (T t1, T t2, T t3) -> {
-			try {
-				return other.doApply(t1, t2, t3);
-			} catch (Exception e) {
-				try {
-					if (supplier != null) {
-						return supplier.doGet();
-					}
-				} catch (Exception supplierException) {
-					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
-				}
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
-	}
-
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
-	@Nonnull
-	default <E extends Exception, Y extends RuntimeException> LTernaryOperator<T> handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LTernaryOperator.wrapException(this, exception, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends RuntimeException> LTernaryOperator<T> handle(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LTernaryOperator.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <E extends Exception, Y extends RuntimeException> LTernaryOperator<T> handle(Class<E> exception, LSupplier<T> supplier) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LTernaryOperator.wrapException(this, exception, supplier, null);
-	}
-
-	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <Y extends RuntimeException> LTernaryOperator<T> handle(LSupplier<T> supplier) {
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LTernaryOperator.wrapException(this, Exception.class, supplier, null);
-	}
-
-	// </editor-fold>
 
 }

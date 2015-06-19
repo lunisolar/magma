@@ -24,6 +24,7 @@ import java.util.Comparator; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -102,7 +103,7 @@ public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>,
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LIntUnaryOperator l(final @Nonnull LIntUnaryOperator lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -116,7 +117,7 @@ public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>,
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Exception> LIntUnaryOperator wrap(final @Nonnull LIntUnaryOperatorX<X> other) {
+	public static <X extends Throwable> LIntUnaryOperator wrap(final @Nonnull LIntUnaryOperatorX<X> other) {
 		return other::nestingDoApplyAsInt;
 	}
 
@@ -129,7 +130,7 @@ public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>,
 	 */
 	@Nonnull
 	default LIntUnaryOperator fromInt(@Nonnull final LIntUnaryOperator before1) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
+		Null.nonNullArg(before1, "before1");
 		return (final int v1) -> this.doApplyAsInt(before1.doApplyAsInt(v1));
 	}
 
@@ -138,7 +139,7 @@ public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>,
 	 */
 	@Nonnull
 	default <V1> LToIntFunction<V1> from(@Nonnull final LToIntFunction<? super V1> before1) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
+		Null.nonNullArg(before1, "before1");
 		return (V1 v1) -> this.doApplyAsInt(before1.doApplyAsInt(v1));
 	}
 
@@ -149,63 +150,63 @@ public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>,
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default <V> LIntFunction<V> then(@Nonnull LIntFunction<? extends V> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (int i) -> after.doApply(this.doApplyAsInt(i));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LIntToByteFunction thenToByte(@Nonnull LIntToByteFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (int i) -> after.doApplyAsByte(this.doApplyAsInt(i));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LIntToShortFunction thenToShort(@Nonnull LIntToShortFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (int i) -> after.doApplyAsShort(this.doApplyAsInt(i));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LIntUnaryOperator thenToInt(@Nonnull LIntUnaryOperator after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (int i) -> after.doApplyAsInt(this.doApplyAsInt(i));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LIntToLongFunction thenToLong(@Nonnull LIntToLongFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (int i) -> after.doApplyAsLong(this.doApplyAsInt(i));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LIntToFloatFunction thenToFloat(@Nonnull LIntToFloatFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (int i) -> after.doApplyAsFloat(this.doApplyAsInt(i));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LIntToDoubleFunction thenToDouble(@Nonnull LIntToDoubleFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (int i) -> after.doApplyAsDouble(this.doApplyAsInt(i));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LIntToCharFunction thenToChar(@Nonnull LIntToCharFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (int i) -> after.doApplyAsChar(this.doApplyAsInt(i));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LIntPredicate thenToBoolean(@Nonnull LIntPredicate after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (int i) -> after.doTest(this.doApplyAsInt(i));
 	}
 
@@ -216,7 +217,6 @@ public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>,
 	public static LIntUnaryOperator identity() {
 		return t -> t;
 	}
-
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
@@ -239,63 +239,6 @@ public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>,
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LIntUnaryOperatorX<RuntimeException> shoveX() {
 		return this;
-	}
-
-	// </editor-fold>
-
-	// <editor-fold desc="exception handling">
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LIntUnaryOperator wrapException(@Nonnull final LIntUnaryOperator other, Class<E> exception, LIntSupplier supplier, ExceptionHandler<E, Y> handler) {
-		return (int i) -> {
-			try {
-				return other.doApplyAsInt(i);
-			} catch (Exception e) {
-				try {
-					if (supplier != null) {
-						return supplier.doGetAsInt();
-					}
-				} catch (Exception supplierException) {
-					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
-				}
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
-	}
-
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
-	@Nonnull
-	default <E extends Exception, Y extends RuntimeException> LIntUnaryOperator handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LIntUnaryOperator.wrapException(this, exception, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends RuntimeException> LIntUnaryOperator handle(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LIntUnaryOperator.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <E extends Exception, Y extends RuntimeException> LIntUnaryOperator handle(Class<E> exception, LIntSupplier supplier) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LIntUnaryOperator.wrapException(this, exception, supplier, null);
-	}
-
-	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <Y extends RuntimeException> LIntUnaryOperator handle(LIntSupplier supplier) {
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LIntUnaryOperator.wrapException(this, Exception.class, supplier, null);
 	}
 
 	// </editor-fold>

@@ -24,6 +24,7 @@ import java.util.Comparator; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -58,7 +59,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LShortFunctionX<R, X extends Exception> extends MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
+public interface LShortFunctionX<R, X extends Throwable> extends MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
 	public static final String DESCRIPTION = "LShortFunctionX: R doApply(short s) throws X";
 
@@ -68,9 +69,9 @@ public interface LShortFunctionX<R, X extends Exception> extends MetaFunction, M
 	default R nestingDoApply(short s) {
 		try {
 			return this.doApply(s);
-		} catch (RuntimeException e) {
+		} catch (RuntimeException | Error e) {
 			throw e;
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new NestedException(e);
 		}
 	}
@@ -79,12 +80,21 @@ public interface LShortFunctionX<R, X extends Exception> extends MetaFunction, M
 		return ((LShortFunctionX<R, RuntimeException>) this).doApply(s);
 	}
 
+	default <Y extends Throwable> R handlingDoApply(short s, HandlingInstructions<Throwable, Y> handling) throws Y {
+
+		try {
+			return this.doApply(s);
+		} catch (Throwable e) {
+			throw Handler.handleOrNest(e, handling);
+		}
+	}
+
 	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
 	@Nonnull
 	default R nonNullDoApply(short s) throws X {
-		return Objects.requireNonNull(doApply(s), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Null.requireNonNull(doApply(s), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -98,14 +108,21 @@ public interface LShortFunctionX<R, X extends Exception> extends MetaFunction, M
 		return () -> this.doApply(s);
 	}
 
-	public static <R, X extends Exception> LShortFunctionX<R, X> constant(R r) {
+	public static <R, X extends Throwable> LShortFunctionX<R, X> constant(R r) {
 		return (s) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <R, X extends Exception> LShortFunctionX<R, X> lX(final @Nonnull LShortFunctionX<R, X> lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+	public static <R, X extends Throwable> LShortFunctionX<R, X> lX(final @Nonnull LShortFunctionX<R, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	public static <R, X extends Throwable> LShortFunctionX<R, X> lX(@Nonnull Class<X> xClass, final @Nonnull LShortFunctionX<R, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -113,7 +130,7 @@ public interface LShortFunctionX<R, X extends Exception> extends MetaFunction, M
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <R, X extends Exception> LShortFunctionX<R, X> wrapX(final @Nonnull LShortFunction<R> other) {
+	public static <R, X extends Throwable> LShortFunctionX<R, X> wrapX(final @Nonnull LShortFunction<R> other) {
 		return (LShortFunctionX) other;
 	}
 
@@ -126,7 +143,7 @@ public interface LShortFunctionX<R, X extends Exception> extends MetaFunction, M
 	 */
 	@Nonnull
 	default LShortFunctionX<R, X> fromShort(@Nonnull final LShortUnaryOperatorX<X> before1) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
+		Null.nonNullArg(before1, "before1");
 		return (final short v1) -> this.doApply(before1.doApplyAsShort(v1));
 	}
 
@@ -135,7 +152,7 @@ public interface LShortFunctionX<R, X extends Exception> extends MetaFunction, M
 	 */
 	@Nonnull
 	default <V1> LFunctionX<V1, R, X> from(@Nonnull final LToShortFunctionX<? super V1, X> before1) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
+		Null.nonNullArg(before1, "before1");
 		return (V1 v1) -> this.doApply(before1.doApplyAsShort(v1));
 	}
 
@@ -146,75 +163,74 @@ public interface LShortFunctionX<R, X extends Exception> extends MetaFunction, M
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default <V> LShortFunctionX<V, X> then(@Nonnull LFunctionX<? super R, ? extends V, X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (short s) -> after.doApply(this.doApply(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortConsumerX<X> then(@Nonnull LConsumerX<? super R, X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (short s) -> after.doAccept(this.doApply(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToByteFunctionX<X> thenToByte(@Nonnull LToByteFunctionX<? super R, X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (short s) -> after.doApplyAsByte(this.doApply(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortUnaryOperatorX<X> thenToShort(@Nonnull LToShortFunctionX<? super R, X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (short s) -> after.doApplyAsShort(this.doApply(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToIntFunctionX<X> thenToInt(@Nonnull LToIntFunctionX<? super R, X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (short s) -> after.doApplyAsInt(this.doApply(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToLongFunctionX<X> thenToLong(@Nonnull LToLongFunctionX<? super R, X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (short s) -> after.doApplyAsLong(this.doApply(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToFloatFunctionX<X> thenToFloat(@Nonnull LToFloatFunctionX<? super R, X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (short s) -> after.doApplyAsFloat(this.doApply(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToDoubleFunctionX<X> thenToDouble(@Nonnull LToDoubleFunctionX<? super R, X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (short s) -> after.doApplyAsDouble(this.doApply(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToCharFunctionX<X> thenToChar(@Nonnull LToCharFunctionX<? super R, X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (short s) -> after.doApplyAsChar(this.doApply(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortPredicateX<X> thenToBoolean(@Nonnull LPredicateX<? super R, X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (short s) -> after.doTest(this.doApply(s));
 	}
 
 	// </editor-fold>
-
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
@@ -248,57 +264,14 @@ public interface LShortFunctionX<R, X extends Exception> extends MetaFunction, M
 
 	// <editor-fold desc="exception handling">
 
-	/** Wraps with additional exception handling. */
 	@Nonnull
-	public static <R, X extends Exception, E extends Exception, Y extends Exception> LShortFunctionX<R, Y> wrapException(@Nonnull final LShortFunctionX<R, X> other, Class<E> exception, LSupplierX<R, X> supplier, ExceptionHandler<E, Y> handler) {
-		return (short s) -> {
-			try {
-				return other.doApply(s);
-			} catch (Exception e) {
-				try {
-					if (supplier != null) {
-						return supplier.doGet();
-					}
-				} catch (Exception supplierException) {
-					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
-				}
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
+	default LShortFunction<R> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+		return (short s) -> this.handlingDoApply(s, handling);
 	}
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <E extends Exception, Y extends Exception> LShortFunctionX<R, Y> handleX(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LShortFunctionX.wrapException(this, exception, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends Exception> LShortFunctionX<R, Y> handleX(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LShortFunctionX.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <E extends Exception, Y extends Exception> LShortFunctionX<R, Y> handleX(Class<E> exception, LSupplierX<R, X> supplier) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LShortFunctionX.wrapException(this, exception, supplier, null);
-	}
-
-	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <Y extends Exception> LShortFunctionX<R, Y> handleX(LSupplierX<R, X> supplier) {
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LShortFunctionX.wrapException(this, Exception.class, supplier, null);
+	default <Y extends Throwable> LShortFunctionX<R, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+		return (short s) -> this.handlingDoApply(s, handling);
 	}
 
 	// </editor-fold>

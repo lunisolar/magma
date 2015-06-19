@@ -47,6 +47,7 @@ import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
@@ -86,19 +87,19 @@ public class LIntBinaryOperatorXTest<X extends ParseException> {
 
 
     @Test
-    public void testTheResult() throws ParseException {
+    public void testTheResult() throws X {
         assertThat(sut.doApplyAsInt((int)100,(int)100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNonNullDoApplyAsInt() throws ParseException {
+    public void testNonNullDoApplyAsInt() throws X {
         assertThat(sut.nonNullDoApplyAsInt((int)100,(int)100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsInt_checked() throws ParseException {
+    public void testNestingDoApplyAsInt_checked() throws X {
 
         // then
         try {
@@ -113,7 +114,7 @@ public class LIntBinaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApplyAsInt_unckeck() throws ParseException {
+    public void testNestingDoApplyAsInt_unckeck() throws X {
 
         // then
         try {
@@ -128,7 +129,7 @@ public class LIntBinaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsInt_checked() throws ParseException {
+    public void testShovingDoApplyAsInt_checked() throws X {
 
         // then
         try {
@@ -143,7 +144,7 @@ public class LIntBinaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsInt_unckeck() throws ParseException {
+    public void testShovingDoApplyAsInt_unckeck() throws X {
 
         // then
         try {
@@ -160,32 +161,32 @@ public class LIntBinaryOperatorXTest<X extends ParseException> {
 
 
     @Test
-    public void testFunctionalInterfaceDescription() throws ParseException {
+    public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
             .isEqualTo("LIntBinaryOperatorX: int doApplyAsInt(int i1,int i2) throws X");
     }
 
     @Test
-    public void testLXMethod() throws ParseException {
+    public void testLXMethod() throws X {
         assertThat(LIntBinaryOperatorX.lX((int i1,int i2) -> testValue ))
             .isInstanceOf(LIntBinaryOperatorX.class);
     }
 
     @Test
-    public void testWrapXMethod() throws ParseException {
+    public void testWrapXMethod() throws X {
         assertThat(LIntBinaryOperatorX.wrapX(opposite))
             .isInstanceOf(LIntBinaryOperatorX.class);
     }
 
     @Test
-    public void testWrapStdMethod() throws ParseException {
+    public void testWrapStdMethod() throws X {
         assertThat(LIntBinaryOperatorX.wrap(jre))
             .isInstanceOf(LIntBinaryOperatorX.class);
     }
 
 
     @Test
-    public void testWrapExceptionMethodWrapsTheException() throws ParseException {
+    public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
         LIntBinaryOperatorX<X> sutThrowing = LIntBinaryOperatorX.lX((int i1,int i2) -> {
@@ -193,8 +194,8 @@ public class LIntBinaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        LIntBinaryOperatorX<X> wrapped = LIntBinaryOperatorX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
-            throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
+        LIntBinaryOperatorX<X> wrapped = sutThrowing.handleX(h -> {
+            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
         // then
@@ -210,7 +211,7 @@ public class LIntBinaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException() throws ParseException {
+    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
 
         // given
         LIntBinaryOperatorX<X> sutThrowing = LIntBinaryOperatorX.lX((int i1,int i2) -> {
@@ -218,9 +219,9 @@ public class LIntBinaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        LIntBinaryOperatorX<X> wrapped = LIntBinaryOperatorX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
-            throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
-        });
+        LIntBinaryOperatorX<X> wrapped = sutThrowing.handleX(handler -> handler
+                .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
+                .throwIf(IndexOutOfBoundsException.class));
 
         // then
         try {
@@ -233,17 +234,41 @@ public class LIntBinaryOperatorXTest<X extends ParseException> {
         }
     }
 
-    @Test
-    public void testWrapExceptionMisshandlingExceptionIsDetected() throws ParseException {
+@Test
+    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
 
         // given
         LIntBinaryOperatorX<X> sutThrowing = LIntBinaryOperatorX.lX((int i1,int i2) -> {
-            throw new UnsupportedOperationException();
+            throw new IndexOutOfBoundsException();
         });
 
         // when
-        LIntBinaryOperatorX<X> wrapped = LIntBinaryOperatorX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
-            return null;
+        LIntBinaryOperatorX<X> wrapped = sutThrowing.handleX(handler -> handler
+                .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
+                .throwIf(IndexOutOfBoundsException.class));
+
+        // then
+        try {
+            wrapped.doApplyAsInt((int)100,(int)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause();
+        }
+    }
+
+
+    @Test
+    public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
+
+        // given
+        LIntBinaryOperatorX<X> sutThrowing = LIntBinaryOperatorX.lX((int i1,int i2) -> {
+            throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
+        });
+
+        // when
+        LIntBinaryOperatorX<X> wrapped = sutThrowing.handleX(h -> {
         });
 
         // then
@@ -252,15 +277,15 @@ public class LIntBinaryOperatorXTest<X extends ParseException> {
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
-                    .isExactlyInstanceOf(ExceptionNotHandled.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage("Handler has not processed the exception.");
+                    .isExactlyInstanceOf(NestedException.class)
+                    .hasCauseExactlyInstanceOf(ParseException.class)
+                    .hasMessage(ORIGINAL_MESSAGE);
         }
     }
 
 
     @Test
-    public void testMin() throws ParseException {
+    public void testMin() throws X {
         //given
         int valueSmall = (int)100;
         int valueBig = (int)(valueSmall+10);
@@ -277,7 +302,7 @@ public class LIntBinaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testMax() throws ParseException {
+    public void testMax() throws X {
         //given
         int valueSmall = (int)100;
         int valueBig = (int)(valueSmall+10);
@@ -297,7 +322,7 @@ public class LIntBinaryOperatorXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromInt() throws ParseException {
+    public void testfromInt() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -332,7 +357,7 @@ public class LIntBinaryOperatorXTest<X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws ParseException {
+    public void testfrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -371,7 +396,7 @@ public class LIntBinaryOperatorXTest<X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testThen0() throws ParseException  {
+    public void testThen0() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -407,13 +432,7 @@ public class LIntBinaryOperatorXTest<X extends ParseException> {
 
 
     // </editor-fold>
-//
-//    @Test
-//    public void testStd() {
-//        assertThat(sut.std()).isInstanceOf(java.util.function.IntBinaryOperator.class);
-//    }
-//
-//
+
     @Test
     public void testNesting() {
         assertThat(sut.nest())
@@ -451,7 +470,7 @@ public class LIntBinaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testHandleX() throws ParseException {
+    public void testHandle() throws X {
 
         // given
         LIntBinaryOperatorX<X> sutThrowing = LIntBinaryOperatorX.lX((int i1,int i2) -> {
@@ -459,8 +478,8 @@ public class LIntBinaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        LIntBinaryOperatorX<X> wrapped = sutThrowing.handleX(UnsupportedOperationException.class, t -> {
-            throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
+        LIntBinaryOperatorX<X> wrapped = sutThrowing.handleX(h -> {
+            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
         // then
@@ -476,7 +495,7 @@ public class LIntBinaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testToString() throws ParseException {
+    public void testToString() throws X {
 
         assertThat(sut.toString())
                 .isInstanceOf(String.class)

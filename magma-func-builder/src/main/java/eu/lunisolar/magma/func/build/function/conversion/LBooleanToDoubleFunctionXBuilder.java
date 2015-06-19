@@ -20,11 +20,13 @@
 package eu.lunisolar.magma.func.build.function.conversion;
 
 import eu.lunisolar.magma.func.function.conversion.*;
+import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -47,9 +49,11 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for LBooleanToDoubleFunctionX. */
-public final class LBooleanToDoubleFunctionXBuilder<X extends Exception> extends PerCaseBuilderWithDoubleProduct.Base<LBooleanToDoubleFunctionXBuilder<X>, LBooleanUnaryOperatorX<X>, LBooleanToDoubleFunctionX<X>> {
+public final class LBooleanToDoubleFunctionXBuilder<X extends Throwable> extends PerCaseBuilderWithDoubleProduct.Base<LBooleanToDoubleFunctionXBuilder<X>, LBooleanUnaryOperatorX<X>, LBooleanToDoubleFunctionX<X>> {
 
 	private Consumer<LBooleanToDoubleFunctionX<X>> consumer;
+
+	private @Nullable HandlingInstructions handling;
 
 	public static final LBooleanToDoubleFunctionX EVENTUALLY_THROW = LBooleanToDoubleFunctionX.lX((boolean b) -> {
 		String message;
@@ -59,7 +63,7 @@ public final class LBooleanToDoubleFunctionXBuilder<X extends Exception> extends
 				message = "No case specified for input data (no details can be provided).";
 			}
 
-			throw new UnsupportedOperationException(message);
+			throw new IllegalStateException(message);
 		});
 
 	public LBooleanToDoubleFunctionXBuilder(@Nullable Consumer<LBooleanToDoubleFunctionX<X>> consumer) {
@@ -75,14 +79,25 @@ public final class LBooleanToDoubleFunctionXBuilder<X extends Exception> extends
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <X extends Exception> LBooleanToDoubleFunctionXBuilder<X> booleanToDoubleFunctionX() {
+	public static final <X extends Throwable> LBooleanToDoubleFunctionXBuilder<X> booleanToDoubleFunctionX() {
 		return new LBooleanToDoubleFunctionXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <X extends Exception> LBooleanToDoubleFunctionXBuilder<X> booleanToDoubleFunctionX(Consumer<LBooleanToDoubleFunctionX<X>> consumer) {
+	public static final <X extends Throwable> LBooleanToDoubleFunctionXBuilder<X> booleanToDoubleFunctionX(Consumer<LBooleanToDoubleFunctionX<X>> consumer) {
 		return new LBooleanToDoubleFunctionXBuilder(consumer);
+	}
+
+	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
+	@Nonnull
+	public final LBooleanToDoubleFunctionXBuilder<X> withHandling(@Nonnull HandlingInstructions<X, X> handling) {
+		Null.nonNullArg(handling, "handling");
+		if (this.handling != null) {
+			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+		}
+		this.handling = handling;
+		return self();
 	}
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
@@ -93,11 +108,9 @@ public final class LBooleanToDoubleFunctionXBuilder<X extends Exception> extends
 
 		LBooleanToDoubleFunctionX<X> retval;
 
-		if (cases.isEmpty()) {
-			retval = eventuallyFinal;
-		} else {
-			final Case<LBooleanUnaryOperatorX<X>, LBooleanToDoubleFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-			retval = LBooleanToDoubleFunctionX.lX((boolean b) -> {
+		final Case<LBooleanUnaryOperatorX<X>, LBooleanToDoubleFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = LBooleanToDoubleFunctionX.lX((boolean b) -> {
+			try {
 				for (Case<LBooleanUnaryOperatorX<X>, LBooleanToDoubleFunctionX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doApplyAsBoolean(b)) {
 						return aCase.caseFunction().doApplyAsDouble(b);
@@ -105,13 +118,20 @@ public final class LBooleanToDoubleFunctionXBuilder<X extends Exception> extends
 				}
 
 				return eventuallyFinal.doApplyAsDouble(b);
-			});
-		}
+			} catch (Throwable e) {
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);
 		}
 		return retval;
+	}
+
+	public final LBooleanToDoubleFunctionX<X> build(@Nonnull HandlingInstructions<X, X> handling) {
+		this.withHandling(handling);
+		return build();
 	}
 
 }

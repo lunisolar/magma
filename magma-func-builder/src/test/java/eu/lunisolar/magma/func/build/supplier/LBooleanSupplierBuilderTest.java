@@ -48,41 +48,72 @@ import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
-import eu.lunisolar.magma.basics.NestedException; //NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 
 import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.supplier.LBooleanSupplierBuilder.booleanSupplier;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
-public class LBooleanSupplierBuilderTest<X extends ParseException>{
+public class LBooleanSupplierBuilderTest<X extends Throwable>{
 
     @SuppressWarnings("unchecked")
     public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
     @Test
-    public void testEventuallyThrow() throws Exception {
+    public void testEventuallyThrow() throws Throwable {
 
-        try {
-            LBooleanSupplier function = LBooleanSupplierBuilder
-                .booleanSupplier()
+        assertThatThrownBy(() -> {
+            LBooleanSupplier function = LBooleanSupplierBuilder.booleanSupplier()
                 .build();
 
             function.doGetAsBoolean();
 
             fail("No exception were thrown.");
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(UnsupportedOperationException.class)
+        })
+                    .isExactlyInstanceOf(IllegalStateException.class)
                     .hasMessageContaining("No case specified for:")
                     .hasMessageContaining(LBooleanSupplier.DESCRIPTION);
-
-        }
     }
 
     @Test
-    public void testBuild() throws Exception {
+    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+
+
+        assertThatThrownBy(() -> {
+            LBooleanSupplier function = LBooleanSupplierBuilder.booleanSupplier()
+                .withHandling(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
+                .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new));
+
+            fail("No exception were thrown.");
+        })
+                    .isExactlyInstanceOf(UnsupportedOperationException.class)
+                    .hasMessageContaining("Handling is allready set for this builder.");
+    }
+
+    @Test
+    public void testHandling() throws Throwable {
+
+        assertThatThrownBy(() -> {
+            LBooleanSupplier function = LBooleanSupplierBuilder.booleanSupplier()
+                .eventually(() -> {
+                        throw new RuntimeException("ORIGINAL");
+                    })
+                .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
+
+            function.doGetAsBoolean();
+
+            fail("No exception were thrown.");
+        })
+                    .isExactlyInstanceOf(IllegalStateException.class)
+                    .hasMessageContaining("NEW EXCEPTION")
+                    .hasCauseExactlyInstanceOf(RuntimeException.class);
+    }
+
+
+    @Test
+    public void testBuild() throws Throwable {
         final AtomicInteger externalInfluence = new AtomicInteger(0);
 
         LBooleanSupplier function = booleanSupplier((LBooleanSupplier f)-> doNothing())

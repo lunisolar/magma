@@ -24,6 +24,7 @@ import java.util.Comparator; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -95,7 +96,7 @@ public interface LLongToByteFunction extends LLongToByteFunctionX<RuntimeExcepti
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LLongToByteFunction l(final @Nonnull LLongToByteFunction lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -103,7 +104,7 @@ public interface LLongToByteFunction extends LLongToByteFunctionX<RuntimeExcepti
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Exception> LLongToByteFunction wrap(final @Nonnull LLongToByteFunctionX<X> other) {
+	public static <X extends Throwable> LLongToByteFunction wrap(final @Nonnull LLongToByteFunctionX<X> other) {
 		return other::nestingDoApplyAsByte;
 	}
 
@@ -116,7 +117,7 @@ public interface LLongToByteFunction extends LLongToByteFunctionX<RuntimeExcepti
 	 */
 	@Nonnull
 	default LLongToByteFunction fromLong(@Nonnull final LLongUnaryOperator before1) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
+		Null.nonNullArg(before1, "before1");
 		return (final long v1) -> this.doApplyAsByte(before1.doApplyAsLong(v1));
 	}
 
@@ -125,7 +126,7 @@ public interface LLongToByteFunction extends LLongToByteFunctionX<RuntimeExcepti
 	 */
 	@Nonnull
 	default <V1> LToByteFunction<V1> from(@Nonnull final LToLongFunction<? super V1> before1) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
+		Null.nonNullArg(before1, "before1");
 		return (V1 v1) -> this.doApplyAsByte(before1.doApplyAsLong(v1));
 	}
 
@@ -136,68 +137,67 @@ public interface LLongToByteFunction extends LLongToByteFunctionX<RuntimeExcepti
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default <V> LLongFunction<V> then(@Nonnull LByteFunction<? extends V> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (long l) -> after.doApply(this.doApplyAsByte(l));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToByteFunction thenToByte(@Nonnull LByteUnaryOperator after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (long l) -> after.doApplyAsByte(this.doApplyAsByte(l));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToShortFunction thenToShort(@Nonnull LByteToShortFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (long l) -> after.doApplyAsShort(this.doApplyAsByte(l));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToIntFunction thenToInt(@Nonnull LByteToIntFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (long l) -> after.doApplyAsInt(this.doApplyAsByte(l));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongUnaryOperator thenToLong(@Nonnull LByteToLongFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (long l) -> after.doApplyAsLong(this.doApplyAsByte(l));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToFloatFunction thenToFloat(@Nonnull LByteToFloatFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (long l) -> after.doApplyAsFloat(this.doApplyAsByte(l));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToDoubleFunction thenToDouble(@Nonnull LByteToDoubleFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (long l) -> after.doApplyAsDouble(this.doApplyAsByte(l));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToCharFunction thenToChar(@Nonnull LByteToCharFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (long l) -> after.doApplyAsChar(this.doApplyAsByte(l));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongPredicate thenToBoolean(@Nonnull LBytePredicate after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (long l) -> after.doTest(this.doApplyAsByte(l));
 	}
 
 	// </editor-fold>
-
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
@@ -220,63 +220,6 @@ public interface LLongToByteFunction extends LLongToByteFunctionX<RuntimeExcepti
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLongToByteFunctionX<RuntimeException> shoveX() {
 		return this;
-	}
-
-	// </editor-fold>
-
-	// <editor-fold desc="exception handling">
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LLongToByteFunction wrapException(@Nonnull final LLongToByteFunction other, Class<E> exception, LByteSupplier supplier, ExceptionHandler<E, Y> handler) {
-		return (long l) -> {
-			try {
-				return other.doApplyAsByte(l);
-			} catch (Exception e) {
-				try {
-					if (supplier != null) {
-						return supplier.doGetAsByte();
-					}
-				} catch (Exception supplierException) {
-					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
-				}
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
-	}
-
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
-	@Nonnull
-	default <E extends Exception, Y extends RuntimeException> LLongToByteFunction handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LLongToByteFunction.wrapException(this, exception, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends RuntimeException> LLongToByteFunction handle(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LLongToByteFunction.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <E extends Exception, Y extends RuntimeException> LLongToByteFunction handle(Class<E> exception, LByteSupplier supplier) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LLongToByteFunction.wrapException(this, exception, supplier, null);
-	}
-
-	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <Y extends RuntimeException> LLongToByteFunction handle(LByteSupplier supplier) {
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LLongToByteFunction.wrapException(this, Exception.class, supplier, null);
 	}
 
 	// </editor-fold>

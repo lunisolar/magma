@@ -48,41 +48,72 @@ import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
-import eu.lunisolar.magma.basics.NestedException; //NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 
 import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.predicate.LPredicateBuilder.predicate;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
-public class LPredicateBuilderTest<T,X extends ParseException>{
+public class LPredicateBuilderTest<T,X extends Throwable>{
 
     @SuppressWarnings("unchecked")
     public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
     @Test
-    public void testEventuallyThrow() throws Exception {
+    public void testEventuallyThrow() throws Throwable {
 
-        try {
-            LPredicate function = LPredicateBuilder
-                .predicate()
+        assertThatThrownBy(() -> {
+            LPredicate function = LPredicateBuilder.predicate()
                 .build();
 
             function.doTest((T)Integer.valueOf(100));
 
             fail("No exception were thrown.");
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(UnsupportedOperationException.class)
+        })
+                    .isExactlyInstanceOf(IllegalStateException.class)
                     .hasMessageContaining("No case specified for:")
                     .hasMessageContaining(LPredicate.DESCRIPTION);
-
-        }
     }
 
     @Test
-    public void testBuild() throws Exception {
+    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+
+
+        assertThatThrownBy(() -> {
+            LPredicate function = LPredicateBuilder.predicate()
+                .withHandling(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
+                .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new));
+
+            fail("No exception were thrown.");
+        })
+                    .isExactlyInstanceOf(UnsupportedOperationException.class)
+                    .hasMessageContaining("Handling is allready set for this builder.");
+    }
+
+    @Test
+    public void testHandling() throws Throwable {
+
+        assertThatThrownBy(() -> {
+            LPredicate function = LPredicateBuilder.predicate()
+                .eventually((t) -> {
+                        throw new RuntimeException("ORIGINAL");
+                    })
+                .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
+
+            function.doTest((T)Integer.valueOf(100));
+
+            fail("No exception were thrown.");
+        })
+                    .isExactlyInstanceOf(IllegalStateException.class)
+                    .hasMessageContaining("NEW EXCEPTION")
+                    .hasCauseExactlyInstanceOf(RuntimeException.class);
+    }
+
+
+    @Test
+    public void testBuild() throws Throwable {
 
         LPredicate<Integer > function = predicate((LPredicate<Integer > f)-> doNothing())
             .addCase(ce -> ce.of((t) -> t == Integer.valueOf(0))

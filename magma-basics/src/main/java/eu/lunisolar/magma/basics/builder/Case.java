@@ -19,23 +19,22 @@
 
 package eu.lunisolar.magma.basics.builder;
 
+import eu.lunisolar.magma.basics.Null;
+
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.ThreadSafe;
-import java.util.Objects;
 
 @Immutable
 @ThreadSafe
 public final class Case<P, F> {
-    private static final String ARGUMENT_CASE_PREDICATE_CANNOT_BE_NULL = "Argument [casePredicate] cannot be null.";
-    private static final String ARGUMENT_CASE_FUNCTION_CANNOT_BE_NULL  = "Argument [caseFunction] cannot be null.";
 
     private final P casePredicate;
     private final F caseFunction;
 
     public Case(@Nonnull P casePredicate, @Nonnull F caseFunction) {
-        Objects.requireNonNull(casePredicate, ARGUMENT_CASE_PREDICATE_CANNOT_BE_NULL);
-        Objects.requireNonNull(caseFunction, ARGUMENT_CASE_FUNCTION_CANNOT_BE_NULL);
+        Null.nonNullArg(casePredicate, "casePredicate");
+        Null.nonNullArg(caseFunction, "caseFunction");
         this.casePredicate = casePredicate;
         this.caseFunction = caseFunction;
     }

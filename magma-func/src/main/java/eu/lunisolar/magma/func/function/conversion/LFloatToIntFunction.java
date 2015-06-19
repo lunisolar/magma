@@ -24,6 +24,7 @@ import java.util.Comparator; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -95,7 +96,7 @@ public interface LFloatToIntFunction extends LFloatToIntFunctionX<RuntimeExcepti
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LFloatToIntFunction l(final @Nonnull LFloatToIntFunction lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -103,7 +104,7 @@ public interface LFloatToIntFunction extends LFloatToIntFunctionX<RuntimeExcepti
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Exception> LFloatToIntFunction wrap(final @Nonnull LFloatToIntFunctionX<X> other) {
+	public static <X extends Throwable> LFloatToIntFunction wrap(final @Nonnull LFloatToIntFunctionX<X> other) {
 		return other::nestingDoApplyAsInt;
 	}
 
@@ -116,7 +117,7 @@ public interface LFloatToIntFunction extends LFloatToIntFunctionX<RuntimeExcepti
 	 */
 	@Nonnull
 	default LFloatToIntFunction fromFloat(@Nonnull final LFloatUnaryOperator before1) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
+		Null.nonNullArg(before1, "before1");
 		return (final float v1) -> this.doApplyAsInt(before1.doApplyAsFloat(v1));
 	}
 
@@ -125,7 +126,7 @@ public interface LFloatToIntFunction extends LFloatToIntFunctionX<RuntimeExcepti
 	 */
 	@Nonnull
 	default <V1> LToIntFunction<V1> from(@Nonnull final LToFloatFunction<? super V1> before1) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
+		Null.nonNullArg(before1, "before1");
 		return (V1 v1) -> this.doApplyAsInt(before1.doApplyAsFloat(v1));
 	}
 
@@ -136,68 +137,67 @@ public interface LFloatToIntFunction extends LFloatToIntFunctionX<RuntimeExcepti
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default <V> LFloatFunction<V> then(@Nonnull LIntFunction<? extends V> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (float f) -> after.doApply(this.doApplyAsInt(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToByteFunction thenToByte(@Nonnull LIntToByteFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (float f) -> after.doApplyAsByte(this.doApplyAsInt(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToShortFunction thenToShort(@Nonnull LIntToShortFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (float f) -> after.doApplyAsShort(this.doApplyAsInt(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToIntFunction thenToInt(@Nonnull LIntUnaryOperator after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (float f) -> after.doApplyAsInt(this.doApplyAsInt(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToLongFunction thenToLong(@Nonnull LIntToLongFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (float f) -> after.doApplyAsLong(this.doApplyAsInt(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatUnaryOperator thenToFloat(@Nonnull LIntToFloatFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (float f) -> after.doApplyAsFloat(this.doApplyAsInt(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToDoubleFunction thenToDouble(@Nonnull LIntToDoubleFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (float f) -> after.doApplyAsDouble(this.doApplyAsInt(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToCharFunction thenToChar(@Nonnull LIntToCharFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (float f) -> after.doApplyAsChar(this.doApplyAsInt(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatPredicate thenToBoolean(@Nonnull LIntPredicate after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (float f) -> after.doTest(this.doApplyAsInt(f));
 	}
 
 	// </editor-fold>
-
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
@@ -220,63 +220,6 @@ public interface LFloatToIntFunction extends LFloatToIntFunctionX<RuntimeExcepti
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LFloatToIntFunctionX<RuntimeException> shoveX() {
 		return this;
-	}
-
-	// </editor-fold>
-
-	// <editor-fold desc="exception handling">
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LFloatToIntFunction wrapException(@Nonnull final LFloatToIntFunction other, Class<E> exception, LIntSupplier supplier, ExceptionHandler<E, Y> handler) {
-		return (float f) -> {
-			try {
-				return other.doApplyAsInt(f);
-			} catch (Exception e) {
-				try {
-					if (supplier != null) {
-						return supplier.doGetAsInt();
-					}
-				} catch (Exception supplierException) {
-					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
-				}
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
-	}
-
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
-	@Nonnull
-	default <E extends Exception, Y extends RuntimeException> LFloatToIntFunction handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LFloatToIntFunction.wrapException(this, exception, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends RuntimeException> LFloatToIntFunction handle(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LFloatToIntFunction.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <E extends Exception, Y extends RuntimeException> LFloatToIntFunction handle(Class<E> exception, LIntSupplier supplier) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LFloatToIntFunction.wrapException(this, exception, supplier, null);
-	}
-
-	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <Y extends RuntimeException> LFloatToIntFunction handle(LIntSupplier supplier) {
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LFloatToIntFunction.wrapException(this, Exception.class, supplier, null);
 	}
 
 	// </editor-fold>

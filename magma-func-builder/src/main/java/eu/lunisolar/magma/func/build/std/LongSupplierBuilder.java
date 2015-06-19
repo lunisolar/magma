@@ -19,11 +19,13 @@
 
 package eu.lunisolar.magma.func.build.std;
 
+import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -50,6 +52,8 @@ public final class LongSupplierBuilder extends PerCaseBuilderWithLongProduct.Bas
 
 	private Consumer<java.util.function.LongSupplier> consumer;
 
+	private @Nullable HandlingInstructions handling;
+
 	public static final java.util.function.LongSupplier EVENTUALLY_THROW = Function4U.longSupplier(() -> {
 		String message;
 		try {
@@ -58,7 +62,7 @@ public final class LongSupplierBuilder extends PerCaseBuilderWithLongProduct.Bas
 				message = "No case specified for input data (no details can be provided).";
 			}
 
-			throw new UnsupportedOperationException(message);
+			throw new IllegalStateException(message);
 		});
 
 	public LongSupplierBuilder(@Nullable Consumer<java.util.function.LongSupplier> consumer) {
@@ -84,6 +88,17 @@ public final class LongSupplierBuilder extends PerCaseBuilderWithLongProduct.Bas
 		return new LongSupplierBuilder(consumer);
 	}
 
+	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
+	@Nonnull
+	public final LongSupplierBuilder withHandling(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+		Null.nonNullArg(handling, "handling");
+		if (this.handling != null) {
+			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+		}
+		this.handling = handling;
+		return self();
+	}
+
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
 	@Nonnull
 	public final java.util.function.LongSupplier build() {
@@ -92,11 +107,9 @@ public final class LongSupplierBuilder extends PerCaseBuilderWithLongProduct.Bas
 
 		java.util.function.LongSupplier retval;
 
-		if (cases.isEmpty()) {
-			retval = eventuallyFinal;
-		} else {
-			final Case<LBooleanSupplier, java.util.function.LongSupplier>[] casesArray = cases.toArray(new Case[cases.size()]);
-			retval = Function4U.l(() -> {
+		final Case<LBooleanSupplier, java.util.function.LongSupplier>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = Function4U.l(() -> {
+			try {
 				for (Case<LBooleanSupplier, java.util.function.LongSupplier> aCase : casesArray) {
 					if (aCase.casePredicate().doGetAsBoolean()) {
 						return aCase.caseFunction().getAsLong();
@@ -104,13 +117,20 @@ public final class LongSupplierBuilder extends PerCaseBuilderWithLongProduct.Bas
 				}
 
 				return eventuallyFinal.getAsLong();
-			});
-		}
+			} catch (Throwable e) {
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);
 		}
 		return retval;
+	}
+
+	public final java.util.function.LongSupplier build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+		this.withHandling(handling);
+		return build();
 	}
 
 }

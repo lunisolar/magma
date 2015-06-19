@@ -20,11 +20,13 @@
 package eu.lunisolar.magma.func.build.function.conversion;
 
 import eu.lunisolar.magma.func.function.conversion.*;
+import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -47,9 +49,11 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for LCharToShortFunctionX. */
-public final class LCharToShortFunctionXBuilder<X extends Exception> extends PerCaseBuilderWithShortProduct.Base<LCharToShortFunctionXBuilder<X>, LCharPredicateX<X>, LCharToShortFunctionX<X>> {
+public final class LCharToShortFunctionXBuilder<X extends Throwable> extends PerCaseBuilderWithShortProduct.Base<LCharToShortFunctionXBuilder<X>, LCharPredicateX<X>, LCharToShortFunctionX<X>> {
 
 	private Consumer<LCharToShortFunctionX<X>> consumer;
+
+	private @Nullable HandlingInstructions handling;
 
 	public static final LCharToShortFunctionX EVENTUALLY_THROW = LCharToShortFunctionX.lX((char c) -> {
 		String message;
@@ -59,7 +63,7 @@ public final class LCharToShortFunctionXBuilder<X extends Exception> extends Per
 				message = "No case specified for input data (no details can be provided).";
 			}
 
-			throw new UnsupportedOperationException(message);
+			throw new IllegalStateException(message);
 		});
 
 	public LCharToShortFunctionXBuilder(@Nullable Consumer<LCharToShortFunctionX<X>> consumer) {
@@ -75,14 +79,25 @@ public final class LCharToShortFunctionXBuilder<X extends Exception> extends Per
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <X extends Exception> LCharToShortFunctionXBuilder<X> charToShortFunctionX() {
+	public static final <X extends Throwable> LCharToShortFunctionXBuilder<X> charToShortFunctionX() {
 		return new LCharToShortFunctionXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <X extends Exception> LCharToShortFunctionXBuilder<X> charToShortFunctionX(Consumer<LCharToShortFunctionX<X>> consumer) {
+	public static final <X extends Throwable> LCharToShortFunctionXBuilder<X> charToShortFunctionX(Consumer<LCharToShortFunctionX<X>> consumer) {
 		return new LCharToShortFunctionXBuilder(consumer);
+	}
+
+	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
+	@Nonnull
+	public final LCharToShortFunctionXBuilder<X> withHandling(@Nonnull HandlingInstructions<X, X> handling) {
+		Null.nonNullArg(handling, "handling");
+		if (this.handling != null) {
+			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+		}
+		this.handling = handling;
+		return self();
 	}
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
@@ -93,11 +108,9 @@ public final class LCharToShortFunctionXBuilder<X extends Exception> extends Per
 
 		LCharToShortFunctionX<X> retval;
 
-		if (cases.isEmpty()) {
-			retval = eventuallyFinal;
-		} else {
-			final Case<LCharPredicateX<X>, LCharToShortFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-			retval = LCharToShortFunctionX.lX((char c) -> {
+		final Case<LCharPredicateX<X>, LCharToShortFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = LCharToShortFunctionX.lX((char c) -> {
+			try {
 				for (Case<LCharPredicateX<X>, LCharToShortFunctionX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(c)) {
 						return aCase.caseFunction().doApplyAsShort(c);
@@ -105,13 +118,20 @@ public final class LCharToShortFunctionXBuilder<X extends Exception> extends Per
 				}
 
 				return eventuallyFinal.doApplyAsShort(c);
-			});
-		}
+			} catch (Throwable e) {
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);
 		}
 		return retval;
+	}
+
+	public final LCharToShortFunctionX<X> build(@Nonnull HandlingInstructions<X, X> handling) {
+		this.withHandling(handling);
+		return build();
 	}
 
 }

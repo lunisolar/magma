@@ -24,6 +24,7 @@ import java.util.Comparator; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -95,7 +96,7 @@ public interface LShortUnaryOperator extends LShortUnaryOperatorX<RuntimeExcepti
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LShortUnaryOperator l(final @Nonnull LShortUnaryOperator lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -103,7 +104,7 @@ public interface LShortUnaryOperator extends LShortUnaryOperatorX<RuntimeExcepti
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Exception> LShortUnaryOperator wrap(final @Nonnull LShortUnaryOperatorX<X> other) {
+	public static <X extends Throwable> LShortUnaryOperator wrap(final @Nonnull LShortUnaryOperatorX<X> other) {
 		return other::nestingDoApplyAsShort;
 	}
 
@@ -116,7 +117,7 @@ public interface LShortUnaryOperator extends LShortUnaryOperatorX<RuntimeExcepti
 	 */
 	@Nonnull
 	default LShortUnaryOperator fromShort(@Nonnull final LShortUnaryOperator before1) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
+		Null.nonNullArg(before1, "before1");
 		return (final short v1) -> this.doApplyAsShort(before1.doApplyAsShort(v1));
 	}
 
@@ -125,7 +126,7 @@ public interface LShortUnaryOperator extends LShortUnaryOperatorX<RuntimeExcepti
 	 */
 	@Nonnull
 	default <V1> LToShortFunction<V1> from(@Nonnull final LToShortFunction<? super V1> before1) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
+		Null.nonNullArg(before1, "before1");
 		return (V1 v1) -> this.doApplyAsShort(before1.doApplyAsShort(v1));
 	}
 
@@ -136,63 +137,63 @@ public interface LShortUnaryOperator extends LShortUnaryOperatorX<RuntimeExcepti
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default <V> LShortFunction<V> then(@Nonnull LShortFunction<? extends V> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (short s) -> after.doApply(this.doApplyAsShort(s));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LShortToByteFunction thenToByte(@Nonnull LShortToByteFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (short s) -> after.doApplyAsByte(this.doApplyAsShort(s));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LShortUnaryOperator thenToShort(@Nonnull LShortUnaryOperator after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (short s) -> after.doApplyAsShort(this.doApplyAsShort(s));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LShortToIntFunction thenToInt(@Nonnull LShortToIntFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (short s) -> after.doApplyAsInt(this.doApplyAsShort(s));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LShortToLongFunction thenToLong(@Nonnull LShortToLongFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (short s) -> after.doApplyAsLong(this.doApplyAsShort(s));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LShortToFloatFunction thenToFloat(@Nonnull LShortToFloatFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (short s) -> after.doApplyAsFloat(this.doApplyAsShort(s));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LShortToDoubleFunction thenToDouble(@Nonnull LShortToDoubleFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (short s) -> after.doApplyAsDouble(this.doApplyAsShort(s));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LShortToCharFunction thenToChar(@Nonnull LShortToCharFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (short s) -> after.doApplyAsChar(this.doApplyAsShort(s));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LShortPredicate thenToBoolean(@Nonnull LShortPredicate after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (short s) -> after.doTest(this.doApplyAsShort(s));
 	}
 
@@ -203,7 +204,6 @@ public interface LShortUnaryOperator extends LShortUnaryOperatorX<RuntimeExcepti
 	public static LShortUnaryOperator identity() {
 		return t -> t;
 	}
-
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
@@ -226,63 +226,6 @@ public interface LShortUnaryOperator extends LShortUnaryOperatorX<RuntimeExcepti
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LShortUnaryOperatorX<RuntimeException> shoveX() {
 		return this;
-	}
-
-	// </editor-fold>
-
-	// <editor-fold desc="exception handling">
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LShortUnaryOperator wrapException(@Nonnull final LShortUnaryOperator other, Class<E> exception, LShortSupplier supplier, ExceptionHandler<E, Y> handler) {
-		return (short s) -> {
-			try {
-				return other.doApplyAsShort(s);
-			} catch (Exception e) {
-				try {
-					if (supplier != null) {
-						return supplier.doGetAsShort();
-					}
-				} catch (Exception supplierException) {
-					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
-				}
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
-	}
-
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
-	@Nonnull
-	default <E extends Exception, Y extends RuntimeException> LShortUnaryOperator handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LShortUnaryOperator.wrapException(this, exception, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends RuntimeException> LShortUnaryOperator handle(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LShortUnaryOperator.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <E extends Exception, Y extends RuntimeException> LShortUnaryOperator handle(Class<E> exception, LShortSupplier supplier) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LShortUnaryOperator.wrapException(this, exception, supplier, null);
-	}
-
-	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <Y extends RuntimeException> LShortUnaryOperator handle(LShortSupplier supplier) {
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LShortUnaryOperator.wrapException(this, Exception.class, supplier, null);
 	}
 
 	// </editor-fold>

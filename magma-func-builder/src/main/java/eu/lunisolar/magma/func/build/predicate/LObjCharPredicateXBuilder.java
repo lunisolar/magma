@@ -20,11 +20,13 @@
 package eu.lunisolar.magma.func.build.predicate;
 
 import eu.lunisolar.magma.func.predicate.*;
+import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -47,9 +49,11 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for LObjCharPredicateX. */
-public final class LObjCharPredicateXBuilder<T, X extends Exception> extends PerCaseBuilderWithBooleanProduct.Base<LObjCharPredicateXBuilder<T, X>, LObjCharPredicateX<T, X>, LObjCharPredicateX<T, X>> {
+public final class LObjCharPredicateXBuilder<T, X extends Throwable> extends PerCaseBuilderWithBooleanProduct.Base<LObjCharPredicateXBuilder<T, X>, LObjCharPredicateX<T, X>, LObjCharPredicateX<T, X>> {
 
 	private Consumer<LObjCharPredicateX<T, X>> consumer;
+
+	private @Nullable HandlingInstructions handling;
 
 	public static final LObjCharPredicateX EVENTUALLY_THROW = LObjCharPredicateX.lX((Object t, char c) -> {
 		String message;
@@ -59,7 +63,7 @@ public final class LObjCharPredicateXBuilder<T, X extends Exception> extends Per
 				message = "No case specified for input data (no details can be provided).";
 			}
 
-			throw new UnsupportedOperationException(message);
+			throw new IllegalStateException(message);
 		});
 
 	public LObjCharPredicateXBuilder(@Nullable Consumer<LObjCharPredicateX<T, X>> consumer) {
@@ -75,14 +79,25 @@ public final class LObjCharPredicateXBuilder<T, X extends Exception> extends Per
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <T, X extends Exception> LObjCharPredicateXBuilder<T, X> objCharPredicateX() {
+	public static final <T, X extends Throwable> LObjCharPredicateXBuilder<T, X> objCharPredicateX() {
 		return new LObjCharPredicateXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <T, X extends Exception> LObjCharPredicateXBuilder<T, X> objCharPredicateX(Consumer<LObjCharPredicateX<T, X>> consumer) {
+	public static final <T, X extends Throwable> LObjCharPredicateXBuilder<T, X> objCharPredicateX(Consumer<LObjCharPredicateX<T, X>> consumer) {
 		return new LObjCharPredicateXBuilder(consumer);
+	}
+
+	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
+	@Nonnull
+	public final LObjCharPredicateXBuilder<T, X> withHandling(@Nonnull HandlingInstructions<X, X> handling) {
+		Null.nonNullArg(handling, "handling");
+		if (this.handling != null) {
+			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+		}
+		this.handling = handling;
+		return self();
 	}
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
@@ -93,11 +108,9 @@ public final class LObjCharPredicateXBuilder<T, X extends Exception> extends Per
 
 		LObjCharPredicateX<T, X> retval;
 
-		if (cases.isEmpty()) {
-			retval = eventuallyFinal;
-		} else {
-			final Case<LObjCharPredicateX<T, X>, LObjCharPredicateX<T, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-			retval = LObjCharPredicateX.lX((T t, char c) -> {
+		final Case<LObjCharPredicateX<T, X>, LObjCharPredicateX<T, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = LObjCharPredicateX.lX((T t, char c) -> {
+			try {
 				for (Case<LObjCharPredicateX<T, X>, LObjCharPredicateX<T, X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(t, c)) {
 						return aCase.caseFunction().doTest(t, c);
@@ -105,13 +118,20 @@ public final class LObjCharPredicateXBuilder<T, X extends Exception> extends Per
 				}
 
 				return eventuallyFinal.doTest(t, c);
-			});
-		}
+			} catch (Throwable e) {
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);
 		}
 		return retval;
+	}
+
+	public final LObjCharPredicateX<T, X> build(@Nonnull HandlingInstructions<X, X> handling) {
+		this.withHandling(handling);
+		return build();
 	}
 
 }

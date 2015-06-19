@@ -23,7 +23,7 @@ import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import java.util.Comparator; // NOSONAR
 import java.util.Objects; // NOSONAR
-import eu.lunisolar.magma.basics.NestedException; //NOSONAR
+import eu.lunisolar.magma.basics.exceptions.NestedException; //NOSONAR
 import eu.lunisolar.magma.func.operator.unary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.binary.*; // NOSONAR
 import eu.lunisolar.magma.func.operator.ternary.*; // NOSONAR
@@ -43,20 +43,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 /**
  *
  */
-@SuppressWarnings("UnusedDeclaration")
 public final class Function4U {
-
-	public static final String VALIDATION_MESSAGE_OTHER = "Argument [other] cannot be null.";
-	public static final String VALIDATION_MESSAGE_AFTER = "Argument [after] cannot be null.";
-	public static final String VALIDATION_MESSAGE_BEFORE1 = "Argument [before1] cannot be null.";
-	public static final String VALIDATION_MESSAGE_BEFORE2 = "Argument [before2] cannot be null.";
-	public static final String VALIDATION_MESSAGE_BEFORE3 = "Argument [before3] cannot be null.";
-	public static final String VALIDATION_MESSAGE_COMPARATOR = "Argument [comparator] cannot be null.";
-	public static final String VALIDATION_MESSAGE_EXCEPTION = "Argument [exception] cannot be null.";
-	public static final String VALIDATION_MESSAGE_EXCEPTIONPREDICATE = "Argument [exceptionPredicate] cannot be null.";
-	public static final String VALIDATION_MESSAGE_HANDLER = "Argument [handler] cannot be null.";
-	public static final String VALIDATION_MESSAGE_ANYIMPLEMENTATION = "Argument [anyImplementation] cannot be null.";
-	public static final String VALIDATION_MESSAGE_SEMATHOR = "Argument [semathor] cannot be null.";
 
 	// <editor-fold desc="no-instance constructor">
 	private Function4U() {

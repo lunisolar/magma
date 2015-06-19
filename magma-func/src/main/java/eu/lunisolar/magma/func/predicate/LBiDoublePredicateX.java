@@ -24,6 +24,7 @@ import java.util.Comparator; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -58,7 +59,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBiDoublePredicateX<X extends Exception> extends MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LBiDoublePredicateX<X extends Throwable> extends MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
 	public static final String DESCRIPTION = "LBiDoublePredicateX: boolean doTest(double d1,double d2) throws X";
 
@@ -67,15 +68,24 @@ public interface LBiDoublePredicateX<X extends Exception> extends MetaPredicate,
 	default boolean nestingDoTest(double d1, double d2) {
 		try {
 			return this.doTest(d1, d2);
-		} catch (RuntimeException e) {
+		} catch (RuntimeException | Error e) {
 			throw e;
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new NestedException(e);
 		}
 	}
 
 	default boolean shovingDoTest(double d1, double d2) {
 		return ((LBiDoublePredicateX<RuntimeException>) this).doTest(d1, d2);
+	}
+
+	default <Y extends Throwable> boolean handlingDoTest(double d1, double d2, HandlingInstructions<Throwable, Y> handling) throws Y {
+
+		try {
+			return this.doTest(d1, d2);
+		} catch (Throwable e) {
+			throw Handler.handleOrNest(e, handling);
+		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
@@ -100,14 +110,21 @@ public interface LBiDoublePredicateX<X extends Exception> extends MetaPredicate,
 		return () -> this.doTest(d1, d2);
 	}
 
-	public static <X extends Exception> LBiDoublePredicateX<X> constant(boolean r) {
+	public static <X extends Throwable> LBiDoublePredicateX<X> constant(boolean r) {
 		return (d1, d2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Exception> LBiDoublePredicateX<X> lX(final @Nonnull LBiDoublePredicateX<X> lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+	public static <X extends Throwable> LBiDoublePredicateX<X> lX(final @Nonnull LBiDoublePredicateX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	public static <X extends Throwable> LBiDoublePredicateX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LBiDoublePredicateX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -115,7 +132,7 @@ public interface LBiDoublePredicateX<X extends Exception> extends MetaPredicate,
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Exception> LBiDoublePredicateX<X> wrapX(final @Nonnull LBiDoublePredicate other) {
+	public static <X extends Throwable> LBiDoublePredicateX<X> wrapX(final @Nonnull LBiDoublePredicate other) {
 		return (LBiDoublePredicateX) other;
 	}
 
@@ -135,7 +152,7 @@ public interface LBiDoublePredicateX<X extends Exception> extends MetaPredicate,
 	 */
 	@Nonnull
 	default LBiDoublePredicateX<X> and(@Nonnull LBiDoublePredicateX<X> other) {
-		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
+		Null.nonNullArg(other, "other");
 		return (double d1, double d2) -> doTest(d1, d2) && other.doTest(d1, d2);
 	}
 
@@ -144,7 +161,7 @@ public interface LBiDoublePredicateX<X extends Exception> extends MetaPredicate,
 	 */
 	@Nonnull
 	default LBiDoublePredicateX<X> or(@Nonnull LBiDoublePredicateX<X> other) {
-		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
+		Null.nonNullArg(other, "other");
 		return (double d1, double d2) -> doTest(d1, d2) || other.doTest(d1, d2);
 	}
 
@@ -153,7 +170,7 @@ public interface LBiDoublePredicateX<X extends Exception> extends MetaPredicate,
 	 */
 	@Nonnull
 	default LBiDoublePredicateX<X> xor(@Nonnull LBiDoublePredicateX<X> other) {
-		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
+		Null.nonNullArg(other, "other");
 		return (double d1, double d2) -> doTest(d1, d2) ^ other.doTest(d1, d2);
 	}
 
@@ -161,7 +178,7 @@ public interface LBiDoublePredicateX<X extends Exception> extends MetaPredicate,
 	 *  @see {@link java.util.function.Predicate#isEqual()}
 	 */
 	@Nonnull
-	public static <X extends Exception> LBiDoublePredicateX<X> isEqual(final double v1, final double v2) {
+	public static <X extends Throwable> LBiDoublePredicateX<X> isEqual(final double v1, final double v2) {
 		return (d1, d2) -> (d1 == v1) && (d2 == v2);
 	}
 
@@ -174,8 +191,8 @@ public interface LBiDoublePredicateX<X extends Exception> extends MetaPredicate,
 	 */
 	@Nonnull
 	default LBiDoublePredicateX<X> fromDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1, @Nonnull final LDoubleUnaryOperatorX<X> before2) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
+		Null.nonNullArg(before1, "before1");
+		Null.nonNullArg(before2, "before2");
 		return (final double v1, final double v2) -> this.doTest(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
 	}
 
@@ -184,8 +201,8 @@ public interface LBiDoublePredicateX<X extends Exception> extends MetaPredicate,
 	 */
 	@Nonnull
 	default <V1, V2> LBiPredicateX<V1, V2, X> from(@Nonnull final LToDoubleFunctionX<? super V1, X> before1, @Nonnull final LToDoubleFunctionX<? super V2, X> before2) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
+		Null.nonNullArg(before1, "before1");
+		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doTest(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
 	}
 
@@ -196,12 +213,11 @@ public interface LBiDoublePredicateX<X extends Exception> extends MetaPredicate,
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default <V> LDoubleBiFunctionX<V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (double d1, double d2) -> after.doApply(this.doTest(d1, d2));
 	}
 
 	// </editor-fold>
-
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
@@ -230,57 +246,14 @@ public interface LBiDoublePredicateX<X extends Exception> extends MetaPredicate,
 
 	// <editor-fold desc="exception handling">
 
-	/** Wraps with additional exception handling. */
 	@Nonnull
-	public static <X extends Exception, E extends Exception, Y extends Exception> LBiDoublePredicateX<Y> wrapException(@Nonnull final LBiDoublePredicateX<X> other, Class<E> exception, LBooleanSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
-		return (double d1, double d2) -> {
-			try {
-				return other.doTest(d1, d2);
-			} catch (Exception e) {
-				try {
-					if (supplier != null) {
-						return supplier.doGetAsBoolean();
-					}
-				} catch (Exception supplierException) {
-					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
-				}
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
+	default LBiDoublePredicate handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+		return (double d1, double d2) -> this.handlingDoTest(d1, d2, handling);
 	}
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <E extends Exception, Y extends Exception> LBiDoublePredicateX<Y> handleX(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LBiDoublePredicateX.wrapException(this, exception, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends Exception> LBiDoublePredicateX<Y> handleX(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LBiDoublePredicateX.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <E extends Exception, Y extends Exception> LBiDoublePredicateX<Y> handleX(Class<E> exception, LBooleanSupplierX<X> supplier) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LBiDoublePredicateX.wrapException(this, exception, supplier, null);
-	}
-
-	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <Y extends Exception> LBiDoublePredicateX<Y> handleX(LBooleanSupplierX<X> supplier) {
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LBiDoublePredicateX.wrapException(this, Exception.class, supplier, null);
+	default <Y extends Throwable> LBiDoublePredicateX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+		return (double d1, double d2) -> this.handlingDoTest(d1, d2, handling);
 	}
 
 	// </editor-fold>

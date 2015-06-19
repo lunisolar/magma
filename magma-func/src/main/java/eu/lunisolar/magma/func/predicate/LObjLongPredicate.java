@@ -24,6 +24,7 @@ import java.util.Comparator; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -101,7 +102,7 @@ public interface LObjLongPredicate<T> extends LObjLongPredicateX<T, RuntimeExcep
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T> LObjLongPredicate<T> l(final @Nonnull LObjLongPredicate<T> lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -109,7 +110,7 @@ public interface LObjLongPredicate<T> extends LObjLongPredicateX<T, RuntimeExcep
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, X extends Exception> LObjLongPredicate<T> wrap(final @Nonnull LObjLongPredicateX<T, X> other) {
+	public static <T, X extends Throwable> LObjLongPredicate<T> wrap(final @Nonnull LObjLongPredicateX<T, X> other) {
 		return other::nestingDoTest;
 	}
 
@@ -129,7 +130,7 @@ public interface LObjLongPredicate<T> extends LObjLongPredicateX<T, RuntimeExcep
 	 */
 	@Nonnull
 	default LObjLongPredicate<T> and(@Nonnull LObjLongPredicate<? super T> other) {
-		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
+		Null.nonNullArg(other, "other");
 		return (T t, long l) -> doTest(t, l) && other.doTest(t, l);
 	}
 
@@ -138,7 +139,7 @@ public interface LObjLongPredicate<T> extends LObjLongPredicateX<T, RuntimeExcep
 	 */
 	@Nonnull
 	default LObjLongPredicate<T> or(@Nonnull LObjLongPredicate<? super T> other) {
-		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
+		Null.nonNullArg(other, "other");
 		return (T t, long l) -> doTest(t, l) || other.doTest(t, l);
 	}
 
@@ -147,7 +148,7 @@ public interface LObjLongPredicate<T> extends LObjLongPredicateX<T, RuntimeExcep
 	 */
 	@Nonnull
 	default LObjLongPredicate<T> xor(@Nonnull LObjLongPredicate<? super T> other) {
-		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
+		Null.nonNullArg(other, "other");
 		return (T t, long l) -> doTest(t, l) ^ other.doTest(t, l);
 	}
 
@@ -168,8 +169,8 @@ public interface LObjLongPredicate<T> extends LObjLongPredicateX<T, RuntimeExcep
 	 */
 	@Nonnull
 	default <V1> LObjLongPredicate<V1> fromLong(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LLongUnaryOperator before2) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
+		Null.nonNullArg(before1, "before1");
+		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final long v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsLong(v2));
 	}
 
@@ -178,8 +179,8 @@ public interface LObjLongPredicate<T> extends LObjLongPredicateX<T, RuntimeExcep
 	 */
 	@Nonnull
 	default <V1, V2> LBiPredicate<V1, V2> from(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToLongFunction<? super V2> before2) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
+		Null.nonNullArg(before1, "before1");
+		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsLong(v2));
 	}
 
@@ -190,12 +191,11 @@ public interface LObjLongPredicate<T> extends LObjLongPredicateX<T, RuntimeExcep
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default <V> LObjLongFunction<T, V> then(@Nonnull LBooleanFunction<? extends V> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (T t, long l) -> after.doApply(this.doTest(t, l));
 	}
 
 	// </editor-fold>
-
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
@@ -218,63 +218,6 @@ public interface LObjLongPredicate<T> extends LObjLongPredicateX<T, RuntimeExcep
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjLongPredicateX<T, RuntimeException> shoveX() {
 		return this;
-	}
-
-	// </editor-fold>
-
-	// <editor-fold desc="exception handling">
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <T, X extends Exception, E extends Exception, Y extends RuntimeException> LObjLongPredicate<T> wrapException(@Nonnull final LObjLongPredicate<T> other, Class<E> exception, LBooleanSupplier supplier, ExceptionHandler<E, Y> handler) {
-		return (T t, long l) -> {
-			try {
-				return other.doTest(t, l);
-			} catch (Exception e) {
-				try {
-					if (supplier != null) {
-						return supplier.doGetAsBoolean();
-					}
-				} catch (Exception supplierException) {
-					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
-				}
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
-	}
-
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
-	@Nonnull
-	default <E extends Exception, Y extends RuntimeException> LObjLongPredicate<T> handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LObjLongPredicate.wrapException(this, exception, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends RuntimeException> LObjLongPredicate<T> handle(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LObjLongPredicate.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <E extends Exception, Y extends RuntimeException> LObjLongPredicate<T> handle(Class<E> exception, LBooleanSupplier supplier) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LObjLongPredicate.wrapException(this, exception, supplier, null);
-	}
-
-	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <Y extends RuntimeException> LObjLongPredicate<T> handle(LBooleanSupplier supplier) {
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LObjLongPredicate.wrapException(this, Exception.class, supplier, null);
 	}
 
 	// </editor-fold>

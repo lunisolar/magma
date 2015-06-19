@@ -33,7 +33,7 @@ import eu.lunisolar.magma.func.action.LAction;
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LCharSupplierX. */
-public interface LCharSupplierXAssert<S extends LCharSupplierXAssert<S, A, RS, X>, A extends LCharSupplierX<X>, RS extends AbstractCharacterAssert<RS>, X extends Exception> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, Character, Exception> {
+public interface LCharSupplierXAssert<S extends LCharSupplierXAssert<S, A, RS, X>, A extends LCharSupplierX<X>, RS extends AbstractCharacterAssert<RS>, X extends Throwable> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, Character, Exception> {
 
 	@Nonnull
 	Evaluation<S, A, RS, Character, Exception> doesGetAsChar();
@@ -42,7 +42,7 @@ public interface LCharSupplierXAssert<S extends LCharSupplierXAssert<S, A, RS, X
 	Evaluation<S, A, RS, Character, Exception> doesGetAsChar(LAction before);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LCharSupplierX<X>, RS extends AbstractCharacterAssert<RS>, X extends Exception> extends Base<Impl<A, RS, X>, A, RS, X> {
+	public final static class Impl<A extends LCharSupplierX<X>, RS extends AbstractCharacterAssert<RS>, X extends Throwable> extends Base<Impl<A, RS, X>, A, RS, X> {
 
 		public Impl(A actual, java.util.function.Function<Character, RS> assertFactory) {
 			super(actual, Impl.class, assertFactory);
@@ -50,7 +50,7 @@ public interface LCharSupplierXAssert<S extends LCharSupplierXAssert<S, A, RS, X
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, X>, A extends LCharSupplierX<X>, RS extends AbstractCharacterAssert<RS>, X extends Exception> extends FullFunctionalAssert.Base<S, A, RS, Character, Exception>
+	public static class Base<S extends Base<S, A, RS, X>, A extends LCharSupplierX<X>, RS extends AbstractCharacterAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, A, RS, Character, Exception>
 			implements
 				LCharSupplierXAssert<S, A, RS, X> {
 

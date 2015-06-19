@@ -48,41 +48,72 @@ import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
-import eu.lunisolar.magma.basics.NestedException; //NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 
 import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.function.conversion.LBooleanToDoubleFunctionBuilder.booleanToDoubleFunction;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
-public class LBooleanToDoubleFunctionBuilderTest<X extends ParseException>{
+public class LBooleanToDoubleFunctionBuilderTest<X extends Throwable>{
 
     @SuppressWarnings("unchecked")
     public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
     @Test
-    public void testEventuallyThrow() throws Exception {
+    public void testEventuallyThrow() throws Throwable {
 
-        try {
-            LBooleanToDoubleFunction function = LBooleanToDoubleFunctionBuilder
-                .booleanToDoubleFunction()
+        assertThatThrownBy(() -> {
+            LBooleanToDoubleFunction function = LBooleanToDoubleFunctionBuilder.booleanToDoubleFunction()
                 .build();
 
             function.doApplyAsDouble(true);
 
             fail("No exception were thrown.");
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(UnsupportedOperationException.class)
+        })
+                    .isExactlyInstanceOf(IllegalStateException.class)
                     .hasMessageContaining("No case specified for:")
                     .hasMessageContaining(LBooleanToDoubleFunction.DESCRIPTION);
-
-        }
     }
 
     @Test
-    public void testBuild() throws Exception {
+    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+
+
+        assertThatThrownBy(() -> {
+            LBooleanToDoubleFunction function = LBooleanToDoubleFunctionBuilder.booleanToDoubleFunction()
+                .withHandling(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
+                .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new));
+
+            fail("No exception were thrown.");
+        })
+                    .isExactlyInstanceOf(UnsupportedOperationException.class)
+                    .hasMessageContaining("Handling is allready set for this builder.");
+    }
+
+    @Test
+    public void testHandling() throws Throwable {
+
+        assertThatThrownBy(() -> {
+            LBooleanToDoubleFunction function = LBooleanToDoubleFunctionBuilder.booleanToDoubleFunction()
+                .eventually((b) -> {
+                        throw new RuntimeException("ORIGINAL");
+                    })
+                .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
+
+            function.doApplyAsDouble(true);
+
+            fail("No exception were thrown.");
+        })
+                    .isExactlyInstanceOf(IllegalStateException.class)
+                    .hasMessageContaining("NEW EXCEPTION")
+                    .hasCauseExactlyInstanceOf(RuntimeException.class);
+    }
+
+
+    @Test
+    public void testBuild() throws Throwable {
 
         LBooleanToDoubleFunction function = booleanToDoubleFunction((LBooleanToDoubleFunction f)-> doNothing())
             .addCase(ce -> ce.of((b) -> b == false)

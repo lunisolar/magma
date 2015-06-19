@@ -24,6 +24,7 @@ import javax.annotation.Nullable; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -90,7 +91,7 @@ public interface LFloatSupplier extends LFloatSupplierX<RuntimeException>, MetaS
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LFloatSupplier l(final @Nonnull LFloatSupplier lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -98,7 +99,7 @@ public interface LFloatSupplier extends LFloatSupplierX<RuntimeException>, MetaS
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Exception> LFloatSupplier wrap(final @Nonnull LFloatSupplierX<X> other) {
+	public static <X extends Throwable> LFloatSupplier wrap(final @Nonnull LFloatSupplierX<X> other) {
 		return other::nestingDoGetAsFloat;
 	}
 
@@ -109,68 +110,67 @@ public interface LFloatSupplier extends LFloatSupplierX<RuntimeException>, MetaS
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default <V> LSupplier<V> then(@Nonnull LFloatFunction<? extends V> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return () -> after.doApply(this.doGetAsFloat());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LByteSupplier thenToByte(@Nonnull LFloatToByteFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsByte(this.doGetAsFloat());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LShortSupplier thenToShort(@Nonnull LFloatToShortFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsShort(this.doGetAsFloat());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LIntSupplier thenToInt(@Nonnull LFloatToIntFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsInt(this.doGetAsFloat());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LLongSupplier thenToLong(@Nonnull LFloatToLongFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsLong(this.doGetAsFloat());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LFloatSupplier thenToFloat(@Nonnull LFloatUnaryOperator after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsFloat(this.doGetAsFloat());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LDoubleSupplier thenToDouble(@Nonnull LFloatToDoubleFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsDouble(this.doGetAsFloat());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LCharSupplier thenToChar(@Nonnull LFloatToCharFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsChar(this.doGetAsFloat());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LBooleanSupplier thenToBoolean(@Nonnull LFloatPredicate after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return () -> after.doTest(this.doGetAsFloat());
 	}
 
 	// </editor-fold>
-
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
@@ -193,63 +193,6 @@ public interface LFloatSupplier extends LFloatSupplierX<RuntimeException>, MetaS
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LFloatSupplierX<RuntimeException> shoveX() {
 		return this;
-	}
-
-	// </editor-fold>
-
-	// <editor-fold desc="exception handling">
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LFloatSupplier wrapException(@Nonnull final LFloatSupplier other, Class<E> exception, LFloatSupplier supplier, ExceptionHandler<E, Y> handler) {
-		return () -> {
-			try {
-				return other.doGetAsFloat();
-			} catch (Exception e) {
-				try {
-					if (supplier != null) {
-						return supplier.doGetAsFloat();
-					}
-				} catch (Exception supplierException) {
-					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
-				}
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
-	}
-
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
-	@Nonnull
-	default <E extends Exception, Y extends RuntimeException> LFloatSupplier handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LFloatSupplier.wrapException(this, exception, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends RuntimeException> LFloatSupplier handle(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LFloatSupplier.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <E extends Exception, Y extends RuntimeException> LFloatSupplier handle(Class<E> exception, LFloatSupplier supplier) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LFloatSupplier.wrapException(this, exception, supplier, null);
-	}
-
-	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <Y extends RuntimeException> LFloatSupplier handle(LFloatSupplier supplier) {
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LFloatSupplier.wrapException(this, Exception.class, supplier, null);
 	}
 
 	// </editor-fold>

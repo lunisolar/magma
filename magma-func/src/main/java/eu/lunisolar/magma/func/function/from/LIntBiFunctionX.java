@@ -24,6 +24,7 @@ import java.util.Comparator; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -58,7 +59,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LIntBiFunctionX<R, X extends Exception> extends MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
+public interface LIntBiFunctionX<R, X extends Throwable> extends MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
 	public static final String DESCRIPTION = "LIntBiFunctionX: R doApply(int i1,int i2) throws X";
 
@@ -68,9 +69,9 @@ public interface LIntBiFunctionX<R, X extends Exception> extends MetaFunction, M
 	default R nestingDoApply(int i1, int i2) {
 		try {
 			return this.doApply(i1, i2);
-		} catch (RuntimeException e) {
+		} catch (RuntimeException | Error e) {
 			throw e;
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new NestedException(e);
 		}
 	}
@@ -79,12 +80,21 @@ public interface LIntBiFunctionX<R, X extends Exception> extends MetaFunction, M
 		return ((LIntBiFunctionX<R, RuntimeException>) this).doApply(i1, i2);
 	}
 
+	default <Y extends Throwable> R handlingDoApply(int i1, int i2, HandlingInstructions<Throwable, Y> handling) throws Y {
+
+		try {
+			return this.doApply(i1, i2);
+		} catch (Throwable e) {
+			throw Handler.handleOrNest(e, handling);
+		}
+	}
+
 	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
 	@Nonnull
 	default R nonNullDoApply(int i1, int i2) throws X {
-		return Objects.requireNonNull(doApply(i1, i2), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Null.requireNonNull(doApply(i1, i2), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -98,14 +108,21 @@ public interface LIntBiFunctionX<R, X extends Exception> extends MetaFunction, M
 		return () -> this.doApply(i1, i2);
 	}
 
-	public static <R, X extends Exception> LIntBiFunctionX<R, X> constant(R r) {
+	public static <R, X extends Throwable> LIntBiFunctionX<R, X> constant(R r) {
 		return (i1, i2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <R, X extends Exception> LIntBiFunctionX<R, X> lX(final @Nonnull LIntBiFunctionX<R, X> lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+	public static <R, X extends Throwable> LIntBiFunctionX<R, X> lX(final @Nonnull LIntBiFunctionX<R, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	public static <R, X extends Throwable> LIntBiFunctionX<R, X> lX(@Nonnull Class<X> xClass, final @Nonnull LIntBiFunctionX<R, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -113,7 +130,7 @@ public interface LIntBiFunctionX<R, X extends Exception> extends MetaFunction, M
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <R, X extends Exception> LIntBiFunctionX<R, X> wrapX(final @Nonnull LIntBiFunction<R> other) {
+	public static <R, X extends Throwable> LIntBiFunctionX<R, X> wrapX(final @Nonnull LIntBiFunction<R> other) {
 		return (LIntBiFunctionX) other;
 	}
 
@@ -126,8 +143,8 @@ public interface LIntBiFunctionX<R, X extends Exception> extends MetaFunction, M
 	 */
 	@Nonnull
 	default LIntBiFunctionX<R, X> fromInt(@Nonnull final LIntUnaryOperatorX<X> before1, @Nonnull final LIntUnaryOperatorX<X> before2) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
+		Null.nonNullArg(before1, "before1");
+		Null.nonNullArg(before2, "before2");
 		return (final int v1, final int v2) -> this.doApply(before1.doApplyAsInt(v1), before2.doApplyAsInt(v2));
 	}
 
@@ -136,8 +153,8 @@ public interface LIntBiFunctionX<R, X extends Exception> extends MetaFunction, M
 	 */
 	@Nonnull
 	default <V1, V2> LBiFunctionX<V1, V2, R, X> from(@Nonnull final LToIntFunctionX<? super V1, X> before1, @Nonnull final LToIntFunctionX<? super V2, X> before2) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
+		Null.nonNullArg(before1, "before1");
+		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApply(before1.doApplyAsInt(v1), before2.doApplyAsInt(v2));
 	}
 
@@ -148,19 +165,18 @@ public interface LIntBiFunctionX<R, X extends Exception> extends MetaFunction, M
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default <V> LIntBiFunctionX<V, X> then(@Nonnull LFunctionX<? super R, ? extends V, X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (int i1, int i2) -> after.doApply(this.doApply(i1, i2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LIntBiConsumerX<X> then(@Nonnull LConsumerX<? super R, X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (int i1, int i2) -> after.doAccept(this.doApply(i1, i2));
 	}
 
 	// </editor-fold>
-
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
@@ -194,57 +210,14 @@ public interface LIntBiFunctionX<R, X extends Exception> extends MetaFunction, M
 
 	// <editor-fold desc="exception handling">
 
-	/** Wraps with additional exception handling. */
 	@Nonnull
-	public static <R, X extends Exception, E extends Exception, Y extends Exception> LIntBiFunctionX<R, Y> wrapException(@Nonnull final LIntBiFunctionX<R, X> other, Class<E> exception, LSupplierX<R, X> supplier, ExceptionHandler<E, Y> handler) {
-		return (int i1, int i2) -> {
-			try {
-				return other.doApply(i1, i2);
-			} catch (Exception e) {
-				try {
-					if (supplier != null) {
-						return supplier.doGet();
-					}
-				} catch (Exception supplierException) {
-					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
-				}
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
+	default LIntBiFunction<R> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+		return (int i1, int i2) -> this.handlingDoApply(i1, i2, handling);
 	}
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <E extends Exception, Y extends Exception> LIntBiFunctionX<R, Y> handleX(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LIntBiFunctionX.wrapException(this, exception, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends Exception> LIntBiFunctionX<R, Y> handleX(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LIntBiFunctionX.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <E extends Exception, Y extends Exception> LIntBiFunctionX<R, Y> handleX(Class<E> exception, LSupplierX<R, X> supplier) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LIntBiFunctionX.wrapException(this, exception, supplier, null);
-	}
-
-	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <Y extends Exception> LIntBiFunctionX<R, Y> handleX(LSupplierX<R, X> supplier) {
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LIntBiFunctionX.wrapException(this, Exception.class, supplier, null);
+	default <Y extends Throwable> LIntBiFunctionX<R, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+		return (int i1, int i2) -> this.handlingDoApply(i1, i2, handling);
 	}
 
 	// </editor-fold>

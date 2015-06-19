@@ -24,6 +24,7 @@ import java.util.Comparator; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -58,7 +59,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LTriFunctionX<T1, T2, T3, R, X extends Exception> extends MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
+public interface LTriFunctionX<T1, T2, T3, R, X extends Throwable> extends MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
 	public static final String DESCRIPTION = "LTriFunctionX: R doApply(T1 t1,T2 t2,T3 t3) throws X";
 
@@ -68,9 +69,9 @@ public interface LTriFunctionX<T1, T2, T3, R, X extends Exception> extends MetaF
 	default R nestingDoApply(T1 t1, T2 t2, T3 t3) {
 		try {
 			return this.doApply(t1, t2, t3);
-		} catch (RuntimeException e) {
+		} catch (RuntimeException | Error e) {
 			throw e;
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new NestedException(e);
 		}
 	}
@@ -79,12 +80,21 @@ public interface LTriFunctionX<T1, T2, T3, R, X extends Exception> extends MetaF
 		return ((LTriFunctionX<T1, T2, T3, R, RuntimeException>) this).doApply(t1, t2, t3);
 	}
 
+	default <Y extends Throwable> R handlingDoApply(T1 t1, T2 t2, T3 t3, HandlingInstructions<Throwable, Y> handling) throws Y {
+
+		try {
+			return this.doApply(t1, t2, t3);
+		} catch (Throwable e) {
+			throw Handler.handleOrNest(e, handling);
+		}
+	}
+
 	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
 	@Nonnull
 	default R nonNullDoApply(T1 t1, T2 t2, T3 t3) throws X {
-		return Objects.requireNonNull(doApply(t1, t2, t3), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Null.requireNonNull(doApply(t1, t2, t3), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -98,14 +108,21 @@ public interface LTriFunctionX<T1, T2, T3, R, X extends Exception> extends MetaF
 		return () -> this.doApply(t1, t2, t3);
 	}
 
-	public static <T1, T2, T3, R, X extends Exception> LTriFunctionX<T1, T2, T3, R, X> constant(R r) {
+	public static <T1, T2, T3, R, X extends Throwable> LTriFunctionX<T1, T2, T3, R, X> constant(R r) {
 		return (t1, t2, t3) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T1, T2, T3, R, X extends Exception> LTriFunctionX<T1, T2, T3, R, X> lX(final @Nonnull LTriFunctionX<T1, T2, T3, R, X> lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+	public static <T1, T2, T3, R, X extends Throwable> LTriFunctionX<T1, T2, T3, R, X> lX(final @Nonnull LTriFunctionX<T1, T2, T3, R, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	public static <T1, T2, T3, R, X extends Throwable> LTriFunctionX<T1, T2, T3, R, X> lX(@Nonnull Class<X> xClass, final @Nonnull LTriFunctionX<T1, T2, T3, R, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -113,7 +130,7 @@ public interface LTriFunctionX<T1, T2, T3, R, X extends Exception> extends MetaF
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T1, T2, T3, R, X extends Exception> LTriFunctionX<T1, T2, T3, R, X> wrapX(final @Nonnull LTriFunction<T1, T2, T3, R> other) {
+	public static <T1, T2, T3, R, X extends Throwable> LTriFunctionX<T1, T2, T3, R, X> wrapX(final @Nonnull LTriFunction<T1, T2, T3, R> other) {
 		return (LTriFunctionX) other;
 	}
 
@@ -126,9 +143,9 @@ public interface LTriFunctionX<T1, T2, T3, R, X extends Exception> extends MetaF
 	 */
 	@Nonnull
 	default <V1, V2, V3> LTriFunctionX<V1, V2, V3, R, X> from(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LFunctionX<? super V3, ? extends T3, X> before3) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		Objects.requireNonNull(before3, Function4U.VALIDATION_MESSAGE_BEFORE3);
+		Null.nonNullArg(before1, "before1");
+		Null.nonNullArg(before2, "before2");
+		Null.nonNullArg(before3, "before3");
 		return (final V1 v1, final V2 v2, final V3 v3) -> this.doApply(before1.doApply(v1), before2.doApply(v2), before3.doApply(v3));
 	}
 
@@ -139,19 +156,18 @@ public interface LTriFunctionX<T1, T2, T3, R, X extends Exception> extends MetaF
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default <V> LTriFunctionX<T1, T2, T3, V, X> then(@Nonnull LFunctionX<? super R, ? extends V, X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (T1 t1, T2 t2, T3 t3) -> after.doApply(this.doApply(t1, t2, t3));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LTriConsumerX<T1, T2, T3, X> then(@Nonnull LConsumerX<? super R, X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (T1 t1, T2 t2, T3 t3) -> after.doAccept(this.doApply(t1, t2, t3));
 	}
 
 	// </editor-fold>
-
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
@@ -185,58 +201,14 @@ public interface LTriFunctionX<T1, T2, T3, R, X extends Exception> extends MetaF
 
 	// <editor-fold desc="exception handling">
 
-	/** Wraps with additional exception handling. */
 	@Nonnull
-	public static <T1, T2, T3, R, X extends Exception, E extends Exception, Y extends Exception> LTriFunctionX<T1, T2, T3, R, Y> wrapException(@Nonnull final LTriFunctionX<T1, T2, T3, R, X> other, Class<E> exception, LSupplierX<R, X> supplier,
-			ExceptionHandler<E, Y> handler) {
-		return (T1 t1, T2 t2, T3 t3) -> {
-			try {
-				return other.doApply(t1, t2, t3);
-			} catch (Exception e) {
-				try {
-					if (supplier != null) {
-						return supplier.doGet();
-					}
-				} catch (Exception supplierException) {
-					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
-				}
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
+	default LTriFunction<T1, T2, T3, R> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+		return (T1 t1, T2 t2, T3 t3) -> this.handlingDoApply(t1, t2, t3, handling);
 	}
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <E extends Exception, Y extends Exception> LTriFunctionX<T1, T2, T3, R, Y> handleX(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LTriFunctionX.wrapException(this, exception, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends Exception> LTriFunctionX<T1, T2, T3, R, Y> handleX(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LTriFunctionX.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <E extends Exception, Y extends Exception> LTriFunctionX<T1, T2, T3, R, Y> handleX(Class<E> exception, LSupplierX<R, X> supplier) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LTriFunctionX.wrapException(this, exception, supplier, null);
-	}
-
-	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <Y extends Exception> LTriFunctionX<T1, T2, T3, R, Y> handleX(LSupplierX<R, X> supplier) {
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LTriFunctionX.wrapException(this, Exception.class, supplier, null);
+	default <Y extends Throwable> LTriFunctionX<T1, T2, T3, R, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+		return (T1 t1, T2 t2, T3 t3) -> this.handlingDoApply(t1, t2, t3, handling);
 	}
 
 	// </editor-fold>

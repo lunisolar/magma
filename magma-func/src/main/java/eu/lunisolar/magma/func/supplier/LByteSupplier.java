@@ -24,6 +24,7 @@ import javax.annotation.Nullable; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -90,7 +91,7 @@ public interface LByteSupplier extends LByteSupplierX<RuntimeException>, MetaSup
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LByteSupplier l(final @Nonnull LByteSupplier lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -98,7 +99,7 @@ public interface LByteSupplier extends LByteSupplierX<RuntimeException>, MetaSup
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Exception> LByteSupplier wrap(final @Nonnull LByteSupplierX<X> other) {
+	public static <X extends Throwable> LByteSupplier wrap(final @Nonnull LByteSupplierX<X> other) {
 		return other::nestingDoGetAsByte;
 	}
 
@@ -109,68 +110,67 @@ public interface LByteSupplier extends LByteSupplierX<RuntimeException>, MetaSup
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default <V> LSupplier<V> then(@Nonnull LByteFunction<? extends V> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return () -> after.doApply(this.doGetAsByte());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LByteSupplier thenToByte(@Nonnull LByteUnaryOperator after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsByte(this.doGetAsByte());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LShortSupplier thenToShort(@Nonnull LByteToShortFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsShort(this.doGetAsByte());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LIntSupplier thenToInt(@Nonnull LByteToIntFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsInt(this.doGetAsByte());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LLongSupplier thenToLong(@Nonnull LByteToLongFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsLong(this.doGetAsByte());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LFloatSupplier thenToFloat(@Nonnull LByteToFloatFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsFloat(this.doGetAsByte());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LDoubleSupplier thenToDouble(@Nonnull LByteToDoubleFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsDouble(this.doGetAsByte());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LCharSupplier thenToChar(@Nonnull LByteToCharFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsChar(this.doGetAsByte());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LBooleanSupplier thenToBoolean(@Nonnull LBytePredicate after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return () -> after.doTest(this.doGetAsByte());
 	}
 
 	// </editor-fold>
-
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
@@ -193,63 +193,6 @@ public interface LByteSupplier extends LByteSupplierX<RuntimeException>, MetaSup
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LByteSupplierX<RuntimeException> shoveX() {
 		return this;
-	}
-
-	// </editor-fold>
-
-	// <editor-fold desc="exception handling">
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LByteSupplier wrapException(@Nonnull final LByteSupplier other, Class<E> exception, LByteSupplier supplier, ExceptionHandler<E, Y> handler) {
-		return () -> {
-			try {
-				return other.doGetAsByte();
-			} catch (Exception e) {
-				try {
-					if (supplier != null) {
-						return supplier.doGetAsByte();
-					}
-				} catch (Exception supplierException) {
-					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
-				}
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
-	}
-
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
-	@Nonnull
-	default <E extends Exception, Y extends RuntimeException> LByteSupplier handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LByteSupplier.wrapException(this, exception, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends RuntimeException> LByteSupplier handle(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LByteSupplier.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <E extends Exception, Y extends RuntimeException> LByteSupplier handle(Class<E> exception, LByteSupplier supplier) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LByteSupplier.wrapException(this, exception, supplier, null);
-	}
-
-	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <Y extends RuntimeException> LByteSupplier handle(LByteSupplier supplier) {
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LByteSupplier.wrapException(this, Exception.class, supplier, null);
 	}
 
 	// </editor-fold>

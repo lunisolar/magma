@@ -24,6 +24,7 @@ import javax.annotation.Nullable; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -85,7 +86,7 @@ public interface LSupplier<R> extends LSupplierX<R, RuntimeException>, MetaSuppl
 	/** Ensures the result is not null */
 	@Nonnull
 	default R nonNullDoGet() {
-		return Objects.requireNonNull(doGet(), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Null.requireNonNull(doGet(), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -101,7 +102,7 @@ public interface LSupplier<R> extends LSupplierX<R, RuntimeException>, MetaSuppl
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <R> LSupplier<R> l(final @Nonnull LSupplier<R> lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -115,7 +116,7 @@ public interface LSupplier<R> extends LSupplierX<R, RuntimeException>, MetaSuppl
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <R, X extends Exception> LSupplier<R> wrap(final @Nonnull LSupplierX<R, X> other) {
+	public static <R, X extends Throwable> LSupplier<R> wrap(final @Nonnull LSupplierX<R, X> other) {
 		return other::nestingDoGet;
 	}
 
@@ -126,75 +127,74 @@ public interface LSupplier<R> extends LSupplierX<R, RuntimeException>, MetaSuppl
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default <V> LSupplier<V> then(@Nonnull LFunction<? super R, ? extends V> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return () -> after.doApply(this.doGet());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LAction then(@Nonnull LConsumer<? super R> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return () -> after.doAccept(this.doGet());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LByteSupplier thenToByte(@Nonnull LToByteFunction<? super R> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsByte(this.doGet());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LShortSupplier thenToShort(@Nonnull LToShortFunction<? super R> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsShort(this.doGet());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LIntSupplier thenToInt(@Nonnull LToIntFunction<? super R> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsInt(this.doGet());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LLongSupplier thenToLong(@Nonnull LToLongFunction<? super R> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsLong(this.doGet());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LFloatSupplier thenToFloat(@Nonnull LToFloatFunction<? super R> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsFloat(this.doGet());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LDoubleSupplier thenToDouble(@Nonnull LToDoubleFunction<? super R> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsDouble(this.doGet());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LCharSupplier thenToChar(@Nonnull LToCharFunction<? super R> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsChar(this.doGet());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
 	default LBooleanSupplier thenToBoolean(@Nonnull LPredicate<? super R> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return () -> after.doTest(this.doGet());
 	}
 
 	// </editor-fold>
-
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
@@ -225,62 +225,5 @@ public interface LSupplier<R> extends LSupplierX<R, RuntimeException>, MetaSuppl
 	default LSupplier<R> nonNullable() {
 		return this::nonNullDoGet;
 	}
-
-	// <editor-fold desc="exception handling">
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <R, X extends Exception, E extends Exception, Y extends RuntimeException> LSupplier<R> wrapException(@Nonnull final LSupplier<R> other, Class<E> exception, LSupplier<R> supplier, ExceptionHandler<E, Y> handler) {
-		return () -> {
-			try {
-				return other.doGet();
-			} catch (Exception e) {
-				try {
-					if (supplier != null) {
-						return supplier.doGet();
-					}
-				} catch (Exception supplierException) {
-					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
-				}
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
-	}
-
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
-	@Nonnull
-	default <E extends Exception, Y extends RuntimeException> LSupplier<R> handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LSupplier.wrapException(this, exception, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends RuntimeException> LSupplier<R> handle(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LSupplier.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <E extends Exception, Y extends RuntimeException> LSupplier<R> handle(Class<E> exception, LSupplier<R> supplier) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LSupplier.wrapException(this, exception, supplier, null);
-	}
-
-	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <Y extends RuntimeException> LSupplier<R> handle(LSupplier<R> supplier) {
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LSupplier.wrapException(this, Exception.class, supplier, null);
-	}
-
-	// </editor-fold>
 
 }

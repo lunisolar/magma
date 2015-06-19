@@ -33,7 +33,7 @@ import eu.lunisolar.magma.func.action.LAction;
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LActionX. */
-public interface LActionXAssert<S extends LActionXAssert<S, A, X>, A extends LActionX<X>, X extends Exception> extends Assert<S, A>, FunctionalAssert.Simple<S, A, Exception> {
+public interface LActionXAssert<S extends LActionXAssert<S, A, X>, A extends LActionX<X>, X extends Throwable> extends Assert<S, A>, FunctionalAssert.Simple<S, A, Exception> {
 
 	@Nonnull
 	SemiEvaluation<S, A, Exception> doesExecute();
@@ -42,7 +42,7 @@ public interface LActionXAssert<S extends LActionXAssert<S, A, X>, A extends LAc
 	SemiEvaluation<S, A, Exception> doesExecute(LAction before);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LActionX<X>, X extends Exception> extends Base<Impl<A, X>, A, X> {
+	public final static class Impl<A extends LActionX<X>, X extends Throwable> extends Base<Impl<A, X>, A, X> {
 
 		public Impl(A actual) {
 			super(actual, Impl.class);
@@ -50,7 +50,7 @@ public interface LActionXAssert<S extends LActionXAssert<S, A, X>, A extends LAc
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, X>, A extends LActionX<X>, X extends Exception> extends FunctionalAssert.Simple.Base<S, A, Exception> implements LActionXAssert<S, A, X> {
+	public static class Base<S extends Base<S, A, X>, A extends LActionX<X>, X extends Throwable> extends FunctionalAssert.Simple.Base<S, A, Exception> implements LActionXAssert<S, A, X> {
 
 		public Base(A actual, Class<?> selfType) {
 			super(actual, selfType);

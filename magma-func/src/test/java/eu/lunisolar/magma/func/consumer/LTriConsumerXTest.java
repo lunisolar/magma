@@ -47,6 +47,7 @@ import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
@@ -84,26 +85,26 @@ public class LTriConsumerXTest<T1,T2,T3,X extends ParseException> {
 
 
     @Test
-    public void testFunctionalInterfaceDescription() throws ParseException {
+    public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
             .isEqualTo("LTriConsumerX: void doAccept(T1 t1,T2 t2,T3 t3) throws X");
     }
 
     @Test
-    public void testLXMethod() throws ParseException {
+    public void testLXMethod() throws X {
         assertThat(LTriConsumerX.lX((Object t1,Object t2,Object t3) -> Function4U.doNothing() ))
             .isInstanceOf(LTriConsumerX.class);
     }
 
     @Test
-    public void testWrapXMethod() throws ParseException {
+    public void testWrapXMethod() throws X {
         assertThat(LTriConsumerX.wrapX(opposite))
             .isInstanceOf(LTriConsumerX.class);
     }
 
 
     @Test
-    public void testWrapExceptionMethodWrapsTheException() throws ParseException {
+    public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
         LTriConsumerX<T1,T2,T3,X> sutThrowing = LTriConsumerX.lX((T1 t1,T2 t2,T3 t3) -> {
@@ -111,8 +112,8 @@ public class LTriConsumerXTest<T1,T2,T3,X extends ParseException> {
         });
 
         // when
-        LTriConsumerX<T1,T2,T3,X> wrapped = LTriConsumerX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
-            throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
+        LTriConsumerX<T1,T2,T3,X> wrapped = sutThrowing.handleX(h -> {
+            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
         // then
@@ -128,7 +129,7 @@ public class LTriConsumerXTest<T1,T2,T3,X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException() throws ParseException {
+    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
 
         // given
         LTriConsumerX<T1,T2,T3,X> sutThrowing = LTriConsumerX.lX((T1 t1,T2 t2,T3 t3) -> {
@@ -136,9 +137,9 @@ public class LTriConsumerXTest<T1,T2,T3,X extends ParseException> {
         });
 
         // when
-        LTriConsumerX<T1,T2,T3,X> wrapped = LTriConsumerX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
-            throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
-        });
+        LTriConsumerX<T1,T2,T3,X> wrapped = sutThrowing.handleX(handler -> handler
+                .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
+                .throwIf(IndexOutOfBoundsException.class));
 
         // then
         try {
@@ -151,17 +152,41 @@ public class LTriConsumerXTest<T1,T2,T3,X extends ParseException> {
         }
     }
 
-    @Test
-    public void testWrapExceptionMisshandlingExceptionIsDetected() throws ParseException {
+@Test
+    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
 
         // given
         LTriConsumerX<T1,T2,T3,X> sutThrowing = LTriConsumerX.lX((T1 t1,T2 t2,T3 t3) -> {
-            throw new UnsupportedOperationException();
+            throw new IndexOutOfBoundsException();
         });
 
         // when
-        LTriConsumerX<T1,T2,T3,X> wrapped = LTriConsumerX.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
-            return null;
+        LTriConsumerX<T1,T2,T3,X> wrapped = sutThrowing.handleX(handler -> handler
+                .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
+                .throwIf(IndexOutOfBoundsException.class));
+
+        // then
+        try {
+            wrapped.doAccept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100));
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause();
+        }
+    }
+
+
+    @Test
+    public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
+
+        // given
+        LTriConsumerX<T1,T2,T3,X> sutThrowing = LTriConsumerX.lX((T1 t1,T2 t2,T3 t3) -> {
+            throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
+        });
+
+        // when
+        LTriConsumerX<T1,T2,T3,X> wrapped = sutThrowing.handleX(h -> {
         });
 
         // then
@@ -170,9 +195,9 @@ public class LTriConsumerXTest<T1,T2,T3,X extends ParseException> {
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
-                    .isExactlyInstanceOf(ExceptionNotHandled.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage("Handler has not processed the exception.");
+                    .isExactlyInstanceOf(NestedException.class)
+                    .hasCauseExactlyInstanceOf(ParseException.class)
+                    .hasMessage(ORIGINAL_MESSAGE);
         }
     }
 
@@ -181,7 +206,7 @@ public class LTriConsumerXTest<T1,T2,T3,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfrom() throws ParseException {
+    public void testfrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -222,7 +247,7 @@ public class LTriConsumerXTest<T1,T2,T3,X extends ParseException> {
     // </editor-fold>
 
     @Test
-    public void testAndThen() throws ParseException {
+    public void testAndThen() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -251,7 +276,7 @@ public class LTriConsumerXTest<T1,T2,T3,X extends ParseException> {
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
-//
+
     @Test
     public void testNesting() {
         assertThat(sut.nest())
@@ -289,7 +314,7 @@ public class LTriConsumerXTest<T1,T2,T3,X extends ParseException> {
     }
 
     @Test
-    public void testHandleX() throws ParseException {
+    public void testHandle() throws X {
 
         // given
         LTriConsumerX<T1,T2,T3,X> sutThrowing = LTriConsumerX.lX((T1 t1,T2 t2,T3 t3) -> {
@@ -297,8 +322,8 @@ public class LTriConsumerXTest<T1,T2,T3,X extends ParseException> {
         });
 
         // when
-        LTriConsumerX<T1,T2,T3,X> wrapped = sutThrowing.handleX(UnsupportedOperationException.class, t -> {
-            throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
+        LTriConsumerX<T1,T2,T3,X> wrapped = sutThrowing.handleX(h -> {
+            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
         // then
@@ -314,7 +339,7 @@ public class LTriConsumerXTest<T1,T2,T3,X extends ParseException> {
     }
 
     @Test
-    public void testToString() throws ParseException {
+    public void testToString() throws X {
 
         assertThat(sut.toString())
                 .isInstanceOf(String.class)

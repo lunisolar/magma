@@ -23,6 +23,7 @@ import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
@@ -59,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LFloatConsumerX<X extends Exception> extends MetaConsumer, MetaInterface.Throwing<X> {
+public interface LFloatConsumerX<X extends Throwable> extends MetaConsumer, MetaInterface.Throwing<X> {
 
 	public static final String DESCRIPTION = "LFloatConsumerX: void doAccept(float f) throws X";
 
@@ -68,15 +69,24 @@ public interface LFloatConsumerX<X extends Exception> extends MetaConsumer, Meta
 	default void nestingDoAccept(float f) {
 		try {
 			this.doAccept(f);
-		} catch (RuntimeException e) {
+		} catch (RuntimeException | Error e) {
 			throw e;
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new NestedException(e);
 		}
 	}
 
 	default void shovingDoAccept(float f) {
 		((LFloatConsumerX<RuntimeException>) this).doAccept(f);
+	}
+
+	default <Y extends Throwable> void handlingDoAccept(float f, HandlingInstructions<Throwable, Y> handling) throws Y {
+
+		try {
+			this.doAccept(f);
+		} catch (Throwable e) {
+			throw Handler.handleOrNest(e, handling);
+		}
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -92,8 +102,15 @@ public interface LFloatConsumerX<X extends Exception> extends MetaConsumer, Meta
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Exception> LFloatConsumerX<X> lX(final @Nonnull LFloatConsumerX<X> lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+	public static <X extends Throwable> LFloatConsumerX<X> lX(final @Nonnull LFloatConsumerX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	public static <X extends Throwable> LFloatConsumerX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LFloatConsumerX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -101,7 +118,7 @@ public interface LFloatConsumerX<X extends Exception> extends MetaConsumer, Meta
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Exception> LFloatConsumerX<X> wrapX(final @Nonnull LFloatConsumer other) {
+	public static <X extends Throwable> LFloatConsumerX<X> wrapX(final @Nonnull LFloatConsumer other) {
 		return (LFloatConsumerX) other;
 	}
 
@@ -114,7 +131,7 @@ public interface LFloatConsumerX<X extends Exception> extends MetaConsumer, Meta
 	 */
 	@Nonnull
 	default LFloatConsumerX<X> fromFloat(@Nonnull final LFloatUnaryOperatorX<X> before1) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
+		Null.nonNullArg(before1, "before1");
 		return (final float v1) -> this.doAccept(before1.doApplyAsFloat(v1));
 	}
 
@@ -123,7 +140,7 @@ public interface LFloatConsumerX<X extends Exception> extends MetaConsumer, Meta
 	 */
 	@Nonnull
 	default <V1> LConsumerX<V1, X> from(@Nonnull final LToFloatFunctionX<? super V1, X> before1) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
+		Null.nonNullArg(before1, "before1");
 		return (V1 v1) -> this.doAccept(before1.doApplyAsFloat(v1));
 	}
 
@@ -134,15 +151,14 @@ public interface LFloatConsumerX<X extends Exception> extends MetaConsumer, Meta
 	/** Combines two consumers together in a order. */
 	@Nonnull
 	default LFloatConsumerX<X> andThen(@Nonnull LFloatConsumerX<X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (float f) -> {
 			this.doAccept(f);
 			after.doAccept(f);
 		};
 	}
 
-	// </editor-fold>
-	// <editor-fold desc="variant conversions">
+	// </editor-fold> // <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
@@ -170,33 +186,14 @@ public interface LFloatConsumerX<X extends Exception> extends MetaConsumer, Meta
 
 	// <editor-fold desc="exception handling">
 
-	/** Wraps with additional exception handling. */
 	@Nonnull
-	public static <X extends Exception, E extends Exception, Y extends Exception> LFloatConsumerX<Y> wrapException(@Nonnull final LFloatConsumerX<X> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
-		return (float f) -> {
-			try {
-				other.doAccept(f);
-			} catch (Exception e) {
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
+	default LFloatConsumer handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+		return (float f) -> this.handlingDoAccept(f, handling);
 	}
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <E extends Exception, Y extends Exception> LFloatConsumerX<Y> handleX(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LFloatConsumerX.wrapException(this, exception, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends Exception> LFloatConsumerX<Y> handleX(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LFloatConsumerX.wrapException(this, Exception.class, (ExceptionHandler) handler);
+	default <Y extends Throwable> LFloatConsumerX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+		return (float f) -> this.handlingDoAccept(f, handling);
 	}
 
 	// </editor-fold>

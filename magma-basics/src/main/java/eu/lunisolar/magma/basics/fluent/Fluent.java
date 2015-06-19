@@ -19,7 +19,7 @@
 
 package eu.lunisolar.magma.basics.fluent;
 
-import eu.lunisolar.magma.basics.SelfReferencing;
+import eu.lunisolar.magma.basics.meta.SelfReferencing;
 
 public interface Fluent<SELF extends Fluent<SELF>> extends SelfReferencing<SELF> {
 }

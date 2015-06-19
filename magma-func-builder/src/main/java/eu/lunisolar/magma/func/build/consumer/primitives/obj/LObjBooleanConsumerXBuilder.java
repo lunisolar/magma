@@ -20,11 +20,13 @@
 package eu.lunisolar.magma.func.build.consumer.primitives.obj;
 
 import eu.lunisolar.magma.func.consumer.primitives.obj.*;
+import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -47,9 +49,11 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for LObjBooleanConsumerX. */
-public final class LObjBooleanConsumerXBuilder<T, X extends Exception> extends PerCaseBuilder.Base<LObjBooleanConsumerXBuilder<T, X>, LObjBooleanPredicateX<T, X>, LObjBooleanConsumerX<T, X>> {
+public final class LObjBooleanConsumerXBuilder<T, X extends Throwable> extends PerCaseBuilder.Base<LObjBooleanConsumerXBuilder<T, X>, LObjBooleanPredicateX<T, X>, LObjBooleanConsumerX<T, X>> {
 
 	private Consumer<LObjBooleanConsumerX<T, X>> consumer;
+
+	private @Nullable HandlingInstructions handling;
 
 	public static final LObjBooleanConsumerX EVENTUALLY_THROW = LObjBooleanConsumerX.lX((Object t, boolean b) -> {
 		String message;
@@ -59,7 +63,7 @@ public final class LObjBooleanConsumerXBuilder<T, X extends Exception> extends P
 				message = "No case specified for input data (no details can be provided).";
 			}
 
-			throw new UnsupportedOperationException(message);
+			throw new IllegalStateException(message);
 		});
 
 	public LObjBooleanConsumerXBuilder(@Nullable Consumer<LObjBooleanConsumerX<T, X>> consumer) {
@@ -75,14 +79,25 @@ public final class LObjBooleanConsumerXBuilder<T, X extends Exception> extends P
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <T, X extends Exception> LObjBooleanConsumerXBuilder<T, X> objBooleanConsumerX() {
+	public static final <T, X extends Throwable> LObjBooleanConsumerXBuilder<T, X> objBooleanConsumerX() {
 		return new LObjBooleanConsumerXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <T, X extends Exception> LObjBooleanConsumerXBuilder<T, X> objBooleanConsumerX(Consumer<LObjBooleanConsumerX<T, X>> consumer) {
+	public static final <T, X extends Throwable> LObjBooleanConsumerXBuilder<T, X> objBooleanConsumerX(Consumer<LObjBooleanConsumerX<T, X>> consumer) {
 		return new LObjBooleanConsumerXBuilder(consumer);
+	}
+
+	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
+	@Nonnull
+	public final LObjBooleanConsumerXBuilder<T, X> withHandling(@Nonnull HandlingInstructions<X, X> handling) {
+		Null.nonNullArg(handling, "handling");
+		if (this.handling != null) {
+			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+		}
+		this.handling = handling;
+		return self();
 	}
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
@@ -93,11 +108,9 @@ public final class LObjBooleanConsumerXBuilder<T, X extends Exception> extends P
 
 		LObjBooleanConsumerX<T, X> retval;
 
-		if (cases.isEmpty()) {
-			retval = eventuallyFinal;
-		} else {
-			final Case<LObjBooleanPredicateX<T, X>, LObjBooleanConsumerX<T, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-			retval = LObjBooleanConsumerX.lX((T t, boolean b) -> {
+		final Case<LObjBooleanPredicateX<T, X>, LObjBooleanConsumerX<T, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = LObjBooleanConsumerX.lX((T t, boolean b) -> {
+			try {
 				for (Case<LObjBooleanPredicateX<T, X>, LObjBooleanConsumerX<T, X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(t, b)) {
 						aCase.caseFunction().doAccept(t, b);
@@ -106,13 +119,20 @@ public final class LObjBooleanConsumerXBuilder<T, X extends Exception> extends P
 				}
 
 				eventuallyFinal.doAccept(t, b);
-			});
-		}
+			} catch (Throwable e) {
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);
 		}
 		return retval;
+	}
+
+	public final LObjBooleanConsumerX<T, X> build(@Nonnull HandlingInstructions<X, X> handling) {
+		this.withHandling(handling);
+		return build();
 	}
 
 }

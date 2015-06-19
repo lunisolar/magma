@@ -24,6 +24,7 @@ import java.util.Comparator; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -58,7 +59,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LCharUnaryOperatorX<X extends Exception> extends MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LCharUnaryOperatorX<X extends Throwable> extends MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
 	public static final String DESCRIPTION = "LCharUnaryOperatorX: char doApplyAsChar(char c) throws X";
 
@@ -67,15 +68,24 @@ public interface LCharUnaryOperatorX<X extends Exception> extends MetaOperator, 
 	default char nestingDoApplyAsChar(char c) {
 		try {
 			return this.doApplyAsChar(c);
-		} catch (RuntimeException e) {
+		} catch (RuntimeException | Error e) {
 			throw e;
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new NestedException(e);
 		}
 	}
 
 	default char shovingDoApplyAsChar(char c) {
 		return ((LCharUnaryOperatorX<RuntimeException>) this).doApplyAsChar(c);
+	}
+
+	default <Y extends Throwable> char handlingDoApplyAsChar(char c, HandlingInstructions<Throwable, Y> handling) throws Y {
+
+		try {
+			return this.doApplyAsChar(c);
+		} catch (Throwable e) {
+			throw Handler.handleOrNest(e, handling);
+		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
@@ -94,14 +104,21 @@ public interface LCharUnaryOperatorX<X extends Exception> extends MetaOperator, 
 		return () -> this.doApplyAsChar(c);
 	}
 
-	public static <X extends Exception> LCharUnaryOperatorX<X> constant(char r) {
+	public static <X extends Throwable> LCharUnaryOperatorX<X> constant(char r) {
 		return (c) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Exception> LCharUnaryOperatorX<X> lX(final @Nonnull LCharUnaryOperatorX<X> lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+	public static <X extends Throwable> LCharUnaryOperatorX<X> lX(final @Nonnull LCharUnaryOperatorX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	public static <X extends Throwable> LCharUnaryOperatorX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LCharUnaryOperatorX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -109,7 +126,7 @@ public interface LCharUnaryOperatorX<X extends Exception> extends MetaOperator, 
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Exception> LCharUnaryOperatorX<X> wrapX(final @Nonnull LCharUnaryOperator other) {
+	public static <X extends Throwable> LCharUnaryOperatorX<X> wrapX(final @Nonnull LCharUnaryOperator other) {
 		return (LCharUnaryOperatorX) other;
 	}
 
@@ -122,7 +139,7 @@ public interface LCharUnaryOperatorX<X extends Exception> extends MetaOperator, 
 	 */
 	@Nonnull
 	default LCharUnaryOperatorX<X> fromChar(@Nonnull final LCharUnaryOperatorX<X> before1) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
+		Null.nonNullArg(before1, "before1");
 		return (final char v1) -> this.doApplyAsChar(before1.doApplyAsChar(v1));
 	}
 
@@ -131,7 +148,7 @@ public interface LCharUnaryOperatorX<X extends Exception> extends MetaOperator, 
 	 */
 	@Nonnull
 	default <V1> LToCharFunctionX<V1, X> from(@Nonnull final LToCharFunctionX<? super V1, X> before1) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
+		Null.nonNullArg(before1, "before1");
 		return (V1 v1) -> this.doApplyAsChar(before1.doApplyAsChar(v1));
 	}
 
@@ -142,63 +159,63 @@ public interface LCharUnaryOperatorX<X extends Exception> extends MetaOperator, 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default <V> LCharFunctionX<V, X> then(@Nonnull LCharFunctionX<? extends V, X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (char c) -> after.doApply(this.doApplyAsChar(c));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LCharToByteFunctionX<X> thenToByte(@Nonnull LCharToByteFunctionX<X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (char c) -> after.doApplyAsByte(this.doApplyAsChar(c));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LCharToShortFunctionX<X> thenToShort(@Nonnull LCharToShortFunctionX<X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (char c) -> after.doApplyAsShort(this.doApplyAsChar(c));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LCharToIntFunctionX<X> thenToInt(@Nonnull LCharToIntFunctionX<X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (char c) -> after.doApplyAsInt(this.doApplyAsChar(c));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LCharToLongFunctionX<X> thenToLong(@Nonnull LCharToLongFunctionX<X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (char c) -> after.doApplyAsLong(this.doApplyAsChar(c));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LCharToFloatFunctionX<X> thenToFloat(@Nonnull LCharToFloatFunctionX<X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (char c) -> after.doApplyAsFloat(this.doApplyAsChar(c));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LCharToDoubleFunctionX<X> thenToDouble(@Nonnull LCharToDoubleFunctionX<X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (char c) -> after.doApplyAsDouble(this.doApplyAsChar(c));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LCharUnaryOperatorX<X> thenToChar(@Nonnull LCharUnaryOperatorX<X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (char c) -> after.doApplyAsChar(this.doApplyAsChar(c));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LCharPredicateX<X> thenToBoolean(@Nonnull LCharPredicateX<X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (char c) -> after.doTest(this.doApplyAsChar(c));
 	}
 
@@ -206,10 +223,9 @@ public interface LCharUnaryOperatorX<X extends Exception> extends MetaOperator, 
 
 	/** Returns a function that always returns its input argument. */
 	@Nonnull
-	public static <X extends Exception> LCharUnaryOperatorX<X> identity() {
+	public static <X extends Throwable> LCharUnaryOperatorX<X> identity() {
 		return t -> t;
 	}
-
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
@@ -238,57 +254,14 @@ public interface LCharUnaryOperatorX<X extends Exception> extends MetaOperator, 
 
 	// <editor-fold desc="exception handling">
 
-	/** Wraps with additional exception handling. */
 	@Nonnull
-	public static <X extends Exception, E extends Exception, Y extends Exception> LCharUnaryOperatorX<Y> wrapException(@Nonnull final LCharUnaryOperatorX<X> other, Class<E> exception, LCharSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
-		return (char c) -> {
-			try {
-				return other.doApplyAsChar(c);
-			} catch (Exception e) {
-				try {
-					if (supplier != null) {
-						return supplier.doGetAsChar();
-					}
-				} catch (Exception supplierException) {
-					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
-				}
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
+	default LCharUnaryOperator handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+		return (char c) -> this.handlingDoApplyAsChar(c, handling);
 	}
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <E extends Exception, Y extends Exception> LCharUnaryOperatorX<Y> handleX(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LCharUnaryOperatorX.wrapException(this, exception, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends Exception> LCharUnaryOperatorX<Y> handleX(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LCharUnaryOperatorX.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <E extends Exception, Y extends Exception> LCharUnaryOperatorX<Y> handleX(Class<E> exception, LCharSupplierX<X> supplier) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LCharUnaryOperatorX.wrapException(this, exception, supplier, null);
-	}
-
-	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <Y extends Exception> LCharUnaryOperatorX<Y> handleX(LCharSupplierX<X> supplier) {
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LCharUnaryOperatorX.wrapException(this, Exception.class, supplier, null);
+	default <Y extends Throwable> LCharUnaryOperatorX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+		return (char c) -> this.handlingDoApplyAsChar(c, handling);
 	}
 
 	// </editor-fold>

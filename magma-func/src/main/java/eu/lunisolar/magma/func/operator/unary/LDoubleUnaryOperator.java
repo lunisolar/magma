@@ -24,6 +24,7 @@ import java.util.Comparator; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -102,7 +103,7 @@ public interface LDoubleUnaryOperator extends LDoubleUnaryOperatorX<RuntimeExcep
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LDoubleUnaryOperator l(final @Nonnull LDoubleUnaryOperator lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -116,7 +117,7 @@ public interface LDoubleUnaryOperator extends LDoubleUnaryOperatorX<RuntimeExcep
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Exception> LDoubleUnaryOperator wrap(final @Nonnull LDoubleUnaryOperatorX<X> other) {
+	public static <X extends Throwable> LDoubleUnaryOperator wrap(final @Nonnull LDoubleUnaryOperatorX<X> other) {
 		return other::nestingDoApplyAsDouble;
 	}
 
@@ -129,7 +130,7 @@ public interface LDoubleUnaryOperator extends LDoubleUnaryOperatorX<RuntimeExcep
 	 */
 	@Nonnull
 	default LDoubleUnaryOperator fromDouble(@Nonnull final LDoubleUnaryOperator before1) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
+		Null.nonNullArg(before1, "before1");
 		return (final double v1) -> this.doApplyAsDouble(before1.doApplyAsDouble(v1));
 	}
 
@@ -138,7 +139,7 @@ public interface LDoubleUnaryOperator extends LDoubleUnaryOperatorX<RuntimeExcep
 	 */
 	@Nonnull
 	default <V1> LToDoubleFunction<V1> from(@Nonnull final LToDoubleFunction<? super V1> before1) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
+		Null.nonNullArg(before1, "before1");
 		return (V1 v1) -> this.doApplyAsDouble(before1.doApplyAsDouble(v1));
 	}
 
@@ -149,63 +150,63 @@ public interface LDoubleUnaryOperator extends LDoubleUnaryOperatorX<RuntimeExcep
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default <V> LDoubleFunction<V> then(@Nonnull LDoubleFunction<? extends V> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (double d) -> after.doApply(this.doApplyAsDouble(d));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LDoubleToByteFunction thenToByte(@Nonnull LDoubleToByteFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (double d) -> after.doApplyAsByte(this.doApplyAsDouble(d));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LDoubleToShortFunction thenToShort(@Nonnull LDoubleToShortFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (double d) -> after.doApplyAsShort(this.doApplyAsDouble(d));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LDoubleToIntFunction thenToInt(@Nonnull LDoubleToIntFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (double d) -> after.doApplyAsInt(this.doApplyAsDouble(d));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LDoubleToLongFunction thenToLong(@Nonnull LDoubleToLongFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (double d) -> after.doApplyAsLong(this.doApplyAsDouble(d));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LDoubleToFloatFunction thenToFloat(@Nonnull LDoubleToFloatFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (double d) -> after.doApplyAsFloat(this.doApplyAsDouble(d));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LDoubleUnaryOperator thenToDouble(@Nonnull LDoubleUnaryOperator after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (double d) -> after.doApplyAsDouble(this.doApplyAsDouble(d));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LDoubleToCharFunction thenToChar(@Nonnull LDoubleToCharFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (double d) -> after.doApplyAsChar(this.doApplyAsDouble(d));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LDoublePredicate thenToBoolean(@Nonnull LDoublePredicate after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (double d) -> after.doTest(this.doApplyAsDouble(d));
 	}
 
@@ -216,7 +217,6 @@ public interface LDoubleUnaryOperator extends LDoubleUnaryOperatorX<RuntimeExcep
 	public static LDoubleUnaryOperator identity() {
 		return t -> t;
 	}
-
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
@@ -239,63 +239,6 @@ public interface LDoubleUnaryOperator extends LDoubleUnaryOperatorX<RuntimeExcep
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LDoubleUnaryOperatorX<RuntimeException> shoveX() {
 		return this;
-	}
-
-	// </editor-fold>
-
-	// <editor-fold desc="exception handling">
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LDoubleUnaryOperator wrapException(@Nonnull final LDoubleUnaryOperator other, Class<E> exception, LDoubleSupplier supplier, ExceptionHandler<E, Y> handler) {
-		return (double d) -> {
-			try {
-				return other.doApplyAsDouble(d);
-			} catch (Exception e) {
-				try {
-					if (supplier != null) {
-						return supplier.doGetAsDouble();
-					}
-				} catch (Exception supplierException) {
-					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
-				}
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
-	}
-
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
-	@Nonnull
-	default <E extends Exception, Y extends RuntimeException> LDoubleUnaryOperator handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LDoubleUnaryOperator.wrapException(this, exception, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends RuntimeException> LDoubleUnaryOperator handle(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LDoubleUnaryOperator.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <E extends Exception, Y extends RuntimeException> LDoubleUnaryOperator handle(Class<E> exception, LDoubleSupplier supplier) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LDoubleUnaryOperator.wrapException(this, exception, supplier, null);
-	}
-
-	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <Y extends RuntimeException> LDoubleUnaryOperator handle(LDoubleSupplier supplier) {
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LDoubleUnaryOperator.wrapException(this, Exception.class, supplier, null);
 	}
 
 	// </editor-fold>

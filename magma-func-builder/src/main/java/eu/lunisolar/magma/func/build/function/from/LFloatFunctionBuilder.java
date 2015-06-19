@@ -20,11 +20,13 @@
 package eu.lunisolar.magma.func.build.function.from;
 
 import eu.lunisolar.magma.func.function.from.*;
+import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -51,6 +53,8 @@ public final class LFloatFunctionBuilder<R> extends PerCaseBuilderWithProduct.Ba
 
 	private Consumer<LFloatFunction<R>> consumer;
 
+	private @Nullable HandlingInstructions handling;
+
 	public static final LFloatFunction EVENTUALLY_THROW = LFloatFunction.l((float f) -> {
 		String message;
 		try {
@@ -59,7 +63,7 @@ public final class LFloatFunctionBuilder<R> extends PerCaseBuilderWithProduct.Ba
 				message = "No case specified for input data (no details can be provided).";
 			}
 
-			throw new UnsupportedOperationException(message);
+			throw new IllegalStateException(message);
 		});
 
 	public LFloatFunctionBuilder(@Nullable Consumer<LFloatFunction<R>> consumer) {
@@ -85,6 +89,17 @@ public final class LFloatFunctionBuilder<R> extends PerCaseBuilderWithProduct.Ba
 		return new LFloatFunctionBuilder(consumer);
 	}
 
+	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
+	@Nonnull
+	public final LFloatFunctionBuilder<R> withHandling(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+		Null.nonNullArg(handling, "handling");
+		if (this.handling != null) {
+			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+		}
+		this.handling = handling;
+		return self();
+	}
+
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
 	@Nonnull
 	public final LFloatFunction<R> build() {
@@ -93,11 +108,9 @@ public final class LFloatFunctionBuilder<R> extends PerCaseBuilderWithProduct.Ba
 
 		LFloatFunction<R> retval;
 
-		if (cases.isEmpty()) {
-			retval = eventuallyFinal;
-		} else {
-			final Case<LFloatPredicate, LFloatFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-			retval = LFloatFunction.l((float f) -> {
+		final Case<LFloatPredicate, LFloatFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = LFloatFunction.l((float f) -> {
+			try {
 				for (Case<LFloatPredicate, LFloatFunction<R>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(f)) {
 						return aCase.caseFunction().doApply(f);
@@ -105,13 +118,20 @@ public final class LFloatFunctionBuilder<R> extends PerCaseBuilderWithProduct.Ba
 				}
 
 				return eventuallyFinal.doApply(f);
-			});
-		}
+			} catch (Throwable e) {
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);
 		}
 		return retval;
+	}
+
+	public final LFloatFunction<R> build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+		this.withHandling(handling);
+		return build();
 	}
 
 }

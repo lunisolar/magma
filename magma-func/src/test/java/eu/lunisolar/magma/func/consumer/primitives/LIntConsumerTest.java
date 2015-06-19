@@ -47,6 +47,7 @@ import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
@@ -83,31 +84,31 @@ public class LIntConsumerTest<X extends ParseException> {
 
 
     @Test
-    public void testFunctionalInterfaceDescription() throws ParseException {
+    public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
             .isEqualTo("LIntConsumer: void doAccept(int i)");
     }
 
     @Test
-    public void testLMethod() throws ParseException {
+    public void testLMethod() throws X {
         assertThat(LIntConsumer.l((int i) -> Function4U.doNothing() ))
             .isInstanceOf(LIntConsumer.class);
     }
 
     @Test
-    public void testWrapMethod() throws ParseException {
+    public void testWrapMethod() throws X {
         assertThat(LIntConsumer.wrap(opposite))
             .isInstanceOf(LIntConsumer.class);
     }
 
     @Test
-    public void testWrapStdMethod() throws ParseException {
+    public void testWrapStdMethod() throws X {
         assertThat(LIntConsumer.wrap(jre))
             .isInstanceOf(LIntConsumer.class);
     }
 
     @Test
-    public void testWrapMethodDoNotWrapsRuntimeException() throws ParseException {
+    public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
         LIntConsumerX<X> sutThrowing = LIntConsumerX.lX((int i) -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
@@ -129,7 +130,7 @@ public class LIntConsumerTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapMethodWrapsCheckedException() throws ParseException {
+    public void testWrapMethodWrapsCheckedException() throws X {
         // given
         LIntConsumerX<ParseException> sutThrowing = LIntConsumerX.lX((int i) -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
@@ -152,7 +153,7 @@ public class LIntConsumerTest<X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMethodWrapsTheException() throws ParseException {
+    public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
         LIntConsumer sutThrowing = LIntConsumer.l((int i) -> {
@@ -160,8 +161,8 @@ public class LIntConsumerTest<X extends ParseException> {
         });
 
         // when
-        LIntConsumer wrapped = LIntConsumer.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
-            throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
+        LIntConsumer wrapped = sutThrowing.handle(h -> {
+            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
         // then
@@ -177,7 +178,7 @@ public class LIntConsumerTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException() throws ParseException {
+    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
 
         // given
         LIntConsumer sutThrowing = LIntConsumer.l((int i) -> {
@@ -185,9 +186,9 @@ public class LIntConsumerTest<X extends ParseException> {
         });
 
         // when
-        LIntConsumer wrapped = LIntConsumer.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
-            throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
-        });
+        LIntConsumer wrapped = sutThrowing.handle(handler -> handler
+                .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
+                .throwIf(IndexOutOfBoundsException.class));
 
         // then
         try {
@@ -200,17 +201,41 @@ public class LIntConsumerTest<X extends ParseException> {
         }
     }
 
-    @Test
-    public void testWrapExceptionMisshandlingExceptionIsDetected() throws ParseException {
+@Test
+    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
 
         // given
         LIntConsumer sutThrowing = LIntConsumer.l((int i) -> {
-            throw new UnsupportedOperationException();
+            throw new IndexOutOfBoundsException();
         });
 
         // when
-        LIntConsumer wrapped = LIntConsumer.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
-            return null;
+        LIntConsumer wrapped = sutThrowing.handle(handler -> handler
+                .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
+                .throwIf(IndexOutOfBoundsException.class));
+
+        // then
+        try {
+            wrapped.doAccept((int)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause();
+        }
+    }
+
+
+    @Test
+    public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
+
+        // given
+        LIntConsumer sutThrowing = LIntConsumer.l((int i) -> {
+            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
+        });
+
+        // when
+        LIntConsumer wrapped = sutThrowing.handle(h -> {
         });
 
         // then
@@ -219,9 +244,9 @@ public class LIntConsumerTest<X extends ParseException> {
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
-                    .isExactlyInstanceOf(ExceptionNotHandled.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage("Handler has not processed the exception.");
+             .isExactlyInstanceOf(UnsupportedOperationException.class)
+             .hasNoCause()
+             .hasMessage(ORIGINAL_MESSAGE);
         }
     }
 
@@ -230,7 +255,7 @@ public class LIntConsumerTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromInt() throws ParseException {
+    public void testfromInt() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -258,7 +283,7 @@ public class LIntConsumerTest<X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws ParseException {
+    public void testfrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -287,7 +312,7 @@ public class LIntConsumerTest<X extends ParseException> {
     // </editor-fold>
 
     @Test
-    public void testAndThen() throws ParseException {
+    public void testAndThen() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -312,13 +337,7 @@ public class LIntConsumerTest<X extends ParseException> {
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
-//
-//    @Test
-//    public void testStd() {
-//        assertThat(sut.std()).isInstanceOf(java.util.function.IntConsumer.class);
-//    }
-//
-//
+
     @Test
     public void testNesting() {
         assertThat(sut.nest())
@@ -360,7 +379,7 @@ public class LIntConsumerTest<X extends ParseException> {
     }
 
     @Test
-    public void testHandle() throws ParseException {
+    public void testHandle() throws X {
 
         // given
         LIntConsumer sutThrowing = LIntConsumer.l((int i) -> {
@@ -368,8 +387,8 @@ public class LIntConsumerTest<X extends ParseException> {
         });
 
         // when
-        LIntConsumer wrapped = sutThrowing.handle(UnsupportedOperationException.class, t -> {
-            throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
+        LIntConsumer wrapped = sutThrowing.handle(h -> {
+            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
         // then
@@ -385,7 +404,7 @@ public class LIntConsumerTest<X extends ParseException> {
     }
 
     @Test
-    public void testToString() throws ParseException {
+    public void testToString() throws X {
 
         assertThat(sut.toString())
                 .isInstanceOf(String.class)

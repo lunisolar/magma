@@ -33,7 +33,7 @@ import eu.lunisolar.magma.func.action.LAction;
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LByteSupplierX. */
-public interface LByteSupplierXAssert<S extends LByteSupplierXAssert<S, A, RS, X>, A extends LByteSupplierX<X>, RS extends AbstractByteAssert<RS>, X extends Exception> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, Byte, Exception> {
+public interface LByteSupplierXAssert<S extends LByteSupplierXAssert<S, A, RS, X>, A extends LByteSupplierX<X>, RS extends AbstractByteAssert<RS>, X extends Throwable> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, Byte, Exception> {
 
 	@Nonnull
 	Evaluation<S, A, RS, Byte, Exception> doesGetAsByte();
@@ -42,7 +42,7 @@ public interface LByteSupplierXAssert<S extends LByteSupplierXAssert<S, A, RS, X
 	Evaluation<S, A, RS, Byte, Exception> doesGetAsByte(LAction before);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LByteSupplierX<X>, RS extends AbstractByteAssert<RS>, X extends Exception> extends Base<Impl<A, RS, X>, A, RS, X> {
+	public final static class Impl<A extends LByteSupplierX<X>, RS extends AbstractByteAssert<RS>, X extends Throwable> extends Base<Impl<A, RS, X>, A, RS, X> {
 
 		public Impl(A actual, java.util.function.Function<Byte, RS> assertFactory) {
 			super(actual, Impl.class, assertFactory);
@@ -50,7 +50,7 @@ public interface LByteSupplierXAssert<S extends LByteSupplierXAssert<S, A, RS, X
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, X>, A extends LByteSupplierX<X>, RS extends AbstractByteAssert<RS>, X extends Exception> extends FullFunctionalAssert.Base<S, A, RS, Byte, Exception> implements LByteSupplierXAssert<S, A, RS, X> {
+	public static class Base<S extends Base<S, A, RS, X>, A extends LByteSupplierX<X>, RS extends AbstractByteAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, A, RS, Byte, Exception> implements LByteSupplierXAssert<S, A, RS, X> {
 
 		protected final java.util.function.Function<Byte, RS> assertFactory;
 

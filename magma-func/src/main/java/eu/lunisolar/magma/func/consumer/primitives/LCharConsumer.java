@@ -23,6 +23,7 @@ import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
@@ -87,7 +88,7 @@ public interface LCharConsumer extends LCharConsumerX<RuntimeException>, MetaCon
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LCharConsumer l(final @Nonnull LCharConsumer lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -95,7 +96,7 @@ public interface LCharConsumer extends LCharConsumerX<RuntimeException>, MetaCon
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Exception> LCharConsumer wrap(final @Nonnull LCharConsumerX<X> other) {
+	public static <X extends Throwable> LCharConsumer wrap(final @Nonnull LCharConsumerX<X> other) {
 		return other::nestingDoAccept;
 	}
 
@@ -108,7 +109,7 @@ public interface LCharConsumer extends LCharConsumerX<RuntimeException>, MetaCon
 	 */
 	@Nonnull
 	default LCharConsumer fromChar(@Nonnull final LCharUnaryOperator before1) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
+		Null.nonNullArg(before1, "before1");
 		return (final char v1) -> this.doAccept(before1.doApplyAsChar(v1));
 	}
 
@@ -117,7 +118,7 @@ public interface LCharConsumer extends LCharConsumerX<RuntimeException>, MetaCon
 	 */
 	@Nonnull
 	default <V1> LConsumer<V1> from(@Nonnull final LToCharFunction<? super V1> before1) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
+		Null.nonNullArg(before1, "before1");
 		return (V1 v1) -> this.doAccept(before1.doApplyAsChar(v1));
 	}
 
@@ -128,15 +129,14 @@ public interface LCharConsumer extends LCharConsumerX<RuntimeException>, MetaCon
 	/** Combines two consumers together in a order. */
 	@Nonnull
 	default LCharConsumer andThen(@Nonnull LCharConsumer after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (char c) -> {
 			this.doAccept(c);
 			after.doAccept(c);
 		};
 	}
 
-	// </editor-fold>
-	// <editor-fold desc="variant conversions">
+	// </editor-fold> // <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
@@ -158,39 +158,6 @@ public interface LCharConsumer extends LCharConsumerX<RuntimeException>, MetaCon
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LCharConsumerX<RuntimeException> shoveX() {
 		return this;
-	}
-
-	// </editor-fold>
-
-	// <editor-fold desc="exception handling">
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LCharConsumer wrapException(@Nonnull final LCharConsumer other, Class<E> exception, ExceptionHandler<E, Y> handler) {
-		return (char c) -> {
-			try {
-				other.doAccept(c);
-			} catch (Exception e) {
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
-	}
-
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
-	@Nonnull
-	default <E extends Exception, Y extends RuntimeException> LCharConsumer handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LCharConsumer.wrapException(this, exception, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends RuntimeException> LCharConsumer handle(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LCharConsumer.wrapException(this, Exception.class, (ExceptionHandler) handler);
 	}
 
 	// </editor-fold>

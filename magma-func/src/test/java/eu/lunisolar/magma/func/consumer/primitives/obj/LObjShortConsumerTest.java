@@ -47,6 +47,7 @@ import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
@@ -81,25 +82,25 @@ public class LObjShortConsumerTest<T,X extends ParseException> {
 
 
     @Test
-    public void testFunctionalInterfaceDescription() throws ParseException {
+    public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
             .isEqualTo("LObjShortConsumer: void doAccept(T t, short s)");
     }
 
     @Test
-    public void testLMethod() throws ParseException {
+    public void testLMethod() throws X {
         assertThat(LObjShortConsumer.l((Object t, short s) -> Function4U.doNothing() ))
             .isInstanceOf(LObjShortConsumer.class);
     }
 
     @Test
-    public void testWrapMethod() throws ParseException {
+    public void testWrapMethod() throws X {
         assertThat(LObjShortConsumer.wrap(opposite))
             .isInstanceOf(LObjShortConsumer.class);
     }
 
     @Test
-    public void testWrapMethodDoNotWrapsRuntimeException() throws ParseException {
+    public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
         LObjShortConsumerX<T,X> sutThrowing = LObjShortConsumerX.lX((T t, short s) -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
@@ -121,7 +122,7 @@ public class LObjShortConsumerTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testWrapMethodWrapsCheckedException() throws ParseException {
+    public void testWrapMethodWrapsCheckedException() throws X {
         // given
         LObjShortConsumerX<T,ParseException> sutThrowing = LObjShortConsumerX.lX((T t, short s) -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
@@ -144,7 +145,7 @@ public class LObjShortConsumerTest<T,X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMethodWrapsTheException() throws ParseException {
+    public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
         LObjShortConsumer<T> sutThrowing = LObjShortConsumer.l((T t, short s) -> {
@@ -152,8 +153,8 @@ public class LObjShortConsumerTest<T,X extends ParseException> {
         });
 
         // when
-        LObjShortConsumer<T> wrapped = LObjShortConsumer.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
-            throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
+        LObjShortConsumer<T> wrapped = sutThrowing.handle(h -> {
+            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
         // then
@@ -169,7 +170,7 @@ public class LObjShortConsumerTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException() throws ParseException {
+    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
 
         // given
         LObjShortConsumer<T> sutThrowing = LObjShortConsumer.l((T t, short s) -> {
@@ -177,9 +178,9 @@ public class LObjShortConsumerTest<T,X extends ParseException> {
         });
 
         // when
-        LObjShortConsumer<T> wrapped = LObjShortConsumer.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
-            throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
-        });
+        LObjShortConsumer<T> wrapped = sutThrowing.handle(handler -> handler
+                .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
+                .throwIf(IndexOutOfBoundsException.class));
 
         // then
         try {
@@ -192,17 +193,41 @@ public class LObjShortConsumerTest<T,X extends ParseException> {
         }
     }
 
-    @Test
-    public void testWrapExceptionMisshandlingExceptionIsDetected() throws ParseException {
+@Test
+    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
 
         // given
         LObjShortConsumer<T> sutThrowing = LObjShortConsumer.l((T t, short s) -> {
-            throw new UnsupportedOperationException();
+            throw new IndexOutOfBoundsException();
         });
 
         // when
-        LObjShortConsumer<T> wrapped = LObjShortConsumer.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
-            return null;
+        LObjShortConsumer<T> wrapped = sutThrowing.handle(handler -> handler
+                .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
+                .throwIf(IndexOutOfBoundsException.class));
+
+        // then
+        try {
+            wrapped.doAccept((T)Integer.valueOf(100),(short)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause();
+        }
+    }
+
+
+    @Test
+    public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
+
+        // given
+        LObjShortConsumer<T> sutThrowing = LObjShortConsumer.l((T t, short s) -> {
+            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
+        });
+
+        // when
+        LObjShortConsumer<T> wrapped = sutThrowing.handle(h -> {
         });
 
         // then
@@ -211,9 +236,9 @@ public class LObjShortConsumerTest<T,X extends ParseException> {
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
-                    .isExactlyInstanceOf(ExceptionNotHandled.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage("Handler has not processed the exception.");
+             .isExactlyInstanceOf(UnsupportedOperationException.class)
+             .hasNoCause()
+             .hasMessage(ORIGINAL_MESSAGE);
         }
     }
 
@@ -222,7 +247,7 @@ public class LObjShortConsumerTest<T,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromShort() throws ParseException {
+    public void testfromShort() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -256,7 +281,7 @@ public class LObjShortConsumerTest<T,X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws ParseException {
+    public void testfrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -291,7 +316,7 @@ public class LObjShortConsumerTest<T,X extends ParseException> {
     // </editor-fold>
 
     @Test
-    public void testAndThen() throws ParseException {
+    public void testAndThen() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -318,7 +343,7 @@ public class LObjShortConsumerTest<T,X extends ParseException> {
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
-//
+
     @Test
     public void testNesting() {
         assertThat(sut.nest())
@@ -360,7 +385,7 @@ public class LObjShortConsumerTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testHandle() throws ParseException {
+    public void testHandle() throws X {
 
         // given
         LObjShortConsumer<T> sutThrowing = LObjShortConsumer.l((T t, short s) -> {
@@ -368,8 +393,8 @@ public class LObjShortConsumerTest<T,X extends ParseException> {
         });
 
         // when
-        LObjShortConsumer<T> wrapped = sutThrowing.handle(UnsupportedOperationException.class, t -> {
-            throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
+        LObjShortConsumer<T> wrapped = sutThrowing.handle(h -> {
+            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
         // then
@@ -385,7 +410,7 @@ public class LObjShortConsumerTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testToString() throws ParseException {
+    public void testToString() throws X {
 
         assertThat(sut.toString())
                 .isInstanceOf(String.class)

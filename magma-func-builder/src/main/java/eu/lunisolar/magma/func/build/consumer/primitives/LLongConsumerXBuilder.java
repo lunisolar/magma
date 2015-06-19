@@ -20,11 +20,13 @@
 package eu.lunisolar.magma.func.build.consumer.primitives;
 
 import eu.lunisolar.magma.func.consumer.primitives.*;
+import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -47,9 +49,11 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for LLongConsumerX. */
-public final class LLongConsumerXBuilder<X extends Exception> extends PerCaseBuilder.Base<LLongConsumerXBuilder<X>, LLongPredicateX<X>, LLongConsumerX<X>> {
+public final class LLongConsumerXBuilder<X extends Throwable> extends PerCaseBuilder.Base<LLongConsumerXBuilder<X>, LLongPredicateX<X>, LLongConsumerX<X>> {
 
 	private Consumer<LLongConsumerX<X>> consumer;
+
+	private @Nullable HandlingInstructions handling;
 
 	public static final LLongConsumerX EVENTUALLY_THROW = LLongConsumerX.lX((long l) -> {
 		String message;
@@ -59,7 +63,7 @@ public final class LLongConsumerXBuilder<X extends Exception> extends PerCaseBui
 				message = "No case specified for input data (no details can be provided).";
 			}
 
-			throw new UnsupportedOperationException(message);
+			throw new IllegalStateException(message);
 		});
 
 	public LLongConsumerXBuilder(@Nullable Consumer<LLongConsumerX<X>> consumer) {
@@ -75,14 +79,25 @@ public final class LLongConsumerXBuilder<X extends Exception> extends PerCaseBui
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <X extends Exception> LLongConsumerXBuilder<X> longConsumerX() {
+	public static final <X extends Throwable> LLongConsumerXBuilder<X> longConsumerX() {
 		return new LLongConsumerXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <X extends Exception> LLongConsumerXBuilder<X> longConsumerX(Consumer<LLongConsumerX<X>> consumer) {
+	public static final <X extends Throwable> LLongConsumerXBuilder<X> longConsumerX(Consumer<LLongConsumerX<X>> consumer) {
 		return new LLongConsumerXBuilder(consumer);
+	}
+
+	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
+	@Nonnull
+	public final LLongConsumerXBuilder<X> withHandling(@Nonnull HandlingInstructions<X, X> handling) {
+		Null.nonNullArg(handling, "handling");
+		if (this.handling != null) {
+			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+		}
+		this.handling = handling;
+		return self();
 	}
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
@@ -93,11 +108,9 @@ public final class LLongConsumerXBuilder<X extends Exception> extends PerCaseBui
 
 		LLongConsumerX<X> retval;
 
-		if (cases.isEmpty()) {
-			retval = eventuallyFinal;
-		} else {
-			final Case<LLongPredicateX<X>, LLongConsumerX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-			retval = LLongConsumerX.lX((long l) -> {
+		final Case<LLongPredicateX<X>, LLongConsumerX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = LLongConsumerX.lX((long l) -> {
+			try {
 				for (Case<LLongPredicateX<X>, LLongConsumerX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(l)) {
 						aCase.caseFunction().doAccept(l);
@@ -106,13 +119,20 @@ public final class LLongConsumerXBuilder<X extends Exception> extends PerCaseBui
 				}
 
 				eventuallyFinal.doAccept(l);
-			});
-		}
+			} catch (Throwable e) {
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);
 		}
 		return retval;
+	}
+
+	public final LLongConsumerX<X> build(@Nonnull HandlingInstructions<X, X> handling) {
+		this.withHandling(handling);
+		return build();
 	}
 
 }

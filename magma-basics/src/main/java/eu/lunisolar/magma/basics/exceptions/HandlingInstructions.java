@@ -17,12 +17,8 @@
  * along with "lunisolar-magma".  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eu.lunisolar.magma.basics;
+package eu.lunisolar.magma.basics.exceptions;
 
-public interface SelfReferencing<SELF extends SelfReferencing<SELF>> {
-
-    default SELF self() {
-        return (SELF) this;
-    }
-
+public interface HandlingInstructions<X extends Throwable, Y extends Throwable> {
+    void processWith(Handler.The<X, Y> handler) throws Y;
 }

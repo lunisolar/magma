@@ -19,14 +19,14 @@
 
 package eu.lunisolar.magma.examples;
 
-import eu.lunisolar.magma.basics.NestedException;
+import eu.lunisolar.magma.basics.exceptions.NestedException;
 import eu.lunisolar.magma.func.asserts.DefaultFunctionalAssertions;
 import eu.lunisolar.magma.func.function.LFunction;
 import eu.lunisolar.magma.func.function.LFunctionX;
-import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ObjectAssert;
 import org.testng.annotations.Test;
 
+import java.text.*;
 import java.util.function.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -83,27 +83,56 @@ public class Example3Test {
     }
 
     @Test(expectedExceptions = UnsupportedOperationException.class)
-    public void example4() throws Exception {
+    public void example4() throws Throwable {
         throwingAlways
-                .handleX((e) -> {
-                    throw new UnsupportedOperationException(e);  // <- cannot infer exception for handle()
-                })
+                .handleX((h) -> h.throwWrapper(UnsupportedOperationException::new))
                 .doApply(0);  // <- exception type was generalized to Exception
     }
 
     @Test(expectedExceptions = UnsupportedOperationException.class)
     public void example5() {
         throwingAlways
-                .handleX((e) -> new UnsupportedOperationException(e))
+                .handle((h) -> h.throwWrapper(UnsupportedOperationException::new))
                 .doApply(0);
     }
 
     @Test(expectedExceptions = NestedException.class)
-    public void example6() {
-        // Only RuntimeException will be handled.
-        throwingAlways
-                .handleX(RuntimeException.class, (e) -> new UnsupportedOperationException(e))
-                .doApply(0);
+    public void example6() throws ParseException {
+        LFunctionX<Integer, Integer, ParseException> functionX = throwingAlways.handleX((h) -> h
+                        .wrapIf(RuntimeException.class::isInstance, UnsupportedOperationException::new)
+        );
+
+        functionX.doApply(0);
     }
+
+    @Test(expectedExceptions = NestedException.class)
+    public void example7_1() {
+        // Only RuntimeException will be handled.
+        throwingAlways.handlingDoApply(0, (h) -> h
+                        .wrapIf(RuntimeException.class::isInstance, UnsupportedOperationException::new)
+
+        );
+    }
+
+    @Test(expectedExceptions = UnsupportedOperationException.class)
+    public void example7_2() {
+        // Only RuntimeException will be handled.
+        throwingAlways.handlingDoApply(0, (h) -> h
+                        .wrapWhen(p -> !p.isRuntime(), UnsupportedOperationException::new)
+        );
+    }
+
+//    @Test(expectedExceptions = NestedException.class)
+//    public void example7() {
+//
+//        //TODO
+//
+//
+//
+//        // Only RuntimeException will be handled.
+//        throwingAlways
+//                .handleX_(()->-9)
+//                .doApply(0);
+//    }
 
 }

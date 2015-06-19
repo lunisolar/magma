@@ -24,6 +24,7 @@ import java.util.Comparator; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -58,7 +59,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LToLongBiFunctionX<T1, T2, X extends Exception> extends java.util.function.ToLongBiFunction<T1, T2>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LToLongBiFunctionX<T1, T2, X extends Throwable> extends java.util.function.ToLongBiFunction<T1, T2>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
 	public static final String DESCRIPTION = "LToLongBiFunctionX: long doApplyAsLong(T1 t1,T2 t2) throws X";
 
@@ -74,15 +75,24 @@ public interface LToLongBiFunctionX<T1, T2, X extends Exception> extends java.ut
 	default long nestingDoApplyAsLong(T1 t1, T2 t2) {
 		try {
 			return this.doApplyAsLong(t1, t2);
-		} catch (RuntimeException e) {
+		} catch (RuntimeException | Error e) {
 			throw e;
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new NestedException(e);
 		}
 	}
 
 	default long shovingDoApplyAsLong(T1 t1, T2 t2) {
 		return ((LToLongBiFunctionX<T1, T2, RuntimeException>) this).doApplyAsLong(t1, t2);
+	}
+
+	default <Y extends Throwable> long handlingDoApplyAsLong(T1 t1, T2 t2, HandlingInstructions<Throwable, Y> handling) throws Y {
+
+		try {
+			return this.doApplyAsLong(t1, t2);
+		} catch (Throwable e) {
+			throw Handler.handleOrNest(e, handling);
+		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
@@ -101,14 +111,21 @@ public interface LToLongBiFunctionX<T1, T2, X extends Exception> extends java.ut
 		return () -> this.doApplyAsLong(t1, t2);
 	}
 
-	public static <T1, T2, X extends Exception> LToLongBiFunctionX<T1, T2, X> constant(long r) {
+	public static <T1, T2, X extends Throwable> LToLongBiFunctionX<T1, T2, X> constant(long r) {
 		return (t1, t2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T1, T2, X extends Exception> LToLongBiFunctionX<T1, T2, X> lX(final @Nonnull LToLongBiFunctionX<T1, T2, X> lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+	public static <T1, T2, X extends Throwable> LToLongBiFunctionX<T1, T2, X> lX(final @Nonnull LToLongBiFunctionX<T1, T2, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	public static <T1, T2, X extends Throwable> LToLongBiFunctionX<T1, T2, X> lX(@Nonnull Class<X> xClass, final @Nonnull LToLongBiFunctionX<T1, T2, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -116,13 +133,13 @@ public interface LToLongBiFunctionX<T1, T2, X extends Exception> extends java.ut
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T1, T2, X extends Exception> LToLongBiFunctionX<T1, T2, X> wrap(final java.util.function.ToLongBiFunction<T1, T2> other) {
+	public static <T1, T2, X extends Throwable> LToLongBiFunctionX<T1, T2, X> wrap(final java.util.function.ToLongBiFunction<T1, T2> other) {
 		return other::applyAsLong;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T1, T2, X extends Exception> LToLongBiFunctionX<T1, T2, X> wrapX(final @Nonnull LToLongBiFunction<T1, T2> other) {
+	public static <T1, T2, X extends Throwable> LToLongBiFunctionX<T1, T2, X> wrapX(final @Nonnull LToLongBiFunction<T1, T2> other) {
 		return (LToLongBiFunctionX) other;
 	}
 
@@ -135,8 +152,8 @@ public interface LToLongBiFunctionX<T1, T2, X extends Exception> extends java.ut
 	 */
 	@Nonnull
 	default <V1, V2> LToLongBiFunctionX<V1, V2, X> from(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
+		Null.nonNullArg(before1, "before1");
+		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final V2 v2) -> this.doApplyAsLong(before1.doApply(v1), before2.doApply(v2));
 	}
 
@@ -147,12 +164,11 @@ public interface LToLongBiFunctionX<T1, T2, X extends Exception> extends java.ut
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default <V> LBiFunctionX<T1, T2, V, X> then(@Nonnull LLongFunctionX<? extends V, X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (T1 t1, T2 t2) -> after.doApply(this.doApplyAsLong(t1, t2));
 	}
 
 	// </editor-fold>
-
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
@@ -181,58 +197,14 @@ public interface LToLongBiFunctionX<T1, T2, X extends Exception> extends java.ut
 
 	// <editor-fold desc="exception handling">
 
-	/** Wraps with additional exception handling. */
 	@Nonnull
-	public static <T1, T2, X extends Exception, E extends Exception, Y extends Exception> LToLongBiFunctionX<T1, T2, Y> wrapException(@Nonnull final LToLongBiFunctionX<T1, T2, X> other, Class<E> exception, LLongSupplierX<X> supplier,
-			ExceptionHandler<E, Y> handler) {
-		return (T1 t1, T2 t2) -> {
-			try {
-				return other.doApplyAsLong(t1, t2);
-			} catch (Exception e) {
-				try {
-					if (supplier != null) {
-						return supplier.doGetAsLong();
-					}
-				} catch (Exception supplierException) {
-					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
-				}
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
+	default LToLongBiFunction<T1, T2> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+		return (T1 t1, T2 t2) -> this.handlingDoApplyAsLong(t1, t2, handling);
 	}
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <E extends Exception, Y extends Exception> LToLongBiFunctionX<T1, T2, Y> handleX(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LToLongBiFunctionX.wrapException(this, exception, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends Exception> LToLongBiFunctionX<T1, T2, Y> handleX(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LToLongBiFunctionX.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <E extends Exception, Y extends Exception> LToLongBiFunctionX<T1, T2, Y> handleX(Class<E> exception, LLongSupplierX<X> supplier) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LToLongBiFunctionX.wrapException(this, exception, supplier, null);
-	}
-
-	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <Y extends Exception> LToLongBiFunctionX<T1, T2, Y> handleX(LLongSupplierX<X> supplier) {
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LToLongBiFunctionX.wrapException(this, Exception.class, supplier, null);
+	default <Y extends Throwable> LToLongBiFunctionX<T1, T2, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+		return (T1 t1, T2 t2) -> this.handlingDoApplyAsLong(t1, t2, handling);
 	}
 
 	// </editor-fold>

@@ -24,6 +24,7 @@ import java.util.Comparator; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -58,7 +59,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LIntBinaryOperatorX<X extends Exception> extends java.util.function.IntBinaryOperator, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LIntBinaryOperatorX<X extends Throwable> extends java.util.function.IntBinaryOperator, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
 	public static final String DESCRIPTION = "LIntBinaryOperatorX: int doApplyAsInt(int i1,int i2) throws X";
 
@@ -74,15 +75,24 @@ public interface LIntBinaryOperatorX<X extends Exception> extends java.util.func
 	default int nestingDoApplyAsInt(int i1, int i2) {
 		try {
 			return this.doApplyAsInt(i1, i2);
-		} catch (RuntimeException e) {
+		} catch (RuntimeException | Error e) {
 			throw e;
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new NestedException(e);
 		}
 	}
 
 	default int shovingDoApplyAsInt(int i1, int i2) {
 		return ((LIntBinaryOperatorX<RuntimeException>) this).doApplyAsInt(i1, i2);
+	}
+
+	default <Y extends Throwable> int handlingDoApplyAsInt(int i1, int i2, HandlingInstructions<Throwable, Y> handling) throws Y {
+
+		try {
+			return this.doApplyAsInt(i1, i2);
+		} catch (Throwable e) {
+			throw Handler.handleOrNest(e, handling);
+		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
@@ -101,14 +111,21 @@ public interface LIntBinaryOperatorX<X extends Exception> extends java.util.func
 		return () -> this.doApplyAsInt(i1, i2);
 	}
 
-	public static <X extends Exception> LIntBinaryOperatorX<X> constant(int r) {
+	public static <X extends Throwable> LIntBinaryOperatorX<X> constant(int r) {
 		return (i1, i2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Exception> LIntBinaryOperatorX<X> lX(final @Nonnull LIntBinaryOperatorX<X> lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+	public static <X extends Throwable> LIntBinaryOperatorX<X> lX(final @Nonnull LIntBinaryOperatorX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	public static <X extends Throwable> LIntBinaryOperatorX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LIntBinaryOperatorX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -116,13 +133,13 @@ public interface LIntBinaryOperatorX<X extends Exception> extends java.util.func
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Exception> LIntBinaryOperatorX<X> wrap(final java.util.function.IntBinaryOperator other) {
+	public static <X extends Throwable> LIntBinaryOperatorX<X> wrap(final java.util.function.IntBinaryOperator other) {
 		return other::applyAsInt;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Exception> LIntBinaryOperatorX<X> wrapX(final @Nonnull LIntBinaryOperator other) {
+	public static <X extends Throwable> LIntBinaryOperatorX<X> wrapX(final @Nonnull LIntBinaryOperator other) {
 		return (LIntBinaryOperatorX) other;
 	}
 
@@ -133,7 +150,7 @@ public interface LIntBinaryOperatorX<X extends Exception> extends java.util.func
 	 * @see {@link java.util.function.BinaryOperator#minBy()}
 	 */
 	@Nonnull
-	public static <X extends Exception> LIntBinaryOperatorX<X> min() {
+	public static <X extends Throwable> LIntBinaryOperatorX<X> min() {
 		return Integer::min;
 	}
 
@@ -141,7 +158,7 @@ public interface LIntBinaryOperatorX<X extends Exception> extends java.util.func
 	 * @see {@link java.util.function.BinaryOperator#maxBy()}
 	 */
 	@Nonnull
-	public static <X extends Exception> LIntBinaryOperatorX<X> max() {
+	public static <X extends Throwable> LIntBinaryOperatorX<X> max() {
 		return Integer::max;
 	}
 
@@ -154,8 +171,8 @@ public interface LIntBinaryOperatorX<X extends Exception> extends java.util.func
 	 */
 	@Nonnull
 	default LIntBinaryOperatorX<X> fromInt(@Nonnull final LIntUnaryOperatorX<X> before1, @Nonnull final LIntUnaryOperatorX<X> before2) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
+		Null.nonNullArg(before1, "before1");
+		Null.nonNullArg(before2, "before2");
 		return (final int v1, final int v2) -> this.doApplyAsInt(before1.doApplyAsInt(v1), before2.doApplyAsInt(v2));
 	}
 
@@ -164,8 +181,8 @@ public interface LIntBinaryOperatorX<X extends Exception> extends java.util.func
 	 */
 	@Nonnull
 	default <V1, V2> LToIntBiFunctionX<V1, V2, X> from(@Nonnull final LToIntFunctionX<? super V1, X> before1, @Nonnull final LToIntFunctionX<? super V2, X> before2) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
+		Null.nonNullArg(before1, "before1");
+		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApplyAsInt(before1.doApplyAsInt(v1), before2.doApplyAsInt(v2));
 	}
 
@@ -176,12 +193,11 @@ public interface LIntBinaryOperatorX<X extends Exception> extends java.util.func
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default <V> LIntBiFunctionX<V, X> then(@Nonnull LIntFunctionX<? extends V, X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (int i1, int i2) -> after.doApply(this.doApplyAsInt(i1, i2));
 	}
 
 	// </editor-fold>
-
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
@@ -210,57 +226,14 @@ public interface LIntBinaryOperatorX<X extends Exception> extends java.util.func
 
 	// <editor-fold desc="exception handling">
 
-	/** Wraps with additional exception handling. */
 	@Nonnull
-	public static <X extends Exception, E extends Exception, Y extends Exception> LIntBinaryOperatorX<Y> wrapException(@Nonnull final LIntBinaryOperatorX<X> other, Class<E> exception, LIntSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
-		return (int i1, int i2) -> {
-			try {
-				return other.doApplyAsInt(i1, i2);
-			} catch (Exception e) {
-				try {
-					if (supplier != null) {
-						return supplier.doGetAsInt();
-					}
-				} catch (Exception supplierException) {
-					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
-				}
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
+	default LIntBinaryOperator handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+		return (int i1, int i2) -> this.handlingDoApplyAsInt(i1, i2, handling);
 	}
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <E extends Exception, Y extends Exception> LIntBinaryOperatorX<Y> handleX(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LIntBinaryOperatorX.wrapException(this, exception, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends Exception> LIntBinaryOperatorX<Y> handleX(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LIntBinaryOperatorX.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <E extends Exception, Y extends Exception> LIntBinaryOperatorX<Y> handleX(Class<E> exception, LIntSupplierX<X> supplier) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LIntBinaryOperatorX.wrapException(this, exception, supplier, null);
-	}
-
-	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <Y extends Exception> LIntBinaryOperatorX<Y> handleX(LIntSupplierX<X> supplier) {
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LIntBinaryOperatorX.wrapException(this, Exception.class, supplier, null);
+	default <Y extends Throwable> LIntBinaryOperatorX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+		return (int i1, int i2) -> this.handlingDoApplyAsInt(i1, i2, handling);
 	}
 
 	// </editor-fold>

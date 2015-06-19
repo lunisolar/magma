@@ -24,6 +24,7 @@ import java.util.Comparator; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -58,7 +59,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LCharPredicateX<X extends Exception> extends MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LCharPredicateX<X extends Throwable> extends MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
 	public static final String DESCRIPTION = "LCharPredicateX: boolean doTest(char c) throws X";
 
@@ -67,15 +68,24 @@ public interface LCharPredicateX<X extends Exception> extends MetaPredicate, Pri
 	default boolean nestingDoTest(char c) {
 		try {
 			return this.doTest(c);
-		} catch (RuntimeException e) {
+		} catch (RuntimeException | Error e) {
 			throw e;
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new NestedException(e);
 		}
 	}
 
 	default boolean shovingDoTest(char c) {
 		return ((LCharPredicateX<RuntimeException>) this).doTest(c);
+	}
+
+	default <Y extends Throwable> boolean handlingDoTest(char c, HandlingInstructions<Throwable, Y> handling) throws Y {
+
+		try {
+			return this.doTest(c);
+		} catch (Throwable e) {
+			throw Handler.handleOrNest(e, handling);
+		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
@@ -100,14 +110,21 @@ public interface LCharPredicateX<X extends Exception> extends MetaPredicate, Pri
 		return () -> this.doTest(c);
 	}
 
-	public static <X extends Exception> LCharPredicateX<X> constant(boolean r) {
+	public static <X extends Throwable> LCharPredicateX<X> constant(boolean r) {
 		return (c) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Exception> LCharPredicateX<X> lX(final @Nonnull LCharPredicateX<X> lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+	public static <X extends Throwable> LCharPredicateX<X> lX(final @Nonnull LCharPredicateX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	public static <X extends Throwable> LCharPredicateX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LCharPredicateX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -115,7 +132,7 @@ public interface LCharPredicateX<X extends Exception> extends MetaPredicate, Pri
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Exception> LCharPredicateX<X> wrapX(final @Nonnull LCharPredicate other) {
+	public static <X extends Throwable> LCharPredicateX<X> wrapX(final @Nonnull LCharPredicate other) {
 		return (LCharPredicateX) other;
 	}
 
@@ -135,7 +152,7 @@ public interface LCharPredicateX<X extends Exception> extends MetaPredicate, Pri
 	 */
 	@Nonnull
 	default LCharPredicateX<X> and(@Nonnull LCharPredicateX<X> other) {
-		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
+		Null.nonNullArg(other, "other");
 		return (char c) -> doTest(c) && other.doTest(c);
 	}
 
@@ -144,7 +161,7 @@ public interface LCharPredicateX<X extends Exception> extends MetaPredicate, Pri
 	 */
 	@Nonnull
 	default LCharPredicateX<X> or(@Nonnull LCharPredicateX<X> other) {
-		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
+		Null.nonNullArg(other, "other");
 		return (char c) -> doTest(c) || other.doTest(c);
 	}
 
@@ -153,12 +170,12 @@ public interface LCharPredicateX<X extends Exception> extends MetaPredicate, Pri
 	 */
 	@Nonnull
 	default LCharPredicateX<X> xor(@Nonnull LCharPredicateX<X> other) {
-		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
+		Null.nonNullArg(other, "other");
 		return (char c) -> doTest(c) ^ other.doTest(c);
 	}
 
 	@Nonnull
-	public static <X extends Exception> LCharPredicateX<X> isEqual(char target) {
+	public static <X extends Throwable> LCharPredicateX<X> isEqual(char target) {
 		return c -> c == target;
 	}
 
@@ -171,7 +188,7 @@ public interface LCharPredicateX<X extends Exception> extends MetaPredicate, Pri
 	 */
 	@Nonnull
 	default LCharPredicateX<X> fromChar(@Nonnull final LCharUnaryOperatorX<X> before1) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
+		Null.nonNullArg(before1, "before1");
 		return (final char v1) -> this.doTest(before1.doApplyAsChar(v1));
 	}
 
@@ -180,7 +197,7 @@ public interface LCharPredicateX<X extends Exception> extends MetaPredicate, Pri
 	 */
 	@Nonnull
 	default <V1> LPredicateX<V1, X> from(@Nonnull final LToCharFunctionX<? super V1, X> before1) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
+		Null.nonNullArg(before1, "before1");
 		return (V1 v1) -> this.doTest(before1.doApplyAsChar(v1));
 	}
 
@@ -191,68 +208,67 @@ public interface LCharPredicateX<X extends Exception> extends MetaPredicate, Pri
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default <V> LCharFunctionX<V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (char c) -> after.doApply(this.doTest(c));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LCharToByteFunctionX<X> thenToByte(@Nonnull LBooleanToByteFunctionX<X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (char c) -> after.doApplyAsByte(this.doTest(c));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LCharToShortFunctionX<X> thenToShort(@Nonnull LBooleanToShortFunctionX<X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (char c) -> after.doApplyAsShort(this.doTest(c));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LCharToIntFunctionX<X> thenToInt(@Nonnull LBooleanToIntFunctionX<X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (char c) -> after.doApplyAsInt(this.doTest(c));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LCharToLongFunctionX<X> thenToLong(@Nonnull LBooleanToLongFunctionX<X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (char c) -> after.doApplyAsLong(this.doTest(c));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LCharToFloatFunctionX<X> thenToFloat(@Nonnull LBooleanToFloatFunctionX<X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (char c) -> after.doApplyAsFloat(this.doTest(c));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LCharToDoubleFunctionX<X> thenToDouble(@Nonnull LBooleanToDoubleFunctionX<X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (char c) -> after.doApplyAsDouble(this.doTest(c));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LCharUnaryOperatorX<X> thenToChar(@Nonnull LBooleanToCharFunctionX<X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (char c) -> after.doApplyAsChar(this.doTest(c));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LCharPredicateX<X> thenToBoolean(@Nonnull LBooleanUnaryOperatorX<X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (char c) -> after.doApplyAsBoolean(this.doTest(c));
 	}
 
 	// </editor-fold>
-
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
@@ -281,57 +297,14 @@ public interface LCharPredicateX<X extends Exception> extends MetaPredicate, Pri
 
 	// <editor-fold desc="exception handling">
 
-	/** Wraps with additional exception handling. */
 	@Nonnull
-	public static <X extends Exception, E extends Exception, Y extends Exception> LCharPredicateX<Y> wrapException(@Nonnull final LCharPredicateX<X> other, Class<E> exception, LBooleanSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
-		return (char c) -> {
-			try {
-				return other.doTest(c);
-			} catch (Exception e) {
-				try {
-					if (supplier != null) {
-						return supplier.doGetAsBoolean();
-					}
-				} catch (Exception supplierException) {
-					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
-				}
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
+	default LCharPredicate handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+		return (char c) -> this.handlingDoTest(c, handling);
 	}
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <E extends Exception, Y extends Exception> LCharPredicateX<Y> handleX(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LCharPredicateX.wrapException(this, exception, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends Exception> LCharPredicateX<Y> handleX(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LCharPredicateX.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <E extends Exception, Y extends Exception> LCharPredicateX<Y> handleX(Class<E> exception, LBooleanSupplierX<X> supplier) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LCharPredicateX.wrapException(this, exception, supplier, null);
-	}
-
-	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <Y extends Exception> LCharPredicateX<Y> handleX(LBooleanSupplierX<X> supplier) {
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LCharPredicateX.wrapException(this, Exception.class, supplier, null);
+	default <Y extends Throwable> LCharPredicateX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+		return (char c) -> this.handlingDoTest(c, handling);
 	}
 
 	// </editor-fold>

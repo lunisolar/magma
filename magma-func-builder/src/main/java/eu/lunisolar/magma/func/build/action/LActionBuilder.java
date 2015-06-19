@@ -20,11 +20,13 @@
 package eu.lunisolar.magma.func.build.action;
 
 import eu.lunisolar.magma.func.action.*;
+import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -51,6 +53,8 @@ public final class LActionBuilder extends PerCaseBuilder.Base<LActionBuilder, LB
 
 	private Consumer<LAction> consumer;
 
+	private @Nullable HandlingInstructions handling;
+
 	public static final LAction EVENTUALLY_THROW = LAction.l(() -> {
 		String message;
 		try {
@@ -59,7 +63,7 @@ public final class LActionBuilder extends PerCaseBuilder.Base<LActionBuilder, LB
 				message = "No case specified for input data (no details can be provided).";
 			}
 
-			throw new UnsupportedOperationException(message);
+			throw new IllegalStateException(message);
 		});
 
 	public LActionBuilder(@Nullable Consumer<LAction> consumer) {
@@ -85,6 +89,17 @@ public final class LActionBuilder extends PerCaseBuilder.Base<LActionBuilder, LB
 		return new LActionBuilder(consumer);
 	}
 
+	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
+	@Nonnull
+	public final LActionBuilder withHandling(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+		Null.nonNullArg(handling, "handling");
+		if (this.handling != null) {
+			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+		}
+		this.handling = handling;
+		return self();
+	}
+
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
 	@Nonnull
 	public final LAction build() {
@@ -93,11 +108,9 @@ public final class LActionBuilder extends PerCaseBuilder.Base<LActionBuilder, LB
 
 		LAction retval;
 
-		if (cases.isEmpty()) {
-			retval = eventuallyFinal;
-		} else {
-			final Case<LBooleanSupplier, LAction>[] casesArray = cases.toArray(new Case[cases.size()]);
-			retval = LAction.l(() -> {
+		final Case<LBooleanSupplier, LAction>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = LAction.l(() -> {
+			try {
 				for (Case<LBooleanSupplier, LAction> aCase : casesArray) {
 					if (aCase.casePredicate().doGetAsBoolean()) {
 						aCase.caseFunction().doExecute();
@@ -106,13 +119,20 @@ public final class LActionBuilder extends PerCaseBuilder.Base<LActionBuilder, LB
 				}
 
 				eventuallyFinal.doExecute();
-			});
-		}
+			} catch (Throwable e) {
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);
 		}
 		return retval;
+	}
+
+	public final LAction build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+		this.withHandling(handling);
+		return build();
 	}
 
 }

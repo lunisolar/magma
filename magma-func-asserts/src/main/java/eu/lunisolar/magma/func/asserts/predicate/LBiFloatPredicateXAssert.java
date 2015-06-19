@@ -33,7 +33,7 @@ import eu.lunisolar.magma.func.action.LAction;
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LBiFloatPredicateX. */
-public interface LBiFloatPredicateXAssert<S extends LBiFloatPredicateXAssert<S, A, RS, X>, A extends LBiFloatPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Exception>
+public interface LBiFloatPredicateXAssert<S extends LBiFloatPredicateXAssert<S, A, RS, X>, A extends LBiFloatPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable>
 		extends
 			Assert<S, A>,
 			FullFunctionalAssert<S, A, RS, Boolean, Exception> {
@@ -42,7 +42,7 @@ public interface LBiFloatPredicateXAssert<S extends LBiFloatPredicateXAssert<S, 
 	Evaluation<S, A, RS, Boolean, Exception> doesTest(float f1, float f2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LBiFloatPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Exception> extends Base<Impl<A, RS, X>, A, RS, X> {
+	public final static class Impl<A extends LBiFloatPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> extends Base<Impl<A, RS, X>, A, RS, X> {
 
 		public Impl(A actual, java.util.function.Function<Boolean, RS> assertFactory) {
 			super(actual, Impl.class, assertFactory);
@@ -50,7 +50,7 @@ public interface LBiFloatPredicateXAssert<S extends LBiFloatPredicateXAssert<S, 
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, X>, A extends LBiFloatPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Exception> extends FullFunctionalAssert.Base<S, A, RS, Boolean, Exception>
+	public static class Base<S extends Base<S, A, RS, X>, A extends LBiFloatPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, A, RS, Boolean, Exception>
 			implements
 				LBiFloatPredicateXAssert<S, A, RS, X> {
 

@@ -33,7 +33,7 @@ import eu.lunisolar.magma.func.action.LAction;
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LDoubleToCharFunctionX. */
-public interface LDoubleToCharFunctionXAssert<S extends LDoubleToCharFunctionXAssert<S, A, RS, X>, A extends LDoubleToCharFunctionX<X>, RS extends AbstractCharacterAssert<RS>, X extends Exception>
+public interface LDoubleToCharFunctionXAssert<S extends LDoubleToCharFunctionXAssert<S, A, RS, X>, A extends LDoubleToCharFunctionX<X>, RS extends AbstractCharacterAssert<RS>, X extends Throwable>
 		extends
 			Assert<S, A>,
 			FullFunctionalAssert<S, A, RS, Character, Exception> {
@@ -42,7 +42,7 @@ public interface LDoubleToCharFunctionXAssert<S extends LDoubleToCharFunctionXAs
 	Evaluation<S, A, RS, Character, Exception> doesApplyAsChar(double d);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LDoubleToCharFunctionX<X>, RS extends AbstractCharacterAssert<RS>, X extends Exception> extends Base<Impl<A, RS, X>, A, RS, X> {
+	public final static class Impl<A extends LDoubleToCharFunctionX<X>, RS extends AbstractCharacterAssert<RS>, X extends Throwable> extends Base<Impl<A, RS, X>, A, RS, X> {
 
 		public Impl(A actual, java.util.function.Function<Character, RS> assertFactory) {
 			super(actual, Impl.class, assertFactory);
@@ -50,7 +50,7 @@ public interface LDoubleToCharFunctionXAssert<S extends LDoubleToCharFunctionXAs
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, X>, A extends LDoubleToCharFunctionX<X>, RS extends AbstractCharacterAssert<RS>, X extends Exception> extends FullFunctionalAssert.Base<S, A, RS, Character, Exception>
+	public static class Base<S extends Base<S, A, RS, X>, A extends LDoubleToCharFunctionX<X>, RS extends AbstractCharacterAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, A, RS, Character, Exception>
 			implements
 				LDoubleToCharFunctionXAssert<S, A, RS, X> {
 

@@ -20,11 +20,13 @@
 package eu.lunisolar.magma.func.build.function.conversion;
 
 import eu.lunisolar.magma.func.function.conversion.*;
+import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -47,9 +49,11 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for LShortToByteFunctionX. */
-public final class LShortToByteFunctionXBuilder<X extends Exception> extends PerCaseBuilderWithByteProduct.Base<LShortToByteFunctionXBuilder<X>, LShortPredicateX<X>, LShortToByteFunctionX<X>> {
+public final class LShortToByteFunctionXBuilder<X extends Throwable> extends PerCaseBuilderWithByteProduct.Base<LShortToByteFunctionXBuilder<X>, LShortPredicateX<X>, LShortToByteFunctionX<X>> {
 
 	private Consumer<LShortToByteFunctionX<X>> consumer;
+
+	private @Nullable HandlingInstructions handling;
 
 	public static final LShortToByteFunctionX EVENTUALLY_THROW = LShortToByteFunctionX.lX((short s) -> {
 		String message;
@@ -59,7 +63,7 @@ public final class LShortToByteFunctionXBuilder<X extends Exception> extends Per
 				message = "No case specified for input data (no details can be provided).";
 			}
 
-			throw new UnsupportedOperationException(message);
+			throw new IllegalStateException(message);
 		});
 
 	public LShortToByteFunctionXBuilder(@Nullable Consumer<LShortToByteFunctionX<X>> consumer) {
@@ -75,14 +79,25 @@ public final class LShortToByteFunctionXBuilder<X extends Exception> extends Per
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <X extends Exception> LShortToByteFunctionXBuilder<X> shortToByteFunctionX() {
+	public static final <X extends Throwable> LShortToByteFunctionXBuilder<X> shortToByteFunctionX() {
 		return new LShortToByteFunctionXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <X extends Exception> LShortToByteFunctionXBuilder<X> shortToByteFunctionX(Consumer<LShortToByteFunctionX<X>> consumer) {
+	public static final <X extends Throwable> LShortToByteFunctionXBuilder<X> shortToByteFunctionX(Consumer<LShortToByteFunctionX<X>> consumer) {
 		return new LShortToByteFunctionXBuilder(consumer);
+	}
+
+	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
+	@Nonnull
+	public final LShortToByteFunctionXBuilder<X> withHandling(@Nonnull HandlingInstructions<X, X> handling) {
+		Null.nonNullArg(handling, "handling");
+		if (this.handling != null) {
+			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+		}
+		this.handling = handling;
+		return self();
 	}
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
@@ -93,11 +108,9 @@ public final class LShortToByteFunctionXBuilder<X extends Exception> extends Per
 
 		LShortToByteFunctionX<X> retval;
 
-		if (cases.isEmpty()) {
-			retval = eventuallyFinal;
-		} else {
-			final Case<LShortPredicateX<X>, LShortToByteFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-			retval = LShortToByteFunctionX.lX((short s) -> {
+		final Case<LShortPredicateX<X>, LShortToByteFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = LShortToByteFunctionX.lX((short s) -> {
+			try {
 				for (Case<LShortPredicateX<X>, LShortToByteFunctionX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(s)) {
 						return aCase.caseFunction().doApplyAsByte(s);
@@ -105,13 +118,20 @@ public final class LShortToByteFunctionXBuilder<X extends Exception> extends Per
 				}
 
 				return eventuallyFinal.doApplyAsByte(s);
-			});
-		}
+			} catch (Throwable e) {
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);
 		}
 		return retval;
+	}
+
+	public final LShortToByteFunctionX<X> build(@Nonnull HandlingInstructions<X, X> handling) {
+		this.withHandling(handling);
+		return build();
 	}
 
 }

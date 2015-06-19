@@ -24,6 +24,7 @@ import java.util.Comparator; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -58,7 +59,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LObjBooleanFunctionX<T, R, X extends Exception> extends MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
+public interface LObjBooleanFunctionX<T, R, X extends Throwable> extends MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
 	public static final String DESCRIPTION = "LObjBooleanFunctionX: R doApply(T t, boolean b) throws X";
 
@@ -68,9 +69,9 @@ public interface LObjBooleanFunctionX<T, R, X extends Exception> extends MetaFun
 	default R nestingDoApply(T t, boolean b) {
 		try {
 			return this.doApply(t, b);
-		} catch (RuntimeException e) {
+		} catch (RuntimeException | Error e) {
 			throw e;
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new NestedException(e);
 		}
 	}
@@ -79,12 +80,21 @@ public interface LObjBooleanFunctionX<T, R, X extends Exception> extends MetaFun
 		return ((LObjBooleanFunctionX<T, R, RuntimeException>) this).doApply(t, b);
 	}
 
+	default <Y extends Throwable> R handlingDoApply(T t, boolean b, HandlingInstructions<Throwable, Y> handling) throws Y {
+
+		try {
+			return this.doApply(t, b);
+		} catch (Throwable e) {
+			throw Handler.handleOrNest(e, handling);
+		}
+	}
+
 	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
 	@Nonnull
 	default R nonNullDoApply(T t, boolean b) throws X {
-		return Objects.requireNonNull(doApply(t, b), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Null.requireNonNull(doApply(t, b), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -98,14 +108,21 @@ public interface LObjBooleanFunctionX<T, R, X extends Exception> extends MetaFun
 		return () -> this.doApply(t, b);
 	}
 
-	public static <T, R, X extends Exception> LObjBooleanFunctionX<T, R, X> constant(R r) {
+	public static <T, R, X extends Throwable> LObjBooleanFunctionX<T, R, X> constant(R r) {
 		return (t, b) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T, R, X extends Exception> LObjBooleanFunctionX<T, R, X> lX(final @Nonnull LObjBooleanFunctionX<T, R, X> lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+	public static <T, R, X extends Throwable> LObjBooleanFunctionX<T, R, X> lX(final @Nonnull LObjBooleanFunctionX<T, R, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	public static <T, R, X extends Throwable> LObjBooleanFunctionX<T, R, X> lX(@Nonnull Class<X> xClass, final @Nonnull LObjBooleanFunctionX<T, R, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -113,7 +130,7 @@ public interface LObjBooleanFunctionX<T, R, X extends Exception> extends MetaFun
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, R, X extends Exception> LObjBooleanFunctionX<T, R, X> wrapX(final @Nonnull LObjBooleanFunction<T, R> other) {
+	public static <T, R, X extends Throwable> LObjBooleanFunctionX<T, R, X> wrapX(final @Nonnull LObjBooleanFunction<T, R> other) {
 		return (LObjBooleanFunctionX) other;
 	}
 
@@ -126,8 +143,8 @@ public interface LObjBooleanFunctionX<T, R, X extends Exception> extends MetaFun
 	 */
 	@Nonnull
 	default <V1> LObjBooleanFunctionX<V1, R, X> fromBoolean(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LBooleanUnaryOperatorX<X> before2) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
+		Null.nonNullArg(before1, "before1");
+		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final boolean v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsBoolean(v2));
 	}
 
@@ -136,8 +153,8 @@ public interface LObjBooleanFunctionX<T, R, X extends Exception> extends MetaFun
 	 */
 	@Nonnull
 	default <V1, V2> LBiFunctionX<V1, V2, R, X> from(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LPredicateX<? super V2, X> before2) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
+		Null.nonNullArg(before1, "before1");
+		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsBoolean(v2));
 	}
 
@@ -148,19 +165,18 @@ public interface LObjBooleanFunctionX<T, R, X extends Exception> extends MetaFun
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default <V> LObjBooleanFunctionX<T, V, X> then(@Nonnull LFunctionX<? super R, ? extends V, X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (T t, boolean b) -> after.doApply(this.doApply(t, b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LObjBooleanConsumerX<T, X> then(@Nonnull LConsumerX<? super R, X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (T t, boolean b) -> after.doAccept(this.doApply(t, b));
 	}
 
 	// </editor-fold>
-
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
@@ -194,58 +210,14 @@ public interface LObjBooleanFunctionX<T, R, X extends Exception> extends MetaFun
 
 	// <editor-fold desc="exception handling">
 
-	/** Wraps with additional exception handling. */
 	@Nonnull
-	public static <T, R, X extends Exception, E extends Exception, Y extends Exception> LObjBooleanFunctionX<T, R, Y> wrapException(@Nonnull final LObjBooleanFunctionX<T, R, X> other, Class<E> exception, LSupplierX<R, X> supplier,
-			ExceptionHandler<E, Y> handler) {
-		return (T t, boolean b) -> {
-			try {
-				return other.doApply(t, b);
-			} catch (Exception e) {
-				try {
-					if (supplier != null) {
-						return supplier.doGet();
-					}
-				} catch (Exception supplierException) {
-					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
-				}
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
+	default LObjBooleanFunction<T, R> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+		return (T t, boolean b) -> this.handlingDoApply(t, b, handling);
 	}
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <E extends Exception, Y extends Exception> LObjBooleanFunctionX<T, R, Y> handleX(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LObjBooleanFunctionX.wrapException(this, exception, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends Exception> LObjBooleanFunctionX<T, R, Y> handleX(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LObjBooleanFunctionX.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <E extends Exception, Y extends Exception> LObjBooleanFunctionX<T, R, Y> handleX(Class<E> exception, LSupplierX<R, X> supplier) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LObjBooleanFunctionX.wrapException(this, exception, supplier, null);
-	}
-
-	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <Y extends Exception> LObjBooleanFunctionX<T, R, Y> handleX(LSupplierX<R, X> supplier) {
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LObjBooleanFunctionX.wrapException(this, Exception.class, supplier, null);
+	default <Y extends Throwable> LObjBooleanFunctionX<T, R, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+		return (T t, boolean b) -> this.handlingDoApply(t, b, handling);
 	}
 
 	// </editor-fold>

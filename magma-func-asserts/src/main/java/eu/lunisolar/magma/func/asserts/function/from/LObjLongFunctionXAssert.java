@@ -33,13 +33,13 @@ import eu.lunisolar.magma.func.action.LAction;
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LObjLongFunctionX. */
-public interface LObjLongFunctionXAssert<S extends LObjLongFunctionXAssert<S, A, RS, T, R, X>, A extends LObjLongFunctionX<T, R, X>, RS extends Assert<RS, R>, T, R, X extends Exception> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, R, Exception> {
+public interface LObjLongFunctionXAssert<S extends LObjLongFunctionXAssert<S, A, RS, T, R, X>, A extends LObjLongFunctionX<T, R, X>, RS extends Assert<RS, R>, T, R, X extends Throwable> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, R, Exception> {
 
 	@Nonnull
 	Evaluation<S, A, RS, R, Exception> doesApply(T t, long l);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LObjLongFunctionX<T, R, X>, RS extends Assert<RS, R>, T, R, X extends Exception> extends Base<Impl<A, RS, T, R, X>, A, RS, T, R, X> {
+	public final static class Impl<A extends LObjLongFunctionX<T, R, X>, RS extends Assert<RS, R>, T, R, X extends Throwable> extends Base<Impl<A, RS, T, R, X>, A, RS, T, R, X> {
 
 		public Impl(A actual, java.util.function.Function<R, RS> assertFactory) {
 			super(actual, Impl.class, assertFactory);
@@ -47,7 +47,7 @@ public interface LObjLongFunctionXAssert<S extends LObjLongFunctionXAssert<S, A,
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, T, R, X>, A extends LObjLongFunctionX<T, R, X>, RS extends Assert<RS, R>, T, R, X extends Exception> extends FullFunctionalAssert.Base<S, A, RS, R, Exception>
+	public static class Base<S extends Base<S, A, RS, T, R, X>, A extends LObjLongFunctionX<T, R, X>, RS extends Assert<RS, R>, T, R, X extends Throwable> extends FullFunctionalAssert.Base<S, A, RS, R, Exception>
 			implements
 				LObjLongFunctionXAssert<S, A, RS, T, R, X> {
 

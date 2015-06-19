@@ -23,6 +23,7 @@ import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
@@ -94,7 +95,7 @@ public interface LDoubleConsumer extends LDoubleConsumerX<RuntimeException>, Met
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LDoubleConsumer l(final @Nonnull LDoubleConsumer lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -108,7 +109,7 @@ public interface LDoubleConsumer extends LDoubleConsumerX<RuntimeException>, Met
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Exception> LDoubleConsumer wrap(final @Nonnull LDoubleConsumerX<X> other) {
+	public static <X extends Throwable> LDoubleConsumer wrap(final @Nonnull LDoubleConsumerX<X> other) {
 		return other::nestingDoAccept;
 	}
 
@@ -121,7 +122,7 @@ public interface LDoubleConsumer extends LDoubleConsumerX<RuntimeException>, Met
 	 */
 	@Nonnull
 	default LDoubleConsumer fromDouble(@Nonnull final LDoubleUnaryOperator before1) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
+		Null.nonNullArg(before1, "before1");
 		return (final double v1) -> this.doAccept(before1.doApplyAsDouble(v1));
 	}
 
@@ -130,7 +131,7 @@ public interface LDoubleConsumer extends LDoubleConsumerX<RuntimeException>, Met
 	 */
 	@Nonnull
 	default <V1> LConsumer<V1> from(@Nonnull final LToDoubleFunction<? super V1> before1) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
+		Null.nonNullArg(before1, "before1");
 		return (V1 v1) -> this.doAccept(before1.doApplyAsDouble(v1));
 	}
 
@@ -141,15 +142,14 @@ public interface LDoubleConsumer extends LDoubleConsumerX<RuntimeException>, Met
 	/** Combines two consumers together in a order. */
 	@Nonnull
 	default LDoubleConsumer andThen(@Nonnull LDoubleConsumer after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (double d) -> {
 			this.doAccept(d);
 			after.doAccept(d);
 		};
 	}
 
-	// </editor-fold>
-	// <editor-fold desc="variant conversions">
+	// </editor-fold> // <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
@@ -171,39 +171,6 @@ public interface LDoubleConsumer extends LDoubleConsumerX<RuntimeException>, Met
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LDoubleConsumerX<RuntimeException> shoveX() {
 		return this;
-	}
-
-	// </editor-fold>
-
-	// <editor-fold desc="exception handling">
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LDoubleConsumer wrapException(@Nonnull final LDoubleConsumer other, Class<E> exception, ExceptionHandler<E, Y> handler) {
-		return (double d) -> {
-			try {
-				other.doAccept(d);
-			} catch (Exception e) {
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
-	}
-
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
-	@Nonnull
-	default <E extends Exception, Y extends RuntimeException> LDoubleConsumer handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LDoubleConsumer.wrapException(this, exception, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends RuntimeException> LDoubleConsumer handle(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LDoubleConsumer.wrapException(this, Exception.class, (ExceptionHandler) handler);
 	}
 
 	// </editor-fold>

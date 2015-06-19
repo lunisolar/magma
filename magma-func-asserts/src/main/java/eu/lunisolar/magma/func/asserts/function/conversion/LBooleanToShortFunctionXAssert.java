@@ -33,7 +33,7 @@ import eu.lunisolar.magma.func.action.LAction;
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LBooleanToShortFunctionX. */
-public interface LBooleanToShortFunctionXAssert<S extends LBooleanToShortFunctionXAssert<S, A, RS, X>, A extends LBooleanToShortFunctionX<X>, RS extends AbstractShortAssert<RS>, X extends Exception>
+public interface LBooleanToShortFunctionXAssert<S extends LBooleanToShortFunctionXAssert<S, A, RS, X>, A extends LBooleanToShortFunctionX<X>, RS extends AbstractShortAssert<RS>, X extends Throwable>
 		extends
 			Assert<S, A>,
 			FullFunctionalAssert<S, A, RS, Short, Exception> {
@@ -42,7 +42,7 @@ public interface LBooleanToShortFunctionXAssert<S extends LBooleanToShortFunctio
 	Evaluation<S, A, RS, Short, Exception> doesApplyAsShort(boolean b);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LBooleanToShortFunctionX<X>, RS extends AbstractShortAssert<RS>, X extends Exception> extends Base<Impl<A, RS, X>, A, RS, X> {
+	public final static class Impl<A extends LBooleanToShortFunctionX<X>, RS extends AbstractShortAssert<RS>, X extends Throwable> extends Base<Impl<A, RS, X>, A, RS, X> {
 
 		public Impl(A actual, java.util.function.Function<Short, RS> assertFactory) {
 			super(actual, Impl.class, assertFactory);
@@ -50,7 +50,7 @@ public interface LBooleanToShortFunctionXAssert<S extends LBooleanToShortFunctio
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, X>, A extends LBooleanToShortFunctionX<X>, RS extends AbstractShortAssert<RS>, X extends Exception> extends FullFunctionalAssert.Base<S, A, RS, Short, Exception>
+	public static class Base<S extends Base<S, A, RS, X>, A extends LBooleanToShortFunctionX<X>, RS extends AbstractShortAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, A, RS, Short, Exception>
 			implements
 				LBooleanToShortFunctionXAssert<S, A, RS, X> {
 

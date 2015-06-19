@@ -48,41 +48,72 @@ import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
-import eu.lunisolar.magma.basics.NestedException; //NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 
 import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.predicate.LObjLongPredicateBuilder.objLongPredicate;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
-public class LObjLongPredicateBuilderTest<T,X extends ParseException>{
+public class LObjLongPredicateBuilderTest<T,X extends Throwable>{
 
     @SuppressWarnings("unchecked")
     public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
     @Test
-    public void testEventuallyThrow() throws Exception {
+    public void testEventuallyThrow() throws Throwable {
 
-        try {
-            LObjLongPredicate function = LObjLongPredicateBuilder
-                .objLongPredicate()
+        assertThatThrownBy(() -> {
+            LObjLongPredicate function = LObjLongPredicateBuilder.objLongPredicate()
                 .build();
 
             function.doTest((T)Integer.valueOf(100),(long)100);
 
             fail("No exception were thrown.");
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(UnsupportedOperationException.class)
+        })
+                    .isExactlyInstanceOf(IllegalStateException.class)
                     .hasMessageContaining("No case specified for:")
                     .hasMessageContaining(LObjLongPredicate.DESCRIPTION);
-
-        }
     }
 
     @Test
-    public void testBuild() throws Exception {
+    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+
+
+        assertThatThrownBy(() -> {
+            LObjLongPredicate function = LObjLongPredicateBuilder.objLongPredicate()
+                .withHandling(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
+                .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new));
+
+            fail("No exception were thrown.");
+        })
+                    .isExactlyInstanceOf(UnsupportedOperationException.class)
+                    .hasMessageContaining("Handling is allready set for this builder.");
+    }
+
+    @Test
+    public void testHandling() throws Throwable {
+
+        assertThatThrownBy(() -> {
+            LObjLongPredicate function = LObjLongPredicateBuilder.objLongPredicate()
+                .eventually((t, l) -> {
+                        throw new RuntimeException("ORIGINAL");
+                    })
+                .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
+
+            function.doTest((T)Integer.valueOf(100),(long)100);
+
+            fail("No exception were thrown.");
+        })
+                    .isExactlyInstanceOf(IllegalStateException.class)
+                    .hasMessageContaining("NEW EXCEPTION")
+                    .hasCauseExactlyInstanceOf(RuntimeException.class);
+    }
+
+
+    @Test
+    public void testBuild() throws Throwable {
 
         LObjLongPredicate<Integer > function = objLongPredicate((LObjLongPredicate<Integer > f)-> doNothing())
             .addCase(ce -> ce.of((t, l) -> t == Integer.valueOf(0))

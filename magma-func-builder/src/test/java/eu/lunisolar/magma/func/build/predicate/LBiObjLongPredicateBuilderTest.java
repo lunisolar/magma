@@ -48,41 +48,72 @@ import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
-import eu.lunisolar.magma.basics.NestedException; //NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 
 import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.predicate.LBiObjLongPredicateBuilder.biObjLongPredicate;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
-public class LBiObjLongPredicateBuilderTest<T1,T2,X extends ParseException>{
+public class LBiObjLongPredicateBuilderTest<T1,T2,X extends Throwable>{
 
     @SuppressWarnings("unchecked")
     public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
     @Test
-    public void testEventuallyThrow() throws Exception {
+    public void testEventuallyThrow() throws Throwable {
 
-        try {
-            LBiObjLongPredicate function = LBiObjLongPredicateBuilder
-                .biObjLongPredicate()
+        assertThatThrownBy(() -> {
+            LBiObjLongPredicate function = LBiObjLongPredicateBuilder.biObjLongPredicate()
                 .build();
 
             function.doTest((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(long)100);
 
             fail("No exception were thrown.");
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(UnsupportedOperationException.class)
+        })
+                    .isExactlyInstanceOf(IllegalStateException.class)
                     .hasMessageContaining("No case specified for:")
                     .hasMessageContaining(LBiObjLongPredicate.DESCRIPTION);
-
-        }
     }
 
     @Test
-    public void testBuild() throws Exception {
+    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+
+
+        assertThatThrownBy(() -> {
+            LBiObjLongPredicate function = LBiObjLongPredicateBuilder.biObjLongPredicate()
+                .withHandling(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
+                .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new));
+
+            fail("No exception were thrown.");
+        })
+                    .isExactlyInstanceOf(UnsupportedOperationException.class)
+                    .hasMessageContaining("Handling is allready set for this builder.");
+    }
+
+    @Test
+    public void testHandling() throws Throwable {
+
+        assertThatThrownBy(() -> {
+            LBiObjLongPredicate function = LBiObjLongPredicateBuilder.biObjLongPredicate()
+                .eventually((t1,t2, l) -> {
+                        throw new RuntimeException("ORIGINAL");
+                    })
+                .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
+
+            function.doTest((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(long)100);
+
+            fail("No exception were thrown.");
+        })
+                    .isExactlyInstanceOf(IllegalStateException.class)
+                    .hasMessageContaining("NEW EXCEPTION")
+                    .hasCauseExactlyInstanceOf(RuntimeException.class);
+    }
+
+
+    @Test
+    public void testBuild() throws Throwable {
 
         LBiObjLongPredicate<Integer ,Integer > function = biObjLongPredicate((LBiObjLongPredicate<Integer ,Integer > f)-> doNothing())
             .addCase(ce -> ce.of((t1,t2, l) -> t1 == Integer.valueOf(0))

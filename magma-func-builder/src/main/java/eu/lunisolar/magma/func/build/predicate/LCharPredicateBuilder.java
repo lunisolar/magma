@@ -20,11 +20,13 @@
 package eu.lunisolar.magma.func.build.predicate;
 
 import eu.lunisolar.magma.func.predicate.*;
+import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -51,6 +53,8 @@ public final class LCharPredicateBuilder extends PerCaseBuilderWithBooleanProduc
 
 	private Consumer<LCharPredicate> consumer;
 
+	private @Nullable HandlingInstructions handling;
+
 	public static final LCharPredicate EVENTUALLY_THROW = LCharPredicate.l((char c) -> {
 		String message;
 		try {
@@ -59,7 +63,7 @@ public final class LCharPredicateBuilder extends PerCaseBuilderWithBooleanProduc
 				message = "No case specified for input data (no details can be provided).";
 			}
 
-			throw new UnsupportedOperationException(message);
+			throw new IllegalStateException(message);
 		});
 
 	public LCharPredicateBuilder(@Nullable Consumer<LCharPredicate> consumer) {
@@ -85,6 +89,17 @@ public final class LCharPredicateBuilder extends PerCaseBuilderWithBooleanProduc
 		return new LCharPredicateBuilder(consumer);
 	}
 
+	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
+	@Nonnull
+	public final LCharPredicateBuilder withHandling(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+		Null.nonNullArg(handling, "handling");
+		if (this.handling != null) {
+			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+		}
+		this.handling = handling;
+		return self();
+	}
+
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
 	@Nonnull
 	public final LCharPredicate build() {
@@ -93,11 +108,9 @@ public final class LCharPredicateBuilder extends PerCaseBuilderWithBooleanProduc
 
 		LCharPredicate retval;
 
-		if (cases.isEmpty()) {
-			retval = eventuallyFinal;
-		} else {
-			final Case<LCharPredicate, LCharPredicate>[] casesArray = cases.toArray(new Case[cases.size()]);
-			retval = LCharPredicate.l((char c) -> {
+		final Case<LCharPredicate, LCharPredicate>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = LCharPredicate.l((char c) -> {
+			try {
 				for (Case<LCharPredicate, LCharPredicate> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(c)) {
 						return aCase.caseFunction().doTest(c);
@@ -105,13 +118,20 @@ public final class LCharPredicateBuilder extends PerCaseBuilderWithBooleanProduc
 				}
 
 				return eventuallyFinal.doTest(c);
-			});
-		}
+			} catch (Throwable e) {
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);
 		}
 		return retval;
+	}
+
+	public final LCharPredicate build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+		this.withHandling(handling);
+		return build();
 	}
 
 }

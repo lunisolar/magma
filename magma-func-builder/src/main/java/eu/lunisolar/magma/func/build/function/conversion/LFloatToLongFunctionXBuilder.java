@@ -20,11 +20,13 @@
 package eu.lunisolar.magma.func.build.function.conversion;
 
 import eu.lunisolar.magma.func.function.conversion.*;
+import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -47,9 +49,11 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for LFloatToLongFunctionX. */
-public final class LFloatToLongFunctionXBuilder<X extends Exception> extends PerCaseBuilderWithLongProduct.Base<LFloatToLongFunctionXBuilder<X>, LFloatPredicateX<X>, LFloatToLongFunctionX<X>> {
+public final class LFloatToLongFunctionXBuilder<X extends Throwable> extends PerCaseBuilderWithLongProduct.Base<LFloatToLongFunctionXBuilder<X>, LFloatPredicateX<X>, LFloatToLongFunctionX<X>> {
 
 	private Consumer<LFloatToLongFunctionX<X>> consumer;
+
+	private @Nullable HandlingInstructions handling;
 
 	public static final LFloatToLongFunctionX EVENTUALLY_THROW = LFloatToLongFunctionX.lX((float f) -> {
 		String message;
@@ -59,7 +63,7 @@ public final class LFloatToLongFunctionXBuilder<X extends Exception> extends Per
 				message = "No case specified for input data (no details can be provided).";
 			}
 
-			throw new UnsupportedOperationException(message);
+			throw new IllegalStateException(message);
 		});
 
 	public LFloatToLongFunctionXBuilder(@Nullable Consumer<LFloatToLongFunctionX<X>> consumer) {
@@ -75,14 +79,25 @@ public final class LFloatToLongFunctionXBuilder<X extends Exception> extends Per
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <X extends Exception> LFloatToLongFunctionXBuilder<X> floatToLongFunctionX() {
+	public static final <X extends Throwable> LFloatToLongFunctionXBuilder<X> floatToLongFunctionX() {
 		return new LFloatToLongFunctionXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <X extends Exception> LFloatToLongFunctionXBuilder<X> floatToLongFunctionX(Consumer<LFloatToLongFunctionX<X>> consumer) {
+	public static final <X extends Throwable> LFloatToLongFunctionXBuilder<X> floatToLongFunctionX(Consumer<LFloatToLongFunctionX<X>> consumer) {
 		return new LFloatToLongFunctionXBuilder(consumer);
+	}
+
+	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
+	@Nonnull
+	public final LFloatToLongFunctionXBuilder<X> withHandling(@Nonnull HandlingInstructions<X, X> handling) {
+		Null.nonNullArg(handling, "handling");
+		if (this.handling != null) {
+			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+		}
+		this.handling = handling;
+		return self();
 	}
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
@@ -93,11 +108,9 @@ public final class LFloatToLongFunctionXBuilder<X extends Exception> extends Per
 
 		LFloatToLongFunctionX<X> retval;
 
-		if (cases.isEmpty()) {
-			retval = eventuallyFinal;
-		} else {
-			final Case<LFloatPredicateX<X>, LFloatToLongFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-			retval = LFloatToLongFunctionX.lX((float f) -> {
+		final Case<LFloatPredicateX<X>, LFloatToLongFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = LFloatToLongFunctionX.lX((float f) -> {
+			try {
 				for (Case<LFloatPredicateX<X>, LFloatToLongFunctionX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(f)) {
 						return aCase.caseFunction().doApplyAsLong(f);
@@ -105,13 +118,20 @@ public final class LFloatToLongFunctionXBuilder<X extends Exception> extends Per
 				}
 
 				return eventuallyFinal.doApplyAsLong(f);
-			});
-		}
+			} catch (Throwable e) {
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);
 		}
 		return retval;
+	}
+
+	public final LFloatToLongFunctionX<X> build(@Nonnull HandlingInstructions<X, X> handling) {
+		this.withHandling(handling);
+		return build();
 	}
 
 }

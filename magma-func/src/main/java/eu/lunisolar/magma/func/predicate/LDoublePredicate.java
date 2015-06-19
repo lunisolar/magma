@@ -24,6 +24,7 @@ import java.util.Comparator; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -108,7 +109,7 @@ public interface LDoublePredicate extends LDoublePredicateX<RuntimeException>, M
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LDoublePredicate l(final @Nonnull LDoublePredicate lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -122,7 +123,7 @@ public interface LDoublePredicate extends LDoublePredicateX<RuntimeException>, M
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Exception> LDoublePredicate wrap(final @Nonnull LDoublePredicateX<X> other) {
+	public static <X extends Throwable> LDoublePredicate wrap(final @Nonnull LDoublePredicateX<X> other) {
 		return other::nestingDoTest;
 	}
 
@@ -142,7 +143,7 @@ public interface LDoublePredicate extends LDoublePredicateX<RuntimeException>, M
 	 */
 	@Nonnull
 	default LDoublePredicate and(@Nonnull LDoublePredicate other) {
-		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
+		Null.nonNullArg(other, "other");
 		return (double d) -> doTest(d) && other.doTest(d);
 	}
 
@@ -151,7 +152,7 @@ public interface LDoublePredicate extends LDoublePredicateX<RuntimeException>, M
 	 */
 	@Nonnull
 	default LDoublePredicate or(@Nonnull LDoublePredicate other) {
-		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
+		Null.nonNullArg(other, "other");
 		return (double d) -> doTest(d) || other.doTest(d);
 	}
 
@@ -160,7 +161,7 @@ public interface LDoublePredicate extends LDoublePredicateX<RuntimeException>, M
 	 */
 	@Nonnull
 	default LDoublePredicate xor(@Nonnull LDoublePredicate other) {
-		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
+		Null.nonNullArg(other, "other");
 		return (double d) -> doTest(d) ^ other.doTest(d);
 	}
 
@@ -178,7 +179,7 @@ public interface LDoublePredicate extends LDoublePredicateX<RuntimeException>, M
 	 */
 	@Nonnull
 	default LDoublePredicate fromDouble(@Nonnull final LDoubleUnaryOperator before1) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
+		Null.nonNullArg(before1, "before1");
 		return (final double v1) -> this.doTest(before1.doApplyAsDouble(v1));
 	}
 
@@ -187,7 +188,7 @@ public interface LDoublePredicate extends LDoublePredicateX<RuntimeException>, M
 	 */
 	@Nonnull
 	default <V1> LPredicate<V1> from(@Nonnull final LToDoubleFunction<? super V1> before1) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
+		Null.nonNullArg(before1, "before1");
 		return (V1 v1) -> this.doTest(before1.doApplyAsDouble(v1));
 	}
 
@@ -198,68 +199,67 @@ public interface LDoublePredicate extends LDoublePredicateX<RuntimeException>, M
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default <V> LDoubleFunction<V> then(@Nonnull LBooleanFunction<? extends V> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (double d) -> after.doApply(this.doTest(d));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LDoubleToByteFunction thenToByte(@Nonnull LBooleanToByteFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (double d) -> after.doApplyAsByte(this.doTest(d));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LDoubleToShortFunction thenToShort(@Nonnull LBooleanToShortFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (double d) -> after.doApplyAsShort(this.doTest(d));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LDoubleToIntFunction thenToInt(@Nonnull LBooleanToIntFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (double d) -> after.doApplyAsInt(this.doTest(d));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LDoubleToLongFunction thenToLong(@Nonnull LBooleanToLongFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (double d) -> after.doApplyAsLong(this.doTest(d));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LDoubleToFloatFunction thenToFloat(@Nonnull LBooleanToFloatFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (double d) -> after.doApplyAsFloat(this.doTest(d));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LDoubleUnaryOperator thenToDouble(@Nonnull LBooleanToDoubleFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (double d) -> after.doApplyAsDouble(this.doTest(d));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LDoubleToCharFunction thenToChar(@Nonnull LBooleanToCharFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (double d) -> after.doApplyAsChar(this.doTest(d));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LDoublePredicate thenToBoolean(@Nonnull LBooleanUnaryOperator after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (double d) -> after.doApplyAsBoolean(this.doTest(d));
 	}
 
 	// </editor-fold>
-
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
@@ -282,63 +282,6 @@ public interface LDoublePredicate extends LDoublePredicateX<RuntimeException>, M
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LDoublePredicateX<RuntimeException> shoveX() {
 		return this;
-	}
-
-	// </editor-fold>
-
-	// <editor-fold desc="exception handling">
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LDoublePredicate wrapException(@Nonnull final LDoublePredicate other, Class<E> exception, LBooleanSupplier supplier, ExceptionHandler<E, Y> handler) {
-		return (double d) -> {
-			try {
-				return other.doTest(d);
-			} catch (Exception e) {
-				try {
-					if (supplier != null) {
-						return supplier.doGetAsBoolean();
-					}
-				} catch (Exception supplierException) {
-					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
-				}
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
-	}
-
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
-	@Nonnull
-	default <E extends Exception, Y extends RuntimeException> LDoublePredicate handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LDoublePredicate.wrapException(this, exception, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends RuntimeException> LDoublePredicate handle(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LDoublePredicate.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <E extends Exception, Y extends RuntimeException> LDoublePredicate handle(Class<E> exception, LBooleanSupplier supplier) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LDoublePredicate.wrapException(this, exception, supplier, null);
-	}
-
-	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <Y extends RuntimeException> LDoublePredicate handle(LBooleanSupplier supplier) {
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LDoublePredicate.wrapException(this, Exception.class, supplier, null);
 	}
 
 	// </editor-fold>

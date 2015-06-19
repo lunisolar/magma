@@ -33,7 +33,7 @@ import eu.lunisolar.magma.func.action.LAction;
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LLongToShortFunctionX. */
-public interface LLongToShortFunctionXAssert<S extends LLongToShortFunctionXAssert<S, A, RS, X>, A extends LLongToShortFunctionX<X>, RS extends AbstractShortAssert<RS>, X extends Exception>
+public interface LLongToShortFunctionXAssert<S extends LLongToShortFunctionXAssert<S, A, RS, X>, A extends LLongToShortFunctionX<X>, RS extends AbstractShortAssert<RS>, X extends Throwable>
 		extends
 			Assert<S, A>,
 			FullFunctionalAssert<S, A, RS, Short, Exception> {
@@ -42,7 +42,7 @@ public interface LLongToShortFunctionXAssert<S extends LLongToShortFunctionXAsse
 	Evaluation<S, A, RS, Short, Exception> doesApplyAsShort(long l);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LLongToShortFunctionX<X>, RS extends AbstractShortAssert<RS>, X extends Exception> extends Base<Impl<A, RS, X>, A, RS, X> {
+	public final static class Impl<A extends LLongToShortFunctionX<X>, RS extends AbstractShortAssert<RS>, X extends Throwable> extends Base<Impl<A, RS, X>, A, RS, X> {
 
 		public Impl(A actual, java.util.function.Function<Short, RS> assertFactory) {
 			super(actual, Impl.class, assertFactory);
@@ -50,7 +50,7 @@ public interface LLongToShortFunctionXAssert<S extends LLongToShortFunctionXAsse
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, X>, A extends LLongToShortFunctionX<X>, RS extends AbstractShortAssert<RS>, X extends Exception> extends FullFunctionalAssert.Base<S, A, RS, Short, Exception>
+	public static class Base<S extends Base<S, A, RS, X>, A extends LLongToShortFunctionX<X>, RS extends AbstractShortAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, A, RS, Short, Exception>
 			implements
 				LLongToShortFunctionXAssert<S, A, RS, X> {
 

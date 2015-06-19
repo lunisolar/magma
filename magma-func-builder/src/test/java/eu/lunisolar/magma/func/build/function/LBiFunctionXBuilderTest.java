@@ -48,41 +48,72 @@ import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
-import eu.lunisolar.magma.basics.NestedException; //NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 
 import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.function.LBiFunctionXBuilder.biFunctionX;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
-public class LBiFunctionXBuilderTest<T1,T2,R,X extends ParseException>{
+public class LBiFunctionXBuilderTest<T1,T2,R,X extends Throwable>{
 
     @SuppressWarnings("unchecked")
     public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
     @Test
-    public void testEventuallyThrow() throws Exception {
+    public void testEventuallyThrow() throws Throwable {
 
-        try {
-            LBiFunctionX function = LBiFunctionXBuilder
-                .biFunctionX()
+        assertThatThrownBy(() -> {
+            LBiFunctionX function = LBiFunctionXBuilder.biFunctionX()
                 .build();
 
             function.doApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
 
             fail("No exception were thrown.");
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(UnsupportedOperationException.class)
+        })
+                    .isExactlyInstanceOf(IllegalStateException.class)
                     .hasMessageContaining("No case specified for:")
                     .hasMessageContaining(LBiFunctionX.DESCRIPTION);
-
-        }
     }
 
     @Test
-    public void testBuild() throws Exception {
+    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+
+
+        assertThatThrownBy(() -> {
+            LBiFunctionX function = LBiFunctionXBuilder.biFunctionX()
+                .withHandling(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
+                .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new));
+
+            fail("No exception were thrown.");
+        })
+                    .isExactlyInstanceOf(UnsupportedOperationException.class)
+                    .hasMessageContaining("Handling is allready set for this builder.");
+    }
+
+    @Test
+    public void testHandling() throws Throwable {
+
+        assertThatThrownBy(() -> {
+            LBiFunctionX function = LBiFunctionXBuilder.biFunctionX()
+                .eventually((t1,t2) -> {
+                        throw new RuntimeException("ORIGINAL");
+                    })
+                .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
+
+            function.doApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+
+            fail("No exception were thrown.");
+        })
+                    .isExactlyInstanceOf(IllegalStateException.class)
+                    .hasMessageContaining("NEW EXCEPTION")
+                    .hasCauseExactlyInstanceOf(RuntimeException.class);
+    }
+
+
+    @Test
+    public void testBuild() throws Throwable {
 
         LBiFunctionX<Integer ,Integer ,Integer ,ParseException> function = biFunctionX((LBiFunctionX<Integer ,Integer ,Integer ,ParseException> f)-> doNothing())
             .addCase(ce -> ce.of((t1,t2) -> t1 == Integer.valueOf(0))

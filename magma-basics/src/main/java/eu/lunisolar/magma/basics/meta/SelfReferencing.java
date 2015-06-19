@@ -17,25 +17,12 @@
  * along with "lunisolar-magma".  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eu.lunisolar.magma.basics;
+package eu.lunisolar.magma.basics.meta;
 
-public class ExceptionNotHandled extends RuntimeException {
-    public ExceptionNotHandled() {
+public interface SelfReferencing<SELF extends SelfReferencing<SELF>> {
+
+    default SELF self() {
+        return (SELF) this;
     }
 
-    public ExceptionNotHandled(String message) {
-        super(message);
-    }
-
-    public ExceptionNotHandled(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public ExceptionNotHandled(Throwable cause) {
-        super(cause);
-    }
-
-    public ExceptionNotHandled(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
 }

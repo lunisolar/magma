@@ -47,6 +47,7 @@ import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
@@ -92,19 +93,19 @@ public class LBinaryOperatorXTest<T,X extends ParseException> {
 
 
     @Test
-    public void testTheResult() throws ParseException {
+    public void testTheResult() throws X {
         assertThat(sut.doApply((T)Integer.valueOf(100),(T)Integer.valueOf(100)))
             .isSameAs(testValue);
     }
 
     @Test
-    public void testNonNullDoApply() throws ParseException {
+    public void testNonNullDoApply() throws X {
         assertThat(sut.nonNullDoApply((T)Integer.valueOf(100),(T)Integer.valueOf(100)))
             .isSameAs(testValue);
     }
 
     @Test
-    public void testNestingDoApply_checked() throws ParseException {
+    public void testNestingDoApply_checked() throws X {
 
         // then
         try {
@@ -119,7 +120,7 @@ public class LBinaryOperatorXTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApply_unckeck() throws ParseException {
+    public void testNestingDoApply_unckeck() throws X {
 
         // then
         try {
@@ -134,7 +135,7 @@ public class LBinaryOperatorXTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApply_checked() throws ParseException {
+    public void testShovingDoApply_checked() throws X {
 
         // then
         try {
@@ -149,7 +150,7 @@ public class LBinaryOperatorXTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApply_unckeck() throws ParseException {
+    public void testShovingDoApply_unckeck() throws X {
 
         // then
         try {
@@ -165,38 +166,38 @@ public class LBinaryOperatorXTest<T,X extends ParseException> {
 
 
     @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LBinaryOperatorX: T doApply(T t1,T t2) throws X).\\E")
-    public void testNonNullCapturesNull() throws ParseException {
+    public void testNonNullCapturesNull() throws X {
         sutNull.nonNullDoApply((T)Integer.valueOf(100),(T)Integer.valueOf(100));
     }
 
 
     @Test
-    public void testFunctionalInterfaceDescription() throws ParseException {
+    public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
             .isEqualTo("LBinaryOperatorX: T doApply(T t1,T t2) throws X");
     }
 
     @Test
-    public void testLXMethod() throws ParseException {
+    public void testLXMethod() throws X {
         assertThat(LBinaryOperatorX.lX((Object t1,Object t2) -> testValue ))
             .isInstanceOf(LBinaryOperatorX.class);
     }
 
     @Test
-    public void testWrapXMethod() throws ParseException {
+    public void testWrapXMethod() throws X {
         assertThat(LBinaryOperatorX.wrapX(opposite))
             .isInstanceOf(LBinaryOperatorX.class);
     }
 
     @Test
-    public void testWrapStdMethod() throws ParseException {
+    public void testWrapStdMethod() throws X {
         assertThat(LBinaryOperatorX.wrap(jre))
             .isInstanceOf(LBinaryOperatorX.class);
     }
 
 
     @Test
-    public void testWrapExceptionMethodWrapsTheException() throws ParseException {
+    public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
         LBinaryOperatorX<T,X> sutThrowing = LBinaryOperatorX.lX((T t1,T t2) -> {
@@ -204,8 +205,8 @@ public class LBinaryOperatorXTest<T,X extends ParseException> {
         });
 
         // when
-        LBinaryOperatorX<T,X> wrapped = LBinaryOperatorX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
-            throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
+        LBinaryOperatorX<T,X> wrapped = sutThrowing.handleX(h -> {
+            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
         // then
@@ -221,7 +222,7 @@ public class LBinaryOperatorXTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException() throws ParseException {
+    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
 
         // given
         LBinaryOperatorX<T,X> sutThrowing = LBinaryOperatorX.lX((T t1,T t2) -> {
@@ -229,9 +230,9 @@ public class LBinaryOperatorXTest<T,X extends ParseException> {
         });
 
         // when
-        LBinaryOperatorX<T,X> wrapped = LBinaryOperatorX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
-            throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
-        });
+        LBinaryOperatorX<T,X> wrapped = sutThrowing.handleX(handler -> handler
+                .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
+                .throwIf(IndexOutOfBoundsException.class));
 
         // then
         try {
@@ -244,17 +245,41 @@ public class LBinaryOperatorXTest<T,X extends ParseException> {
         }
     }
 
-    @Test
-    public void testWrapExceptionMisshandlingExceptionIsDetected() throws ParseException {
+@Test
+    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
 
         // given
         LBinaryOperatorX<T,X> sutThrowing = LBinaryOperatorX.lX((T t1,T t2) -> {
-            throw new UnsupportedOperationException();
+            throw new IndexOutOfBoundsException();
         });
 
         // when
-        LBinaryOperatorX<T,X> wrapped = LBinaryOperatorX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
-            return null;
+        LBinaryOperatorX<T,X> wrapped = sutThrowing.handleX(handler -> handler
+                .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
+                .throwIf(IndexOutOfBoundsException.class));
+
+        // then
+        try {
+            wrapped.doApply((T)Integer.valueOf(100),(T)Integer.valueOf(100));
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause();
+        }
+    }
+
+
+    @Test
+    public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
+
+        // given
+        LBinaryOperatorX<T,X> sutThrowing = LBinaryOperatorX.lX((T t1,T t2) -> {
+            throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
+        });
+
+        // when
+        LBinaryOperatorX<T,X> wrapped = sutThrowing.handleX(h -> {
         });
 
         // then
@@ -263,9 +288,9 @@ public class LBinaryOperatorXTest<T,X extends ParseException> {
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
-                    .isExactlyInstanceOf(ExceptionNotHandled.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage("Handler has not processed the exception.");
+                    .isExactlyInstanceOf(NestedException.class)
+                    .hasCauseExactlyInstanceOf(ParseException.class)
+                    .hasMessage(ORIGINAL_MESSAGE);
         }
     }
 
@@ -274,7 +299,7 @@ public class LBinaryOperatorXTest<T,X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testThen0() throws ParseException  {
+    public void testThen0() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -310,13 +335,7 @@ public class LBinaryOperatorXTest<T,X extends ParseException> {
 
 
     // </editor-fold>
-//
-//    @Test
-//    public void testStd() {
-//        assertThat(sut.std()).isInstanceOf(java.util.function.BinaryOperator.class);
-//    }
-//
-//
+
     @Test
     public void testNesting() {
         assertThat(sut.nest())
@@ -354,7 +373,7 @@ public class LBinaryOperatorXTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testHandleX() throws ParseException {
+    public void testHandle() throws X {
 
         // given
         LBinaryOperatorX<T,X> sutThrowing = LBinaryOperatorX.lX((T t1,T t2) -> {
@@ -362,8 +381,8 @@ public class LBinaryOperatorXTest<T,X extends ParseException> {
         });
 
         // when
-        LBinaryOperatorX<T,X> wrapped = sutThrowing.handleX(UnsupportedOperationException.class, t -> {
-            throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
+        LBinaryOperatorX<T,X> wrapped = sutThrowing.handleX(h -> {
+            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
         // then
@@ -379,7 +398,7 @@ public class LBinaryOperatorXTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testToString() throws ParseException {
+    public void testToString() throws X {
 
         assertThat(sut.toString())
                 .isInstanceOf(String.class)

@@ -24,6 +24,7 @@ import java.util.Comparator; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -58,7 +59,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LDoubleBinaryOperatorX<X extends Exception> extends java.util.function.DoubleBinaryOperator, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LDoubleBinaryOperatorX<X extends Throwable> extends java.util.function.DoubleBinaryOperator, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
 	public static final String DESCRIPTION = "LDoubleBinaryOperatorX: double doApplyAsDouble(double d1,double d2) throws X";
 
@@ -74,15 +75,24 @@ public interface LDoubleBinaryOperatorX<X extends Exception> extends java.util.f
 	default double nestingDoApplyAsDouble(double d1, double d2) {
 		try {
 			return this.doApplyAsDouble(d1, d2);
-		} catch (RuntimeException e) {
+		} catch (RuntimeException | Error e) {
 			throw e;
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new NestedException(e);
 		}
 	}
 
 	default double shovingDoApplyAsDouble(double d1, double d2) {
 		return ((LDoubleBinaryOperatorX<RuntimeException>) this).doApplyAsDouble(d1, d2);
+	}
+
+	default <Y extends Throwable> double handlingDoApplyAsDouble(double d1, double d2, HandlingInstructions<Throwable, Y> handling) throws Y {
+
+		try {
+			return this.doApplyAsDouble(d1, d2);
+		} catch (Throwable e) {
+			throw Handler.handleOrNest(e, handling);
+		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
@@ -101,14 +111,21 @@ public interface LDoubleBinaryOperatorX<X extends Exception> extends java.util.f
 		return () -> this.doApplyAsDouble(d1, d2);
 	}
 
-	public static <X extends Exception> LDoubleBinaryOperatorX<X> constant(double r) {
+	public static <X extends Throwable> LDoubleBinaryOperatorX<X> constant(double r) {
 		return (d1, d2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Exception> LDoubleBinaryOperatorX<X> lX(final @Nonnull LDoubleBinaryOperatorX<X> lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+	public static <X extends Throwable> LDoubleBinaryOperatorX<X> lX(final @Nonnull LDoubleBinaryOperatorX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	public static <X extends Throwable> LDoubleBinaryOperatorX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LDoubleBinaryOperatorX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -116,13 +133,13 @@ public interface LDoubleBinaryOperatorX<X extends Exception> extends java.util.f
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Exception> LDoubleBinaryOperatorX<X> wrap(final java.util.function.DoubleBinaryOperator other) {
+	public static <X extends Throwable> LDoubleBinaryOperatorX<X> wrap(final java.util.function.DoubleBinaryOperator other) {
 		return other::applyAsDouble;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Exception> LDoubleBinaryOperatorX<X> wrapX(final @Nonnull LDoubleBinaryOperator other) {
+	public static <X extends Throwable> LDoubleBinaryOperatorX<X> wrapX(final @Nonnull LDoubleBinaryOperator other) {
 		return (LDoubleBinaryOperatorX) other;
 	}
 
@@ -133,7 +150,7 @@ public interface LDoubleBinaryOperatorX<X extends Exception> extends java.util.f
 	 * @see {@link java.util.function.BinaryOperator#minBy()}
 	 */
 	@Nonnull
-	public static <X extends Exception> LDoubleBinaryOperatorX<X> min() {
+	public static <X extends Throwable> LDoubleBinaryOperatorX<X> min() {
 		return Double::min;
 	}
 
@@ -141,7 +158,7 @@ public interface LDoubleBinaryOperatorX<X extends Exception> extends java.util.f
 	 * @see {@link java.util.function.BinaryOperator#maxBy()}
 	 */
 	@Nonnull
-	public static <X extends Exception> LDoubleBinaryOperatorX<X> max() {
+	public static <X extends Throwable> LDoubleBinaryOperatorX<X> max() {
 		return Double::max;
 	}
 
@@ -154,8 +171,8 @@ public interface LDoubleBinaryOperatorX<X extends Exception> extends java.util.f
 	 */
 	@Nonnull
 	default LDoubleBinaryOperatorX<X> fromDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1, @Nonnull final LDoubleUnaryOperatorX<X> before2) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
+		Null.nonNullArg(before1, "before1");
+		Null.nonNullArg(before2, "before2");
 		return (final double v1, final double v2) -> this.doApplyAsDouble(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
 	}
 
@@ -164,8 +181,8 @@ public interface LDoubleBinaryOperatorX<X extends Exception> extends java.util.f
 	 */
 	@Nonnull
 	default <V1, V2> LToDoubleBiFunctionX<V1, V2, X> from(@Nonnull final LToDoubleFunctionX<? super V1, X> before1, @Nonnull final LToDoubleFunctionX<? super V2, X> before2) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
+		Null.nonNullArg(before1, "before1");
+		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApplyAsDouble(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
 	}
 
@@ -176,12 +193,11 @@ public interface LDoubleBinaryOperatorX<X extends Exception> extends java.util.f
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default <V> LDoubleBiFunctionX<V, X> then(@Nonnull LDoubleFunctionX<? extends V, X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (double d1, double d2) -> after.doApply(this.doApplyAsDouble(d1, d2));
 	}
 
 	// </editor-fold>
-
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
@@ -210,57 +226,14 @@ public interface LDoubleBinaryOperatorX<X extends Exception> extends java.util.f
 
 	// <editor-fold desc="exception handling">
 
-	/** Wraps with additional exception handling. */
 	@Nonnull
-	public static <X extends Exception, E extends Exception, Y extends Exception> LDoubleBinaryOperatorX<Y> wrapException(@Nonnull final LDoubleBinaryOperatorX<X> other, Class<E> exception, LDoubleSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
-		return (double d1, double d2) -> {
-			try {
-				return other.doApplyAsDouble(d1, d2);
-			} catch (Exception e) {
-				try {
-					if (supplier != null) {
-						return supplier.doGetAsDouble();
-					}
-				} catch (Exception supplierException) {
-					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
-				}
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
+	default LDoubleBinaryOperator handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+		return (double d1, double d2) -> this.handlingDoApplyAsDouble(d1, d2, handling);
 	}
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <E extends Exception, Y extends Exception> LDoubleBinaryOperatorX<Y> handleX(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LDoubleBinaryOperatorX.wrapException(this, exception, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends Exception> LDoubleBinaryOperatorX<Y> handleX(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LDoubleBinaryOperatorX.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <E extends Exception, Y extends Exception> LDoubleBinaryOperatorX<Y> handleX(Class<E> exception, LDoubleSupplierX<X> supplier) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LDoubleBinaryOperatorX.wrapException(this, exception, supplier, null);
-	}
-
-	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <Y extends Exception> LDoubleBinaryOperatorX<Y> handleX(LDoubleSupplierX<X> supplier) {
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LDoubleBinaryOperatorX.wrapException(this, Exception.class, supplier, null);
+	default <Y extends Throwable> LDoubleBinaryOperatorX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+		return (double d1, double d2) -> this.handlingDoApplyAsDouble(d1, d2, handling);
 	}
 
 	// </editor-fold>

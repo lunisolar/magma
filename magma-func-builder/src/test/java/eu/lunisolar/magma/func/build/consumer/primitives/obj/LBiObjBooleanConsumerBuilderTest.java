@@ -48,41 +48,72 @@ import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
-import eu.lunisolar.magma.basics.NestedException; //NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 
 import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.consumer.primitives.obj.LBiObjBooleanConsumerBuilder.biObjBooleanConsumer;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
-public class LBiObjBooleanConsumerBuilderTest<T1,T2,X extends ParseException>{
+public class LBiObjBooleanConsumerBuilderTest<T1,T2,X extends Throwable>{
 
     @SuppressWarnings("unchecked")
     public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
     @Test
-    public void testEventuallyThrow() throws Exception {
+    public void testEventuallyThrow() throws Throwable {
 
-        try {
-            LBiObjBooleanConsumer function = LBiObjBooleanConsumerBuilder
-                .biObjBooleanConsumer()
+        assertThatThrownBy(() -> {
+            LBiObjBooleanConsumer function = LBiObjBooleanConsumerBuilder.biObjBooleanConsumer()
                 .build();
 
             function.doAccept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),true);
 
             fail("No exception were thrown.");
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(UnsupportedOperationException.class)
+        })
+                    .isExactlyInstanceOf(IllegalStateException.class)
                     .hasMessageContaining("No case specified for:")
                     .hasMessageContaining(LBiObjBooleanConsumer.DESCRIPTION);
-
-        }
     }
 
     @Test
-    public void testBuild() throws Exception {
+    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+
+
+        assertThatThrownBy(() -> {
+            LBiObjBooleanConsumer function = LBiObjBooleanConsumerBuilder.biObjBooleanConsumer()
+                .withHandling(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
+                .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new));
+
+            fail("No exception were thrown.");
+        })
+                    .isExactlyInstanceOf(UnsupportedOperationException.class)
+                    .hasMessageContaining("Handling is allready set for this builder.");
+    }
+
+    @Test
+    public void testHandling() throws Throwable {
+
+        assertThatThrownBy(() -> {
+            LBiObjBooleanConsumer function = LBiObjBooleanConsumerBuilder.biObjBooleanConsumer()
+                .eventually((t1,t2, b) -> {
+                        throw new RuntimeException("ORIGINAL");
+                    })
+                .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
+
+            function.doAccept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),true);
+
+            fail("No exception were thrown.");
+        })
+                    .isExactlyInstanceOf(IllegalStateException.class)
+                    .hasMessageContaining("NEW EXCEPTION")
+                    .hasCauseExactlyInstanceOf(RuntimeException.class);
+    }
+
+
+    @Test
+    public void testBuild() throws Throwable {
         final AtomicInteger externalEffect = new AtomicInteger(0);
 
         LBiObjBooleanConsumer<Integer ,Integer > function = biObjBooleanConsumer((LBiObjBooleanConsumer<Integer ,Integer > f)-> doNothing())

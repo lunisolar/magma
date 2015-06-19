@@ -33,7 +33,7 @@ import eu.lunisolar.magma.func.action.LAction;
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LToDoubleFunctionX. */
-public interface LToDoubleFunctionXAssert<S extends LToDoubleFunctionXAssert<S, A, RS, T, X>, A extends LToDoubleFunctionX<T, X>, RS extends AbstractDoubleAssert<RS>, T, X extends Exception>
+public interface LToDoubleFunctionXAssert<S extends LToDoubleFunctionXAssert<S, A, RS, T, X>, A extends LToDoubleFunctionX<T, X>, RS extends AbstractDoubleAssert<RS>, T, X extends Throwable>
 		extends
 			Assert<S, A>,
 			FullFunctionalAssert<S, A, RS, Double, Exception> {
@@ -42,7 +42,7 @@ public interface LToDoubleFunctionXAssert<S extends LToDoubleFunctionXAssert<S, 
 	Evaluation<S, A, RS, Double, Exception> doesApplyAsDouble(T t);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LToDoubleFunctionX<T, X>, RS extends AbstractDoubleAssert<RS>, T, X extends Exception> extends Base<Impl<A, RS, T, X>, A, RS, T, X> {
+	public final static class Impl<A extends LToDoubleFunctionX<T, X>, RS extends AbstractDoubleAssert<RS>, T, X extends Throwable> extends Base<Impl<A, RS, T, X>, A, RS, T, X> {
 
 		public Impl(A actual, java.util.function.Function<Double, RS> assertFactory) {
 			super(actual, Impl.class, assertFactory);
@@ -50,7 +50,7 @@ public interface LToDoubleFunctionXAssert<S extends LToDoubleFunctionXAssert<S, 
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, T, X>, A extends LToDoubleFunctionX<T, X>, RS extends AbstractDoubleAssert<RS>, T, X extends Exception> extends FullFunctionalAssert.Base<S, A, RS, Double, Exception>
+	public static class Base<S extends Base<S, A, RS, T, X>, A extends LToDoubleFunctionX<T, X>, RS extends AbstractDoubleAssert<RS>, T, X extends Throwable> extends FullFunctionalAssert.Base<S, A, RS, Double, Exception>
 			implements
 				LToDoubleFunctionXAssert<S, A, RS, T, X> {
 

@@ -20,11 +20,13 @@
 package eu.lunisolar.magma.func.build.operator.binary;
 
 import eu.lunisolar.magma.func.operator.binary.*;
+import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -51,6 +53,8 @@ public final class LCharBinaryOperatorBuilder extends PerCaseBuilderWithCharProd
 
 	private Consumer<LCharBinaryOperator> consumer;
 
+	private @Nullable HandlingInstructions handling;
+
 	public static final LCharBinaryOperator EVENTUALLY_THROW = LCharBinaryOperator.l((char c1, char c2) -> {
 		String message;
 		try {
@@ -59,7 +63,7 @@ public final class LCharBinaryOperatorBuilder extends PerCaseBuilderWithCharProd
 				message = "No case specified for input data (no details can be provided).";
 			}
 
-			throw new UnsupportedOperationException(message);
+			throw new IllegalStateException(message);
 		});
 
 	public LCharBinaryOperatorBuilder(@Nullable Consumer<LCharBinaryOperator> consumer) {
@@ -85,6 +89,17 @@ public final class LCharBinaryOperatorBuilder extends PerCaseBuilderWithCharProd
 		return new LCharBinaryOperatorBuilder(consumer);
 	}
 
+	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
+	@Nonnull
+	public final LCharBinaryOperatorBuilder withHandling(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+		Null.nonNullArg(handling, "handling");
+		if (this.handling != null) {
+			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+		}
+		this.handling = handling;
+		return self();
+	}
+
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
 	@Nonnull
 	public final LCharBinaryOperator build() {
@@ -93,11 +108,9 @@ public final class LCharBinaryOperatorBuilder extends PerCaseBuilderWithCharProd
 
 		LCharBinaryOperator retval;
 
-		if (cases.isEmpty()) {
-			retval = eventuallyFinal;
-		} else {
-			final Case<LBiCharPredicate, LCharBinaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
-			retval = LCharBinaryOperator.l((char c1, char c2) -> {
+		final Case<LBiCharPredicate, LCharBinaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = LCharBinaryOperator.l((char c1, char c2) -> {
+			try {
 				for (Case<LBiCharPredicate, LCharBinaryOperator> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(c1, c2)) {
 						return aCase.caseFunction().doApplyAsChar(c1, c2);
@@ -105,13 +118,20 @@ public final class LCharBinaryOperatorBuilder extends PerCaseBuilderWithCharProd
 				}
 
 				return eventuallyFinal.doApplyAsChar(c1, c2);
-			});
-		}
+			} catch (Throwable e) {
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);
 		}
 		return retval;
+	}
+
+	public final LCharBinaryOperator build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+		this.withHandling(handling);
+		return build();
 	}
 
 }

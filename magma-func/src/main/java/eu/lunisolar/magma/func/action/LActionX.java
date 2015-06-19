@@ -20,9 +20,11 @@
 package eu.lunisolar.magma.func.action;
 
 import javax.annotation.Nonnull; // NOSONAR
+import javax.annotation.Nullable; // NOSONAR
 import java.util.Objects;// NOSONAR
 import java.util.function.Predicate; //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
@@ -51,7 +53,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LActionX<X extends Exception> extends Runnable, MetaAction, MetaInterface.Throwing<X> {
+public interface LActionX<X extends Throwable> extends Runnable, MetaAction, MetaInterface.Throwing<X> {
 
 	public static final String DESCRIPTION = "LActionX: void doExecute() throws X";
 
@@ -67,15 +69,24 @@ public interface LActionX<X extends Exception> extends Runnable, MetaAction, Met
 	default void nestingDoExecute() {
 		try {
 			this.doExecute();
-		} catch (RuntimeException e) {
+		} catch (RuntimeException | Error e) {
 			throw e;
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new NestedException(e);
 		}
 	}
 
 	default void shovingDoExecute() {
 		((LActionX<RuntimeException>) this).doExecute();
+	}
+
+	default <Y extends Throwable> void handlingDoExecute(HandlingInstructions<Throwable, Y> handling) throws Y {
+
+		try {
+			this.doExecute();
+		} catch (Throwable e) {
+			throw Handler.handleOrNest(e, handling);
+		}
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -86,8 +97,15 @@ public interface LActionX<X extends Exception> extends Runnable, MetaAction, Met
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Exception> LActionX<X> lX(final @Nonnull LActionX<X> lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+	public static <X extends Throwable> LActionX<X> lX(final @Nonnull LActionX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	public static <X extends Throwable> LActionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LActionX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -95,13 +113,13 @@ public interface LActionX<X extends Exception> extends Runnable, MetaAction, Met
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Exception> LActionX<X> wrap(final Runnable other) {
+	public static <X extends Throwable> LActionX<X> wrap(final Runnable other) {
 		return other::run;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Exception> LActionX<X> wrapX(final @Nonnull LAction other) {
+	public static <X extends Throwable> LActionX<X> wrapX(final @Nonnull LAction other) {
 		return (LActionX) other;
 	}
 
@@ -112,15 +130,14 @@ public interface LActionX<X extends Exception> extends Runnable, MetaAction, Met
 	/** Combines two actions together in a order. */
 	@Nonnull
 	default LActionX<X> andThen(@Nonnull LActionX<X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return () -> {
 			this.doExecute();
 			after.doExecute();
 		};
 	}
 
-	// </editor-fold>
-	// <editor-fold desc="variant conversions">
+	// </editor-fold> // <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
@@ -148,33 +165,14 @@ public interface LActionX<X extends Exception> extends Runnable, MetaAction, Met
 
 	// <editor-fold desc="exception handling">
 
-	/** Wraps with additional exception handling. */
 	@Nonnull
-	public static <X extends Exception, E extends Exception, Y extends Exception> LActionX<Y> wrapException(@Nonnull final LActionX<X> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
-		return () -> {
-			try {
-				other.doExecute();
-			} catch (Exception e) {
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
+	default LAction handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+		return () -> this.handlingDoExecute(handling);
 	}
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <E extends Exception, Y extends Exception> LActionX<Y> handleX(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LActionX.wrapException(this, exception, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends Exception> LActionX<Y> handleX(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LActionX.wrapException(this, Exception.class, (ExceptionHandler) handler);
+	default <Y extends Throwable> LActionX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+		return () -> this.handlingDoExecute(handling);
 	}
 
 	// </editor-fold>

@@ -20,11 +20,13 @@
 package eu.lunisolar.magma.func.build.operator.ternary;
 
 import eu.lunisolar.magma.func.operator.ternary.*;
+import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -51,6 +53,8 @@ public final class LBooleanTernaryOperatorBuilder extends PerCaseBuilderWithBool
 
 	private Consumer<LBooleanTernaryOperator> consumer;
 
+	private @Nullable HandlingInstructions handling;
+
 	public static final LBooleanTernaryOperator EVENTUALLY_THROW = LBooleanTernaryOperator.l((boolean b1, boolean b2, boolean b3) -> {
 		String message;
 		try {
@@ -59,7 +63,7 @@ public final class LBooleanTernaryOperatorBuilder extends PerCaseBuilderWithBool
 				message = "No case specified for input data (no details can be provided).";
 			}
 
-			throw new UnsupportedOperationException(message);
+			throw new IllegalStateException(message);
 		});
 
 	public LBooleanTernaryOperatorBuilder(@Nullable Consumer<LBooleanTernaryOperator> consumer) {
@@ -85,6 +89,17 @@ public final class LBooleanTernaryOperatorBuilder extends PerCaseBuilderWithBool
 		return new LBooleanTernaryOperatorBuilder(consumer);
 	}
 
+	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
+	@Nonnull
+	public final LBooleanTernaryOperatorBuilder withHandling(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+		Null.nonNullArg(handling, "handling");
+		if (this.handling != null) {
+			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+		}
+		this.handling = handling;
+		return self();
+	}
+
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
 	@Nonnull
 	public final LBooleanTernaryOperator build() {
@@ -93,11 +108,9 @@ public final class LBooleanTernaryOperatorBuilder extends PerCaseBuilderWithBool
 
 		LBooleanTernaryOperator retval;
 
-		if (cases.isEmpty()) {
-			retval = eventuallyFinal;
-		} else {
-			final Case<LBooleanTernaryOperator, LBooleanTernaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
-			retval = LBooleanTernaryOperator.l((boolean b1, boolean b2, boolean b3) -> {
+		final Case<LBooleanTernaryOperator, LBooleanTernaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = LBooleanTernaryOperator.l((boolean b1, boolean b2, boolean b3) -> {
+			try {
 				for (Case<LBooleanTernaryOperator, LBooleanTernaryOperator> aCase : casesArray) {
 					if (aCase.casePredicate().doApply(b1, b2, b3)) {
 						return aCase.caseFunction().doApply(b1, b2, b3);
@@ -105,13 +118,20 @@ public final class LBooleanTernaryOperatorBuilder extends PerCaseBuilderWithBool
 				}
 
 				return eventuallyFinal.doApply(b1, b2, b3);
-			});
-		}
+			} catch (Throwable e) {
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);
 		}
 		return retval;
+	}
+
+	public final LBooleanTernaryOperator build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+		this.withHandling(handling);
+		return build();
 	}
 
 }

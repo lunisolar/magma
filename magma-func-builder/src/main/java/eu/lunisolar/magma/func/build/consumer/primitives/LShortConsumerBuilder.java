@@ -20,11 +20,13 @@
 package eu.lunisolar.magma.func.build.consumer.primitives;
 
 import eu.lunisolar.magma.func.consumer.primitives.*;
+import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -51,6 +53,8 @@ public final class LShortConsumerBuilder extends PerCaseBuilder.Base<LShortConsu
 
 	private Consumer<LShortConsumer> consumer;
 
+	private @Nullable HandlingInstructions handling;
+
 	public static final LShortConsumer EVENTUALLY_THROW = LShortConsumer.l((short s) -> {
 		String message;
 		try {
@@ -59,7 +63,7 @@ public final class LShortConsumerBuilder extends PerCaseBuilder.Base<LShortConsu
 				message = "No case specified for input data (no details can be provided).";
 			}
 
-			throw new UnsupportedOperationException(message);
+			throw new IllegalStateException(message);
 		});
 
 	public LShortConsumerBuilder(@Nullable Consumer<LShortConsumer> consumer) {
@@ -85,6 +89,17 @@ public final class LShortConsumerBuilder extends PerCaseBuilder.Base<LShortConsu
 		return new LShortConsumerBuilder(consumer);
 	}
 
+	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
+	@Nonnull
+	public final LShortConsumerBuilder withHandling(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+		Null.nonNullArg(handling, "handling");
+		if (this.handling != null) {
+			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+		}
+		this.handling = handling;
+		return self();
+	}
+
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
 	@Nonnull
 	public final LShortConsumer build() {
@@ -93,11 +108,9 @@ public final class LShortConsumerBuilder extends PerCaseBuilder.Base<LShortConsu
 
 		LShortConsumer retval;
 
-		if (cases.isEmpty()) {
-			retval = eventuallyFinal;
-		} else {
-			final Case<LShortPredicate, LShortConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
-			retval = LShortConsumer.l((short s) -> {
+		final Case<LShortPredicate, LShortConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = LShortConsumer.l((short s) -> {
+			try {
 				for (Case<LShortPredicate, LShortConsumer> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(s)) {
 						aCase.caseFunction().doAccept(s);
@@ -106,13 +119,20 @@ public final class LShortConsumerBuilder extends PerCaseBuilder.Base<LShortConsu
 				}
 
 				eventuallyFinal.doAccept(s);
-			});
-		}
+			} catch (Throwable e) {
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);
 		}
 		return retval;
+	}
+
+	public final LShortConsumer build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+		this.withHandling(handling);
+		return build();
 	}
 
 }

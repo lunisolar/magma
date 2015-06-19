@@ -20,11 +20,13 @@
 package eu.lunisolar.magma.func.build.consumer.primitives.obj;
 
 import eu.lunisolar.magma.func.consumer.primitives.obj.*;
+import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -51,6 +53,8 @@ public final class LObjCharConsumerBuilder<T> extends PerCaseBuilder.Base<LObjCh
 
 	private Consumer<LObjCharConsumer<T>> consumer;
 
+	private @Nullable HandlingInstructions handling;
+
 	public static final LObjCharConsumer EVENTUALLY_THROW = LObjCharConsumer.l((Object t, char c) -> {
 		String message;
 		try {
@@ -59,7 +63,7 @@ public final class LObjCharConsumerBuilder<T> extends PerCaseBuilder.Base<LObjCh
 				message = "No case specified for input data (no details can be provided).";
 			}
 
-			throw new UnsupportedOperationException(message);
+			throw new IllegalStateException(message);
 		});
 
 	public LObjCharConsumerBuilder(@Nullable Consumer<LObjCharConsumer<T>> consumer) {
@@ -85,6 +89,17 @@ public final class LObjCharConsumerBuilder<T> extends PerCaseBuilder.Base<LObjCh
 		return new LObjCharConsumerBuilder(consumer);
 	}
 
+	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
+	@Nonnull
+	public final LObjCharConsumerBuilder<T> withHandling(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+		Null.nonNullArg(handling, "handling");
+		if (this.handling != null) {
+			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+		}
+		this.handling = handling;
+		return self();
+	}
+
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
 	@Nonnull
 	public final LObjCharConsumer<T> build() {
@@ -93,11 +108,9 @@ public final class LObjCharConsumerBuilder<T> extends PerCaseBuilder.Base<LObjCh
 
 		LObjCharConsumer<T> retval;
 
-		if (cases.isEmpty()) {
-			retval = eventuallyFinal;
-		} else {
-			final Case<LObjCharPredicate<T>, LObjCharConsumer<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-			retval = LObjCharConsumer.l((T t, char c) -> {
+		final Case<LObjCharPredicate<T>, LObjCharConsumer<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = LObjCharConsumer.l((T t, char c) -> {
+			try {
 				for (Case<LObjCharPredicate<T>, LObjCharConsumer<T>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(t, c)) {
 						aCase.caseFunction().doAccept(t, c);
@@ -106,13 +119,20 @@ public final class LObjCharConsumerBuilder<T> extends PerCaseBuilder.Base<LObjCh
 				}
 
 				eventuallyFinal.doAccept(t, c);
-			});
-		}
+			} catch (Throwable e) {
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);
 		}
 		return retval;
+	}
+
+	public final LObjCharConsumer<T> build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+		this.withHandling(handling);
+		return build();
 	}
 
 }

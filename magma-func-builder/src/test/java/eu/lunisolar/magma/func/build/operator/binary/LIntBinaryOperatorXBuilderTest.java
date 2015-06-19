@@ -48,41 +48,72 @@ import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
-import eu.lunisolar.magma.basics.NestedException; //NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 
 import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.operator.binary.LIntBinaryOperatorXBuilder.intBinaryOperatorX;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
-public class LIntBinaryOperatorXBuilderTest<X extends ParseException>{
+public class LIntBinaryOperatorXBuilderTest<X extends Throwable>{
 
     @SuppressWarnings("unchecked")
     public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
     @Test
-    public void testEventuallyThrow() throws Exception {
+    public void testEventuallyThrow() throws Throwable {
 
-        try {
-            LIntBinaryOperatorX function = LIntBinaryOperatorXBuilder
-                .intBinaryOperatorX()
+        assertThatThrownBy(() -> {
+            LIntBinaryOperatorX function = LIntBinaryOperatorXBuilder.intBinaryOperatorX()
                 .build();
 
             function.doApplyAsInt((int)100,(int)100);
 
             fail("No exception were thrown.");
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(UnsupportedOperationException.class)
+        })
+                    .isExactlyInstanceOf(IllegalStateException.class)
                     .hasMessageContaining("No case specified for:")
                     .hasMessageContaining(LIntBinaryOperatorX.DESCRIPTION);
-
-        }
     }
 
     @Test
-    public void testBuild() throws Exception {
+    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+
+
+        assertThatThrownBy(() -> {
+            LIntBinaryOperatorX function = LIntBinaryOperatorXBuilder.intBinaryOperatorX()
+                .withHandling(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
+                .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new));
+
+            fail("No exception were thrown.");
+        })
+                    .isExactlyInstanceOf(UnsupportedOperationException.class)
+                    .hasMessageContaining("Handling is allready set for this builder.");
+    }
+
+    @Test
+    public void testHandling() throws Throwable {
+
+        assertThatThrownBy(() -> {
+            LIntBinaryOperatorX function = LIntBinaryOperatorXBuilder.intBinaryOperatorX()
+                .eventually((i1,i2) -> {
+                        throw new RuntimeException("ORIGINAL");
+                    })
+                .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
+
+            function.doApplyAsInt((int)100,(int)100);
+
+            fail("No exception were thrown.");
+        })
+                    .isExactlyInstanceOf(IllegalStateException.class)
+                    .hasMessageContaining("NEW EXCEPTION")
+                    .hasCauseExactlyInstanceOf(RuntimeException.class);
+    }
+
+
+    @Test
+    public void testBuild() throws Throwable {
 
         LIntBinaryOperatorX<ParseException> function = intBinaryOperatorX((LIntBinaryOperatorX<ParseException> f)-> doNothing())
             .addCase(ce -> ce.of((i1,i2) -> i1 == (int)0)

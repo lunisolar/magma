@@ -48,41 +48,72 @@ import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
-import eu.lunisolar.magma.basics.NestedException; //NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 
 import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.function.conversion.LShortToDoubleFunctionXBuilder.shortToDoubleFunctionX;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
-public class LShortToDoubleFunctionXBuilderTest<X extends ParseException>{
+public class LShortToDoubleFunctionXBuilderTest<X extends Throwable>{
 
     @SuppressWarnings("unchecked")
     public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
     @Test
-    public void testEventuallyThrow() throws Exception {
+    public void testEventuallyThrow() throws Throwable {
 
-        try {
-            LShortToDoubleFunctionX function = LShortToDoubleFunctionXBuilder
-                .shortToDoubleFunctionX()
+        assertThatThrownBy(() -> {
+            LShortToDoubleFunctionX function = LShortToDoubleFunctionXBuilder.shortToDoubleFunctionX()
                 .build();
 
             function.doApplyAsDouble((short)100);
 
             fail("No exception were thrown.");
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(UnsupportedOperationException.class)
+        })
+                    .isExactlyInstanceOf(IllegalStateException.class)
                     .hasMessageContaining("No case specified for:")
                     .hasMessageContaining(LShortToDoubleFunctionX.DESCRIPTION);
-
-        }
     }
 
     @Test
-    public void testBuild() throws Exception {
+    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+
+
+        assertThatThrownBy(() -> {
+            LShortToDoubleFunctionX function = LShortToDoubleFunctionXBuilder.shortToDoubleFunctionX()
+                .withHandling(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
+                .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new));
+
+            fail("No exception were thrown.");
+        })
+                    .isExactlyInstanceOf(UnsupportedOperationException.class)
+                    .hasMessageContaining("Handling is allready set for this builder.");
+    }
+
+    @Test
+    public void testHandling() throws Throwable {
+
+        assertThatThrownBy(() -> {
+            LShortToDoubleFunctionX function = LShortToDoubleFunctionXBuilder.shortToDoubleFunctionX()
+                .eventually((s) -> {
+                        throw new RuntimeException("ORIGINAL");
+                    })
+                .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
+
+            function.doApplyAsDouble((short)100);
+
+            fail("No exception were thrown.");
+        })
+                    .isExactlyInstanceOf(IllegalStateException.class)
+                    .hasMessageContaining("NEW EXCEPTION")
+                    .hasCauseExactlyInstanceOf(RuntimeException.class);
+    }
+
+
+    @Test
+    public void testBuild() throws Throwable {
 
         LShortToDoubleFunctionX<ParseException> function = shortToDoubleFunctionX((LShortToDoubleFunctionX<ParseException> f)-> doNothing())
             .addCase(ce -> ce.of((s) -> s == (short)0)

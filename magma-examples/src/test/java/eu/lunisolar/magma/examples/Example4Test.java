@@ -19,9 +19,7 @@
 
 package eu.lunisolar.magma.examples;
 
-import eu.lunisolar.magma.basics.NestedException;
 import eu.lunisolar.magma.func.asserts.DefaultFunctionalAssertions;
-import eu.lunisolar.magma.func.function.LFunction;
 import eu.lunisolar.magma.func.function.LFunctionX;
 import org.assertj.core.api.ObjectAssert;
 import org.testng.annotations.Test;
@@ -50,12 +48,11 @@ public class Example4Test {
     @Test
     public void example1() {
 
-        Function<Integer, Integer> f1 =  throwingAlways.nest();
-        Function<Integer, Integer> f2 =  throwingAlways.nest();
+        Function<Integer, Integer> f1 = throwingAlways.nest();
+        Function<Integer, Integer> f2 = throwingAlways.nest();
 
 //       then.assertThat(f1)
 //           .isSameAs(f2);
     }
-
 
 }

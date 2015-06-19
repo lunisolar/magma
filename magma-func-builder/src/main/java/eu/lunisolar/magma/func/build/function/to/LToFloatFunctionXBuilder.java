@@ -20,11 +20,13 @@
 package eu.lunisolar.magma.func.build.function.to;
 
 import eu.lunisolar.magma.func.function.to.*;
+import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -47,9 +49,11 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for LToFloatFunctionX. */
-public final class LToFloatFunctionXBuilder<T, X extends Exception> extends PerCaseBuilderWithFloatProduct.Base<LToFloatFunctionXBuilder<T, X>, LPredicateX<T, X>, LToFloatFunctionX<T, X>> {
+public final class LToFloatFunctionXBuilder<T, X extends Throwable> extends PerCaseBuilderWithFloatProduct.Base<LToFloatFunctionXBuilder<T, X>, LPredicateX<T, X>, LToFloatFunctionX<T, X>> {
 
 	private Consumer<LToFloatFunctionX<T, X>> consumer;
+
+	private @Nullable HandlingInstructions handling;
 
 	public static final LToFloatFunctionX EVENTUALLY_THROW = LToFloatFunctionX.lX((Object t) -> {
 		String message;
@@ -59,7 +63,7 @@ public final class LToFloatFunctionXBuilder<T, X extends Exception> extends PerC
 				message = "No case specified for input data (no details can be provided).";
 			}
 
-			throw new UnsupportedOperationException(message);
+			throw new IllegalStateException(message);
 		});
 
 	public LToFloatFunctionXBuilder(@Nullable Consumer<LToFloatFunctionX<T, X>> consumer) {
@@ -75,14 +79,25 @@ public final class LToFloatFunctionXBuilder<T, X extends Exception> extends PerC
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <T, X extends Exception> LToFloatFunctionXBuilder<T, X> toFloatFunctionX() {
+	public static final <T, X extends Throwable> LToFloatFunctionXBuilder<T, X> toFloatFunctionX() {
 		return new LToFloatFunctionXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <T, X extends Exception> LToFloatFunctionXBuilder<T, X> toFloatFunctionX(Consumer<LToFloatFunctionX<T, X>> consumer) {
+	public static final <T, X extends Throwable> LToFloatFunctionXBuilder<T, X> toFloatFunctionX(Consumer<LToFloatFunctionX<T, X>> consumer) {
 		return new LToFloatFunctionXBuilder(consumer);
+	}
+
+	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
+	@Nonnull
+	public final LToFloatFunctionXBuilder<T, X> withHandling(@Nonnull HandlingInstructions<X, X> handling) {
+		Null.nonNullArg(handling, "handling");
+		if (this.handling != null) {
+			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+		}
+		this.handling = handling;
+		return self();
 	}
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
@@ -93,11 +108,9 @@ public final class LToFloatFunctionXBuilder<T, X extends Exception> extends PerC
 
 		LToFloatFunctionX<T, X> retval;
 
-		if (cases.isEmpty()) {
-			retval = eventuallyFinal;
-		} else {
-			final Case<LPredicateX<T, X>, LToFloatFunctionX<T, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-			retval = LToFloatFunctionX.lX((T t) -> {
+		final Case<LPredicateX<T, X>, LToFloatFunctionX<T, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = LToFloatFunctionX.lX((T t) -> {
+			try {
 				for (Case<LPredicateX<T, X>, LToFloatFunctionX<T, X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(t)) {
 						return aCase.caseFunction().doApplyAsFloat(t);
@@ -105,13 +118,20 @@ public final class LToFloatFunctionXBuilder<T, X extends Exception> extends PerC
 				}
 
 				return eventuallyFinal.doApplyAsFloat(t);
-			});
-		}
+			} catch (Throwable e) {
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);
 		}
 		return retval;
+	}
+
+	public final LToFloatFunctionX<T, X> build(@Nonnull HandlingInstructions<X, X> handling) {
+		this.withHandling(handling);
+		return build();
 	}
 
 }

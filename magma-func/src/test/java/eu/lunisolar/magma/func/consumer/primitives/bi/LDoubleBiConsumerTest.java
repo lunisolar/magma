@@ -47,6 +47,7 @@ import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
@@ -81,25 +82,25 @@ public class LDoubleBiConsumerTest<X extends ParseException> {
 
 
     @Test
-    public void testFunctionalInterfaceDescription() throws ParseException {
+    public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
             .isEqualTo("LDoubleBiConsumer: void doAccept(double d1,double d2)");
     }
 
     @Test
-    public void testLMethod() throws ParseException {
+    public void testLMethod() throws X {
         assertThat(LDoubleBiConsumer.l((double d1,double d2) -> Function4U.doNothing() ))
             .isInstanceOf(LDoubleBiConsumer.class);
     }
 
     @Test
-    public void testWrapMethod() throws ParseException {
+    public void testWrapMethod() throws X {
         assertThat(LDoubleBiConsumer.wrap(opposite))
             .isInstanceOf(LDoubleBiConsumer.class);
     }
 
     @Test
-    public void testWrapMethodDoNotWrapsRuntimeException() throws ParseException {
+    public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
         LDoubleBiConsumerX<X> sutThrowing = LDoubleBiConsumerX.lX((double d1,double d2) -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
@@ -121,7 +122,7 @@ public class LDoubleBiConsumerTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapMethodWrapsCheckedException() throws ParseException {
+    public void testWrapMethodWrapsCheckedException() throws X {
         // given
         LDoubleBiConsumerX<ParseException> sutThrowing = LDoubleBiConsumerX.lX((double d1,double d2) -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
@@ -144,7 +145,7 @@ public class LDoubleBiConsumerTest<X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMethodWrapsTheException() throws ParseException {
+    public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
         LDoubleBiConsumer sutThrowing = LDoubleBiConsumer.l((double d1,double d2) -> {
@@ -152,8 +153,8 @@ public class LDoubleBiConsumerTest<X extends ParseException> {
         });
 
         // when
-        LDoubleBiConsumer wrapped = LDoubleBiConsumer.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
-            throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
+        LDoubleBiConsumer wrapped = sutThrowing.handle(h -> {
+            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
         // then
@@ -169,7 +170,7 @@ public class LDoubleBiConsumerTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException() throws ParseException {
+    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
 
         // given
         LDoubleBiConsumer sutThrowing = LDoubleBiConsumer.l((double d1,double d2) -> {
@@ -177,9 +178,9 @@ public class LDoubleBiConsumerTest<X extends ParseException> {
         });
 
         // when
-        LDoubleBiConsumer wrapped = LDoubleBiConsumer.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
-            throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
-        });
+        LDoubleBiConsumer wrapped = sutThrowing.handle(handler -> handler
+                .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
+                .throwIf(IndexOutOfBoundsException.class));
 
         // then
         try {
@@ -192,17 +193,41 @@ public class LDoubleBiConsumerTest<X extends ParseException> {
         }
     }
 
-    @Test
-    public void testWrapExceptionMisshandlingExceptionIsDetected() throws ParseException {
+@Test
+    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
 
         // given
         LDoubleBiConsumer sutThrowing = LDoubleBiConsumer.l((double d1,double d2) -> {
-            throw new UnsupportedOperationException();
+            throw new IndexOutOfBoundsException();
         });
 
         // when
-        LDoubleBiConsumer wrapped = LDoubleBiConsumer.wrapException(sutThrowing, UnsupportedOperationException.class, t -> {
-            return null;
+        LDoubleBiConsumer wrapped = sutThrowing.handle(handler -> handler
+                .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
+                .throwIf(IndexOutOfBoundsException.class));
+
+        // then
+        try {
+            wrapped.doAccept((double)100,(double)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause();
+        }
+    }
+
+
+    @Test
+    public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
+
+        // given
+        LDoubleBiConsumer sutThrowing = LDoubleBiConsumer.l((double d1,double d2) -> {
+            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
+        });
+
+        // when
+        LDoubleBiConsumer wrapped = sutThrowing.handle(h -> {
         });
 
         // then
@@ -211,9 +236,9 @@ public class LDoubleBiConsumerTest<X extends ParseException> {
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
-                    .isExactlyInstanceOf(ExceptionNotHandled.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage("Handler has not processed the exception.");
+             .isExactlyInstanceOf(UnsupportedOperationException.class)
+             .hasNoCause()
+             .hasMessage(ORIGINAL_MESSAGE);
         }
     }
 
@@ -222,7 +247,7 @@ public class LDoubleBiConsumerTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromDouble() throws ParseException {
+    public void testfromDouble() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -256,7 +281,7 @@ public class LDoubleBiConsumerTest<X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws ParseException {
+    public void testfrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -291,7 +316,7 @@ public class LDoubleBiConsumerTest<X extends ParseException> {
     // </editor-fold>
 
     @Test
-    public void testAndThen() throws ParseException {
+    public void testAndThen() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -318,7 +343,7 @@ public class LDoubleBiConsumerTest<X extends ParseException> {
         assertThat(thenFunctionCalled.get()).isEqualTo(true);
     }
 
-//
+
     @Test
     public void testNesting() {
         assertThat(sut.nest())
@@ -360,7 +385,7 @@ public class LDoubleBiConsumerTest<X extends ParseException> {
     }
 
     @Test
-    public void testHandle() throws ParseException {
+    public void testHandle() throws X {
 
         // given
         LDoubleBiConsumer sutThrowing = LDoubleBiConsumer.l((double d1,double d2) -> {
@@ -368,8 +393,8 @@ public class LDoubleBiConsumerTest<X extends ParseException> {
         });
 
         // when
-        LDoubleBiConsumer wrapped = sutThrowing.handle(UnsupportedOperationException.class, t -> {
-            throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
+        LDoubleBiConsumer wrapped = sutThrowing.handle(h -> {
+            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
         // then
@@ -385,7 +410,7 @@ public class LDoubleBiConsumerTest<X extends ParseException> {
     }
 
     @Test
-    public void testToString() throws ParseException {
+    public void testToString() throws X {
 
         assertThat(sut.toString())
                 .isInstanceOf(String.class)

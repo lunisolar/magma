@@ -20,11 +20,13 @@
 package eu.lunisolar.magma.func.build.function.to;
 
 import eu.lunisolar.magma.func.function.to.*;
+import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -47,9 +49,11 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for LToDoubleFunctionX. */
-public final class LToDoubleFunctionXBuilder<T, X extends Exception> extends PerCaseBuilderWithDoubleProduct.Base<LToDoubleFunctionXBuilder<T, X>, LPredicateX<T, X>, LToDoubleFunctionX<T, X>> {
+public final class LToDoubleFunctionXBuilder<T, X extends Throwable> extends PerCaseBuilderWithDoubleProduct.Base<LToDoubleFunctionXBuilder<T, X>, LPredicateX<T, X>, LToDoubleFunctionX<T, X>> {
 
 	private Consumer<LToDoubleFunctionX<T, X>> consumer;
+
+	private @Nullable HandlingInstructions handling;
 
 	public static final LToDoubleFunctionX EVENTUALLY_THROW = LToDoubleFunctionX.lX((Object t) -> {
 		String message;
@@ -59,7 +63,7 @@ public final class LToDoubleFunctionXBuilder<T, X extends Exception> extends Per
 				message = "No case specified for input data (no details can be provided).";
 			}
 
-			throw new UnsupportedOperationException(message);
+			throw new IllegalStateException(message);
 		});
 
 	public LToDoubleFunctionXBuilder(@Nullable Consumer<LToDoubleFunctionX<T, X>> consumer) {
@@ -75,14 +79,25 @@ public final class LToDoubleFunctionXBuilder<T, X extends Exception> extends Per
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <T, X extends Exception> LToDoubleFunctionXBuilder<T, X> toDoubleFunctionX() {
+	public static final <T, X extends Throwable> LToDoubleFunctionXBuilder<T, X> toDoubleFunctionX() {
 		return new LToDoubleFunctionXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <T, X extends Exception> LToDoubleFunctionXBuilder<T, X> toDoubleFunctionX(Consumer<LToDoubleFunctionX<T, X>> consumer) {
+	public static final <T, X extends Throwable> LToDoubleFunctionXBuilder<T, X> toDoubleFunctionX(Consumer<LToDoubleFunctionX<T, X>> consumer) {
 		return new LToDoubleFunctionXBuilder(consumer);
+	}
+
+	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
+	@Nonnull
+	public final LToDoubleFunctionXBuilder<T, X> withHandling(@Nonnull HandlingInstructions<X, X> handling) {
+		Null.nonNullArg(handling, "handling");
+		if (this.handling != null) {
+			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+		}
+		this.handling = handling;
+		return self();
 	}
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
@@ -93,11 +108,9 @@ public final class LToDoubleFunctionXBuilder<T, X extends Exception> extends Per
 
 		LToDoubleFunctionX<T, X> retval;
 
-		if (cases.isEmpty()) {
-			retval = eventuallyFinal;
-		} else {
-			final Case<LPredicateX<T, X>, LToDoubleFunctionX<T, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-			retval = LToDoubleFunctionX.lX((T t) -> {
+		final Case<LPredicateX<T, X>, LToDoubleFunctionX<T, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = LToDoubleFunctionX.lX((T t) -> {
+			try {
 				for (Case<LPredicateX<T, X>, LToDoubleFunctionX<T, X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(t)) {
 						return aCase.caseFunction().doApplyAsDouble(t);
@@ -105,13 +118,20 @@ public final class LToDoubleFunctionXBuilder<T, X extends Exception> extends Per
 				}
 
 				return eventuallyFinal.doApplyAsDouble(t);
-			});
-		}
+			} catch (Throwable e) {
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);
 		}
 		return retval;
+	}
+
+	public final LToDoubleFunctionX<T, X> build(@Nonnull HandlingInstructions<X, X> handling) {
+		this.withHandling(handling);
+		return build();
 	}
 
 }

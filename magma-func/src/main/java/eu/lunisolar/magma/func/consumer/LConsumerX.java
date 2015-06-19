@@ -23,6 +23,7 @@ import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
@@ -59,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LConsumerX<T, X extends Exception> extends java.util.function.Consumer<T>, MetaConsumer, MetaInterface.Throwing<X> {
+public interface LConsumerX<T, X extends Throwable> extends java.util.function.Consumer<T>, MetaConsumer, MetaInterface.Throwing<X> {
 
 	public static final String DESCRIPTION = "LConsumerX: void doAccept(T t) throws X";
 
@@ -75,15 +76,24 @@ public interface LConsumerX<T, X extends Exception> extends java.util.function.C
 	default void nestingDoAccept(T t) {
 		try {
 			this.doAccept(t);
-		} catch (RuntimeException e) {
+		} catch (RuntimeException | Error e) {
 			throw e;
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new NestedException(e);
 		}
 	}
 
 	default void shovingDoAccept(T t) {
 		((LConsumerX<T, RuntimeException>) this).doAccept(t);
+	}
+
+	default <Y extends Throwable> void handlingDoAccept(T t, HandlingInstructions<Throwable, Y> handling) throws Y {
+
+		try {
+			this.doAccept(t);
+		} catch (Throwable e) {
+			throw Handler.handleOrNest(e, handling);
+		}
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -99,8 +109,15 @@ public interface LConsumerX<T, X extends Exception> extends java.util.function.C
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T, X extends Exception> LConsumerX<T, X> lX(final @Nonnull LConsumerX<T, X> lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+	public static <T, X extends Throwable> LConsumerX<T, X> lX(final @Nonnull LConsumerX<T, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	public static <T, X extends Throwable> LConsumerX<T, X> lX(@Nonnull Class<X> xClass, final @Nonnull LConsumerX<T, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -108,13 +125,13 @@ public interface LConsumerX<T, X extends Exception> extends java.util.function.C
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T, X extends Exception> LConsumerX<T, X> wrap(final java.util.function.Consumer<T> other) {
+	public static <T, X extends Throwable> LConsumerX<T, X> wrap(final java.util.function.Consumer<T> other) {
 		return other::accept;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, X extends Exception> LConsumerX<T, X> wrapX(final @Nonnull LConsumer<T> other) {
+	public static <T, X extends Throwable> LConsumerX<T, X> wrapX(final @Nonnull LConsumer<T> other) {
 		return (LConsumerX) other;
 	}
 
@@ -127,7 +144,7 @@ public interface LConsumerX<T, X extends Exception> extends java.util.function.C
 	 */
 	@Nonnull
 	default <V1> LConsumerX<V1, X> from(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
+		Null.nonNullArg(before1, "before1");
 		return (final V1 v1) -> this.doAccept(before1.doApply(v1));
 	}
 
@@ -138,15 +155,14 @@ public interface LConsumerX<T, X extends Exception> extends java.util.function.C
 	/** Combines two consumers together in a order. */
 	@Nonnull
 	default LConsumerX<T, X> andThen(@Nonnull LConsumerX<? super T, X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (T t) -> {
 			this.doAccept(t);
 			after.doAccept(t);
 		};
 	}
 
-	// </editor-fold>
-	// <editor-fold desc="variant conversions">
+	// </editor-fold> // <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
@@ -174,33 +190,14 @@ public interface LConsumerX<T, X extends Exception> extends java.util.function.C
 
 	// <editor-fold desc="exception handling">
 
-	/** Wraps with additional exception handling. */
 	@Nonnull
-	public static <T, X extends Exception, E extends Exception, Y extends Exception> LConsumerX<T, Y> wrapException(@Nonnull final LConsumerX<T, X> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
-		return (T t) -> {
-			try {
-				other.doAccept(t);
-			} catch (Exception e) {
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
+	default LConsumer<T> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+		return (T t) -> this.handlingDoAccept(t, handling);
 	}
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <E extends Exception, Y extends Exception> LConsumerX<T, Y> handleX(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LConsumerX.wrapException(this, exception, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends Exception> LConsumerX<T, Y> handleX(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LConsumerX.wrapException(this, Exception.class, (ExceptionHandler) handler);
+	default <Y extends Throwable> LConsumerX<T, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+		return (T t) -> this.handlingDoAccept(t, handling);
 	}
 
 	// </editor-fold>

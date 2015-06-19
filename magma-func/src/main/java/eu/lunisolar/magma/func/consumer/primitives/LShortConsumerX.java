@@ -23,6 +23,7 @@ import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
@@ -59,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LShortConsumerX<X extends Exception> extends MetaConsumer, MetaInterface.Throwing<X> {
+public interface LShortConsumerX<X extends Throwable> extends MetaConsumer, MetaInterface.Throwing<X> {
 
 	public static final String DESCRIPTION = "LShortConsumerX: void doAccept(short s) throws X";
 
@@ -68,15 +69,24 @@ public interface LShortConsumerX<X extends Exception> extends MetaConsumer, Meta
 	default void nestingDoAccept(short s) {
 		try {
 			this.doAccept(s);
-		} catch (RuntimeException e) {
+		} catch (RuntimeException | Error e) {
 			throw e;
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new NestedException(e);
 		}
 	}
 
 	default void shovingDoAccept(short s) {
 		((LShortConsumerX<RuntimeException>) this).doAccept(s);
+	}
+
+	default <Y extends Throwable> void handlingDoAccept(short s, HandlingInstructions<Throwable, Y> handling) throws Y {
+
+		try {
+			this.doAccept(s);
+		} catch (Throwable e) {
+			throw Handler.handleOrNest(e, handling);
+		}
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -92,8 +102,15 @@ public interface LShortConsumerX<X extends Exception> extends MetaConsumer, Meta
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Exception> LShortConsumerX<X> lX(final @Nonnull LShortConsumerX<X> lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+	public static <X extends Throwable> LShortConsumerX<X> lX(final @Nonnull LShortConsumerX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	public static <X extends Throwable> LShortConsumerX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LShortConsumerX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -101,7 +118,7 @@ public interface LShortConsumerX<X extends Exception> extends MetaConsumer, Meta
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Exception> LShortConsumerX<X> wrapX(final @Nonnull LShortConsumer other) {
+	public static <X extends Throwable> LShortConsumerX<X> wrapX(final @Nonnull LShortConsumer other) {
 		return (LShortConsumerX) other;
 	}
 
@@ -114,7 +131,7 @@ public interface LShortConsumerX<X extends Exception> extends MetaConsumer, Meta
 	 */
 	@Nonnull
 	default LShortConsumerX<X> fromShort(@Nonnull final LShortUnaryOperatorX<X> before1) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
+		Null.nonNullArg(before1, "before1");
 		return (final short v1) -> this.doAccept(before1.doApplyAsShort(v1));
 	}
 
@@ -123,7 +140,7 @@ public interface LShortConsumerX<X extends Exception> extends MetaConsumer, Meta
 	 */
 	@Nonnull
 	default <V1> LConsumerX<V1, X> from(@Nonnull final LToShortFunctionX<? super V1, X> before1) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
+		Null.nonNullArg(before1, "before1");
 		return (V1 v1) -> this.doAccept(before1.doApplyAsShort(v1));
 	}
 
@@ -134,15 +151,14 @@ public interface LShortConsumerX<X extends Exception> extends MetaConsumer, Meta
 	/** Combines two consumers together in a order. */
 	@Nonnull
 	default LShortConsumerX<X> andThen(@Nonnull LShortConsumerX<X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (short s) -> {
 			this.doAccept(s);
 			after.doAccept(s);
 		};
 	}
 
-	// </editor-fold>
-	// <editor-fold desc="variant conversions">
+	// </editor-fold> // <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
@@ -170,33 +186,14 @@ public interface LShortConsumerX<X extends Exception> extends MetaConsumer, Meta
 
 	// <editor-fold desc="exception handling">
 
-	/** Wraps with additional exception handling. */
 	@Nonnull
-	public static <X extends Exception, E extends Exception, Y extends Exception> LShortConsumerX<Y> wrapException(@Nonnull final LShortConsumerX<X> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
-		return (short s) -> {
-			try {
-				other.doAccept(s);
-			} catch (Exception e) {
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
+	default LShortConsumer handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+		return (short s) -> this.handlingDoAccept(s, handling);
 	}
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <E extends Exception, Y extends Exception> LShortConsumerX<Y> handleX(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LShortConsumerX.wrapException(this, exception, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends Exception> LShortConsumerX<Y> handleX(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LShortConsumerX.wrapException(this, Exception.class, (ExceptionHandler) handler);
+	default <Y extends Throwable> LShortConsumerX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+		return (short s) -> this.handlingDoAccept(s, handling);
 	}
 
 	// </editor-fold>

@@ -33,7 +33,7 @@ import eu.lunisolar.magma.func.action.LAction;
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LToDoubleBiFunctionX. */
-public interface LToDoubleBiFunctionXAssert<S extends LToDoubleBiFunctionXAssert<S, A, RS, T1, T2, X>, A extends LToDoubleBiFunctionX<T1, T2, X>, RS extends AbstractDoubleAssert<RS>, T1, T2, X extends Exception>
+public interface LToDoubleBiFunctionXAssert<S extends LToDoubleBiFunctionXAssert<S, A, RS, T1, T2, X>, A extends LToDoubleBiFunctionX<T1, T2, X>, RS extends AbstractDoubleAssert<RS>, T1, T2, X extends Throwable>
 		extends
 			Assert<S, A>,
 			FullFunctionalAssert<S, A, RS, Double, Exception> {
@@ -42,7 +42,7 @@ public interface LToDoubleBiFunctionXAssert<S extends LToDoubleBiFunctionXAssert
 	Evaluation<S, A, RS, Double, Exception> doesApplyAsDouble(T1 t1, T2 t2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LToDoubleBiFunctionX<T1, T2, X>, RS extends AbstractDoubleAssert<RS>, T1, T2, X extends Exception> extends Base<Impl<A, RS, T1, T2, X>, A, RS, T1, T2, X> {
+	public final static class Impl<A extends LToDoubleBiFunctionX<T1, T2, X>, RS extends AbstractDoubleAssert<RS>, T1, T2, X extends Throwable> extends Base<Impl<A, RS, T1, T2, X>, A, RS, T1, T2, X> {
 
 		public Impl(A actual, java.util.function.Function<Double, RS> assertFactory) {
 			super(actual, Impl.class, assertFactory);
@@ -50,7 +50,7 @@ public interface LToDoubleBiFunctionXAssert<S extends LToDoubleBiFunctionXAssert
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, T1, T2, X>, A extends LToDoubleBiFunctionX<T1, T2, X>, RS extends AbstractDoubleAssert<RS>, T1, T2, X extends Exception> extends FullFunctionalAssert.Base<S, A, RS, Double, Exception>
+	public static class Base<S extends Base<S, A, RS, T1, T2, X>, A extends LToDoubleBiFunctionX<T1, T2, X>, RS extends AbstractDoubleAssert<RS>, T1, T2, X extends Throwable> extends FullFunctionalAssert.Base<S, A, RS, Double, Exception>
 			implements
 				LToDoubleBiFunctionXAssert<S, A, RS, T1, T2, X> {
 

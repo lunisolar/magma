@@ -23,6 +23,7 @@ import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
@@ -59,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LDoubleBiConsumerX<X extends Exception> extends MetaConsumer, MetaInterface.Throwing<X> {
+public interface LDoubleBiConsumerX<X extends Throwable> extends MetaConsumer, MetaInterface.Throwing<X> {
 
 	public static final String DESCRIPTION = "LDoubleBiConsumerX: void doAccept(double d1,double d2) throws X";
 
@@ -68,15 +69,24 @@ public interface LDoubleBiConsumerX<X extends Exception> extends MetaConsumer, M
 	default void nestingDoAccept(double d1, double d2) {
 		try {
 			this.doAccept(d1, d2);
-		} catch (RuntimeException e) {
+		} catch (RuntimeException | Error e) {
 			throw e;
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new NestedException(e);
 		}
 	}
 
 	default void shovingDoAccept(double d1, double d2) {
 		((LDoubleBiConsumerX<RuntimeException>) this).doAccept(d1, d2);
+	}
+
+	default <Y extends Throwable> void handlingDoAccept(double d1, double d2, HandlingInstructions<Throwable, Y> handling) throws Y {
+
+		try {
+			this.doAccept(d1, d2);
+		} catch (Throwable e) {
+			throw Handler.handleOrNest(e, handling);
+		}
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -92,8 +102,15 @@ public interface LDoubleBiConsumerX<X extends Exception> extends MetaConsumer, M
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Exception> LDoubleBiConsumerX<X> lX(final @Nonnull LDoubleBiConsumerX<X> lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+	public static <X extends Throwable> LDoubleBiConsumerX<X> lX(final @Nonnull LDoubleBiConsumerX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	public static <X extends Throwable> LDoubleBiConsumerX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LDoubleBiConsumerX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -101,7 +118,7 @@ public interface LDoubleBiConsumerX<X extends Exception> extends MetaConsumer, M
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Exception> LDoubleBiConsumerX<X> wrapX(final @Nonnull LDoubleBiConsumer other) {
+	public static <X extends Throwable> LDoubleBiConsumerX<X> wrapX(final @Nonnull LDoubleBiConsumer other) {
 		return (LDoubleBiConsumerX) other;
 	}
 
@@ -114,8 +131,8 @@ public interface LDoubleBiConsumerX<X extends Exception> extends MetaConsumer, M
 	 */
 	@Nonnull
 	default LDoubleBiConsumerX<X> fromDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1, @Nonnull final LDoubleUnaryOperatorX<X> before2) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
+		Null.nonNullArg(before1, "before1");
+		Null.nonNullArg(before2, "before2");
 		return (final double v1, final double v2) -> this.doAccept(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
 	}
 
@@ -124,8 +141,8 @@ public interface LDoubleBiConsumerX<X extends Exception> extends MetaConsumer, M
 	 */
 	@Nonnull
 	default <V1, V2> LBiConsumerX<V1, V2, X> from(@Nonnull final LToDoubleFunctionX<? super V1, X> before1, @Nonnull final LToDoubleFunctionX<? super V2, X> before2) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
+		Null.nonNullArg(before1, "before1");
+		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doAccept(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
 	}
 
@@ -136,15 +153,14 @@ public interface LDoubleBiConsumerX<X extends Exception> extends MetaConsumer, M
 	/** Combines two consumers together in a order. */
 	@Nonnull
 	default LDoubleBiConsumerX<X> andThen(@Nonnull LDoubleBiConsumerX<X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (double d1, double d2) -> {
 			this.doAccept(d1, d2);
 			after.doAccept(d1, d2);
 		};
 	}
 
-	// </editor-fold>
-	// <editor-fold desc="variant conversions">
+	// </editor-fold> // <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
@@ -172,33 +188,14 @@ public interface LDoubleBiConsumerX<X extends Exception> extends MetaConsumer, M
 
 	// <editor-fold desc="exception handling">
 
-	/** Wraps with additional exception handling. */
 	@Nonnull
-	public static <X extends Exception, E extends Exception, Y extends Exception> LDoubleBiConsumerX<Y> wrapException(@Nonnull final LDoubleBiConsumerX<X> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
-		return (double d1, double d2) -> {
-			try {
-				other.doAccept(d1, d2);
-			} catch (Exception e) {
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
+	default LDoubleBiConsumer handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+		return (double d1, double d2) -> this.handlingDoAccept(d1, d2, handling);
 	}
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <E extends Exception, Y extends Exception> LDoubleBiConsumerX<Y> handleX(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LDoubleBiConsumerX.wrapException(this, exception, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends Exception> LDoubleBiConsumerX<Y> handleX(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LDoubleBiConsumerX.wrapException(this, Exception.class, (ExceptionHandler) handler);
+	default <Y extends Throwable> LDoubleBiConsumerX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+		return (double d1, double d2) -> this.handlingDoAccept(d1, d2, handling);
 	}
 
 	// </editor-fold>

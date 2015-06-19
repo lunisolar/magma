@@ -33,12 +33,12 @@ import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
-import eu.lunisolar.magma.basics.NestedException; //NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.*; //NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
 @SuppressWarnings("ALL")
-public class SupplierAssertTest<R,X extends ParseException> {
+public class SupplierAssertTest<R,X extends Throwable> {
 
     private R testValue = (R)Integer.valueOf(100);
 

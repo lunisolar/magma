@@ -24,6 +24,7 @@ import java.util.Comparator; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -58,7 +59,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LTernaryOperatorX<T, X extends Exception> extends MetaOperator, MetaInterface.Throwing<X> { // NOSONAR
+public interface LTernaryOperatorX<T, X extends Throwable> extends MetaOperator, MetaInterface.Throwing<X> { // NOSONAR
 
 	public static final String DESCRIPTION = "LTernaryOperatorX: T doApply(T t1,T t2,T t3) throws X";
 
@@ -68,9 +69,9 @@ public interface LTernaryOperatorX<T, X extends Exception> extends MetaOperator,
 	default T nestingDoApply(T t1, T t2, T t3) {
 		try {
 			return this.doApply(t1, t2, t3);
-		} catch (RuntimeException e) {
+		} catch (RuntimeException | Error e) {
 			throw e;
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new NestedException(e);
 		}
 	}
@@ -79,12 +80,21 @@ public interface LTernaryOperatorX<T, X extends Exception> extends MetaOperator,
 		return ((LTernaryOperatorX<T, RuntimeException>) this).doApply(t1, t2, t3);
 	}
 
+	default <Y extends Throwable> T handlingDoApply(T t1, T t2, T t3, HandlingInstructions<Throwable, Y> handling) throws Y {
+
+		try {
+			return this.doApply(t1, t2, t3);
+		} catch (Throwable e) {
+			throw Handler.handleOrNest(e, handling);
+		}
+	}
+
 	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
 	@Nonnull
 	default T nonNullDoApply(T t1, T t2, T t3) throws X {
-		return Objects.requireNonNull(doApply(t1, t2, t3), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Null.requireNonNull(doApply(t1, t2, t3), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -98,14 +108,21 @@ public interface LTernaryOperatorX<T, X extends Exception> extends MetaOperator,
 		return () -> this.doApply(t1, t2, t3);
 	}
 
-	public static <T, X extends Exception> LTernaryOperatorX<T, X> constant(T r) {
+	public static <T, X extends Throwable> LTernaryOperatorX<T, X> constant(T r) {
 		return (t1, t2, t3) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T, X extends Exception> LTernaryOperatorX<T, X> lX(final @Nonnull LTernaryOperatorX<T, X> lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+	public static <T, X extends Throwable> LTernaryOperatorX<T, X> lX(final @Nonnull LTernaryOperatorX<T, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	public static <T, X extends Throwable> LTernaryOperatorX<T, X> lX(@Nonnull Class<X> xClass, final @Nonnull LTernaryOperatorX<T, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -113,7 +130,7 @@ public interface LTernaryOperatorX<T, X extends Exception> extends MetaOperator,
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, X extends Exception> LTernaryOperatorX<T, X> wrapX(final @Nonnull LTernaryOperator<T> other) {
+	public static <T, X extends Throwable> LTernaryOperatorX<T, X> wrapX(final @Nonnull LTernaryOperator<T> other) {
 		return (LTernaryOperatorX) other;
 	}
 
@@ -124,12 +141,11 @@ public interface LTernaryOperatorX<T, X extends Exception> extends MetaOperator,
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default <V> LTriFunctionX<T, T, T, V, X> then(@Nonnull LFunctionX<? super T, ? extends V, X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (T t1, T t2, T t3) -> after.doApply(this.doApply(t1, t2, t3));
 	}
 
 	// </editor-fold>
-
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
@@ -163,57 +179,14 @@ public interface LTernaryOperatorX<T, X extends Exception> extends MetaOperator,
 
 	// <editor-fold desc="exception handling">
 
-	/** Wraps with additional exception handling. */
 	@Nonnull
-	public static <T, X extends Exception, E extends Exception, Y extends Exception> LTernaryOperatorX<T, Y> wrapException(@Nonnull final LTernaryOperatorX<T, X> other, Class<E> exception, LSupplierX<T, X> supplier, ExceptionHandler<E, Y> handler) {
-		return (T t1, T t2, T t3) -> {
-			try {
-				return other.doApply(t1, t2, t3);
-			} catch (Exception e) {
-				try {
-					if (supplier != null) {
-						return supplier.doGet();
-					}
-				} catch (Exception supplierException) {
-					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
-				}
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
+	default LTernaryOperator<T> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+		return (T t1, T t2, T t3) -> this.handlingDoApply(t1, t2, t3, handling);
 	}
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <E extends Exception, Y extends Exception> LTernaryOperatorX<T, Y> handleX(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LTernaryOperatorX.wrapException(this, exception, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends Exception> LTernaryOperatorX<T, Y> handleX(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LTernaryOperatorX.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <E extends Exception, Y extends Exception> LTernaryOperatorX<T, Y> handleX(Class<E> exception, LSupplierX<T, X> supplier) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LTernaryOperatorX.wrapException(this, exception, supplier, null);
-	}
-
-	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <Y extends Exception> LTernaryOperatorX<T, Y> handleX(LSupplierX<T, X> supplier) {
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LTernaryOperatorX.wrapException(this, Exception.class, supplier, null);
+	default <Y extends Throwable> LTernaryOperatorX<T, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+		return (T t1, T t2, T t3) -> this.handlingDoApply(t1, t2, t3, handling);
 	}
 
 	// </editor-fold>

@@ -20,11 +20,13 @@
 package eu.lunisolar.magma.func.build.operator.unary;
 
 import eu.lunisolar.magma.func.operator.unary.*;
+import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -47,9 +49,11 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for LUnaryOperatorX. */
-public final class LUnaryOperatorXBuilder<T, X extends Exception> extends PerCaseBuilderWithProduct.Base<LUnaryOperatorXBuilder<T, X>, LPredicateX<T, X>, LUnaryOperatorX<T, X>, T> {
+public final class LUnaryOperatorXBuilder<T, X extends Throwable> extends PerCaseBuilderWithProduct.Base<LUnaryOperatorXBuilder<T, X>, LPredicateX<T, X>, LUnaryOperatorX<T, X>, T> {
 
 	private Consumer<LUnaryOperatorX<T, X>> consumer;
+
+	private @Nullable HandlingInstructions handling;
 
 	public static final LUnaryOperatorX EVENTUALLY_THROW = LUnaryOperatorX.lX((Object t) -> {
 		String message;
@@ -59,7 +63,7 @@ public final class LUnaryOperatorXBuilder<T, X extends Exception> extends PerCas
 				message = "No case specified for input data (no details can be provided).";
 			}
 
-			throw new UnsupportedOperationException(message);
+			throw new IllegalStateException(message);
 		});
 
 	public LUnaryOperatorXBuilder(@Nullable Consumer<LUnaryOperatorX<T, X>> consumer) {
@@ -75,14 +79,25 @@ public final class LUnaryOperatorXBuilder<T, X extends Exception> extends PerCas
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <T, X extends Exception> LUnaryOperatorXBuilder<T, X> unaryOperatorX() {
+	public static final <T, X extends Throwable> LUnaryOperatorXBuilder<T, X> unaryOperatorX() {
 		return new LUnaryOperatorXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <T, X extends Exception> LUnaryOperatorXBuilder<T, X> unaryOperatorX(Consumer<LUnaryOperatorX<T, X>> consumer) {
+	public static final <T, X extends Throwable> LUnaryOperatorXBuilder<T, X> unaryOperatorX(Consumer<LUnaryOperatorX<T, X>> consumer) {
 		return new LUnaryOperatorXBuilder(consumer);
+	}
+
+	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
+	@Nonnull
+	public final LUnaryOperatorXBuilder<T, X> withHandling(@Nonnull HandlingInstructions<X, X> handling) {
+		Null.nonNullArg(handling, "handling");
+		if (this.handling != null) {
+			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+		}
+		this.handling = handling;
+		return self();
 	}
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
@@ -93,11 +108,9 @@ public final class LUnaryOperatorXBuilder<T, X extends Exception> extends PerCas
 
 		LUnaryOperatorX<T, X> retval;
 
-		if (cases.isEmpty()) {
-			retval = eventuallyFinal;
-		} else {
-			final Case<LPredicateX<T, X>, LUnaryOperatorX<T, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-			retval = LUnaryOperatorX.lX((T t) -> {
+		final Case<LPredicateX<T, X>, LUnaryOperatorX<T, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = LUnaryOperatorX.lX((T t) -> {
+			try {
 				for (Case<LPredicateX<T, X>, LUnaryOperatorX<T, X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(t)) {
 						return aCase.caseFunction().doApply(t);
@@ -105,13 +118,20 @@ public final class LUnaryOperatorXBuilder<T, X extends Exception> extends PerCas
 				}
 
 				return eventuallyFinal.doApply(t);
-			});
-		}
+			} catch (Throwable e) {
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);
 		}
 		return retval;
+	}
+
+	public final LUnaryOperatorX<T, X> build(@Nonnull HandlingInstructions<X, X> handling) {
+		this.withHandling(handling);
+		return build();
 	}
 
 }

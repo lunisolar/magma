@@ -20,11 +20,13 @@
 package eu.lunisolar.magma.func.build.consumer.primitives.bi;
 
 import eu.lunisolar.magma.func.consumer.primitives.bi.*;
+import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -47,9 +49,11 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for LByteBiConsumerX. */
-public final class LByteBiConsumerXBuilder<X extends Exception> extends PerCaseBuilder.Base<LByteBiConsumerXBuilder<X>, LBiBytePredicateX<X>, LByteBiConsumerX<X>> {
+public final class LByteBiConsumerXBuilder<X extends Throwable> extends PerCaseBuilder.Base<LByteBiConsumerXBuilder<X>, LBiBytePredicateX<X>, LByteBiConsumerX<X>> {
 
 	private Consumer<LByteBiConsumerX<X>> consumer;
+
+	private @Nullable HandlingInstructions handling;
 
 	public static final LByteBiConsumerX EVENTUALLY_THROW = LByteBiConsumerX.lX((byte b1, byte b2) -> {
 		String message;
@@ -59,7 +63,7 @@ public final class LByteBiConsumerXBuilder<X extends Exception> extends PerCaseB
 				message = "No case specified for input data (no details can be provided).";
 			}
 
-			throw new UnsupportedOperationException(message);
+			throw new IllegalStateException(message);
 		});
 
 	public LByteBiConsumerXBuilder(@Nullable Consumer<LByteBiConsumerX<X>> consumer) {
@@ -75,14 +79,25 @@ public final class LByteBiConsumerXBuilder<X extends Exception> extends PerCaseB
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <X extends Exception> LByteBiConsumerXBuilder<X> byteBiConsumerX() {
+	public static final <X extends Throwable> LByteBiConsumerXBuilder<X> byteBiConsumerX() {
 		return new LByteBiConsumerXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <X extends Exception> LByteBiConsumerXBuilder<X> byteBiConsumerX(Consumer<LByteBiConsumerX<X>> consumer) {
+	public static final <X extends Throwable> LByteBiConsumerXBuilder<X> byteBiConsumerX(Consumer<LByteBiConsumerX<X>> consumer) {
 		return new LByteBiConsumerXBuilder(consumer);
+	}
+
+	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
+	@Nonnull
+	public final LByteBiConsumerXBuilder<X> withHandling(@Nonnull HandlingInstructions<X, X> handling) {
+		Null.nonNullArg(handling, "handling");
+		if (this.handling != null) {
+			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+		}
+		this.handling = handling;
+		return self();
 	}
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
@@ -93,11 +108,9 @@ public final class LByteBiConsumerXBuilder<X extends Exception> extends PerCaseB
 
 		LByteBiConsumerX<X> retval;
 
-		if (cases.isEmpty()) {
-			retval = eventuallyFinal;
-		} else {
-			final Case<LBiBytePredicateX<X>, LByteBiConsumerX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-			retval = LByteBiConsumerX.lX((byte b1, byte b2) -> {
+		final Case<LBiBytePredicateX<X>, LByteBiConsumerX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = LByteBiConsumerX.lX((byte b1, byte b2) -> {
+			try {
 				for (Case<LBiBytePredicateX<X>, LByteBiConsumerX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(b1, b2)) {
 						aCase.caseFunction().doAccept(b1, b2);
@@ -106,13 +119,20 @@ public final class LByteBiConsumerXBuilder<X extends Exception> extends PerCaseB
 				}
 
 				eventuallyFinal.doAccept(b1, b2);
-			});
-		}
+			} catch (Throwable e) {
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);
 		}
 		return retval;
+	}
+
+	public final LByteBiConsumerX<X> build(@Nonnull HandlingInstructions<X, X> handling) {
+		this.withHandling(handling);
+		return build();
 	}
 
 }

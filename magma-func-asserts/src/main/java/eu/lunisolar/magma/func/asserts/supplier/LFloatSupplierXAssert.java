@@ -33,7 +33,7 @@ import eu.lunisolar.magma.func.action.LAction;
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LFloatSupplierX. */
-public interface LFloatSupplierXAssert<S extends LFloatSupplierXAssert<S, A, RS, X>, A extends LFloatSupplierX<X>, RS extends AbstractFloatAssert<RS>, X extends Exception> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, Float, Exception> {
+public interface LFloatSupplierXAssert<S extends LFloatSupplierXAssert<S, A, RS, X>, A extends LFloatSupplierX<X>, RS extends AbstractFloatAssert<RS>, X extends Throwable> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, Float, Exception> {
 
 	@Nonnull
 	Evaluation<S, A, RS, Float, Exception> doesGetAsFloat();
@@ -42,7 +42,7 @@ public interface LFloatSupplierXAssert<S extends LFloatSupplierXAssert<S, A, RS,
 	Evaluation<S, A, RS, Float, Exception> doesGetAsFloat(LAction before);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LFloatSupplierX<X>, RS extends AbstractFloatAssert<RS>, X extends Exception> extends Base<Impl<A, RS, X>, A, RS, X> {
+	public final static class Impl<A extends LFloatSupplierX<X>, RS extends AbstractFloatAssert<RS>, X extends Throwable> extends Base<Impl<A, RS, X>, A, RS, X> {
 
 		public Impl(A actual, java.util.function.Function<Float, RS> assertFactory) {
 			super(actual, Impl.class, assertFactory);
@@ -50,7 +50,7 @@ public interface LFloatSupplierXAssert<S extends LFloatSupplierXAssert<S, A, RS,
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, X>, A extends LFloatSupplierX<X>, RS extends AbstractFloatAssert<RS>, X extends Exception> extends FullFunctionalAssert.Base<S, A, RS, Float, Exception> implements LFloatSupplierXAssert<S, A, RS, X> {
+	public static class Base<S extends Base<S, A, RS, X>, A extends LFloatSupplierX<X>, RS extends AbstractFloatAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, A, RS, Float, Exception> implements LFloatSupplierXAssert<S, A, RS, X> {
 
 		protected final java.util.function.Function<Float, RS> assertFactory;
 

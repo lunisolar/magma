@@ -20,11 +20,13 @@
 package eu.lunisolar.magma.func.build.action;
 
 import eu.lunisolar.magma.func.action.*;
+import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -47,9 +49,11 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for LActionX. */
-public final class LActionXBuilder<X extends Exception> extends PerCaseBuilder.Base<LActionXBuilder<X>, LBooleanSupplierX<X>, LActionX<X>> {
+public final class LActionXBuilder<X extends Throwable> extends PerCaseBuilder.Base<LActionXBuilder<X>, LBooleanSupplierX<X>, LActionX<X>> {
 
 	private Consumer<LActionX<X>> consumer;
+
+	private @Nullable HandlingInstructions handling;
 
 	public static final LActionX EVENTUALLY_THROW = LActionX.lX(() -> {
 		String message;
@@ -59,7 +63,7 @@ public final class LActionXBuilder<X extends Exception> extends PerCaseBuilder.B
 				message = "No case specified for input data (no details can be provided).";
 			}
 
-			throw new UnsupportedOperationException(message);
+			throw new IllegalStateException(message);
 		});
 
 	public LActionXBuilder(@Nullable Consumer<LActionX<X>> consumer) {
@@ -75,14 +79,25 @@ public final class LActionXBuilder<X extends Exception> extends PerCaseBuilder.B
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <X extends Exception> LActionXBuilder<X> actionX() {
+	public static final <X extends Throwable> LActionXBuilder<X> actionX() {
 		return new LActionXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <X extends Exception> LActionXBuilder<X> actionX(Consumer<LActionX<X>> consumer) {
+	public static final <X extends Throwable> LActionXBuilder<X> actionX(Consumer<LActionX<X>> consumer) {
 		return new LActionXBuilder(consumer);
+	}
+
+	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
+	@Nonnull
+	public final LActionXBuilder<X> withHandling(@Nonnull HandlingInstructions<X, X> handling) {
+		Null.nonNullArg(handling, "handling");
+		if (this.handling != null) {
+			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+		}
+		this.handling = handling;
+		return self();
 	}
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
@@ -93,11 +108,9 @@ public final class LActionXBuilder<X extends Exception> extends PerCaseBuilder.B
 
 		LActionX<X> retval;
 
-		if (cases.isEmpty()) {
-			retval = eventuallyFinal;
-		} else {
-			final Case<LBooleanSupplierX<X>, LActionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-			retval = LActionX.lX(() -> {
+		final Case<LBooleanSupplierX<X>, LActionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = LActionX.lX(() -> {
+			try {
 				for (Case<LBooleanSupplierX<X>, LActionX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doGetAsBoolean()) {
 						aCase.caseFunction().doExecute();
@@ -106,13 +119,20 @@ public final class LActionXBuilder<X extends Exception> extends PerCaseBuilder.B
 				}
 
 				eventuallyFinal.doExecute();
-			});
-		}
+			} catch (Throwable e) {
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);
 		}
 		return retval;
+	}
+
+	public final LActionX<X> build(@Nonnull HandlingInstructions<X, X> handling) {
+		this.withHandling(handling);
+		return build();
 	}
 
 }

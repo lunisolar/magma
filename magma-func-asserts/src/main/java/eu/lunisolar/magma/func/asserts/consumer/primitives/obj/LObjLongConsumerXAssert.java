@@ -33,13 +33,13 @@ import eu.lunisolar.magma.func.action.LAction;
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LObjLongConsumerX. */
-public interface LObjLongConsumerXAssert<S extends LObjLongConsumerXAssert<S, A, T, X>, A extends LObjLongConsumerX<T, X>, T, X extends Exception> extends Assert<S, A>, FunctionalAssert.Simple<S, A, Exception> {
+public interface LObjLongConsumerXAssert<S extends LObjLongConsumerXAssert<S, A, T, X>, A extends LObjLongConsumerX<T, X>, T, X extends Throwable> extends Assert<S, A>, FunctionalAssert.Simple<S, A, Exception> {
 
 	@Nonnull
 	SemiEvaluation<S, A, Exception> doesAccept(T t, long l);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LObjLongConsumerX<T, X>, T, X extends Exception> extends Base<Impl<A, T, X>, A, T, X> {
+	public final static class Impl<A extends LObjLongConsumerX<T, X>, T, X extends Throwable> extends Base<Impl<A, T, X>, A, T, X> {
 
 		public Impl(A actual) {
 			super(actual, Impl.class);
@@ -47,7 +47,7 @@ public interface LObjLongConsumerXAssert<S extends LObjLongConsumerXAssert<S, A,
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, T, X>, A extends LObjLongConsumerX<T, X>, T, X extends Exception> extends FunctionalAssert.Simple.Base<S, A, Exception> implements LObjLongConsumerXAssert<S, A, T, X> {
+	public static class Base<S extends Base<S, A, T, X>, A extends LObjLongConsumerX<T, X>, T, X extends Throwable> extends FunctionalAssert.Simple.Base<S, A, Exception> implements LObjLongConsumerXAssert<S, A, T, X> {
 
 		public Base(A actual, Class<?> selfType) {
 			super(actual, selfType);

@@ -20,11 +20,13 @@
 package eu.lunisolar.magma.func.build.operator.unary;
 
 import eu.lunisolar.magma.func.operator.unary.*;
+import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -47,9 +49,11 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for LFloatUnaryOperatorX. */
-public final class LFloatUnaryOperatorXBuilder<X extends Exception> extends PerCaseBuilderWithFloatProduct.Base<LFloatUnaryOperatorXBuilder<X>, LFloatPredicateX<X>, LFloatUnaryOperatorX<X>> {
+public final class LFloatUnaryOperatorXBuilder<X extends Throwable> extends PerCaseBuilderWithFloatProduct.Base<LFloatUnaryOperatorXBuilder<X>, LFloatPredicateX<X>, LFloatUnaryOperatorX<X>> {
 
 	private Consumer<LFloatUnaryOperatorX<X>> consumer;
+
+	private @Nullable HandlingInstructions handling;
 
 	public static final LFloatUnaryOperatorX EVENTUALLY_THROW = LFloatUnaryOperatorX.lX((float f) -> {
 		String message;
@@ -59,7 +63,7 @@ public final class LFloatUnaryOperatorXBuilder<X extends Exception> extends PerC
 				message = "No case specified for input data (no details can be provided).";
 			}
 
-			throw new UnsupportedOperationException(message);
+			throw new IllegalStateException(message);
 		});
 
 	public LFloatUnaryOperatorXBuilder(@Nullable Consumer<LFloatUnaryOperatorX<X>> consumer) {
@@ -75,14 +79,25 @@ public final class LFloatUnaryOperatorXBuilder<X extends Exception> extends PerC
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <X extends Exception> LFloatUnaryOperatorXBuilder<X> floatUnaryOperatorX() {
+	public static final <X extends Throwable> LFloatUnaryOperatorXBuilder<X> floatUnaryOperatorX() {
 		return new LFloatUnaryOperatorXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <X extends Exception> LFloatUnaryOperatorXBuilder<X> floatUnaryOperatorX(Consumer<LFloatUnaryOperatorX<X>> consumer) {
+	public static final <X extends Throwable> LFloatUnaryOperatorXBuilder<X> floatUnaryOperatorX(Consumer<LFloatUnaryOperatorX<X>> consumer) {
 		return new LFloatUnaryOperatorXBuilder(consumer);
+	}
+
+	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
+	@Nonnull
+	public final LFloatUnaryOperatorXBuilder<X> withHandling(@Nonnull HandlingInstructions<X, X> handling) {
+		Null.nonNullArg(handling, "handling");
+		if (this.handling != null) {
+			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+		}
+		this.handling = handling;
+		return self();
 	}
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
@@ -93,11 +108,9 @@ public final class LFloatUnaryOperatorXBuilder<X extends Exception> extends PerC
 
 		LFloatUnaryOperatorX<X> retval;
 
-		if (cases.isEmpty()) {
-			retval = eventuallyFinal;
-		} else {
-			final Case<LFloatPredicateX<X>, LFloatUnaryOperatorX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-			retval = LFloatUnaryOperatorX.lX((float f) -> {
+		final Case<LFloatPredicateX<X>, LFloatUnaryOperatorX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = LFloatUnaryOperatorX.lX((float f) -> {
+			try {
 				for (Case<LFloatPredicateX<X>, LFloatUnaryOperatorX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(f)) {
 						return aCase.caseFunction().doApplyAsFloat(f);
@@ -105,13 +118,20 @@ public final class LFloatUnaryOperatorXBuilder<X extends Exception> extends PerC
 				}
 
 				return eventuallyFinal.doApplyAsFloat(f);
-			});
-		}
+			} catch (Throwable e) {
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);
 		}
 		return retval;
+	}
+
+	public final LFloatUnaryOperatorX<X> build(@Nonnull HandlingInstructions<X, X> handling) {
+		this.withHandling(handling);
+		return build();
 	}
 
 }

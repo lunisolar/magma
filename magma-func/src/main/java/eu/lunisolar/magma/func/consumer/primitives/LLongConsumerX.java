@@ -23,6 +23,7 @@ import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
@@ -59,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LLongConsumerX<X extends Exception> extends java.util.function.LongConsumer, MetaConsumer, MetaInterface.Throwing<X> {
+public interface LLongConsumerX<X extends Throwable> extends java.util.function.LongConsumer, MetaConsumer, MetaInterface.Throwing<X> {
 
 	public static final String DESCRIPTION = "LLongConsumerX: void doAccept(long l) throws X";
 
@@ -75,15 +76,24 @@ public interface LLongConsumerX<X extends Exception> extends java.util.function.
 	default void nestingDoAccept(long l) {
 		try {
 			this.doAccept(l);
-		} catch (RuntimeException e) {
+		} catch (RuntimeException | Error e) {
 			throw e;
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new NestedException(e);
 		}
 	}
 
 	default void shovingDoAccept(long l) {
 		((LLongConsumerX<RuntimeException>) this).doAccept(l);
+	}
+
+	default <Y extends Throwable> void handlingDoAccept(long l, HandlingInstructions<Throwable, Y> handling) throws Y {
+
+		try {
+			this.doAccept(l);
+		} catch (Throwable e) {
+			throw Handler.handleOrNest(e, handling);
+		}
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -99,8 +109,15 @@ public interface LLongConsumerX<X extends Exception> extends java.util.function.
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Exception> LLongConsumerX<X> lX(final @Nonnull LLongConsumerX<X> lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+	public static <X extends Throwable> LLongConsumerX<X> lX(final @Nonnull LLongConsumerX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	public static <X extends Throwable> LLongConsumerX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LLongConsumerX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -108,13 +125,13 @@ public interface LLongConsumerX<X extends Exception> extends java.util.function.
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Exception> LLongConsumerX<X> wrap(final java.util.function.LongConsumer other) {
+	public static <X extends Throwable> LLongConsumerX<X> wrap(final java.util.function.LongConsumer other) {
 		return other::accept;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Exception> LLongConsumerX<X> wrapX(final @Nonnull LLongConsumer other) {
+	public static <X extends Throwable> LLongConsumerX<X> wrapX(final @Nonnull LLongConsumer other) {
 		return (LLongConsumerX) other;
 	}
 
@@ -127,7 +144,7 @@ public interface LLongConsumerX<X extends Exception> extends java.util.function.
 	 */
 	@Nonnull
 	default LLongConsumerX<X> fromLong(@Nonnull final LLongUnaryOperatorX<X> before1) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
+		Null.nonNullArg(before1, "before1");
 		return (final long v1) -> this.doAccept(before1.doApplyAsLong(v1));
 	}
 
@@ -136,7 +153,7 @@ public interface LLongConsumerX<X extends Exception> extends java.util.function.
 	 */
 	@Nonnull
 	default <V1> LConsumerX<V1, X> from(@Nonnull final LToLongFunctionX<? super V1, X> before1) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
+		Null.nonNullArg(before1, "before1");
 		return (V1 v1) -> this.doAccept(before1.doApplyAsLong(v1));
 	}
 
@@ -147,15 +164,14 @@ public interface LLongConsumerX<X extends Exception> extends java.util.function.
 	/** Combines two consumers together in a order. */
 	@Nonnull
 	default LLongConsumerX<X> andThen(@Nonnull LLongConsumerX<X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (long l) -> {
 			this.doAccept(l);
 			after.doAccept(l);
 		};
 	}
 
-	// </editor-fold>
-	// <editor-fold desc="variant conversions">
+	// </editor-fold> // <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
@@ -183,33 +199,14 @@ public interface LLongConsumerX<X extends Exception> extends java.util.function.
 
 	// <editor-fold desc="exception handling">
 
-	/** Wraps with additional exception handling. */
 	@Nonnull
-	public static <X extends Exception, E extends Exception, Y extends Exception> LLongConsumerX<Y> wrapException(@Nonnull final LLongConsumerX<X> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
-		return (long l) -> {
-			try {
-				other.doAccept(l);
-			} catch (Exception e) {
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
+	default LLongConsumer handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+		return (long l) -> this.handlingDoAccept(l, handling);
 	}
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <E extends Exception, Y extends Exception> LLongConsumerX<Y> handleX(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LLongConsumerX.wrapException(this, exception, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends Exception> LLongConsumerX<Y> handleX(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LLongConsumerX.wrapException(this, Exception.class, (ExceptionHandler) handler);
+	default <Y extends Throwable> LLongConsumerX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+		return (long l) -> this.handlingDoAccept(l, handling);
 	}
 
 	// </editor-fold>

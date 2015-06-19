@@ -47,6 +47,7 @@ import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
@@ -90,19 +91,19 @@ public class LObjBooleanFunctionXTest<T,R,X extends ParseException> {
 
 
     @Test
-    public void testTheResult() throws ParseException {
+    public void testTheResult() throws X {
         assertThat(sut.doApply((T)Integer.valueOf(100),true))
             .isSameAs(testValue);
     }
 
     @Test
-    public void testNonNullDoApply() throws ParseException {
+    public void testNonNullDoApply() throws X {
         assertThat(sut.nonNullDoApply((T)Integer.valueOf(100),true))
             .isSameAs(testValue);
     }
 
     @Test
-    public void testNestingDoApply_checked() throws ParseException {
+    public void testNestingDoApply_checked() throws X {
 
         // then
         try {
@@ -117,7 +118,7 @@ public class LObjBooleanFunctionXTest<T,R,X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApply_unckeck() throws ParseException {
+    public void testNestingDoApply_unckeck() throws X {
 
         // then
         try {
@@ -132,7 +133,7 @@ public class LObjBooleanFunctionXTest<T,R,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApply_checked() throws ParseException {
+    public void testShovingDoApply_checked() throws X {
 
         // then
         try {
@@ -147,7 +148,7 @@ public class LObjBooleanFunctionXTest<T,R,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApply_unckeck() throws ParseException {
+    public void testShovingDoApply_unckeck() throws X {
 
         // then
         try {
@@ -163,32 +164,32 @@ public class LObjBooleanFunctionXTest<T,R,X extends ParseException> {
 
 
     @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LObjBooleanFunctionX: R doApply(T t, boolean b) throws X).\\E")
-    public void testNonNullCapturesNull() throws ParseException {
+    public void testNonNullCapturesNull() throws X {
         sutNull.nonNullDoApply((T)Integer.valueOf(100),true);
     }
 
 
     @Test
-    public void testFunctionalInterfaceDescription() throws ParseException {
+    public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
             .isEqualTo("LObjBooleanFunctionX: R doApply(T t, boolean b) throws X");
     }
 
     @Test
-    public void testLXMethod() throws ParseException {
+    public void testLXMethod() throws X {
         assertThat(LObjBooleanFunctionX.lX((Object t, boolean b) -> testValue ))
             .isInstanceOf(LObjBooleanFunctionX.class);
     }
 
     @Test
-    public void testWrapXMethod() throws ParseException {
+    public void testWrapXMethod() throws X {
         assertThat(LObjBooleanFunctionX.wrapX(opposite))
             .isInstanceOf(LObjBooleanFunctionX.class);
     }
 
 
     @Test
-    public void testWrapExceptionMethodWrapsTheException() throws ParseException {
+    public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
         LObjBooleanFunctionX<T,R,X> sutThrowing = LObjBooleanFunctionX.lX((T t, boolean b) -> {
@@ -196,8 +197,8 @@ public class LObjBooleanFunctionXTest<T,R,X extends ParseException> {
         });
 
         // when
-        LObjBooleanFunctionX<T,R,X> wrapped = LObjBooleanFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
-            throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
+        LObjBooleanFunctionX<T,R,X> wrapped = sutThrowing.handleX(h -> {
+            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
         // then
@@ -213,7 +214,7 @@ public class LObjBooleanFunctionXTest<T,R,X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException() throws ParseException {
+    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
 
         // given
         LObjBooleanFunctionX<T,R,X> sutThrowing = LObjBooleanFunctionX.lX((T t, boolean b) -> {
@@ -221,9 +222,9 @@ public class LObjBooleanFunctionXTest<T,R,X extends ParseException> {
         });
 
         // when
-        LObjBooleanFunctionX<T,R,X> wrapped = LObjBooleanFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
-            throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
-        });
+        LObjBooleanFunctionX<T,R,X> wrapped = sutThrowing.handleX(handler -> handler
+                .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
+                .throwIf(IndexOutOfBoundsException.class));
 
         // then
         try {
@@ -236,17 +237,41 @@ public class LObjBooleanFunctionXTest<T,R,X extends ParseException> {
         }
     }
 
-    @Test
-    public void testWrapExceptionMisshandlingExceptionIsDetected() throws ParseException {
+@Test
+    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
 
         // given
         LObjBooleanFunctionX<T,R,X> sutThrowing = LObjBooleanFunctionX.lX((T t, boolean b) -> {
-            throw new UnsupportedOperationException();
+            throw new IndexOutOfBoundsException();
         });
 
         // when
-        LObjBooleanFunctionX<T,R,X> wrapped = LObjBooleanFunctionX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
-            return null;
+        LObjBooleanFunctionX<T,R,X> wrapped = sutThrowing.handleX(handler -> handler
+                .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
+                .throwIf(IndexOutOfBoundsException.class));
+
+        // then
+        try {
+            wrapped.doApply((T)Integer.valueOf(100),true);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause();
+        }
+    }
+
+
+    @Test
+    public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
+
+        // given
+        LObjBooleanFunctionX<T,R,X> sutThrowing = LObjBooleanFunctionX.lX((T t, boolean b) -> {
+            throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
+        });
+
+        // when
+        LObjBooleanFunctionX<T,R,X> wrapped = sutThrowing.handleX(h -> {
         });
 
         // then
@@ -255,9 +280,9 @@ public class LObjBooleanFunctionXTest<T,R,X extends ParseException> {
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
-                    .isExactlyInstanceOf(ExceptionNotHandled.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage("Handler has not processed the exception.");
+                    .isExactlyInstanceOf(NestedException.class)
+                    .hasCauseExactlyInstanceOf(ParseException.class)
+                    .hasMessage(ORIGINAL_MESSAGE);
         }
     }
 
@@ -266,7 +291,7 @@ public class LObjBooleanFunctionXTest<T,R,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromBoolean() throws ParseException {
+    public void testfromBoolean() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -301,7 +326,7 @@ public class LObjBooleanFunctionXTest<T,R,X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws ParseException {
+    public void testfrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -340,7 +365,7 @@ public class LObjBooleanFunctionXTest<T,R,X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testThen0() throws ParseException  {
+    public void testThen0() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -376,7 +401,7 @@ public class LObjBooleanFunctionXTest<T,R,X extends ParseException> {
 
 
     @Test
-    public void testThen1() throws ParseException  {
+    public void testThen1() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -409,7 +434,7 @@ public class LObjBooleanFunctionXTest<T,R,X extends ParseException> {
 
 
     // </editor-fold>
-//
+
     @Test
     public void testNesting() {
         assertThat(sut.nest())
@@ -447,7 +472,7 @@ public class LObjBooleanFunctionXTest<T,R,X extends ParseException> {
     }
 
     @Test
-    public void testHandleX() throws ParseException {
+    public void testHandle() throws X {
 
         // given
         LObjBooleanFunctionX<T,R,X> sutThrowing = LObjBooleanFunctionX.lX((T t, boolean b) -> {
@@ -455,8 +480,8 @@ public class LObjBooleanFunctionXTest<T,R,X extends ParseException> {
         });
 
         // when
-        LObjBooleanFunctionX<T,R,X> wrapped = sutThrowing.handleX(UnsupportedOperationException.class, t -> {
-            throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
+        LObjBooleanFunctionX<T,R,X> wrapped = sutThrowing.handleX(h -> {
+            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
         // then
@@ -472,7 +497,7 @@ public class LObjBooleanFunctionXTest<T,R,X extends ParseException> {
     }
 
     @Test
-    public void testToString() throws ParseException {
+    public void testToString() throws X {
 
         assertThat(sut.toString())
                 .isInstanceOf(String.class)

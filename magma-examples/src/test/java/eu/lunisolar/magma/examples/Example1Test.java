@@ -19,7 +19,7 @@
 
 package eu.lunisolar.magma.examples;
 
-import eu.lunisolar.magma.basics.NestedException;
+import eu.lunisolar.magma.basics.exceptions.NestedException;
 import eu.lunisolar.magma.func.predicate.LPredicateX;
 import org.assertj.core.util.Lists;
 import org.testng.annotations.Test;

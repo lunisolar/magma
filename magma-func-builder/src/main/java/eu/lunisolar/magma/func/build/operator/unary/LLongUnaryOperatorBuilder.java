@@ -20,11 +20,13 @@
 package eu.lunisolar.magma.func.build.operator.unary;
 
 import eu.lunisolar.magma.func.operator.unary.*;
+import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -51,6 +53,8 @@ public final class LLongUnaryOperatorBuilder extends PerCaseBuilderWithLongProdu
 
 	private Consumer<LLongUnaryOperator> consumer;
 
+	private @Nullable HandlingInstructions handling;
+
 	public static final LLongUnaryOperator EVENTUALLY_THROW = LLongUnaryOperator.l((long l) -> {
 		String message;
 		try {
@@ -59,7 +63,7 @@ public final class LLongUnaryOperatorBuilder extends PerCaseBuilderWithLongProdu
 				message = "No case specified for input data (no details can be provided).";
 			}
 
-			throw new UnsupportedOperationException(message);
+			throw new IllegalStateException(message);
 		});
 
 	public LLongUnaryOperatorBuilder(@Nullable Consumer<LLongUnaryOperator> consumer) {
@@ -85,6 +89,17 @@ public final class LLongUnaryOperatorBuilder extends PerCaseBuilderWithLongProdu
 		return new LLongUnaryOperatorBuilder(consumer);
 	}
 
+	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
+	@Nonnull
+	public final LLongUnaryOperatorBuilder withHandling(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+		Null.nonNullArg(handling, "handling");
+		if (this.handling != null) {
+			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+		}
+		this.handling = handling;
+		return self();
+	}
+
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
 	@Nonnull
 	public final LLongUnaryOperator build() {
@@ -93,11 +108,9 @@ public final class LLongUnaryOperatorBuilder extends PerCaseBuilderWithLongProdu
 
 		LLongUnaryOperator retval;
 
-		if (cases.isEmpty()) {
-			retval = eventuallyFinal;
-		} else {
-			final Case<LLongPredicate, LLongUnaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
-			retval = LLongUnaryOperator.l((long l) -> {
+		final Case<LLongPredicate, LLongUnaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = LLongUnaryOperator.l((long l) -> {
+			try {
 				for (Case<LLongPredicate, LLongUnaryOperator> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(l)) {
 						return aCase.caseFunction().doApplyAsLong(l);
@@ -105,13 +118,20 @@ public final class LLongUnaryOperatorBuilder extends PerCaseBuilderWithLongProdu
 				}
 
 				return eventuallyFinal.doApplyAsLong(l);
-			});
-		}
+			} catch (Throwable e) {
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);
 		}
 		return retval;
+	}
+
+	public final LLongUnaryOperator build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+		this.withHandling(handling);
+		return build();
 	}
 
 }

@@ -47,6 +47,7 @@ import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
@@ -83,19 +84,19 @@ public class LLongToIntFunctionTest<X extends ParseException> {
 
 
     @Test
-    public void testTheResult() throws ParseException {
+    public void testTheResult() throws X {
         assertThat(sut.doApplyAsInt((long)100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNonNullDoApplyAsInt() throws ParseException {
+    public void testNonNullDoApplyAsInt() throws X {
         assertThat(sut.nonNullDoApplyAsInt((long)100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsInt_unckeck() throws ParseException {
+    public void testNestingDoApplyAsInt_unckeck() throws X {
 
         // then
         try {
@@ -110,7 +111,7 @@ public class LLongToIntFunctionTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsInt_unckeck() throws ParseException {
+    public void testShovingDoApplyAsInt_unckeck() throws X {
 
         // then
         try {
@@ -127,31 +128,31 @@ public class LLongToIntFunctionTest<X extends ParseException> {
 
 
     @Test
-    public void testFunctionalInterfaceDescription() throws ParseException {
+    public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
             .isEqualTo("LLongToIntFunction: int doApplyAsInt(long l)");
     }
 
     @Test
-    public void testLMethod() throws ParseException {
+    public void testLMethod() throws X {
         assertThat(LLongToIntFunction.l((long l) -> testValue ))
             .isInstanceOf(LLongToIntFunction.class);
     }
 
     @Test
-    public void testWrapMethod() throws ParseException {
+    public void testWrapMethod() throws X {
         assertThat(LLongToIntFunction.wrap(opposite))
             .isInstanceOf(LLongToIntFunction.class);
     }
 
     @Test
-    public void testWrapStdMethod() throws ParseException {
+    public void testWrapStdMethod() throws X {
         assertThat(LLongToIntFunction.wrap(jre))
             .isInstanceOf(LLongToIntFunction.class);
     }
 
     @Test
-    public void testWrapMethodDoNotWrapsRuntimeException() throws ParseException {
+    public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
         LLongToIntFunctionX<X> sutThrowing = LLongToIntFunctionX.lX((long l) -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
@@ -173,7 +174,7 @@ public class LLongToIntFunctionTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapMethodWrapsCheckedException() throws ParseException {
+    public void testWrapMethodWrapsCheckedException() throws X {
         // given
         LLongToIntFunctionX<ParseException> sutThrowing = LLongToIntFunctionX.lX((long l) -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
@@ -196,7 +197,7 @@ public class LLongToIntFunctionTest<X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMethodWrapsTheException() throws ParseException {
+    public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
         LLongToIntFunction sutThrowing = LLongToIntFunction.l((long l) -> {
@@ -204,8 +205,8 @@ public class LLongToIntFunctionTest<X extends ParseException> {
         });
 
         // when
-        LLongToIntFunction wrapped = LLongToIntFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
-            throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
+        LLongToIntFunction wrapped = sutThrowing.handle(h -> {
+            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
         // then
@@ -221,7 +222,7 @@ public class LLongToIntFunctionTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException() throws ParseException {
+    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
 
         // given
         LLongToIntFunction sutThrowing = LLongToIntFunction.l((long l) -> {
@@ -229,9 +230,9 @@ public class LLongToIntFunctionTest<X extends ParseException> {
         });
 
         // when
-        LLongToIntFunction wrapped = LLongToIntFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
-            throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
-        });
+        LLongToIntFunction wrapped = sutThrowing.handle(handler -> handler
+                .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
+                .throwIf(IndexOutOfBoundsException.class));
 
         // then
         try {
@@ -244,17 +245,41 @@ public class LLongToIntFunctionTest<X extends ParseException> {
         }
     }
 
-    @Test
-    public void testWrapExceptionMisshandlingExceptionIsDetected() throws ParseException {
+@Test
+    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
 
         // given
         LLongToIntFunction sutThrowing = LLongToIntFunction.l((long l) -> {
-            throw new UnsupportedOperationException();
+            throw new IndexOutOfBoundsException();
         });
 
         // when
-        LLongToIntFunction wrapped = LLongToIntFunction.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
-            return null;
+        LLongToIntFunction wrapped = sutThrowing.handle(handler -> handler
+                .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
+                .throwIf(IndexOutOfBoundsException.class));
+
+        // then
+        try {
+            wrapped.doApplyAsInt((long)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause();
+        }
+    }
+
+
+    @Test
+    public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
+
+        // given
+        LLongToIntFunction sutThrowing = LLongToIntFunction.l((long l) -> {
+            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
+        });
+
+        // when
+        LLongToIntFunction wrapped = sutThrowing.handle(h -> {
         });
 
         // then
@@ -263,9 +288,9 @@ public class LLongToIntFunctionTest<X extends ParseException> {
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
-                    .isExactlyInstanceOf(ExceptionNotHandled.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage("Handler has not processed the exception.");
+             .isExactlyInstanceOf(UnsupportedOperationException.class)
+             .hasNoCause()
+             .hasMessage(ORIGINAL_MESSAGE);
         }
     }
 
@@ -274,7 +299,7 @@ public class LLongToIntFunctionTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromLong() throws ParseException {
+    public void testfromLong() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -303,7 +328,7 @@ public class LLongToIntFunctionTest<X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws ParseException {
+    public void testfrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -336,7 +361,7 @@ public class LLongToIntFunctionTest<X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testThen0() throws ParseException  {
+    public void testThen0() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -371,7 +396,7 @@ public class LLongToIntFunctionTest<X extends ParseException> {
 
 
     @Test
-    public void testThen1ToByte() throws ParseException  {
+    public void testThen1ToByte() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -406,7 +431,7 @@ public class LLongToIntFunctionTest<X extends ParseException> {
 
 
     @Test
-    public void testThen2ToShort() throws ParseException  {
+    public void testThen2ToShort() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -441,7 +466,7 @@ public class LLongToIntFunctionTest<X extends ParseException> {
 
 
     @Test
-    public void testThen3ToInt() throws ParseException  {
+    public void testThen3ToInt() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -476,7 +501,7 @@ public class LLongToIntFunctionTest<X extends ParseException> {
 
 
     @Test
-    public void testThen4ToLong() throws ParseException  {
+    public void testThen4ToLong() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -511,7 +536,7 @@ public class LLongToIntFunctionTest<X extends ParseException> {
 
 
     @Test
-    public void testThen5ToFloat() throws ParseException  {
+    public void testThen5ToFloat() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -546,7 +571,7 @@ public class LLongToIntFunctionTest<X extends ParseException> {
 
 
     @Test
-    public void testThen6ToDouble() throws ParseException  {
+    public void testThen6ToDouble() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -581,7 +606,7 @@ public class LLongToIntFunctionTest<X extends ParseException> {
 
 
     @Test
-    public void testThen7ToChar() throws ParseException  {
+    public void testThen7ToChar() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -616,7 +641,7 @@ public class LLongToIntFunctionTest<X extends ParseException> {
 
 
     @Test
-    public void testThen8ToBoolean() throws ParseException  {
+    public void testThen8ToBoolean() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -651,13 +676,7 @@ public class LLongToIntFunctionTest<X extends ParseException> {
 
 
     // </editor-fold>
-//
-//    @Test
-//    public void testStd() {
-//        assertThat(sut.std()).isInstanceOf(java.util.function.LongToIntFunction.class);
-//    }
-//
-//
+
     @Test
     public void testNesting() {
         assertThat(sut.nest())
@@ -699,7 +718,7 @@ public class LLongToIntFunctionTest<X extends ParseException> {
     }
 
     @Test
-    public void testHandle() throws ParseException {
+    public void testHandle() throws X {
 
         // given
         LLongToIntFunction sutThrowing = LLongToIntFunction.l((long l) -> {
@@ -707,8 +726,8 @@ public class LLongToIntFunctionTest<X extends ParseException> {
         });
 
         // when
-        LLongToIntFunction wrapped = sutThrowing.handle(UnsupportedOperationException.class, t -> {
-            throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
+        LLongToIntFunction wrapped = sutThrowing.handle(h -> {
+            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
         // then
@@ -724,7 +743,7 @@ public class LLongToIntFunctionTest<X extends ParseException> {
     }
 
     @Test
-    public void testToString() throws ParseException {
+    public void testToString() throws X {
 
         assertThat(sut.toString())
                 .isInstanceOf(String.class)

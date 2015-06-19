@@ -23,6 +23,7 @@ import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
@@ -59,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LShortBiConsumerX<X extends Exception> extends MetaConsumer, MetaInterface.Throwing<X> {
+public interface LShortBiConsumerX<X extends Throwable> extends MetaConsumer, MetaInterface.Throwing<X> {
 
 	public static final String DESCRIPTION = "LShortBiConsumerX: void doAccept(short s1,short s2) throws X";
 
@@ -68,15 +69,24 @@ public interface LShortBiConsumerX<X extends Exception> extends MetaConsumer, Me
 	default void nestingDoAccept(short s1, short s2) {
 		try {
 			this.doAccept(s1, s2);
-		} catch (RuntimeException e) {
+		} catch (RuntimeException | Error e) {
 			throw e;
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new NestedException(e);
 		}
 	}
 
 	default void shovingDoAccept(short s1, short s2) {
 		((LShortBiConsumerX<RuntimeException>) this).doAccept(s1, s2);
+	}
+
+	default <Y extends Throwable> void handlingDoAccept(short s1, short s2, HandlingInstructions<Throwable, Y> handling) throws Y {
+
+		try {
+			this.doAccept(s1, s2);
+		} catch (Throwable e) {
+			throw Handler.handleOrNest(e, handling);
+		}
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -92,8 +102,15 @@ public interface LShortBiConsumerX<X extends Exception> extends MetaConsumer, Me
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Exception> LShortBiConsumerX<X> lX(final @Nonnull LShortBiConsumerX<X> lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+	public static <X extends Throwable> LShortBiConsumerX<X> lX(final @Nonnull LShortBiConsumerX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	public static <X extends Throwable> LShortBiConsumerX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LShortBiConsumerX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -101,7 +118,7 @@ public interface LShortBiConsumerX<X extends Exception> extends MetaConsumer, Me
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Exception> LShortBiConsumerX<X> wrapX(final @Nonnull LShortBiConsumer other) {
+	public static <X extends Throwable> LShortBiConsumerX<X> wrapX(final @Nonnull LShortBiConsumer other) {
 		return (LShortBiConsumerX) other;
 	}
 
@@ -114,8 +131,8 @@ public interface LShortBiConsumerX<X extends Exception> extends MetaConsumer, Me
 	 */
 	@Nonnull
 	default LShortBiConsumerX<X> fromShort(@Nonnull final LShortUnaryOperatorX<X> before1, @Nonnull final LShortUnaryOperatorX<X> before2) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
+		Null.nonNullArg(before1, "before1");
+		Null.nonNullArg(before2, "before2");
 		return (final short v1, final short v2) -> this.doAccept(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
 	}
 
@@ -124,8 +141,8 @@ public interface LShortBiConsumerX<X extends Exception> extends MetaConsumer, Me
 	 */
 	@Nonnull
 	default <V1, V2> LBiConsumerX<V1, V2, X> from(@Nonnull final LToShortFunctionX<? super V1, X> before1, @Nonnull final LToShortFunctionX<? super V2, X> before2) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
+		Null.nonNullArg(before1, "before1");
+		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doAccept(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
 	}
 
@@ -136,15 +153,14 @@ public interface LShortBiConsumerX<X extends Exception> extends MetaConsumer, Me
 	/** Combines two consumers together in a order. */
 	@Nonnull
 	default LShortBiConsumerX<X> andThen(@Nonnull LShortBiConsumerX<X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (short s1, short s2) -> {
 			this.doAccept(s1, s2);
 			after.doAccept(s1, s2);
 		};
 	}
 
-	// </editor-fold>
-	// <editor-fold desc="variant conversions">
+	// </editor-fold> // <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
@@ -172,33 +188,14 @@ public interface LShortBiConsumerX<X extends Exception> extends MetaConsumer, Me
 
 	// <editor-fold desc="exception handling">
 
-	/** Wraps with additional exception handling. */
 	@Nonnull
-	public static <X extends Exception, E extends Exception, Y extends Exception> LShortBiConsumerX<Y> wrapException(@Nonnull final LShortBiConsumerX<X> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
-		return (short s1, short s2) -> {
-			try {
-				other.doAccept(s1, s2);
-			} catch (Exception e) {
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
+	default LShortBiConsumer handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+		return (short s1, short s2) -> this.handlingDoAccept(s1, s2, handling);
 	}
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <E extends Exception, Y extends Exception> LShortBiConsumerX<Y> handleX(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LShortBiConsumerX.wrapException(this, exception, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends Exception> LShortBiConsumerX<Y> handleX(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LShortBiConsumerX.wrapException(this, Exception.class, (ExceptionHandler) handler);
+	default <Y extends Throwable> LShortBiConsumerX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+		return (short s1, short s2) -> this.handlingDoAccept(s1, s2, handling);
 	}
 
 	// </editor-fold>

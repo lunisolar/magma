@@ -23,6 +23,7 @@ import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
@@ -59,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBooleanTriConsumerX<X extends Exception> extends MetaConsumer, MetaInterface.Throwing<X> {
+public interface LBooleanTriConsumerX<X extends Throwable> extends MetaConsumer, MetaInterface.Throwing<X> {
 
 	public static final String DESCRIPTION = "LBooleanTriConsumerX: void doAccept(boolean b1,boolean b2,boolean b3) throws X";
 
@@ -68,15 +69,24 @@ public interface LBooleanTriConsumerX<X extends Exception> extends MetaConsumer,
 	default void nestingDoAccept(boolean b1, boolean b2, boolean b3) {
 		try {
 			this.doAccept(b1, b2, b3);
-		} catch (RuntimeException e) {
+		} catch (RuntimeException | Error e) {
 			throw e;
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new NestedException(e);
 		}
 	}
 
 	default void shovingDoAccept(boolean b1, boolean b2, boolean b3) {
 		((LBooleanTriConsumerX<RuntimeException>) this).doAccept(b1, b2, b3);
+	}
+
+	default <Y extends Throwable> void handlingDoAccept(boolean b1, boolean b2, boolean b3, HandlingInstructions<Throwable, Y> handling) throws Y {
+
+		try {
+			this.doAccept(b1, b2, b3);
+		} catch (Throwable e) {
+			throw Handler.handleOrNest(e, handling);
+		}
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -92,8 +102,15 @@ public interface LBooleanTriConsumerX<X extends Exception> extends MetaConsumer,
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Exception> LBooleanTriConsumerX<X> lX(final @Nonnull LBooleanTriConsumerX<X> lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+	public static <X extends Throwable> LBooleanTriConsumerX<X> lX(final @Nonnull LBooleanTriConsumerX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	public static <X extends Throwable> LBooleanTriConsumerX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LBooleanTriConsumerX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -101,7 +118,7 @@ public interface LBooleanTriConsumerX<X extends Exception> extends MetaConsumer,
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Exception> LBooleanTriConsumerX<X> wrapX(final @Nonnull LBooleanTriConsumer other) {
+	public static <X extends Throwable> LBooleanTriConsumerX<X> wrapX(final @Nonnull LBooleanTriConsumer other) {
 		return (LBooleanTriConsumerX) other;
 	}
 
@@ -114,9 +131,9 @@ public interface LBooleanTriConsumerX<X extends Exception> extends MetaConsumer,
 	 */
 	@Nonnull
 	default LBooleanTriConsumerX<X> fromBoolean(@Nonnull final LBooleanUnaryOperatorX<X> before1, @Nonnull final LBooleanUnaryOperatorX<X> before2, @Nonnull final LBooleanUnaryOperatorX<X> before3) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		Objects.requireNonNull(before3, Function4U.VALIDATION_MESSAGE_BEFORE3);
+		Null.nonNullArg(before1, "before1");
+		Null.nonNullArg(before2, "before2");
+		Null.nonNullArg(before3, "before3");
 		return (final boolean v1, final boolean v2, final boolean v3) -> this.doAccept(before1.doApplyAsBoolean(v1), before2.doApplyAsBoolean(v2), before3.doApplyAsBoolean(v3));
 	}
 
@@ -125,9 +142,9 @@ public interface LBooleanTriConsumerX<X extends Exception> extends MetaConsumer,
 	 */
 	@Nonnull
 	default <V1, V2, V3> LTriConsumerX<V1, V2, V3, X> from(@Nonnull final LPredicateX<? super V1, X> before1, @Nonnull final LPredicateX<? super V2, X> before2, @Nonnull final LPredicateX<? super V3, X> before3) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		Objects.requireNonNull(before3, Function4U.VALIDATION_MESSAGE_BEFORE3);
+		Null.nonNullArg(before1, "before1");
+		Null.nonNullArg(before2, "before2");
+		Null.nonNullArg(before3, "before3");
 		return (V1 v1, V2 v2, V3 v3) -> this.doAccept(before1.doApplyAsBoolean(v1), before2.doApplyAsBoolean(v2), before3.doApplyAsBoolean(v3));
 	}
 
@@ -138,15 +155,14 @@ public interface LBooleanTriConsumerX<X extends Exception> extends MetaConsumer,
 	/** Combines two consumers together in a order. */
 	@Nonnull
 	default LBooleanTriConsumerX<X> andThen(@Nonnull LBooleanTriConsumerX<X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (boolean b1, boolean b2, boolean b3) -> {
 			this.doAccept(b1, b2, b3);
 			after.doAccept(b1, b2, b3);
 		};
 	}
 
-	// </editor-fold>
-	// <editor-fold desc="variant conversions">
+	// </editor-fold> // <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
@@ -174,33 +190,14 @@ public interface LBooleanTriConsumerX<X extends Exception> extends MetaConsumer,
 
 	// <editor-fold desc="exception handling">
 
-	/** Wraps with additional exception handling. */
 	@Nonnull
-	public static <X extends Exception, E extends Exception, Y extends Exception> LBooleanTriConsumerX<Y> wrapException(@Nonnull final LBooleanTriConsumerX<X> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
-		return (boolean b1, boolean b2, boolean b3) -> {
-			try {
-				other.doAccept(b1, b2, b3);
-			} catch (Exception e) {
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
+	default LBooleanTriConsumer handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+		return (boolean b1, boolean b2, boolean b3) -> this.handlingDoAccept(b1, b2, b3, handling);
 	}
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <E extends Exception, Y extends Exception> LBooleanTriConsumerX<Y> handleX(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LBooleanTriConsumerX.wrapException(this, exception, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends Exception> LBooleanTriConsumerX<Y> handleX(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LBooleanTriConsumerX.wrapException(this, Exception.class, (ExceptionHandler) handler);
+	default <Y extends Throwable> LBooleanTriConsumerX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+		return (boolean b1, boolean b2, boolean b3) -> this.handlingDoAccept(b1, b2, b3, handling);
 	}
 
 	// </editor-fold>

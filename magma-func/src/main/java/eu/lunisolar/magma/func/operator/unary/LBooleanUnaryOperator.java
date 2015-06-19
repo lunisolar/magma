@@ -24,6 +24,7 @@ import java.util.Comparator; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -100,7 +101,7 @@ public interface LBooleanUnaryOperator extends LBooleanUnaryOperatorX<RuntimeExc
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LBooleanUnaryOperator l(final @Nonnull LBooleanUnaryOperator lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -108,7 +109,7 @@ public interface LBooleanUnaryOperator extends LBooleanUnaryOperatorX<RuntimeExc
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Exception> LBooleanUnaryOperator wrap(final @Nonnull LBooleanUnaryOperatorX<X> other) {
+	public static <X extends Throwable> LBooleanUnaryOperator wrap(final @Nonnull LBooleanUnaryOperatorX<X> other) {
 		return other::nestingDoApplyAsBoolean;
 	}
 
@@ -128,7 +129,7 @@ public interface LBooleanUnaryOperator extends LBooleanUnaryOperatorX<RuntimeExc
 	 */
 	@Nonnull
 	default LBooleanUnaryOperator and(@Nonnull LBooleanUnaryOperator other) {
-		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
+		Null.nonNullArg(other, "other");
 		return (boolean b) -> doApplyAsBoolean(b) && other.doApplyAsBoolean(b);
 	}
 
@@ -137,7 +138,7 @@ public interface LBooleanUnaryOperator extends LBooleanUnaryOperatorX<RuntimeExc
 	 */
 	@Nonnull
 	default LBooleanUnaryOperator or(@Nonnull LBooleanUnaryOperator other) {
-		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
+		Null.nonNullArg(other, "other");
 		return (boolean b) -> doApplyAsBoolean(b) || other.doApplyAsBoolean(b);
 	}
 
@@ -146,7 +147,7 @@ public interface LBooleanUnaryOperator extends LBooleanUnaryOperatorX<RuntimeExc
 	 */
 	@Nonnull
 	default LBooleanUnaryOperator xor(@Nonnull LBooleanUnaryOperator other) {
-		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
+		Null.nonNullArg(other, "other");
 		return (boolean b) -> doApplyAsBoolean(b) ^ other.doApplyAsBoolean(b);
 	}
 
@@ -164,7 +165,7 @@ public interface LBooleanUnaryOperator extends LBooleanUnaryOperatorX<RuntimeExc
 	 */
 	@Nonnull
 	default LBooleanUnaryOperator fromBoolean(@Nonnull final LBooleanUnaryOperator before1) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
+		Null.nonNullArg(before1, "before1");
 		return (final boolean v1) -> this.doApplyAsBoolean(before1.doApplyAsBoolean(v1));
 	}
 
@@ -173,7 +174,7 @@ public interface LBooleanUnaryOperator extends LBooleanUnaryOperatorX<RuntimeExc
 	 */
 	@Nonnull
 	default <V1> LPredicate<V1> from(@Nonnull final LPredicate<? super V1> before1) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
+		Null.nonNullArg(before1, "before1");
 		return (V1 v1) -> this.doApplyAsBoolean(before1.doApplyAsBoolean(v1));
 	}
 
@@ -184,63 +185,63 @@ public interface LBooleanUnaryOperator extends LBooleanUnaryOperatorX<RuntimeExc
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default <V> LBooleanFunction<V> then(@Nonnull LBooleanFunction<? extends V> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (boolean b) -> after.doApply(this.doApplyAsBoolean(b));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LBooleanToByteFunction thenToByte(@Nonnull LBooleanToByteFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (boolean b) -> after.doApplyAsByte(this.doApplyAsBoolean(b));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LBooleanToShortFunction thenToShort(@Nonnull LBooleanToShortFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (boolean b) -> after.doApplyAsShort(this.doApplyAsBoolean(b));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LBooleanToIntFunction thenToInt(@Nonnull LBooleanToIntFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (boolean b) -> after.doApplyAsInt(this.doApplyAsBoolean(b));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LBooleanToLongFunction thenToLong(@Nonnull LBooleanToLongFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (boolean b) -> after.doApplyAsLong(this.doApplyAsBoolean(b));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LBooleanToFloatFunction thenToFloat(@Nonnull LBooleanToFloatFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (boolean b) -> after.doApplyAsFloat(this.doApplyAsBoolean(b));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LBooleanToDoubleFunction thenToDouble(@Nonnull LBooleanToDoubleFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (boolean b) -> after.doApplyAsDouble(this.doApplyAsBoolean(b));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LBooleanToCharFunction thenToChar(@Nonnull LBooleanToCharFunction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (boolean b) -> after.doApplyAsChar(this.doApplyAsBoolean(b));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LBooleanUnaryOperator thenToBoolean(@Nonnull LBooleanUnaryOperator after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (boolean b) -> after.doApplyAsBoolean(this.doApplyAsBoolean(b));
 	}
 
@@ -251,7 +252,6 @@ public interface LBooleanUnaryOperator extends LBooleanUnaryOperatorX<RuntimeExc
 	public static LBooleanUnaryOperator identity() {
 		return t -> t;
 	}
-
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
@@ -274,63 +274,6 @@ public interface LBooleanUnaryOperator extends LBooleanUnaryOperatorX<RuntimeExc
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBooleanUnaryOperatorX<RuntimeException> shoveX() {
 		return this;
-	}
-
-	// </editor-fold>
-
-	// <editor-fold desc="exception handling">
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LBooleanUnaryOperator wrapException(@Nonnull final LBooleanUnaryOperator other, Class<E> exception, LBooleanSupplier supplier, ExceptionHandler<E, Y> handler) {
-		return (boolean b) -> {
-			try {
-				return other.doApplyAsBoolean(b);
-			} catch (Exception e) {
-				try {
-					if (supplier != null) {
-						return supplier.doGetAsBoolean();
-					}
-				} catch (Exception supplierException) {
-					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
-				}
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
-	}
-
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
-	@Nonnull
-	default <E extends Exception, Y extends RuntimeException> LBooleanUnaryOperator handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LBooleanUnaryOperator.wrapException(this, exception, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends RuntimeException> LBooleanUnaryOperator handle(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LBooleanUnaryOperator.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <E extends Exception, Y extends RuntimeException> LBooleanUnaryOperator handle(Class<E> exception, LBooleanSupplier supplier) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LBooleanUnaryOperator.wrapException(this, exception, supplier, null);
-	}
-
-	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <Y extends RuntimeException> LBooleanUnaryOperator handle(LBooleanSupplier supplier) {
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LBooleanUnaryOperator.wrapException(this, Exception.class, supplier, null);
 	}
 
 	// </editor-fold>

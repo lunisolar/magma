@@ -47,6 +47,7 @@ import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
@@ -84,19 +85,19 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
 
 
     @Test
-    public void testTheResult() throws ParseException {
+    public void testTheResult() throws X {
         assertThat(sut.doApplyAsBoolean(true))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNonNullDoApplyAsBoolean() throws ParseException {
+    public void testNonNullDoApplyAsBoolean() throws X {
         assertThat(sut.nonNullDoApplyAsBoolean(true))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsBoolean_checked() throws ParseException {
+    public void testNestingDoApplyAsBoolean_checked() throws X {
 
         // then
         try {
@@ -111,7 +112,7 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApplyAsBoolean_unckeck() throws ParseException {
+    public void testNestingDoApplyAsBoolean_unckeck() throws X {
 
         // then
         try {
@@ -126,7 +127,7 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsBoolean_checked() throws ParseException {
+    public void testShovingDoApplyAsBoolean_checked() throws X {
 
         // then
         try {
@@ -141,7 +142,7 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsBoolean_unckeck() throws ParseException {
+    public void testShovingDoApplyAsBoolean_unckeck() throws X {
 
         // then
         try {
@@ -158,26 +159,26 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
 
 
     @Test
-    public void testFunctionalInterfaceDescription() throws ParseException {
+    public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
             .isEqualTo("LBooleanUnaryOperatorX: boolean doApplyAsBoolean(boolean b) throws X");
     }
 
     @Test
-    public void testLXMethod() throws ParseException {
+    public void testLXMethod() throws X {
         assertThat(LBooleanUnaryOperatorX.lX((boolean b) -> testValue ))
             .isInstanceOf(LBooleanUnaryOperatorX.class);
     }
 
     @Test
-    public void testWrapXMethod() throws ParseException {
+    public void testWrapXMethod() throws X {
         assertThat(LBooleanUnaryOperatorX.wrapX(opposite))
             .isInstanceOf(LBooleanUnaryOperatorX.class);
     }
 
 
     @Test
-    public void testWrapExceptionMethodWrapsTheException() throws ParseException {
+    public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
         LBooleanUnaryOperatorX<X> sutThrowing = LBooleanUnaryOperatorX.lX((boolean b) -> {
@@ -185,8 +186,8 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        LBooleanUnaryOperatorX<X> wrapped = LBooleanUnaryOperatorX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
-            throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
+        LBooleanUnaryOperatorX<X> wrapped = sutThrowing.handleX(h -> {
+            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
         // then
@@ -202,7 +203,7 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException() throws ParseException {
+    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
 
         // given
         LBooleanUnaryOperatorX<X> sutThrowing = LBooleanUnaryOperatorX.lX((boolean b) -> {
@@ -210,9 +211,9 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        LBooleanUnaryOperatorX<X> wrapped = LBooleanUnaryOperatorX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
-            throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
-        });
+        LBooleanUnaryOperatorX<X> wrapped = sutThrowing.handleX(handler -> handler
+                .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
+                .throwIf(IndexOutOfBoundsException.class));
 
         // then
         try {
@@ -225,17 +226,41 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
         }
     }
 
-    @Test
-    public void testWrapExceptionMisshandlingExceptionIsDetected() throws ParseException {
+@Test
+    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
 
         // given
         LBooleanUnaryOperatorX<X> sutThrowing = LBooleanUnaryOperatorX.lX((boolean b) -> {
-            throw new UnsupportedOperationException();
+            throw new IndexOutOfBoundsException();
         });
 
         // when
-        LBooleanUnaryOperatorX<X> wrapped = LBooleanUnaryOperatorX.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
-            return null;
+        LBooleanUnaryOperatorX<X> wrapped = sutThrowing.handleX(handler -> handler
+                .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
+                .throwIf(IndexOutOfBoundsException.class));
+
+        // then
+        try {
+            wrapped.doApplyAsBoolean(true);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause();
+        }
+    }
+
+
+    @Test
+    public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
+
+        // given
+        LBooleanUnaryOperatorX<X> sutThrowing = LBooleanUnaryOperatorX.lX((boolean b) -> {
+            throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
+        });
+
+        // when
+        LBooleanUnaryOperatorX<X> wrapped = sutThrowing.handleX(h -> {
         });
 
         // then
@@ -244,14 +269,14 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
-                    .isExactlyInstanceOf(ExceptionNotHandled.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage("Handler has not processed the exception.");
+                    .isExactlyInstanceOf(NestedException.class)
+                    .hasCauseExactlyInstanceOf(ParseException.class)
+                    .hasMessage(ORIGINAL_MESSAGE);
         }
     }
 
     @Test
-    public void testNegate() throws ParseException {
+    public void testNegate() throws X {
         assertThat(sut.negate().doApplyAsBoolean(true))
             .isEqualTo(!testValue);
     }
@@ -268,7 +293,7 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
     }
 
     @Test(dataProvider="boolean permutations")
-    public void testAndOrXor(final boolean f1Result, final boolean f2Result, final boolean andResult, final boolean orResult, final boolean xorResult) throws ParseException {
+    public void testAndOrXor(final boolean f1Result, final boolean f2Result, final boolean andResult, final boolean orResult, final boolean xorResult) throws X {
 
         //given
         LBooleanUnaryOperatorX<X> fun1 = LBooleanUnaryOperatorX.lX((boolean b) -> f1Result);
@@ -291,7 +316,7 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void isEqual() throws ParseException  {
+    public void isEqual() throws X  {
         //when
         LBooleanUnaryOperatorX<X> equals = LBooleanUnaryOperatorX.isEqual(true);
 
@@ -308,7 +333,7 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromBoolean() throws ParseException {
+    public void testfromBoolean() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -337,7 +362,7 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws ParseException {
+    public void testfrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -370,7 +395,7 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testThen0() throws ParseException  {
+    public void testThen0() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -405,7 +430,7 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
 
 
     @Test
-    public void testThen1ToByte() throws ParseException  {
+    public void testThen1ToByte() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -440,7 +465,7 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
 
 
     @Test
-    public void testThen2ToShort() throws ParseException  {
+    public void testThen2ToShort() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -475,7 +500,7 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
 
 
     @Test
-    public void testThen3ToInt() throws ParseException  {
+    public void testThen3ToInt() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -510,7 +535,7 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
 
 
     @Test
-    public void testThen4ToLong() throws ParseException  {
+    public void testThen4ToLong() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -545,7 +570,7 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
 
 
     @Test
-    public void testThen5ToFloat() throws ParseException  {
+    public void testThen5ToFloat() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -580,7 +605,7 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
 
 
     @Test
-    public void testThen6ToDouble() throws ParseException  {
+    public void testThen6ToDouble() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -615,7 +640,7 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
 
 
     @Test
-    public void testThen7ToChar() throws ParseException  {
+    public void testThen7ToChar() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -650,7 +675,7 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
 
 
     @Test
-    public void testThen8ToBoolean() throws ParseException  {
+    public void testThen8ToBoolean() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -686,13 +711,13 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
 
     // </editor-fold>
     @Test
-    public void identity() throws ParseException {
+    public void identity() throws X {
         LBooleanUnaryOperatorX<X> identityFunction = LBooleanUnaryOperatorX.identity();
 
         assertThat(identityFunction.doApplyAsBoolean(true)).isEqualTo(true);
     }
 
-//
+
     @Test
     public void testNesting() {
         assertThat(sut.nest())
@@ -730,7 +755,7 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testHandleX() throws ParseException {
+    public void testHandle() throws X {
 
         // given
         LBooleanUnaryOperatorX<X> sutThrowing = LBooleanUnaryOperatorX.lX((boolean b) -> {
@@ -738,8 +763,8 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        LBooleanUnaryOperatorX<X> wrapped = sutThrowing.handleX(UnsupportedOperationException.class, t -> {
-            throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
+        LBooleanUnaryOperatorX<X> wrapped = sutThrowing.handleX(h -> {
+            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
         // then
@@ -755,7 +780,7 @@ public class LBooleanUnaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testToString() throws ParseException {
+    public void testToString() throws X {
 
         assertThat(sut.toString())
                 .isInstanceOf(String.class)

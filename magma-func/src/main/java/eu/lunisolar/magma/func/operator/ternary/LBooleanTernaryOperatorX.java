@@ -24,6 +24,7 @@ import java.util.Comparator; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -58,7 +59,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBooleanTernaryOperatorX<X extends Exception> extends MetaLogicalOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LBooleanTernaryOperatorX<X extends Throwable> extends MetaLogicalOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
 	public static final String DESCRIPTION = "LBooleanTernaryOperatorX: boolean doApply(boolean b1,boolean b2,boolean b3) throws X";
 
@@ -67,15 +68,24 @@ public interface LBooleanTernaryOperatorX<X extends Exception> extends MetaLogic
 	default boolean nestingDoApply(boolean b1, boolean b2, boolean b3) {
 		try {
 			return this.doApply(b1, b2, b3);
-		} catch (RuntimeException e) {
+		} catch (RuntimeException | Error e) {
 			throw e;
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new NestedException(e);
 		}
 	}
 
 	default boolean shovingDoApply(boolean b1, boolean b2, boolean b3) {
 		return ((LBooleanTernaryOperatorX<RuntimeException>) this).doApply(b1, b2, b3);
+	}
+
+	default <Y extends Throwable> boolean handlingDoApply(boolean b1, boolean b2, boolean b3, HandlingInstructions<Throwable, Y> handling) throws Y {
+
+		try {
+			return this.doApply(b1, b2, b3);
+		} catch (Throwable e) {
+			throw Handler.handleOrNest(e, handling);
+		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
@@ -99,14 +109,21 @@ public interface LBooleanTernaryOperatorX<X extends Exception> extends MetaLogic
 		return () -> this.doApply(b1, b2, b3);
 	}
 
-	public static <X extends Exception> LBooleanTernaryOperatorX<X> constant(boolean r) {
+	public static <X extends Throwable> LBooleanTernaryOperatorX<X> constant(boolean r) {
 		return (b1, b2, b3) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Exception> LBooleanTernaryOperatorX<X> lX(final @Nonnull LBooleanTernaryOperatorX<X> lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+	public static <X extends Throwable> LBooleanTernaryOperatorX<X> lX(final @Nonnull LBooleanTernaryOperatorX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	public static <X extends Throwable> LBooleanTernaryOperatorX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LBooleanTernaryOperatorX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -114,7 +131,7 @@ public interface LBooleanTernaryOperatorX<X extends Exception> extends MetaLogic
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Exception> LBooleanTernaryOperatorX<X> wrapX(final @Nonnull LBooleanTernaryOperator other) {
+	public static <X extends Throwable> LBooleanTernaryOperatorX<X> wrapX(final @Nonnull LBooleanTernaryOperator other) {
 		return (LBooleanTernaryOperatorX) other;
 	}
 
@@ -134,7 +151,7 @@ public interface LBooleanTernaryOperatorX<X extends Exception> extends MetaLogic
 	 */
 	@Nonnull
 	default LBooleanTernaryOperatorX<X> and(@Nonnull LBooleanTernaryOperatorX<X> other) {
-		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
+		Null.nonNullArg(other, "other");
 		return (boolean b1, boolean b2, boolean b3) -> doApply(b1, b2, b3) && other.doApply(b1, b2, b3);
 	}
 
@@ -143,7 +160,7 @@ public interface LBooleanTernaryOperatorX<X extends Exception> extends MetaLogic
 	 */
 	@Nonnull
 	default LBooleanTernaryOperatorX<X> or(@Nonnull LBooleanTernaryOperatorX<X> other) {
-		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
+		Null.nonNullArg(other, "other");
 		return (boolean b1, boolean b2, boolean b3) -> doApply(b1, b2, b3) || other.doApply(b1, b2, b3);
 	}
 
@@ -152,7 +169,7 @@ public interface LBooleanTernaryOperatorX<X extends Exception> extends MetaLogic
 	 */
 	@Nonnull
 	default LBooleanTernaryOperatorX<X> xor(@Nonnull LBooleanTernaryOperatorX<X> other) {
-		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
+		Null.nonNullArg(other, "other");
 		return (boolean b1, boolean b2, boolean b3) -> doApply(b1, b2, b3) ^ other.doApply(b1, b2, b3);
 	}
 
@@ -160,7 +177,7 @@ public interface LBooleanTernaryOperatorX<X extends Exception> extends MetaLogic
 	 *  @see {@link java.util.function.Predicate#isEqual()}
 	 */
 	@Nonnull
-	public static <X extends Exception> LBooleanTernaryOperatorX<X> isEqual(final boolean v1, final boolean v2, final boolean v3) {
+	public static <X extends Throwable> LBooleanTernaryOperatorX<X> isEqual(final boolean v1, final boolean v2, final boolean v3) {
 		return (b1, b2, b3) -> (b1 == v1) && (b2 == v2) && (b3 == v3);
 	}
 
@@ -173,9 +190,9 @@ public interface LBooleanTernaryOperatorX<X extends Exception> extends MetaLogic
 	 */
 	@Nonnull
 	default LBooleanTernaryOperatorX<X> fromBoolean(@Nonnull final LBooleanUnaryOperatorX<X> before1, @Nonnull final LBooleanUnaryOperatorX<X> before2, @Nonnull final LBooleanUnaryOperatorX<X> before3) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		Objects.requireNonNull(before3, Function4U.VALIDATION_MESSAGE_BEFORE3);
+		Null.nonNullArg(before1, "before1");
+		Null.nonNullArg(before2, "before2");
+		Null.nonNullArg(before3, "before3");
 		return (final boolean v1, final boolean v2, final boolean v3) -> this.doApply(before1.doApplyAsBoolean(v1), before2.doApplyAsBoolean(v2), before3.doApplyAsBoolean(v3));
 	}
 
@@ -184,9 +201,9 @@ public interface LBooleanTernaryOperatorX<X extends Exception> extends MetaLogic
 	 */
 	@Nonnull
 	default <V1, V2, V3> LTriPredicateX<V1, V2, V3, X> from(@Nonnull final LPredicateX<? super V1, X> before1, @Nonnull final LPredicateX<? super V2, X> before2, @Nonnull final LPredicateX<? super V3, X> before3) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		Objects.requireNonNull(before3, Function4U.VALIDATION_MESSAGE_BEFORE3);
+		Null.nonNullArg(before1, "before1");
+		Null.nonNullArg(before2, "before2");
+		Null.nonNullArg(before3, "before3");
 		return (V1 v1, V2 v2, V3 v3) -> this.doApply(before1.doApplyAsBoolean(v1), before2.doApplyAsBoolean(v2), before3.doApplyAsBoolean(v3));
 	}
 
@@ -197,12 +214,11 @@ public interface LBooleanTernaryOperatorX<X extends Exception> extends MetaLogic
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default <V> LBooleanTriFunctionX<V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (boolean b1, boolean b2, boolean b3) -> after.doApply(this.doApply(b1, b2, b3));
 	}
 
 	// </editor-fold>
-
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
@@ -231,57 +247,14 @@ public interface LBooleanTernaryOperatorX<X extends Exception> extends MetaLogic
 
 	// <editor-fold desc="exception handling">
 
-	/** Wraps with additional exception handling. */
 	@Nonnull
-	public static <X extends Exception, E extends Exception, Y extends Exception> LBooleanTernaryOperatorX<Y> wrapException(@Nonnull final LBooleanTernaryOperatorX<X> other, Class<E> exception, LBooleanSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
-		return (boolean b1, boolean b2, boolean b3) -> {
-			try {
-				return other.doApply(b1, b2, b3);
-			} catch (Exception e) {
-				try {
-					if (supplier != null) {
-						return supplier.doGetAsBoolean();
-					}
-				} catch (Exception supplierException) {
-					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
-				}
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
+	default LBooleanTernaryOperator handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+		return (boolean b1, boolean b2, boolean b3) -> this.handlingDoApply(b1, b2, b3, handling);
 	}
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <E extends Exception, Y extends Exception> LBooleanTernaryOperatorX<Y> handleX(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LBooleanTernaryOperatorX.wrapException(this, exception, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends Exception> LBooleanTernaryOperatorX<Y> handleX(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LBooleanTernaryOperatorX.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <E extends Exception, Y extends Exception> LBooleanTernaryOperatorX<Y> handleX(Class<E> exception, LBooleanSupplierX<X> supplier) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LBooleanTernaryOperatorX.wrapException(this, exception, supplier, null);
-	}
-
-	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <Y extends Exception> LBooleanTernaryOperatorX<Y> handleX(LBooleanSupplierX<X> supplier) {
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LBooleanTernaryOperatorX.wrapException(this, Exception.class, supplier, null);
+	default <Y extends Throwable> LBooleanTernaryOperatorX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+		return (boolean b1, boolean b2, boolean b3) -> this.handlingDoApply(b1, b2, b3, handling);
 	}
 
 	// </editor-fold>

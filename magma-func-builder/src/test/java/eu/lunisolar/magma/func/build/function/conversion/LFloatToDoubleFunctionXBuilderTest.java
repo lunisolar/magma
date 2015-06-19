@@ -48,41 +48,72 @@ import org.assertj.core.api.ObjectAssert;//NOSONAR
 import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
-import eu.lunisolar.magma.basics.NestedException; //NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 
 import static eu.lunisolar.magma.func.Function4U.doNothing;
 import static eu.lunisolar.magma.func.build.function.conversion.LFloatToDoubleFunctionXBuilder.floatToDoubleFunctionX;
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
-public class LFloatToDoubleFunctionXBuilderTest<X extends ParseException>{
+public class LFloatToDoubleFunctionXBuilderTest<X extends Throwable>{
 
     @SuppressWarnings("unchecked")
     public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
     @Test
-    public void testEventuallyThrow() throws Exception {
+    public void testEventuallyThrow() throws Throwable {
 
-        try {
-            LFloatToDoubleFunctionX function = LFloatToDoubleFunctionXBuilder
-                .floatToDoubleFunctionX()
+        assertThatThrownBy(() -> {
+            LFloatToDoubleFunctionX function = LFloatToDoubleFunctionXBuilder.floatToDoubleFunctionX()
                 .build();
 
             function.doApplyAsDouble((float)100);
 
             fail("No exception were thrown.");
-        } catch (Exception e) {
-            assertThat(e)
-                    .isExactlyInstanceOf(UnsupportedOperationException.class)
+        })
+                    .isExactlyInstanceOf(IllegalStateException.class)
                     .hasMessageContaining("No case specified for:")
                     .hasMessageContaining(LFloatToDoubleFunctionX.DESCRIPTION);
-
-        }
     }
 
     @Test
-    public void testBuild() throws Exception {
+    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+
+
+        assertThatThrownBy(() -> {
+            LFloatToDoubleFunctionX function = LFloatToDoubleFunctionXBuilder.floatToDoubleFunctionX()
+                .withHandling(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new))
+                .build(h -> h.wrapWhen(p -> p.isRuntime(), RuntimeException::new));
+
+            fail("No exception were thrown.");
+        })
+                    .isExactlyInstanceOf(UnsupportedOperationException.class)
+                    .hasMessageContaining("Handling is allready set for this builder.");
+    }
+
+    @Test
+    public void testHandling() throws Throwable {
+
+        assertThatThrownBy(() -> {
+            LFloatToDoubleFunctionX function = LFloatToDoubleFunctionXBuilder.floatToDoubleFunctionX()
+                .eventually((f) -> {
+                        throw new RuntimeException("ORIGINAL");
+                    })
+                .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
+
+            function.doApplyAsDouble((float)100);
+
+            fail("No exception were thrown.");
+        })
+                    .isExactlyInstanceOf(IllegalStateException.class)
+                    .hasMessageContaining("NEW EXCEPTION")
+                    .hasCauseExactlyInstanceOf(RuntimeException.class);
+    }
+
+
+    @Test
+    public void testBuild() throws Throwable {
 
         LFloatToDoubleFunctionX<ParseException> function = floatToDoubleFunctionX((LFloatToDoubleFunctionX<ParseException> f)-> doNothing())
             .addCase(ce -> ce.of((f) -> f == (float)0)

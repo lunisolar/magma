@@ -33,13 +33,13 @@ import eu.lunisolar.magma.func.action.LAction;
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LPredicateX. */
-public interface LPredicateXAssert<S extends LPredicateXAssert<S, A, RS, T, X>, A extends LPredicateX<T, X>, RS extends AbstractBooleanAssert<RS>, T, X extends Exception> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, Boolean, Exception> {
+public interface LPredicateXAssert<S extends LPredicateXAssert<S, A, RS, T, X>, A extends LPredicateX<T, X>, RS extends AbstractBooleanAssert<RS>, T, X extends Throwable> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, Boolean, Exception> {
 
 	@Nonnull
 	Evaluation<S, A, RS, Boolean, Exception> doesTest(T t);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LPredicateX<T, X>, RS extends AbstractBooleanAssert<RS>, T, X extends Exception> extends Base<Impl<A, RS, T, X>, A, RS, T, X> {
+	public final static class Impl<A extends LPredicateX<T, X>, RS extends AbstractBooleanAssert<RS>, T, X extends Throwable> extends Base<Impl<A, RS, T, X>, A, RS, T, X> {
 
 		public Impl(A actual, java.util.function.Function<Boolean, RS> assertFactory) {
 			super(actual, Impl.class, assertFactory);
@@ -47,7 +47,7 @@ public interface LPredicateXAssert<S extends LPredicateXAssert<S, A, RS, T, X>, 
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, T, X>, A extends LPredicateX<T, X>, RS extends AbstractBooleanAssert<RS>, T, X extends Exception> extends FullFunctionalAssert.Base<S, A, RS, Boolean, Exception>
+	public static class Base<S extends Base<S, A, RS, T, X>, A extends LPredicateX<T, X>, RS extends AbstractBooleanAssert<RS>, T, X extends Throwable> extends FullFunctionalAssert.Base<S, A, RS, Boolean, Exception>
 			implements
 				LPredicateXAssert<S, A, RS, T, X> {
 

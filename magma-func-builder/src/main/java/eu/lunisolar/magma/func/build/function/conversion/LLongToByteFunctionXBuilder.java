@@ -20,11 +20,13 @@
 package eu.lunisolar.magma.func.build.function.conversion;
 
 import eu.lunisolar.magma.func.function.conversion.*;
+import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -47,9 +49,11 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for LLongToByteFunctionX. */
-public final class LLongToByteFunctionXBuilder<X extends Exception> extends PerCaseBuilderWithByteProduct.Base<LLongToByteFunctionXBuilder<X>, LLongPredicateX<X>, LLongToByteFunctionX<X>> {
+public final class LLongToByteFunctionXBuilder<X extends Throwable> extends PerCaseBuilderWithByteProduct.Base<LLongToByteFunctionXBuilder<X>, LLongPredicateX<X>, LLongToByteFunctionX<X>> {
 
 	private Consumer<LLongToByteFunctionX<X>> consumer;
+
+	private @Nullable HandlingInstructions handling;
 
 	public static final LLongToByteFunctionX EVENTUALLY_THROW = LLongToByteFunctionX.lX((long l) -> {
 		String message;
@@ -59,7 +63,7 @@ public final class LLongToByteFunctionXBuilder<X extends Exception> extends PerC
 				message = "No case specified for input data (no details can be provided).";
 			}
 
-			throw new UnsupportedOperationException(message);
+			throw new IllegalStateException(message);
 		});
 
 	public LLongToByteFunctionXBuilder(@Nullable Consumer<LLongToByteFunctionX<X>> consumer) {
@@ -75,14 +79,25 @@ public final class LLongToByteFunctionXBuilder<X extends Exception> extends PerC
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <X extends Exception> LLongToByteFunctionXBuilder<X> longToByteFunctionX() {
+	public static final <X extends Throwable> LLongToByteFunctionXBuilder<X> longToByteFunctionX() {
 		return new LLongToByteFunctionXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <X extends Exception> LLongToByteFunctionXBuilder<X> longToByteFunctionX(Consumer<LLongToByteFunctionX<X>> consumer) {
+	public static final <X extends Throwable> LLongToByteFunctionXBuilder<X> longToByteFunctionX(Consumer<LLongToByteFunctionX<X>> consumer) {
 		return new LLongToByteFunctionXBuilder(consumer);
+	}
+
+	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
+	@Nonnull
+	public final LLongToByteFunctionXBuilder<X> withHandling(@Nonnull HandlingInstructions<X, X> handling) {
+		Null.nonNullArg(handling, "handling");
+		if (this.handling != null) {
+			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+		}
+		this.handling = handling;
+		return self();
 	}
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
@@ -93,11 +108,9 @@ public final class LLongToByteFunctionXBuilder<X extends Exception> extends PerC
 
 		LLongToByteFunctionX<X> retval;
 
-		if (cases.isEmpty()) {
-			retval = eventuallyFinal;
-		} else {
-			final Case<LLongPredicateX<X>, LLongToByteFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-			retval = LLongToByteFunctionX.lX((long l) -> {
+		final Case<LLongPredicateX<X>, LLongToByteFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = LLongToByteFunctionX.lX((long l) -> {
+			try {
 				for (Case<LLongPredicateX<X>, LLongToByteFunctionX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(l)) {
 						return aCase.caseFunction().doApplyAsByte(l);
@@ -105,13 +118,20 @@ public final class LLongToByteFunctionXBuilder<X extends Exception> extends PerC
 				}
 
 				return eventuallyFinal.doApplyAsByte(l);
-			});
-		}
+			} catch (Throwable e) {
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);
 		}
 		return retval;
+	}
+
+	public final LLongToByteFunctionX<X> build(@Nonnull HandlingInstructions<X, X> handling) {
+		this.withHandling(handling);
+		return build();
 	}
 
 }

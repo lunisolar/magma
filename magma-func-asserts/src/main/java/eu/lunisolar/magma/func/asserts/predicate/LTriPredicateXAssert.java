@@ -33,7 +33,7 @@ import eu.lunisolar.magma.func.action.LAction;
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LTriPredicateX. */
-public interface LTriPredicateXAssert<S extends LTriPredicateXAssert<S, A, RS, T1, T2, T3, X>, A extends LTriPredicateX<T1, T2, T3, X>, RS extends AbstractBooleanAssert<RS>, T1, T2, T3, X extends Exception>
+public interface LTriPredicateXAssert<S extends LTriPredicateXAssert<S, A, RS, T1, T2, T3, X>, A extends LTriPredicateX<T1, T2, T3, X>, RS extends AbstractBooleanAssert<RS>, T1, T2, T3, X extends Throwable>
 		extends
 			Assert<S, A>,
 			FullFunctionalAssert<S, A, RS, Boolean, Exception> {
@@ -42,7 +42,7 @@ public interface LTriPredicateXAssert<S extends LTriPredicateXAssert<S, A, RS, T
 	Evaluation<S, A, RS, Boolean, Exception> doesTest(T1 t1, T2 t2, T3 t3);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LTriPredicateX<T1, T2, T3, X>, RS extends AbstractBooleanAssert<RS>, T1, T2, T3, X extends Exception> extends Base<Impl<A, RS, T1, T2, T3, X>, A, RS, T1, T2, T3, X> {
+	public final static class Impl<A extends LTriPredicateX<T1, T2, T3, X>, RS extends AbstractBooleanAssert<RS>, T1, T2, T3, X extends Throwable> extends Base<Impl<A, RS, T1, T2, T3, X>, A, RS, T1, T2, T3, X> {
 
 		public Impl(A actual, java.util.function.Function<Boolean, RS> assertFactory) {
 			super(actual, Impl.class, assertFactory);
@@ -50,7 +50,7 @@ public interface LTriPredicateXAssert<S extends LTriPredicateXAssert<S, A, RS, T
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, T1, T2, T3, X>, A extends LTriPredicateX<T1, T2, T3, X>, RS extends AbstractBooleanAssert<RS>, T1, T2, T3, X extends Exception> extends FullFunctionalAssert.Base<S, A, RS, Boolean, Exception>
+	public static class Base<S extends Base<S, A, RS, T1, T2, T3, X>, A extends LTriPredicateX<T1, T2, T3, X>, RS extends AbstractBooleanAssert<RS>, T1, T2, T3, X extends Throwable> extends FullFunctionalAssert.Base<S, A, RS, Boolean, Exception>
 			implements
 				LTriPredicateXAssert<S, A, RS, T1, T2, T3, X> {
 

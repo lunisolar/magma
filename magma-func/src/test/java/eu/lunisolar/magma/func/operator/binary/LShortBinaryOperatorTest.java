@@ -47,6 +47,7 @@ import org.testng.annotations.*;      //NOSONAR
 import java.util.regex.Pattern;          //NOSONAR
 import java.text.ParseException;         //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; //NOSONAR
 import java.util.concurrent.atomic.AtomicInteger; //NOSONAR
 import static org.assertj.core.api.Assertions.*; //NOSONAR
 
@@ -81,19 +82,19 @@ public class LShortBinaryOperatorTest<X extends ParseException> {
 
 
     @Test
-    public void testTheResult() throws ParseException {
+    public void testTheResult() throws X {
         assertThat(sut.doApplyAsShort((short)100,(short)100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNonNullDoApplyAsShort() throws ParseException {
+    public void testNonNullDoApplyAsShort() throws X {
         assertThat(sut.nonNullDoApplyAsShort((short)100,(short)100))
             .isEqualTo(testValue);
     }
 
     @Test
-    public void testNestingDoApplyAsShort_unckeck() throws ParseException {
+    public void testNestingDoApplyAsShort_unckeck() throws X {
 
         // then
         try {
@@ -108,7 +109,7 @@ public class LShortBinaryOperatorTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsShort_unckeck() throws ParseException {
+    public void testShovingDoApplyAsShort_unckeck() throws X {
 
         // then
         try {
@@ -125,25 +126,25 @@ public class LShortBinaryOperatorTest<X extends ParseException> {
 
 
     @Test
-    public void testFunctionalInterfaceDescription() throws ParseException {
+    public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
             .isEqualTo("LShortBinaryOperator: short doApplyAsShort(short s1,short s2)");
     }
 
     @Test
-    public void testLMethod() throws ParseException {
+    public void testLMethod() throws X {
         assertThat(LShortBinaryOperator.l((short s1,short s2) -> testValue ))
             .isInstanceOf(LShortBinaryOperator.class);
     }
 
     @Test
-    public void testWrapMethod() throws ParseException {
+    public void testWrapMethod() throws X {
         assertThat(LShortBinaryOperator.wrap(opposite))
             .isInstanceOf(LShortBinaryOperator.class);
     }
 
     @Test
-    public void testWrapMethodDoNotWrapsRuntimeException() throws ParseException {
+    public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
         LShortBinaryOperatorX<X> sutThrowing = LShortBinaryOperatorX.lX((short s1,short s2) -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
@@ -165,7 +166,7 @@ public class LShortBinaryOperatorTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapMethodWrapsCheckedException() throws ParseException {
+    public void testWrapMethodWrapsCheckedException() throws X {
         // given
         LShortBinaryOperatorX<ParseException> sutThrowing = LShortBinaryOperatorX.lX((short s1,short s2) -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
@@ -188,7 +189,7 @@ public class LShortBinaryOperatorTest<X extends ParseException> {
 
 
     @Test
-    public void testWrapExceptionMethodWrapsTheException() throws ParseException {
+    public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
         LShortBinaryOperator sutThrowing = LShortBinaryOperator.l((short s1,short s2) -> {
@@ -196,8 +197,8 @@ public class LShortBinaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LShortBinaryOperator wrapped = LShortBinaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
-            throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
+        LShortBinaryOperator wrapped = sutThrowing.handle(h -> {
+            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
         // then
@@ -213,7 +214,7 @@ public class LShortBinaryOperatorTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException() throws ParseException {
+    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
 
         // given
         LShortBinaryOperator sutThrowing = LShortBinaryOperator.l((short s1,short s2) -> {
@@ -221,9 +222,9 @@ public class LShortBinaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LShortBinaryOperator wrapped = LShortBinaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
-            throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
-        });
+        LShortBinaryOperator wrapped = sutThrowing.handle(handler -> handler
+                .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
+                .throwIf(IndexOutOfBoundsException.class));
 
         // then
         try {
@@ -236,17 +237,41 @@ public class LShortBinaryOperatorTest<X extends ParseException> {
         }
     }
 
-    @Test
-    public void testWrapExceptionMisshandlingExceptionIsDetected() throws ParseException {
+@Test
+    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
 
         // given
         LShortBinaryOperator sutThrowing = LShortBinaryOperator.l((short s1,short s2) -> {
-            throw new UnsupportedOperationException();
+            throw new IndexOutOfBoundsException();
         });
 
         // when
-        LShortBinaryOperator wrapped = LShortBinaryOperator.wrapException(sutThrowing, UnsupportedOperationException.class, null, t -> {
-            return null;
+        LShortBinaryOperator wrapped = sutThrowing.handle(handler -> handler
+                .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
+                .throwIf(IndexOutOfBoundsException.class));
+
+        // then
+        try {
+            wrapped.doApplyAsShort((short)100,(short)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause();
+        }
+    }
+
+
+    @Test
+    public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
+
+        // given
+        LShortBinaryOperator sutThrowing = LShortBinaryOperator.l((short s1,short s2) -> {
+            throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
+        });
+
+        // when
+        LShortBinaryOperator wrapped = sutThrowing.handle(h -> {
         });
 
         // then
@@ -255,15 +280,15 @@ public class LShortBinaryOperatorTest<X extends ParseException> {
             fail(NO_EXCEPTION_WERE_THROWN);
         } catch (Exception e) {
             assertThat(e)
-                    .isExactlyInstanceOf(ExceptionNotHandled.class)
-                    .hasCauseExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessage("Handler has not processed the exception.");
+             .isExactlyInstanceOf(UnsupportedOperationException.class)
+             .hasNoCause()
+             .hasMessage(ORIGINAL_MESSAGE);
         }
     }
 
 
     @Test
-    public void testMin() throws ParseException {
+    public void testMin() throws X {
         //given
         short valueSmall = (short)100;
         short valueBig = (short)(valueSmall+10);
@@ -280,7 +305,7 @@ public class LShortBinaryOperatorTest<X extends ParseException> {
     }
 
     @Test
-    public void testMax() throws ParseException {
+    public void testMax() throws X {
         //given
         short valueSmall = (short)100;
         short valueBig = (short)(valueSmall+10);
@@ -300,7 +325,7 @@ public class LShortBinaryOperatorTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromShort() throws ParseException {
+    public void testfromShort() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -335,7 +360,7 @@ public class LShortBinaryOperatorTest<X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws ParseException {
+    public void testfrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -374,7 +399,7 @@ public class LShortBinaryOperatorTest<X extends ParseException> {
     // <editor-fold desc="then (functional)">
 
     @Test
-    public void testThen0() throws ParseException  {
+    public void testThen0() throws X  {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
@@ -410,7 +435,7 @@ public class LShortBinaryOperatorTest<X extends ParseException> {
 
 
     // </editor-fold>
-//
+
     @Test
     public void testNesting() {
         assertThat(sut.nest())
@@ -452,7 +477,7 @@ public class LShortBinaryOperatorTest<X extends ParseException> {
     }
 
     @Test
-    public void testHandle() throws ParseException {
+    public void testHandle() throws X {
 
         // given
         LShortBinaryOperator sutThrowing = LShortBinaryOperator.l((short s1,short s2) -> {
@@ -460,8 +485,8 @@ public class LShortBinaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LShortBinaryOperator wrapped = sutThrowing.handle(UnsupportedOperationException.class, t -> {
-            throw new IllegalArgumentException(EXCEPTION_WAS_WRAPPED, t);
+        LShortBinaryOperator wrapped = sutThrowing.handle(h -> {
+            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
         // then
@@ -477,7 +502,7 @@ public class LShortBinaryOperatorTest<X extends ParseException> {
     }
 
     @Test
-    public void testToString() throws ParseException {
+    public void testToString() throws X {
 
         assertThat(sut.toString())
                 .isInstanceOf(String.class)

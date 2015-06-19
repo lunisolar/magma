@@ -23,6 +23,7 @@ import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
@@ -87,7 +88,7 @@ public interface LByteConsumer extends LByteConsumerX<RuntimeException>, MetaCon
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LByteConsumer l(final @Nonnull LByteConsumer lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -95,7 +96,7 @@ public interface LByteConsumer extends LByteConsumerX<RuntimeException>, MetaCon
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Exception> LByteConsumer wrap(final @Nonnull LByteConsumerX<X> other) {
+	public static <X extends Throwable> LByteConsumer wrap(final @Nonnull LByteConsumerX<X> other) {
 		return other::nestingDoAccept;
 	}
 
@@ -108,7 +109,7 @@ public interface LByteConsumer extends LByteConsumerX<RuntimeException>, MetaCon
 	 */
 	@Nonnull
 	default LByteConsumer fromByte(@Nonnull final LByteUnaryOperator before1) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
+		Null.nonNullArg(before1, "before1");
 		return (final byte v1) -> this.doAccept(before1.doApplyAsByte(v1));
 	}
 
@@ -117,7 +118,7 @@ public interface LByteConsumer extends LByteConsumerX<RuntimeException>, MetaCon
 	 */
 	@Nonnull
 	default <V1> LConsumer<V1> from(@Nonnull final LToByteFunction<? super V1> before1) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
+		Null.nonNullArg(before1, "before1");
 		return (V1 v1) -> this.doAccept(before1.doApplyAsByte(v1));
 	}
 
@@ -128,15 +129,14 @@ public interface LByteConsumer extends LByteConsumerX<RuntimeException>, MetaCon
 	/** Combines two consumers together in a order. */
 	@Nonnull
 	default LByteConsumer andThen(@Nonnull LByteConsumer after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (byte b) -> {
 			this.doAccept(b);
 			after.doAccept(b);
 		};
 	}
 
-	// </editor-fold>
-	// <editor-fold desc="variant conversions">
+	// </editor-fold> // <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
@@ -158,39 +158,6 @@ public interface LByteConsumer extends LByteConsumerX<RuntimeException>, MetaCon
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LByteConsumerX<RuntimeException> shoveX() {
 		return this;
-	}
-
-	// </editor-fold>
-
-	// <editor-fold desc="exception handling">
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LByteConsumer wrapException(@Nonnull final LByteConsumer other, Class<E> exception, ExceptionHandler<E, Y> handler) {
-		return (byte b) -> {
-			try {
-				other.doAccept(b);
-			} catch (Exception e) {
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
-	}
-
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
-	@Nonnull
-	default <E extends Exception, Y extends RuntimeException> LByteConsumer handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LByteConsumer.wrapException(this, exception, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends RuntimeException> LByteConsumer handle(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LByteConsumer.wrapException(this, Exception.class, (ExceptionHandler) handler);
 	}
 
 	// </editor-fold>

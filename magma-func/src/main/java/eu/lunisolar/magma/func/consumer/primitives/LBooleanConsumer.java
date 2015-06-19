@@ -23,6 +23,7 @@ import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
@@ -87,7 +88,7 @@ public interface LBooleanConsumer extends LBooleanConsumerX<RuntimeException>, M
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LBooleanConsumer l(final @Nonnull LBooleanConsumer lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -95,7 +96,7 @@ public interface LBooleanConsumer extends LBooleanConsumerX<RuntimeException>, M
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Exception> LBooleanConsumer wrap(final @Nonnull LBooleanConsumerX<X> other) {
+	public static <X extends Throwable> LBooleanConsumer wrap(final @Nonnull LBooleanConsumerX<X> other) {
 		return other::nestingDoAccept;
 	}
 
@@ -108,7 +109,7 @@ public interface LBooleanConsumer extends LBooleanConsumerX<RuntimeException>, M
 	 */
 	@Nonnull
 	default LBooleanConsumer fromBoolean(@Nonnull final LBooleanUnaryOperator before1) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
+		Null.nonNullArg(before1, "before1");
 		return (final boolean v1) -> this.doAccept(before1.doApplyAsBoolean(v1));
 	}
 
@@ -117,7 +118,7 @@ public interface LBooleanConsumer extends LBooleanConsumerX<RuntimeException>, M
 	 */
 	@Nonnull
 	default <V1> LConsumer<V1> from(@Nonnull final LPredicate<? super V1> before1) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
+		Null.nonNullArg(before1, "before1");
 		return (V1 v1) -> this.doAccept(before1.doApplyAsBoolean(v1));
 	}
 
@@ -128,15 +129,14 @@ public interface LBooleanConsumer extends LBooleanConsumerX<RuntimeException>, M
 	/** Combines two consumers together in a order. */
 	@Nonnull
 	default LBooleanConsumer andThen(@Nonnull LBooleanConsumer after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (boolean b) -> {
 			this.doAccept(b);
 			after.doAccept(b);
 		};
 	}
 
-	// </editor-fold>
-	// <editor-fold desc="variant conversions">
+	// </editor-fold> // <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
@@ -158,39 +158,6 @@ public interface LBooleanConsumer extends LBooleanConsumerX<RuntimeException>, M
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBooleanConsumerX<RuntimeException> shoveX() {
 		return this;
-	}
-
-	// </editor-fold>
-
-	// <editor-fold desc="exception handling">
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LBooleanConsumer wrapException(@Nonnull final LBooleanConsumer other, Class<E> exception, ExceptionHandler<E, Y> handler) {
-		return (boolean b) -> {
-			try {
-				other.doAccept(b);
-			} catch (Exception e) {
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
-	}
-
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
-	@Nonnull
-	default <E extends Exception, Y extends RuntimeException> LBooleanConsumer handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LBooleanConsumer.wrapException(this, exception, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends RuntimeException> LBooleanConsumer handle(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LBooleanConsumer.wrapException(this, Exception.class, (ExceptionHandler) handler);
 	}
 
 	// </editor-fold>

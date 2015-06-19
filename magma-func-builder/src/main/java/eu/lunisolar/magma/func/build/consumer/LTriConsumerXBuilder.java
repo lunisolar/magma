@@ -20,11 +20,13 @@
 package eu.lunisolar.magma.func.build.consumer;
 
 import eu.lunisolar.magma.func.consumer.*;
+import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -47,9 +49,11 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for LTriConsumerX. */
-public final class LTriConsumerXBuilder<T1, T2, T3, X extends Exception> extends PerCaseBuilder.Base<LTriConsumerXBuilder<T1, T2, T3, X>, LTriPredicateX<T1, T2, T3, X>, LTriConsumerX<T1, T2, T3, X>> {
+public final class LTriConsumerXBuilder<T1, T2, T3, X extends Throwable> extends PerCaseBuilder.Base<LTriConsumerXBuilder<T1, T2, T3, X>, LTriPredicateX<T1, T2, T3, X>, LTriConsumerX<T1, T2, T3, X>> {
 
 	private Consumer<LTriConsumerX<T1, T2, T3, X>> consumer;
+
+	private @Nullable HandlingInstructions handling;
 
 	public static final LTriConsumerX EVENTUALLY_THROW = LTriConsumerX.lX((Object t1, Object t2, Object t3) -> {
 		String message;
@@ -59,7 +63,7 @@ public final class LTriConsumerXBuilder<T1, T2, T3, X extends Exception> extends
 				message = "No case specified for input data (no details can be provided).";
 			}
 
-			throw new UnsupportedOperationException(message);
+			throw new IllegalStateException(message);
 		});
 
 	public LTriConsumerXBuilder(@Nullable Consumer<LTriConsumerX<T1, T2, T3, X>> consumer) {
@@ -75,14 +79,25 @@ public final class LTriConsumerXBuilder<T1, T2, T3, X extends Exception> extends
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <T1, T2, T3, X extends Exception> LTriConsumerXBuilder<T1, T2, T3, X> triConsumerX() {
+	public static final <T1, T2, T3, X extends Throwable> LTriConsumerXBuilder<T1, T2, T3, X> triConsumerX() {
 		return new LTriConsumerXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <T1, T2, T3, X extends Exception> LTriConsumerXBuilder<T1, T2, T3, X> triConsumerX(Consumer<LTriConsumerX<T1, T2, T3, X>> consumer) {
+	public static final <T1, T2, T3, X extends Throwable> LTriConsumerXBuilder<T1, T2, T3, X> triConsumerX(Consumer<LTriConsumerX<T1, T2, T3, X>> consumer) {
 		return new LTriConsumerXBuilder(consumer);
+	}
+
+	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
+	@Nonnull
+	public final LTriConsumerXBuilder<T1, T2, T3, X> withHandling(@Nonnull HandlingInstructions<X, X> handling) {
+		Null.nonNullArg(handling, "handling");
+		if (this.handling != null) {
+			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+		}
+		this.handling = handling;
+		return self();
 	}
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
@@ -93,11 +108,9 @@ public final class LTriConsumerXBuilder<T1, T2, T3, X extends Exception> extends
 
 		LTriConsumerX<T1, T2, T3, X> retval;
 
-		if (cases.isEmpty()) {
-			retval = eventuallyFinal;
-		} else {
-			final Case<LTriPredicateX<T1, T2, T3, X>, LTriConsumerX<T1, T2, T3, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-			retval = LTriConsumerX.lX((T1 t1, T2 t2, T3 t3) -> {
+		final Case<LTriPredicateX<T1, T2, T3, X>, LTriConsumerX<T1, T2, T3, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = LTriConsumerX.lX((T1 t1, T2 t2, T3 t3) -> {
+			try {
 				for (Case<LTriPredicateX<T1, T2, T3, X>, LTriConsumerX<T1, T2, T3, X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(t1, t2, t3)) {
 						aCase.caseFunction().doAccept(t1, t2, t3);
@@ -106,13 +119,20 @@ public final class LTriConsumerXBuilder<T1, T2, T3, X extends Exception> extends
 				}
 
 				eventuallyFinal.doAccept(t1, t2, t3);
-			});
-		}
+			} catch (Throwable e) {
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);
 		}
 		return retval;
+	}
+
+	public final LTriConsumerX<T1, T2, T3, X> build(@Nonnull HandlingInstructions<X, X> handling) {
+		this.withHandling(handling);
+		return build();
 	}
 
 }

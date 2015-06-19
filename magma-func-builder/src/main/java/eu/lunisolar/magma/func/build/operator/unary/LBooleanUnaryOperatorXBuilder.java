@@ -20,11 +20,13 @@
 package eu.lunisolar.magma.func.build.operator.unary;
 
 import eu.lunisolar.magma.func.operator.unary.*;
+import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -47,9 +49,11 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for LBooleanUnaryOperatorX. */
-public final class LBooleanUnaryOperatorXBuilder<X extends Exception> extends PerCaseBuilderWithBooleanProduct.Base<LBooleanUnaryOperatorXBuilder<X>, LBooleanUnaryOperatorX<X>, LBooleanUnaryOperatorX<X>> {
+public final class LBooleanUnaryOperatorXBuilder<X extends Throwable> extends PerCaseBuilderWithBooleanProduct.Base<LBooleanUnaryOperatorXBuilder<X>, LBooleanUnaryOperatorX<X>, LBooleanUnaryOperatorX<X>> {
 
 	private Consumer<LBooleanUnaryOperatorX<X>> consumer;
+
+	private @Nullable HandlingInstructions handling;
 
 	public static final LBooleanUnaryOperatorX EVENTUALLY_THROW = LBooleanUnaryOperatorX.lX((boolean b) -> {
 		String message;
@@ -59,7 +63,7 @@ public final class LBooleanUnaryOperatorXBuilder<X extends Exception> extends Pe
 				message = "No case specified for input data (no details can be provided).";
 			}
 
-			throw new UnsupportedOperationException(message);
+			throw new IllegalStateException(message);
 		});
 
 	public LBooleanUnaryOperatorXBuilder(@Nullable Consumer<LBooleanUnaryOperatorX<X>> consumer) {
@@ -75,14 +79,25 @@ public final class LBooleanUnaryOperatorXBuilder<X extends Exception> extends Pe
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <X extends Exception> LBooleanUnaryOperatorXBuilder<X> booleanUnaryOperatorX() {
+	public static final <X extends Throwable> LBooleanUnaryOperatorXBuilder<X> booleanUnaryOperatorX() {
 		return new LBooleanUnaryOperatorXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <X extends Exception> LBooleanUnaryOperatorXBuilder<X> booleanUnaryOperatorX(Consumer<LBooleanUnaryOperatorX<X>> consumer) {
+	public static final <X extends Throwable> LBooleanUnaryOperatorXBuilder<X> booleanUnaryOperatorX(Consumer<LBooleanUnaryOperatorX<X>> consumer) {
 		return new LBooleanUnaryOperatorXBuilder(consumer);
+	}
+
+	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
+	@Nonnull
+	public final LBooleanUnaryOperatorXBuilder<X> withHandling(@Nonnull HandlingInstructions<X, X> handling) {
+		Null.nonNullArg(handling, "handling");
+		if (this.handling != null) {
+			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+		}
+		this.handling = handling;
+		return self();
 	}
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
@@ -93,11 +108,9 @@ public final class LBooleanUnaryOperatorXBuilder<X extends Exception> extends Pe
 
 		LBooleanUnaryOperatorX<X> retval;
 
-		if (cases.isEmpty()) {
-			retval = eventuallyFinal;
-		} else {
-			final Case<LBooleanUnaryOperatorX<X>, LBooleanUnaryOperatorX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-			retval = LBooleanUnaryOperatorX.lX((boolean b) -> {
+		final Case<LBooleanUnaryOperatorX<X>, LBooleanUnaryOperatorX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = LBooleanUnaryOperatorX.lX((boolean b) -> {
+			try {
 				for (Case<LBooleanUnaryOperatorX<X>, LBooleanUnaryOperatorX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doApplyAsBoolean(b)) {
 						return aCase.caseFunction().doApplyAsBoolean(b);
@@ -105,13 +118,20 @@ public final class LBooleanUnaryOperatorXBuilder<X extends Exception> extends Pe
 				}
 
 				return eventuallyFinal.doApplyAsBoolean(b);
-			});
-		}
+			} catch (Throwable e) {
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);
 		}
 		return retval;
+	}
+
+	public final LBooleanUnaryOperatorX<X> build(@Nonnull HandlingInstructions<X, X> handling) {
+		this.withHandling(handling);
+		return build();
 	}
 
 }

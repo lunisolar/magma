@@ -33,7 +33,7 @@ import eu.lunisolar.magma.func.action.LAction;
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LObjFloatFunctionX. */
-public interface LObjFloatFunctionXAssert<S extends LObjFloatFunctionXAssert<S, A, RS, T, R, X>, A extends LObjFloatFunctionX<T, R, X>, RS extends Assert<RS, R>, T, R, X extends Exception>
+public interface LObjFloatFunctionXAssert<S extends LObjFloatFunctionXAssert<S, A, RS, T, R, X>, A extends LObjFloatFunctionX<T, R, X>, RS extends Assert<RS, R>, T, R, X extends Throwable>
 		extends
 			Assert<S, A>,
 			FullFunctionalAssert<S, A, RS, R, Exception> {
@@ -42,7 +42,7 @@ public interface LObjFloatFunctionXAssert<S extends LObjFloatFunctionXAssert<S, 
 	Evaluation<S, A, RS, R, Exception> doesApply(T t, float f);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LObjFloatFunctionX<T, R, X>, RS extends Assert<RS, R>, T, R, X extends Exception> extends Base<Impl<A, RS, T, R, X>, A, RS, T, R, X> {
+	public final static class Impl<A extends LObjFloatFunctionX<T, R, X>, RS extends Assert<RS, R>, T, R, X extends Throwable> extends Base<Impl<A, RS, T, R, X>, A, RS, T, R, X> {
 
 		public Impl(A actual, java.util.function.Function<R, RS> assertFactory) {
 			super(actual, Impl.class, assertFactory);
@@ -50,7 +50,7 @@ public interface LObjFloatFunctionXAssert<S extends LObjFloatFunctionXAssert<S, 
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, T, R, X>, A extends LObjFloatFunctionX<T, R, X>, RS extends Assert<RS, R>, T, R, X extends Exception> extends FullFunctionalAssert.Base<S, A, RS, R, Exception>
+	public static class Base<S extends Base<S, A, RS, T, R, X>, A extends LObjFloatFunctionX<T, R, X>, RS extends Assert<RS, R>, T, R, X extends Throwable> extends FullFunctionalAssert.Base<S, A, RS, R, Exception>
 			implements
 				LObjFloatFunctionXAssert<S, A, RS, T, R, X> {
 

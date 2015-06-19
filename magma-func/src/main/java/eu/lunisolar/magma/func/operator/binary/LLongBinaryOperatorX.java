@@ -24,6 +24,7 @@ import java.util.Comparator; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -58,7 +59,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LLongBinaryOperatorX<X extends Exception> extends java.util.function.LongBinaryOperator, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
+public interface LLongBinaryOperatorX<X extends Throwable> extends java.util.function.LongBinaryOperator, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
 	public static final String DESCRIPTION = "LLongBinaryOperatorX: long doApplyAsLong(long l1,long l2) throws X";
 
@@ -74,15 +75,24 @@ public interface LLongBinaryOperatorX<X extends Exception> extends java.util.fun
 	default long nestingDoApplyAsLong(long l1, long l2) {
 		try {
 			return this.doApplyAsLong(l1, l2);
-		} catch (RuntimeException e) {
+		} catch (RuntimeException | Error e) {
 			throw e;
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new NestedException(e);
 		}
 	}
 
 	default long shovingDoApplyAsLong(long l1, long l2) {
 		return ((LLongBinaryOperatorX<RuntimeException>) this).doApplyAsLong(l1, l2);
+	}
+
+	default <Y extends Throwable> long handlingDoApplyAsLong(long l1, long l2, HandlingInstructions<Throwable, Y> handling) throws Y {
+
+		try {
+			return this.doApplyAsLong(l1, l2);
+		} catch (Throwable e) {
+			throw Handler.handleOrNest(e, handling);
+		}
 	}
 
 	/** Just to mirror the method: Ensures the result is not null */
@@ -101,14 +111,21 @@ public interface LLongBinaryOperatorX<X extends Exception> extends java.util.fun
 		return () -> this.doApplyAsLong(l1, l2);
 	}
 
-	public static <X extends Exception> LLongBinaryOperatorX<X> constant(long r) {
+	public static <X extends Throwable> LLongBinaryOperatorX<X> constant(long r) {
 		return (l1, l2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Exception> LLongBinaryOperatorX<X> lX(final @Nonnull LLongBinaryOperatorX<X> lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+	public static <X extends Throwable> LLongBinaryOperatorX<X> lX(final @Nonnull LLongBinaryOperatorX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	public static <X extends Throwable> LLongBinaryOperatorX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LLongBinaryOperatorX<X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -116,13 +133,13 @@ public interface LLongBinaryOperatorX<X extends Exception> extends java.util.fun
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Exception> LLongBinaryOperatorX<X> wrap(final java.util.function.LongBinaryOperator other) {
+	public static <X extends Throwable> LLongBinaryOperatorX<X> wrap(final java.util.function.LongBinaryOperator other) {
 		return other::applyAsLong;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Exception> LLongBinaryOperatorX<X> wrapX(final @Nonnull LLongBinaryOperator other) {
+	public static <X extends Throwable> LLongBinaryOperatorX<X> wrapX(final @Nonnull LLongBinaryOperator other) {
 		return (LLongBinaryOperatorX) other;
 	}
 
@@ -133,7 +150,7 @@ public interface LLongBinaryOperatorX<X extends Exception> extends java.util.fun
 	 * @see {@link java.util.function.BinaryOperator#minBy()}
 	 */
 	@Nonnull
-	public static <X extends Exception> LLongBinaryOperatorX<X> min() {
+	public static <X extends Throwable> LLongBinaryOperatorX<X> min() {
 		return Long::min;
 	}
 
@@ -141,7 +158,7 @@ public interface LLongBinaryOperatorX<X extends Exception> extends java.util.fun
 	 * @see {@link java.util.function.BinaryOperator#maxBy()}
 	 */
 	@Nonnull
-	public static <X extends Exception> LLongBinaryOperatorX<X> max() {
+	public static <X extends Throwable> LLongBinaryOperatorX<X> max() {
 		return Long::max;
 	}
 
@@ -154,8 +171,8 @@ public interface LLongBinaryOperatorX<X extends Exception> extends java.util.fun
 	 */
 	@Nonnull
 	default LLongBinaryOperatorX<X> fromLong(@Nonnull final LLongUnaryOperatorX<X> before1, @Nonnull final LLongUnaryOperatorX<X> before2) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
+		Null.nonNullArg(before1, "before1");
+		Null.nonNullArg(before2, "before2");
 		return (final long v1, final long v2) -> this.doApplyAsLong(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
 	}
 
@@ -164,8 +181,8 @@ public interface LLongBinaryOperatorX<X extends Exception> extends java.util.fun
 	 */
 	@Nonnull
 	default <V1, V2> LToLongBiFunctionX<V1, V2, X> from(@Nonnull final LToLongFunctionX<? super V1, X> before1, @Nonnull final LToLongFunctionX<? super V2, X> before2) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
+		Null.nonNullArg(before1, "before1");
+		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApplyAsLong(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
 	}
 
@@ -176,12 +193,11 @@ public interface LLongBinaryOperatorX<X extends Exception> extends java.util.fun
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default <V> LLongBiFunctionX<V, X> then(@Nonnull LLongFunctionX<? extends V, X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (long l1, long l2) -> after.doApply(this.doApplyAsLong(l1, l2));
 	}
 
 	// </editor-fold>
-
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
@@ -210,57 +226,14 @@ public interface LLongBinaryOperatorX<X extends Exception> extends java.util.fun
 
 	// <editor-fold desc="exception handling">
 
-	/** Wraps with additional exception handling. */
 	@Nonnull
-	public static <X extends Exception, E extends Exception, Y extends Exception> LLongBinaryOperatorX<Y> wrapException(@Nonnull final LLongBinaryOperatorX<X> other, Class<E> exception, LLongSupplierX<X> supplier, ExceptionHandler<E, Y> handler) {
-		return (long l1, long l2) -> {
-			try {
-				return other.doApplyAsLong(l1, l2);
-			} catch (Exception e) {
-				try {
-					if (supplier != null) {
-						return supplier.doGetAsLong();
-					}
-				} catch (Exception supplierException) {
-					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
-				}
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
+	default LLongBinaryOperator handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+		return (long l1, long l2) -> this.handlingDoApplyAsLong(l1, l2, handling);
 	}
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <E extends Exception, Y extends Exception> LLongBinaryOperatorX<Y> handleX(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LLongBinaryOperatorX.wrapException(this, exception, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends Exception> LLongBinaryOperatorX<Y> handleX(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LLongBinaryOperatorX.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <E extends Exception, Y extends Exception> LLongBinaryOperatorX<Y> handleX(Class<E> exception, LLongSupplierX<X> supplier) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LLongBinaryOperatorX.wrapException(this, exception, supplier, null);
-	}
-
-	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <Y extends Exception> LLongBinaryOperatorX<Y> handleX(LLongSupplierX<X> supplier) {
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LLongBinaryOperatorX.wrapException(this, Exception.class, supplier, null);
+	default <Y extends Throwable> LLongBinaryOperatorX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+		return (long l1, long l2) -> this.handlingDoApplyAsLong(l1, l2, handling);
 	}
 
 	// </editor-fold>

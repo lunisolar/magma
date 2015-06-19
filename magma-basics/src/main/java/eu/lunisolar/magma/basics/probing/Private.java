@@ -17,12 +17,38 @@
  * along with "lunisolar-magma".  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eu.lunisolar.magma.basics;
+package eu.lunisolar.magma.basics.probing;
 
-public class NestedException extends RuntimeException {
+import java.util.*;
 
-    public NestedException(Throwable cause) {
-        super(cause.getMessage(), cause);
+class Private {
+
+    // <editor-fold desc="internals">
+
+    static boolean isItemInArray(Object item, Object[] arrayOfValues) {
+        if (arrayOfValues == null) {
+            return false;
+        }
+
+        for (Object value : arrayOfValues) {
+            if (Objects.equals(value, item)) {
+                return true;
+            }
+        }
+        return false;
     }
 
+    static Throwable getRootCause(Throwable throwable) {
+        if (throwable.getCause() == null) {
+            return null;
+        }
+
+        Throwable cause;
+        while ((cause = throwable.getCause()) != null) {
+            throwable = cause;
+        }
+        return throwable;
+    }
+
+    // </editor-fold>
 }

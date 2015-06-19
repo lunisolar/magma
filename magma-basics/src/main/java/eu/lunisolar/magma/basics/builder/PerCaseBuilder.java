@@ -19,13 +19,12 @@
 
 package eu.lunisolar.magma.basics.builder;
 
+import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.basics.fluent.Fluent;
 
 import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.function.*;
-
-import static java.util.Objects.*;
 
 /**
  * Abstract implementation of a per case builder of a complex implementation of a functional interface.
@@ -44,7 +43,7 @@ public abstract class PerCaseBuilder<PCB extends PerCaseBuilder<PCB, P, F, PC>, 
     protected @Nonnull F eventually;
 
     public PerCaseBuilder(@Nonnull F eventually) {
-        this.eventually = requireNonNull(eventually, "Argument [eventually] cannot be null.");
+        this.eventually =  Null.nonNullArg(eventually, "eventually");
     }
 
     // <editor-fold desc="case">
@@ -56,13 +55,13 @@ public abstract class PerCaseBuilder<PCB extends PerCaseBuilder<PCB, P, F, PC>, 
 
     /** Starts adding the case to the list. Changes also the fluent context. */
     public final PC inCase(@Nonnull P casePredicate) {
-        requireNonNull(casePredicate, "Argument [casePredicate] cannot be null.");
+        Null.nonNullArg(casePredicate, "casePredicate");
         return partialCaseFactoryMethod(casePredicate);
     }
 
     /** Starts adding the case to the list. */
     public final PCB addCase(Consumer<CaseBuilder<P, PC>> caseBuilderConsumer) {
-        requireNonNull(caseBuilderConsumer, "Argument [caseBuilderConsumer] cannot be null.");
+        Null.nonNullArg(caseBuilderConsumer, "caseBuilderConsumer");
         caseBuilderConsumer.accept(new CaseBuilder<>(this::partialCaseFactoryMethod));
         return self();
     }

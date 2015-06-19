@@ -24,6 +24,7 @@ import java.util.Comparator; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -58,7 +59,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LUnaryOperatorX<T, X extends Exception> extends java.util.function.UnaryOperator<T>, MetaOperator, MetaInterface.Throwing<X> { // NOSONAR
+public interface LUnaryOperatorX<T, X extends Throwable> extends java.util.function.UnaryOperator<T>, MetaOperator, MetaInterface.Throwing<X> { // NOSONAR
 
 	public static final String DESCRIPTION = "LUnaryOperatorX: T doApply(T t) throws X";
 
@@ -75,9 +76,9 @@ public interface LUnaryOperatorX<T, X extends Exception> extends java.util.funct
 	default T nestingDoApply(T t) {
 		try {
 			return this.doApply(t);
-		} catch (RuntimeException e) {
+		} catch (RuntimeException | Error e) {
 			throw e;
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new NestedException(e);
 		}
 	}
@@ -86,12 +87,21 @@ public interface LUnaryOperatorX<T, X extends Exception> extends java.util.funct
 		return ((LUnaryOperatorX<T, RuntimeException>) this).doApply(t);
 	}
 
+	default <Y extends Throwable> T handlingDoApply(T t, HandlingInstructions<Throwable, Y> handling) throws Y {
+
+		try {
+			return this.doApply(t);
+		} catch (Throwable e) {
+			throw Handler.handleOrNest(e, handling);
+		}
+	}
+
 	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
 	@Nonnull
 	default T nonNullDoApply(T t) throws X {
-		return Objects.requireNonNull(doApply(t), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Null.requireNonNull(doApply(t), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -105,14 +115,21 @@ public interface LUnaryOperatorX<T, X extends Exception> extends java.util.funct
 		return () -> this.doApply(t);
 	}
 
-	public static <T, X extends Exception> LUnaryOperatorX<T, X> constant(T r) {
+	public static <T, X extends Throwable> LUnaryOperatorX<T, X> constant(T r) {
 		return (t) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T, X extends Exception> LUnaryOperatorX<T, X> lX(final @Nonnull LUnaryOperatorX<T, X> lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+	public static <T, X extends Throwable> LUnaryOperatorX<T, X> lX(final @Nonnull LUnaryOperatorX<T, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	public static <T, X extends Throwable> LUnaryOperatorX<T, X> lX(@Nonnull Class<X> xClass, final @Nonnull LUnaryOperatorX<T, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -120,13 +137,13 @@ public interface LUnaryOperatorX<T, X extends Exception> extends java.util.funct
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T, X extends Exception> LUnaryOperatorX<T, X> wrap(final java.util.function.UnaryOperator<T> other) {
+	public static <T, X extends Throwable> LUnaryOperatorX<T, X> wrap(final java.util.function.UnaryOperator<T> other) {
 		return other::apply;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, X extends Exception> LUnaryOperatorX<T, X> wrapX(final @Nonnull LUnaryOperator<T> other) {
+	public static <T, X extends Throwable> LUnaryOperatorX<T, X> wrapX(final @Nonnull LUnaryOperator<T> other) {
 		return (LUnaryOperatorX) other;
 	}
 
@@ -137,63 +154,63 @@ public interface LUnaryOperatorX<T, X extends Exception> extends java.util.funct
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default <V> LFunctionX<T, V, X> then(@Nonnull LFunctionX<? super T, ? extends V, X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (T t) -> after.doApply(this.doApply(t));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LToByteFunctionX<T, X> thenToByte(@Nonnull LToByteFunctionX<? super T, X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (T t) -> after.doApplyAsByte(this.doApply(t));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LToShortFunctionX<T, X> thenToShort(@Nonnull LToShortFunctionX<? super T, X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (T t) -> after.doApplyAsShort(this.doApply(t));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LToIntFunctionX<T, X> thenToInt(@Nonnull LToIntFunctionX<? super T, X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (T t) -> after.doApplyAsInt(this.doApply(t));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LToLongFunctionX<T, X> thenToLong(@Nonnull LToLongFunctionX<? super T, X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (T t) -> after.doApplyAsLong(this.doApply(t));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LToFloatFunctionX<T, X> thenToFloat(@Nonnull LToFloatFunctionX<? super T, X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (T t) -> after.doApplyAsFloat(this.doApply(t));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LToDoubleFunctionX<T, X> thenToDouble(@Nonnull LToDoubleFunctionX<? super T, X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (T t) -> after.doApplyAsDouble(this.doApply(t));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LToCharFunctionX<T, X> thenToChar(@Nonnull LToCharFunctionX<? super T, X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (T t) -> after.doApplyAsChar(this.doApply(t));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LPredicateX<T, X> thenToBoolean(@Nonnull LPredicateX<? super T, X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (T t) -> after.doTest(this.doApply(t));
 	}
 
@@ -201,10 +218,9 @@ public interface LUnaryOperatorX<T, X extends Exception> extends java.util.funct
 
 	/** Returns a function that always returns its input argument. */
 	@Nonnull
-	public static <V, X extends Exception> LUnaryOperatorX<V, X> identity() {
+	public static <V, X extends Throwable> LUnaryOperatorX<V, X> identity() {
 		return t -> t;
 	}
-
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
@@ -238,57 +254,14 @@ public interface LUnaryOperatorX<T, X extends Exception> extends java.util.funct
 
 	// <editor-fold desc="exception handling">
 
-	/** Wraps with additional exception handling. */
 	@Nonnull
-	public static <T, X extends Exception, E extends Exception, Y extends Exception> LUnaryOperatorX<T, Y> wrapException(@Nonnull final LUnaryOperatorX<T, X> other, Class<E> exception, LSupplierX<T, X> supplier, ExceptionHandler<E, Y> handler) {
-		return (T t) -> {
-			try {
-				return other.doApply(t);
-			} catch (Exception e) {
-				try {
-					if (supplier != null) {
-						return supplier.doGet();
-					}
-				} catch (Exception supplierException) {
-					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
-				}
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
+	default LUnaryOperator<T> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+		return (T t) -> this.handlingDoApply(t, handling);
 	}
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <E extends Exception, Y extends Exception> LUnaryOperatorX<T, Y> handleX(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LUnaryOperatorX.wrapException(this, exception, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends Exception> LUnaryOperatorX<T, Y> handleX(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LUnaryOperatorX.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <E extends Exception, Y extends Exception> LUnaryOperatorX<T, Y> handleX(Class<E> exception, LSupplierX<T, X> supplier) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LUnaryOperatorX.wrapException(this, exception, supplier, null);
-	}
-
-	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <Y extends Exception> LUnaryOperatorX<T, Y> handleX(LSupplierX<T, X> supplier) {
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LUnaryOperatorX.wrapException(this, Exception.class, supplier, null);
+	default <Y extends Throwable> LUnaryOperatorX<T, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+		return (T t) -> this.handlingDoApply(t, handling);
 	}
 
 	// </editor-fold>

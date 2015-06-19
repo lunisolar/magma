@@ -20,11 +20,13 @@
 package eu.lunisolar.magma.func.build.function.conversion;
 
 import eu.lunisolar.magma.func.function.conversion.*;
+import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -47,9 +49,11 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for LFloatToIntFunctionX. */
-public final class LFloatToIntFunctionXBuilder<X extends Exception> extends PerCaseBuilderWithIntProduct.Base<LFloatToIntFunctionXBuilder<X>, LFloatPredicateX<X>, LFloatToIntFunctionX<X>> {
+public final class LFloatToIntFunctionXBuilder<X extends Throwable> extends PerCaseBuilderWithIntProduct.Base<LFloatToIntFunctionXBuilder<X>, LFloatPredicateX<X>, LFloatToIntFunctionX<X>> {
 
 	private Consumer<LFloatToIntFunctionX<X>> consumer;
+
+	private @Nullable HandlingInstructions handling;
 
 	public static final LFloatToIntFunctionX EVENTUALLY_THROW = LFloatToIntFunctionX.lX((float f) -> {
 		String message;
@@ -59,7 +63,7 @@ public final class LFloatToIntFunctionXBuilder<X extends Exception> extends PerC
 				message = "No case specified for input data (no details can be provided).";
 			}
 
-			throw new UnsupportedOperationException(message);
+			throw new IllegalStateException(message);
 		});
 
 	public LFloatToIntFunctionXBuilder(@Nullable Consumer<LFloatToIntFunctionX<X>> consumer) {
@@ -75,14 +79,25 @@ public final class LFloatToIntFunctionXBuilder<X extends Exception> extends PerC
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <X extends Exception> LFloatToIntFunctionXBuilder<X> floatToIntFunctionX() {
+	public static final <X extends Throwable> LFloatToIntFunctionXBuilder<X> floatToIntFunctionX() {
 		return new LFloatToIntFunctionXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <X extends Exception> LFloatToIntFunctionXBuilder<X> floatToIntFunctionX(Consumer<LFloatToIntFunctionX<X>> consumer) {
+	public static final <X extends Throwable> LFloatToIntFunctionXBuilder<X> floatToIntFunctionX(Consumer<LFloatToIntFunctionX<X>> consumer) {
 		return new LFloatToIntFunctionXBuilder(consumer);
+	}
+
+	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
+	@Nonnull
+	public final LFloatToIntFunctionXBuilder<X> withHandling(@Nonnull HandlingInstructions<X, X> handling) {
+		Null.nonNullArg(handling, "handling");
+		if (this.handling != null) {
+			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+		}
+		this.handling = handling;
+		return self();
 	}
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
@@ -93,11 +108,9 @@ public final class LFloatToIntFunctionXBuilder<X extends Exception> extends PerC
 
 		LFloatToIntFunctionX<X> retval;
 
-		if (cases.isEmpty()) {
-			retval = eventuallyFinal;
-		} else {
-			final Case<LFloatPredicateX<X>, LFloatToIntFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-			retval = LFloatToIntFunctionX.lX((float f) -> {
+		final Case<LFloatPredicateX<X>, LFloatToIntFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = LFloatToIntFunctionX.lX((float f) -> {
+			try {
 				for (Case<LFloatPredicateX<X>, LFloatToIntFunctionX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(f)) {
 						return aCase.caseFunction().doApplyAsInt(f);
@@ -105,13 +118,20 @@ public final class LFloatToIntFunctionXBuilder<X extends Exception> extends PerC
 				}
 
 				return eventuallyFinal.doApplyAsInt(f);
-			});
-		}
+			} catch (Throwable e) {
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);
 		}
 		return retval;
+	}
+
+	public final LFloatToIntFunctionX<X> build(@Nonnull HandlingInstructions<X, X> handling) {
+		this.withHandling(handling);
+		return build();
 	}
 
 }

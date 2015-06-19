@@ -20,11 +20,13 @@
 package eu.lunisolar.magma.func.build.predicate;
 
 import eu.lunisolar.magma.func.predicate.*;
+import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -47,9 +49,11 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for LBiDoublePredicateX. */
-public final class LBiDoublePredicateXBuilder<X extends Exception> extends PerCaseBuilderWithBooleanProduct.Base<LBiDoublePredicateXBuilder<X>, LBiDoublePredicateX<X>, LBiDoublePredicateX<X>> {
+public final class LBiDoublePredicateXBuilder<X extends Throwable> extends PerCaseBuilderWithBooleanProduct.Base<LBiDoublePredicateXBuilder<X>, LBiDoublePredicateX<X>, LBiDoublePredicateX<X>> {
 
 	private Consumer<LBiDoublePredicateX<X>> consumer;
+
+	private @Nullable HandlingInstructions handling;
 
 	public static final LBiDoublePredicateX EVENTUALLY_THROW = LBiDoublePredicateX.lX((double d1, double d2) -> {
 		String message;
@@ -59,7 +63,7 @@ public final class LBiDoublePredicateXBuilder<X extends Exception> extends PerCa
 				message = "No case specified for input data (no details can be provided).";
 			}
 
-			throw new UnsupportedOperationException(message);
+			throw new IllegalStateException(message);
 		});
 
 	public LBiDoublePredicateXBuilder(@Nullable Consumer<LBiDoublePredicateX<X>> consumer) {
@@ -75,14 +79,25 @@ public final class LBiDoublePredicateXBuilder<X extends Exception> extends PerCa
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <X extends Exception> LBiDoublePredicateXBuilder<X> biDoublePredicateX() {
+	public static final <X extends Throwable> LBiDoublePredicateXBuilder<X> biDoublePredicateX() {
 		return new LBiDoublePredicateXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <X extends Exception> LBiDoublePredicateXBuilder<X> biDoublePredicateX(Consumer<LBiDoublePredicateX<X>> consumer) {
+	public static final <X extends Throwable> LBiDoublePredicateXBuilder<X> biDoublePredicateX(Consumer<LBiDoublePredicateX<X>> consumer) {
 		return new LBiDoublePredicateXBuilder(consumer);
+	}
+
+	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
+	@Nonnull
+	public final LBiDoublePredicateXBuilder<X> withHandling(@Nonnull HandlingInstructions<X, X> handling) {
+		Null.nonNullArg(handling, "handling");
+		if (this.handling != null) {
+			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+		}
+		this.handling = handling;
+		return self();
 	}
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
@@ -93,11 +108,9 @@ public final class LBiDoublePredicateXBuilder<X extends Exception> extends PerCa
 
 		LBiDoublePredicateX<X> retval;
 
-		if (cases.isEmpty()) {
-			retval = eventuallyFinal;
-		} else {
-			final Case<LBiDoublePredicateX<X>, LBiDoublePredicateX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-			retval = LBiDoublePredicateX.lX((double d1, double d2) -> {
+		final Case<LBiDoublePredicateX<X>, LBiDoublePredicateX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = LBiDoublePredicateX.lX((double d1, double d2) -> {
+			try {
 				for (Case<LBiDoublePredicateX<X>, LBiDoublePredicateX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(d1, d2)) {
 						return aCase.caseFunction().doTest(d1, d2);
@@ -105,13 +118,20 @@ public final class LBiDoublePredicateXBuilder<X extends Exception> extends PerCa
 				}
 
 				return eventuallyFinal.doTest(d1, d2);
-			});
-		}
+			} catch (Throwable e) {
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);
 		}
 		return retval;
+	}
+
+	public final LBiDoublePredicateX<X> build(@Nonnull HandlingInstructions<X, X> handling) {
+		this.withHandling(handling);
+		return build();
 	}
 
 }

@@ -20,11 +20,13 @@
 package eu.lunisolar.magma.func.build.operator.binary;
 
 import eu.lunisolar.magma.func.operator.binary.*;
+import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -47,9 +49,11 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for LIntBinaryOperatorX. */
-public final class LIntBinaryOperatorXBuilder<X extends Exception> extends PerCaseBuilderWithIntProduct.Base<LIntBinaryOperatorXBuilder<X>, LBiIntPredicateX<X>, LIntBinaryOperatorX<X>> {
+public final class LIntBinaryOperatorXBuilder<X extends Throwable> extends PerCaseBuilderWithIntProduct.Base<LIntBinaryOperatorXBuilder<X>, LBiIntPredicateX<X>, LIntBinaryOperatorX<X>> {
 
 	private Consumer<LIntBinaryOperatorX<X>> consumer;
+
+	private @Nullable HandlingInstructions handling;
 
 	public static final LIntBinaryOperatorX EVENTUALLY_THROW = LIntBinaryOperatorX.lX((int i1, int i2) -> {
 		String message;
@@ -59,7 +63,7 @@ public final class LIntBinaryOperatorXBuilder<X extends Exception> extends PerCa
 				message = "No case specified for input data (no details can be provided).";
 			}
 
-			throw new UnsupportedOperationException(message);
+			throw new IllegalStateException(message);
 		});
 
 	public LIntBinaryOperatorXBuilder(@Nullable Consumer<LIntBinaryOperatorX<X>> consumer) {
@@ -75,14 +79,25 @@ public final class LIntBinaryOperatorXBuilder<X extends Exception> extends PerCa
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <X extends Exception> LIntBinaryOperatorXBuilder<X> intBinaryOperatorX() {
+	public static final <X extends Throwable> LIntBinaryOperatorXBuilder<X> intBinaryOperatorX() {
 		return new LIntBinaryOperatorXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <X extends Exception> LIntBinaryOperatorXBuilder<X> intBinaryOperatorX(Consumer<LIntBinaryOperatorX<X>> consumer) {
+	public static final <X extends Throwable> LIntBinaryOperatorXBuilder<X> intBinaryOperatorX(Consumer<LIntBinaryOperatorX<X>> consumer) {
 		return new LIntBinaryOperatorXBuilder(consumer);
+	}
+
+	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
+	@Nonnull
+	public final LIntBinaryOperatorXBuilder<X> withHandling(@Nonnull HandlingInstructions<X, X> handling) {
+		Null.nonNullArg(handling, "handling");
+		if (this.handling != null) {
+			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+		}
+		this.handling = handling;
+		return self();
 	}
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
@@ -93,11 +108,9 @@ public final class LIntBinaryOperatorXBuilder<X extends Exception> extends PerCa
 
 		LIntBinaryOperatorX<X> retval;
 
-		if (cases.isEmpty()) {
-			retval = eventuallyFinal;
-		} else {
-			final Case<LBiIntPredicateX<X>, LIntBinaryOperatorX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-			retval = LIntBinaryOperatorX.lX((int i1, int i2) -> {
+		final Case<LBiIntPredicateX<X>, LIntBinaryOperatorX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = LIntBinaryOperatorX.lX((int i1, int i2) -> {
+			try {
 				for (Case<LBiIntPredicateX<X>, LIntBinaryOperatorX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(i1, i2)) {
 						return aCase.caseFunction().doApplyAsInt(i1, i2);
@@ -105,13 +118,20 @@ public final class LIntBinaryOperatorXBuilder<X extends Exception> extends PerCa
 				}
 
 				return eventuallyFinal.doApplyAsInt(i1, i2);
-			});
-		}
+			} catch (Throwable e) {
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);
 		}
 		return retval;
+	}
+
+	public final LIntBinaryOperatorX<X> build(@Nonnull HandlingInstructions<X, X> handling) {
+		this.withHandling(handling);
+		return build();
 	}
 
 }

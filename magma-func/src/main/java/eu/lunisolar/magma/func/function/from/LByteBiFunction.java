@@ -24,6 +24,7 @@ import java.util.Comparator; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -78,7 +79,7 @@ public interface LByteBiFunction<R> extends LByteBiFunctionX<R, RuntimeException
 	/** Ensures the result is not null */
 	@Nonnull
 	default R nonNullDoApply(byte b1, byte b2) {
-		return Objects.requireNonNull(doApply(b1, b2), NULL_VALUE_MESSAGE_SUPPLIER);
+		return Null.requireNonNull(doApply(b1, b2), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -99,7 +100,7 @@ public interface LByteBiFunction<R> extends LByteBiFunctionX<R, RuntimeException
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <R> LByteBiFunction<R> l(final @Nonnull LByteBiFunction<R> lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -107,7 +108,7 @@ public interface LByteBiFunction<R> extends LByteBiFunctionX<R, RuntimeException
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <R, X extends Exception> LByteBiFunction<R> wrap(final @Nonnull LByteBiFunctionX<R, X> other) {
+	public static <R, X extends Throwable> LByteBiFunction<R> wrap(final @Nonnull LByteBiFunctionX<R, X> other) {
 		return other::nestingDoApply;
 	}
 
@@ -120,8 +121,8 @@ public interface LByteBiFunction<R> extends LByteBiFunctionX<R, RuntimeException
 	 */
 	@Nonnull
 	default LByteBiFunction<R> fromByte(@Nonnull final LByteUnaryOperator before1, @Nonnull final LByteUnaryOperator before2) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
+		Null.nonNullArg(before1, "before1");
+		Null.nonNullArg(before2, "before2");
 		return (final byte v1, final byte v2) -> this.doApply(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
 	}
 
@@ -130,8 +131,8 @@ public interface LByteBiFunction<R> extends LByteBiFunctionX<R, RuntimeException
 	 */
 	@Nonnull
 	default <V1, V2> LBiFunction<V1, V2, R> from(@Nonnull final LToByteFunction<? super V1> before1, @Nonnull final LToByteFunction<? super V2> before2) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
+		Null.nonNullArg(before1, "before1");
+		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApply(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
 	}
 
@@ -142,19 +143,18 @@ public interface LByteBiFunction<R> extends LByteBiFunctionX<R, RuntimeException
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default <V> LByteBiFunction<V> then(@Nonnull LFunction<? super R, ? extends V> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (byte b1, byte b2) -> after.doApply(this.doApply(b1, b2));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteBiConsumer then(@Nonnull LConsumer<? super R> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (byte b1, byte b2) -> after.doAccept(this.doApply(b1, b2));
 	}
 
 	// </editor-fold>
-
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
@@ -185,62 +185,5 @@ public interface LByteBiFunction<R> extends LByteBiFunctionX<R, RuntimeException
 	default LByteBiFunction<R> nonNullable() {
 		return this::nonNullDoApply;
 	}
-
-	// <editor-fold desc="exception handling">
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <R, X extends Exception, E extends Exception, Y extends RuntimeException> LByteBiFunction<R> wrapException(@Nonnull final LByteBiFunction<R> other, Class<E> exception, LSupplier<R> supplier, ExceptionHandler<E, Y> handler) {
-		return (byte b1, byte b2) -> {
-			try {
-				return other.doApply(b1, b2);
-			} catch (Exception e) {
-				try {
-					if (supplier != null) {
-						return supplier.doGet();
-					}
-				} catch (Exception supplierException) {
-					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
-				}
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
-	}
-
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
-	@Nonnull
-	default <E extends Exception, Y extends RuntimeException> LByteBiFunction<R> handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LByteBiFunction.wrapException(this, exception, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends RuntimeException> LByteBiFunction<R> handle(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LByteBiFunction.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <E extends Exception, Y extends RuntimeException> LByteBiFunction<R> handle(Class<E> exception, LSupplier<R> supplier) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LByteBiFunction.wrapException(this, exception, supplier, null);
-	}
-
-	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <Y extends RuntimeException> LByteBiFunction<R> handle(LSupplier<R> supplier) {
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LByteBiFunction.wrapException(this, Exception.class, supplier, null);
-	}
-
-	// </editor-fold>
 
 }

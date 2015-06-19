@@ -20,11 +20,13 @@
 package eu.lunisolar.magma.func.build.function.from;
 
 import eu.lunisolar.magma.func.function.from.*;
+import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -51,6 +53,8 @@ public final class LBiObjDoubleFunctionBuilder<T1, T2, R> extends PerCaseBuilder
 
 	private Consumer<LBiObjDoubleFunction<T1, T2, R>> consumer;
 
+	private @Nullable HandlingInstructions handling;
+
 	public static final LBiObjDoubleFunction EVENTUALLY_THROW = LBiObjDoubleFunction.l((Object t1, Object t2, double d) -> {
 		String message;
 		try {
@@ -59,7 +63,7 @@ public final class LBiObjDoubleFunctionBuilder<T1, T2, R> extends PerCaseBuilder
 				message = "No case specified for input data (no details can be provided).";
 			}
 
-			throw new UnsupportedOperationException(message);
+			throw new IllegalStateException(message);
 		});
 
 	public LBiObjDoubleFunctionBuilder(@Nullable Consumer<LBiObjDoubleFunction<T1, T2, R>> consumer) {
@@ -85,6 +89,17 @@ public final class LBiObjDoubleFunctionBuilder<T1, T2, R> extends PerCaseBuilder
 		return new LBiObjDoubleFunctionBuilder(consumer);
 	}
 
+	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
+	@Nonnull
+	public final LBiObjDoubleFunctionBuilder<T1, T2, R> withHandling(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+		Null.nonNullArg(handling, "handling");
+		if (this.handling != null) {
+			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+		}
+		this.handling = handling;
+		return self();
+	}
+
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
 	@Nonnull
 	public final LBiObjDoubleFunction<T1, T2, R> build() {
@@ -93,11 +108,9 @@ public final class LBiObjDoubleFunctionBuilder<T1, T2, R> extends PerCaseBuilder
 
 		LBiObjDoubleFunction<T1, T2, R> retval;
 
-		if (cases.isEmpty()) {
-			retval = eventuallyFinal;
-		} else {
-			final Case<LBiObjDoublePredicate<T1, T2>, LBiObjDoubleFunction<T1, T2, R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-			retval = LBiObjDoubleFunction.l((T1 t1, T2 t2, double d) -> {
+		final Case<LBiObjDoublePredicate<T1, T2>, LBiObjDoubleFunction<T1, T2, R>>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = LBiObjDoubleFunction.l((T1 t1, T2 t2, double d) -> {
+			try {
 				for (Case<LBiObjDoublePredicate<T1, T2>, LBiObjDoubleFunction<T1, T2, R>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(t1, t2, d)) {
 						return aCase.caseFunction().doApply(t1, t2, d);
@@ -105,13 +118,20 @@ public final class LBiObjDoubleFunctionBuilder<T1, T2, R> extends PerCaseBuilder
 				}
 
 				return eventuallyFinal.doApply(t1, t2, d);
-			});
-		}
+			} catch (Throwable e) {
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);
 		}
 		return retval;
+	}
+
+	public final LBiObjDoubleFunction<T1, T2, R> build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+		this.withHandling(handling);
+		return build();
 	}
 
 }

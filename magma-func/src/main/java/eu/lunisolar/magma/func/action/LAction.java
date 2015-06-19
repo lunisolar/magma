@@ -20,9 +20,11 @@
 package eu.lunisolar.magma.func.action;
 
 import javax.annotation.Nonnull; // NOSONAR
+import javax.annotation.Nullable; // NOSONAR
 import java.util.Objects;// NOSONAR
 import java.util.function.Predicate; //NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
@@ -81,7 +83,7 @@ public interface LAction extends LActionX<RuntimeException>, MetaAction, MetaInt
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static LAction l(final @Nonnull LAction lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -95,7 +97,7 @@ public interface LAction extends LActionX<RuntimeException>, MetaAction, MetaInt
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Exception> LAction wrap(final @Nonnull LActionX<X> other) {
+	public static <X extends Throwable> LAction wrap(final @Nonnull LActionX<X> other) {
 		return other::nestingDoExecute;
 	}
 
@@ -106,15 +108,14 @@ public interface LAction extends LActionX<RuntimeException>, MetaAction, MetaInt
 	/** Combines two actions together in a order. */
 	@Nonnull
 	default LAction andThen(@Nonnull LAction after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return () -> {
 			this.doExecute();
 			after.doExecute();
 		};
 	}
 
-	// </editor-fold>
-	// <editor-fold desc="variant conversions">
+	// </editor-fold> // <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
@@ -136,39 +137,6 @@ public interface LAction extends LActionX<RuntimeException>, MetaAction, MetaInt
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LActionX<RuntimeException> shoveX() {
 		return this;
-	}
-
-	// </editor-fold>
-
-	// <editor-fold desc="exception handling">
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <X extends Exception, E extends Exception, Y extends RuntimeException> LAction wrapException(@Nonnull final LAction other, Class<E> exception, ExceptionHandler<E, Y> handler) {
-		return () -> {
-			try {
-				other.doExecute();
-			} catch (Exception e) {
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
-	}
-
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
-	@Nonnull
-	default <E extends Exception, Y extends RuntimeException> LAction handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LAction.wrapException(this, exception, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends RuntimeException> LAction handle(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LAction.wrapException(this, Exception.class, (ExceptionHandler) handler);
 	}
 
 	// </editor-fold>

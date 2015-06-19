@@ -20,11 +20,13 @@
 package eu.lunisolar.magma.func.build.function.conversion;
 
 import eu.lunisolar.magma.func.function.conversion.*;
+import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -47,9 +49,11 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for LLongToCharFunctionX. */
-public final class LLongToCharFunctionXBuilder<X extends Exception> extends PerCaseBuilderWithCharProduct.Base<LLongToCharFunctionXBuilder<X>, LLongPredicateX<X>, LLongToCharFunctionX<X>> {
+public final class LLongToCharFunctionXBuilder<X extends Throwable> extends PerCaseBuilderWithCharProduct.Base<LLongToCharFunctionXBuilder<X>, LLongPredicateX<X>, LLongToCharFunctionX<X>> {
 
 	private Consumer<LLongToCharFunctionX<X>> consumer;
+
+	private @Nullable HandlingInstructions handling;
 
 	public static final LLongToCharFunctionX EVENTUALLY_THROW = LLongToCharFunctionX.lX((long l) -> {
 		String message;
@@ -59,7 +63,7 @@ public final class LLongToCharFunctionXBuilder<X extends Exception> extends PerC
 				message = "No case specified for input data (no details can be provided).";
 			}
 
-			throw new UnsupportedOperationException(message);
+			throw new IllegalStateException(message);
 		});
 
 	public LLongToCharFunctionXBuilder(@Nullable Consumer<LLongToCharFunctionX<X>> consumer) {
@@ -75,14 +79,25 @@ public final class LLongToCharFunctionXBuilder<X extends Exception> extends PerC
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <X extends Exception> LLongToCharFunctionXBuilder<X> longToCharFunctionX() {
+	public static final <X extends Throwable> LLongToCharFunctionXBuilder<X> longToCharFunctionX() {
 		return new LLongToCharFunctionXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <X extends Exception> LLongToCharFunctionXBuilder<X> longToCharFunctionX(Consumer<LLongToCharFunctionX<X>> consumer) {
+	public static final <X extends Throwable> LLongToCharFunctionXBuilder<X> longToCharFunctionX(Consumer<LLongToCharFunctionX<X>> consumer) {
 		return new LLongToCharFunctionXBuilder(consumer);
+	}
+
+	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
+	@Nonnull
+	public final LLongToCharFunctionXBuilder<X> withHandling(@Nonnull HandlingInstructions<X, X> handling) {
+		Null.nonNullArg(handling, "handling");
+		if (this.handling != null) {
+			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+		}
+		this.handling = handling;
+		return self();
 	}
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
@@ -93,11 +108,9 @@ public final class LLongToCharFunctionXBuilder<X extends Exception> extends PerC
 
 		LLongToCharFunctionX<X> retval;
 
-		if (cases.isEmpty()) {
-			retval = eventuallyFinal;
-		} else {
-			final Case<LLongPredicateX<X>, LLongToCharFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-			retval = LLongToCharFunctionX.lX((long l) -> {
+		final Case<LLongPredicateX<X>, LLongToCharFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = LLongToCharFunctionX.lX((long l) -> {
+			try {
 				for (Case<LLongPredicateX<X>, LLongToCharFunctionX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(l)) {
 						return aCase.caseFunction().doApplyAsChar(l);
@@ -105,13 +118,20 @@ public final class LLongToCharFunctionXBuilder<X extends Exception> extends PerC
 				}
 
 				return eventuallyFinal.doApplyAsChar(l);
-			});
-		}
+			} catch (Throwable e) {
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);
 		}
 		return retval;
+	}
+
+	public final LLongToCharFunctionX<X> build(@Nonnull HandlingInstructions<X, X> handling) {
+		this.withHandling(handling);
+		return build();
 	}
 
 }

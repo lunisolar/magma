@@ -23,6 +23,7 @@ import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
@@ -59,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBiObjFloatConsumerX<T1, T2, X extends Exception> extends MetaConsumer, MetaInterface.Throwing<X> {
+public interface LBiObjFloatConsumerX<T1, T2, X extends Throwable> extends MetaConsumer, MetaInterface.Throwing<X> {
 
 	public static final String DESCRIPTION = "LBiObjFloatConsumerX: void doAccept(T1 t1,T2 t2, float f) throws X";
 
@@ -68,15 +69,24 @@ public interface LBiObjFloatConsumerX<T1, T2, X extends Exception> extends MetaC
 	default void nestingDoAccept(T1 t1, T2 t2, float f) {
 		try {
 			this.doAccept(t1, t2, f);
-		} catch (RuntimeException e) {
+		} catch (RuntimeException | Error e) {
 			throw e;
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new NestedException(e);
 		}
 	}
 
 	default void shovingDoAccept(T1 t1, T2 t2, float f) {
 		((LBiObjFloatConsumerX<T1, T2, RuntimeException>) this).doAccept(t1, t2, f);
+	}
+
+	default <Y extends Throwable> void handlingDoAccept(T1 t1, T2 t2, float f, HandlingInstructions<Throwable, Y> handling) throws Y {
+
+		try {
+			this.doAccept(t1, t2, f);
+		} catch (Throwable e) {
+			throw Handler.handleOrNest(e, handling);
+		}
 	}
 
 	/** Returns desxription of the functional interface. */
@@ -92,8 +102,15 @@ public interface LBiObjFloatConsumerX<T1, T2, X extends Exception> extends MetaC
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T1, T2, X extends Exception> LBiObjFloatConsumerX<T1, T2, X> lX(final @Nonnull LBiObjFloatConsumerX<T1, T2, X> lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+	public static <T1, T2, X extends Throwable> LBiObjFloatConsumerX<T1, T2, X> lX(final @Nonnull LBiObjFloatConsumerX<T1, T2, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
+		return lambda;
+	}
+
+	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
+	@Nonnull
+	public static <T1, T2, X extends Throwable> LBiObjFloatConsumerX<T1, T2, X> lX(@Nonnull Class<X> xClass, final @Nonnull LBiObjFloatConsumerX<T1, T2, X> lambda) {
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -101,7 +118,7 @@ public interface LBiObjFloatConsumerX<T1, T2, X extends Exception> extends MetaC
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T1, T2, X extends Exception> LBiObjFloatConsumerX<T1, T2, X> wrapX(final @Nonnull LBiObjFloatConsumer<T1, T2> other) {
+	public static <T1, T2, X extends Throwable> LBiObjFloatConsumerX<T1, T2, X> wrapX(final @Nonnull LBiObjFloatConsumer<T1, T2> other) {
 		return (LBiObjFloatConsumerX) other;
 	}
 
@@ -114,9 +131,9 @@ public interface LBiObjFloatConsumerX<T1, T2, X extends Exception> extends MetaC
 	 */
 	@Nonnull
 	default <V1, V2> LBiObjFloatConsumerX<V1, V2, X> fromFloat(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LFloatUnaryOperatorX<X> before3) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		Objects.requireNonNull(before3, Function4U.VALIDATION_MESSAGE_BEFORE3);
+		Null.nonNullArg(before1, "before1");
+		Null.nonNullArg(before2, "before2");
+		Null.nonNullArg(before3, "before3");
 		return (final V1 v1, final V2 v2, final float v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsFloat(v3));
 	}
 
@@ -125,9 +142,9 @@ public interface LBiObjFloatConsumerX<T1, T2, X extends Exception> extends MetaC
 	 */
 	@Nonnull
 	default <V1, V2, V3> LTriConsumerX<V1, V2, V3, X> from(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LToFloatFunctionX<? super V3, X> before3) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		Objects.requireNonNull(before3, Function4U.VALIDATION_MESSAGE_BEFORE3);
+		Null.nonNullArg(before1, "before1");
+		Null.nonNullArg(before2, "before2");
+		Null.nonNullArg(before3, "before3");
 		return (V1 v1, V2 v2, V3 v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsFloat(v3));
 	}
 
@@ -138,15 +155,14 @@ public interface LBiObjFloatConsumerX<T1, T2, X extends Exception> extends MetaC
 	/** Combines two consumers together in a order. */
 	@Nonnull
 	default LBiObjFloatConsumerX<T1, T2, X> andThen(@Nonnull LBiObjFloatConsumerX<? super T1, ? super T2, X> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (T1 t1, T2 t2, float f) -> {
 			this.doAccept(t1, t2, f);
 			after.doAccept(t1, t2, f);
 		};
 	}
 
-	// </editor-fold>
-	// <editor-fold desc="variant conversions">
+	// </editor-fold> // <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
@@ -174,33 +190,14 @@ public interface LBiObjFloatConsumerX<T1, T2, X extends Exception> extends MetaC
 
 	// <editor-fold desc="exception handling">
 
-	/** Wraps with additional exception handling. */
 	@Nonnull
-	public static <T1, T2, X extends Exception, E extends Exception, Y extends Exception> LBiObjFloatConsumerX<T1, T2, Y> wrapException(@Nonnull final LBiObjFloatConsumerX<T1, T2, X> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
-		return (T1 t1, T2 t2, float f) -> {
-			try {
-				other.doAccept(t1, t2, f);
-			} catch (Exception e) {
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
+	default LBiObjFloatConsumer<T1, T2> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+		return (T1 t1, T2 t2, float f) -> this.handlingDoAccept(t1, t2, f, handling);
 	}
 
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
 	@Nonnull
-	default <E extends Exception, Y extends Exception> LBiObjFloatConsumerX<T1, T2, Y> handleX(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LBiObjFloatConsumerX.wrapException(this, exception, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends Exception> LBiObjFloatConsumerX<T1, T2, Y> handleX(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LBiObjFloatConsumerX.wrapException(this, Exception.class, (ExceptionHandler) handler);
+	default <Y extends Throwable> LBiObjFloatConsumerX<T1, T2, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+		return (T1 t1, T2 t2, float f) -> this.handlingDoAccept(t1, t2, f, handling);
 	}
 
 	// </editor-fold>

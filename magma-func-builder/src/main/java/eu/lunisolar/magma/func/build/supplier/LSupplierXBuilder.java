@@ -20,11 +20,13 @@
 package eu.lunisolar.magma.func.build.supplier;
 
 import eu.lunisolar.magma.func.supplier.*;
+import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -47,9 +49,11 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for LSupplierX. */
-public final class LSupplierXBuilder<R, X extends Exception> extends PerCaseBuilderWithProduct.Base<LSupplierXBuilder<R, X>, LBooleanSupplierX<X>, LSupplierX<R, X>, R> {
+public final class LSupplierXBuilder<R, X extends Throwable> extends PerCaseBuilderWithProduct.Base<LSupplierXBuilder<R, X>, LBooleanSupplierX<X>, LSupplierX<R, X>, R> {
 
 	private Consumer<LSupplierX<R, X>> consumer;
+
+	private @Nullable HandlingInstructions handling;
 
 	public static final LSupplierX EVENTUALLY_THROW = LSupplierX.lX(() -> {
 		String message;
@@ -59,7 +63,7 @@ public final class LSupplierXBuilder<R, X extends Exception> extends PerCaseBuil
 				message = "No case specified for input data (no details can be provided).";
 			}
 
-			throw new UnsupportedOperationException(message);
+			throw new IllegalStateException(message);
 		});
 
 	public LSupplierXBuilder(@Nullable Consumer<LSupplierX<R, X>> consumer) {
@@ -75,14 +79,25 @@ public final class LSupplierXBuilder<R, X extends Exception> extends PerCaseBuil
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <R, X extends Exception> LSupplierXBuilder<R, X> supplierX() {
+	public static final <R, X extends Throwable> LSupplierXBuilder<R, X> supplierX() {
 		return new LSupplierXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <R, X extends Exception> LSupplierXBuilder<R, X> supplierX(Consumer<LSupplierX<R, X>> consumer) {
+	public static final <R, X extends Throwable> LSupplierXBuilder<R, X> supplierX(Consumer<LSupplierX<R, X>> consumer) {
 		return new LSupplierXBuilder(consumer);
+	}
+
+	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
+	@Nonnull
+	public final LSupplierXBuilder<R, X> withHandling(@Nonnull HandlingInstructions<X, X> handling) {
+		Null.nonNullArg(handling, "handling");
+		if (this.handling != null) {
+			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+		}
+		this.handling = handling;
+		return self();
 	}
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
@@ -93,11 +108,9 @@ public final class LSupplierXBuilder<R, X extends Exception> extends PerCaseBuil
 
 		LSupplierX<R, X> retval;
 
-		if (cases.isEmpty()) {
-			retval = eventuallyFinal;
-		} else {
-			final Case<LBooleanSupplierX<X>, LSupplierX<R, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-			retval = LSupplierX.lX(() -> {
+		final Case<LBooleanSupplierX<X>, LSupplierX<R, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = LSupplierX.lX(() -> {
+			try {
 				for (Case<LBooleanSupplierX<X>, LSupplierX<R, X>> aCase : casesArray) {
 					if (aCase.casePredicate().doGetAsBoolean()) {
 						return aCase.caseFunction().doGet();
@@ -105,13 +118,20 @@ public final class LSupplierXBuilder<R, X extends Exception> extends PerCaseBuil
 				}
 
 				return eventuallyFinal.doGet();
-			});
-		}
+			} catch (Throwable e) {
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);
 		}
 		return retval;
+	}
+
+	public final LSupplierX<R, X> build(@Nonnull HandlingInstructions<X, X> handling) {
+		this.withHandling(handling);
+		return build();
 	}
 
 }

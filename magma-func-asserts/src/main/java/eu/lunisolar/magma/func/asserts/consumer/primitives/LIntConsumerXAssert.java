@@ -33,13 +33,13 @@ import eu.lunisolar.magma.func.action.LAction;
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LIntConsumerX. */
-public interface LIntConsumerXAssert<S extends LIntConsumerXAssert<S, A, X>, A extends LIntConsumerX<X>, X extends Exception> extends Assert<S, A>, FunctionalAssert.Simple<S, A, Exception> {
+public interface LIntConsumerXAssert<S extends LIntConsumerXAssert<S, A, X>, A extends LIntConsumerX<X>, X extends Throwable> extends Assert<S, A>, FunctionalAssert.Simple<S, A, Exception> {
 
 	@Nonnull
 	SemiEvaluation<S, A, Exception> doesAccept(int i);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LIntConsumerX<X>, X extends Exception> extends Base<Impl<A, X>, A, X> {
+	public final static class Impl<A extends LIntConsumerX<X>, X extends Throwable> extends Base<Impl<A, X>, A, X> {
 
 		public Impl(A actual) {
 			super(actual, Impl.class);
@@ -47,7 +47,7 @@ public interface LIntConsumerXAssert<S extends LIntConsumerXAssert<S, A, X>, A e
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, X>, A extends LIntConsumerX<X>, X extends Exception> extends FunctionalAssert.Simple.Base<S, A, Exception> implements LIntConsumerXAssert<S, A, X> {
+	public static class Base<S extends Base<S, A, X>, A extends LIntConsumerX<X>, X extends Throwable> extends FunctionalAssert.Simple.Base<S, A, Exception> implements LIntConsumerXAssert<S, A, X> {
 
 		public Base(A actual, Class<?> selfType) {
 			super(actual, selfType);

@@ -20,11 +20,13 @@
 package eu.lunisolar.magma.func.build.predicate;
 
 import eu.lunisolar.magma.func.predicate.*;
+import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -51,6 +53,8 @@ public final class LBiFloatPredicateBuilder extends PerCaseBuilderWithBooleanPro
 
 	private Consumer<LBiFloatPredicate> consumer;
 
+	private @Nullable HandlingInstructions handling;
+
 	public static final LBiFloatPredicate EVENTUALLY_THROW = LBiFloatPredicate.l((float f1, float f2) -> {
 		String message;
 		try {
@@ -59,7 +63,7 @@ public final class LBiFloatPredicateBuilder extends PerCaseBuilderWithBooleanPro
 				message = "No case specified for input data (no details can be provided).";
 			}
 
-			throw new UnsupportedOperationException(message);
+			throw new IllegalStateException(message);
 		});
 
 	public LBiFloatPredicateBuilder(@Nullable Consumer<LBiFloatPredicate> consumer) {
@@ -85,6 +89,17 @@ public final class LBiFloatPredicateBuilder extends PerCaseBuilderWithBooleanPro
 		return new LBiFloatPredicateBuilder(consumer);
 	}
 
+	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
+	@Nonnull
+	public final LBiFloatPredicateBuilder withHandling(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+		Null.nonNullArg(handling, "handling");
+		if (this.handling != null) {
+			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+		}
+		this.handling = handling;
+		return self();
+	}
+
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
 	@Nonnull
 	public final LBiFloatPredicate build() {
@@ -93,11 +108,9 @@ public final class LBiFloatPredicateBuilder extends PerCaseBuilderWithBooleanPro
 
 		LBiFloatPredicate retval;
 
-		if (cases.isEmpty()) {
-			retval = eventuallyFinal;
-		} else {
-			final Case<LBiFloatPredicate, LBiFloatPredicate>[] casesArray = cases.toArray(new Case[cases.size()]);
-			retval = LBiFloatPredicate.l((float f1, float f2) -> {
+		final Case<LBiFloatPredicate, LBiFloatPredicate>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = LBiFloatPredicate.l((float f1, float f2) -> {
+			try {
 				for (Case<LBiFloatPredicate, LBiFloatPredicate> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(f1, f2)) {
 						return aCase.caseFunction().doTest(f1, f2);
@@ -105,13 +118,20 @@ public final class LBiFloatPredicateBuilder extends PerCaseBuilderWithBooleanPro
 				}
 
 				return eventuallyFinal.doTest(f1, f2);
-			});
-		}
+			} catch (Throwable e) {
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);
 		}
 		return retval;
+	}
+
+	public final LBiFloatPredicate build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+		this.withHandling(handling);
+		return build();
 	}
 
 }

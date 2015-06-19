@@ -20,11 +20,13 @@
 package eu.lunisolar.magma.func.build.supplier;
 
 import eu.lunisolar.magma.func.supplier.*;
+import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -47,9 +49,11 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for LBooleanSupplierX. */
-public final class LBooleanSupplierXBuilder<X extends Exception> extends PerCaseBuilderWithBooleanProduct.Base<LBooleanSupplierXBuilder<X>, LBooleanSupplierX<X>, LBooleanSupplierX<X>> {
+public final class LBooleanSupplierXBuilder<X extends Throwable> extends PerCaseBuilderWithBooleanProduct.Base<LBooleanSupplierXBuilder<X>, LBooleanSupplierX<X>, LBooleanSupplierX<X>> {
 
 	private Consumer<LBooleanSupplierX<X>> consumer;
+
+	private @Nullable HandlingInstructions handling;
 
 	public static final LBooleanSupplierX EVENTUALLY_THROW = LBooleanSupplierX.lX(() -> {
 		String message;
@@ -59,7 +63,7 @@ public final class LBooleanSupplierXBuilder<X extends Exception> extends PerCase
 				message = "No case specified for input data (no details can be provided).";
 			}
 
-			throw new UnsupportedOperationException(message);
+			throw new IllegalStateException(message);
 		});
 
 	public LBooleanSupplierXBuilder(@Nullable Consumer<LBooleanSupplierX<X>> consumer) {
@@ -75,14 +79,25 @@ public final class LBooleanSupplierXBuilder<X extends Exception> extends PerCase
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <X extends Exception> LBooleanSupplierXBuilder<X> booleanSupplierX() {
+	public static final <X extends Throwable> LBooleanSupplierXBuilder<X> booleanSupplierX() {
 		return new LBooleanSupplierXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <X extends Exception> LBooleanSupplierXBuilder<X> booleanSupplierX(Consumer<LBooleanSupplierX<X>> consumer) {
+	public static final <X extends Throwable> LBooleanSupplierXBuilder<X> booleanSupplierX(Consumer<LBooleanSupplierX<X>> consumer) {
 		return new LBooleanSupplierXBuilder(consumer);
+	}
+
+	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
+	@Nonnull
+	public final LBooleanSupplierXBuilder<X> withHandling(@Nonnull HandlingInstructions<X, X> handling) {
+		Null.nonNullArg(handling, "handling");
+		if (this.handling != null) {
+			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+		}
+		this.handling = handling;
+		return self();
 	}
 
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
@@ -93,11 +108,9 @@ public final class LBooleanSupplierXBuilder<X extends Exception> extends PerCase
 
 		LBooleanSupplierX<X> retval;
 
-		if (cases.isEmpty()) {
-			retval = eventuallyFinal;
-		} else {
-			final Case<LBooleanSupplierX<X>, LBooleanSupplierX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-			retval = LBooleanSupplierX.lX(() -> {
+		final Case<LBooleanSupplierX<X>, LBooleanSupplierX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = LBooleanSupplierX.lX(() -> {
+			try {
 				for (Case<LBooleanSupplierX<X>, LBooleanSupplierX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doGetAsBoolean()) {
 						return aCase.caseFunction().doGetAsBoolean();
@@ -105,13 +118,20 @@ public final class LBooleanSupplierXBuilder<X extends Exception> extends PerCase
 				}
 
 				return eventuallyFinal.doGetAsBoolean();
-			});
-		}
+			} catch (Throwable e) {
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);
 		}
 		return retval;
+	}
+
+	public final LBooleanSupplierX<X> build(@Nonnull HandlingInstructions<X, X> handling) {
+		this.withHandling(handling);
+		return build();
 	}
 
 }

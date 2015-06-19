@@ -20,11 +20,13 @@
 package eu.lunisolar.magma.func.build.consumer.primitives;
 
 import eu.lunisolar.magma.func.consumer.primitives.*;
+import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -51,6 +53,8 @@ public final class LBooleanConsumerBuilder extends PerCaseBuilder.Base<LBooleanC
 
 	private Consumer<LBooleanConsumer> consumer;
 
+	private @Nullable HandlingInstructions handling;
+
 	public static final LBooleanConsumer EVENTUALLY_THROW = LBooleanConsumer.l((boolean b) -> {
 		String message;
 		try {
@@ -59,7 +63,7 @@ public final class LBooleanConsumerBuilder extends PerCaseBuilder.Base<LBooleanC
 				message = "No case specified for input data (no details can be provided).";
 			}
 
-			throw new UnsupportedOperationException(message);
+			throw new IllegalStateException(message);
 		});
 
 	public LBooleanConsumerBuilder(@Nullable Consumer<LBooleanConsumer> consumer) {
@@ -85,6 +89,17 @@ public final class LBooleanConsumerBuilder extends PerCaseBuilder.Base<LBooleanC
 		return new LBooleanConsumerBuilder(consumer);
 	}
 
+	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
+	@Nonnull
+	public final LBooleanConsumerBuilder withHandling(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+		Null.nonNullArg(handling, "handling");
+		if (this.handling != null) {
+			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+		}
+		this.handling = handling;
+		return self();
+	}
+
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
 	@Nonnull
 	public final LBooleanConsumer build() {
@@ -93,11 +108,9 @@ public final class LBooleanConsumerBuilder extends PerCaseBuilder.Base<LBooleanC
 
 		LBooleanConsumer retval;
 
-		if (cases.isEmpty()) {
-			retval = eventuallyFinal;
-		} else {
-			final Case<LBooleanUnaryOperator, LBooleanConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
-			retval = LBooleanConsumer.l((boolean b) -> {
+		final Case<LBooleanUnaryOperator, LBooleanConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = LBooleanConsumer.l((boolean b) -> {
+			try {
 				for (Case<LBooleanUnaryOperator, LBooleanConsumer> aCase : casesArray) {
 					if (aCase.casePredicate().doApplyAsBoolean(b)) {
 						aCase.caseFunction().doAccept(b);
@@ -106,13 +119,20 @@ public final class LBooleanConsumerBuilder extends PerCaseBuilder.Base<LBooleanC
 				}
 
 				eventuallyFinal.doAccept(b);
-			});
-		}
+			} catch (Throwable e) {
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);
 		}
 		return retval;
+	}
+
+	public final LBooleanConsumer build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+		this.withHandling(handling);
+		return build();
 	}
 
 }

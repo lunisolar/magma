@@ -20,11 +20,13 @@
 package eu.lunisolar.magma.func.build.function.conversion;
 
 import eu.lunisolar.magma.func.function.conversion.*;
+import eu.lunisolar.magma.basics.Null;
 import eu.lunisolar.magma.func.build.*;
 import eu.lunisolar.magma.func.Function4U; // NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
 import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -51,6 +53,8 @@ public final class LLongToIntFunctionBuilder extends PerCaseBuilderWithIntProduc
 
 	private Consumer<LLongToIntFunction> consumer;
 
+	private @Nullable HandlingInstructions handling;
+
 	public static final LLongToIntFunction EVENTUALLY_THROW = LLongToIntFunction.l((long l) -> {
 		String message;
 		try {
@@ -59,7 +63,7 @@ public final class LLongToIntFunctionBuilder extends PerCaseBuilderWithIntProduc
 				message = "No case specified for input data (no details can be provided).";
 			}
 
-			throw new UnsupportedOperationException(message);
+			throw new IllegalStateException(message);
 		});
 
 	public LLongToIntFunctionBuilder(@Nullable Consumer<LLongToIntFunction> consumer) {
@@ -85,6 +89,17 @@ public final class LLongToIntFunctionBuilder extends PerCaseBuilderWithIntProduc
 		return new LLongToIntFunctionBuilder(consumer);
 	}
 
+	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
+	@Nonnull
+	public final LLongToIntFunctionBuilder withHandling(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+		Null.nonNullArg(handling, "handling");
+		if (this.handling != null) {
+			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+		}
+		this.handling = handling;
+		return self();
+	}
+
 	/** Builds the functional interface implementation and if previously provided calls the consumer. */
 	@Nonnull
 	public final LLongToIntFunction build() {
@@ -93,11 +108,9 @@ public final class LLongToIntFunctionBuilder extends PerCaseBuilderWithIntProduc
 
 		LLongToIntFunction retval;
 
-		if (cases.isEmpty()) {
-			retval = eventuallyFinal;
-		} else {
-			final Case<LLongPredicate, LLongToIntFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-			retval = LLongToIntFunction.l((long l) -> {
+		final Case<LLongPredicate, LLongToIntFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
+		retval = LLongToIntFunction.l((long l) -> {
+			try {
 				for (Case<LLongPredicate, LLongToIntFunction> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(l)) {
 						return aCase.caseFunction().doApplyAsInt(l);
@@ -105,13 +118,20 @@ public final class LLongToIntFunctionBuilder extends PerCaseBuilderWithIntProduc
 				}
 
 				return eventuallyFinal.doApplyAsInt(l);
-			});
-		}
+			} catch (Throwable e) {
+				throw Handler.handleOrPropagate(e, handling);
+			}
+		});
 
 		if (consumer != null) {
 			consumer.accept(retval);
 		}
 		return retval;
+	}
+
+	public final LLongToIntFunction build(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
+		this.withHandling(handling);
+		return build();
 	}
 
 }

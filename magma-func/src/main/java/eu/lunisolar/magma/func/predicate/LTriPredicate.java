@@ -24,6 +24,7 @@ import java.util.Comparator; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
 import eu.lunisolar.magma.basics.builder.*; // NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
@@ -101,7 +102,7 @@ public interface LTriPredicate<T1, T2, T3> extends LTriPredicateX<T1, T2, T3, Ru
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T1, T2, T3> LTriPredicate<T1, T2, T3> l(final @Nonnull LTriPredicate<T1, T2, T3> lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -109,7 +110,7 @@ public interface LTriPredicate<T1, T2, T3> extends LTriPredicateX<T1, T2, T3, Ru
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T1, T2, T3, X extends Exception> LTriPredicate<T1, T2, T3> wrap(final @Nonnull LTriPredicateX<T1, T2, T3, X> other) {
+	public static <T1, T2, T3, X extends Throwable> LTriPredicate<T1, T2, T3> wrap(final @Nonnull LTriPredicateX<T1, T2, T3, X> other) {
 		return other::nestingDoTest;
 	}
 
@@ -129,7 +130,7 @@ public interface LTriPredicate<T1, T2, T3> extends LTriPredicateX<T1, T2, T3, Ru
 	 */
 	@Nonnull
 	default LTriPredicate<T1, T2, T3> and(@Nonnull LTriPredicate<? super T1, ? super T2, ? super T3> other) {
-		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
+		Null.nonNullArg(other, "other");
 		return (T1 t1, T2 t2, T3 t3) -> doTest(t1, t2, t3) && other.doTest(t1, t2, t3);
 	}
 
@@ -138,7 +139,7 @@ public interface LTriPredicate<T1, T2, T3> extends LTriPredicateX<T1, T2, T3, Ru
 	 */
 	@Nonnull
 	default LTriPredicate<T1, T2, T3> or(@Nonnull LTriPredicate<? super T1, ? super T2, ? super T3> other) {
-		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
+		Null.nonNullArg(other, "other");
 		return (T1 t1, T2 t2, T3 t3) -> doTest(t1, t2, t3) || other.doTest(t1, t2, t3);
 	}
 
@@ -147,7 +148,7 @@ public interface LTriPredicate<T1, T2, T3> extends LTriPredicateX<T1, T2, T3, Ru
 	 */
 	@Nonnull
 	default LTriPredicate<T1, T2, T3> xor(@Nonnull LTriPredicate<? super T1, ? super T2, ? super T3> other) {
-		Objects.requireNonNull(other, Function4U.VALIDATION_MESSAGE_OTHER);
+		Null.nonNullArg(other, "other");
 		return (T1 t1, T2 t2, T3 t3) -> doTest(t1, t2, t3) ^ other.doTest(t1, t2, t3);
 	}
 
@@ -168,9 +169,9 @@ public interface LTriPredicate<T1, T2, T3> extends LTriPredicateX<T1, T2, T3, Ru
 	 */
 	@Nonnull
 	default <V1, V2, V3> LTriPredicate<V1, V2, V3> from(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LFunction<? super V3, ? extends T3> before3) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		Objects.requireNonNull(before3, Function4U.VALIDATION_MESSAGE_BEFORE3);
+		Null.nonNullArg(before1, "before1");
+		Null.nonNullArg(before2, "before2");
+		Null.nonNullArg(before3, "before3");
 		return (final V1 v1, final V2 v2, final V3 v3) -> this.doTest(before1.doApply(v1), before2.doApply(v2), before3.doApply(v3));
 	}
 
@@ -181,12 +182,11 @@ public interface LTriPredicate<T1, T2, T3> extends LTriPredicateX<T1, T2, T3, Ru
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default <V> LTriFunction<T1, T2, T3, V> then(@Nonnull LBooleanFunction<? extends V> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (T1 t1, T2 t2, T3 t3) -> after.doApply(this.doTest(t1, t2, t3));
 	}
 
 	// </editor-fold>
-
 	// <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
@@ -209,64 +209,6 @@ public interface LTriPredicate<T1, T2, T3> extends LTriPredicateX<T1, T2, T3, Ru
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LTriPredicateX<T1, T2, T3, RuntimeException> shoveX() {
 		return this;
-	}
-
-	// </editor-fold>
-
-	// <editor-fold desc="exception handling">
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <T1, T2, T3, X extends Exception, E extends Exception, Y extends RuntimeException> LTriPredicate<T1, T2, T3> wrapException(@Nonnull final LTriPredicate<T1, T2, T3> other, Class<E> exception, LBooleanSupplier supplier,
-			ExceptionHandler<E, Y> handler) {
-		return (T1 t1, T2 t2, T3 t3) -> {
-			try {
-				return other.doTest(t1, t2, t3);
-			} catch (Exception e) {
-				try {
-					if (supplier != null) {
-						return supplier.doGetAsBoolean();
-					}
-				} catch (Exception supplierException) {
-					throw new ExceptionNotHandled("Provided supplier (as a default value supplier/exception handler) failed on its own.", supplierException);
-				}
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
-	}
-
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
-	@Nonnull
-	default <E extends Exception, Y extends RuntimeException> LTriPredicate<T1, T2, T3> handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LTriPredicate.wrapException(this, exception, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends RuntimeException> LTriPredicate<T1, T2, T3> handle(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LTriPredicate.wrapException(this, Exception.class, null, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for argument exception class will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <E extends Exception, Y extends RuntimeException> LTriPredicate<T1, T2, T3> handle(Class<E> exception, LBooleanSupplier supplier) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LTriPredicate.wrapException(this, exception, supplier, null);
-	}
-
-	/** Wraps with exception handling that for any exception will call supplier and return default value instead for propagating exception.  */
-	@Nonnull
-	default <Y extends RuntimeException> LTriPredicate<T1, T2, T3> handle(LBooleanSupplier supplier) {
-		Objects.requireNonNull(supplier, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LTriPredicate.wrapException(this, Exception.class, supplier, null);
 	}
 
 	// </editor-fold>

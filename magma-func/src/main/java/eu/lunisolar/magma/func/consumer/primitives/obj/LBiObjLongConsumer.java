@@ -23,6 +23,7 @@ import javax.annotation.Nonnull; // NOSONAR
 import javax.annotation.Nullable; // NOSONAR
 import java.util.Objects; // NOSONAR
 import eu.lunisolar.magma.basics.*; //NOSONAR
+import eu.lunisolar.magma.basics.exceptions.*; // NOSONAR
 import eu.lunisolar.magma.func.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
@@ -87,7 +88,7 @@ public interface LBiObjLongConsumer<T1, T2> extends LBiObjLongConsumerX<T1, T2, 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
 	public static <T1, T2> LBiObjLongConsumer<T1, T2> l(final @Nonnull LBiObjLongConsumer<T1, T2> lambda) {
-		Objects.requireNonNull(lambda, "Argument [lambda] cannot be null.");
+		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
@@ -95,7 +96,7 @@ public interface LBiObjLongConsumer<T1, T2> extends LBiObjLongConsumerX<T1, T2, 
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T1, T2, X extends Exception> LBiObjLongConsumer<T1, T2> wrap(final @Nonnull LBiObjLongConsumerX<T1, T2, X> other) {
+	public static <T1, T2, X extends Throwable> LBiObjLongConsumer<T1, T2> wrap(final @Nonnull LBiObjLongConsumerX<T1, T2, X> other) {
 		return other::nestingDoAccept;
 	}
 
@@ -108,9 +109,9 @@ public interface LBiObjLongConsumer<T1, T2> extends LBiObjLongConsumerX<T1, T2, 
 	 */
 	@Nonnull
 	default <V1, V2> LBiObjLongConsumer<V1, V2> fromLong(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LLongUnaryOperator before3) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		Objects.requireNonNull(before3, Function4U.VALIDATION_MESSAGE_BEFORE3);
+		Null.nonNullArg(before1, "before1");
+		Null.nonNullArg(before2, "before2");
+		Null.nonNullArg(before3, "before3");
 		return (final V1 v1, final V2 v2, final long v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsLong(v3));
 	}
 
@@ -119,9 +120,9 @@ public interface LBiObjLongConsumer<T1, T2> extends LBiObjLongConsumerX<T1, T2, 
 	 */
 	@Nonnull
 	default <V1, V2, V3> LTriConsumer<V1, V2, V3> from(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LToLongFunction<? super V3> before3) {
-		Objects.requireNonNull(before1, Function4U.VALIDATION_MESSAGE_BEFORE1);
-		Objects.requireNonNull(before2, Function4U.VALIDATION_MESSAGE_BEFORE2);
-		Objects.requireNonNull(before3, Function4U.VALIDATION_MESSAGE_BEFORE3);
+		Null.nonNullArg(before1, "before1");
+		Null.nonNullArg(before2, "before2");
+		Null.nonNullArg(before3, "before3");
 		return (V1 v1, V2 v2, V3 v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsLong(v3));
 	}
 
@@ -132,15 +133,14 @@ public interface LBiObjLongConsumer<T1, T2> extends LBiObjLongConsumerX<T1, T2, 
 	/** Combines two consumers together in a order. */
 	@Nonnull
 	default LBiObjLongConsumer<T1, T2> andThen(@Nonnull LBiObjLongConsumer<? super T1, ? super T2> after) {
-		Objects.requireNonNull(after, Function4U.VALIDATION_MESSAGE_AFTER);
+		Null.nonNullArg(after, "after");
 		return (T1 t1, T2 t2, long l) -> {
 			this.doAccept(t1, t2, l);
 			after.doAccept(t1, t2, l);
 		};
 	}
 
-	// </editor-fold>
-	// <editor-fold desc="variant conversions">
+	// </editor-fold> // <editor-fold desc="variant conversions">
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
@@ -162,39 +162,6 @@ public interface LBiObjLongConsumer<T1, T2> extends LBiObjLongConsumerX<T1, T2, 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBiObjLongConsumerX<T1, T2, RuntimeException> shoveX() {
 		return this;
-	}
-
-	// </editor-fold>
-
-	// <editor-fold desc="exception handling">
-
-	/** Wraps with additional exception handling. */
-	@Nonnull
-	public static <T1, T2, X extends Exception, E extends Exception, Y extends RuntimeException> LBiObjLongConsumer<T1, T2> wrapException(@Nonnull final LBiObjLongConsumer<T1, T2> other, Class<E> exception, ExceptionHandler<E, Y> handler) {
-		return (T1 t1, T2 t2, long l) -> {
-			try {
-				other.doAccept(t1, t2, l);
-			} catch (Exception e) {
-				throw ExceptionHandler.handle(exception, Objects.requireNonNull(handler), (E) e);
-			}
-		};
-	}
-
-	/** Wraps with exception handling that for argument exception class will call function to determine the final exception. */
-	@Nonnull
-	default <E extends Exception, Y extends RuntimeException> LBiObjLongConsumer<T1, T2> handle(Class<E> exception, ExceptionHandler<E, Y> handler) {
-		Objects.requireNonNull(exception, Function4U.VALIDATION_MESSAGE_EXCEPTION);
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LBiObjLongConsumer.wrapException(this, exception, (ExceptionHandler) handler);
-	}
-
-	/** Wraps with exception handling that for any exception (including unchecked exception that might be different from X) will call handler function to determine the final exception. */
-	@Nonnull
-	default <Y extends RuntimeException> LBiObjLongConsumer<T1, T2> handle(ExceptionHandler<Exception, Y> handler) {
-		Objects.requireNonNull(handler, Function4U.VALIDATION_MESSAGE_HANDLER);
-
-		return LBiObjLongConsumer.wrapException(this, Exception.class, (ExceptionHandler) handler);
 	}
 
 	// </editor-fold>
