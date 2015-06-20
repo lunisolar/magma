@@ -96,7 +96,7 @@ public interface LDoubleUnaryOperator extends LDoubleUnaryOperatorX<RuntimeExcep
 	}
 
 	public static LDoubleUnaryOperator constant(double r) {
-		return (d) -> r;
+		return d -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -130,7 +130,7 @@ public interface LDoubleUnaryOperator extends LDoubleUnaryOperatorX<RuntimeExcep
 	@Nonnull
 	default LDoubleUnaryOperator fromDouble(@Nonnull final LDoubleUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final double v1) -> this.doApplyAsDouble(before1.doApplyAsDouble(v1));
+		return v1 -> this.doApplyAsDouble(before1.doApplyAsDouble(v1));
 	}
 
 	/**
@@ -139,7 +139,7 @@ public interface LDoubleUnaryOperator extends LDoubleUnaryOperatorX<RuntimeExcep
 	@Nonnull
 	default <V1> LToDoubleFunction<V1> from(@Nonnull final LToDoubleFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doApplyAsDouble(before1.doApplyAsDouble(v1));
+		return v1 -> this.doApplyAsDouble(before1.doApplyAsDouble(v1));
 	}
 
 	// </editor-fold>
@@ -150,63 +150,63 @@ public interface LDoubleUnaryOperator extends LDoubleUnaryOperatorX<RuntimeExcep
 	@Nonnull
 	default <V> LDoubleFunction<V> then(@Nonnull LDoubleFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (double d) -> after.doApply(this.doApplyAsDouble(d));
+		return d -> after.doApply(this.doApplyAsDouble(d));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LDoubleToByteFunction thenToByte(@Nonnull LDoubleToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return (double d) -> after.doApplyAsByte(this.doApplyAsDouble(d));
+		return d -> after.doApplyAsByte(this.doApplyAsDouble(d));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LDoubleToShortFunction thenToShort(@Nonnull LDoubleToShortFunction after) {
 		Null.nonNullArg(after, "after");
-		return (double d) -> after.doApplyAsShort(this.doApplyAsDouble(d));
+		return d -> after.doApplyAsShort(this.doApplyAsDouble(d));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LDoubleToIntFunction thenToInt(@Nonnull LDoubleToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return (double d) -> after.doApplyAsInt(this.doApplyAsDouble(d));
+		return d -> after.doApplyAsInt(this.doApplyAsDouble(d));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LDoubleToLongFunction thenToLong(@Nonnull LDoubleToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return (double d) -> after.doApplyAsLong(this.doApplyAsDouble(d));
+		return d -> after.doApplyAsLong(this.doApplyAsDouble(d));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LDoubleToFloatFunction thenToFloat(@Nonnull LDoubleToFloatFunction after) {
 		Null.nonNullArg(after, "after");
-		return (double d) -> after.doApplyAsFloat(this.doApplyAsDouble(d));
+		return d -> after.doApplyAsFloat(this.doApplyAsDouble(d));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LDoubleUnaryOperator thenToDouble(@Nonnull LDoubleUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return (double d) -> after.doApplyAsDouble(this.doApplyAsDouble(d));
+		return d -> after.doApplyAsDouble(this.doApplyAsDouble(d));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LDoubleToCharFunction thenToChar(@Nonnull LDoubleToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return (double d) -> after.doApplyAsChar(this.doApplyAsDouble(d));
+		return d -> after.doApplyAsChar(this.doApplyAsDouble(d));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LDoublePredicate thenToBoolean(@Nonnull LDoublePredicate after) {
 		Null.nonNullArg(after, "after");
-		return (double d) -> after.doTest(this.doApplyAsDouble(d));
+		return d -> after.doTest(this.doApplyAsDouble(d));
 	}
 
 	// </editor-fold>

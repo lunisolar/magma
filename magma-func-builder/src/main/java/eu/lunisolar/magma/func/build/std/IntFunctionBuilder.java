@@ -107,7 +107,7 @@ public final class IntFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base<
 		java.util.function.IntFunction<R> retval;
 
 		final Case<LIntPredicate, java.util.function.IntFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.l((int i) -> {
+		retval = Function4U.<R> intFunction(i -> {
 			try {
 				for (Case<LIntPredicate, java.util.function.IntFunction<R>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(i)) {
@@ -116,10 +116,12 @@ public final class IntFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base<
 				}
 
 				return eventuallyFinal.apply(i);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

@@ -61,7 +61,7 @@ public class LByteUnaryOperatorXBuilderTest<X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LByteUnaryOperatorX function = LByteUnaryOperatorXBuilder.byteUnaryOperatorX()
@@ -77,7 +77,7 @@ public class LByteUnaryOperatorXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,11 +92,11 @@ public class LByteUnaryOperatorXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LByteUnaryOperatorX function = LByteUnaryOperatorXBuilder.byteUnaryOperatorX()
-                .eventually((b) -> {
+                .eventually(b -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -112,14 +112,14 @@ public class LByteUnaryOperatorXBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LByteUnaryOperatorX<ParseException> function = byteUnaryOperatorX((LByteUnaryOperatorX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((b) -> b == (byte)0)
-                             .evaluate((b) -> (byte)0))
-            .inCase((b) -> b > 0 && b < 10).evaluate((b) -> (byte)1)
-            .inCase((b) -> b > 10 && b < 20).evaluate((b) -> (byte)2)
-            .eventually((b) -> (byte)99)
+            .addCase(ce -> ce.of(b -> b == (byte)0)
+                             .evaluate(b -> (byte)0))
+            .inCase(b -> b > 0 && b < 10).evaluate(b -> (byte)1)
+            .inCase(b -> b > 10 && b < 20).evaluate(b -> (byte)2)
+            .eventually(b -> (byte)99)
             .build();
 
 

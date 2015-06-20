@@ -89,7 +89,7 @@ public interface LBooleanToFloatFunction extends LBooleanToFloatFunctionX<Runtim
 	}
 
 	public static LBooleanToFloatFunction constant(float r) {
-		return (b) -> r;
+		return b -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -117,7 +117,7 @@ public interface LBooleanToFloatFunction extends LBooleanToFloatFunctionX<Runtim
 	@Nonnull
 	default LBooleanToFloatFunction fromBoolean(@Nonnull final LBooleanUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final boolean v1) -> this.doApplyAsFloat(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doApplyAsFloat(before1.doApplyAsBoolean(v1));
 	}
 
 	/**
@@ -126,7 +126,7 @@ public interface LBooleanToFloatFunction extends LBooleanToFloatFunctionX<Runtim
 	@Nonnull
 	default <V1> LToFloatFunction<V1> from(@Nonnull final LPredicate<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doApplyAsFloat(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doApplyAsFloat(before1.doApplyAsBoolean(v1));
 	}
 
 	// </editor-fold>
@@ -137,63 +137,63 @@ public interface LBooleanToFloatFunction extends LBooleanToFloatFunctionX<Runtim
 	@Nonnull
 	default <V> LBooleanFunction<V> then(@Nonnull LFloatFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApply(this.doApplyAsFloat(b));
+		return b -> after.doApply(this.doApplyAsFloat(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToByteFunction thenToByte(@Nonnull LFloatToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsByte(this.doApplyAsFloat(b));
+		return b -> after.doApplyAsByte(this.doApplyAsFloat(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToShortFunction thenToShort(@Nonnull LFloatToShortFunction after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsShort(this.doApplyAsFloat(b));
+		return b -> after.doApplyAsShort(this.doApplyAsFloat(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToIntFunction thenToInt(@Nonnull LFloatToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsInt(this.doApplyAsFloat(b));
+		return b -> after.doApplyAsInt(this.doApplyAsFloat(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToLongFunction thenToLong(@Nonnull LFloatToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsLong(this.doApplyAsFloat(b));
+		return b -> after.doApplyAsLong(this.doApplyAsFloat(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToFloatFunction thenToFloat(@Nonnull LFloatUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsFloat(this.doApplyAsFloat(b));
+		return b -> after.doApplyAsFloat(this.doApplyAsFloat(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToDoubleFunction thenToDouble(@Nonnull LFloatToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsDouble(this.doApplyAsFloat(b));
+		return b -> after.doApplyAsDouble(this.doApplyAsFloat(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToCharFunction thenToChar(@Nonnull LFloatToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsChar(this.doApplyAsFloat(b));
+		return b -> after.doApplyAsChar(this.doApplyAsFloat(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanUnaryOperator thenToBoolean(@Nonnull LFloatPredicate after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doTest(this.doApplyAsFloat(b));
+		return b -> after.doTest(this.doApplyAsFloat(b));
 	}
 
 	// </editor-fold>

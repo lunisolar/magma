@@ -67,9 +67,9 @@ public interface LBooleanToFloatFunctionX<X extends Throwable> extends MetaFunct
 	default float nestingDoApplyAsFloat(boolean b) {
 		try {
 			return this.doApplyAsFloat(b);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -82,7 +82,7 @@ public interface LBooleanToFloatFunctionX<X extends Throwable> extends MetaFunct
 
 		try {
 			return this.doApplyAsFloat(b);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -104,7 +104,7 @@ public interface LBooleanToFloatFunctionX<X extends Throwable> extends MetaFunct
 	}
 
 	public static <X extends Throwable> LBooleanToFloatFunctionX<X> constant(float r) {
-		return (b) -> r;
+		return b -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -139,7 +139,7 @@ public interface LBooleanToFloatFunctionX<X extends Throwable> extends MetaFunct
 	@Nonnull
 	default LBooleanToFloatFunctionX<X> fromBoolean(@Nonnull final LBooleanUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final boolean v1) -> this.doApplyAsFloat(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doApplyAsFloat(before1.doApplyAsBoolean(v1));
 	}
 
 	/**
@@ -148,7 +148,7 @@ public interface LBooleanToFloatFunctionX<X extends Throwable> extends MetaFunct
 	@Nonnull
 	default <V1> LToFloatFunctionX<V1, X> from(@Nonnull final LPredicateX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doApplyAsFloat(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doApplyAsFloat(before1.doApplyAsBoolean(v1));
 	}
 
 	// </editor-fold>
@@ -159,63 +159,63 @@ public interface LBooleanToFloatFunctionX<X extends Throwable> extends MetaFunct
 	@Nonnull
 	default <V> LBooleanFunctionX<V, X> then(@Nonnull LFloatFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApply(this.doApplyAsFloat(b));
+		return b -> after.doApply(this.doApplyAsFloat(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToByteFunctionX<X> thenToByte(@Nonnull LFloatToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsByte(this.doApplyAsFloat(b));
+		return b -> after.doApplyAsByte(this.doApplyAsFloat(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToShortFunctionX<X> thenToShort(@Nonnull LFloatToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsShort(this.doApplyAsFloat(b));
+		return b -> after.doApplyAsShort(this.doApplyAsFloat(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToIntFunctionX<X> thenToInt(@Nonnull LFloatToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsInt(this.doApplyAsFloat(b));
+		return b -> after.doApplyAsInt(this.doApplyAsFloat(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToLongFunctionX<X> thenToLong(@Nonnull LFloatToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsLong(this.doApplyAsFloat(b));
+		return b -> after.doApplyAsLong(this.doApplyAsFloat(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToFloatFunctionX<X> thenToFloat(@Nonnull LFloatUnaryOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsFloat(this.doApplyAsFloat(b));
+		return b -> after.doApplyAsFloat(this.doApplyAsFloat(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToDoubleFunctionX<X> thenToDouble(@Nonnull LFloatToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsDouble(this.doApplyAsFloat(b));
+		return b -> after.doApplyAsDouble(this.doApplyAsFloat(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToCharFunctionX<X> thenToChar(@Nonnull LFloatToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsChar(this.doApplyAsFloat(b));
+		return b -> after.doApplyAsChar(this.doApplyAsFloat(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanUnaryOperatorX<X> thenToBoolean(@Nonnull LFloatPredicateX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doTest(this.doApplyAsFloat(b));
+		return b -> after.doTest(this.doApplyAsFloat(b));
 	}
 
 	// </editor-fold>
@@ -249,12 +249,12 @@ public interface LBooleanToFloatFunctionX<X extends Throwable> extends MetaFunct
 
 	@Nonnull
 	default LBooleanToFloatFunction handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (boolean b) -> this.handlingDoApplyAsFloat(b, handling);
+		return b -> this.handlingDoApplyAsFloat(b, handling);
 	}
 
 	@Nonnull
 	default <Y extends Throwable> LBooleanToFloatFunctionX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (boolean b) -> this.handlingDoApplyAsFloat(b, handling);
+		return b -> this.handlingDoApplyAsFloat(b, handling);
 	}
 
 	// </editor-fold>

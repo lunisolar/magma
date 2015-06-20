@@ -68,9 +68,9 @@ public interface LDoubleBiConsumerX<X extends Throwable> extends MetaConsumer, M
 	default void nestingDoAccept(double d1, double d2) {
 		try {
 			this.doAccept(d1, d2);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -83,7 +83,7 @@ public interface LDoubleBiConsumerX<X extends Throwable> extends MetaConsumer, M
 
 		try {
 			this.doAccept(d1, d2);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

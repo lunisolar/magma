@@ -61,7 +61,7 @@ public class LIntFunctionBuilderTest<R,X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LIntFunction function = LIntFunctionBuilder.intFunction()
@@ -77,7 +77,7 @@ public class LIntFunctionBuilderTest<R,X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,11 +92,11 @@ public class LIntFunctionBuilderTest<R,X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LIntFunction function = LIntFunctionBuilder.intFunction()
-                .eventually((i) -> {
+                .eventually(i -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -112,14 +112,14 @@ public class LIntFunctionBuilderTest<R,X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LIntFunction<Integer > function = intFunction((LIntFunction<Integer > f)-> doNothing())
-            .addCase(ce -> ce.of((i) -> i == (int)0)
-                             .evaluate((i) -> Integer.valueOf(0)))
-            .inCase((i) -> i > 0 && i < 10).evaluate((i) -> Integer.valueOf(1))
-            .inCase((i) -> i > 10 && i < 20).evaluate((i) -> Integer.valueOf(2))
-            .eventually((i) -> Integer.valueOf(99))
+            .addCase(ce -> ce.of(i -> i == (int)0)
+                             .evaluate(i -> Integer.valueOf(0)))
+            .inCase(i -> i > 0 && i < 10).evaluate(i -> Integer.valueOf(1))
+            .inCase(i -> i > 10 && i < 20).evaluate(i -> Integer.valueOf(2))
+            .eventually(i -> Integer.valueOf(99))
             .build();
 
 

@@ -95,7 +95,7 @@ public class LToIntBiFunctionTest<T1,T2,X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApplyAsInt_unckeck() throws X {
+    public void testNestingDoApplyAsIntUnckeck() throws X {
 
         // then
         try {
@@ -110,7 +110,7 @@ public class LToIntBiFunctionTest<T1,T2,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsInt_unckeck() throws X {
+    public void testShovingDoApplyAsIntUnckeck() throws X {
 
         // then
         try {
@@ -123,7 +123,6 @@ public class LToIntBiFunctionTest<T1,T2,X extends ParseException> {
                     .hasMessage(ORIGINAL_MESSAGE);
         }
     }
-
 
 
     @Test
@@ -204,9 +203,8 @@ public class LToIntBiFunctionTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        LToIntBiFunction<T1,T2> wrapped = sutThrowing.handle(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LToIntBiFunction<T1,T2> wrapped = sutThrowing.handle(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -221,7 +219,7 @@ public class LToIntBiFunctionTest<T1,T2,X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
         LToIntBiFunction<T1,T2> sutThrowing = LToIntBiFunction.l((T1 t1,T2 t2) -> {
@@ -245,7 +243,7 @@ public class LToIntBiFunctionTest<T1,T2,X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
         LToIntBiFunction<T1,T2> sutThrowing = LToIntBiFunction.l((T1 t1,T2 t2) -> {
@@ -278,8 +276,7 @@ public class LToIntBiFunctionTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        LToIntBiFunction<T1,T2> wrapped = sutThrowing.handle(h -> {
-        });
+        LToIntBiFunction<T1,T2> wrapped = sutThrowing.handle(h -> Function4U.doNothing());
 
         // then
         try {

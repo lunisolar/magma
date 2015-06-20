@@ -61,7 +61,7 @@ public class LBooleanTernaryOperatorXBuilderTest<X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LBooleanTernaryOperatorX function = LBooleanTernaryOperatorXBuilder.booleanTernaryOperatorX()
@@ -77,7 +77,7 @@ public class LBooleanTernaryOperatorXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,7 +92,7 @@ public class LBooleanTernaryOperatorXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LBooleanTernaryOperatorX function = LBooleanTernaryOperatorXBuilder.booleanTernaryOperatorX()
@@ -112,7 +112,7 @@ public class LBooleanTernaryOperatorXBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LBooleanTernaryOperatorX<ParseException> function = booleanTernaryOperatorX((LBooleanTernaryOperatorX<ParseException> f)-> doNothing())
             .addCase(ce -> ce.of((b1,b2,b3) -> b1 == false)

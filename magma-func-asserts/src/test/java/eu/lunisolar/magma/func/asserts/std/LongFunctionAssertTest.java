@@ -44,11 +44,11 @@ public class LongFunctionAssertTest<R,X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private java.util.function.LongFunction<Integer > function = ((l) -> {
-            return (Integer ) testValue;
-    });
+    private java.util.function.LongFunction<Integer > function = (l ->
+            (Integer ) testValue
+    );
 
-    private java.util.function.LongFunction<Integer > functionThrowing = ((l) -> {
+    private java.util.function.LongFunction<Integer > functionThrowing = (l -> {
         throw new UnsupportedOperationException();
     });
 

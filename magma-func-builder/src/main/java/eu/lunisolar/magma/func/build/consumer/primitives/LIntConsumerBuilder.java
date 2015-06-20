@@ -108,7 +108,7 @@ public final class LIntConsumerBuilder extends PerCaseBuilder.Base<LIntConsumerB
 		LIntConsumer retval;
 
 		final Case<LIntPredicate, LIntConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LIntConsumer.l((int i) -> {
+		retval = LIntConsumer.l(i -> {
 			try {
 				for (Case<LIntPredicate, LIntConsumer> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(i)) {
@@ -118,10 +118,12 @@ public final class LIntConsumerBuilder extends PerCaseBuilder.Base<LIntConsumerB
 				}
 
 				eventuallyFinal.doAccept(i);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

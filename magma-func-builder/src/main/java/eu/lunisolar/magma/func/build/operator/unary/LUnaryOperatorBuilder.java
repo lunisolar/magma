@@ -108,7 +108,7 @@ public final class LUnaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Ba
 		LUnaryOperator<T> retval;
 
 		final Case<LPredicate<T>, LUnaryOperator<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LUnaryOperator.l((T t) -> {
+		retval = LUnaryOperator.<T> l(t -> {
 			try {
 				for (Case<LPredicate<T>, LUnaryOperator<T>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(t)) {
@@ -117,10 +117,12 @@ public final class LUnaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Ba
 				}
 
 				return eventuallyFinal.doApply(t);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

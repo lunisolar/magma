@@ -44,11 +44,11 @@ public class IntPredicateAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private java.util.function.IntPredicate function = ((i) -> {
-            return testValue;
-    });
+    private java.util.function.IntPredicate function = (i ->
+            testValue
+    );
 
-    private java.util.function.IntPredicate functionThrowing = ((i) -> {
+    private java.util.function.IntPredicate functionThrowing = (i -> {
         throw new UnsupportedOperationException();
     });
 

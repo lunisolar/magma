@@ -84,6 +84,66 @@ public class LActionXTest<X extends ParseException> {
 
 
 
+    @Test
+    public void testNestingDoExecuteChecked() throws X {
+
+        // then
+        try {
+            sutAlwaysThrowing.nestingDoExecute();
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(NestedException.class)
+                    .hasCauseExactlyInstanceOf(ParseException.class)
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testNestingDoExecuteUnckeck() throws X {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.nestingDoExecute();
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoExecuteChecked() throws X {
+
+        // then
+        try {
+            sutAlwaysThrowing.shovingDoExecute();
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(ParseException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoExecuteUnckeck() throws X {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.shovingDoExecute();
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
 
     @Test
     public void testFunctionalInterfaceDescription() throws X {
@@ -119,9 +179,8 @@ public class LActionXTest<X extends ParseException> {
         });
 
         // when
-        LActionX<X> wrapped = sutThrowing.handleX(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LActionX<X> wrapped = sutThrowing.handleX(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -136,7 +195,7 @@ public class LActionXTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
         LActionX<X> sutThrowing = LActionX.lX(() -> {
@@ -160,7 +219,7 @@ public class LActionXTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
         LActionX<X> sutThrowing = LActionX.lX(() -> {
@@ -193,8 +252,7 @@ public class LActionXTest<X extends ParseException> {
         });
 
         // when
-        LActionX<X> wrapped = sutThrowing.handleX(h -> {
-        });
+        LActionX<X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
 
         // then
         try {

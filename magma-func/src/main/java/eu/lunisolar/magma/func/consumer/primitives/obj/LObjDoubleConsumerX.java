@@ -75,9 +75,9 @@ public interface LObjDoubleConsumerX<T, X extends Throwable> extends java.util.f
 	default void nestingDoAccept(T t, double d) {
 		try {
 			this.doAccept(t, d);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -90,7 +90,7 @@ public interface LObjDoubleConsumerX<T, X extends Throwable> extends java.util.f
 
 		try {
 			this.doAccept(t, d);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

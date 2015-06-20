@@ -75,9 +75,9 @@ public interface LConsumerX<T, X extends Throwable> extends java.util.function.C
 	default void nestingDoAccept(T t) {
 		try {
 			this.doAccept(t);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -90,7 +90,7 @@ public interface LConsumerX<T, X extends Throwable> extends java.util.function.C
 
 		try {
 			this.doAccept(t);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -144,7 +144,7 @@ public interface LConsumerX<T, X extends Throwable> extends java.util.function.C
 	@Nonnull
 	default <V1> LConsumerX<V1, X> from(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final V1 v1) -> this.doAccept(before1.doApply(v1));
+		return v1 -> this.doAccept(before1.doApply(v1));
 	}
 
 	// </editor-fold>
@@ -155,7 +155,7 @@ public interface LConsumerX<T, X extends Throwable> extends java.util.function.C
 	@Nonnull
 	default LConsumerX<T, X> andThen(@Nonnull LConsumerX<? super T, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T t) -> {
+		return t -> {
 			this.doAccept(t);
 			after.doAccept(t);
 		};
@@ -191,12 +191,12 @@ public interface LConsumerX<T, X extends Throwable> extends java.util.function.C
 
 	@Nonnull
 	default LConsumer<T> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (T t) -> this.handlingDoAccept(t, handling);
+		return t -> this.handlingDoAccept(t, handling);
 	}
 
 	@Nonnull
 	default <Y extends Throwable> LConsumerX<T, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (T t) -> this.handlingDoAccept(t, handling);
+		return t -> this.handlingDoAccept(t, handling);
 	}
 
 	// </editor-fold>

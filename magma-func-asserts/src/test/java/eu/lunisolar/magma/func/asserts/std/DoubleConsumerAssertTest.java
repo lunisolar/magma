@@ -45,11 +45,11 @@ public class DoubleConsumerAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private java.util.function.DoubleConsumer function = ((d) -> {
-            externalEffect.set(testValue);
-    });
+    private java.util.function.DoubleConsumer function = (d ->
+            externalEffect.set(testValue)
+    );
 
-    private java.util.function.DoubleConsumer functionThrowing = ((d) -> {
+    private java.util.function.DoubleConsumer functionThrowing = (d -> {
         throw new UnsupportedOperationException();
     });
 

@@ -108,7 +108,7 @@ public final class LIntBiFunctionXBuilder<R, X extends Throwable> extends PerCas
 		LIntBiFunctionX<R, X> retval;
 
 		final Case<LBiIntPredicateX<X>, LIntBiFunctionX<R, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LIntBiFunctionX.lX((int i1, int i2) -> {
+		retval = LIntBiFunctionX.<R, X> lX((int i1, int i2) -> {
 			try {
 				for (Case<LBiIntPredicateX<X>, LIntBiFunctionX<R, X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(i1, i2)) {
@@ -117,10 +117,12 @@ public final class LIntBiFunctionXBuilder<R, X extends Throwable> extends PerCas
 				}
 
 				return eventuallyFinal.doApply(i1, i2);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

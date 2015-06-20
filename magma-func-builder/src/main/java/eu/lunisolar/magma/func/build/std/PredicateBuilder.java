@@ -107,7 +107,7 @@ public final class PredicateBuilder<T> extends PerCaseBuilderWithBooleanProduct.
 		java.util.function.Predicate<T> retval;
 
 		final Case<LPredicate<T>, java.util.function.Predicate<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.l((T t) -> {
+		retval = Function4U.<T> predicate(t -> {
 			try {
 				for (Case<LPredicate<T>, java.util.function.Predicate<T>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(t)) {
@@ -116,10 +116,12 @@ public final class PredicateBuilder<T> extends PerCaseBuilderWithBooleanProduct.
 				}
 
 				return eventuallyFinal.test(t);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

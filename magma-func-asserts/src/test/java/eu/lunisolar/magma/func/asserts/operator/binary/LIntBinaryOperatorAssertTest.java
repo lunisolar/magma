@@ -45,9 +45,9 @@ public class LIntBinaryOperatorAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LIntBinaryOperator function = LIntBinaryOperator.l((i1,i2) -> {
-            return testValue;
-    });
+    private LIntBinaryOperator function = LIntBinaryOperator.l((i1,i2) ->
+            testValue
+    );
 
     private LIntBinaryOperator functionThrowing = LIntBinaryOperator.l((i1,i2) -> {
         throw new UnsupportedOperationException();

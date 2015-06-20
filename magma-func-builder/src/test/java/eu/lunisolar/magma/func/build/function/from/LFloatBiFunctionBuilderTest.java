@@ -61,7 +61,7 @@ public class LFloatBiFunctionBuilderTest<R,X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LFloatBiFunction function = LFloatBiFunctionBuilder.floatBiFunction()
@@ -77,7 +77,7 @@ public class LFloatBiFunctionBuilderTest<R,X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,7 +92,7 @@ public class LFloatBiFunctionBuilderTest<R,X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LFloatBiFunction function = LFloatBiFunctionBuilder.floatBiFunction()
@@ -112,7 +112,7 @@ public class LFloatBiFunctionBuilderTest<R,X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LFloatBiFunction<Integer > function = floatBiFunction((LFloatBiFunction<Integer > f)-> doNothing())
             .addCase(ce -> ce.of((f1,f2) -> f1 == (float)0)

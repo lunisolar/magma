@@ -108,7 +108,7 @@ public final class LIntToShortFunctionBuilder extends PerCaseBuilderWithShortPro
 		LIntToShortFunction retval;
 
 		final Case<LIntPredicate, LIntToShortFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LIntToShortFunction.l((int i) -> {
+		retval = LIntToShortFunction.l(i -> {
 			try {
 				for (Case<LIntPredicate, LIntToShortFunction> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(i)) {
@@ -117,10 +117,12 @@ public final class LIntToShortFunctionBuilder extends PerCaseBuilderWithShortPro
 				}
 
 				return eventuallyFinal.doApplyAsShort(i);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

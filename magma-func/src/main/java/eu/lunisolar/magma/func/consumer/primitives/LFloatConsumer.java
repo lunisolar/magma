@@ -109,7 +109,7 @@ public interface LFloatConsumer extends LFloatConsumerX<RuntimeException>, MetaC
 	@Nonnull
 	default LFloatConsumer fromFloat(@Nonnull final LFloatUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final float v1) -> this.doAccept(before1.doApplyAsFloat(v1));
+		return v1 -> this.doAccept(before1.doApplyAsFloat(v1));
 	}
 
 	/**
@@ -118,7 +118,7 @@ public interface LFloatConsumer extends LFloatConsumerX<RuntimeException>, MetaC
 	@Nonnull
 	default <V1> LConsumer<V1> from(@Nonnull final LToFloatFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doAccept(before1.doApplyAsFloat(v1));
+		return v1 -> this.doAccept(before1.doApplyAsFloat(v1));
 	}
 
 	// </editor-fold>
@@ -129,7 +129,7 @@ public interface LFloatConsumer extends LFloatConsumerX<RuntimeException>, MetaC
 	@Nonnull
 	default LFloatConsumer andThen(@Nonnull LFloatConsumer after) {
 		Null.nonNullArg(after, "after");
-		return (float f) -> {
+		return f -> {
 			this.doAccept(f);
 			after.doAccept(f);
 		};

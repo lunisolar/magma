@@ -108,7 +108,7 @@ public final class LCharToByteFunctionXBuilder<X extends Throwable> extends PerC
 		LCharToByteFunctionX<X> retval;
 
 		final Case<LCharPredicateX<X>, LCharToByteFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LCharToByteFunctionX.lX((char c) -> {
+		retval = LCharToByteFunctionX.<X> lX(c -> {
 			try {
 				for (Case<LCharPredicateX<X>, LCharToByteFunctionX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(c)) {
@@ -117,10 +117,12 @@ public final class LCharToByteFunctionXBuilder<X extends Throwable> extends PerC
 				}
 
 				return eventuallyFinal.doApplyAsByte(c);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

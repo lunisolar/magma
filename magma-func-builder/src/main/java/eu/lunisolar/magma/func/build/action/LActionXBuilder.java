@@ -108,7 +108,7 @@ public final class LActionXBuilder<X extends Throwable> extends PerCaseBuilder.B
 		LActionX<X> retval;
 
 		final Case<LBooleanSupplierX<X>, LActionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LActionX.lX(() -> {
+		retval = LActionX.<X> lX(() -> {
 			try {
 				for (Case<LBooleanSupplierX<X>, LActionX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doGetAsBoolean()) {
@@ -118,10 +118,12 @@ public final class LActionXBuilder<X extends Throwable> extends PerCaseBuilder.B
 				}
 
 				eventuallyFinal.doExecute();
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

@@ -67,9 +67,9 @@ public interface LByteBinaryOperatorX<X extends Throwable> extends MetaOperator,
 	default byte nestingDoApplyAsByte(byte b1, byte b2) {
 		try {
 			return this.doApplyAsByte(b1, b2);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -82,7 +82,7 @@ public interface LByteBinaryOperatorX<X extends Throwable> extends MetaOperator,
 
 		try {
 			return this.doApplyAsByte(b1, b2);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

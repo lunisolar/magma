@@ -61,7 +61,7 @@ public class LObjBooleanFunctionBuilderTest<T,R,X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LObjBooleanFunction function = LObjBooleanFunctionBuilder.objBooleanFunction()
@@ -77,7 +77,7 @@ public class LObjBooleanFunctionBuilderTest<T,R,X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,7 +92,7 @@ public class LObjBooleanFunctionBuilderTest<T,R,X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LObjBooleanFunction function = LObjBooleanFunctionBuilder.objBooleanFunction()
@@ -112,7 +112,7 @@ public class LObjBooleanFunctionBuilderTest<T,R,X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LObjBooleanFunction<Integer ,Integer > function = objBooleanFunction((LObjBooleanFunction<Integer ,Integer > f)-> doNothing())
             .addCase(ce -> ce.of((t, b) -> t == Integer.valueOf(0))

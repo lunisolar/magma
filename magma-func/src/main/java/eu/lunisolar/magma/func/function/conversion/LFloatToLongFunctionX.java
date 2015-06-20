@@ -67,9 +67,9 @@ public interface LFloatToLongFunctionX<X extends Throwable> extends MetaFunction
 	default long nestingDoApplyAsLong(float f) {
 		try {
 			return this.doApplyAsLong(f);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -82,7 +82,7 @@ public interface LFloatToLongFunctionX<X extends Throwable> extends MetaFunction
 
 		try {
 			return this.doApplyAsLong(f);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -104,7 +104,7 @@ public interface LFloatToLongFunctionX<X extends Throwable> extends MetaFunction
 	}
 
 	public static <X extends Throwable> LFloatToLongFunctionX<X> constant(long r) {
-		return (f) -> r;
+		return f -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -139,7 +139,7 @@ public interface LFloatToLongFunctionX<X extends Throwable> extends MetaFunction
 	@Nonnull
 	default LFloatToLongFunctionX<X> fromFloat(@Nonnull final LFloatUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final float v1) -> this.doApplyAsLong(before1.doApplyAsFloat(v1));
+		return v1 -> this.doApplyAsLong(before1.doApplyAsFloat(v1));
 	}
 
 	/**
@@ -148,7 +148,7 @@ public interface LFloatToLongFunctionX<X extends Throwable> extends MetaFunction
 	@Nonnull
 	default <V1> LToLongFunctionX<V1, X> from(@Nonnull final LToFloatFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doApplyAsLong(before1.doApplyAsFloat(v1));
+		return v1 -> this.doApplyAsLong(before1.doApplyAsFloat(v1));
 	}
 
 	// </editor-fold>
@@ -159,63 +159,63 @@ public interface LFloatToLongFunctionX<X extends Throwable> extends MetaFunction
 	@Nonnull
 	default <V> LFloatFunctionX<V, X> then(@Nonnull LLongFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (float f) -> after.doApply(this.doApplyAsLong(f));
+		return f -> after.doApply(this.doApplyAsLong(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToByteFunctionX<X> thenToByte(@Nonnull LLongToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (float f) -> after.doApplyAsByte(this.doApplyAsLong(f));
+		return f -> after.doApplyAsByte(this.doApplyAsLong(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToShortFunctionX<X> thenToShort(@Nonnull LLongToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (float f) -> after.doApplyAsShort(this.doApplyAsLong(f));
+		return f -> after.doApplyAsShort(this.doApplyAsLong(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToIntFunctionX<X> thenToInt(@Nonnull LLongToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (float f) -> after.doApplyAsInt(this.doApplyAsLong(f));
+		return f -> after.doApplyAsInt(this.doApplyAsLong(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToLongFunctionX<X> thenToLong(@Nonnull LLongUnaryOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (float f) -> after.doApplyAsLong(this.doApplyAsLong(f));
+		return f -> after.doApplyAsLong(this.doApplyAsLong(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatUnaryOperatorX<X> thenToFloat(@Nonnull LLongToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (float f) -> after.doApplyAsFloat(this.doApplyAsLong(f));
+		return f -> after.doApplyAsFloat(this.doApplyAsLong(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToDoubleFunctionX<X> thenToDouble(@Nonnull LLongToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (float f) -> after.doApplyAsDouble(this.doApplyAsLong(f));
+		return f -> after.doApplyAsDouble(this.doApplyAsLong(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToCharFunctionX<X> thenToChar(@Nonnull LLongToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (float f) -> after.doApplyAsChar(this.doApplyAsLong(f));
+		return f -> after.doApplyAsChar(this.doApplyAsLong(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatPredicateX<X> thenToBoolean(@Nonnull LLongPredicateX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (float f) -> after.doTest(this.doApplyAsLong(f));
+		return f -> after.doTest(this.doApplyAsLong(f));
 	}
 
 	// </editor-fold>
@@ -249,12 +249,12 @@ public interface LFloatToLongFunctionX<X extends Throwable> extends MetaFunction
 
 	@Nonnull
 	default LFloatToLongFunction handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (float f) -> this.handlingDoApplyAsLong(f, handling);
+		return f -> this.handlingDoApplyAsLong(f, handling);
 	}
 
 	@Nonnull
 	default <Y extends Throwable> LFloatToLongFunctionX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (float f) -> this.handlingDoApplyAsLong(f, handling);
+		return f -> this.handlingDoApplyAsLong(f, handling);
 	}
 
 	// </editor-fold>

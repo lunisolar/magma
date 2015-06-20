@@ -45,11 +45,11 @@ public class LDoubleToFloatFunctionXAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LDoubleToFloatFunctionX<X> function = LDoubleToFloatFunctionX.lX((d) -> {
-            return testValue;
-    });
+    private LDoubleToFloatFunctionX<X> function = LDoubleToFloatFunctionX.lX(d ->
+            testValue
+    );
 
-    private LDoubleToFloatFunctionX<X> functionThrowing = LDoubleToFloatFunctionX.lX((d) -> {
+    private LDoubleToFloatFunctionX<X> functionThrowing = LDoubleToFloatFunctionX.lX(d -> {
         throw new UnsupportedOperationException();
     });
 

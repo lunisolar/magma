@@ -93,7 +93,7 @@ public class LCharSupplierTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoGetAsChar_unckeck() throws X {
+    public void testNestingDoGetAsCharUnckeck() throws X {
 
         // then
         try {
@@ -108,7 +108,7 @@ public class LCharSupplierTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoGetAsChar_unckeck() throws X {
+    public void testShovingDoGetAsCharUnckeck() throws X {
 
         // then
         try {
@@ -121,7 +121,6 @@ public class LCharSupplierTest<X extends ParseException> {
                     .hasMessage(ORIGINAL_MESSAGE);
         }
     }
-
 
 
     @Test
@@ -196,9 +195,8 @@ public class LCharSupplierTest<X extends ParseException> {
         });
 
         // when
-        LCharSupplier wrapped = sutThrowing.handle(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LCharSupplier wrapped = sutThrowing.handle(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -213,7 +211,7 @@ public class LCharSupplierTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
         LCharSupplier sutThrowing = LCharSupplier.l(() -> {
@@ -237,7 +235,7 @@ public class LCharSupplierTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
         LCharSupplier sutThrowing = LCharSupplier.l(() -> {
@@ -270,8 +268,7 @@ public class LCharSupplierTest<X extends ParseException> {
         });
 
         // when
-        LCharSupplier wrapped = sutThrowing.handle(h -> {
-        });
+        LCharSupplier wrapped = sutThrowing.handle(h -> Function4U.doNothing());
 
         // then
         try {

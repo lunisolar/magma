@@ -75,7 +75,7 @@ public class LBooleanToIntFunctionTest<X extends ParseException> {
 
 
 
-    private LBooleanToIntFunction sutAlwaysThrowingUnckeck = LBooleanToIntFunction.l((boolean b) -> {
+    private LBooleanToIntFunction sutAlwaysThrowingUnckeck = LBooleanToIntFunction.l(b -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -93,7 +93,7 @@ public class LBooleanToIntFunctionTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApplyAsInt_unckeck() throws X {
+    public void testNestingDoApplyAsIntUnckeck() throws X {
 
         // then
         try {
@@ -108,7 +108,7 @@ public class LBooleanToIntFunctionTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsInt_unckeck() throws X {
+    public void testShovingDoApplyAsIntUnckeck() throws X {
 
         // then
         try {
@@ -123,7 +123,6 @@ public class LBooleanToIntFunctionTest<X extends ParseException> {
     }
 
 
-
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
@@ -132,7 +131,7 @@ public class LBooleanToIntFunctionTest<X extends ParseException> {
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LBooleanToIntFunction.l((boolean b) -> testValue ))
+        assertThat(LBooleanToIntFunction.l(b -> testValue ))
             .isInstanceOf(LBooleanToIntFunction.class);
     }
 
@@ -145,7 +144,7 @@ public class LBooleanToIntFunctionTest<X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LBooleanToIntFunctionX<X> sutThrowing = LBooleanToIntFunctionX.lX((boolean b) -> {
+        LBooleanToIntFunctionX<X> sutThrowing = LBooleanToIntFunctionX.lX(b -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -167,7 +166,7 @@ public class LBooleanToIntFunctionTest<X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LBooleanToIntFunctionX<ParseException> sutThrowing = LBooleanToIntFunctionX.lX((boolean b) -> {
+        LBooleanToIntFunctionX<ParseException> sutThrowing = LBooleanToIntFunctionX.lX(b -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -191,14 +190,13 @@ public class LBooleanToIntFunctionTest<X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LBooleanToIntFunction sutThrowing = LBooleanToIntFunction.l((boolean b) -> {
+        LBooleanToIntFunction sutThrowing = LBooleanToIntFunction.l(b -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        LBooleanToIntFunction wrapped = sutThrowing.handle(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LBooleanToIntFunction wrapped = sutThrowing.handle(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -213,10 +211,10 @@ public class LBooleanToIntFunctionTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LBooleanToIntFunction sutThrowing = LBooleanToIntFunction.l((boolean b) -> {
+        LBooleanToIntFunction sutThrowing = LBooleanToIntFunction.l(b -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -237,10 +235,10 @@ public class LBooleanToIntFunctionTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LBooleanToIntFunction sutThrowing = LBooleanToIntFunction.l((boolean b) -> {
+        LBooleanToIntFunction sutThrowing = LBooleanToIntFunction.l(b -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -265,13 +263,12 @@ public class LBooleanToIntFunctionTest<X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LBooleanToIntFunction sutThrowing = LBooleanToIntFunction.l((boolean b) -> {
+        LBooleanToIntFunction sutThrowing = LBooleanToIntFunction.l(b -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
         // when
-        LBooleanToIntFunction wrapped = sutThrowing.handle(h -> {
-        });
+        LBooleanToIntFunction wrapped = sutThrowing.handle(h -> Function4U.doNothing());
 
         // then
         try {
@@ -296,7 +293,7 @@ public class LBooleanToIntFunctionTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBooleanToIntFunction sutO = (boolean b) -> {
+        LBooleanToIntFunction sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo(true);
                 return (int)100;
@@ -325,7 +322,7 @@ public class LBooleanToIntFunctionTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBooleanToIntFunction sutO = (boolean b) -> {
+        LBooleanToIntFunction sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo(true);
                 return (int)100;
@@ -359,7 +356,7 @@ public class LBooleanToIntFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LBooleanToIntFunction sutO = (boolean b) -> {
+        LBooleanToIntFunction sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo(true);
                 return (int)90;
@@ -394,7 +391,7 @@ public class LBooleanToIntFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LBooleanToIntFunction sutO = (boolean b) -> {
+        LBooleanToIntFunction sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo(true);
                 return (int)90;
@@ -429,7 +426,7 @@ public class LBooleanToIntFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LBooleanToIntFunction sutO = (boolean b) -> {
+        LBooleanToIntFunction sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo(true);
                 return (int)90;
@@ -464,7 +461,7 @@ public class LBooleanToIntFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LBooleanToIntFunction sutO = (boolean b) -> {
+        LBooleanToIntFunction sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo(true);
                 return (int)90;
@@ -499,7 +496,7 @@ public class LBooleanToIntFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LBooleanToIntFunction sutO = (boolean b) -> {
+        LBooleanToIntFunction sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo(true);
                 return (int)90;
@@ -534,7 +531,7 @@ public class LBooleanToIntFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LBooleanToIntFunction sutO = (boolean b) -> {
+        LBooleanToIntFunction sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo(true);
                 return (int)90;
@@ -569,7 +566,7 @@ public class LBooleanToIntFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LBooleanToIntFunction sutO = (boolean b) -> {
+        LBooleanToIntFunction sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo(true);
                 return (int)90;
@@ -604,7 +601,7 @@ public class LBooleanToIntFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LBooleanToIntFunction sutO = (boolean b) -> {
+        LBooleanToIntFunction sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo(true);
                 return (int)90;
@@ -639,7 +636,7 @@ public class LBooleanToIntFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LBooleanToIntFunction sutO = (boolean b) -> {
+        LBooleanToIntFunction sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo(true);
                 return (int)90;
@@ -700,7 +697,7 @@ public class LBooleanToIntFunctionTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LBooleanToIntFunction sutThrowing = LBooleanToIntFunction.l((boolean b) -> {
+        LBooleanToIntFunction sutThrowing = LBooleanToIntFunction.l(b -> {
             throw new UnsupportedOperationException();
         });
 
@@ -712,7 +709,7 @@ public class LBooleanToIntFunctionTest<X extends ParseException> {
     public void testHandle() throws X {
 
         // given
-        LBooleanToIntFunction sutThrowing = LBooleanToIntFunction.l((boolean b) -> {
+        LBooleanToIntFunction sutThrowing = LBooleanToIntFunction.l(b -> {
             throw new UnsupportedOperationException();
         });
 

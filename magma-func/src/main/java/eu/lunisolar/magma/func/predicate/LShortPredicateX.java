@@ -67,9 +67,9 @@ public interface LShortPredicateX<X extends Throwable> extends MetaPredicate, Pr
 	default boolean nestingDoTest(short s) {
 		try {
 			return this.doTest(s);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -82,7 +82,7 @@ public interface LShortPredicateX<X extends Throwable> extends MetaPredicate, Pr
 
 		try {
 			return this.doTest(s);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -110,7 +110,7 @@ public interface LShortPredicateX<X extends Throwable> extends MetaPredicate, Pr
 	}
 
 	public static <X extends Throwable> LShortPredicateX<X> constant(boolean r) {
-		return (s) -> r;
+		return s -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -143,7 +143,7 @@ public interface LShortPredicateX<X extends Throwable> extends MetaPredicate, Pr
 	 */
 	@Nonnull
 	default LShortPredicateX<X> negate() {
-		return (short s) -> !doTest(s);
+		return s -> !doTest(s);
 	}
 
 	/**
@@ -152,7 +152,7 @@ public interface LShortPredicateX<X extends Throwable> extends MetaPredicate, Pr
 	@Nonnull
 	default LShortPredicateX<X> and(@Nonnull LShortPredicateX<X> other) {
 		Null.nonNullArg(other, "other");
-		return (short s) -> doTest(s) && other.doTest(s);
+		return s -> doTest(s) && other.doTest(s);
 	}
 
 	/**
@@ -161,7 +161,7 @@ public interface LShortPredicateX<X extends Throwable> extends MetaPredicate, Pr
 	@Nonnull
 	default LShortPredicateX<X> or(@Nonnull LShortPredicateX<X> other) {
 		Null.nonNullArg(other, "other");
-		return (short s) -> doTest(s) || other.doTest(s);
+		return s -> doTest(s) || other.doTest(s);
 	}
 
 	/**
@@ -170,7 +170,7 @@ public interface LShortPredicateX<X extends Throwable> extends MetaPredicate, Pr
 	@Nonnull
 	default LShortPredicateX<X> xor(@Nonnull LShortPredicateX<X> other) {
 		Null.nonNullArg(other, "other");
-		return (short s) -> doTest(s) ^ other.doTest(s);
+		return s -> doTest(s) ^ other.doTest(s);
 	}
 
 	@Nonnull
@@ -188,7 +188,7 @@ public interface LShortPredicateX<X extends Throwable> extends MetaPredicate, Pr
 	@Nonnull
 	default LShortPredicateX<X> fromShort(@Nonnull final LShortUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final short v1) -> this.doTest(before1.doApplyAsShort(v1));
+		return v1 -> this.doTest(before1.doApplyAsShort(v1));
 	}
 
 	/**
@@ -197,7 +197,7 @@ public interface LShortPredicateX<X extends Throwable> extends MetaPredicate, Pr
 	@Nonnull
 	default <V1> LPredicateX<V1, X> from(@Nonnull final LToShortFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doTest(before1.doApplyAsShort(v1));
+		return v1 -> this.doTest(before1.doApplyAsShort(v1));
 	}
 
 	// </editor-fold>
@@ -208,63 +208,63 @@ public interface LShortPredicateX<X extends Throwable> extends MetaPredicate, Pr
 	@Nonnull
 	default <V> LShortFunctionX<V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (short s) -> after.doApply(this.doTest(s));
+		return s -> after.doApply(this.doTest(s));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LShortToByteFunctionX<X> thenToByte(@Nonnull LBooleanToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (short s) -> after.doApplyAsByte(this.doTest(s));
+		return s -> after.doApplyAsByte(this.doTest(s));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LShortUnaryOperatorX<X> thenToShort(@Nonnull LBooleanToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (short s) -> after.doApplyAsShort(this.doTest(s));
+		return s -> after.doApplyAsShort(this.doTest(s));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LShortToIntFunctionX<X> thenToInt(@Nonnull LBooleanToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (short s) -> after.doApplyAsInt(this.doTest(s));
+		return s -> after.doApplyAsInt(this.doTest(s));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LShortToLongFunctionX<X> thenToLong(@Nonnull LBooleanToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (short s) -> after.doApplyAsLong(this.doTest(s));
+		return s -> after.doApplyAsLong(this.doTest(s));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LShortToFloatFunctionX<X> thenToFloat(@Nonnull LBooleanToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (short s) -> after.doApplyAsFloat(this.doTest(s));
+		return s -> after.doApplyAsFloat(this.doTest(s));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LShortToDoubleFunctionX<X> thenToDouble(@Nonnull LBooleanToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (short s) -> after.doApplyAsDouble(this.doTest(s));
+		return s -> after.doApplyAsDouble(this.doTest(s));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LShortToCharFunctionX<X> thenToChar(@Nonnull LBooleanToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (short s) -> after.doApplyAsChar(this.doTest(s));
+		return s -> after.doApplyAsChar(this.doTest(s));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LShortPredicateX<X> thenToBoolean(@Nonnull LBooleanUnaryOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (short s) -> after.doApplyAsBoolean(this.doTest(s));
+		return s -> after.doApplyAsBoolean(this.doTest(s));
 	}
 
 	// </editor-fold>
@@ -298,12 +298,12 @@ public interface LShortPredicateX<X extends Throwable> extends MetaPredicate, Pr
 
 	@Nonnull
 	default LShortPredicate handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (short s) -> this.handlingDoTest(s, handling);
+		return s -> this.handlingDoTest(s, handling);
 	}
 
 	@Nonnull
 	default <Y extends Throwable> LShortPredicateX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (short s) -> this.handlingDoTest(s, handling);
+		return s -> this.handlingDoTest(s, handling);
 	}
 
 	// </editor-fold>

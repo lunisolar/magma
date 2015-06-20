@@ -108,7 +108,7 @@ public final class LBytePredicateXBuilder<X extends Throwable> extends PerCaseBu
 		LBytePredicateX<X> retval;
 
 		final Case<LBytePredicateX<X>, LBytePredicateX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBytePredicateX.lX((byte b) -> {
+		retval = LBytePredicateX.<X> lX(b -> {
 			try {
 				for (Case<LBytePredicateX<X>, LBytePredicateX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(b)) {
@@ -117,10 +117,12 @@ public final class LBytePredicateXBuilder<X extends Throwable> extends PerCaseBu
 				}
 
 				return eventuallyFinal.doTest(b);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

@@ -108,7 +108,7 @@ public final class LIntToLongFunctionXBuilder<X extends Throwable> extends PerCa
 		LIntToLongFunctionX<X> retval;
 
 		final Case<LIntPredicateX<X>, LIntToLongFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LIntToLongFunctionX.lX((int i) -> {
+		retval = LIntToLongFunctionX.<X> lX(i -> {
 			try {
 				for (Case<LIntPredicateX<X>, LIntToLongFunctionX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(i)) {
@@ -117,10 +117,12 @@ public final class LIntToLongFunctionXBuilder<X extends Throwable> extends PerCa
 				}
 
 				return eventuallyFinal.doApplyAsLong(i);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

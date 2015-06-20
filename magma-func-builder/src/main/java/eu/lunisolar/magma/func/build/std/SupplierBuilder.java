@@ -107,7 +107,7 @@ public final class SupplierBuilder<R> extends PerCaseBuilderWithProduct.Base<Sup
 		java.util.function.Supplier<R> retval;
 
 		final Case<LBooleanSupplier, java.util.function.Supplier<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.l(() -> {
+		retval = Function4U.<R> supplier(() -> {
 			try {
 				for (Case<LBooleanSupplier, java.util.function.Supplier<R>> aCase : casesArray) {
 					if (aCase.casePredicate().doGetAsBoolean()) {
@@ -116,10 +116,12 @@ public final class SupplierBuilder<R> extends PerCaseBuilderWithProduct.Base<Sup
 				}
 
 				return eventuallyFinal.get();
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

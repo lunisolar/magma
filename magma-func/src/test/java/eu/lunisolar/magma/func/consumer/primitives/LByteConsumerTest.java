@@ -73,11 +73,41 @@ public class LByteConsumerTest<X extends ParseException> {
 
 
 
-    private LByteConsumer sutAlwaysThrowingUnckeck = LByteConsumer.l((byte b) -> {
+    private LByteConsumer sutAlwaysThrowingUnckeck = LByteConsumer.l(b -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
+
+    @Test
+    public void testNestingDoAcceptUnckeck() throws X {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.nestingDoAccept((byte)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoAcceptUnckeck() throws X {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.shovingDoAccept((byte)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
 
 
     @Test
@@ -88,7 +118,7 @@ public class LByteConsumerTest<X extends ParseException> {
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LByteConsumer.l((byte b) -> Function4U.doNothing() ))
+        assertThat(LByteConsumer.l(b -> Function4U.doNothing() ))
             .isInstanceOf(LByteConsumer.class);
     }
 
@@ -101,7 +131,7 @@ public class LByteConsumerTest<X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LByteConsumerX<X> sutThrowing = LByteConsumerX.lX((byte b) -> {
+        LByteConsumerX<X> sutThrowing = LByteConsumerX.lX(b -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -123,7 +153,7 @@ public class LByteConsumerTest<X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LByteConsumerX<ParseException> sutThrowing = LByteConsumerX.lX((byte b) -> {
+        LByteConsumerX<ParseException> sutThrowing = LByteConsumerX.lX(b -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -147,14 +177,13 @@ public class LByteConsumerTest<X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LByteConsumer sutThrowing = LByteConsumer.l((byte b) -> {
+        LByteConsumer sutThrowing = LByteConsumer.l(b -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        LByteConsumer wrapped = sutThrowing.handle(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LByteConsumer wrapped = sutThrowing.handle(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -169,10 +198,10 @@ public class LByteConsumerTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LByteConsumer sutThrowing = LByteConsumer.l((byte b) -> {
+        LByteConsumer sutThrowing = LByteConsumer.l(b -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -193,10 +222,10 @@ public class LByteConsumerTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LByteConsumer sutThrowing = LByteConsumer.l((byte b) -> {
+        LByteConsumer sutThrowing = LByteConsumer.l(b -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -221,13 +250,12 @@ public class LByteConsumerTest<X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LByteConsumer sutThrowing = LByteConsumer.l((byte b) -> {
+        LByteConsumer sutThrowing = LByteConsumer.l(b -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
         // when
-        LByteConsumer wrapped = sutThrowing.handle(h -> {
-        });
+        LByteConsumer wrapped = sutThrowing.handle(h -> Function4U.doNothing());
 
         // then
         try {
@@ -252,7 +280,7 @@ public class LByteConsumerTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LByteConsumer sutO = (byte b) -> {
+        LByteConsumer sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo((byte)90);
         };
@@ -280,7 +308,7 @@ public class LByteConsumerTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LByteConsumer sutO = (byte b) -> {
+        LByteConsumer sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo((byte)90);
         };
@@ -309,7 +337,7 @@ public class LByteConsumerTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
          //given (+ some assertions)
-        LByteConsumer sutO = (byte b) -> {
+        LByteConsumer sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo((byte)80);
         };
@@ -361,7 +389,7 @@ public class LByteConsumerTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LByteConsumer sutThrowing = LByteConsumer.l((byte b) -> {
+        LByteConsumer sutThrowing = LByteConsumer.l(b -> {
             throw new UnsupportedOperationException();
         });
 
@@ -373,7 +401,7 @@ public class LByteConsumerTest<X extends ParseException> {
     public void testHandle() throws X {
 
         // given
-        LByteConsumer sutThrowing = LByteConsumer.l((byte b) -> {
+        LByteConsumer sutThrowing = LByteConsumer.l(b -> {
             throw new UnsupportedOperationException();
         });
 

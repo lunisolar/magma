@@ -122,7 +122,7 @@ public interface LIntConsumer extends LIntConsumerX<RuntimeException>, MetaConsu
 	@Nonnull
 	default LIntConsumer fromInt(@Nonnull final LIntUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final int v1) -> this.doAccept(before1.doApplyAsInt(v1));
+		return v1 -> this.doAccept(before1.doApplyAsInt(v1));
 	}
 
 	/**
@@ -131,7 +131,7 @@ public interface LIntConsumer extends LIntConsumerX<RuntimeException>, MetaConsu
 	@Nonnull
 	default <V1> LConsumer<V1> from(@Nonnull final LToIntFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doAccept(before1.doApplyAsInt(v1));
+		return v1 -> this.doAccept(before1.doApplyAsInt(v1));
 	}
 
 	// </editor-fold>
@@ -142,7 +142,7 @@ public interface LIntConsumer extends LIntConsumerX<RuntimeException>, MetaConsu
 	@Nonnull
 	default LIntConsumer andThen(@Nonnull LIntConsumer after) {
 		Null.nonNullArg(after, "after");
-		return (int i) -> {
+		return i -> {
 			this.doAccept(i);
 			after.doAccept(i);
 		};

@@ -67,9 +67,9 @@ public interface LByteToLongFunctionX<X extends Throwable> extends MetaFunction,
 	default long nestingDoApplyAsLong(byte b) {
 		try {
 			return this.doApplyAsLong(b);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -82,7 +82,7 @@ public interface LByteToLongFunctionX<X extends Throwable> extends MetaFunction,
 
 		try {
 			return this.doApplyAsLong(b);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -104,7 +104,7 @@ public interface LByteToLongFunctionX<X extends Throwable> extends MetaFunction,
 	}
 
 	public static <X extends Throwable> LByteToLongFunctionX<X> constant(long r) {
-		return (b) -> r;
+		return b -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -139,7 +139,7 @@ public interface LByteToLongFunctionX<X extends Throwable> extends MetaFunction,
 	@Nonnull
 	default LByteToLongFunctionX<X> fromByte(@Nonnull final LByteUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final byte v1) -> this.doApplyAsLong(before1.doApplyAsByte(v1));
+		return v1 -> this.doApplyAsLong(before1.doApplyAsByte(v1));
 	}
 
 	/**
@@ -148,7 +148,7 @@ public interface LByteToLongFunctionX<X extends Throwable> extends MetaFunction,
 	@Nonnull
 	default <V1> LToLongFunctionX<V1, X> from(@Nonnull final LToByteFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doApplyAsLong(before1.doApplyAsByte(v1));
+		return v1 -> this.doApplyAsLong(before1.doApplyAsByte(v1));
 	}
 
 	// </editor-fold>
@@ -159,63 +159,63 @@ public interface LByteToLongFunctionX<X extends Throwable> extends MetaFunction,
 	@Nonnull
 	default <V> LByteFunctionX<V, X> then(@Nonnull LLongFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (byte b) -> after.doApply(this.doApplyAsLong(b));
+		return b -> after.doApply(this.doApplyAsLong(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteUnaryOperatorX<X> thenToByte(@Nonnull LLongToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (byte b) -> after.doApplyAsByte(this.doApplyAsLong(b));
+		return b -> after.doApplyAsByte(this.doApplyAsLong(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToShortFunctionX<X> thenToShort(@Nonnull LLongToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (byte b) -> after.doApplyAsShort(this.doApplyAsLong(b));
+		return b -> after.doApplyAsShort(this.doApplyAsLong(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToIntFunctionX<X> thenToInt(@Nonnull LLongToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (byte b) -> after.doApplyAsInt(this.doApplyAsLong(b));
+		return b -> after.doApplyAsInt(this.doApplyAsLong(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToLongFunctionX<X> thenToLong(@Nonnull LLongUnaryOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (byte b) -> after.doApplyAsLong(this.doApplyAsLong(b));
+		return b -> after.doApplyAsLong(this.doApplyAsLong(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToFloatFunctionX<X> thenToFloat(@Nonnull LLongToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (byte b) -> after.doApplyAsFloat(this.doApplyAsLong(b));
+		return b -> after.doApplyAsFloat(this.doApplyAsLong(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToDoubleFunctionX<X> thenToDouble(@Nonnull LLongToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (byte b) -> after.doApplyAsDouble(this.doApplyAsLong(b));
+		return b -> after.doApplyAsDouble(this.doApplyAsLong(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToCharFunctionX<X> thenToChar(@Nonnull LLongToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (byte b) -> after.doApplyAsChar(this.doApplyAsLong(b));
+		return b -> after.doApplyAsChar(this.doApplyAsLong(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBytePredicateX<X> thenToBoolean(@Nonnull LLongPredicateX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (byte b) -> after.doTest(this.doApplyAsLong(b));
+		return b -> after.doTest(this.doApplyAsLong(b));
 	}
 
 	// </editor-fold>
@@ -249,12 +249,12 @@ public interface LByteToLongFunctionX<X extends Throwable> extends MetaFunction,
 
 	@Nonnull
 	default LByteToLongFunction handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (byte b) -> this.handlingDoApplyAsLong(b, handling);
+		return b -> this.handlingDoApplyAsLong(b, handling);
 	}
 
 	@Nonnull
 	default <Y extends Throwable> LByteToLongFunctionX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (byte b) -> this.handlingDoApplyAsLong(b, handling);
+		return b -> this.handlingDoApplyAsLong(b, handling);
 	}
 
 	// </editor-fold>

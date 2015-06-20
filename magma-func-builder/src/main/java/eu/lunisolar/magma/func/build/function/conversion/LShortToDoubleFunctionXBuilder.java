@@ -108,7 +108,7 @@ public final class LShortToDoubleFunctionXBuilder<X extends Throwable> extends P
 		LShortToDoubleFunctionX<X> retval;
 
 		final Case<LShortPredicateX<X>, LShortToDoubleFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LShortToDoubleFunctionX.lX((short s) -> {
+		retval = LShortToDoubleFunctionX.<X> lX(s -> {
 			try {
 				for (Case<LShortPredicateX<X>, LShortToDoubleFunctionX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(s)) {
@@ -117,10 +117,12 @@ public final class LShortToDoubleFunctionXBuilder<X extends Throwable> extends P
 				}
 
 				return eventuallyFinal.doApplyAsDouble(s);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

@@ -61,7 +61,7 @@ public class LDoubleToIntFunctionBuilderTest<X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LDoubleToIntFunction function = LDoubleToIntFunctionBuilder.doubleToIntFunction()
@@ -77,7 +77,7 @@ public class LDoubleToIntFunctionBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,11 +92,11 @@ public class LDoubleToIntFunctionBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LDoubleToIntFunction function = LDoubleToIntFunctionBuilder.doubleToIntFunction()
-                .eventually((d) -> {
+                .eventually(d -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -112,14 +112,14 @@ public class LDoubleToIntFunctionBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LDoubleToIntFunction function = doubleToIntFunction((LDoubleToIntFunction f)-> doNothing())
-            .addCase(ce -> ce.of((d) -> d == (double)0)
-                             .evaluate((d) -> (int)0))
-            .inCase((d) -> d > 0 && d < 10).evaluate((d) -> (int)1)
-            .inCase((d) -> d > 10 && d < 20).evaluate((d) -> (int)2)
-            .eventually((d) -> (int)99)
+            .addCase(ce -> ce.of(d -> d == (double)0)
+                             .evaluate(d -> (int)0))
+            .inCase(d -> d > 0 && d < 10).evaluate(d -> (int)1)
+            .inCase(d -> d > 10 && d < 20).evaluate(d -> (int)2)
+            .eventually(d -> (int)99)
             .build();
 
 

@@ -75,9 +75,9 @@ public interface LLongConsumerX<X extends Throwable> extends java.util.function.
 	default void nestingDoAccept(long l) {
 		try {
 			this.doAccept(l);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -90,7 +90,7 @@ public interface LLongConsumerX<X extends Throwable> extends java.util.function.
 
 		try {
 			this.doAccept(l);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -144,7 +144,7 @@ public interface LLongConsumerX<X extends Throwable> extends java.util.function.
 	@Nonnull
 	default LLongConsumerX<X> fromLong(@Nonnull final LLongUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final long v1) -> this.doAccept(before1.doApplyAsLong(v1));
+		return v1 -> this.doAccept(before1.doApplyAsLong(v1));
 	}
 
 	/**
@@ -153,7 +153,7 @@ public interface LLongConsumerX<X extends Throwable> extends java.util.function.
 	@Nonnull
 	default <V1> LConsumerX<V1, X> from(@Nonnull final LToLongFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doAccept(before1.doApplyAsLong(v1));
+		return v1 -> this.doAccept(before1.doApplyAsLong(v1));
 	}
 
 	// </editor-fold>
@@ -164,7 +164,7 @@ public interface LLongConsumerX<X extends Throwable> extends java.util.function.
 	@Nonnull
 	default LLongConsumerX<X> andThen(@Nonnull LLongConsumerX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (long l) -> {
+		return l -> {
 			this.doAccept(l);
 			after.doAccept(l);
 		};
@@ -200,12 +200,12 @@ public interface LLongConsumerX<X extends Throwable> extends java.util.function.
 
 	@Nonnull
 	default LLongConsumer handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (long l) -> this.handlingDoAccept(l, handling);
+		return l -> this.handlingDoAccept(l, handling);
 	}
 
 	@Nonnull
 	default <Y extends Throwable> LLongConsumerX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (long l) -> this.handlingDoAccept(l, handling);
+		return l -> this.handlingDoAccept(l, handling);
 	}
 
 	// </editor-fold>

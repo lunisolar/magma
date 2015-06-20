@@ -46,9 +46,9 @@ public class LCharBiConsumerAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LCharBiConsumer function = LCharBiConsumer.l((c1,c2) -> {
-            externalEffect.set(testValue);
-    });
+    private LCharBiConsumer function = LCharBiConsumer.l((c1,c2) ->
+            externalEffect.set(testValue)
+    );
 
     private LCharBiConsumer functionThrowing = LCharBiConsumer.l((c1,c2) -> {
         throw new UnsupportedOperationException();

@@ -107,7 +107,7 @@ public final class IntToDoubleFunctionBuilder extends PerCaseBuilderWithDoublePr
 		java.util.function.IntToDoubleFunction retval;
 
 		final Case<LIntPredicate, java.util.function.IntToDoubleFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.l((int i) -> {
+		retval = Function4U.intToDoubleFunction(i -> {
 			try {
 				for (Case<LIntPredicate, java.util.function.IntToDoubleFunction> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(i)) {
@@ -116,10 +116,12 @@ public final class IntToDoubleFunctionBuilder extends PerCaseBuilderWithDoublePr
 				}
 
 				return eventuallyFinal.applyAsDouble(i);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

@@ -45,9 +45,9 @@ public class LDoubleBiFunctionAssertTest<R,X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LDoubleBiFunction<Integer > function = LDoubleBiFunction.l((d1,d2) -> {
-            return (Integer ) testValue;
-    });
+    private LDoubleBiFunction<Integer > function = LDoubleBiFunction.l((d1,d2) ->
+            (Integer ) testValue
+    );
 
     private LDoubleBiFunction<Integer > functionThrowing = LDoubleBiFunction.l((d1,d2) -> {
         throw new UnsupportedOperationException();

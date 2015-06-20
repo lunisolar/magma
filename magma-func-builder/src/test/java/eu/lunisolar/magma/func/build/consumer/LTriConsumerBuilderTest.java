@@ -61,7 +61,7 @@ public class LTriConsumerBuilderTest<T1,T2,T3,X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LTriConsumer function = LTriConsumerBuilder.triConsumer()
@@ -77,7 +77,7 @@ public class LTriConsumerBuilderTest<T1,T2,T3,X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,7 +92,7 @@ public class LTriConsumerBuilderTest<T1,T2,T3,X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LTriConsumer function = LTriConsumerBuilder.triConsumer()
@@ -112,7 +112,7 @@ public class LTriConsumerBuilderTest<T1,T2,T3,X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
         final AtomicInteger externalEffect = new AtomicInteger(0);
 
         LTriConsumer<Integer ,Integer ,Integer > function = triConsumer((LTriConsumer<Integer ,Integer ,Integer > f)-> doNothing())

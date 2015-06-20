@@ -44,11 +44,11 @@ public class DoubleUnaryOperatorAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private java.util.function.DoubleUnaryOperator function = ((d) -> {
-            return testValue;
-    });
+    private java.util.function.DoubleUnaryOperator function = (d ->
+            testValue
+    );
 
-    private java.util.function.DoubleUnaryOperator functionThrowing = ((d) -> {
+    private java.util.function.DoubleUnaryOperator functionThrowing = (d -> {
         throw new UnsupportedOperationException();
     });
 

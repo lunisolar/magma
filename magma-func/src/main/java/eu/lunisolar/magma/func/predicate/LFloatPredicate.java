@@ -95,7 +95,7 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 	}
 
 	public static LFloatPredicate constant(boolean r) {
-		return (f) -> r;
+		return f -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -121,7 +121,7 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 	 */
 	@Nonnull
 	default LFloatPredicate negate() {
-		return (float f) -> !doTest(f);
+		return f -> !doTest(f);
 	}
 
 	/**
@@ -130,7 +130,7 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 	@Nonnull
 	default LFloatPredicate and(@Nonnull LFloatPredicate other) {
 		Null.nonNullArg(other, "other");
-		return (float f) -> doTest(f) && other.doTest(f);
+		return f -> doTest(f) && other.doTest(f);
 	}
 
 	/**
@@ -139,7 +139,7 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 	@Nonnull
 	default LFloatPredicate or(@Nonnull LFloatPredicate other) {
 		Null.nonNullArg(other, "other");
-		return (float f) -> doTest(f) || other.doTest(f);
+		return f -> doTest(f) || other.doTest(f);
 	}
 
 	/**
@@ -148,7 +148,7 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 	@Nonnull
 	default LFloatPredicate xor(@Nonnull LFloatPredicate other) {
 		Null.nonNullArg(other, "other");
-		return (float f) -> doTest(f) ^ other.doTest(f);
+		return f -> doTest(f) ^ other.doTest(f);
 	}
 
 	@Nonnull
@@ -166,7 +166,7 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 	@Nonnull
 	default LFloatPredicate fromFloat(@Nonnull final LFloatUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final float v1) -> this.doTest(before1.doApplyAsFloat(v1));
+		return v1 -> this.doTest(before1.doApplyAsFloat(v1));
 	}
 
 	/**
@@ -175,7 +175,7 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 	@Nonnull
 	default <V1> LPredicate<V1> from(@Nonnull final LToFloatFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doTest(before1.doApplyAsFloat(v1));
+		return v1 -> this.doTest(before1.doApplyAsFloat(v1));
 	}
 
 	// </editor-fold>
@@ -186,63 +186,63 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 	@Nonnull
 	default <V> LFloatFunction<V> then(@Nonnull LBooleanFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (float f) -> after.doApply(this.doTest(f));
+		return f -> after.doApply(this.doTest(f));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LFloatToByteFunction thenToByte(@Nonnull LBooleanToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return (float f) -> after.doApplyAsByte(this.doTest(f));
+		return f -> after.doApplyAsByte(this.doTest(f));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LFloatToShortFunction thenToShort(@Nonnull LBooleanToShortFunction after) {
 		Null.nonNullArg(after, "after");
-		return (float f) -> after.doApplyAsShort(this.doTest(f));
+		return f -> after.doApplyAsShort(this.doTest(f));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LFloatToIntFunction thenToInt(@Nonnull LBooleanToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return (float f) -> after.doApplyAsInt(this.doTest(f));
+		return f -> after.doApplyAsInt(this.doTest(f));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LFloatToLongFunction thenToLong(@Nonnull LBooleanToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return (float f) -> after.doApplyAsLong(this.doTest(f));
+		return f -> after.doApplyAsLong(this.doTest(f));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LFloatUnaryOperator thenToFloat(@Nonnull LBooleanToFloatFunction after) {
 		Null.nonNullArg(after, "after");
-		return (float f) -> after.doApplyAsFloat(this.doTest(f));
+		return f -> after.doApplyAsFloat(this.doTest(f));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LFloatToDoubleFunction thenToDouble(@Nonnull LBooleanToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
-		return (float f) -> after.doApplyAsDouble(this.doTest(f));
+		return f -> after.doApplyAsDouble(this.doTest(f));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LFloatToCharFunction thenToChar(@Nonnull LBooleanToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return (float f) -> after.doApplyAsChar(this.doTest(f));
+		return f -> after.doApplyAsChar(this.doTest(f));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LFloatPredicate thenToBoolean(@Nonnull LBooleanUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return (float f) -> after.doApplyAsBoolean(this.doTest(f));
+		return f -> after.doApplyAsBoolean(this.doTest(f));
 	}
 
 	// </editor-fold>

@@ -67,9 +67,9 @@ public interface LBiLongPredicateX<X extends Throwable> extends MetaPredicate, P
 	default boolean nestingDoTest(long l1, long l2) {
 		try {
 			return this.doTest(l1, l2);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -82,7 +82,7 @@ public interface LBiLongPredicateX<X extends Throwable> extends MetaPredicate, P
 
 		try {
 			return this.doTest(l1, l2);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

@@ -108,7 +108,7 @@ public final class LToCharFunctionBuilder<T> extends PerCaseBuilderWithCharProdu
 		LToCharFunction<T> retval;
 
 		final Case<LPredicate<T>, LToCharFunction<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LToCharFunction.l((T t) -> {
+		retval = LToCharFunction.<T> l(t -> {
 			try {
 				for (Case<LPredicate<T>, LToCharFunction<T>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(t)) {
@@ -117,10 +117,12 @@ public final class LToCharFunctionBuilder<T> extends PerCaseBuilderWithCharProdu
 				}
 
 				return eventuallyFinal.doApplyAsChar(t);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

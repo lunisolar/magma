@@ -44,11 +44,11 @@ public class IntFunctionAssertTest<R,X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private java.util.function.IntFunction<Integer > function = ((i) -> {
-            return (Integer ) testValue;
-    });
+    private java.util.function.IntFunction<Integer > function = (i ->
+            (Integer ) testValue
+    );
 
-    private java.util.function.IntFunction<Integer > functionThrowing = ((i) -> {
+    private java.util.function.IntFunction<Integer > functionThrowing = (i -> {
         throw new UnsupportedOperationException();
     });
 

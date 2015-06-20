@@ -108,7 +108,7 @@ public final class LCharToFloatFunctionBuilder extends PerCaseBuilderWithFloatPr
 		LCharToFloatFunction retval;
 
 		final Case<LCharPredicate, LCharToFloatFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LCharToFloatFunction.l((char c) -> {
+		retval = LCharToFloatFunction.l(c -> {
 			try {
 				for (Case<LCharPredicate, LCharToFloatFunction> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(c)) {
@@ -117,10 +117,12 @@ public final class LCharToFloatFunctionBuilder extends PerCaseBuilderWithFloatPr
 				}
 
 				return eventuallyFinal.doApplyAsFloat(c);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

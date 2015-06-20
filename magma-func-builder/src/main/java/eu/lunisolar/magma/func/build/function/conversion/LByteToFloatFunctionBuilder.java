@@ -108,7 +108,7 @@ public final class LByteToFloatFunctionBuilder extends PerCaseBuilderWithFloatPr
 		LByteToFloatFunction retval;
 
 		final Case<LBytePredicate, LByteToFloatFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LByteToFloatFunction.l((byte b) -> {
+		retval = LByteToFloatFunction.l(b -> {
 			try {
 				for (Case<LBytePredicate, LByteToFloatFunction> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(b)) {
@@ -117,10 +117,12 @@ public final class LByteToFloatFunctionBuilder extends PerCaseBuilderWithFloatPr
 				}
 
 				return eventuallyFinal.doApplyAsFloat(b);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

@@ -74,11 +74,11 @@ public class LFloatToDoubleFunctionXTest<X extends ParseException> {
 
 
 
-    private LFloatToDoubleFunctionX<ParseException> sutAlwaysThrowing = LFloatToDoubleFunctionX.lX((float f) -> {
+    private LFloatToDoubleFunctionX<ParseException> sutAlwaysThrowing = LFloatToDoubleFunctionX.lX(f -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LFloatToDoubleFunctionX<RuntimeException> sutAlwaysThrowingUnckeck = LFloatToDoubleFunctionX.lX((float f) -> {
+    private LFloatToDoubleFunctionX<RuntimeException> sutAlwaysThrowingUnckeck = LFloatToDoubleFunctionX.lX(f -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -96,7 +96,7 @@ public class LFloatToDoubleFunctionXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApplyAsDouble_checked() throws X {
+    public void testNestingDoApplyAsDoubleChecked() throws X {
 
         // then
         try {
@@ -111,7 +111,7 @@ public class LFloatToDoubleFunctionXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApplyAsDouble_unckeck() throws X {
+    public void testNestingDoApplyAsDoubleUnckeck() throws X {
 
         // then
         try {
@@ -126,7 +126,7 @@ public class LFloatToDoubleFunctionXTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsDouble_checked() throws X {
+    public void testShovingDoApplyAsDoubleChecked() throws X {
 
         // then
         try {
@@ -141,7 +141,7 @@ public class LFloatToDoubleFunctionXTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsDouble_unckeck() throws X {
+    public void testShovingDoApplyAsDoubleUnckeck() throws X {
 
         // then
         try {
@@ -156,7 +156,6 @@ public class LFloatToDoubleFunctionXTest<X extends ParseException> {
     }
 
 
-
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
@@ -165,7 +164,7 @@ public class LFloatToDoubleFunctionXTest<X extends ParseException> {
 
     @Test
     public void testLXMethod() throws X {
-        assertThat(LFloatToDoubleFunctionX.lX((float f) -> testValue ))
+        assertThat(LFloatToDoubleFunctionX.lX(f -> testValue ))
             .isInstanceOf(LFloatToDoubleFunctionX.class);
     }
 
@@ -180,14 +179,13 @@ public class LFloatToDoubleFunctionXTest<X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LFloatToDoubleFunctionX<X> sutThrowing = LFloatToDoubleFunctionX.lX((float f) -> {
+        LFloatToDoubleFunctionX<X> sutThrowing = LFloatToDoubleFunctionX.lX(f -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        LFloatToDoubleFunctionX<X> wrapped = sutThrowing.handleX(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LFloatToDoubleFunctionX<X> wrapped = sutThrowing.handleX(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -202,10 +200,10 @@ public class LFloatToDoubleFunctionXTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LFloatToDoubleFunctionX<X> sutThrowing = LFloatToDoubleFunctionX.lX((float f) -> {
+        LFloatToDoubleFunctionX<X> sutThrowing = LFloatToDoubleFunctionX.lX(f -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -226,10 +224,10 @@ public class LFloatToDoubleFunctionXTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LFloatToDoubleFunctionX<X> sutThrowing = LFloatToDoubleFunctionX.lX((float f) -> {
+        LFloatToDoubleFunctionX<X> sutThrowing = LFloatToDoubleFunctionX.lX(f -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -254,13 +252,12 @@ public class LFloatToDoubleFunctionXTest<X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LFloatToDoubleFunctionX<X> sutThrowing = LFloatToDoubleFunctionX.lX((float f) -> {
+        LFloatToDoubleFunctionX<X> sutThrowing = LFloatToDoubleFunctionX.lX(f -> {
             throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
         // when
-        LFloatToDoubleFunctionX<X> wrapped = sutThrowing.handleX(h -> {
-        });
+        LFloatToDoubleFunctionX<X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -285,7 +282,7 @@ public class LFloatToDoubleFunctionXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LFloatToDoubleFunctionX<X> sutO = (float f) -> {
+        LFloatToDoubleFunctionX<X> sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)90);
                 return (double)100;
@@ -314,7 +311,7 @@ public class LFloatToDoubleFunctionXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LFloatToDoubleFunctionX<X> sutO = (float f) -> {
+        LFloatToDoubleFunctionX<X> sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)90);
                 return (double)100;
@@ -348,7 +345,7 @@ public class LFloatToDoubleFunctionXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatToDoubleFunctionX<X> sutO = (float f) -> {
+        LFloatToDoubleFunctionX<X> sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)80);
                 return (double)90;
@@ -383,7 +380,7 @@ public class LFloatToDoubleFunctionXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatToDoubleFunctionX<X> sutO = (float f) -> {
+        LFloatToDoubleFunctionX<X> sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)80);
                 return (double)90;
@@ -418,7 +415,7 @@ public class LFloatToDoubleFunctionXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatToDoubleFunctionX<X> sutO = (float f) -> {
+        LFloatToDoubleFunctionX<X> sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)80);
                 return (double)90;
@@ -453,7 +450,7 @@ public class LFloatToDoubleFunctionXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatToDoubleFunctionX<X> sutO = (float f) -> {
+        LFloatToDoubleFunctionX<X> sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)80);
                 return (double)90;
@@ -488,7 +485,7 @@ public class LFloatToDoubleFunctionXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatToDoubleFunctionX<X> sutO = (float f) -> {
+        LFloatToDoubleFunctionX<X> sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)80);
                 return (double)90;
@@ -523,7 +520,7 @@ public class LFloatToDoubleFunctionXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatToDoubleFunctionX<X> sutO = (float f) -> {
+        LFloatToDoubleFunctionX<X> sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)80);
                 return (double)90;
@@ -558,7 +555,7 @@ public class LFloatToDoubleFunctionXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatToDoubleFunctionX<X> sutO = (float f) -> {
+        LFloatToDoubleFunctionX<X> sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)80);
                 return (double)90;
@@ -593,7 +590,7 @@ public class LFloatToDoubleFunctionXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatToDoubleFunctionX<X> sutO = (float f) -> {
+        LFloatToDoubleFunctionX<X> sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)80);
                 return (double)90;
@@ -628,7 +625,7 @@ public class LFloatToDoubleFunctionXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatToDoubleFunctionX<X> sutO = (float f) -> {
+        LFloatToDoubleFunctionX<X> sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)80);
                 return (double)90;
@@ -685,7 +682,7 @@ public class LFloatToDoubleFunctionXTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LFloatToDoubleFunctionX<X> sutThrowing = LFloatToDoubleFunctionX.lX((float f) -> {
+        LFloatToDoubleFunctionX<X> sutThrowing = LFloatToDoubleFunctionX.lX(f -> {
             throw new UnsupportedOperationException();
         });
 
@@ -697,7 +694,7 @@ public class LFloatToDoubleFunctionXTest<X extends ParseException> {
     public void testHandle() throws X {
 
         // given
-        LFloatToDoubleFunctionX<X> sutThrowing = LFloatToDoubleFunctionX.lX((float f) -> {
+        LFloatToDoubleFunctionX<X> sutThrowing = LFloatToDoubleFunctionX.lX(f -> {
             throw new UnsupportedOperationException();
         });
 

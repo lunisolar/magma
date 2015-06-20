@@ -108,7 +108,7 @@ public final class LLongToIntFunctionBuilder extends PerCaseBuilderWithIntProduc
 		LLongToIntFunction retval;
 
 		final Case<LLongPredicate, LLongToIntFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LLongToIntFunction.l((long l) -> {
+		retval = LLongToIntFunction.l(l -> {
 			try {
 				for (Case<LLongPredicate, LLongToIntFunction> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(l)) {
@@ -117,10 +117,12 @@ public final class LLongToIntFunctionBuilder extends PerCaseBuilderWithIntProduc
 				}
 
 				return eventuallyFinal.doApplyAsInt(l);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

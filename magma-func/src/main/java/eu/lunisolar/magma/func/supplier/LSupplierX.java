@@ -75,9 +75,9 @@ public interface LSupplierX<R, X extends Throwable> extends java.util.function.S
 	default R nestingDoGet() {
 		try {
 			return this.doGet();
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -90,7 +90,7 @@ public interface LSupplierX<R, X extends Throwable> extends java.util.function.S
 
 		try {
 			return this.doGet();
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

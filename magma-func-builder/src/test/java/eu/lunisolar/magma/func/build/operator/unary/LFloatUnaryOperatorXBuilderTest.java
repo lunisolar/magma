@@ -61,7 +61,7 @@ public class LFloatUnaryOperatorXBuilderTest<X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LFloatUnaryOperatorX function = LFloatUnaryOperatorXBuilder.floatUnaryOperatorX()
@@ -77,7 +77,7 @@ public class LFloatUnaryOperatorXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,11 +92,11 @@ public class LFloatUnaryOperatorXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LFloatUnaryOperatorX function = LFloatUnaryOperatorXBuilder.floatUnaryOperatorX()
-                .eventually((f) -> {
+                .eventually(f -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -112,14 +112,14 @@ public class LFloatUnaryOperatorXBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LFloatUnaryOperatorX<ParseException> function = floatUnaryOperatorX((LFloatUnaryOperatorX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((f) -> f == (float)0)
-                             .evaluate((f) -> (float)0))
-            .inCase((f) -> f > 0 && f < 10).evaluate((f) -> (float)1)
-            .inCase((f) -> f > 10 && f < 20).evaluate((f) -> (float)2)
-            .eventually((f) -> (float)99)
+            .addCase(ce -> ce.of(f -> f == (float)0)
+                             .evaluate(f -> (float)0))
+            .inCase(f -> f > 0 && f < 10).evaluate(f -> (float)1)
+            .inCase(f -> f > 10 && f < 20).evaluate(f -> (float)2)
+            .eventually(f -> (float)99)
             .build();
 
 

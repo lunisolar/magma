@@ -108,7 +108,7 @@ public final class LLongBiFunctionXBuilder<R, X extends Throwable> extends PerCa
 		LLongBiFunctionX<R, X> retval;
 
 		final Case<LBiLongPredicateX<X>, LLongBiFunctionX<R, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LLongBiFunctionX.lX((long l1, long l2) -> {
+		retval = LLongBiFunctionX.<R, X> lX((long l1, long l2) -> {
 			try {
 				for (Case<LBiLongPredicateX<X>, LLongBiFunctionX<R, X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(l1, l2)) {
@@ -117,10 +117,12 @@ public final class LLongBiFunctionXBuilder<R, X extends Throwable> extends PerCa
 				}
 
 				return eventuallyFinal.doApply(l1, l2);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

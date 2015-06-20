@@ -61,7 +61,7 @@ public class LShortPredicateXBuilderTest<X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LShortPredicateX function = LShortPredicateXBuilder.shortPredicateX()
@@ -77,7 +77,7 @@ public class LShortPredicateXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,11 +92,11 @@ public class LShortPredicateXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LShortPredicateX function = LShortPredicateXBuilder.shortPredicateX()
-                .eventually((s) -> {
+                .eventually(s -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -112,14 +112,14 @@ public class LShortPredicateXBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LShortPredicateX<ParseException> function = shortPredicateX((LShortPredicateX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((s) -> s == (short)0)
-                             .evaluate((s) -> false))
-            .inCase((s) -> s > 0 && s < 10).evaluate((s) -> true)
-            .inCase((s) -> s > 10 && s < 20).evaluate((s) -> true)
-            .eventually((s) -> true)
+            .addCase(ce -> ce.of(s -> s == (short)0)
+                             .evaluate(s -> false))
+            .inCase(s -> s > 0 && s < 10).evaluate(s -> true)
+            .inCase(s -> s > 10 && s < 20).evaluate(s -> true)
+            .eventually(s -> true)
             .build();
 
 

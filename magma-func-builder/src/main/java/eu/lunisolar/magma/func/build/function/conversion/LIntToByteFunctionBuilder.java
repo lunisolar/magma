@@ -108,7 +108,7 @@ public final class LIntToByteFunctionBuilder extends PerCaseBuilderWithByteProdu
 		LIntToByteFunction retval;
 
 		final Case<LIntPredicate, LIntToByteFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LIntToByteFunction.l((int i) -> {
+		retval = LIntToByteFunction.l(i -> {
 			try {
 				for (Case<LIntPredicate, LIntToByteFunction> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(i)) {
@@ -117,10 +117,12 @@ public final class LIntToByteFunctionBuilder extends PerCaseBuilderWithByteProdu
 				}
 
 				return eventuallyFinal.doApplyAsByte(i);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

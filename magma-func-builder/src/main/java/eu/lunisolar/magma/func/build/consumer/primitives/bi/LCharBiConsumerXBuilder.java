@@ -108,7 +108,7 @@ public final class LCharBiConsumerXBuilder<X extends Throwable> extends PerCaseB
 		LCharBiConsumerX<X> retval;
 
 		final Case<LBiCharPredicateX<X>, LCharBiConsumerX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LCharBiConsumerX.lX((char c1, char c2) -> {
+		retval = LCharBiConsumerX.<X> lX((char c1, char c2) -> {
 			try {
 				for (Case<LBiCharPredicateX<X>, LCharBiConsumerX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(c1, c2)) {
@@ -118,10 +118,12 @@ public final class LCharBiConsumerXBuilder<X extends Throwable> extends PerCaseB
 				}
 
 				eventuallyFinal.doAccept(c1, c2);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

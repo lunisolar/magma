@@ -61,7 +61,7 @@ public class LIntToLongFunctionXBuilderTest<X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LIntToLongFunctionX function = LIntToLongFunctionXBuilder.intToLongFunctionX()
@@ -77,7 +77,7 @@ public class LIntToLongFunctionXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,11 +92,11 @@ public class LIntToLongFunctionXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LIntToLongFunctionX function = LIntToLongFunctionXBuilder.intToLongFunctionX()
-                .eventually((i) -> {
+                .eventually(i -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -112,14 +112,14 @@ public class LIntToLongFunctionXBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LIntToLongFunctionX<ParseException> function = intToLongFunctionX((LIntToLongFunctionX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((i) -> i == (int)0)
-                             .evaluate((i) -> (long)0))
-            .inCase((i) -> i > 0 && i < 10).evaluate((i) -> (long)1)
-            .inCase((i) -> i > 10 && i < 20).evaluate((i) -> (long)2)
-            .eventually((i) -> (long)99)
+            .addCase(ce -> ce.of(i -> i == (int)0)
+                             .evaluate(i -> (long)0))
+            .inCase(i -> i > 0 && i < 10).evaluate(i -> (long)1)
+            .inCase(i -> i > 10 && i < 20).evaluate(i -> (long)2)
+            .eventually(i -> (long)99)
             .build();
 
 

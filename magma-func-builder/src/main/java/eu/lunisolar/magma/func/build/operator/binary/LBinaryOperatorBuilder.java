@@ -108,7 +108,7 @@ public final class LBinaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.B
 		LBinaryOperator<T> retval;
 
 		final Case<LBiPredicate<T, T>, LBinaryOperator<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBinaryOperator.l((T t1, T t2) -> {
+		retval = LBinaryOperator.<T> l((T t1, T t2) -> {
 			try {
 				for (Case<LBiPredicate<T, T>, LBinaryOperator<T>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(t1, t2)) {
@@ -117,10 +117,12 @@ public final class LBinaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.B
 				}
 
 				return eventuallyFinal.doApply(t1, t2);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

@@ -95,7 +95,7 @@ public class LDoubleSupplierTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoGetAsDouble_unckeck() throws X {
+    public void testNestingDoGetAsDoubleUnckeck() throws X {
 
         // then
         try {
@@ -110,7 +110,7 @@ public class LDoubleSupplierTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoGetAsDouble_unckeck() throws X {
+    public void testShovingDoGetAsDoubleUnckeck() throws X {
 
         // then
         try {
@@ -123,7 +123,6 @@ public class LDoubleSupplierTest<X extends ParseException> {
                     .hasMessage(ORIGINAL_MESSAGE);
         }
     }
-
 
 
     @Test
@@ -204,9 +203,8 @@ public class LDoubleSupplierTest<X extends ParseException> {
         });
 
         // when
-        LDoubleSupplier wrapped = sutThrowing.handle(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LDoubleSupplier wrapped = sutThrowing.handle(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -221,7 +219,7 @@ public class LDoubleSupplierTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
         LDoubleSupplier sutThrowing = LDoubleSupplier.l(() -> {
@@ -245,7 +243,7 @@ public class LDoubleSupplierTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
         LDoubleSupplier sutThrowing = LDoubleSupplier.l(() -> {
@@ -278,8 +276,7 @@ public class LDoubleSupplierTest<X extends ParseException> {
         });
 
         // when
-        LDoubleSupplier wrapped = sutThrowing.handle(h -> {
-        });
+        LDoubleSupplier wrapped = sutThrowing.handle(h -> Function4U.doNothing());
 
         // then
         try {

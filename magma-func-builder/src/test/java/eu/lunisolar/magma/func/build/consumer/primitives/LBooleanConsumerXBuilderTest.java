@@ -61,7 +61,7 @@ public class LBooleanConsumerXBuilderTest<X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LBooleanConsumerX function = LBooleanConsumerXBuilder.booleanConsumerX()
@@ -77,7 +77,7 @@ public class LBooleanConsumerXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,11 +92,11 @@ public class LBooleanConsumerXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LBooleanConsumerX function = LBooleanConsumerXBuilder.booleanConsumerX()
-                .eventually((b) -> {
+                .eventually(b -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -112,14 +112,14 @@ public class LBooleanConsumerXBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
         final AtomicInteger externalEffect = new AtomicInteger(0);
 
         LBooleanConsumerX<ParseException> function = booleanConsumerX((LBooleanConsumerX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((b) -> b == false)
-                             .evaluate((b) -> externalEffect.set(0)))
-            .inCase((b) -> b == true ).evaluate((b) -> externalEffect.set(1))
-            .eventually((b) -> externalEffect.set(99))
+            .addCase(ce -> ce.of(b -> b == false)
+                             .evaluate(b -> externalEffect.set(0)))
+            .inCase(b -> b == true ).evaluate(b -> externalEffect.set(1))
+            .eventually(b -> externalEffect.set(99))
             .build();
 
 

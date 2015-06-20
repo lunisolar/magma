@@ -61,7 +61,7 @@ public class LIntToCharFunctionBuilderTest<X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LIntToCharFunction function = LIntToCharFunctionBuilder.intToCharFunction()
@@ -77,7 +77,7 @@ public class LIntToCharFunctionBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,11 +92,11 @@ public class LIntToCharFunctionBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LIntToCharFunction function = LIntToCharFunctionBuilder.intToCharFunction()
-                .eventually((i) -> {
+                .eventually(i -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -112,14 +112,14 @@ public class LIntToCharFunctionBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LIntToCharFunction function = intToCharFunction((LIntToCharFunction f)-> doNothing())
-            .addCase(ce -> ce.of((i) -> i == (int)0)
-                             .evaluate((i) -> (char)0))
-            .inCase((i) -> i > 0 && i < 10).evaluate((i) -> (char)1)
-            .inCase((i) -> i > 10 && i < 20).evaluate((i) -> (char)2)
-            .eventually((i) -> (char)99)
+            .addCase(ce -> ce.of(i -> i == (int)0)
+                             .evaluate(i -> (char)0))
+            .inCase(i -> i > 0 && i < 10).evaluate(i -> (char)1)
+            .inCase(i -> i > 10 && i < 20).evaluate(i -> (char)2)
+            .eventually(i -> (char)99)
             .build();
 
 

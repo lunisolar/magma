@@ -68,9 +68,9 @@ public interface LBooleanBiFunctionX<R, X extends Throwable> extends MetaFunctio
 	default R nestingDoApply(boolean b1, boolean b2) {
 		try {
 			return this.doApply(b1, b2);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -83,7 +83,7 @@ public interface LBooleanBiFunctionX<R, X extends Throwable> extends MetaFunctio
 
 		try {
 			return this.doApply(b1, b2);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

@@ -108,7 +108,7 @@ public final class LDoubleToFloatFunctionXBuilder<X extends Throwable> extends P
 		LDoubleToFloatFunctionX<X> retval;
 
 		final Case<LDoublePredicateX<X>, LDoubleToFloatFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LDoubleToFloatFunctionX.lX((double d) -> {
+		retval = LDoubleToFloatFunctionX.<X> lX(d -> {
 			try {
 				for (Case<LDoublePredicateX<X>, LDoubleToFloatFunctionX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(d)) {
@@ -117,10 +117,12 @@ public final class LDoubleToFloatFunctionXBuilder<X extends Throwable> extends P
 				}
 
 				return eventuallyFinal.doApplyAsFloat(d);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

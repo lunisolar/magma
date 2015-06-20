@@ -108,7 +108,7 @@ public final class LLongBinaryOperatorXBuilder<X extends Throwable> extends PerC
 		LLongBinaryOperatorX<X> retval;
 
 		final Case<LBiLongPredicateX<X>, LLongBinaryOperatorX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LLongBinaryOperatorX.lX((long l1, long l2) -> {
+		retval = LLongBinaryOperatorX.<X> lX((long l1, long l2) -> {
 			try {
 				for (Case<LBiLongPredicateX<X>, LLongBinaryOperatorX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(l1, l2)) {
@@ -117,10 +117,12 @@ public final class LLongBinaryOperatorXBuilder<X extends Throwable> extends PerC
 				}
 
 				return eventuallyFinal.doApplyAsLong(l1, l2);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

@@ -108,7 +108,7 @@ public final class LLongConsumerXBuilder<X extends Throwable> extends PerCaseBui
 		LLongConsumerX<X> retval;
 
 		final Case<LLongPredicateX<X>, LLongConsumerX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LLongConsumerX.lX((long l) -> {
+		retval = LLongConsumerX.<X> lX(l -> {
 			try {
 				for (Case<LLongPredicateX<X>, LLongConsumerX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(l)) {
@@ -118,10 +118,12 @@ public final class LLongConsumerXBuilder<X extends Throwable> extends PerCaseBui
 				}
 
 				eventuallyFinal.doAccept(l);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

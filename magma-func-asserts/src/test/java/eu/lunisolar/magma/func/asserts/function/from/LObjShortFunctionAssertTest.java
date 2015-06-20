@@ -45,9 +45,9 @@ public class LObjShortFunctionAssertTest<T,R,X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LObjShortFunction<Integer ,Integer > function = LObjShortFunction.l((t, s) -> {
-            return (Integer ) testValue;
-    });
+    private LObjShortFunction<Integer ,Integer > function = LObjShortFunction.l((t, s) ->
+            (Integer ) testValue
+    );
 
     private LObjShortFunction<Integer ,Integer > functionThrowing = LObjShortFunction.l((t, s) -> {
         throw new UnsupportedOperationException();

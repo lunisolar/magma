@@ -108,7 +108,7 @@ public final class LIntToByteFunctionXBuilder<X extends Throwable> extends PerCa
 		LIntToByteFunctionX<X> retval;
 
 		final Case<LIntPredicateX<X>, LIntToByteFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LIntToByteFunctionX.lX((int i) -> {
+		retval = LIntToByteFunctionX.<X> lX(i -> {
 			try {
 				for (Case<LIntPredicateX<X>, LIntToByteFunctionX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(i)) {
@@ -117,10 +117,12 @@ public final class LIntToByteFunctionXBuilder<X extends Throwable> extends PerCa
 				}
 
 				return eventuallyFinal.doApplyAsByte(i);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

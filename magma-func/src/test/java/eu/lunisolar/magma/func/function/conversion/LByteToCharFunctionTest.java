@@ -75,7 +75,7 @@ public class LByteToCharFunctionTest<X extends ParseException> {
 
 
 
-    private LByteToCharFunction sutAlwaysThrowingUnckeck = LByteToCharFunction.l((byte b) -> {
+    private LByteToCharFunction sutAlwaysThrowingUnckeck = LByteToCharFunction.l(b -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -93,7 +93,7 @@ public class LByteToCharFunctionTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApplyAsChar_unckeck() throws X {
+    public void testNestingDoApplyAsCharUnckeck() throws X {
 
         // then
         try {
@@ -108,7 +108,7 @@ public class LByteToCharFunctionTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsChar_unckeck() throws X {
+    public void testShovingDoApplyAsCharUnckeck() throws X {
 
         // then
         try {
@@ -123,7 +123,6 @@ public class LByteToCharFunctionTest<X extends ParseException> {
     }
 
 
-
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
@@ -132,7 +131,7 @@ public class LByteToCharFunctionTest<X extends ParseException> {
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LByteToCharFunction.l((byte b) -> testValue ))
+        assertThat(LByteToCharFunction.l(b -> testValue ))
             .isInstanceOf(LByteToCharFunction.class);
     }
 
@@ -145,7 +144,7 @@ public class LByteToCharFunctionTest<X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LByteToCharFunctionX<X> sutThrowing = LByteToCharFunctionX.lX((byte b) -> {
+        LByteToCharFunctionX<X> sutThrowing = LByteToCharFunctionX.lX(b -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -167,7 +166,7 @@ public class LByteToCharFunctionTest<X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LByteToCharFunctionX<ParseException> sutThrowing = LByteToCharFunctionX.lX((byte b) -> {
+        LByteToCharFunctionX<ParseException> sutThrowing = LByteToCharFunctionX.lX(b -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -191,14 +190,13 @@ public class LByteToCharFunctionTest<X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LByteToCharFunction sutThrowing = LByteToCharFunction.l((byte b) -> {
+        LByteToCharFunction sutThrowing = LByteToCharFunction.l(b -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        LByteToCharFunction wrapped = sutThrowing.handle(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LByteToCharFunction wrapped = sutThrowing.handle(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -213,10 +211,10 @@ public class LByteToCharFunctionTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LByteToCharFunction sutThrowing = LByteToCharFunction.l((byte b) -> {
+        LByteToCharFunction sutThrowing = LByteToCharFunction.l(b -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -237,10 +235,10 @@ public class LByteToCharFunctionTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LByteToCharFunction sutThrowing = LByteToCharFunction.l((byte b) -> {
+        LByteToCharFunction sutThrowing = LByteToCharFunction.l(b -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -265,13 +263,12 @@ public class LByteToCharFunctionTest<X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LByteToCharFunction sutThrowing = LByteToCharFunction.l((byte b) -> {
+        LByteToCharFunction sutThrowing = LByteToCharFunction.l(b -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
         // when
-        LByteToCharFunction wrapped = sutThrowing.handle(h -> {
-        });
+        LByteToCharFunction wrapped = sutThrowing.handle(h -> Function4U.doNothing());
 
         // then
         try {
@@ -296,7 +293,7 @@ public class LByteToCharFunctionTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LByteToCharFunction sutO = (byte b) -> {
+        LByteToCharFunction sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo((byte)90);
                 return (char)100;
@@ -325,7 +322,7 @@ public class LByteToCharFunctionTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LByteToCharFunction sutO = (byte b) -> {
+        LByteToCharFunction sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo((byte)90);
                 return (char)100;
@@ -359,7 +356,7 @@ public class LByteToCharFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LByteToCharFunction sutO = (byte b) -> {
+        LByteToCharFunction sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo((byte)80);
                 return (char)90;
@@ -394,7 +391,7 @@ public class LByteToCharFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LByteToCharFunction sutO = (byte b) -> {
+        LByteToCharFunction sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo((byte)80);
                 return (char)90;
@@ -429,7 +426,7 @@ public class LByteToCharFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LByteToCharFunction sutO = (byte b) -> {
+        LByteToCharFunction sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo((byte)80);
                 return (char)90;
@@ -464,7 +461,7 @@ public class LByteToCharFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LByteToCharFunction sutO = (byte b) -> {
+        LByteToCharFunction sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo((byte)80);
                 return (char)90;
@@ -499,7 +496,7 @@ public class LByteToCharFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LByteToCharFunction sutO = (byte b) -> {
+        LByteToCharFunction sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo((byte)80);
                 return (char)90;
@@ -534,7 +531,7 @@ public class LByteToCharFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LByteToCharFunction sutO = (byte b) -> {
+        LByteToCharFunction sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo((byte)80);
                 return (char)90;
@@ -569,7 +566,7 @@ public class LByteToCharFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LByteToCharFunction sutO = (byte b) -> {
+        LByteToCharFunction sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo((byte)80);
                 return (char)90;
@@ -604,7 +601,7 @@ public class LByteToCharFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LByteToCharFunction sutO = (byte b) -> {
+        LByteToCharFunction sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo((byte)80);
                 return (char)90;
@@ -639,7 +636,7 @@ public class LByteToCharFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LByteToCharFunction sutO = (byte b) -> {
+        LByteToCharFunction sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo((byte)80);
                 return (char)90;
@@ -700,7 +697,7 @@ public class LByteToCharFunctionTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LByteToCharFunction sutThrowing = LByteToCharFunction.l((byte b) -> {
+        LByteToCharFunction sutThrowing = LByteToCharFunction.l(b -> {
             throw new UnsupportedOperationException();
         });
 
@@ -712,7 +709,7 @@ public class LByteToCharFunctionTest<X extends ParseException> {
     public void testHandle() throws X {
 
         // given
-        LByteToCharFunction sutThrowing = LByteToCharFunction.l((byte b) -> {
+        LByteToCharFunction sutThrowing = LByteToCharFunction.l(b -> {
             throw new UnsupportedOperationException();
         });
 

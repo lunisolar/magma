@@ -61,7 +61,7 @@ public class LIntToByteFunctionBuilderTest<X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LIntToByteFunction function = LIntToByteFunctionBuilder.intToByteFunction()
@@ -77,7 +77,7 @@ public class LIntToByteFunctionBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,11 +92,11 @@ public class LIntToByteFunctionBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LIntToByteFunction function = LIntToByteFunctionBuilder.intToByteFunction()
-                .eventually((i) -> {
+                .eventually(i -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -112,14 +112,14 @@ public class LIntToByteFunctionBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LIntToByteFunction function = intToByteFunction((LIntToByteFunction f)-> doNothing())
-            .addCase(ce -> ce.of((i) -> i == (int)0)
-                             .evaluate((i) -> (byte)0))
-            .inCase((i) -> i > 0 && i < 10).evaluate((i) -> (byte)1)
-            .inCase((i) -> i > 10 && i < 20).evaluate((i) -> (byte)2)
-            .eventually((i) -> (byte)99)
+            .addCase(ce -> ce.of(i -> i == (int)0)
+                             .evaluate(i -> (byte)0))
+            .inCase(i -> i > 0 && i < 10).evaluate(i -> (byte)1)
+            .inCase(i -> i > 10 && i < 20).evaluate(i -> (byte)2)
+            .eventually(i -> (byte)99)
             .build();
 
 

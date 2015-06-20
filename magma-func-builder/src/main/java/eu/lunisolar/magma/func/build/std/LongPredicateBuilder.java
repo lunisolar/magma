@@ -107,7 +107,7 @@ public final class LongPredicateBuilder extends PerCaseBuilderWithBooleanProduct
 		java.util.function.LongPredicate retval;
 
 		final Case<LLongPredicate, java.util.function.LongPredicate>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.l((long l) -> {
+		retval = Function4U.longPredicate(l -> {
 			try {
 				for (Case<LLongPredicate, java.util.function.LongPredicate> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(l)) {
@@ -116,10 +116,12 @@ public final class LongPredicateBuilder extends PerCaseBuilderWithBooleanProduct
 				}
 
 				return eventuallyFinal.test(l);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

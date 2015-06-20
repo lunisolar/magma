@@ -68,9 +68,9 @@ public interface LBiObjBooleanConsumerX<T1, T2, X extends Throwable> extends Met
 	default void nestingDoAccept(T1 t1, T2 t2, boolean b) {
 		try {
 			this.doAccept(t1, t2, b);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -83,7 +83,7 @@ public interface LBiObjBooleanConsumerX<T1, T2, X extends Throwable> extends Met
 
 		try {
 			this.doAccept(t1, t2, b);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

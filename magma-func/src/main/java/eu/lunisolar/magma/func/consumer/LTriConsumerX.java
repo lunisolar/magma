@@ -68,9 +68,9 @@ public interface LTriConsumerX<T1, T2, T3, X extends Throwable> extends MetaCons
 	default void nestingDoAccept(T1 t1, T2 t2, T3 t3) {
 		try {
 			this.doAccept(t1, t2, t3);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -83,7 +83,7 @@ public interface LTriConsumerX<T1, T2, T3, X extends Throwable> extends MetaCons
 
 		try {
 			this.doAccept(t1, t2, t3);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

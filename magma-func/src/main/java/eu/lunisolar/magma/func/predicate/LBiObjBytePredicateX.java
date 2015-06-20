@@ -67,9 +67,9 @@ public interface LBiObjBytePredicateX<T1, T2, X extends Throwable> extends MetaP
 	default boolean nestingDoTest(T1 t1, T2 t2, byte b) {
 		try {
 			return this.doTest(t1, t2, b);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -82,7 +82,7 @@ public interface LBiObjBytePredicateX<T1, T2, X extends Throwable> extends MetaP
 
 		try {
 			return this.doTest(t1, t2, b);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

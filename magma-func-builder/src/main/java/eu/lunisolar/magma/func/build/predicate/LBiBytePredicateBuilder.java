@@ -117,10 +117,12 @@ public final class LBiBytePredicateBuilder extends PerCaseBuilderWithBooleanProd
 				}
 
 				return eventuallyFinal.doTest(b1, b2);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

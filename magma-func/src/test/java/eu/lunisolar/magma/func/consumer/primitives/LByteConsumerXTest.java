@@ -72,15 +72,75 @@ public class LByteConsumerXTest<X extends ParseException> {
 
 
 
-    private LByteConsumerX<ParseException> sutAlwaysThrowing = LByteConsumerX.lX((byte b) -> {
+    private LByteConsumerX<ParseException> sutAlwaysThrowing = LByteConsumerX.lX(b -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LByteConsumerX<RuntimeException> sutAlwaysThrowingUnckeck = LByteConsumerX.lX((byte b) -> {
+    private LByteConsumerX<RuntimeException> sutAlwaysThrowingUnckeck = LByteConsumerX.lX(b -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
+
+    @Test
+    public void testNestingDoAcceptChecked() throws X {
+
+        // then
+        try {
+            sutAlwaysThrowing.nestingDoAccept((byte)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(NestedException.class)
+                    .hasCauseExactlyInstanceOf(ParseException.class)
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testNestingDoAcceptUnckeck() throws X {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.nestingDoAccept((byte)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoAcceptChecked() throws X {
+
+        // then
+        try {
+            sutAlwaysThrowing.shovingDoAccept((byte)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(ParseException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoAcceptUnckeck() throws X {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.shovingDoAccept((byte)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
 
 
     @Test
@@ -91,7 +151,7 @@ public class LByteConsumerXTest<X extends ParseException> {
 
     @Test
     public void testLXMethod() throws X {
-        assertThat(LByteConsumerX.lX((byte b) -> Function4U.doNothing() ))
+        assertThat(LByteConsumerX.lX(b -> Function4U.doNothing() ))
             .isInstanceOf(LByteConsumerX.class);
     }
 
@@ -106,14 +166,13 @@ public class LByteConsumerXTest<X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LByteConsumerX<X> sutThrowing = LByteConsumerX.lX((byte b) -> {
+        LByteConsumerX<X> sutThrowing = LByteConsumerX.lX(b -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        LByteConsumerX<X> wrapped = sutThrowing.handleX(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LByteConsumerX<X> wrapped = sutThrowing.handleX(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -128,10 +187,10 @@ public class LByteConsumerXTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LByteConsumerX<X> sutThrowing = LByteConsumerX.lX((byte b) -> {
+        LByteConsumerX<X> sutThrowing = LByteConsumerX.lX(b -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -152,10 +211,10 @@ public class LByteConsumerXTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LByteConsumerX<X> sutThrowing = LByteConsumerX.lX((byte b) -> {
+        LByteConsumerX<X> sutThrowing = LByteConsumerX.lX(b -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -180,13 +239,12 @@ public class LByteConsumerXTest<X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LByteConsumerX<X> sutThrowing = LByteConsumerX.lX((byte b) -> {
+        LByteConsumerX<X> sutThrowing = LByteConsumerX.lX(b -> {
             throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
         // when
-        LByteConsumerX<X> wrapped = sutThrowing.handleX(h -> {
-        });
+        LByteConsumerX<X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -211,7 +269,7 @@ public class LByteConsumerXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LByteConsumerX<X> sutO = (byte b) -> {
+        LByteConsumerX<X> sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo((byte)90);
         };
@@ -239,7 +297,7 @@ public class LByteConsumerXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LByteConsumerX<X> sutO = (byte b) -> {
+        LByteConsumerX<X> sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo((byte)90);
         };
@@ -268,7 +326,7 @@ public class LByteConsumerXTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
          //given (+ some assertions)
-        LByteConsumerX<X> sutO = (byte b) -> {
+        LByteConsumerX<X> sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo((byte)80);
         };
@@ -316,7 +374,7 @@ public class LByteConsumerXTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LByteConsumerX<X> sutThrowing = LByteConsumerX.lX((byte b) -> {
+        LByteConsumerX<X> sutThrowing = LByteConsumerX.lX(b -> {
             throw new UnsupportedOperationException();
         });
 
@@ -328,7 +386,7 @@ public class LByteConsumerXTest<X extends ParseException> {
     public void testHandle() throws X {
 
         // given
-        LByteConsumerX<X> sutThrowing = LByteConsumerX.lX((byte b) -> {
+        LByteConsumerX<X> sutThrowing = LByteConsumerX.lX(b -> {
             throw new UnsupportedOperationException();
         });
 

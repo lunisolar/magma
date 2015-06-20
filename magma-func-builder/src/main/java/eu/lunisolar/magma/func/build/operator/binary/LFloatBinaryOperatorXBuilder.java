@@ -108,7 +108,7 @@ public final class LFloatBinaryOperatorXBuilder<X extends Throwable> extends Per
 		LFloatBinaryOperatorX<X> retval;
 
 		final Case<LBiFloatPredicateX<X>, LFloatBinaryOperatorX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LFloatBinaryOperatorX.lX((float f1, float f2) -> {
+		retval = LFloatBinaryOperatorX.<X> lX((float f1, float f2) -> {
 			try {
 				for (Case<LBiFloatPredicateX<X>, LFloatBinaryOperatorX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(f1, f2)) {
@@ -117,10 +117,12 @@ public final class LFloatBinaryOperatorXBuilder<X extends Throwable> extends Per
 				}
 
 				return eventuallyFinal.doApplyAsFloat(f1, f2);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

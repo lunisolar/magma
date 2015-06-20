@@ -108,7 +108,7 @@ public final class LShortToCharFunctionBuilder extends PerCaseBuilderWithCharPro
 		LShortToCharFunction retval;
 
 		final Case<LShortPredicate, LShortToCharFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LShortToCharFunction.l((short s) -> {
+		retval = LShortToCharFunction.l(s -> {
 			try {
 				for (Case<LShortPredicate, LShortToCharFunction> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(s)) {
@@ -117,10 +117,12 @@ public final class LShortToCharFunctionBuilder extends PerCaseBuilderWithCharPro
 				}
 
 				return eventuallyFinal.doApplyAsChar(s);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

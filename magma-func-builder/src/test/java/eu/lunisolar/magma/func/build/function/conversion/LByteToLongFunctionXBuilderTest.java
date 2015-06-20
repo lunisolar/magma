@@ -61,7 +61,7 @@ public class LByteToLongFunctionXBuilderTest<X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LByteToLongFunctionX function = LByteToLongFunctionXBuilder.byteToLongFunctionX()
@@ -77,7 +77,7 @@ public class LByteToLongFunctionXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,11 +92,11 @@ public class LByteToLongFunctionXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LByteToLongFunctionX function = LByteToLongFunctionXBuilder.byteToLongFunctionX()
-                .eventually((b) -> {
+                .eventually(b -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -112,14 +112,14 @@ public class LByteToLongFunctionXBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LByteToLongFunctionX<ParseException> function = byteToLongFunctionX((LByteToLongFunctionX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((b) -> b == (byte)0)
-                             .evaluate((b) -> (long)0))
-            .inCase((b) -> b > 0 && b < 10).evaluate((b) -> (long)1)
-            .inCase((b) -> b > 10 && b < 20).evaluate((b) -> (long)2)
-            .eventually((b) -> (long)99)
+            .addCase(ce -> ce.of(b -> b == (byte)0)
+                             .evaluate(b -> (long)0))
+            .inCase(b -> b > 0 && b < 10).evaluate(b -> (long)1)
+            .inCase(b -> b > 10 && b < 20).evaluate(b -> (long)2)
+            .eventually(b -> (long)99)
             .build();
 
 

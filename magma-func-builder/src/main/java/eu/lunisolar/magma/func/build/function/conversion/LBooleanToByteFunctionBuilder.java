@@ -108,7 +108,7 @@ public final class LBooleanToByteFunctionBuilder extends PerCaseBuilderWithByteP
 		LBooleanToByteFunction retval;
 
 		final Case<LBooleanUnaryOperator, LBooleanToByteFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBooleanToByteFunction.l((boolean b) -> {
+		retval = LBooleanToByteFunction.l(b -> {
 			try {
 				for (Case<LBooleanUnaryOperator, LBooleanToByteFunction> aCase : casesArray) {
 					if (aCase.casePredicate().doApplyAsBoolean(b)) {
@@ -117,10 +117,12 @@ public final class LBooleanToByteFunctionBuilder extends PerCaseBuilderWithByteP
 				}
 
 				return eventuallyFinal.doApplyAsByte(b);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

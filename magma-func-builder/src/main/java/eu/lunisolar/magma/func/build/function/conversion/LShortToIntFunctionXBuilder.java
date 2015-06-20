@@ -108,7 +108,7 @@ public final class LShortToIntFunctionXBuilder<X extends Throwable> extends PerC
 		LShortToIntFunctionX<X> retval;
 
 		final Case<LShortPredicateX<X>, LShortToIntFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LShortToIntFunctionX.lX((short s) -> {
+		retval = LShortToIntFunctionX.<X> lX(s -> {
 			try {
 				for (Case<LShortPredicateX<X>, LShortToIntFunctionX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(s)) {
@@ -117,10 +117,12 @@ public final class LShortToIntFunctionXBuilder<X extends Throwable> extends PerC
 				}
 
 				return eventuallyFinal.doApplyAsInt(s);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

@@ -73,11 +73,11 @@ public class LIntUnaryOperatorTest<X extends ParseException> {
     };
 
 
-    private java.util.function.IntUnaryOperator jre = (int i) -> testValue;
+    private java.util.function.IntUnaryOperator jre = i -> testValue;
 
 
 
-    private LIntUnaryOperator sutAlwaysThrowingUnckeck = LIntUnaryOperator.l((int i) -> {
+    private LIntUnaryOperator sutAlwaysThrowingUnckeck = LIntUnaryOperator.l(i -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -95,7 +95,7 @@ public class LIntUnaryOperatorTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApplyAsInt_unckeck() throws X {
+    public void testNestingDoApplyAsIntUnckeck() throws X {
 
         // then
         try {
@@ -110,7 +110,7 @@ public class LIntUnaryOperatorTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsInt_unckeck() throws X {
+    public void testShovingDoApplyAsIntUnckeck() throws X {
 
         // then
         try {
@@ -125,7 +125,6 @@ public class LIntUnaryOperatorTest<X extends ParseException> {
     }
 
 
-
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
@@ -134,7 +133,7 @@ public class LIntUnaryOperatorTest<X extends ParseException> {
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LIntUnaryOperator.l((int i) -> testValue ))
+        assertThat(LIntUnaryOperator.l(i -> testValue ))
             .isInstanceOf(LIntUnaryOperator.class);
     }
 
@@ -153,7 +152,7 @@ public class LIntUnaryOperatorTest<X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LIntUnaryOperatorX<X> sutThrowing = LIntUnaryOperatorX.lX((int i) -> {
+        LIntUnaryOperatorX<X> sutThrowing = LIntUnaryOperatorX.lX(i -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -175,7 +174,7 @@ public class LIntUnaryOperatorTest<X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LIntUnaryOperatorX<ParseException> sutThrowing = LIntUnaryOperatorX.lX((int i) -> {
+        LIntUnaryOperatorX<ParseException> sutThrowing = LIntUnaryOperatorX.lX(i -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -199,14 +198,13 @@ public class LIntUnaryOperatorTest<X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LIntUnaryOperator sutThrowing = LIntUnaryOperator.l((int i) -> {
+        LIntUnaryOperator sutThrowing = LIntUnaryOperator.l(i -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        LIntUnaryOperator wrapped = sutThrowing.handle(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LIntUnaryOperator wrapped = sutThrowing.handle(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -221,10 +219,10 @@ public class LIntUnaryOperatorTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LIntUnaryOperator sutThrowing = LIntUnaryOperator.l((int i) -> {
+        LIntUnaryOperator sutThrowing = LIntUnaryOperator.l(i -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -245,10 +243,10 @@ public class LIntUnaryOperatorTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LIntUnaryOperator sutThrowing = LIntUnaryOperator.l((int i) -> {
+        LIntUnaryOperator sutThrowing = LIntUnaryOperator.l(i -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -273,13 +271,12 @@ public class LIntUnaryOperatorTest<X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LIntUnaryOperator sutThrowing = LIntUnaryOperator.l((int i) -> {
+        LIntUnaryOperator sutThrowing = LIntUnaryOperator.l(i -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
         // when
-        LIntUnaryOperator wrapped = sutThrowing.handle(h -> {
-        });
+        LIntUnaryOperator wrapped = sutThrowing.handle(h -> Function4U.doNothing());
 
         // then
         try {
@@ -304,7 +301,7 @@ public class LIntUnaryOperatorTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LIntUnaryOperator sutO = (int i) -> {
+        LIntUnaryOperator sutO = i -> {
                 mainFunctionCalled.set(true);
                 assertThat(i).isEqualTo((int)90);
                 return (int)100;
@@ -333,7 +330,7 @@ public class LIntUnaryOperatorTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LIntUnaryOperator sutO = (int i) -> {
+        LIntUnaryOperator sutO = i -> {
                 mainFunctionCalled.set(true);
                 assertThat(i).isEqualTo((int)90);
                 return (int)100;
@@ -367,7 +364,7 @@ public class LIntUnaryOperatorTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LIntUnaryOperator sutO = (int i) -> {
+        LIntUnaryOperator sutO = i -> {
                 mainFunctionCalled.set(true);
                 assertThat(i).isEqualTo((int)80);
                 return (int)90;
@@ -402,7 +399,7 @@ public class LIntUnaryOperatorTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LIntUnaryOperator sutO = (int i) -> {
+        LIntUnaryOperator sutO = i -> {
                 mainFunctionCalled.set(true);
                 assertThat(i).isEqualTo((int)80);
                 return (int)90;
@@ -437,7 +434,7 @@ public class LIntUnaryOperatorTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LIntUnaryOperator sutO = (int i) -> {
+        LIntUnaryOperator sutO = i -> {
                 mainFunctionCalled.set(true);
                 assertThat(i).isEqualTo((int)80);
                 return (int)90;
@@ -472,7 +469,7 @@ public class LIntUnaryOperatorTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LIntUnaryOperator sutO = (int i) -> {
+        LIntUnaryOperator sutO = i -> {
                 mainFunctionCalled.set(true);
                 assertThat(i).isEqualTo((int)80);
                 return (int)90;
@@ -507,7 +504,7 @@ public class LIntUnaryOperatorTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LIntUnaryOperator sutO = (int i) -> {
+        LIntUnaryOperator sutO = i -> {
                 mainFunctionCalled.set(true);
                 assertThat(i).isEqualTo((int)80);
                 return (int)90;
@@ -542,7 +539,7 @@ public class LIntUnaryOperatorTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LIntUnaryOperator sutO = (int i) -> {
+        LIntUnaryOperator sutO = i -> {
                 mainFunctionCalled.set(true);
                 assertThat(i).isEqualTo((int)80);
                 return (int)90;
@@ -577,7 +574,7 @@ public class LIntUnaryOperatorTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LIntUnaryOperator sutO = (int i) -> {
+        LIntUnaryOperator sutO = i -> {
                 mainFunctionCalled.set(true);
                 assertThat(i).isEqualTo((int)80);
                 return (int)90;
@@ -612,7 +609,7 @@ public class LIntUnaryOperatorTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LIntUnaryOperator sutO = (int i) -> {
+        LIntUnaryOperator sutO = i -> {
                 mainFunctionCalled.set(true);
                 assertThat(i).isEqualTo((int)80);
                 return (int)90;
@@ -647,7 +644,7 @@ public class LIntUnaryOperatorTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LIntUnaryOperator sutO = (int i) -> {
+        LIntUnaryOperator sutO = i -> {
                 mainFunctionCalled.set(true);
                 assertThat(i).isEqualTo((int)80);
                 return (int)90;
@@ -715,7 +712,7 @@ public class LIntUnaryOperatorTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LIntUnaryOperator sutThrowing = LIntUnaryOperator.l((int i) -> {
+        LIntUnaryOperator sutThrowing = LIntUnaryOperator.l(i -> {
             throw new UnsupportedOperationException();
         });
 
@@ -727,7 +724,7 @@ public class LIntUnaryOperatorTest<X extends ParseException> {
     public void testHandle() throws X {
 
         // given
-        LIntUnaryOperator sutThrowing = LIntUnaryOperator.l((int i) -> {
+        LIntUnaryOperator sutThrowing = LIntUnaryOperator.l(i -> {
             throw new UnsupportedOperationException();
         });
 

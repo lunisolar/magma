@@ -45,11 +45,11 @@ public class LUnaryOperatorAssertTest<T,X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LUnaryOperator<Integer > function = LUnaryOperator.l((t) -> {
-            return (Integer ) testValue;
-    });
+    private LUnaryOperator<Integer > function = LUnaryOperator.l(t ->
+            (Integer ) testValue
+    );
 
-    private LUnaryOperator<Integer > functionThrowing = LUnaryOperator.l((t) -> {
+    private LUnaryOperator<Integer > functionThrowing = LUnaryOperator.l(t -> {
         throw new UnsupportedOperationException();
     });
 

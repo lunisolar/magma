@@ -46,11 +46,11 @@ public class LFloatConsumerAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LFloatConsumer function = LFloatConsumer.l((f) -> {
-            externalEffect.set(testValue);
-    });
+    private LFloatConsumer function = LFloatConsumer.l(f ->
+            externalEffect.set(testValue)
+    );
 
-    private LFloatConsumer functionThrowing = LFloatConsumer.l((f) -> {
+    private LFloatConsumer functionThrowing = LFloatConsumer.l(f -> {
         throw new UnsupportedOperationException();
     });
 

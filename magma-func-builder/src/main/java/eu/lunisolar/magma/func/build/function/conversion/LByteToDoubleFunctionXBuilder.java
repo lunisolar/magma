@@ -108,7 +108,7 @@ public final class LByteToDoubleFunctionXBuilder<X extends Throwable> extends Pe
 		LByteToDoubleFunctionX<X> retval;
 
 		final Case<LBytePredicateX<X>, LByteToDoubleFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LByteToDoubleFunctionX.lX((byte b) -> {
+		retval = LByteToDoubleFunctionX.<X> lX(b -> {
 			try {
 				for (Case<LBytePredicateX<X>, LByteToDoubleFunctionX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(b)) {
@@ -117,10 +117,12 @@ public final class LByteToDoubleFunctionXBuilder<X extends Throwable> extends Pe
 				}
 
 				return eventuallyFinal.doApplyAsDouble(b);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

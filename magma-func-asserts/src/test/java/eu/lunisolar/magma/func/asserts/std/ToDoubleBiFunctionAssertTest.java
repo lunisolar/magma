@@ -44,9 +44,9 @@ public class ToDoubleBiFunctionAssertTest<T1,T2,X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private java.util.function.ToDoubleBiFunction<Integer ,Integer > function = ((t1,t2) -> {
-            return testValue;
-    });
+    private java.util.function.ToDoubleBiFunction<Integer ,Integer > function = ((t1,t2) ->
+            testValue
+    );
 
     private java.util.function.ToDoubleBiFunction<Integer ,Integer > functionThrowing = ((t1,t2) -> {
         throw new UnsupportedOperationException();

@@ -75,9 +75,9 @@ public interface LUnaryOperatorX<T, X extends Throwable> extends java.util.funct
 	default T nestingDoApply(T t) {
 		try {
 			return this.doApply(t);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -90,7 +90,7 @@ public interface LUnaryOperatorX<T, X extends Throwable> extends java.util.funct
 
 		try {
 			return this.doApply(t);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -115,7 +115,7 @@ public interface LUnaryOperatorX<T, X extends Throwable> extends java.util.funct
 	}
 
 	public static <T, X extends Throwable> LUnaryOperatorX<T, X> constant(T r) {
-		return (t) -> r;
+		return t -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -154,63 +154,63 @@ public interface LUnaryOperatorX<T, X extends Throwable> extends java.util.funct
 	@Nonnull
 	default <V> LFunctionX<T, V, X> then(@Nonnull LFunctionX<? super T, ? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T t) -> after.doApply(this.doApply(t));
+		return t -> after.doApply(this.doApply(t));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LToByteFunctionX<T, X> thenToByte(@Nonnull LToByteFunctionX<? super T, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T t) -> after.doApplyAsByte(this.doApply(t));
+		return t -> after.doApplyAsByte(this.doApply(t));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LToShortFunctionX<T, X> thenToShort(@Nonnull LToShortFunctionX<? super T, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T t) -> after.doApplyAsShort(this.doApply(t));
+		return t -> after.doApplyAsShort(this.doApply(t));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LToIntFunctionX<T, X> thenToInt(@Nonnull LToIntFunctionX<? super T, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T t) -> after.doApplyAsInt(this.doApply(t));
+		return t -> after.doApplyAsInt(this.doApply(t));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LToLongFunctionX<T, X> thenToLong(@Nonnull LToLongFunctionX<? super T, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T t) -> after.doApplyAsLong(this.doApply(t));
+		return t -> after.doApplyAsLong(this.doApply(t));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LToFloatFunctionX<T, X> thenToFloat(@Nonnull LToFloatFunctionX<? super T, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T t) -> after.doApplyAsFloat(this.doApply(t));
+		return t -> after.doApplyAsFloat(this.doApply(t));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LToDoubleFunctionX<T, X> thenToDouble(@Nonnull LToDoubleFunctionX<? super T, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T t) -> after.doApplyAsDouble(this.doApply(t));
+		return t -> after.doApplyAsDouble(this.doApply(t));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LToCharFunctionX<T, X> thenToChar(@Nonnull LToCharFunctionX<? super T, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T t) -> after.doApplyAsChar(this.doApply(t));
+		return t -> after.doApplyAsChar(this.doApply(t));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LPredicateX<T, X> thenToBoolean(@Nonnull LPredicateX<? super T, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T t) -> after.doTest(this.doApply(t));
+		return t -> after.doTest(this.doApply(t));
 	}
 
 	// </editor-fold>
@@ -255,12 +255,12 @@ public interface LUnaryOperatorX<T, X extends Throwable> extends java.util.funct
 
 	@Nonnull
 	default LUnaryOperator<T> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (T t) -> this.handlingDoApply(t, handling);
+		return t -> this.handlingDoApply(t, handling);
 	}
 
 	@Nonnull
 	default <Y extends Throwable> LUnaryOperatorX<T, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (T t) -> this.handlingDoApply(t, handling);
+		return t -> this.handlingDoApply(t, handling);
 	}
 
 	// </editor-fold>

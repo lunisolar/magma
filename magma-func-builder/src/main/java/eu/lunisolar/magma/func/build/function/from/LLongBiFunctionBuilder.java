@@ -108,7 +108,7 @@ public final class LLongBiFunctionBuilder<R> extends PerCaseBuilderWithProduct.B
 		LLongBiFunction<R> retval;
 
 		final Case<LBiLongPredicate, LLongBiFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LLongBiFunction.l((long l1, long l2) -> {
+		retval = LLongBiFunction.<R> l((long l1, long l2) -> {
 			try {
 				for (Case<LBiLongPredicate, LLongBiFunction<R>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(l1, l2)) {
@@ -117,10 +117,12 @@ public final class LLongBiFunctionBuilder<R> extends PerCaseBuilderWithProduct.B
 				}
 
 				return eventuallyFinal.doApply(l1, l2);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

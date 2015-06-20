@@ -108,7 +108,7 @@ public final class LFloatToShortFunctionBuilder extends PerCaseBuilderWithShortP
 		LFloatToShortFunction retval;
 
 		final Case<LFloatPredicate, LFloatToShortFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LFloatToShortFunction.l((float f) -> {
+		retval = LFloatToShortFunction.l(f -> {
 			try {
 				for (Case<LFloatPredicate, LFloatToShortFunction> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(f)) {
@@ -117,10 +117,12 @@ public final class LFloatToShortFunctionBuilder extends PerCaseBuilderWithShortP
 				}
 
 				return eventuallyFinal.doApplyAsShort(f);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

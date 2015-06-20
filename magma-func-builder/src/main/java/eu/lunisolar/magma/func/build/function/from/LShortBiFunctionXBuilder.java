@@ -108,7 +108,7 @@ public final class LShortBiFunctionXBuilder<R, X extends Throwable> extends PerC
 		LShortBiFunctionX<R, X> retval;
 
 		final Case<LBiShortPredicateX<X>, LShortBiFunctionX<R, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LShortBiFunctionX.lX((short s1, short s2) -> {
+		retval = LShortBiFunctionX.<R, X> lX((short s1, short s2) -> {
 			try {
 				for (Case<LBiShortPredicateX<X>, LShortBiFunctionX<R, X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(s1, s2)) {
@@ -117,10 +117,12 @@ public final class LShortBiFunctionXBuilder<R, X extends Throwable> extends PerC
 				}
 
 				return eventuallyFinal.doApply(s1, s2);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

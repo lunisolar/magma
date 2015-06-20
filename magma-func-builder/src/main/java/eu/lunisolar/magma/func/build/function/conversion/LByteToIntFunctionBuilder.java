@@ -108,7 +108,7 @@ public final class LByteToIntFunctionBuilder extends PerCaseBuilderWithIntProduc
 		LByteToIntFunction retval;
 
 		final Case<LBytePredicate, LByteToIntFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LByteToIntFunction.l((byte b) -> {
+		retval = LByteToIntFunction.l(b -> {
 			try {
 				for (Case<LBytePredicate, LByteToIntFunction> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(b)) {
@@ -117,10 +117,12 @@ public final class LByteToIntFunctionBuilder extends PerCaseBuilderWithIntProduc
 				}
 
 				return eventuallyFinal.doApplyAsInt(b);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

@@ -108,7 +108,7 @@ public final class LBooleanToCharFunctionBuilder extends PerCaseBuilderWithCharP
 		LBooleanToCharFunction retval;
 
 		final Case<LBooleanUnaryOperator, LBooleanToCharFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBooleanToCharFunction.l((boolean b) -> {
+		retval = LBooleanToCharFunction.l(b -> {
 			try {
 				for (Case<LBooleanUnaryOperator, LBooleanToCharFunction> aCase : casesArray) {
 					if (aCase.casePredicate().doApplyAsBoolean(b)) {
@@ -117,10 +117,12 @@ public final class LBooleanToCharFunctionBuilder extends PerCaseBuilderWithCharP
 				}
 
 				return eventuallyFinal.doApplyAsChar(b);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

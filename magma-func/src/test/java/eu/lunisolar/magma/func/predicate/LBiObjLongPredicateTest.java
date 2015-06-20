@@ -93,7 +93,7 @@ public class LBiObjLongPredicateTest<T1,T2,X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoTest_unckeck() throws X {
+    public void testNestingDoTestUnckeck() throws X {
 
         // then
         try {
@@ -108,7 +108,7 @@ public class LBiObjLongPredicateTest<T1,T2,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoTest_unckeck() throws X {
+    public void testShovingDoTestUnckeck() throws X {
 
         // then
         try {
@@ -121,7 +121,6 @@ public class LBiObjLongPredicateTest<T1,T2,X extends ParseException> {
                     .hasMessage(ORIGINAL_MESSAGE);
         }
     }
-
 
     @Test
     public void testApplyAsBooleanShouldNotModifyValue() throws X {
@@ -203,9 +202,8 @@ public class LBiObjLongPredicateTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        LBiObjLongPredicate<T1,T2> wrapped = sutThrowing.handle(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LBiObjLongPredicate<T1,T2> wrapped = sutThrowing.handle(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -220,7 +218,7 @@ public class LBiObjLongPredicateTest<T1,T2,X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
         LBiObjLongPredicate<T1,T2> sutThrowing = LBiObjLongPredicate.l((T1 t1,T2 t2, long l) -> {
@@ -244,7 +242,7 @@ public class LBiObjLongPredicateTest<T1,T2,X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
         LBiObjLongPredicate<T1,T2> sutThrowing = LBiObjLongPredicate.l((T1 t1,T2 t2, long l) -> {
@@ -277,8 +275,7 @@ public class LBiObjLongPredicateTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        LBiObjLongPredicate<T1,T2> wrapped = sutThrowing.handle(h -> {
-        });
+        LBiObjLongPredicate<T1,T2> wrapped = sutThrowing.handle(h -> Function4U.doNothing());
 
         // then
         try {

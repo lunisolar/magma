@@ -107,7 +107,7 @@ public final class LongUnaryOperatorBuilder extends PerCaseBuilderWithLongProduc
 		java.util.function.LongUnaryOperator retval;
 
 		final Case<LLongPredicate, java.util.function.LongUnaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.l((long l) -> {
+		retval = Function4U.longUnaryOperator(l -> {
 			try {
 				for (Case<LLongPredicate, java.util.function.LongUnaryOperator> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(l)) {
@@ -116,10 +116,12 @@ public final class LongUnaryOperatorBuilder extends PerCaseBuilderWithLongProduc
 				}
 
 				return eventuallyFinal.applyAsLong(l);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

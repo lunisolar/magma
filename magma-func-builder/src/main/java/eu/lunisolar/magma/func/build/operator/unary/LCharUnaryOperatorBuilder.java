@@ -108,7 +108,7 @@ public final class LCharUnaryOperatorBuilder extends PerCaseBuilderWithCharProdu
 		LCharUnaryOperator retval;
 
 		final Case<LCharPredicate, LCharUnaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LCharUnaryOperator.l((char c) -> {
+		retval = LCharUnaryOperator.l(c -> {
 			try {
 				for (Case<LCharPredicate, LCharUnaryOperator> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(c)) {
@@ -117,10 +117,12 @@ public final class LCharUnaryOperatorBuilder extends PerCaseBuilderWithCharProdu
 				}
 
 				return eventuallyFinal.doApplyAsChar(c);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

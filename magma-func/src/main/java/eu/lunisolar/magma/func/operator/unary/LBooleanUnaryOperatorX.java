@@ -67,9 +67,9 @@ public interface LBooleanUnaryOperatorX<X extends Throwable> extends MetaLogical
 	default boolean nestingDoApplyAsBoolean(boolean b) {
 		try {
 			return this.doApplyAsBoolean(b);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -82,7 +82,7 @@ public interface LBooleanUnaryOperatorX<X extends Throwable> extends MetaLogical
 
 		try {
 			return this.doApplyAsBoolean(b);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -109,7 +109,7 @@ public interface LBooleanUnaryOperatorX<X extends Throwable> extends MetaLogical
 	}
 
 	public static <X extends Throwable> LBooleanUnaryOperatorX<X> constant(boolean r) {
-		return (b) -> r;
+		return b -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -142,7 +142,7 @@ public interface LBooleanUnaryOperatorX<X extends Throwable> extends MetaLogical
 	 */
 	@Nonnull
 	default LBooleanUnaryOperatorX<X> negate() {
-		return (boolean b) -> !doApplyAsBoolean(b);
+		return b -> !doApplyAsBoolean(b);
 	}
 
 	/**
@@ -151,7 +151,7 @@ public interface LBooleanUnaryOperatorX<X extends Throwable> extends MetaLogical
 	@Nonnull
 	default LBooleanUnaryOperatorX<X> and(@Nonnull LBooleanUnaryOperatorX<X> other) {
 		Null.nonNullArg(other, "other");
-		return (boolean b) -> doApplyAsBoolean(b) && other.doApplyAsBoolean(b);
+		return b -> doApplyAsBoolean(b) && other.doApplyAsBoolean(b);
 	}
 
 	/**
@@ -160,7 +160,7 @@ public interface LBooleanUnaryOperatorX<X extends Throwable> extends MetaLogical
 	@Nonnull
 	default LBooleanUnaryOperatorX<X> or(@Nonnull LBooleanUnaryOperatorX<X> other) {
 		Null.nonNullArg(other, "other");
-		return (boolean b) -> doApplyAsBoolean(b) || other.doApplyAsBoolean(b);
+		return b -> doApplyAsBoolean(b) || other.doApplyAsBoolean(b);
 	}
 
 	/**
@@ -169,7 +169,7 @@ public interface LBooleanUnaryOperatorX<X extends Throwable> extends MetaLogical
 	@Nonnull
 	default LBooleanUnaryOperatorX<X> xor(@Nonnull LBooleanUnaryOperatorX<X> other) {
 		Null.nonNullArg(other, "other");
-		return (boolean b) -> doApplyAsBoolean(b) ^ other.doApplyAsBoolean(b);
+		return b -> doApplyAsBoolean(b) ^ other.doApplyAsBoolean(b);
 	}
 
 	@Nonnull
@@ -187,7 +187,7 @@ public interface LBooleanUnaryOperatorX<X extends Throwable> extends MetaLogical
 	@Nonnull
 	default LBooleanUnaryOperatorX<X> fromBoolean(@Nonnull final LBooleanUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final boolean v1) -> this.doApplyAsBoolean(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doApplyAsBoolean(before1.doApplyAsBoolean(v1));
 	}
 
 	/**
@@ -196,7 +196,7 @@ public interface LBooleanUnaryOperatorX<X extends Throwable> extends MetaLogical
 	@Nonnull
 	default <V1> LPredicateX<V1, X> from(@Nonnull final LPredicateX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doApplyAsBoolean(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doApplyAsBoolean(before1.doApplyAsBoolean(v1));
 	}
 
 	// </editor-fold>
@@ -207,63 +207,63 @@ public interface LBooleanUnaryOperatorX<X extends Throwable> extends MetaLogical
 	@Nonnull
 	default <V> LBooleanFunctionX<V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApply(this.doApplyAsBoolean(b));
+		return b -> after.doApply(this.doApplyAsBoolean(b));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LBooleanToByteFunctionX<X> thenToByte(@Nonnull LBooleanToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsByte(this.doApplyAsBoolean(b));
+		return b -> after.doApplyAsByte(this.doApplyAsBoolean(b));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LBooleanToShortFunctionX<X> thenToShort(@Nonnull LBooleanToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsShort(this.doApplyAsBoolean(b));
+		return b -> after.doApplyAsShort(this.doApplyAsBoolean(b));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LBooleanToIntFunctionX<X> thenToInt(@Nonnull LBooleanToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsInt(this.doApplyAsBoolean(b));
+		return b -> after.doApplyAsInt(this.doApplyAsBoolean(b));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LBooleanToLongFunctionX<X> thenToLong(@Nonnull LBooleanToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsLong(this.doApplyAsBoolean(b));
+		return b -> after.doApplyAsLong(this.doApplyAsBoolean(b));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LBooleanToFloatFunctionX<X> thenToFloat(@Nonnull LBooleanToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsFloat(this.doApplyAsBoolean(b));
+		return b -> after.doApplyAsFloat(this.doApplyAsBoolean(b));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LBooleanToDoubleFunctionX<X> thenToDouble(@Nonnull LBooleanToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsDouble(this.doApplyAsBoolean(b));
+		return b -> after.doApplyAsDouble(this.doApplyAsBoolean(b));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LBooleanToCharFunctionX<X> thenToChar(@Nonnull LBooleanToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsChar(this.doApplyAsBoolean(b));
+		return b -> after.doApplyAsChar(this.doApplyAsBoolean(b));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LBooleanUnaryOperatorX<X> thenToBoolean(@Nonnull LBooleanUnaryOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsBoolean(this.doApplyAsBoolean(b));
+		return b -> after.doApplyAsBoolean(this.doApplyAsBoolean(b));
 	}
 
 	// </editor-fold>
@@ -303,12 +303,12 @@ public interface LBooleanUnaryOperatorX<X extends Throwable> extends MetaLogical
 
 	@Nonnull
 	default LBooleanUnaryOperator handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (boolean b) -> this.handlingDoApplyAsBoolean(b, handling);
+		return b -> this.handlingDoApplyAsBoolean(b, handling);
 	}
 
 	@Nonnull
 	default <Y extends Throwable> LBooleanUnaryOperatorX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (boolean b) -> this.handlingDoApplyAsBoolean(b, handling);
+		return b -> this.handlingDoApplyAsBoolean(b, handling);
 	}
 
 	// </editor-fold>

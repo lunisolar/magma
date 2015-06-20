@@ -108,7 +108,7 @@ public final class LSupplierBuilder<R> extends PerCaseBuilderWithProduct.Base<LS
 		LSupplier<R> retval;
 
 		final Case<LBooleanSupplier, LSupplier<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LSupplier.l(() -> {
+		retval = LSupplier.<R> l(() -> {
 			try {
 				for (Case<LBooleanSupplier, LSupplier<R>> aCase : casesArray) {
 					if (aCase.casePredicate().doGetAsBoolean()) {
@@ -117,10 +117,12 @@ public final class LSupplierBuilder<R> extends PerCaseBuilderWithProduct.Base<LS
 				}
 
 				return eventuallyFinal.doGet();
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

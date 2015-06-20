@@ -68,9 +68,9 @@ public interface LActionX<X extends Throwable> extends Runnable, MetaAction, Met
 	default void nestingDoExecute() {
 		try {
 			this.doExecute();
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -83,7 +83,7 @@ public interface LActionX<X extends Throwable> extends Runnable, MetaAction, Met
 
 		try {
 			this.doExecute();
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

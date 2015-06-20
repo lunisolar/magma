@@ -81,6 +81,36 @@ public class LActionTest<X extends ParseException> {
 
 
 
+    @Test
+    public void testNestingDoExecuteUnckeck() throws X {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.nestingDoExecute();
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoExecuteUnckeck() throws X {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.shovingDoExecute();
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
 
     @Test
     public void testFunctionalInterfaceDescription() throws X {
@@ -160,9 +190,8 @@ public class LActionTest<X extends ParseException> {
         });
 
         // when
-        LAction wrapped = sutThrowing.handle(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LAction wrapped = sutThrowing.handle(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -177,7 +206,7 @@ public class LActionTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
         LAction sutThrowing = LAction.l(() -> {
@@ -201,7 +230,7 @@ public class LActionTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
         LAction sutThrowing = LAction.l(() -> {
@@ -234,8 +263,7 @@ public class LActionTest<X extends ParseException> {
         });
 
         // when
-        LAction wrapped = sutThrowing.handle(h -> {
-        });
+        LAction wrapped = sutThrowing.handle(h -> Function4U.doNothing());
 
         // then
         try {

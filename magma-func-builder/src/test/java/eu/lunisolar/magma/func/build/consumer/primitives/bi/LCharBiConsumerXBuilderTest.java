@@ -61,7 +61,7 @@ public class LCharBiConsumerXBuilderTest<X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LCharBiConsumerX function = LCharBiConsumerXBuilder.charBiConsumerX()
@@ -77,7 +77,7 @@ public class LCharBiConsumerXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,7 +92,7 @@ public class LCharBiConsumerXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LCharBiConsumerX function = LCharBiConsumerXBuilder.charBiConsumerX()
@@ -112,7 +112,7 @@ public class LCharBiConsumerXBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
         final AtomicInteger externalEffect = new AtomicInteger(0);
 
         LCharBiConsumerX<ParseException> function = charBiConsumerX((LCharBiConsumerX<ParseException> f)-> doNothing())

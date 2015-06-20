@@ -108,7 +108,7 @@ public final class LToFloatBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithF
 		LToFloatBiFunction<T1, T2> retval;
 
 		final Case<LBiPredicate<T1, T2>, LToFloatBiFunction<T1, T2>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LToFloatBiFunction.l((T1 t1, T2 t2) -> {
+		retval = LToFloatBiFunction.<T1, T2> l((T1 t1, T2 t2) -> {
 			try {
 				for (Case<LBiPredicate<T1, T2>, LToFloatBiFunction<T1, T2>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(t1, t2)) {
@@ -117,10 +117,12 @@ public final class LToFloatBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithF
 				}
 
 				return eventuallyFinal.doApplyAsFloat(t1, t2);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

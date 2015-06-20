@@ -108,7 +108,7 @@ public final class LDoublePredicateBuilder extends PerCaseBuilderWithBooleanProd
 		LDoublePredicate retval;
 
 		final Case<LDoublePredicate, LDoublePredicate>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LDoublePredicate.l((double d) -> {
+		retval = LDoublePredicate.l(d -> {
 			try {
 				for (Case<LDoublePredicate, LDoublePredicate> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(d)) {
@@ -117,10 +117,12 @@ public final class LDoublePredicateBuilder extends PerCaseBuilderWithBooleanProd
 				}
 
 				return eventuallyFinal.doTest(d);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

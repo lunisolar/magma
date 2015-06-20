@@ -61,7 +61,7 @@ public class LDoublePredicateBuilderTest<X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LDoublePredicate function = LDoublePredicateBuilder.doublePredicate()
@@ -77,7 +77,7 @@ public class LDoublePredicateBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,11 +92,11 @@ public class LDoublePredicateBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LDoublePredicate function = LDoublePredicateBuilder.doublePredicate()
-                .eventually((d) -> {
+                .eventually(d -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -112,14 +112,14 @@ public class LDoublePredicateBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LDoublePredicate function = doublePredicate((LDoublePredicate f)-> doNothing())
-            .addCase(ce -> ce.of((d) -> d == (double)0)
-                             .evaluate((d) -> false))
-            .inCase((d) -> d > 0 && d < 10).evaluate((d) -> true)
-            .inCase((d) -> d > 10 && d < 20).evaluate((d) -> true)
-            .eventually((d) -> true)
+            .addCase(ce -> ce.of(d -> d == (double)0)
+                             .evaluate(d -> false))
+            .inCase(d -> d > 0 && d < 10).evaluate(d -> true)
+            .inCase(d -> d > 10 && d < 20).evaluate(d -> true)
+            .eventually(d -> true)
             .build();
 
 

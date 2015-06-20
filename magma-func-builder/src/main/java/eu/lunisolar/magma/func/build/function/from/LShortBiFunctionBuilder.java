@@ -108,7 +108,7 @@ public final class LShortBiFunctionBuilder<R> extends PerCaseBuilderWithProduct.
 		LShortBiFunction<R> retval;
 
 		final Case<LBiShortPredicate, LShortBiFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LShortBiFunction.l((short s1, short s2) -> {
+		retval = LShortBiFunction.<R> l((short s1, short s2) -> {
 			try {
 				for (Case<LBiShortPredicate, LShortBiFunction<R>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(s1, s2)) {
@@ -117,10 +117,12 @@ public final class LShortBiFunctionBuilder<R> extends PerCaseBuilderWithProduct.
 				}
 
 				return eventuallyFinal.doApply(s1, s2);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

@@ -44,9 +44,9 @@ public class SupplierAssertTest<R,X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private java.util.function.Supplier<Integer > function = (() -> {
-            return (Integer ) testValue;
-    });
+    private java.util.function.Supplier<Integer > function = (() ->
+            (Integer ) testValue
+    );
 
     private java.util.function.Supplier<Integer > functionThrowing = (() -> {
         throw new UnsupportedOperationException();
@@ -56,7 +56,7 @@ public class SupplierAssertTest<R,X extends Throwable> {
     public void testAssertPositive() throws ParseException {
 
         A.assertThat(function)
-         .doesGet(()->{})
+         .doesGet()
             .to(a -> a.isEqualTo(testValue));
 
     }
@@ -65,7 +65,7 @@ public class SupplierAssertTest<R,X extends Throwable> {
     public void testAssertNegative() throws ParseException {
 
         A.assertThat(function)
-         .doesGet(()->{})
+         .doesGet()
             .to( a -> a.isEqualTo(2));
 
     }
@@ -74,7 +74,7 @@ public class SupplierAssertTest<R,X extends Throwable> {
     public void testAssertThrowsUnexpected() throws ParseException {
 
         A.assertThat(functionThrowing)
-         .doesGet(()->{})
+         .doesGet()
             .to( a -> a.isEqualTo(1));
     }
 
@@ -82,7 +82,7 @@ public class SupplierAssertTest<R,X extends Throwable> {
     public void testAssertThrowsExpected() throws ParseException {
 
         A.assertThat(functionThrowing)
-         .doesGet(()->{}).withException(a -> a
+         .doesGet().withException(a -> a
                    .isExactlyInstanceOf(UnsupportedOperationException.class)
                    .hasMessage(null));
 
@@ -98,9 +98,9 @@ public class SupplierAssertTest<R,X extends Throwable> {
             recurringAssertsCalls.incrementAndGet();
             a.isEqualTo(testValue);
          })
-         .doesGet(()->{})
+         .doesGet()
             .to(a -> a.isEqualTo(testValue))
-         .doesGet(()->{})
+         .doesGet()
             .to(a -> a.isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);
@@ -118,9 +118,9 @@ public class SupplierAssertTest<R,X extends Throwable> {
                 a.isEqualTo(0);
             }
          })
-         .doesGet(()->{})
+         .doesGet()
             .to(a -> a.isEqualTo(testValue))
-         .doesGet(()->{})
+         .doesGet()
             .to(a -> a.isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);

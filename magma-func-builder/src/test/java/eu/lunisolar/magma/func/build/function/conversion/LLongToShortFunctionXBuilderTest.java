@@ -61,7 +61,7 @@ public class LLongToShortFunctionXBuilderTest<X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LLongToShortFunctionX function = LLongToShortFunctionXBuilder.longToShortFunctionX()
@@ -77,7 +77,7 @@ public class LLongToShortFunctionXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,11 +92,11 @@ public class LLongToShortFunctionXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LLongToShortFunctionX function = LLongToShortFunctionXBuilder.longToShortFunctionX()
-                .eventually((l) -> {
+                .eventually(l -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -112,14 +112,14 @@ public class LLongToShortFunctionXBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LLongToShortFunctionX<ParseException> function = longToShortFunctionX((LLongToShortFunctionX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((l) -> l == (long)0)
-                             .evaluate((l) -> (short)0))
-            .inCase((l) -> l > 0 && l < 10).evaluate((l) -> (short)1)
-            .inCase((l) -> l > 10 && l < 20).evaluate((l) -> (short)2)
-            .eventually((l) -> (short)99)
+            .addCase(ce -> ce.of(l -> l == (long)0)
+                             .evaluate(l -> (short)0))
+            .inCase(l -> l > 0 && l < 10).evaluate(l -> (short)1)
+            .inCase(l -> l > 10 && l < 20).evaluate(l -> (short)2)
+            .eventually(l -> (short)99)
             .build();
 
 

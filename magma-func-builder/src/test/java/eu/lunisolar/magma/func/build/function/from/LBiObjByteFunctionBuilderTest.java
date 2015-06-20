@@ -61,7 +61,7 @@ public class LBiObjByteFunctionBuilderTest<T1,T2,R,X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LBiObjByteFunction function = LBiObjByteFunctionBuilder.biObjByteFunction()
@@ -77,7 +77,7 @@ public class LBiObjByteFunctionBuilderTest<T1,T2,R,X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,7 +92,7 @@ public class LBiObjByteFunctionBuilderTest<T1,T2,R,X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LBiObjByteFunction function = LBiObjByteFunctionBuilder.biObjByteFunction()
@@ -112,7 +112,7 @@ public class LBiObjByteFunctionBuilderTest<T1,T2,R,X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LBiObjByteFunction<Integer ,Integer ,Integer > function = biObjByteFunction((LBiObjByteFunction<Integer ,Integer ,Integer > f)-> doNothing())
             .addCase(ce -> ce.of((t1,t2, i) -> t1 == Integer.valueOf(0))

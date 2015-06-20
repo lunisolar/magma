@@ -108,7 +108,7 @@ public final class LCharPredicateBuilder extends PerCaseBuilderWithBooleanProduc
 		LCharPredicate retval;
 
 		final Case<LCharPredicate, LCharPredicate>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LCharPredicate.l((char c) -> {
+		retval = LCharPredicate.l(c -> {
 			try {
 				for (Case<LCharPredicate, LCharPredicate> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(c)) {
@@ -117,10 +117,12 @@ public final class LCharPredicateBuilder extends PerCaseBuilderWithBooleanProduc
 				}
 
 				return eventuallyFinal.doTest(c);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

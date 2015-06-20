@@ -44,11 +44,11 @@ public class IntUnaryOperatorAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private java.util.function.IntUnaryOperator function = ((i) -> {
-            return testValue;
-    });
+    private java.util.function.IntUnaryOperator function = (i ->
+            testValue
+    );
 
-    private java.util.function.IntUnaryOperator functionThrowing = ((i) -> {
+    private java.util.function.IntUnaryOperator functionThrowing = (i -> {
         throw new UnsupportedOperationException();
     });
 

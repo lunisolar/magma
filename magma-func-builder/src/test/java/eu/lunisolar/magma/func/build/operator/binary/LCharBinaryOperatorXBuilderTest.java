@@ -61,7 +61,7 @@ public class LCharBinaryOperatorXBuilderTest<X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LCharBinaryOperatorX function = LCharBinaryOperatorXBuilder.charBinaryOperatorX()
@@ -77,7 +77,7 @@ public class LCharBinaryOperatorXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,7 +92,7 @@ public class LCharBinaryOperatorXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LCharBinaryOperatorX function = LCharBinaryOperatorXBuilder.charBinaryOperatorX()
@@ -112,7 +112,7 @@ public class LCharBinaryOperatorXBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LCharBinaryOperatorX<ParseException> function = charBinaryOperatorX((LCharBinaryOperatorX<ParseException> f)-> doNothing())
             .addCase(ce -> ce.of((c1,c2) -> c1 == (char)0)

@@ -108,7 +108,7 @@ public final class LFloatToLongFunctionBuilder extends PerCaseBuilderWithLongPro
 		LFloatToLongFunction retval;
 
 		final Case<LFloatPredicate, LFloatToLongFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LFloatToLongFunction.l((float f) -> {
+		retval = LFloatToLongFunction.l(f -> {
 			try {
 				for (Case<LFloatPredicate, LFloatToLongFunction> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(f)) {
@@ -117,10 +117,12 @@ public final class LFloatToLongFunctionBuilder extends PerCaseBuilderWithLongPro
 				}
 
 				return eventuallyFinal.doApplyAsLong(f);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

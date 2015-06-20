@@ -45,11 +45,11 @@ public class LToCharFunctionXAssertTest<T,X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LToCharFunctionX<Integer ,X> function = LToCharFunctionX.lX((t) -> {
-            return testValue;
-    });
+    private LToCharFunctionX<Integer ,X> function = LToCharFunctionX.lX(t ->
+            testValue
+    );
 
-    private LToCharFunctionX<Integer ,X> functionThrowing = LToCharFunctionX.lX((t) -> {
+    private LToCharFunctionX<Integer ,X> functionThrowing = LToCharFunctionX.lX(t -> {
         throw new UnsupportedOperationException();
     });
 

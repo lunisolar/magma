@@ -71,15 +71,45 @@ public class LDoubleConsumerTest<X extends ParseException> {
     };
 
 
-    private java.util.function.DoubleConsumer jre = (double d) -> Function4U.doNothing();
+    private java.util.function.DoubleConsumer jre = d -> Function4U.doNothing();
 
 
 
-    private LDoubleConsumer sutAlwaysThrowingUnckeck = LDoubleConsumer.l((double d) -> {
+    private LDoubleConsumer sutAlwaysThrowingUnckeck = LDoubleConsumer.l(d -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
+
+    @Test
+    public void testNestingDoAcceptUnckeck() throws X {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.nestingDoAccept((double)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoAcceptUnckeck() throws X {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.shovingDoAccept((double)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
 
 
     @Test
@@ -90,7 +120,7 @@ public class LDoubleConsumerTest<X extends ParseException> {
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LDoubleConsumer.l((double d) -> Function4U.doNothing() ))
+        assertThat(LDoubleConsumer.l(d -> Function4U.doNothing() ))
             .isInstanceOf(LDoubleConsumer.class);
     }
 
@@ -109,7 +139,7 @@ public class LDoubleConsumerTest<X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LDoubleConsumerX<X> sutThrowing = LDoubleConsumerX.lX((double d) -> {
+        LDoubleConsumerX<X> sutThrowing = LDoubleConsumerX.lX(d -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -131,7 +161,7 @@ public class LDoubleConsumerTest<X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LDoubleConsumerX<ParseException> sutThrowing = LDoubleConsumerX.lX((double d) -> {
+        LDoubleConsumerX<ParseException> sutThrowing = LDoubleConsumerX.lX(d -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -155,14 +185,13 @@ public class LDoubleConsumerTest<X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LDoubleConsumer sutThrowing = LDoubleConsumer.l((double d) -> {
+        LDoubleConsumer sutThrowing = LDoubleConsumer.l(d -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        LDoubleConsumer wrapped = sutThrowing.handle(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LDoubleConsumer wrapped = sutThrowing.handle(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -177,10 +206,10 @@ public class LDoubleConsumerTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LDoubleConsumer sutThrowing = LDoubleConsumer.l((double d) -> {
+        LDoubleConsumer sutThrowing = LDoubleConsumer.l(d -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -201,10 +230,10 @@ public class LDoubleConsumerTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LDoubleConsumer sutThrowing = LDoubleConsumer.l((double d) -> {
+        LDoubleConsumer sutThrowing = LDoubleConsumer.l(d -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -229,13 +258,12 @@ public class LDoubleConsumerTest<X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LDoubleConsumer sutThrowing = LDoubleConsumer.l((double d) -> {
+        LDoubleConsumer sutThrowing = LDoubleConsumer.l(d -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
         // when
-        LDoubleConsumer wrapped = sutThrowing.handle(h -> {
-        });
+        LDoubleConsumer wrapped = sutThrowing.handle(h -> Function4U.doNothing());
 
         // then
         try {
@@ -260,7 +288,7 @@ public class LDoubleConsumerTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LDoubleConsumer sutO = (double d) -> {
+        LDoubleConsumer sutO = d -> {
                 mainFunctionCalled.set(true);
                 assertThat(d).isEqualTo((double)90);
         };
@@ -288,7 +316,7 @@ public class LDoubleConsumerTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LDoubleConsumer sutO = (double d) -> {
+        LDoubleConsumer sutO = d -> {
                 mainFunctionCalled.set(true);
                 assertThat(d).isEqualTo((double)90);
         };
@@ -317,7 +345,7 @@ public class LDoubleConsumerTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
          //given (+ some assertions)
-        LDoubleConsumer sutO = (double d) -> {
+        LDoubleConsumer sutO = d -> {
                 mainFunctionCalled.set(true);
                 assertThat(d).isEqualTo((double)80);
         };
@@ -369,7 +397,7 @@ public class LDoubleConsumerTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LDoubleConsumer sutThrowing = LDoubleConsumer.l((double d) -> {
+        LDoubleConsumer sutThrowing = LDoubleConsumer.l(d -> {
             throw new UnsupportedOperationException();
         });
 
@@ -381,7 +409,7 @@ public class LDoubleConsumerTest<X extends ParseException> {
     public void testHandle() throws X {
 
         // given
-        LDoubleConsumer sutThrowing = LDoubleConsumer.l((double d) -> {
+        LDoubleConsumer sutThrowing = LDoubleConsumer.l(d -> {
             throw new UnsupportedOperationException();
         });
 

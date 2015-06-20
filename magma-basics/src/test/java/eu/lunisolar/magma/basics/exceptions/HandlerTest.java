@@ -42,17 +42,6 @@ public class HandlerTest {
     }
 
     @Test
-    public void testHandleInstructions() throws Exception {
-
-        Handler.The<Throwable, RuntimeException> handle = Handler.handleInstructions(RUNTIME, h -> {
-        });
-
-        assertThat(handle)
-                .isExactlyInstanceOf(Handler.The.class);
-
-    }
-
-    @Test
     public void testHandleOrFail() throws Exception {
 
         assertThatThrownBy(() -> Handler.handleOrFail(RUNTIME, h -> {

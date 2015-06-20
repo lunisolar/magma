@@ -93,7 +93,7 @@ public interface LByteFunction<R> extends LByteFunctionX<R, RuntimeException>, M
 	}
 
 	public static <R> LByteFunction<R> constant(R r) {
-		return (b) -> r;
+		return b -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -121,7 +121,7 @@ public interface LByteFunction<R> extends LByteFunctionX<R, RuntimeException>, M
 	@Nonnull
 	default LByteFunction<R> fromByte(@Nonnull final LByteUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final byte v1) -> this.doApply(before1.doApplyAsByte(v1));
+		return v1 -> this.doApply(before1.doApplyAsByte(v1));
 	}
 
 	/**
@@ -130,7 +130,7 @@ public interface LByteFunction<R> extends LByteFunctionX<R, RuntimeException>, M
 	@Nonnull
 	default <V1> LFunction<V1, R> from(@Nonnull final LToByteFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doApply(before1.doApplyAsByte(v1));
+		return v1 -> this.doApply(before1.doApplyAsByte(v1));
 	}
 
 	// </editor-fold>
@@ -141,70 +141,70 @@ public interface LByteFunction<R> extends LByteFunctionX<R, RuntimeException>, M
 	@Nonnull
 	default <V> LByteFunction<V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (byte b) -> after.doApply(this.doApply(b));
+		return b -> after.doApply(this.doApply(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteConsumer then(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (byte b) -> after.doAccept(this.doApply(b));
+		return b -> after.doAccept(this.doApply(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteUnaryOperator thenToByte(@Nonnull LToByteFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (byte b) -> after.doApplyAsByte(this.doApply(b));
+		return b -> after.doApplyAsByte(this.doApply(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToShortFunction thenToShort(@Nonnull LToShortFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (byte b) -> after.doApplyAsShort(this.doApply(b));
+		return b -> after.doApplyAsShort(this.doApply(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToIntFunction thenToInt(@Nonnull LToIntFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (byte b) -> after.doApplyAsInt(this.doApply(b));
+		return b -> after.doApplyAsInt(this.doApply(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToLongFunction thenToLong(@Nonnull LToLongFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (byte b) -> after.doApplyAsLong(this.doApply(b));
+		return b -> after.doApplyAsLong(this.doApply(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToFloatFunction thenToFloat(@Nonnull LToFloatFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (byte b) -> after.doApplyAsFloat(this.doApply(b));
+		return b -> after.doApplyAsFloat(this.doApply(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToDoubleFunction thenToDouble(@Nonnull LToDoubleFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (byte b) -> after.doApplyAsDouble(this.doApply(b));
+		return b -> after.doApplyAsDouble(this.doApply(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToCharFunction thenToChar(@Nonnull LToCharFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (byte b) -> after.doApplyAsChar(this.doApply(b));
+		return b -> after.doApplyAsChar(this.doApply(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBytePredicate thenToBoolean(@Nonnull LPredicate<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (byte b) -> after.doTest(this.doApply(b));
+		return b -> after.doTest(this.doApply(b));
 	}
 
 	// </editor-fold>

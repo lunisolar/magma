@@ -73,14 +73,14 @@ public class LToIntFunctionXTest<T,X extends ParseException> {
     };
 
 
-    private java.util.function.ToIntFunction jre = (Object t) -> testValue;
+    private java.util.function.ToIntFunction jre = t -> testValue;
 
 
-    private LToIntFunctionX<T,ParseException> sutAlwaysThrowing = LToIntFunctionX.lX((T t) -> {
+    private LToIntFunctionX<T,ParseException> sutAlwaysThrowing = LToIntFunctionX.lX(t -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LToIntFunctionX<T,RuntimeException> sutAlwaysThrowingUnckeck = LToIntFunctionX.lX((T t) -> {
+    private LToIntFunctionX<T,RuntimeException> sutAlwaysThrowingUnckeck = LToIntFunctionX.lX(t -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -98,7 +98,7 @@ public class LToIntFunctionXTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApplyAsInt_checked() throws X {
+    public void testNestingDoApplyAsIntChecked() throws X {
 
         // then
         try {
@@ -113,7 +113,7 @@ public class LToIntFunctionXTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApplyAsInt_unckeck() throws X {
+    public void testNestingDoApplyAsIntUnckeck() throws X {
 
         // then
         try {
@@ -128,7 +128,7 @@ public class LToIntFunctionXTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsInt_checked() throws X {
+    public void testShovingDoApplyAsIntChecked() throws X {
 
         // then
         try {
@@ -143,7 +143,7 @@ public class LToIntFunctionXTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsInt_unckeck() throws X {
+    public void testShovingDoApplyAsIntUnckeck() throws X {
 
         // then
         try {
@@ -158,7 +158,6 @@ public class LToIntFunctionXTest<T,X extends ParseException> {
     }
 
 
-
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
@@ -167,7 +166,7 @@ public class LToIntFunctionXTest<T,X extends ParseException> {
 
     @Test
     public void testLXMethod() throws X {
-        assertThat(LToIntFunctionX.lX((Object t) -> testValue ))
+        assertThat(LToIntFunctionX.lX(t -> testValue ))
             .isInstanceOf(LToIntFunctionX.class);
     }
 
@@ -188,14 +187,13 @@ public class LToIntFunctionXTest<T,X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LToIntFunctionX<T,X> sutThrowing = LToIntFunctionX.lX((T t) -> {
+        LToIntFunctionX<T,X> sutThrowing = LToIntFunctionX.lX(t -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        LToIntFunctionX<T,X> wrapped = sutThrowing.handleX(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LToIntFunctionX<T,X> wrapped = sutThrowing.handleX(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -210,10 +208,10 @@ public class LToIntFunctionXTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LToIntFunctionX<T,X> sutThrowing = LToIntFunctionX.lX((T t) -> {
+        LToIntFunctionX<T,X> sutThrowing = LToIntFunctionX.lX(t -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -234,10 +232,10 @@ public class LToIntFunctionXTest<T,X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LToIntFunctionX<T,X> sutThrowing = LToIntFunctionX.lX((T t) -> {
+        LToIntFunctionX<T,X> sutThrowing = LToIntFunctionX.lX(t -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -262,13 +260,12 @@ public class LToIntFunctionXTest<T,X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LToIntFunctionX<T,X> sutThrowing = LToIntFunctionX.lX((T t) -> {
+        LToIntFunctionX<T,X> sutThrowing = LToIntFunctionX.lX(t -> {
             throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
         // when
-        LToIntFunctionX<T,X> wrapped = sutThrowing.handleX(h -> {
-        });
+        LToIntFunctionX<T,X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -293,7 +290,7 @@ public class LToIntFunctionXTest<T,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LToIntFunctionX<Integer ,X> sutO = (Integer t) -> {
+        LToIntFunctionX<Integer ,X> sutO = t -> {
                 mainFunctionCalled.set(true);
                 assertThat(t).isEqualTo((T)Integer.valueOf(90));
                 return (int)100;
@@ -327,7 +324,7 @@ public class LToIntFunctionXTest<T,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LToIntFunctionX<Integer ,X> sutO = (Integer t) -> {
+        LToIntFunctionX<Integer ,X> sutO = t -> {
                 mainFunctionCalled.set(true);
                 assertThat(t).isEqualTo((T)Integer.valueOf(80));
                 return (int)90;
@@ -362,7 +359,7 @@ public class LToIntFunctionXTest<T,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LToIntFunctionX<Integer ,X> sutO = (Integer t) -> {
+        LToIntFunctionX<Integer ,X> sutO = t -> {
                 mainFunctionCalled.set(true);
                 assertThat(t).isEqualTo((T)Integer.valueOf(80));
                 return (int)90;
@@ -397,7 +394,7 @@ public class LToIntFunctionXTest<T,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LToIntFunctionX<Integer ,X> sutO = (Integer t) -> {
+        LToIntFunctionX<Integer ,X> sutO = t -> {
                 mainFunctionCalled.set(true);
                 assertThat(t).isEqualTo((T)Integer.valueOf(80));
                 return (int)90;
@@ -432,7 +429,7 @@ public class LToIntFunctionXTest<T,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LToIntFunctionX<Integer ,X> sutO = (Integer t) -> {
+        LToIntFunctionX<Integer ,X> sutO = t -> {
                 mainFunctionCalled.set(true);
                 assertThat(t).isEqualTo((T)Integer.valueOf(80));
                 return (int)90;
@@ -467,7 +464,7 @@ public class LToIntFunctionXTest<T,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LToIntFunctionX<Integer ,X> sutO = (Integer t) -> {
+        LToIntFunctionX<Integer ,X> sutO = t -> {
                 mainFunctionCalled.set(true);
                 assertThat(t).isEqualTo((T)Integer.valueOf(80));
                 return (int)90;
@@ -502,7 +499,7 @@ public class LToIntFunctionXTest<T,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LToIntFunctionX<Integer ,X> sutO = (Integer t) -> {
+        LToIntFunctionX<Integer ,X> sutO = t -> {
                 mainFunctionCalled.set(true);
                 assertThat(t).isEqualTo((T)Integer.valueOf(80));
                 return (int)90;
@@ -537,7 +534,7 @@ public class LToIntFunctionXTest<T,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LToIntFunctionX<Integer ,X> sutO = (Integer t) -> {
+        LToIntFunctionX<Integer ,X> sutO = t -> {
                 mainFunctionCalled.set(true);
                 assertThat(t).isEqualTo((T)Integer.valueOf(80));
                 return (int)90;
@@ -572,7 +569,7 @@ public class LToIntFunctionXTest<T,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LToIntFunctionX<Integer ,X> sutO = (Integer t) -> {
+        LToIntFunctionX<Integer ,X> sutO = t -> {
                 mainFunctionCalled.set(true);
                 assertThat(t).isEqualTo((T)Integer.valueOf(80));
                 return (int)90;
@@ -607,7 +604,7 @@ public class LToIntFunctionXTest<T,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LToIntFunctionX<Integer ,X> sutO = (Integer t) -> {
+        LToIntFunctionX<Integer ,X> sutO = t -> {
                 mainFunctionCalled.set(true);
                 assertThat(t).isEqualTo((T)Integer.valueOf(80));
                 return (int)90;
@@ -664,7 +661,7 @@ public class LToIntFunctionXTest<T,X extends ParseException> {
     public void testShove() {
 
         // given
-        LToIntFunctionX<T,X> sutThrowing = LToIntFunctionX.lX((T t) -> {
+        LToIntFunctionX<T,X> sutThrowing = LToIntFunctionX.lX(t -> {
             throw new UnsupportedOperationException();
         });
 
@@ -676,7 +673,7 @@ public class LToIntFunctionXTest<T,X extends ParseException> {
     public void testHandle() throws X {
 
         // given
-        LToIntFunctionX<T,X> sutThrowing = LToIntFunctionX.lX((T t) -> {
+        LToIntFunctionX<T,X> sutThrowing = LToIntFunctionX.lX(t -> {
             throw new UnsupportedOperationException();
         });
 

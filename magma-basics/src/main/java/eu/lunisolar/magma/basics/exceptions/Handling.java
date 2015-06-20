@@ -18,6 +18,8 @@
 
 package eu.lunisolar.magma.basics.exceptions;
 
+import eu.lunisolar.magma.basics.Null;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.*;
@@ -41,8 +43,23 @@ public class Handling implements Serializable {
      * You might call it when execution path never should gone the way it went. The reasons might be like missing assertion of arguments or state of the
      * implementation and this always is some mistake in programming code in one place or another.
      */
-    public static RuntimeException shouldNeverBeenHere(){
+    public static RuntimeException shouldNeverBeenHere() {
         throw new Error("Should never happen.");
+    }
+
+    public static void handleErrors(Throwable throwable) {
+        if (throwable instanceof Error) {
+            throw (Error) throwable;
+        }
+    }
+
+    static <X extends Throwable, Y extends Throwable> Handler.The<X, Y> handleInstructions(
+            @Nonnull X throwable, HandlingInstructions<X, Y> instructions) throws Y {
+        Null.nonNullArg(throwable, "instructions");
+        Null.nonNullArg(instructions, "instructions");
+        Handler.The<X, Y> handler = Handler.<X, Y>handler(throwable);
+        instructions.processWith(handler);
+        return handler;
     }
 
     // <editor-fold desc="General">
@@ -171,7 +188,7 @@ public class Handling implements Serializable {
     // <editor-fold desc="create or propagate">
 
     public static <X extends Throwable> X wrap(@Nullable Throwable e, @Nonnull ExceptionWrapFactory<X> exceptionFactory) {
-        return exceptionFactory.produce(e);
+        return exceptionFactory.produce(e); //NOSONAR
     }
 
     public static <X extends Throwable> X wrap(

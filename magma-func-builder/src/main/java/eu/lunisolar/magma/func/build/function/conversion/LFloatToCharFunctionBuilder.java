@@ -108,7 +108,7 @@ public final class LFloatToCharFunctionBuilder extends PerCaseBuilderWithCharPro
 		LFloatToCharFunction retval;
 
 		final Case<LFloatPredicate, LFloatToCharFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LFloatToCharFunction.l((float f) -> {
+		retval = LFloatToCharFunction.l(f -> {
 			try {
 				for (Case<LFloatPredicate, LFloatToCharFunction> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(f)) {
@@ -117,10 +117,12 @@ public final class LFloatToCharFunctionBuilder extends PerCaseBuilderWithCharPro
 				}
 
 				return eventuallyFinal.doApplyAsChar(f);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

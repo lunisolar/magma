@@ -45,11 +45,11 @@ public class LDoubleToCharFunctionAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LDoubleToCharFunction function = LDoubleToCharFunction.l((d) -> {
-            return testValue;
-    });
+    private LDoubleToCharFunction function = LDoubleToCharFunction.l(d ->
+            testValue
+    );
 
-    private LDoubleToCharFunction functionThrowing = LDoubleToCharFunction.l((d) -> {
+    private LDoubleToCharFunction functionThrowing = LDoubleToCharFunction.l(d -> {
         throw new UnsupportedOperationException();
     });
 

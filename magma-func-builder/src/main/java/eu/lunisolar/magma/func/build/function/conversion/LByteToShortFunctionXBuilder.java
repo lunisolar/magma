@@ -108,7 +108,7 @@ public final class LByteToShortFunctionXBuilder<X extends Throwable> extends Per
 		LByteToShortFunctionX<X> retval;
 
 		final Case<LBytePredicateX<X>, LByteToShortFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LByteToShortFunctionX.lX((byte b) -> {
+		retval = LByteToShortFunctionX.<X> lX(b -> {
 			try {
 				for (Case<LBytePredicateX<X>, LByteToShortFunctionX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(b)) {
@@ -117,10 +117,12 @@ public final class LByteToShortFunctionXBuilder<X extends Throwable> extends Per
 				}
 
 				return eventuallyFinal.doApplyAsShort(b);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

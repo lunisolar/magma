@@ -75,7 +75,7 @@ public class LShortPredicateTest<X extends ParseException> {
 
 
 
-    private LShortPredicate sutAlwaysThrowingUnckeck = LShortPredicate.l((short s) -> {
+    private LShortPredicate sutAlwaysThrowingUnckeck = LShortPredicate.l(s -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -93,7 +93,7 @@ public class LShortPredicateTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoTest_unckeck() throws X {
+    public void testNestingDoTestUnckeck() throws X {
 
         // then
         try {
@@ -108,7 +108,7 @@ public class LShortPredicateTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoTest_unckeck() throws X {
+    public void testShovingDoTestUnckeck() throws X {
 
         // then
         try {
@@ -121,7 +121,6 @@ public class LShortPredicateTest<X extends ParseException> {
                     .hasMessage(ORIGINAL_MESSAGE);
         }
     }
-
 
     @Test
     public void testApplyAsBooleanShouldNotModifyValue() throws X {
@@ -139,7 +138,7 @@ public class LShortPredicateTest<X extends ParseException> {
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LShortPredicate.l((short s) -> testValue ))
+        assertThat(LShortPredicate.l(s -> testValue ))
             .isInstanceOf(LShortPredicate.class);
     }
 
@@ -152,7 +151,7 @@ public class LShortPredicateTest<X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LShortPredicateX<X> sutThrowing = LShortPredicateX.lX((short s) -> {
+        LShortPredicateX<X> sutThrowing = LShortPredicateX.lX(s -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -174,7 +173,7 @@ public class LShortPredicateTest<X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LShortPredicateX<ParseException> sutThrowing = LShortPredicateX.lX((short s) -> {
+        LShortPredicateX<ParseException> sutThrowing = LShortPredicateX.lX(s -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -198,14 +197,13 @@ public class LShortPredicateTest<X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LShortPredicate sutThrowing = LShortPredicate.l((short s) -> {
+        LShortPredicate sutThrowing = LShortPredicate.l(s -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        LShortPredicate wrapped = sutThrowing.handle(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LShortPredicate wrapped = sutThrowing.handle(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -220,10 +218,10 @@ public class LShortPredicateTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LShortPredicate sutThrowing = LShortPredicate.l((short s) -> {
+        LShortPredicate sutThrowing = LShortPredicate.l(s -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -244,10 +242,10 @@ public class LShortPredicateTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LShortPredicate sutThrowing = LShortPredicate.l((short s) -> {
+        LShortPredicate sutThrowing = LShortPredicate.l(s -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -272,13 +270,12 @@ public class LShortPredicateTest<X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LShortPredicate sutThrowing = LShortPredicate.l((short s) -> {
+        LShortPredicate sutThrowing = LShortPredicate.l(s -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
         // when
-        LShortPredicate wrapped = sutThrowing.handle(h -> {
-        });
+        LShortPredicate wrapped = sutThrowing.handle(h -> Function4U.doNothing());
 
         // then
         try {
@@ -313,8 +310,8 @@ public class LShortPredicateTest<X extends ParseException> {
     public void testAndOrXor(final boolean f1Result, final boolean f2Result, final boolean andResult, final boolean orResult, final boolean xorResult) throws X {
 
         //given
-        LShortPredicate fun1 = LShortPredicate.l((short s) -> f1Result);
-        LShortPredicate fun2 = LShortPredicate.l((short s) -> f2Result);
+        LShortPredicate fun1 = LShortPredicate.l(s -> f1Result);
+        LShortPredicate fun2 = LShortPredicate.l(s -> f2Result);
 
         //when
         LShortPredicate andFunction = fun1.and(fun2);
@@ -356,7 +353,7 @@ public class LShortPredicateTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LShortPredicate sutO = (short s) -> {
+        LShortPredicate sutO = s -> {
                 mainFunctionCalled.set(true);
                 assertThat(s).isEqualTo((short)90);
                 return true;
@@ -385,7 +382,7 @@ public class LShortPredicateTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LShortPredicate sutO = (short s) -> {
+        LShortPredicate sutO = s -> {
                 mainFunctionCalled.set(true);
                 assertThat(s).isEqualTo((short)90);
                 return true;
@@ -419,7 +416,7 @@ public class LShortPredicateTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LShortPredicate sutO = (short s) -> {
+        LShortPredicate sutO = s -> {
                 mainFunctionCalled.set(true);
                 assertThat(s).isEqualTo((short)80);
                 return true;
@@ -454,7 +451,7 @@ public class LShortPredicateTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LShortPredicate sutO = (short s) -> {
+        LShortPredicate sutO = s -> {
                 mainFunctionCalled.set(true);
                 assertThat(s).isEqualTo((short)80);
                 return true;
@@ -489,7 +486,7 @@ public class LShortPredicateTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LShortPredicate sutO = (short s) -> {
+        LShortPredicate sutO = s -> {
                 mainFunctionCalled.set(true);
                 assertThat(s).isEqualTo((short)80);
                 return true;
@@ -524,7 +521,7 @@ public class LShortPredicateTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LShortPredicate sutO = (short s) -> {
+        LShortPredicate sutO = s -> {
                 mainFunctionCalled.set(true);
                 assertThat(s).isEqualTo((short)80);
                 return true;
@@ -559,7 +556,7 @@ public class LShortPredicateTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LShortPredicate sutO = (short s) -> {
+        LShortPredicate sutO = s -> {
                 mainFunctionCalled.set(true);
                 assertThat(s).isEqualTo((short)80);
                 return true;
@@ -594,7 +591,7 @@ public class LShortPredicateTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LShortPredicate sutO = (short s) -> {
+        LShortPredicate sutO = s -> {
                 mainFunctionCalled.set(true);
                 assertThat(s).isEqualTo((short)80);
                 return true;
@@ -629,7 +626,7 @@ public class LShortPredicateTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LShortPredicate sutO = (short s) -> {
+        LShortPredicate sutO = s -> {
                 mainFunctionCalled.set(true);
                 assertThat(s).isEqualTo((short)80);
                 return true;
@@ -664,7 +661,7 @@ public class LShortPredicateTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LShortPredicate sutO = (short s) -> {
+        LShortPredicate sutO = s -> {
                 mainFunctionCalled.set(true);
                 assertThat(s).isEqualTo((short)80);
                 return true;
@@ -699,7 +696,7 @@ public class LShortPredicateTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LShortPredicate sutO = (short s) -> {
+        LShortPredicate sutO = s -> {
                 mainFunctionCalled.set(true);
                 assertThat(s).isEqualTo((short)80);
                 return true;
@@ -760,7 +757,7 @@ public class LShortPredicateTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LShortPredicate sutThrowing = LShortPredicate.l((short s) -> {
+        LShortPredicate sutThrowing = LShortPredicate.l(s -> {
             throw new UnsupportedOperationException();
         });
 
@@ -772,7 +769,7 @@ public class LShortPredicateTest<X extends ParseException> {
     public void testHandle() throws X {
 
         // given
-        LShortPredicate sutThrowing = LShortPredicate.l((short s) -> {
+        LShortPredicate sutThrowing = LShortPredicate.l(s -> {
             throw new UnsupportedOperationException();
         });
 

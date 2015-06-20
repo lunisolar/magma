@@ -45,11 +45,11 @@ public class LShortToCharFunctionAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LShortToCharFunction function = LShortToCharFunction.l((s) -> {
-            return testValue;
-    });
+    private LShortToCharFunction function = LShortToCharFunction.l(s ->
+            testValue
+    );
 
-    private LShortToCharFunction functionThrowing = LShortToCharFunction.l((s) -> {
+    private LShortToCharFunction functionThrowing = LShortToCharFunction.l(s -> {
         throw new UnsupportedOperationException();
     });
 

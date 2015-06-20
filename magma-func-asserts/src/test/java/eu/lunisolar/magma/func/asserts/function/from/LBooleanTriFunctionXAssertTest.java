@@ -45,9 +45,9 @@ public class LBooleanTriFunctionXAssertTest<R,X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LBooleanTriFunctionX<Integer ,X> function = LBooleanTriFunctionX.lX((b1,b2,b3) -> {
-            return (Integer ) testValue;
-    });
+    private LBooleanTriFunctionX<Integer ,X> function = LBooleanTriFunctionX.lX((b1,b2,b3) ->
+            (Integer ) testValue
+    );
 
     private LBooleanTriFunctionX<Integer ,X> functionThrowing = LBooleanTriFunctionX.lX((b1,b2,b3) -> {
         throw new UnsupportedOperationException();

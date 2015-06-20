@@ -101,7 +101,7 @@ public class LSupplierTest<R,X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoGet_unckeck() throws X {
+    public void testNestingDoGetUnckeck() throws X {
 
         // then
         try {
@@ -116,7 +116,7 @@ public class LSupplierTest<R,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoGet_unckeck() throws X {
+    public void testShovingDoGetUnckeck() throws X {
 
         // then
         try {
@@ -129,7 +129,6 @@ public class LSupplierTest<R,X extends ParseException> {
                     .hasMessage(ORIGINAL_MESSAGE);
         }
     }
-
 
     @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoGet() method cannot be null (LSupplier: R doGet()).\\E")
     public void testNonNullCapturesNull() throws X {
@@ -215,9 +214,8 @@ public class LSupplierTest<R,X extends ParseException> {
         });
 
         // when
-        LSupplier<R> wrapped = sutThrowing.handle(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LSupplier<R> wrapped = sutThrowing.handle(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -232,7 +230,7 @@ public class LSupplierTest<R,X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
         LSupplier<R> sutThrowing = LSupplier.l(() -> {
@@ -256,7 +254,7 @@ public class LSupplierTest<R,X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
         LSupplier<R> sutThrowing = LSupplier.l(() -> {
@@ -289,8 +287,7 @@ public class LSupplierTest<R,X extends ParseException> {
         });
 
         // when
-        LSupplier<R> wrapped = sutThrowing.handle(h -> {
-        });
+        LSupplier<R> wrapped = sutThrowing.handle(h -> Function4U.doNothing());
 
         // then
         try {

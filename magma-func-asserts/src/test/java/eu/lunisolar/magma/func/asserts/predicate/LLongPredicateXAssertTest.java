@@ -45,11 +45,11 @@ public class LLongPredicateXAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LLongPredicateX<X> function = LLongPredicateX.lX((l) -> {
-            return testValue;
-    });
+    private LLongPredicateX<X> function = LLongPredicateX.lX(l ->
+            testValue
+    );
 
-    private LLongPredicateX<X> functionThrowing = LLongPredicateX.lX((l) -> {
+    private LLongPredicateX<X> functionThrowing = LLongPredicateX.lX(l -> {
         throw new UnsupportedOperationException();
     });
 

@@ -122,7 +122,7 @@ public interface LDoubleConsumer extends LDoubleConsumerX<RuntimeException>, Met
 	@Nonnull
 	default LDoubleConsumer fromDouble(@Nonnull final LDoubleUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final double v1) -> this.doAccept(before1.doApplyAsDouble(v1));
+		return v1 -> this.doAccept(before1.doApplyAsDouble(v1));
 	}
 
 	/**
@@ -131,7 +131,7 @@ public interface LDoubleConsumer extends LDoubleConsumerX<RuntimeException>, Met
 	@Nonnull
 	default <V1> LConsumer<V1> from(@Nonnull final LToDoubleFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doAccept(before1.doApplyAsDouble(v1));
+		return v1 -> this.doAccept(before1.doApplyAsDouble(v1));
 	}
 
 	// </editor-fold>
@@ -142,7 +142,7 @@ public interface LDoubleConsumer extends LDoubleConsumerX<RuntimeException>, Met
 	@Nonnull
 	default LDoubleConsumer andThen(@Nonnull LDoubleConsumer after) {
 		Null.nonNullArg(after, "after");
-		return (double d) -> {
+		return d -> {
 			this.doAccept(d);
 			after.doAccept(d);
 		};

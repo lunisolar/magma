@@ -107,7 +107,7 @@ public final class LongFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base
 		java.util.function.LongFunction<R> retval;
 
 		final Case<LLongPredicate, java.util.function.LongFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.l((long l) -> {
+		retval = Function4U.<R> longFunction(l -> {
 			try {
 				for (Case<LLongPredicate, java.util.function.LongFunction<R>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(l)) {
@@ -116,10 +116,12 @@ public final class LongFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base
 				}
 
 				return eventuallyFinal.apply(l);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

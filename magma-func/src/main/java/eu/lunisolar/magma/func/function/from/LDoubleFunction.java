@@ -100,7 +100,7 @@ public interface LDoubleFunction<R> extends LDoubleFunctionX<R, RuntimeException
 	}
 
 	public static <R> LDoubleFunction<R> constant(R r) {
-		return (d) -> r;
+		return d -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -134,7 +134,7 @@ public interface LDoubleFunction<R> extends LDoubleFunctionX<R, RuntimeException
 	@Nonnull
 	default LDoubleFunction<R> fromDouble(@Nonnull final LDoubleUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final double v1) -> this.doApply(before1.doApplyAsDouble(v1));
+		return v1 -> this.doApply(before1.doApplyAsDouble(v1));
 	}
 
 	/**
@@ -143,7 +143,7 @@ public interface LDoubleFunction<R> extends LDoubleFunctionX<R, RuntimeException
 	@Nonnull
 	default <V1> LFunction<V1, R> from(@Nonnull final LToDoubleFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doApply(before1.doApplyAsDouble(v1));
+		return v1 -> this.doApply(before1.doApplyAsDouble(v1));
 	}
 
 	// </editor-fold>
@@ -154,70 +154,70 @@ public interface LDoubleFunction<R> extends LDoubleFunctionX<R, RuntimeException
 	@Nonnull
 	default <V> LDoubleFunction<V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (double d) -> after.doApply(this.doApply(d));
+		return d -> after.doApply(this.doApply(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleConsumer then(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (double d) -> after.doAccept(this.doApply(d));
+		return d -> after.doAccept(this.doApply(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToByteFunction thenToByte(@Nonnull LToByteFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (double d) -> after.doApplyAsByte(this.doApply(d));
+		return d -> after.doApplyAsByte(this.doApply(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToShortFunction thenToShort(@Nonnull LToShortFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (double d) -> after.doApplyAsShort(this.doApply(d));
+		return d -> after.doApplyAsShort(this.doApply(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToIntFunction thenToInt(@Nonnull LToIntFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (double d) -> after.doApplyAsInt(this.doApply(d));
+		return d -> after.doApplyAsInt(this.doApply(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToLongFunction thenToLong(@Nonnull LToLongFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (double d) -> after.doApplyAsLong(this.doApply(d));
+		return d -> after.doApplyAsLong(this.doApply(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToFloatFunction thenToFloat(@Nonnull LToFloatFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (double d) -> after.doApplyAsFloat(this.doApply(d));
+		return d -> after.doApplyAsFloat(this.doApply(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleUnaryOperator thenToDouble(@Nonnull LToDoubleFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (double d) -> after.doApplyAsDouble(this.doApply(d));
+		return d -> after.doApplyAsDouble(this.doApply(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToCharFunction thenToChar(@Nonnull LToCharFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (double d) -> after.doApplyAsChar(this.doApply(d));
+		return d -> after.doApplyAsChar(this.doApply(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoublePredicate thenToBoolean(@Nonnull LPredicate<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (double d) -> after.doTest(this.doApply(d));
+		return d -> after.doTest(this.doApply(d));
 	}
 
 	// </editor-fold>

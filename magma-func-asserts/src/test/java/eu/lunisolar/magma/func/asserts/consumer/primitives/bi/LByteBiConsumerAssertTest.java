@@ -46,9 +46,9 @@ public class LByteBiConsumerAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LByteBiConsumer function = LByteBiConsumer.l((b1,b2) -> {
-            externalEffect.set(testValue);
-    });
+    private LByteBiConsumer function = LByteBiConsumer.l((b1,b2) ->
+            externalEffect.set(testValue)
+    );
 
     private LByteBiConsumer functionThrowing = LByteBiConsumer.l((b1,b2) -> {
         throw new UnsupportedOperationException();

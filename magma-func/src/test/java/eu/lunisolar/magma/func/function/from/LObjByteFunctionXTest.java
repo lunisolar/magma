@@ -102,7 +102,7 @@ public class LObjByteFunctionXTest<T,R,X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApply_checked() throws X {
+    public void testNestingDoApplyChecked() throws X {
 
         // then
         try {
@@ -117,7 +117,7 @@ public class LObjByteFunctionXTest<T,R,X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApply_unckeck() throws X {
+    public void testNestingDoApplyUnckeck() throws X {
 
         // then
         try {
@@ -132,7 +132,7 @@ public class LObjByteFunctionXTest<T,R,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApply_checked() throws X {
+    public void testShovingDoApplyChecked() throws X {
 
         // then
         try {
@@ -147,7 +147,7 @@ public class LObjByteFunctionXTest<T,R,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApply_unckeck() throws X {
+    public void testShovingDoApplyUnckeck() throws X {
 
         // then
         try {
@@ -160,7 +160,6 @@ public class LObjByteFunctionXTest<T,R,X extends ParseException> {
                     .hasMessage(ORIGINAL_MESSAGE);
         }
     }
-
 
     @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LObjByteFunctionX: R doApply(T t, byte i) throws X).\\E")
     public void testNonNullCapturesNull() throws X {
@@ -196,9 +195,8 @@ public class LObjByteFunctionXTest<T,R,X extends ParseException> {
         });
 
         // when
-        LObjByteFunctionX<T,R,X> wrapped = sutThrowing.handleX(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LObjByteFunctionX<T,R,X> wrapped = sutThrowing.handleX(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -213,7 +211,7 @@ public class LObjByteFunctionXTest<T,R,X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
         LObjByteFunctionX<T,R,X> sutThrowing = LObjByteFunctionX.lX((T t, byte i) -> {
@@ -237,7 +235,7 @@ public class LObjByteFunctionXTest<T,R,X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
         LObjByteFunctionX<T,R,X> sutThrowing = LObjByteFunctionX.lX((T t, byte i) -> {
@@ -270,8 +268,7 @@ public class LObjByteFunctionXTest<T,R,X extends ParseException> {
         });
 
         // when
-        LObjByteFunctionX<T,R,X> wrapped = sutThrowing.handleX(h -> {
-        });
+        LObjByteFunctionX<T,R,X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
 
         // then
         try {

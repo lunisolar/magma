@@ -45,11 +45,11 @@ public class LFloatPredicateXAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LFloatPredicateX<X> function = LFloatPredicateX.lX((f) -> {
-            return testValue;
-    });
+    private LFloatPredicateX<X> function = LFloatPredicateX.lX(f ->
+            testValue
+    );
 
-    private LFloatPredicateX<X> functionThrowing = LFloatPredicateX.lX((f) -> {
+    private LFloatPredicateX<X> functionThrowing = LFloatPredicateX.lX(f -> {
         throw new UnsupportedOperationException();
     });
 

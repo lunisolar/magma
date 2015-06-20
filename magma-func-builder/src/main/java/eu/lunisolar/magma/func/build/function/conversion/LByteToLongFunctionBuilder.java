@@ -108,7 +108,7 @@ public final class LByteToLongFunctionBuilder extends PerCaseBuilderWithLongProd
 		LByteToLongFunction retval;
 
 		final Case<LBytePredicate, LByteToLongFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LByteToLongFunction.l((byte b) -> {
+		retval = LByteToLongFunction.l(b -> {
 			try {
 				for (Case<LBytePredicate, LByteToLongFunction> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(b)) {
@@ -117,10 +117,12 @@ public final class LByteToLongFunctionBuilder extends PerCaseBuilderWithLongProd
 				}
 
 				return eventuallyFinal.doApplyAsLong(b);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

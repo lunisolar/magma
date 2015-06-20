@@ -108,7 +108,7 @@ public final class LBooleanToByteFunctionXBuilder<X extends Throwable> extends P
 		LBooleanToByteFunctionX<X> retval;
 
 		final Case<LBooleanUnaryOperatorX<X>, LBooleanToByteFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBooleanToByteFunctionX.lX((boolean b) -> {
+		retval = LBooleanToByteFunctionX.<X> lX(b -> {
 			try {
 				for (Case<LBooleanUnaryOperatorX<X>, LBooleanToByteFunctionX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doApplyAsBoolean(b)) {
@@ -117,10 +117,12 @@ public final class LBooleanToByteFunctionXBuilder<X extends Throwable> extends P
 				}
 
 				return eventuallyFinal.doApplyAsByte(b);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

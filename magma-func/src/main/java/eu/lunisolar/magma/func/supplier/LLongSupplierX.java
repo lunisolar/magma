@@ -74,9 +74,9 @@ public interface LLongSupplierX<X extends Throwable> extends java.util.function.
 	default long nestingDoGetAsLong() {
 		try {
 			return this.doGetAsLong();
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -89,7 +89,7 @@ public interface LLongSupplierX<X extends Throwable> extends java.util.function.
 
 		try {
 			return this.doGetAsLong();
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

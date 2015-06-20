@@ -108,7 +108,7 @@ public final class LFloatUnaryOperatorXBuilder<X extends Throwable> extends PerC
 		LFloatUnaryOperatorX<X> retval;
 
 		final Case<LFloatPredicateX<X>, LFloatUnaryOperatorX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LFloatUnaryOperatorX.lX((float f) -> {
+		retval = LFloatUnaryOperatorX.<X> lX(f -> {
 			try {
 				for (Case<LFloatPredicateX<X>, LFloatUnaryOperatorX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(f)) {
@@ -117,10 +117,12 @@ public final class LFloatUnaryOperatorXBuilder<X extends Throwable> extends PerC
 				}
 
 				return eventuallyFinal.doApplyAsFloat(f);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

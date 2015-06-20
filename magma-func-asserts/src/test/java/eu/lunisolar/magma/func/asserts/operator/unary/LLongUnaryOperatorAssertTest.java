@@ -45,11 +45,11 @@ public class LLongUnaryOperatorAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LLongUnaryOperator function = LLongUnaryOperator.l((l) -> {
-            return testValue;
-    });
+    private LLongUnaryOperator function = LLongUnaryOperator.l(l ->
+            testValue
+    );
 
-    private LLongUnaryOperator functionThrowing = LLongUnaryOperator.l((l) -> {
+    private LLongUnaryOperator functionThrowing = LLongUnaryOperator.l(l -> {
         throw new UnsupportedOperationException();
     });
 

@@ -108,7 +108,7 @@ public final class LToIntFunctionBuilder<T> extends PerCaseBuilderWithIntProduct
 		LToIntFunction<T> retval;
 
 		final Case<LPredicate<T>, LToIntFunction<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LToIntFunction.l((T t) -> {
+		retval = LToIntFunction.<T> l(t -> {
 			try {
 				for (Case<LPredicate<T>, LToIntFunction<T>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(t)) {
@@ -117,10 +117,12 @@ public final class LToIntFunctionBuilder<T> extends PerCaseBuilderWithIntProduct
 				}
 
 				return eventuallyFinal.doApplyAsInt(t);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

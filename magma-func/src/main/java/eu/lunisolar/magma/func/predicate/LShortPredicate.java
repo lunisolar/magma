@@ -95,7 +95,7 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 	}
 
 	public static LShortPredicate constant(boolean r) {
-		return (s) -> r;
+		return s -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -121,7 +121,7 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 	 */
 	@Nonnull
 	default LShortPredicate negate() {
-		return (short s) -> !doTest(s);
+		return s -> !doTest(s);
 	}
 
 	/**
@@ -130,7 +130,7 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 	@Nonnull
 	default LShortPredicate and(@Nonnull LShortPredicate other) {
 		Null.nonNullArg(other, "other");
-		return (short s) -> doTest(s) && other.doTest(s);
+		return s -> doTest(s) && other.doTest(s);
 	}
 
 	/**
@@ -139,7 +139,7 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 	@Nonnull
 	default LShortPredicate or(@Nonnull LShortPredicate other) {
 		Null.nonNullArg(other, "other");
-		return (short s) -> doTest(s) || other.doTest(s);
+		return s -> doTest(s) || other.doTest(s);
 	}
 
 	/**
@@ -148,7 +148,7 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 	@Nonnull
 	default LShortPredicate xor(@Nonnull LShortPredicate other) {
 		Null.nonNullArg(other, "other");
-		return (short s) -> doTest(s) ^ other.doTest(s);
+		return s -> doTest(s) ^ other.doTest(s);
 	}
 
 	@Nonnull
@@ -166,7 +166,7 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 	@Nonnull
 	default LShortPredicate fromShort(@Nonnull final LShortUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final short v1) -> this.doTest(before1.doApplyAsShort(v1));
+		return v1 -> this.doTest(before1.doApplyAsShort(v1));
 	}
 
 	/**
@@ -175,7 +175,7 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 	@Nonnull
 	default <V1> LPredicate<V1> from(@Nonnull final LToShortFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doTest(before1.doApplyAsShort(v1));
+		return v1 -> this.doTest(before1.doApplyAsShort(v1));
 	}
 
 	// </editor-fold>
@@ -186,63 +186,63 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 	@Nonnull
 	default <V> LShortFunction<V> then(@Nonnull LBooleanFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (short s) -> after.doApply(this.doTest(s));
+		return s -> after.doApply(this.doTest(s));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LShortToByteFunction thenToByte(@Nonnull LBooleanToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return (short s) -> after.doApplyAsByte(this.doTest(s));
+		return s -> after.doApplyAsByte(this.doTest(s));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LShortUnaryOperator thenToShort(@Nonnull LBooleanToShortFunction after) {
 		Null.nonNullArg(after, "after");
-		return (short s) -> after.doApplyAsShort(this.doTest(s));
+		return s -> after.doApplyAsShort(this.doTest(s));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LShortToIntFunction thenToInt(@Nonnull LBooleanToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return (short s) -> after.doApplyAsInt(this.doTest(s));
+		return s -> after.doApplyAsInt(this.doTest(s));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LShortToLongFunction thenToLong(@Nonnull LBooleanToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return (short s) -> after.doApplyAsLong(this.doTest(s));
+		return s -> after.doApplyAsLong(this.doTest(s));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LShortToFloatFunction thenToFloat(@Nonnull LBooleanToFloatFunction after) {
 		Null.nonNullArg(after, "after");
-		return (short s) -> after.doApplyAsFloat(this.doTest(s));
+		return s -> after.doApplyAsFloat(this.doTest(s));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LShortToDoubleFunction thenToDouble(@Nonnull LBooleanToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
-		return (short s) -> after.doApplyAsDouble(this.doTest(s));
+		return s -> after.doApplyAsDouble(this.doTest(s));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LShortToCharFunction thenToChar(@Nonnull LBooleanToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return (short s) -> after.doApplyAsChar(this.doTest(s));
+		return s -> after.doApplyAsChar(this.doTest(s));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LShortPredicate thenToBoolean(@Nonnull LBooleanUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return (short s) -> after.doApplyAsBoolean(this.doTest(s));
+		return s -> after.doApplyAsBoolean(this.doTest(s));
 	}
 
 	// </editor-fold>

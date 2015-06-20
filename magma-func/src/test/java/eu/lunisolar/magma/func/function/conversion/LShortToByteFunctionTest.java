@@ -75,7 +75,7 @@ public class LShortToByteFunctionTest<X extends ParseException> {
 
 
 
-    private LShortToByteFunction sutAlwaysThrowingUnckeck = LShortToByteFunction.l((short s) -> {
+    private LShortToByteFunction sutAlwaysThrowingUnckeck = LShortToByteFunction.l(s -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -93,7 +93,7 @@ public class LShortToByteFunctionTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApplyAsByte_unckeck() throws X {
+    public void testNestingDoApplyAsByteUnckeck() throws X {
 
         // then
         try {
@@ -108,7 +108,7 @@ public class LShortToByteFunctionTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsByte_unckeck() throws X {
+    public void testShovingDoApplyAsByteUnckeck() throws X {
 
         // then
         try {
@@ -123,7 +123,6 @@ public class LShortToByteFunctionTest<X extends ParseException> {
     }
 
 
-
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
@@ -132,7 +131,7 @@ public class LShortToByteFunctionTest<X extends ParseException> {
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LShortToByteFunction.l((short s) -> testValue ))
+        assertThat(LShortToByteFunction.l(s -> testValue ))
             .isInstanceOf(LShortToByteFunction.class);
     }
 
@@ -145,7 +144,7 @@ public class LShortToByteFunctionTest<X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LShortToByteFunctionX<X> sutThrowing = LShortToByteFunctionX.lX((short s) -> {
+        LShortToByteFunctionX<X> sutThrowing = LShortToByteFunctionX.lX(s -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -167,7 +166,7 @@ public class LShortToByteFunctionTest<X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LShortToByteFunctionX<ParseException> sutThrowing = LShortToByteFunctionX.lX((short s) -> {
+        LShortToByteFunctionX<ParseException> sutThrowing = LShortToByteFunctionX.lX(s -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -191,14 +190,13 @@ public class LShortToByteFunctionTest<X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LShortToByteFunction sutThrowing = LShortToByteFunction.l((short s) -> {
+        LShortToByteFunction sutThrowing = LShortToByteFunction.l(s -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        LShortToByteFunction wrapped = sutThrowing.handle(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LShortToByteFunction wrapped = sutThrowing.handle(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -213,10 +211,10 @@ public class LShortToByteFunctionTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LShortToByteFunction sutThrowing = LShortToByteFunction.l((short s) -> {
+        LShortToByteFunction sutThrowing = LShortToByteFunction.l(s -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -237,10 +235,10 @@ public class LShortToByteFunctionTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LShortToByteFunction sutThrowing = LShortToByteFunction.l((short s) -> {
+        LShortToByteFunction sutThrowing = LShortToByteFunction.l(s -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -265,13 +263,12 @@ public class LShortToByteFunctionTest<X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LShortToByteFunction sutThrowing = LShortToByteFunction.l((short s) -> {
+        LShortToByteFunction sutThrowing = LShortToByteFunction.l(s -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
         // when
-        LShortToByteFunction wrapped = sutThrowing.handle(h -> {
-        });
+        LShortToByteFunction wrapped = sutThrowing.handle(h -> Function4U.doNothing());
 
         // then
         try {
@@ -296,7 +293,7 @@ public class LShortToByteFunctionTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LShortToByteFunction sutO = (short s) -> {
+        LShortToByteFunction sutO = s -> {
                 mainFunctionCalled.set(true);
                 assertThat(s).isEqualTo((short)90);
                 return (byte)100;
@@ -325,7 +322,7 @@ public class LShortToByteFunctionTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LShortToByteFunction sutO = (short s) -> {
+        LShortToByteFunction sutO = s -> {
                 mainFunctionCalled.set(true);
                 assertThat(s).isEqualTo((short)90);
                 return (byte)100;
@@ -359,7 +356,7 @@ public class LShortToByteFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LShortToByteFunction sutO = (short s) -> {
+        LShortToByteFunction sutO = s -> {
                 mainFunctionCalled.set(true);
                 assertThat(s).isEqualTo((short)80);
                 return (byte)90;
@@ -394,7 +391,7 @@ public class LShortToByteFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LShortToByteFunction sutO = (short s) -> {
+        LShortToByteFunction sutO = s -> {
                 mainFunctionCalled.set(true);
                 assertThat(s).isEqualTo((short)80);
                 return (byte)90;
@@ -429,7 +426,7 @@ public class LShortToByteFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LShortToByteFunction sutO = (short s) -> {
+        LShortToByteFunction sutO = s -> {
                 mainFunctionCalled.set(true);
                 assertThat(s).isEqualTo((short)80);
                 return (byte)90;
@@ -464,7 +461,7 @@ public class LShortToByteFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LShortToByteFunction sutO = (short s) -> {
+        LShortToByteFunction sutO = s -> {
                 mainFunctionCalled.set(true);
                 assertThat(s).isEqualTo((short)80);
                 return (byte)90;
@@ -499,7 +496,7 @@ public class LShortToByteFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LShortToByteFunction sutO = (short s) -> {
+        LShortToByteFunction sutO = s -> {
                 mainFunctionCalled.set(true);
                 assertThat(s).isEqualTo((short)80);
                 return (byte)90;
@@ -534,7 +531,7 @@ public class LShortToByteFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LShortToByteFunction sutO = (short s) -> {
+        LShortToByteFunction sutO = s -> {
                 mainFunctionCalled.set(true);
                 assertThat(s).isEqualTo((short)80);
                 return (byte)90;
@@ -569,7 +566,7 @@ public class LShortToByteFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LShortToByteFunction sutO = (short s) -> {
+        LShortToByteFunction sutO = s -> {
                 mainFunctionCalled.set(true);
                 assertThat(s).isEqualTo((short)80);
                 return (byte)90;
@@ -604,7 +601,7 @@ public class LShortToByteFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LShortToByteFunction sutO = (short s) -> {
+        LShortToByteFunction sutO = s -> {
                 mainFunctionCalled.set(true);
                 assertThat(s).isEqualTo((short)80);
                 return (byte)90;
@@ -639,7 +636,7 @@ public class LShortToByteFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LShortToByteFunction sutO = (short s) -> {
+        LShortToByteFunction sutO = s -> {
                 mainFunctionCalled.set(true);
                 assertThat(s).isEqualTo((short)80);
                 return (byte)90;
@@ -700,7 +697,7 @@ public class LShortToByteFunctionTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LShortToByteFunction sutThrowing = LShortToByteFunction.l((short s) -> {
+        LShortToByteFunction sutThrowing = LShortToByteFunction.l(s -> {
             throw new UnsupportedOperationException();
         });
 
@@ -712,7 +709,7 @@ public class LShortToByteFunctionTest<X extends ParseException> {
     public void testHandle() throws X {
 
         // given
-        LShortToByteFunction sutThrowing = LShortToByteFunction.l((short s) -> {
+        LShortToByteFunction sutThrowing = LShortToByteFunction.l(s -> {
             throw new UnsupportedOperationException();
         });
 

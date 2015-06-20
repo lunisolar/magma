@@ -96,7 +96,7 @@ public class LBooleanBinaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApplyAsBoolean_checked() throws X {
+    public void testNestingDoApplyAsBooleanChecked() throws X {
 
         // then
         try {
@@ -111,7 +111,7 @@ public class LBooleanBinaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApplyAsBoolean_unckeck() throws X {
+    public void testNestingDoApplyAsBooleanUnckeck() throws X {
 
         // then
         try {
@@ -126,7 +126,7 @@ public class LBooleanBinaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsBoolean_checked() throws X {
+    public void testShovingDoApplyAsBooleanChecked() throws X {
 
         // then
         try {
@@ -141,7 +141,7 @@ public class LBooleanBinaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsBoolean_unckeck() throws X {
+    public void testShovingDoApplyAsBooleanUnckeck() throws X {
 
         // then
         try {
@@ -154,7 +154,6 @@ public class LBooleanBinaryOperatorXTest<X extends ParseException> {
                     .hasMessage(ORIGINAL_MESSAGE);
         }
     }
-
 
 
     @Test
@@ -185,9 +184,8 @@ public class LBooleanBinaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        LBooleanBinaryOperatorX<X> wrapped = sutThrowing.handleX(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LBooleanBinaryOperatorX<X> wrapped = sutThrowing.handleX(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -202,7 +200,7 @@ public class LBooleanBinaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
         LBooleanBinaryOperatorX<X> sutThrowing = LBooleanBinaryOperatorX.lX((boolean b1,boolean b2) -> {
@@ -226,7 +224,7 @@ public class LBooleanBinaryOperatorXTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
         LBooleanBinaryOperatorX<X> sutThrowing = LBooleanBinaryOperatorX.lX((boolean b1,boolean b2) -> {
@@ -259,8 +257,7 @@ public class LBooleanBinaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        LBooleanBinaryOperatorX<X> wrapped = sutThrowing.handleX(h -> {
-        });
+        LBooleanBinaryOperatorX<X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
 
         // then
         try {

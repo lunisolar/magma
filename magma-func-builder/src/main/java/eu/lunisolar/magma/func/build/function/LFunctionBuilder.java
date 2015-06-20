@@ -108,7 +108,7 @@ public final class LFunctionBuilder<T, R> extends PerCaseBuilderWithProduct.Base
 		LFunction<T, R> retval;
 
 		final Case<LPredicate<T>, LFunction<T, R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LFunction.l((T t) -> {
+		retval = LFunction.<T, R> l(t -> {
 			try {
 				for (Case<LPredicate<T>, LFunction<T, R>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(t)) {
@@ -117,10 +117,12 @@ public final class LFunctionBuilder<T, R> extends PerCaseBuilderWithProduct.Base
 				}
 
 				return eventuallyFinal.doApply(t);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

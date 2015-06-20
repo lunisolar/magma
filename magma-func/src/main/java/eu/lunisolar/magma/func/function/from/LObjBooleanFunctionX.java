@@ -68,9 +68,9 @@ public interface LObjBooleanFunctionX<T, R, X extends Throwable> extends MetaFun
 	default R nestingDoApply(T t, boolean b) {
 		try {
 			return this.doApply(t, b);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -83,7 +83,7 @@ public interface LObjBooleanFunctionX<T, R, X extends Throwable> extends MetaFun
 
 		try {
 			return this.doApply(t, b);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

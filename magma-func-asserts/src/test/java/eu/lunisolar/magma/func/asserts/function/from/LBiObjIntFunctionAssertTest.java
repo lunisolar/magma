@@ -45,9 +45,9 @@ public class LBiObjIntFunctionAssertTest<T1,T2,R,X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LBiObjIntFunction<Integer ,Integer ,Integer > function = LBiObjIntFunction.l((t1,t2, i) -> {
-            return (Integer ) testValue;
-    });
+    private LBiObjIntFunction<Integer ,Integer ,Integer > function = LBiObjIntFunction.l((t1,t2, i) ->
+            (Integer ) testValue
+    );
 
     private LBiObjIntFunction<Integer ,Integer ,Integer > functionThrowing = LBiObjIntFunction.l((t1,t2, i) -> {
         throw new UnsupportedOperationException();

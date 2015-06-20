@@ -102,7 +102,7 @@ public interface LDoublePredicate extends LDoublePredicateX<RuntimeException>, M
 	}
 
 	public static LDoublePredicate constant(boolean r) {
-		return (d) -> r;
+		return d -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -134,7 +134,7 @@ public interface LDoublePredicate extends LDoublePredicateX<RuntimeException>, M
 	 */
 	@Nonnull
 	default LDoublePredicate negate() {
-		return (double d) -> !doTest(d);
+		return d -> !doTest(d);
 	}
 
 	/**
@@ -143,7 +143,7 @@ public interface LDoublePredicate extends LDoublePredicateX<RuntimeException>, M
 	@Nonnull
 	default LDoublePredicate and(@Nonnull LDoublePredicate other) {
 		Null.nonNullArg(other, "other");
-		return (double d) -> doTest(d) && other.doTest(d);
+		return d -> doTest(d) && other.doTest(d);
 	}
 
 	/**
@@ -152,7 +152,7 @@ public interface LDoublePredicate extends LDoublePredicateX<RuntimeException>, M
 	@Nonnull
 	default LDoublePredicate or(@Nonnull LDoublePredicate other) {
 		Null.nonNullArg(other, "other");
-		return (double d) -> doTest(d) || other.doTest(d);
+		return d -> doTest(d) || other.doTest(d);
 	}
 
 	/**
@@ -161,7 +161,7 @@ public interface LDoublePredicate extends LDoublePredicateX<RuntimeException>, M
 	@Nonnull
 	default LDoublePredicate xor(@Nonnull LDoublePredicate other) {
 		Null.nonNullArg(other, "other");
-		return (double d) -> doTest(d) ^ other.doTest(d);
+		return d -> doTest(d) ^ other.doTest(d);
 	}
 
 	@Nonnull
@@ -179,7 +179,7 @@ public interface LDoublePredicate extends LDoublePredicateX<RuntimeException>, M
 	@Nonnull
 	default LDoublePredicate fromDouble(@Nonnull final LDoubleUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final double v1) -> this.doTest(before1.doApplyAsDouble(v1));
+		return v1 -> this.doTest(before1.doApplyAsDouble(v1));
 	}
 
 	/**
@@ -188,7 +188,7 @@ public interface LDoublePredicate extends LDoublePredicateX<RuntimeException>, M
 	@Nonnull
 	default <V1> LPredicate<V1> from(@Nonnull final LToDoubleFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doTest(before1.doApplyAsDouble(v1));
+		return v1 -> this.doTest(before1.doApplyAsDouble(v1));
 	}
 
 	// </editor-fold>
@@ -199,63 +199,63 @@ public interface LDoublePredicate extends LDoublePredicateX<RuntimeException>, M
 	@Nonnull
 	default <V> LDoubleFunction<V> then(@Nonnull LBooleanFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (double d) -> after.doApply(this.doTest(d));
+		return d -> after.doApply(this.doTest(d));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LDoubleToByteFunction thenToByte(@Nonnull LBooleanToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return (double d) -> after.doApplyAsByte(this.doTest(d));
+		return d -> after.doApplyAsByte(this.doTest(d));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LDoubleToShortFunction thenToShort(@Nonnull LBooleanToShortFunction after) {
 		Null.nonNullArg(after, "after");
-		return (double d) -> after.doApplyAsShort(this.doTest(d));
+		return d -> after.doApplyAsShort(this.doTest(d));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LDoubleToIntFunction thenToInt(@Nonnull LBooleanToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return (double d) -> after.doApplyAsInt(this.doTest(d));
+		return d -> after.doApplyAsInt(this.doTest(d));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LDoubleToLongFunction thenToLong(@Nonnull LBooleanToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return (double d) -> after.doApplyAsLong(this.doTest(d));
+		return d -> after.doApplyAsLong(this.doTest(d));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LDoubleToFloatFunction thenToFloat(@Nonnull LBooleanToFloatFunction after) {
 		Null.nonNullArg(after, "after");
-		return (double d) -> after.doApplyAsFloat(this.doTest(d));
+		return d -> after.doApplyAsFloat(this.doTest(d));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LDoubleUnaryOperator thenToDouble(@Nonnull LBooleanToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
-		return (double d) -> after.doApplyAsDouble(this.doTest(d));
+		return d -> after.doApplyAsDouble(this.doTest(d));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LDoubleToCharFunction thenToChar(@Nonnull LBooleanToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return (double d) -> after.doApplyAsChar(this.doTest(d));
+		return d -> after.doApplyAsChar(this.doTest(d));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LDoublePredicate thenToBoolean(@Nonnull LBooleanUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return (double d) -> after.doApplyAsBoolean(this.doTest(d));
+		return d -> after.doApplyAsBoolean(this.doTest(d));
 	}
 
 	// </editor-fold>

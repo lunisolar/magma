@@ -108,7 +108,7 @@ public final class LObjShortFunctionBuilder<T, R> extends PerCaseBuilderWithProd
 		LObjShortFunction<T, R> retval;
 
 		final Case<LObjShortPredicate<T>, LObjShortFunction<T, R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LObjShortFunction.l((T t, short s) -> {
+		retval = LObjShortFunction.<T, R> l((T t, short s) -> {
 			try {
 				for (Case<LObjShortPredicate<T>, LObjShortFunction<T, R>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(t, s)) {
@@ -117,10 +117,12 @@ public final class LObjShortFunctionBuilder<T, R> extends PerCaseBuilderWithProd
 				}
 
 				return eventuallyFinal.doApply(t, s);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

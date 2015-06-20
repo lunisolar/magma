@@ -109,7 +109,7 @@ public interface LCharConsumer extends LCharConsumerX<RuntimeException>, MetaCon
 	@Nonnull
 	default LCharConsumer fromChar(@Nonnull final LCharUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final char v1) -> this.doAccept(before1.doApplyAsChar(v1));
+		return v1 -> this.doAccept(before1.doApplyAsChar(v1));
 	}
 
 	/**
@@ -118,7 +118,7 @@ public interface LCharConsumer extends LCharConsumerX<RuntimeException>, MetaCon
 	@Nonnull
 	default <V1> LConsumer<V1> from(@Nonnull final LToCharFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doAccept(before1.doApplyAsChar(v1));
+		return v1 -> this.doAccept(before1.doApplyAsChar(v1));
 	}
 
 	// </editor-fold>
@@ -129,7 +129,7 @@ public interface LCharConsumer extends LCharConsumerX<RuntimeException>, MetaCon
 	@Nonnull
 	default LCharConsumer andThen(@Nonnull LCharConsumer after) {
 		Null.nonNullArg(after, "after");
-		return (char c) -> {
+		return c -> {
 			this.doAccept(c);
 			after.doAccept(c);
 		};

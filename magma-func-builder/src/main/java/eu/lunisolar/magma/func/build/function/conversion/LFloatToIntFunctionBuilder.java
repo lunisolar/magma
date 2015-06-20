@@ -108,7 +108,7 @@ public final class LFloatToIntFunctionBuilder extends PerCaseBuilderWithIntProdu
 		LFloatToIntFunction retval;
 
 		final Case<LFloatPredicate, LFloatToIntFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LFloatToIntFunction.l((float f) -> {
+		retval = LFloatToIntFunction.l(f -> {
 			try {
 				for (Case<LFloatPredicate, LFloatToIntFunction> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(f)) {
@@ -117,10 +117,12 @@ public final class LFloatToIntFunctionBuilder extends PerCaseBuilderWithIntProdu
 				}
 
 				return eventuallyFinal.doApplyAsInt(f);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

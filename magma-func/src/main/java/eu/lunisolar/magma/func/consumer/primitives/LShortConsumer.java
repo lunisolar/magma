@@ -109,7 +109,7 @@ public interface LShortConsumer extends LShortConsumerX<RuntimeException>, MetaC
 	@Nonnull
 	default LShortConsumer fromShort(@Nonnull final LShortUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final short v1) -> this.doAccept(before1.doApplyAsShort(v1));
+		return v1 -> this.doAccept(before1.doApplyAsShort(v1));
 	}
 
 	/**
@@ -118,7 +118,7 @@ public interface LShortConsumer extends LShortConsumerX<RuntimeException>, MetaC
 	@Nonnull
 	default <V1> LConsumer<V1> from(@Nonnull final LToShortFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doAccept(before1.doApplyAsShort(v1));
+		return v1 -> this.doAccept(before1.doApplyAsShort(v1));
 	}
 
 	// </editor-fold>
@@ -129,7 +129,7 @@ public interface LShortConsumer extends LShortConsumerX<RuntimeException>, MetaC
 	@Nonnull
 	default LShortConsumer andThen(@Nonnull LShortConsumer after) {
 		Null.nonNullArg(after, "after");
-		return (short s) -> {
+		return s -> {
 			this.doAccept(s);
 			after.doAccept(s);
 		};

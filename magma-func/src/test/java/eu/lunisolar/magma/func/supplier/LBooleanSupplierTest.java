@@ -95,7 +95,7 @@ public class LBooleanSupplierTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoGetAsBoolean_unckeck() throws X {
+    public void testNestingDoGetAsBooleanUnckeck() throws X {
 
         // then
         try {
@@ -110,7 +110,7 @@ public class LBooleanSupplierTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoGetAsBoolean_unckeck() throws X {
+    public void testShovingDoGetAsBooleanUnckeck() throws X {
 
         // then
         try {
@@ -123,7 +123,6 @@ public class LBooleanSupplierTest<X extends ParseException> {
                     .hasMessage(ORIGINAL_MESSAGE);
         }
     }
-
 
 
     @Test
@@ -204,9 +203,8 @@ public class LBooleanSupplierTest<X extends ParseException> {
         });
 
         // when
-        LBooleanSupplier wrapped = sutThrowing.handle(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LBooleanSupplier wrapped = sutThrowing.handle(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -221,7 +219,7 @@ public class LBooleanSupplierTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
         LBooleanSupplier sutThrowing = LBooleanSupplier.l(() -> {
@@ -245,7 +243,7 @@ public class LBooleanSupplierTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
         LBooleanSupplier sutThrowing = LBooleanSupplier.l(() -> {
@@ -278,8 +276,7 @@ public class LBooleanSupplierTest<X extends ParseException> {
         });
 
         // when
-        LBooleanSupplier wrapped = sutThrowing.handle(h -> {
-        });
+        LBooleanSupplier wrapped = sutThrowing.handle(h -> Function4U.doNothing());
 
         // then
         try {

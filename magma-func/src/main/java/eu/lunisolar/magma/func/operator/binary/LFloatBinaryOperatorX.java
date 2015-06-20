@@ -67,9 +67,9 @@ public interface LFloatBinaryOperatorX<X extends Throwable> extends MetaOperator
 	default float nestingDoApplyAsFloat(float f1, float f2) {
 		try {
 			return this.doApplyAsFloat(f1, f2);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -82,7 +82,7 @@ public interface LFloatBinaryOperatorX<X extends Throwable> extends MetaOperator
 
 		try {
 			return this.doApplyAsFloat(f1, f2);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

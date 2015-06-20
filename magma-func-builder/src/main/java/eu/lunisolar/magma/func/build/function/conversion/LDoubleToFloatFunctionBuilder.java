@@ -108,7 +108,7 @@ public final class LDoubleToFloatFunctionBuilder extends PerCaseBuilderWithFloat
 		LDoubleToFloatFunction retval;
 
 		final Case<LDoublePredicate, LDoubleToFloatFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LDoubleToFloatFunction.l((double d) -> {
+		retval = LDoubleToFloatFunction.l(d -> {
 			try {
 				for (Case<LDoublePredicate, LDoubleToFloatFunction> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(d)) {
@@ -117,10 +117,12 @@ public final class LDoubleToFloatFunctionBuilder extends PerCaseBuilderWithFloat
 				}
 
 				return eventuallyFinal.doApplyAsFloat(d);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

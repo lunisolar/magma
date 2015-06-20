@@ -61,7 +61,7 @@ public class LCharConsumerBuilderTest<X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LCharConsumer function = LCharConsumerBuilder.charConsumer()
@@ -77,7 +77,7 @@ public class LCharConsumerBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,11 +92,11 @@ public class LCharConsumerBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LCharConsumer function = LCharConsumerBuilder.charConsumer()
-                .eventually((c) -> {
+                .eventually(c -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -112,15 +112,15 @@ public class LCharConsumerBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
         final AtomicInteger externalEffect = new AtomicInteger(0);
 
         LCharConsumer function = charConsumer((LCharConsumer f)-> doNothing())
-            .addCase(ce -> ce.of((c) -> c == (char)0)
-                             .evaluate((c) -> externalEffect.set(0)))
-            .inCase((c) -> c > 0 && c < 10).evaluate((c) -> externalEffect.set(1))
-            .inCase((c) -> c > 10 && c < 20).evaluate((c) -> externalEffect.set(2))
-            .eventually((c) -> externalEffect.set(99))
+            .addCase(ce -> ce.of(c -> c == (char)0)
+                             .evaluate(c -> externalEffect.set(0)))
+            .inCase(c -> c > 0 && c < 10).evaluate(c -> externalEffect.set(1))
+            .inCase(c -> c > 10 && c < 20).evaluate(c -> externalEffect.set(2))
+            .eventually(c -> externalEffect.set(99))
             .build();
 
 

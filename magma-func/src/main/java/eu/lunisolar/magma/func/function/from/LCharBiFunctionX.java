@@ -68,9 +68,9 @@ public interface LCharBiFunctionX<R, X extends Throwable> extends MetaFunction, 
 	default R nestingDoApply(char c1, char c2) {
 		try {
 			return this.doApply(c1, c2);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -83,7 +83,7 @@ public interface LCharBiFunctionX<R, X extends Throwable> extends MetaFunction, 
 
 		try {
 			return this.doApply(c1, c2);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

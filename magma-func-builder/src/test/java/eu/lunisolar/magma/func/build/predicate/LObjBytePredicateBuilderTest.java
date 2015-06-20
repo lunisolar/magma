@@ -61,7 +61,7 @@ public class LObjBytePredicateBuilderTest<T,X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LObjBytePredicate function = LObjBytePredicateBuilder.objBytePredicate()
@@ -77,7 +77,7 @@ public class LObjBytePredicateBuilderTest<T,X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,7 +92,7 @@ public class LObjBytePredicateBuilderTest<T,X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LObjBytePredicate function = LObjBytePredicateBuilder.objBytePredicate()
@@ -112,7 +112,7 @@ public class LObjBytePredicateBuilderTest<T,X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LObjBytePredicate<Integer > function = objBytePredicate((LObjBytePredicate<Integer > f)-> doNothing())
             .addCase(ce -> ce.of((t, b) -> t == Integer.valueOf(0))

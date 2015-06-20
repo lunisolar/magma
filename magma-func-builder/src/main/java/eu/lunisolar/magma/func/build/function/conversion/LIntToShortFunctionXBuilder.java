@@ -108,7 +108,7 @@ public final class LIntToShortFunctionXBuilder<X extends Throwable> extends PerC
 		LIntToShortFunctionX<X> retval;
 
 		final Case<LIntPredicateX<X>, LIntToShortFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LIntToShortFunctionX.lX((int i) -> {
+		retval = LIntToShortFunctionX.<X> lX(i -> {
 			try {
 				for (Case<LIntPredicateX<X>, LIntToShortFunctionX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(i)) {
@@ -117,10 +117,12 @@ public final class LIntToShortFunctionXBuilder<X extends Throwable> extends PerC
 				}
 
 				return eventuallyFinal.doApplyAsShort(i);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

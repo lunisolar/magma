@@ -67,9 +67,9 @@ public interface LShortSupplierX<X extends Throwable> extends MetaSupplier, Prim
 	default short nestingDoGetAsShort() {
 		try {
 			return this.doGetAsShort();
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -82,7 +82,7 @@ public interface LShortSupplierX<X extends Throwable> extends MetaSupplier, Prim
 
 		try {
 			return this.doGetAsShort();
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

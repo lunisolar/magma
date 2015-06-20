@@ -45,11 +45,11 @@ public class LIntToFloatFunctionXAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LIntToFloatFunctionX<X> function = LIntToFloatFunctionX.lX((i) -> {
-            return testValue;
-    });
+    private LIntToFloatFunctionX<X> function = LIntToFloatFunctionX.lX(i ->
+            testValue
+    );
 
-    private LIntToFloatFunctionX<X> functionThrowing = LIntToFloatFunctionX.lX((i) -> {
+    private LIntToFloatFunctionX<X> functionThrowing = LIntToFloatFunctionX.lX(i -> {
         throw new UnsupportedOperationException();
     });
 

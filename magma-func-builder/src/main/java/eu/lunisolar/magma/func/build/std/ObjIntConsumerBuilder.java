@@ -107,7 +107,7 @@ public final class ObjIntConsumerBuilder<T> extends PerCaseBuilder.Base<ObjIntCo
 		java.util.function.ObjIntConsumer<T> retval;
 
 		final Case<LObjIntPredicate<T>, java.util.function.ObjIntConsumer<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.l((T t, int i) -> {
+		retval = Function4U.<T> objIntConsumer((T t, int i) -> {
 			try {
 				for (Case<LObjIntPredicate<T>, java.util.function.ObjIntConsumer<T>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(t, i)) {
@@ -117,10 +117,12 @@ public final class ObjIntConsumerBuilder<T> extends PerCaseBuilder.Base<ObjIntCo
 				}
 
 				eventuallyFinal.accept(t, i);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

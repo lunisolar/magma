@@ -89,7 +89,7 @@ public interface LBooleanToLongFunction extends LBooleanToLongFunctionX<RuntimeE
 	}
 
 	public static LBooleanToLongFunction constant(long r) {
-		return (b) -> r;
+		return b -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -117,7 +117,7 @@ public interface LBooleanToLongFunction extends LBooleanToLongFunctionX<RuntimeE
 	@Nonnull
 	default LBooleanToLongFunction fromBoolean(@Nonnull final LBooleanUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final boolean v1) -> this.doApplyAsLong(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doApplyAsLong(before1.doApplyAsBoolean(v1));
 	}
 
 	/**
@@ -126,7 +126,7 @@ public interface LBooleanToLongFunction extends LBooleanToLongFunctionX<RuntimeE
 	@Nonnull
 	default <V1> LToLongFunction<V1> from(@Nonnull final LPredicate<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doApplyAsLong(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doApplyAsLong(before1.doApplyAsBoolean(v1));
 	}
 
 	// </editor-fold>
@@ -137,63 +137,63 @@ public interface LBooleanToLongFunction extends LBooleanToLongFunctionX<RuntimeE
 	@Nonnull
 	default <V> LBooleanFunction<V> then(@Nonnull LLongFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApply(this.doApplyAsLong(b));
+		return b -> after.doApply(this.doApplyAsLong(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToByteFunction thenToByte(@Nonnull LLongToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsByte(this.doApplyAsLong(b));
+		return b -> after.doApplyAsByte(this.doApplyAsLong(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToShortFunction thenToShort(@Nonnull LLongToShortFunction after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsShort(this.doApplyAsLong(b));
+		return b -> after.doApplyAsShort(this.doApplyAsLong(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToIntFunction thenToInt(@Nonnull LLongToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsInt(this.doApplyAsLong(b));
+		return b -> after.doApplyAsInt(this.doApplyAsLong(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToLongFunction thenToLong(@Nonnull LLongUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsLong(this.doApplyAsLong(b));
+		return b -> after.doApplyAsLong(this.doApplyAsLong(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToFloatFunction thenToFloat(@Nonnull LLongToFloatFunction after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsFloat(this.doApplyAsLong(b));
+		return b -> after.doApplyAsFloat(this.doApplyAsLong(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToDoubleFunction thenToDouble(@Nonnull LLongToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsDouble(this.doApplyAsLong(b));
+		return b -> after.doApplyAsDouble(this.doApplyAsLong(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToCharFunction thenToChar(@Nonnull LLongToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsChar(this.doApplyAsLong(b));
+		return b -> after.doApplyAsChar(this.doApplyAsLong(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanUnaryOperator thenToBoolean(@Nonnull LLongPredicate after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doTest(this.doApplyAsLong(b));
+		return b -> after.doTest(this.doApplyAsLong(b));
 	}
 
 	// </editor-fold>

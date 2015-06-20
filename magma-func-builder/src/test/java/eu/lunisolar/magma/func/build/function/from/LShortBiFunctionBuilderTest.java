@@ -61,7 +61,7 @@ public class LShortBiFunctionBuilderTest<R,X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LShortBiFunction function = LShortBiFunctionBuilder.shortBiFunction()
@@ -77,7 +77,7 @@ public class LShortBiFunctionBuilderTest<R,X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,7 +92,7 @@ public class LShortBiFunctionBuilderTest<R,X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LShortBiFunction function = LShortBiFunctionBuilder.shortBiFunction()
@@ -112,7 +112,7 @@ public class LShortBiFunctionBuilderTest<R,X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LShortBiFunction<Integer > function = shortBiFunction((LShortBiFunction<Integer > f)-> doNothing())
             .addCase(ce -> ce.of((s1,s2) -> s1 == (short)0)

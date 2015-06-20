@@ -61,7 +61,7 @@ public class LBooleanToFloatFunctionXBuilderTest<X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LBooleanToFloatFunctionX function = LBooleanToFloatFunctionXBuilder.booleanToFloatFunctionX()
@@ -77,7 +77,7 @@ public class LBooleanToFloatFunctionXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,11 +92,11 @@ public class LBooleanToFloatFunctionXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LBooleanToFloatFunctionX function = LBooleanToFloatFunctionXBuilder.booleanToFloatFunctionX()
-                .eventually((b) -> {
+                .eventually(b -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -112,13 +112,13 @@ public class LBooleanToFloatFunctionXBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LBooleanToFloatFunctionX<ParseException> function = booleanToFloatFunctionX((LBooleanToFloatFunctionX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((b) -> b == false)
-                             .evaluate((b) -> (float)0))
-            .inCase((b) -> b == true ).evaluate((b) -> (float)1)
-            .eventually((b) -> (float)99)
+            .addCase(ce -> ce.of(b -> b == false)
+                             .evaluate(b -> (float)0))
+            .inCase(b -> b == true ).evaluate(b -> (float)1)
+            .eventually(b -> (float)99)
             .build();
 
 

@@ -39,81 +39,40 @@ public interface BasicAssertions<OS extends Assert> extends AssertContext<OS> {
         return (OS) Assertions.assertThat(actual);
     }
 
-//    @Nonnull
-//    default AbstractBooleanAssert assertThatBool(boolean actual) {
-//        return Assertions.assertThat(actual);
-//    }
-
     @Nonnull
     default AbstractBooleanAssert assertThatBoolean(Boolean actual) {
         return Assertions.assertThat(actual);
     }
-
-//    @Nonnull
-//    default AbstractByteAssert assertThatByte(byte actual) {
-//        return Assertions.assertThat(actual);
-//    }
 
     @Nonnull
     default AbstractByteAssert assertThatByte(Byte actual) {
         return Assertions.assertThat(actual);
     }
 
-//    @Nonnull
-//    default AbstractDoubleAssert assertThatDouble(double actual) {
-//        return Assertions.assertThat(actual);
-//    }
-
     @Nonnull
     default AbstractDoubleAssert assertThatDouble(Double actual) {
         return Assertions.assertThat(actual);
     }
-
-
-//    @Nonnull
-//    default AbstractFloatAssert assertThatFloat(float actual) {
-//        return Assertions.assertThat(actual);
-//    }
 
     @Nonnull
     default AbstractFloatAssert assertThatFloat(Float actual) {
         return Assertions.assertThat(actual);
     }
 
-//    @Nonnull
-//    default AbstractIntegerAssert assertThatInt(int actual) {
-//        return Assertions.assertThat(actual);
-//    }
-
     @Nonnull
     default AbstractIntegerAssert assertThatInt(Integer actual) {
         return Assertions.assertThat(actual);
     }
-
-//    @Nonnull
-//    default AbstractLongAssert assertThatLong(long actual) {
-//        return Assertions.assertThat(actual);
-//    }
 
     @Nonnull
     default AbstractLongAssert assertThatLong(Long actual) {
         return Assertions.assertThat(actual);
     }
 
-//    @Nonnull
-//    default AbstractShortAssert assertThatShort(short actual) {
-//        return Assertions.assertThat(actual);
-//    }
-
     @Nonnull
     default AbstractShortAssert assertThatShort(Short actual) {
         return Assertions.assertThat(actual);
     }
-
-//    @Nonnull
-//    default AbstractCharacterAssert assertThatChar(char actual) {
-//        return Assertions.assertThat(actual);
-//    }
 
     @Nonnull
     default AbstractCharacterAssert assertThatChar(Character actual) {

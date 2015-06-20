@@ -67,9 +67,9 @@ public interface LObjBooleanPredicateX<T, X extends Throwable> extends MetaPredi
 	default boolean nestingDoTest(T t, boolean b) {
 		try {
 			return this.doTest(t, b);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -82,7 +82,7 @@ public interface LObjBooleanPredicateX<T, X extends Throwable> extends MetaPredi
 
 		try {
 			return this.doTest(t, b);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

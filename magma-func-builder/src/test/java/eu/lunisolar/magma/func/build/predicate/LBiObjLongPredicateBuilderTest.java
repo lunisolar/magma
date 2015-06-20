@@ -61,7 +61,7 @@ public class LBiObjLongPredicateBuilderTest<T1,T2,X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LBiObjLongPredicate function = LBiObjLongPredicateBuilder.biObjLongPredicate()
@@ -77,7 +77,7 @@ public class LBiObjLongPredicateBuilderTest<T1,T2,X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,7 +92,7 @@ public class LBiObjLongPredicateBuilderTest<T1,T2,X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LBiObjLongPredicate function = LBiObjLongPredicateBuilder.biObjLongPredicate()
@@ -112,7 +112,7 @@ public class LBiObjLongPredicateBuilderTest<T1,T2,X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LBiObjLongPredicate<Integer ,Integer > function = biObjLongPredicate((LBiObjLongPredicate<Integer ,Integer > f)-> doNothing())
             .addCase(ce -> ce.of((t1,t2, l) -> t1 == Integer.valueOf(0))

@@ -108,7 +108,7 @@ public final class LIntBiFunctionBuilder<R> extends PerCaseBuilderWithProduct.Ba
 		LIntBiFunction<R> retval;
 
 		final Case<LBiIntPredicate, LIntBiFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LIntBiFunction.l((int i1, int i2) -> {
+		retval = LIntBiFunction.<R> l((int i1, int i2) -> {
 			try {
 				for (Case<LBiIntPredicate, LIntBiFunction<R>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(i1, i2)) {
@@ -117,10 +117,12 @@ public final class LIntBiFunctionBuilder<R> extends PerCaseBuilderWithProduct.Ba
 				}
 
 				return eventuallyFinal.doApply(i1, i2);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

@@ -61,7 +61,7 @@ public class LBooleanFunctionXBuilderTest<R,X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LBooleanFunctionX function = LBooleanFunctionXBuilder.booleanFunctionX()
@@ -77,7 +77,7 @@ public class LBooleanFunctionXBuilderTest<R,X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,11 +92,11 @@ public class LBooleanFunctionXBuilderTest<R,X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LBooleanFunctionX function = LBooleanFunctionXBuilder.booleanFunctionX()
-                .eventually((b) -> {
+                .eventually(b -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -112,13 +112,13 @@ public class LBooleanFunctionXBuilderTest<R,X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LBooleanFunctionX<Integer ,ParseException> function = booleanFunctionX((LBooleanFunctionX<Integer ,ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((b) -> b == false)
-                             .evaluate((b) -> Integer.valueOf(0)))
-            .inCase((b) -> b == true ).evaluate((b) -> Integer.valueOf(1))
-            .eventually((b) -> Integer.valueOf(99))
+            .addCase(ce -> ce.of(b -> b == false)
+                             .evaluate(b -> Integer.valueOf(0)))
+            .inCase(b -> b == true ).evaluate(b -> Integer.valueOf(1))
+            .eventually(b -> Integer.valueOf(99))
             .build();
 
 

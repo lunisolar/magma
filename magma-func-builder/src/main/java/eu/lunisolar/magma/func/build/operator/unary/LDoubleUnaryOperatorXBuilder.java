@@ -108,7 +108,7 @@ public final class LDoubleUnaryOperatorXBuilder<X extends Throwable> extends Per
 		LDoubleUnaryOperatorX<X> retval;
 
 		final Case<LDoublePredicateX<X>, LDoubleUnaryOperatorX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LDoubleUnaryOperatorX.lX((double d) -> {
+		retval = LDoubleUnaryOperatorX.<X> lX(d -> {
 			try {
 				for (Case<LDoublePredicateX<X>, LDoubleUnaryOperatorX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(d)) {
@@ -117,10 +117,12 @@ public final class LDoubleUnaryOperatorXBuilder<X extends Throwable> extends Per
 				}
 
 				return eventuallyFinal.doApplyAsDouble(d);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

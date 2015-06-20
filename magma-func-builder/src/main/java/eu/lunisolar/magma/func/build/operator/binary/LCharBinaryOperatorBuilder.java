@@ -117,10 +117,12 @@ public final class LCharBinaryOperatorBuilder extends PerCaseBuilderWithCharProd
 				}
 
 				return eventuallyFinal.doApplyAsChar(c1, c2);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

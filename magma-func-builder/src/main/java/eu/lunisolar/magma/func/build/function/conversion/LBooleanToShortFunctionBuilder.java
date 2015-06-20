@@ -108,7 +108,7 @@ public final class LBooleanToShortFunctionBuilder extends PerCaseBuilderWithShor
 		LBooleanToShortFunction retval;
 
 		final Case<LBooleanUnaryOperator, LBooleanToShortFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBooleanToShortFunction.l((boolean b) -> {
+		retval = LBooleanToShortFunction.l(b -> {
 			try {
 				for (Case<LBooleanUnaryOperator, LBooleanToShortFunction> aCase : casesArray) {
 					if (aCase.casePredicate().doApplyAsBoolean(b)) {
@@ -117,10 +117,12 @@ public final class LBooleanToShortFunctionBuilder extends PerCaseBuilderWithShor
 				}
 
 				return eventuallyFinal.doApplyAsShort(b);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

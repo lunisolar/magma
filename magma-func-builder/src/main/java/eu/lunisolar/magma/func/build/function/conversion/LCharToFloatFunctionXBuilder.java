@@ -108,7 +108,7 @@ public final class LCharToFloatFunctionXBuilder<X extends Throwable> extends Per
 		LCharToFloatFunctionX<X> retval;
 
 		final Case<LCharPredicateX<X>, LCharToFloatFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LCharToFloatFunctionX.lX((char c) -> {
+		retval = LCharToFloatFunctionX.<X> lX(c -> {
 			try {
 				for (Case<LCharPredicateX<X>, LCharToFloatFunctionX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(c)) {
@@ -117,10 +117,12 @@ public final class LCharToFloatFunctionXBuilder<X extends Throwable> extends Per
 				}
 
 				return eventuallyFinal.doApplyAsFloat(c);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

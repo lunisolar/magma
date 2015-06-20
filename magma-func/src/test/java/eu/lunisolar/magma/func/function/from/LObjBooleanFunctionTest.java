@@ -99,7 +99,7 @@ public class LObjBooleanFunctionTest<T,R,X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApply_unckeck() throws X {
+    public void testNestingDoApplyUnckeck() throws X {
 
         // then
         try {
@@ -114,7 +114,7 @@ public class LObjBooleanFunctionTest<T,R,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApply_unckeck() throws X {
+    public void testShovingDoApplyUnckeck() throws X {
 
         // then
         try {
@@ -127,7 +127,6 @@ public class LObjBooleanFunctionTest<T,R,X extends ParseException> {
                     .hasMessage(ORIGINAL_MESSAGE);
         }
     }
-
 
     @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LObjBooleanFunction: R doApply(T t, boolean b)).\\E")
     public void testNonNullCapturesNull() throws X {
@@ -207,9 +206,8 @@ public class LObjBooleanFunctionTest<T,R,X extends ParseException> {
         });
 
         // when
-        LObjBooleanFunction<T,R> wrapped = sutThrowing.handle(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LObjBooleanFunction<T,R> wrapped = sutThrowing.handle(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -224,7 +222,7 @@ public class LObjBooleanFunctionTest<T,R,X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
         LObjBooleanFunction<T,R> sutThrowing = LObjBooleanFunction.l((T t, boolean b) -> {
@@ -248,7 +246,7 @@ public class LObjBooleanFunctionTest<T,R,X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
         LObjBooleanFunction<T,R> sutThrowing = LObjBooleanFunction.l((T t, boolean b) -> {
@@ -281,8 +279,7 @@ public class LObjBooleanFunctionTest<T,R,X extends ParseException> {
         });
 
         // when
-        LObjBooleanFunction<T,R> wrapped = sutThrowing.handle(h -> {
-        });
+        LObjBooleanFunction<T,R> wrapped = sutThrowing.handle(h -> Function4U.doNothing());
 
         // then
         try {

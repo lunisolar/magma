@@ -108,7 +108,7 @@ public final class LIntPredicateBuilder extends PerCaseBuilderWithBooleanProduct
 		LIntPredicate retval;
 
 		final Case<LIntPredicate, LIntPredicate>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LIntPredicate.l((int i) -> {
+		retval = LIntPredicate.l(i -> {
 			try {
 				for (Case<LIntPredicate, LIntPredicate> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(i)) {
@@ -117,10 +117,12 @@ public final class LIntPredicateBuilder extends PerCaseBuilderWithBooleanProduct
 				}
 
 				return eventuallyFinal.doTest(i);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

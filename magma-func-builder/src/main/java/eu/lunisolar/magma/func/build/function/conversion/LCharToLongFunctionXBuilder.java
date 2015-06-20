@@ -108,7 +108,7 @@ public final class LCharToLongFunctionXBuilder<X extends Throwable> extends PerC
 		LCharToLongFunctionX<X> retval;
 
 		final Case<LCharPredicateX<X>, LCharToLongFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LCharToLongFunctionX.lX((char c) -> {
+		retval = LCharToLongFunctionX.<X> lX(c -> {
 			try {
 				for (Case<LCharPredicateX<X>, LCharToLongFunctionX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(c)) {
@@ -117,10 +117,12 @@ public final class LCharToLongFunctionXBuilder<X extends Throwable> extends PerC
 				}
 
 				return eventuallyFinal.doApplyAsLong(c);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

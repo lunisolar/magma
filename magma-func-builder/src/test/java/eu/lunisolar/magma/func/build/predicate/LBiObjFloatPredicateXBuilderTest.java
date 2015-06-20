@@ -61,7 +61,7 @@ public class LBiObjFloatPredicateXBuilderTest<T1,T2,X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LBiObjFloatPredicateX function = LBiObjFloatPredicateXBuilder.biObjFloatPredicateX()
@@ -77,7 +77,7 @@ public class LBiObjFloatPredicateXBuilderTest<T1,T2,X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,7 +92,7 @@ public class LBiObjFloatPredicateXBuilderTest<T1,T2,X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LBiObjFloatPredicateX function = LBiObjFloatPredicateXBuilder.biObjFloatPredicateX()
@@ -112,7 +112,7 @@ public class LBiObjFloatPredicateXBuilderTest<T1,T2,X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LBiObjFloatPredicateX<Integer ,Integer ,ParseException> function = biObjFloatPredicateX((LBiObjFloatPredicateX<Integer ,Integer ,ParseException> f)-> doNothing())
             .addCase(ce -> ce.of((t1,t2, f) -> t1 == Integer.valueOf(0))

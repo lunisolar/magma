@@ -61,7 +61,7 @@ public class LFloatToByteFunctionBuilderTest<X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LFloatToByteFunction function = LFloatToByteFunctionBuilder.floatToByteFunction()
@@ -77,7 +77,7 @@ public class LFloatToByteFunctionBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,11 +92,11 @@ public class LFloatToByteFunctionBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LFloatToByteFunction function = LFloatToByteFunctionBuilder.floatToByteFunction()
-                .eventually((f) -> {
+                .eventually(f -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -112,14 +112,14 @@ public class LFloatToByteFunctionBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LFloatToByteFunction function = floatToByteFunction((LFloatToByteFunction f)-> doNothing())
-            .addCase(ce -> ce.of((f) -> f == (float)0)
-                             .evaluate((f) -> (byte)0))
-            .inCase((f) -> f > 0 && f < 10).evaluate((f) -> (byte)1)
-            .inCase((f) -> f > 10 && f < 20).evaluate((f) -> (byte)2)
-            .eventually((f) -> (byte)99)
+            .addCase(ce -> ce.of(f -> f == (float)0)
+                             .evaluate(f -> (byte)0))
+            .inCase(f -> f > 0 && f < 10).evaluate(f -> (byte)1)
+            .inCase(f -> f > 10 && f < 20).evaluate(f -> (byte)2)
+            .eventually(f -> (byte)99)
             .build();
 
 

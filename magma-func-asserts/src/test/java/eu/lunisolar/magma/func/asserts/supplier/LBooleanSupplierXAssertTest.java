@@ -45,9 +45,9 @@ public class LBooleanSupplierXAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LBooleanSupplierX<X> function = LBooleanSupplierX.lX(() -> {
-            return testValue;
-    });
+    private LBooleanSupplierX<X> function = LBooleanSupplierX.lX(() ->
+            testValue
+    );
 
     private LBooleanSupplierX<X> functionThrowing = LBooleanSupplierX.lX(() -> {
         throw new UnsupportedOperationException();
@@ -57,7 +57,7 @@ public class LBooleanSupplierXAssertTest<X extends Throwable> {
     public void testAssertPositive() throws ParseException {
 
         A.assertThat(function)
-         .doesGetAsBoolean(()->{})
+         .doesGetAsBoolean()
             .to(a -> a.isEqualTo(testValue));
 
     }
@@ -66,7 +66,7 @@ public class LBooleanSupplierXAssertTest<X extends Throwable> {
     public void testAssertNegative() throws ParseException {
 
         A.assertThat(function)
-         .doesGetAsBoolean(()->{})
+         .doesGetAsBoolean()
             .to( a -> a.isEqualTo(2));
 
     }
@@ -75,7 +75,7 @@ public class LBooleanSupplierXAssertTest<X extends Throwable> {
     public void testAssertThrowsUnexpected() throws ParseException {
 
         A.assertThat(functionThrowing)
-         .doesGetAsBoolean(()->{})
+         .doesGetAsBoolean()
             .to( a -> a.isEqualTo(1));
     }
 
@@ -83,7 +83,7 @@ public class LBooleanSupplierXAssertTest<X extends Throwable> {
     public void testAssertThrowsExpected() throws ParseException {
 
         A.assertThat(functionThrowing)
-         .doesGetAsBoolean(()->{}).withException(a -> a
+         .doesGetAsBoolean().withException(a -> a
                    .isExactlyInstanceOf(UnsupportedOperationException.class)
                    .hasMessage(null));
 
@@ -99,9 +99,9 @@ public class LBooleanSupplierXAssertTest<X extends Throwable> {
             recurringAssertsCalls.incrementAndGet();
             a.isEqualTo(testValue);
          })
-         .doesGetAsBoolean(()->{})
+         .doesGetAsBoolean()
             .to(a -> a.isEqualTo(testValue))
-         .doesGetAsBoolean(()->{})
+         .doesGetAsBoolean()
             .to(a -> a.isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);
@@ -119,9 +119,9 @@ public class LBooleanSupplierXAssertTest<X extends Throwable> {
                 a.isEqualTo(0);
             }
          })
-         .doesGetAsBoolean(()->{})
+         .doesGetAsBoolean()
             .to(a -> a.isEqualTo(testValue))
-         .doesGetAsBoolean(()->{})
+         .doesGetAsBoolean()
             .to(a -> a.isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);

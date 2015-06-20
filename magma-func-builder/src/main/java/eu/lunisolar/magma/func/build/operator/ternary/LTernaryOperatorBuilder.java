@@ -108,7 +108,7 @@ public final class LTernaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.
 		LTernaryOperator<T> retval;
 
 		final Case<LTriPredicate<T, T, T>, LTernaryOperator<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LTernaryOperator.l((T t1, T t2, T t3) -> {
+		retval = LTernaryOperator.<T> l((T t1, T t2, T t3) -> {
 			try {
 				for (Case<LTriPredicate<T, T, T>, LTernaryOperator<T>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(t1, t2, t3)) {
@@ -117,10 +117,12 @@ public final class LTernaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.
 				}
 
 				return eventuallyFinal.doApply(t1, t2, t3);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

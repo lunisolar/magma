@@ -73,11 +73,41 @@ public class LBooleanConsumerTest<X extends ParseException> {
 
 
 
-    private LBooleanConsumer sutAlwaysThrowingUnckeck = LBooleanConsumer.l((boolean b) -> {
+    private LBooleanConsumer sutAlwaysThrowingUnckeck = LBooleanConsumer.l(b -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
+
+    @Test
+    public void testNestingDoAcceptUnckeck() throws X {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.nestingDoAccept(true);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoAcceptUnckeck() throws X {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.shovingDoAccept(true);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
 
 
     @Test
@@ -88,7 +118,7 @@ public class LBooleanConsumerTest<X extends ParseException> {
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LBooleanConsumer.l((boolean b) -> Function4U.doNothing() ))
+        assertThat(LBooleanConsumer.l(b -> Function4U.doNothing() ))
             .isInstanceOf(LBooleanConsumer.class);
     }
 
@@ -101,7 +131,7 @@ public class LBooleanConsumerTest<X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LBooleanConsumerX<X> sutThrowing = LBooleanConsumerX.lX((boolean b) -> {
+        LBooleanConsumerX<X> sutThrowing = LBooleanConsumerX.lX(b -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -123,7 +153,7 @@ public class LBooleanConsumerTest<X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LBooleanConsumerX<ParseException> sutThrowing = LBooleanConsumerX.lX((boolean b) -> {
+        LBooleanConsumerX<ParseException> sutThrowing = LBooleanConsumerX.lX(b -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -147,14 +177,13 @@ public class LBooleanConsumerTest<X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LBooleanConsumer sutThrowing = LBooleanConsumer.l((boolean b) -> {
+        LBooleanConsumer sutThrowing = LBooleanConsumer.l(b -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        LBooleanConsumer wrapped = sutThrowing.handle(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LBooleanConsumer wrapped = sutThrowing.handle(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -169,10 +198,10 @@ public class LBooleanConsumerTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LBooleanConsumer sutThrowing = LBooleanConsumer.l((boolean b) -> {
+        LBooleanConsumer sutThrowing = LBooleanConsumer.l(b -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -193,10 +222,10 @@ public class LBooleanConsumerTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LBooleanConsumer sutThrowing = LBooleanConsumer.l((boolean b) -> {
+        LBooleanConsumer sutThrowing = LBooleanConsumer.l(b -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -221,13 +250,12 @@ public class LBooleanConsumerTest<X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LBooleanConsumer sutThrowing = LBooleanConsumer.l((boolean b) -> {
+        LBooleanConsumer sutThrowing = LBooleanConsumer.l(b -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
         // when
-        LBooleanConsumer wrapped = sutThrowing.handle(h -> {
-        });
+        LBooleanConsumer wrapped = sutThrowing.handle(h -> Function4U.doNothing());
 
         // then
         try {
@@ -252,7 +280,7 @@ public class LBooleanConsumerTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBooleanConsumer sutO = (boolean b) -> {
+        LBooleanConsumer sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo(true);
         };
@@ -280,7 +308,7 @@ public class LBooleanConsumerTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBooleanConsumer sutO = (boolean b) -> {
+        LBooleanConsumer sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo(true);
         };
@@ -309,7 +337,7 @@ public class LBooleanConsumerTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
          //given (+ some assertions)
-        LBooleanConsumer sutO = (boolean b) -> {
+        LBooleanConsumer sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo(true);
         };
@@ -361,7 +389,7 @@ public class LBooleanConsumerTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LBooleanConsumer sutThrowing = LBooleanConsumer.l((boolean b) -> {
+        LBooleanConsumer sutThrowing = LBooleanConsumer.l(b -> {
             throw new UnsupportedOperationException();
         });
 
@@ -373,7 +401,7 @@ public class LBooleanConsumerTest<X extends ParseException> {
     public void testHandle() throws X {
 
         // given
-        LBooleanConsumer sutThrowing = LBooleanConsumer.l((boolean b) -> {
+        LBooleanConsumer sutThrowing = LBooleanConsumer.l(b -> {
             throw new UnsupportedOperationException();
         });
 

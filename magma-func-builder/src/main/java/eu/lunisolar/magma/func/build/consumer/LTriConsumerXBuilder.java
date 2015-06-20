@@ -108,7 +108,7 @@ public final class LTriConsumerXBuilder<T1, T2, T3, X extends Throwable> extends
 		LTriConsumerX<T1, T2, T3, X> retval;
 
 		final Case<LTriPredicateX<T1, T2, T3, X>, LTriConsumerX<T1, T2, T3, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LTriConsumerX.lX((T1 t1, T2 t2, T3 t3) -> {
+		retval = LTriConsumerX.<T1, T2, T3, X> lX((T1 t1, T2 t2, T3 t3) -> {
 			try {
 				for (Case<LTriPredicateX<T1, T2, T3, X>, LTriConsumerX<T1, T2, T3, X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(t1, t2, t3)) {
@@ -118,10 +118,12 @@ public final class LTriConsumerXBuilder<T1, T2, T3, X extends Throwable> extends
 				}
 
 				eventuallyFinal.doAccept(t1, t2, t3);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

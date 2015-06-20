@@ -75,7 +75,7 @@ public class LFloatPredicateTest<X extends ParseException> {
 
 
 
-    private LFloatPredicate sutAlwaysThrowingUnckeck = LFloatPredicate.l((float f) -> {
+    private LFloatPredicate sutAlwaysThrowingUnckeck = LFloatPredicate.l(f -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -93,7 +93,7 @@ public class LFloatPredicateTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoTest_unckeck() throws X {
+    public void testNestingDoTestUnckeck() throws X {
 
         // then
         try {
@@ -108,7 +108,7 @@ public class LFloatPredicateTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoTest_unckeck() throws X {
+    public void testShovingDoTestUnckeck() throws X {
 
         // then
         try {
@@ -121,7 +121,6 @@ public class LFloatPredicateTest<X extends ParseException> {
                     .hasMessage(ORIGINAL_MESSAGE);
         }
     }
-
 
     @Test
     public void testApplyAsBooleanShouldNotModifyValue() throws X {
@@ -139,7 +138,7 @@ public class LFloatPredicateTest<X extends ParseException> {
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LFloatPredicate.l((float f) -> testValue ))
+        assertThat(LFloatPredicate.l(f -> testValue ))
             .isInstanceOf(LFloatPredicate.class);
     }
 
@@ -152,7 +151,7 @@ public class LFloatPredicateTest<X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LFloatPredicateX<X> sutThrowing = LFloatPredicateX.lX((float f) -> {
+        LFloatPredicateX<X> sutThrowing = LFloatPredicateX.lX(f -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -174,7 +173,7 @@ public class LFloatPredicateTest<X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LFloatPredicateX<ParseException> sutThrowing = LFloatPredicateX.lX((float f) -> {
+        LFloatPredicateX<ParseException> sutThrowing = LFloatPredicateX.lX(f -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -198,14 +197,13 @@ public class LFloatPredicateTest<X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LFloatPredicate sutThrowing = LFloatPredicate.l((float f) -> {
+        LFloatPredicate sutThrowing = LFloatPredicate.l(f -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        LFloatPredicate wrapped = sutThrowing.handle(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LFloatPredicate wrapped = sutThrowing.handle(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -220,10 +218,10 @@ public class LFloatPredicateTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LFloatPredicate sutThrowing = LFloatPredicate.l((float f) -> {
+        LFloatPredicate sutThrowing = LFloatPredicate.l(f -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -244,10 +242,10 @@ public class LFloatPredicateTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LFloatPredicate sutThrowing = LFloatPredicate.l((float f) -> {
+        LFloatPredicate sutThrowing = LFloatPredicate.l(f -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -272,13 +270,12 @@ public class LFloatPredicateTest<X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LFloatPredicate sutThrowing = LFloatPredicate.l((float f) -> {
+        LFloatPredicate sutThrowing = LFloatPredicate.l(f -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
         // when
-        LFloatPredicate wrapped = sutThrowing.handle(h -> {
-        });
+        LFloatPredicate wrapped = sutThrowing.handle(h -> Function4U.doNothing());
 
         // then
         try {
@@ -313,8 +310,8 @@ public class LFloatPredicateTest<X extends ParseException> {
     public void testAndOrXor(final boolean f1Result, final boolean f2Result, final boolean andResult, final boolean orResult, final boolean xorResult) throws X {
 
         //given
-        LFloatPredicate fun1 = LFloatPredicate.l((float f) -> f1Result);
-        LFloatPredicate fun2 = LFloatPredicate.l((float f) -> f2Result);
+        LFloatPredicate fun1 = LFloatPredicate.l(f -> f1Result);
+        LFloatPredicate fun2 = LFloatPredicate.l(f -> f2Result);
 
         //when
         LFloatPredicate andFunction = fun1.and(fun2);
@@ -356,7 +353,7 @@ public class LFloatPredicateTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LFloatPredicate sutO = (float f) -> {
+        LFloatPredicate sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)90);
                 return true;
@@ -385,7 +382,7 @@ public class LFloatPredicateTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LFloatPredicate sutO = (float f) -> {
+        LFloatPredicate sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)90);
                 return true;
@@ -419,7 +416,7 @@ public class LFloatPredicateTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatPredicate sutO = (float f) -> {
+        LFloatPredicate sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)80);
                 return true;
@@ -454,7 +451,7 @@ public class LFloatPredicateTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatPredicate sutO = (float f) -> {
+        LFloatPredicate sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)80);
                 return true;
@@ -489,7 +486,7 @@ public class LFloatPredicateTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatPredicate sutO = (float f) -> {
+        LFloatPredicate sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)80);
                 return true;
@@ -524,7 +521,7 @@ public class LFloatPredicateTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatPredicate sutO = (float f) -> {
+        LFloatPredicate sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)80);
                 return true;
@@ -559,7 +556,7 @@ public class LFloatPredicateTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatPredicate sutO = (float f) -> {
+        LFloatPredicate sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)80);
                 return true;
@@ -594,7 +591,7 @@ public class LFloatPredicateTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatPredicate sutO = (float f) -> {
+        LFloatPredicate sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)80);
                 return true;
@@ -629,7 +626,7 @@ public class LFloatPredicateTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatPredicate sutO = (float f) -> {
+        LFloatPredicate sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)80);
                 return true;
@@ -664,7 +661,7 @@ public class LFloatPredicateTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatPredicate sutO = (float f) -> {
+        LFloatPredicate sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)80);
                 return true;
@@ -699,7 +696,7 @@ public class LFloatPredicateTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatPredicate sutO = (float f) -> {
+        LFloatPredicate sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)80);
                 return true;
@@ -760,7 +757,7 @@ public class LFloatPredicateTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LFloatPredicate sutThrowing = LFloatPredicate.l((float f) -> {
+        LFloatPredicate sutThrowing = LFloatPredicate.l(f -> {
             throw new UnsupportedOperationException();
         });
 
@@ -772,7 +769,7 @@ public class LFloatPredicateTest<X extends ParseException> {
     public void testHandle() throws X {
 
         // given
-        LFloatPredicate sutThrowing = LFloatPredicate.l((float f) -> {
+        LFloatPredicate sutThrowing = LFloatPredicate.l(f -> {
             throw new UnsupportedOperationException();
         });
 

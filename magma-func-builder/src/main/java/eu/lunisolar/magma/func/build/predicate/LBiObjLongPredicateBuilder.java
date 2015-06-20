@@ -108,7 +108,7 @@ public final class LBiObjLongPredicateBuilder<T1, T2> extends PerCaseBuilderWith
 		LBiObjLongPredicate<T1, T2> retval;
 
 		final Case<LBiObjLongPredicate<T1, T2>, LBiObjLongPredicate<T1, T2>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBiObjLongPredicate.l((T1 t1, T2 t2, long l) -> {
+		retval = LBiObjLongPredicate.<T1, T2> l((T1 t1, T2 t2, long l) -> {
 			try {
 				for (Case<LBiObjLongPredicate<T1, T2>, LBiObjLongPredicate<T1, T2>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(t1, t2, l)) {
@@ -117,10 +117,12 @@ public final class LBiObjLongPredicateBuilder<T1, T2> extends PerCaseBuilderWith
 				}
 
 				return eventuallyFinal.doTest(t1, t2, l);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

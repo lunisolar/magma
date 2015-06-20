@@ -84,6 +84,66 @@ public class LObjLongConsumerXTest<T,X extends ParseException> {
 
 
 
+    @Test
+    public void testNestingDoAcceptChecked() throws X {
+
+        // then
+        try {
+            sutAlwaysThrowing.nestingDoAccept((T)Integer.valueOf(100),(long)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(NestedException.class)
+                    .hasCauseExactlyInstanceOf(ParseException.class)
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testNestingDoAcceptUnckeck() throws X {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.nestingDoAccept((T)Integer.valueOf(100),(long)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoAcceptChecked() throws X {
+
+        // then
+        try {
+            sutAlwaysThrowing.shovingDoAccept((T)Integer.valueOf(100),(long)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(ParseException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoAcceptUnckeck() throws X {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.shovingDoAccept((T)Integer.valueOf(100),(long)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
 
     @Test
     public void testFunctionalInterfaceDescription() throws X {
@@ -119,9 +179,8 @@ public class LObjLongConsumerXTest<T,X extends ParseException> {
         });
 
         // when
-        LObjLongConsumerX<T,X> wrapped = sutThrowing.handleX(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LObjLongConsumerX<T,X> wrapped = sutThrowing.handleX(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -136,7 +195,7 @@ public class LObjLongConsumerXTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
         LObjLongConsumerX<T,X> sutThrowing = LObjLongConsumerX.lX((T t, long l) -> {
@@ -160,7 +219,7 @@ public class LObjLongConsumerXTest<T,X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
         LObjLongConsumerX<T,X> sutThrowing = LObjLongConsumerX.lX((T t, long l) -> {
@@ -193,8 +252,7 @@ public class LObjLongConsumerXTest<T,X extends ParseException> {
         });
 
         // when
-        LObjLongConsumerX<T,X> wrapped = sutThrowing.handleX(h -> {
-        });
+        LObjLongConsumerX<T,X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
 
         // then
         try {

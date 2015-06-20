@@ -44,11 +44,11 @@ public class DoublePredicateAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private java.util.function.DoublePredicate function = ((d) -> {
-            return testValue;
-    });
+    private java.util.function.DoublePredicate function = (d ->
+            testValue
+    );
 
-    private java.util.function.DoublePredicate functionThrowing = ((d) -> {
+    private java.util.function.DoublePredicate functionThrowing = (d -> {
         throw new UnsupportedOperationException();
     });
 

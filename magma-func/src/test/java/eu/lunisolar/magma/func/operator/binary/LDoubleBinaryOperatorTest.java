@@ -95,7 +95,7 @@ public class LDoubleBinaryOperatorTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApplyAsDouble_unckeck() throws X {
+    public void testNestingDoApplyAsDoubleUnckeck() throws X {
 
         // then
         try {
@@ -110,7 +110,7 @@ public class LDoubleBinaryOperatorTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsDouble_unckeck() throws X {
+    public void testShovingDoApplyAsDoubleUnckeck() throws X {
 
         // then
         try {
@@ -123,7 +123,6 @@ public class LDoubleBinaryOperatorTest<X extends ParseException> {
                     .hasMessage(ORIGINAL_MESSAGE);
         }
     }
-
 
 
     @Test
@@ -204,9 +203,8 @@ public class LDoubleBinaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LDoubleBinaryOperator wrapped = sutThrowing.handle(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LDoubleBinaryOperator wrapped = sutThrowing.handle(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -221,7 +219,7 @@ public class LDoubleBinaryOperatorTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
         LDoubleBinaryOperator sutThrowing = LDoubleBinaryOperator.l((double d1,double d2) -> {
@@ -245,7 +243,7 @@ public class LDoubleBinaryOperatorTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
         LDoubleBinaryOperator sutThrowing = LDoubleBinaryOperator.l((double d1,double d2) -> {
@@ -278,8 +276,7 @@ public class LDoubleBinaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LDoubleBinaryOperator wrapped = sutThrowing.handle(h -> {
-        });
+        LDoubleBinaryOperator wrapped = sutThrowing.handle(h -> Function4U.doNothing());
 
         // then
         try {

@@ -46,9 +46,9 @@ public class LBooleanBiConsumerXAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LBooleanBiConsumerX<X> function = LBooleanBiConsumerX.lX((b1,b2) -> {
-            externalEffect.set(testValue);
-    });
+    private LBooleanBiConsumerX<X> function = LBooleanBiConsumerX.lX((b1,b2) ->
+            externalEffect.set(testValue)
+    );
 
     private LBooleanBiConsumerX<X> functionThrowing = LBooleanBiConsumerX.lX((b1,b2) -> {
         throw new UnsupportedOperationException();

@@ -108,7 +108,7 @@ public final class LLongFunctionXBuilder<R, X extends Throwable> extends PerCase
 		LLongFunctionX<R, X> retval;
 
 		final Case<LLongPredicateX<X>, LLongFunctionX<R, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LLongFunctionX.lX((long l) -> {
+		retval = LLongFunctionX.<R, X> lX(l -> {
 			try {
 				for (Case<LLongPredicateX<X>, LLongFunctionX<R, X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(l)) {
@@ -117,10 +117,12 @@ public final class LLongFunctionXBuilder<R, X extends Throwable> extends PerCase
 				}
 
 				return eventuallyFinal.doApply(l);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

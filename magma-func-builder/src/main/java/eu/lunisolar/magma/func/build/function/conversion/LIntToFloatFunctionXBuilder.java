@@ -108,7 +108,7 @@ public final class LIntToFloatFunctionXBuilder<X extends Throwable> extends PerC
 		LIntToFloatFunctionX<X> retval;
 
 		final Case<LIntPredicateX<X>, LIntToFloatFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LIntToFloatFunctionX.lX((int i) -> {
+		retval = LIntToFloatFunctionX.<X> lX(i -> {
 			try {
 				for (Case<LIntPredicateX<X>, LIntToFloatFunctionX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(i)) {
@@ -117,10 +117,12 @@ public final class LIntToFloatFunctionXBuilder<X extends Throwable> extends PerC
 				}
 
 				return eventuallyFinal.doApplyAsFloat(i);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

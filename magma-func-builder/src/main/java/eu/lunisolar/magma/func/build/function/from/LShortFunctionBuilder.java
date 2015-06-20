@@ -108,7 +108,7 @@ public final class LShortFunctionBuilder<R> extends PerCaseBuilderWithProduct.Ba
 		LShortFunction<R> retval;
 
 		final Case<LShortPredicate, LShortFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LShortFunction.l((short s) -> {
+		retval = LShortFunction.<R> l(s -> {
 			try {
 				for (Case<LShortPredicate, LShortFunction<R>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(s)) {
@@ -117,10 +117,12 @@ public final class LShortFunctionBuilder<R> extends PerCaseBuilderWithProduct.Ba
 				}
 
 				return eventuallyFinal.doApply(s);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

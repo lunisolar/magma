@@ -45,9 +45,9 @@ public class LCharBinaryOperatorXAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LCharBinaryOperatorX<X> function = LCharBinaryOperatorX.lX((c1,c2) -> {
-            return testValue;
-    });
+    private LCharBinaryOperatorX<X> function = LCharBinaryOperatorX.lX((c1,c2) ->
+            testValue
+    );
 
     private LCharBinaryOperatorX<X> functionThrowing = LCharBinaryOperatorX.lX((c1,c2) -> {
         throw new UnsupportedOperationException();

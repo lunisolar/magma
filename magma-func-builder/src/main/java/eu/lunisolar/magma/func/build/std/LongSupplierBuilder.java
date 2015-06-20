@@ -107,7 +107,7 @@ public final class LongSupplierBuilder extends PerCaseBuilderWithLongProduct.Bas
 		java.util.function.LongSupplier retval;
 
 		final Case<LBooleanSupplier, java.util.function.LongSupplier>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.l(() -> {
+		retval = Function4U.longSupplier(() -> {
 			try {
 				for (Case<LBooleanSupplier, java.util.function.LongSupplier> aCase : casesArray) {
 					if (aCase.casePredicate().doGetAsBoolean()) {
@@ -116,10 +116,12 @@ public final class LongSupplierBuilder extends PerCaseBuilderWithLongProduct.Bas
 				}
 
 				return eventuallyFinal.getAsLong();
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

@@ -61,7 +61,7 @@ public class LBooleanToShortFunctionXBuilderTest<X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LBooleanToShortFunctionX function = LBooleanToShortFunctionXBuilder.booleanToShortFunctionX()
@@ -77,7 +77,7 @@ public class LBooleanToShortFunctionXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,11 +92,11 @@ public class LBooleanToShortFunctionXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LBooleanToShortFunctionX function = LBooleanToShortFunctionXBuilder.booleanToShortFunctionX()
-                .eventually((b) -> {
+                .eventually(b -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -112,13 +112,13 @@ public class LBooleanToShortFunctionXBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LBooleanToShortFunctionX<ParseException> function = booleanToShortFunctionX((LBooleanToShortFunctionX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((b) -> b == false)
-                             .evaluate((b) -> (short)0))
-            .inCase((b) -> b == true ).evaluate((b) -> (short)1)
-            .eventually((b) -> (short)99)
+            .addCase(ce -> ce.of(b -> b == false)
+                             .evaluate(b -> (short)0))
+            .inCase(b -> b == true ).evaluate(b -> (short)1)
+            .eventually(b -> (short)99)
             .build();
 
 

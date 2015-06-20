@@ -108,7 +108,7 @@ public final class LFloatBiConsumerXBuilder<X extends Throwable> extends PerCase
 		LFloatBiConsumerX<X> retval;
 
 		final Case<LBiFloatPredicateX<X>, LFloatBiConsumerX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LFloatBiConsumerX.lX((float f1, float f2) -> {
+		retval = LFloatBiConsumerX.<X> lX((float f1, float f2) -> {
 			try {
 				for (Case<LBiFloatPredicateX<X>, LFloatBiConsumerX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(f1, f2)) {
@@ -118,10 +118,12 @@ public final class LFloatBiConsumerXBuilder<X extends Throwable> extends PerCase
 				}
 
 				eventuallyFinal.doAccept(f1, f2);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

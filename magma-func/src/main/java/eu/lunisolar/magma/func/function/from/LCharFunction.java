@@ -93,7 +93,7 @@ public interface LCharFunction<R> extends LCharFunctionX<R, RuntimeException>, M
 	}
 
 	public static <R> LCharFunction<R> constant(R r) {
-		return (c) -> r;
+		return c -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -121,7 +121,7 @@ public interface LCharFunction<R> extends LCharFunctionX<R, RuntimeException>, M
 	@Nonnull
 	default LCharFunction<R> fromChar(@Nonnull final LCharUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final char v1) -> this.doApply(before1.doApplyAsChar(v1));
+		return v1 -> this.doApply(before1.doApplyAsChar(v1));
 	}
 
 	/**
@@ -130,7 +130,7 @@ public interface LCharFunction<R> extends LCharFunctionX<R, RuntimeException>, M
 	@Nonnull
 	default <V1> LFunction<V1, R> from(@Nonnull final LToCharFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doApply(before1.doApplyAsChar(v1));
+		return v1 -> this.doApply(before1.doApplyAsChar(v1));
 	}
 
 	// </editor-fold>
@@ -141,70 +141,70 @@ public interface LCharFunction<R> extends LCharFunctionX<R, RuntimeException>, M
 	@Nonnull
 	default <V> LCharFunction<V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (char c) -> after.doApply(this.doApply(c));
+		return c -> after.doApply(this.doApply(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharConsumer then(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (char c) -> after.doAccept(this.doApply(c));
+		return c -> after.doAccept(this.doApply(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToByteFunction thenToByte(@Nonnull LToByteFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (char c) -> after.doApplyAsByte(this.doApply(c));
+		return c -> after.doApplyAsByte(this.doApply(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToShortFunction thenToShort(@Nonnull LToShortFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (char c) -> after.doApplyAsShort(this.doApply(c));
+		return c -> after.doApplyAsShort(this.doApply(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToIntFunction thenToInt(@Nonnull LToIntFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (char c) -> after.doApplyAsInt(this.doApply(c));
+		return c -> after.doApplyAsInt(this.doApply(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToLongFunction thenToLong(@Nonnull LToLongFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (char c) -> after.doApplyAsLong(this.doApply(c));
+		return c -> after.doApplyAsLong(this.doApply(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToFloatFunction thenToFloat(@Nonnull LToFloatFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (char c) -> after.doApplyAsFloat(this.doApply(c));
+		return c -> after.doApplyAsFloat(this.doApply(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToDoubleFunction thenToDouble(@Nonnull LToDoubleFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (char c) -> after.doApplyAsDouble(this.doApply(c));
+		return c -> after.doApplyAsDouble(this.doApply(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharUnaryOperator thenToChar(@Nonnull LToCharFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (char c) -> after.doApplyAsChar(this.doApply(c));
+		return c -> after.doApplyAsChar(this.doApply(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharPredicate thenToBoolean(@Nonnull LPredicate<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (char c) -> after.doTest(this.doApply(c));
+		return c -> after.doTest(this.doApply(c));
 	}
 
 	// </editor-fold>

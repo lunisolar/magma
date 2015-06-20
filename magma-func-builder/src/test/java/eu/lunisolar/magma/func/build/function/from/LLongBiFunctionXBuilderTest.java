@@ -61,7 +61,7 @@ public class LLongBiFunctionXBuilderTest<R,X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LLongBiFunctionX function = LLongBiFunctionXBuilder.longBiFunctionX()
@@ -77,7 +77,7 @@ public class LLongBiFunctionXBuilderTest<R,X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,7 +92,7 @@ public class LLongBiFunctionXBuilderTest<R,X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LLongBiFunctionX function = LLongBiFunctionXBuilder.longBiFunctionX()
@@ -112,7 +112,7 @@ public class LLongBiFunctionXBuilderTest<R,X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LLongBiFunctionX<Integer ,ParseException> function = longBiFunctionX((LLongBiFunctionX<Integer ,ParseException> f)-> doNothing())
             .addCase(ce -> ce.of((l1,l2) -> l1 == (long)0)

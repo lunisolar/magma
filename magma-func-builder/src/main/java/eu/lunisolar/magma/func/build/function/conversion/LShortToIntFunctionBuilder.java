@@ -108,7 +108,7 @@ public final class LShortToIntFunctionBuilder extends PerCaseBuilderWithIntProdu
 		LShortToIntFunction retval;
 
 		final Case<LShortPredicate, LShortToIntFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LShortToIntFunction.l((short s) -> {
+		retval = LShortToIntFunction.l(s -> {
 			try {
 				for (Case<LShortPredicate, LShortToIntFunction> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(s)) {
@@ -117,10 +117,12 @@ public final class LShortToIntFunctionBuilder extends PerCaseBuilderWithIntProdu
 				}
 
 				return eventuallyFinal.doApplyAsInt(s);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

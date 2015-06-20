@@ -98,7 +98,7 @@ public class LLongSupplierXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoGetAsLong_checked() throws X {
+    public void testNestingDoGetAsLongChecked() throws X {
 
         // then
         try {
@@ -113,7 +113,7 @@ public class LLongSupplierXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoGetAsLong_unckeck() throws X {
+    public void testNestingDoGetAsLongUnckeck() throws X {
 
         // then
         try {
@@ -128,7 +128,7 @@ public class LLongSupplierXTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoGetAsLong_checked() throws X {
+    public void testShovingDoGetAsLongChecked() throws X {
 
         // then
         try {
@@ -143,7 +143,7 @@ public class LLongSupplierXTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoGetAsLong_unckeck() throws X {
+    public void testShovingDoGetAsLongUnckeck() throws X {
 
         // then
         try {
@@ -156,7 +156,6 @@ public class LLongSupplierXTest<X extends ParseException> {
                     .hasMessage(ORIGINAL_MESSAGE);
         }
     }
-
 
 
     @Test
@@ -193,9 +192,8 @@ public class LLongSupplierXTest<X extends ParseException> {
         });
 
         // when
-        LLongSupplierX<X> wrapped = sutThrowing.handleX(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LLongSupplierX<X> wrapped = sutThrowing.handleX(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -210,7 +208,7 @@ public class LLongSupplierXTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
         LLongSupplierX<X> sutThrowing = LLongSupplierX.lX(() -> {
@@ -234,7 +232,7 @@ public class LLongSupplierXTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
         LLongSupplierX<X> sutThrowing = LLongSupplierX.lX(() -> {
@@ -267,8 +265,7 @@ public class LLongSupplierXTest<X extends ParseException> {
         });
 
         // when
-        LLongSupplierX<X> wrapped = sutThrowing.handleX(h -> {
-        });
+        LLongSupplierX<X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
 
         // then
         try {

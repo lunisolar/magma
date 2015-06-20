@@ -61,7 +61,7 @@ public class LIntBinaryOperatorXBuilderTest<X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LIntBinaryOperatorX function = LIntBinaryOperatorXBuilder.intBinaryOperatorX()
@@ -77,7 +77,7 @@ public class LIntBinaryOperatorXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,7 +92,7 @@ public class LIntBinaryOperatorXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LIntBinaryOperatorX function = LIntBinaryOperatorXBuilder.intBinaryOperatorX()
@@ -112,7 +112,7 @@ public class LIntBinaryOperatorXBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LIntBinaryOperatorX<ParseException> function = intBinaryOperatorX((LIntBinaryOperatorX<ParseException> f)-> doNothing())
             .addCase(ce -> ce.of((i1,i2) -> i1 == (int)0)

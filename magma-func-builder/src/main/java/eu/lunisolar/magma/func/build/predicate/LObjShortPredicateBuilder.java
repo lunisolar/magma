@@ -108,7 +108,7 @@ public final class LObjShortPredicateBuilder<T> extends PerCaseBuilderWithBoolea
 		LObjShortPredicate<T> retval;
 
 		final Case<LObjShortPredicate<T>, LObjShortPredicate<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LObjShortPredicate.l((T t, short s) -> {
+		retval = LObjShortPredicate.<T> l((T t, short s) -> {
 			try {
 				for (Case<LObjShortPredicate<T>, LObjShortPredicate<T>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(t, s)) {
@@ -117,10 +117,12 @@ public final class LObjShortPredicateBuilder<T> extends PerCaseBuilderWithBoolea
 				}
 
 				return eventuallyFinal.doTest(t, s);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

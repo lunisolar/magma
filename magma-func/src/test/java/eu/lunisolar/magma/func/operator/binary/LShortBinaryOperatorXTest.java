@@ -96,7 +96,7 @@ public class LShortBinaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApplyAsShort_checked() throws X {
+    public void testNestingDoApplyAsShortChecked() throws X {
 
         // then
         try {
@@ -111,7 +111,7 @@ public class LShortBinaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApplyAsShort_unckeck() throws X {
+    public void testNestingDoApplyAsShortUnckeck() throws X {
 
         // then
         try {
@@ -126,7 +126,7 @@ public class LShortBinaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsShort_checked() throws X {
+    public void testShovingDoApplyAsShortChecked() throws X {
 
         // then
         try {
@@ -141,7 +141,7 @@ public class LShortBinaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsShort_unckeck() throws X {
+    public void testShovingDoApplyAsShortUnckeck() throws X {
 
         // then
         try {
@@ -154,7 +154,6 @@ public class LShortBinaryOperatorXTest<X extends ParseException> {
                     .hasMessage(ORIGINAL_MESSAGE);
         }
     }
-
 
 
     @Test
@@ -185,9 +184,8 @@ public class LShortBinaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        LShortBinaryOperatorX<X> wrapped = sutThrowing.handleX(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LShortBinaryOperatorX<X> wrapped = sutThrowing.handleX(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -202,7 +200,7 @@ public class LShortBinaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
         LShortBinaryOperatorX<X> sutThrowing = LShortBinaryOperatorX.lX((short s1,short s2) -> {
@@ -226,7 +224,7 @@ public class LShortBinaryOperatorXTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
         LShortBinaryOperatorX<X> sutThrowing = LShortBinaryOperatorX.lX((short s1,short s2) -> {
@@ -259,8 +257,7 @@ public class LShortBinaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        LShortBinaryOperatorX<X> wrapped = sutThrowing.handleX(h -> {
-        });
+        LShortBinaryOperatorX<X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
 
         // then
         try {

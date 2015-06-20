@@ -45,11 +45,11 @@ public class LBytePredicateXAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LBytePredicateX<X> function = LBytePredicateX.lX((b) -> {
-            return testValue;
-    });
+    private LBytePredicateX<X> function = LBytePredicateX.lX(b ->
+            testValue
+    );
 
-    private LBytePredicateX<X> functionThrowing = LBytePredicateX.lX((b) -> {
+    private LBytePredicateX<X> functionThrowing = LBytePredicateX.lX(b -> {
         throw new UnsupportedOperationException();
     });
 

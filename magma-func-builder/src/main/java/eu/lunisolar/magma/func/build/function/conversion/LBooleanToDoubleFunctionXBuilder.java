@@ -108,7 +108,7 @@ public final class LBooleanToDoubleFunctionXBuilder<X extends Throwable> extends
 		LBooleanToDoubleFunctionX<X> retval;
 
 		final Case<LBooleanUnaryOperatorX<X>, LBooleanToDoubleFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBooleanToDoubleFunctionX.lX((boolean b) -> {
+		retval = LBooleanToDoubleFunctionX.<X> lX(b -> {
 			try {
 				for (Case<LBooleanUnaryOperatorX<X>, LBooleanToDoubleFunctionX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doApplyAsBoolean(b)) {
@@ -117,10 +117,12 @@ public final class LBooleanToDoubleFunctionXBuilder<X extends Throwable> extends
 				}
 
 				return eventuallyFinal.doApplyAsDouble(b);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

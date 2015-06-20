@@ -93,7 +93,7 @@ public interface LFloatFunction<R> extends LFloatFunctionX<R, RuntimeException>,
 	}
 
 	public static <R> LFloatFunction<R> constant(R r) {
-		return (f) -> r;
+		return f -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -121,7 +121,7 @@ public interface LFloatFunction<R> extends LFloatFunctionX<R, RuntimeException>,
 	@Nonnull
 	default LFloatFunction<R> fromFloat(@Nonnull final LFloatUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final float v1) -> this.doApply(before1.doApplyAsFloat(v1));
+		return v1 -> this.doApply(before1.doApplyAsFloat(v1));
 	}
 
 	/**
@@ -130,7 +130,7 @@ public interface LFloatFunction<R> extends LFloatFunctionX<R, RuntimeException>,
 	@Nonnull
 	default <V1> LFunction<V1, R> from(@Nonnull final LToFloatFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doApply(before1.doApplyAsFloat(v1));
+		return v1 -> this.doApply(before1.doApplyAsFloat(v1));
 	}
 
 	// </editor-fold>
@@ -141,70 +141,70 @@ public interface LFloatFunction<R> extends LFloatFunctionX<R, RuntimeException>,
 	@Nonnull
 	default <V> LFloatFunction<V> then(@Nonnull LFunction<? super R, ? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (float f) -> after.doApply(this.doApply(f));
+		return f -> after.doApply(this.doApply(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatConsumer then(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (float f) -> after.doAccept(this.doApply(f));
+		return f -> after.doAccept(this.doApply(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToByteFunction thenToByte(@Nonnull LToByteFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (float f) -> after.doApplyAsByte(this.doApply(f));
+		return f -> after.doApplyAsByte(this.doApply(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToShortFunction thenToShort(@Nonnull LToShortFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (float f) -> after.doApplyAsShort(this.doApply(f));
+		return f -> after.doApplyAsShort(this.doApply(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToIntFunction thenToInt(@Nonnull LToIntFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (float f) -> after.doApplyAsInt(this.doApply(f));
+		return f -> after.doApplyAsInt(this.doApply(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToLongFunction thenToLong(@Nonnull LToLongFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (float f) -> after.doApplyAsLong(this.doApply(f));
+		return f -> after.doApplyAsLong(this.doApply(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatUnaryOperator thenToFloat(@Nonnull LToFloatFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (float f) -> after.doApplyAsFloat(this.doApply(f));
+		return f -> after.doApplyAsFloat(this.doApply(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToDoubleFunction thenToDouble(@Nonnull LToDoubleFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (float f) -> after.doApplyAsDouble(this.doApply(f));
+		return f -> after.doApplyAsDouble(this.doApply(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatToCharFunction thenToChar(@Nonnull LToCharFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (float f) -> after.doApplyAsChar(this.doApply(f));
+		return f -> after.doApplyAsChar(this.doApply(f));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LFloatPredicate thenToBoolean(@Nonnull LPredicate<? super R> after) {
 		Null.nonNullArg(after, "after");
-		return (float f) -> after.doTest(this.doApply(f));
+		return f -> after.doTest(this.doApply(f));
 	}
 
 	// </editor-fold>

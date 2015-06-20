@@ -108,7 +108,7 @@ public final class LBooleanConsumerXBuilder<X extends Throwable> extends PerCase
 		LBooleanConsumerX<X> retval;
 
 		final Case<LBooleanUnaryOperatorX<X>, LBooleanConsumerX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBooleanConsumerX.lX((boolean b) -> {
+		retval = LBooleanConsumerX.<X> lX(b -> {
 			try {
 				for (Case<LBooleanUnaryOperatorX<X>, LBooleanConsumerX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doApplyAsBoolean(b)) {
@@ -118,10 +118,12 @@ public final class LBooleanConsumerXBuilder<X extends Throwable> extends PerCase
 				}
 
 				eventuallyFinal.doAccept(b);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

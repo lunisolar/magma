@@ -74,9 +74,9 @@ public interface LIntSupplierX<X extends Throwable> extends java.util.function.I
 	default int nestingDoGetAsInt() {
 		try {
 			return this.doGetAsInt();
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -89,7 +89,7 @@ public interface LIntSupplierX<X extends Throwable> extends java.util.function.I
 
 		try {
 			return this.doGetAsInt();
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

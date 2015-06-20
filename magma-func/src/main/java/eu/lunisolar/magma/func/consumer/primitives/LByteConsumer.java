@@ -109,7 +109,7 @@ public interface LByteConsumer extends LByteConsumerX<RuntimeException>, MetaCon
 	@Nonnull
 	default LByteConsumer fromByte(@Nonnull final LByteUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final byte v1) -> this.doAccept(before1.doApplyAsByte(v1));
+		return v1 -> this.doAccept(before1.doApplyAsByte(v1));
 	}
 
 	/**
@@ -118,7 +118,7 @@ public interface LByteConsumer extends LByteConsumerX<RuntimeException>, MetaCon
 	@Nonnull
 	default <V1> LConsumer<V1> from(@Nonnull final LToByteFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doAccept(before1.doApplyAsByte(v1));
+		return v1 -> this.doAccept(before1.doApplyAsByte(v1));
 	}
 
 	// </editor-fold>
@@ -129,7 +129,7 @@ public interface LByteConsumer extends LByteConsumerX<RuntimeException>, MetaCon
 	@Nonnull
 	default LByteConsumer andThen(@Nonnull LByteConsumer after) {
 		Null.nonNullArg(after, "after");
-		return (byte b) -> {
+		return b -> {
 			this.doAccept(b);
 			after.doAccept(b);
 		};

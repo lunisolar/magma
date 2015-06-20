@@ -81,6 +81,36 @@ public class LBiConsumerTest<T1,T2,X extends ParseException> {
 
 
 
+    @Test
+    public void testNestingDoAcceptUnckeck() throws X {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.nestingDoAccept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoAcceptUnckeck() throws X {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.shovingDoAccept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
 
     @Test
     public void testFunctionalInterfaceDescription() throws X {
@@ -160,9 +190,8 @@ public class LBiConsumerTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        LBiConsumer<T1,T2> wrapped = sutThrowing.handle(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LBiConsumer<T1,T2> wrapped = sutThrowing.handle(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -177,7 +206,7 @@ public class LBiConsumerTest<T1,T2,X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
         LBiConsumer<T1,T2> sutThrowing = LBiConsumer.l((T1 t1,T2 t2) -> {
@@ -201,7 +230,7 @@ public class LBiConsumerTest<T1,T2,X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
         LBiConsumer<T1,T2> sutThrowing = LBiConsumer.l((T1 t1,T2 t2) -> {
@@ -234,8 +263,7 @@ public class LBiConsumerTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        LBiConsumer<T1,T2> wrapped = sutThrowing.handle(h -> {
-        });
+        LBiConsumer<T1,T2> wrapped = sutThrowing.handle(h -> Function4U.doNothing());
 
         // then
         try {

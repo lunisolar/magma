@@ -61,7 +61,7 @@ public class LShortToFloatFunctionXBuilderTest<X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LShortToFloatFunctionX function = LShortToFloatFunctionXBuilder.shortToFloatFunctionX()
@@ -77,7 +77,7 @@ public class LShortToFloatFunctionXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,11 +92,11 @@ public class LShortToFloatFunctionXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LShortToFloatFunctionX function = LShortToFloatFunctionXBuilder.shortToFloatFunctionX()
-                .eventually((s) -> {
+                .eventually(s -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -112,14 +112,14 @@ public class LShortToFloatFunctionXBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LShortToFloatFunctionX<ParseException> function = shortToFloatFunctionX((LShortToFloatFunctionX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((s) -> s == (short)0)
-                             .evaluate((s) -> (float)0))
-            .inCase((s) -> s > 0 && s < 10).evaluate((s) -> (float)1)
-            .inCase((s) -> s > 10 && s < 20).evaluate((s) -> (float)2)
-            .eventually((s) -> (float)99)
+            .addCase(ce -> ce.of(s -> s == (short)0)
+                             .evaluate(s -> (float)0))
+            .inCase(s -> s > 0 && s < 10).evaluate(s -> (float)1)
+            .inCase(s -> s > 10 && s < 20).evaluate(s -> (float)2)
+            .eventually(s -> (float)99)
             .build();
 
 

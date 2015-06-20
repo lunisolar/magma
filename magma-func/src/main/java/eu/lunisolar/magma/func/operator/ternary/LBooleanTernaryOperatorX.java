@@ -67,9 +67,9 @@ public interface LBooleanTernaryOperatorX<X extends Throwable> extends MetaLogic
 	default boolean nestingDoApply(boolean b1, boolean b2, boolean b3) {
 		try {
 			return this.doApply(b1, b2, b3);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -82,7 +82,7 @@ public interface LBooleanTernaryOperatorX<X extends Throwable> extends MetaLogic
 
 		try {
 			return this.doApply(b1, b2, b3);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

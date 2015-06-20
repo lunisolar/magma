@@ -68,9 +68,9 @@ public interface LByteBiConsumerX<X extends Throwable> extends MetaConsumer, Met
 	default void nestingDoAccept(byte b1, byte b2) {
 		try {
 			this.doAccept(b1, b2);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -83,7 +83,7 @@ public interface LByteBiConsumerX<X extends Throwable> extends MetaConsumer, Met
 
 		try {
 			this.doAccept(b1, b2);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

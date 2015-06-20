@@ -45,9 +45,9 @@ public class LBiObjBytePredicateXAssertTest<T1,T2,X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LBiObjBytePredicateX<Integer ,Integer ,X> function = LBiObjBytePredicateX.lX((t1,t2, b) -> {
-            return testValue;
-    });
+    private LBiObjBytePredicateX<Integer ,Integer ,X> function = LBiObjBytePredicateX.lX((t1,t2, b) ->
+            testValue
+    );
 
     private LBiObjBytePredicateX<Integer ,Integer ,X> functionThrowing = LBiObjBytePredicateX.lX((t1,t2, b) -> {
         throw new UnsupportedOperationException();

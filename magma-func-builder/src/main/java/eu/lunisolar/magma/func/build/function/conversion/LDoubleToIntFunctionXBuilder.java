@@ -108,7 +108,7 @@ public final class LDoubleToIntFunctionXBuilder<X extends Throwable> extends Per
 		LDoubleToIntFunctionX<X> retval;
 
 		final Case<LDoublePredicateX<X>, LDoubleToIntFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LDoubleToIntFunctionX.lX((double d) -> {
+		retval = LDoubleToIntFunctionX.<X> lX(d -> {
 			try {
 				for (Case<LDoublePredicateX<X>, LDoubleToIntFunctionX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(d)) {
@@ -117,10 +117,12 @@ public final class LDoubleToIntFunctionXBuilder<X extends Throwable> extends Per
 				}
 
 				return eventuallyFinal.doApplyAsInt(d);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

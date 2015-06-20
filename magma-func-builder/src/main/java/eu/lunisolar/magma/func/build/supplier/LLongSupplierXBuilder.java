@@ -108,7 +108,7 @@ public final class LLongSupplierXBuilder<X extends Throwable> extends PerCaseBui
 		LLongSupplierX<X> retval;
 
 		final Case<LBooleanSupplierX<X>, LLongSupplierX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LLongSupplierX.lX(() -> {
+		retval = LLongSupplierX.<X> lX(() -> {
 			try {
 				for (Case<LBooleanSupplierX<X>, LLongSupplierX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doGetAsBoolean()) {
@@ -117,10 +117,12 @@ public final class LLongSupplierXBuilder<X extends Throwable> extends PerCaseBui
 				}
 
 				return eventuallyFinal.doGetAsLong();
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

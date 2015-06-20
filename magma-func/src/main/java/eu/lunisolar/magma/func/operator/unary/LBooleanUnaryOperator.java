@@ -94,7 +94,7 @@ public interface LBooleanUnaryOperator extends LBooleanUnaryOperatorX<RuntimeExc
 	}
 
 	public static LBooleanUnaryOperator constant(boolean r) {
-		return (b) -> r;
+		return b -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -120,7 +120,7 @@ public interface LBooleanUnaryOperator extends LBooleanUnaryOperatorX<RuntimeExc
 	 */
 	@Nonnull
 	default LBooleanUnaryOperator negate() {
-		return (boolean b) -> !doApplyAsBoolean(b);
+		return b -> !doApplyAsBoolean(b);
 	}
 
 	/**
@@ -129,7 +129,7 @@ public interface LBooleanUnaryOperator extends LBooleanUnaryOperatorX<RuntimeExc
 	@Nonnull
 	default LBooleanUnaryOperator and(@Nonnull LBooleanUnaryOperator other) {
 		Null.nonNullArg(other, "other");
-		return (boolean b) -> doApplyAsBoolean(b) && other.doApplyAsBoolean(b);
+		return b -> doApplyAsBoolean(b) && other.doApplyAsBoolean(b);
 	}
 
 	/**
@@ -138,7 +138,7 @@ public interface LBooleanUnaryOperator extends LBooleanUnaryOperatorX<RuntimeExc
 	@Nonnull
 	default LBooleanUnaryOperator or(@Nonnull LBooleanUnaryOperator other) {
 		Null.nonNullArg(other, "other");
-		return (boolean b) -> doApplyAsBoolean(b) || other.doApplyAsBoolean(b);
+		return b -> doApplyAsBoolean(b) || other.doApplyAsBoolean(b);
 	}
 
 	/**
@@ -147,7 +147,7 @@ public interface LBooleanUnaryOperator extends LBooleanUnaryOperatorX<RuntimeExc
 	@Nonnull
 	default LBooleanUnaryOperator xor(@Nonnull LBooleanUnaryOperator other) {
 		Null.nonNullArg(other, "other");
-		return (boolean b) -> doApplyAsBoolean(b) ^ other.doApplyAsBoolean(b);
+		return b -> doApplyAsBoolean(b) ^ other.doApplyAsBoolean(b);
 	}
 
 	@Nonnull
@@ -165,7 +165,7 @@ public interface LBooleanUnaryOperator extends LBooleanUnaryOperatorX<RuntimeExc
 	@Nonnull
 	default LBooleanUnaryOperator fromBoolean(@Nonnull final LBooleanUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final boolean v1) -> this.doApplyAsBoolean(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doApplyAsBoolean(before1.doApplyAsBoolean(v1));
 	}
 
 	/**
@@ -174,7 +174,7 @@ public interface LBooleanUnaryOperator extends LBooleanUnaryOperatorX<RuntimeExc
 	@Nonnull
 	default <V1> LPredicate<V1> from(@Nonnull final LPredicate<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doApplyAsBoolean(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doApplyAsBoolean(before1.doApplyAsBoolean(v1));
 	}
 
 	// </editor-fold>
@@ -185,63 +185,63 @@ public interface LBooleanUnaryOperator extends LBooleanUnaryOperatorX<RuntimeExc
 	@Nonnull
 	default <V> LBooleanFunction<V> then(@Nonnull LBooleanFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApply(this.doApplyAsBoolean(b));
+		return b -> after.doApply(this.doApplyAsBoolean(b));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LBooleanToByteFunction thenToByte(@Nonnull LBooleanToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsByte(this.doApplyAsBoolean(b));
+		return b -> after.doApplyAsByte(this.doApplyAsBoolean(b));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LBooleanToShortFunction thenToShort(@Nonnull LBooleanToShortFunction after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsShort(this.doApplyAsBoolean(b));
+		return b -> after.doApplyAsShort(this.doApplyAsBoolean(b));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LBooleanToIntFunction thenToInt(@Nonnull LBooleanToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsInt(this.doApplyAsBoolean(b));
+		return b -> after.doApplyAsInt(this.doApplyAsBoolean(b));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LBooleanToLongFunction thenToLong(@Nonnull LBooleanToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsLong(this.doApplyAsBoolean(b));
+		return b -> after.doApplyAsLong(this.doApplyAsBoolean(b));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LBooleanToFloatFunction thenToFloat(@Nonnull LBooleanToFloatFunction after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsFloat(this.doApplyAsBoolean(b));
+		return b -> after.doApplyAsFloat(this.doApplyAsBoolean(b));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LBooleanToDoubleFunction thenToDouble(@Nonnull LBooleanToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsDouble(this.doApplyAsBoolean(b));
+		return b -> after.doApplyAsDouble(this.doApplyAsBoolean(b));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LBooleanToCharFunction thenToChar(@Nonnull LBooleanToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsChar(this.doApplyAsBoolean(b));
+		return b -> after.doApplyAsChar(this.doApplyAsBoolean(b));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LBooleanUnaryOperator thenToBoolean(@Nonnull LBooleanUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsBoolean(this.doApplyAsBoolean(b));
+		return b -> after.doApplyAsBoolean(this.doApplyAsBoolean(b));
 	}
 
 	// </editor-fold>

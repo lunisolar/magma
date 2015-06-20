@@ -74,11 +74,11 @@ public class LIntToFloatFunctionXTest<X extends ParseException> {
 
 
 
-    private LIntToFloatFunctionX<ParseException> sutAlwaysThrowing = LIntToFloatFunctionX.lX((int i) -> {
+    private LIntToFloatFunctionX<ParseException> sutAlwaysThrowing = LIntToFloatFunctionX.lX(i -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LIntToFloatFunctionX<RuntimeException> sutAlwaysThrowingUnckeck = LIntToFloatFunctionX.lX((int i) -> {
+    private LIntToFloatFunctionX<RuntimeException> sutAlwaysThrowingUnckeck = LIntToFloatFunctionX.lX(i -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -96,7 +96,7 @@ public class LIntToFloatFunctionXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApplyAsFloat_checked() throws X {
+    public void testNestingDoApplyAsFloatChecked() throws X {
 
         // then
         try {
@@ -111,7 +111,7 @@ public class LIntToFloatFunctionXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApplyAsFloat_unckeck() throws X {
+    public void testNestingDoApplyAsFloatUnckeck() throws X {
 
         // then
         try {
@@ -126,7 +126,7 @@ public class LIntToFloatFunctionXTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsFloat_checked() throws X {
+    public void testShovingDoApplyAsFloatChecked() throws X {
 
         // then
         try {
@@ -141,7 +141,7 @@ public class LIntToFloatFunctionXTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsFloat_unckeck() throws X {
+    public void testShovingDoApplyAsFloatUnckeck() throws X {
 
         // then
         try {
@@ -156,7 +156,6 @@ public class LIntToFloatFunctionXTest<X extends ParseException> {
     }
 
 
-
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
@@ -165,7 +164,7 @@ public class LIntToFloatFunctionXTest<X extends ParseException> {
 
     @Test
     public void testLXMethod() throws X {
-        assertThat(LIntToFloatFunctionX.lX((int i) -> testValue ))
+        assertThat(LIntToFloatFunctionX.lX(i -> testValue ))
             .isInstanceOf(LIntToFloatFunctionX.class);
     }
 
@@ -180,14 +179,13 @@ public class LIntToFloatFunctionXTest<X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LIntToFloatFunctionX<X> sutThrowing = LIntToFloatFunctionX.lX((int i) -> {
+        LIntToFloatFunctionX<X> sutThrowing = LIntToFloatFunctionX.lX(i -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        LIntToFloatFunctionX<X> wrapped = sutThrowing.handleX(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LIntToFloatFunctionX<X> wrapped = sutThrowing.handleX(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -202,10 +200,10 @@ public class LIntToFloatFunctionXTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LIntToFloatFunctionX<X> sutThrowing = LIntToFloatFunctionX.lX((int i) -> {
+        LIntToFloatFunctionX<X> sutThrowing = LIntToFloatFunctionX.lX(i -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -226,10 +224,10 @@ public class LIntToFloatFunctionXTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LIntToFloatFunctionX<X> sutThrowing = LIntToFloatFunctionX.lX((int i) -> {
+        LIntToFloatFunctionX<X> sutThrowing = LIntToFloatFunctionX.lX(i -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -254,13 +252,12 @@ public class LIntToFloatFunctionXTest<X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LIntToFloatFunctionX<X> sutThrowing = LIntToFloatFunctionX.lX((int i) -> {
+        LIntToFloatFunctionX<X> sutThrowing = LIntToFloatFunctionX.lX(i -> {
             throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
         // when
-        LIntToFloatFunctionX<X> wrapped = sutThrowing.handleX(h -> {
-        });
+        LIntToFloatFunctionX<X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -285,7 +282,7 @@ public class LIntToFloatFunctionXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LIntToFloatFunctionX<X> sutO = (int i) -> {
+        LIntToFloatFunctionX<X> sutO = i -> {
                 mainFunctionCalled.set(true);
                 assertThat(i).isEqualTo((int)90);
                 return (float)100;
@@ -314,7 +311,7 @@ public class LIntToFloatFunctionXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LIntToFloatFunctionX<X> sutO = (int i) -> {
+        LIntToFloatFunctionX<X> sutO = i -> {
                 mainFunctionCalled.set(true);
                 assertThat(i).isEqualTo((int)90);
                 return (float)100;
@@ -348,7 +345,7 @@ public class LIntToFloatFunctionXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LIntToFloatFunctionX<X> sutO = (int i) -> {
+        LIntToFloatFunctionX<X> sutO = i -> {
                 mainFunctionCalled.set(true);
                 assertThat(i).isEqualTo((int)80);
                 return (float)90;
@@ -383,7 +380,7 @@ public class LIntToFloatFunctionXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LIntToFloatFunctionX<X> sutO = (int i) -> {
+        LIntToFloatFunctionX<X> sutO = i -> {
                 mainFunctionCalled.set(true);
                 assertThat(i).isEqualTo((int)80);
                 return (float)90;
@@ -418,7 +415,7 @@ public class LIntToFloatFunctionXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LIntToFloatFunctionX<X> sutO = (int i) -> {
+        LIntToFloatFunctionX<X> sutO = i -> {
                 mainFunctionCalled.set(true);
                 assertThat(i).isEqualTo((int)80);
                 return (float)90;
@@ -453,7 +450,7 @@ public class LIntToFloatFunctionXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LIntToFloatFunctionX<X> sutO = (int i) -> {
+        LIntToFloatFunctionX<X> sutO = i -> {
                 mainFunctionCalled.set(true);
                 assertThat(i).isEqualTo((int)80);
                 return (float)90;
@@ -488,7 +485,7 @@ public class LIntToFloatFunctionXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LIntToFloatFunctionX<X> sutO = (int i) -> {
+        LIntToFloatFunctionX<X> sutO = i -> {
                 mainFunctionCalled.set(true);
                 assertThat(i).isEqualTo((int)80);
                 return (float)90;
@@ -523,7 +520,7 @@ public class LIntToFloatFunctionXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LIntToFloatFunctionX<X> sutO = (int i) -> {
+        LIntToFloatFunctionX<X> sutO = i -> {
                 mainFunctionCalled.set(true);
                 assertThat(i).isEqualTo((int)80);
                 return (float)90;
@@ -558,7 +555,7 @@ public class LIntToFloatFunctionXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LIntToFloatFunctionX<X> sutO = (int i) -> {
+        LIntToFloatFunctionX<X> sutO = i -> {
                 mainFunctionCalled.set(true);
                 assertThat(i).isEqualTo((int)80);
                 return (float)90;
@@ -593,7 +590,7 @@ public class LIntToFloatFunctionXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LIntToFloatFunctionX<X> sutO = (int i) -> {
+        LIntToFloatFunctionX<X> sutO = i -> {
                 mainFunctionCalled.set(true);
                 assertThat(i).isEqualTo((int)80);
                 return (float)90;
@@ -628,7 +625,7 @@ public class LIntToFloatFunctionXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LIntToFloatFunctionX<X> sutO = (int i) -> {
+        LIntToFloatFunctionX<X> sutO = i -> {
                 mainFunctionCalled.set(true);
                 assertThat(i).isEqualTo((int)80);
                 return (float)90;
@@ -685,7 +682,7 @@ public class LIntToFloatFunctionXTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LIntToFloatFunctionX<X> sutThrowing = LIntToFloatFunctionX.lX((int i) -> {
+        LIntToFloatFunctionX<X> sutThrowing = LIntToFloatFunctionX.lX(i -> {
             throw new UnsupportedOperationException();
         });
 
@@ -697,7 +694,7 @@ public class LIntToFloatFunctionXTest<X extends ParseException> {
     public void testHandle() throws X {
 
         // given
-        LIntToFloatFunctionX<X> sutThrowing = LIntToFloatFunctionX.lX((int i) -> {
+        LIntToFloatFunctionX<X> sutThrowing = LIntToFloatFunctionX.lX(i -> {
             throw new UnsupportedOperationException();
         });
 

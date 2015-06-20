@@ -67,9 +67,9 @@ public interface LBiObjShortPredicateX<T1, T2, X extends Throwable> extends Meta
 	default boolean nestingDoTest(T1 t1, T2 t2, short s) {
 		try {
 			return this.doTest(t1, t2, s);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -82,7 +82,7 @@ public interface LBiObjShortPredicateX<T1, T2, X extends Throwable> extends Meta
 
 		try {
 			return this.doTest(t1, t2, s);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

@@ -108,7 +108,7 @@ public final class LTriPredicateBuilder<T1, T2, T3> extends PerCaseBuilderWithBo
 		LTriPredicate<T1, T2, T3> retval;
 
 		final Case<LTriPredicate<T1, T2, T3>, LTriPredicate<T1, T2, T3>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LTriPredicate.l((T1 t1, T2 t2, T3 t3) -> {
+		retval = LTriPredicate.<T1, T2, T3> l((T1 t1, T2 t2, T3 t3) -> {
 			try {
 				for (Case<LTriPredicate<T1, T2, T3>, LTriPredicate<T1, T2, T3>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(t1, t2, t3)) {
@@ -117,10 +117,12 @@ public final class LTriPredicateBuilder<T1, T2, T3> extends PerCaseBuilderWithBo
 				}
 
 				return eventuallyFinal.doTest(t1, t2, t3);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

@@ -108,7 +108,7 @@ public final class LIntUnaryOperatorBuilder extends PerCaseBuilderWithIntProduct
 		LIntUnaryOperator retval;
 
 		final Case<LIntPredicate, LIntUnaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LIntUnaryOperator.l((int i) -> {
+		retval = LIntUnaryOperator.l(i -> {
 			try {
 				for (Case<LIntPredicate, LIntUnaryOperator> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(i)) {
@@ -117,10 +117,12 @@ public final class LIntUnaryOperatorBuilder extends PerCaseBuilderWithIntProduct
 				}
 
 				return eventuallyFinal.doApplyAsInt(i);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

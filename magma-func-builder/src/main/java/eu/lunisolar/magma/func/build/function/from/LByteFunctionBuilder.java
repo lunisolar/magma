@@ -108,7 +108,7 @@ public final class LByteFunctionBuilder<R> extends PerCaseBuilderWithProduct.Bas
 		LByteFunction<R> retval;
 
 		final Case<LBytePredicate, LByteFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LByteFunction.l((byte b) -> {
+		retval = LByteFunction.<R> l(b -> {
 			try {
 				for (Case<LBytePredicate, LByteFunction<R>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(b)) {
@@ -117,10 +117,12 @@ public final class LByteFunctionBuilder<R> extends PerCaseBuilderWithProduct.Bas
 				}
 
 				return eventuallyFinal.doApply(b);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

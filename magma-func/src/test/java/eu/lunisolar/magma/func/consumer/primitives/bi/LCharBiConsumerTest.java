@@ -79,6 +79,36 @@ public class LCharBiConsumerTest<X extends ParseException> {
 
 
 
+    @Test
+    public void testNestingDoAcceptUnckeck() throws X {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.nestingDoAccept((char)100,(char)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoAcceptUnckeck() throws X {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.shovingDoAccept((char)100,(char)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
 
     @Test
     public void testFunctionalInterfaceDescription() throws X {
@@ -152,9 +182,8 @@ public class LCharBiConsumerTest<X extends ParseException> {
         });
 
         // when
-        LCharBiConsumer wrapped = sutThrowing.handle(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LCharBiConsumer wrapped = sutThrowing.handle(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -169,7 +198,7 @@ public class LCharBiConsumerTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
         LCharBiConsumer sutThrowing = LCharBiConsumer.l((char c1,char c2) -> {
@@ -193,7 +222,7 @@ public class LCharBiConsumerTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
         LCharBiConsumer sutThrowing = LCharBiConsumer.l((char c1,char c2) -> {
@@ -226,8 +255,7 @@ public class LCharBiConsumerTest<X extends ParseException> {
         });
 
         // when
-        LCharBiConsumer wrapped = sutThrowing.handle(h -> {
-        });
+        LCharBiConsumer wrapped = sutThrowing.handle(h -> Function4U.doNothing());
 
         // then
         try {

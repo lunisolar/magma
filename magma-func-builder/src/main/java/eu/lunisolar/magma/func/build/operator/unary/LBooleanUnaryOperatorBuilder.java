@@ -108,7 +108,7 @@ public final class LBooleanUnaryOperatorBuilder extends PerCaseBuilderWithBoolea
 		LBooleanUnaryOperator retval;
 
 		final Case<LBooleanUnaryOperator, LBooleanUnaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBooleanUnaryOperator.l((boolean b) -> {
+		retval = LBooleanUnaryOperator.l(b -> {
 			try {
 				for (Case<LBooleanUnaryOperator, LBooleanUnaryOperator> aCase : casesArray) {
 					if (aCase.casePredicate().doApplyAsBoolean(b)) {
@@ -117,10 +117,12 @@ public final class LBooleanUnaryOperatorBuilder extends PerCaseBuilderWithBoolea
 				}
 
 				return eventuallyFinal.doApplyAsBoolean(b);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

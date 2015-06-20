@@ -45,11 +45,11 @@ public class LDoublePredicateXAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LDoublePredicateX<X> function = LDoublePredicateX.lX((d) -> {
-            return testValue;
-    });
+    private LDoublePredicateX<X> function = LDoublePredicateX.lX(d ->
+            testValue
+    );
 
-    private LDoublePredicateX<X> functionThrowing = LDoublePredicateX.lX((d) -> {
+    private LDoublePredicateX<X> functionThrowing = LDoublePredicateX.lX(d -> {
         throw new UnsupportedOperationException();
     });
 

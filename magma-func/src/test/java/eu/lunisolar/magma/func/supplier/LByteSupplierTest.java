@@ -93,7 +93,7 @@ public class LByteSupplierTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoGetAsByte_unckeck() throws X {
+    public void testNestingDoGetAsByteUnckeck() throws X {
 
         // then
         try {
@@ -108,7 +108,7 @@ public class LByteSupplierTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoGetAsByte_unckeck() throws X {
+    public void testShovingDoGetAsByteUnckeck() throws X {
 
         // then
         try {
@@ -121,7 +121,6 @@ public class LByteSupplierTest<X extends ParseException> {
                     .hasMessage(ORIGINAL_MESSAGE);
         }
     }
-
 
 
     @Test
@@ -196,9 +195,8 @@ public class LByteSupplierTest<X extends ParseException> {
         });
 
         // when
-        LByteSupplier wrapped = sutThrowing.handle(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LByteSupplier wrapped = sutThrowing.handle(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -213,7 +211,7 @@ public class LByteSupplierTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
         LByteSupplier sutThrowing = LByteSupplier.l(() -> {
@@ -237,7 +235,7 @@ public class LByteSupplierTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
         LByteSupplier sutThrowing = LByteSupplier.l(() -> {
@@ -270,8 +268,7 @@ public class LByteSupplierTest<X extends ParseException> {
         });
 
         // when
-        LByteSupplier wrapped = sutThrowing.handle(h -> {
-        });
+        LByteSupplier wrapped = sutThrowing.handle(h -> Function4U.doNothing());
 
         // then
         try {

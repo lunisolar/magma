@@ -108,7 +108,7 @@ public final class LBooleanToFloatFunctionXBuilder<X extends Throwable> extends 
 		LBooleanToFloatFunctionX<X> retval;
 
 		final Case<LBooleanUnaryOperatorX<X>, LBooleanToFloatFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBooleanToFloatFunctionX.lX((boolean b) -> {
+		retval = LBooleanToFloatFunctionX.<X> lX(b -> {
 			try {
 				for (Case<LBooleanUnaryOperatorX<X>, LBooleanToFloatFunctionX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doApplyAsBoolean(b)) {
@@ -117,10 +117,12 @@ public final class LBooleanToFloatFunctionXBuilder<X extends Throwable> extends 
 				}
 
 				return eventuallyFinal.doApplyAsFloat(b);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

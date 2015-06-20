@@ -46,11 +46,11 @@ public class LDoubleConsumerXAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LDoubleConsumerX<X> function = LDoubleConsumerX.lX((d) -> {
-            externalEffect.set(testValue);
-    });
+    private LDoubleConsumerX<X> function = LDoubleConsumerX.lX(d ->
+            externalEffect.set(testValue)
+    );
 
-    private LDoubleConsumerX<X> functionThrowing = LDoubleConsumerX.lX((d) -> {
+    private LDoubleConsumerX<X> functionThrowing = LDoubleConsumerX.lX(d -> {
         throw new UnsupportedOperationException();
     });
 

@@ -108,7 +108,7 @@ public final class LIntToCharFunctionBuilder extends PerCaseBuilderWithCharProdu
 		LIntToCharFunction retval;
 
 		final Case<LIntPredicate, LIntToCharFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LIntToCharFunction.l((int i) -> {
+		retval = LIntToCharFunction.l(i -> {
 			try {
 				for (Case<LIntPredicate, LIntToCharFunction> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(i)) {
@@ -117,10 +117,12 @@ public final class LIntToCharFunctionBuilder extends PerCaseBuilderWithCharProdu
 				}
 
 				return eventuallyFinal.doApplyAsChar(i);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

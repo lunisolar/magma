@@ -67,9 +67,9 @@ public interface LObjFloatPredicateX<T, X extends Throwable> extends MetaPredica
 	default boolean nestingDoTest(T t, float f) {
 		try {
 			return this.doTest(t, f);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -82,7 +82,7 @@ public interface LObjFloatPredicateX<T, X extends Throwable> extends MetaPredica
 
 		try {
 			return this.doTest(t, f);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

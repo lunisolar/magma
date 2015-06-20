@@ -45,11 +45,11 @@ public class LCharFunctionXAssertTest<R,X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LCharFunctionX<Integer ,X> function = LCharFunctionX.lX((c) -> {
-            return (Integer ) testValue;
-    });
+    private LCharFunctionX<Integer ,X> function = LCharFunctionX.lX(c ->
+            (Integer ) testValue
+    );
 
-    private LCharFunctionX<Integer ,X> functionThrowing = LCharFunctionX.lX((c) -> {
+    private LCharFunctionX<Integer ,X> functionThrowing = LCharFunctionX.lX(c -> {
         throw new UnsupportedOperationException();
     });
 

@@ -108,7 +108,7 @@ public final class LObjBooleanFunctionXBuilder<T, R, X extends Throwable> extend
 		LObjBooleanFunctionX<T, R, X> retval;
 
 		final Case<LObjBooleanPredicateX<T, X>, LObjBooleanFunctionX<T, R, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LObjBooleanFunctionX.lX((T t, boolean b) -> {
+		retval = LObjBooleanFunctionX.<T, R, X> lX((T t, boolean b) -> {
 			try {
 				for (Case<LObjBooleanPredicateX<T, X>, LObjBooleanFunctionX<T, R, X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(t, b)) {
@@ -117,10 +117,12 @@ public final class LObjBooleanFunctionXBuilder<T, R, X extends Throwable> extend
 				}
 
 				return eventuallyFinal.doApply(t, b);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

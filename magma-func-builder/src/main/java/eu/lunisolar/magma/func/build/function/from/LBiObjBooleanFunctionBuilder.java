@@ -108,7 +108,7 @@ public final class LBiObjBooleanFunctionBuilder<T1, T2, R> extends PerCaseBuilde
 		LBiObjBooleanFunction<T1, T2, R> retval;
 
 		final Case<LBiObjBooleanPredicate<T1, T2>, LBiObjBooleanFunction<T1, T2, R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBiObjBooleanFunction.l((T1 t1, T2 t2, boolean b) -> {
+		retval = LBiObjBooleanFunction.<T1, T2, R> l((T1 t1, T2 t2, boolean b) -> {
 			try {
 				for (Case<LBiObjBooleanPredicate<T1, T2>, LBiObjBooleanFunction<T1, T2, R>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(t1, t2, b)) {
@@ -117,10 +117,12 @@ public final class LBiObjBooleanFunctionBuilder<T1, T2, R> extends PerCaseBuilde
 				}
 
 				return eventuallyFinal.doApply(t1, t2, b);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

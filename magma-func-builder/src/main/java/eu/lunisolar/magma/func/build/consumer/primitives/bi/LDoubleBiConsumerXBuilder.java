@@ -108,7 +108,7 @@ public final class LDoubleBiConsumerXBuilder<X extends Throwable> extends PerCas
 		LDoubleBiConsumerX<X> retval;
 
 		final Case<LBiDoublePredicateX<X>, LDoubleBiConsumerX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LDoubleBiConsumerX.lX((double d1, double d2) -> {
+		retval = LDoubleBiConsumerX.<X> lX((double d1, double d2) -> {
 			try {
 				for (Case<LBiDoublePredicateX<X>, LDoubleBiConsumerX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(d1, d2)) {
@@ -118,10 +118,12 @@ public final class LDoubleBiConsumerXBuilder<X extends Throwable> extends PerCas
 				}
 
 				eventuallyFinal.doAccept(d1, d2);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

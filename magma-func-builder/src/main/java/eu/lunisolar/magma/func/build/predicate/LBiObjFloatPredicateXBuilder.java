@@ -108,7 +108,7 @@ public final class LBiObjFloatPredicateXBuilder<T1, T2, X extends Throwable> ext
 		LBiObjFloatPredicateX<T1, T2, X> retval;
 
 		final Case<LBiObjFloatPredicateX<T1, T2, X>, LBiObjFloatPredicateX<T1, T2, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBiObjFloatPredicateX.lX((T1 t1, T2 t2, float f) -> {
+		retval = LBiObjFloatPredicateX.<T1, T2, X> lX((T1 t1, T2 t2, float f) -> {
 			try {
 				for (Case<LBiObjFloatPredicateX<T1, T2, X>, LBiObjFloatPredicateX<T1, T2, X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(t1, t2, f)) {
@@ -117,10 +117,12 @@ public final class LBiObjFloatPredicateXBuilder<T1, T2, X extends Throwable> ext
 				}
 
 				return eventuallyFinal.doTest(t1, t2, f);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

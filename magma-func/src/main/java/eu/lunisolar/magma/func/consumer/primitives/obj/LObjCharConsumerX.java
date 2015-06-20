@@ -68,9 +68,9 @@ public interface LObjCharConsumerX<T, X extends Throwable> extends MetaConsumer,
 	default void nestingDoAccept(T t, char c) {
 		try {
 			this.doAccept(t, c);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -83,7 +83,7 @@ public interface LObjCharConsumerX<T, X extends Throwable> extends MetaConsumer,
 
 		try {
 			this.doAccept(t, c);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

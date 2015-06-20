@@ -108,7 +108,7 @@ public final class LIntToFloatFunctionBuilder extends PerCaseBuilderWithFloatPro
 		LIntToFloatFunction retval;
 
 		final Case<LIntPredicate, LIntToFloatFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LIntToFloatFunction.l((int i) -> {
+		retval = LIntToFloatFunction.l(i -> {
 			try {
 				for (Case<LIntPredicate, LIntToFloatFunction> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(i)) {
@@ -117,10 +117,12 @@ public final class LIntToFloatFunctionBuilder extends PerCaseBuilderWithFloatPro
 				}
 
 				return eventuallyFinal.doApplyAsFloat(i);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

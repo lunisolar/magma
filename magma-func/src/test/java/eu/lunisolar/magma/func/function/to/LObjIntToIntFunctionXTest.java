@@ -96,7 +96,7 @@ public class LObjIntToIntFunctionXTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApplyAsInt_checked() throws X {
+    public void testNestingDoApplyAsIntChecked() throws X {
 
         // then
         try {
@@ -111,7 +111,7 @@ public class LObjIntToIntFunctionXTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApplyAsInt_unckeck() throws X {
+    public void testNestingDoApplyAsIntUnckeck() throws X {
 
         // then
         try {
@@ -126,7 +126,7 @@ public class LObjIntToIntFunctionXTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsInt_checked() throws X {
+    public void testShovingDoApplyAsIntChecked() throws X {
 
         // then
         try {
@@ -141,7 +141,7 @@ public class LObjIntToIntFunctionXTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsInt_unckeck() throws X {
+    public void testShovingDoApplyAsIntUnckeck() throws X {
 
         // then
         try {
@@ -154,7 +154,6 @@ public class LObjIntToIntFunctionXTest<T,X extends ParseException> {
                     .hasMessage(ORIGINAL_MESSAGE);
         }
     }
-
 
 
     @Test
@@ -185,9 +184,8 @@ public class LObjIntToIntFunctionXTest<T,X extends ParseException> {
         });
 
         // when
-        LObjIntToIntFunctionX<T,X> wrapped = sutThrowing.handleX(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LObjIntToIntFunctionX<T,X> wrapped = sutThrowing.handleX(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -202,7 +200,7 @@ public class LObjIntToIntFunctionXTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
         LObjIntToIntFunctionX<T,X> sutThrowing = LObjIntToIntFunctionX.lX((T t, int i) -> {
@@ -226,7 +224,7 @@ public class LObjIntToIntFunctionXTest<T,X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
         LObjIntToIntFunctionX<T,X> sutThrowing = LObjIntToIntFunctionX.lX((T t, int i) -> {
@@ -259,8 +257,7 @@ public class LObjIntToIntFunctionXTest<T,X extends ParseException> {
         });
 
         // when
-        LObjIntToIntFunctionX<T,X> wrapped = sutThrowing.handleX(h -> {
-        });
+        LObjIntToIntFunctionX<T,X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
 
         // then
         try {

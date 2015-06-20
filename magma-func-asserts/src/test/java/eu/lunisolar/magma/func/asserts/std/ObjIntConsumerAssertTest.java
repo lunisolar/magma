@@ -45,9 +45,9 @@ public class ObjIntConsumerAssertTest<T,X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private java.util.function.ObjIntConsumer<Integer > function = ((t, i) -> {
-            externalEffect.set(testValue);
-    });
+    private java.util.function.ObjIntConsumer<Integer > function = ((t, i) ->
+            externalEffect.set(testValue)
+    );
 
     private java.util.function.ObjIntConsumer<Integer > functionThrowing = ((t, i) -> {
         throw new UnsupportedOperationException();

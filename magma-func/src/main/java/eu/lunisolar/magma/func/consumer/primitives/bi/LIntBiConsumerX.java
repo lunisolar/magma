@@ -68,9 +68,9 @@ public interface LIntBiConsumerX<X extends Throwable> extends MetaConsumer, Meta
 	default void nestingDoAccept(int i1, int i2) {
 		try {
 			this.doAccept(i1, i2);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -83,7 +83,7 @@ public interface LIntBiConsumerX<X extends Throwable> extends MetaConsumer, Meta
 
 		try {
 			this.doAccept(i1, i2);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

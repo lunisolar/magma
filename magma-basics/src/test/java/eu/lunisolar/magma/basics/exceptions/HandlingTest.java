@@ -50,6 +50,17 @@ public class HandlingTest {
     }
 
     @Test
+    public void testHandleInstructions() throws Exception {
+
+        Handler.The<Throwable, RuntimeException> handle = Handling.handleInstructions(RUNTIME, h -> {
+        });
+
+        assertThat(handle)
+                .isExactlyInstanceOf(Handler.The.class);
+
+    }
+
+    @Test
     public void throwReplacement() throws Exception {
         assertThatThrownBy(() -> Handling.throwReplacement(Exception1::new, "New message %s", "with param"))
                 .isInstanceOf(Exception1.class)

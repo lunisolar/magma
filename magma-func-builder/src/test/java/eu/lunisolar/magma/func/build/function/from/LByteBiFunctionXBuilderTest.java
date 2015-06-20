@@ -61,7 +61,7 @@ public class LByteBiFunctionXBuilderTest<R,X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LByteBiFunctionX function = LByteBiFunctionXBuilder.byteBiFunctionX()
@@ -77,7 +77,7 @@ public class LByteBiFunctionXBuilderTest<R,X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,7 +92,7 @@ public class LByteBiFunctionXBuilderTest<R,X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LByteBiFunctionX function = LByteBiFunctionXBuilder.byteBiFunctionX()
@@ -112,7 +112,7 @@ public class LByteBiFunctionXBuilderTest<R,X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LByteBiFunctionX<Integer ,ParseException> function = byteBiFunctionX((LByteBiFunctionX<Integer ,ParseException> f)-> doNothing())
             .addCase(ce -> ce.of((b1,b2) -> b1 == (byte)0)

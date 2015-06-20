@@ -44,11 +44,11 @@ public class DoubleFunctionAssertTest<R,X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private java.util.function.DoubleFunction<Integer > function = ((d) -> {
-            return (Integer ) testValue;
-    });
+    private java.util.function.DoubleFunction<Integer > function = (d ->
+            (Integer ) testValue
+    );
 
-    private java.util.function.DoubleFunction<Integer > functionThrowing = ((d) -> {
+    private java.util.function.DoubleFunction<Integer > functionThrowing = (d -> {
         throw new UnsupportedOperationException();
     });
 

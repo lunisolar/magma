@@ -75,7 +75,7 @@ public class LFloatToCharFunctionTest<X extends ParseException> {
 
 
 
-    private LFloatToCharFunction sutAlwaysThrowingUnckeck = LFloatToCharFunction.l((float f) -> {
+    private LFloatToCharFunction sutAlwaysThrowingUnckeck = LFloatToCharFunction.l(f -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -93,7 +93,7 @@ public class LFloatToCharFunctionTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApplyAsChar_unckeck() throws X {
+    public void testNestingDoApplyAsCharUnckeck() throws X {
 
         // then
         try {
@@ -108,7 +108,7 @@ public class LFloatToCharFunctionTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsChar_unckeck() throws X {
+    public void testShovingDoApplyAsCharUnckeck() throws X {
 
         // then
         try {
@@ -123,7 +123,6 @@ public class LFloatToCharFunctionTest<X extends ParseException> {
     }
 
 
-
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
@@ -132,7 +131,7 @@ public class LFloatToCharFunctionTest<X extends ParseException> {
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LFloatToCharFunction.l((float f) -> testValue ))
+        assertThat(LFloatToCharFunction.l(f -> testValue ))
             .isInstanceOf(LFloatToCharFunction.class);
     }
 
@@ -145,7 +144,7 @@ public class LFloatToCharFunctionTest<X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LFloatToCharFunctionX<X> sutThrowing = LFloatToCharFunctionX.lX((float f) -> {
+        LFloatToCharFunctionX<X> sutThrowing = LFloatToCharFunctionX.lX(f -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -167,7 +166,7 @@ public class LFloatToCharFunctionTest<X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LFloatToCharFunctionX<ParseException> sutThrowing = LFloatToCharFunctionX.lX((float f) -> {
+        LFloatToCharFunctionX<ParseException> sutThrowing = LFloatToCharFunctionX.lX(f -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -191,14 +190,13 @@ public class LFloatToCharFunctionTest<X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LFloatToCharFunction sutThrowing = LFloatToCharFunction.l((float f) -> {
+        LFloatToCharFunction sutThrowing = LFloatToCharFunction.l(f -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        LFloatToCharFunction wrapped = sutThrowing.handle(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LFloatToCharFunction wrapped = sutThrowing.handle(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -213,10 +211,10 @@ public class LFloatToCharFunctionTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LFloatToCharFunction sutThrowing = LFloatToCharFunction.l((float f) -> {
+        LFloatToCharFunction sutThrowing = LFloatToCharFunction.l(f -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -237,10 +235,10 @@ public class LFloatToCharFunctionTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LFloatToCharFunction sutThrowing = LFloatToCharFunction.l((float f) -> {
+        LFloatToCharFunction sutThrowing = LFloatToCharFunction.l(f -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -265,13 +263,12 @@ public class LFloatToCharFunctionTest<X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LFloatToCharFunction sutThrowing = LFloatToCharFunction.l((float f) -> {
+        LFloatToCharFunction sutThrowing = LFloatToCharFunction.l(f -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
         // when
-        LFloatToCharFunction wrapped = sutThrowing.handle(h -> {
-        });
+        LFloatToCharFunction wrapped = sutThrowing.handle(h -> Function4U.doNothing());
 
         // then
         try {
@@ -296,7 +293,7 @@ public class LFloatToCharFunctionTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LFloatToCharFunction sutO = (float f) -> {
+        LFloatToCharFunction sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)90);
                 return (char)100;
@@ -325,7 +322,7 @@ public class LFloatToCharFunctionTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LFloatToCharFunction sutO = (float f) -> {
+        LFloatToCharFunction sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)90);
                 return (char)100;
@@ -359,7 +356,7 @@ public class LFloatToCharFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatToCharFunction sutO = (float f) -> {
+        LFloatToCharFunction sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)80);
                 return (char)90;
@@ -394,7 +391,7 @@ public class LFloatToCharFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatToCharFunction sutO = (float f) -> {
+        LFloatToCharFunction sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)80);
                 return (char)90;
@@ -429,7 +426,7 @@ public class LFloatToCharFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatToCharFunction sutO = (float f) -> {
+        LFloatToCharFunction sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)80);
                 return (char)90;
@@ -464,7 +461,7 @@ public class LFloatToCharFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatToCharFunction sutO = (float f) -> {
+        LFloatToCharFunction sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)80);
                 return (char)90;
@@ -499,7 +496,7 @@ public class LFloatToCharFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatToCharFunction sutO = (float f) -> {
+        LFloatToCharFunction sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)80);
                 return (char)90;
@@ -534,7 +531,7 @@ public class LFloatToCharFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatToCharFunction sutO = (float f) -> {
+        LFloatToCharFunction sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)80);
                 return (char)90;
@@ -569,7 +566,7 @@ public class LFloatToCharFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatToCharFunction sutO = (float f) -> {
+        LFloatToCharFunction sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)80);
                 return (char)90;
@@ -604,7 +601,7 @@ public class LFloatToCharFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatToCharFunction sutO = (float f) -> {
+        LFloatToCharFunction sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)80);
                 return (char)90;
@@ -639,7 +636,7 @@ public class LFloatToCharFunctionTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatToCharFunction sutO = (float f) -> {
+        LFloatToCharFunction sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)80);
                 return (char)90;
@@ -700,7 +697,7 @@ public class LFloatToCharFunctionTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LFloatToCharFunction sutThrowing = LFloatToCharFunction.l((float f) -> {
+        LFloatToCharFunction sutThrowing = LFloatToCharFunction.l(f -> {
             throw new UnsupportedOperationException();
         });
 
@@ -712,7 +709,7 @@ public class LFloatToCharFunctionTest<X extends ParseException> {
     public void testHandle() throws X {
 
         // given
-        LFloatToCharFunction sutThrowing = LFloatToCharFunction.l((float f) -> {
+        LFloatToCharFunction sutThrowing = LFloatToCharFunction.l(f -> {
             throw new UnsupportedOperationException();
         });
 

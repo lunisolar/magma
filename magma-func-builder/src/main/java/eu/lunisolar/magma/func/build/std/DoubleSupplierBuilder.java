@@ -107,7 +107,7 @@ public final class DoubleSupplierBuilder extends PerCaseBuilderWithDoubleProduct
 		java.util.function.DoubleSupplier retval;
 
 		final Case<LBooleanSupplier, java.util.function.DoubleSupplier>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.l(() -> {
+		retval = Function4U.doubleSupplier(() -> {
 			try {
 				for (Case<LBooleanSupplier, java.util.function.DoubleSupplier> aCase : casesArray) {
 					if (aCase.casePredicate().doGetAsBoolean()) {
@@ -116,10 +116,12 @@ public final class DoubleSupplierBuilder extends PerCaseBuilderWithDoubleProduct
 				}
 
 				return eventuallyFinal.getAsDouble();
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

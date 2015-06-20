@@ -108,7 +108,7 @@ public final class LIntToLongFunctionBuilder extends PerCaseBuilderWithLongProdu
 		LIntToLongFunction retval;
 
 		final Case<LIntPredicate, LIntToLongFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LIntToLongFunction.l((int i) -> {
+		retval = LIntToLongFunction.l(i -> {
 			try {
 				for (Case<LIntPredicate, LIntToLongFunction> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(i)) {
@@ -117,10 +117,12 @@ public final class LIntToLongFunctionBuilder extends PerCaseBuilderWithLongProdu
 				}
 
 				return eventuallyFinal.doApplyAsLong(i);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

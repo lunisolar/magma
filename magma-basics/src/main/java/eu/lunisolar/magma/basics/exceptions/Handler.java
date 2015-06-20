@@ -27,7 +27,7 @@ import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
 import java.util.function.*;
 
-import static eu.lunisolar.magma.basics.exceptions.Handling.shoveIt;
+import static eu.lunisolar.magma.basics.exceptions.Handling.*;
 
 /**
  * It should never be treated as replacement for TRY-CATCH. It is intended to be a sugar in places where generic exception are being handled.
@@ -40,51 +40,59 @@ public interface Handler<SELF extends Handler<SELF, X, Y>, X extends Throwable, 
         return new The<>(throwable);
     }
 
-    static <X extends Throwable, Y extends Throwable> Handler.The<X, Y> handleInstructions(
-            @Nonnull X throwable, HandlingInstructions<X, Y> instructions) throws Y {
-        Null.nonNullArg(throwable, "instructions");
-        Null.nonNullArg(instructions, "instructions");
-        The<X, Y> handler = Handler.<X, Y>handler(throwable);
-        instructions.processWith(handler);
-        return handler;
-    }
+
 
     /**
+     * Executes instructions, if none of them wil throw or rethrow exception this method will fail with exception that throwable was not handled.
+     * Errors will be rethrow immediately.
+     *
      * @return There is nothing ever returned - however return value of method signature can be used in statement: _throw handleOrFail(..)_
      */
     static <X extends Throwable, Y extends Throwable> RuntimeException handleOrFail(
             @Nonnull X throwable, HandlingInstructions<X, Y> instructions) throws Y {
 
+        handleErrors(throwable);
+
         The<X, Y> handler = handleInstructions(throwable, instructions);
 
         handler.throwFailure();
-        throw Handling.shouldNeverBeenHere();
+        throw shouldNeverBeenHere();
     }
 
     /**
-     * * @return There is nothing ever returned - however return value of method signature can be used in statement: _throw handleOrFail(..)_
+     * Executes instructions, if none of them wil throw or rethrow exception this method will rethrow RuntimeExceptions and nest checked exceptions.
+     * Errors will be rethrow immediately.
+     *
+     * @return There is nothing ever returned - however return value of method signature can be used in statement: _throw handleOrFail(..)_
      */
     static <X extends Throwable, Y extends Throwable> RuntimeException handleOrNest(
             @Nonnull X throwable, @Nonnull HandlingInstructions<X, Y> instructions) throws Y {
 
+        handleErrors(throwable);
+
         The<X, Y> handler = handleInstructions(throwable, instructions);
 
         handler.handleRest();
-        throw Handling.shouldNeverBeenHere();
+        throw shouldNeverBeenHere();
     }
 
-     /**
-     * * @return There is nothing ever returned - however return value of method signature can be used in statement: _throw handleOrFail(..)_
+    /**
+     * Executes instructions, if none of them wil throw or rethrow exception this method will rethrow original exception regardless it is checked or not.
+     * Errors will be rethrow immediately.
+     *
+     * @return There is nothing ever returned - however return value of method signature can be used in statement: _throw handleOrFail(..)_
      */
     static <X extends Throwable, Y extends Throwable> RuntimeException handleOrPropagate(
             @Nonnull X throwable, @Nullable HandlingInstructions<X, Y> instructions) throws Y {
+
+        handleErrors(throwable);
 
         if ( instructions!=null) {
             handleInstructions(throwable, instructions);
         }
 
         shoveIt(throwable);
-        throw Handling.shouldNeverBeenHere();
+        throw shouldNeverBeenHere();
     }
 
     <Y extends Throwable> SELF throwIf(Class<Y> yClass) throws Y;

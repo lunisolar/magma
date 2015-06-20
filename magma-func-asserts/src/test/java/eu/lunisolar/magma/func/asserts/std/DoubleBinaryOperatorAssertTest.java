@@ -44,9 +44,9 @@ public class DoubleBinaryOperatorAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private java.util.function.DoubleBinaryOperator function = ((d1,d2) -> {
-            return testValue;
-    });
+    private java.util.function.DoubleBinaryOperator function = ((d1,d2) ->
+            testValue
+    );
 
     private java.util.function.DoubleBinaryOperator functionThrowing = ((d1,d2) -> {
         throw new UnsupportedOperationException();

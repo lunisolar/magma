@@ -45,11 +45,11 @@ public class LBooleanToCharFunctionAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LBooleanToCharFunction function = LBooleanToCharFunction.l((b) -> {
-            return testValue;
-    });
+    private LBooleanToCharFunction function = LBooleanToCharFunction.l(b ->
+            testValue
+    );
 
-    private LBooleanToCharFunction functionThrowing = LBooleanToCharFunction.l((b) -> {
+    private LBooleanToCharFunction functionThrowing = LBooleanToCharFunction.l(b -> {
         throw new UnsupportedOperationException();
     });
 

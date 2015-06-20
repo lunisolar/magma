@@ -46,9 +46,9 @@ public class LBiObjLongConsumerXAssertTest<T1,T2,X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LBiObjLongConsumerX<Integer ,Integer ,X> function = LBiObjLongConsumerX.lX((t1,t2, l) -> {
-            externalEffect.set(testValue);
-    });
+    private LBiObjLongConsumerX<Integer ,Integer ,X> function = LBiObjLongConsumerX.lX((t1,t2, l) ->
+            externalEffect.set(testValue)
+    );
 
     private LBiObjLongConsumerX<Integer ,Integer ,X> functionThrowing = LBiObjLongConsumerX.lX((t1,t2, l) -> {
         throw new UnsupportedOperationException();

@@ -93,7 +93,7 @@ public class LBiShortPredicateTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoTest_unckeck() throws X {
+    public void testNestingDoTestUnckeck() throws X {
 
         // then
         try {
@@ -108,7 +108,7 @@ public class LBiShortPredicateTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoTest_unckeck() throws X {
+    public void testShovingDoTestUnckeck() throws X {
 
         // then
         try {
@@ -121,7 +121,6 @@ public class LBiShortPredicateTest<X extends ParseException> {
                     .hasMessage(ORIGINAL_MESSAGE);
         }
     }
-
 
     @Test
     public void testApplyAsBooleanShouldNotModifyValue() throws X {
@@ -203,9 +202,8 @@ public class LBiShortPredicateTest<X extends ParseException> {
         });
 
         // when
-        LBiShortPredicate wrapped = sutThrowing.handle(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LBiShortPredicate wrapped = sutThrowing.handle(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -220,7 +218,7 @@ public class LBiShortPredicateTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
         LBiShortPredicate sutThrowing = LBiShortPredicate.l((short s1,short s2) -> {
@@ -244,7 +242,7 @@ public class LBiShortPredicateTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
         LBiShortPredicate sutThrowing = LBiShortPredicate.l((short s1,short s2) -> {
@@ -277,8 +275,7 @@ public class LBiShortPredicateTest<X extends ParseException> {
         });
 
         // when
-        LBiShortPredicate wrapped = sutThrowing.handle(h -> {
-        });
+        LBiShortPredicate wrapped = sutThrowing.handle(h -> Function4U.doNothing());
 
         // then
         try {

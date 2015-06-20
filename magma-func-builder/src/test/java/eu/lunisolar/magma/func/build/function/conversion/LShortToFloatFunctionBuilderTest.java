@@ -61,7 +61,7 @@ public class LShortToFloatFunctionBuilderTest<X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LShortToFloatFunction function = LShortToFloatFunctionBuilder.shortToFloatFunction()
@@ -77,7 +77,7 @@ public class LShortToFloatFunctionBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,11 +92,11 @@ public class LShortToFloatFunctionBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LShortToFloatFunction function = LShortToFloatFunctionBuilder.shortToFloatFunction()
-                .eventually((s) -> {
+                .eventually(s -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -112,14 +112,14 @@ public class LShortToFloatFunctionBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LShortToFloatFunction function = shortToFloatFunction((LShortToFloatFunction f)-> doNothing())
-            .addCase(ce -> ce.of((s) -> s == (short)0)
-                             .evaluate((s) -> (float)0))
-            .inCase((s) -> s > 0 && s < 10).evaluate((s) -> (float)1)
-            .inCase((s) -> s > 10 && s < 20).evaluate((s) -> (float)2)
-            .eventually((s) -> (float)99)
+            .addCase(ce -> ce.of(s -> s == (short)0)
+                             .evaluate(s -> (float)0))
+            .inCase(s -> s > 0 && s < 10).evaluate(s -> (float)1)
+            .inCase(s -> s > 10 && s < 20).evaluate(s -> (float)2)
+            .eventually(s -> (float)99)
             .build();
 
 

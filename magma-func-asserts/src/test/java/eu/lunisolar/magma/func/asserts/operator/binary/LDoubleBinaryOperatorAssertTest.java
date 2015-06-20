@@ -45,9 +45,9 @@ public class LDoubleBinaryOperatorAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LDoubleBinaryOperator function = LDoubleBinaryOperator.l((d1,d2) -> {
-            return testValue;
-    });
+    private LDoubleBinaryOperator function = LDoubleBinaryOperator.l((d1,d2) ->
+            testValue
+    );
 
     private LDoubleBinaryOperator functionThrowing = LDoubleBinaryOperator.l((d1,d2) -> {
         throw new UnsupportedOperationException();

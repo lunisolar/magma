@@ -46,9 +46,9 @@ public class LBiObjFloatConsumerAssertTest<T1,T2,X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LBiObjFloatConsumer<Integer ,Integer > function = LBiObjFloatConsumer.l((t1,t2, f) -> {
-            externalEffect.set(testValue);
-    });
+    private LBiObjFloatConsumer<Integer ,Integer > function = LBiObjFloatConsumer.l((t1,t2, f) ->
+            externalEffect.set(testValue)
+    );
 
     private LBiObjFloatConsumer<Integer ,Integer > functionThrowing = LBiObjFloatConsumer.l((t1,t2, f) -> {
         throw new UnsupportedOperationException();

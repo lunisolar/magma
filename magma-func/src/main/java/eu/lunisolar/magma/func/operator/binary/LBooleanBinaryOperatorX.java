@@ -67,9 +67,9 @@ public interface LBooleanBinaryOperatorX<X extends Throwable> extends MetaLogica
 	default boolean nestingDoApplyAsBoolean(boolean b1, boolean b2) {
 		try {
 			return this.doApplyAsBoolean(b1, b2);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -82,7 +82,7 @@ public interface LBooleanBinaryOperatorX<X extends Throwable> extends MetaLogica
 
 		try {
 			return this.doApplyAsBoolean(b1, b2);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

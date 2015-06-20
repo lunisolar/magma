@@ -108,7 +108,7 @@ public final class LToByteFunctionBuilder<T> extends PerCaseBuilderWithByteProdu
 		LToByteFunction<T> retval;
 
 		final Case<LPredicate<T>, LToByteFunction<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LToByteFunction.l((T t) -> {
+		retval = LToByteFunction.<T> l(t -> {
 			try {
 				for (Case<LPredicate<T>, LToByteFunction<T>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(t)) {
@@ -117,10 +117,12 @@ public final class LToByteFunctionBuilder<T> extends PerCaseBuilderWithByteProdu
 				}
 
 				return eventuallyFinal.doApplyAsByte(t);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

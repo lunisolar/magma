@@ -44,11 +44,11 @@ public class DoubleToIntFunctionAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private java.util.function.DoubleToIntFunction function = ((d) -> {
-            return testValue;
-    });
+    private java.util.function.DoubleToIntFunction function = (d ->
+            testValue
+    );
 
-    private java.util.function.DoubleToIntFunction functionThrowing = ((d) -> {
+    private java.util.function.DoubleToIntFunction functionThrowing = (d -> {
         throw new UnsupportedOperationException();
     });
 

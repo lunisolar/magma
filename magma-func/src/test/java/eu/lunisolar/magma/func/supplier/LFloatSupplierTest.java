@@ -93,7 +93,7 @@ public class LFloatSupplierTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoGetAsFloat_unckeck() throws X {
+    public void testNestingDoGetAsFloatUnckeck() throws X {
 
         // then
         try {
@@ -108,7 +108,7 @@ public class LFloatSupplierTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoGetAsFloat_unckeck() throws X {
+    public void testShovingDoGetAsFloatUnckeck() throws X {
 
         // then
         try {
@@ -121,7 +121,6 @@ public class LFloatSupplierTest<X extends ParseException> {
                     .hasMessage(ORIGINAL_MESSAGE);
         }
     }
-
 
 
     @Test
@@ -196,9 +195,8 @@ public class LFloatSupplierTest<X extends ParseException> {
         });
 
         // when
-        LFloatSupplier wrapped = sutThrowing.handle(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LFloatSupplier wrapped = sutThrowing.handle(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -213,7 +211,7 @@ public class LFloatSupplierTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
         LFloatSupplier sutThrowing = LFloatSupplier.l(() -> {
@@ -237,7 +235,7 @@ public class LFloatSupplierTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
         LFloatSupplier sutThrowing = LFloatSupplier.l(() -> {
@@ -270,8 +268,7 @@ public class LFloatSupplierTest<X extends ParseException> {
         });
 
         // when
-        LFloatSupplier wrapped = sutThrowing.handle(h -> {
-        });
+        LFloatSupplier wrapped = sutThrowing.handle(h -> Function4U.doNothing());
 
         // then
         try {

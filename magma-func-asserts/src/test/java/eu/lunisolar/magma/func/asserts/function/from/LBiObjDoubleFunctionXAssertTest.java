@@ -45,9 +45,9 @@ public class LBiObjDoubleFunctionXAssertTest<T1,T2,R,X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LBiObjDoubleFunctionX<Integer ,Integer ,Integer ,X> function = LBiObjDoubleFunctionX.lX((t1,t2, d) -> {
-            return (Integer ) testValue;
-    });
+    private LBiObjDoubleFunctionX<Integer ,Integer ,Integer ,X> function = LBiObjDoubleFunctionX.lX((t1,t2, d) ->
+            (Integer ) testValue
+    );
 
     private LBiObjDoubleFunctionX<Integer ,Integer ,Integer ,X> functionThrowing = LBiObjDoubleFunctionX.lX((t1,t2, d) -> {
         throw new UnsupportedOperationException();

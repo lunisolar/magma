@@ -107,7 +107,7 @@ public final class LongToDoubleFunctionBuilder extends PerCaseBuilderWithDoubleP
 		java.util.function.LongToDoubleFunction retval;
 
 		final Case<LLongPredicate, java.util.function.LongToDoubleFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.l((long l) -> {
+		retval = Function4U.longToDoubleFunction(l -> {
 			try {
 				for (Case<LLongPredicate, java.util.function.LongToDoubleFunction> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(l)) {
@@ -116,10 +116,12 @@ public final class LongToDoubleFunctionBuilder extends PerCaseBuilderWithDoubleP
 				}
 
 				return eventuallyFinal.applyAsDouble(l);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

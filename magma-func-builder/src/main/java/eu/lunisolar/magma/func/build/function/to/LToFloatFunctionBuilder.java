@@ -108,7 +108,7 @@ public final class LToFloatFunctionBuilder<T> extends PerCaseBuilderWithFloatPro
 		LToFloatFunction<T> retval;
 
 		final Case<LPredicate<T>, LToFloatFunction<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LToFloatFunction.l((T t) -> {
+		retval = LToFloatFunction.<T> l(t -> {
 			try {
 				for (Case<LPredicate<T>, LToFloatFunction<T>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(t)) {
@@ -117,10 +117,12 @@ public final class LToFloatFunctionBuilder<T> extends PerCaseBuilderWithFloatPro
 				}
 
 				return eventuallyFinal.doApplyAsFloat(t);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

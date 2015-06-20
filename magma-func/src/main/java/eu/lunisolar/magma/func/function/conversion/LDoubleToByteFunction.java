@@ -89,7 +89,7 @@ public interface LDoubleToByteFunction extends LDoubleToByteFunctionX<RuntimeExc
 	}
 
 	public static LDoubleToByteFunction constant(byte r) {
-		return (d) -> r;
+		return d -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -117,7 +117,7 @@ public interface LDoubleToByteFunction extends LDoubleToByteFunctionX<RuntimeExc
 	@Nonnull
 	default LDoubleToByteFunction fromDouble(@Nonnull final LDoubleUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final double v1) -> this.doApplyAsByte(before1.doApplyAsDouble(v1));
+		return v1 -> this.doApplyAsByte(before1.doApplyAsDouble(v1));
 	}
 
 	/**
@@ -126,7 +126,7 @@ public interface LDoubleToByteFunction extends LDoubleToByteFunctionX<RuntimeExc
 	@Nonnull
 	default <V1> LToByteFunction<V1> from(@Nonnull final LToDoubleFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doApplyAsByte(before1.doApplyAsDouble(v1));
+		return v1 -> this.doApplyAsByte(before1.doApplyAsDouble(v1));
 	}
 
 	// </editor-fold>
@@ -137,63 +137,63 @@ public interface LDoubleToByteFunction extends LDoubleToByteFunctionX<RuntimeExc
 	@Nonnull
 	default <V> LDoubleFunction<V> then(@Nonnull LByteFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (double d) -> after.doApply(this.doApplyAsByte(d));
+		return d -> after.doApply(this.doApplyAsByte(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToByteFunction thenToByte(@Nonnull LByteUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return (double d) -> after.doApplyAsByte(this.doApplyAsByte(d));
+		return d -> after.doApplyAsByte(this.doApplyAsByte(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToShortFunction thenToShort(@Nonnull LByteToShortFunction after) {
 		Null.nonNullArg(after, "after");
-		return (double d) -> after.doApplyAsShort(this.doApplyAsByte(d));
+		return d -> after.doApplyAsShort(this.doApplyAsByte(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToIntFunction thenToInt(@Nonnull LByteToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return (double d) -> after.doApplyAsInt(this.doApplyAsByte(d));
+		return d -> after.doApplyAsInt(this.doApplyAsByte(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToLongFunction thenToLong(@Nonnull LByteToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return (double d) -> after.doApplyAsLong(this.doApplyAsByte(d));
+		return d -> after.doApplyAsLong(this.doApplyAsByte(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToFloatFunction thenToFloat(@Nonnull LByteToFloatFunction after) {
 		Null.nonNullArg(after, "after");
-		return (double d) -> after.doApplyAsFloat(this.doApplyAsByte(d));
+		return d -> after.doApplyAsFloat(this.doApplyAsByte(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleUnaryOperator thenToDouble(@Nonnull LByteToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
-		return (double d) -> after.doApplyAsDouble(this.doApplyAsByte(d));
+		return d -> after.doApplyAsDouble(this.doApplyAsByte(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoubleToCharFunction thenToChar(@Nonnull LByteToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return (double d) -> after.doApplyAsChar(this.doApplyAsByte(d));
+		return d -> after.doApplyAsChar(this.doApplyAsByte(d));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LDoublePredicate thenToBoolean(@Nonnull LBytePredicate after) {
 		Null.nonNullArg(after, "after");
-		return (double d) -> after.doTest(this.doApplyAsByte(d));
+		return d -> after.doTest(this.doApplyAsByte(d));
 	}
 
 	// </editor-fold>

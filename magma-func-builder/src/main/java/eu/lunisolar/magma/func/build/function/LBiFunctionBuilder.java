@@ -108,7 +108,7 @@ public final class LBiFunctionBuilder<T1, T2, R> extends PerCaseBuilderWithProdu
 		LBiFunction<T1, T2, R> retval;
 
 		final Case<LBiPredicate<T1, T2>, LBiFunction<T1, T2, R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBiFunction.l((T1 t1, T2 t2) -> {
+		retval = LBiFunction.<T1, T2, R> l((T1 t1, T2 t2) -> {
 			try {
 				for (Case<LBiPredicate<T1, T2>, LBiFunction<T1, T2, R>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(t1, t2)) {
@@ -117,10 +117,12 @@ public final class LBiFunctionBuilder<T1, T2, R> extends PerCaseBuilderWithProdu
 				}
 
 				return eventuallyFinal.doApply(t1, t2);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

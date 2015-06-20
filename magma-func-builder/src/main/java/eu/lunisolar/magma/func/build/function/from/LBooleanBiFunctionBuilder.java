@@ -108,7 +108,7 @@ public final class LBooleanBiFunctionBuilder<R> extends PerCaseBuilderWithProduc
 		LBooleanBiFunction<R> retval;
 
 		final Case<LBooleanBinaryOperator, LBooleanBiFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBooleanBiFunction.l((boolean b1, boolean b2) -> {
+		retval = LBooleanBiFunction.<R> l((boolean b1, boolean b2) -> {
 			try {
 				for (Case<LBooleanBinaryOperator, LBooleanBiFunction<R>> aCase : casesArray) {
 					if (aCase.casePredicate().doApplyAsBoolean(b1, b2)) {
@@ -117,10 +117,12 @@ public final class LBooleanBiFunctionBuilder<R> extends PerCaseBuilderWithProduc
 				}
 
 				return eventuallyFinal.doApply(b1, b2);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

@@ -108,7 +108,7 @@ public final class LTernaryOperatorXBuilder<T, X extends Throwable> extends PerC
 		LTernaryOperatorX<T, X> retval;
 
 		final Case<LTriPredicateX<T, T, T, X>, LTernaryOperatorX<T, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LTernaryOperatorX.lX((T t1, T t2, T t3) -> {
+		retval = LTernaryOperatorX.<T, X> lX((T t1, T t2, T t3) -> {
 			try {
 				for (Case<LTriPredicateX<T, T, T, X>, LTernaryOperatorX<T, X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(t1, t2, t3)) {
@@ -117,10 +117,12 @@ public final class LTernaryOperatorXBuilder<T, X extends Throwable> extends PerC
 				}
 
 				return eventuallyFinal.doApply(t1, t2, t3);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

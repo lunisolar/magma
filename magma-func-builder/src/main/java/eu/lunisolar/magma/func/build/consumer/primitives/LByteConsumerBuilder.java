@@ -108,7 +108,7 @@ public final class LByteConsumerBuilder extends PerCaseBuilder.Base<LByteConsume
 		LByteConsumer retval;
 
 		final Case<LBytePredicate, LByteConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LByteConsumer.l((byte b) -> {
+		retval = LByteConsumer.l(b -> {
 			try {
 				for (Case<LBytePredicate, LByteConsumer> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(b)) {
@@ -118,10 +118,12 @@ public final class LByteConsumerBuilder extends PerCaseBuilder.Base<LByteConsume
 				}
 
 				eventuallyFinal.doAccept(b);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

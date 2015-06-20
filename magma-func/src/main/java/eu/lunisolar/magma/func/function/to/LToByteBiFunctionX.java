@@ -67,9 +67,9 @@ public interface LToByteBiFunctionX<T1, T2, X extends Throwable> extends MetaFun
 	default byte nestingDoApplyAsByte(T1 t1, T2 t2) {
 		try {
 			return this.doApplyAsByte(t1, t2);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -82,7 +82,7 @@ public interface LToByteBiFunctionX<T1, T2, X extends Throwable> extends MetaFun
 
 		try {
 			return this.doApplyAsByte(t1, t2);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

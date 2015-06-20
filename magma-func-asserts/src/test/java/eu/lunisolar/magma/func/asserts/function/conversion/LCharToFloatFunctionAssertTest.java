@@ -45,11 +45,11 @@ public class LCharToFloatFunctionAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LCharToFloatFunction function = LCharToFloatFunction.l((c) -> {
-            return testValue;
-    });
+    private LCharToFloatFunction function = LCharToFloatFunction.l(c ->
+            testValue
+    );
 
-    private LCharToFloatFunction functionThrowing = LCharToFloatFunction.l((c) -> {
+    private LCharToFloatFunction functionThrowing = LCharToFloatFunction.l(c -> {
         throw new UnsupportedOperationException();
     });
 

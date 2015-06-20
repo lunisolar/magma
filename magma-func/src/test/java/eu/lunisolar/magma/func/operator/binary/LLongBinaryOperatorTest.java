@@ -95,7 +95,7 @@ public class LLongBinaryOperatorTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApplyAsLong_unckeck() throws X {
+    public void testNestingDoApplyAsLongUnckeck() throws X {
 
         // then
         try {
@@ -110,7 +110,7 @@ public class LLongBinaryOperatorTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsLong_unckeck() throws X {
+    public void testShovingDoApplyAsLongUnckeck() throws X {
 
         // then
         try {
@@ -123,7 +123,6 @@ public class LLongBinaryOperatorTest<X extends ParseException> {
                     .hasMessage(ORIGINAL_MESSAGE);
         }
     }
-
 
 
     @Test
@@ -204,9 +203,8 @@ public class LLongBinaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LLongBinaryOperator wrapped = sutThrowing.handle(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LLongBinaryOperator wrapped = sutThrowing.handle(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -221,7 +219,7 @@ public class LLongBinaryOperatorTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
         LLongBinaryOperator sutThrowing = LLongBinaryOperator.l((long l1,long l2) -> {
@@ -245,7 +243,7 @@ public class LLongBinaryOperatorTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
         LLongBinaryOperator sutThrowing = LLongBinaryOperator.l((long l1,long l2) -> {
@@ -278,8 +276,7 @@ public class LLongBinaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LLongBinaryOperator wrapped = sutThrowing.handle(h -> {
-        });
+        LLongBinaryOperator wrapped = sutThrowing.handle(h -> Function4U.doNothing());
 
         // then
         try {

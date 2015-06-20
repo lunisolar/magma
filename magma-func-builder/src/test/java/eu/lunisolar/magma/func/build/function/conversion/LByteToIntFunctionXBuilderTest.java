@@ -61,7 +61,7 @@ public class LByteToIntFunctionXBuilderTest<X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LByteToIntFunctionX function = LByteToIntFunctionXBuilder.byteToIntFunctionX()
@@ -77,7 +77,7 @@ public class LByteToIntFunctionXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,11 +92,11 @@ public class LByteToIntFunctionXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LByteToIntFunctionX function = LByteToIntFunctionXBuilder.byteToIntFunctionX()
-                .eventually((b) -> {
+                .eventually(b -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -112,14 +112,14 @@ public class LByteToIntFunctionXBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LByteToIntFunctionX<ParseException> function = byteToIntFunctionX((LByteToIntFunctionX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((b) -> b == (byte)0)
-                             .evaluate((b) -> (int)0))
-            .inCase((b) -> b > 0 && b < 10).evaluate((b) -> (int)1)
-            .inCase((b) -> b > 10 && b < 20).evaluate((b) -> (int)2)
-            .eventually((b) -> (int)99)
+            .addCase(ce -> ce.of(b -> b == (byte)0)
+                             .evaluate(b -> (int)0))
+            .inCase(b -> b > 0 && b < 10).evaluate(b -> (int)1)
+            .inCase(b -> b > 10 && b < 20).evaluate(b -> (int)2)
+            .eventually(b -> (int)99)
             .build();
 
 

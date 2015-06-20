@@ -75,9 +75,9 @@ public interface LDoubleConsumerX<X extends Throwable> extends java.util.functio
 	default void nestingDoAccept(double d) {
 		try {
 			this.doAccept(d);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -90,7 +90,7 @@ public interface LDoubleConsumerX<X extends Throwable> extends java.util.functio
 
 		try {
 			this.doAccept(d);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -144,7 +144,7 @@ public interface LDoubleConsumerX<X extends Throwable> extends java.util.functio
 	@Nonnull
 	default LDoubleConsumerX<X> fromDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final double v1) -> this.doAccept(before1.doApplyAsDouble(v1));
+		return v1 -> this.doAccept(before1.doApplyAsDouble(v1));
 	}
 
 	/**
@@ -153,7 +153,7 @@ public interface LDoubleConsumerX<X extends Throwable> extends java.util.functio
 	@Nonnull
 	default <V1> LConsumerX<V1, X> from(@Nonnull final LToDoubleFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doAccept(before1.doApplyAsDouble(v1));
+		return v1 -> this.doAccept(before1.doApplyAsDouble(v1));
 	}
 
 	// </editor-fold>
@@ -164,7 +164,7 @@ public interface LDoubleConsumerX<X extends Throwable> extends java.util.functio
 	@Nonnull
 	default LDoubleConsumerX<X> andThen(@Nonnull LDoubleConsumerX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (double d) -> {
+		return d -> {
 			this.doAccept(d);
 			after.doAccept(d);
 		};
@@ -200,12 +200,12 @@ public interface LDoubleConsumerX<X extends Throwable> extends java.util.functio
 
 	@Nonnull
 	default LDoubleConsumer handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (double d) -> this.handlingDoAccept(d, handling);
+		return d -> this.handlingDoAccept(d, handling);
 	}
 
 	@Nonnull
 	default <Y extends Throwable> LDoubleConsumerX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (double d) -> this.handlingDoAccept(d, handling);
+		return d -> this.handlingDoAccept(d, handling);
 	}
 
 	// </editor-fold>

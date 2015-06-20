@@ -68,9 +68,9 @@ public interface LByteConsumerX<X extends Throwable> extends MetaConsumer, MetaI
 	default void nestingDoAccept(byte b) {
 		try {
 			this.doAccept(b);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -83,7 +83,7 @@ public interface LByteConsumerX<X extends Throwable> extends MetaConsumer, MetaI
 
 		try {
 			this.doAccept(b);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -131,7 +131,7 @@ public interface LByteConsumerX<X extends Throwable> extends MetaConsumer, MetaI
 	@Nonnull
 	default LByteConsumerX<X> fromByte(@Nonnull final LByteUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final byte v1) -> this.doAccept(before1.doApplyAsByte(v1));
+		return v1 -> this.doAccept(before1.doApplyAsByte(v1));
 	}
 
 	/**
@@ -140,7 +140,7 @@ public interface LByteConsumerX<X extends Throwable> extends MetaConsumer, MetaI
 	@Nonnull
 	default <V1> LConsumerX<V1, X> from(@Nonnull final LToByteFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doAccept(before1.doApplyAsByte(v1));
+		return v1 -> this.doAccept(before1.doApplyAsByte(v1));
 	}
 
 	// </editor-fold>
@@ -151,7 +151,7 @@ public interface LByteConsumerX<X extends Throwable> extends MetaConsumer, MetaI
 	@Nonnull
 	default LByteConsumerX<X> andThen(@Nonnull LByteConsumerX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (byte b) -> {
+		return b -> {
 			this.doAccept(b);
 			after.doAccept(b);
 		};
@@ -187,12 +187,12 @@ public interface LByteConsumerX<X extends Throwable> extends MetaConsumer, MetaI
 
 	@Nonnull
 	default LByteConsumer handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (byte b) -> this.handlingDoAccept(b, handling);
+		return b -> this.handlingDoAccept(b, handling);
 	}
 
 	@Nonnull
 	default <Y extends Throwable> LByteConsumerX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (byte b) -> this.handlingDoAccept(b, handling);
+		return b -> this.handlingDoAccept(b, handling);
 	}
 
 	// </editor-fold>

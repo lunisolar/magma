@@ -61,7 +61,7 @@ public class LByteToDoubleFunctionBuilderTest<X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LByteToDoubleFunction function = LByteToDoubleFunctionBuilder.byteToDoubleFunction()
@@ -77,7 +77,7 @@ public class LByteToDoubleFunctionBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,11 +92,11 @@ public class LByteToDoubleFunctionBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LByteToDoubleFunction function = LByteToDoubleFunctionBuilder.byteToDoubleFunction()
-                .eventually((b) -> {
+                .eventually(b -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -112,14 +112,14 @@ public class LByteToDoubleFunctionBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LByteToDoubleFunction function = byteToDoubleFunction((LByteToDoubleFunction f)-> doNothing())
-            .addCase(ce -> ce.of((b) -> b == (byte)0)
-                             .evaluate((b) -> (double)0))
-            .inCase((b) -> b > 0 && b < 10).evaluate((b) -> (double)1)
-            .inCase((b) -> b > 10 && b < 20).evaluate((b) -> (double)2)
-            .eventually((b) -> (double)99)
+            .addCase(ce -> ce.of(b -> b == (byte)0)
+                             .evaluate(b -> (double)0))
+            .inCase(b -> b > 0 && b < 10).evaluate(b -> (double)1)
+            .inCase(b -> b > 10 && b < 20).evaluate(b -> (double)2)
+            .eventually(b -> (double)99)
             .build();
 
 

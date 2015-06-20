@@ -74,9 +74,9 @@ public interface LLongUnaryOperatorX<X extends Throwable> extends java.util.func
 	default long nestingDoApplyAsLong(long l) {
 		try {
 			return this.doApplyAsLong(l);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -89,7 +89,7 @@ public interface LLongUnaryOperatorX<X extends Throwable> extends java.util.func
 
 		try {
 			return this.doApplyAsLong(l);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -111,7 +111,7 @@ public interface LLongUnaryOperatorX<X extends Throwable> extends java.util.func
 	}
 
 	public static <X extends Throwable> LLongUnaryOperatorX<X> constant(long r) {
-		return (l) -> r;
+		return l -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -152,7 +152,7 @@ public interface LLongUnaryOperatorX<X extends Throwable> extends java.util.func
 	@Nonnull
 	default LLongUnaryOperatorX<X> fromLong(@Nonnull final LLongUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final long v1) -> this.doApplyAsLong(before1.doApplyAsLong(v1));
+		return v1 -> this.doApplyAsLong(before1.doApplyAsLong(v1));
 	}
 
 	/**
@@ -161,7 +161,7 @@ public interface LLongUnaryOperatorX<X extends Throwable> extends java.util.func
 	@Nonnull
 	default <V1> LToLongFunctionX<V1, X> from(@Nonnull final LToLongFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doApplyAsLong(before1.doApplyAsLong(v1));
+		return v1 -> this.doApplyAsLong(before1.doApplyAsLong(v1));
 	}
 
 	// </editor-fold>
@@ -172,63 +172,63 @@ public interface LLongUnaryOperatorX<X extends Throwable> extends java.util.func
 	@Nonnull
 	default <V> LLongFunctionX<V, X> then(@Nonnull LLongFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (long l) -> after.doApply(this.doApplyAsLong(l));
+		return l -> after.doApply(this.doApplyAsLong(l));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LLongToByteFunctionX<X> thenToByte(@Nonnull LLongToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (long l) -> after.doApplyAsByte(this.doApplyAsLong(l));
+		return l -> after.doApplyAsByte(this.doApplyAsLong(l));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LLongToShortFunctionX<X> thenToShort(@Nonnull LLongToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (long l) -> after.doApplyAsShort(this.doApplyAsLong(l));
+		return l -> after.doApplyAsShort(this.doApplyAsLong(l));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LLongToIntFunctionX<X> thenToInt(@Nonnull LLongToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (long l) -> after.doApplyAsInt(this.doApplyAsLong(l));
+		return l -> after.doApplyAsInt(this.doApplyAsLong(l));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LLongUnaryOperatorX<X> thenToLong(@Nonnull LLongUnaryOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (long l) -> after.doApplyAsLong(this.doApplyAsLong(l));
+		return l -> after.doApplyAsLong(this.doApplyAsLong(l));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LLongToFloatFunctionX<X> thenToFloat(@Nonnull LLongToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (long l) -> after.doApplyAsFloat(this.doApplyAsLong(l));
+		return l -> after.doApplyAsFloat(this.doApplyAsLong(l));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LLongToDoubleFunctionX<X> thenToDouble(@Nonnull LLongToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (long l) -> after.doApplyAsDouble(this.doApplyAsLong(l));
+		return l -> after.doApplyAsDouble(this.doApplyAsLong(l));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LLongToCharFunctionX<X> thenToChar(@Nonnull LLongToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (long l) -> after.doApplyAsChar(this.doApplyAsLong(l));
+		return l -> after.doApplyAsChar(this.doApplyAsLong(l));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LLongPredicateX<X> thenToBoolean(@Nonnull LLongPredicateX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (long l) -> after.doTest(this.doApplyAsLong(l));
+		return l -> after.doTest(this.doApplyAsLong(l));
 	}
 
 	// </editor-fold>
@@ -268,12 +268,12 @@ public interface LLongUnaryOperatorX<X extends Throwable> extends java.util.func
 
 	@Nonnull
 	default LLongUnaryOperator handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (long l) -> this.handlingDoApplyAsLong(l, handling);
+		return l -> this.handlingDoApplyAsLong(l, handling);
 	}
 
 	@Nonnull
 	default <Y extends Throwable> LLongUnaryOperatorX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (long l) -> this.handlingDoApplyAsLong(l, handling);
+		return l -> this.handlingDoApplyAsLong(l, handling);
 	}
 
 	// </editor-fold>

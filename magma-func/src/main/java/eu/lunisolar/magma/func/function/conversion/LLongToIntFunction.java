@@ -96,7 +96,7 @@ public interface LLongToIntFunction extends LLongToIntFunctionX<RuntimeException
 	}
 
 	public static LLongToIntFunction constant(int r) {
-		return (l) -> r;
+		return l -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -130,7 +130,7 @@ public interface LLongToIntFunction extends LLongToIntFunctionX<RuntimeException
 	@Nonnull
 	default LLongToIntFunction fromLong(@Nonnull final LLongUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final long v1) -> this.doApplyAsInt(before1.doApplyAsLong(v1));
+		return v1 -> this.doApplyAsInt(before1.doApplyAsLong(v1));
 	}
 
 	/**
@@ -139,7 +139,7 @@ public interface LLongToIntFunction extends LLongToIntFunctionX<RuntimeException
 	@Nonnull
 	default <V1> LToIntFunction<V1> from(@Nonnull final LToLongFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doApplyAsInt(before1.doApplyAsLong(v1));
+		return v1 -> this.doApplyAsInt(before1.doApplyAsLong(v1));
 	}
 
 	// </editor-fold>
@@ -150,63 +150,63 @@ public interface LLongToIntFunction extends LLongToIntFunctionX<RuntimeException
 	@Nonnull
 	default <V> LLongFunction<V> then(@Nonnull LIntFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (long l) -> after.doApply(this.doApplyAsInt(l));
+		return l -> after.doApply(this.doApplyAsInt(l));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToByteFunction thenToByte(@Nonnull LIntToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return (long l) -> after.doApplyAsByte(this.doApplyAsInt(l));
+		return l -> after.doApplyAsByte(this.doApplyAsInt(l));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToShortFunction thenToShort(@Nonnull LIntToShortFunction after) {
 		Null.nonNullArg(after, "after");
-		return (long l) -> after.doApplyAsShort(this.doApplyAsInt(l));
+		return l -> after.doApplyAsShort(this.doApplyAsInt(l));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToIntFunction thenToInt(@Nonnull LIntUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return (long l) -> after.doApplyAsInt(this.doApplyAsInt(l));
+		return l -> after.doApplyAsInt(this.doApplyAsInt(l));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongUnaryOperator thenToLong(@Nonnull LIntToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return (long l) -> after.doApplyAsLong(this.doApplyAsInt(l));
+		return l -> after.doApplyAsLong(this.doApplyAsInt(l));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToFloatFunction thenToFloat(@Nonnull LIntToFloatFunction after) {
 		Null.nonNullArg(after, "after");
-		return (long l) -> after.doApplyAsFloat(this.doApplyAsInt(l));
+		return l -> after.doApplyAsFloat(this.doApplyAsInt(l));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToDoubleFunction thenToDouble(@Nonnull LIntToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
-		return (long l) -> after.doApplyAsDouble(this.doApplyAsInt(l));
+		return l -> after.doApplyAsDouble(this.doApplyAsInt(l));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongToCharFunction thenToChar(@Nonnull LIntToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return (long l) -> after.doApplyAsChar(this.doApplyAsInt(l));
+		return l -> after.doApplyAsChar(this.doApplyAsInt(l));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LLongPredicate thenToBoolean(@Nonnull LIntPredicate after) {
 		Null.nonNullArg(after, "after");
-		return (long l) -> after.doTest(this.doApplyAsInt(l));
+		return l -> after.doTest(this.doApplyAsInt(l));
 	}
 
 	// </editor-fold>

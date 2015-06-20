@@ -45,11 +45,11 @@ public class LShortPredicateAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LShortPredicate function = LShortPredicate.l((s) -> {
-            return testValue;
-    });
+    private LShortPredicate function = LShortPredicate.l(s ->
+            testValue
+    );
 
-    private LShortPredicate functionThrowing = LShortPredicate.l((s) -> {
+    private LShortPredicate functionThrowing = LShortPredicate.l(s -> {
         throw new UnsupportedOperationException();
     });
 

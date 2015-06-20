@@ -108,7 +108,7 @@ public final class LDoublePredicateXBuilder<X extends Throwable> extends PerCase
 		LDoublePredicateX<X> retval;
 
 		final Case<LDoublePredicateX<X>, LDoublePredicateX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LDoublePredicateX.lX((double d) -> {
+		retval = LDoublePredicateX.<X> lX(d -> {
 			try {
 				for (Case<LDoublePredicateX<X>, LDoublePredicateX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(d)) {
@@ -117,10 +117,12 @@ public final class LDoublePredicateXBuilder<X extends Throwable> extends PerCase
 				}
 
 				return eventuallyFinal.doTest(d);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

@@ -61,7 +61,7 @@ public class LFloatPredicateBuilderTest<X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LFloatPredicate function = LFloatPredicateBuilder.floatPredicate()
@@ -77,7 +77,7 @@ public class LFloatPredicateBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,11 +92,11 @@ public class LFloatPredicateBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LFloatPredicate function = LFloatPredicateBuilder.floatPredicate()
-                .eventually((f) -> {
+                .eventually(f -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -112,14 +112,14 @@ public class LFloatPredicateBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LFloatPredicate function = floatPredicate((LFloatPredicate f)-> doNothing())
-            .addCase(ce -> ce.of((f) -> f == (float)0)
-                             .evaluate((f) -> false))
-            .inCase((f) -> f > 0 && f < 10).evaluate((f) -> true)
-            .inCase((f) -> f > 10 && f < 20).evaluate((f) -> true)
-            .eventually((f) -> true)
+            .addCase(ce -> ce.of(f -> f == (float)0)
+                             .evaluate(f -> false))
+            .inCase(f -> f > 0 && f < 10).evaluate(f -> true)
+            .inCase(f -> f > 10 && f < 20).evaluate(f -> true)
+            .eventually(f -> true)
             .build();
 
 

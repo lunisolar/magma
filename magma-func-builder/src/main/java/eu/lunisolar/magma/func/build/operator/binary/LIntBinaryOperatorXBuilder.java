@@ -108,7 +108,7 @@ public final class LIntBinaryOperatorXBuilder<X extends Throwable> extends PerCa
 		LIntBinaryOperatorX<X> retval;
 
 		final Case<LBiIntPredicateX<X>, LIntBinaryOperatorX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LIntBinaryOperatorX.lX((int i1, int i2) -> {
+		retval = LIntBinaryOperatorX.<X> lX((int i1, int i2) -> {
 			try {
 				for (Case<LBiIntPredicateX<X>, LIntBinaryOperatorX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(i1, i2)) {
@@ -117,10 +117,12 @@ public final class LIntBinaryOperatorXBuilder<X extends Throwable> extends PerCa
 				}
 
 				return eventuallyFinal.doApplyAsInt(i1, i2);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

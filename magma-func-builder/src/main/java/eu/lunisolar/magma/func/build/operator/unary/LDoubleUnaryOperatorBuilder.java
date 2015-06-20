@@ -108,7 +108,7 @@ public final class LDoubleUnaryOperatorBuilder extends PerCaseBuilderWithDoubleP
 		LDoubleUnaryOperator retval;
 
 		final Case<LDoublePredicate, LDoubleUnaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LDoubleUnaryOperator.l((double d) -> {
+		retval = LDoubleUnaryOperator.l(d -> {
 			try {
 				for (Case<LDoublePredicate, LDoubleUnaryOperator> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(d)) {
@@ -117,10 +117,12 @@ public final class LDoubleUnaryOperatorBuilder extends PerCaseBuilderWithDoubleP
 				}
 
 				return eventuallyFinal.doApplyAsDouble(d);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

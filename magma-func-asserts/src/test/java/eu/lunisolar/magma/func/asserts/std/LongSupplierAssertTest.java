@@ -44,9 +44,9 @@ public class LongSupplierAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private java.util.function.LongSupplier function = (() -> {
-            return testValue;
-    });
+    private java.util.function.LongSupplier function = (() ->
+            testValue
+    );
 
     private java.util.function.LongSupplier functionThrowing = (() -> {
         throw new UnsupportedOperationException();
@@ -56,7 +56,7 @@ public class LongSupplierAssertTest<X extends Throwable> {
     public void testAssertPositive() throws ParseException {
 
         A.assertThat(function)
-         .doesGetAsLong(()->{})
+         .doesGetAsLong()
             .to(a -> a.isEqualTo(testValue));
 
     }
@@ -65,7 +65,7 @@ public class LongSupplierAssertTest<X extends Throwable> {
     public void testAssertNegative() throws ParseException {
 
         A.assertThat(function)
-         .doesGetAsLong(()->{})
+         .doesGetAsLong()
             .to( a -> a.isEqualTo(2));
 
     }
@@ -74,7 +74,7 @@ public class LongSupplierAssertTest<X extends Throwable> {
     public void testAssertThrowsUnexpected() throws ParseException {
 
         A.assertThat(functionThrowing)
-         .doesGetAsLong(()->{})
+         .doesGetAsLong()
             .to( a -> a.isEqualTo(1));
     }
 
@@ -82,7 +82,7 @@ public class LongSupplierAssertTest<X extends Throwable> {
     public void testAssertThrowsExpected() throws ParseException {
 
         A.assertThat(functionThrowing)
-         .doesGetAsLong(()->{}).withException(a -> a
+         .doesGetAsLong().withException(a -> a
                    .isExactlyInstanceOf(UnsupportedOperationException.class)
                    .hasMessage(null));
 
@@ -98,9 +98,9 @@ public class LongSupplierAssertTest<X extends Throwable> {
             recurringAssertsCalls.incrementAndGet();
             a.isEqualTo(testValue);
          })
-         .doesGetAsLong(()->{})
+         .doesGetAsLong()
             .to(a -> a.isEqualTo(testValue))
-         .doesGetAsLong(()->{})
+         .doesGetAsLong()
             .to(a -> a.isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);
@@ -118,9 +118,9 @@ public class LongSupplierAssertTest<X extends Throwable> {
                 a.isEqualTo(0);
             }
          })
-         .doesGetAsLong(()->{})
+         .doesGetAsLong()
             .to(a -> a.isEqualTo(testValue))
-         .doesGetAsLong(()->{})
+         .doesGetAsLong()
             .to(a -> a.isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);

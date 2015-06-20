@@ -108,7 +108,7 @@ public final class LBooleanToFloatFunctionBuilder extends PerCaseBuilderWithFloa
 		LBooleanToFloatFunction retval;
 
 		final Case<LBooleanUnaryOperator, LBooleanToFloatFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBooleanToFloatFunction.l((boolean b) -> {
+		retval = LBooleanToFloatFunction.l(b -> {
 			try {
 				for (Case<LBooleanUnaryOperator, LBooleanToFloatFunction> aCase : casesArray) {
 					if (aCase.casePredicate().doApplyAsBoolean(b)) {
@@ -117,10 +117,12 @@ public final class LBooleanToFloatFunctionBuilder extends PerCaseBuilderWithFloa
 				}
 
 				return eventuallyFinal.doApplyAsFloat(b);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

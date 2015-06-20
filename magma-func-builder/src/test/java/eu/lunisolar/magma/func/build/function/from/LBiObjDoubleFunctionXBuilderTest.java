@@ -61,7 +61,7 @@ public class LBiObjDoubleFunctionXBuilderTest<T1,T2,R,X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LBiObjDoubleFunctionX function = LBiObjDoubleFunctionXBuilder.biObjDoubleFunctionX()
@@ -77,7 +77,7 @@ public class LBiObjDoubleFunctionXBuilderTest<T1,T2,R,X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,7 +92,7 @@ public class LBiObjDoubleFunctionXBuilderTest<T1,T2,R,X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LBiObjDoubleFunctionX function = LBiObjDoubleFunctionXBuilder.biObjDoubleFunctionX()
@@ -112,7 +112,7 @@ public class LBiObjDoubleFunctionXBuilderTest<T1,T2,R,X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LBiObjDoubleFunctionX<Integer ,Integer ,Integer ,ParseException> function = biObjDoubleFunctionX((LBiObjDoubleFunctionX<Integer ,Integer ,Integer ,ParseException> f)-> doNothing())
             .addCase(ce -> ce.of((t1,t2, d) -> t1 == Integer.valueOf(0))

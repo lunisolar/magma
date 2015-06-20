@@ -108,7 +108,7 @@ public final class LLongToFloatFunctionXBuilder<X extends Throwable> extends Per
 		LLongToFloatFunctionX<X> retval;
 
 		final Case<LLongPredicateX<X>, LLongToFloatFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LLongToFloatFunctionX.lX((long l) -> {
+		retval = LLongToFloatFunctionX.<X> lX(l -> {
 			try {
 				for (Case<LLongPredicateX<X>, LLongToFloatFunctionX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(l)) {
@@ -117,10 +117,12 @@ public final class LLongToFloatFunctionXBuilder<X extends Throwable> extends Per
 				}
 
 				return eventuallyFinal.doApplyAsFloat(l);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

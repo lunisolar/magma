@@ -71,15 +71,45 @@ public class LLongConsumerTest<X extends ParseException> {
     };
 
 
-    private java.util.function.LongConsumer jre = (long l) -> Function4U.doNothing();
+    private java.util.function.LongConsumer jre = l -> Function4U.doNothing();
 
 
 
-    private LLongConsumer sutAlwaysThrowingUnckeck = LLongConsumer.l((long l) -> {
+    private LLongConsumer sutAlwaysThrowingUnckeck = LLongConsumer.l(l -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
 
+
+    @Test
+    public void testNestingDoAcceptUnckeck() throws X {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.nestingDoAccept((long)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoAcceptUnckeck() throws X {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.shovingDoAccept((long)100);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
 
 
     @Test
@@ -90,7 +120,7 @@ public class LLongConsumerTest<X extends ParseException> {
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LLongConsumer.l((long l) -> Function4U.doNothing() ))
+        assertThat(LLongConsumer.l(l -> Function4U.doNothing() ))
             .isInstanceOf(LLongConsumer.class);
     }
 
@@ -109,7 +139,7 @@ public class LLongConsumerTest<X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LLongConsumerX<X> sutThrowing = LLongConsumerX.lX((long l) -> {
+        LLongConsumerX<X> sutThrowing = LLongConsumerX.lX(l -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -131,7 +161,7 @@ public class LLongConsumerTest<X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LLongConsumerX<ParseException> sutThrowing = LLongConsumerX.lX((long l) -> {
+        LLongConsumerX<ParseException> sutThrowing = LLongConsumerX.lX(l -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -155,14 +185,13 @@ public class LLongConsumerTest<X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LLongConsumer sutThrowing = LLongConsumer.l((long l) -> {
+        LLongConsumer sutThrowing = LLongConsumer.l(l -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        LLongConsumer wrapped = sutThrowing.handle(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LLongConsumer wrapped = sutThrowing.handle(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -177,10 +206,10 @@ public class LLongConsumerTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LLongConsumer sutThrowing = LLongConsumer.l((long l) -> {
+        LLongConsumer sutThrowing = LLongConsumer.l(l -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -201,10 +230,10 @@ public class LLongConsumerTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LLongConsumer sutThrowing = LLongConsumer.l((long l) -> {
+        LLongConsumer sutThrowing = LLongConsumer.l(l -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -229,13 +258,12 @@ public class LLongConsumerTest<X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LLongConsumer sutThrowing = LLongConsumer.l((long l) -> {
+        LLongConsumer sutThrowing = LLongConsumer.l(l -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
         // when
-        LLongConsumer wrapped = sutThrowing.handle(h -> {
-        });
+        LLongConsumer wrapped = sutThrowing.handle(h -> Function4U.doNothing());
 
         // then
         try {
@@ -260,7 +288,7 @@ public class LLongConsumerTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LLongConsumer sutO = (long l) -> {
+        LLongConsumer sutO = l -> {
                 mainFunctionCalled.set(true);
                 assertThat(l).isEqualTo((long)90);
         };
@@ -288,7 +316,7 @@ public class LLongConsumerTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LLongConsumer sutO = (long l) -> {
+        LLongConsumer sutO = l -> {
                 mainFunctionCalled.set(true);
                 assertThat(l).isEqualTo((long)90);
         };
@@ -317,7 +345,7 @@ public class LLongConsumerTest<X extends ParseException> {
         final ThreadLocal<Boolean> thenFunctionCalled = ThreadLocal.withInitial(()-> false);
 
          //given (+ some assertions)
-        LLongConsumer sutO = (long l) -> {
+        LLongConsumer sutO = l -> {
                 mainFunctionCalled.set(true);
                 assertThat(l).isEqualTo((long)80);
         };
@@ -369,7 +397,7 @@ public class LLongConsumerTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LLongConsumer sutThrowing = LLongConsumer.l((long l) -> {
+        LLongConsumer sutThrowing = LLongConsumer.l(l -> {
             throw new UnsupportedOperationException();
         });
 
@@ -381,7 +409,7 @@ public class LLongConsumerTest<X extends ParseException> {
     public void testHandle() throws X {
 
         // given
-        LLongConsumer sutThrowing = LLongConsumer.l((long l) -> {
+        LLongConsumer sutThrowing = LLongConsumer.l(l -> {
             throw new UnsupportedOperationException();
         });
 

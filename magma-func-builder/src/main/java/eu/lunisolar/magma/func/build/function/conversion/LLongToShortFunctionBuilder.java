@@ -108,7 +108,7 @@ public final class LLongToShortFunctionBuilder extends PerCaseBuilderWithShortPr
 		LLongToShortFunction retval;
 
 		final Case<LLongPredicate, LLongToShortFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LLongToShortFunction.l((long l) -> {
+		retval = LLongToShortFunction.l(l -> {
 			try {
 				for (Case<LLongPredicate, LLongToShortFunction> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(l)) {
@@ -117,10 +117,12 @@ public final class LLongToShortFunctionBuilder extends PerCaseBuilderWithShortPr
 				}
 
 				return eventuallyFinal.doApplyAsShort(l);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

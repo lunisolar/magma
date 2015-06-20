@@ -61,7 +61,7 @@ public class LToIntBiFunctionBuilderTest<T1,T2,X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LToIntBiFunction function = LToIntBiFunctionBuilder.toIntBiFunction()
@@ -77,7 +77,7 @@ public class LToIntBiFunctionBuilderTest<T1,T2,X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,7 +92,7 @@ public class LToIntBiFunctionBuilderTest<T1,T2,X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LToIntBiFunction function = LToIntBiFunctionBuilder.toIntBiFunction()
@@ -112,7 +112,7 @@ public class LToIntBiFunctionBuilderTest<T1,T2,X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LToIntBiFunction<Integer ,Integer > function = toIntBiFunction((LToIntBiFunction<Integer ,Integer > f)-> doNothing())
             .addCase(ce -> ce.of((t1,t2) -> t1 == Integer.valueOf(0))

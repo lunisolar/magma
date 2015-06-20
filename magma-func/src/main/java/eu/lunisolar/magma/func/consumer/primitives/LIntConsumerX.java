@@ -75,9 +75,9 @@ public interface LIntConsumerX<X extends Throwable> extends java.util.function.I
 	default void nestingDoAccept(int i) {
 		try {
 			this.doAccept(i);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -90,7 +90,7 @@ public interface LIntConsumerX<X extends Throwable> extends java.util.function.I
 
 		try {
 			this.doAccept(i);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -144,7 +144,7 @@ public interface LIntConsumerX<X extends Throwable> extends java.util.function.I
 	@Nonnull
 	default LIntConsumerX<X> fromInt(@Nonnull final LIntUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final int v1) -> this.doAccept(before1.doApplyAsInt(v1));
+		return v1 -> this.doAccept(before1.doApplyAsInt(v1));
 	}
 
 	/**
@@ -153,7 +153,7 @@ public interface LIntConsumerX<X extends Throwable> extends java.util.function.I
 	@Nonnull
 	default <V1> LConsumerX<V1, X> from(@Nonnull final LToIntFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doAccept(before1.doApplyAsInt(v1));
+		return v1 -> this.doAccept(before1.doApplyAsInt(v1));
 	}
 
 	// </editor-fold>
@@ -164,7 +164,7 @@ public interface LIntConsumerX<X extends Throwable> extends java.util.function.I
 	@Nonnull
 	default LIntConsumerX<X> andThen(@Nonnull LIntConsumerX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (int i) -> {
+		return i -> {
 			this.doAccept(i);
 			after.doAccept(i);
 		};
@@ -200,12 +200,12 @@ public interface LIntConsumerX<X extends Throwable> extends java.util.function.I
 
 	@Nonnull
 	default LIntConsumer handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (int i) -> this.handlingDoAccept(i, handling);
+		return i -> this.handlingDoAccept(i, handling);
 	}
 
 	@Nonnull
 	default <Y extends Throwable> LIntConsumerX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (int i) -> this.handlingDoAccept(i, handling);
+		return i -> this.handlingDoAccept(i, handling);
 	}
 
 	// </editor-fold>

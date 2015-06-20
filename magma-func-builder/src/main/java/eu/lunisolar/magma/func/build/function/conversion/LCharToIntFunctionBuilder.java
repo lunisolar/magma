@@ -108,7 +108,7 @@ public final class LCharToIntFunctionBuilder extends PerCaseBuilderWithIntProduc
 		LCharToIntFunction retval;
 
 		final Case<LCharPredicate, LCharToIntFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LCharToIntFunction.l((char c) -> {
+		retval = LCharToIntFunction.l(c -> {
 			try {
 				for (Case<LCharPredicate, LCharToIntFunction> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(c)) {
@@ -117,10 +117,12 @@ public final class LCharToIntFunctionBuilder extends PerCaseBuilderWithIntProduc
 				}
 
 				return eventuallyFinal.doApplyAsInt(c);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

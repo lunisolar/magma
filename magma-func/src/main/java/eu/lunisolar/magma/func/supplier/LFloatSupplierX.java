@@ -67,9 +67,9 @@ public interface LFloatSupplierX<X extends Throwable> extends MetaSupplier, Prim
 	default float nestingDoGetAsFloat() {
 		try {
 			return this.doGetAsFloat();
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -82,7 +82,7 @@ public interface LFloatSupplierX<X extends Throwable> extends MetaSupplier, Prim
 
 		try {
 			return this.doGetAsFloat();
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

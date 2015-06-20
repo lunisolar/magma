@@ -107,7 +107,7 @@ public final class BiConsumerBuilder<T1, T2> extends PerCaseBuilder.Base<BiConsu
 		java.util.function.BiConsumer<T1, T2> retval;
 
 		final Case<LBiPredicate<T1, T2>, java.util.function.BiConsumer<T1, T2>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.l((T1 t1, T2 t2) -> {
+		retval = Function4U.<T1, T2> biConsumer((T1 t1, T2 t2) -> {
 			try {
 				for (Case<LBiPredicate<T1, T2>, java.util.function.BiConsumer<T1, T2>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(t1, t2)) {
@@ -117,10 +117,12 @@ public final class BiConsumerBuilder<T1, T2> extends PerCaseBuilder.Base<BiConsu
 				}
 
 				eventuallyFinal.accept(t1, t2);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

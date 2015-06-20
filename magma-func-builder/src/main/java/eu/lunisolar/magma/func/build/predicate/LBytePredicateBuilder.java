@@ -108,7 +108,7 @@ public final class LBytePredicateBuilder extends PerCaseBuilderWithBooleanProduc
 		LBytePredicate retval;
 
 		final Case<LBytePredicate, LBytePredicate>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBytePredicate.l((byte b) -> {
+		retval = LBytePredicate.l(b -> {
 			try {
 				for (Case<LBytePredicate, LBytePredicate> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(b)) {
@@ -117,10 +117,12 @@ public final class LBytePredicateBuilder extends PerCaseBuilderWithBooleanProduc
 				}
 
 				return eventuallyFinal.doTest(b);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

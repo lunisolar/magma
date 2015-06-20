@@ -108,7 +108,7 @@ public final class LDoubleConsumerXBuilder<X extends Throwable> extends PerCaseB
 		LDoubleConsumerX<X> retval;
 
 		final Case<LDoublePredicateX<X>, LDoubleConsumerX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LDoubleConsumerX.lX((double d) -> {
+		retval = LDoubleConsumerX.<X> lX(d -> {
 			try {
 				for (Case<LDoublePredicateX<X>, LDoubleConsumerX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(d)) {
@@ -118,10 +118,12 @@ public final class LDoubleConsumerXBuilder<X extends Throwable> extends PerCaseB
 				}
 
 				eventuallyFinal.doAccept(d);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

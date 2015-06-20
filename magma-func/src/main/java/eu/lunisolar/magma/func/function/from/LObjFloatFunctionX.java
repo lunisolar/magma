@@ -68,9 +68,9 @@ public interface LObjFloatFunctionX<T, R, X extends Throwable> extends MetaFunct
 	default R nestingDoApply(T t, float f) {
 		try {
 			return this.doApply(t, f);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -83,7 +83,7 @@ public interface LObjFloatFunctionX<T, R, X extends Throwable> extends MetaFunct
 
 		try {
 			return this.doApply(t, f);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

@@ -108,7 +108,7 @@ public final class LByteToShortFunctionBuilder extends PerCaseBuilderWithShortPr
 		LByteToShortFunction retval;
 
 		final Case<LBytePredicate, LByteToShortFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LByteToShortFunction.l((byte b) -> {
+		retval = LByteToShortFunction.l(b -> {
 			try {
 				for (Case<LBytePredicate, LByteToShortFunction> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(b)) {
@@ -117,10 +117,12 @@ public final class LByteToShortFunctionBuilder extends PerCaseBuilderWithShortPr
 				}
 
 				return eventuallyFinal.doApplyAsShort(b);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

@@ -108,7 +108,7 @@ public final class LIntUnaryOperatorXBuilder<X extends Throwable> extends PerCas
 		LIntUnaryOperatorX<X> retval;
 
 		final Case<LIntPredicateX<X>, LIntUnaryOperatorX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LIntUnaryOperatorX.lX((int i) -> {
+		retval = LIntUnaryOperatorX.<X> lX(i -> {
 			try {
 				for (Case<LIntPredicateX<X>, LIntUnaryOperatorX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(i)) {
@@ -117,10 +117,12 @@ public final class LIntUnaryOperatorXBuilder<X extends Throwable> extends PerCas
 				}
 
 				return eventuallyFinal.doApplyAsInt(i);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

@@ -108,7 +108,7 @@ public final class LFloatConsumerXBuilder<X extends Throwable> extends PerCaseBu
 		LFloatConsumerX<X> retval;
 
 		final Case<LFloatPredicateX<X>, LFloatConsumerX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LFloatConsumerX.lX((float f) -> {
+		retval = LFloatConsumerX.<X> lX(f -> {
 			try {
 				for (Case<LFloatPredicateX<X>, LFloatConsumerX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(f)) {
@@ -118,10 +118,12 @@ public final class LFloatConsumerXBuilder<X extends Throwable> extends PerCaseBu
 				}
 
 				eventuallyFinal.doAccept(f);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

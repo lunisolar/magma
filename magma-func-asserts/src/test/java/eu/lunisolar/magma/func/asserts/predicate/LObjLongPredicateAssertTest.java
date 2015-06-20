@@ -45,9 +45,9 @@ public class LObjLongPredicateAssertTest<T,X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LObjLongPredicate<Integer > function = LObjLongPredicate.l((t, l) -> {
-            return testValue;
-    });
+    private LObjLongPredicate<Integer > function = LObjLongPredicate.l((t, l) ->
+            testValue
+    );
 
     private LObjLongPredicate<Integer > functionThrowing = LObjLongPredicate.l((t, l) -> {
         throw new UnsupportedOperationException();

@@ -46,9 +46,9 @@ public class LActionAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LAction function = LAction.l(() -> {
-            externalEffect.set(testValue);
-    });
+    private LAction function = LAction.l(() ->
+            externalEffect.set(testValue)
+    );
 
     private LAction functionThrowing = LAction.l(() -> {
         throw new UnsupportedOperationException();
@@ -58,7 +58,7 @@ public class LActionAssertTest<X extends Throwable> {
     public void testAssertPositive() throws ParseException {
 
         A.assertThat(function)
-         .doesExecute(()->{})
+         .doesExecute()
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(testValue));
 
     }
@@ -67,7 +67,7 @@ public class LActionAssertTest<X extends Throwable> {
     public void testAssertNegative() throws ParseException {
 
         A.assertThat(function)
-         .doesExecute(()->{})
+         .doesExecute()
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(2));
 
     }
@@ -76,7 +76,7 @@ public class LActionAssertTest<X extends Throwable> {
     public void testAssertThrowsUnexpected() throws ParseException {
 
         A.assertThat(functionThrowing)
-         .doesExecute(()->{})
+         .doesExecute()
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(1));
     }
 
@@ -84,7 +84,7 @@ public class LActionAssertTest<X extends Throwable> {
     public void testAssertThrowsExpected() throws ParseException {
 
         A.assertThat(functionThrowing)
-         .doesExecute(()->{}).withException(a -> a
+         .doesExecute().withException(a -> a
                    .isExactlyInstanceOf(UnsupportedOperationException.class)
                    .hasMessage(null));
 
@@ -100,9 +100,9 @@ public class LActionAssertTest<X extends Throwable> {
             recurringAssertsCalls.incrementAndGet();
             assertThat(externalEffect.get()).isEqualTo(testValue);
          })
-         .doesExecute(()->{})
+         .doesExecute()
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(testValue))
-         .doesExecute(()->{})
+         .doesExecute()
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);
@@ -120,9 +120,9 @@ public class LActionAssertTest<X extends Throwable> {
                 assertThat(externalEffect.get()).isEqualTo(0);
             }
          })
-         .doesExecute(()->{})
+         .doesExecute()
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(testValue))
-         .doesExecute(()->{})
+         .doesExecute()
             .soThat(()->assertThat(externalEffect.get()).isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);

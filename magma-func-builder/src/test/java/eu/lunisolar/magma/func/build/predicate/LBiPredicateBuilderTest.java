@@ -61,7 +61,7 @@ public class LBiPredicateBuilderTest<T1,T2,X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LBiPredicate function = LBiPredicateBuilder.biPredicate()
@@ -77,7 +77,7 @@ public class LBiPredicateBuilderTest<T1,T2,X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,7 +92,7 @@ public class LBiPredicateBuilderTest<T1,T2,X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LBiPredicate function = LBiPredicateBuilder.biPredicate()
@@ -112,7 +112,7 @@ public class LBiPredicateBuilderTest<T1,T2,X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LBiPredicate<Integer ,Integer > function = biPredicate((LBiPredicate<Integer ,Integer > f)-> doNothing())
             .addCase(ce -> ce.of((t1,t2) -> t1 == Integer.valueOf(0))

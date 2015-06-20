@@ -74,9 +74,9 @@ public interface LDoubleSupplierX<X extends Throwable> extends java.util.functio
 	default double nestingDoGetAsDouble() {
 		try {
 			return this.doGetAsDouble();
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -89,7 +89,7 @@ public interface LDoubleSupplierX<X extends Throwable> extends java.util.functio
 
 		try {
 			return this.doGetAsDouble();
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

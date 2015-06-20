@@ -95,7 +95,7 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 	}
 
 	public static LCharPredicate constant(boolean r) {
-		return (c) -> r;
+		return c -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -121,7 +121,7 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 	 */
 	@Nonnull
 	default LCharPredicate negate() {
-		return (char c) -> !doTest(c);
+		return c -> !doTest(c);
 	}
 
 	/**
@@ -130,7 +130,7 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 	@Nonnull
 	default LCharPredicate and(@Nonnull LCharPredicate other) {
 		Null.nonNullArg(other, "other");
-		return (char c) -> doTest(c) && other.doTest(c);
+		return c -> doTest(c) && other.doTest(c);
 	}
 
 	/**
@@ -139,7 +139,7 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 	@Nonnull
 	default LCharPredicate or(@Nonnull LCharPredicate other) {
 		Null.nonNullArg(other, "other");
-		return (char c) -> doTest(c) || other.doTest(c);
+		return c -> doTest(c) || other.doTest(c);
 	}
 
 	/**
@@ -148,7 +148,7 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 	@Nonnull
 	default LCharPredicate xor(@Nonnull LCharPredicate other) {
 		Null.nonNullArg(other, "other");
-		return (char c) -> doTest(c) ^ other.doTest(c);
+		return c -> doTest(c) ^ other.doTest(c);
 	}
 
 	@Nonnull
@@ -166,7 +166,7 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 	@Nonnull
 	default LCharPredicate fromChar(@Nonnull final LCharUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final char v1) -> this.doTest(before1.doApplyAsChar(v1));
+		return v1 -> this.doTest(before1.doApplyAsChar(v1));
 	}
 
 	/**
@@ -175,7 +175,7 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 	@Nonnull
 	default <V1> LPredicate<V1> from(@Nonnull final LToCharFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doTest(before1.doApplyAsChar(v1));
+		return v1 -> this.doTest(before1.doApplyAsChar(v1));
 	}
 
 	// </editor-fold>
@@ -186,63 +186,63 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 	@Nonnull
 	default <V> LCharFunction<V> then(@Nonnull LBooleanFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (char c) -> after.doApply(this.doTest(c));
+		return c -> after.doApply(this.doTest(c));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LCharToByteFunction thenToByte(@Nonnull LBooleanToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return (char c) -> after.doApplyAsByte(this.doTest(c));
+		return c -> after.doApplyAsByte(this.doTest(c));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LCharToShortFunction thenToShort(@Nonnull LBooleanToShortFunction after) {
 		Null.nonNullArg(after, "after");
-		return (char c) -> after.doApplyAsShort(this.doTest(c));
+		return c -> after.doApplyAsShort(this.doTest(c));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LCharToIntFunction thenToInt(@Nonnull LBooleanToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return (char c) -> after.doApplyAsInt(this.doTest(c));
+		return c -> after.doApplyAsInt(this.doTest(c));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LCharToLongFunction thenToLong(@Nonnull LBooleanToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return (char c) -> after.doApplyAsLong(this.doTest(c));
+		return c -> after.doApplyAsLong(this.doTest(c));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LCharToFloatFunction thenToFloat(@Nonnull LBooleanToFloatFunction after) {
 		Null.nonNullArg(after, "after");
-		return (char c) -> after.doApplyAsFloat(this.doTest(c));
+		return c -> after.doApplyAsFloat(this.doTest(c));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LCharToDoubleFunction thenToDouble(@Nonnull LBooleanToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
-		return (char c) -> after.doApplyAsDouble(this.doTest(c));
+		return c -> after.doApplyAsDouble(this.doTest(c));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LCharUnaryOperator thenToChar(@Nonnull LBooleanToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return (char c) -> after.doApplyAsChar(this.doTest(c));
+		return c -> after.doApplyAsChar(this.doTest(c));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LCharPredicate thenToBoolean(@Nonnull LBooleanUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return (char c) -> after.doApplyAsBoolean(this.doTest(c));
+		return c -> after.doApplyAsBoolean(this.doTest(c));
 	}
 
 	// </editor-fold>

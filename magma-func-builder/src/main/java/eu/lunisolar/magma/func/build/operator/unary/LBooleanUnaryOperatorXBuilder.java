@@ -108,7 +108,7 @@ public final class LBooleanUnaryOperatorXBuilder<X extends Throwable> extends Pe
 		LBooleanUnaryOperatorX<X> retval;
 
 		final Case<LBooleanUnaryOperatorX<X>, LBooleanUnaryOperatorX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBooleanUnaryOperatorX.lX((boolean b) -> {
+		retval = LBooleanUnaryOperatorX.<X> lX(b -> {
 			try {
 				for (Case<LBooleanUnaryOperatorX<X>, LBooleanUnaryOperatorX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doApplyAsBoolean(b)) {
@@ -117,10 +117,12 @@ public final class LBooleanUnaryOperatorXBuilder<X extends Throwable> extends Pe
 				}
 
 				return eventuallyFinal.doApplyAsBoolean(b);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

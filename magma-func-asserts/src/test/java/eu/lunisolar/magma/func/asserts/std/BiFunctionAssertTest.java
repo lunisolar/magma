@@ -44,9 +44,9 @@ public class BiFunctionAssertTest<T1,T2,R,X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private java.util.function.BiFunction<Integer ,Integer ,Integer > function = ((t1,t2) -> {
-            return (Integer ) testValue;
-    });
+    private java.util.function.BiFunction<Integer ,Integer ,Integer > function = ((t1,t2) ->
+            (Integer ) testValue
+    );
 
     private java.util.function.BiFunction<Integer ,Integer ,Integer > functionThrowing = ((t1,t2) -> {
         throw new UnsupportedOperationException();

@@ -68,9 +68,9 @@ public interface LShortBiFunctionX<R, X extends Throwable> extends MetaFunction,
 	default R nestingDoApply(short s1, short s2) {
 		try {
 			return this.doApply(s1, s2);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -83,7 +83,7 @@ public interface LShortBiFunctionX<R, X extends Throwable> extends MetaFunction,
 
 		try {
 			return this.doApply(s1, s2);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

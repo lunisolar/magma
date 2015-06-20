@@ -45,11 +45,11 @@ public class LCharUnaryOperatorAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LCharUnaryOperator function = LCharUnaryOperator.l((c) -> {
-            return testValue;
-    });
+    private LCharUnaryOperator function = LCharUnaryOperator.l(c ->
+            testValue
+    );
 
-    private LCharUnaryOperator functionThrowing = LCharUnaryOperator.l((c) -> {
+    private LCharUnaryOperator functionThrowing = LCharUnaryOperator.l(c -> {
         throw new UnsupportedOperationException();
     });
 

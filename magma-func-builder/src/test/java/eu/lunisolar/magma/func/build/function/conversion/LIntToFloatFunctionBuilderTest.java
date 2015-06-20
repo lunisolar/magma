@@ -61,7 +61,7 @@ public class LIntToFloatFunctionBuilderTest<X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LIntToFloatFunction function = LIntToFloatFunctionBuilder.intToFloatFunction()
@@ -77,7 +77,7 @@ public class LIntToFloatFunctionBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,11 +92,11 @@ public class LIntToFloatFunctionBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LIntToFloatFunction function = LIntToFloatFunctionBuilder.intToFloatFunction()
-                .eventually((i) -> {
+                .eventually(i -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -112,14 +112,14 @@ public class LIntToFloatFunctionBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LIntToFloatFunction function = intToFloatFunction((LIntToFloatFunction f)-> doNothing())
-            .addCase(ce -> ce.of((i) -> i == (int)0)
-                             .evaluate((i) -> (float)0))
-            .inCase((i) -> i > 0 && i < 10).evaluate((i) -> (float)1)
-            .inCase((i) -> i > 10 && i < 20).evaluate((i) -> (float)2)
-            .eventually((i) -> (float)99)
+            .addCase(ce -> ce.of(i -> i == (int)0)
+                             .evaluate(i -> (float)0))
+            .inCase(i -> i > 0 && i < 10).evaluate(i -> (float)1)
+            .inCase(i -> i > 10 && i < 20).evaluate(i -> (float)2)
+            .eventually(i -> (float)99)
             .build();
 
 

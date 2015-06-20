@@ -67,9 +67,9 @@ public interface LCharToByteFunctionX<X extends Throwable> extends MetaFunction,
 	default byte nestingDoApplyAsByte(char c) {
 		try {
 			return this.doApplyAsByte(c);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -82,7 +82,7 @@ public interface LCharToByteFunctionX<X extends Throwable> extends MetaFunction,
 
 		try {
 			return this.doApplyAsByte(c);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -104,7 +104,7 @@ public interface LCharToByteFunctionX<X extends Throwable> extends MetaFunction,
 	}
 
 	public static <X extends Throwable> LCharToByteFunctionX<X> constant(byte r) {
-		return (c) -> r;
+		return c -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -139,7 +139,7 @@ public interface LCharToByteFunctionX<X extends Throwable> extends MetaFunction,
 	@Nonnull
 	default LCharToByteFunctionX<X> fromChar(@Nonnull final LCharUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final char v1) -> this.doApplyAsByte(before1.doApplyAsChar(v1));
+		return v1 -> this.doApplyAsByte(before1.doApplyAsChar(v1));
 	}
 
 	/**
@@ -148,7 +148,7 @@ public interface LCharToByteFunctionX<X extends Throwable> extends MetaFunction,
 	@Nonnull
 	default <V1> LToByteFunctionX<V1, X> from(@Nonnull final LToCharFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doApplyAsByte(before1.doApplyAsChar(v1));
+		return v1 -> this.doApplyAsByte(before1.doApplyAsChar(v1));
 	}
 
 	// </editor-fold>
@@ -159,63 +159,63 @@ public interface LCharToByteFunctionX<X extends Throwable> extends MetaFunction,
 	@Nonnull
 	default <V> LCharFunctionX<V, X> then(@Nonnull LByteFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (char c) -> after.doApply(this.doApplyAsByte(c));
+		return c -> after.doApply(this.doApplyAsByte(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToByteFunctionX<X> thenToByte(@Nonnull LByteUnaryOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (char c) -> after.doApplyAsByte(this.doApplyAsByte(c));
+		return c -> after.doApplyAsByte(this.doApplyAsByte(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToShortFunctionX<X> thenToShort(@Nonnull LByteToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (char c) -> after.doApplyAsShort(this.doApplyAsByte(c));
+		return c -> after.doApplyAsShort(this.doApplyAsByte(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToIntFunctionX<X> thenToInt(@Nonnull LByteToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (char c) -> after.doApplyAsInt(this.doApplyAsByte(c));
+		return c -> after.doApplyAsInt(this.doApplyAsByte(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToLongFunctionX<X> thenToLong(@Nonnull LByteToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (char c) -> after.doApplyAsLong(this.doApplyAsByte(c));
+		return c -> after.doApplyAsLong(this.doApplyAsByte(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToFloatFunctionX<X> thenToFloat(@Nonnull LByteToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (char c) -> after.doApplyAsFloat(this.doApplyAsByte(c));
+		return c -> after.doApplyAsFloat(this.doApplyAsByte(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharToDoubleFunctionX<X> thenToDouble(@Nonnull LByteToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (char c) -> after.doApplyAsDouble(this.doApplyAsByte(c));
+		return c -> after.doApplyAsDouble(this.doApplyAsByte(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharUnaryOperatorX<X> thenToChar(@Nonnull LByteToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (char c) -> after.doApplyAsChar(this.doApplyAsByte(c));
+		return c -> after.doApplyAsChar(this.doApplyAsByte(c));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LCharPredicateX<X> thenToBoolean(@Nonnull LBytePredicateX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (char c) -> after.doTest(this.doApplyAsByte(c));
+		return c -> after.doTest(this.doApplyAsByte(c));
 	}
 
 	// </editor-fold>
@@ -249,12 +249,12 @@ public interface LCharToByteFunctionX<X extends Throwable> extends MetaFunction,
 
 	@Nonnull
 	default LCharToByteFunction handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (char c) -> this.handlingDoApplyAsByte(c, handling);
+		return c -> this.handlingDoApplyAsByte(c, handling);
 	}
 
 	@Nonnull
 	default <Y extends Throwable> LCharToByteFunctionX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (char c) -> this.handlingDoApplyAsByte(c, handling);
+		return c -> this.handlingDoApplyAsByte(c, handling);
 	}
 
 	// </editor-fold>

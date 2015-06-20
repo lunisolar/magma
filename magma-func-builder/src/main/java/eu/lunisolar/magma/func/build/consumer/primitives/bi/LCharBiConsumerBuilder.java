@@ -118,10 +118,12 @@ public final class LCharBiConsumerBuilder extends PerCaseBuilder.Base<LCharBiCon
 				}
 
 				eventuallyFinal.doAccept(c1, c2);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

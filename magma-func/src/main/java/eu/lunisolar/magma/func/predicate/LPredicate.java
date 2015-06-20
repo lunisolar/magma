@@ -102,7 +102,7 @@ public interface LPredicate<T> extends LPredicateX<T, RuntimeException>, MetaPre
 	}
 
 	public static <T> LPredicate<T> constant(boolean r) {
-		return (t) -> r;
+		return t -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -134,7 +134,7 @@ public interface LPredicate<T> extends LPredicateX<T, RuntimeException>, MetaPre
 	 */
 	@Nonnull
 	default LPredicate<T> negate() {
-		return (T t) -> !doTest(t);
+		return t -> !doTest(t);
 	}
 
 	/**
@@ -143,7 +143,7 @@ public interface LPredicate<T> extends LPredicateX<T, RuntimeException>, MetaPre
 	@Nonnull
 	default LPredicate<T> and(@Nonnull LPredicate<? super T> other) {
 		Null.nonNullArg(other, "other");
-		return (T t) -> doTest(t) && other.doTest(t);
+		return t -> doTest(t) && other.doTest(t);
 	}
 
 	/**
@@ -152,7 +152,7 @@ public interface LPredicate<T> extends LPredicateX<T, RuntimeException>, MetaPre
 	@Nonnull
 	default LPredicate<T> or(@Nonnull LPredicate<? super T> other) {
 		Null.nonNullArg(other, "other");
-		return (T t) -> doTest(t) || other.doTest(t);
+		return t -> doTest(t) || other.doTest(t);
 	}
 
 	/**
@@ -161,7 +161,7 @@ public interface LPredicate<T> extends LPredicateX<T, RuntimeException>, MetaPre
 	@Nonnull
 	default LPredicate<T> xor(@Nonnull LPredicate<? super T> other) {
 		Null.nonNullArg(other, "other");
-		return (T t) -> doTest(t) ^ other.doTest(t);
+		return t -> doTest(t) ^ other.doTest(t);
 	}
 
 	@Nonnull
@@ -179,7 +179,7 @@ public interface LPredicate<T> extends LPredicateX<T, RuntimeException>, MetaPre
 	@Nonnull
 	default <V1> LPredicate<V1> from(@Nonnull final LFunction<? super V1, ? extends T> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final V1 v1) -> this.doTest(before1.doApply(v1));
+		return v1 -> this.doTest(before1.doApply(v1));
 	}
 
 	// </editor-fold>
@@ -190,63 +190,63 @@ public interface LPredicate<T> extends LPredicateX<T, RuntimeException>, MetaPre
 	@Nonnull
 	default <V> LFunction<T, V> then(@Nonnull LBooleanFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (T t) -> after.doApply(this.doTest(t));
+		return t -> after.doApply(this.doTest(t));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LToByteFunction<T> thenToByte(@Nonnull LBooleanToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return (T t) -> after.doApplyAsByte(this.doTest(t));
+		return t -> after.doApplyAsByte(this.doTest(t));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LToShortFunction<T> thenToShort(@Nonnull LBooleanToShortFunction after) {
 		Null.nonNullArg(after, "after");
-		return (T t) -> after.doApplyAsShort(this.doTest(t));
+		return t -> after.doApplyAsShort(this.doTest(t));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LToIntFunction<T> thenToInt(@Nonnull LBooleanToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return (T t) -> after.doApplyAsInt(this.doTest(t));
+		return t -> after.doApplyAsInt(this.doTest(t));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LToLongFunction<T> thenToLong(@Nonnull LBooleanToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return (T t) -> after.doApplyAsLong(this.doTest(t));
+		return t -> after.doApplyAsLong(this.doTest(t));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LToFloatFunction<T> thenToFloat(@Nonnull LBooleanToFloatFunction after) {
 		Null.nonNullArg(after, "after");
-		return (T t) -> after.doApplyAsFloat(this.doTest(t));
+		return t -> after.doApplyAsFloat(this.doTest(t));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LToDoubleFunction<T> thenToDouble(@Nonnull LBooleanToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
-		return (T t) -> after.doApplyAsDouble(this.doTest(t));
+		return t -> after.doApplyAsDouble(this.doTest(t));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LToCharFunction<T> thenToChar(@Nonnull LBooleanToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return (T t) -> after.doApplyAsChar(this.doTest(t));
+		return t -> after.doApplyAsChar(this.doTest(t));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LPredicate<T> thenToBoolean(@Nonnull LBooleanUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return (T t) -> after.doApplyAsBoolean(this.doTest(t));
+		return t -> after.doApplyAsBoolean(this.doTest(t));
 	}
 
 	// </editor-fold>

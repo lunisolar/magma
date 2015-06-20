@@ -68,9 +68,9 @@ public interface LBiObjIntFunctionX<T1, T2, R, X extends Throwable> extends Meta
 	default R nestingDoApply(T1 t1, T2 t2, int i) {
 		try {
 			return this.doApply(t1, t2, i);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -83,7 +83,7 @@ public interface LBiObjIntFunctionX<T1, T2, R, X extends Throwable> extends Meta
 
 		try {
 			return this.doApply(t1, t2, i);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

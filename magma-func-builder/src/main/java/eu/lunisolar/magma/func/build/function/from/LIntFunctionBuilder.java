@@ -108,7 +108,7 @@ public final class LIntFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base
 		LIntFunction<R> retval;
 
 		final Case<LIntPredicate, LIntFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LIntFunction.l((int i) -> {
+		retval = LIntFunction.<R> l(i -> {
 			try {
 				for (Case<LIntPredicate, LIntFunction<R>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(i)) {
@@ -117,10 +117,12 @@ public final class LIntFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base
 				}
 
 				return eventuallyFinal.doApply(i);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

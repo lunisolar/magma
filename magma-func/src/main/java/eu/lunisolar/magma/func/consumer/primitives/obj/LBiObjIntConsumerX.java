@@ -68,9 +68,9 @@ public interface LBiObjIntConsumerX<T1, T2, X extends Throwable> extends MetaCon
 	default void nestingDoAccept(T1 t1, T2 t2, int i) {
 		try {
 			this.doAccept(t1, t2, i);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -83,7 +83,7 @@ public interface LBiObjIntConsumerX<T1, T2, X extends Throwable> extends MetaCon
 
 		try {
 			this.doAccept(t1, t2, i);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

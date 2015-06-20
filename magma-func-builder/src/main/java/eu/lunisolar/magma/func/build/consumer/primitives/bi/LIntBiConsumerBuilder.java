@@ -118,10 +118,12 @@ public final class LIntBiConsumerBuilder extends PerCaseBuilder.Base<LIntBiConsu
 				}
 
 				eventuallyFinal.doAccept(i1, i2);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

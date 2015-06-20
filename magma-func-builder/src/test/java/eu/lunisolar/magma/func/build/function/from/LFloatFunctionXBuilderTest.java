@@ -61,7 +61,7 @@ public class LFloatFunctionXBuilderTest<R,X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LFloatFunctionX function = LFloatFunctionXBuilder.floatFunctionX()
@@ -77,7 +77,7 @@ public class LFloatFunctionXBuilderTest<R,X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,11 +92,11 @@ public class LFloatFunctionXBuilderTest<R,X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LFloatFunctionX function = LFloatFunctionXBuilder.floatFunctionX()
-                .eventually((f) -> {
+                .eventually(f -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -112,14 +112,14 @@ public class LFloatFunctionXBuilderTest<R,X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LFloatFunctionX<Integer ,ParseException> function = floatFunctionX((LFloatFunctionX<Integer ,ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((f) -> f == (float)0)
-                             .evaluate((f) -> Integer.valueOf(0)))
-            .inCase((f) -> f > 0 && f < 10).evaluate((f) -> Integer.valueOf(1))
-            .inCase((f) -> f > 10 && f < 20).evaluate((f) -> Integer.valueOf(2))
-            .eventually((f) -> Integer.valueOf(99))
+            .addCase(ce -> ce.of(f -> f == (float)0)
+                             .evaluate(f -> Integer.valueOf(0)))
+            .inCase(f -> f > 0 && f < 10).evaluate(f -> Integer.valueOf(1))
+            .inCase(f -> f > 10 && f < 20).evaluate(f -> Integer.valueOf(2))
+            .eventually(f -> Integer.valueOf(99))
             .build();
 
 

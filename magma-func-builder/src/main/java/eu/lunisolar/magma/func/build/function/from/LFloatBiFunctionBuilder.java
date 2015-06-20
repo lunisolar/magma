@@ -108,7 +108,7 @@ public final class LFloatBiFunctionBuilder<R> extends PerCaseBuilderWithProduct.
 		LFloatBiFunction<R> retval;
 
 		final Case<LBiFloatPredicate, LFloatBiFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LFloatBiFunction.l((float f1, float f2) -> {
+		retval = LFloatBiFunction.<R> l((float f1, float f2) -> {
 			try {
 				for (Case<LBiFloatPredicate, LFloatBiFunction<R>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(f1, f2)) {
@@ -117,10 +117,12 @@ public final class LFloatBiFunctionBuilder<R> extends PerCaseBuilderWithProduct.
 				}
 
 				return eventuallyFinal.doApply(f1, f2);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

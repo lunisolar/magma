@@ -74,11 +74,11 @@ public class LFloatToShortFunctionXTest<X extends ParseException> {
 
 
 
-    private LFloatToShortFunctionX<ParseException> sutAlwaysThrowing = LFloatToShortFunctionX.lX((float f) -> {
+    private LFloatToShortFunctionX<ParseException> sutAlwaysThrowing = LFloatToShortFunctionX.lX(f -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LFloatToShortFunctionX<RuntimeException> sutAlwaysThrowingUnckeck = LFloatToShortFunctionX.lX((float f) -> {
+    private LFloatToShortFunctionX<RuntimeException> sutAlwaysThrowingUnckeck = LFloatToShortFunctionX.lX(f -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -96,7 +96,7 @@ public class LFloatToShortFunctionXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApplyAsShort_checked() throws X {
+    public void testNestingDoApplyAsShortChecked() throws X {
 
         // then
         try {
@@ -111,7 +111,7 @@ public class LFloatToShortFunctionXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApplyAsShort_unckeck() throws X {
+    public void testNestingDoApplyAsShortUnckeck() throws X {
 
         // then
         try {
@@ -126,7 +126,7 @@ public class LFloatToShortFunctionXTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsShort_checked() throws X {
+    public void testShovingDoApplyAsShortChecked() throws X {
 
         // then
         try {
@@ -141,7 +141,7 @@ public class LFloatToShortFunctionXTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsShort_unckeck() throws X {
+    public void testShovingDoApplyAsShortUnckeck() throws X {
 
         // then
         try {
@@ -156,7 +156,6 @@ public class LFloatToShortFunctionXTest<X extends ParseException> {
     }
 
 
-
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
@@ -165,7 +164,7 @@ public class LFloatToShortFunctionXTest<X extends ParseException> {
 
     @Test
     public void testLXMethod() throws X {
-        assertThat(LFloatToShortFunctionX.lX((float f) -> testValue ))
+        assertThat(LFloatToShortFunctionX.lX(f -> testValue ))
             .isInstanceOf(LFloatToShortFunctionX.class);
     }
 
@@ -180,14 +179,13 @@ public class LFloatToShortFunctionXTest<X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LFloatToShortFunctionX<X> sutThrowing = LFloatToShortFunctionX.lX((float f) -> {
+        LFloatToShortFunctionX<X> sutThrowing = LFloatToShortFunctionX.lX(f -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        LFloatToShortFunctionX<X> wrapped = sutThrowing.handleX(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LFloatToShortFunctionX<X> wrapped = sutThrowing.handleX(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -202,10 +200,10 @@ public class LFloatToShortFunctionXTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LFloatToShortFunctionX<X> sutThrowing = LFloatToShortFunctionX.lX((float f) -> {
+        LFloatToShortFunctionX<X> sutThrowing = LFloatToShortFunctionX.lX(f -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -226,10 +224,10 @@ public class LFloatToShortFunctionXTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LFloatToShortFunctionX<X> sutThrowing = LFloatToShortFunctionX.lX((float f) -> {
+        LFloatToShortFunctionX<X> sutThrowing = LFloatToShortFunctionX.lX(f -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -254,13 +252,12 @@ public class LFloatToShortFunctionXTest<X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LFloatToShortFunctionX<X> sutThrowing = LFloatToShortFunctionX.lX((float f) -> {
+        LFloatToShortFunctionX<X> sutThrowing = LFloatToShortFunctionX.lX(f -> {
             throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
         // when
-        LFloatToShortFunctionX<X> wrapped = sutThrowing.handleX(h -> {
-        });
+        LFloatToShortFunctionX<X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -285,7 +282,7 @@ public class LFloatToShortFunctionXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LFloatToShortFunctionX<X> sutO = (float f) -> {
+        LFloatToShortFunctionX<X> sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)90);
                 return (short)100;
@@ -314,7 +311,7 @@ public class LFloatToShortFunctionXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LFloatToShortFunctionX<X> sutO = (float f) -> {
+        LFloatToShortFunctionX<X> sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)90);
                 return (short)100;
@@ -348,7 +345,7 @@ public class LFloatToShortFunctionXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatToShortFunctionX<X> sutO = (float f) -> {
+        LFloatToShortFunctionX<X> sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)80);
                 return (short)90;
@@ -383,7 +380,7 @@ public class LFloatToShortFunctionXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatToShortFunctionX<X> sutO = (float f) -> {
+        LFloatToShortFunctionX<X> sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)80);
                 return (short)90;
@@ -418,7 +415,7 @@ public class LFloatToShortFunctionXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatToShortFunctionX<X> sutO = (float f) -> {
+        LFloatToShortFunctionX<X> sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)80);
                 return (short)90;
@@ -453,7 +450,7 @@ public class LFloatToShortFunctionXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatToShortFunctionX<X> sutO = (float f) -> {
+        LFloatToShortFunctionX<X> sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)80);
                 return (short)90;
@@ -488,7 +485,7 @@ public class LFloatToShortFunctionXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatToShortFunctionX<X> sutO = (float f) -> {
+        LFloatToShortFunctionX<X> sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)80);
                 return (short)90;
@@ -523,7 +520,7 @@ public class LFloatToShortFunctionXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatToShortFunctionX<X> sutO = (float f) -> {
+        LFloatToShortFunctionX<X> sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)80);
                 return (short)90;
@@ -558,7 +555,7 @@ public class LFloatToShortFunctionXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatToShortFunctionX<X> sutO = (float f) -> {
+        LFloatToShortFunctionX<X> sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)80);
                 return (short)90;
@@ -593,7 +590,7 @@ public class LFloatToShortFunctionXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatToShortFunctionX<X> sutO = (float f) -> {
+        LFloatToShortFunctionX<X> sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)80);
                 return (short)90;
@@ -628,7 +625,7 @@ public class LFloatToShortFunctionXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LFloatToShortFunctionX<X> sutO = (float f) -> {
+        LFloatToShortFunctionX<X> sutO = f -> {
                 mainFunctionCalled.set(true);
                 assertThat(f).isEqualTo((float)80);
                 return (short)90;
@@ -685,7 +682,7 @@ public class LFloatToShortFunctionXTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LFloatToShortFunctionX<X> sutThrowing = LFloatToShortFunctionX.lX((float f) -> {
+        LFloatToShortFunctionX<X> sutThrowing = LFloatToShortFunctionX.lX(f -> {
             throw new UnsupportedOperationException();
         });
 
@@ -697,7 +694,7 @@ public class LFloatToShortFunctionXTest<X extends ParseException> {
     public void testHandle() throws X {
 
         // given
-        LFloatToShortFunctionX<X> sutThrowing = LFloatToShortFunctionX.lX((float f) -> {
+        LFloatToShortFunctionX<X> sutThrowing = LFloatToShortFunctionX.lX(f -> {
             throw new UnsupportedOperationException();
         });
 

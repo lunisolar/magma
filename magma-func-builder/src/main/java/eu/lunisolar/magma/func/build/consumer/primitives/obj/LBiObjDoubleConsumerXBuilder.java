@@ -108,7 +108,7 @@ public final class LBiObjDoubleConsumerXBuilder<T1, T2, X extends Throwable> ext
 		LBiObjDoubleConsumerX<T1, T2, X> retval;
 
 		final Case<LBiObjDoublePredicateX<T1, T2, X>, LBiObjDoubleConsumerX<T1, T2, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBiObjDoubleConsumerX.lX((T1 t1, T2 t2, double d) -> {
+		retval = LBiObjDoubleConsumerX.<T1, T2, X> lX((T1 t1, T2 t2, double d) -> {
 			try {
 				for (Case<LBiObjDoublePredicateX<T1, T2, X>, LBiObjDoubleConsumerX<T1, T2, X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(t1, t2, d)) {
@@ -118,10 +118,12 @@ public final class LBiObjDoubleConsumerXBuilder<T1, T2, X extends Throwable> ext
 				}
 
 				eventuallyFinal.doAccept(t1, t2, d);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

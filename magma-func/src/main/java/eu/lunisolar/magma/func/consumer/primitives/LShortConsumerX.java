@@ -68,9 +68,9 @@ public interface LShortConsumerX<X extends Throwable> extends MetaConsumer, Meta
 	default void nestingDoAccept(short s) {
 		try {
 			this.doAccept(s);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -83,7 +83,7 @@ public interface LShortConsumerX<X extends Throwable> extends MetaConsumer, Meta
 
 		try {
 			this.doAccept(s);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -131,7 +131,7 @@ public interface LShortConsumerX<X extends Throwable> extends MetaConsumer, Meta
 	@Nonnull
 	default LShortConsumerX<X> fromShort(@Nonnull final LShortUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final short v1) -> this.doAccept(before1.doApplyAsShort(v1));
+		return v1 -> this.doAccept(before1.doApplyAsShort(v1));
 	}
 
 	/**
@@ -140,7 +140,7 @@ public interface LShortConsumerX<X extends Throwable> extends MetaConsumer, Meta
 	@Nonnull
 	default <V1> LConsumerX<V1, X> from(@Nonnull final LToShortFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doAccept(before1.doApplyAsShort(v1));
+		return v1 -> this.doAccept(before1.doApplyAsShort(v1));
 	}
 
 	// </editor-fold>
@@ -151,7 +151,7 @@ public interface LShortConsumerX<X extends Throwable> extends MetaConsumer, Meta
 	@Nonnull
 	default LShortConsumerX<X> andThen(@Nonnull LShortConsumerX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (short s) -> {
+		return s -> {
 			this.doAccept(s);
 			after.doAccept(s);
 		};
@@ -187,12 +187,12 @@ public interface LShortConsumerX<X extends Throwable> extends MetaConsumer, Meta
 
 	@Nonnull
 	default LShortConsumer handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (short s) -> this.handlingDoAccept(s, handling);
+		return s -> this.handlingDoAccept(s, handling);
 	}
 
 	@Nonnull
 	default <Y extends Throwable> LShortConsumerX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (short s) -> this.handlingDoAccept(s, handling);
+		return s -> this.handlingDoAccept(s, handling);
 	}
 
 	// </editor-fold>

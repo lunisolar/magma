@@ -108,7 +108,7 @@ public final class LLongToCharFunctionBuilder extends PerCaseBuilderWithCharProd
 		LLongToCharFunction retval;
 
 		final Case<LLongPredicate, LLongToCharFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LLongToCharFunction.l((long l) -> {
+		retval = LLongToCharFunction.l(l -> {
 			try {
 				for (Case<LLongPredicate, LLongToCharFunction> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(l)) {
@@ -117,10 +117,12 @@ public final class LLongToCharFunctionBuilder extends PerCaseBuilderWithCharProd
 				}
 
 				return eventuallyFinal.doApplyAsChar(l);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

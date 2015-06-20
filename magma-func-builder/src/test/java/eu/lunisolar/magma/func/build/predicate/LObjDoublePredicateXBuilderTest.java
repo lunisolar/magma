@@ -61,7 +61,7 @@ public class LObjDoublePredicateXBuilderTest<T,X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LObjDoublePredicateX function = LObjDoublePredicateXBuilder.objDoublePredicateX()
@@ -77,7 +77,7 @@ public class LObjDoublePredicateXBuilderTest<T,X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,7 +92,7 @@ public class LObjDoublePredicateXBuilderTest<T,X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LObjDoublePredicateX function = LObjDoublePredicateXBuilder.objDoublePredicateX()
@@ -112,7 +112,7 @@ public class LObjDoublePredicateXBuilderTest<T,X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LObjDoublePredicateX<Integer ,ParseException> function = objDoublePredicateX((LObjDoublePredicateX<Integer ,ParseException> f)-> doNothing())
             .addCase(ce -> ce.of((t, d) -> t == Integer.valueOf(0))

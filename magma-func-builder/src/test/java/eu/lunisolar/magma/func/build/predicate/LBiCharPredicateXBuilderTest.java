@@ -61,7 +61,7 @@ public class LBiCharPredicateXBuilderTest<X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LBiCharPredicateX function = LBiCharPredicateXBuilder.biCharPredicateX()
@@ -77,7 +77,7 @@ public class LBiCharPredicateXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,7 +92,7 @@ public class LBiCharPredicateXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LBiCharPredicateX function = LBiCharPredicateXBuilder.biCharPredicateX()
@@ -112,7 +112,7 @@ public class LBiCharPredicateXBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LBiCharPredicateX<ParseException> function = biCharPredicateX((LBiCharPredicateX<ParseException> f)-> doNothing())
             .addCase(ce -> ce.of((c1,c2) -> c1 == (char)0)

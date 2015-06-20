@@ -46,9 +46,9 @@ public class LFloatBiConsumerAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LFloatBiConsumer function = LFloatBiConsumer.l((f1,f2) -> {
-            externalEffect.set(testValue);
-    });
+    private LFloatBiConsumer function = LFloatBiConsumer.l((f1,f2) ->
+            externalEffect.set(testValue)
+    );
 
     private LFloatBiConsumer functionThrowing = LFloatBiConsumer.l((f1,f2) -> {
         throw new UnsupportedOperationException();

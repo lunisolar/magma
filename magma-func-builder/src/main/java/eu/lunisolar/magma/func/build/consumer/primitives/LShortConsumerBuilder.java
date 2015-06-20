@@ -108,7 +108,7 @@ public final class LShortConsumerBuilder extends PerCaseBuilder.Base<LShortConsu
 		LShortConsumer retval;
 
 		final Case<LShortPredicate, LShortConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LShortConsumer.l((short s) -> {
+		retval = LShortConsumer.l(s -> {
 			try {
 				for (Case<LShortPredicate, LShortConsumer> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(s)) {
@@ -118,10 +118,12 @@ public final class LShortConsumerBuilder extends PerCaseBuilder.Base<LShortConsu
 				}
 
 				eventuallyFinal.doAccept(s);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

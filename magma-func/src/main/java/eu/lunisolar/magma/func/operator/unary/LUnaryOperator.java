@@ -100,7 +100,7 @@ public interface LUnaryOperator<T> extends LUnaryOperatorX<T, RuntimeException>,
 	}
 
 	public static <T> LUnaryOperator<T> constant(T r) {
-		return (t) -> r;
+		return t -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -132,63 +132,63 @@ public interface LUnaryOperator<T> extends LUnaryOperatorX<T, RuntimeException>,
 	@Nonnull
 	default <V> LFunction<T, V> then(@Nonnull LFunction<? super T, ? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (T t) -> after.doApply(this.doApply(t));
+		return t -> after.doApply(this.doApply(t));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LToByteFunction<T> thenToByte(@Nonnull LToByteFunction<? super T> after) {
 		Null.nonNullArg(after, "after");
-		return (T t) -> after.doApplyAsByte(this.doApply(t));
+		return t -> after.doApplyAsByte(this.doApply(t));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LToShortFunction<T> thenToShort(@Nonnull LToShortFunction<? super T> after) {
 		Null.nonNullArg(after, "after");
-		return (T t) -> after.doApplyAsShort(this.doApply(t));
+		return t -> after.doApplyAsShort(this.doApply(t));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LToIntFunction<T> thenToInt(@Nonnull LToIntFunction<? super T> after) {
 		Null.nonNullArg(after, "after");
-		return (T t) -> after.doApplyAsInt(this.doApply(t));
+		return t -> after.doApplyAsInt(this.doApply(t));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LToLongFunction<T> thenToLong(@Nonnull LToLongFunction<? super T> after) {
 		Null.nonNullArg(after, "after");
-		return (T t) -> after.doApplyAsLong(this.doApply(t));
+		return t -> after.doApplyAsLong(this.doApply(t));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LToFloatFunction<T> thenToFloat(@Nonnull LToFloatFunction<? super T> after) {
 		Null.nonNullArg(after, "after");
-		return (T t) -> after.doApplyAsFloat(this.doApply(t));
+		return t -> after.doApplyAsFloat(this.doApply(t));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LToDoubleFunction<T> thenToDouble(@Nonnull LToDoubleFunction<? super T> after) {
 		Null.nonNullArg(after, "after");
-		return (T t) -> after.doApplyAsDouble(this.doApply(t));
+		return t -> after.doApplyAsDouble(this.doApply(t));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LToCharFunction<T> thenToChar(@Nonnull LToCharFunction<? super T> after) {
 		Null.nonNullArg(after, "after");
-		return (T t) -> after.doApplyAsChar(this.doApply(t));
+		return t -> after.doApplyAsChar(this.doApply(t));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LPredicate<T> thenToBoolean(@Nonnull LPredicate<? super T> after) {
 		Null.nonNullArg(after, "after");
-		return (T t) -> after.doTest(this.doApply(t));
+		return t -> after.doTest(this.doApply(t));
 	}
 
 	// </editor-fold>

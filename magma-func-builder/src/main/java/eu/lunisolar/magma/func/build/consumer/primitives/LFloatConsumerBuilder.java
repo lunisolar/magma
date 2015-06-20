@@ -108,7 +108,7 @@ public final class LFloatConsumerBuilder extends PerCaseBuilder.Base<LFloatConsu
 		LFloatConsumer retval;
 
 		final Case<LFloatPredicate, LFloatConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LFloatConsumer.l((float f) -> {
+		retval = LFloatConsumer.l(f -> {
 			try {
 				for (Case<LFloatPredicate, LFloatConsumer> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(f)) {
@@ -118,10 +118,12 @@ public final class LFloatConsumerBuilder extends PerCaseBuilder.Base<LFloatConsu
 				}
 
 				eventuallyFinal.doAccept(f);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

@@ -46,9 +46,9 @@ public class LObjFloatConsumerXAssertTest<T,X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LObjFloatConsumerX<Integer ,X> function = LObjFloatConsumerX.lX((t, f) -> {
-            externalEffect.set(testValue);
-    });
+    private LObjFloatConsumerX<Integer ,X> function = LObjFloatConsumerX.lX((t, f) ->
+            externalEffect.set(testValue)
+    );
 
     private LObjFloatConsumerX<Integer ,X> functionThrowing = LObjFloatConsumerX.lX((t, f) -> {
         throw new UnsupportedOperationException();

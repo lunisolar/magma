@@ -74,11 +74,11 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
 
 
 
-    private LCharToShortFunctionX<ParseException> sutAlwaysThrowing = LCharToShortFunctionX.lX((char c) -> {
+    private LCharToShortFunctionX<ParseException> sutAlwaysThrowing = LCharToShortFunctionX.lX(c -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LCharToShortFunctionX<RuntimeException> sutAlwaysThrowingUnckeck = LCharToShortFunctionX.lX((char c) -> {
+    private LCharToShortFunctionX<RuntimeException> sutAlwaysThrowingUnckeck = LCharToShortFunctionX.lX(c -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -96,7 +96,7 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApplyAsShort_checked() throws X {
+    public void testNestingDoApplyAsShortChecked() throws X {
 
         // then
         try {
@@ -111,7 +111,7 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApplyAsShort_unckeck() throws X {
+    public void testNestingDoApplyAsShortUnckeck() throws X {
 
         // then
         try {
@@ -126,7 +126,7 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsShort_checked() throws X {
+    public void testShovingDoApplyAsShortChecked() throws X {
 
         // then
         try {
@@ -141,7 +141,7 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsShort_unckeck() throws X {
+    public void testShovingDoApplyAsShortUnckeck() throws X {
 
         // then
         try {
@@ -156,7 +156,6 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
     }
 
 
-
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
@@ -165,7 +164,7 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
 
     @Test
     public void testLXMethod() throws X {
-        assertThat(LCharToShortFunctionX.lX((char c) -> testValue ))
+        assertThat(LCharToShortFunctionX.lX(c -> testValue ))
             .isInstanceOf(LCharToShortFunctionX.class);
     }
 
@@ -180,14 +179,13 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LCharToShortFunctionX<X> sutThrowing = LCharToShortFunctionX.lX((char c) -> {
+        LCharToShortFunctionX<X> sutThrowing = LCharToShortFunctionX.lX(c -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        LCharToShortFunctionX<X> wrapped = sutThrowing.handleX(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LCharToShortFunctionX<X> wrapped = sutThrowing.handleX(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -202,10 +200,10 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LCharToShortFunctionX<X> sutThrowing = LCharToShortFunctionX.lX((char c) -> {
+        LCharToShortFunctionX<X> sutThrowing = LCharToShortFunctionX.lX(c -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -226,10 +224,10 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LCharToShortFunctionX<X> sutThrowing = LCharToShortFunctionX.lX((char c) -> {
+        LCharToShortFunctionX<X> sutThrowing = LCharToShortFunctionX.lX(c -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -254,13 +252,12 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LCharToShortFunctionX<X> sutThrowing = LCharToShortFunctionX.lX((char c) -> {
+        LCharToShortFunctionX<X> sutThrowing = LCharToShortFunctionX.lX(c -> {
             throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
         // when
-        LCharToShortFunctionX<X> wrapped = sutThrowing.handleX(h -> {
-        });
+        LCharToShortFunctionX<X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -285,7 +282,7 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LCharToShortFunctionX<X> sutO = (char c) -> {
+        LCharToShortFunctionX<X> sutO = c -> {
                 mainFunctionCalled.set(true);
                 assertThat(c).isEqualTo((char)90);
                 return (short)100;
@@ -314,7 +311,7 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LCharToShortFunctionX<X> sutO = (char c) -> {
+        LCharToShortFunctionX<X> sutO = c -> {
                 mainFunctionCalled.set(true);
                 assertThat(c).isEqualTo((char)90);
                 return (short)100;
@@ -348,7 +345,7 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LCharToShortFunctionX<X> sutO = (char c) -> {
+        LCharToShortFunctionX<X> sutO = c -> {
                 mainFunctionCalled.set(true);
                 assertThat(c).isEqualTo((char)80);
                 return (short)90;
@@ -383,7 +380,7 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LCharToShortFunctionX<X> sutO = (char c) -> {
+        LCharToShortFunctionX<X> sutO = c -> {
                 mainFunctionCalled.set(true);
                 assertThat(c).isEqualTo((char)80);
                 return (short)90;
@@ -418,7 +415,7 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LCharToShortFunctionX<X> sutO = (char c) -> {
+        LCharToShortFunctionX<X> sutO = c -> {
                 mainFunctionCalled.set(true);
                 assertThat(c).isEqualTo((char)80);
                 return (short)90;
@@ -453,7 +450,7 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LCharToShortFunctionX<X> sutO = (char c) -> {
+        LCharToShortFunctionX<X> sutO = c -> {
                 mainFunctionCalled.set(true);
                 assertThat(c).isEqualTo((char)80);
                 return (short)90;
@@ -488,7 +485,7 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LCharToShortFunctionX<X> sutO = (char c) -> {
+        LCharToShortFunctionX<X> sutO = c -> {
                 mainFunctionCalled.set(true);
                 assertThat(c).isEqualTo((char)80);
                 return (short)90;
@@ -523,7 +520,7 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LCharToShortFunctionX<X> sutO = (char c) -> {
+        LCharToShortFunctionX<X> sutO = c -> {
                 mainFunctionCalled.set(true);
                 assertThat(c).isEqualTo((char)80);
                 return (short)90;
@@ -558,7 +555,7 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LCharToShortFunctionX<X> sutO = (char c) -> {
+        LCharToShortFunctionX<X> sutO = c -> {
                 mainFunctionCalled.set(true);
                 assertThat(c).isEqualTo((char)80);
                 return (short)90;
@@ -593,7 +590,7 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LCharToShortFunctionX<X> sutO = (char c) -> {
+        LCharToShortFunctionX<X> sutO = c -> {
                 mainFunctionCalled.set(true);
                 assertThat(c).isEqualTo((char)80);
                 return (short)90;
@@ -628,7 +625,7 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LCharToShortFunctionX<X> sutO = (char c) -> {
+        LCharToShortFunctionX<X> sutO = c -> {
                 mainFunctionCalled.set(true);
                 assertThat(c).isEqualTo((char)80);
                 return (short)90;
@@ -685,7 +682,7 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LCharToShortFunctionX<X> sutThrowing = LCharToShortFunctionX.lX((char c) -> {
+        LCharToShortFunctionX<X> sutThrowing = LCharToShortFunctionX.lX(c -> {
             throw new UnsupportedOperationException();
         });
 
@@ -697,7 +694,7 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
     public void testHandle() throws X {
 
         // given
-        LCharToShortFunctionX<X> sutThrowing = LCharToShortFunctionX.lX((char c) -> {
+        LCharToShortFunctionX<X> sutThrowing = LCharToShortFunctionX.lX(c -> {
             throw new UnsupportedOperationException();
         });
 

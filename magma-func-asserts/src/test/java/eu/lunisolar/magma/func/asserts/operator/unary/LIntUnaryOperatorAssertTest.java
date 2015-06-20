@@ -45,11 +45,11 @@ public class LIntUnaryOperatorAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LIntUnaryOperator function = LIntUnaryOperator.l((i) -> {
-            return testValue;
-    });
+    private LIntUnaryOperator function = LIntUnaryOperator.l(i ->
+            testValue
+    );
 
-    private LIntUnaryOperator functionThrowing = LIntUnaryOperator.l((i) -> {
+    private LIntUnaryOperator functionThrowing = LIntUnaryOperator.l(i -> {
         throw new UnsupportedOperationException();
     });
 

@@ -75,9 +75,9 @@ public interface LBinaryOperatorX<T, X extends Throwable> extends java.util.func
 	default T nestingDoApply(T t1, T t2) {
 		try {
 			return this.doApply(t1, t2);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -90,7 +90,7 @@ public interface LBinaryOperatorX<T, X extends Throwable> extends java.util.func
 
 		try {
 			return this.doApply(t1, t2);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

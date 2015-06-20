@@ -108,7 +108,7 @@ public final class LDoubleFunctionBuilder<R> extends PerCaseBuilderWithProduct.B
 		LDoubleFunction<R> retval;
 
 		final Case<LDoublePredicate, LDoubleFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LDoubleFunction.l((double d) -> {
+		retval = LDoubleFunction.<R> l(d -> {
 			try {
 				for (Case<LDoublePredicate, LDoubleFunction<R>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(d)) {
@@ -117,10 +117,12 @@ public final class LDoubleFunctionBuilder<R> extends PerCaseBuilderWithProduct.B
 				}
 
 				return eventuallyFinal.doApply(d);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

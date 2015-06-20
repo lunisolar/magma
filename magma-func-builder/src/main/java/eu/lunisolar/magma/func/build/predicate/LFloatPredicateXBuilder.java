@@ -108,7 +108,7 @@ public final class LFloatPredicateXBuilder<X extends Throwable> extends PerCaseB
 		LFloatPredicateX<X> retval;
 
 		final Case<LFloatPredicateX<X>, LFloatPredicateX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LFloatPredicateX.lX((float f) -> {
+		retval = LFloatPredicateX.<X> lX(f -> {
 			try {
 				for (Case<LFloatPredicateX<X>, LFloatPredicateX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(f)) {
@@ -117,10 +117,12 @@ public final class LFloatPredicateXBuilder<X extends Throwable> extends PerCaseB
 				}
 
 				return eventuallyFinal.doTest(f);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

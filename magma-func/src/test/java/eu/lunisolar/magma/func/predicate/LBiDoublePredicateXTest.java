@@ -96,7 +96,7 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoTest_checked() throws X {
+    public void testNestingDoTestChecked() throws X {
 
         // then
         try {
@@ -111,7 +111,7 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoTest_unckeck() throws X {
+    public void testNestingDoTestUnckeck() throws X {
 
         // then
         try {
@@ -126,7 +126,7 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoTest_checked() throws X {
+    public void testShovingDoTestChecked() throws X {
 
         // then
         try {
@@ -141,7 +141,7 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoTest_unckeck() throws X {
+    public void testShovingDoTestUnckeck() throws X {
 
         // then
         try {
@@ -154,7 +154,6 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
                     .hasMessage(ORIGINAL_MESSAGE);
         }
     }
-
 
     @Test
     public void testApplyAsBooleanShouldNotModifyValue() throws X {
@@ -192,9 +191,8 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
         });
 
         // when
-        LBiDoublePredicateX<X> wrapped = sutThrowing.handleX(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LBiDoublePredicateX<X> wrapped = sutThrowing.handleX(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -209,7 +207,7 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
         LBiDoublePredicateX<X> sutThrowing = LBiDoublePredicateX.lX((double d1,double d2) -> {
@@ -233,7 +231,7 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
         LBiDoublePredicateX<X> sutThrowing = LBiDoublePredicateX.lX((double d1,double d2) -> {
@@ -266,8 +264,7 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
         });
 
         // when
-        LBiDoublePredicateX<X> wrapped = sutThrowing.handleX(h -> {
-        });
+        LBiDoublePredicateX<X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
 
         // then
         try {

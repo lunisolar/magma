@@ -79,6 +79,36 @@ public class LTriConsumerTest<T1,T2,T3,X extends ParseException> {
 
 
 
+    @Test
+    public void testNestingDoAcceptUnckeck() throws X {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.nestingDoAccept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100));
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoAcceptUnckeck() throws X {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.shovingDoAccept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100));
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
 
     @Test
     public void testFunctionalInterfaceDescription() throws X {
@@ -152,9 +182,8 @@ public class LTriConsumerTest<T1,T2,T3,X extends ParseException> {
         });
 
         // when
-        LTriConsumer<T1,T2,T3> wrapped = sutThrowing.handle(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LTriConsumer<T1,T2,T3> wrapped = sutThrowing.handle(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -169,7 +198,7 @@ public class LTriConsumerTest<T1,T2,T3,X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
         LTriConsumer<T1,T2,T3> sutThrowing = LTriConsumer.l((T1 t1,T2 t2,T3 t3) -> {
@@ -193,7 +222,7 @@ public class LTriConsumerTest<T1,T2,T3,X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
         LTriConsumer<T1,T2,T3> sutThrowing = LTriConsumer.l((T1 t1,T2 t2,T3 t3) -> {
@@ -226,8 +255,7 @@ public class LTriConsumerTest<T1,T2,T3,X extends ParseException> {
         });
 
         // when
-        LTriConsumer<T1,T2,T3> wrapped = sutThrowing.handle(h -> {
-        });
+        LTriConsumer<T1,T2,T3> wrapped = sutThrowing.handle(h -> Function4U.doNothing());
 
         // then
         try {

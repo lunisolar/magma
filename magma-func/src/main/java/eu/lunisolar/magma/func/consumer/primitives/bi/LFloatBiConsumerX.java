@@ -68,9 +68,9 @@ public interface LFloatBiConsumerX<X extends Throwable> extends MetaConsumer, Me
 	default void nestingDoAccept(float f1, float f2) {
 		try {
 			this.doAccept(f1, f2);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -83,7 +83,7 @@ public interface LFloatBiConsumerX<X extends Throwable> extends MetaConsumer, Me
 
 		try {
 			this.doAccept(f1, f2);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

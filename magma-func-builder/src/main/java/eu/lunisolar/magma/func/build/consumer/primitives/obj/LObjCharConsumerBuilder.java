@@ -108,7 +108,7 @@ public final class LObjCharConsumerBuilder<T> extends PerCaseBuilder.Base<LObjCh
 		LObjCharConsumer<T> retval;
 
 		final Case<LObjCharPredicate<T>, LObjCharConsumer<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LObjCharConsumer.l((T t, char c) -> {
+		retval = LObjCharConsumer.<T> l((T t, char c) -> {
 			try {
 				for (Case<LObjCharPredicate<T>, LObjCharConsumer<T>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(t, c)) {
@@ -118,10 +118,12 @@ public final class LObjCharConsumerBuilder<T> extends PerCaseBuilder.Base<LObjCh
 				}
 
 				eventuallyFinal.doAccept(t, c);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

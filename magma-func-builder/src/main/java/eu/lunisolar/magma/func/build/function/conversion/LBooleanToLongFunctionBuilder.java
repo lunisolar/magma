@@ -108,7 +108,7 @@ public final class LBooleanToLongFunctionBuilder extends PerCaseBuilderWithLongP
 		LBooleanToLongFunction retval;
 
 		final Case<LBooleanUnaryOperator, LBooleanToLongFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBooleanToLongFunction.l((boolean b) -> {
+		retval = LBooleanToLongFunction.l(b -> {
 			try {
 				for (Case<LBooleanUnaryOperator, LBooleanToLongFunction> aCase : casesArray) {
 					if (aCase.casePredicate().doApplyAsBoolean(b)) {
@@ -117,10 +117,12 @@ public final class LBooleanToLongFunctionBuilder extends PerCaseBuilderWithLongP
 				}
 
 				return eventuallyFinal.doApplyAsLong(b);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

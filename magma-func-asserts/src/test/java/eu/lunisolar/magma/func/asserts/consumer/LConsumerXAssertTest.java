@@ -46,11 +46,11 @@ public class LConsumerXAssertTest<T,X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LConsumerX<Integer ,X> function = LConsumerX.lX((t) -> {
-            externalEffect.set(testValue);
-    });
+    private LConsumerX<Integer ,X> function = LConsumerX.lX(t ->
+            externalEffect.set(testValue)
+    );
 
-    private LConsumerX<Integer ,X> functionThrowing = LConsumerX.lX((t) -> {
+    private LConsumerX<Integer ,X> functionThrowing = LConsumerX.lX(t -> {
         throw new UnsupportedOperationException();
     });
 

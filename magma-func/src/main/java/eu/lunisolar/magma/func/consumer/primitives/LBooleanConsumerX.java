@@ -68,9 +68,9 @@ public interface LBooleanConsumerX<X extends Throwable> extends MetaConsumer, Me
 	default void nestingDoAccept(boolean b) {
 		try {
 			this.doAccept(b);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -83,7 +83,7 @@ public interface LBooleanConsumerX<X extends Throwable> extends MetaConsumer, Me
 
 		try {
 			this.doAccept(b);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -131,7 +131,7 @@ public interface LBooleanConsumerX<X extends Throwable> extends MetaConsumer, Me
 	@Nonnull
 	default LBooleanConsumerX<X> fromBoolean(@Nonnull final LBooleanUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final boolean v1) -> this.doAccept(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doAccept(before1.doApplyAsBoolean(v1));
 	}
 
 	/**
@@ -140,7 +140,7 @@ public interface LBooleanConsumerX<X extends Throwable> extends MetaConsumer, Me
 	@Nonnull
 	default <V1> LConsumerX<V1, X> from(@Nonnull final LPredicateX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doAccept(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doAccept(before1.doApplyAsBoolean(v1));
 	}
 
 	// </editor-fold>
@@ -151,7 +151,7 @@ public interface LBooleanConsumerX<X extends Throwable> extends MetaConsumer, Me
 	@Nonnull
 	default LBooleanConsumerX<X> andThen(@Nonnull LBooleanConsumerX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> {
+		return b -> {
 			this.doAccept(b);
 			after.doAccept(b);
 		};
@@ -187,12 +187,12 @@ public interface LBooleanConsumerX<X extends Throwable> extends MetaConsumer, Me
 
 	@Nonnull
 	default LBooleanConsumer handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (boolean b) -> this.handlingDoAccept(b, handling);
+		return b -> this.handlingDoAccept(b, handling);
 	}
 
 	@Nonnull
 	default <Y extends Throwable> LBooleanConsumerX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (boolean b) -> this.handlingDoAccept(b, handling);
+		return b -> this.handlingDoAccept(b, handling);
 	}
 
 	// </editor-fold>

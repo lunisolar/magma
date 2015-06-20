@@ -61,7 +61,7 @@ public class LPredicateBuilderTest<T,X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LPredicate function = LPredicateBuilder.predicate()
@@ -77,7 +77,7 @@ public class LPredicateBuilderTest<T,X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,11 +92,11 @@ public class LPredicateBuilderTest<T,X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LPredicate function = LPredicateBuilder.predicate()
-                .eventually((t) -> {
+                .eventually(t -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -112,14 +112,14 @@ public class LPredicateBuilderTest<T,X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LPredicate<Integer > function = predicate((LPredicate<Integer > f)-> doNothing())
-            .addCase(ce -> ce.of((t) -> t == Integer.valueOf(0))
-                             .evaluate((t) -> false))
-            .inCase((t) -> t > 0 && t < 10).evaluate((t) -> true)
-            .inCase((t) -> t > 10 && t < 20).evaluate((t) -> true)
-            .eventually((t) -> true)
+            .addCase(ce -> ce.of(t -> t == Integer.valueOf(0))
+                             .evaluate(t -> false))
+            .inCase(t -> t > 0 && t < 10).evaluate(t -> true)
+            .inCase(t -> t > 10 && t < 20).evaluate(t -> true)
+            .eventually(t -> true)
             .build();
 
 

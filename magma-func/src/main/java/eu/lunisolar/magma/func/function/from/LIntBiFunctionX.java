@@ -68,9 +68,9 @@ public interface LIntBiFunctionX<R, X extends Throwable> extends MetaFunction, M
 	default R nestingDoApply(int i1, int i2) {
 		try {
 			return this.doApply(i1, i2);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -83,7 +83,7 @@ public interface LIntBiFunctionX<R, X extends Throwable> extends MetaFunction, M
 
 		try {
 			return this.doApply(i1, i2);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

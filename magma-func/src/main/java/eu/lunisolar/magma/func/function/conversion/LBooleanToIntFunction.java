@@ -89,7 +89,7 @@ public interface LBooleanToIntFunction extends LBooleanToIntFunctionX<RuntimeExc
 	}
 
 	public static LBooleanToIntFunction constant(int r) {
-		return (b) -> r;
+		return b -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -117,7 +117,7 @@ public interface LBooleanToIntFunction extends LBooleanToIntFunctionX<RuntimeExc
 	@Nonnull
 	default LBooleanToIntFunction fromBoolean(@Nonnull final LBooleanUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final boolean v1) -> this.doApplyAsInt(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doApplyAsInt(before1.doApplyAsBoolean(v1));
 	}
 
 	/**
@@ -126,7 +126,7 @@ public interface LBooleanToIntFunction extends LBooleanToIntFunctionX<RuntimeExc
 	@Nonnull
 	default <V1> LToIntFunction<V1> from(@Nonnull final LPredicate<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doApplyAsInt(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doApplyAsInt(before1.doApplyAsBoolean(v1));
 	}
 
 	// </editor-fold>
@@ -137,63 +137,63 @@ public interface LBooleanToIntFunction extends LBooleanToIntFunctionX<RuntimeExc
 	@Nonnull
 	default <V> LBooleanFunction<V> then(@Nonnull LIntFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApply(this.doApplyAsInt(b));
+		return b -> after.doApply(this.doApplyAsInt(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToByteFunction thenToByte(@Nonnull LIntToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsByte(this.doApplyAsInt(b));
+		return b -> after.doApplyAsByte(this.doApplyAsInt(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToShortFunction thenToShort(@Nonnull LIntToShortFunction after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsShort(this.doApplyAsInt(b));
+		return b -> after.doApplyAsShort(this.doApplyAsInt(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToIntFunction thenToInt(@Nonnull LIntUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsInt(this.doApplyAsInt(b));
+		return b -> after.doApplyAsInt(this.doApplyAsInt(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToLongFunction thenToLong(@Nonnull LIntToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsLong(this.doApplyAsInt(b));
+		return b -> after.doApplyAsLong(this.doApplyAsInt(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToFloatFunction thenToFloat(@Nonnull LIntToFloatFunction after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsFloat(this.doApplyAsInt(b));
+		return b -> after.doApplyAsFloat(this.doApplyAsInt(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToDoubleFunction thenToDouble(@Nonnull LIntToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsDouble(this.doApplyAsInt(b));
+		return b -> after.doApplyAsDouble(this.doApplyAsInt(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToCharFunction thenToChar(@Nonnull LIntToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsChar(this.doApplyAsInt(b));
+		return b -> after.doApplyAsChar(this.doApplyAsInt(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanUnaryOperator thenToBoolean(@Nonnull LIntPredicate after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doTest(this.doApplyAsInt(b));
+		return b -> after.doTest(this.doApplyAsInt(b));
 	}
 
 	// </editor-fold>

@@ -45,11 +45,11 @@ public class LByteUnaryOperatorXAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LByteUnaryOperatorX<X> function = LByteUnaryOperatorX.lX((b) -> {
-            return testValue;
-    });
+    private LByteUnaryOperatorX<X> function = LByteUnaryOperatorX.lX(b ->
+            testValue
+    );
 
-    private LByteUnaryOperatorX<X> functionThrowing = LByteUnaryOperatorX.lX((b) -> {
+    private LByteUnaryOperatorX<X> functionThrowing = LByteUnaryOperatorX.lX(b -> {
         throw new UnsupportedOperationException();
     });
 

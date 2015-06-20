@@ -80,11 +80,11 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
 
 
 
-    private LBooleanFunctionX<R,ParseException> sutAlwaysThrowing = LBooleanFunctionX.lX((boolean b) -> {
+    private LBooleanFunctionX<R,ParseException> sutAlwaysThrowing = LBooleanFunctionX.lX(b -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LBooleanFunctionX<R,RuntimeException> sutAlwaysThrowingUnckeck = LBooleanFunctionX.lX((boolean b) -> {
+    private LBooleanFunctionX<R,RuntimeException> sutAlwaysThrowingUnckeck = LBooleanFunctionX.lX(b -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -102,7 +102,7 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApply_checked() throws X {
+    public void testNestingDoApplyChecked() throws X {
 
         // then
         try {
@@ -117,7 +117,7 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApply_unckeck() throws X {
+    public void testNestingDoApplyUnckeck() throws X {
 
         // then
         try {
@@ -132,7 +132,7 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApply_checked() throws X {
+    public void testShovingDoApplyChecked() throws X {
 
         // then
         try {
@@ -147,7 +147,7 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApply_unckeck() throws X {
+    public void testShovingDoApplyUnckeck() throws X {
 
         // then
         try {
@@ -160,7 +160,6 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
                     .hasMessage(ORIGINAL_MESSAGE);
         }
     }
-
 
     @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LBooleanFunctionX: R doApply(boolean b) throws X).\\E")
     public void testNonNullCapturesNull() throws X {
@@ -176,7 +175,7 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
 
     @Test
     public void testLXMethod() throws X {
-        assertThat(LBooleanFunctionX.lX((boolean b) -> testValue ))
+        assertThat(LBooleanFunctionX.lX(b -> testValue ))
             .isInstanceOf(LBooleanFunctionX.class);
     }
 
@@ -191,14 +190,13 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LBooleanFunctionX<R,X> sutThrowing = LBooleanFunctionX.lX((boolean b) -> {
+        LBooleanFunctionX<R,X> sutThrowing = LBooleanFunctionX.lX(b -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        LBooleanFunctionX<R,X> wrapped = sutThrowing.handleX(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LBooleanFunctionX<R,X> wrapped = sutThrowing.handleX(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -213,10 +211,10 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LBooleanFunctionX<R,X> sutThrowing = LBooleanFunctionX.lX((boolean b) -> {
+        LBooleanFunctionX<R,X> sutThrowing = LBooleanFunctionX.lX(b -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -237,10 +235,10 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LBooleanFunctionX<R,X> sutThrowing = LBooleanFunctionX.lX((boolean b) -> {
+        LBooleanFunctionX<R,X> sutThrowing = LBooleanFunctionX.lX(b -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -265,13 +263,12 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LBooleanFunctionX<R,X> sutThrowing = LBooleanFunctionX.lX((boolean b) -> {
+        LBooleanFunctionX<R,X> sutThrowing = LBooleanFunctionX.lX(b -> {
             throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
         // when
-        LBooleanFunctionX<R,X> wrapped = sutThrowing.handleX(h -> {
-        });
+        LBooleanFunctionX<R,X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -296,7 +293,7 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBooleanFunctionX<Integer ,X> sutO = (boolean b) -> {
+        LBooleanFunctionX<Integer ,X> sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo(true);
                 return 9;
@@ -325,7 +322,7 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LBooleanFunctionX<Integer ,X> sutO = (boolean b) -> {
+        LBooleanFunctionX<Integer ,X> sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo(true);
                 return 9;
@@ -359,7 +356,7 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LBooleanFunctionX<Integer ,X> sutO = (boolean b) -> {
+        LBooleanFunctionX<Integer ,X> sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo(true);
                 return Integer.valueOf(90);
@@ -394,7 +391,7 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LBooleanFunctionX<Integer ,X> sutO = (boolean b) -> {
+        LBooleanFunctionX<Integer ,X> sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo(true);
                 return Integer.valueOf(90);
@@ -426,7 +423,7 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LBooleanFunctionX<Integer ,X> sutO = (boolean b) -> {
+        LBooleanFunctionX<Integer ,X> sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo(true);
                 return Integer.valueOf(90);
@@ -461,7 +458,7 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LBooleanFunctionX<Integer ,X> sutO = (boolean b) -> {
+        LBooleanFunctionX<Integer ,X> sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo(true);
                 return Integer.valueOf(90);
@@ -496,7 +493,7 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LBooleanFunctionX<Integer ,X> sutO = (boolean b) -> {
+        LBooleanFunctionX<Integer ,X> sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo(true);
                 return Integer.valueOf(90);
@@ -531,7 +528,7 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LBooleanFunctionX<Integer ,X> sutO = (boolean b) -> {
+        LBooleanFunctionX<Integer ,X> sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo(true);
                 return Integer.valueOf(90);
@@ -566,7 +563,7 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LBooleanFunctionX<Integer ,X> sutO = (boolean b) -> {
+        LBooleanFunctionX<Integer ,X> sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo(true);
                 return Integer.valueOf(90);
@@ -601,7 +598,7 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LBooleanFunctionX<Integer ,X> sutO = (boolean b) -> {
+        LBooleanFunctionX<Integer ,X> sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo(true);
                 return Integer.valueOf(90);
@@ -636,7 +633,7 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LBooleanFunctionX<Integer ,X> sutO = (boolean b) -> {
+        LBooleanFunctionX<Integer ,X> sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo(true);
                 return Integer.valueOf(90);
@@ -671,7 +668,7 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LBooleanFunctionX<Integer ,X> sutO = (boolean b) -> {
+        LBooleanFunctionX<Integer ,X> sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo(true);
                 return Integer.valueOf(90);
@@ -728,7 +725,7 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
     public void testShove() {
 
         // given
-        LBooleanFunctionX<R,X> sutThrowing = LBooleanFunctionX.lX((boolean b) -> {
+        LBooleanFunctionX<R,X> sutThrowing = LBooleanFunctionX.lX(b -> {
             throw new UnsupportedOperationException();
         });
 
@@ -740,7 +737,7 @@ public class LBooleanFunctionXTest<R,X extends ParseException> {
     public void testHandle() throws X {
 
         // given
-        LBooleanFunctionX<R,X> sutThrowing = LBooleanFunctionX.lX((boolean b) -> {
+        LBooleanFunctionX<R,X> sutThrowing = LBooleanFunctionX.lX(b -> {
             throw new UnsupportedOperationException();
         });
 

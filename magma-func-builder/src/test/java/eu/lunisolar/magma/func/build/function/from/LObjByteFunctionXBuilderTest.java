@@ -61,7 +61,7 @@ public class LObjByteFunctionXBuilderTest<T,R,X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LObjByteFunctionX function = LObjByteFunctionXBuilder.objByteFunctionX()
@@ -77,7 +77,7 @@ public class LObjByteFunctionXBuilderTest<T,R,X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,7 +92,7 @@ public class LObjByteFunctionXBuilderTest<T,R,X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LObjByteFunctionX function = LObjByteFunctionXBuilder.objByteFunctionX()
@@ -112,7 +112,7 @@ public class LObjByteFunctionXBuilderTest<T,R,X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LObjByteFunctionX<Integer ,Integer ,ParseException> function = objByteFunctionX((LObjByteFunctionX<Integer ,Integer ,ParseException> f)-> doNothing())
             .addCase(ce -> ce.of((t, i) -> t == Integer.valueOf(0))

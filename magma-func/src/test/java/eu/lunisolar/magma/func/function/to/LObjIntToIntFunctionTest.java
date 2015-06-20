@@ -93,7 +93,7 @@ public class LObjIntToIntFunctionTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApplyAsInt_unckeck() throws X {
+    public void testNestingDoApplyAsIntUnckeck() throws X {
 
         // then
         try {
@@ -108,7 +108,7 @@ public class LObjIntToIntFunctionTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsInt_unckeck() throws X {
+    public void testShovingDoApplyAsIntUnckeck() throws X {
 
         // then
         try {
@@ -121,7 +121,6 @@ public class LObjIntToIntFunctionTest<T,X extends ParseException> {
                     .hasMessage(ORIGINAL_MESSAGE);
         }
     }
-
 
 
     @Test
@@ -196,9 +195,8 @@ public class LObjIntToIntFunctionTest<T,X extends ParseException> {
         });
 
         // when
-        LObjIntToIntFunction<T> wrapped = sutThrowing.handle(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LObjIntToIntFunction<T> wrapped = sutThrowing.handle(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -213,7 +211,7 @@ public class LObjIntToIntFunctionTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
         LObjIntToIntFunction<T> sutThrowing = LObjIntToIntFunction.l((T t, int i) -> {
@@ -237,7 +235,7 @@ public class LObjIntToIntFunctionTest<T,X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
         LObjIntToIntFunction<T> sutThrowing = LObjIntToIntFunction.l((T t, int i) -> {
@@ -270,8 +268,7 @@ public class LObjIntToIntFunctionTest<T,X extends ParseException> {
         });
 
         // when
-        LObjIntToIntFunction<T> wrapped = sutThrowing.handle(h -> {
-        });
+        LObjIntToIntFunction<T> wrapped = sutThrowing.handle(h -> Function4U.doNothing());
 
         // then
         try {

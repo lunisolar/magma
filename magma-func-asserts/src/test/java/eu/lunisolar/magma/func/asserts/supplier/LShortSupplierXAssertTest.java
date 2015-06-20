@@ -45,9 +45,9 @@ public class LShortSupplierXAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LShortSupplierX<X> function = LShortSupplierX.lX(() -> {
-            return testValue;
-    });
+    private LShortSupplierX<X> function = LShortSupplierX.lX(() ->
+            testValue
+    );
 
     private LShortSupplierX<X> functionThrowing = LShortSupplierX.lX(() -> {
         throw new UnsupportedOperationException();
@@ -57,7 +57,7 @@ public class LShortSupplierXAssertTest<X extends Throwable> {
     public void testAssertPositive() throws ParseException {
 
         A.assertThat(function)
-         .doesGetAsShort(()->{})
+         .doesGetAsShort()
             .to(a -> a.isEqualTo(testValue));
 
     }
@@ -66,7 +66,7 @@ public class LShortSupplierXAssertTest<X extends Throwable> {
     public void testAssertNegative() throws ParseException {
 
         A.assertThat(function)
-         .doesGetAsShort(()->{})
+         .doesGetAsShort()
             .to( a -> a.isEqualTo(2));
 
     }
@@ -75,7 +75,7 @@ public class LShortSupplierXAssertTest<X extends Throwable> {
     public void testAssertThrowsUnexpected() throws ParseException {
 
         A.assertThat(functionThrowing)
-         .doesGetAsShort(()->{})
+         .doesGetAsShort()
             .to( a -> a.isEqualTo(1));
     }
 
@@ -83,7 +83,7 @@ public class LShortSupplierXAssertTest<X extends Throwable> {
     public void testAssertThrowsExpected() throws ParseException {
 
         A.assertThat(functionThrowing)
-         .doesGetAsShort(()->{}).withException(a -> a
+         .doesGetAsShort().withException(a -> a
                    .isExactlyInstanceOf(UnsupportedOperationException.class)
                    .hasMessage(null));
 
@@ -99,9 +99,9 @@ public class LShortSupplierXAssertTest<X extends Throwable> {
             recurringAssertsCalls.incrementAndGet();
             a.isEqualTo(testValue);
          })
-         .doesGetAsShort(()->{})
+         .doesGetAsShort()
             .to(a -> a.isEqualTo(testValue))
-         .doesGetAsShort(()->{})
+         .doesGetAsShort()
             .to(a -> a.isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);
@@ -119,9 +119,9 @@ public class LShortSupplierXAssertTest<X extends Throwable> {
                 a.isEqualTo(0);
             }
          })
-         .doesGetAsShort(()->{})
+         .doesGetAsShort()
             .to(a -> a.isEqualTo(testValue))
-         .doesGetAsShort(()->{})
+         .doesGetAsShort()
             .to(a -> a.isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);

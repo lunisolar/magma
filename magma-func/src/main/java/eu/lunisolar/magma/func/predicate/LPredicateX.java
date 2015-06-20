@@ -74,9 +74,9 @@ public interface LPredicateX<T, X extends Throwable> extends java.util.function.
 	default boolean nestingDoTest(T t) {
 		try {
 			return this.doTest(t);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -89,7 +89,7 @@ public interface LPredicateX<T, X extends Throwable> extends java.util.function.
 
 		try {
 			return this.doTest(t);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -117,7 +117,7 @@ public interface LPredicateX<T, X extends Throwable> extends java.util.function.
 	}
 
 	public static <T, X extends Throwable> LPredicateX<T, X> constant(boolean r) {
-		return (t) -> r;
+		return t -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -156,7 +156,7 @@ public interface LPredicateX<T, X extends Throwable> extends java.util.function.
 	 */
 	@Nonnull
 	default LPredicateX<T, X> negate() {
-		return (T t) -> !doTest(t);
+		return t -> !doTest(t);
 	}
 
 	/**
@@ -165,7 +165,7 @@ public interface LPredicateX<T, X extends Throwable> extends java.util.function.
 	@Nonnull
 	default LPredicateX<T, X> and(@Nonnull LPredicateX<? super T, X> other) {
 		Null.nonNullArg(other, "other");
-		return (T t) -> doTest(t) && other.doTest(t);
+		return t -> doTest(t) && other.doTest(t);
 	}
 
 	/**
@@ -174,7 +174,7 @@ public interface LPredicateX<T, X extends Throwable> extends java.util.function.
 	@Nonnull
 	default LPredicateX<T, X> or(@Nonnull LPredicateX<? super T, X> other) {
 		Null.nonNullArg(other, "other");
-		return (T t) -> doTest(t) || other.doTest(t);
+		return t -> doTest(t) || other.doTest(t);
 	}
 
 	/**
@@ -183,7 +183,7 @@ public interface LPredicateX<T, X extends Throwable> extends java.util.function.
 	@Nonnull
 	default LPredicateX<T, X> xor(@Nonnull LPredicateX<? super T, X> other) {
 		Null.nonNullArg(other, "other");
-		return (T t) -> doTest(t) ^ other.doTest(t);
+		return t -> doTest(t) ^ other.doTest(t);
 	}
 
 	@Nonnull
@@ -201,7 +201,7 @@ public interface LPredicateX<T, X extends Throwable> extends java.util.function.
 	@Nonnull
 	default <V1> LPredicateX<V1, X> from(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final V1 v1) -> this.doTest(before1.doApply(v1));
+		return v1 -> this.doTest(before1.doApply(v1));
 	}
 
 	// </editor-fold>
@@ -212,63 +212,63 @@ public interface LPredicateX<T, X extends Throwable> extends java.util.function.
 	@Nonnull
 	default <V> LFunctionX<T, V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (T t) -> after.doApply(this.doTest(t));
+		return t -> after.doApply(this.doTest(t));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LToByteFunctionX<T, X> thenToByte(@Nonnull LBooleanToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (T t) -> after.doApplyAsByte(this.doTest(t));
+		return t -> after.doApplyAsByte(this.doTest(t));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LToShortFunctionX<T, X> thenToShort(@Nonnull LBooleanToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (T t) -> after.doApplyAsShort(this.doTest(t));
+		return t -> after.doApplyAsShort(this.doTest(t));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LToIntFunctionX<T, X> thenToInt(@Nonnull LBooleanToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (T t) -> after.doApplyAsInt(this.doTest(t));
+		return t -> after.doApplyAsInt(this.doTest(t));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LToLongFunctionX<T, X> thenToLong(@Nonnull LBooleanToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (T t) -> after.doApplyAsLong(this.doTest(t));
+		return t -> after.doApplyAsLong(this.doTest(t));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LToFloatFunctionX<T, X> thenToFloat(@Nonnull LBooleanToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (T t) -> after.doApplyAsFloat(this.doTest(t));
+		return t -> after.doApplyAsFloat(this.doTest(t));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LToDoubleFunctionX<T, X> thenToDouble(@Nonnull LBooleanToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (T t) -> after.doApplyAsDouble(this.doTest(t));
+		return t -> after.doApplyAsDouble(this.doTest(t));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LToCharFunctionX<T, X> thenToChar(@Nonnull LBooleanToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (T t) -> after.doApplyAsChar(this.doTest(t));
+		return t -> after.doApplyAsChar(this.doTest(t));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LPredicateX<T, X> thenToBoolean(@Nonnull LBooleanUnaryOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (T t) -> after.doApplyAsBoolean(this.doTest(t));
+		return t -> after.doApplyAsBoolean(this.doTest(t));
 	}
 
 	// </editor-fold>
@@ -302,12 +302,12 @@ public interface LPredicateX<T, X extends Throwable> extends java.util.function.
 
 	@Nonnull
 	default LPredicate<T> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (T t) -> this.handlingDoTest(t, handling);
+		return t -> this.handlingDoTest(t, handling);
 	}
 
 	@Nonnull
 	default <Y extends Throwable> LPredicateX<T, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (T t) -> this.handlingDoTest(t, handling);
+		return t -> this.handlingDoTest(t, handling);
 	}
 
 	// </editor-fold>

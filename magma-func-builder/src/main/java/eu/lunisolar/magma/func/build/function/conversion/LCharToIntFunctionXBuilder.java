@@ -108,7 +108,7 @@ public final class LCharToIntFunctionXBuilder<X extends Throwable> extends PerCa
 		LCharToIntFunctionX<X> retval;
 
 		final Case<LCharPredicateX<X>, LCharToIntFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LCharToIntFunctionX.lX((char c) -> {
+		retval = LCharToIntFunctionX.<X> lX(c -> {
 			try {
 				for (Case<LCharPredicateX<X>, LCharToIntFunctionX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(c)) {
@@ -117,10 +117,12 @@ public final class LCharToIntFunctionXBuilder<X extends Throwable> extends PerCa
 				}
 
 				return eventuallyFinal.doApplyAsInt(c);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

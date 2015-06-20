@@ -107,7 +107,7 @@ public final class IntSupplierBuilder extends PerCaseBuilderWithIntProduct.Base<
 		java.util.function.IntSupplier retval;
 
 		final Case<LBooleanSupplier, java.util.function.IntSupplier>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.l(() -> {
+		retval = Function4U.intSupplier(() -> {
 			try {
 				for (Case<LBooleanSupplier, java.util.function.IntSupplier> aCase : casesArray) {
 					if (aCase.casePredicate().doGetAsBoolean()) {
@@ -116,10 +116,12 @@ public final class IntSupplierBuilder extends PerCaseBuilderWithIntProduct.Base<
 				}
 
 				return eventuallyFinal.getAsInt();
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

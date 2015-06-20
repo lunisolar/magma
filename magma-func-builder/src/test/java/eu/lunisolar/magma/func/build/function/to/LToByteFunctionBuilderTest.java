@@ -61,7 +61,7 @@ public class LToByteFunctionBuilderTest<T,X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LToByteFunction function = LToByteFunctionBuilder.toByteFunction()
@@ -77,7 +77,7 @@ public class LToByteFunctionBuilderTest<T,X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,11 +92,11 @@ public class LToByteFunctionBuilderTest<T,X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LToByteFunction function = LToByteFunctionBuilder.toByteFunction()
-                .eventually((t) -> {
+                .eventually(t -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -112,14 +112,14 @@ public class LToByteFunctionBuilderTest<T,X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LToByteFunction<Integer > function = toByteFunction((LToByteFunction<Integer > f)-> doNothing())
-            .addCase(ce -> ce.of((t) -> t == Integer.valueOf(0))
-                             .evaluate((t) -> (byte)0))
-            .inCase((t) -> t > 0 && t < 10).evaluate((t) -> (byte)1)
-            .inCase((t) -> t > 10 && t < 20).evaluate((t) -> (byte)2)
-            .eventually((t) -> (byte)99)
+            .addCase(ce -> ce.of(t -> t == Integer.valueOf(0))
+                             .evaluate(t -> (byte)0))
+            .inCase(t -> t > 0 && t < 10).evaluate(t -> (byte)1)
+            .inCase(t -> t > 10 && t < 20).evaluate(t -> (byte)2)
+            .eventually(t -> (byte)99)
             .build();
 
 

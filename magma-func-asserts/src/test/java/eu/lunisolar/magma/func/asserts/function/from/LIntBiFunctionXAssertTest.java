@@ -45,9 +45,9 @@ public class LIntBiFunctionXAssertTest<R,X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LIntBiFunctionX<Integer ,X> function = LIntBiFunctionX.lX((i1,i2) -> {
-            return (Integer ) testValue;
-    });
+    private LIntBiFunctionX<Integer ,X> function = LIntBiFunctionX.lX((i1,i2) ->
+            (Integer ) testValue
+    );
 
     private LIntBiFunctionX<Integer ,X> functionThrowing = LIntBiFunctionX.lX((i1,i2) -> {
         throw new UnsupportedOperationException();

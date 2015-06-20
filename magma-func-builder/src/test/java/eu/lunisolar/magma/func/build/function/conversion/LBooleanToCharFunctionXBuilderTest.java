@@ -61,7 +61,7 @@ public class LBooleanToCharFunctionXBuilderTest<X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LBooleanToCharFunctionX function = LBooleanToCharFunctionXBuilder.booleanToCharFunctionX()
@@ -77,7 +77,7 @@ public class LBooleanToCharFunctionXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,11 +92,11 @@ public class LBooleanToCharFunctionXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LBooleanToCharFunctionX function = LBooleanToCharFunctionXBuilder.booleanToCharFunctionX()
-                .eventually((b) -> {
+                .eventually(b -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -112,13 +112,13 @@ public class LBooleanToCharFunctionXBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LBooleanToCharFunctionX<ParseException> function = booleanToCharFunctionX((LBooleanToCharFunctionX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((b) -> b == false)
-                             .evaluate((b) -> (char)0))
-            .inCase((b) -> b == true ).evaluate((b) -> (char)1)
-            .eventually((b) -> (char)99)
+            .addCase(ce -> ce.of(b -> b == false)
+                             .evaluate(b -> (char)0))
+            .inCase(b -> b == true ).evaluate(b -> (char)1)
+            .eventually(b -> (char)99)
             .build();
 
 

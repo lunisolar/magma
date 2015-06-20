@@ -73,14 +73,14 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
     };
 
 
-    private java.util.function.DoubleUnaryOperator jre = (double d) -> testValue;
+    private java.util.function.DoubleUnaryOperator jre = d -> testValue;
 
 
-    private LDoubleUnaryOperatorX<ParseException> sutAlwaysThrowing = LDoubleUnaryOperatorX.lX((double d) -> {
+    private LDoubleUnaryOperatorX<ParseException> sutAlwaysThrowing = LDoubleUnaryOperatorX.lX(d -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LDoubleUnaryOperatorX<RuntimeException> sutAlwaysThrowingUnckeck = LDoubleUnaryOperatorX.lX((double d) -> {
+    private LDoubleUnaryOperatorX<RuntimeException> sutAlwaysThrowingUnckeck = LDoubleUnaryOperatorX.lX(d -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -98,7 +98,7 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApplyAsDouble_checked() throws X {
+    public void testNestingDoApplyAsDoubleChecked() throws X {
 
         // then
         try {
@@ -113,7 +113,7 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApplyAsDouble_unckeck() throws X {
+    public void testNestingDoApplyAsDoubleUnckeck() throws X {
 
         // then
         try {
@@ -128,7 +128,7 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsDouble_checked() throws X {
+    public void testShovingDoApplyAsDoubleChecked() throws X {
 
         // then
         try {
@@ -143,7 +143,7 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsDouble_unckeck() throws X {
+    public void testShovingDoApplyAsDoubleUnckeck() throws X {
 
         // then
         try {
@@ -158,7 +158,6 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
     }
 
 
-
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
@@ -167,7 +166,7 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
 
     @Test
     public void testLXMethod() throws X {
-        assertThat(LDoubleUnaryOperatorX.lX((double d) -> testValue ))
+        assertThat(LDoubleUnaryOperatorX.lX(d -> testValue ))
             .isInstanceOf(LDoubleUnaryOperatorX.class);
     }
 
@@ -188,14 +187,13 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LDoubleUnaryOperatorX<X> sutThrowing = LDoubleUnaryOperatorX.lX((double d) -> {
+        LDoubleUnaryOperatorX<X> sutThrowing = LDoubleUnaryOperatorX.lX(d -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        LDoubleUnaryOperatorX<X> wrapped = sutThrowing.handleX(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LDoubleUnaryOperatorX<X> wrapped = sutThrowing.handleX(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -210,10 +208,10 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LDoubleUnaryOperatorX<X> sutThrowing = LDoubleUnaryOperatorX.lX((double d) -> {
+        LDoubleUnaryOperatorX<X> sutThrowing = LDoubleUnaryOperatorX.lX(d -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -234,10 +232,10 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LDoubleUnaryOperatorX<X> sutThrowing = LDoubleUnaryOperatorX.lX((double d) -> {
+        LDoubleUnaryOperatorX<X> sutThrowing = LDoubleUnaryOperatorX.lX(d -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -262,13 +260,12 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LDoubleUnaryOperatorX<X> sutThrowing = LDoubleUnaryOperatorX.lX((double d) -> {
+        LDoubleUnaryOperatorX<X> sutThrowing = LDoubleUnaryOperatorX.lX(d -> {
             throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
         // when
-        LDoubleUnaryOperatorX<X> wrapped = sutThrowing.handleX(h -> {
-        });
+        LDoubleUnaryOperatorX<X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -293,7 +290,7 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LDoubleUnaryOperatorX<X> sutO = (double d) -> {
+        LDoubleUnaryOperatorX<X> sutO = d -> {
                 mainFunctionCalled.set(true);
                 assertThat(d).isEqualTo((double)90);
                 return (double)100;
@@ -322,7 +319,7 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LDoubleUnaryOperatorX<X> sutO = (double d) -> {
+        LDoubleUnaryOperatorX<X> sutO = d -> {
                 mainFunctionCalled.set(true);
                 assertThat(d).isEqualTo((double)90);
                 return (double)100;
@@ -356,7 +353,7 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LDoubleUnaryOperatorX<X> sutO = (double d) -> {
+        LDoubleUnaryOperatorX<X> sutO = d -> {
                 mainFunctionCalled.set(true);
                 assertThat(d).isEqualTo((double)80);
                 return (double)90;
@@ -391,7 +388,7 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LDoubleUnaryOperatorX<X> sutO = (double d) -> {
+        LDoubleUnaryOperatorX<X> sutO = d -> {
                 mainFunctionCalled.set(true);
                 assertThat(d).isEqualTo((double)80);
                 return (double)90;
@@ -426,7 +423,7 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LDoubleUnaryOperatorX<X> sutO = (double d) -> {
+        LDoubleUnaryOperatorX<X> sutO = d -> {
                 mainFunctionCalled.set(true);
                 assertThat(d).isEqualTo((double)80);
                 return (double)90;
@@ -461,7 +458,7 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LDoubleUnaryOperatorX<X> sutO = (double d) -> {
+        LDoubleUnaryOperatorX<X> sutO = d -> {
                 mainFunctionCalled.set(true);
                 assertThat(d).isEqualTo((double)80);
                 return (double)90;
@@ -496,7 +493,7 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LDoubleUnaryOperatorX<X> sutO = (double d) -> {
+        LDoubleUnaryOperatorX<X> sutO = d -> {
                 mainFunctionCalled.set(true);
                 assertThat(d).isEqualTo((double)80);
                 return (double)90;
@@ -531,7 +528,7 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LDoubleUnaryOperatorX<X> sutO = (double d) -> {
+        LDoubleUnaryOperatorX<X> sutO = d -> {
                 mainFunctionCalled.set(true);
                 assertThat(d).isEqualTo((double)80);
                 return (double)90;
@@ -566,7 +563,7 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LDoubleUnaryOperatorX<X> sutO = (double d) -> {
+        LDoubleUnaryOperatorX<X> sutO = d -> {
                 mainFunctionCalled.set(true);
                 assertThat(d).isEqualTo((double)80);
                 return (double)90;
@@ -601,7 +598,7 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LDoubleUnaryOperatorX<X> sutO = (double d) -> {
+        LDoubleUnaryOperatorX<X> sutO = d -> {
                 mainFunctionCalled.set(true);
                 assertThat(d).isEqualTo((double)80);
                 return (double)90;
@@ -636,7 +633,7 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LDoubleUnaryOperatorX<X> sutO = (double d) -> {
+        LDoubleUnaryOperatorX<X> sutO = d -> {
                 mainFunctionCalled.set(true);
                 assertThat(d).isEqualTo((double)80);
                 return (double)90;
@@ -700,7 +697,7 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LDoubleUnaryOperatorX<X> sutThrowing = LDoubleUnaryOperatorX.lX((double d) -> {
+        LDoubleUnaryOperatorX<X> sutThrowing = LDoubleUnaryOperatorX.lX(d -> {
             throw new UnsupportedOperationException();
         });
 
@@ -712,7 +709,7 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
     public void testHandle() throws X {
 
         // given
-        LDoubleUnaryOperatorX<X> sutThrowing = LDoubleUnaryOperatorX.lX((double d) -> {
+        LDoubleUnaryOperatorX<X> sutThrowing = LDoubleUnaryOperatorX.lX(d -> {
             throw new UnsupportedOperationException();
         });
 

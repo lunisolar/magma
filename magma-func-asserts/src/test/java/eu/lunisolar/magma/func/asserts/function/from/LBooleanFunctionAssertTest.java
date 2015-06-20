@@ -45,11 +45,11 @@ public class LBooleanFunctionAssertTest<R,X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LBooleanFunction<Integer > function = LBooleanFunction.l((b) -> {
-            return (Integer ) testValue;
-    });
+    private LBooleanFunction<Integer > function = LBooleanFunction.l(b ->
+            (Integer ) testValue
+    );
 
-    private LBooleanFunction<Integer > functionThrowing = LBooleanFunction.l((b) -> {
+    private LBooleanFunction<Integer > functionThrowing = LBooleanFunction.l(b -> {
         throw new UnsupportedOperationException();
     });
 

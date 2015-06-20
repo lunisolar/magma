@@ -79,14 +79,14 @@ public class LLongFunctionXTest<R,X extends ParseException> {
     };
 
 
-    private java.util.function.LongFunction jre = (long l) -> testValue;
+    private java.util.function.LongFunction jre = l -> testValue;
 
 
-    private LLongFunctionX<R,ParseException> sutAlwaysThrowing = LLongFunctionX.lX((long l) -> {
+    private LLongFunctionX<R,ParseException> sutAlwaysThrowing = LLongFunctionX.lX(l -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LLongFunctionX<R,RuntimeException> sutAlwaysThrowingUnckeck = LLongFunctionX.lX((long l) -> {
+    private LLongFunctionX<R,RuntimeException> sutAlwaysThrowingUnckeck = LLongFunctionX.lX(l -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -104,7 +104,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApply_checked() throws X {
+    public void testNestingDoApplyChecked() throws X {
 
         // then
         try {
@@ -119,7 +119,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApply_unckeck() throws X {
+    public void testNestingDoApplyUnckeck() throws X {
 
         // then
         try {
@@ -134,7 +134,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApply_checked() throws X {
+    public void testShovingDoApplyChecked() throws X {
 
         // then
         try {
@@ -149,7 +149,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApply_unckeck() throws X {
+    public void testShovingDoApplyUnckeck() throws X {
 
         // then
         try {
@@ -162,7 +162,6 @@ public class LLongFunctionXTest<R,X extends ParseException> {
                     .hasMessage(ORIGINAL_MESSAGE);
         }
     }
-
 
     @Test(expectedExceptions=NullPointerException.class, expectedExceptionsMessageRegExp="\\QEvaluated value by nonNullDoApply() method cannot be null (LLongFunctionX: R doApply(long l) throws X).\\E")
     public void testNonNullCapturesNull() throws X {
@@ -178,7 +177,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
     @Test
     public void testLXMethod() throws X {
-        assertThat(LLongFunctionX.lX((long l) -> testValue ))
+        assertThat(LLongFunctionX.lX(l -> testValue ))
             .isInstanceOf(LLongFunctionX.class);
     }
 
@@ -199,14 +198,13 @@ public class LLongFunctionXTest<R,X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LLongFunctionX<R,X> sutThrowing = LLongFunctionX.lX((long l) -> {
+        LLongFunctionX<R,X> sutThrowing = LLongFunctionX.lX(l -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        LLongFunctionX<R,X> wrapped = sutThrowing.handleX(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LLongFunctionX<R,X> wrapped = sutThrowing.handleX(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -221,10 +219,10 @@ public class LLongFunctionXTest<R,X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LLongFunctionX<R,X> sutThrowing = LLongFunctionX.lX((long l) -> {
+        LLongFunctionX<R,X> sutThrowing = LLongFunctionX.lX(l -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -245,10 +243,10 @@ public class LLongFunctionXTest<R,X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LLongFunctionX<R,X> sutThrowing = LLongFunctionX.lX((long l) -> {
+        LLongFunctionX<R,X> sutThrowing = LLongFunctionX.lX(l -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -273,13 +271,12 @@ public class LLongFunctionXTest<R,X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LLongFunctionX<R,X> sutThrowing = LLongFunctionX.lX((long l) -> {
+        LLongFunctionX<R,X> sutThrowing = LLongFunctionX.lX(l -> {
             throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
         // when
-        LLongFunctionX<R,X> wrapped = sutThrowing.handleX(h -> {
-        });
+        LLongFunctionX<R,X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -304,7 +301,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LLongFunctionX<Integer ,X> sutO = (long l) -> {
+        LLongFunctionX<Integer ,X> sutO = l -> {
                 mainFunctionCalled.set(true);
                 assertThat(l).isEqualTo((long)90);
                 return 9;
@@ -333,7 +330,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LLongFunctionX<Integer ,X> sutO = (long l) -> {
+        LLongFunctionX<Integer ,X> sutO = l -> {
                 mainFunctionCalled.set(true);
                 assertThat(l).isEqualTo((long)90);
                 return 9;
@@ -367,7 +364,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LLongFunctionX<Integer ,X> sutO = (long l) -> {
+        LLongFunctionX<Integer ,X> sutO = l -> {
                 mainFunctionCalled.set(true);
                 assertThat(l).isEqualTo((long)80);
                 return Integer.valueOf(90);
@@ -402,7 +399,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LLongFunctionX<Integer ,X> sutO = (long l) -> {
+        LLongFunctionX<Integer ,X> sutO = l -> {
                 mainFunctionCalled.set(true);
                 assertThat(l).isEqualTo((long)80);
                 return Integer.valueOf(90);
@@ -434,7 +431,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LLongFunctionX<Integer ,X> sutO = (long l) -> {
+        LLongFunctionX<Integer ,X> sutO = l -> {
                 mainFunctionCalled.set(true);
                 assertThat(l).isEqualTo((long)80);
                 return Integer.valueOf(90);
@@ -469,7 +466,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LLongFunctionX<Integer ,X> sutO = (long l) -> {
+        LLongFunctionX<Integer ,X> sutO = l -> {
                 mainFunctionCalled.set(true);
                 assertThat(l).isEqualTo((long)80);
                 return Integer.valueOf(90);
@@ -504,7 +501,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LLongFunctionX<Integer ,X> sutO = (long l) -> {
+        LLongFunctionX<Integer ,X> sutO = l -> {
                 mainFunctionCalled.set(true);
                 assertThat(l).isEqualTo((long)80);
                 return Integer.valueOf(90);
@@ -539,7 +536,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LLongFunctionX<Integer ,X> sutO = (long l) -> {
+        LLongFunctionX<Integer ,X> sutO = l -> {
                 mainFunctionCalled.set(true);
                 assertThat(l).isEqualTo((long)80);
                 return Integer.valueOf(90);
@@ -574,7 +571,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LLongFunctionX<Integer ,X> sutO = (long l) -> {
+        LLongFunctionX<Integer ,X> sutO = l -> {
                 mainFunctionCalled.set(true);
                 assertThat(l).isEqualTo((long)80);
                 return Integer.valueOf(90);
@@ -609,7 +606,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LLongFunctionX<Integer ,X> sutO = (long l) -> {
+        LLongFunctionX<Integer ,X> sutO = l -> {
                 mainFunctionCalled.set(true);
                 assertThat(l).isEqualTo((long)80);
                 return Integer.valueOf(90);
@@ -644,7 +641,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LLongFunctionX<Integer ,X> sutO = (long l) -> {
+        LLongFunctionX<Integer ,X> sutO = l -> {
                 mainFunctionCalled.set(true);
                 assertThat(l).isEqualTo((long)80);
                 return Integer.valueOf(90);
@@ -679,7 +676,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LLongFunctionX<Integer ,X> sutO = (long l) -> {
+        LLongFunctionX<Integer ,X> sutO = l -> {
                 mainFunctionCalled.set(true);
                 assertThat(l).isEqualTo((long)80);
                 return Integer.valueOf(90);
@@ -736,7 +733,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
     public void testShove() {
 
         // given
-        LLongFunctionX<R,X> sutThrowing = LLongFunctionX.lX((long l) -> {
+        LLongFunctionX<R,X> sutThrowing = LLongFunctionX.lX(l -> {
             throw new UnsupportedOperationException();
         });
 
@@ -748,7 +745,7 @@ public class LLongFunctionXTest<R,X extends ParseException> {
     public void testHandle() throws X {
 
         // given
-        LLongFunctionX<R,X> sutThrowing = LLongFunctionX.lX((long l) -> {
+        LLongFunctionX<R,X> sutThrowing = LLongFunctionX.lX(l -> {
             throw new UnsupportedOperationException();
         });
 

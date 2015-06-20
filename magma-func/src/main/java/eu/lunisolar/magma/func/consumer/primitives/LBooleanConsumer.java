@@ -109,7 +109,7 @@ public interface LBooleanConsumer extends LBooleanConsumerX<RuntimeException>, M
 	@Nonnull
 	default LBooleanConsumer fromBoolean(@Nonnull final LBooleanUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final boolean v1) -> this.doAccept(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doAccept(before1.doApplyAsBoolean(v1));
 	}
 
 	/**
@@ -118,7 +118,7 @@ public interface LBooleanConsumer extends LBooleanConsumerX<RuntimeException>, M
 	@Nonnull
 	default <V1> LConsumer<V1> from(@Nonnull final LPredicate<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doAccept(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doAccept(before1.doApplyAsBoolean(v1));
 	}
 
 	// </editor-fold>
@@ -129,7 +129,7 @@ public interface LBooleanConsumer extends LBooleanConsumerX<RuntimeException>, M
 	@Nonnull
 	default LBooleanConsumer andThen(@Nonnull LBooleanConsumer after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> {
+		return b -> {
 			this.doAccept(b);
 			after.doAccept(b);
 		};

@@ -108,7 +108,7 @@ public final class LByteToIntFunctionXBuilder<X extends Throwable> extends PerCa
 		LByteToIntFunctionX<X> retval;
 
 		final Case<LBytePredicateX<X>, LByteToIntFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LByteToIntFunctionX.lX((byte b) -> {
+		retval = LByteToIntFunctionX.<X> lX(b -> {
 			try {
 				for (Case<LBytePredicateX<X>, LByteToIntFunctionX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(b)) {
@@ -117,10 +117,12 @@ public final class LByteToIntFunctionXBuilder<X extends Throwable> extends PerCa
 				}
 
 				return eventuallyFinal.doApplyAsInt(b);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

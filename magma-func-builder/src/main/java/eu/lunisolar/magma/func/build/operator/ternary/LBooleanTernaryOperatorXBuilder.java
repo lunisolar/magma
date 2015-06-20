@@ -108,7 +108,7 @@ public final class LBooleanTernaryOperatorXBuilder<X extends Throwable> extends 
 		LBooleanTernaryOperatorX<X> retval;
 
 		final Case<LBooleanTernaryOperatorX<X>, LBooleanTernaryOperatorX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBooleanTernaryOperatorX.lX((boolean b1, boolean b2, boolean b3) -> {
+		retval = LBooleanTernaryOperatorX.<X> lX((boolean b1, boolean b2, boolean b3) -> {
 			try {
 				for (Case<LBooleanTernaryOperatorX<X>, LBooleanTernaryOperatorX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doApply(b1, b2, b3)) {
@@ -117,10 +117,12 @@ public final class LBooleanTernaryOperatorXBuilder<X extends Throwable> extends 
 				}
 
 				return eventuallyFinal.doApply(b1, b2, b3);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

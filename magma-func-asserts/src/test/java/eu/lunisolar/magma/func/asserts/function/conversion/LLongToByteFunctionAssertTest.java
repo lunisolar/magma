@@ -45,11 +45,11 @@ public class LLongToByteFunctionAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LLongToByteFunction function = LLongToByteFunction.l((l) -> {
-            return testValue;
-    });
+    private LLongToByteFunction function = LLongToByteFunction.l(l ->
+            testValue
+    );
 
-    private LLongToByteFunction functionThrowing = LLongToByteFunction.l((l) -> {
+    private LLongToByteFunction functionThrowing = LLongToByteFunction.l(l -> {
         throw new UnsupportedOperationException();
     });
 

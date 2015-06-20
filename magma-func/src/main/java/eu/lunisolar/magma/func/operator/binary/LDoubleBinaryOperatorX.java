@@ -74,9 +74,9 @@ public interface LDoubleBinaryOperatorX<X extends Throwable> extends java.util.f
 	default double nestingDoApplyAsDouble(double d1, double d2) {
 		try {
 			return this.doApplyAsDouble(d1, d2);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -89,7 +89,7 @@ public interface LDoubleBinaryOperatorX<X extends Throwable> extends java.util.f
 
 		try {
 			return this.doApplyAsDouble(d1, d2);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

@@ -108,7 +108,7 @@ public final class LCharUnaryOperatorXBuilder<X extends Throwable> extends PerCa
 		LCharUnaryOperatorX<X> retval;
 
 		final Case<LCharPredicateX<X>, LCharUnaryOperatorX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LCharUnaryOperatorX.lX((char c) -> {
+		retval = LCharUnaryOperatorX.<X> lX(c -> {
 			try {
 				for (Case<LCharPredicateX<X>, LCharUnaryOperatorX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(c)) {
@@ -117,10 +117,12 @@ public final class LCharUnaryOperatorXBuilder<X extends Throwable> extends PerCa
 				}
 
 				return eventuallyFinal.doApplyAsChar(c);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

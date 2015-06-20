@@ -107,7 +107,7 @@ public final class ObjLongConsumerBuilder<T> extends PerCaseBuilder.Base<ObjLong
 		java.util.function.ObjLongConsumer<T> retval;
 
 		final Case<LObjLongPredicate<T>, java.util.function.ObjLongConsumer<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.l((T t, long l) -> {
+		retval = Function4U.<T> objLongConsumer((T t, long l) -> {
 			try {
 				for (Case<LObjLongPredicate<T>, java.util.function.ObjLongConsumer<T>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(t, l)) {
@@ -117,10 +117,12 @@ public final class ObjLongConsumerBuilder<T> extends PerCaseBuilder.Base<ObjLong
 				}
 
 				eventuallyFinal.accept(t, l);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

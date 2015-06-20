@@ -108,7 +108,7 @@ public final class LDoubleFunctionXBuilder<R, X extends Throwable> extends PerCa
 		LDoubleFunctionX<R, X> retval;
 
 		final Case<LDoublePredicateX<X>, LDoubleFunctionX<R, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LDoubleFunctionX.lX((double d) -> {
+		retval = LDoubleFunctionX.<R, X> lX(d -> {
 			try {
 				for (Case<LDoublePredicateX<X>, LDoubleFunctionX<R, X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(d)) {
@@ -117,10 +117,12 @@ public final class LDoubleFunctionXBuilder<R, X extends Throwable> extends PerCa
 				}
 
 				return eventuallyFinal.doApply(d);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

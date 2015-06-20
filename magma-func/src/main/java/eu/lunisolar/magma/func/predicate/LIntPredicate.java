@@ -102,7 +102,7 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 	}
 
 	public static LIntPredicate constant(boolean r) {
-		return (i) -> r;
+		return i -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -134,7 +134,7 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 	 */
 	@Nonnull
 	default LIntPredicate negate() {
-		return (int i) -> !doTest(i);
+		return i -> !doTest(i);
 	}
 
 	/**
@@ -143,7 +143,7 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 	@Nonnull
 	default LIntPredicate and(@Nonnull LIntPredicate other) {
 		Null.nonNullArg(other, "other");
-		return (int i) -> doTest(i) && other.doTest(i);
+		return i -> doTest(i) && other.doTest(i);
 	}
 
 	/**
@@ -152,7 +152,7 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 	@Nonnull
 	default LIntPredicate or(@Nonnull LIntPredicate other) {
 		Null.nonNullArg(other, "other");
-		return (int i) -> doTest(i) || other.doTest(i);
+		return i -> doTest(i) || other.doTest(i);
 	}
 
 	/**
@@ -161,7 +161,7 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 	@Nonnull
 	default LIntPredicate xor(@Nonnull LIntPredicate other) {
 		Null.nonNullArg(other, "other");
-		return (int i) -> doTest(i) ^ other.doTest(i);
+		return i -> doTest(i) ^ other.doTest(i);
 	}
 
 	@Nonnull
@@ -179,7 +179,7 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 	@Nonnull
 	default LIntPredicate fromInt(@Nonnull final LIntUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final int v1) -> this.doTest(before1.doApplyAsInt(v1));
+		return v1 -> this.doTest(before1.doApplyAsInt(v1));
 	}
 
 	/**
@@ -188,7 +188,7 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 	@Nonnull
 	default <V1> LPredicate<V1> from(@Nonnull final LToIntFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doTest(before1.doApplyAsInt(v1));
+		return v1 -> this.doTest(before1.doApplyAsInt(v1));
 	}
 
 	// </editor-fold>
@@ -199,63 +199,63 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 	@Nonnull
 	default <V> LIntFunction<V> then(@Nonnull LBooleanFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (int i) -> after.doApply(this.doTest(i));
+		return i -> after.doApply(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LIntToByteFunction thenToByte(@Nonnull LBooleanToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return (int i) -> after.doApplyAsByte(this.doTest(i));
+		return i -> after.doApplyAsByte(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LIntToShortFunction thenToShort(@Nonnull LBooleanToShortFunction after) {
 		Null.nonNullArg(after, "after");
-		return (int i) -> after.doApplyAsShort(this.doTest(i));
+		return i -> after.doApplyAsShort(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LIntUnaryOperator thenToInt(@Nonnull LBooleanToIntFunction after) {
 		Null.nonNullArg(after, "after");
-		return (int i) -> after.doApplyAsInt(this.doTest(i));
+		return i -> after.doApplyAsInt(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LIntToLongFunction thenToLong(@Nonnull LBooleanToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return (int i) -> after.doApplyAsLong(this.doTest(i));
+		return i -> after.doApplyAsLong(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LIntToFloatFunction thenToFloat(@Nonnull LBooleanToFloatFunction after) {
 		Null.nonNullArg(after, "after");
-		return (int i) -> after.doApplyAsFloat(this.doTest(i));
+		return i -> after.doApplyAsFloat(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LIntToDoubleFunction thenToDouble(@Nonnull LBooleanToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
-		return (int i) -> after.doApplyAsDouble(this.doTest(i));
+		return i -> after.doApplyAsDouble(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LIntToCharFunction thenToChar(@Nonnull LBooleanToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return (int i) -> after.doApplyAsChar(this.doTest(i));
+		return i -> after.doApplyAsChar(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
 	default LIntPredicate thenToBoolean(@Nonnull LBooleanUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return (int i) -> after.doApplyAsBoolean(this.doTest(i));
+		return i -> after.doApplyAsBoolean(this.doTest(i));
 	}
 
 	// </editor-fold>

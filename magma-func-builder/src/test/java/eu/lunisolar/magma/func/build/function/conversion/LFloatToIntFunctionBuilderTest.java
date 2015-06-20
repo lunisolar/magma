@@ -61,7 +61,7 @@ public class LFloatToIntFunctionBuilderTest<X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LFloatToIntFunction function = LFloatToIntFunctionBuilder.floatToIntFunction()
@@ -77,7 +77,7 @@ public class LFloatToIntFunctionBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,11 +92,11 @@ public class LFloatToIntFunctionBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LFloatToIntFunction function = LFloatToIntFunctionBuilder.floatToIntFunction()
-                .eventually((f) -> {
+                .eventually(f -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -112,14 +112,14 @@ public class LFloatToIntFunctionBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LFloatToIntFunction function = floatToIntFunction((LFloatToIntFunction f)-> doNothing())
-            .addCase(ce -> ce.of((f) -> f == (float)0)
-                             .evaluate((f) -> (int)0))
-            .inCase((f) -> f > 0 && f < 10).evaluate((f) -> (int)1)
-            .inCase((f) -> f > 10 && f < 20).evaluate((f) -> (int)2)
-            .eventually((f) -> (int)99)
+            .addCase(ce -> ce.of(f -> f == (float)0)
+                             .evaluate(f -> (int)0))
+            .inCase(f -> f > 0 && f < 10).evaluate(f -> (int)1)
+            .inCase(f -> f > 10 && f < 20).evaluate(f -> (int)2)
+            .eventually(f -> (int)99)
             .build();
 
 

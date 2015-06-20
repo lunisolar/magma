@@ -45,9 +45,9 @@ public class LBooleanTernaryOperatorAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LBooleanTernaryOperator function = LBooleanTernaryOperator.l((b1,b2,b3) -> {
-            return testValue;
-    });
+    private LBooleanTernaryOperator function = LBooleanTernaryOperator.l((b1,b2,b3) ->
+            testValue
+    );
 
     private LBooleanTernaryOperator functionThrowing = LBooleanTernaryOperator.l((b1,b2,b3) -> {
         throw new UnsupportedOperationException();

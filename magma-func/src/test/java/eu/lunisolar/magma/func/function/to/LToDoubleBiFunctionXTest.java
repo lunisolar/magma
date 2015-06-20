@@ -98,7 +98,7 @@ public class LToDoubleBiFunctionXTest<T1,T2,X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApplyAsDouble_checked() throws X {
+    public void testNestingDoApplyAsDoubleChecked() throws X {
 
         // then
         try {
@@ -113,7 +113,7 @@ public class LToDoubleBiFunctionXTest<T1,T2,X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApplyAsDouble_unckeck() throws X {
+    public void testNestingDoApplyAsDoubleUnckeck() throws X {
 
         // then
         try {
@@ -128,7 +128,7 @@ public class LToDoubleBiFunctionXTest<T1,T2,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsDouble_checked() throws X {
+    public void testShovingDoApplyAsDoubleChecked() throws X {
 
         // then
         try {
@@ -143,7 +143,7 @@ public class LToDoubleBiFunctionXTest<T1,T2,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsDouble_unckeck() throws X {
+    public void testShovingDoApplyAsDoubleUnckeck() throws X {
 
         // then
         try {
@@ -156,7 +156,6 @@ public class LToDoubleBiFunctionXTest<T1,T2,X extends ParseException> {
                     .hasMessage(ORIGINAL_MESSAGE);
         }
     }
-
 
 
     @Test
@@ -193,9 +192,8 @@ public class LToDoubleBiFunctionXTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        LToDoubleBiFunctionX<T1,T2,X> wrapped = sutThrowing.handleX(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LToDoubleBiFunctionX<T1,T2,X> wrapped = sutThrowing.handleX(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -210,7 +208,7 @@ public class LToDoubleBiFunctionXTest<T1,T2,X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
         LToDoubleBiFunctionX<T1,T2,X> sutThrowing = LToDoubleBiFunctionX.lX((T1 t1,T2 t2) -> {
@@ -234,7 +232,7 @@ public class LToDoubleBiFunctionXTest<T1,T2,X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
         LToDoubleBiFunctionX<T1,T2,X> sutThrowing = LToDoubleBiFunctionX.lX((T1 t1,T2 t2) -> {
@@ -267,8 +265,7 @@ public class LToDoubleBiFunctionXTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        LToDoubleBiFunctionX<T1,T2,X> wrapped = sutThrowing.handleX(h -> {
-        });
+        LToDoubleBiFunctionX<T1,T2,X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
 
         // then
         try {

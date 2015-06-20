@@ -67,9 +67,9 @@ public interface LByteToFloatFunctionX<X extends Throwable> extends MetaFunction
 	default float nestingDoApplyAsFloat(byte b) {
 		try {
 			return this.doApplyAsFloat(b);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -82,7 +82,7 @@ public interface LByteToFloatFunctionX<X extends Throwable> extends MetaFunction
 
 		try {
 			return this.doApplyAsFloat(b);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -104,7 +104,7 @@ public interface LByteToFloatFunctionX<X extends Throwable> extends MetaFunction
 	}
 
 	public static <X extends Throwable> LByteToFloatFunctionX<X> constant(float r) {
-		return (b) -> r;
+		return b -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -139,7 +139,7 @@ public interface LByteToFloatFunctionX<X extends Throwable> extends MetaFunction
 	@Nonnull
 	default LByteToFloatFunctionX<X> fromByte(@Nonnull final LByteUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final byte v1) -> this.doApplyAsFloat(before1.doApplyAsByte(v1));
+		return v1 -> this.doApplyAsFloat(before1.doApplyAsByte(v1));
 	}
 
 	/**
@@ -148,7 +148,7 @@ public interface LByteToFloatFunctionX<X extends Throwable> extends MetaFunction
 	@Nonnull
 	default <V1> LToFloatFunctionX<V1, X> from(@Nonnull final LToByteFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doApplyAsFloat(before1.doApplyAsByte(v1));
+		return v1 -> this.doApplyAsFloat(before1.doApplyAsByte(v1));
 	}
 
 	// </editor-fold>
@@ -159,63 +159,63 @@ public interface LByteToFloatFunctionX<X extends Throwable> extends MetaFunction
 	@Nonnull
 	default <V> LByteFunctionX<V, X> then(@Nonnull LFloatFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (byte b) -> after.doApply(this.doApplyAsFloat(b));
+		return b -> after.doApply(this.doApplyAsFloat(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteUnaryOperatorX<X> thenToByte(@Nonnull LFloatToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (byte b) -> after.doApplyAsByte(this.doApplyAsFloat(b));
+		return b -> after.doApplyAsByte(this.doApplyAsFloat(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToShortFunctionX<X> thenToShort(@Nonnull LFloatToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (byte b) -> after.doApplyAsShort(this.doApplyAsFloat(b));
+		return b -> after.doApplyAsShort(this.doApplyAsFloat(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToIntFunctionX<X> thenToInt(@Nonnull LFloatToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (byte b) -> after.doApplyAsInt(this.doApplyAsFloat(b));
+		return b -> after.doApplyAsInt(this.doApplyAsFloat(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToLongFunctionX<X> thenToLong(@Nonnull LFloatToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (byte b) -> after.doApplyAsLong(this.doApplyAsFloat(b));
+		return b -> after.doApplyAsLong(this.doApplyAsFloat(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToFloatFunctionX<X> thenToFloat(@Nonnull LFloatUnaryOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (byte b) -> after.doApplyAsFloat(this.doApplyAsFloat(b));
+		return b -> after.doApplyAsFloat(this.doApplyAsFloat(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToDoubleFunctionX<X> thenToDouble(@Nonnull LFloatToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (byte b) -> after.doApplyAsDouble(this.doApplyAsFloat(b));
+		return b -> after.doApplyAsDouble(this.doApplyAsFloat(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LByteToCharFunctionX<X> thenToChar(@Nonnull LFloatToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (byte b) -> after.doApplyAsChar(this.doApplyAsFloat(b));
+		return b -> after.doApplyAsChar(this.doApplyAsFloat(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBytePredicateX<X> thenToBoolean(@Nonnull LFloatPredicateX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (byte b) -> after.doTest(this.doApplyAsFloat(b));
+		return b -> after.doTest(this.doApplyAsFloat(b));
 	}
 
 	// </editor-fold>
@@ -249,12 +249,12 @@ public interface LByteToFloatFunctionX<X extends Throwable> extends MetaFunction
 
 	@Nonnull
 	default LByteToFloatFunction handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (byte b) -> this.handlingDoApplyAsFloat(b, handling);
+		return b -> this.handlingDoApplyAsFloat(b, handling);
 	}
 
 	@Nonnull
 	default <Y extends Throwable> LByteToFloatFunctionX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (byte b) -> this.handlingDoApplyAsFloat(b, handling);
+		return b -> this.handlingDoApplyAsFloat(b, handling);
 	}
 
 	// </editor-fold>

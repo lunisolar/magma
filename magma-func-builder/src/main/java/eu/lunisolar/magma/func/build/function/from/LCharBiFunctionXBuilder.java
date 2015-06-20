@@ -108,7 +108,7 @@ public final class LCharBiFunctionXBuilder<R, X extends Throwable> extends PerCa
 		LCharBiFunctionX<R, X> retval;
 
 		final Case<LBiCharPredicateX<X>, LCharBiFunctionX<R, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LCharBiFunctionX.lX((char c1, char c2) -> {
+		retval = LCharBiFunctionX.<R, X> lX((char c1, char c2) -> {
 			try {
 				for (Case<LBiCharPredicateX<X>, LCharBiFunctionX<R, X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(c1, c2)) {
@@ -117,10 +117,12 @@ public final class LCharBiFunctionXBuilder<R, X extends Throwable> extends PerCa
 				}
 
 				return eventuallyFinal.doApply(c1, c2);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

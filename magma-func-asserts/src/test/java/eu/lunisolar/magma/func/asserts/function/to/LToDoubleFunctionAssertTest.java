@@ -45,11 +45,11 @@ public class LToDoubleFunctionAssertTest<T,X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LToDoubleFunction<Integer > function = LToDoubleFunction.l((t) -> {
-            return testValue;
-    });
+    private LToDoubleFunction<Integer > function = LToDoubleFunction.l(t ->
+            testValue
+    );
 
-    private LToDoubleFunction<Integer > functionThrowing = LToDoubleFunction.l((t) -> {
+    private LToDoubleFunction<Integer > functionThrowing = LToDoubleFunction.l(t -> {
         throw new UnsupportedOperationException();
     });
 

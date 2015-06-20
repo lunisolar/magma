@@ -61,7 +61,7 @@ public class LIntUnaryOperatorXBuilderTest<X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LIntUnaryOperatorX function = LIntUnaryOperatorXBuilder.intUnaryOperatorX()
@@ -77,7 +77,7 @@ public class LIntUnaryOperatorXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,11 +92,11 @@ public class LIntUnaryOperatorXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LIntUnaryOperatorX function = LIntUnaryOperatorXBuilder.intUnaryOperatorX()
-                .eventually((i) -> {
+                .eventually(i -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -112,14 +112,14 @@ public class LIntUnaryOperatorXBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LIntUnaryOperatorX<ParseException> function = intUnaryOperatorX((LIntUnaryOperatorX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((i) -> i == (int)0)
-                             .evaluate((i) -> (int)0))
-            .inCase((i) -> i > 0 && i < 10).evaluate((i) -> (int)1)
-            .inCase((i) -> i > 10 && i < 20).evaluate((i) -> (int)2)
-            .eventually((i) -> (int)99)
+            .addCase(ce -> ce.of(i -> i == (int)0)
+                             .evaluate(i -> (int)0))
+            .inCase(i -> i > 0 && i < 10).evaluate(i -> (int)1)
+            .inCase(i -> i > 10 && i < 20).evaluate(i -> (int)2)
+            .eventually(i -> (int)99)
             .build();
 
 

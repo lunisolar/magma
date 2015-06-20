@@ -45,9 +45,9 @@ public class LCharSupplierXAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LCharSupplierX<X> function = LCharSupplierX.lX(() -> {
-            return testValue;
-    });
+    private LCharSupplierX<X> function = LCharSupplierX.lX(() ->
+            testValue
+    );
 
     private LCharSupplierX<X> functionThrowing = LCharSupplierX.lX(() -> {
         throw new UnsupportedOperationException();
@@ -57,7 +57,7 @@ public class LCharSupplierXAssertTest<X extends Throwable> {
     public void testAssertPositive() throws ParseException {
 
         A.assertThat(function)
-         .doesGetAsChar(()->{})
+         .doesGetAsChar()
             .to(a -> a.isEqualTo(testValue));
 
     }
@@ -66,7 +66,7 @@ public class LCharSupplierXAssertTest<X extends Throwable> {
     public void testAssertNegative() throws ParseException {
 
         A.assertThat(function)
-         .doesGetAsChar(()->{})
+         .doesGetAsChar()
             .to( a -> a.isEqualTo(2));
 
     }
@@ -75,7 +75,7 @@ public class LCharSupplierXAssertTest<X extends Throwable> {
     public void testAssertThrowsUnexpected() throws ParseException {
 
         A.assertThat(functionThrowing)
-         .doesGetAsChar(()->{})
+         .doesGetAsChar()
             .to( a -> a.isEqualTo(1));
     }
 
@@ -83,7 +83,7 @@ public class LCharSupplierXAssertTest<X extends Throwable> {
     public void testAssertThrowsExpected() throws ParseException {
 
         A.assertThat(functionThrowing)
-         .doesGetAsChar(()->{}).withException(a -> a
+         .doesGetAsChar().withException(a -> a
                    .isExactlyInstanceOf(UnsupportedOperationException.class)
                    .hasMessage(null));
 
@@ -99,9 +99,9 @@ public class LCharSupplierXAssertTest<X extends Throwable> {
             recurringAssertsCalls.incrementAndGet();
             a.isEqualTo(testValue);
          })
-         .doesGetAsChar(()->{})
+         .doesGetAsChar()
             .to(a -> a.isEqualTo(testValue))
-         .doesGetAsChar(()->{})
+         .doesGetAsChar()
             .to(a -> a.isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);
@@ -119,9 +119,9 @@ public class LCharSupplierXAssertTest<X extends Throwable> {
                 a.isEqualTo(0);
             }
          })
-         .doesGetAsChar(()->{})
+         .doesGetAsChar()
             .to(a -> a.isEqualTo(testValue))
-         .doesGetAsChar(()->{})
+         .doesGetAsChar()
             .to(a -> a.isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);

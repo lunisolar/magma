@@ -107,7 +107,7 @@ public final class ConsumerBuilder<T> extends PerCaseBuilder.Base<ConsumerBuilde
 		java.util.function.Consumer<T> retval;
 
 		final Case<LPredicate<T>, java.util.function.Consumer<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.l((T t) -> {
+		retval = Function4U.<T> consumer(t -> {
 			try {
 				for (Case<LPredicate<T>, java.util.function.Consumer<T>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(t)) {
@@ -117,10 +117,12 @@ public final class ConsumerBuilder<T> extends PerCaseBuilder.Base<ConsumerBuilde
 				}
 
 				eventuallyFinal.accept(t);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

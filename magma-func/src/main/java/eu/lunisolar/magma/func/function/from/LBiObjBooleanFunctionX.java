@@ -68,9 +68,9 @@ public interface LBiObjBooleanFunctionX<T1, T2, R, X extends Throwable> extends 
 	default R nestingDoApply(T1 t1, T2 t2, boolean b) {
 		try {
 			return this.doApply(t1, t2, b);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -83,7 +83,7 @@ public interface LBiObjBooleanFunctionX<T1, T2, R, X extends Throwable> extends 
 
 		try {
 			return this.doApply(t1, t2, b);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

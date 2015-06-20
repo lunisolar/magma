@@ -108,7 +108,7 @@ public final class LFloatFunctionBuilder<R> extends PerCaseBuilderWithProduct.Ba
 		LFloatFunction<R> retval;
 
 		final Case<LFloatPredicate, LFloatFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LFloatFunction.l((float f) -> {
+		retval = LFloatFunction.<R> l(f -> {
 			try {
 				for (Case<LFloatPredicate, LFloatFunction<R>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(f)) {
@@ -117,10 +117,12 @@ public final class LFloatFunctionBuilder<R> extends PerCaseBuilderWithProduct.Ba
 				}
 
 				return eventuallyFinal.doApply(f);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

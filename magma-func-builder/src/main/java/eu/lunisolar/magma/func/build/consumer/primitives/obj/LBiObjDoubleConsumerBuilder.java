@@ -108,7 +108,7 @@ public final class LBiObjDoubleConsumerBuilder<T1, T2> extends PerCaseBuilder.Ba
 		LBiObjDoubleConsumer<T1, T2> retval;
 
 		final Case<LBiObjDoublePredicate<T1, T2>, LBiObjDoubleConsumer<T1, T2>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBiObjDoubleConsumer.l((T1 t1, T2 t2, double d) -> {
+		retval = LBiObjDoubleConsumer.<T1, T2> l((T1 t1, T2 t2, double d) -> {
 			try {
 				for (Case<LBiObjDoublePredicate<T1, T2>, LBiObjDoubleConsumer<T1, T2>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(t1, t2, d)) {
@@ -118,10 +118,12 @@ public final class LBiObjDoubleConsumerBuilder<T1, T2> extends PerCaseBuilder.Ba
 				}
 
 				eventuallyFinal.doAccept(t1, t2, d);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

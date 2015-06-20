@@ -67,9 +67,9 @@ public interface LCharBinaryOperatorX<X extends Throwable> extends MetaOperator,
 	default char nestingDoApplyAsChar(char c1, char c2) {
 		try {
 			return this.doApplyAsChar(c1, c2);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -82,7 +82,7 @@ public interface LCharBinaryOperatorX<X extends Throwable> extends MetaOperator,
 
 		try {
 			return this.doApplyAsChar(c1, c2);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

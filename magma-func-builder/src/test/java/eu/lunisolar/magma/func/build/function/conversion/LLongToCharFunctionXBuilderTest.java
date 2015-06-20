@@ -61,7 +61,7 @@ public class LLongToCharFunctionXBuilderTest<X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LLongToCharFunctionX function = LLongToCharFunctionXBuilder.longToCharFunctionX()
@@ -77,7 +77,7 @@ public class LLongToCharFunctionXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,11 +92,11 @@ public class LLongToCharFunctionXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LLongToCharFunctionX function = LLongToCharFunctionXBuilder.longToCharFunctionX()
-                .eventually((l) -> {
+                .eventually(l -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -112,14 +112,14 @@ public class LLongToCharFunctionXBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LLongToCharFunctionX<ParseException> function = longToCharFunctionX((LLongToCharFunctionX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((l) -> l == (long)0)
-                             .evaluate((l) -> (char)0))
-            .inCase((l) -> l > 0 && l < 10).evaluate((l) -> (char)1)
-            .inCase((l) -> l > 10 && l < 20).evaluate((l) -> (char)2)
-            .eventually((l) -> (char)99)
+            .addCase(ce -> ce.of(l -> l == (long)0)
+                             .evaluate(l -> (char)0))
+            .inCase(l -> l > 0 && l < 10).evaluate(l -> (char)1)
+            .inCase(l -> l > 10 && l < 20).evaluate(l -> (char)2)
+            .eventually(l -> (char)99)
             .build();
 
 

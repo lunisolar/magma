@@ -79,6 +79,36 @@ public class LBooleanBiConsumerTest<X extends ParseException> {
 
 
 
+    @Test
+    public void testNestingDoAcceptUnckeck() throws X {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.nestingDoAccept(true,true);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
+    @Test
+    public void testShovingDoAcceptUnckeck() throws X {
+
+        // then
+        try {
+            sutAlwaysThrowingUnckeck.shovingDoAccept(true,true);
+            fail(NO_EXCEPTION_WERE_THROWN);
+        } catch (Exception e) {
+            assertThat(e)
+                    .isExactlyInstanceOf(IndexOutOfBoundsException.class)
+                    .hasNoCause()
+                    .hasMessage(ORIGINAL_MESSAGE);
+        }
+    }
+
 
     @Test
     public void testFunctionalInterfaceDescription() throws X {
@@ -152,9 +182,8 @@ public class LBooleanBiConsumerTest<X extends ParseException> {
         });
 
         // when
-        LBooleanBiConsumer wrapped = sutThrowing.handle(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LBooleanBiConsumer wrapped = sutThrowing.handle(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -169,7 +198,7 @@ public class LBooleanBiConsumerTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
         LBooleanBiConsumer sutThrowing = LBooleanBiConsumer.l((boolean b1,boolean b2) -> {
@@ -193,7 +222,7 @@ public class LBooleanBiConsumerTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
         LBooleanBiConsumer sutThrowing = LBooleanBiConsumer.l((boolean b1,boolean b2) -> {
@@ -226,8 +255,7 @@ public class LBooleanBiConsumerTest<X extends ParseException> {
         });
 
         // when
-        LBooleanBiConsumer wrapped = sutThrowing.handle(h -> {
-        });
+        LBooleanBiConsumer wrapped = sutThrowing.handle(h -> Function4U.doNothing());
 
         // then
         try {

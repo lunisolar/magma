@@ -44,9 +44,9 @@ public class LongBinaryOperatorAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private java.util.function.LongBinaryOperator function = ((l1,l2) -> {
-            return testValue;
-    });
+    private java.util.function.LongBinaryOperator function = ((l1,l2) ->
+            testValue
+    );
 
     private java.util.function.LongBinaryOperator functionThrowing = ((l1,l2) -> {
         throw new UnsupportedOperationException();

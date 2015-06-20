@@ -107,7 +107,7 @@ public final class BinaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Ba
 		java.util.function.BinaryOperator<T> retval;
 
 		final Case<LBiPredicate<T, T>, java.util.function.BinaryOperator<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.l((T t1, T t2) -> {
+		retval = Function4U.<T> binaryOperator((T t1, T t2) -> {
 			try {
 				for (Case<LBiPredicate<T, T>, java.util.function.BinaryOperator<T>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(t1, t2)) {
@@ -116,10 +116,12 @@ public final class BinaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Ba
 				}
 
 				return eventuallyFinal.apply(t1, t2);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

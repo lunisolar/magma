@@ -108,7 +108,7 @@ public final class LIntToDoubleFunctionXBuilder<X extends Throwable> extends Per
 		LIntToDoubleFunctionX<X> retval;
 
 		final Case<LIntPredicateX<X>, LIntToDoubleFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LIntToDoubleFunctionX.lX((int i) -> {
+		retval = LIntToDoubleFunctionX.<X> lX(i -> {
 			try {
 				for (Case<LIntPredicateX<X>, LIntToDoubleFunctionX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(i)) {
@@ -117,10 +117,12 @@ public final class LIntToDoubleFunctionXBuilder<X extends Throwable> extends Per
 				}
 
 				return eventuallyFinal.doApplyAsDouble(i);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

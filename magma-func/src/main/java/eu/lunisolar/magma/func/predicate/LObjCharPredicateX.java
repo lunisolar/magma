@@ -67,9 +67,9 @@ public interface LObjCharPredicateX<T, X extends Throwable> extends MetaPredicat
 	default boolean nestingDoTest(T t, char c) {
 		try {
 			return this.doTest(t, c);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -82,7 +82,7 @@ public interface LObjCharPredicateX<T, X extends Throwable> extends MetaPredicat
 
 		try {
 			return this.doTest(t, c);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

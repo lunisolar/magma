@@ -61,7 +61,7 @@ public class LShortToCharFunctionBuilderTest<X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LShortToCharFunction function = LShortToCharFunctionBuilder.shortToCharFunction()
@@ -77,7 +77,7 @@ public class LShortToCharFunctionBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,11 +92,11 @@ public class LShortToCharFunctionBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LShortToCharFunction function = LShortToCharFunctionBuilder.shortToCharFunction()
-                .eventually((s) -> {
+                .eventually(s -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -112,14 +112,14 @@ public class LShortToCharFunctionBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LShortToCharFunction function = shortToCharFunction((LShortToCharFunction f)-> doNothing())
-            .addCase(ce -> ce.of((s) -> s == (short)0)
-                             .evaluate((s) -> (char)0))
-            .inCase((s) -> s > 0 && s < 10).evaluate((s) -> (char)1)
-            .inCase((s) -> s > 10 && s < 20).evaluate((s) -> (char)2)
-            .eventually((s) -> (char)99)
+            .addCase(ce -> ce.of(s -> s == (short)0)
+                             .evaluate(s -> (char)0))
+            .inCase(s -> s > 0 && s < 10).evaluate(s -> (char)1)
+            .inCase(s -> s > 10 && s < 20).evaluate(s -> (char)2)
+            .eventually(s -> (char)99)
             .build();
 
 

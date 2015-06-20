@@ -108,7 +108,7 @@ public final class LDoubleToCharFunctionBuilder extends PerCaseBuilderWithCharPr
 		LDoubleToCharFunction retval;
 
 		final Case<LDoublePredicate, LDoubleToCharFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LDoubleToCharFunction.l((double d) -> {
+		retval = LDoubleToCharFunction.l(d -> {
 			try {
 				for (Case<LDoublePredicate, LDoubleToCharFunction> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(d)) {
@@ -117,10 +117,12 @@ public final class LDoubleToCharFunctionBuilder extends PerCaseBuilderWithCharPr
 				}
 
 				return eventuallyFinal.doApplyAsChar(d);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

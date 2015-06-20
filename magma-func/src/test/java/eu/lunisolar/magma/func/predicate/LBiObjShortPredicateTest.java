@@ -93,7 +93,7 @@ public class LBiObjShortPredicateTest<T1,T2,X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoTest_unckeck() throws X {
+    public void testNestingDoTestUnckeck() throws X {
 
         // then
         try {
@@ -108,7 +108,7 @@ public class LBiObjShortPredicateTest<T1,T2,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoTest_unckeck() throws X {
+    public void testShovingDoTestUnckeck() throws X {
 
         // then
         try {
@@ -121,7 +121,6 @@ public class LBiObjShortPredicateTest<T1,T2,X extends ParseException> {
                     .hasMessage(ORIGINAL_MESSAGE);
         }
     }
-
 
     @Test
     public void testApplyAsBooleanShouldNotModifyValue() throws X {
@@ -203,9 +202,8 @@ public class LBiObjShortPredicateTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        LBiObjShortPredicate<T1,T2> wrapped = sutThrowing.handle(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LBiObjShortPredicate<T1,T2> wrapped = sutThrowing.handle(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -220,7 +218,7 @@ public class LBiObjShortPredicateTest<T1,T2,X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
         LBiObjShortPredicate<T1,T2> sutThrowing = LBiObjShortPredicate.l((T1 t1,T2 t2, short s) -> {
@@ -244,7 +242,7 @@ public class LBiObjShortPredicateTest<T1,T2,X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
         LBiObjShortPredicate<T1,T2> sutThrowing = LBiObjShortPredicate.l((T1 t1,T2 t2, short s) -> {
@@ -277,8 +275,7 @@ public class LBiObjShortPredicateTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        LBiObjShortPredicate<T1,T2> wrapped = sutThrowing.handle(h -> {
-        });
+        LBiObjShortPredicate<T1,T2> wrapped = sutThrowing.handle(h -> Function4U.doNothing());
 
         // then
         try {

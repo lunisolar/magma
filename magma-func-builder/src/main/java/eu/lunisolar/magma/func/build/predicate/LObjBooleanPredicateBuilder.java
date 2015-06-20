@@ -108,7 +108,7 @@ public final class LObjBooleanPredicateBuilder<T> extends PerCaseBuilderWithBool
 		LObjBooleanPredicate<T> retval;
 
 		final Case<LObjBooleanPredicate<T>, LObjBooleanPredicate<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LObjBooleanPredicate.l((T t, boolean b) -> {
+		retval = LObjBooleanPredicate.<T> l((T t, boolean b) -> {
 			try {
 				for (Case<LObjBooleanPredicate<T>, LObjBooleanPredicate<T>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(t, b)) {
@@ -117,10 +117,12 @@ public final class LObjBooleanPredicateBuilder<T> extends PerCaseBuilderWithBool
 				}
 
 				return eventuallyFinal.doTest(t, b);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

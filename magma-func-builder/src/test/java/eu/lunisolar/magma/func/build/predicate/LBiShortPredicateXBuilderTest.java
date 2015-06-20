@@ -61,7 +61,7 @@ public class LBiShortPredicateXBuilderTest<X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LBiShortPredicateX function = LBiShortPredicateXBuilder.biShortPredicateX()
@@ -77,7 +77,7 @@ public class LBiShortPredicateXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,7 +92,7 @@ public class LBiShortPredicateXBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LBiShortPredicateX function = LBiShortPredicateXBuilder.biShortPredicateX()
@@ -112,7 +112,7 @@ public class LBiShortPredicateXBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LBiShortPredicateX<ParseException> function = biShortPredicateX((LBiShortPredicateX<ParseException> f)-> doNothing())
             .addCase(ce -> ce.of((s1,s2) -> s1 == (short)0)

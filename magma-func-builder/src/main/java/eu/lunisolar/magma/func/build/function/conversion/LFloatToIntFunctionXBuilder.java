@@ -108,7 +108,7 @@ public final class LFloatToIntFunctionXBuilder<X extends Throwable> extends PerC
 		LFloatToIntFunctionX<X> retval;
 
 		final Case<LFloatPredicateX<X>, LFloatToIntFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LFloatToIntFunctionX.lX((float f) -> {
+		retval = LFloatToIntFunctionX.<X> lX(f -> {
 			try {
 				for (Case<LFloatPredicateX<X>, LFloatToIntFunctionX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(f)) {
@@ -117,10 +117,12 @@ public final class LFloatToIntFunctionXBuilder<X extends Throwable> extends PerC
 				}
 
 				return eventuallyFinal.doApplyAsInt(f);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

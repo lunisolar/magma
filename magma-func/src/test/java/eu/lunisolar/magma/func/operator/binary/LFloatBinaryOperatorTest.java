@@ -93,7 +93,7 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApplyAsFloat_unckeck() throws X {
+    public void testNestingDoApplyAsFloatUnckeck() throws X {
 
         // then
         try {
@@ -108,7 +108,7 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsFloat_unckeck() throws X {
+    public void testShovingDoApplyAsFloatUnckeck() throws X {
 
         // then
         try {
@@ -121,7 +121,6 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
                     .hasMessage(ORIGINAL_MESSAGE);
         }
     }
-
 
 
     @Test
@@ -196,9 +195,8 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LFloatBinaryOperator wrapped = sutThrowing.handle(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LFloatBinaryOperator wrapped = sutThrowing.handle(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -213,7 +211,7 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
         LFloatBinaryOperator sutThrowing = LFloatBinaryOperator.l((float f1,float f2) -> {
@@ -237,7 +235,7 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
         LFloatBinaryOperator sutThrowing = LFloatBinaryOperator.l((float f1,float f2) -> {
@@ -270,8 +268,7 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LFloatBinaryOperator wrapped = sutThrowing.handle(h -> {
-        });
+        LFloatBinaryOperator wrapped = sutThrowing.handle(h -> Function4U.doNothing());
 
         // then
         try {

@@ -122,7 +122,7 @@ public interface LLongConsumer extends LLongConsumerX<RuntimeException>, MetaCon
 	@Nonnull
 	default LLongConsumer fromLong(@Nonnull final LLongUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final long v1) -> this.doAccept(before1.doApplyAsLong(v1));
+		return v1 -> this.doAccept(before1.doApplyAsLong(v1));
 	}
 
 	/**
@@ -131,7 +131,7 @@ public interface LLongConsumer extends LLongConsumerX<RuntimeException>, MetaCon
 	@Nonnull
 	default <V1> LConsumer<V1> from(@Nonnull final LToLongFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doAccept(before1.doApplyAsLong(v1));
+		return v1 -> this.doAccept(before1.doApplyAsLong(v1));
 	}
 
 	// </editor-fold>
@@ -142,7 +142,7 @@ public interface LLongConsumer extends LLongConsumerX<RuntimeException>, MetaCon
 	@Nonnull
 	default LLongConsumer andThen(@Nonnull LLongConsumer after) {
 		Null.nonNullArg(after, "after");
-		return (long l) -> {
+		return l -> {
 			this.doAccept(l);
 			after.doAccept(l);
 		};

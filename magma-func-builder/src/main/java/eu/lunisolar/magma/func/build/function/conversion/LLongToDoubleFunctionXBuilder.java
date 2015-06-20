@@ -108,7 +108,7 @@ public final class LLongToDoubleFunctionXBuilder<X extends Throwable> extends Pe
 		LLongToDoubleFunctionX<X> retval;
 
 		final Case<LLongPredicateX<X>, LLongToDoubleFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LLongToDoubleFunctionX.lX((long l) -> {
+		retval = LLongToDoubleFunctionX.<X> lX(l -> {
 			try {
 				for (Case<LLongPredicateX<X>, LLongToDoubleFunctionX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(l)) {
@@ -117,10 +117,12 @@ public final class LLongToDoubleFunctionXBuilder<X extends Throwable> extends Pe
 				}
 
 				return eventuallyFinal.doApplyAsDouble(l);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

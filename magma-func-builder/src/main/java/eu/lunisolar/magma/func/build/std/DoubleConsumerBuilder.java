@@ -107,7 +107,7 @@ public final class DoubleConsumerBuilder extends PerCaseBuilder.Base<DoubleConsu
 		java.util.function.DoubleConsumer retval;
 
 		final Case<LDoublePredicate, java.util.function.DoubleConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = Function4U.l((double d) -> {
+		retval = Function4U.doubleConsumer(d -> {
 			try {
 				for (Case<LDoublePredicate, java.util.function.DoubleConsumer> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(d)) {
@@ -117,10 +117,12 @@ public final class DoubleConsumerBuilder extends PerCaseBuilder.Base<DoubleConsu
 				}
 
 				eventuallyFinal.accept(d);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

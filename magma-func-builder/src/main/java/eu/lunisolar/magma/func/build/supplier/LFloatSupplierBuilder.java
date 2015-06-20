@@ -117,10 +117,12 @@ public final class LFloatSupplierBuilder extends PerCaseBuilderWithFloatProduct.
 				}
 
 				return eventuallyFinal.doGetAsFloat();
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

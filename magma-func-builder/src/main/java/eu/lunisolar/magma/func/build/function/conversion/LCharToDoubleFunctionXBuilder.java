@@ -108,7 +108,7 @@ public final class LCharToDoubleFunctionXBuilder<X extends Throwable> extends Pe
 		LCharToDoubleFunctionX<X> retval;
 
 		final Case<LCharPredicateX<X>, LCharToDoubleFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LCharToDoubleFunctionX.lX((char c) -> {
+		retval = LCharToDoubleFunctionX.<X> lX(c -> {
 			try {
 				for (Case<LCharPredicateX<X>, LCharToDoubleFunctionX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(c)) {
@@ -117,10 +117,12 @@ public final class LCharToDoubleFunctionXBuilder<X extends Throwable> extends Pe
 				}
 
 				return eventuallyFinal.doApplyAsDouble(c);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

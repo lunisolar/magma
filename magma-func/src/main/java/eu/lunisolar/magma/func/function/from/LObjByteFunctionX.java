@@ -68,9 +68,9 @@ public interface LObjByteFunctionX<T, R, X extends Throwable> extends MetaFuncti
 	default R nestingDoApply(T t, byte i) {
 		try {
 			return this.doApply(t, i);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -83,7 +83,7 @@ public interface LObjByteFunctionX<T, R, X extends Throwable> extends MetaFuncti
 
 		try {
 			return this.doApply(t, i);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

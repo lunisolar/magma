@@ -108,7 +108,7 @@ public final class LDoubleToByteFunctionBuilder extends PerCaseBuilderWithBytePr
 		LDoubleToByteFunction retval;
 
 		final Case<LDoublePredicate, LDoubleToByteFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LDoubleToByteFunction.l((double d) -> {
+		retval = LDoubleToByteFunction.l(d -> {
 			try {
 				for (Case<LDoublePredicate, LDoubleToByteFunction> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(d)) {
@@ -117,10 +117,12 @@ public final class LDoubleToByteFunctionBuilder extends PerCaseBuilderWithBytePr
 				}
 
 				return eventuallyFinal.doApplyAsByte(d);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

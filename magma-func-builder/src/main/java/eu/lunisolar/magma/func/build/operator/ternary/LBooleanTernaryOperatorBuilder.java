@@ -117,10 +117,12 @@ public final class LBooleanTernaryOperatorBuilder extends PerCaseBuilderWithBool
 				}
 
 				return eventuallyFinal.doApply(b1, b2, b3);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

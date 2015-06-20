@@ -45,9 +45,9 @@ public class LFloatSupplierAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LFloatSupplier function = LFloatSupplier.l(() -> {
-            return testValue;
-    });
+    private LFloatSupplier function = LFloatSupplier.l(() ->
+            testValue
+    );
 
     private LFloatSupplier functionThrowing = LFloatSupplier.l(() -> {
         throw new UnsupportedOperationException();
@@ -57,7 +57,7 @@ public class LFloatSupplierAssertTest<X extends Throwable> {
     public void testAssertPositive() throws ParseException {
 
         A.assertThat(function)
-         .doesGetAsFloat(()->{})
+         .doesGetAsFloat()
             .to(a -> a.isEqualTo(testValue));
 
     }
@@ -66,7 +66,7 @@ public class LFloatSupplierAssertTest<X extends Throwable> {
     public void testAssertNegative() throws ParseException {
 
         A.assertThat(function)
-         .doesGetAsFloat(()->{})
+         .doesGetAsFloat()
             .to( a -> a.isEqualTo(2));
 
     }
@@ -75,7 +75,7 @@ public class LFloatSupplierAssertTest<X extends Throwable> {
     public void testAssertThrowsUnexpected() throws ParseException {
 
         A.assertThat(functionThrowing)
-         .doesGetAsFloat(()->{})
+         .doesGetAsFloat()
             .to( a -> a.isEqualTo(1));
     }
 
@@ -83,7 +83,7 @@ public class LFloatSupplierAssertTest<X extends Throwable> {
     public void testAssertThrowsExpected() throws ParseException {
 
         A.assertThat(functionThrowing)
-         .doesGetAsFloat(()->{}).withException(a -> a
+         .doesGetAsFloat().withException(a -> a
                    .isExactlyInstanceOf(UnsupportedOperationException.class)
                    .hasMessage(null));
 
@@ -99,9 +99,9 @@ public class LFloatSupplierAssertTest<X extends Throwable> {
             recurringAssertsCalls.incrementAndGet();
             a.isEqualTo(testValue);
          })
-         .doesGetAsFloat(()->{})
+         .doesGetAsFloat()
             .to(a -> a.isEqualTo(testValue))
-         .doesGetAsFloat(()->{})
+         .doesGetAsFloat()
             .to(a -> a.isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);
@@ -119,9 +119,9 @@ public class LFloatSupplierAssertTest<X extends Throwable> {
                 a.isEqualTo(0);
             }
          })
-         .doesGetAsFloat(()->{})
+         .doesGetAsFloat()
             .to(a -> a.isEqualTo(testValue))
-         .doesGetAsFloat(()->{})
+         .doesGetAsFloat()
             .to(a -> a.isEqualTo(testValue));
 
         assertThat(recurringAssertsCalls.get()).isEqualTo(2);

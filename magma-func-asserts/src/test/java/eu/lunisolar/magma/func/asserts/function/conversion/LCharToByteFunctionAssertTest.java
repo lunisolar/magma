@@ -45,11 +45,11 @@ public class LCharToByteFunctionAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LCharToByteFunction function = LCharToByteFunction.l((c) -> {
-            return testValue;
-    });
+    private LCharToByteFunction function = LCharToByteFunction.l(c ->
+            testValue
+    );
 
-    private LCharToByteFunction functionThrowing = LCharToByteFunction.l((c) -> {
+    private LCharToByteFunction functionThrowing = LCharToByteFunction.l(c -> {
         throw new UnsupportedOperationException();
     });
 

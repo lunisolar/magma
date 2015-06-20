@@ -108,7 +108,7 @@ public final class LShortUnaryOperatorBuilder extends PerCaseBuilderWithShortPro
 		LShortUnaryOperator retval;
 
 		final Case<LShortPredicate, LShortUnaryOperator>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LShortUnaryOperator.l((short s) -> {
+		retval = LShortUnaryOperator.l(s -> {
 			try {
 				for (Case<LShortPredicate, LShortUnaryOperator> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(s)) {
@@ -117,10 +117,12 @@ public final class LShortUnaryOperatorBuilder extends PerCaseBuilderWithShortPro
 				}
 
 				return eventuallyFinal.doApplyAsShort(s);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

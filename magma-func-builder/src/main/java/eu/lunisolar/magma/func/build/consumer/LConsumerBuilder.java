@@ -108,7 +108,7 @@ public final class LConsumerBuilder<T> extends PerCaseBuilder.Base<LConsumerBuil
 		LConsumer<T> retval;
 
 		final Case<LPredicate<T>, LConsumer<T>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LConsumer.l((T t) -> {
+		retval = LConsumer.<T> l(t -> {
 			try {
 				for (Case<LPredicate<T>, LConsumer<T>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(t)) {
@@ -118,10 +118,12 @@ public final class LConsumerBuilder<T> extends PerCaseBuilder.Base<LConsumerBuil
 				}
 
 				eventuallyFinal.doAccept(t);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

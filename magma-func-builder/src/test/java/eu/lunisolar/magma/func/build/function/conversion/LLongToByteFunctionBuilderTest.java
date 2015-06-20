@@ -61,7 +61,7 @@ public class LLongToByteFunctionBuilderTest<X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LLongToByteFunction function = LLongToByteFunctionBuilder.longToByteFunction()
@@ -77,7 +77,7 @@ public class LLongToByteFunctionBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,11 +92,11 @@ public class LLongToByteFunctionBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LLongToByteFunction function = LLongToByteFunctionBuilder.longToByteFunction()
-                .eventually((l) -> {
+                .eventually(l -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -112,14 +112,14 @@ public class LLongToByteFunctionBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LLongToByteFunction function = longToByteFunction((LLongToByteFunction f)-> doNothing())
-            .addCase(ce -> ce.of((l) -> l == (long)0)
-                             .evaluate((l) -> (byte)0))
-            .inCase((l) -> l > 0 && l < 10).evaluate((l) -> (byte)1)
-            .inCase((l) -> l > 10 && l < 20).evaluate((l) -> (byte)2)
-            .eventually((l) -> (byte)99)
+            .addCase(ce -> ce.of(l -> l == (long)0)
+                             .evaluate(l -> (byte)0))
+            .inCase(l -> l > 0 && l < 10).evaluate(l -> (byte)1)
+            .inCase(l -> l > 10 && l < 20).evaluate(l -> (byte)2)
+            .eventually(l -> (byte)99)
             .build();
 
 

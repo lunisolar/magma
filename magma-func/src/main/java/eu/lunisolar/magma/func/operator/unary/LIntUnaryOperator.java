@@ -96,7 +96,7 @@ public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>,
 	}
 
 	public static LIntUnaryOperator constant(int r) {
-		return (i) -> r;
+		return i -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -130,7 +130,7 @@ public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>,
 	@Nonnull
 	default LIntUnaryOperator fromInt(@Nonnull final LIntUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final int v1) -> this.doApplyAsInt(before1.doApplyAsInt(v1));
+		return v1 -> this.doApplyAsInt(before1.doApplyAsInt(v1));
 	}
 
 	/**
@@ -139,7 +139,7 @@ public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>,
 	@Nonnull
 	default <V1> LToIntFunction<V1> from(@Nonnull final LToIntFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doApplyAsInt(before1.doApplyAsInt(v1));
+		return v1 -> this.doApplyAsInt(before1.doApplyAsInt(v1));
 	}
 
 	// </editor-fold>
@@ -150,63 +150,63 @@ public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>,
 	@Nonnull
 	default <V> LIntFunction<V> then(@Nonnull LIntFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
-		return (int i) -> after.doApply(this.doApplyAsInt(i));
+		return i -> after.doApply(this.doApplyAsInt(i));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LIntToByteFunction thenToByte(@Nonnull LIntToByteFunction after) {
 		Null.nonNullArg(after, "after");
-		return (int i) -> after.doApplyAsByte(this.doApplyAsInt(i));
+		return i -> after.doApplyAsByte(this.doApplyAsInt(i));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LIntToShortFunction thenToShort(@Nonnull LIntToShortFunction after) {
 		Null.nonNullArg(after, "after");
-		return (int i) -> after.doApplyAsShort(this.doApplyAsInt(i));
+		return i -> after.doApplyAsShort(this.doApplyAsInt(i));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LIntUnaryOperator thenToInt(@Nonnull LIntUnaryOperator after) {
 		Null.nonNullArg(after, "after");
-		return (int i) -> after.doApplyAsInt(this.doApplyAsInt(i));
+		return i -> after.doApplyAsInt(this.doApplyAsInt(i));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LIntToLongFunction thenToLong(@Nonnull LIntToLongFunction after) {
 		Null.nonNullArg(after, "after");
-		return (int i) -> after.doApplyAsLong(this.doApplyAsInt(i));
+		return i -> after.doApplyAsLong(this.doApplyAsInt(i));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LIntToFloatFunction thenToFloat(@Nonnull LIntToFloatFunction after) {
 		Null.nonNullArg(after, "after");
-		return (int i) -> after.doApplyAsFloat(this.doApplyAsInt(i));
+		return i -> after.doApplyAsFloat(this.doApplyAsInt(i));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LIntToDoubleFunction thenToDouble(@Nonnull LIntToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
-		return (int i) -> after.doApplyAsDouble(this.doApplyAsInt(i));
+		return i -> after.doApplyAsDouble(this.doApplyAsInt(i));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LIntToCharFunction thenToChar(@Nonnull LIntToCharFunction after) {
 		Null.nonNullArg(after, "after");
-		return (int i) -> after.doApplyAsChar(this.doApplyAsInt(i));
+		return i -> after.doApplyAsChar(this.doApplyAsInt(i));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
 	default LIntPredicate thenToBoolean(@Nonnull LIntPredicate after) {
 		Null.nonNullArg(after, "after");
-		return (int i) -> after.doTest(this.doApplyAsInt(i));
+		return i -> after.doTest(this.doApplyAsInt(i));
 	}
 
 	// </editor-fold>

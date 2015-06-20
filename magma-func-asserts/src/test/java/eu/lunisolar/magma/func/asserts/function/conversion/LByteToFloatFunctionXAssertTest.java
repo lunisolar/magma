@@ -45,11 +45,11 @@ public class LByteToFloatFunctionXAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LByteToFloatFunctionX<X> function = LByteToFloatFunctionX.lX((b) -> {
-            return testValue;
-    });
+    private LByteToFloatFunctionX<X> function = LByteToFloatFunctionX.lX(b ->
+            testValue
+    );
 
-    private LByteToFloatFunctionX<X> functionThrowing = LByteToFloatFunctionX.lX((b) -> {
+    private LByteToFloatFunctionX<X> functionThrowing = LByteToFloatFunctionX.lX(b -> {
         throw new UnsupportedOperationException();
     });
 

@@ -98,7 +98,7 @@ public class LIntSupplierXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoGetAsInt_checked() throws X {
+    public void testNestingDoGetAsIntChecked() throws X {
 
         // then
         try {
@@ -113,7 +113,7 @@ public class LIntSupplierXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoGetAsInt_unckeck() throws X {
+    public void testNestingDoGetAsIntUnckeck() throws X {
 
         // then
         try {
@@ -128,7 +128,7 @@ public class LIntSupplierXTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoGetAsInt_checked() throws X {
+    public void testShovingDoGetAsIntChecked() throws X {
 
         // then
         try {
@@ -143,7 +143,7 @@ public class LIntSupplierXTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoGetAsInt_unckeck() throws X {
+    public void testShovingDoGetAsIntUnckeck() throws X {
 
         // then
         try {
@@ -156,7 +156,6 @@ public class LIntSupplierXTest<X extends ParseException> {
                     .hasMessage(ORIGINAL_MESSAGE);
         }
     }
-
 
 
     @Test
@@ -193,9 +192,8 @@ public class LIntSupplierXTest<X extends ParseException> {
         });
 
         // when
-        LIntSupplierX<X> wrapped = sutThrowing.handleX(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LIntSupplierX<X> wrapped = sutThrowing.handleX(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -210,7 +208,7 @@ public class LIntSupplierXTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
         LIntSupplierX<X> sutThrowing = LIntSupplierX.lX(() -> {
@@ -234,7 +232,7 @@ public class LIntSupplierXTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
         LIntSupplierX<X> sutThrowing = LIntSupplierX.lX(() -> {
@@ -267,8 +265,7 @@ public class LIntSupplierXTest<X extends ParseException> {
         });
 
         // when
-        LIntSupplierX<X> wrapped = sutThrowing.handleX(h -> {
-        });
+        LIntSupplierX<X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
 
         // then
         try {

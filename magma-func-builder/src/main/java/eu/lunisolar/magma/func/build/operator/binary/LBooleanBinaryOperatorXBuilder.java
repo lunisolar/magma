@@ -108,7 +108,7 @@ public final class LBooleanBinaryOperatorXBuilder<X extends Throwable> extends P
 		LBooleanBinaryOperatorX<X> retval;
 
 		final Case<LBooleanBinaryOperatorX<X>, LBooleanBinaryOperatorX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBooleanBinaryOperatorX.lX((boolean b1, boolean b2) -> {
+		retval = LBooleanBinaryOperatorX.<X> lX((boolean b1, boolean b2) -> {
 			try {
 				for (Case<LBooleanBinaryOperatorX<X>, LBooleanBinaryOperatorX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doApplyAsBoolean(b1, b2)) {
@@ -117,10 +117,12 @@ public final class LBooleanBinaryOperatorXBuilder<X extends Throwable> extends P
 				}
 
 				return eventuallyFinal.doApplyAsBoolean(b1, b2);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

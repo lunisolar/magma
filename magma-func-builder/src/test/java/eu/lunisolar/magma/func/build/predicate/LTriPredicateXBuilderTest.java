@@ -61,7 +61,7 @@ public class LTriPredicateXBuilderTest<T1,T2,T3,X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LTriPredicateX function = LTriPredicateXBuilder.triPredicateX()
@@ -77,7 +77,7 @@ public class LTriPredicateXBuilderTest<T1,T2,T3,X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,7 +92,7 @@ public class LTriPredicateXBuilderTest<T1,T2,T3,X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LTriPredicateX function = LTriPredicateXBuilder.triPredicateX()
@@ -112,7 +112,7 @@ public class LTriPredicateXBuilderTest<T1,T2,T3,X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LTriPredicateX<Integer ,Integer ,Integer ,ParseException> function = triPredicateX((LTriPredicateX<Integer ,Integer ,Integer ,ParseException> f)-> doNothing())
             .addCase(ce -> ce.of((t1,t2,t3) -> t1 == Integer.valueOf(0))

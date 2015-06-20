@@ -108,7 +108,7 @@ public final class LFloatPredicateBuilder extends PerCaseBuilderWithBooleanProdu
 		LFloatPredicate retval;
 
 		final Case<LFloatPredicate, LFloatPredicate>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LFloatPredicate.l((float f) -> {
+		retval = LFloatPredicate.l(f -> {
 			try {
 				for (Case<LFloatPredicate, LFloatPredicate> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(f)) {
@@ -117,10 +117,12 @@ public final class LFloatPredicateBuilder extends PerCaseBuilderWithBooleanProdu
 				}
 
 				return eventuallyFinal.doTest(f);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

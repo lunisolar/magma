@@ -68,9 +68,9 @@ public interface LTernaryOperatorX<T, X extends Throwable> extends MetaOperator,
 	default T nestingDoApply(T t1, T t2, T t3) {
 		try {
 			return this.doApply(t1, t2, t3);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -83,7 +83,7 @@ public interface LTernaryOperatorX<T, X extends Throwable> extends MetaOperator,
 
 		try {
 			return this.doApply(t1, t2, t3);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

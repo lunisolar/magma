@@ -96,7 +96,7 @@ public class LFloatSupplierXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoGetAsFloat_checked() throws X {
+    public void testNestingDoGetAsFloatChecked() throws X {
 
         // then
         try {
@@ -111,7 +111,7 @@ public class LFloatSupplierXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoGetAsFloat_unckeck() throws X {
+    public void testNestingDoGetAsFloatUnckeck() throws X {
 
         // then
         try {
@@ -126,7 +126,7 @@ public class LFloatSupplierXTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoGetAsFloat_checked() throws X {
+    public void testShovingDoGetAsFloatChecked() throws X {
 
         // then
         try {
@@ -141,7 +141,7 @@ public class LFloatSupplierXTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoGetAsFloat_unckeck() throws X {
+    public void testShovingDoGetAsFloatUnckeck() throws X {
 
         // then
         try {
@@ -154,7 +154,6 @@ public class LFloatSupplierXTest<X extends ParseException> {
                     .hasMessage(ORIGINAL_MESSAGE);
         }
     }
-
 
 
     @Test
@@ -185,9 +184,8 @@ public class LFloatSupplierXTest<X extends ParseException> {
         });
 
         // when
-        LFloatSupplierX<X> wrapped = sutThrowing.handleX(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LFloatSupplierX<X> wrapped = sutThrowing.handleX(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -202,7 +200,7 @@ public class LFloatSupplierXTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
         LFloatSupplierX<X> sutThrowing = LFloatSupplierX.lX(() -> {
@@ -226,7 +224,7 @@ public class LFloatSupplierXTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
         LFloatSupplierX<X> sutThrowing = LFloatSupplierX.lX(() -> {
@@ -259,8 +257,7 @@ public class LFloatSupplierXTest<X extends ParseException> {
         });
 
         // when
-        LFloatSupplierX<X> wrapped = sutThrowing.handleX(h -> {
-        });
+        LFloatSupplierX<X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
 
         // then
         try {

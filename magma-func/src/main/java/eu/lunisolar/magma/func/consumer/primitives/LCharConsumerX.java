@@ -68,9 +68,9 @@ public interface LCharConsumerX<X extends Throwable> extends MetaConsumer, MetaI
 	default void nestingDoAccept(char c) {
 		try {
 			this.doAccept(c);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -83,7 +83,7 @@ public interface LCharConsumerX<X extends Throwable> extends MetaConsumer, MetaI
 
 		try {
 			this.doAccept(c);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -131,7 +131,7 @@ public interface LCharConsumerX<X extends Throwable> extends MetaConsumer, MetaI
 	@Nonnull
 	default LCharConsumerX<X> fromChar(@Nonnull final LCharUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final char v1) -> this.doAccept(before1.doApplyAsChar(v1));
+		return v1 -> this.doAccept(before1.doApplyAsChar(v1));
 	}
 
 	/**
@@ -140,7 +140,7 @@ public interface LCharConsumerX<X extends Throwable> extends MetaConsumer, MetaI
 	@Nonnull
 	default <V1> LConsumerX<V1, X> from(@Nonnull final LToCharFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doAccept(before1.doApplyAsChar(v1));
+		return v1 -> this.doAccept(before1.doApplyAsChar(v1));
 	}
 
 	// </editor-fold>
@@ -151,7 +151,7 @@ public interface LCharConsumerX<X extends Throwable> extends MetaConsumer, MetaI
 	@Nonnull
 	default LCharConsumerX<X> andThen(@Nonnull LCharConsumerX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (char c) -> {
+		return c -> {
 			this.doAccept(c);
 			after.doAccept(c);
 		};
@@ -187,12 +187,12 @@ public interface LCharConsumerX<X extends Throwable> extends MetaConsumer, MetaI
 
 	@Nonnull
 	default LCharConsumer handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (char c) -> this.handlingDoAccept(c, handling);
+		return c -> this.handlingDoAccept(c, handling);
 	}
 
 	@Nonnull
 	default <Y extends Throwable> LCharConsumerX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (char c) -> this.handlingDoAccept(c, handling);
+		return c -> this.handlingDoAccept(c, handling);
 	}
 
 	// </editor-fold>

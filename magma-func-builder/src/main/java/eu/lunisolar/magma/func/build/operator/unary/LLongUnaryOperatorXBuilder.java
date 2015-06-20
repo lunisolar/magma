@@ -108,7 +108,7 @@ public final class LLongUnaryOperatorXBuilder<X extends Throwable> extends PerCa
 		LLongUnaryOperatorX<X> retval;
 
 		final Case<LLongPredicateX<X>, LLongUnaryOperatorX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LLongUnaryOperatorX.lX((long l) -> {
+		retval = LLongUnaryOperatorX.<X> lX(l -> {
 			try {
 				for (Case<LLongPredicateX<X>, LLongUnaryOperatorX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(l)) {
@@ -117,10 +117,12 @@ public final class LLongUnaryOperatorXBuilder<X extends Throwable> extends PerCa
 				}
 
 				return eventuallyFinal.doApplyAsLong(l);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

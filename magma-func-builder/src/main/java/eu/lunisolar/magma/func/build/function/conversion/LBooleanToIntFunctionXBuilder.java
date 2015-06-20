@@ -108,7 +108,7 @@ public final class LBooleanToIntFunctionXBuilder<X extends Throwable> extends Pe
 		LBooleanToIntFunctionX<X> retval;
 
 		final Case<LBooleanUnaryOperatorX<X>, LBooleanToIntFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBooleanToIntFunctionX.lX((boolean b) -> {
+		retval = LBooleanToIntFunctionX.<X> lX(b -> {
 			try {
 				for (Case<LBooleanUnaryOperatorX<X>, LBooleanToIntFunctionX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doApplyAsBoolean(b)) {
@@ -117,10 +117,12 @@ public final class LBooleanToIntFunctionXBuilder<X extends Throwable> extends Pe
 				}
 
 				return eventuallyFinal.doApplyAsInt(b);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

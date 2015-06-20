@@ -108,7 +108,7 @@ public final class LToLongFunctionXBuilder<T, X extends Throwable> extends PerCa
 		LToLongFunctionX<T, X> retval;
 
 		final Case<LPredicateX<T, X>, LToLongFunctionX<T, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LToLongFunctionX.lX((T t) -> {
+		retval = LToLongFunctionX.<T, X> lX(t -> {
 			try {
 				for (Case<LPredicateX<T, X>, LToLongFunctionX<T, X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(t)) {
@@ -117,10 +117,12 @@ public final class LToLongFunctionXBuilder<T, X extends Throwable> extends PerCa
 				}
 
 				return eventuallyFinal.doApplyAsLong(t);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

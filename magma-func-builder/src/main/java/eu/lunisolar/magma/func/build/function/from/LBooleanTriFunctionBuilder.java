@@ -108,7 +108,7 @@ public final class LBooleanTriFunctionBuilder<R> extends PerCaseBuilderWithProdu
 		LBooleanTriFunction<R> retval;
 
 		final Case<LBooleanTernaryOperator, LBooleanTriFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LBooleanTriFunction.l((boolean b1, boolean b2, boolean b3) -> {
+		retval = LBooleanTriFunction.<R> l((boolean b1, boolean b2, boolean b3) -> {
 			try {
 				for (Case<LBooleanTernaryOperator, LBooleanTriFunction<R>> aCase : casesArray) {
 					if (aCase.casePredicate().doApply(b1, b2, b3)) {
@@ -117,10 +117,12 @@ public final class LBooleanTriFunctionBuilder<R> extends PerCaseBuilderWithProdu
 				}
 
 				return eventuallyFinal.doApply(b1, b2, b3);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

@@ -108,7 +108,7 @@ public final class LByteSupplierXBuilder<X extends Throwable> extends PerCaseBui
 		LByteSupplierX<X> retval;
 
 		final Case<LBooleanSupplierX<X>, LByteSupplierX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LByteSupplierX.lX(() -> {
+		retval = LByteSupplierX.<X> lX(() -> {
 			try {
 				for (Case<LBooleanSupplierX<X>, LByteSupplierX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doGetAsBoolean()) {
@@ -117,10 +117,12 @@ public final class LByteSupplierXBuilder<X extends Throwable> extends PerCaseBui
 				}
 
 				return eventuallyFinal.doGetAsByte();
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

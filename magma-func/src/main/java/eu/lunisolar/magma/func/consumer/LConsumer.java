@@ -122,7 +122,7 @@ public interface LConsumer<T> extends LConsumerX<T, RuntimeException>, MetaConsu
 	@Nonnull
 	default <V1> LConsumer<V1> from(@Nonnull final LFunction<? super V1, ? extends T> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final V1 v1) -> this.doAccept(before1.doApply(v1));
+		return v1 -> this.doAccept(before1.doApply(v1));
 	}
 
 	// </editor-fold>
@@ -133,7 +133,7 @@ public interface LConsumer<T> extends LConsumerX<T, RuntimeException>, MetaConsu
 	@Nonnull
 	default LConsumer<T> andThen(@Nonnull LConsumer<? super T> after) {
 		Null.nonNullArg(after, "after");
-		return (T t) -> {
+		return t -> {
 			this.doAccept(t);
 			after.doAccept(t);
 		};

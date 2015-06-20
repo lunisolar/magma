@@ -108,7 +108,7 @@ public final class LFloatToShortFunctionXBuilder<X extends Throwable> extends Pe
 		LFloatToShortFunctionX<X> retval;
 
 		final Case<LFloatPredicateX<X>, LFloatToShortFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LFloatToShortFunctionX.lX((float f) -> {
+		retval = LFloatToShortFunctionX.<X> lX(f -> {
 			try {
 				for (Case<LFloatPredicateX<X>, LFloatToShortFunctionX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(f)) {
@@ -117,10 +117,12 @@ public final class LFloatToShortFunctionXBuilder<X extends Throwable> extends Pe
 				}
 
 				return eventuallyFinal.doApplyAsShort(f);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

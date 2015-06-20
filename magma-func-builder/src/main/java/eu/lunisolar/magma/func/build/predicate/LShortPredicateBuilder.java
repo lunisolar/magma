@@ -108,7 +108,7 @@ public final class LShortPredicateBuilder extends PerCaseBuilderWithBooleanProdu
 		LShortPredicate retval;
 
 		final Case<LShortPredicate, LShortPredicate>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LShortPredicate.l((short s) -> {
+		retval = LShortPredicate.l(s -> {
 			try {
 				for (Case<LShortPredicate, LShortPredicate> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(s)) {
@@ -117,10 +117,12 @@ public final class LShortPredicateBuilder extends PerCaseBuilderWithBooleanProdu
 				}
 
 				return eventuallyFinal.doTest(s);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

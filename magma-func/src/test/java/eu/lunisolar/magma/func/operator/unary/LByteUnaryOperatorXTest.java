@@ -74,11 +74,11 @@ public class LByteUnaryOperatorXTest<X extends ParseException> {
 
 
 
-    private LByteUnaryOperatorX<ParseException> sutAlwaysThrowing = LByteUnaryOperatorX.lX((byte b) -> {
+    private LByteUnaryOperatorX<ParseException> sutAlwaysThrowing = LByteUnaryOperatorX.lX(b -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
     });
 
-    private LByteUnaryOperatorX<RuntimeException> sutAlwaysThrowingUnckeck = LByteUnaryOperatorX.lX((byte b) -> {
+    private LByteUnaryOperatorX<RuntimeException> sutAlwaysThrowingUnckeck = LByteUnaryOperatorX.lX(b -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -96,7 +96,7 @@ public class LByteUnaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApplyAsByte_checked() throws X {
+    public void testNestingDoApplyAsByteChecked() throws X {
 
         // then
         try {
@@ -111,7 +111,7 @@ public class LByteUnaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoApplyAsByte_unckeck() throws X {
+    public void testNestingDoApplyAsByteUnckeck() throws X {
 
         // then
         try {
@@ -126,7 +126,7 @@ public class LByteUnaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsByte_checked() throws X {
+    public void testShovingDoApplyAsByteChecked() throws X {
 
         // then
         try {
@@ -141,7 +141,7 @@ public class LByteUnaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoApplyAsByte_unckeck() throws X {
+    public void testShovingDoApplyAsByteUnckeck() throws X {
 
         // then
         try {
@@ -156,7 +156,6 @@ public class LByteUnaryOperatorXTest<X extends ParseException> {
     }
 
 
-
     @Test
     public void testFunctionalInterfaceDescription() throws X {
         assertThat(sut.functionalInterfaceDescription())
@@ -165,7 +164,7 @@ public class LByteUnaryOperatorXTest<X extends ParseException> {
 
     @Test
     public void testLXMethod() throws X {
-        assertThat(LByteUnaryOperatorX.lX((byte b) -> testValue ))
+        assertThat(LByteUnaryOperatorX.lX(b -> testValue ))
             .isInstanceOf(LByteUnaryOperatorX.class);
     }
 
@@ -180,14 +179,13 @@ public class LByteUnaryOperatorXTest<X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LByteUnaryOperatorX<X> sutThrowing = LByteUnaryOperatorX.lX((byte b) -> {
+        LByteUnaryOperatorX<X> sutThrowing = LByteUnaryOperatorX.lX(b -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        LByteUnaryOperatorX<X> wrapped = sutThrowing.handleX(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LByteUnaryOperatorX<X> wrapped = sutThrowing.handleX(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -202,10 +200,10 @@ public class LByteUnaryOperatorXTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LByteUnaryOperatorX<X> sutThrowing = LByteUnaryOperatorX.lX((byte b) -> {
+        LByteUnaryOperatorX<X> sutThrowing = LByteUnaryOperatorX.lX(b -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -226,10 +224,10 @@ public class LByteUnaryOperatorXTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LByteUnaryOperatorX<X> sutThrowing = LByteUnaryOperatorX.lX((byte b) -> {
+        LByteUnaryOperatorX<X> sutThrowing = LByteUnaryOperatorX.lX(b -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -254,13 +252,12 @@ public class LByteUnaryOperatorXTest<X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LByteUnaryOperatorX<X> sutThrowing = LByteUnaryOperatorX.lX((byte b) -> {
+        LByteUnaryOperatorX<X> sutThrowing = LByteUnaryOperatorX.lX(b -> {
             throw (X) new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
         // when
-        LByteUnaryOperatorX<X> wrapped = sutThrowing.handleX(h -> {
-        });
+        LByteUnaryOperatorX<X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -285,7 +282,7 @@ public class LByteUnaryOperatorXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LByteUnaryOperatorX<X> sutO = (byte b) -> {
+        LByteUnaryOperatorX<X> sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo((byte)90);
                 return (byte)100;
@@ -314,7 +311,7 @@ public class LByteUnaryOperatorXTest<X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LByteUnaryOperatorX<X> sutO = (byte b) -> {
+        LByteUnaryOperatorX<X> sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo((byte)90);
                 return (byte)100;
@@ -348,7 +345,7 @@ public class LByteUnaryOperatorXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LByteUnaryOperatorX<X> sutO = (byte b) -> {
+        LByteUnaryOperatorX<X> sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo((byte)80);
                 return (byte)90;
@@ -383,7 +380,7 @@ public class LByteUnaryOperatorXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LByteUnaryOperatorX<X> sutO = (byte b) -> {
+        LByteUnaryOperatorX<X> sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo((byte)80);
                 return (byte)90;
@@ -418,7 +415,7 @@ public class LByteUnaryOperatorXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LByteUnaryOperatorX<X> sutO = (byte b) -> {
+        LByteUnaryOperatorX<X> sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo((byte)80);
                 return (byte)90;
@@ -453,7 +450,7 @@ public class LByteUnaryOperatorXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LByteUnaryOperatorX<X> sutO = (byte b) -> {
+        LByteUnaryOperatorX<X> sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo((byte)80);
                 return (byte)90;
@@ -488,7 +485,7 @@ public class LByteUnaryOperatorXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LByteUnaryOperatorX<X> sutO = (byte b) -> {
+        LByteUnaryOperatorX<X> sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo((byte)80);
                 return (byte)90;
@@ -523,7 +520,7 @@ public class LByteUnaryOperatorXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LByteUnaryOperatorX<X> sutO = (byte b) -> {
+        LByteUnaryOperatorX<X> sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo((byte)80);
                 return (byte)90;
@@ -558,7 +555,7 @@ public class LByteUnaryOperatorXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LByteUnaryOperatorX<X> sutO = (byte b) -> {
+        LByteUnaryOperatorX<X> sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo((byte)80);
                 return (byte)90;
@@ -593,7 +590,7 @@ public class LByteUnaryOperatorXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LByteUnaryOperatorX<X> sutO = (byte b) -> {
+        LByteUnaryOperatorX<X> sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo((byte)80);
                 return (byte)90;
@@ -628,7 +625,7 @@ public class LByteUnaryOperatorXTest<X extends ParseException> {
 
 
         //given (+ some assertions)
-        LByteUnaryOperatorX<X> sutO = (byte b) -> {
+        LByteUnaryOperatorX<X> sutO = b -> {
                 mainFunctionCalled.set(true);
                 assertThat(b).isEqualTo((byte)80);
                 return (byte)90;
@@ -692,7 +689,7 @@ public class LByteUnaryOperatorXTest<X extends ParseException> {
     public void testShove() {
 
         // given
-        LByteUnaryOperatorX<X> sutThrowing = LByteUnaryOperatorX.lX((byte b) -> {
+        LByteUnaryOperatorX<X> sutThrowing = LByteUnaryOperatorX.lX(b -> {
             throw new UnsupportedOperationException();
         });
 
@@ -704,7 +701,7 @@ public class LByteUnaryOperatorXTest<X extends ParseException> {
     public void testHandle() throws X {
 
         // given
-        LByteUnaryOperatorX<X> sutThrowing = LByteUnaryOperatorX.lX((byte b) -> {
+        LByteUnaryOperatorX<X> sutThrowing = LByteUnaryOperatorX.lX(b -> {
             throw new UnsupportedOperationException();
         });
 

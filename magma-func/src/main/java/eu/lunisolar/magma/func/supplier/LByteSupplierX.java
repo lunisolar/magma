@@ -67,9 +67,9 @@ public interface LByteSupplierX<X extends Throwable> extends MetaSupplier, Primi
 	default byte nestingDoGetAsByte() {
 		try {
 			return this.doGetAsByte();
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -82,7 +82,7 @@ public interface LByteSupplierX<X extends Throwable> extends MetaSupplier, Primi
 
 		try {
 			return this.doGetAsByte();
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

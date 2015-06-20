@@ -67,9 +67,9 @@ public interface LBooleanToLongFunctionX<X extends Throwable> extends MetaFuncti
 	default long nestingDoApplyAsLong(boolean b) {
 		try {
 			return this.doApplyAsLong(b);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -82,7 +82,7 @@ public interface LBooleanToLongFunctionX<X extends Throwable> extends MetaFuncti
 
 		try {
 			return this.doApplyAsLong(b);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -104,7 +104,7 @@ public interface LBooleanToLongFunctionX<X extends Throwable> extends MetaFuncti
 	}
 
 	public static <X extends Throwable> LBooleanToLongFunctionX<X> constant(long r) {
-		return (b) -> r;
+		return b -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -139,7 +139,7 @@ public interface LBooleanToLongFunctionX<X extends Throwable> extends MetaFuncti
 	@Nonnull
 	default LBooleanToLongFunctionX<X> fromBoolean(@Nonnull final LBooleanUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final boolean v1) -> this.doApplyAsLong(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doApplyAsLong(before1.doApplyAsBoolean(v1));
 	}
 
 	/**
@@ -148,7 +148,7 @@ public interface LBooleanToLongFunctionX<X extends Throwable> extends MetaFuncti
 	@Nonnull
 	default <V1> LToLongFunctionX<V1, X> from(@Nonnull final LPredicateX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doApplyAsLong(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doApplyAsLong(before1.doApplyAsBoolean(v1));
 	}
 
 	// </editor-fold>
@@ -159,63 +159,63 @@ public interface LBooleanToLongFunctionX<X extends Throwable> extends MetaFuncti
 	@Nonnull
 	default <V> LBooleanFunctionX<V, X> then(@Nonnull LLongFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApply(this.doApplyAsLong(b));
+		return b -> after.doApply(this.doApplyAsLong(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToByteFunctionX<X> thenToByte(@Nonnull LLongToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsByte(this.doApplyAsLong(b));
+		return b -> after.doApplyAsByte(this.doApplyAsLong(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToShortFunctionX<X> thenToShort(@Nonnull LLongToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsShort(this.doApplyAsLong(b));
+		return b -> after.doApplyAsShort(this.doApplyAsLong(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToIntFunctionX<X> thenToInt(@Nonnull LLongToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsInt(this.doApplyAsLong(b));
+		return b -> after.doApplyAsInt(this.doApplyAsLong(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToLongFunctionX<X> thenToLong(@Nonnull LLongUnaryOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsLong(this.doApplyAsLong(b));
+		return b -> after.doApplyAsLong(this.doApplyAsLong(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToFloatFunctionX<X> thenToFloat(@Nonnull LLongToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsFloat(this.doApplyAsLong(b));
+		return b -> after.doApplyAsFloat(this.doApplyAsLong(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToDoubleFunctionX<X> thenToDouble(@Nonnull LLongToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsDouble(this.doApplyAsLong(b));
+		return b -> after.doApplyAsDouble(this.doApplyAsLong(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanToCharFunctionX<X> thenToChar(@Nonnull LLongToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doApplyAsChar(this.doApplyAsLong(b));
+		return b -> after.doApplyAsChar(this.doApplyAsLong(b));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LBooleanUnaryOperatorX<X> thenToBoolean(@Nonnull LLongPredicateX<X> after) {
 		Null.nonNullArg(after, "after");
-		return (boolean b) -> after.doTest(this.doApplyAsLong(b));
+		return b -> after.doTest(this.doApplyAsLong(b));
 	}
 
 	// </editor-fold>
@@ -249,12 +249,12 @@ public interface LBooleanToLongFunctionX<X extends Throwable> extends MetaFuncti
 
 	@Nonnull
 	default LBooleanToLongFunction handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (boolean b) -> this.handlingDoApplyAsLong(b, handling);
+		return b -> this.handlingDoApplyAsLong(b, handling);
 	}
 
 	@Nonnull
 	default <Y extends Throwable> LBooleanToLongFunctionX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (boolean b) -> this.handlingDoApplyAsLong(b, handling);
+		return b -> this.handlingDoApplyAsLong(b, handling);
 	}
 
 	// </editor-fold>

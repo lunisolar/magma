@@ -108,7 +108,7 @@ public final class LDoubleToShortFunctionBuilder extends PerCaseBuilderWithShort
 		LDoubleToShortFunction retval;
 
 		final Case<LDoublePredicate, LDoubleToShortFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LDoubleToShortFunction.l((double d) -> {
+		retval = LDoubleToShortFunction.l(d -> {
 			try {
 				for (Case<LDoublePredicate, LDoubleToShortFunction> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(d)) {
@@ -117,10 +117,12 @@ public final class LDoubleToShortFunctionBuilder extends PerCaseBuilderWithShort
 				}
 
 				return eventuallyFinal.doApplyAsShort(d);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

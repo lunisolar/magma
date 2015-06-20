@@ -61,7 +61,7 @@ public class LFloatToShortFunctionBuilderTest<X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LFloatToShortFunction function = LFloatToShortFunctionBuilder.floatToShortFunction()
@@ -77,7 +77,7 @@ public class LFloatToShortFunctionBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,11 +92,11 @@ public class LFloatToShortFunctionBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LFloatToShortFunction function = LFloatToShortFunctionBuilder.floatToShortFunction()
-                .eventually((f) -> {
+                .eventually(f -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -112,14 +112,14 @@ public class LFloatToShortFunctionBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LFloatToShortFunction function = floatToShortFunction((LFloatToShortFunction f)-> doNothing())
-            .addCase(ce -> ce.of((f) -> f == (float)0)
-                             .evaluate((f) -> (short)0))
-            .inCase((f) -> f > 0 && f < 10).evaluate((f) -> (short)1)
-            .inCase((f) -> f > 10 && f < 20).evaluate((f) -> (short)2)
-            .eventually((f) -> (short)99)
+            .addCase(ce -> ce.of(f -> f == (float)0)
+                             .evaluate(f -> (short)0))
+            .inCase(f -> f > 0 && f < 10).evaluate(f -> (short)1)
+            .inCase(f -> f > 10 && f < 20).evaluate(f -> (short)2)
+            .eventually(f -> (short)99)
             .build();
 
 

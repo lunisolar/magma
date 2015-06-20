@@ -68,9 +68,9 @@ public interface LObjIntFunctionX<T, R, X extends Throwable> extends MetaFunctio
 	default R nestingDoApply(T t, int i) {
 		try {
 			return this.doApply(t, i);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -83,7 +83,7 @@ public interface LObjIntFunctionX<T, R, X extends Throwable> extends MetaFunctio
 
 		try {
 			return this.doApply(t, i);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

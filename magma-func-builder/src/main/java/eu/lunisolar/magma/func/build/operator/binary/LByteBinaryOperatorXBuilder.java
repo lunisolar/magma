@@ -108,7 +108,7 @@ public final class LByteBinaryOperatorXBuilder<X extends Throwable> extends PerC
 		LByteBinaryOperatorX<X> retval;
 
 		final Case<LBiBytePredicateX<X>, LByteBinaryOperatorX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LByteBinaryOperatorX.lX((byte b1, byte b2) -> {
+		retval = LByteBinaryOperatorX.<X> lX((byte b1, byte b2) -> {
 			try {
 				for (Case<LBiBytePredicateX<X>, LByteBinaryOperatorX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(b1, b2)) {
@@ -117,10 +117,12 @@ public final class LByteBinaryOperatorXBuilder<X extends Throwable> extends PerC
 				}
 
 				return eventuallyFinal.doApplyAsByte(b1, b2);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

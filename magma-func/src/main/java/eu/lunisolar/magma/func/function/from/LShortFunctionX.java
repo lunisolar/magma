@@ -68,9 +68,9 @@ public interface LShortFunctionX<R, X extends Throwable> extends MetaFunction, M
 	default R nestingDoApply(short s) {
 		try {
 			return this.doApply(s);
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -83,7 +83,7 @@ public interface LShortFunctionX<R, X extends Throwable> extends MetaFunction, M
 
 		try {
 			return this.doApply(s);
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}
@@ -108,7 +108,7 @@ public interface LShortFunctionX<R, X extends Throwable> extends MetaFunction, M
 	}
 
 	public static <R, X extends Throwable> LShortFunctionX<R, X> constant(R r) {
-		return (s) -> r;
+		return s -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -143,7 +143,7 @@ public interface LShortFunctionX<R, X extends Throwable> extends MetaFunction, M
 	@Nonnull
 	default LShortFunctionX<R, X> fromShort(@Nonnull final LShortUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (final short v1) -> this.doApply(before1.doApplyAsShort(v1));
+		return v1 -> this.doApply(before1.doApplyAsShort(v1));
 	}
 
 	/**
@@ -152,7 +152,7 @@ public interface LShortFunctionX<R, X extends Throwable> extends MetaFunction, M
 	@Nonnull
 	default <V1> LFunctionX<V1, R, X> from(@Nonnull final LToShortFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return (V1 v1) -> this.doApply(before1.doApplyAsShort(v1));
+		return v1 -> this.doApply(before1.doApplyAsShort(v1));
 	}
 
 	// </editor-fold>
@@ -163,70 +163,70 @@ public interface LShortFunctionX<R, X extends Throwable> extends MetaFunction, M
 	@Nonnull
 	default <V> LShortFunctionX<V, X> then(@Nonnull LFunctionX<? super R, ? extends V, X> after) {
 		Null.nonNullArg(after, "after");
-		return (short s) -> after.doApply(this.doApply(s));
+		return s -> after.doApply(this.doApply(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortConsumerX<X> then(@Nonnull LConsumerX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return (short s) -> after.doAccept(this.doApply(s));
+		return s -> after.doAccept(this.doApply(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToByteFunctionX<X> thenToByte(@Nonnull LToByteFunctionX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return (short s) -> after.doApplyAsByte(this.doApply(s));
+		return s -> after.doApplyAsByte(this.doApply(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortUnaryOperatorX<X> thenToShort(@Nonnull LToShortFunctionX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return (short s) -> after.doApplyAsShort(this.doApply(s));
+		return s -> after.doApplyAsShort(this.doApply(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToIntFunctionX<X> thenToInt(@Nonnull LToIntFunctionX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return (short s) -> after.doApplyAsInt(this.doApply(s));
+		return s -> after.doApplyAsInt(this.doApply(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToLongFunctionX<X> thenToLong(@Nonnull LToLongFunctionX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return (short s) -> after.doApplyAsLong(this.doApply(s));
+		return s -> after.doApplyAsLong(this.doApply(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToFloatFunctionX<X> thenToFloat(@Nonnull LToFloatFunctionX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return (short s) -> after.doApplyAsFloat(this.doApply(s));
+		return s -> after.doApplyAsFloat(this.doApply(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToDoubleFunctionX<X> thenToDouble(@Nonnull LToDoubleFunctionX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return (short s) -> after.doApplyAsDouble(this.doApply(s));
+		return s -> after.doApplyAsDouble(this.doApply(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortToCharFunctionX<X> thenToChar(@Nonnull LToCharFunctionX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return (short s) -> after.doApplyAsChar(this.doApply(s));
+		return s -> after.doApplyAsChar(this.doApply(s));
 	}
 
 	/** Combines two functions together in a order. */
 	@Nonnull
 	default LShortPredicateX<X> thenToBoolean(@Nonnull LPredicateX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
-		return (short s) -> after.doTest(this.doApply(s));
+		return s -> after.doTest(this.doApply(s));
 	}
 
 	// </editor-fold>
@@ -265,12 +265,12 @@ public interface LShortFunctionX<R, X extends Throwable> extends MetaFunction, M
 
 	@Nonnull
 	default LShortFunction<R> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
-		return (short s) -> this.handlingDoApply(s, handling);
+		return s -> this.handlingDoApply(s, handling);
 	}
 
 	@Nonnull
 	default <Y extends Throwable> LShortFunctionX<R, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
-		return (short s) -> this.handlingDoApply(s, handling);
+		return s -> this.handlingDoApply(s, handling);
 	}
 
 	// </editor-fold>

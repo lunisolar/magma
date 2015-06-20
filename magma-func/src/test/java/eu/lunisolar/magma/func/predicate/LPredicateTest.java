@@ -73,11 +73,11 @@ public class LPredicateTest<T,X extends ParseException> {
     };
 
 
-    private java.util.function.Predicate jre = (Object t) -> testValue;
+    private java.util.function.Predicate jre = t -> testValue;
 
 
 
-    private LPredicate<T> sutAlwaysThrowingUnckeck = LPredicate.l((T t) -> {
+    private LPredicate<T> sutAlwaysThrowingUnckeck = LPredicate.l(t -> {
             throw new IndexOutOfBoundsException(ORIGINAL_MESSAGE);
     });
 
@@ -95,7 +95,7 @@ public class LPredicateTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoTest_unckeck() throws X {
+    public void testNestingDoTestUnckeck() throws X {
 
         // then
         try {
@@ -110,7 +110,7 @@ public class LPredicateTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoTest_unckeck() throws X {
+    public void testShovingDoTestUnckeck() throws X {
 
         // then
         try {
@@ -123,7 +123,6 @@ public class LPredicateTest<T,X extends ParseException> {
                     .hasMessage(ORIGINAL_MESSAGE);
         }
     }
-
 
     @Test
     public void testApplyAsBooleanShouldNotModifyValue() throws X {
@@ -141,7 +140,7 @@ public class LPredicateTest<T,X extends ParseException> {
 
     @Test
     public void testLMethod() throws X {
-        assertThat(LPredicate.l((Object t) -> testValue ))
+        assertThat(LPredicate.l(t -> testValue ))
             .isInstanceOf(LPredicate.class);
     }
 
@@ -160,7 +159,7 @@ public class LPredicateTest<T,X extends ParseException> {
     @Test
     public void testWrapMethodDoNotWrapsRuntimeException() throws X {
         // given
-        LPredicateX<T,X> sutThrowing = LPredicateX.lX((T t) -> {
+        LPredicateX<T,X> sutThrowing = LPredicateX.lX(t -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
@@ -182,7 +181,7 @@ public class LPredicateTest<T,X extends ParseException> {
     @Test
     public void testWrapMethodWrapsCheckedException() throws X {
         // given
-        LPredicateX<T,ParseException> sutThrowing = LPredicateX.lX((T t) -> {
+        LPredicateX<T,ParseException> sutThrowing = LPredicateX.lX(t -> {
             throw new ParseException(ORIGINAL_MESSAGE, 0);
         });
 
@@ -206,14 +205,13 @@ public class LPredicateTest<T,X extends ParseException> {
     public void testWrapExceptionMethodWrapsTheException() throws X {
 
         // given
-        LPredicate<T> sutThrowing = LPredicate.l((T t) -> {
+        LPredicate<T> sutThrowing = LPredicate.l(t -> {
             throw new UnsupportedOperationException();
         });
 
         // when
-        LPredicate<T> wrapped = sutThrowing.handle(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LPredicate<T> wrapped = sutThrowing.handle(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -228,10 +226,10 @@ public class LPredicateTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
-        LPredicate<T> sutThrowing = LPredicate.l((T t) -> {
+        LPredicate<T> sutThrowing = LPredicate.l(t -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -252,10 +250,10 @@ public class LPredicateTest<T,X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
-        LPredicate<T> sutThrowing = LPredicate.l((T t) -> {
+        LPredicate<T> sutThrowing = LPredicate.l(t -> {
             throw new IndexOutOfBoundsException();
         });
 
@@ -280,13 +278,12 @@ public class LPredicateTest<T,X extends ParseException> {
     public void testWrapExceptionMishandlingExceptionIsAllowed() throws X {
 
         // given
-        LPredicate<T> sutThrowing = LPredicate.l((T t) -> {
+        LPredicate<T> sutThrowing = LPredicate.l(t -> {
             throw new UnsupportedOperationException(ORIGINAL_MESSAGE);
         });
 
         // when
-        LPredicate<T> wrapped = sutThrowing.handle(h -> {
-        });
+        LPredicate<T> wrapped = sutThrowing.handle(h -> Function4U.doNothing());
 
         // then
         try {
@@ -321,8 +318,8 @@ public class LPredicateTest<T,X extends ParseException> {
     public void testAndOrXor(final boolean f1Result, final boolean f2Result, final boolean andResult, final boolean orResult, final boolean xorResult) throws X {
 
         //given
-        LPredicate<T> fun1 = LPredicate.l((T t) -> f1Result);
-        LPredicate<T> fun2 = LPredicate.l((T t) -> f2Result);
+        LPredicate<T> fun1 = LPredicate.l(t -> f1Result);
+        LPredicate<T> fun2 = LPredicate.l(t -> f2Result);
 
         //when
         LPredicate<T> andFunction = fun1.and(fun2);
@@ -364,7 +361,7 @@ public class LPredicateTest<T,X extends ParseException> {
         final AtomicInteger beforeCalls = new AtomicInteger(0);
 
         //given (+ some assertions)
-        LPredicate<Integer > sutO = (Integer t) -> {
+        LPredicate<Integer > sutO = t -> {
                 mainFunctionCalled.set(true);
                 assertThat(t).isEqualTo((T)Integer.valueOf(90));
                 return true;
@@ -398,7 +395,7 @@ public class LPredicateTest<T,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LPredicate<Integer > sutO = (Integer t) -> {
+        LPredicate<Integer > sutO = t -> {
                 mainFunctionCalled.set(true);
                 assertThat(t).isEqualTo((T)Integer.valueOf(80));
                 return true;
@@ -433,7 +430,7 @@ public class LPredicateTest<T,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LPredicate<Integer > sutO = (Integer t) -> {
+        LPredicate<Integer > sutO = t -> {
                 mainFunctionCalled.set(true);
                 assertThat(t).isEqualTo((T)Integer.valueOf(80));
                 return true;
@@ -468,7 +465,7 @@ public class LPredicateTest<T,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LPredicate<Integer > sutO = (Integer t) -> {
+        LPredicate<Integer > sutO = t -> {
                 mainFunctionCalled.set(true);
                 assertThat(t).isEqualTo((T)Integer.valueOf(80));
                 return true;
@@ -503,7 +500,7 @@ public class LPredicateTest<T,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LPredicate<Integer > sutO = (Integer t) -> {
+        LPredicate<Integer > sutO = t -> {
                 mainFunctionCalled.set(true);
                 assertThat(t).isEqualTo((T)Integer.valueOf(80));
                 return true;
@@ -538,7 +535,7 @@ public class LPredicateTest<T,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LPredicate<Integer > sutO = (Integer t) -> {
+        LPredicate<Integer > sutO = t -> {
                 mainFunctionCalled.set(true);
                 assertThat(t).isEqualTo((T)Integer.valueOf(80));
                 return true;
@@ -573,7 +570,7 @@ public class LPredicateTest<T,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LPredicate<Integer > sutO = (Integer t) -> {
+        LPredicate<Integer > sutO = t -> {
                 mainFunctionCalled.set(true);
                 assertThat(t).isEqualTo((T)Integer.valueOf(80));
                 return true;
@@ -608,7 +605,7 @@ public class LPredicateTest<T,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LPredicate<Integer > sutO = (Integer t) -> {
+        LPredicate<Integer > sutO = t -> {
                 mainFunctionCalled.set(true);
                 assertThat(t).isEqualTo((T)Integer.valueOf(80));
                 return true;
@@ -643,7 +640,7 @@ public class LPredicateTest<T,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LPredicate<Integer > sutO = (Integer t) -> {
+        LPredicate<Integer > sutO = t -> {
                 mainFunctionCalled.set(true);
                 assertThat(t).isEqualTo((T)Integer.valueOf(80));
                 return true;
@@ -678,7 +675,7 @@ public class LPredicateTest<T,X extends ParseException> {
 
 
         //given (+ some assertions)
-        LPredicate<Integer > sutO = (Integer t) -> {
+        LPredicate<Integer > sutO = t -> {
                 mainFunctionCalled.set(true);
                 assertThat(t).isEqualTo((T)Integer.valueOf(80));
                 return true;
@@ -739,7 +736,7 @@ public class LPredicateTest<T,X extends ParseException> {
     public void testShove() {
 
         // given
-        LPredicate<T> sutThrowing = LPredicate.l((T t) -> {
+        LPredicate<T> sutThrowing = LPredicate.l(t -> {
             throw new UnsupportedOperationException();
         });
 
@@ -751,7 +748,7 @@ public class LPredicateTest<T,X extends ParseException> {
     public void testHandle() throws X {
 
         // given
-        LPredicate<T> sutThrowing = LPredicate.l((T t) -> {
+        LPredicate<T> sutThrowing = LPredicate.l(t -> {
             throw new UnsupportedOperationException();
         });
 

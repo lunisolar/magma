@@ -74,9 +74,9 @@ public interface LBooleanSupplierX<X extends Throwable> extends java.util.functi
 	default boolean nestingDoGetAsBoolean() {
 		try {
 			return this.doGetAsBoolean();
-		} catch (RuntimeException | Error e) {
+		} catch (RuntimeException | Error e) { // NOSONAR
 			throw e;
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw new NestedException(e);
 		}
 	}
@@ -89,7 +89,7 @@ public interface LBooleanSupplierX<X extends Throwable> extends java.util.functi
 
 		try {
 			return this.doGetAsBoolean();
-		} catch (Throwable e) {
+		} catch (Throwable e) { // NOSONAR
 			throw Handler.handleOrNest(e, handling);
 		}
 	}

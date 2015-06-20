@@ -61,7 +61,7 @@ public class LBooleanUnaryOperatorBuilderTest<X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LBooleanUnaryOperator function = LBooleanUnaryOperatorBuilder.booleanUnaryOperator()
@@ -77,7 +77,7 @@ public class LBooleanUnaryOperatorBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,11 +92,11 @@ public class LBooleanUnaryOperatorBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LBooleanUnaryOperator function = LBooleanUnaryOperatorBuilder.booleanUnaryOperator()
-                .eventually((b) -> {
+                .eventually(b -> {
                         throw new RuntimeException("ORIGINAL");
                     })
                 .build(h -> h.wrapWhen(p -> p.isRuntime(),  IllegalStateException::new, "NEW EXCEPTION"));
@@ -112,13 +112,13 @@ public class LBooleanUnaryOperatorBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
 
         LBooleanUnaryOperator function = booleanUnaryOperator((LBooleanUnaryOperator f)-> doNothing())
-            .addCase(ce -> ce.of((b) -> b == false)
-                             .evaluate((b) -> false))
-            .inCase((b) -> b == true ).evaluate((b) -> true)
-            .eventually((b) -> true)
+            .addCase(ce -> ce.of(b -> b == false)
+                             .evaluate(b -> false))
+            .inCase(b -> b == true ).evaluate(b -> true)
+            .eventually(b -> true)
             .build();
 
 

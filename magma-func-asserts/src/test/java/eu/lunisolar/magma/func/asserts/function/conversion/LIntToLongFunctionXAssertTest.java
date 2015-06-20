@@ -45,11 +45,11 @@ public class LIntToLongFunctionXAssertTest<X extends Throwable> {
     @SuppressWarnings("unchecked") public static final DefaultFunctionalAssertions<ObjectAssert> A = new DefaultFunctionalAssertions() {
     };
 
-    private LIntToLongFunctionX<X> function = LIntToLongFunctionX.lX((i) -> {
-            return testValue;
-    });
+    private LIntToLongFunctionX<X> function = LIntToLongFunctionX.lX(i ->
+            testValue
+    );
 
-    private LIntToLongFunctionX<X> functionThrowing = LIntToLongFunctionX.lX((i) -> {
+    private LIntToLongFunctionX<X> functionThrowing = LIntToLongFunctionX.lX(i -> {
         throw new UnsupportedOperationException();
     });
 

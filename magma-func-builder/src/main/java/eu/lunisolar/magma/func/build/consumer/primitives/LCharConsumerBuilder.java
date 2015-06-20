@@ -108,7 +108,7 @@ public final class LCharConsumerBuilder extends PerCaseBuilder.Base<LCharConsume
 		LCharConsumer retval;
 
 		final Case<LCharPredicate, LCharConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LCharConsumer.l((char c) -> {
+		retval = LCharConsumer.l(c -> {
 			try {
 				for (Case<LCharPredicate, LCharConsumer> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(c)) {
@@ -118,10 +118,12 @@ public final class LCharConsumerBuilder extends PerCaseBuilder.Base<LCharConsume
 				}
 
 				eventuallyFinal.doAccept(c);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

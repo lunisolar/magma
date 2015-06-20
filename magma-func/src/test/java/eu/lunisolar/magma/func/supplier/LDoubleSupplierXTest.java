@@ -98,7 +98,7 @@ public class LDoubleSupplierXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoGetAsDouble_checked() throws X {
+    public void testNestingDoGetAsDoubleChecked() throws X {
 
         // then
         try {
@@ -113,7 +113,7 @@ public class LDoubleSupplierXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNestingDoGetAsDouble_unckeck() throws X {
+    public void testNestingDoGetAsDoubleUnckeck() throws X {
 
         // then
         try {
@@ -128,7 +128,7 @@ public class LDoubleSupplierXTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoGetAsDouble_checked() throws X {
+    public void testShovingDoGetAsDoubleChecked() throws X {
 
         // then
         try {
@@ -143,7 +143,7 @@ public class LDoubleSupplierXTest<X extends ParseException> {
     }
 
     @Test
-    public void testShovingDoGetAsDouble_unckeck() throws X {
+    public void testShovingDoGetAsDoubleUnckeck() throws X {
 
         // then
         try {
@@ -156,7 +156,6 @@ public class LDoubleSupplierXTest<X extends ParseException> {
                     .hasMessage(ORIGINAL_MESSAGE);
         }
     }
-
 
 
     @Test
@@ -193,9 +192,8 @@ public class LDoubleSupplierXTest<X extends ParseException> {
         });
 
         // when
-        LDoubleSupplierX<X> wrapped = sutThrowing.handleX(h -> {
-            h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
-        });
+        LDoubleSupplierX<X> wrapped = sutThrowing.handleX(handler -> handler
+            .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
         try {
@@ -210,7 +208,7 @@ public class LDoubleSupplierXTest<X extends ParseException> {
     }
 
     @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_if() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionIf() throws X {
 
         // given
         LDoubleSupplierX<X> sutThrowing = LDoubleSupplierX.lX(() -> {
@@ -234,7 +232,7 @@ public class LDoubleSupplierXTest<X extends ParseException> {
     }
 
 @Test
-    public void testWrapExceptionMethodDoNotWrapsOtherException_when() throws X {
+    public void testWrapExceptionMethodDoNotWrapsOtherExceptionWhen() throws X {
 
         // given
         LDoubleSupplierX<X> sutThrowing = LDoubleSupplierX.lX(() -> {
@@ -267,8 +265,7 @@ public class LDoubleSupplierXTest<X extends ParseException> {
         });
 
         // when
-        LDoubleSupplierX<X> wrapped = sutThrowing.handleX(h -> {
-        });
+        LDoubleSupplierX<X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
 
         // then
         try {

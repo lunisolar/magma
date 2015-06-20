@@ -108,7 +108,7 @@ public final class LByteBiFunctionXBuilder<R, X extends Throwable> extends PerCa
 		LByteBiFunctionX<R, X> retval;
 
 		final Case<LBiBytePredicateX<X>, LByteBiFunctionX<R, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LByteBiFunctionX.lX((byte b1, byte b2) -> {
+		retval = LByteBiFunctionX.<R, X> lX((byte b1, byte b2) -> {
 			try {
 				for (Case<LBiBytePredicateX<X>, LByteBiFunctionX<R, X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(b1, b2)) {
@@ -117,10 +117,12 @@ public final class LByteBiFunctionXBuilder<R, X extends Throwable> extends PerCa
 				}
 
 				return eventuallyFinal.doApply(b1, b2);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);

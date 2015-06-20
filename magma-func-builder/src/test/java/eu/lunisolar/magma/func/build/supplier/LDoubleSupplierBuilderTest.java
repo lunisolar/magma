@@ -61,7 +61,7 @@ public class LDoubleSupplierBuilderTest<X extends Throwable>{
     };
 
     @Test
-    public void testEventuallyThrow() throws Throwable {
+    public void testEventuallyThrow() throws X {
 
         assertThatThrownBy(() -> {
             LDoubleSupplier function = LDoubleSupplierBuilder.doubleSupplier()
@@ -77,7 +77,7 @@ public class LDoubleSupplierBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandlingCanBesetOnlyOnce() throws Throwable {
+    public void testHandlingCanBesetOnlyOnce() throws X {
 
 
         assertThatThrownBy(() -> {
@@ -92,7 +92,7 @@ public class LDoubleSupplierBuilderTest<X extends Throwable>{
     }
 
     @Test
-    public void testHandling() throws Throwable {
+    public void testHandling() throws X {
 
         assertThatThrownBy(() -> {
             LDoubleSupplier function = LDoubleSupplierBuilder.doubleSupplier()
@@ -112,7 +112,7 @@ public class LDoubleSupplierBuilderTest<X extends Throwable>{
 
 
     @Test
-    public void testBuild() throws Throwable {
+    public void testBuild() throws X {
         final AtomicInteger externalInfluence = new AtomicInteger(0);
 
         LDoubleSupplier function = doubleSupplier((LDoubleSupplier f)-> doNothing())

@@ -108,7 +108,7 @@ public final class LCharToShortFunctionXBuilder<X extends Throwable> extends Per
 		LCharToShortFunctionX<X> retval;
 
 		final Case<LCharPredicateX<X>, LCharToShortFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
-		retval = LCharToShortFunctionX.lX((char c) -> {
+		retval = LCharToShortFunctionX.<X> lX(c -> {
 			try {
 				for (Case<LCharPredicateX<X>, LCharToShortFunctionX<X>> aCase : casesArray) {
 					if (aCase.casePredicate().doTest(c)) {
@@ -117,10 +117,12 @@ public final class LCharToShortFunctionXBuilder<X extends Throwable> extends Per
 				}
 
 				return eventuallyFinal.doApplyAsShort(c);
-			} catch (Throwable e) {
-				throw Handler.handleOrPropagate(e, handling);
-			}
-		});
+			} catch (Error e) { // NOSONAR
+					throw e;
+				} catch (Throwable e) { // NOSONAR
+					throw Handler.handleOrPropagate(e, handling);
+				}
+			});
 
 		if (consumer != null) {
 			consumer.accept(retval);
