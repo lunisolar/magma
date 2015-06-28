@@ -37,7 +37,7 @@ import org.testng.annotations.Test;
 
 import java.util.concurrent.atomic.*;
 
-public class Example2Test {
+public class Example4AssertionsTest {
 
     public static final DefaultFunctionalAssertions<ObjectAssert> then = new DefaultFunctionalAssertions() {
     };
@@ -68,11 +68,11 @@ public class Example2Test {
 
     public static final AtomicInteger externalEffect = new AtomicInteger(0);
 
-    private LAction action = LActionBuilder.action()  // a compilation test
-            .inCase(() -> externalInfluence.get() > 0).evaluate(() -> externalInfluence.get())
-            .inCase(() -> false).evaluate(Function4U::doNothing)
-            .eventually(Function4U::doNothing)
-            .build();
+//    private LAction action = LActionBuilder.action()  // a compilation test
+//            .inCase(() -> externalInfluence.get() > 0).evaluate(() -> externalInfluence.get())
+//            .inCase(() -> false).evaluate(Function4U::doNothing)
+//            .eventually(Function4U::doNothing)
+//            .build();
 
     @Test(expectedExceptions = AssertionError.class)
     public void example() {

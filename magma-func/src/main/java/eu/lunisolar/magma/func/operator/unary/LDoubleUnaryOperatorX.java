@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LDoubleUnaryOperatorX<X extends Throwable> extends java.util.function.DoubleUnaryOperator, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LDoubleUnaryOperatorX: double doApplyAsDouble(double d) throws X";
+	static final String DESCRIPTION = "LDoubleUnaryOperatorX: double doApplyAsDouble(double d) throws X";
 
 	@Override
 	@Deprecated
@@ -69,7 +69,7 @@ public interface LDoubleUnaryOperatorX<X extends Throwable> extends java.util.fu
 		return this.nestingDoApplyAsDouble(d);
 	}
 
-	public double doApplyAsDouble(double d) throws X;
+	double doApplyAsDouble(double d) throws X;
 
 	default double nestingDoApplyAsDouble(double d) {
 		try {
@@ -110,20 +110,20 @@ public interface LDoubleUnaryOperatorX<X extends Throwable> extends java.util.fu
 		return () -> this.doApplyAsDouble(d);
 	}
 
-	public static <X extends Throwable> LDoubleUnaryOperatorX<X> constant(double r) {
+	static <X extends Throwable> LDoubleUnaryOperatorX<X> constant(double r) {
 		return d -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LDoubleUnaryOperatorX<X> lX(final @Nonnull LDoubleUnaryOperatorX<X> lambda) {
+	static <X extends Throwable> LDoubleUnaryOperatorX<X> lX(final @Nonnull LDoubleUnaryOperatorX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LDoubleUnaryOperatorX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LDoubleUnaryOperatorX<X> lambda) {
+	static <X extends Throwable> LDoubleUnaryOperatorX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LDoubleUnaryOperatorX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -132,13 +132,13 @@ public interface LDoubleUnaryOperatorX<X extends Throwable> extends java.util.fu
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Throwable> LDoubleUnaryOperatorX<X> wrap(final java.util.function.DoubleUnaryOperator other) {
+	static <X extends Throwable> LDoubleUnaryOperatorX<X> wrap(final java.util.function.DoubleUnaryOperator other) {
 		return other::applyAsDouble;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LDoubleUnaryOperatorX<X> wrapX(final @Nonnull LDoubleUnaryOperator other) {
+	static <X extends Throwable> LDoubleUnaryOperatorX<X> wrapX(final @Nonnull LDoubleUnaryOperator other) {
 		return (LDoubleUnaryOperatorX) other;
 	}
 
@@ -235,7 +235,7 @@ public interface LDoubleUnaryOperatorX<X extends Throwable> extends java.util.fu
 
 	/** Returns a function that always returns its input argument. */
 	@Nonnull
-	public static <X extends Throwable> LDoubleUnaryOperatorX<X> identity() {
+	static <X extends Throwable> LDoubleUnaryOperatorX<X> identity() {
 		return t -> t;
 	}
 	// <editor-fold desc="variant conversions">

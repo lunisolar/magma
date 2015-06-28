@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBooleanToDoubleFunctionX<X extends Throwable> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LBooleanToDoubleFunctionX: double doApplyAsDouble(boolean b) throws X";
+	static final String DESCRIPTION = "LBooleanToDoubleFunctionX: double doApplyAsDouble(boolean b) throws X";
 
-	public double doApplyAsDouble(boolean b) throws X;
+	double doApplyAsDouble(boolean b) throws X;
 
 	default double nestingDoApplyAsDouble(boolean b) {
 		try {
@@ -103,20 +103,20 @@ public interface LBooleanToDoubleFunctionX<X extends Throwable> extends MetaFunc
 		return () -> this.doApplyAsDouble(b);
 	}
 
-	public static <X extends Throwable> LBooleanToDoubleFunctionX<X> constant(double r) {
+	static <X extends Throwable> LBooleanToDoubleFunctionX<X> constant(double r) {
 		return b -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LBooleanToDoubleFunctionX<X> lX(final @Nonnull LBooleanToDoubleFunctionX<X> lambda) {
+	static <X extends Throwable> LBooleanToDoubleFunctionX<X> lX(final @Nonnull LBooleanToDoubleFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LBooleanToDoubleFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LBooleanToDoubleFunctionX<X> lambda) {
+	static <X extends Throwable> LBooleanToDoubleFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LBooleanToDoubleFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -125,7 +125,7 @@ public interface LBooleanToDoubleFunctionX<X extends Throwable> extends MetaFunc
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LBooleanToDoubleFunctionX<X> wrapX(final @Nonnull LBooleanToDoubleFunction other) {
+	static <X extends Throwable> LBooleanToDoubleFunctionX<X> wrapX(final @Nonnull LBooleanToDoubleFunction other) {
 		return (LBooleanToDoubleFunctionX) other;
 	}
 

@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LByteToCharFunctionX<X extends Throwable> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LByteToCharFunctionX: char doApplyAsChar(byte b) throws X";
+	static final String DESCRIPTION = "LByteToCharFunctionX: char doApplyAsChar(byte b) throws X";
 
-	public char doApplyAsChar(byte b) throws X;
+	char doApplyAsChar(byte b) throws X;
 
 	default char nestingDoApplyAsChar(byte b) {
 		try {
@@ -103,20 +103,20 @@ public interface LByteToCharFunctionX<X extends Throwable> extends MetaFunction,
 		return () -> this.doApplyAsChar(b);
 	}
 
-	public static <X extends Throwable> LByteToCharFunctionX<X> constant(char r) {
+	static <X extends Throwable> LByteToCharFunctionX<X> constant(char r) {
 		return b -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LByteToCharFunctionX<X> lX(final @Nonnull LByteToCharFunctionX<X> lambda) {
+	static <X extends Throwable> LByteToCharFunctionX<X> lX(final @Nonnull LByteToCharFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LByteToCharFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LByteToCharFunctionX<X> lambda) {
+	static <X extends Throwable> LByteToCharFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LByteToCharFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -125,7 +125,7 @@ public interface LByteToCharFunctionX<X extends Throwable> extends MetaFunction,
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LByteToCharFunctionX<X> wrapX(final @Nonnull LByteToCharFunction other) {
+	static <X extends Throwable> LByteToCharFunctionX<X> wrapX(final @Nonnull LByteToCharFunction other) {
 		return (LByteToCharFunctionX) other;
 	}
 

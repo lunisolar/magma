@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBiShortPredicate extends LBiShortPredicateX<RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LBiShortPredicate: boolean doTest(short s1,short s2)";
+	static final String DESCRIPTION = "LBiShortPredicate: boolean doTest(short s1,short s2)";
 
-	public boolean doTest(short s1, short s2);
+	boolean doTest(short s1, short s2);
 
 	default boolean nestingDoTest(short s1, short s2) {
 		return this.doTest(s1, s2);
@@ -94,13 +94,13 @@ public interface LBiShortPredicate extends LBiShortPredicateX<RuntimeException>,
 		return () -> this.doTest(s1, s2);
 	}
 
-	public static LBiShortPredicate constant(boolean r) {
+	static LBiShortPredicate constant(boolean r) {
 		return (s1, s2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LBiShortPredicate l(final @Nonnull LBiShortPredicate lambda) {
+	static LBiShortPredicate l(final @Nonnull LBiShortPredicate lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -109,7 +109,7 @@ public interface LBiShortPredicate extends LBiShortPredicateX<RuntimeException>,
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LBiShortPredicate wrap(final @Nonnull LBiShortPredicateX<X> other) {
+	static <X extends Throwable> LBiShortPredicate wrap(final @Nonnull LBiShortPredicateX<X> other) {
 		return other::nestingDoTest;
 	}
 
@@ -155,7 +155,7 @@ public interface LBiShortPredicate extends LBiShortPredicateX<RuntimeException>,
 	 *  @see {@link java.util.function.Predicate#isEqual()}
 	 */
 	@Nonnull
-	public static LBiShortPredicate isEqual(final short v1, final short v2) {
+	static LBiShortPredicate isEqual(final short v1, final short v2) {
 		return (s1, s2) -> (s1 == v1) && (s2 == v2);
 	}
 

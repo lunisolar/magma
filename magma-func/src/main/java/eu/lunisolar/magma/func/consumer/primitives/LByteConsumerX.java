@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LByteConsumerX<X extends Throwable> extends MetaConsumer, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LByteConsumerX: void doAccept(byte b) throws X";
+	static final String DESCRIPTION = "LByteConsumerX: void doAccept(byte b) throws X";
 
-	public void doAccept(byte b) throws X;
+	void doAccept(byte b) throws X;
 
 	default void nestingDoAccept(byte b) {
 		try {
@@ -101,14 +101,14 @@ public interface LByteConsumerX<X extends Throwable> extends MetaConsumer, MetaI
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LByteConsumerX<X> lX(final @Nonnull LByteConsumerX<X> lambda) {
+	static <X extends Throwable> LByteConsumerX<X> lX(final @Nonnull LByteConsumerX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LByteConsumerX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LByteConsumerX<X> lambda) {
+	static <X extends Throwable> LByteConsumerX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LByteConsumerX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -117,7 +117,7 @@ public interface LByteConsumerX<X extends Throwable> extends MetaConsumer, MetaI
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LByteConsumerX<X> wrapX(final @Nonnull LByteConsumer other) {
+	static <X extends Throwable> LByteConsumerX<X> wrapX(final @Nonnull LByteConsumer other) {
 		return (LByteConsumerX) other;
 	}
 

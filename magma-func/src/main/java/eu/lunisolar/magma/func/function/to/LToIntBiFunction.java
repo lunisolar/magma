@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LToIntBiFunction<T1, T2> extends LToIntBiFunctionX<T1, T2, RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LToIntBiFunction: int doApplyAsInt(T1 t1,T2 t2)";
+	static final String DESCRIPTION = "LToIntBiFunction: int doApplyAsInt(T1 t1,T2 t2)";
 
 	@Override
 	@Deprecated
@@ -69,7 +69,7 @@ public interface LToIntBiFunction<T1, T2> extends LToIntBiFunctionX<T1, T2, Runt
 		return this.nestingDoApplyAsInt(t1, t2);
 	}
 
-	public int doApplyAsInt(T1 t1, T2 t2);
+	int doApplyAsInt(T1 t1, T2 t2);
 
 	default int nestingDoApplyAsInt(T1 t1, T2 t2) {
 		return this.doApplyAsInt(t1, t2);
@@ -95,13 +95,13 @@ public interface LToIntBiFunction<T1, T2> extends LToIntBiFunctionX<T1, T2, Runt
 		return () -> this.doApplyAsInt(t1, t2);
 	}
 
-	public static <T1, T2> LToIntBiFunction<T1, T2> constant(int r) {
+	static <T1, T2> LToIntBiFunction<T1, T2> constant(int r) {
 		return (t1, t2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T1, T2> LToIntBiFunction<T1, T2> l(final @Nonnull LToIntBiFunction<T1, T2> lambda) {
+	static <T1, T2> LToIntBiFunction<T1, T2> l(final @Nonnull LToIntBiFunction<T1, T2> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -110,13 +110,13 @@ public interface LToIntBiFunction<T1, T2> extends LToIntBiFunctionX<T1, T2, Runt
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T1, T2> LToIntBiFunction<T1, T2> wrap(final java.util.function.ToIntBiFunction<T1, T2> other) {
+	static <T1, T2> LToIntBiFunction<T1, T2> wrap(final java.util.function.ToIntBiFunction<T1, T2> other) {
 		return other::applyAsInt;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T1, T2, X extends Throwable> LToIntBiFunction<T1, T2> wrap(final @Nonnull LToIntBiFunctionX<T1, T2, X> other) {
+	static <T1, T2, X extends Throwable> LToIntBiFunction<T1, T2> wrap(final @Nonnull LToIntBiFunctionX<T1, T2, X> other) {
 		return other::nestingDoApplyAsInt;
 	}
 

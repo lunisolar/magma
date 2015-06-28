@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LObjBooleanConsumerX<T, X extends Throwable> extends MetaConsumer, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LObjBooleanConsumerX: void doAccept(T t, boolean b) throws X";
+	static final String DESCRIPTION = "LObjBooleanConsumerX: void doAccept(T t, boolean b) throws X";
 
-	public void doAccept(T t, boolean b) throws X;
+	void doAccept(T t, boolean b) throws X;
 
 	default void nestingDoAccept(T t, boolean b) {
 		try {
@@ -101,14 +101,14 @@ public interface LObjBooleanConsumerX<T, X extends Throwable> extends MetaConsum
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T, X extends Throwable> LObjBooleanConsumerX<T, X> lX(final @Nonnull LObjBooleanConsumerX<T, X> lambda) {
+	static <T, X extends Throwable> LObjBooleanConsumerX<T, X> lX(final @Nonnull LObjBooleanConsumerX<T, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T, X extends Throwable> LObjBooleanConsumerX<T, X> lX(@Nonnull Class<X> xClass, final @Nonnull LObjBooleanConsumerX<T, X> lambda) {
+	static <T, X extends Throwable> LObjBooleanConsumerX<T, X> lX(@Nonnull Class<X> xClass, final @Nonnull LObjBooleanConsumerX<T, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -117,7 +117,7 @@ public interface LObjBooleanConsumerX<T, X extends Throwable> extends MetaConsum
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, X extends Throwable> LObjBooleanConsumerX<T, X> wrapX(final @Nonnull LObjBooleanConsumer<T> other) {
+	static <T, X extends Throwable> LObjBooleanConsumerX<T, X> wrapX(final @Nonnull LObjBooleanConsumer<T> other) {
 		return (LObjBooleanConsumerX) other;
 	}
 

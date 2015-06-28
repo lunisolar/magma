@@ -61,7 +61,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LDoubleConsumerX<X extends Throwable> extends java.util.function.DoubleConsumer, MetaConsumer, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LDoubleConsumerX: void doAccept(double d) throws X";
+	static final String DESCRIPTION = "LDoubleConsumerX: void doAccept(double d) throws X";
 
 	@Override
 	@Deprecated
@@ -70,7 +70,7 @@ public interface LDoubleConsumerX<X extends Throwable> extends java.util.functio
 		this.nestingDoAccept(d);
 	}
 
-	public void doAccept(double d) throws X;
+	void doAccept(double d) throws X;
 
 	default void nestingDoAccept(double d) {
 		try {
@@ -108,14 +108,14 @@ public interface LDoubleConsumerX<X extends Throwable> extends java.util.functio
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LDoubleConsumerX<X> lX(final @Nonnull LDoubleConsumerX<X> lambda) {
+	static <X extends Throwable> LDoubleConsumerX<X> lX(final @Nonnull LDoubleConsumerX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LDoubleConsumerX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LDoubleConsumerX<X> lambda) {
+	static <X extends Throwable> LDoubleConsumerX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LDoubleConsumerX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -124,13 +124,13 @@ public interface LDoubleConsumerX<X extends Throwable> extends java.util.functio
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Throwable> LDoubleConsumerX<X> wrap(final java.util.function.DoubleConsumer other) {
+	static <X extends Throwable> LDoubleConsumerX<X> wrap(final java.util.function.DoubleConsumer other) {
 		return other::accept;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LDoubleConsumerX<X> wrapX(final @Nonnull LDoubleConsumer other) {
+	static <X extends Throwable> LDoubleConsumerX<X> wrapX(final @Nonnull LDoubleConsumer other) {
 		return (LDoubleConsumerX) other;
 	}
 

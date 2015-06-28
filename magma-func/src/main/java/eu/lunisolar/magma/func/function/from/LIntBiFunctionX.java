@@ -60,10 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LIntBiFunctionX<R, X extends Throwable> extends MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LIntBiFunctionX: R doApply(int i1,int i2) throws X";
+	static final String DESCRIPTION = "LIntBiFunctionX: R doApply(int i1,int i2) throws X";
 
 	@Nullable
-	public R doApply(int i1, int i2) throws X;
+	R doApply(int i1, int i2) throws X;
 
 	default R nestingDoApply(int i1, int i2) {
 		try {
@@ -88,7 +88,7 @@ public interface LIntBiFunctionX<R, X extends Throwable> extends MetaFunction, M
 		}
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
 	@Nonnull
@@ -107,20 +107,20 @@ public interface LIntBiFunctionX<R, X extends Throwable> extends MetaFunction, M
 		return () -> this.doApply(i1, i2);
 	}
 
-	public static <R, X extends Throwable> LIntBiFunctionX<R, X> constant(R r) {
+	static <R, X extends Throwable> LIntBiFunctionX<R, X> constant(R r) {
 		return (i1, i2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <R, X extends Throwable> LIntBiFunctionX<R, X> lX(final @Nonnull LIntBiFunctionX<R, X> lambda) {
+	static <R, X extends Throwable> LIntBiFunctionX<R, X> lX(final @Nonnull LIntBiFunctionX<R, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <R, X extends Throwable> LIntBiFunctionX<R, X> lX(@Nonnull Class<X> xClass, final @Nonnull LIntBiFunctionX<R, X> lambda) {
+	static <R, X extends Throwable> LIntBiFunctionX<R, X> lX(@Nonnull Class<X> xClass, final @Nonnull LIntBiFunctionX<R, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -129,7 +129,7 @@ public interface LIntBiFunctionX<R, X extends Throwable> extends MetaFunction, M
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <R, X extends Throwable> LIntBiFunctionX<R, X> wrapX(final @Nonnull LIntBiFunction<R> other) {
+	static <R, X extends Throwable> LIntBiFunctionX<R, X> wrapX(final @Nonnull LIntBiFunction<R> other) {
 		return (LIntBiFunctionX) other;
 	}
 

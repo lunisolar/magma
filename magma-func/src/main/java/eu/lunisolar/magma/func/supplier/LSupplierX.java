@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LSupplierX<R, X extends Throwable> extends java.util.function.Supplier<R>, MetaSupplier, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LSupplierX: R doGet() throws X";
+	static final String DESCRIPTION = "LSupplierX: R doGet() throws X";
 
 	@Override
 	@Deprecated
@@ -70,7 +70,7 @@ public interface LSupplierX<R, X extends Throwable> extends java.util.function.S
 	}
 
 	@Nullable
-	public R doGet() throws X;
+	R doGet() throws X;
 
 	default R nestingDoGet() {
 		try {
@@ -95,7 +95,7 @@ public interface LSupplierX<R, X extends Throwable> extends java.util.function.S
 		}
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoGet() method cannot be null (" + DESCRIPTION + ").";
+	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoGet() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
 	@Nonnull
@@ -109,20 +109,20 @@ public interface LSupplierX<R, X extends Throwable> extends java.util.function.S
 		return LSupplierX.DESCRIPTION;
 	}
 
-	public static <R, X extends Throwable> LSupplierX<R, X> of(R r) {
+	static <R, X extends Throwable> LSupplierX<R, X> of(R r) {
 		return () -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <R, X extends Throwable> LSupplierX<R, X> lX(final @Nonnull LSupplierX<R, X> lambda) {
+	static <R, X extends Throwable> LSupplierX<R, X> lX(final @Nonnull LSupplierX<R, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <R, X extends Throwable> LSupplierX<R, X> lX(@Nonnull Class<X> xClass, final @Nonnull LSupplierX<R, X> lambda) {
+	static <R, X extends Throwable> LSupplierX<R, X> lX(@Nonnull Class<X> xClass, final @Nonnull LSupplierX<R, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -131,13 +131,13 @@ public interface LSupplierX<R, X extends Throwable> extends java.util.function.S
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <R, X extends Throwable> LSupplierX<R, X> wrap(final java.util.function.Supplier<R> other) {
+	static <R, X extends Throwable> LSupplierX<R, X> wrap(final java.util.function.Supplier<R> other) {
 		return other::get;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <R, X extends Throwable> LSupplierX<R, X> wrapX(final @Nonnull LSupplier<R> other) {
+	static <R, X extends Throwable> LSupplierX<R, X> wrapX(final @Nonnull LSupplier<R> other) {
 		return (LSupplierX) other;
 	}
 

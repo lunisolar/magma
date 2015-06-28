@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LIntToDoubleFunction extends LIntToDoubleFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LIntToDoubleFunction: double doApplyAsDouble(int i)";
+	static final String DESCRIPTION = "LIntToDoubleFunction: double doApplyAsDouble(int i)";
 
 	@Override
 	@Deprecated
@@ -69,7 +69,7 @@ public interface LIntToDoubleFunction extends LIntToDoubleFunctionX<RuntimeExcep
 		return this.nestingDoApplyAsDouble(i);
 	}
 
-	public double doApplyAsDouble(int i);
+	double doApplyAsDouble(int i);
 
 	default double nestingDoApplyAsDouble(int i) {
 		return this.doApplyAsDouble(i);
@@ -95,13 +95,13 @@ public interface LIntToDoubleFunction extends LIntToDoubleFunctionX<RuntimeExcep
 		return () -> this.doApplyAsDouble(i);
 	}
 
-	public static LIntToDoubleFunction constant(double r) {
+	static LIntToDoubleFunction constant(double r) {
 		return i -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LIntToDoubleFunction l(final @Nonnull LIntToDoubleFunction lambda) {
+	static LIntToDoubleFunction l(final @Nonnull LIntToDoubleFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -110,13 +110,13 @@ public interface LIntToDoubleFunction extends LIntToDoubleFunctionX<RuntimeExcep
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LIntToDoubleFunction wrap(final java.util.function.IntToDoubleFunction other) {
+	static LIntToDoubleFunction wrap(final java.util.function.IntToDoubleFunction other) {
 		return other::applyAsDouble;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LIntToDoubleFunction wrap(final @Nonnull LIntToDoubleFunctionX<X> other) {
+	static <X extends Throwable> LIntToDoubleFunction wrap(final @Nonnull LIntToDoubleFunctionX<X> other) {
 		return other::nestingDoApplyAsDouble;
 	}
 

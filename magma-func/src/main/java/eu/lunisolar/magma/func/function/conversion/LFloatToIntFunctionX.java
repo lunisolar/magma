@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LFloatToIntFunctionX<X extends Throwable> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LFloatToIntFunctionX: int doApplyAsInt(float f) throws X";
+	static final String DESCRIPTION = "LFloatToIntFunctionX: int doApplyAsInt(float f) throws X";
 
-	public int doApplyAsInt(float f) throws X;
+	int doApplyAsInt(float f) throws X;
 
 	default int nestingDoApplyAsInt(float f) {
 		try {
@@ -103,20 +103,20 @@ public interface LFloatToIntFunctionX<X extends Throwable> extends MetaFunction,
 		return () -> this.doApplyAsInt(f);
 	}
 
-	public static <X extends Throwable> LFloatToIntFunctionX<X> constant(int r) {
+	static <X extends Throwable> LFloatToIntFunctionX<X> constant(int r) {
 		return f -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LFloatToIntFunctionX<X> lX(final @Nonnull LFloatToIntFunctionX<X> lambda) {
+	static <X extends Throwable> LFloatToIntFunctionX<X> lX(final @Nonnull LFloatToIntFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LFloatToIntFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LFloatToIntFunctionX<X> lambda) {
+	static <X extends Throwable> LFloatToIntFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LFloatToIntFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -125,7 +125,7 @@ public interface LFloatToIntFunctionX<X extends Throwable> extends MetaFunction,
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LFloatToIntFunctionX<X> wrapX(final @Nonnull LFloatToIntFunction other) {
+	static <X extends Throwable> LFloatToIntFunctionX<X> wrapX(final @Nonnull LFloatToIntFunction other) {
 		return (LFloatToIntFunctionX) other;
 	}
 

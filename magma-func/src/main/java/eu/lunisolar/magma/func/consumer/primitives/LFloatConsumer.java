@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LFloatConsumer extends LFloatConsumerX<RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LFloatConsumer: void doAccept(float f)";
+	static final String DESCRIPTION = "LFloatConsumer: void doAccept(float f)";
 
-	public void doAccept(float f);
+	void doAccept(float f);
 
 	default void nestingDoAccept(float f) {
 		this.doAccept(f);
@@ -86,7 +86,7 @@ public interface LFloatConsumer extends LFloatConsumerX<RuntimeException>, MetaC
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LFloatConsumer l(final @Nonnull LFloatConsumer lambda) {
+	static LFloatConsumer l(final @Nonnull LFloatConsumer lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -95,7 +95,7 @@ public interface LFloatConsumer extends LFloatConsumerX<RuntimeException>, MetaC
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LFloatConsumer wrap(final @Nonnull LFloatConsumerX<X> other) {
+	static <X extends Throwable> LFloatConsumer wrap(final @Nonnull LFloatConsumerX<X> other) {
 		return other::nestingDoAccept;
 	}
 

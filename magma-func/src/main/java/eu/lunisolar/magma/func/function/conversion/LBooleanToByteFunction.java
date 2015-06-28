@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBooleanToByteFunction extends LBooleanToByteFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LBooleanToByteFunction: byte doApplyAsByte(boolean b)";
+	static final String DESCRIPTION = "LBooleanToByteFunction: byte doApplyAsByte(boolean b)";
 
-	public byte doApplyAsByte(boolean b);
+	byte doApplyAsByte(boolean b);
 
 	default byte nestingDoApplyAsByte(boolean b) {
 		return this.doApplyAsByte(b);
@@ -88,13 +88,13 @@ public interface LBooleanToByteFunction extends LBooleanToByteFunctionX<RuntimeE
 		return () -> this.doApplyAsByte(b);
 	}
 
-	public static LBooleanToByteFunction constant(byte r) {
+	static LBooleanToByteFunction constant(byte r) {
 		return b -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LBooleanToByteFunction l(final @Nonnull LBooleanToByteFunction lambda) {
+	static LBooleanToByteFunction l(final @Nonnull LBooleanToByteFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -103,7 +103,7 @@ public interface LBooleanToByteFunction extends LBooleanToByteFunctionX<RuntimeE
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LBooleanToByteFunction wrap(final @Nonnull LBooleanToByteFunctionX<X> other) {
+	static <X extends Throwable> LBooleanToByteFunction wrap(final @Nonnull LBooleanToByteFunctionX<X> other) {
 		return other::nestingDoApplyAsByte;
 	}
 

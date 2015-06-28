@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LObjFloatConsumerX<T, X extends Throwable> extends MetaConsumer, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LObjFloatConsumerX: void doAccept(T t, float f) throws X";
+	static final String DESCRIPTION = "LObjFloatConsumerX: void doAccept(T t, float f) throws X";
 
-	public void doAccept(T t, float f) throws X;
+	void doAccept(T t, float f) throws X;
 
 	default void nestingDoAccept(T t, float f) {
 		try {
@@ -101,14 +101,14 @@ public interface LObjFloatConsumerX<T, X extends Throwable> extends MetaConsumer
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T, X extends Throwable> LObjFloatConsumerX<T, X> lX(final @Nonnull LObjFloatConsumerX<T, X> lambda) {
+	static <T, X extends Throwable> LObjFloatConsumerX<T, X> lX(final @Nonnull LObjFloatConsumerX<T, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T, X extends Throwable> LObjFloatConsumerX<T, X> lX(@Nonnull Class<X> xClass, final @Nonnull LObjFloatConsumerX<T, X> lambda) {
+	static <T, X extends Throwable> LObjFloatConsumerX<T, X> lX(@Nonnull Class<X> xClass, final @Nonnull LObjFloatConsumerX<T, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -117,7 +117,7 @@ public interface LObjFloatConsumerX<T, X extends Throwable> extends MetaConsumer
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, X extends Throwable> LObjFloatConsumerX<T, X> wrapX(final @Nonnull LObjFloatConsumer<T> other) {
+	static <T, X extends Throwable> LObjFloatConsumerX<T, X> wrapX(final @Nonnull LObjFloatConsumer<T> other) {
 		return (LObjFloatConsumerX) other;
 	}
 

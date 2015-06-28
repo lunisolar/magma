@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBooleanToShortFunctionX<X extends Throwable> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LBooleanToShortFunctionX: short doApplyAsShort(boolean b) throws X";
+	static final String DESCRIPTION = "LBooleanToShortFunctionX: short doApplyAsShort(boolean b) throws X";
 
-	public short doApplyAsShort(boolean b) throws X;
+	short doApplyAsShort(boolean b) throws X;
 
 	default short nestingDoApplyAsShort(boolean b) {
 		try {
@@ -103,20 +103,20 @@ public interface LBooleanToShortFunctionX<X extends Throwable> extends MetaFunct
 		return () -> this.doApplyAsShort(b);
 	}
 
-	public static <X extends Throwable> LBooleanToShortFunctionX<X> constant(short r) {
+	static <X extends Throwable> LBooleanToShortFunctionX<X> constant(short r) {
 		return b -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LBooleanToShortFunctionX<X> lX(final @Nonnull LBooleanToShortFunctionX<X> lambda) {
+	static <X extends Throwable> LBooleanToShortFunctionX<X> lX(final @Nonnull LBooleanToShortFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LBooleanToShortFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LBooleanToShortFunctionX<X> lambda) {
+	static <X extends Throwable> LBooleanToShortFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LBooleanToShortFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -125,7 +125,7 @@ public interface LBooleanToShortFunctionX<X extends Throwable> extends MetaFunct
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LBooleanToShortFunctionX<X> wrapX(final @Nonnull LBooleanToShortFunction other) {
+	static <X extends Throwable> LBooleanToShortFunctionX<X> wrapX(final @Nonnull LBooleanToShortFunction other) {
 		return (LBooleanToShortFunctionX) other;
 	}
 

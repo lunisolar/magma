@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBiDoublePredicate extends LBiDoublePredicateX<RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LBiDoublePredicate: boolean doTest(double d1,double d2)";
+	static final String DESCRIPTION = "LBiDoublePredicate: boolean doTest(double d1,double d2)";
 
-	public boolean doTest(double d1, double d2);
+	boolean doTest(double d1, double d2);
 
 	default boolean nestingDoTest(double d1, double d2) {
 		return this.doTest(d1, d2);
@@ -94,13 +94,13 @@ public interface LBiDoublePredicate extends LBiDoublePredicateX<RuntimeException
 		return () -> this.doTest(d1, d2);
 	}
 
-	public static LBiDoublePredicate constant(boolean r) {
+	static LBiDoublePredicate constant(boolean r) {
 		return (d1, d2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LBiDoublePredicate l(final @Nonnull LBiDoublePredicate lambda) {
+	static LBiDoublePredicate l(final @Nonnull LBiDoublePredicate lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -109,7 +109,7 @@ public interface LBiDoublePredicate extends LBiDoublePredicateX<RuntimeException
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LBiDoublePredicate wrap(final @Nonnull LBiDoublePredicateX<X> other) {
+	static <X extends Throwable> LBiDoublePredicate wrap(final @Nonnull LBiDoublePredicateX<X> other) {
 		return other::nestingDoTest;
 	}
 
@@ -155,7 +155,7 @@ public interface LBiDoublePredicate extends LBiDoublePredicateX<RuntimeException
 	 *  @see {@link java.util.function.Predicate#isEqual()}
 	 */
 	@Nonnull
-	public static LBiDoublePredicate isEqual(final double v1, final double v2) {
+	static LBiDoublePredicate isEqual(final double v1, final double v2) {
 		return (d1, d2) -> (d1 == v1) && (d2 == v2);
 	}
 

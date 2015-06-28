@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LDoubleFunctionX<R, X extends Throwable> extends java.util.function.DoubleFunction<R>, MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LDoubleFunctionX: R doApply(double d) throws X";
+	static final String DESCRIPTION = "LDoubleFunctionX: R doApply(double d) throws X";
 
 	@Override
 	@Deprecated
@@ -70,7 +70,7 @@ public interface LDoubleFunctionX<R, X extends Throwable> extends java.util.func
 	}
 
 	@Nullable
-	public R doApply(double d) throws X;
+	R doApply(double d) throws X;
 
 	default R nestingDoApply(double d) {
 		try {
@@ -95,7 +95,7 @@ public interface LDoubleFunctionX<R, X extends Throwable> extends java.util.func
 		}
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
 	@Nonnull
@@ -114,20 +114,20 @@ public interface LDoubleFunctionX<R, X extends Throwable> extends java.util.func
 		return () -> this.doApply(d);
 	}
 
-	public static <R, X extends Throwable> LDoubleFunctionX<R, X> constant(R r) {
+	static <R, X extends Throwable> LDoubleFunctionX<R, X> constant(R r) {
 		return d -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <R, X extends Throwable> LDoubleFunctionX<R, X> lX(final @Nonnull LDoubleFunctionX<R, X> lambda) {
+	static <R, X extends Throwable> LDoubleFunctionX<R, X> lX(final @Nonnull LDoubleFunctionX<R, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <R, X extends Throwable> LDoubleFunctionX<R, X> lX(@Nonnull Class<X> xClass, final @Nonnull LDoubleFunctionX<R, X> lambda) {
+	static <R, X extends Throwable> LDoubleFunctionX<R, X> lX(@Nonnull Class<X> xClass, final @Nonnull LDoubleFunctionX<R, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -136,13 +136,13 @@ public interface LDoubleFunctionX<R, X extends Throwable> extends java.util.func
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <R, X extends Throwable> LDoubleFunctionX<R, X> wrap(final java.util.function.DoubleFunction<R> other) {
+	static <R, X extends Throwable> LDoubleFunctionX<R, X> wrap(final java.util.function.DoubleFunction<R> other) {
 		return other::apply;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <R, X extends Throwable> LDoubleFunctionX<R, X> wrapX(final @Nonnull LDoubleFunction<R> other) {
+	static <R, X extends Throwable> LDoubleFunctionX<R, X> wrapX(final @Nonnull LDoubleFunction<R> other) {
 		return (LDoubleFunctionX) other;
 	}
 

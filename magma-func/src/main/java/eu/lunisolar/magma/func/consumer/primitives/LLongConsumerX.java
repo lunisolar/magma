@@ -61,7 +61,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LLongConsumerX<X extends Throwable> extends java.util.function.LongConsumer, MetaConsumer, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LLongConsumerX: void doAccept(long l) throws X";
+	static final String DESCRIPTION = "LLongConsumerX: void doAccept(long l) throws X";
 
 	@Override
 	@Deprecated
@@ -70,7 +70,7 @@ public interface LLongConsumerX<X extends Throwable> extends java.util.function.
 		this.nestingDoAccept(l);
 	}
 
-	public void doAccept(long l) throws X;
+	void doAccept(long l) throws X;
 
 	default void nestingDoAccept(long l) {
 		try {
@@ -108,14 +108,14 @@ public interface LLongConsumerX<X extends Throwable> extends java.util.function.
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LLongConsumerX<X> lX(final @Nonnull LLongConsumerX<X> lambda) {
+	static <X extends Throwable> LLongConsumerX<X> lX(final @Nonnull LLongConsumerX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LLongConsumerX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LLongConsumerX<X> lambda) {
+	static <X extends Throwable> LLongConsumerX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LLongConsumerX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -124,13 +124,13 @@ public interface LLongConsumerX<X extends Throwable> extends java.util.function.
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Throwable> LLongConsumerX<X> wrap(final java.util.function.LongConsumer other) {
+	static <X extends Throwable> LLongConsumerX<X> wrap(final java.util.function.LongConsumer other) {
 		return other::accept;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LLongConsumerX<X> wrapX(final @Nonnull LLongConsumer other) {
+	static <X extends Throwable> LLongConsumerX<X> wrapX(final @Nonnull LLongConsumer other) {
 		return (LLongConsumerX) other;
 	}
 

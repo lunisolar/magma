@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LFloatToIntFunction extends LFloatToIntFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LFloatToIntFunction: int doApplyAsInt(float f)";
+	static final String DESCRIPTION = "LFloatToIntFunction: int doApplyAsInt(float f)";
 
-	public int doApplyAsInt(float f);
+	int doApplyAsInt(float f);
 
 	default int nestingDoApplyAsInt(float f) {
 		return this.doApplyAsInt(f);
@@ -88,13 +88,13 @@ public interface LFloatToIntFunction extends LFloatToIntFunctionX<RuntimeExcepti
 		return () -> this.doApplyAsInt(f);
 	}
 
-	public static LFloatToIntFunction constant(int r) {
+	static LFloatToIntFunction constant(int r) {
 		return f -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LFloatToIntFunction l(final @Nonnull LFloatToIntFunction lambda) {
+	static LFloatToIntFunction l(final @Nonnull LFloatToIntFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -103,7 +103,7 @@ public interface LFloatToIntFunction extends LFloatToIntFunctionX<RuntimeExcepti
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LFloatToIntFunction wrap(final @Nonnull LFloatToIntFunctionX<X> other) {
+	static <X extends Throwable> LFloatToIntFunction wrap(final @Nonnull LFloatToIntFunctionX<X> other) {
 		return other::nestingDoApplyAsInt;
 	}
 

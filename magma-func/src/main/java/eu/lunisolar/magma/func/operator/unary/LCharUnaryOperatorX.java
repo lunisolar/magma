@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LCharUnaryOperatorX<X extends Throwable> extends MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LCharUnaryOperatorX: char doApplyAsChar(char c) throws X";
+	static final String DESCRIPTION = "LCharUnaryOperatorX: char doApplyAsChar(char c) throws X";
 
-	public char doApplyAsChar(char c) throws X;
+	char doApplyAsChar(char c) throws X;
 
 	default char nestingDoApplyAsChar(char c) {
 		try {
@@ -103,20 +103,20 @@ public interface LCharUnaryOperatorX<X extends Throwable> extends MetaOperator, 
 		return () -> this.doApplyAsChar(c);
 	}
 
-	public static <X extends Throwable> LCharUnaryOperatorX<X> constant(char r) {
+	static <X extends Throwable> LCharUnaryOperatorX<X> constant(char r) {
 		return c -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LCharUnaryOperatorX<X> lX(final @Nonnull LCharUnaryOperatorX<X> lambda) {
+	static <X extends Throwable> LCharUnaryOperatorX<X> lX(final @Nonnull LCharUnaryOperatorX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LCharUnaryOperatorX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LCharUnaryOperatorX<X> lambda) {
+	static <X extends Throwable> LCharUnaryOperatorX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LCharUnaryOperatorX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -125,7 +125,7 @@ public interface LCharUnaryOperatorX<X extends Throwable> extends MetaOperator, 
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LCharUnaryOperatorX<X> wrapX(final @Nonnull LCharUnaryOperator other) {
+	static <X extends Throwable> LCharUnaryOperatorX<X> wrapX(final @Nonnull LCharUnaryOperator other) {
 		return (LCharUnaryOperatorX) other;
 	}
 
@@ -222,7 +222,7 @@ public interface LCharUnaryOperatorX<X extends Throwable> extends MetaOperator, 
 
 	/** Returns a function that always returns its input argument. */
 	@Nonnull
-	public static <X extends Throwable> LCharUnaryOperatorX<X> identity() {
+	static <X extends Throwable> LCharUnaryOperatorX<X> identity() {
 		return t -> t;
 	}
 	// <editor-fold desc="variant conversions">

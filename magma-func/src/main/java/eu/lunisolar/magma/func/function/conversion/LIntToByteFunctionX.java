@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LIntToByteFunctionX<X extends Throwable> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LIntToByteFunctionX: byte doApplyAsByte(int i) throws X";
+	static final String DESCRIPTION = "LIntToByteFunctionX: byte doApplyAsByte(int i) throws X";
 
-	public byte doApplyAsByte(int i) throws X;
+	byte doApplyAsByte(int i) throws X;
 
 	default byte nestingDoApplyAsByte(int i) {
 		try {
@@ -103,20 +103,20 @@ public interface LIntToByteFunctionX<X extends Throwable> extends MetaFunction, 
 		return () -> this.doApplyAsByte(i);
 	}
 
-	public static <X extends Throwable> LIntToByteFunctionX<X> constant(byte r) {
+	static <X extends Throwable> LIntToByteFunctionX<X> constant(byte r) {
 		return i -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LIntToByteFunctionX<X> lX(final @Nonnull LIntToByteFunctionX<X> lambda) {
+	static <X extends Throwable> LIntToByteFunctionX<X> lX(final @Nonnull LIntToByteFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LIntToByteFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LIntToByteFunctionX<X> lambda) {
+	static <X extends Throwable> LIntToByteFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LIntToByteFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -125,7 +125,7 @@ public interface LIntToByteFunctionX<X extends Throwable> extends MetaFunction, 
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LIntToByteFunctionX<X> wrapX(final @Nonnull LIntToByteFunction other) {
+	static <X extends Throwable> LIntToByteFunctionX<X> wrapX(final @Nonnull LIntToByteFunction other) {
 		return (LIntToByteFunctionX) other;
 	}
 

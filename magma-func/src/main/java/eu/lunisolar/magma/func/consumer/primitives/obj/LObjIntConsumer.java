@@ -61,7 +61,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LObjIntConsumer<T> extends LObjIntConsumerX<T, RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LObjIntConsumer: void doAccept(T t, int i)";
+	static final String DESCRIPTION = "LObjIntConsumer: void doAccept(T t, int i)";
 
 	@Override
 	@Deprecated
@@ -70,7 +70,7 @@ public interface LObjIntConsumer<T> extends LObjIntConsumerX<T, RuntimeException
 		this.nestingDoAccept(t, i);
 	}
 
-	public void doAccept(T t, int i);
+	void doAccept(T t, int i);
 
 	default void nestingDoAccept(T t, int i) {
 		this.doAccept(t, i);
@@ -93,7 +93,7 @@ public interface LObjIntConsumer<T> extends LObjIntConsumerX<T, RuntimeException
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T> LObjIntConsumer<T> l(final @Nonnull LObjIntConsumer<T> lambda) {
+	static <T> LObjIntConsumer<T> l(final @Nonnull LObjIntConsumer<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -102,13 +102,13 @@ public interface LObjIntConsumer<T> extends LObjIntConsumerX<T, RuntimeException
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T> LObjIntConsumer<T> wrap(final java.util.function.ObjIntConsumer<T> other) {
+	static <T> LObjIntConsumer<T> wrap(final java.util.function.ObjIntConsumer<T> other) {
 		return other::accept;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, X extends Throwable> LObjIntConsumer<T> wrap(final @Nonnull LObjIntConsumerX<T, X> other) {
+	static <T, X extends Throwable> LObjIntConsumer<T> wrap(final @Nonnull LObjIntConsumerX<T, X> other) {
 		return other::nestingDoAccept;
 	}
 

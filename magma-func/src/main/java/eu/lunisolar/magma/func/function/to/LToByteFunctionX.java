@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LToByteFunctionX<T, X extends Throwable> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LToByteFunctionX: byte doApplyAsByte(T t) throws X";
+	static final String DESCRIPTION = "LToByteFunctionX: byte doApplyAsByte(T t) throws X";
 
-	public byte doApplyAsByte(T t) throws X;
+	byte doApplyAsByte(T t) throws X;
 
 	default byte nestingDoApplyAsByte(T t) {
 		try {
@@ -103,20 +103,20 @@ public interface LToByteFunctionX<T, X extends Throwable> extends MetaFunction, 
 		return () -> this.doApplyAsByte(t);
 	}
 
-	public static <T, X extends Throwable> LToByteFunctionX<T, X> constant(byte r) {
+	static <T, X extends Throwable> LToByteFunctionX<T, X> constant(byte r) {
 		return t -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T, X extends Throwable> LToByteFunctionX<T, X> lX(final @Nonnull LToByteFunctionX<T, X> lambda) {
+	static <T, X extends Throwable> LToByteFunctionX<T, X> lX(final @Nonnull LToByteFunctionX<T, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T, X extends Throwable> LToByteFunctionX<T, X> lX(@Nonnull Class<X> xClass, final @Nonnull LToByteFunctionX<T, X> lambda) {
+	static <T, X extends Throwable> LToByteFunctionX<T, X> lX(@Nonnull Class<X> xClass, final @Nonnull LToByteFunctionX<T, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -125,7 +125,7 @@ public interface LToByteFunctionX<T, X extends Throwable> extends MetaFunction, 
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, X extends Throwable> LToByteFunctionX<T, X> wrapX(final @Nonnull LToByteFunction<T> other) {
+	static <T, X extends Throwable> LToByteFunctionX<T, X> wrapX(final @Nonnull LToByteFunction<T> other) {
 		return (LToByteFunctionX) other;
 	}
 

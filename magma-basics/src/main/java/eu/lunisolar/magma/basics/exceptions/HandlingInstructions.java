@@ -18,6 +18,7 @@
 
 package eu.lunisolar.magma.basics.exceptions;
 
+@FunctionalInterface
 public interface HandlingInstructions<X extends Throwable, Y extends Throwable> {
     void processWith(Handler.The<X, Y> handler) throws Y;
 }

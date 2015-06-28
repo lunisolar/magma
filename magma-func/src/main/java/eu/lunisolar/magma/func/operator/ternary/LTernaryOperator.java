@@ -60,10 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LTernaryOperator<T> extends LTernaryOperatorX<T, RuntimeException>, MetaOperator, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LTernaryOperator: T doApply(T t1,T t2,T t3)";
+	static final String DESCRIPTION = "LTernaryOperator: T doApply(T t1,T t2,T t3)";
 
 	@Nullable
-	public T doApply(T t1, T t2, T t3);
+	T doApply(T t1, T t2, T t3);
 
 	default T nestingDoApply(T t1, T t2, T t3) {
 		return this.doApply(t1, t2, t3);
@@ -73,7 +73,7 @@ public interface LTernaryOperator<T> extends LTernaryOperatorX<T, RuntimeExcepti
 		return this.doApply(t1, t2, t3);
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
 	@Nonnull
@@ -92,13 +92,13 @@ public interface LTernaryOperator<T> extends LTernaryOperatorX<T, RuntimeExcepti
 		return () -> this.doApply(t1, t2, t3);
 	}
 
-	public static <T> LTernaryOperator<T> constant(T r) {
+	static <T> LTernaryOperator<T> constant(T r) {
 		return (t1, t2, t3) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T> LTernaryOperator<T> l(final @Nonnull LTernaryOperator<T> lambda) {
+	static <T> LTernaryOperator<T> l(final @Nonnull LTernaryOperator<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -107,7 +107,7 @@ public interface LTernaryOperator<T> extends LTernaryOperatorX<T, RuntimeExcepti
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, X extends Throwable> LTernaryOperator<T> wrap(final @Nonnull LTernaryOperatorX<T, X> other) {
+	static <T, X extends Throwable> LTernaryOperator<T> wrap(final @Nonnull LTernaryOperatorX<T, X> other) {
 		return other::nestingDoApply;
 	}
 

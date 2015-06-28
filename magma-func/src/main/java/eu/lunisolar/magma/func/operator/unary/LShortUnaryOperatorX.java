@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LShortUnaryOperatorX<X extends Throwable> extends MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LShortUnaryOperatorX: short doApplyAsShort(short s) throws X";
+	static final String DESCRIPTION = "LShortUnaryOperatorX: short doApplyAsShort(short s) throws X";
 
-	public short doApplyAsShort(short s) throws X;
+	short doApplyAsShort(short s) throws X;
 
 	default short nestingDoApplyAsShort(short s) {
 		try {
@@ -103,20 +103,20 @@ public interface LShortUnaryOperatorX<X extends Throwable> extends MetaOperator,
 		return () -> this.doApplyAsShort(s);
 	}
 
-	public static <X extends Throwable> LShortUnaryOperatorX<X> constant(short r) {
+	static <X extends Throwable> LShortUnaryOperatorX<X> constant(short r) {
 		return s -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LShortUnaryOperatorX<X> lX(final @Nonnull LShortUnaryOperatorX<X> lambda) {
+	static <X extends Throwable> LShortUnaryOperatorX<X> lX(final @Nonnull LShortUnaryOperatorX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LShortUnaryOperatorX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LShortUnaryOperatorX<X> lambda) {
+	static <X extends Throwable> LShortUnaryOperatorX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LShortUnaryOperatorX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -125,7 +125,7 @@ public interface LShortUnaryOperatorX<X extends Throwable> extends MetaOperator,
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LShortUnaryOperatorX<X> wrapX(final @Nonnull LShortUnaryOperator other) {
+	static <X extends Throwable> LShortUnaryOperatorX<X> wrapX(final @Nonnull LShortUnaryOperator other) {
 		return (LShortUnaryOperatorX) other;
 	}
 
@@ -222,7 +222,7 @@ public interface LShortUnaryOperatorX<X extends Throwable> extends MetaOperator,
 
 	/** Returns a function that always returns its input argument. */
 	@Nonnull
-	public static <X extends Throwable> LShortUnaryOperatorX<X> identity() {
+	static <X extends Throwable> LShortUnaryOperatorX<X> identity() {
 		return t -> t;
 	}
 	// <editor-fold desc="variant conversions">

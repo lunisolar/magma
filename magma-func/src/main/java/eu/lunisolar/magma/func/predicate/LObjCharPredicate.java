@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LObjCharPredicate<T> extends LObjCharPredicateX<T, RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LObjCharPredicate: boolean doTest(T t, char c)";
+	static final String DESCRIPTION = "LObjCharPredicate: boolean doTest(T t, char c)";
 
-	public boolean doTest(T t, char c);
+	boolean doTest(T t, char c);
 
 	default boolean nestingDoTest(T t, char c) {
 		return this.doTest(t, c);
@@ -94,13 +94,13 @@ public interface LObjCharPredicate<T> extends LObjCharPredicateX<T, RuntimeExcep
 		return () -> this.doTest(t, c);
 	}
 
-	public static <T> LObjCharPredicate<T> constant(boolean r) {
+	static <T> LObjCharPredicate<T> constant(boolean r) {
 		return (t, c) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T> LObjCharPredicate<T> l(final @Nonnull LObjCharPredicate<T> lambda) {
+	static <T> LObjCharPredicate<T> l(final @Nonnull LObjCharPredicate<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -109,7 +109,7 @@ public interface LObjCharPredicate<T> extends LObjCharPredicateX<T, RuntimeExcep
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, X extends Throwable> LObjCharPredicate<T> wrap(final @Nonnull LObjCharPredicateX<T, X> other) {
+	static <T, X extends Throwable> LObjCharPredicate<T> wrap(final @Nonnull LObjCharPredicateX<T, X> other) {
 		return other::nestingDoTest;
 	}
 
@@ -155,7 +155,7 @@ public interface LObjCharPredicate<T> extends LObjCharPredicateX<T, RuntimeExcep
 	 *  @see {@link java.util.function.Predicate#isEqual()}
 	 */
 	@Nonnull
-	public static <T1> LObjCharPredicate<T1> isEqual(final T1 v1, final char v2) {
+	static <T1> LObjCharPredicate<T1> isEqual(final T1 v1, final char v2) {
 		return (t, c) -> (t == null ? v1 == null : t.equals(v1)) && (c == v2);
 	}
 

@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LToFloatFunctionX<T, X extends Throwable> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LToFloatFunctionX: float doApplyAsFloat(T t) throws X";
+	static final String DESCRIPTION = "LToFloatFunctionX: float doApplyAsFloat(T t) throws X";
 
-	public float doApplyAsFloat(T t) throws X;
+	float doApplyAsFloat(T t) throws X;
 
 	default float nestingDoApplyAsFloat(T t) {
 		try {
@@ -103,20 +103,20 @@ public interface LToFloatFunctionX<T, X extends Throwable> extends MetaFunction,
 		return () -> this.doApplyAsFloat(t);
 	}
 
-	public static <T, X extends Throwable> LToFloatFunctionX<T, X> constant(float r) {
+	static <T, X extends Throwable> LToFloatFunctionX<T, X> constant(float r) {
 		return t -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T, X extends Throwable> LToFloatFunctionX<T, X> lX(final @Nonnull LToFloatFunctionX<T, X> lambda) {
+	static <T, X extends Throwable> LToFloatFunctionX<T, X> lX(final @Nonnull LToFloatFunctionX<T, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T, X extends Throwable> LToFloatFunctionX<T, X> lX(@Nonnull Class<X> xClass, final @Nonnull LToFloatFunctionX<T, X> lambda) {
+	static <T, X extends Throwable> LToFloatFunctionX<T, X> lX(@Nonnull Class<X> xClass, final @Nonnull LToFloatFunctionX<T, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -125,7 +125,7 @@ public interface LToFloatFunctionX<T, X extends Throwable> extends MetaFunction,
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, X extends Throwable> LToFloatFunctionX<T, X> wrapX(final @Nonnull LToFloatFunction<T> other) {
+	static <T, X extends Throwable> LToFloatFunctionX<T, X> wrapX(final @Nonnull LToFloatFunction<T> other) {
 		return (LToFloatFunctionX) other;
 	}
 

@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LShortBinaryOperator extends LShortBinaryOperatorX<RuntimeException>, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LShortBinaryOperator: short doApplyAsShort(short s1,short s2)";
+	static final String DESCRIPTION = "LShortBinaryOperator: short doApplyAsShort(short s1,short s2)";
 
-	public short doApplyAsShort(short s1, short s2);
+	short doApplyAsShort(short s1, short s2);
 
 	default short nestingDoApplyAsShort(short s1, short s2) {
 		return this.doApplyAsShort(s1, s2);
@@ -88,13 +88,13 @@ public interface LShortBinaryOperator extends LShortBinaryOperatorX<RuntimeExcep
 		return () -> this.doApplyAsShort(s1, s2);
 	}
 
-	public static LShortBinaryOperator constant(short r) {
+	static LShortBinaryOperator constant(short r) {
 		return (s1, s2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LShortBinaryOperator l(final @Nonnull LShortBinaryOperator lambda) {
+	static LShortBinaryOperator l(final @Nonnull LShortBinaryOperator lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -103,7 +103,7 @@ public interface LShortBinaryOperator extends LShortBinaryOperatorX<RuntimeExcep
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LShortBinaryOperator wrap(final @Nonnull LShortBinaryOperatorX<X> other) {
+	static <X extends Throwable> LShortBinaryOperator wrap(final @Nonnull LShortBinaryOperatorX<X> other) {
 		return other::nestingDoApplyAsShort;
 	}
 
@@ -114,7 +114,7 @@ public interface LShortBinaryOperator extends LShortBinaryOperatorX<RuntimeExcep
 	 * @see {@link java.util.function.BinaryOperator#minBy()}
 	 */
 	@Nonnull
-	public static LShortBinaryOperator min() {
+	static LShortBinaryOperator min() {
 		return (a, b) -> (a <= b) ? a : b;
 	}
 
@@ -122,7 +122,7 @@ public interface LShortBinaryOperator extends LShortBinaryOperatorX<RuntimeExcep
 	 * @see {@link java.util.function.BinaryOperator#maxBy()}
 	 */
 	@Nonnull
-	public static LShortBinaryOperator max() {
+	static LShortBinaryOperator max() {
 		return (a, b) -> (a >= b) ? a : b;
 	}
 

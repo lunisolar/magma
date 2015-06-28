@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBinaryOperatorX<T, X extends Throwable> extends java.util.function.BinaryOperator<T>, MetaOperator, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LBinaryOperatorX: T doApply(T t1,T t2) throws X";
+	static final String DESCRIPTION = "LBinaryOperatorX: T doApply(T t1,T t2) throws X";
 
 	@Override
 	@Deprecated
@@ -70,7 +70,7 @@ public interface LBinaryOperatorX<T, X extends Throwable> extends java.util.func
 	}
 
 	@Nullable
-	public T doApply(T t1, T t2) throws X;
+	T doApply(T t1, T t2) throws X;
 
 	default T nestingDoApply(T t1, T t2) {
 		try {
@@ -95,7 +95,7 @@ public interface LBinaryOperatorX<T, X extends Throwable> extends java.util.func
 		}
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
 	@Nonnull
@@ -114,20 +114,20 @@ public interface LBinaryOperatorX<T, X extends Throwable> extends java.util.func
 		return () -> this.doApply(t1, t2);
 	}
 
-	public static <T, X extends Throwable> LBinaryOperatorX<T, X> constant(T r) {
+	static <T, X extends Throwable> LBinaryOperatorX<T, X> constant(T r) {
 		return (t1, t2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T, X extends Throwable> LBinaryOperatorX<T, X> lX(final @Nonnull LBinaryOperatorX<T, X> lambda) {
+	static <T, X extends Throwable> LBinaryOperatorX<T, X> lX(final @Nonnull LBinaryOperatorX<T, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T, X extends Throwable> LBinaryOperatorX<T, X> lX(@Nonnull Class<X> xClass, final @Nonnull LBinaryOperatorX<T, X> lambda) {
+	static <T, X extends Throwable> LBinaryOperatorX<T, X> lX(@Nonnull Class<X> xClass, final @Nonnull LBinaryOperatorX<T, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -136,13 +136,13 @@ public interface LBinaryOperatorX<T, X extends Throwable> extends java.util.func
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T, X extends Throwable> LBinaryOperatorX<T, X> wrap(final java.util.function.BinaryOperator<T> other) {
+	static <T, X extends Throwable> LBinaryOperatorX<T, X> wrap(final java.util.function.BinaryOperator<T> other) {
 		return other::apply;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, X extends Throwable> LBinaryOperatorX<T, X> wrapX(final @Nonnull LBinaryOperator<T> other) {
+	static <T, X extends Throwable> LBinaryOperatorX<T, X> wrapX(final @Nonnull LBinaryOperator<T> other) {
 		return (LBinaryOperatorX) other;
 	}
 

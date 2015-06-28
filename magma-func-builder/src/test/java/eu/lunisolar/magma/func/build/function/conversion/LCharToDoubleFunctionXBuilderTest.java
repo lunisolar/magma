@@ -88,7 +88,7 @@ public class LCharToDoubleFunctionXBuilderTest<X extends Throwable>{
             fail("No exception were thrown.");
         })
                     .isExactlyInstanceOf(UnsupportedOperationException.class)
-                    .hasMessageContaining("Handling is allready set for this builder.");
+                    .hasMessageContaining("Handling is already set for this builder.");
     }
 
     @Test

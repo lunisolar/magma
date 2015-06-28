@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBiIntPredicate extends LBiIntPredicateX<RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LBiIntPredicate: boolean doTest(int i1,int i2)";
+	static final String DESCRIPTION = "LBiIntPredicate: boolean doTest(int i1,int i2)";
 
-	public boolean doTest(int i1, int i2);
+	boolean doTest(int i1, int i2);
 
 	default boolean nestingDoTest(int i1, int i2) {
 		return this.doTest(i1, i2);
@@ -94,13 +94,13 @@ public interface LBiIntPredicate extends LBiIntPredicateX<RuntimeException>, Met
 		return () -> this.doTest(i1, i2);
 	}
 
-	public static LBiIntPredicate constant(boolean r) {
+	static LBiIntPredicate constant(boolean r) {
 		return (i1, i2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LBiIntPredicate l(final @Nonnull LBiIntPredicate lambda) {
+	static LBiIntPredicate l(final @Nonnull LBiIntPredicate lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -109,7 +109,7 @@ public interface LBiIntPredicate extends LBiIntPredicateX<RuntimeException>, Met
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LBiIntPredicate wrap(final @Nonnull LBiIntPredicateX<X> other) {
+	static <X extends Throwable> LBiIntPredicate wrap(final @Nonnull LBiIntPredicateX<X> other) {
 		return other::nestingDoTest;
 	}
 
@@ -155,7 +155,7 @@ public interface LBiIntPredicate extends LBiIntPredicateX<RuntimeException>, Met
 	 *  @see {@link java.util.function.Predicate#isEqual()}
 	 */
 	@Nonnull
-	public static LBiIntPredicate isEqual(final int v1, final int v2) {
+	static LBiIntPredicate isEqual(final int v1, final int v2) {
 		return (i1, i2) -> (i1 == v1) && (i2 == v2);
 	}
 

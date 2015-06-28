@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LLongSupplier extends LLongSupplierX<RuntimeException>, MetaSupplier, PrimitiveCodomain<Object>, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LLongSupplier: long doGetAsLong()";
+	static final String DESCRIPTION = "LLongSupplier: long doGetAsLong()";
 
 	@Override
 	@Deprecated
@@ -69,7 +69,7 @@ public interface LLongSupplier extends LLongSupplierX<RuntimeException>, MetaSup
 		return this.nestingDoGetAsLong();
 	}
 
-	public long doGetAsLong();
+	long doGetAsLong();
 
 	default long nestingDoGetAsLong() {
 		return this.doGetAsLong();
@@ -90,13 +90,13 @@ public interface LLongSupplier extends LLongSupplierX<RuntimeException>, MetaSup
 		return LLongSupplier.DESCRIPTION;
 	}
 
-	public static LLongSupplier of(long r) {
+	static LLongSupplier of(long r) {
 		return () -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LLongSupplier l(final @Nonnull LLongSupplier lambda) {
+	static LLongSupplier l(final @Nonnull LLongSupplier lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -105,13 +105,13 @@ public interface LLongSupplier extends LLongSupplierX<RuntimeException>, MetaSup
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LLongSupplier wrap(final java.util.function.LongSupplier other) {
+	static LLongSupplier wrap(final java.util.function.LongSupplier other) {
 		return other::getAsLong;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LLongSupplier wrap(final @Nonnull LLongSupplierX<X> other) {
+	static <X extends Throwable> LLongSupplier wrap(final @Nonnull LLongSupplierX<X> other) {
 		return other::nestingDoGetAsLong;
 	}
 

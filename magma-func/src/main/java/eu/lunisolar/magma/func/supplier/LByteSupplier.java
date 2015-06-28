@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LByteSupplier extends LByteSupplierX<RuntimeException>, MetaSupplier, PrimitiveCodomain<Object>, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LByteSupplier: byte doGetAsByte()";
+	static final String DESCRIPTION = "LByteSupplier: byte doGetAsByte()";
 
-	public byte doGetAsByte();
+	byte doGetAsByte();
 
 	default byte nestingDoGetAsByte() {
 		return this.doGetAsByte();
@@ -83,13 +83,13 @@ public interface LByteSupplier extends LByteSupplierX<RuntimeException>, MetaSup
 		return LByteSupplier.DESCRIPTION;
 	}
 
-	public static LByteSupplier of(byte r) {
+	static LByteSupplier of(byte r) {
 		return () -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LByteSupplier l(final @Nonnull LByteSupplier lambda) {
+	static LByteSupplier l(final @Nonnull LByteSupplier lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -98,7 +98,7 @@ public interface LByteSupplier extends LByteSupplierX<RuntimeException>, MetaSup
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LByteSupplier wrap(final @Nonnull LByteSupplierX<X> other) {
+	static <X extends Throwable> LByteSupplier wrap(final @Nonnull LByteSupplierX<X> other) {
 		return other::nestingDoGetAsByte;
 	}
 

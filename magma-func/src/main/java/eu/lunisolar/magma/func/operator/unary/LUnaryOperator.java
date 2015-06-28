@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LUnaryOperator<T> extends LUnaryOperatorX<T, RuntimeException>, MetaOperator, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LUnaryOperator: T doApply(T t)";
+	static final String DESCRIPTION = "LUnaryOperator: T doApply(T t)";
 
 	@Override
 	@Deprecated
@@ -70,7 +70,7 @@ public interface LUnaryOperator<T> extends LUnaryOperatorX<T, RuntimeException>,
 	}
 
 	@Nullable
-	public T doApply(T t);
+	T doApply(T t);
 
 	default T nestingDoApply(T t) {
 		return this.doApply(t);
@@ -80,7 +80,7 @@ public interface LUnaryOperator<T> extends LUnaryOperatorX<T, RuntimeException>,
 		return this.doApply(t);
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
 	@Nonnull
@@ -99,13 +99,13 @@ public interface LUnaryOperator<T> extends LUnaryOperatorX<T, RuntimeException>,
 		return () -> this.doApply(t);
 	}
 
-	public static <T> LUnaryOperator<T> constant(T r) {
+	static <T> LUnaryOperator<T> constant(T r) {
 		return t -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T> LUnaryOperator<T> l(final @Nonnull LUnaryOperator<T> lambda) {
+	static <T> LUnaryOperator<T> l(final @Nonnull LUnaryOperator<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -114,13 +114,13 @@ public interface LUnaryOperator<T> extends LUnaryOperatorX<T, RuntimeException>,
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T> LUnaryOperator<T> wrap(final java.util.function.UnaryOperator<T> other) {
+	static <T> LUnaryOperator<T> wrap(final java.util.function.UnaryOperator<T> other) {
 		return other::apply;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, X extends Throwable> LUnaryOperator<T> wrap(final @Nonnull LUnaryOperatorX<T, X> other) {
+	static <T, X extends Throwable> LUnaryOperator<T> wrap(final @Nonnull LUnaryOperatorX<T, X> other) {
 		return other::nestingDoApply;
 	}
 
@@ -195,7 +195,7 @@ public interface LUnaryOperator<T> extends LUnaryOperatorX<T, RuntimeException>,
 
 	/** Returns a function that always returns its input argument. */
 	@Nonnull
-	public static <V> LUnaryOperator<V> identity() {
+	static <V> LUnaryOperator<V> identity() {
 		return t -> t;
 	}
 	// <editor-fold desc="variant conversions">

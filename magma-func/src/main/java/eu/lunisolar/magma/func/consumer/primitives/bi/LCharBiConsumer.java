@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LCharBiConsumer extends LCharBiConsumerX<RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LCharBiConsumer: void doAccept(char c1,char c2)";
+	static final String DESCRIPTION = "LCharBiConsumer: void doAccept(char c1,char c2)";
 
-	public void doAccept(char c1, char c2);
+	void doAccept(char c1, char c2);
 
 	default void nestingDoAccept(char c1, char c2) {
 		this.doAccept(c1, c2);
@@ -86,7 +86,7 @@ public interface LCharBiConsumer extends LCharBiConsumerX<RuntimeException>, Met
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LCharBiConsumer l(final @Nonnull LCharBiConsumer lambda) {
+	static LCharBiConsumer l(final @Nonnull LCharBiConsumer lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -95,7 +95,7 @@ public interface LCharBiConsumer extends LCharBiConsumerX<RuntimeException>, Met
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LCharBiConsumer wrap(final @Nonnull LCharBiConsumerX<X> other) {
+	static <X extends Throwable> LCharBiConsumer wrap(final @Nonnull LCharBiConsumerX<X> other) {
 		return other::nestingDoAccept;
 	}
 

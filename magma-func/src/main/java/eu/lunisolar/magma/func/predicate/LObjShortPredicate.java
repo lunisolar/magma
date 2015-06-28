@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LObjShortPredicate<T> extends LObjShortPredicateX<T, RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LObjShortPredicate: boolean doTest(T t, short s)";
+	static final String DESCRIPTION = "LObjShortPredicate: boolean doTest(T t, short s)";
 
-	public boolean doTest(T t, short s);
+	boolean doTest(T t, short s);
 
 	default boolean nestingDoTest(T t, short s) {
 		return this.doTest(t, s);
@@ -94,13 +94,13 @@ public interface LObjShortPredicate<T> extends LObjShortPredicateX<T, RuntimeExc
 		return () -> this.doTest(t, s);
 	}
 
-	public static <T> LObjShortPredicate<T> constant(boolean r) {
+	static <T> LObjShortPredicate<T> constant(boolean r) {
 		return (t, s) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T> LObjShortPredicate<T> l(final @Nonnull LObjShortPredicate<T> lambda) {
+	static <T> LObjShortPredicate<T> l(final @Nonnull LObjShortPredicate<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -109,7 +109,7 @@ public interface LObjShortPredicate<T> extends LObjShortPredicateX<T, RuntimeExc
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, X extends Throwable> LObjShortPredicate<T> wrap(final @Nonnull LObjShortPredicateX<T, X> other) {
+	static <T, X extends Throwable> LObjShortPredicate<T> wrap(final @Nonnull LObjShortPredicateX<T, X> other) {
 		return other::nestingDoTest;
 	}
 
@@ -155,7 +155,7 @@ public interface LObjShortPredicate<T> extends LObjShortPredicateX<T, RuntimeExc
 	 *  @see {@link java.util.function.Predicate#isEqual()}
 	 */
 	@Nonnull
-	public static <T1> LObjShortPredicate<T1> isEqual(final T1 v1, final short v2) {
+	static <T1> LObjShortPredicate<T1> isEqual(final T1 v1, final short v2) {
 		return (t, s) -> (t == null ? v1 == null : t.equals(v1)) && (s == v2);
 	}
 

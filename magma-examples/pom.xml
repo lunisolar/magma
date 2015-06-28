@@ -47,4 +47,34 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>eu.lunisolar.magma</groupId>
+                <artifactId>magma-doc</artifactId>
+                <version>${magma-version}</version>
+                <configuration>
+                    <sorcePath>${project.build.testSourceDirectory}</sorcePath>
+                    <destinationPath>${project.build.directory}</destinationPath>
+                    <injectables>
+                        <readmore>&lt;hr id=&quot;system-readmore&quot; /&gt;</readmore>
+                        <buildId>${version} ${maven.build.timestamp}</buildId>
+                        <generated>Generated from $_templateFile_$ at $buildId$</generated>
+                    </injectables>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>process-test-classes</phase>
+                        <goals>
+                            <goal>magma-doc</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+
+    </build>
+
+
 </project>

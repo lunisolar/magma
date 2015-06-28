@@ -60,10 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LShortBiFunction<R> extends LShortBiFunctionX<R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LShortBiFunction: R doApply(short s1,short s2)";
+	static final String DESCRIPTION = "LShortBiFunction: R doApply(short s1,short s2)";
 
 	@Nullable
-	public R doApply(short s1, short s2);
+	R doApply(short s1, short s2);
 
 	default R nestingDoApply(short s1, short s2) {
 		return this.doApply(s1, s2);
@@ -73,7 +73,7 @@ public interface LShortBiFunction<R> extends LShortBiFunctionX<R, RuntimeExcepti
 		return this.doApply(s1, s2);
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
 	@Nonnull
@@ -92,13 +92,13 @@ public interface LShortBiFunction<R> extends LShortBiFunctionX<R, RuntimeExcepti
 		return () -> this.doApply(s1, s2);
 	}
 
-	public static <R> LShortBiFunction<R> constant(R r) {
+	static <R> LShortBiFunction<R> constant(R r) {
 		return (s1, s2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <R> LShortBiFunction<R> l(final @Nonnull LShortBiFunction<R> lambda) {
+	static <R> LShortBiFunction<R> l(final @Nonnull LShortBiFunction<R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -107,7 +107,7 @@ public interface LShortBiFunction<R> extends LShortBiFunctionX<R, RuntimeExcepti
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <R, X extends Throwable> LShortBiFunction<R> wrap(final @Nonnull LShortBiFunctionX<R, X> other) {
+	static <R, X extends Throwable> LShortBiFunction<R> wrap(final @Nonnull LShortBiFunctionX<R, X> other) {
 		return other::nestingDoApply;
 	}
 

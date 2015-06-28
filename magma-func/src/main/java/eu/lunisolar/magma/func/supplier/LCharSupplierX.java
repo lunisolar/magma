@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LCharSupplierX<X extends Throwable> extends MetaSupplier, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LCharSupplierX: char doGetAsChar() throws X";
+	static final String DESCRIPTION = "LCharSupplierX: char doGetAsChar() throws X";
 
-	public char doGetAsChar() throws X;
+	char doGetAsChar() throws X;
 
 	default char nestingDoGetAsChar() {
 		try {
@@ -98,20 +98,20 @@ public interface LCharSupplierX<X extends Throwable> extends MetaSupplier, Primi
 		return LCharSupplierX.DESCRIPTION;
 	}
 
-	public static <X extends Throwable> LCharSupplierX<X> of(char r) {
+	static <X extends Throwable> LCharSupplierX<X> of(char r) {
 		return () -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LCharSupplierX<X> lX(final @Nonnull LCharSupplierX<X> lambda) {
+	static <X extends Throwable> LCharSupplierX<X> lX(final @Nonnull LCharSupplierX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LCharSupplierX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LCharSupplierX<X> lambda) {
+	static <X extends Throwable> LCharSupplierX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LCharSupplierX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -120,7 +120,7 @@ public interface LCharSupplierX<X extends Throwable> extends MetaSupplier, Primi
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LCharSupplierX<X> wrapX(final @Nonnull LCharSupplier other) {
+	static <X extends Throwable> LCharSupplierX<X> wrapX(final @Nonnull LCharSupplier other) {
 		return (LCharSupplierX) other;
 	}
 

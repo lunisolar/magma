@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LCharToByteFunctionX<X extends Throwable> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LCharToByteFunctionX: byte doApplyAsByte(char c) throws X";
+	static final String DESCRIPTION = "LCharToByteFunctionX: byte doApplyAsByte(char c) throws X";
 
-	public byte doApplyAsByte(char c) throws X;
+	byte doApplyAsByte(char c) throws X;
 
 	default byte nestingDoApplyAsByte(char c) {
 		try {
@@ -103,20 +103,20 @@ public interface LCharToByteFunctionX<X extends Throwable> extends MetaFunction,
 		return () -> this.doApplyAsByte(c);
 	}
 
-	public static <X extends Throwable> LCharToByteFunctionX<X> constant(byte r) {
+	static <X extends Throwable> LCharToByteFunctionX<X> constant(byte r) {
 		return c -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LCharToByteFunctionX<X> lX(final @Nonnull LCharToByteFunctionX<X> lambda) {
+	static <X extends Throwable> LCharToByteFunctionX<X> lX(final @Nonnull LCharToByteFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LCharToByteFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LCharToByteFunctionX<X> lambda) {
+	static <X extends Throwable> LCharToByteFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LCharToByteFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -125,7 +125,7 @@ public interface LCharToByteFunctionX<X extends Throwable> extends MetaFunction,
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LCharToByteFunctionX<X> wrapX(final @Nonnull LCharToByteFunction other) {
+	static <X extends Throwable> LCharToByteFunctionX<X> wrapX(final @Nonnull LCharToByteFunction other) {
 		return (LCharToByteFunctionX) other;
 	}
 

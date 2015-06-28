@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBooleanToIntFunction extends LBooleanToIntFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LBooleanToIntFunction: int doApplyAsInt(boolean b)";
+	static final String DESCRIPTION = "LBooleanToIntFunction: int doApplyAsInt(boolean b)";
 
-	public int doApplyAsInt(boolean b);
+	int doApplyAsInt(boolean b);
 
 	default int nestingDoApplyAsInt(boolean b) {
 		return this.doApplyAsInt(b);
@@ -88,13 +88,13 @@ public interface LBooleanToIntFunction extends LBooleanToIntFunctionX<RuntimeExc
 		return () -> this.doApplyAsInt(b);
 	}
 
-	public static LBooleanToIntFunction constant(int r) {
+	static LBooleanToIntFunction constant(int r) {
 		return b -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LBooleanToIntFunction l(final @Nonnull LBooleanToIntFunction lambda) {
+	static LBooleanToIntFunction l(final @Nonnull LBooleanToIntFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -103,7 +103,7 @@ public interface LBooleanToIntFunction extends LBooleanToIntFunctionX<RuntimeExc
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LBooleanToIntFunction wrap(final @Nonnull LBooleanToIntFunctionX<X> other) {
+	static <X extends Throwable> LBooleanToIntFunction wrap(final @Nonnull LBooleanToIntFunctionX<X> other) {
 		return other::nestingDoApplyAsInt;
 	}
 

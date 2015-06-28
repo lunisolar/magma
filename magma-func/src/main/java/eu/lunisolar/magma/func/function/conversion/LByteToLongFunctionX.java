@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LByteToLongFunctionX<X extends Throwable> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LByteToLongFunctionX: long doApplyAsLong(byte b) throws X";
+	static final String DESCRIPTION = "LByteToLongFunctionX: long doApplyAsLong(byte b) throws X";
 
-	public long doApplyAsLong(byte b) throws X;
+	long doApplyAsLong(byte b) throws X;
 
 	default long nestingDoApplyAsLong(byte b) {
 		try {
@@ -103,20 +103,20 @@ public interface LByteToLongFunctionX<X extends Throwable> extends MetaFunction,
 		return () -> this.doApplyAsLong(b);
 	}
 
-	public static <X extends Throwable> LByteToLongFunctionX<X> constant(long r) {
+	static <X extends Throwable> LByteToLongFunctionX<X> constant(long r) {
 		return b -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LByteToLongFunctionX<X> lX(final @Nonnull LByteToLongFunctionX<X> lambda) {
+	static <X extends Throwable> LByteToLongFunctionX<X> lX(final @Nonnull LByteToLongFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LByteToLongFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LByteToLongFunctionX<X> lambda) {
+	static <X extends Throwable> LByteToLongFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LByteToLongFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -125,7 +125,7 @@ public interface LByteToLongFunctionX<X extends Throwable> extends MetaFunction,
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LByteToLongFunctionX<X> wrapX(final @Nonnull LByteToLongFunction other) {
+	static <X extends Throwable> LByteToLongFunctionX<X> wrapX(final @Nonnull LByteToLongFunction other) {
 		return (LByteToLongFunctionX) other;
 	}
 

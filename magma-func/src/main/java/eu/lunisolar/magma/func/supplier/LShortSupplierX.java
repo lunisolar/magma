@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LShortSupplierX<X extends Throwable> extends MetaSupplier, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LShortSupplierX: short doGetAsShort() throws X";
+	static final String DESCRIPTION = "LShortSupplierX: short doGetAsShort() throws X";
 
-	public short doGetAsShort() throws X;
+	short doGetAsShort() throws X;
 
 	default short nestingDoGetAsShort() {
 		try {
@@ -98,20 +98,20 @@ public interface LShortSupplierX<X extends Throwable> extends MetaSupplier, Prim
 		return LShortSupplierX.DESCRIPTION;
 	}
 
-	public static <X extends Throwable> LShortSupplierX<X> of(short r) {
+	static <X extends Throwable> LShortSupplierX<X> of(short r) {
 		return () -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LShortSupplierX<X> lX(final @Nonnull LShortSupplierX<X> lambda) {
+	static <X extends Throwable> LShortSupplierX<X> lX(final @Nonnull LShortSupplierX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LShortSupplierX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LShortSupplierX<X> lambda) {
+	static <X extends Throwable> LShortSupplierX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LShortSupplierX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -120,7 +120,7 @@ public interface LShortSupplierX<X extends Throwable> extends MetaSupplier, Prim
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LShortSupplierX<X> wrapX(final @Nonnull LShortSupplier other) {
+	static <X extends Throwable> LShortSupplierX<X> wrapX(final @Nonnull LShortSupplier other) {
 		return (LShortSupplierX) other;
 	}
 

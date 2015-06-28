@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LIntToCharFunction extends LIntToCharFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LIntToCharFunction: char doApplyAsChar(int i)";
+	static final String DESCRIPTION = "LIntToCharFunction: char doApplyAsChar(int i)";
 
-	public char doApplyAsChar(int i);
+	char doApplyAsChar(int i);
 
 	default char nestingDoApplyAsChar(int i) {
 		return this.doApplyAsChar(i);
@@ -88,13 +88,13 @@ public interface LIntToCharFunction extends LIntToCharFunctionX<RuntimeException
 		return () -> this.doApplyAsChar(i);
 	}
 
-	public static LIntToCharFunction constant(char r) {
+	static LIntToCharFunction constant(char r) {
 		return i -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LIntToCharFunction l(final @Nonnull LIntToCharFunction lambda) {
+	static LIntToCharFunction l(final @Nonnull LIntToCharFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -103,7 +103,7 @@ public interface LIntToCharFunction extends LIntToCharFunctionX<RuntimeException
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LIntToCharFunction wrap(final @Nonnull LIntToCharFunctionX<X> other) {
+	static <X extends Throwable> LIntToCharFunction wrap(final @Nonnull LIntToCharFunctionX<X> other) {
 		return other::nestingDoApplyAsChar;
 	}
 

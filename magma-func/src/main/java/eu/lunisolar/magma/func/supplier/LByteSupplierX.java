@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LByteSupplierX<X extends Throwable> extends MetaSupplier, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LByteSupplierX: byte doGetAsByte() throws X";
+	static final String DESCRIPTION = "LByteSupplierX: byte doGetAsByte() throws X";
 
-	public byte doGetAsByte() throws X;
+	byte doGetAsByte() throws X;
 
 	default byte nestingDoGetAsByte() {
 		try {
@@ -98,20 +98,20 @@ public interface LByteSupplierX<X extends Throwable> extends MetaSupplier, Primi
 		return LByteSupplierX.DESCRIPTION;
 	}
 
-	public static <X extends Throwable> LByteSupplierX<X> of(byte r) {
+	static <X extends Throwable> LByteSupplierX<X> of(byte r) {
 		return () -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LByteSupplierX<X> lX(final @Nonnull LByteSupplierX<X> lambda) {
+	static <X extends Throwable> LByteSupplierX<X> lX(final @Nonnull LByteSupplierX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LByteSupplierX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LByteSupplierX<X> lambda) {
+	static <X extends Throwable> LByteSupplierX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LByteSupplierX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -120,7 +120,7 @@ public interface LByteSupplierX<X extends Throwable> extends MetaSupplier, Primi
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LByteSupplierX<X> wrapX(final @Nonnull LByteSupplier other) {
+	static <X extends Throwable> LByteSupplierX<X> wrapX(final @Nonnull LByteSupplier other) {
 		return (LByteSupplierX) other;
 	}
 

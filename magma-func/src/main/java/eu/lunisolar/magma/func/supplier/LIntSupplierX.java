@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LIntSupplierX<X extends Throwable> extends java.util.function.IntSupplier, MetaSupplier, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LIntSupplierX: int doGetAsInt() throws X";
+	static final String DESCRIPTION = "LIntSupplierX: int doGetAsInt() throws X";
 
 	@Override
 	@Deprecated
@@ -69,7 +69,7 @@ public interface LIntSupplierX<X extends Throwable> extends java.util.function.I
 		return this.nestingDoGetAsInt();
 	}
 
-	public int doGetAsInt() throws X;
+	int doGetAsInt() throws X;
 
 	default int nestingDoGetAsInt() {
 		try {
@@ -105,20 +105,20 @@ public interface LIntSupplierX<X extends Throwable> extends java.util.function.I
 		return LIntSupplierX.DESCRIPTION;
 	}
 
-	public static <X extends Throwable> LIntSupplierX<X> of(int r) {
+	static <X extends Throwable> LIntSupplierX<X> of(int r) {
 		return () -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LIntSupplierX<X> lX(final @Nonnull LIntSupplierX<X> lambda) {
+	static <X extends Throwable> LIntSupplierX<X> lX(final @Nonnull LIntSupplierX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LIntSupplierX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LIntSupplierX<X> lambda) {
+	static <X extends Throwable> LIntSupplierX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LIntSupplierX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -127,13 +127,13 @@ public interface LIntSupplierX<X extends Throwable> extends java.util.function.I
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Throwable> LIntSupplierX<X> wrap(final java.util.function.IntSupplier other) {
+	static <X extends Throwable> LIntSupplierX<X> wrap(final java.util.function.IntSupplier other) {
 		return other::getAsInt;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LIntSupplierX<X> wrapX(final @Nonnull LIntSupplier other) {
+	static <X extends Throwable> LIntSupplierX<X> wrapX(final @Nonnull LIntSupplier other) {
 		return (LIntSupplierX) other;
 	}
 

@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LObjBooleanPredicate<T> extends LObjBooleanPredicateX<T, RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LObjBooleanPredicate: boolean doTest(T t, boolean b)";
+	static final String DESCRIPTION = "LObjBooleanPredicate: boolean doTest(T t, boolean b)";
 
-	public boolean doTest(T t, boolean b);
+	boolean doTest(T t, boolean b);
 
 	default boolean nestingDoTest(T t, boolean b) {
 		return this.doTest(t, b);
@@ -94,13 +94,13 @@ public interface LObjBooleanPredicate<T> extends LObjBooleanPredicateX<T, Runtim
 		return () -> this.doTest(t, b);
 	}
 
-	public static <T> LObjBooleanPredicate<T> constant(boolean r) {
+	static <T> LObjBooleanPredicate<T> constant(boolean r) {
 		return (t, b) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T> LObjBooleanPredicate<T> l(final @Nonnull LObjBooleanPredicate<T> lambda) {
+	static <T> LObjBooleanPredicate<T> l(final @Nonnull LObjBooleanPredicate<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -109,7 +109,7 @@ public interface LObjBooleanPredicate<T> extends LObjBooleanPredicateX<T, Runtim
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, X extends Throwable> LObjBooleanPredicate<T> wrap(final @Nonnull LObjBooleanPredicateX<T, X> other) {
+	static <T, X extends Throwable> LObjBooleanPredicate<T> wrap(final @Nonnull LObjBooleanPredicateX<T, X> other) {
 		return other::nestingDoTest;
 	}
 
@@ -155,7 +155,7 @@ public interface LObjBooleanPredicate<T> extends LObjBooleanPredicateX<T, Runtim
 	 *  @see {@link java.util.function.Predicate#isEqual()}
 	 */
 	@Nonnull
-	public static <T1> LObjBooleanPredicate<T1> isEqual(final T1 v1, final boolean v2) {
+	static <T1> LObjBooleanPredicate<T1> isEqual(final T1 v1, final boolean v2) {
 		return (t, b) -> (t == null ? v1 == null : t.equals(v1)) && (b == v2);
 	}
 

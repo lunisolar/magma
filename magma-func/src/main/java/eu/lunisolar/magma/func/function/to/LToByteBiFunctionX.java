@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LToByteBiFunctionX<T1, T2, X extends Throwable> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LToByteBiFunctionX: byte doApplyAsByte(T1 t1,T2 t2) throws X";
+	static final String DESCRIPTION = "LToByteBiFunctionX: byte doApplyAsByte(T1 t1,T2 t2) throws X";
 
-	public byte doApplyAsByte(T1 t1, T2 t2) throws X;
+	byte doApplyAsByte(T1 t1, T2 t2) throws X;
 
 	default byte nestingDoApplyAsByte(T1 t1, T2 t2) {
 		try {
@@ -103,20 +103,20 @@ public interface LToByteBiFunctionX<T1, T2, X extends Throwable> extends MetaFun
 		return () -> this.doApplyAsByte(t1, t2);
 	}
 
-	public static <T1, T2, X extends Throwable> LToByteBiFunctionX<T1, T2, X> constant(byte r) {
+	static <T1, T2, X extends Throwable> LToByteBiFunctionX<T1, T2, X> constant(byte r) {
 		return (t1, t2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T1, T2, X extends Throwable> LToByteBiFunctionX<T1, T2, X> lX(final @Nonnull LToByteBiFunctionX<T1, T2, X> lambda) {
+	static <T1, T2, X extends Throwable> LToByteBiFunctionX<T1, T2, X> lX(final @Nonnull LToByteBiFunctionX<T1, T2, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T1, T2, X extends Throwable> LToByteBiFunctionX<T1, T2, X> lX(@Nonnull Class<X> xClass, final @Nonnull LToByteBiFunctionX<T1, T2, X> lambda) {
+	static <T1, T2, X extends Throwable> LToByteBiFunctionX<T1, T2, X> lX(@Nonnull Class<X> xClass, final @Nonnull LToByteBiFunctionX<T1, T2, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -125,7 +125,7 @@ public interface LToByteBiFunctionX<T1, T2, X extends Throwable> extends MetaFun
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T1, T2, X extends Throwable> LToByteBiFunctionX<T1, T2, X> wrapX(final @Nonnull LToByteBiFunction<T1, T2> other) {
+	static <T1, T2, X extends Throwable> LToByteBiFunctionX<T1, T2, X> wrapX(final @Nonnull LToByteBiFunction<T1, T2> other) {
 		return (LToByteBiFunctionX) other;
 	}
 

@@ -60,10 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBiObjByteFunction<T1, T2, R> extends LBiObjByteFunctionX<T1, T2, R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LBiObjByteFunction: R doApply(T1 t1,T2 t2, byte i)";
+	static final String DESCRIPTION = "LBiObjByteFunction: R doApply(T1 t1,T2 t2, byte i)";
 
 	@Nullable
-	public R doApply(T1 t1, T2 t2, byte i);
+	R doApply(T1 t1, T2 t2, byte i);
 
 	default R nestingDoApply(T1 t1, T2 t2, byte i) {
 		return this.doApply(t1, t2, i);
@@ -73,7 +73,7 @@ public interface LBiObjByteFunction<T1, T2, R> extends LBiObjByteFunctionX<T1, T
 		return this.doApply(t1, t2, i);
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
 	@Nonnull
@@ -92,13 +92,13 @@ public interface LBiObjByteFunction<T1, T2, R> extends LBiObjByteFunctionX<T1, T
 		return () -> this.doApply(t1, t2, i);
 	}
 
-	public static <T1, T2, R> LBiObjByteFunction<T1, T2, R> constant(R r) {
+	static <T1, T2, R> LBiObjByteFunction<T1, T2, R> constant(R r) {
 		return (t1, t2, i) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T1, T2, R> LBiObjByteFunction<T1, T2, R> l(final @Nonnull LBiObjByteFunction<T1, T2, R> lambda) {
+	static <T1, T2, R> LBiObjByteFunction<T1, T2, R> l(final @Nonnull LBiObjByteFunction<T1, T2, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -107,7 +107,7 @@ public interface LBiObjByteFunction<T1, T2, R> extends LBiObjByteFunctionX<T1, T
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T1, T2, R, X extends Throwable> LBiObjByteFunction<T1, T2, R> wrap(final @Nonnull LBiObjByteFunctionX<T1, T2, R, X> other) {
+	static <T1, T2, R, X extends Throwable> LBiObjByteFunction<T1, T2, R> wrap(final @Nonnull LBiObjByteFunctionX<T1, T2, R, X> other) {
 		return other::nestingDoApply;
 	}
 

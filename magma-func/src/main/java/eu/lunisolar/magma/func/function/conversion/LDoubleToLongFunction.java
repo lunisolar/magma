@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LDoubleToLongFunction extends LDoubleToLongFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LDoubleToLongFunction: long doApplyAsLong(double d)";
+	static final String DESCRIPTION = "LDoubleToLongFunction: long doApplyAsLong(double d)";
 
 	@Override
 	@Deprecated
@@ -69,7 +69,7 @@ public interface LDoubleToLongFunction extends LDoubleToLongFunctionX<RuntimeExc
 		return this.nestingDoApplyAsLong(d);
 	}
 
-	public long doApplyAsLong(double d);
+	long doApplyAsLong(double d);
 
 	default long nestingDoApplyAsLong(double d) {
 		return this.doApplyAsLong(d);
@@ -95,13 +95,13 @@ public interface LDoubleToLongFunction extends LDoubleToLongFunctionX<RuntimeExc
 		return () -> this.doApplyAsLong(d);
 	}
 
-	public static LDoubleToLongFunction constant(long r) {
+	static LDoubleToLongFunction constant(long r) {
 		return d -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LDoubleToLongFunction l(final @Nonnull LDoubleToLongFunction lambda) {
+	static LDoubleToLongFunction l(final @Nonnull LDoubleToLongFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -110,13 +110,13 @@ public interface LDoubleToLongFunction extends LDoubleToLongFunctionX<RuntimeExc
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LDoubleToLongFunction wrap(final java.util.function.DoubleToLongFunction other) {
+	static LDoubleToLongFunction wrap(final java.util.function.DoubleToLongFunction other) {
 		return other::applyAsLong;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LDoubleToLongFunction wrap(final @Nonnull LDoubleToLongFunctionX<X> other) {
+	static <X extends Throwable> LDoubleToLongFunction wrap(final @Nonnull LDoubleToLongFunctionX<X> other) {
 		return other::nestingDoApplyAsLong;
 	}
 

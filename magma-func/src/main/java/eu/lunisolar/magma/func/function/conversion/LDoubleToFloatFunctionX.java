@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LDoubleToFloatFunctionX<X extends Throwable> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LDoubleToFloatFunctionX: float doApplyAsFloat(double d) throws X";
+	static final String DESCRIPTION = "LDoubleToFloatFunctionX: float doApplyAsFloat(double d) throws X";
 
-	public float doApplyAsFloat(double d) throws X;
+	float doApplyAsFloat(double d) throws X;
 
 	default float nestingDoApplyAsFloat(double d) {
 		try {
@@ -103,20 +103,20 @@ public interface LDoubleToFloatFunctionX<X extends Throwable> extends MetaFuncti
 		return () -> this.doApplyAsFloat(d);
 	}
 
-	public static <X extends Throwable> LDoubleToFloatFunctionX<X> constant(float r) {
+	static <X extends Throwable> LDoubleToFloatFunctionX<X> constant(float r) {
 		return d -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LDoubleToFloatFunctionX<X> lX(final @Nonnull LDoubleToFloatFunctionX<X> lambda) {
+	static <X extends Throwable> LDoubleToFloatFunctionX<X> lX(final @Nonnull LDoubleToFloatFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LDoubleToFloatFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LDoubleToFloatFunctionX<X> lambda) {
+	static <X extends Throwable> LDoubleToFloatFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LDoubleToFloatFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -125,7 +125,7 @@ public interface LDoubleToFloatFunctionX<X extends Throwable> extends MetaFuncti
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LDoubleToFloatFunctionX<X> wrapX(final @Nonnull LDoubleToFloatFunction other) {
+	static <X extends Throwable> LDoubleToFloatFunctionX<X> wrapX(final @Nonnull LDoubleToFloatFunction other) {
 		return (LDoubleToFloatFunctionX) other;
 	}
 

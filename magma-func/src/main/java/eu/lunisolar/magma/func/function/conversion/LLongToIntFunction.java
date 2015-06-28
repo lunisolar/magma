@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LLongToIntFunction extends LLongToIntFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LLongToIntFunction: int doApplyAsInt(long l)";
+	static final String DESCRIPTION = "LLongToIntFunction: int doApplyAsInt(long l)";
 
 	@Override
 	@Deprecated
@@ -69,7 +69,7 @@ public interface LLongToIntFunction extends LLongToIntFunctionX<RuntimeException
 		return this.nestingDoApplyAsInt(l);
 	}
 
-	public int doApplyAsInt(long l);
+	int doApplyAsInt(long l);
 
 	default int nestingDoApplyAsInt(long l) {
 		return this.doApplyAsInt(l);
@@ -95,13 +95,13 @@ public interface LLongToIntFunction extends LLongToIntFunctionX<RuntimeException
 		return () -> this.doApplyAsInt(l);
 	}
 
-	public static LLongToIntFunction constant(int r) {
+	static LLongToIntFunction constant(int r) {
 		return l -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LLongToIntFunction l(final @Nonnull LLongToIntFunction lambda) {
+	static LLongToIntFunction l(final @Nonnull LLongToIntFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -110,13 +110,13 @@ public interface LLongToIntFunction extends LLongToIntFunctionX<RuntimeException
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LLongToIntFunction wrap(final java.util.function.LongToIntFunction other) {
+	static LLongToIntFunction wrap(final java.util.function.LongToIntFunction other) {
 		return other::applyAsInt;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LLongToIntFunction wrap(final @Nonnull LLongToIntFunctionX<X> other) {
+	static <X extends Throwable> LLongToIntFunction wrap(final @Nonnull LLongToIntFunctionX<X> other) {
 		return other::nestingDoApplyAsInt;
 	}
 

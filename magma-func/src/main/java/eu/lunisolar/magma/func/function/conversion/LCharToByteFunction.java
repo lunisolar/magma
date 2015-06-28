@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LCharToByteFunction extends LCharToByteFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LCharToByteFunction: byte doApplyAsByte(char c)";
+	static final String DESCRIPTION = "LCharToByteFunction: byte doApplyAsByte(char c)";
 
-	public byte doApplyAsByte(char c);
+	byte doApplyAsByte(char c);
 
 	default byte nestingDoApplyAsByte(char c) {
 		return this.doApplyAsByte(c);
@@ -88,13 +88,13 @@ public interface LCharToByteFunction extends LCharToByteFunctionX<RuntimeExcepti
 		return () -> this.doApplyAsByte(c);
 	}
 
-	public static LCharToByteFunction constant(byte r) {
+	static LCharToByteFunction constant(byte r) {
 		return c -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LCharToByteFunction l(final @Nonnull LCharToByteFunction lambda) {
+	static LCharToByteFunction l(final @Nonnull LCharToByteFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -103,7 +103,7 @@ public interface LCharToByteFunction extends LCharToByteFunctionX<RuntimeExcepti
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LCharToByteFunction wrap(final @Nonnull LCharToByteFunctionX<X> other) {
+	static <X extends Throwable> LCharToByteFunction wrap(final @Nonnull LCharToByteFunctionX<X> other) {
 		return other::nestingDoApplyAsByte;
 	}
 

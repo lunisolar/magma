@@ -54,7 +54,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LAction extends LActionX<RuntimeException>, MetaAction, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LAction: void doExecute()";
+	static final String DESCRIPTION = "LAction: void doExecute()";
 
 	@Override
 	@Deprecated
@@ -63,7 +63,7 @@ public interface LAction extends LActionX<RuntimeException>, MetaAction, MetaInt
 		this.nestingDoExecute();
 	}
 
-	public void doExecute();
+	void doExecute();
 
 	default void nestingDoExecute() {
 		this.doExecute();
@@ -81,7 +81,7 @@ public interface LAction extends LActionX<RuntimeException>, MetaAction, MetaInt
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LAction l(final @Nonnull LAction lambda) {
+	static LAction l(final @Nonnull LAction lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -90,13 +90,13 @@ public interface LAction extends LActionX<RuntimeException>, MetaAction, MetaInt
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LAction wrap(final Runnable other) {
+	static LAction wrap(final Runnable other) {
 		return other::run;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LAction wrap(final @Nonnull LActionX<X> other) {
+	static <X extends Throwable> LAction wrap(final @Nonnull LActionX<X> other) {
 		return other::nestingDoExecute;
 	}
 

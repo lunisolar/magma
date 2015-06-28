@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LDoubleBiConsumer extends LDoubleBiConsumerX<RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LDoubleBiConsumer: void doAccept(double d1,double d2)";
+	static final String DESCRIPTION = "LDoubleBiConsumer: void doAccept(double d1,double d2)";
 
-	public void doAccept(double d1, double d2);
+	void doAccept(double d1, double d2);
 
 	default void nestingDoAccept(double d1, double d2) {
 		this.doAccept(d1, d2);
@@ -86,7 +86,7 @@ public interface LDoubleBiConsumer extends LDoubleBiConsumerX<RuntimeException>,
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LDoubleBiConsumer l(final @Nonnull LDoubleBiConsumer lambda) {
+	static LDoubleBiConsumer l(final @Nonnull LDoubleBiConsumer lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -95,7 +95,7 @@ public interface LDoubleBiConsumer extends LDoubleBiConsumerX<RuntimeException>,
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LDoubleBiConsumer wrap(final @Nonnull LDoubleBiConsumerX<X> other) {
+	static <X extends Throwable> LDoubleBiConsumer wrap(final @Nonnull LDoubleBiConsumerX<X> other) {
 		return other::nestingDoAccept;
 	}
 

@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LFloatToLongFunctionX<X extends Throwable> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LFloatToLongFunctionX: long doApplyAsLong(float f) throws X";
+	static final String DESCRIPTION = "LFloatToLongFunctionX: long doApplyAsLong(float f) throws X";
 
-	public long doApplyAsLong(float f) throws X;
+	long doApplyAsLong(float f) throws X;
 
 	default long nestingDoApplyAsLong(float f) {
 		try {
@@ -103,20 +103,20 @@ public interface LFloatToLongFunctionX<X extends Throwable> extends MetaFunction
 		return () -> this.doApplyAsLong(f);
 	}
 
-	public static <X extends Throwable> LFloatToLongFunctionX<X> constant(long r) {
+	static <X extends Throwable> LFloatToLongFunctionX<X> constant(long r) {
 		return f -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LFloatToLongFunctionX<X> lX(final @Nonnull LFloatToLongFunctionX<X> lambda) {
+	static <X extends Throwable> LFloatToLongFunctionX<X> lX(final @Nonnull LFloatToLongFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LFloatToLongFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LFloatToLongFunctionX<X> lambda) {
+	static <X extends Throwable> LFloatToLongFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LFloatToLongFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -125,7 +125,7 @@ public interface LFloatToLongFunctionX<X extends Throwable> extends MetaFunction
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LFloatToLongFunctionX<X> wrapX(final @Nonnull LFloatToLongFunction other) {
+	static <X extends Throwable> LFloatToLongFunctionX<X> wrapX(final @Nonnull LFloatToLongFunction other) {
 		return (LFloatToLongFunctionX) other;
 	}
 

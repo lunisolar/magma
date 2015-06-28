@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LToLongFunction<T> extends LToLongFunctionX<T, RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LToLongFunction: long doApplyAsLong(T t)";
+	static final String DESCRIPTION = "LToLongFunction: long doApplyAsLong(T t)";
 
 	@Override
 	@Deprecated
@@ -69,7 +69,7 @@ public interface LToLongFunction<T> extends LToLongFunctionX<T, RuntimeException
 		return this.nestingDoApplyAsLong(t);
 	}
 
-	public long doApplyAsLong(T t);
+	long doApplyAsLong(T t);
 
 	default long nestingDoApplyAsLong(T t) {
 		return this.doApplyAsLong(t);
@@ -95,13 +95,13 @@ public interface LToLongFunction<T> extends LToLongFunctionX<T, RuntimeException
 		return () -> this.doApplyAsLong(t);
 	}
 
-	public static <T> LToLongFunction<T> constant(long r) {
+	static <T> LToLongFunction<T> constant(long r) {
 		return t -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T> LToLongFunction<T> l(final @Nonnull LToLongFunction<T> lambda) {
+	static <T> LToLongFunction<T> l(final @Nonnull LToLongFunction<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -110,13 +110,13 @@ public interface LToLongFunction<T> extends LToLongFunctionX<T, RuntimeException
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T> LToLongFunction<T> wrap(final java.util.function.ToLongFunction<T> other) {
+	static <T> LToLongFunction<T> wrap(final java.util.function.ToLongFunction<T> other) {
 		return other::applyAsLong;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, X extends Throwable> LToLongFunction<T> wrap(final @Nonnull LToLongFunctionX<T, X> other) {
+	static <T, X extends Throwable> LToLongFunction<T> wrap(final @Nonnull LToLongFunctionX<T, X> other) {
 		return other::nestingDoApplyAsLong;
 	}
 

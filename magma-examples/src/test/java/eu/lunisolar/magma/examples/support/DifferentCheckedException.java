@@ -16,26 +16,26 @@
  * limitations under the License.
  */
 
-package eu.lunisolar.magma.examples;
+package eu.lunisolar.magma.examples.support;
 
-public class CheckedException extends Exception {
+public class DifferentCheckedException extends Exception {
 
-    public CheckedException() {
-    }
+	public DifferentCheckedException() {
+	}
 
-    public CheckedException(String message) {
-        super(message);
-    }
+	public DifferentCheckedException(String message) {
+		super(message);
+	}
 
-    public CheckedException(String message, Throwable cause) {
-        super(message, cause);
-    }
+	public DifferentCheckedException(String message, Throwable cause) {
+		super(message, cause);
+	}
 
-    public CheckedException(Throwable cause) {
-        super(cause);
-    }
+	public DifferentCheckedException(Throwable cause) {
+		super(cause);
+	}
 
-    public CheckedException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
+	public DifferentCheckedException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+		super(message, cause, enableSuppression, writableStackTrace);
+	}
 }

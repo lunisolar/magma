@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LFloatToDoubleFunction extends LFloatToDoubleFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LFloatToDoubleFunction: double doApplyAsDouble(float f)";
+	static final String DESCRIPTION = "LFloatToDoubleFunction: double doApplyAsDouble(float f)";
 
-	public double doApplyAsDouble(float f);
+	double doApplyAsDouble(float f);
 
 	default double nestingDoApplyAsDouble(float f) {
 		return this.doApplyAsDouble(f);
@@ -88,13 +88,13 @@ public interface LFloatToDoubleFunction extends LFloatToDoubleFunctionX<RuntimeE
 		return () -> this.doApplyAsDouble(f);
 	}
 
-	public static LFloatToDoubleFunction constant(double r) {
+	static LFloatToDoubleFunction constant(double r) {
 		return f -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LFloatToDoubleFunction l(final @Nonnull LFloatToDoubleFunction lambda) {
+	static LFloatToDoubleFunction l(final @Nonnull LFloatToDoubleFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -103,7 +103,7 @@ public interface LFloatToDoubleFunction extends LFloatToDoubleFunctionX<RuntimeE
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LFloatToDoubleFunction wrap(final @Nonnull LFloatToDoubleFunctionX<X> other) {
+	static <X extends Throwable> LFloatToDoubleFunction wrap(final @Nonnull LFloatToDoubleFunctionX<X> other) {
 		return other::nestingDoApplyAsDouble;
 	}
 

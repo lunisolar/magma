@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LLongUnaryOperator extends LLongUnaryOperatorX<RuntimeException>, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LLongUnaryOperator: long doApplyAsLong(long l)";
+	static final String DESCRIPTION = "LLongUnaryOperator: long doApplyAsLong(long l)";
 
 	@Override
 	@Deprecated
@@ -69,7 +69,7 @@ public interface LLongUnaryOperator extends LLongUnaryOperatorX<RuntimeException
 		return this.nestingDoApplyAsLong(l);
 	}
 
-	public long doApplyAsLong(long l);
+	long doApplyAsLong(long l);
 
 	default long nestingDoApplyAsLong(long l) {
 		return this.doApplyAsLong(l);
@@ -95,13 +95,13 @@ public interface LLongUnaryOperator extends LLongUnaryOperatorX<RuntimeException
 		return () -> this.doApplyAsLong(l);
 	}
 
-	public static LLongUnaryOperator constant(long r) {
+	static LLongUnaryOperator constant(long r) {
 		return l -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LLongUnaryOperator l(final @Nonnull LLongUnaryOperator lambda) {
+	static LLongUnaryOperator l(final @Nonnull LLongUnaryOperator lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -110,13 +110,13 @@ public interface LLongUnaryOperator extends LLongUnaryOperatorX<RuntimeException
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LLongUnaryOperator wrap(final java.util.function.LongUnaryOperator other) {
+	static LLongUnaryOperator wrap(final java.util.function.LongUnaryOperator other) {
 		return other::applyAsLong;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LLongUnaryOperator wrap(final @Nonnull LLongUnaryOperatorX<X> other) {
+	static <X extends Throwable> LLongUnaryOperator wrap(final @Nonnull LLongUnaryOperatorX<X> other) {
 		return other::nestingDoApplyAsLong;
 	}
 
@@ -213,7 +213,7 @@ public interface LLongUnaryOperator extends LLongUnaryOperatorX<RuntimeException
 
 	/** Returns a function that always returns its input argument. */
 	@Nonnull
-	public static LLongUnaryOperator identity() {
+	static LLongUnaryOperator identity() {
 		return t -> t;
 	}
 	// <editor-fold desc="variant conversions">

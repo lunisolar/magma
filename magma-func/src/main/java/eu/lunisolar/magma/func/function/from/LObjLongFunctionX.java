@@ -60,10 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LObjLongFunctionX<T, R, X extends Throwable> extends MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LObjLongFunctionX: R doApply(T t, long l) throws X";
+	static final String DESCRIPTION = "LObjLongFunctionX: R doApply(T t, long l) throws X";
 
 	@Nullable
-	public R doApply(T t, long l) throws X;
+	R doApply(T t, long l) throws X;
 
 	default R nestingDoApply(T t, long l) {
 		try {
@@ -88,7 +88,7 @@ public interface LObjLongFunctionX<T, R, X extends Throwable> extends MetaFuncti
 		}
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
 	@Nonnull
@@ -107,20 +107,20 @@ public interface LObjLongFunctionX<T, R, X extends Throwable> extends MetaFuncti
 		return () -> this.doApply(t, l);
 	}
 
-	public static <T, R, X extends Throwable> LObjLongFunctionX<T, R, X> constant(R r) {
+	static <T, R, X extends Throwable> LObjLongFunctionX<T, R, X> constant(R r) {
 		return (t, l) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T, R, X extends Throwable> LObjLongFunctionX<T, R, X> lX(final @Nonnull LObjLongFunctionX<T, R, X> lambda) {
+	static <T, R, X extends Throwable> LObjLongFunctionX<T, R, X> lX(final @Nonnull LObjLongFunctionX<T, R, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T, R, X extends Throwable> LObjLongFunctionX<T, R, X> lX(@Nonnull Class<X> xClass, final @Nonnull LObjLongFunctionX<T, R, X> lambda) {
+	static <T, R, X extends Throwable> LObjLongFunctionX<T, R, X> lX(@Nonnull Class<X> xClass, final @Nonnull LObjLongFunctionX<T, R, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -129,7 +129,7 @@ public interface LObjLongFunctionX<T, R, X extends Throwable> extends MetaFuncti
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, R, X extends Throwable> LObjLongFunctionX<T, R, X> wrapX(final @Nonnull LObjLongFunction<T, R> other) {
+	static <T, R, X extends Throwable> LObjLongFunctionX<T, R, X> wrapX(final @Nonnull LObjLongFunction<T, R> other) {
 		return (LObjLongFunctionX) other;
 	}
 

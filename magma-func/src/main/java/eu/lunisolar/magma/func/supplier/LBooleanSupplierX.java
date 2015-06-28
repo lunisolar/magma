@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBooleanSupplierX<X extends Throwable> extends java.util.function.BooleanSupplier, MetaSupplier, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LBooleanSupplierX: boolean doGetAsBoolean() throws X";
+	static final String DESCRIPTION = "LBooleanSupplierX: boolean doGetAsBoolean() throws X";
 
 	@Override
 	@Deprecated
@@ -69,7 +69,7 @@ public interface LBooleanSupplierX<X extends Throwable> extends java.util.functi
 		return this.nestingDoGetAsBoolean();
 	}
 
-	public boolean doGetAsBoolean() throws X;
+	boolean doGetAsBoolean() throws X;
 
 	default boolean nestingDoGetAsBoolean() {
 		try {
@@ -105,20 +105,20 @@ public interface LBooleanSupplierX<X extends Throwable> extends java.util.functi
 		return LBooleanSupplierX.DESCRIPTION;
 	}
 
-	public static <X extends Throwable> LBooleanSupplierX<X> of(boolean r) {
+	static <X extends Throwable> LBooleanSupplierX<X> of(boolean r) {
 		return () -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LBooleanSupplierX<X> lX(final @Nonnull LBooleanSupplierX<X> lambda) {
+	static <X extends Throwable> LBooleanSupplierX<X> lX(final @Nonnull LBooleanSupplierX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LBooleanSupplierX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LBooleanSupplierX<X> lambda) {
+	static <X extends Throwable> LBooleanSupplierX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LBooleanSupplierX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -127,13 +127,13 @@ public interface LBooleanSupplierX<X extends Throwable> extends java.util.functi
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Throwable> LBooleanSupplierX<X> wrap(final java.util.function.BooleanSupplier other) {
+	static <X extends Throwable> LBooleanSupplierX<X> wrap(final java.util.function.BooleanSupplier other) {
 		return other::getAsBoolean;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LBooleanSupplierX<X> wrapX(final @Nonnull LBooleanSupplier other) {
+	static <X extends Throwable> LBooleanSupplierX<X> wrapX(final @Nonnull LBooleanSupplier other) {
 		return (LBooleanSupplierX) other;
 	}
 

@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LToDoubleFunction<T> extends LToDoubleFunctionX<T, RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LToDoubleFunction: double doApplyAsDouble(T t)";
+	static final String DESCRIPTION = "LToDoubleFunction: double doApplyAsDouble(T t)";
 
 	@Override
 	@Deprecated
@@ -69,7 +69,7 @@ public interface LToDoubleFunction<T> extends LToDoubleFunctionX<T, RuntimeExcep
 		return this.nestingDoApplyAsDouble(t);
 	}
 
-	public double doApplyAsDouble(T t);
+	double doApplyAsDouble(T t);
 
 	default double nestingDoApplyAsDouble(T t) {
 		return this.doApplyAsDouble(t);
@@ -95,13 +95,13 @@ public interface LToDoubleFunction<T> extends LToDoubleFunctionX<T, RuntimeExcep
 		return () -> this.doApplyAsDouble(t);
 	}
 
-	public static <T> LToDoubleFunction<T> constant(double r) {
+	static <T> LToDoubleFunction<T> constant(double r) {
 		return t -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T> LToDoubleFunction<T> l(final @Nonnull LToDoubleFunction<T> lambda) {
+	static <T> LToDoubleFunction<T> l(final @Nonnull LToDoubleFunction<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -110,13 +110,13 @@ public interface LToDoubleFunction<T> extends LToDoubleFunctionX<T, RuntimeExcep
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T> LToDoubleFunction<T> wrap(final java.util.function.ToDoubleFunction<T> other) {
+	static <T> LToDoubleFunction<T> wrap(final java.util.function.ToDoubleFunction<T> other) {
 		return other::applyAsDouble;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, X extends Throwable> LToDoubleFunction<T> wrap(final @Nonnull LToDoubleFunctionX<T, X> other) {
+	static <T, X extends Throwable> LToDoubleFunction<T> wrap(final @Nonnull LToDoubleFunctionX<T, X> other) {
 		return other::nestingDoApplyAsDouble;
 	}
 

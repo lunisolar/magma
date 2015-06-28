@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LByteBinaryOperator extends LByteBinaryOperatorX<RuntimeException>, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LByteBinaryOperator: byte doApplyAsByte(byte b1,byte b2)";
+	static final String DESCRIPTION = "LByteBinaryOperator: byte doApplyAsByte(byte b1,byte b2)";
 
-	public byte doApplyAsByte(byte b1, byte b2);
+	byte doApplyAsByte(byte b1, byte b2);
 
 	default byte nestingDoApplyAsByte(byte b1, byte b2) {
 		return this.doApplyAsByte(b1, b2);
@@ -88,13 +88,13 @@ public interface LByteBinaryOperator extends LByteBinaryOperatorX<RuntimeExcepti
 		return () -> this.doApplyAsByte(b1, b2);
 	}
 
-	public static LByteBinaryOperator constant(byte r) {
+	static LByteBinaryOperator constant(byte r) {
 		return (b1, b2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LByteBinaryOperator l(final @Nonnull LByteBinaryOperator lambda) {
+	static LByteBinaryOperator l(final @Nonnull LByteBinaryOperator lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -103,7 +103,7 @@ public interface LByteBinaryOperator extends LByteBinaryOperatorX<RuntimeExcepti
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LByteBinaryOperator wrap(final @Nonnull LByteBinaryOperatorX<X> other) {
+	static <X extends Throwable> LByteBinaryOperator wrap(final @Nonnull LByteBinaryOperatorX<X> other) {
 		return other::nestingDoApplyAsByte;
 	}
 
@@ -114,7 +114,7 @@ public interface LByteBinaryOperator extends LByteBinaryOperatorX<RuntimeExcepti
 	 * @see {@link java.util.function.BinaryOperator#minBy()}
 	 */
 	@Nonnull
-	public static LByteBinaryOperator min() {
+	static LByteBinaryOperator min() {
 		return (a, b) -> (a <= b) ? a : b;
 	}
 
@@ -122,7 +122,7 @@ public interface LByteBinaryOperator extends LByteBinaryOperatorX<RuntimeExcepti
 	 * @see {@link java.util.function.BinaryOperator#maxBy()}
 	 */
 	@Nonnull
-	public static LByteBinaryOperator max() {
+	static LByteBinaryOperator max() {
 		return (a, b) -> (a >= b) ? a : b;
 	}
 

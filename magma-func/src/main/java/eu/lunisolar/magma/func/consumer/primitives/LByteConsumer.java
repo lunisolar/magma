@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LByteConsumer extends LByteConsumerX<RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LByteConsumer: void doAccept(byte b)";
+	static final String DESCRIPTION = "LByteConsumer: void doAccept(byte b)";
 
-	public void doAccept(byte b);
+	void doAccept(byte b);
 
 	default void nestingDoAccept(byte b) {
 		this.doAccept(b);
@@ -86,7 +86,7 @@ public interface LByteConsumer extends LByteConsumerX<RuntimeException>, MetaCon
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LByteConsumer l(final @Nonnull LByteConsumer lambda) {
+	static LByteConsumer l(final @Nonnull LByteConsumer lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -95,7 +95,7 @@ public interface LByteConsumer extends LByteConsumerX<RuntimeException>, MetaCon
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LByteConsumer wrap(final @Nonnull LByteConsumerX<X> other) {
+	static <X extends Throwable> LByteConsumer wrap(final @Nonnull LByteConsumerX<X> other) {
 		return other::nestingDoAccept;
 	}
 

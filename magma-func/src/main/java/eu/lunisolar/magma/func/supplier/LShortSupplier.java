@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LShortSupplier extends LShortSupplierX<RuntimeException>, MetaSupplier, PrimitiveCodomain<Object>, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LShortSupplier: short doGetAsShort()";
+	static final String DESCRIPTION = "LShortSupplier: short doGetAsShort()";
 
-	public short doGetAsShort();
+	short doGetAsShort();
 
 	default short nestingDoGetAsShort() {
 		return this.doGetAsShort();
@@ -83,13 +83,13 @@ public interface LShortSupplier extends LShortSupplierX<RuntimeException>, MetaS
 		return LShortSupplier.DESCRIPTION;
 	}
 
-	public static LShortSupplier of(short r) {
+	static LShortSupplier of(short r) {
 		return () -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LShortSupplier l(final @Nonnull LShortSupplier lambda) {
+	static LShortSupplier l(final @Nonnull LShortSupplier lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -98,7 +98,7 @@ public interface LShortSupplier extends LShortSupplierX<RuntimeException>, MetaS
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LShortSupplier wrap(final @Nonnull LShortSupplierX<X> other) {
+	static <X extends Throwable> LShortSupplier wrap(final @Nonnull LShortSupplierX<X> other) {
 		return other::nestingDoGetAsShort;
 	}
 

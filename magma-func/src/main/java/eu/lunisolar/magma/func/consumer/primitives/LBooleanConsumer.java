@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBooleanConsumer extends LBooleanConsumerX<RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LBooleanConsumer: void doAccept(boolean b)";
+	static final String DESCRIPTION = "LBooleanConsumer: void doAccept(boolean b)";
 
-	public void doAccept(boolean b);
+	void doAccept(boolean b);
 
 	default void nestingDoAccept(boolean b) {
 		this.doAccept(b);
@@ -86,7 +86,7 @@ public interface LBooleanConsumer extends LBooleanConsumerX<RuntimeException>, M
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LBooleanConsumer l(final @Nonnull LBooleanConsumer lambda) {
+	static LBooleanConsumer l(final @Nonnull LBooleanConsumer lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -95,7 +95,7 @@ public interface LBooleanConsumer extends LBooleanConsumerX<RuntimeException>, M
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LBooleanConsumer wrap(final @Nonnull LBooleanConsumerX<X> other) {
+	static <X extends Throwable> LBooleanConsumer wrap(final @Nonnull LBooleanConsumerX<X> other) {
 		return other::nestingDoAccept;
 	}
 

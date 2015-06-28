@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LLongToShortFunction extends LLongToShortFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LLongToShortFunction: short doApplyAsShort(long l)";
+	static final String DESCRIPTION = "LLongToShortFunction: short doApplyAsShort(long l)";
 
-	public short doApplyAsShort(long l);
+	short doApplyAsShort(long l);
 
 	default short nestingDoApplyAsShort(long l) {
 		return this.doApplyAsShort(l);
@@ -88,13 +88,13 @@ public interface LLongToShortFunction extends LLongToShortFunctionX<RuntimeExcep
 		return () -> this.doApplyAsShort(l);
 	}
 
-	public static LLongToShortFunction constant(short r) {
+	static LLongToShortFunction constant(short r) {
 		return l -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LLongToShortFunction l(final @Nonnull LLongToShortFunction lambda) {
+	static LLongToShortFunction l(final @Nonnull LLongToShortFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -103,7 +103,7 @@ public interface LLongToShortFunction extends LLongToShortFunctionX<RuntimeExcep
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LLongToShortFunction wrap(final @Nonnull LLongToShortFunctionX<X> other) {
+	static <X extends Throwable> LLongToShortFunction wrap(final @Nonnull LLongToShortFunctionX<X> other) {
 		return other::nestingDoApplyAsShort;
 	}
 

@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LByteUnaryOperator extends LByteUnaryOperatorX<RuntimeException>, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LByteUnaryOperator: byte doApplyAsByte(byte b)";
+	static final String DESCRIPTION = "LByteUnaryOperator: byte doApplyAsByte(byte b)";
 
-	public byte doApplyAsByte(byte b);
+	byte doApplyAsByte(byte b);
 
 	default byte nestingDoApplyAsByte(byte b) {
 		return this.doApplyAsByte(b);
@@ -88,13 +88,13 @@ public interface LByteUnaryOperator extends LByteUnaryOperatorX<RuntimeException
 		return () -> this.doApplyAsByte(b);
 	}
 
-	public static LByteUnaryOperator constant(byte r) {
+	static LByteUnaryOperator constant(byte r) {
 		return b -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LByteUnaryOperator l(final @Nonnull LByteUnaryOperator lambda) {
+	static LByteUnaryOperator l(final @Nonnull LByteUnaryOperator lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -103,7 +103,7 @@ public interface LByteUnaryOperator extends LByteUnaryOperatorX<RuntimeException
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LByteUnaryOperator wrap(final @Nonnull LByteUnaryOperatorX<X> other) {
+	static <X extends Throwable> LByteUnaryOperator wrap(final @Nonnull LByteUnaryOperatorX<X> other) {
 		return other::nestingDoApplyAsByte;
 	}
 
@@ -200,7 +200,7 @@ public interface LByteUnaryOperator extends LByteUnaryOperatorX<RuntimeException
 
 	/** Returns a function that always returns its input argument. */
 	@Nonnull
-	public static LByteUnaryOperator identity() {
+	static LByteUnaryOperator identity() {
 		return t -> t;
 	}
 	// <editor-fold desc="variant conversions">

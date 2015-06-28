@@ -61,7 +61,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LObjIntConsumerX<T, X extends Throwable> extends java.util.function.ObjIntConsumer<T>, MetaConsumer, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LObjIntConsumerX: void doAccept(T t, int i) throws X";
+	static final String DESCRIPTION = "LObjIntConsumerX: void doAccept(T t, int i) throws X";
 
 	@Override
 	@Deprecated
@@ -70,7 +70,7 @@ public interface LObjIntConsumerX<T, X extends Throwable> extends java.util.func
 		this.nestingDoAccept(t, i);
 	}
 
-	public void doAccept(T t, int i) throws X;
+	void doAccept(T t, int i) throws X;
 
 	default void nestingDoAccept(T t, int i) {
 		try {
@@ -108,14 +108,14 @@ public interface LObjIntConsumerX<T, X extends Throwable> extends java.util.func
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T, X extends Throwable> LObjIntConsumerX<T, X> lX(final @Nonnull LObjIntConsumerX<T, X> lambda) {
+	static <T, X extends Throwable> LObjIntConsumerX<T, X> lX(final @Nonnull LObjIntConsumerX<T, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T, X extends Throwable> LObjIntConsumerX<T, X> lX(@Nonnull Class<X> xClass, final @Nonnull LObjIntConsumerX<T, X> lambda) {
+	static <T, X extends Throwable> LObjIntConsumerX<T, X> lX(@Nonnull Class<X> xClass, final @Nonnull LObjIntConsumerX<T, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -124,13 +124,13 @@ public interface LObjIntConsumerX<T, X extends Throwable> extends java.util.func
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T, X extends Throwable> LObjIntConsumerX<T, X> wrap(final java.util.function.ObjIntConsumer<T> other) {
+	static <T, X extends Throwable> LObjIntConsumerX<T, X> wrap(final java.util.function.ObjIntConsumer<T> other) {
 		return other::accept;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, X extends Throwable> LObjIntConsumerX<T, X> wrapX(final @Nonnull LObjIntConsumer<T> other) {
+	static <T, X extends Throwable> LObjIntConsumerX<T, X> wrapX(final @Nonnull LObjIntConsumer<T> other) {
 		return (LObjIntConsumerX) other;
 	}
 

@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LShortToCharFunction extends LShortToCharFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LShortToCharFunction: char doApplyAsChar(short s)";
+	static final String DESCRIPTION = "LShortToCharFunction: char doApplyAsChar(short s)";
 
-	public char doApplyAsChar(short s);
+	char doApplyAsChar(short s);
 
 	default char nestingDoApplyAsChar(short s) {
 		return this.doApplyAsChar(s);
@@ -88,13 +88,13 @@ public interface LShortToCharFunction extends LShortToCharFunctionX<RuntimeExcep
 		return () -> this.doApplyAsChar(s);
 	}
 
-	public static LShortToCharFunction constant(char r) {
+	static LShortToCharFunction constant(char r) {
 		return s -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LShortToCharFunction l(final @Nonnull LShortToCharFunction lambda) {
+	static LShortToCharFunction l(final @Nonnull LShortToCharFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -103,7 +103,7 @@ public interface LShortToCharFunction extends LShortToCharFunctionX<RuntimeExcep
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LShortToCharFunction wrap(final @Nonnull LShortToCharFunctionX<X> other) {
+	static <X extends Throwable> LShortToCharFunction wrap(final @Nonnull LShortToCharFunctionX<X> other) {
 		return other::nestingDoApplyAsChar;
 	}
 

@@ -93,7 +93,7 @@ public final class LShortBiConsumerBuilder extends PerCaseBuilder.Base<LShortBiC
 	public final LShortBiConsumerBuilder withHandling(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
 		Null.nonNullArg(handling, "handling");
 		if (this.handling != null) {
-			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+			throw new UnsupportedOperationException("Handling is already set for this builder.");
 		}
 		this.handling = handling;
 		return self();

@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LDoubleFunction<R> extends LDoubleFunctionX<R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LDoubleFunction: R doApply(double d)";
+	static final String DESCRIPTION = "LDoubleFunction: R doApply(double d)";
 
 	@Override
 	@Deprecated
@@ -70,7 +70,7 @@ public interface LDoubleFunction<R> extends LDoubleFunctionX<R, RuntimeException
 	}
 
 	@Nullable
-	public R doApply(double d);
+	R doApply(double d);
 
 	default R nestingDoApply(double d) {
 		return this.doApply(d);
@@ -80,7 +80,7 @@ public interface LDoubleFunction<R> extends LDoubleFunctionX<R, RuntimeException
 		return this.doApply(d);
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
 	@Nonnull
@@ -99,13 +99,13 @@ public interface LDoubleFunction<R> extends LDoubleFunctionX<R, RuntimeException
 		return () -> this.doApply(d);
 	}
 
-	public static <R> LDoubleFunction<R> constant(R r) {
+	static <R> LDoubleFunction<R> constant(R r) {
 		return d -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <R> LDoubleFunction<R> l(final @Nonnull LDoubleFunction<R> lambda) {
+	static <R> LDoubleFunction<R> l(final @Nonnull LDoubleFunction<R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -114,13 +114,13 @@ public interface LDoubleFunction<R> extends LDoubleFunctionX<R, RuntimeException
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <R> LDoubleFunction<R> wrap(final java.util.function.DoubleFunction<R> other) {
+	static <R> LDoubleFunction<R> wrap(final java.util.function.DoubleFunction<R> other) {
 		return other::apply;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <R, X extends Throwable> LDoubleFunction<R> wrap(final @Nonnull LDoubleFunctionX<R, X> other) {
+	static <R, X extends Throwable> LDoubleFunction<R> wrap(final @Nonnull LDoubleFunctionX<R, X> other) {
 		return other::nestingDoApply;
 	}
 

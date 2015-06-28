@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LLongToCharFunctionX<X extends Throwable> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LLongToCharFunctionX: char doApplyAsChar(long l) throws X";
+	static final String DESCRIPTION = "LLongToCharFunctionX: char doApplyAsChar(long l) throws X";
 
-	public char doApplyAsChar(long l) throws X;
+	char doApplyAsChar(long l) throws X;
 
 	default char nestingDoApplyAsChar(long l) {
 		try {
@@ -103,20 +103,20 @@ public interface LLongToCharFunctionX<X extends Throwable> extends MetaFunction,
 		return () -> this.doApplyAsChar(l);
 	}
 
-	public static <X extends Throwable> LLongToCharFunctionX<X> constant(char r) {
+	static <X extends Throwable> LLongToCharFunctionX<X> constant(char r) {
 		return l -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LLongToCharFunctionX<X> lX(final @Nonnull LLongToCharFunctionX<X> lambda) {
+	static <X extends Throwable> LLongToCharFunctionX<X> lX(final @Nonnull LLongToCharFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LLongToCharFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LLongToCharFunctionX<X> lambda) {
+	static <X extends Throwable> LLongToCharFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LLongToCharFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -125,7 +125,7 @@ public interface LLongToCharFunctionX<X extends Throwable> extends MetaFunction,
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LLongToCharFunctionX<X> wrapX(final @Nonnull LLongToCharFunction other) {
+	static <X extends Throwable> LLongToCharFunctionX<X> wrapX(final @Nonnull LLongToCharFunction other) {
 		return (LLongToCharFunctionX) other;
 	}
 

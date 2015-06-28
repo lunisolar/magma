@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LDoubleToIntFunction extends LDoubleToIntFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LDoubleToIntFunction: int doApplyAsInt(double d)";
+	static final String DESCRIPTION = "LDoubleToIntFunction: int doApplyAsInt(double d)";
 
 	@Override
 	@Deprecated
@@ -69,7 +69,7 @@ public interface LDoubleToIntFunction extends LDoubleToIntFunctionX<RuntimeExcep
 		return this.nestingDoApplyAsInt(d);
 	}
 
-	public int doApplyAsInt(double d);
+	int doApplyAsInt(double d);
 
 	default int nestingDoApplyAsInt(double d) {
 		return this.doApplyAsInt(d);
@@ -95,13 +95,13 @@ public interface LDoubleToIntFunction extends LDoubleToIntFunctionX<RuntimeExcep
 		return () -> this.doApplyAsInt(d);
 	}
 
-	public static LDoubleToIntFunction constant(int r) {
+	static LDoubleToIntFunction constant(int r) {
 		return d -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LDoubleToIntFunction l(final @Nonnull LDoubleToIntFunction lambda) {
+	static LDoubleToIntFunction l(final @Nonnull LDoubleToIntFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -110,13 +110,13 @@ public interface LDoubleToIntFunction extends LDoubleToIntFunctionX<RuntimeExcep
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LDoubleToIntFunction wrap(final java.util.function.DoubleToIntFunction other) {
+	static LDoubleToIntFunction wrap(final java.util.function.DoubleToIntFunction other) {
 		return other::applyAsInt;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LDoubleToIntFunction wrap(final @Nonnull LDoubleToIntFunctionX<X> other) {
+	static <X extends Throwable> LDoubleToIntFunction wrap(final @Nonnull LDoubleToIntFunctionX<X> other) {
 		return other::nestingDoApplyAsInt;
 	}
 

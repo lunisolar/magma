@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBiFunction<T1, T2, R> extends LBiFunctionX<T1, T2, R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LBiFunction: R doApply(T1 t1,T2 t2)";
+	static final String DESCRIPTION = "LBiFunction: R doApply(T1 t1,T2 t2)";
 
 	@Override
 	@Deprecated
@@ -70,7 +70,7 @@ public interface LBiFunction<T1, T2, R> extends LBiFunctionX<T1, T2, R, RuntimeE
 	}
 
 	@Nullable
-	public R doApply(T1 t1, T2 t2);
+	R doApply(T1 t1, T2 t2);
 
 	default R nestingDoApply(T1 t1, T2 t2) {
 		return this.doApply(t1, t2);
@@ -80,7 +80,7 @@ public interface LBiFunction<T1, T2, R> extends LBiFunctionX<T1, T2, R, RuntimeE
 		return this.doApply(t1, t2);
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
 	@Nonnull
@@ -99,13 +99,13 @@ public interface LBiFunction<T1, T2, R> extends LBiFunctionX<T1, T2, R, RuntimeE
 		return () -> this.doApply(t1, t2);
 	}
 
-	public static <T1, T2, R> LBiFunction<T1, T2, R> constant(R r) {
+	static <T1, T2, R> LBiFunction<T1, T2, R> constant(R r) {
 		return (t1, t2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T1, T2, R> LBiFunction<T1, T2, R> l(final @Nonnull LBiFunction<T1, T2, R> lambda) {
+	static <T1, T2, R> LBiFunction<T1, T2, R> l(final @Nonnull LBiFunction<T1, T2, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -114,13 +114,13 @@ public interface LBiFunction<T1, T2, R> extends LBiFunctionX<T1, T2, R, RuntimeE
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T1, T2, R> LBiFunction<T1, T2, R> wrap(final java.util.function.BiFunction<T1, T2, R> other) {
+	static <T1, T2, R> LBiFunction<T1, T2, R> wrap(final java.util.function.BiFunction<T1, T2, R> other) {
 		return other::apply;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T1, T2, R, X extends Throwable> LBiFunction<T1, T2, R> wrap(final @Nonnull LBiFunctionX<T1, T2, R, X> other) {
+	static <T1, T2, R, X extends Throwable> LBiFunction<T1, T2, R> wrap(final @Nonnull LBiFunctionX<T1, T2, R, X> other) {
 		return other::nestingDoApply;
 	}
 

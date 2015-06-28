@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LShortBinaryOperatorX<X extends Throwable> extends MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LShortBinaryOperatorX: short doApplyAsShort(short s1,short s2) throws X";
+	static final String DESCRIPTION = "LShortBinaryOperatorX: short doApplyAsShort(short s1,short s2) throws X";
 
-	public short doApplyAsShort(short s1, short s2) throws X;
+	short doApplyAsShort(short s1, short s2) throws X;
 
 	default short nestingDoApplyAsShort(short s1, short s2) {
 		try {
@@ -103,20 +103,20 @@ public interface LShortBinaryOperatorX<X extends Throwable> extends MetaOperator
 		return () -> this.doApplyAsShort(s1, s2);
 	}
 
-	public static <X extends Throwable> LShortBinaryOperatorX<X> constant(short r) {
+	static <X extends Throwable> LShortBinaryOperatorX<X> constant(short r) {
 		return (s1, s2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LShortBinaryOperatorX<X> lX(final @Nonnull LShortBinaryOperatorX<X> lambda) {
+	static <X extends Throwable> LShortBinaryOperatorX<X> lX(final @Nonnull LShortBinaryOperatorX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LShortBinaryOperatorX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LShortBinaryOperatorX<X> lambda) {
+	static <X extends Throwable> LShortBinaryOperatorX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LShortBinaryOperatorX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -125,7 +125,7 @@ public interface LShortBinaryOperatorX<X extends Throwable> extends MetaOperator
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LShortBinaryOperatorX<X> wrapX(final @Nonnull LShortBinaryOperator other) {
+	static <X extends Throwable> LShortBinaryOperatorX<X> wrapX(final @Nonnull LShortBinaryOperator other) {
 		return (LShortBinaryOperatorX) other;
 	}
 
@@ -136,7 +136,7 @@ public interface LShortBinaryOperatorX<X extends Throwable> extends MetaOperator
 	 * @see {@link java.util.function.BinaryOperator#minBy()}
 	 */
 	@Nonnull
-	public static <X extends Throwable> LShortBinaryOperatorX<X> min() {
+	static <X extends Throwable> LShortBinaryOperatorX<X> min() {
 		return (a, b) -> (a <= b) ? a : b;
 	}
 
@@ -144,7 +144,7 @@ public interface LShortBinaryOperatorX<X extends Throwable> extends MetaOperator
 	 * @see {@link java.util.function.BinaryOperator#maxBy()}
 	 */
 	@Nonnull
-	public static <X extends Throwable> LShortBinaryOperatorX<X> max() {
+	static <X extends Throwable> LShortBinaryOperatorX<X> max() {
 		return (a, b) -> (a >= b) ? a : b;
 	}
 

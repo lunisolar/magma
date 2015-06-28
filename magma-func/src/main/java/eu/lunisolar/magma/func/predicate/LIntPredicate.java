@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LIntPredicate: boolean doTest(int i)";
+	static final String DESCRIPTION = "LIntPredicate: boolean doTest(int i)";
 
 	@Override
 	@Deprecated
@@ -69,7 +69,7 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 		return this.nestingDoTest(i);
 	}
 
-	public boolean doTest(int i);
+	boolean doTest(int i);
 
 	default boolean nestingDoTest(int i) {
 		return this.doTest(i);
@@ -101,13 +101,13 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 		return () -> this.doTest(i);
 	}
 
-	public static LIntPredicate constant(boolean r) {
+	static LIntPredicate constant(boolean r) {
 		return i -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LIntPredicate l(final @Nonnull LIntPredicate lambda) {
+	static LIntPredicate l(final @Nonnull LIntPredicate lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -116,13 +116,13 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LIntPredicate wrap(final java.util.function.IntPredicate other) {
+	static LIntPredicate wrap(final java.util.function.IntPredicate other) {
 		return other::test;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LIntPredicate wrap(final @Nonnull LIntPredicateX<X> other) {
+	static <X extends Throwable> LIntPredicate wrap(final @Nonnull LIntPredicateX<X> other) {
 		return other::nestingDoTest;
 	}
 
@@ -165,7 +165,7 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 	}
 
 	@Nonnull
-	public static LIntPredicate isEqual(int target) {
+	static LIntPredicate isEqual(int target) {
 		return i -> i == target;
 	}
 

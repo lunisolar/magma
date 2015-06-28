@@ -60,10 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LObjCharFunction<T, R> extends LObjCharFunctionX<T, R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LObjCharFunction: R doApply(T t, char c)";
+	static final String DESCRIPTION = "LObjCharFunction: R doApply(T t, char c)";
 
 	@Nullable
-	public R doApply(T t, char c);
+	R doApply(T t, char c);
 
 	default R nestingDoApply(T t, char c) {
 		return this.doApply(t, c);
@@ -73,7 +73,7 @@ public interface LObjCharFunction<T, R> extends LObjCharFunctionX<T, R, RuntimeE
 		return this.doApply(t, c);
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
 	@Nonnull
@@ -92,13 +92,13 @@ public interface LObjCharFunction<T, R> extends LObjCharFunctionX<T, R, RuntimeE
 		return () -> this.doApply(t, c);
 	}
 
-	public static <T, R> LObjCharFunction<T, R> constant(R r) {
+	static <T, R> LObjCharFunction<T, R> constant(R r) {
 		return (t, c) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T, R> LObjCharFunction<T, R> l(final @Nonnull LObjCharFunction<T, R> lambda) {
+	static <T, R> LObjCharFunction<T, R> l(final @Nonnull LObjCharFunction<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -107,7 +107,7 @@ public interface LObjCharFunction<T, R> extends LObjCharFunctionX<T, R, RuntimeE
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, R, X extends Throwable> LObjCharFunction<T, R> wrap(final @Nonnull LObjCharFunctionX<T, R, X> other) {
+	static <T, R, X extends Throwable> LObjCharFunction<T, R> wrap(final @Nonnull LObjCharFunctionX<T, R, X> other) {
 		return other::nestingDoApply;
 	}
 

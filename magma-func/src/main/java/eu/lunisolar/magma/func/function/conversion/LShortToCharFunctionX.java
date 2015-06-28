@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LShortToCharFunctionX<X extends Throwable> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LShortToCharFunctionX: char doApplyAsChar(short s) throws X";
+	static final String DESCRIPTION = "LShortToCharFunctionX: char doApplyAsChar(short s) throws X";
 
-	public char doApplyAsChar(short s) throws X;
+	char doApplyAsChar(short s) throws X;
 
 	default char nestingDoApplyAsChar(short s) {
 		try {
@@ -103,20 +103,20 @@ public interface LShortToCharFunctionX<X extends Throwable> extends MetaFunction
 		return () -> this.doApplyAsChar(s);
 	}
 
-	public static <X extends Throwable> LShortToCharFunctionX<X> constant(char r) {
+	static <X extends Throwable> LShortToCharFunctionX<X> constant(char r) {
 		return s -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LShortToCharFunctionX<X> lX(final @Nonnull LShortToCharFunctionX<X> lambda) {
+	static <X extends Throwable> LShortToCharFunctionX<X> lX(final @Nonnull LShortToCharFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LShortToCharFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LShortToCharFunctionX<X> lambda) {
+	static <X extends Throwable> LShortToCharFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LShortToCharFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -125,7 +125,7 @@ public interface LShortToCharFunctionX<X extends Throwable> extends MetaFunction
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LShortToCharFunctionX<X> wrapX(final @Nonnull LShortToCharFunction other) {
+	static <X extends Throwable> LShortToCharFunctionX<X> wrapX(final @Nonnull LShortToCharFunction other) {
 		return (LShortToCharFunctionX) other;
 	}
 

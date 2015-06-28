@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LToShortBiFunctionX<T1, T2, X extends Throwable> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LToShortBiFunctionX: short doApplyAsShort(T1 t1,T2 t2) throws X";
+	static final String DESCRIPTION = "LToShortBiFunctionX: short doApplyAsShort(T1 t1,T2 t2) throws X";
 
-	public short doApplyAsShort(T1 t1, T2 t2) throws X;
+	short doApplyAsShort(T1 t1, T2 t2) throws X;
 
 	default short nestingDoApplyAsShort(T1 t1, T2 t2) {
 		try {
@@ -103,20 +103,20 @@ public interface LToShortBiFunctionX<T1, T2, X extends Throwable> extends MetaFu
 		return () -> this.doApplyAsShort(t1, t2);
 	}
 
-	public static <T1, T2, X extends Throwable> LToShortBiFunctionX<T1, T2, X> constant(short r) {
+	static <T1, T2, X extends Throwable> LToShortBiFunctionX<T1, T2, X> constant(short r) {
 		return (t1, t2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T1, T2, X extends Throwable> LToShortBiFunctionX<T1, T2, X> lX(final @Nonnull LToShortBiFunctionX<T1, T2, X> lambda) {
+	static <T1, T2, X extends Throwable> LToShortBiFunctionX<T1, T2, X> lX(final @Nonnull LToShortBiFunctionX<T1, T2, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T1, T2, X extends Throwable> LToShortBiFunctionX<T1, T2, X> lX(@Nonnull Class<X> xClass, final @Nonnull LToShortBiFunctionX<T1, T2, X> lambda) {
+	static <T1, T2, X extends Throwable> LToShortBiFunctionX<T1, T2, X> lX(@Nonnull Class<X> xClass, final @Nonnull LToShortBiFunctionX<T1, T2, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -125,7 +125,7 @@ public interface LToShortBiFunctionX<T1, T2, X extends Throwable> extends MetaFu
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T1, T2, X extends Throwable> LToShortBiFunctionX<T1, T2, X> wrapX(final @Nonnull LToShortBiFunction<T1, T2> other) {
+	static <T1, T2, X extends Throwable> LToShortBiFunctionX<T1, T2, X> wrapX(final @Nonnull LToShortBiFunction<T1, T2> other) {
 		return (LToShortBiFunctionX) other;
 	}
 

@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LFloatUnaryOperatorX<X extends Throwable> extends MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LFloatUnaryOperatorX: float doApplyAsFloat(float f) throws X";
+	static final String DESCRIPTION = "LFloatUnaryOperatorX: float doApplyAsFloat(float f) throws X";
 
-	public float doApplyAsFloat(float f) throws X;
+	float doApplyAsFloat(float f) throws X;
 
 	default float nestingDoApplyAsFloat(float f) {
 		try {
@@ -103,20 +103,20 @@ public interface LFloatUnaryOperatorX<X extends Throwable> extends MetaOperator,
 		return () -> this.doApplyAsFloat(f);
 	}
 
-	public static <X extends Throwable> LFloatUnaryOperatorX<X> constant(float r) {
+	static <X extends Throwable> LFloatUnaryOperatorX<X> constant(float r) {
 		return f -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LFloatUnaryOperatorX<X> lX(final @Nonnull LFloatUnaryOperatorX<X> lambda) {
+	static <X extends Throwable> LFloatUnaryOperatorX<X> lX(final @Nonnull LFloatUnaryOperatorX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LFloatUnaryOperatorX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LFloatUnaryOperatorX<X> lambda) {
+	static <X extends Throwable> LFloatUnaryOperatorX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LFloatUnaryOperatorX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -125,7 +125,7 @@ public interface LFloatUnaryOperatorX<X extends Throwable> extends MetaOperator,
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LFloatUnaryOperatorX<X> wrapX(final @Nonnull LFloatUnaryOperator other) {
+	static <X extends Throwable> LFloatUnaryOperatorX<X> wrapX(final @Nonnull LFloatUnaryOperator other) {
 		return (LFloatUnaryOperatorX) other;
 	}
 
@@ -222,7 +222,7 @@ public interface LFloatUnaryOperatorX<X extends Throwable> extends MetaOperator,
 
 	/** Returns a function that always returns its input argument. */
 	@Nonnull
-	public static <X extends Throwable> LFloatUnaryOperatorX<X> identity() {
+	static <X extends Throwable> LFloatUnaryOperatorX<X> identity() {
 		return t -> t;
 	}
 	// <editor-fold desc="variant conversions">

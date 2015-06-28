@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LLongPredicate extends LLongPredicateX<RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LLongPredicate: boolean doTest(long l)";
+	static final String DESCRIPTION = "LLongPredicate: boolean doTest(long l)";
 
 	@Override
 	@Deprecated
@@ -69,7 +69,7 @@ public interface LLongPredicate extends LLongPredicateX<RuntimeException>, MetaP
 		return this.nestingDoTest(l);
 	}
 
-	public boolean doTest(long l);
+	boolean doTest(long l);
 
 	default boolean nestingDoTest(long l) {
 		return this.doTest(l);
@@ -101,13 +101,13 @@ public interface LLongPredicate extends LLongPredicateX<RuntimeException>, MetaP
 		return () -> this.doTest(l);
 	}
 
-	public static LLongPredicate constant(boolean r) {
+	static LLongPredicate constant(boolean r) {
 		return l -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LLongPredicate l(final @Nonnull LLongPredicate lambda) {
+	static LLongPredicate l(final @Nonnull LLongPredicate lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -116,13 +116,13 @@ public interface LLongPredicate extends LLongPredicateX<RuntimeException>, MetaP
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LLongPredicate wrap(final java.util.function.LongPredicate other) {
+	static LLongPredicate wrap(final java.util.function.LongPredicate other) {
 		return other::test;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LLongPredicate wrap(final @Nonnull LLongPredicateX<X> other) {
+	static <X extends Throwable> LLongPredicate wrap(final @Nonnull LLongPredicateX<X> other) {
 		return other::nestingDoTest;
 	}
 
@@ -165,7 +165,7 @@ public interface LLongPredicate extends LLongPredicateX<RuntimeException>, MetaP
 	}
 
 	@Nonnull
-	public static LLongPredicate isEqual(long target) {
+	static LLongPredicate isEqual(long target) {
 		return l -> l == target;
 	}
 

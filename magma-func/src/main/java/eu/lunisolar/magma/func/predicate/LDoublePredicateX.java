@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LDoublePredicateX<X extends Throwable> extends java.util.function.DoublePredicate, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LDoublePredicateX: boolean doTest(double d) throws X";
+	static final String DESCRIPTION = "LDoublePredicateX: boolean doTest(double d) throws X";
 
 	@Override
 	@Deprecated
@@ -69,7 +69,7 @@ public interface LDoublePredicateX<X extends Throwable> extends java.util.functi
 		return this.nestingDoTest(d);
 	}
 
-	public boolean doTest(double d) throws X;
+	boolean doTest(double d) throws X;
 
 	default boolean nestingDoTest(double d) {
 		try {
@@ -116,20 +116,20 @@ public interface LDoublePredicateX<X extends Throwable> extends java.util.functi
 		return () -> this.doTest(d);
 	}
 
-	public static <X extends Throwable> LDoublePredicateX<X> constant(boolean r) {
+	static <X extends Throwable> LDoublePredicateX<X> constant(boolean r) {
 		return d -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LDoublePredicateX<X> lX(final @Nonnull LDoublePredicateX<X> lambda) {
+	static <X extends Throwable> LDoublePredicateX<X> lX(final @Nonnull LDoublePredicateX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LDoublePredicateX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LDoublePredicateX<X> lambda) {
+	static <X extends Throwable> LDoublePredicateX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LDoublePredicateX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -138,13 +138,13 @@ public interface LDoublePredicateX<X extends Throwable> extends java.util.functi
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Throwable> LDoublePredicateX<X> wrap(final java.util.function.DoublePredicate other) {
+	static <X extends Throwable> LDoublePredicateX<X> wrap(final java.util.function.DoublePredicate other) {
 		return other::test;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LDoublePredicateX<X> wrapX(final @Nonnull LDoublePredicate other) {
+	static <X extends Throwable> LDoublePredicateX<X> wrapX(final @Nonnull LDoublePredicate other) {
 		return (LDoublePredicateX) other;
 	}
 
@@ -187,7 +187,7 @@ public interface LDoublePredicateX<X extends Throwable> extends java.util.functi
 	}
 
 	@Nonnull
-	public static <X extends Throwable> LDoublePredicateX<X> isEqual(double target) {
+	static <X extends Throwable> LDoublePredicateX<X> isEqual(double target) {
 		return d -> d == target;
 	}
 

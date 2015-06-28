@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LToIntFunction<T> extends LToIntFunctionX<T, RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LToIntFunction: int doApplyAsInt(T t)";
+	static final String DESCRIPTION = "LToIntFunction: int doApplyAsInt(T t)";
 
 	@Override
 	@Deprecated
@@ -69,7 +69,7 @@ public interface LToIntFunction<T> extends LToIntFunctionX<T, RuntimeException>,
 		return this.nestingDoApplyAsInt(t);
 	}
 
-	public int doApplyAsInt(T t);
+	int doApplyAsInt(T t);
 
 	default int nestingDoApplyAsInt(T t) {
 		return this.doApplyAsInt(t);
@@ -95,13 +95,13 @@ public interface LToIntFunction<T> extends LToIntFunctionX<T, RuntimeException>,
 		return () -> this.doApplyAsInt(t);
 	}
 
-	public static <T> LToIntFunction<T> constant(int r) {
+	static <T> LToIntFunction<T> constant(int r) {
 		return t -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T> LToIntFunction<T> l(final @Nonnull LToIntFunction<T> lambda) {
+	static <T> LToIntFunction<T> l(final @Nonnull LToIntFunction<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -110,13 +110,13 @@ public interface LToIntFunction<T> extends LToIntFunctionX<T, RuntimeException>,
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T> LToIntFunction<T> wrap(final java.util.function.ToIntFunction<T> other) {
+	static <T> LToIntFunction<T> wrap(final java.util.function.ToIntFunction<T> other) {
 		return other::applyAsInt;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, X extends Throwable> LToIntFunction<T> wrap(final @Nonnull LToIntFunctionX<T, X> other) {
+	static <T, X extends Throwable> LToIntFunction<T> wrap(final @Nonnull LToIntFunctionX<T, X> other) {
 		return other::nestingDoApplyAsInt;
 	}
 

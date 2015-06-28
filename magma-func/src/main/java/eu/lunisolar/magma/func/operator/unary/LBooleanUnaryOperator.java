@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBooleanUnaryOperator extends LBooleanUnaryOperatorX<RuntimeException>, MetaLogicalOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LBooleanUnaryOperator: boolean doApplyAsBoolean(boolean b)";
+	static final String DESCRIPTION = "LBooleanUnaryOperator: boolean doApplyAsBoolean(boolean b)";
 
-	public boolean doApplyAsBoolean(boolean b);
+	boolean doApplyAsBoolean(boolean b);
 
 	default boolean nestingDoApplyAsBoolean(boolean b) {
 		return this.doApplyAsBoolean(b);
@@ -93,13 +93,13 @@ public interface LBooleanUnaryOperator extends LBooleanUnaryOperatorX<RuntimeExc
 		return () -> this.doApplyAsBoolean(b);
 	}
 
-	public static LBooleanUnaryOperator constant(boolean r) {
+	static LBooleanUnaryOperator constant(boolean r) {
 		return b -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LBooleanUnaryOperator l(final @Nonnull LBooleanUnaryOperator lambda) {
+	static LBooleanUnaryOperator l(final @Nonnull LBooleanUnaryOperator lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -108,7 +108,7 @@ public interface LBooleanUnaryOperator extends LBooleanUnaryOperatorX<RuntimeExc
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LBooleanUnaryOperator wrap(final @Nonnull LBooleanUnaryOperatorX<X> other) {
+	static <X extends Throwable> LBooleanUnaryOperator wrap(final @Nonnull LBooleanUnaryOperatorX<X> other) {
 		return other::nestingDoApplyAsBoolean;
 	}
 
@@ -151,7 +151,7 @@ public interface LBooleanUnaryOperator extends LBooleanUnaryOperatorX<RuntimeExc
 	}
 
 	@Nonnull
-	public static LBooleanUnaryOperator isEqual(boolean target) {
+	static LBooleanUnaryOperator isEqual(boolean target) {
 		return b -> b == target;
 	}
 
@@ -248,7 +248,7 @@ public interface LBooleanUnaryOperator extends LBooleanUnaryOperatorX<RuntimeExc
 
 	/** Returns a function that always returns its input argument. */
 	@Nonnull
-	public static LBooleanUnaryOperator identity() {
+	static LBooleanUnaryOperator identity() {
 		return t -> t;
 	}
 	// <editor-fold desc="variant conversions">

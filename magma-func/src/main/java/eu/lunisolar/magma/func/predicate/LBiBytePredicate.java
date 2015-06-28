@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBiBytePredicate extends LBiBytePredicateX<RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LBiBytePredicate: boolean doTest(byte b1,byte b2)";
+	static final String DESCRIPTION = "LBiBytePredicate: boolean doTest(byte b1,byte b2)";
 
-	public boolean doTest(byte b1, byte b2);
+	boolean doTest(byte b1, byte b2);
 
 	default boolean nestingDoTest(byte b1, byte b2) {
 		return this.doTest(b1, b2);
@@ -94,13 +94,13 @@ public interface LBiBytePredicate extends LBiBytePredicateX<RuntimeException>, M
 		return () -> this.doTest(b1, b2);
 	}
 
-	public static LBiBytePredicate constant(boolean r) {
+	static LBiBytePredicate constant(boolean r) {
 		return (b1, b2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LBiBytePredicate l(final @Nonnull LBiBytePredicate lambda) {
+	static LBiBytePredicate l(final @Nonnull LBiBytePredicate lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -109,7 +109,7 @@ public interface LBiBytePredicate extends LBiBytePredicateX<RuntimeException>, M
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LBiBytePredicate wrap(final @Nonnull LBiBytePredicateX<X> other) {
+	static <X extends Throwable> LBiBytePredicate wrap(final @Nonnull LBiBytePredicateX<X> other) {
 		return other::nestingDoTest;
 	}
 
@@ -155,7 +155,7 @@ public interface LBiBytePredicate extends LBiBytePredicateX<RuntimeException>, M
 	 *  @see {@link java.util.function.Predicate#isEqual()}
 	 */
 	@Nonnull
-	public static LBiBytePredicate isEqual(final byte v1, final byte v2) {
+	static LBiBytePredicate isEqual(final byte v1, final byte v2) {
 		return (b1, b2) -> (b1 == v1) && (b2 == v2);
 	}
 

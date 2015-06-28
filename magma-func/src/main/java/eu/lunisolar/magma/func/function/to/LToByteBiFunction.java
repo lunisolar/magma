@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LToByteBiFunction<T1, T2> extends LToByteBiFunctionX<T1, T2, RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LToByteBiFunction: byte doApplyAsByte(T1 t1,T2 t2)";
+	static final String DESCRIPTION = "LToByteBiFunction: byte doApplyAsByte(T1 t1,T2 t2)";
 
-	public byte doApplyAsByte(T1 t1, T2 t2);
+	byte doApplyAsByte(T1 t1, T2 t2);
 
 	default byte nestingDoApplyAsByte(T1 t1, T2 t2) {
 		return this.doApplyAsByte(t1, t2);
@@ -88,13 +88,13 @@ public interface LToByteBiFunction<T1, T2> extends LToByteBiFunctionX<T1, T2, Ru
 		return () -> this.doApplyAsByte(t1, t2);
 	}
 
-	public static <T1, T2> LToByteBiFunction<T1, T2> constant(byte r) {
+	static <T1, T2> LToByteBiFunction<T1, T2> constant(byte r) {
 		return (t1, t2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T1, T2> LToByteBiFunction<T1, T2> l(final @Nonnull LToByteBiFunction<T1, T2> lambda) {
+	static <T1, T2> LToByteBiFunction<T1, T2> l(final @Nonnull LToByteBiFunction<T1, T2> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -103,7 +103,7 @@ public interface LToByteBiFunction<T1, T2> extends LToByteBiFunctionX<T1, T2, Ru
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T1, T2, X extends Throwable> LToByteBiFunction<T1, T2> wrap(final @Nonnull LToByteBiFunctionX<T1, T2, X> other) {
+	static <T1, T2, X extends Throwable> LToByteBiFunction<T1, T2> wrap(final @Nonnull LToByteBiFunctionX<T1, T2, X> other) {
 		return other::nestingDoApplyAsByte;
 	}
 

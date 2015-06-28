@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBiObjIntConsumerX<T1, T2, X extends Throwable> extends MetaConsumer, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LBiObjIntConsumerX: void doAccept(T1 t1,T2 t2, int i) throws X";
+	static final String DESCRIPTION = "LBiObjIntConsumerX: void doAccept(T1 t1,T2 t2, int i) throws X";
 
-	public void doAccept(T1 t1, T2 t2, int i) throws X;
+	void doAccept(T1 t1, T2 t2, int i) throws X;
 
 	default void nestingDoAccept(T1 t1, T2 t2, int i) {
 		try {
@@ -101,14 +101,14 @@ public interface LBiObjIntConsumerX<T1, T2, X extends Throwable> extends MetaCon
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T1, T2, X extends Throwable> LBiObjIntConsumerX<T1, T2, X> lX(final @Nonnull LBiObjIntConsumerX<T1, T2, X> lambda) {
+	static <T1, T2, X extends Throwable> LBiObjIntConsumerX<T1, T2, X> lX(final @Nonnull LBiObjIntConsumerX<T1, T2, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T1, T2, X extends Throwable> LBiObjIntConsumerX<T1, T2, X> lX(@Nonnull Class<X> xClass, final @Nonnull LBiObjIntConsumerX<T1, T2, X> lambda) {
+	static <T1, T2, X extends Throwable> LBiObjIntConsumerX<T1, T2, X> lX(@Nonnull Class<X> xClass, final @Nonnull LBiObjIntConsumerX<T1, T2, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -117,7 +117,7 @@ public interface LBiObjIntConsumerX<T1, T2, X extends Throwable> extends MetaCon
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T1, T2, X extends Throwable> LBiObjIntConsumerX<T1, T2, X> wrapX(final @Nonnull LBiObjIntConsumer<T1, T2> other) {
+	static <T1, T2, X extends Throwable> LBiObjIntConsumerX<T1, T2, X> wrapX(final @Nonnull LBiObjIntConsumer<T1, T2> other) {
 		return (LBiObjIntConsumerX) other;
 	}
 

@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LToIntFunctionX<T, X extends Throwable> extends java.util.function.ToIntFunction<T>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LToIntFunctionX: int doApplyAsInt(T t) throws X";
+	static final String DESCRIPTION = "LToIntFunctionX: int doApplyAsInt(T t) throws X";
 
 	@Override
 	@Deprecated
@@ -69,7 +69,7 @@ public interface LToIntFunctionX<T, X extends Throwable> extends java.util.funct
 		return this.nestingDoApplyAsInt(t);
 	}
 
-	public int doApplyAsInt(T t) throws X;
+	int doApplyAsInt(T t) throws X;
 
 	default int nestingDoApplyAsInt(T t) {
 		try {
@@ -110,20 +110,20 @@ public interface LToIntFunctionX<T, X extends Throwable> extends java.util.funct
 		return () -> this.doApplyAsInt(t);
 	}
 
-	public static <T, X extends Throwable> LToIntFunctionX<T, X> constant(int r) {
+	static <T, X extends Throwable> LToIntFunctionX<T, X> constant(int r) {
 		return t -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T, X extends Throwable> LToIntFunctionX<T, X> lX(final @Nonnull LToIntFunctionX<T, X> lambda) {
+	static <T, X extends Throwable> LToIntFunctionX<T, X> lX(final @Nonnull LToIntFunctionX<T, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T, X extends Throwable> LToIntFunctionX<T, X> lX(@Nonnull Class<X> xClass, final @Nonnull LToIntFunctionX<T, X> lambda) {
+	static <T, X extends Throwable> LToIntFunctionX<T, X> lX(@Nonnull Class<X> xClass, final @Nonnull LToIntFunctionX<T, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -132,13 +132,13 @@ public interface LToIntFunctionX<T, X extends Throwable> extends java.util.funct
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T, X extends Throwable> LToIntFunctionX<T, X> wrap(final java.util.function.ToIntFunction<T> other) {
+	static <T, X extends Throwable> LToIntFunctionX<T, X> wrap(final java.util.function.ToIntFunction<T> other) {
 		return other::applyAsInt;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, X extends Throwable> LToIntFunctionX<T, X> wrapX(final @Nonnull LToIntFunction<T> other) {
+	static <T, X extends Throwable> LToIntFunctionX<T, X> wrapX(final @Nonnull LToIntFunction<T> other) {
 		return (LToIntFunctionX) other;
 	}
 

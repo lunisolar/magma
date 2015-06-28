@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LByteToCharFunction extends LByteToCharFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LByteToCharFunction: char doApplyAsChar(byte b)";
+	static final String DESCRIPTION = "LByteToCharFunction: char doApplyAsChar(byte b)";
 
-	public char doApplyAsChar(byte b);
+	char doApplyAsChar(byte b);
 
 	default char nestingDoApplyAsChar(byte b) {
 		return this.doApplyAsChar(b);
@@ -88,13 +88,13 @@ public interface LByteToCharFunction extends LByteToCharFunctionX<RuntimeExcepti
 		return () -> this.doApplyAsChar(b);
 	}
 
-	public static LByteToCharFunction constant(char r) {
+	static LByteToCharFunction constant(char r) {
 		return b -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LByteToCharFunction l(final @Nonnull LByteToCharFunction lambda) {
+	static LByteToCharFunction l(final @Nonnull LByteToCharFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -103,7 +103,7 @@ public interface LByteToCharFunction extends LByteToCharFunctionX<RuntimeExcepti
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LByteToCharFunction wrap(final @Nonnull LByteToCharFunctionX<X> other) {
+	static <X extends Throwable> LByteToCharFunction wrap(final @Nonnull LByteToCharFunctionX<X> other) {
 		return other::nestingDoApplyAsChar;
 	}
 

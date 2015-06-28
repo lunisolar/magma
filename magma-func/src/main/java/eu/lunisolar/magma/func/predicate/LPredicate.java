@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LPredicate<T> extends LPredicateX<T, RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LPredicate: boolean doTest(T t)";
+	static final String DESCRIPTION = "LPredicate: boolean doTest(T t)";
 
 	@Override
 	@Deprecated
@@ -69,7 +69,7 @@ public interface LPredicate<T> extends LPredicateX<T, RuntimeException>, MetaPre
 		return this.nestingDoTest(t);
 	}
 
-	public boolean doTest(T t);
+	boolean doTest(T t);
 
 	default boolean nestingDoTest(T t) {
 		return this.doTest(t);
@@ -101,13 +101,13 @@ public interface LPredicate<T> extends LPredicateX<T, RuntimeException>, MetaPre
 		return () -> this.doTest(t);
 	}
 
-	public static <T> LPredicate<T> constant(boolean r) {
+	static <T> LPredicate<T> constant(boolean r) {
 		return t -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T> LPredicate<T> l(final @Nonnull LPredicate<T> lambda) {
+	static <T> LPredicate<T> l(final @Nonnull LPredicate<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -116,13 +116,13 @@ public interface LPredicate<T> extends LPredicateX<T, RuntimeException>, MetaPre
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T> LPredicate<T> wrap(final java.util.function.Predicate<T> other) {
+	static <T> LPredicate<T> wrap(final java.util.function.Predicate<T> other) {
 		return other::test;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, X extends Throwable> LPredicate<T> wrap(final @Nonnull LPredicateX<T, X> other) {
+	static <T, X extends Throwable> LPredicate<T> wrap(final @Nonnull LPredicateX<T, X> other) {
 		return other::nestingDoTest;
 	}
 
@@ -165,7 +165,7 @@ public interface LPredicate<T> extends LPredicateX<T, RuntimeException>, MetaPre
 	}
 
 	@Nonnull
-	public static <T> LPredicate<T> isEqual(T target) {
+	static <T> LPredicate<T> isEqual(T target) {
 		return (null == target) ? Objects::isNull : object -> object.equals(target);
 	}
 

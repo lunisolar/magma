@@ -60,10 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBiObjDoubleFunctionX<T1, T2, R, X extends Throwable> extends MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LBiObjDoubleFunctionX: R doApply(T1 t1,T2 t2, double d) throws X";
+	static final String DESCRIPTION = "LBiObjDoubleFunctionX: R doApply(T1 t1,T2 t2, double d) throws X";
 
 	@Nullable
-	public R doApply(T1 t1, T2 t2, double d) throws X;
+	R doApply(T1 t1, T2 t2, double d) throws X;
 
 	default R nestingDoApply(T1 t1, T2 t2, double d) {
 		try {
@@ -88,7 +88,7 @@ public interface LBiObjDoubleFunctionX<T1, T2, R, X extends Throwable> extends M
 		}
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
 	@Nonnull
@@ -107,20 +107,20 @@ public interface LBiObjDoubleFunctionX<T1, T2, R, X extends Throwable> extends M
 		return () -> this.doApply(t1, t2, d);
 	}
 
-	public static <T1, T2, R, X extends Throwable> LBiObjDoubleFunctionX<T1, T2, R, X> constant(R r) {
+	static <T1, T2, R, X extends Throwable> LBiObjDoubleFunctionX<T1, T2, R, X> constant(R r) {
 		return (t1, t2, d) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T1, T2, R, X extends Throwable> LBiObjDoubleFunctionX<T1, T2, R, X> lX(final @Nonnull LBiObjDoubleFunctionX<T1, T2, R, X> lambda) {
+	static <T1, T2, R, X extends Throwable> LBiObjDoubleFunctionX<T1, T2, R, X> lX(final @Nonnull LBiObjDoubleFunctionX<T1, T2, R, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T1, T2, R, X extends Throwable> LBiObjDoubleFunctionX<T1, T2, R, X> lX(@Nonnull Class<X> xClass, final @Nonnull LBiObjDoubleFunctionX<T1, T2, R, X> lambda) {
+	static <T1, T2, R, X extends Throwable> LBiObjDoubleFunctionX<T1, T2, R, X> lX(@Nonnull Class<X> xClass, final @Nonnull LBiObjDoubleFunctionX<T1, T2, R, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -129,7 +129,7 @@ public interface LBiObjDoubleFunctionX<T1, T2, R, X extends Throwable> extends M
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T1, T2, R, X extends Throwable> LBiObjDoubleFunctionX<T1, T2, R, X> wrapX(final @Nonnull LBiObjDoubleFunction<T1, T2, R> other) {
+	static <T1, T2, R, X extends Throwable> LBiObjDoubleFunctionX<T1, T2, R, X> wrapX(final @Nonnull LBiObjDoubleFunction<T1, T2, R> other) {
 		return (LBiObjDoubleFunctionX) other;
 	}
 

@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LToLongBiFunction<T1, T2> extends LToLongBiFunctionX<T1, T2, RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LToLongBiFunction: long doApplyAsLong(T1 t1,T2 t2)";
+	static final String DESCRIPTION = "LToLongBiFunction: long doApplyAsLong(T1 t1,T2 t2)";
 
 	@Override
 	@Deprecated
@@ -69,7 +69,7 @@ public interface LToLongBiFunction<T1, T2> extends LToLongBiFunctionX<T1, T2, Ru
 		return this.nestingDoApplyAsLong(t1, t2);
 	}
 
-	public long doApplyAsLong(T1 t1, T2 t2);
+	long doApplyAsLong(T1 t1, T2 t2);
 
 	default long nestingDoApplyAsLong(T1 t1, T2 t2) {
 		return this.doApplyAsLong(t1, t2);
@@ -95,13 +95,13 @@ public interface LToLongBiFunction<T1, T2> extends LToLongBiFunctionX<T1, T2, Ru
 		return () -> this.doApplyAsLong(t1, t2);
 	}
 
-	public static <T1, T2> LToLongBiFunction<T1, T2> constant(long r) {
+	static <T1, T2> LToLongBiFunction<T1, T2> constant(long r) {
 		return (t1, t2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T1, T2> LToLongBiFunction<T1, T2> l(final @Nonnull LToLongBiFunction<T1, T2> lambda) {
+	static <T1, T2> LToLongBiFunction<T1, T2> l(final @Nonnull LToLongBiFunction<T1, T2> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -110,13 +110,13 @@ public interface LToLongBiFunction<T1, T2> extends LToLongBiFunctionX<T1, T2, Ru
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T1, T2> LToLongBiFunction<T1, T2> wrap(final java.util.function.ToLongBiFunction<T1, T2> other) {
+	static <T1, T2> LToLongBiFunction<T1, T2> wrap(final java.util.function.ToLongBiFunction<T1, T2> other) {
 		return other::applyAsLong;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T1, T2, X extends Throwable> LToLongBiFunction<T1, T2> wrap(final @Nonnull LToLongBiFunctionX<T1, T2, X> other) {
+	static <T1, T2, X extends Throwable> LToLongBiFunction<T1, T2> wrap(final @Nonnull LToLongBiFunctionX<T1, T2, X> other) {
 		return other::nestingDoApplyAsLong;
 	}
 

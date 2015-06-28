@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LDoubleBinaryOperator extends LDoubleBinaryOperatorX<RuntimeException>, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LDoubleBinaryOperator: double doApplyAsDouble(double d1,double d2)";
+	static final String DESCRIPTION = "LDoubleBinaryOperator: double doApplyAsDouble(double d1,double d2)";
 
 	@Override
 	@Deprecated
@@ -69,7 +69,7 @@ public interface LDoubleBinaryOperator extends LDoubleBinaryOperatorX<RuntimeExc
 		return this.nestingDoApplyAsDouble(d1, d2);
 	}
 
-	public double doApplyAsDouble(double d1, double d2);
+	double doApplyAsDouble(double d1, double d2);
 
 	default double nestingDoApplyAsDouble(double d1, double d2) {
 		return this.doApplyAsDouble(d1, d2);
@@ -95,13 +95,13 @@ public interface LDoubleBinaryOperator extends LDoubleBinaryOperatorX<RuntimeExc
 		return () -> this.doApplyAsDouble(d1, d2);
 	}
 
-	public static LDoubleBinaryOperator constant(double r) {
+	static LDoubleBinaryOperator constant(double r) {
 		return (d1, d2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LDoubleBinaryOperator l(final @Nonnull LDoubleBinaryOperator lambda) {
+	static LDoubleBinaryOperator l(final @Nonnull LDoubleBinaryOperator lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -110,13 +110,13 @@ public interface LDoubleBinaryOperator extends LDoubleBinaryOperatorX<RuntimeExc
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LDoubleBinaryOperator wrap(final java.util.function.DoubleBinaryOperator other) {
+	static LDoubleBinaryOperator wrap(final java.util.function.DoubleBinaryOperator other) {
 		return other::applyAsDouble;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LDoubleBinaryOperator wrap(final @Nonnull LDoubleBinaryOperatorX<X> other) {
+	static <X extends Throwable> LDoubleBinaryOperator wrap(final @Nonnull LDoubleBinaryOperatorX<X> other) {
 		return other::nestingDoApplyAsDouble;
 	}
 
@@ -127,7 +127,7 @@ public interface LDoubleBinaryOperator extends LDoubleBinaryOperatorX<RuntimeExc
 	 * @see {@link java.util.function.BinaryOperator#minBy()}
 	 */
 	@Nonnull
-	public static LDoubleBinaryOperator min() {
+	static LDoubleBinaryOperator min() {
 		return Double::min;
 	}
 
@@ -135,7 +135,7 @@ public interface LDoubleBinaryOperator extends LDoubleBinaryOperatorX<RuntimeExc
 	 * @see {@link java.util.function.BinaryOperator#maxBy()}
 	 */
 	@Nonnull
-	public static LDoubleBinaryOperator max() {
+	static LDoubleBinaryOperator max() {
 		return Double::max;
 	}
 

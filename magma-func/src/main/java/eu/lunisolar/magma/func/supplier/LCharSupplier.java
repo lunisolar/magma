@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LCharSupplier extends LCharSupplierX<RuntimeException>, MetaSupplier, PrimitiveCodomain<Object>, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LCharSupplier: char doGetAsChar()";
+	static final String DESCRIPTION = "LCharSupplier: char doGetAsChar()";
 
-	public char doGetAsChar();
+	char doGetAsChar();
 
 	default char nestingDoGetAsChar() {
 		return this.doGetAsChar();
@@ -83,13 +83,13 @@ public interface LCharSupplier extends LCharSupplierX<RuntimeException>, MetaSup
 		return LCharSupplier.DESCRIPTION;
 	}
 
-	public static LCharSupplier of(char r) {
+	static LCharSupplier of(char r) {
 		return () -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LCharSupplier l(final @Nonnull LCharSupplier lambda) {
+	static LCharSupplier l(final @Nonnull LCharSupplier lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -98,7 +98,7 @@ public interface LCharSupplier extends LCharSupplierX<RuntimeException>, MetaSup
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LCharSupplier wrap(final @Nonnull LCharSupplierX<X> other) {
+	static <X extends Throwable> LCharSupplier wrap(final @Nonnull LCharSupplierX<X> other) {
 		return other::nestingDoGetAsChar;
 	}
 

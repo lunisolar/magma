@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LShortToFloatFunctionX<X extends Throwable> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LShortToFloatFunctionX: float doApplyAsFloat(short s) throws X";
+	static final String DESCRIPTION = "LShortToFloatFunctionX: float doApplyAsFloat(short s) throws X";
 
-	public float doApplyAsFloat(short s) throws X;
+	float doApplyAsFloat(short s) throws X;
 
 	default float nestingDoApplyAsFloat(short s) {
 		try {
@@ -103,20 +103,20 @@ public interface LShortToFloatFunctionX<X extends Throwable> extends MetaFunctio
 		return () -> this.doApplyAsFloat(s);
 	}
 
-	public static <X extends Throwable> LShortToFloatFunctionX<X> constant(float r) {
+	static <X extends Throwable> LShortToFloatFunctionX<X> constant(float r) {
 		return s -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LShortToFloatFunctionX<X> lX(final @Nonnull LShortToFloatFunctionX<X> lambda) {
+	static <X extends Throwable> LShortToFloatFunctionX<X> lX(final @Nonnull LShortToFloatFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LShortToFloatFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LShortToFloatFunctionX<X> lambda) {
+	static <X extends Throwable> LShortToFloatFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LShortToFloatFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -125,7 +125,7 @@ public interface LShortToFloatFunctionX<X extends Throwable> extends MetaFunctio
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LShortToFloatFunctionX<X> wrapX(final @Nonnull LShortToFloatFunction other) {
+	static <X extends Throwable> LShortToFloatFunctionX<X> wrapX(final @Nonnull LShortToFloatFunction other) {
 		return (LShortToFloatFunctionX) other;
 	}
 

@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LShortPredicate extends LShortPredicateX<RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LShortPredicate: boolean doTest(short s)";
+	static final String DESCRIPTION = "LShortPredicate: boolean doTest(short s)";
 
-	public boolean doTest(short s);
+	boolean doTest(short s);
 
 	default boolean nestingDoTest(short s) {
 		return this.doTest(s);
@@ -94,13 +94,13 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 		return () -> this.doTest(s);
 	}
 
-	public static LShortPredicate constant(boolean r) {
+	static LShortPredicate constant(boolean r) {
 		return s -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LShortPredicate l(final @Nonnull LShortPredicate lambda) {
+	static LShortPredicate l(final @Nonnull LShortPredicate lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -109,7 +109,7 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LShortPredicate wrap(final @Nonnull LShortPredicateX<X> other) {
+	static <X extends Throwable> LShortPredicate wrap(final @Nonnull LShortPredicateX<X> other) {
 		return other::nestingDoTest;
 	}
 
@@ -152,7 +152,7 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 	}
 
 	@Nonnull
-	public static LShortPredicate isEqual(short target) {
+	static LShortPredicate isEqual(short target) {
 		return s -> s == target;
 	}
 

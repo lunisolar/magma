@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LIntToLongFunction extends LIntToLongFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LIntToLongFunction: long doApplyAsLong(int i)";
+	static final String DESCRIPTION = "LIntToLongFunction: long doApplyAsLong(int i)";
 
 	@Override
 	@Deprecated
@@ -69,7 +69,7 @@ public interface LIntToLongFunction extends LIntToLongFunctionX<RuntimeException
 		return this.nestingDoApplyAsLong(i);
 	}
 
-	public long doApplyAsLong(int i);
+	long doApplyAsLong(int i);
 
 	default long nestingDoApplyAsLong(int i) {
 		return this.doApplyAsLong(i);
@@ -95,13 +95,13 @@ public interface LIntToLongFunction extends LIntToLongFunctionX<RuntimeException
 		return () -> this.doApplyAsLong(i);
 	}
 
-	public static LIntToLongFunction constant(long r) {
+	static LIntToLongFunction constant(long r) {
 		return i -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LIntToLongFunction l(final @Nonnull LIntToLongFunction lambda) {
+	static LIntToLongFunction l(final @Nonnull LIntToLongFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -110,13 +110,13 @@ public interface LIntToLongFunction extends LIntToLongFunctionX<RuntimeException
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LIntToLongFunction wrap(final java.util.function.IntToLongFunction other) {
+	static LIntToLongFunction wrap(final java.util.function.IntToLongFunction other) {
 		return other::applyAsLong;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LIntToLongFunction wrap(final @Nonnull LIntToLongFunctionX<X> other) {
+	static <X extends Throwable> LIntToLongFunction wrap(final @Nonnull LIntToLongFunctionX<X> other) {
 		return other::nestingDoApplyAsLong;
 	}
 

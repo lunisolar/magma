@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBooleanToFloatFunction extends LBooleanToFloatFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LBooleanToFloatFunction: float doApplyAsFloat(boolean b)";
+	static final String DESCRIPTION = "LBooleanToFloatFunction: float doApplyAsFloat(boolean b)";
 
-	public float doApplyAsFloat(boolean b);
+	float doApplyAsFloat(boolean b);
 
 	default float nestingDoApplyAsFloat(boolean b) {
 		return this.doApplyAsFloat(b);
@@ -88,13 +88,13 @@ public interface LBooleanToFloatFunction extends LBooleanToFloatFunctionX<Runtim
 		return () -> this.doApplyAsFloat(b);
 	}
 
-	public static LBooleanToFloatFunction constant(float r) {
+	static LBooleanToFloatFunction constant(float r) {
 		return b -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LBooleanToFloatFunction l(final @Nonnull LBooleanToFloatFunction lambda) {
+	static LBooleanToFloatFunction l(final @Nonnull LBooleanToFloatFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -103,7 +103,7 @@ public interface LBooleanToFloatFunction extends LBooleanToFloatFunctionX<Runtim
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LBooleanToFloatFunction wrap(final @Nonnull LBooleanToFloatFunctionX<X> other) {
+	static <X extends Throwable> LBooleanToFloatFunction wrap(final @Nonnull LBooleanToFloatFunctionX<X> other) {
 		return other::nestingDoApplyAsFloat;
 	}
 

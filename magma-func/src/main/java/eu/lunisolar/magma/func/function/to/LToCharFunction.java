@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LToCharFunction<T> extends LToCharFunctionX<T, RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LToCharFunction: char doApplyAsChar(T t)";
+	static final String DESCRIPTION = "LToCharFunction: char doApplyAsChar(T t)";
 
-	public char doApplyAsChar(T t);
+	char doApplyAsChar(T t);
 
 	default char nestingDoApplyAsChar(T t) {
 		return this.doApplyAsChar(t);
@@ -88,13 +88,13 @@ public interface LToCharFunction<T> extends LToCharFunctionX<T, RuntimeException
 		return () -> this.doApplyAsChar(t);
 	}
 
-	public static <T> LToCharFunction<T> constant(char r) {
+	static <T> LToCharFunction<T> constant(char r) {
 		return t -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T> LToCharFunction<T> l(final @Nonnull LToCharFunction<T> lambda) {
+	static <T> LToCharFunction<T> l(final @Nonnull LToCharFunction<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -103,7 +103,7 @@ public interface LToCharFunction<T> extends LToCharFunctionX<T, RuntimeException
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, X extends Throwable> LToCharFunction<T> wrap(final @Nonnull LToCharFunctionX<T, X> other) {
+	static <T, X extends Throwable> LToCharFunction<T> wrap(final @Nonnull LToCharFunctionX<T, X> other) {
 		return other::nestingDoApplyAsChar;
 	}
 

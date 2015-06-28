@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LToIntBiFunctionX<T1, T2, X extends Throwable> extends java.util.function.ToIntBiFunction<T1, T2>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LToIntBiFunctionX: int doApplyAsInt(T1 t1,T2 t2) throws X";
+	static final String DESCRIPTION = "LToIntBiFunctionX: int doApplyAsInt(T1 t1,T2 t2) throws X";
 
 	@Override
 	@Deprecated
@@ -69,7 +69,7 @@ public interface LToIntBiFunctionX<T1, T2, X extends Throwable> extends java.uti
 		return this.nestingDoApplyAsInt(t1, t2);
 	}
 
-	public int doApplyAsInt(T1 t1, T2 t2) throws X;
+	int doApplyAsInt(T1 t1, T2 t2) throws X;
 
 	default int nestingDoApplyAsInt(T1 t1, T2 t2) {
 		try {
@@ -110,20 +110,20 @@ public interface LToIntBiFunctionX<T1, T2, X extends Throwable> extends java.uti
 		return () -> this.doApplyAsInt(t1, t2);
 	}
 
-	public static <T1, T2, X extends Throwable> LToIntBiFunctionX<T1, T2, X> constant(int r) {
+	static <T1, T2, X extends Throwable> LToIntBiFunctionX<T1, T2, X> constant(int r) {
 		return (t1, t2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T1, T2, X extends Throwable> LToIntBiFunctionX<T1, T2, X> lX(final @Nonnull LToIntBiFunctionX<T1, T2, X> lambda) {
+	static <T1, T2, X extends Throwable> LToIntBiFunctionX<T1, T2, X> lX(final @Nonnull LToIntBiFunctionX<T1, T2, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T1, T2, X extends Throwable> LToIntBiFunctionX<T1, T2, X> lX(@Nonnull Class<X> xClass, final @Nonnull LToIntBiFunctionX<T1, T2, X> lambda) {
+	static <T1, T2, X extends Throwable> LToIntBiFunctionX<T1, T2, X> lX(@Nonnull Class<X> xClass, final @Nonnull LToIntBiFunctionX<T1, T2, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -132,13 +132,13 @@ public interface LToIntBiFunctionX<T1, T2, X extends Throwable> extends java.uti
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T1, T2, X extends Throwable> LToIntBiFunctionX<T1, T2, X> wrap(final java.util.function.ToIntBiFunction<T1, T2> other) {
+	static <T1, T2, X extends Throwable> LToIntBiFunctionX<T1, T2, X> wrap(final java.util.function.ToIntBiFunction<T1, T2> other) {
 		return other::applyAsInt;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T1, T2, X extends Throwable> LToIntBiFunctionX<T1, T2, X> wrapX(final @Nonnull LToIntBiFunction<T1, T2> other) {
+	static <T1, T2, X extends Throwable> LToIntBiFunctionX<T1, T2, X> wrapX(final @Nonnull LToIntBiFunction<T1, T2> other) {
 		return (LToIntBiFunctionX) other;
 	}
 

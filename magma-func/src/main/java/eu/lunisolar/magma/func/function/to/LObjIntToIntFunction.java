@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LObjIntToIntFunction<T> extends LObjIntToIntFunctionX<T, RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LObjIntToIntFunction: int doApplyAsInt(T t, int i)";
+	static final String DESCRIPTION = "LObjIntToIntFunction: int doApplyAsInt(T t, int i)";
 
-	public int doApplyAsInt(T t, int i);
+	int doApplyAsInt(T t, int i);
 
 	default int nestingDoApplyAsInt(T t, int i) {
 		return this.doApplyAsInt(t, i);
@@ -88,13 +88,13 @@ public interface LObjIntToIntFunction<T> extends LObjIntToIntFunctionX<T, Runtim
 		return () -> this.doApplyAsInt(t, i);
 	}
 
-	public static <T> LObjIntToIntFunction<T> constant(int r) {
+	static <T> LObjIntToIntFunction<T> constant(int r) {
 		return (t, i) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T> LObjIntToIntFunction<T> l(final @Nonnull LObjIntToIntFunction<T> lambda) {
+	static <T> LObjIntToIntFunction<T> l(final @Nonnull LObjIntToIntFunction<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -103,7 +103,7 @@ public interface LObjIntToIntFunction<T> extends LObjIntToIntFunctionX<T, Runtim
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, X extends Throwable> LObjIntToIntFunction<T> wrap(final @Nonnull LObjIntToIntFunctionX<T, X> other) {
+	static <T, X extends Throwable> LObjIntToIntFunction<T> wrap(final @Nonnull LObjIntToIntFunctionX<T, X> other) {
 		return other::nestingDoApplyAsInt;
 	}
 

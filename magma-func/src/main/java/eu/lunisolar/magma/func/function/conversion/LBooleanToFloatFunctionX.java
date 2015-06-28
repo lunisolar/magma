@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBooleanToFloatFunctionX<X extends Throwable> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LBooleanToFloatFunctionX: float doApplyAsFloat(boolean b) throws X";
+	static final String DESCRIPTION = "LBooleanToFloatFunctionX: float doApplyAsFloat(boolean b) throws X";
 
-	public float doApplyAsFloat(boolean b) throws X;
+	float doApplyAsFloat(boolean b) throws X;
 
 	default float nestingDoApplyAsFloat(boolean b) {
 		try {
@@ -103,20 +103,20 @@ public interface LBooleanToFloatFunctionX<X extends Throwable> extends MetaFunct
 		return () -> this.doApplyAsFloat(b);
 	}
 
-	public static <X extends Throwable> LBooleanToFloatFunctionX<X> constant(float r) {
+	static <X extends Throwable> LBooleanToFloatFunctionX<X> constant(float r) {
 		return b -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LBooleanToFloatFunctionX<X> lX(final @Nonnull LBooleanToFloatFunctionX<X> lambda) {
+	static <X extends Throwable> LBooleanToFloatFunctionX<X> lX(final @Nonnull LBooleanToFloatFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LBooleanToFloatFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LBooleanToFloatFunctionX<X> lambda) {
+	static <X extends Throwable> LBooleanToFloatFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LBooleanToFloatFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -125,7 +125,7 @@ public interface LBooleanToFloatFunctionX<X extends Throwable> extends MetaFunct
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LBooleanToFloatFunctionX<X> wrapX(final @Nonnull LBooleanToFloatFunction other) {
+	static <X extends Throwable> LBooleanToFloatFunctionX<X> wrapX(final @Nonnull LBooleanToFloatFunction other) {
 		return (LBooleanToFloatFunctionX) other;
 	}
 

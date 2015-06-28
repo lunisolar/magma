@@ -60,10 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LByteFunction<R> extends LByteFunctionX<R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LByteFunction: R doApply(byte b)";
+	static final String DESCRIPTION = "LByteFunction: R doApply(byte b)";
 
 	@Nullable
-	public R doApply(byte b);
+	R doApply(byte b);
 
 	default R nestingDoApply(byte b) {
 		return this.doApply(b);
@@ -73,7 +73,7 @@ public interface LByteFunction<R> extends LByteFunctionX<R, RuntimeException>, M
 		return this.doApply(b);
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
 	@Nonnull
@@ -92,13 +92,13 @@ public interface LByteFunction<R> extends LByteFunctionX<R, RuntimeException>, M
 		return () -> this.doApply(b);
 	}
 
-	public static <R> LByteFunction<R> constant(R r) {
+	static <R> LByteFunction<R> constant(R r) {
 		return b -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <R> LByteFunction<R> l(final @Nonnull LByteFunction<R> lambda) {
+	static <R> LByteFunction<R> l(final @Nonnull LByteFunction<R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -107,7 +107,7 @@ public interface LByteFunction<R> extends LByteFunctionX<R, RuntimeException>, M
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <R, X extends Throwable> LByteFunction<R> wrap(final @Nonnull LByteFunctionX<R, X> other) {
+	static <R, X extends Throwable> LByteFunction<R> wrap(final @Nonnull LByteFunctionX<R, X> other) {
 		return other::nestingDoApply;
 	}
 

@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LObjIntToIntFunctionX<T, X extends Throwable> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LObjIntToIntFunctionX: int doApplyAsInt(T t, int i) throws X";
+	static final String DESCRIPTION = "LObjIntToIntFunctionX: int doApplyAsInt(T t, int i) throws X";
 
-	public int doApplyAsInt(T t, int i) throws X;
+	int doApplyAsInt(T t, int i) throws X;
 
 	default int nestingDoApplyAsInt(T t, int i) {
 		try {
@@ -103,20 +103,20 @@ public interface LObjIntToIntFunctionX<T, X extends Throwable> extends MetaFunct
 		return () -> this.doApplyAsInt(t, i);
 	}
 
-	public static <T, X extends Throwable> LObjIntToIntFunctionX<T, X> constant(int r) {
+	static <T, X extends Throwable> LObjIntToIntFunctionX<T, X> constant(int r) {
 		return (t, i) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T, X extends Throwable> LObjIntToIntFunctionX<T, X> lX(final @Nonnull LObjIntToIntFunctionX<T, X> lambda) {
+	static <T, X extends Throwable> LObjIntToIntFunctionX<T, X> lX(final @Nonnull LObjIntToIntFunctionX<T, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T, X extends Throwable> LObjIntToIntFunctionX<T, X> lX(@Nonnull Class<X> xClass, final @Nonnull LObjIntToIntFunctionX<T, X> lambda) {
+	static <T, X extends Throwable> LObjIntToIntFunctionX<T, X> lX(@Nonnull Class<X> xClass, final @Nonnull LObjIntToIntFunctionX<T, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -125,7 +125,7 @@ public interface LObjIntToIntFunctionX<T, X extends Throwable> extends MetaFunct
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, X extends Throwable> LObjIntToIntFunctionX<T, X> wrapX(final @Nonnull LObjIntToIntFunction<T> other) {
+	static <T, X extends Throwable> LObjIntToIntFunctionX<T, X> wrapX(final @Nonnull LObjIntToIntFunction<T> other) {
 		return (LObjIntToIntFunctionX) other;
 	}
 

@@ -60,10 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LLongBiFunction<R> extends LLongBiFunctionX<R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LLongBiFunction: R doApply(long l1,long l2)";
+	static final String DESCRIPTION = "LLongBiFunction: R doApply(long l1,long l2)";
 
 	@Nullable
-	public R doApply(long l1, long l2);
+	R doApply(long l1, long l2);
 
 	default R nestingDoApply(long l1, long l2) {
 		return this.doApply(l1, l2);
@@ -73,7 +73,7 @@ public interface LLongBiFunction<R> extends LLongBiFunctionX<R, RuntimeException
 		return this.doApply(l1, l2);
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
 	@Nonnull
@@ -92,13 +92,13 @@ public interface LLongBiFunction<R> extends LLongBiFunctionX<R, RuntimeException
 		return () -> this.doApply(l1, l2);
 	}
 
-	public static <R> LLongBiFunction<R> constant(R r) {
+	static <R> LLongBiFunction<R> constant(R r) {
 		return (l1, l2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <R> LLongBiFunction<R> l(final @Nonnull LLongBiFunction<R> lambda) {
+	static <R> LLongBiFunction<R> l(final @Nonnull LLongBiFunction<R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -107,7 +107,7 @@ public interface LLongBiFunction<R> extends LLongBiFunctionX<R, RuntimeException
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <R, X extends Throwable> LLongBiFunction<R> wrap(final @Nonnull LLongBiFunctionX<R, X> other) {
+	static <R, X extends Throwable> LLongBiFunction<R> wrap(final @Nonnull LLongBiFunctionX<R, X> other) {
 		return other::nestingDoApply;
 	}
 

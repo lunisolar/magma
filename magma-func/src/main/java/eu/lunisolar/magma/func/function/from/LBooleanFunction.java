@@ -60,10 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBooleanFunction<R> extends LBooleanFunctionX<R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LBooleanFunction: R doApply(boolean b)";
+	static final String DESCRIPTION = "LBooleanFunction: R doApply(boolean b)";
 
 	@Nullable
-	public R doApply(boolean b);
+	R doApply(boolean b);
 
 	default R nestingDoApply(boolean b) {
 		return this.doApply(b);
@@ -73,7 +73,7 @@ public interface LBooleanFunction<R> extends LBooleanFunctionX<R, RuntimeExcepti
 		return this.doApply(b);
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
 	@Nonnull
@@ -92,13 +92,13 @@ public interface LBooleanFunction<R> extends LBooleanFunctionX<R, RuntimeExcepti
 		return () -> this.doApply(b);
 	}
 
-	public static <R> LBooleanFunction<R> constant(R r) {
+	static <R> LBooleanFunction<R> constant(R r) {
 		return b -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <R> LBooleanFunction<R> l(final @Nonnull LBooleanFunction<R> lambda) {
+	static <R> LBooleanFunction<R> l(final @Nonnull LBooleanFunction<R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -107,7 +107,7 @@ public interface LBooleanFunction<R> extends LBooleanFunctionX<R, RuntimeExcepti
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <R, X extends Throwable> LBooleanFunction<R> wrap(final @Nonnull LBooleanFunctionX<R, X> other) {
+	static <R, X extends Throwable> LBooleanFunction<R> wrap(final @Nonnull LBooleanFunctionX<R, X> other) {
 		return other::nestingDoApply;
 	}
 

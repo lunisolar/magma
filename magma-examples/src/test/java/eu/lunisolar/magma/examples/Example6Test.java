@@ -18,6 +18,7 @@
 
 package eu.lunisolar.magma.examples;
 
+import eu.lunisolar.magma.examples.support.CheckedException;
 import eu.lunisolar.magma.func.asserts.DefaultFunctionalAssertions;
 import eu.lunisolar.magma.func.function.LFunctionX;
 import org.assertj.core.api.ObjectAssert;
@@ -25,12 +26,12 @@ import org.testng.annotations.Test;
 
 import java.util.function.*;
 
-public class Example4Test {
+public class Example6Test {
 
     public static final DefaultFunctionalAssertions<ObjectAssert> then = new DefaultFunctionalAssertions() {
     };
 
-    public static final LFunctionX<Integer, Integer, CheckedException> throwingAlways = LFunctionX.lX(Example4Test::throwingAlways);
+    public static final LFunctionX<Integer, Integer, CheckedException> throwingAlways = LFunctionX.lX(Example6Test::throwingAlways);
 
     public static Integer potentiallyThrowing(Integer i) throws CheckedException {
         return i;

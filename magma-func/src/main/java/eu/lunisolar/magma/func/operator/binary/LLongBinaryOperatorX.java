@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LLongBinaryOperatorX<X extends Throwable> extends java.util.function.LongBinaryOperator, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LLongBinaryOperatorX: long doApplyAsLong(long l1,long l2) throws X";
+	static final String DESCRIPTION = "LLongBinaryOperatorX: long doApplyAsLong(long l1,long l2) throws X";
 
 	@Override
 	@Deprecated
@@ -69,7 +69,7 @@ public interface LLongBinaryOperatorX<X extends Throwable> extends java.util.fun
 		return this.nestingDoApplyAsLong(l1, l2);
 	}
 
-	public long doApplyAsLong(long l1, long l2) throws X;
+	long doApplyAsLong(long l1, long l2) throws X;
 
 	default long nestingDoApplyAsLong(long l1, long l2) {
 		try {
@@ -110,20 +110,20 @@ public interface LLongBinaryOperatorX<X extends Throwable> extends java.util.fun
 		return () -> this.doApplyAsLong(l1, l2);
 	}
 
-	public static <X extends Throwable> LLongBinaryOperatorX<X> constant(long r) {
+	static <X extends Throwable> LLongBinaryOperatorX<X> constant(long r) {
 		return (l1, l2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LLongBinaryOperatorX<X> lX(final @Nonnull LLongBinaryOperatorX<X> lambda) {
+	static <X extends Throwable> LLongBinaryOperatorX<X> lX(final @Nonnull LLongBinaryOperatorX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LLongBinaryOperatorX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LLongBinaryOperatorX<X> lambda) {
+	static <X extends Throwable> LLongBinaryOperatorX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LLongBinaryOperatorX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -132,13 +132,13 @@ public interface LLongBinaryOperatorX<X extends Throwable> extends java.util.fun
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Throwable> LLongBinaryOperatorX<X> wrap(final java.util.function.LongBinaryOperator other) {
+	static <X extends Throwable> LLongBinaryOperatorX<X> wrap(final java.util.function.LongBinaryOperator other) {
 		return other::applyAsLong;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LLongBinaryOperatorX<X> wrapX(final @Nonnull LLongBinaryOperator other) {
+	static <X extends Throwable> LLongBinaryOperatorX<X> wrapX(final @Nonnull LLongBinaryOperator other) {
 		return (LLongBinaryOperatorX) other;
 	}
 
@@ -149,7 +149,7 @@ public interface LLongBinaryOperatorX<X extends Throwable> extends java.util.fun
 	 * @see {@link java.util.function.BinaryOperator#minBy()}
 	 */
 	@Nonnull
-	public static <X extends Throwable> LLongBinaryOperatorX<X> min() {
+	static <X extends Throwable> LLongBinaryOperatorX<X> min() {
 		return Long::min;
 	}
 
@@ -157,7 +157,7 @@ public interface LLongBinaryOperatorX<X extends Throwable> extends java.util.fun
 	 * @see {@link java.util.function.BinaryOperator#maxBy()}
 	 */
 	@Nonnull
-	public static <X extends Throwable> LLongBinaryOperatorX<X> max() {
+	static <X extends Throwable> LLongBinaryOperatorX<X> max() {
 		return Long::max;
 	}
 

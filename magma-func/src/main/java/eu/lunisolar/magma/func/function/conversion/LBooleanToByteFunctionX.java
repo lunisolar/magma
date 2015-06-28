@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBooleanToByteFunctionX<X extends Throwable> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LBooleanToByteFunctionX: byte doApplyAsByte(boolean b) throws X";
+	static final String DESCRIPTION = "LBooleanToByteFunctionX: byte doApplyAsByte(boolean b) throws X";
 
-	public byte doApplyAsByte(boolean b) throws X;
+	byte doApplyAsByte(boolean b) throws X;
 
 	default byte nestingDoApplyAsByte(boolean b) {
 		try {
@@ -103,20 +103,20 @@ public interface LBooleanToByteFunctionX<X extends Throwable> extends MetaFuncti
 		return () -> this.doApplyAsByte(b);
 	}
 
-	public static <X extends Throwable> LBooleanToByteFunctionX<X> constant(byte r) {
+	static <X extends Throwable> LBooleanToByteFunctionX<X> constant(byte r) {
 		return b -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LBooleanToByteFunctionX<X> lX(final @Nonnull LBooleanToByteFunctionX<X> lambda) {
+	static <X extends Throwable> LBooleanToByteFunctionX<X> lX(final @Nonnull LBooleanToByteFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LBooleanToByteFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LBooleanToByteFunctionX<X> lambda) {
+	static <X extends Throwable> LBooleanToByteFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LBooleanToByteFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -125,7 +125,7 @@ public interface LBooleanToByteFunctionX<X extends Throwable> extends MetaFuncti
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LBooleanToByteFunctionX<X> wrapX(final @Nonnull LBooleanToByteFunction other) {
+	static <X extends Throwable> LBooleanToByteFunctionX<X> wrapX(final @Nonnull LBooleanToByteFunction other) {
 		return (LBooleanToByteFunctionX) other;
 	}
 

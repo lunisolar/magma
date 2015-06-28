@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LPredicateX<T, X extends Throwable> extends java.util.function.Predicate<T>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LPredicateX: boolean doTest(T t) throws X";
+	static final String DESCRIPTION = "LPredicateX: boolean doTest(T t) throws X";
 
 	@Override
 	@Deprecated
@@ -69,7 +69,7 @@ public interface LPredicateX<T, X extends Throwable> extends java.util.function.
 		return this.nestingDoTest(t);
 	}
 
-	public boolean doTest(T t) throws X;
+	boolean doTest(T t) throws X;
 
 	default boolean nestingDoTest(T t) {
 		try {
@@ -116,20 +116,20 @@ public interface LPredicateX<T, X extends Throwable> extends java.util.function.
 		return () -> this.doTest(t);
 	}
 
-	public static <T, X extends Throwable> LPredicateX<T, X> constant(boolean r) {
+	static <T, X extends Throwable> LPredicateX<T, X> constant(boolean r) {
 		return t -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T, X extends Throwable> LPredicateX<T, X> lX(final @Nonnull LPredicateX<T, X> lambda) {
+	static <T, X extends Throwable> LPredicateX<T, X> lX(final @Nonnull LPredicateX<T, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T, X extends Throwable> LPredicateX<T, X> lX(@Nonnull Class<X> xClass, final @Nonnull LPredicateX<T, X> lambda) {
+	static <T, X extends Throwable> LPredicateX<T, X> lX(@Nonnull Class<X> xClass, final @Nonnull LPredicateX<T, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -138,13 +138,13 @@ public interface LPredicateX<T, X extends Throwable> extends java.util.function.
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T, X extends Throwable> LPredicateX<T, X> wrap(final java.util.function.Predicate<T> other) {
+	static <T, X extends Throwable> LPredicateX<T, X> wrap(final java.util.function.Predicate<T> other) {
 		return other::test;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, X extends Throwable> LPredicateX<T, X> wrapX(final @Nonnull LPredicate<T> other) {
+	static <T, X extends Throwable> LPredicateX<T, X> wrapX(final @Nonnull LPredicate<T> other) {
 		return (LPredicateX) other;
 	}
 
@@ -187,7 +187,7 @@ public interface LPredicateX<T, X extends Throwable> extends java.util.function.
 	}
 
 	@Nonnull
-	public static <T, X extends Throwable> LPredicateX<T, X> isEqual(T target) {
+	static <T, X extends Throwable> LPredicateX<T, X> isEqual(T target) {
 		return (null == target) ? Objects::isNull : object -> object.equals(target);
 	}
 

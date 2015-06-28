@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LFloatSupplier extends LFloatSupplierX<RuntimeException>, MetaSupplier, PrimitiveCodomain<Object>, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LFloatSupplier: float doGetAsFloat()";
+	static final String DESCRIPTION = "LFloatSupplier: float doGetAsFloat()";
 
-	public float doGetAsFloat();
+	float doGetAsFloat();
 
 	default float nestingDoGetAsFloat() {
 		return this.doGetAsFloat();
@@ -83,13 +83,13 @@ public interface LFloatSupplier extends LFloatSupplierX<RuntimeException>, MetaS
 		return LFloatSupplier.DESCRIPTION;
 	}
 
-	public static LFloatSupplier of(float r) {
+	static LFloatSupplier of(float r) {
 		return () -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LFloatSupplier l(final @Nonnull LFloatSupplier lambda) {
+	static LFloatSupplier l(final @Nonnull LFloatSupplier lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -98,7 +98,7 @@ public interface LFloatSupplier extends LFloatSupplierX<RuntimeException>, MetaS
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LFloatSupplier wrap(final @Nonnull LFloatSupplierX<X> other) {
+	static <X extends Throwable> LFloatSupplier wrap(final @Nonnull LFloatSupplierX<X> other) {
 		return other::nestingDoGetAsFloat;
 	}
 

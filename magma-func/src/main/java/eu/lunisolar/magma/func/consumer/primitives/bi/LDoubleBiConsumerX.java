@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LDoubleBiConsumerX<X extends Throwable> extends MetaConsumer, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LDoubleBiConsumerX: void doAccept(double d1,double d2) throws X";
+	static final String DESCRIPTION = "LDoubleBiConsumerX: void doAccept(double d1,double d2) throws X";
 
-	public void doAccept(double d1, double d2) throws X;
+	void doAccept(double d1, double d2) throws X;
 
 	default void nestingDoAccept(double d1, double d2) {
 		try {
@@ -101,14 +101,14 @@ public interface LDoubleBiConsumerX<X extends Throwable> extends MetaConsumer, M
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LDoubleBiConsumerX<X> lX(final @Nonnull LDoubleBiConsumerX<X> lambda) {
+	static <X extends Throwable> LDoubleBiConsumerX<X> lX(final @Nonnull LDoubleBiConsumerX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LDoubleBiConsumerX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LDoubleBiConsumerX<X> lambda) {
+	static <X extends Throwable> LDoubleBiConsumerX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LDoubleBiConsumerX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -117,7 +117,7 @@ public interface LDoubleBiConsumerX<X extends Throwable> extends MetaConsumer, M
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LDoubleBiConsumerX<X> wrapX(final @Nonnull LDoubleBiConsumer other) {
+	static <X extends Throwable> LDoubleBiConsumerX<X> wrapX(final @Nonnull LDoubleBiConsumer other) {
 		return (LDoubleBiConsumerX) other;
 	}
 

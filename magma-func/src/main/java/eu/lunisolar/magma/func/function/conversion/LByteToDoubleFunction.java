@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LByteToDoubleFunction extends LByteToDoubleFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LByteToDoubleFunction: double doApplyAsDouble(byte b)";
+	static final String DESCRIPTION = "LByteToDoubleFunction: double doApplyAsDouble(byte b)";
 
-	public double doApplyAsDouble(byte b);
+	double doApplyAsDouble(byte b);
 
 	default double nestingDoApplyAsDouble(byte b) {
 		return this.doApplyAsDouble(b);
@@ -88,13 +88,13 @@ public interface LByteToDoubleFunction extends LByteToDoubleFunctionX<RuntimeExc
 		return () -> this.doApplyAsDouble(b);
 	}
 
-	public static LByteToDoubleFunction constant(double r) {
+	static LByteToDoubleFunction constant(double r) {
 		return b -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LByteToDoubleFunction l(final @Nonnull LByteToDoubleFunction lambda) {
+	static LByteToDoubleFunction l(final @Nonnull LByteToDoubleFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -103,7 +103,7 @@ public interface LByteToDoubleFunction extends LByteToDoubleFunctionX<RuntimeExc
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LByteToDoubleFunction wrap(final @Nonnull LByteToDoubleFunctionX<X> other) {
+	static <X extends Throwable> LByteToDoubleFunction wrap(final @Nonnull LByteToDoubleFunctionX<X> other) {
 		return other::nestingDoApplyAsDouble;
 	}
 

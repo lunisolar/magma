@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LDoubleSupplier extends LDoubleSupplierX<RuntimeException>, MetaSupplier, PrimitiveCodomain<Object>, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LDoubleSupplier: double doGetAsDouble()";
+	static final String DESCRIPTION = "LDoubleSupplier: double doGetAsDouble()";
 
 	@Override
 	@Deprecated
@@ -69,7 +69,7 @@ public interface LDoubleSupplier extends LDoubleSupplierX<RuntimeException>, Met
 		return this.nestingDoGetAsDouble();
 	}
 
-	public double doGetAsDouble();
+	double doGetAsDouble();
 
 	default double nestingDoGetAsDouble() {
 		return this.doGetAsDouble();
@@ -90,13 +90,13 @@ public interface LDoubleSupplier extends LDoubleSupplierX<RuntimeException>, Met
 		return LDoubleSupplier.DESCRIPTION;
 	}
 
-	public static LDoubleSupplier of(double r) {
+	static LDoubleSupplier of(double r) {
 		return () -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LDoubleSupplier l(final @Nonnull LDoubleSupplier lambda) {
+	static LDoubleSupplier l(final @Nonnull LDoubleSupplier lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -105,13 +105,13 @@ public interface LDoubleSupplier extends LDoubleSupplierX<RuntimeException>, Met
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LDoubleSupplier wrap(final java.util.function.DoubleSupplier other) {
+	static LDoubleSupplier wrap(final java.util.function.DoubleSupplier other) {
 		return other::getAsDouble;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LDoubleSupplier wrap(final @Nonnull LDoubleSupplierX<X> other) {
+	static <X extends Throwable> LDoubleSupplier wrap(final @Nonnull LDoubleSupplierX<X> other) {
 		return other::nestingDoGetAsDouble;
 	}
 

@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LLongToDoubleFunction extends LLongToDoubleFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LLongToDoubleFunction: double doApplyAsDouble(long l)";
+	static final String DESCRIPTION = "LLongToDoubleFunction: double doApplyAsDouble(long l)";
 
 	@Override
 	@Deprecated
@@ -69,7 +69,7 @@ public interface LLongToDoubleFunction extends LLongToDoubleFunctionX<RuntimeExc
 		return this.nestingDoApplyAsDouble(l);
 	}
 
-	public double doApplyAsDouble(long l);
+	double doApplyAsDouble(long l);
 
 	default double nestingDoApplyAsDouble(long l) {
 		return this.doApplyAsDouble(l);
@@ -95,13 +95,13 @@ public interface LLongToDoubleFunction extends LLongToDoubleFunctionX<RuntimeExc
 		return () -> this.doApplyAsDouble(l);
 	}
 
-	public static LLongToDoubleFunction constant(double r) {
+	static LLongToDoubleFunction constant(double r) {
 		return l -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LLongToDoubleFunction l(final @Nonnull LLongToDoubleFunction lambda) {
+	static LLongToDoubleFunction l(final @Nonnull LLongToDoubleFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -110,13 +110,13 @@ public interface LLongToDoubleFunction extends LLongToDoubleFunctionX<RuntimeExc
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LLongToDoubleFunction wrap(final java.util.function.LongToDoubleFunction other) {
+	static LLongToDoubleFunction wrap(final java.util.function.LongToDoubleFunction other) {
 		return other::applyAsDouble;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LLongToDoubleFunction wrap(final @Nonnull LLongToDoubleFunctionX<X> other) {
+	static <X extends Throwable> LLongToDoubleFunction wrap(final @Nonnull LLongToDoubleFunctionX<X> other) {
 		return other::nestingDoApplyAsDouble;
 	}
 

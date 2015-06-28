@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LSupplier<R> extends LSupplierX<R, RuntimeException>, MetaSupplier, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LSupplier: R doGet()";
+	static final String DESCRIPTION = "LSupplier: R doGet()";
 
 	@Override
 	@Deprecated
@@ -70,7 +70,7 @@ public interface LSupplier<R> extends LSupplierX<R, RuntimeException>, MetaSuppl
 	}
 
 	@Nullable
-	public R doGet();
+	R doGet();
 
 	default R nestingDoGet() {
 		return this.doGet();
@@ -80,7 +80,7 @@ public interface LSupplier<R> extends LSupplierX<R, RuntimeException>, MetaSuppl
 		return this.doGet();
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoGet() method cannot be null (" + DESCRIPTION + ").";
+	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoGet() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
 	@Nonnull
@@ -94,13 +94,13 @@ public interface LSupplier<R> extends LSupplierX<R, RuntimeException>, MetaSuppl
 		return LSupplier.DESCRIPTION;
 	}
 
-	public static <R> LSupplier<R> of(R r) {
+	static <R> LSupplier<R> of(R r) {
 		return () -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <R> LSupplier<R> l(final @Nonnull LSupplier<R> lambda) {
+	static <R> LSupplier<R> l(final @Nonnull LSupplier<R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -109,13 +109,13 @@ public interface LSupplier<R> extends LSupplierX<R, RuntimeException>, MetaSuppl
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <R> LSupplier<R> wrap(final java.util.function.Supplier<R> other) {
+	static <R> LSupplier<R> wrap(final java.util.function.Supplier<R> other) {
 		return other::get;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <R, X extends Throwable> LSupplier<R> wrap(final @Nonnull LSupplierX<R, X> other) {
+	static <R, X extends Throwable> LSupplier<R> wrap(final @Nonnull LSupplierX<R, X> other) {
 		return other::nestingDoGet;
 	}
 

@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LShortUnaryOperator extends LShortUnaryOperatorX<RuntimeException>, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LShortUnaryOperator: short doApplyAsShort(short s)";
+	static final String DESCRIPTION = "LShortUnaryOperator: short doApplyAsShort(short s)";
 
-	public short doApplyAsShort(short s);
+	short doApplyAsShort(short s);
 
 	default short nestingDoApplyAsShort(short s) {
 		return this.doApplyAsShort(s);
@@ -88,13 +88,13 @@ public interface LShortUnaryOperator extends LShortUnaryOperatorX<RuntimeExcepti
 		return () -> this.doApplyAsShort(s);
 	}
 
-	public static LShortUnaryOperator constant(short r) {
+	static LShortUnaryOperator constant(short r) {
 		return s -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LShortUnaryOperator l(final @Nonnull LShortUnaryOperator lambda) {
+	static LShortUnaryOperator l(final @Nonnull LShortUnaryOperator lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -103,7 +103,7 @@ public interface LShortUnaryOperator extends LShortUnaryOperatorX<RuntimeExcepti
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LShortUnaryOperator wrap(final @Nonnull LShortUnaryOperatorX<X> other) {
+	static <X extends Throwable> LShortUnaryOperator wrap(final @Nonnull LShortUnaryOperatorX<X> other) {
 		return other::nestingDoApplyAsShort;
 	}
 
@@ -200,7 +200,7 @@ public interface LShortUnaryOperator extends LShortUnaryOperatorX<RuntimeExcepti
 
 	/** Returns a function that always returns its input argument. */
 	@Nonnull
-	public static LShortUnaryOperator identity() {
+	static LShortUnaryOperator identity() {
 		return t -> t;
 	}
 	// <editor-fold desc="variant conversions">

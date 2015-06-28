@@ -60,10 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LCharBiFunction<R> extends LCharBiFunctionX<R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LCharBiFunction: R doApply(char c1,char c2)";
+	static final String DESCRIPTION = "LCharBiFunction: R doApply(char c1,char c2)";
 
 	@Nullable
-	public R doApply(char c1, char c2);
+	R doApply(char c1, char c2);
 
 	default R nestingDoApply(char c1, char c2) {
 		return this.doApply(c1, c2);
@@ -73,7 +73,7 @@ public interface LCharBiFunction<R> extends LCharBiFunctionX<R, RuntimeException
 		return this.doApply(c1, c2);
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
 	@Nonnull
@@ -92,13 +92,13 @@ public interface LCharBiFunction<R> extends LCharBiFunctionX<R, RuntimeException
 		return () -> this.doApply(c1, c2);
 	}
 
-	public static <R> LCharBiFunction<R> constant(R r) {
+	static <R> LCharBiFunction<R> constant(R r) {
 		return (c1, c2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <R> LCharBiFunction<R> l(final @Nonnull LCharBiFunction<R> lambda) {
+	static <R> LCharBiFunction<R> l(final @Nonnull LCharBiFunction<R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -107,7 +107,7 @@ public interface LCharBiFunction<R> extends LCharBiFunctionX<R, RuntimeException
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <R, X extends Throwable> LCharBiFunction<R> wrap(final @Nonnull LCharBiFunctionX<R, X> other) {
+	static <R, X extends Throwable> LCharBiFunction<R> wrap(final @Nonnull LCharBiFunctionX<R, X> other) {
 		return other::nestingDoApply;
 	}
 

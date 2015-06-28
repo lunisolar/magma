@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LShortToLongFunctionX<X extends Throwable> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LShortToLongFunctionX: long doApplyAsLong(short s) throws X";
+	static final String DESCRIPTION = "LShortToLongFunctionX: long doApplyAsLong(short s) throws X";
 
-	public long doApplyAsLong(short s) throws X;
+	long doApplyAsLong(short s) throws X;
 
 	default long nestingDoApplyAsLong(short s) {
 		try {
@@ -103,20 +103,20 @@ public interface LShortToLongFunctionX<X extends Throwable> extends MetaFunction
 		return () -> this.doApplyAsLong(s);
 	}
 
-	public static <X extends Throwable> LShortToLongFunctionX<X> constant(long r) {
+	static <X extends Throwable> LShortToLongFunctionX<X> constant(long r) {
 		return s -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LShortToLongFunctionX<X> lX(final @Nonnull LShortToLongFunctionX<X> lambda) {
+	static <X extends Throwable> LShortToLongFunctionX<X> lX(final @Nonnull LShortToLongFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LShortToLongFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LShortToLongFunctionX<X> lambda) {
+	static <X extends Throwable> LShortToLongFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LShortToLongFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -125,7 +125,7 @@ public interface LShortToLongFunctionX<X extends Throwable> extends MetaFunction
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LShortToLongFunctionX<X> wrapX(final @Nonnull LShortToLongFunction other) {
+	static <X extends Throwable> LShortToLongFunctionX<X> wrapX(final @Nonnull LShortToLongFunction other) {
 		return (LShortToLongFunctionX) other;
 	}
 

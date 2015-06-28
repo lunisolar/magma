@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBooleanTriConsumer extends LBooleanTriConsumerX<RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LBooleanTriConsumer: void doAccept(boolean b1,boolean b2,boolean b3)";
+	static final String DESCRIPTION = "LBooleanTriConsumer: void doAccept(boolean b1,boolean b2,boolean b3)";
 
-	public void doAccept(boolean b1, boolean b2, boolean b3);
+	void doAccept(boolean b1, boolean b2, boolean b3);
 
 	default void nestingDoAccept(boolean b1, boolean b2, boolean b3) {
 		this.doAccept(b1, b2, b3);
@@ -86,7 +86,7 @@ public interface LBooleanTriConsumer extends LBooleanTriConsumerX<RuntimeExcepti
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LBooleanTriConsumer l(final @Nonnull LBooleanTriConsumer lambda) {
+	static LBooleanTriConsumer l(final @Nonnull LBooleanTriConsumer lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -95,7 +95,7 @@ public interface LBooleanTriConsumer extends LBooleanTriConsumerX<RuntimeExcepti
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LBooleanTriConsumer wrap(final @Nonnull LBooleanTriConsumerX<X> other) {
+	static <X extends Throwable> LBooleanTriConsumer wrap(final @Nonnull LBooleanTriConsumerX<X> other) {
 		return other::nestingDoAccept;
 	}
 

@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LCharToFloatFunction extends LCharToFloatFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LCharToFloatFunction: float doApplyAsFloat(char c)";
+	static final String DESCRIPTION = "LCharToFloatFunction: float doApplyAsFloat(char c)";
 
-	public float doApplyAsFloat(char c);
+	float doApplyAsFloat(char c);
 
 	default float nestingDoApplyAsFloat(char c) {
 		return this.doApplyAsFloat(c);
@@ -88,13 +88,13 @@ public interface LCharToFloatFunction extends LCharToFloatFunctionX<RuntimeExcep
 		return () -> this.doApplyAsFloat(c);
 	}
 
-	public static LCharToFloatFunction constant(float r) {
+	static LCharToFloatFunction constant(float r) {
 		return c -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LCharToFloatFunction l(final @Nonnull LCharToFloatFunction lambda) {
+	static LCharToFloatFunction l(final @Nonnull LCharToFloatFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -103,7 +103,7 @@ public interface LCharToFloatFunction extends LCharToFloatFunctionX<RuntimeExcep
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LCharToFloatFunction wrap(final @Nonnull LCharToFloatFunctionX<X> other) {
+	static <X extends Throwable> LCharToFloatFunction wrap(final @Nonnull LCharToFloatFunctionX<X> other) {
 		return other::nestingDoApplyAsFloat;
 	}
 

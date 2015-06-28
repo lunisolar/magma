@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LCharToLongFunction extends LCharToLongFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LCharToLongFunction: long doApplyAsLong(char c)";
+	static final String DESCRIPTION = "LCharToLongFunction: long doApplyAsLong(char c)";
 
-	public long doApplyAsLong(char c);
+	long doApplyAsLong(char c);
 
 	default long nestingDoApplyAsLong(char c) {
 		return this.doApplyAsLong(c);
@@ -88,13 +88,13 @@ public interface LCharToLongFunction extends LCharToLongFunctionX<RuntimeExcepti
 		return () -> this.doApplyAsLong(c);
 	}
 
-	public static LCharToLongFunction constant(long r) {
+	static LCharToLongFunction constant(long r) {
 		return c -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LCharToLongFunction l(final @Nonnull LCharToLongFunction lambda) {
+	static LCharToLongFunction l(final @Nonnull LCharToLongFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -103,7 +103,7 @@ public interface LCharToLongFunction extends LCharToLongFunctionX<RuntimeExcepti
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LCharToLongFunction wrap(final @Nonnull LCharToLongFunctionX<X> other) {
+	static <X extends Throwable> LCharToLongFunction wrap(final @Nonnull LCharToLongFunctionX<X> other) {
 		return other::nestingDoApplyAsLong;
 	}
 

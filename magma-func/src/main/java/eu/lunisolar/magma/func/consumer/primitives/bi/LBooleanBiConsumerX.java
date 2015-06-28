@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBooleanBiConsumerX<X extends Throwable> extends MetaConsumer, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LBooleanBiConsumerX: void doAccept(boolean b1,boolean b2) throws X";
+	static final String DESCRIPTION = "LBooleanBiConsumerX: void doAccept(boolean b1,boolean b2) throws X";
 
-	public void doAccept(boolean b1, boolean b2) throws X;
+	void doAccept(boolean b1, boolean b2) throws X;
 
 	default void nestingDoAccept(boolean b1, boolean b2) {
 		try {
@@ -101,14 +101,14 @@ public interface LBooleanBiConsumerX<X extends Throwable> extends MetaConsumer, 
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LBooleanBiConsumerX<X> lX(final @Nonnull LBooleanBiConsumerX<X> lambda) {
+	static <X extends Throwable> LBooleanBiConsumerX<X> lX(final @Nonnull LBooleanBiConsumerX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LBooleanBiConsumerX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LBooleanBiConsumerX<X> lambda) {
+	static <X extends Throwable> LBooleanBiConsumerX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LBooleanBiConsumerX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -117,7 +117,7 @@ public interface LBooleanBiConsumerX<X extends Throwable> extends MetaConsumer, 
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LBooleanBiConsumerX<X> wrapX(final @Nonnull LBooleanBiConsumer other) {
+	static <X extends Throwable> LBooleanBiConsumerX<X> wrapX(final @Nonnull LBooleanBiConsumer other) {
 		return (LBooleanBiConsumerX) other;
 	}
 

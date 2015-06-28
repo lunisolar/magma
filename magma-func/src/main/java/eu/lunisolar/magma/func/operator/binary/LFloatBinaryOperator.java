@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LFloatBinaryOperator extends LFloatBinaryOperatorX<RuntimeException>, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LFloatBinaryOperator: float doApplyAsFloat(float f1,float f2)";
+	static final String DESCRIPTION = "LFloatBinaryOperator: float doApplyAsFloat(float f1,float f2)";
 
-	public float doApplyAsFloat(float f1, float f2);
+	float doApplyAsFloat(float f1, float f2);
 
 	default float nestingDoApplyAsFloat(float f1, float f2) {
 		return this.doApplyAsFloat(f1, f2);
@@ -88,13 +88,13 @@ public interface LFloatBinaryOperator extends LFloatBinaryOperatorX<RuntimeExcep
 		return () -> this.doApplyAsFloat(f1, f2);
 	}
 
-	public static LFloatBinaryOperator constant(float r) {
+	static LFloatBinaryOperator constant(float r) {
 		return (f1, f2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LFloatBinaryOperator l(final @Nonnull LFloatBinaryOperator lambda) {
+	static LFloatBinaryOperator l(final @Nonnull LFloatBinaryOperator lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -103,7 +103,7 @@ public interface LFloatBinaryOperator extends LFloatBinaryOperatorX<RuntimeExcep
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LFloatBinaryOperator wrap(final @Nonnull LFloatBinaryOperatorX<X> other) {
+	static <X extends Throwable> LFloatBinaryOperator wrap(final @Nonnull LFloatBinaryOperatorX<X> other) {
 		return other::nestingDoApplyAsFloat;
 	}
 
@@ -114,7 +114,7 @@ public interface LFloatBinaryOperator extends LFloatBinaryOperatorX<RuntimeExcep
 	 * @see {@link java.util.function.BinaryOperator#minBy()}
 	 */
 	@Nonnull
-	public static LFloatBinaryOperator min() {
+	static LFloatBinaryOperator min() {
 		return Float::min;
 	}
 
@@ -122,7 +122,7 @@ public interface LFloatBinaryOperator extends LFloatBinaryOperatorX<RuntimeExcep
 	 * @see {@link java.util.function.BinaryOperator#maxBy()}
 	 */
 	@Nonnull
-	public static LFloatBinaryOperator max() {
+	static LFloatBinaryOperator max() {
 		return Float::max;
 	}
 

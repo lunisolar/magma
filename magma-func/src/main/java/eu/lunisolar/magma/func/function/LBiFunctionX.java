@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBiFunctionX<T1, T2, R, X extends Throwable> extends java.util.function.BiFunction<T1, T2, R>, MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LBiFunctionX: R doApply(T1 t1,T2 t2) throws X";
+	static final String DESCRIPTION = "LBiFunctionX: R doApply(T1 t1,T2 t2) throws X";
 
 	@Override
 	@Deprecated
@@ -70,7 +70,7 @@ public interface LBiFunctionX<T1, T2, R, X extends Throwable> extends java.util.
 	}
 
 	@Nullable
-	public R doApply(T1 t1, T2 t2) throws X;
+	R doApply(T1 t1, T2 t2) throws X;
 
 	default R nestingDoApply(T1 t1, T2 t2) {
 		try {
@@ -95,7 +95,7 @@ public interface LBiFunctionX<T1, T2, R, X extends Throwable> extends java.util.
 		}
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
 	@Nonnull
@@ -114,20 +114,20 @@ public interface LBiFunctionX<T1, T2, R, X extends Throwable> extends java.util.
 		return () -> this.doApply(t1, t2);
 	}
 
-	public static <T1, T2, R, X extends Throwable> LBiFunctionX<T1, T2, R, X> constant(R r) {
+	static <T1, T2, R, X extends Throwable> LBiFunctionX<T1, T2, R, X> constant(R r) {
 		return (t1, t2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T1, T2, R, X extends Throwable> LBiFunctionX<T1, T2, R, X> lX(final @Nonnull LBiFunctionX<T1, T2, R, X> lambda) {
+	static <T1, T2, R, X extends Throwable> LBiFunctionX<T1, T2, R, X> lX(final @Nonnull LBiFunctionX<T1, T2, R, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T1, T2, R, X extends Throwable> LBiFunctionX<T1, T2, R, X> lX(@Nonnull Class<X> xClass, final @Nonnull LBiFunctionX<T1, T2, R, X> lambda) {
+	static <T1, T2, R, X extends Throwable> LBiFunctionX<T1, T2, R, X> lX(@Nonnull Class<X> xClass, final @Nonnull LBiFunctionX<T1, T2, R, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -136,13 +136,13 @@ public interface LBiFunctionX<T1, T2, R, X extends Throwable> extends java.util.
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T1, T2, R, X extends Throwable> LBiFunctionX<T1, T2, R, X> wrap(final java.util.function.BiFunction<T1, T2, R> other) {
+	static <T1, T2, R, X extends Throwable> LBiFunctionX<T1, T2, R, X> wrap(final java.util.function.BiFunction<T1, T2, R> other) {
 		return other::apply;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T1, T2, R, X extends Throwable> LBiFunctionX<T1, T2, R, X> wrapX(final @Nonnull LBiFunction<T1, T2, R> other) {
+	static <T1, T2, R, X extends Throwable> LBiFunctionX<T1, T2, R, X> wrapX(final @Nonnull LBiFunction<T1, T2, R> other) {
 		return (LBiFunctionX) other;
 	}
 

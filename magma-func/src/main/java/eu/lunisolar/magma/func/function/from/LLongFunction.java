@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LLongFunction<R> extends LLongFunctionX<R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LLongFunction: R doApply(long l)";
+	static final String DESCRIPTION = "LLongFunction: R doApply(long l)";
 
 	@Override
 	@Deprecated
@@ -70,7 +70,7 @@ public interface LLongFunction<R> extends LLongFunctionX<R, RuntimeException>, M
 	}
 
 	@Nullable
-	public R doApply(long l);
+	R doApply(long l);
 
 	default R nestingDoApply(long l) {
 		return this.doApply(l);
@@ -80,7 +80,7 @@ public interface LLongFunction<R> extends LLongFunctionX<R, RuntimeException>, M
 		return this.doApply(l);
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
 	@Nonnull
@@ -99,13 +99,13 @@ public interface LLongFunction<R> extends LLongFunctionX<R, RuntimeException>, M
 		return () -> this.doApply(l);
 	}
 
-	public static <R> LLongFunction<R> constant(R r) {
+	static <R> LLongFunction<R> constant(R r) {
 		return l -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <R> LLongFunction<R> l(final @Nonnull LLongFunction<R> lambda) {
+	static <R> LLongFunction<R> l(final @Nonnull LLongFunction<R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -114,13 +114,13 @@ public interface LLongFunction<R> extends LLongFunctionX<R, RuntimeException>, M
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <R> LLongFunction<R> wrap(final java.util.function.LongFunction<R> other) {
+	static <R> LLongFunction<R> wrap(final java.util.function.LongFunction<R> other) {
 		return other::apply;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <R, X extends Throwable> LLongFunction<R> wrap(final @Nonnull LLongFunctionX<R, X> other) {
+	static <R, X extends Throwable> LLongFunction<R> wrap(final @Nonnull LLongFunctionX<R, X> other) {
 		return other::nestingDoApply;
 	}
 

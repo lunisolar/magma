@@ -60,10 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBooleanBiFunctionX<R, X extends Throwable> extends MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LBooleanBiFunctionX: R doApply(boolean b1,boolean b2) throws X";
+	static final String DESCRIPTION = "LBooleanBiFunctionX: R doApply(boolean b1,boolean b2) throws X";
 
 	@Nullable
-	public R doApply(boolean b1, boolean b2) throws X;
+	R doApply(boolean b1, boolean b2) throws X;
 
 	default R nestingDoApply(boolean b1, boolean b2) {
 		try {
@@ -88,7 +88,7 @@ public interface LBooleanBiFunctionX<R, X extends Throwable> extends MetaFunctio
 		}
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
 	@Nonnull
@@ -107,20 +107,20 @@ public interface LBooleanBiFunctionX<R, X extends Throwable> extends MetaFunctio
 		return () -> this.doApply(b1, b2);
 	}
 
-	public static <R, X extends Throwable> LBooleanBiFunctionX<R, X> constant(R r) {
+	static <R, X extends Throwable> LBooleanBiFunctionX<R, X> constant(R r) {
 		return (b1, b2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <R, X extends Throwable> LBooleanBiFunctionX<R, X> lX(final @Nonnull LBooleanBiFunctionX<R, X> lambda) {
+	static <R, X extends Throwable> LBooleanBiFunctionX<R, X> lX(final @Nonnull LBooleanBiFunctionX<R, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <R, X extends Throwable> LBooleanBiFunctionX<R, X> lX(@Nonnull Class<X> xClass, final @Nonnull LBooleanBiFunctionX<R, X> lambda) {
+	static <R, X extends Throwable> LBooleanBiFunctionX<R, X> lX(@Nonnull Class<X> xClass, final @Nonnull LBooleanBiFunctionX<R, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -129,7 +129,7 @@ public interface LBooleanBiFunctionX<R, X extends Throwable> extends MetaFunctio
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <R, X extends Throwable> LBooleanBiFunctionX<R, X> wrapX(final @Nonnull LBooleanBiFunction<R> other) {
+	static <R, X extends Throwable> LBooleanBiFunctionX<R, X> wrapX(final @Nonnull LBooleanBiFunction<R> other) {
 		return (LBooleanBiFunctionX) other;
 	}
 

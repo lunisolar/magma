@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LByteToDoubleFunctionX<X extends Throwable> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LByteToDoubleFunctionX: double doApplyAsDouble(byte b) throws X";
+	static final String DESCRIPTION = "LByteToDoubleFunctionX: double doApplyAsDouble(byte b) throws X";
 
-	public double doApplyAsDouble(byte b) throws X;
+	double doApplyAsDouble(byte b) throws X;
 
 	default double nestingDoApplyAsDouble(byte b) {
 		try {
@@ -103,20 +103,20 @@ public interface LByteToDoubleFunctionX<X extends Throwable> extends MetaFunctio
 		return () -> this.doApplyAsDouble(b);
 	}
 
-	public static <X extends Throwable> LByteToDoubleFunctionX<X> constant(double r) {
+	static <X extends Throwable> LByteToDoubleFunctionX<X> constant(double r) {
 		return b -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LByteToDoubleFunctionX<X> lX(final @Nonnull LByteToDoubleFunctionX<X> lambda) {
+	static <X extends Throwable> LByteToDoubleFunctionX<X> lX(final @Nonnull LByteToDoubleFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LByteToDoubleFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LByteToDoubleFunctionX<X> lambda) {
+	static <X extends Throwable> LByteToDoubleFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LByteToDoubleFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -125,7 +125,7 @@ public interface LByteToDoubleFunctionX<X extends Throwable> extends MetaFunctio
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LByteToDoubleFunctionX<X> wrapX(final @Nonnull LByteToDoubleFunction other) {
+	static <X extends Throwable> LByteToDoubleFunctionX<X> wrapX(final @Nonnull LByteToDoubleFunction other) {
 		return (LByteToDoubleFunctionX) other;
 	}
 

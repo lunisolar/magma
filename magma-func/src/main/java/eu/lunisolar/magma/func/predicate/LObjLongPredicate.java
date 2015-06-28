@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LObjLongPredicate<T> extends LObjLongPredicateX<T, RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LObjLongPredicate: boolean doTest(T t, long l)";
+	static final String DESCRIPTION = "LObjLongPredicate: boolean doTest(T t, long l)";
 
-	public boolean doTest(T t, long l);
+	boolean doTest(T t, long l);
 
 	default boolean nestingDoTest(T t, long l) {
 		return this.doTest(t, l);
@@ -94,13 +94,13 @@ public interface LObjLongPredicate<T> extends LObjLongPredicateX<T, RuntimeExcep
 		return () -> this.doTest(t, l);
 	}
 
-	public static <T> LObjLongPredicate<T> constant(boolean r) {
+	static <T> LObjLongPredicate<T> constant(boolean r) {
 		return (t, l) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T> LObjLongPredicate<T> l(final @Nonnull LObjLongPredicate<T> lambda) {
+	static <T> LObjLongPredicate<T> l(final @Nonnull LObjLongPredicate<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -109,7 +109,7 @@ public interface LObjLongPredicate<T> extends LObjLongPredicateX<T, RuntimeExcep
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, X extends Throwable> LObjLongPredicate<T> wrap(final @Nonnull LObjLongPredicateX<T, X> other) {
+	static <T, X extends Throwable> LObjLongPredicate<T> wrap(final @Nonnull LObjLongPredicateX<T, X> other) {
 		return other::nestingDoTest;
 	}
 
@@ -155,7 +155,7 @@ public interface LObjLongPredicate<T> extends LObjLongPredicateX<T, RuntimeExcep
 	 *  @see {@link java.util.function.Predicate#isEqual()}
 	 */
 	@Nonnull
-	public static <T1> LObjLongPredicate<T1> isEqual(final T1 v1, final long v2) {
+	static <T1> LObjLongPredicate<T1> isEqual(final T1 v1, final long v2) {
 		return (t, l) -> (t == null ? v1 == null : t.equals(v1)) && (l == v2);
 	}
 

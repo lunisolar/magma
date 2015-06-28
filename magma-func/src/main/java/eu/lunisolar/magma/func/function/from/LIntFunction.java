@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LIntFunction<R> extends LIntFunctionX<R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LIntFunction: R doApply(int i)";
+	static final String DESCRIPTION = "LIntFunction: R doApply(int i)";
 
 	@Override
 	@Deprecated
@@ -70,7 +70,7 @@ public interface LIntFunction<R> extends LIntFunctionX<R, RuntimeException>, Met
 	}
 
 	@Nullable
-	public R doApply(int i);
+	R doApply(int i);
 
 	default R nestingDoApply(int i) {
 		return this.doApply(i);
@@ -80,7 +80,7 @@ public interface LIntFunction<R> extends LIntFunctionX<R, RuntimeException>, Met
 		return this.doApply(i);
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
 	@Nonnull
@@ -99,13 +99,13 @@ public interface LIntFunction<R> extends LIntFunctionX<R, RuntimeException>, Met
 		return () -> this.doApply(i);
 	}
 
-	public static <R> LIntFunction<R> constant(R r) {
+	static <R> LIntFunction<R> constant(R r) {
 		return i -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <R> LIntFunction<R> l(final @Nonnull LIntFunction<R> lambda) {
+	static <R> LIntFunction<R> l(final @Nonnull LIntFunction<R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -114,13 +114,13 @@ public interface LIntFunction<R> extends LIntFunctionX<R, RuntimeException>, Met
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <R> LIntFunction<R> wrap(final java.util.function.IntFunction<R> other) {
+	static <R> LIntFunction<R> wrap(final java.util.function.IntFunction<R> other) {
 		return other::apply;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <R, X extends Throwable> LIntFunction<R> wrap(final @Nonnull LIntFunctionX<R, X> other) {
+	static <R, X extends Throwable> LIntFunction<R> wrap(final @Nonnull LIntFunctionX<R, X> other) {
 		return other::nestingDoApply;
 	}
 

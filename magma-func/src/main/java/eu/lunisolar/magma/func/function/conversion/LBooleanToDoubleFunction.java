@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBooleanToDoubleFunction extends LBooleanToDoubleFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LBooleanToDoubleFunction: double doApplyAsDouble(boolean b)";
+	static final String DESCRIPTION = "LBooleanToDoubleFunction: double doApplyAsDouble(boolean b)";
 
-	public double doApplyAsDouble(boolean b);
+	double doApplyAsDouble(boolean b);
 
 	default double nestingDoApplyAsDouble(boolean b) {
 		return this.doApplyAsDouble(b);
@@ -88,13 +88,13 @@ public interface LBooleanToDoubleFunction extends LBooleanToDoubleFunctionX<Runt
 		return () -> this.doApplyAsDouble(b);
 	}
 
-	public static LBooleanToDoubleFunction constant(double r) {
+	static LBooleanToDoubleFunction constant(double r) {
 		return b -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LBooleanToDoubleFunction l(final @Nonnull LBooleanToDoubleFunction lambda) {
+	static LBooleanToDoubleFunction l(final @Nonnull LBooleanToDoubleFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -103,7 +103,7 @@ public interface LBooleanToDoubleFunction extends LBooleanToDoubleFunctionX<Runt
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LBooleanToDoubleFunction wrap(final @Nonnull LBooleanToDoubleFunctionX<X> other) {
+	static <X extends Throwable> LBooleanToDoubleFunction wrap(final @Nonnull LBooleanToDoubleFunctionX<X> other) {
 		return other::nestingDoApplyAsDouble;
 	}
 

@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LShortToByteFunction extends LShortToByteFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LShortToByteFunction: byte doApplyAsByte(short s)";
+	static final String DESCRIPTION = "LShortToByteFunction: byte doApplyAsByte(short s)";
 
-	public byte doApplyAsByte(short s);
+	byte doApplyAsByte(short s);
 
 	default byte nestingDoApplyAsByte(short s) {
 		return this.doApplyAsByte(s);
@@ -88,13 +88,13 @@ public interface LShortToByteFunction extends LShortToByteFunctionX<RuntimeExcep
 		return () -> this.doApplyAsByte(s);
 	}
 
-	public static LShortToByteFunction constant(byte r) {
+	static LShortToByteFunction constant(byte r) {
 		return s -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LShortToByteFunction l(final @Nonnull LShortToByteFunction lambda) {
+	static LShortToByteFunction l(final @Nonnull LShortToByteFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -103,7 +103,7 @@ public interface LShortToByteFunction extends LShortToByteFunctionX<RuntimeExcep
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LShortToByteFunction wrap(final @Nonnull LShortToByteFunctionX<X> other) {
+	static <X extends Throwable> LShortToByteFunction wrap(final @Nonnull LShortToByteFunctionX<X> other) {
 		return other::nestingDoApplyAsByte;
 	}
 

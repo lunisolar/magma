@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LByteBinaryOperatorX<X extends Throwable> extends MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LByteBinaryOperatorX: byte doApplyAsByte(byte b1,byte b2) throws X";
+	static final String DESCRIPTION = "LByteBinaryOperatorX: byte doApplyAsByte(byte b1,byte b2) throws X";
 
-	public byte doApplyAsByte(byte b1, byte b2) throws X;
+	byte doApplyAsByte(byte b1, byte b2) throws X;
 
 	default byte nestingDoApplyAsByte(byte b1, byte b2) {
 		try {
@@ -103,20 +103,20 @@ public interface LByteBinaryOperatorX<X extends Throwable> extends MetaOperator,
 		return () -> this.doApplyAsByte(b1, b2);
 	}
 
-	public static <X extends Throwable> LByteBinaryOperatorX<X> constant(byte r) {
+	static <X extends Throwable> LByteBinaryOperatorX<X> constant(byte r) {
 		return (b1, b2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LByteBinaryOperatorX<X> lX(final @Nonnull LByteBinaryOperatorX<X> lambda) {
+	static <X extends Throwable> LByteBinaryOperatorX<X> lX(final @Nonnull LByteBinaryOperatorX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LByteBinaryOperatorX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LByteBinaryOperatorX<X> lambda) {
+	static <X extends Throwable> LByteBinaryOperatorX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LByteBinaryOperatorX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -125,7 +125,7 @@ public interface LByteBinaryOperatorX<X extends Throwable> extends MetaOperator,
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LByteBinaryOperatorX<X> wrapX(final @Nonnull LByteBinaryOperator other) {
+	static <X extends Throwable> LByteBinaryOperatorX<X> wrapX(final @Nonnull LByteBinaryOperator other) {
 		return (LByteBinaryOperatorX) other;
 	}
 
@@ -136,7 +136,7 @@ public interface LByteBinaryOperatorX<X extends Throwable> extends MetaOperator,
 	 * @see {@link java.util.function.BinaryOperator#minBy()}
 	 */
 	@Nonnull
-	public static <X extends Throwable> LByteBinaryOperatorX<X> min() {
+	static <X extends Throwable> LByteBinaryOperatorX<X> min() {
 		return (a, b) -> (a <= b) ? a : b;
 	}
 
@@ -144,7 +144,7 @@ public interface LByteBinaryOperatorX<X extends Throwable> extends MetaOperator,
 	 * @see {@link java.util.function.BinaryOperator#maxBy()}
 	 */
 	@Nonnull
-	public static <X extends Throwable> LByteBinaryOperatorX<X> max() {
+	static <X extends Throwable> LByteBinaryOperatorX<X> max() {
 		return (a, b) -> (a >= b) ? a : b;
 	}
 

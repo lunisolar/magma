@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LIntToFloatFunctionX<X extends Throwable> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LIntToFloatFunctionX: float doApplyAsFloat(int i) throws X";
+	static final String DESCRIPTION = "LIntToFloatFunctionX: float doApplyAsFloat(int i) throws X";
 
-	public float doApplyAsFloat(int i) throws X;
+	float doApplyAsFloat(int i) throws X;
 
 	default float nestingDoApplyAsFloat(int i) {
 		try {
@@ -103,20 +103,20 @@ public interface LIntToFloatFunctionX<X extends Throwable> extends MetaFunction,
 		return () -> this.doApplyAsFloat(i);
 	}
 
-	public static <X extends Throwable> LIntToFloatFunctionX<X> constant(float r) {
+	static <X extends Throwable> LIntToFloatFunctionX<X> constant(float r) {
 		return i -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LIntToFloatFunctionX<X> lX(final @Nonnull LIntToFloatFunctionX<X> lambda) {
+	static <X extends Throwable> LIntToFloatFunctionX<X> lX(final @Nonnull LIntToFloatFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LIntToFloatFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LIntToFloatFunctionX<X> lambda) {
+	static <X extends Throwable> LIntToFloatFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LIntToFloatFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -125,7 +125,7 @@ public interface LIntToFloatFunctionX<X extends Throwable> extends MetaFunction,
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LIntToFloatFunctionX<X> wrapX(final @Nonnull LIntToFloatFunction other) {
+	static <X extends Throwable> LIntToFloatFunctionX<X> wrapX(final @Nonnull LIntToFloatFunction other) {
 		return (LIntToFloatFunctionX) other;
 	}
 

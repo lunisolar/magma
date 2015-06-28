@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBooleanToCharFunction extends LBooleanToCharFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LBooleanToCharFunction: char doApplyAsChar(boolean b)";
+	static final String DESCRIPTION = "LBooleanToCharFunction: char doApplyAsChar(boolean b)";
 
-	public char doApplyAsChar(boolean b);
+	char doApplyAsChar(boolean b);
 
 	default char nestingDoApplyAsChar(boolean b) {
 		return this.doApplyAsChar(b);
@@ -88,13 +88,13 @@ public interface LBooleanToCharFunction extends LBooleanToCharFunctionX<RuntimeE
 		return () -> this.doApplyAsChar(b);
 	}
 
-	public static LBooleanToCharFunction constant(char r) {
+	static LBooleanToCharFunction constant(char r) {
 		return b -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LBooleanToCharFunction l(final @Nonnull LBooleanToCharFunction lambda) {
+	static LBooleanToCharFunction l(final @Nonnull LBooleanToCharFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -103,7 +103,7 @@ public interface LBooleanToCharFunction extends LBooleanToCharFunctionX<RuntimeE
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LBooleanToCharFunction wrap(final @Nonnull LBooleanToCharFunctionX<X> other) {
+	static <X extends Throwable> LBooleanToCharFunction wrap(final @Nonnull LBooleanToCharFunctionX<X> other) {
 		return other::nestingDoApplyAsChar;
 	}
 

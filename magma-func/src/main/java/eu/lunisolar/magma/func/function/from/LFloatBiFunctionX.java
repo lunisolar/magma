@@ -60,10 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LFloatBiFunctionX<R, X extends Throwable> extends MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LFloatBiFunctionX: R doApply(float f1,float f2) throws X";
+	static final String DESCRIPTION = "LFloatBiFunctionX: R doApply(float f1,float f2) throws X";
 
 	@Nullable
-	public R doApply(float f1, float f2) throws X;
+	R doApply(float f1, float f2) throws X;
 
 	default R nestingDoApply(float f1, float f2) {
 		try {
@@ -88,7 +88,7 @@ public interface LFloatBiFunctionX<R, X extends Throwable> extends MetaFunction,
 		}
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
 	@Nonnull
@@ -107,20 +107,20 @@ public interface LFloatBiFunctionX<R, X extends Throwable> extends MetaFunction,
 		return () -> this.doApply(f1, f2);
 	}
 
-	public static <R, X extends Throwable> LFloatBiFunctionX<R, X> constant(R r) {
+	static <R, X extends Throwable> LFloatBiFunctionX<R, X> constant(R r) {
 		return (f1, f2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <R, X extends Throwable> LFloatBiFunctionX<R, X> lX(final @Nonnull LFloatBiFunctionX<R, X> lambda) {
+	static <R, X extends Throwable> LFloatBiFunctionX<R, X> lX(final @Nonnull LFloatBiFunctionX<R, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <R, X extends Throwable> LFloatBiFunctionX<R, X> lX(@Nonnull Class<X> xClass, final @Nonnull LFloatBiFunctionX<R, X> lambda) {
+	static <R, X extends Throwable> LFloatBiFunctionX<R, X> lX(@Nonnull Class<X> xClass, final @Nonnull LFloatBiFunctionX<R, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -129,7 +129,7 @@ public interface LFloatBiFunctionX<R, X extends Throwable> extends MetaFunction,
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <R, X extends Throwable> LFloatBiFunctionX<R, X> wrapX(final @Nonnull LFloatBiFunction<R> other) {
+	static <R, X extends Throwable> LFloatBiFunctionX<R, X> wrapX(final @Nonnull LFloatBiFunction<R> other) {
 		return (LFloatBiFunctionX) other;
 	}
 

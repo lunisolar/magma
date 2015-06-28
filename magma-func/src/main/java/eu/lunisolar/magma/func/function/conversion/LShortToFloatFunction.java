@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LShortToFloatFunction extends LShortToFloatFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LShortToFloatFunction: float doApplyAsFloat(short s)";
+	static final String DESCRIPTION = "LShortToFloatFunction: float doApplyAsFloat(short s)";
 
-	public float doApplyAsFloat(short s);
+	float doApplyAsFloat(short s);
 
 	default float nestingDoApplyAsFloat(short s) {
 		return this.doApplyAsFloat(s);
@@ -88,13 +88,13 @@ public interface LShortToFloatFunction extends LShortToFloatFunctionX<RuntimeExc
 		return () -> this.doApplyAsFloat(s);
 	}
 
-	public static LShortToFloatFunction constant(float r) {
+	static LShortToFloatFunction constant(float r) {
 		return s -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LShortToFloatFunction l(final @Nonnull LShortToFloatFunction lambda) {
+	static LShortToFloatFunction l(final @Nonnull LShortToFloatFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -103,7 +103,7 @@ public interface LShortToFloatFunction extends LShortToFloatFunctionX<RuntimeExc
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LShortToFloatFunction wrap(final @Nonnull LShortToFloatFunctionX<X> other) {
+	static <X extends Throwable> LShortToFloatFunction wrap(final @Nonnull LShortToFloatFunctionX<X> other) {
 		return other::nestingDoApplyAsFloat;
 	}
 

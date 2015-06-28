@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LByteToLongFunction extends LByteToLongFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LByteToLongFunction: long doApplyAsLong(byte b)";
+	static final String DESCRIPTION = "LByteToLongFunction: long doApplyAsLong(byte b)";
 
-	public long doApplyAsLong(byte b);
+	long doApplyAsLong(byte b);
 
 	default long nestingDoApplyAsLong(byte b) {
 		return this.doApplyAsLong(b);
@@ -88,13 +88,13 @@ public interface LByteToLongFunction extends LByteToLongFunctionX<RuntimeExcepti
 		return () -> this.doApplyAsLong(b);
 	}
 
-	public static LByteToLongFunction constant(long r) {
+	static LByteToLongFunction constant(long r) {
 		return b -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LByteToLongFunction l(final @Nonnull LByteToLongFunction lambda) {
+	static LByteToLongFunction l(final @Nonnull LByteToLongFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -103,7 +103,7 @@ public interface LByteToLongFunction extends LByteToLongFunctionX<RuntimeExcepti
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LByteToLongFunction wrap(final @Nonnull LByteToLongFunctionX<X> other) {
+	static <X extends Throwable> LByteToLongFunction wrap(final @Nonnull LByteToLongFunctionX<X> other) {
 		return other::nestingDoApplyAsLong;
 	}
 

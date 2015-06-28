@@ -95,39 +95,39 @@ public interface Handler<SELF extends Handler<SELF, X, Y>, X extends Throwable, 
         throw shouldNeverBeenHere();
     }
 
-    <Y extends Throwable> SELF throwIf(Class<Y> yClass) throws Y;
+    <Z extends Throwable> SELF throwIf(Class<Z> yClass) throws Z;
 
-    <Y extends Throwable> SELF replaceIf(
-            @Nonnull Predicate<X> condition, @Nonnull ExceptionNewFactory<Y> factory,
-            @Nonnull String newMessage, @Nullable Object... messageParams) throws Y;
+    <Z extends Throwable> SELF replaceIf(
+            @Nonnull Predicate<X> condition, @Nonnull ExceptionNewFactory<Z> factory,
+            @Nonnull String newMessage, @Nullable Object... messageParams) throws Z;
 
-    <Y extends Throwable> SELF wrapIf(@Nonnull Predicate<X> condition, @Nonnull ExceptionWrapFactory<Y> factory) throws Y;
+    <Z extends Throwable> SELF wrapIf(@Nonnull Predicate<X> condition, @Nonnull ExceptionWrapFactory<Z> factory) throws Z;
 
-    <Y extends Throwable> SELF wrapIf(
-            @Nonnull Predicate<X> condition, @Nonnull ExceptionWrapWithMessageFactory<Y> factory,
-            @Nonnull String newMessage, @Nullable Object... messageParams) throws Y;
+    <Z extends Throwable> SELF wrapIf(
+            @Nonnull Predicate<X> condition, @Nonnull ExceptionWrapWithMessageFactory<Z> factory,
+            @Nonnull String newMessage, @Nullable Object... messageParams) throws Z;
 
-    <Y extends Throwable> SELF replaceWhen(
-            @Nonnull Predicate<ThrowableProbe<X>> condition, @Nonnull ExceptionNewFactory<Y> factory,
-            @Nonnull String newMessage, @Nullable Object... messageParams) throws Y;
+    <Z extends Throwable> SELF replaceWhen(
+            @Nonnull Predicate<ThrowableProbe<X>> condition, @Nonnull ExceptionNewFactory<Z> factory,
+            @Nonnull String newMessage, @Nullable Object... messageParams) throws Z;
 
-    <Y extends Throwable> SELF wrapWhen(@Nonnull Predicate<ThrowableProbe<X>> condition, @Nonnull ExceptionWrapFactory<Y> factory) throws Y;
+    <Z extends Throwable> SELF wrapWhen(@Nonnull Predicate<ThrowableProbe<X>> condition, @Nonnull ExceptionWrapFactory<Z> factory) throws Z;
 
-    <Y extends Throwable> SELF wrapWhen(
-            @Nonnull Predicate<ThrowableProbe<X>> condition, @Nonnull ExceptionWrapWithMessageFactory<Y> factory,
-            @Nonnull String newMessage, @Nullable Object... messageParams) throws Y;
+    <Z extends Throwable> SELF wrapWhen(
+            @Nonnull Predicate<ThrowableProbe<X>> condition, @Nonnull ExceptionWrapWithMessageFactory<Z> factory,
+            @Nonnull String newMessage, @Nullable Object... messageParams) throws Z;
 
     SELF nestIfChecked();
 
-    <Y extends Throwable> void throwReplacement(
-            @Nonnull ExceptionNewFactory<Y> factory,
-            @Nonnull String newMessage, @Nullable Object... messageParams) throws Y;
+    <Z extends Throwable> void throwReplacement(
+            @Nonnull ExceptionNewFactory<Z> factory,
+            @Nonnull String newMessage, @Nullable Object... messageParams) throws Z;
 
-    <Y extends Throwable> void throwWrapper(@Nonnull ExceptionWrapFactory<Y> factory) throws Y;
+    <Z extends Throwable> void throwWrapper(@Nonnull ExceptionWrapFactory<Z> factory) throws Z;
 
-    <Y extends Throwable> void throwWrapper(
-            @Nonnull ExceptionWrapWithMessageFactory<Y> factory,
-            @Nonnull String newMessage, @Nullable Object... messageParams) throws Y;
+    <Z extends Throwable> void throwWrapper(
+            @Nonnull ExceptionWrapWithMessageFactory<Z> factory,
+            @Nonnull String newMessage, @Nullable Object... messageParams) throws Z;
 
     void throwFailure();
 

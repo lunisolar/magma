@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LToShortFunctionX<T, X extends Throwable> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LToShortFunctionX: short doApplyAsShort(T t) throws X";
+	static final String DESCRIPTION = "LToShortFunctionX: short doApplyAsShort(T t) throws X";
 
-	public short doApplyAsShort(T t) throws X;
+	short doApplyAsShort(T t) throws X;
 
 	default short nestingDoApplyAsShort(T t) {
 		try {
@@ -103,20 +103,20 @@ public interface LToShortFunctionX<T, X extends Throwable> extends MetaFunction,
 		return () -> this.doApplyAsShort(t);
 	}
 
-	public static <T, X extends Throwable> LToShortFunctionX<T, X> constant(short r) {
+	static <T, X extends Throwable> LToShortFunctionX<T, X> constant(short r) {
 		return t -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T, X extends Throwable> LToShortFunctionX<T, X> lX(final @Nonnull LToShortFunctionX<T, X> lambda) {
+	static <T, X extends Throwable> LToShortFunctionX<T, X> lX(final @Nonnull LToShortFunctionX<T, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T, X extends Throwable> LToShortFunctionX<T, X> lX(@Nonnull Class<X> xClass, final @Nonnull LToShortFunctionX<T, X> lambda) {
+	static <T, X extends Throwable> LToShortFunctionX<T, X> lX(@Nonnull Class<X> xClass, final @Nonnull LToShortFunctionX<T, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -125,7 +125,7 @@ public interface LToShortFunctionX<T, X extends Throwable> extends MetaFunction,
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, X extends Throwable> LToShortFunctionX<T, X> wrapX(final @Nonnull LToShortFunction<T> other) {
+	static <T, X extends Throwable> LToShortFunctionX<T, X> wrapX(final @Nonnull LToShortFunction<T> other) {
 		return (LToShortFunctionX) other;
 	}
 

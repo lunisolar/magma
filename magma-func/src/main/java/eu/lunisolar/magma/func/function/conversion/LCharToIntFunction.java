@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LCharToIntFunction extends LCharToIntFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LCharToIntFunction: int doApplyAsInt(char c)";
+	static final String DESCRIPTION = "LCharToIntFunction: int doApplyAsInt(char c)";
 
-	public int doApplyAsInt(char c);
+	int doApplyAsInt(char c);
 
 	default int nestingDoApplyAsInt(char c) {
 		return this.doApplyAsInt(c);
@@ -88,13 +88,13 @@ public interface LCharToIntFunction extends LCharToIntFunctionX<RuntimeException
 		return () -> this.doApplyAsInt(c);
 	}
 
-	public static LCharToIntFunction constant(int r) {
+	static LCharToIntFunction constant(int r) {
 		return c -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LCharToIntFunction l(final @Nonnull LCharToIntFunction lambda) {
+	static LCharToIntFunction l(final @Nonnull LCharToIntFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -103,7 +103,7 @@ public interface LCharToIntFunction extends LCharToIntFunctionX<RuntimeException
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LCharToIntFunction wrap(final @Nonnull LCharToIntFunctionX<X> other) {
+	static <X extends Throwable> LCharToIntFunction wrap(final @Nonnull LCharToIntFunctionX<X> other) {
 		return other::nestingDoApplyAsInt;
 	}
 

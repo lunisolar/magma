@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LLongUnaryOperatorX<X extends Throwable> extends java.util.function.LongUnaryOperator, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LLongUnaryOperatorX: long doApplyAsLong(long l) throws X";
+	static final String DESCRIPTION = "LLongUnaryOperatorX: long doApplyAsLong(long l) throws X";
 
 	@Override
 	@Deprecated
@@ -69,7 +69,7 @@ public interface LLongUnaryOperatorX<X extends Throwable> extends java.util.func
 		return this.nestingDoApplyAsLong(l);
 	}
 
-	public long doApplyAsLong(long l) throws X;
+	long doApplyAsLong(long l) throws X;
 
 	default long nestingDoApplyAsLong(long l) {
 		try {
@@ -110,20 +110,20 @@ public interface LLongUnaryOperatorX<X extends Throwable> extends java.util.func
 		return () -> this.doApplyAsLong(l);
 	}
 
-	public static <X extends Throwable> LLongUnaryOperatorX<X> constant(long r) {
+	static <X extends Throwable> LLongUnaryOperatorX<X> constant(long r) {
 		return l -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LLongUnaryOperatorX<X> lX(final @Nonnull LLongUnaryOperatorX<X> lambda) {
+	static <X extends Throwable> LLongUnaryOperatorX<X> lX(final @Nonnull LLongUnaryOperatorX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LLongUnaryOperatorX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LLongUnaryOperatorX<X> lambda) {
+	static <X extends Throwable> LLongUnaryOperatorX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LLongUnaryOperatorX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -132,13 +132,13 @@ public interface LLongUnaryOperatorX<X extends Throwable> extends java.util.func
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Throwable> LLongUnaryOperatorX<X> wrap(final java.util.function.LongUnaryOperator other) {
+	static <X extends Throwable> LLongUnaryOperatorX<X> wrap(final java.util.function.LongUnaryOperator other) {
 		return other::applyAsLong;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LLongUnaryOperatorX<X> wrapX(final @Nonnull LLongUnaryOperator other) {
+	static <X extends Throwable> LLongUnaryOperatorX<X> wrapX(final @Nonnull LLongUnaryOperator other) {
 		return (LLongUnaryOperatorX) other;
 	}
 
@@ -235,7 +235,7 @@ public interface LLongUnaryOperatorX<X extends Throwable> extends java.util.func
 
 	/** Returns a function that always returns its input argument. */
 	@Nonnull
-	public static <X extends Throwable> LLongUnaryOperatorX<X> identity() {
+	static <X extends Throwable> LLongUnaryOperatorX<X> identity() {
 		return t -> t;
 	}
 	// <editor-fold desc="variant conversions">

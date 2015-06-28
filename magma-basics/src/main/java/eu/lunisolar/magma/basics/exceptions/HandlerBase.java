@@ -45,7 +45,7 @@ class HandlerBase<SELF extends HandlerBase<SELF, X, Y>, X extends Throwable, Y e
 
     // <editor-fold desc="throwInCase">
 
-    public <Y extends Throwable> SELF throwIf(Class<Y> yClass) throws Y {
+    public <Z extends Throwable> SELF throwIf(Class<Z> yClass) throws Z {
         if (yClass.isInstance(throwable)) {
             throw yClass.cast(throwable);
         }
@@ -53,43 +53,43 @@ class HandlerBase<SELF extends HandlerBase<SELF, X, Y>, X extends Throwable, Y e
         return self();
     }
 
-    public <Y extends Throwable> SELF replaceIf(
-            @Nonnull Predicate<X> condition, @Nonnull ExceptionNewFactory<Y> factory,
-            @Nonnull String newMessage, @Nullable Object... messageParams) throws Y {
+    public <Z extends Throwable> SELF replaceIf(
+            @Nonnull Predicate<X> condition, @Nonnull ExceptionNewFactory<Z> factory,
+            @Nonnull String newMessage, @Nullable Object... messageParams) throws Z {
 
         Handling.throwReplacementIf(condition, throwable, factory, newMessage, messageParams);
         return self();
     }
 
-    public <Y extends Throwable> SELF wrapIf(@Nonnull Predicate<X> condition, @Nonnull ExceptionWrapFactory<Y> factory) throws Y {
+    public <Z extends Throwable> SELF wrapIf(@Nonnull Predicate<X> condition, @Nonnull ExceptionWrapFactory<Z> factory) throws Z {
         Handling.throwWrapperIf(condition, throwable, factory);
         return self();
     }
 
-    public <Y extends Throwable> SELF wrapIf(
-            @Nonnull Predicate<X> condition, @Nonnull ExceptionWrapWithMessageFactory<Y> factory,
-            @Nonnull String newMessage, @Nullable Object... messageParams) throws Y {
+    public <Z extends Throwable> SELF wrapIf(
+            @Nonnull Predicate<X> condition, @Nonnull ExceptionWrapWithMessageFactory<Z> factory,
+            @Nonnull String newMessage, @Nullable Object... messageParams) throws Z {
 
         Handling.throwWrapperIf(condition, throwable, factory, newMessage, messageParams);
         return self();
     }
 
-    public <Y extends Throwable> SELF replaceWhen(
-            @Nonnull Predicate<ThrowableProbe<X>> condition, @Nonnull ExceptionNewFactory<Y> factory,
-            @Nonnull String newMessage, @Nullable Object... messageParams) throws Y {
+    public <Z extends Throwable> SELF replaceWhen(
+            @Nonnull Predicate<ThrowableProbe<X>> condition, @Nonnull ExceptionNewFactory<Z> factory,
+            @Nonnull String newMessage, @Nullable Object... messageParams) throws Z {
 
         Handling.throwReplacementIf(condition.test(this), factory, newMessage, messageParams);
         return self();
     }
 
-    public <Y extends Throwable> SELF wrapWhen(@Nonnull Predicate<ThrowableProbe<X>> condition, @Nonnull ExceptionWrapFactory<Y> factory) throws Y {
+    public <Z extends Throwable> SELF wrapWhen(@Nonnull Predicate<ThrowableProbe<X>> condition, @Nonnull ExceptionWrapFactory<Z> factory) throws Z {
         Handling.throwWrapperIf(condition.test(this), throwable, factory);
         return self();
     }
 
-    public <Y extends Throwable> SELF wrapWhen(
-            @Nonnull Predicate<ThrowableProbe<X>> condition, @Nonnull ExceptionWrapWithMessageFactory<Y> factory,
-            @Nonnull String newMessage, @Nullable Object... messageParams) throws Y {
+    public <Z extends Throwable> SELF wrapWhen(
+            @Nonnull Predicate<ThrowableProbe<X>> condition, @Nonnull ExceptionWrapWithMessageFactory<Z> factory,
+            @Nonnull String newMessage, @Nullable Object... messageParams) throws Z {
 
         Handling.throwWrapperIf(condition.test(this), throwable, factory, newMessage, messageParams);
         return self();
@@ -113,19 +113,19 @@ class HandlerBase<SELF extends HandlerBase<SELF, X, Y>, X extends Throwable, Y e
 
     // <editor-fold desc="finalizers">
 
-    public <Y extends Throwable> void throwReplacement(
-            @Nonnull ExceptionNewFactory<Y> factory,
-            @Nonnull String newMessage, @Nullable Object... messageParams) throws Y {
+    public <Z extends Throwable> void throwReplacement(
+            @Nonnull ExceptionNewFactory<Z> factory,
+            @Nonnull String newMessage, @Nullable Object... messageParams) throws Z {
         throw Handling.throwReplacement(factory, newMessage, messageParams);
     }
 
-    public <Y extends Throwable> void throwWrapper(@Nonnull ExceptionWrapFactory<Y> factory) throws Y {
+    public <Z extends Throwable> void throwWrapper(@Nonnull ExceptionWrapFactory<Z> factory) throws Z {
         throw Handling.throwWrapper(throwable, factory);
     }
 
-    public <Y extends Throwable> void throwWrapper(
-            @Nonnull ExceptionWrapWithMessageFactory<Y> factory,
-            @Nonnull String newMessage, @Nullable Object... messageParams) throws Y {
+    public <Z extends Throwable> void throwWrapper(
+            @Nonnull ExceptionWrapWithMessageFactory<Z> factory,
+            @Nonnull String newMessage, @Nullable Object... messageParams) throws Z {
         throw Handling.throwWrapper(throwable, factory, newMessage, messageParams);
     }
 
@@ -138,10 +138,10 @@ class HandlerBase<SELF extends HandlerBase<SELF, X, Y>, X extends Throwable, Y e
     }
 
     public void handleRest() {
-        if (throwable instanceof RuntimeException) {
-            throw (RuntimeException) throwable;
-        } else if (throwable instanceof Error) {
+        if (throwable instanceof Error) {
             throw (Error) throwable;
+        } else if (throwable instanceof RuntimeException) {
+            throw (RuntimeException) throwable;
         } else {
             throw new NestedException(throwable);
         }

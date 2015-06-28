@@ -33,9 +33,7 @@ public class Handling implements Serializable {
 
     public static final String UNKNOWN_PROBLEM = "UNKNOWN PROBLEM!";
 
-    private static final Thrower<Throwable> THROWER = (Throwable x) -> {
-        throw x;
-    };
+    private static final Thrower<Throwable> THROWER = Handling::throwIt;
 
     public static final Predicate GENERIC_WRAP_CONDITION = (x) -> x instanceof RuntimeException;
 
@@ -104,7 +102,7 @@ public class Handling implements Serializable {
             @Nonnull ExceptionWrapWithMessageFactory<Y> factory,
             @Nonnull String newMessage, @Nullable Object... messageParams) throws Y {
 
-        throw Handling.wrap(throwable, factory, newMessage, messageParams);
+        throw throwIt(Handling.wrap(throwable, factory, newMessage, messageParams));
     }
 
     // </editor-fold>
@@ -118,7 +116,7 @@ public class Handling implements Serializable {
             @Nullable Object... messageParams) throws Y {
 
         if (conditionMeet) {
-            throw Handling.create(factory, newMessage, messageParams);
+            throw throwIt(Handling.create(factory, newMessage, messageParams));
         }
     }
 
@@ -128,7 +126,7 @@ public class Handling implements Serializable {
             @Nonnull ExceptionWrapFactory<Y> factory) throws Y {
 
         if (conditionMeet) {
-            throw Handling.wrap(throwable, factory);
+            throw throwIt(Handling.wrap(throwable, factory));
         }
     }
 
@@ -139,7 +137,7 @@ public class Handling implements Serializable {
             @Nonnull String newMessage, @Nullable Object... messageParams) throws Y {
 
         if (conditionMeet) {
-            throw Handling.wrap(throwable, factory, newMessage, messageParams);
+            throw throwIt(Handling.wrap(throwable, factory, newMessage, messageParams));
         }
     }
 
@@ -201,9 +199,18 @@ public class Handling implements Serializable {
 
     // </editor-fold>
 
-    public static <X extends Throwable> void shoveIt(Throwable e) {
+    public static <X extends Throwable> RuntimeException throwIt(X e) throws X {
+        if (e == null) {
+            throw new ExceptionNotHandled("Cannot throw null exception.");
+        }
+
+        throw e;
+    }
+
+    public static <X extends Throwable> RuntimeException shoveIt(Throwable e) {
         Thrower<RuntimeException> thrower = (Thrower) THROWER;
         thrower.throwIt(e);
+        throw shouldNeverBeenHere();
     }
 
     @FunctionalInterface

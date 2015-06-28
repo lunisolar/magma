@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LObjDoublePredicateX<T, X extends Throwable> extends MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LObjDoublePredicateX: boolean doTest(T t, double d) throws X";
+	static final String DESCRIPTION = "LObjDoublePredicateX: boolean doTest(T t, double d) throws X";
 
-	public boolean doTest(T t, double d) throws X;
+	boolean doTest(T t, double d) throws X;
 
 	default boolean nestingDoTest(T t, double d) {
 		try {
@@ -109,20 +109,20 @@ public interface LObjDoublePredicateX<T, X extends Throwable> extends MetaPredic
 		return () -> this.doTest(t, d);
 	}
 
-	public static <T, X extends Throwable> LObjDoublePredicateX<T, X> constant(boolean r) {
+	static <T, X extends Throwable> LObjDoublePredicateX<T, X> constant(boolean r) {
 		return (t, d) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T, X extends Throwable> LObjDoublePredicateX<T, X> lX(final @Nonnull LObjDoublePredicateX<T, X> lambda) {
+	static <T, X extends Throwable> LObjDoublePredicateX<T, X> lX(final @Nonnull LObjDoublePredicateX<T, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T, X extends Throwable> LObjDoublePredicateX<T, X> lX(@Nonnull Class<X> xClass, final @Nonnull LObjDoublePredicateX<T, X> lambda) {
+	static <T, X extends Throwable> LObjDoublePredicateX<T, X> lX(@Nonnull Class<X> xClass, final @Nonnull LObjDoublePredicateX<T, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -131,7 +131,7 @@ public interface LObjDoublePredicateX<T, X extends Throwable> extends MetaPredic
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, X extends Throwable> LObjDoublePredicateX<T, X> wrapX(final @Nonnull LObjDoublePredicate<T> other) {
+	static <T, X extends Throwable> LObjDoublePredicateX<T, X> wrapX(final @Nonnull LObjDoublePredicate<T> other) {
 		return (LObjDoublePredicateX) other;
 	}
 
@@ -177,7 +177,7 @@ public interface LObjDoublePredicateX<T, X extends Throwable> extends MetaPredic
 	 *  @see {@link java.util.function.Predicate#isEqual()}
 	 */
 	@Nonnull
-	public static <T1, X extends Throwable> LObjDoublePredicateX<T1, X> isEqual(final T1 v1, final double v2) {
+	static <T1, X extends Throwable> LObjDoublePredicateX<T1, X> isEqual(final T1 v1, final double v2) {
 		return (t, d) -> (t == null ? v1 == null : t.equals(v1)) && (d == v2);
 	}
 

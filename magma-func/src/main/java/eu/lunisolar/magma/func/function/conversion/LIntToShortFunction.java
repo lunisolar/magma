@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LIntToShortFunction extends LIntToShortFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LIntToShortFunction: short doApplyAsShort(int i)";
+	static final String DESCRIPTION = "LIntToShortFunction: short doApplyAsShort(int i)";
 
-	public short doApplyAsShort(int i);
+	short doApplyAsShort(int i);
 
 	default short nestingDoApplyAsShort(int i) {
 		return this.doApplyAsShort(i);
@@ -88,13 +88,13 @@ public interface LIntToShortFunction extends LIntToShortFunctionX<RuntimeExcepti
 		return () -> this.doApplyAsShort(i);
 	}
 
-	public static LIntToShortFunction constant(short r) {
+	static LIntToShortFunction constant(short r) {
 		return i -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LIntToShortFunction l(final @Nonnull LIntToShortFunction lambda) {
+	static LIntToShortFunction l(final @Nonnull LIntToShortFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -103,7 +103,7 @@ public interface LIntToShortFunction extends LIntToShortFunctionX<RuntimeExcepti
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LIntToShortFunction wrap(final @Nonnull LIntToShortFunctionX<X> other) {
+	static <X extends Throwable> LIntToShortFunction wrap(final @Nonnull LIntToShortFunctionX<X> other) {
 		return other::nestingDoApplyAsShort;
 	}
 

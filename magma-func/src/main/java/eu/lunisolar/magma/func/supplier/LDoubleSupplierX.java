@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LDoubleSupplierX<X extends Throwable> extends java.util.function.DoubleSupplier, MetaSupplier, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LDoubleSupplierX: double doGetAsDouble() throws X";
+	static final String DESCRIPTION = "LDoubleSupplierX: double doGetAsDouble() throws X";
 
 	@Override
 	@Deprecated
@@ -69,7 +69,7 @@ public interface LDoubleSupplierX<X extends Throwable> extends java.util.functio
 		return this.nestingDoGetAsDouble();
 	}
 
-	public double doGetAsDouble() throws X;
+	double doGetAsDouble() throws X;
 
 	default double nestingDoGetAsDouble() {
 		try {
@@ -105,20 +105,20 @@ public interface LDoubleSupplierX<X extends Throwable> extends java.util.functio
 		return LDoubleSupplierX.DESCRIPTION;
 	}
 
-	public static <X extends Throwable> LDoubleSupplierX<X> of(double r) {
+	static <X extends Throwable> LDoubleSupplierX<X> of(double r) {
 		return () -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LDoubleSupplierX<X> lX(final @Nonnull LDoubleSupplierX<X> lambda) {
+	static <X extends Throwable> LDoubleSupplierX<X> lX(final @Nonnull LDoubleSupplierX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LDoubleSupplierX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LDoubleSupplierX<X> lambda) {
+	static <X extends Throwable> LDoubleSupplierX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LDoubleSupplierX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -127,13 +127,13 @@ public interface LDoubleSupplierX<X extends Throwable> extends java.util.functio
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Throwable> LDoubleSupplierX<X> wrap(final java.util.function.DoubleSupplier other) {
+	static <X extends Throwable> LDoubleSupplierX<X> wrap(final java.util.function.DoubleSupplier other) {
 		return other::getAsDouble;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LDoubleSupplierX<X> wrapX(final @Nonnull LDoubleSupplier other) {
+	static <X extends Throwable> LDoubleSupplierX<X> wrapX(final @Nonnull LDoubleSupplier other) {
 		return (LDoubleSupplierX) other;
 	}
 

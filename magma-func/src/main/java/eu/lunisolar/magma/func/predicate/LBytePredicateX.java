@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBytePredicateX<X extends Throwable> extends MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LBytePredicateX: boolean doTest(byte b) throws X";
+	static final String DESCRIPTION = "LBytePredicateX: boolean doTest(byte b) throws X";
 
-	public boolean doTest(byte b) throws X;
+	boolean doTest(byte b) throws X;
 
 	default boolean nestingDoTest(byte b) {
 		try {
@@ -109,20 +109,20 @@ public interface LBytePredicateX<X extends Throwable> extends MetaPredicate, Pri
 		return () -> this.doTest(b);
 	}
 
-	public static <X extends Throwable> LBytePredicateX<X> constant(boolean r) {
+	static <X extends Throwable> LBytePredicateX<X> constant(boolean r) {
 		return b -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LBytePredicateX<X> lX(final @Nonnull LBytePredicateX<X> lambda) {
+	static <X extends Throwable> LBytePredicateX<X> lX(final @Nonnull LBytePredicateX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LBytePredicateX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LBytePredicateX<X> lambda) {
+	static <X extends Throwable> LBytePredicateX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LBytePredicateX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -131,7 +131,7 @@ public interface LBytePredicateX<X extends Throwable> extends MetaPredicate, Pri
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LBytePredicateX<X> wrapX(final @Nonnull LBytePredicate other) {
+	static <X extends Throwable> LBytePredicateX<X> wrapX(final @Nonnull LBytePredicate other) {
 		return (LBytePredicateX) other;
 	}
 
@@ -174,7 +174,7 @@ public interface LBytePredicateX<X extends Throwable> extends MetaPredicate, Pri
 	}
 
 	@Nonnull
-	public static <X extends Throwable> LBytePredicateX<X> isEqual(byte target) {
+	static <X extends Throwable> LBytePredicateX<X> isEqual(byte target) {
 		return b -> b == target;
 	}
 

@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LObjShortConsumerX<T, X extends Throwable> extends MetaConsumer, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LObjShortConsumerX: void doAccept(T t, short s) throws X";
+	static final String DESCRIPTION = "LObjShortConsumerX: void doAccept(T t, short s) throws X";
 
-	public void doAccept(T t, short s) throws X;
+	void doAccept(T t, short s) throws X;
 
 	default void nestingDoAccept(T t, short s) {
 		try {
@@ -101,14 +101,14 @@ public interface LObjShortConsumerX<T, X extends Throwable> extends MetaConsumer
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T, X extends Throwable> LObjShortConsumerX<T, X> lX(final @Nonnull LObjShortConsumerX<T, X> lambda) {
+	static <T, X extends Throwable> LObjShortConsumerX<T, X> lX(final @Nonnull LObjShortConsumerX<T, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T, X extends Throwable> LObjShortConsumerX<T, X> lX(@Nonnull Class<X> xClass, final @Nonnull LObjShortConsumerX<T, X> lambda) {
+	static <T, X extends Throwable> LObjShortConsumerX<T, X> lX(@Nonnull Class<X> xClass, final @Nonnull LObjShortConsumerX<T, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -117,7 +117,7 @@ public interface LObjShortConsumerX<T, X extends Throwable> extends MetaConsumer
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, X extends Throwable> LObjShortConsumerX<T, X> wrapX(final @Nonnull LObjShortConsumer<T> other) {
+	static <T, X extends Throwable> LObjShortConsumerX<T, X> wrapX(final @Nonnull LObjShortConsumer<T> other) {
 		return (LObjShortConsumerX) other;
 	}
 

@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LIntUnaryOperator: int doApplyAsInt(int i)";
+	static final String DESCRIPTION = "LIntUnaryOperator: int doApplyAsInt(int i)";
 
 	@Override
 	@Deprecated
@@ -69,7 +69,7 @@ public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>,
 		return this.nestingDoApplyAsInt(i);
 	}
 
-	public int doApplyAsInt(int i);
+	int doApplyAsInt(int i);
 
 	default int nestingDoApplyAsInt(int i) {
 		return this.doApplyAsInt(i);
@@ -95,13 +95,13 @@ public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>,
 		return () -> this.doApplyAsInt(i);
 	}
 
-	public static LIntUnaryOperator constant(int r) {
+	static LIntUnaryOperator constant(int r) {
 		return i -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LIntUnaryOperator l(final @Nonnull LIntUnaryOperator lambda) {
+	static LIntUnaryOperator l(final @Nonnull LIntUnaryOperator lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -110,13 +110,13 @@ public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>,
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LIntUnaryOperator wrap(final java.util.function.IntUnaryOperator other) {
+	static LIntUnaryOperator wrap(final java.util.function.IntUnaryOperator other) {
 		return other::applyAsInt;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LIntUnaryOperator wrap(final @Nonnull LIntUnaryOperatorX<X> other) {
+	static <X extends Throwable> LIntUnaryOperator wrap(final @Nonnull LIntUnaryOperatorX<X> other) {
 		return other::nestingDoApplyAsInt;
 	}
 
@@ -213,7 +213,7 @@ public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>,
 
 	/** Returns a function that always returns its input argument. */
 	@Nonnull
-	public static LIntUnaryOperator identity() {
+	static LIntUnaryOperator identity() {
 		return t -> t;
 	}
 	// <editor-fold desc="variant conversions">

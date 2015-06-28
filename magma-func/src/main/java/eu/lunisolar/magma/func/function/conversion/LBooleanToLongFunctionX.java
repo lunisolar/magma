@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBooleanToLongFunctionX<X extends Throwable> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LBooleanToLongFunctionX: long doApplyAsLong(boolean b) throws X";
+	static final String DESCRIPTION = "LBooleanToLongFunctionX: long doApplyAsLong(boolean b) throws X";
 
-	public long doApplyAsLong(boolean b) throws X;
+	long doApplyAsLong(boolean b) throws X;
 
 	default long nestingDoApplyAsLong(boolean b) {
 		try {
@@ -103,20 +103,20 @@ public interface LBooleanToLongFunctionX<X extends Throwable> extends MetaFuncti
 		return () -> this.doApplyAsLong(b);
 	}
 
-	public static <X extends Throwable> LBooleanToLongFunctionX<X> constant(long r) {
+	static <X extends Throwable> LBooleanToLongFunctionX<X> constant(long r) {
 		return b -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LBooleanToLongFunctionX<X> lX(final @Nonnull LBooleanToLongFunctionX<X> lambda) {
+	static <X extends Throwable> LBooleanToLongFunctionX<X> lX(final @Nonnull LBooleanToLongFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LBooleanToLongFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LBooleanToLongFunctionX<X> lambda) {
+	static <X extends Throwable> LBooleanToLongFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LBooleanToLongFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -125,7 +125,7 @@ public interface LBooleanToLongFunctionX<X extends Throwable> extends MetaFuncti
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LBooleanToLongFunctionX<X> wrapX(final @Nonnull LBooleanToLongFunction other) {
+	static <X extends Throwable> LBooleanToLongFunctionX<X> wrapX(final @Nonnull LBooleanToLongFunction other) {
 		return (LBooleanToLongFunctionX) other;
 	}
 

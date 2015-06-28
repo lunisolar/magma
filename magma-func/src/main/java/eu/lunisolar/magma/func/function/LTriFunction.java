@@ -60,10 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LTriFunction<T1, T2, T3, R> extends LTriFunctionX<T1, T2, T3, R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LTriFunction: R doApply(T1 t1,T2 t2,T3 t3)";
+	static final String DESCRIPTION = "LTriFunction: R doApply(T1 t1,T2 t2,T3 t3)";
 
 	@Nullable
-	public R doApply(T1 t1, T2 t2, T3 t3);
+	R doApply(T1 t1, T2 t2, T3 t3);
 
 	default R nestingDoApply(T1 t1, T2 t2, T3 t3) {
 		return this.doApply(t1, t2, t3);
@@ -73,7 +73,7 @@ public interface LTriFunction<T1, T2, T3, R> extends LTriFunctionX<T1, T2, T3, R
 		return this.doApply(t1, t2, t3);
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
 	@Nonnull
@@ -92,13 +92,13 @@ public interface LTriFunction<T1, T2, T3, R> extends LTriFunctionX<T1, T2, T3, R
 		return () -> this.doApply(t1, t2, t3);
 	}
 
-	public static <T1, T2, T3, R> LTriFunction<T1, T2, T3, R> constant(R r) {
+	static <T1, T2, T3, R> LTriFunction<T1, T2, T3, R> constant(R r) {
 		return (t1, t2, t3) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T1, T2, T3, R> LTriFunction<T1, T2, T3, R> l(final @Nonnull LTriFunction<T1, T2, T3, R> lambda) {
+	static <T1, T2, T3, R> LTriFunction<T1, T2, T3, R> l(final @Nonnull LTriFunction<T1, T2, T3, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -107,7 +107,7 @@ public interface LTriFunction<T1, T2, T3, R> extends LTriFunctionX<T1, T2, T3, R
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T1, T2, T3, R, X extends Throwable> LTriFunction<T1, T2, T3, R> wrap(final @Nonnull LTriFunctionX<T1, T2, T3, R, X> other) {
+	static <T1, T2, T3, R, X extends Throwable> LTriFunction<T1, T2, T3, R> wrap(final @Nonnull LTriFunctionX<T1, T2, T3, R, X> other) {
 		return other::nestingDoApply;
 	}
 

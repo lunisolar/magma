@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBooleanUnaryOperatorX<X extends Throwable> extends MetaLogicalOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LBooleanUnaryOperatorX: boolean doApplyAsBoolean(boolean b) throws X";
+	static final String DESCRIPTION = "LBooleanUnaryOperatorX: boolean doApplyAsBoolean(boolean b) throws X";
 
-	public boolean doApplyAsBoolean(boolean b) throws X;
+	boolean doApplyAsBoolean(boolean b) throws X;
 
 	default boolean nestingDoApplyAsBoolean(boolean b) {
 		try {
@@ -108,20 +108,20 @@ public interface LBooleanUnaryOperatorX<X extends Throwable> extends MetaLogical
 		return () -> this.doApplyAsBoolean(b);
 	}
 
-	public static <X extends Throwable> LBooleanUnaryOperatorX<X> constant(boolean r) {
+	static <X extends Throwable> LBooleanUnaryOperatorX<X> constant(boolean r) {
 		return b -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LBooleanUnaryOperatorX<X> lX(final @Nonnull LBooleanUnaryOperatorX<X> lambda) {
+	static <X extends Throwable> LBooleanUnaryOperatorX<X> lX(final @Nonnull LBooleanUnaryOperatorX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LBooleanUnaryOperatorX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LBooleanUnaryOperatorX<X> lambda) {
+	static <X extends Throwable> LBooleanUnaryOperatorX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LBooleanUnaryOperatorX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -130,7 +130,7 @@ public interface LBooleanUnaryOperatorX<X extends Throwable> extends MetaLogical
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LBooleanUnaryOperatorX<X> wrapX(final @Nonnull LBooleanUnaryOperator other) {
+	static <X extends Throwable> LBooleanUnaryOperatorX<X> wrapX(final @Nonnull LBooleanUnaryOperator other) {
 		return (LBooleanUnaryOperatorX) other;
 	}
 
@@ -173,7 +173,7 @@ public interface LBooleanUnaryOperatorX<X extends Throwable> extends MetaLogical
 	}
 
 	@Nonnull
-	public static <X extends Throwable> LBooleanUnaryOperatorX<X> isEqual(boolean target) {
+	static <X extends Throwable> LBooleanUnaryOperatorX<X> isEqual(boolean target) {
 		return b -> b == target;
 	}
 
@@ -270,7 +270,7 @@ public interface LBooleanUnaryOperatorX<X extends Throwable> extends MetaLogical
 
 	/** Returns a function that always returns its input argument. */
 	@Nonnull
-	public static <X extends Throwable> LBooleanUnaryOperatorX<X> identity() {
+	static <X extends Throwable> LBooleanUnaryOperatorX<X> identity() {
 		return t -> t;
 	}
 	// <editor-fold desc="variant conversions">

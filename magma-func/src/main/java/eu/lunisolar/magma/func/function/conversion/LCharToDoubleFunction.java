@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LCharToDoubleFunction extends LCharToDoubleFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LCharToDoubleFunction: double doApplyAsDouble(char c)";
+	static final String DESCRIPTION = "LCharToDoubleFunction: double doApplyAsDouble(char c)";
 
-	public double doApplyAsDouble(char c);
+	double doApplyAsDouble(char c);
 
 	default double nestingDoApplyAsDouble(char c) {
 		return this.doApplyAsDouble(c);
@@ -88,13 +88,13 @@ public interface LCharToDoubleFunction extends LCharToDoubleFunctionX<RuntimeExc
 		return () -> this.doApplyAsDouble(c);
 	}
 
-	public static LCharToDoubleFunction constant(double r) {
+	static LCharToDoubleFunction constant(double r) {
 		return c -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LCharToDoubleFunction l(final @Nonnull LCharToDoubleFunction lambda) {
+	static LCharToDoubleFunction l(final @Nonnull LCharToDoubleFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -103,7 +103,7 @@ public interface LCharToDoubleFunction extends LCharToDoubleFunctionX<RuntimeExc
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LCharToDoubleFunction wrap(final @Nonnull LCharToDoubleFunctionX<X> other) {
+	static <X extends Throwable> LCharToDoubleFunction wrap(final @Nonnull LCharToDoubleFunctionX<X> other) {
 		return other::nestingDoApplyAsDouble;
 	}
 

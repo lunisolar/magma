@@ -93,7 +93,7 @@ public final class LCharToFloatFunctionXBuilder<X extends Throwable> extends Per
 	public final LCharToFloatFunctionXBuilder<X> withHandling(@Nonnull HandlingInstructions<X, X> handling) {
 		Null.nonNullArg(handling, "handling");
 		if (this.handling != null) {
-			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+			throw new UnsupportedOperationException("Handling is already set for this builder.");
 		}
 		this.handling = handling;
 		return self();

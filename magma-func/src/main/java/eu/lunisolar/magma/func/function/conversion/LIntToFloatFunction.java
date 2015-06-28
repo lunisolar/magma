@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LIntToFloatFunction extends LIntToFloatFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LIntToFloatFunction: float doApplyAsFloat(int i)";
+	static final String DESCRIPTION = "LIntToFloatFunction: float doApplyAsFloat(int i)";
 
-	public float doApplyAsFloat(int i);
+	float doApplyAsFloat(int i);
 
 	default float nestingDoApplyAsFloat(int i) {
 		return this.doApplyAsFloat(i);
@@ -88,13 +88,13 @@ public interface LIntToFloatFunction extends LIntToFloatFunctionX<RuntimeExcepti
 		return () -> this.doApplyAsFloat(i);
 	}
 
-	public static LIntToFloatFunction constant(float r) {
+	static LIntToFloatFunction constant(float r) {
 		return i -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LIntToFloatFunction l(final @Nonnull LIntToFloatFunction lambda) {
+	static LIntToFloatFunction l(final @Nonnull LIntToFloatFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -103,7 +103,7 @@ public interface LIntToFloatFunction extends LIntToFloatFunctionX<RuntimeExcepti
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LIntToFloatFunction wrap(final @Nonnull LIntToFloatFunctionX<X> other) {
+	static <X extends Throwable> LIntToFloatFunction wrap(final @Nonnull LIntToFloatFunctionX<X> other) {
 		return other::nestingDoApplyAsFloat;
 	}
 

@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LIntBinaryOperator extends LIntBinaryOperatorX<RuntimeException>, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LIntBinaryOperator: int doApplyAsInt(int i1,int i2)";
+	static final String DESCRIPTION = "LIntBinaryOperator: int doApplyAsInt(int i1,int i2)";
 
 	@Override
 	@Deprecated
@@ -69,7 +69,7 @@ public interface LIntBinaryOperator extends LIntBinaryOperatorX<RuntimeException
 		return this.nestingDoApplyAsInt(i1, i2);
 	}
 
-	public int doApplyAsInt(int i1, int i2);
+	int doApplyAsInt(int i1, int i2);
 
 	default int nestingDoApplyAsInt(int i1, int i2) {
 		return this.doApplyAsInt(i1, i2);
@@ -95,13 +95,13 @@ public interface LIntBinaryOperator extends LIntBinaryOperatorX<RuntimeException
 		return () -> this.doApplyAsInt(i1, i2);
 	}
 
-	public static LIntBinaryOperator constant(int r) {
+	static LIntBinaryOperator constant(int r) {
 		return (i1, i2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LIntBinaryOperator l(final @Nonnull LIntBinaryOperator lambda) {
+	static LIntBinaryOperator l(final @Nonnull LIntBinaryOperator lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -110,13 +110,13 @@ public interface LIntBinaryOperator extends LIntBinaryOperatorX<RuntimeException
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LIntBinaryOperator wrap(final java.util.function.IntBinaryOperator other) {
+	static LIntBinaryOperator wrap(final java.util.function.IntBinaryOperator other) {
 		return other::applyAsInt;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LIntBinaryOperator wrap(final @Nonnull LIntBinaryOperatorX<X> other) {
+	static <X extends Throwable> LIntBinaryOperator wrap(final @Nonnull LIntBinaryOperatorX<X> other) {
 		return other::nestingDoApplyAsInt;
 	}
 
@@ -127,7 +127,7 @@ public interface LIntBinaryOperator extends LIntBinaryOperatorX<RuntimeException
 	 * @see {@link java.util.function.BinaryOperator#minBy()}
 	 */
 	@Nonnull
-	public static LIntBinaryOperator min() {
+	static LIntBinaryOperator min() {
 		return Integer::min;
 	}
 
@@ -135,7 +135,7 @@ public interface LIntBinaryOperator extends LIntBinaryOperatorX<RuntimeException
 	 * @see {@link java.util.function.BinaryOperator#maxBy()}
 	 */
 	@Nonnull
-	public static LIntBinaryOperator max() {
+	static LIntBinaryOperator max() {
 		return Integer::max;
 	}
 

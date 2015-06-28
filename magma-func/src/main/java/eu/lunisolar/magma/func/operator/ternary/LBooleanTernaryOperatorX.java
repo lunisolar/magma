@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBooleanTernaryOperatorX<X extends Throwable> extends MetaLogicalOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LBooleanTernaryOperatorX: boolean doApply(boolean b1,boolean b2,boolean b3) throws X";
+	static final String DESCRIPTION = "LBooleanTernaryOperatorX: boolean doApply(boolean b1,boolean b2,boolean b3) throws X";
 
-	public boolean doApply(boolean b1, boolean b2, boolean b3) throws X;
+	boolean doApply(boolean b1, boolean b2, boolean b3) throws X;
 
 	default boolean nestingDoApply(boolean b1, boolean b2, boolean b3) {
 		try {
@@ -108,20 +108,20 @@ public interface LBooleanTernaryOperatorX<X extends Throwable> extends MetaLogic
 		return () -> this.doApply(b1, b2, b3);
 	}
 
-	public static <X extends Throwable> LBooleanTernaryOperatorX<X> constant(boolean r) {
+	static <X extends Throwable> LBooleanTernaryOperatorX<X> constant(boolean r) {
 		return (b1, b2, b3) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LBooleanTernaryOperatorX<X> lX(final @Nonnull LBooleanTernaryOperatorX<X> lambda) {
+	static <X extends Throwable> LBooleanTernaryOperatorX<X> lX(final @Nonnull LBooleanTernaryOperatorX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LBooleanTernaryOperatorX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LBooleanTernaryOperatorX<X> lambda) {
+	static <X extends Throwable> LBooleanTernaryOperatorX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LBooleanTernaryOperatorX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -130,7 +130,7 @@ public interface LBooleanTernaryOperatorX<X extends Throwable> extends MetaLogic
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LBooleanTernaryOperatorX<X> wrapX(final @Nonnull LBooleanTernaryOperator other) {
+	static <X extends Throwable> LBooleanTernaryOperatorX<X> wrapX(final @Nonnull LBooleanTernaryOperator other) {
 		return (LBooleanTernaryOperatorX) other;
 	}
 
@@ -176,7 +176,7 @@ public interface LBooleanTernaryOperatorX<X extends Throwable> extends MetaLogic
 	 *  @see {@link java.util.function.Predicate#isEqual()}
 	 */
 	@Nonnull
-	public static <X extends Throwable> LBooleanTernaryOperatorX<X> isEqual(final boolean v1, final boolean v2, final boolean v3) {
+	static <X extends Throwable> LBooleanTernaryOperatorX<X> isEqual(final boolean v1, final boolean v2, final boolean v3) {
 		return (b1, b2, b3) -> (b1 == v1) && (b2 == v2) && (b3 == v3);
 	}
 

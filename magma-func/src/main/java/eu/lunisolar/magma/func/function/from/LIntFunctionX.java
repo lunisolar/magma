@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LIntFunctionX<R, X extends Throwable> extends java.util.function.IntFunction<R>, MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LIntFunctionX: R doApply(int i) throws X";
+	static final String DESCRIPTION = "LIntFunctionX: R doApply(int i) throws X";
 
 	@Override
 	@Deprecated
@@ -70,7 +70,7 @@ public interface LIntFunctionX<R, X extends Throwable> extends java.util.functio
 	}
 
 	@Nullable
-	public R doApply(int i) throws X;
+	R doApply(int i) throws X;
 
 	default R nestingDoApply(int i) {
 		try {
@@ -95,7 +95,7 @@ public interface LIntFunctionX<R, X extends Throwable> extends java.util.functio
 		}
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
 	@Nonnull
@@ -114,20 +114,20 @@ public interface LIntFunctionX<R, X extends Throwable> extends java.util.functio
 		return () -> this.doApply(i);
 	}
 
-	public static <R, X extends Throwable> LIntFunctionX<R, X> constant(R r) {
+	static <R, X extends Throwable> LIntFunctionX<R, X> constant(R r) {
 		return i -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <R, X extends Throwable> LIntFunctionX<R, X> lX(final @Nonnull LIntFunctionX<R, X> lambda) {
+	static <R, X extends Throwable> LIntFunctionX<R, X> lX(final @Nonnull LIntFunctionX<R, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <R, X extends Throwable> LIntFunctionX<R, X> lX(@Nonnull Class<X> xClass, final @Nonnull LIntFunctionX<R, X> lambda) {
+	static <R, X extends Throwable> LIntFunctionX<R, X> lX(@Nonnull Class<X> xClass, final @Nonnull LIntFunctionX<R, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -136,13 +136,13 @@ public interface LIntFunctionX<R, X extends Throwable> extends java.util.functio
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <R, X extends Throwable> LIntFunctionX<R, X> wrap(final java.util.function.IntFunction<R> other) {
+	static <R, X extends Throwable> LIntFunctionX<R, X> wrap(final java.util.function.IntFunction<R> other) {
 		return other::apply;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <R, X extends Throwable> LIntFunctionX<R, X> wrapX(final @Nonnull LIntFunction<R> other) {
+	static <R, X extends Throwable> LIntFunctionX<R, X> wrapX(final @Nonnull LIntFunction<R> other) {
 		return (LIntFunctionX) other;
 	}
 

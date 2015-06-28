@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBytePredicate extends LBytePredicateX<RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LBytePredicate: boolean doTest(byte b)";
+	static final String DESCRIPTION = "LBytePredicate: boolean doTest(byte b)";
 
-	public boolean doTest(byte b);
+	boolean doTest(byte b);
 
 	default boolean nestingDoTest(byte b) {
 		return this.doTest(b);
@@ -94,13 +94,13 @@ public interface LBytePredicate extends LBytePredicateX<RuntimeException>, MetaP
 		return () -> this.doTest(b);
 	}
 
-	public static LBytePredicate constant(boolean r) {
+	static LBytePredicate constant(boolean r) {
 		return b -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LBytePredicate l(final @Nonnull LBytePredicate lambda) {
+	static LBytePredicate l(final @Nonnull LBytePredicate lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -109,7 +109,7 @@ public interface LBytePredicate extends LBytePredicateX<RuntimeException>, MetaP
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LBytePredicate wrap(final @Nonnull LBytePredicateX<X> other) {
+	static <X extends Throwable> LBytePredicate wrap(final @Nonnull LBytePredicateX<X> other) {
 		return other::nestingDoTest;
 	}
 
@@ -152,7 +152,7 @@ public interface LBytePredicate extends LBytePredicateX<RuntimeException>, MetaP
 	}
 
 	@Nonnull
-	public static LBytePredicate isEqual(byte target) {
+	static LBytePredicate isEqual(byte target) {
 		return b -> b == target;
 	}
 

@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LFloatPredicateX<X extends Throwable> extends MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LFloatPredicateX: boolean doTest(float f) throws X";
+	static final String DESCRIPTION = "LFloatPredicateX: boolean doTest(float f) throws X";
 
-	public boolean doTest(float f) throws X;
+	boolean doTest(float f) throws X;
 
 	default boolean nestingDoTest(float f) {
 		try {
@@ -109,20 +109,20 @@ public interface LFloatPredicateX<X extends Throwable> extends MetaPredicate, Pr
 		return () -> this.doTest(f);
 	}
 
-	public static <X extends Throwable> LFloatPredicateX<X> constant(boolean r) {
+	static <X extends Throwable> LFloatPredicateX<X> constant(boolean r) {
 		return f -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LFloatPredicateX<X> lX(final @Nonnull LFloatPredicateX<X> lambda) {
+	static <X extends Throwable> LFloatPredicateX<X> lX(final @Nonnull LFloatPredicateX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LFloatPredicateX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LFloatPredicateX<X> lambda) {
+	static <X extends Throwable> LFloatPredicateX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LFloatPredicateX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -131,7 +131,7 @@ public interface LFloatPredicateX<X extends Throwable> extends MetaPredicate, Pr
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LFloatPredicateX<X> wrapX(final @Nonnull LFloatPredicate other) {
+	static <X extends Throwable> LFloatPredicateX<X> wrapX(final @Nonnull LFloatPredicate other) {
 		return (LFloatPredicateX) other;
 	}
 
@@ -174,7 +174,7 @@ public interface LFloatPredicateX<X extends Throwable> extends MetaPredicate, Pr
 	}
 
 	@Nonnull
-	public static <X extends Throwable> LFloatPredicateX<X> isEqual(float target) {
+	static <X extends Throwable> LFloatPredicateX<X> isEqual(float target) {
 		return f -> f == target;
 	}
 

@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LDoubleUnaryOperator extends LDoubleUnaryOperatorX<RuntimeException>, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LDoubleUnaryOperator: double doApplyAsDouble(double d)";
+	static final String DESCRIPTION = "LDoubleUnaryOperator: double doApplyAsDouble(double d)";
 
 	@Override
 	@Deprecated
@@ -69,7 +69,7 @@ public interface LDoubleUnaryOperator extends LDoubleUnaryOperatorX<RuntimeExcep
 		return this.nestingDoApplyAsDouble(d);
 	}
 
-	public double doApplyAsDouble(double d);
+	double doApplyAsDouble(double d);
 
 	default double nestingDoApplyAsDouble(double d) {
 		return this.doApplyAsDouble(d);
@@ -95,13 +95,13 @@ public interface LDoubleUnaryOperator extends LDoubleUnaryOperatorX<RuntimeExcep
 		return () -> this.doApplyAsDouble(d);
 	}
 
-	public static LDoubleUnaryOperator constant(double r) {
+	static LDoubleUnaryOperator constant(double r) {
 		return d -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LDoubleUnaryOperator l(final @Nonnull LDoubleUnaryOperator lambda) {
+	static LDoubleUnaryOperator l(final @Nonnull LDoubleUnaryOperator lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -110,13 +110,13 @@ public interface LDoubleUnaryOperator extends LDoubleUnaryOperatorX<RuntimeExcep
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LDoubleUnaryOperator wrap(final java.util.function.DoubleUnaryOperator other) {
+	static LDoubleUnaryOperator wrap(final java.util.function.DoubleUnaryOperator other) {
 		return other::applyAsDouble;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LDoubleUnaryOperator wrap(final @Nonnull LDoubleUnaryOperatorX<X> other) {
+	static <X extends Throwable> LDoubleUnaryOperator wrap(final @Nonnull LDoubleUnaryOperatorX<X> other) {
 		return other::nestingDoApplyAsDouble;
 	}
 
@@ -213,7 +213,7 @@ public interface LDoubleUnaryOperator extends LDoubleUnaryOperatorX<RuntimeExcep
 
 	/** Returns a function that always returns its input argument. */
 	@Nonnull
-	public static LDoubleUnaryOperator identity() {
+	static LDoubleUnaryOperator identity() {
 		return t -> t;
 	}
 	// <editor-fold desc="variant conversions">

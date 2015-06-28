@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LObjFloatPredicate<T> extends LObjFloatPredicateX<T, RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LObjFloatPredicate: boolean doTest(T t, float f)";
+	static final String DESCRIPTION = "LObjFloatPredicate: boolean doTest(T t, float f)";
 
-	public boolean doTest(T t, float f);
+	boolean doTest(T t, float f);
 
 	default boolean nestingDoTest(T t, float f) {
 		return this.doTest(t, f);
@@ -94,13 +94,13 @@ public interface LObjFloatPredicate<T> extends LObjFloatPredicateX<T, RuntimeExc
 		return () -> this.doTest(t, f);
 	}
 
-	public static <T> LObjFloatPredicate<T> constant(boolean r) {
+	static <T> LObjFloatPredicate<T> constant(boolean r) {
 		return (t, f) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T> LObjFloatPredicate<T> l(final @Nonnull LObjFloatPredicate<T> lambda) {
+	static <T> LObjFloatPredicate<T> l(final @Nonnull LObjFloatPredicate<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -109,7 +109,7 @@ public interface LObjFloatPredicate<T> extends LObjFloatPredicateX<T, RuntimeExc
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, X extends Throwable> LObjFloatPredicate<T> wrap(final @Nonnull LObjFloatPredicateX<T, X> other) {
+	static <T, X extends Throwable> LObjFloatPredicate<T> wrap(final @Nonnull LObjFloatPredicateX<T, X> other) {
 		return other::nestingDoTest;
 	}
 
@@ -155,7 +155,7 @@ public interface LObjFloatPredicate<T> extends LObjFloatPredicateX<T, RuntimeExc
 	 *  @see {@link java.util.function.Predicate#isEqual()}
 	 */
 	@Nonnull
-	public static <T1> LObjFloatPredicate<T1> isEqual(final T1 v1, final float v2) {
+	static <T1> LObjFloatPredicate<T1> isEqual(final T1 v1, final float v2) {
 		return (t, f) -> (t == null ? v1 == null : t.equals(v1)) && (f == v2);
 	}
 

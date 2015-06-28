@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LByteToFloatFunction extends LByteToFloatFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LByteToFloatFunction: float doApplyAsFloat(byte b)";
+	static final String DESCRIPTION = "LByteToFloatFunction: float doApplyAsFloat(byte b)";
 
-	public float doApplyAsFloat(byte b);
+	float doApplyAsFloat(byte b);
 
 	default float nestingDoApplyAsFloat(byte b) {
 		return this.doApplyAsFloat(b);
@@ -88,13 +88,13 @@ public interface LByteToFloatFunction extends LByteToFloatFunctionX<RuntimeExcep
 		return () -> this.doApplyAsFloat(b);
 	}
 
-	public static LByteToFloatFunction constant(float r) {
+	static LByteToFloatFunction constant(float r) {
 		return b -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LByteToFloatFunction l(final @Nonnull LByteToFloatFunction lambda) {
+	static LByteToFloatFunction l(final @Nonnull LByteToFloatFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -103,7 +103,7 @@ public interface LByteToFloatFunction extends LByteToFloatFunctionX<RuntimeExcep
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LByteToFloatFunction wrap(final @Nonnull LByteToFloatFunctionX<X> other) {
+	static <X extends Throwable> LByteToFloatFunction wrap(final @Nonnull LByteToFloatFunctionX<X> other) {
 		return other::nestingDoApplyAsFloat;
 	}
 

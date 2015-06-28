@@ -60,10 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LFloatFunctionX<R, X extends Throwable> extends MetaFunction, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LFloatFunctionX: R doApply(float f) throws X";
+	static final String DESCRIPTION = "LFloatFunctionX: R doApply(float f) throws X";
 
 	@Nullable
-	public R doApply(float f) throws X;
+	R doApply(float f) throws X;
 
 	default R nestingDoApply(float f) {
 		try {
@@ -88,7 +88,7 @@ public interface LFloatFunctionX<R, X extends Throwable> extends MetaFunction, M
 		}
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
 	@Nonnull
@@ -107,20 +107,20 @@ public interface LFloatFunctionX<R, X extends Throwable> extends MetaFunction, M
 		return () -> this.doApply(f);
 	}
 
-	public static <R, X extends Throwable> LFloatFunctionX<R, X> constant(R r) {
+	static <R, X extends Throwable> LFloatFunctionX<R, X> constant(R r) {
 		return f -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <R, X extends Throwable> LFloatFunctionX<R, X> lX(final @Nonnull LFloatFunctionX<R, X> lambda) {
+	static <R, X extends Throwable> LFloatFunctionX<R, X> lX(final @Nonnull LFloatFunctionX<R, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <R, X extends Throwable> LFloatFunctionX<R, X> lX(@Nonnull Class<X> xClass, final @Nonnull LFloatFunctionX<R, X> lambda) {
+	static <R, X extends Throwable> LFloatFunctionX<R, X> lX(@Nonnull Class<X> xClass, final @Nonnull LFloatFunctionX<R, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -129,7 +129,7 @@ public interface LFloatFunctionX<R, X extends Throwable> extends MetaFunction, M
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <R, X extends Throwable> LFloatFunctionX<R, X> wrapX(final @Nonnull LFloatFunction<R> other) {
+	static <R, X extends Throwable> LFloatFunctionX<R, X> wrapX(final @Nonnull LFloatFunction<R> other) {
 		return (LFloatFunctionX) other;
 	}
 

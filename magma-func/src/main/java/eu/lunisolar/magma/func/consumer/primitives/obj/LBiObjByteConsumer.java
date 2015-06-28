@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBiObjByteConsumer<T1, T2> extends LBiObjByteConsumerX<T1, T2, RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LBiObjByteConsumer: void doAccept(T1 t1,T2 t2, byte b)";
+	static final String DESCRIPTION = "LBiObjByteConsumer: void doAccept(T1 t1,T2 t2, byte b)";
 
-	public void doAccept(T1 t1, T2 t2, byte b);
+	void doAccept(T1 t1, T2 t2, byte b);
 
 	default void nestingDoAccept(T1 t1, T2 t2, byte b) {
 		this.doAccept(t1, t2, b);
@@ -86,7 +86,7 @@ public interface LBiObjByteConsumer<T1, T2> extends LBiObjByteConsumerX<T1, T2, 
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T1, T2> LBiObjByteConsumer<T1, T2> l(final @Nonnull LBiObjByteConsumer<T1, T2> lambda) {
+	static <T1, T2> LBiObjByteConsumer<T1, T2> l(final @Nonnull LBiObjByteConsumer<T1, T2> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -95,7 +95,7 @@ public interface LBiObjByteConsumer<T1, T2> extends LBiObjByteConsumerX<T1, T2, 
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T1, T2, X extends Throwable> LBiObjByteConsumer<T1, T2> wrap(final @Nonnull LBiObjByteConsumerX<T1, T2, X> other) {
+	static <T1, T2, X extends Throwable> LBiObjByteConsumer<T1, T2> wrap(final @Nonnull LBiObjByteConsumerX<T1, T2, X> other) {
 		return other::nestingDoAccept;
 	}
 

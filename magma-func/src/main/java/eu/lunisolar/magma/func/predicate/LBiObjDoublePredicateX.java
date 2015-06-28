@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBiObjDoublePredicateX<T1, T2, X extends Throwable> extends MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LBiObjDoublePredicateX: boolean doTest(T1 t1,T2 t2, double d) throws X";
+	static final String DESCRIPTION = "LBiObjDoublePredicateX: boolean doTest(T1 t1,T2 t2, double d) throws X";
 
-	public boolean doTest(T1 t1, T2 t2, double d) throws X;
+	boolean doTest(T1 t1, T2 t2, double d) throws X;
 
 	default boolean nestingDoTest(T1 t1, T2 t2, double d) {
 		try {
@@ -109,20 +109,20 @@ public interface LBiObjDoublePredicateX<T1, T2, X extends Throwable> extends Met
 		return () -> this.doTest(t1, t2, d);
 	}
 
-	public static <T1, T2, X extends Throwable> LBiObjDoublePredicateX<T1, T2, X> constant(boolean r) {
+	static <T1, T2, X extends Throwable> LBiObjDoublePredicateX<T1, T2, X> constant(boolean r) {
 		return (t1, t2, d) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T1, T2, X extends Throwable> LBiObjDoublePredicateX<T1, T2, X> lX(final @Nonnull LBiObjDoublePredicateX<T1, T2, X> lambda) {
+	static <T1, T2, X extends Throwable> LBiObjDoublePredicateX<T1, T2, X> lX(final @Nonnull LBiObjDoublePredicateX<T1, T2, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T1, T2, X extends Throwable> LBiObjDoublePredicateX<T1, T2, X> lX(@Nonnull Class<X> xClass, final @Nonnull LBiObjDoublePredicateX<T1, T2, X> lambda) {
+	static <T1, T2, X extends Throwable> LBiObjDoublePredicateX<T1, T2, X> lX(@Nonnull Class<X> xClass, final @Nonnull LBiObjDoublePredicateX<T1, T2, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -131,7 +131,7 @@ public interface LBiObjDoublePredicateX<T1, T2, X extends Throwable> extends Met
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T1, T2, X extends Throwable> LBiObjDoublePredicateX<T1, T2, X> wrapX(final @Nonnull LBiObjDoublePredicate<T1, T2> other) {
+	static <T1, T2, X extends Throwable> LBiObjDoublePredicateX<T1, T2, X> wrapX(final @Nonnull LBiObjDoublePredicate<T1, T2> other) {
 		return (LBiObjDoublePredicateX) other;
 	}
 
@@ -177,7 +177,7 @@ public interface LBiObjDoublePredicateX<T1, T2, X extends Throwable> extends Met
 	 *  @see {@link java.util.function.Predicate#isEqual()}
 	 */
 	@Nonnull
-	public static <T1, T2, X extends Throwable> LBiObjDoublePredicateX<T1, T2, X> isEqual(final T1 v1, final T2 v2, final double v3) {
+	static <T1, T2, X extends Throwable> LBiObjDoublePredicateX<T1, T2, X> isEqual(final T1 v1, final T2 v2, final double v3) {
 		return (t1, t2, d) -> (t1 == null ? v1 == null : t1.equals(v1)) && (t2 == null ? v2 == null : t2.equals(v2)) && (d == v3);
 	}
 

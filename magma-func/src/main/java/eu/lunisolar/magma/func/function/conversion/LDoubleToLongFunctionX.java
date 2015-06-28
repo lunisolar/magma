@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LDoubleToLongFunctionX<X extends Throwable> extends java.util.function.DoubleToLongFunction, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LDoubleToLongFunctionX: long doApplyAsLong(double d) throws X";
+	static final String DESCRIPTION = "LDoubleToLongFunctionX: long doApplyAsLong(double d) throws X";
 
 	@Override
 	@Deprecated
@@ -69,7 +69,7 @@ public interface LDoubleToLongFunctionX<X extends Throwable> extends java.util.f
 		return this.nestingDoApplyAsLong(d);
 	}
 
-	public long doApplyAsLong(double d) throws X;
+	long doApplyAsLong(double d) throws X;
 
 	default long nestingDoApplyAsLong(double d) {
 		try {
@@ -110,20 +110,20 @@ public interface LDoubleToLongFunctionX<X extends Throwable> extends java.util.f
 		return () -> this.doApplyAsLong(d);
 	}
 
-	public static <X extends Throwable> LDoubleToLongFunctionX<X> constant(long r) {
+	static <X extends Throwable> LDoubleToLongFunctionX<X> constant(long r) {
 		return d -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LDoubleToLongFunctionX<X> lX(final @Nonnull LDoubleToLongFunctionX<X> lambda) {
+	static <X extends Throwable> LDoubleToLongFunctionX<X> lX(final @Nonnull LDoubleToLongFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LDoubleToLongFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LDoubleToLongFunctionX<X> lambda) {
+	static <X extends Throwable> LDoubleToLongFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LDoubleToLongFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -132,13 +132,13 @@ public interface LDoubleToLongFunctionX<X extends Throwable> extends java.util.f
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Throwable> LDoubleToLongFunctionX<X> wrap(final java.util.function.DoubleToLongFunction other) {
+	static <X extends Throwable> LDoubleToLongFunctionX<X> wrap(final java.util.function.DoubleToLongFunction other) {
 		return other::applyAsLong;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LDoubleToLongFunctionX<X> wrapX(final @Nonnull LDoubleToLongFunction other) {
+	static <X extends Throwable> LDoubleToLongFunctionX<X> wrapX(final @Nonnull LDoubleToLongFunction other) {
 		return (LDoubleToLongFunctionX) other;
 	}
 

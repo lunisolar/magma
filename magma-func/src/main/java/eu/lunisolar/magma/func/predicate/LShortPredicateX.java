@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LShortPredicateX<X extends Throwable> extends MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LShortPredicateX: boolean doTest(short s) throws X";
+	static final String DESCRIPTION = "LShortPredicateX: boolean doTest(short s) throws X";
 
-	public boolean doTest(short s) throws X;
+	boolean doTest(short s) throws X;
 
 	default boolean nestingDoTest(short s) {
 		try {
@@ -109,20 +109,20 @@ public interface LShortPredicateX<X extends Throwable> extends MetaPredicate, Pr
 		return () -> this.doTest(s);
 	}
 
-	public static <X extends Throwable> LShortPredicateX<X> constant(boolean r) {
+	static <X extends Throwable> LShortPredicateX<X> constant(boolean r) {
 		return s -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LShortPredicateX<X> lX(final @Nonnull LShortPredicateX<X> lambda) {
+	static <X extends Throwable> LShortPredicateX<X> lX(final @Nonnull LShortPredicateX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LShortPredicateX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LShortPredicateX<X> lambda) {
+	static <X extends Throwable> LShortPredicateX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LShortPredicateX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -131,7 +131,7 @@ public interface LShortPredicateX<X extends Throwable> extends MetaPredicate, Pr
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LShortPredicateX<X> wrapX(final @Nonnull LShortPredicate other) {
+	static <X extends Throwable> LShortPredicateX<X> wrapX(final @Nonnull LShortPredicate other) {
 		return (LShortPredicateX) other;
 	}
 
@@ -174,7 +174,7 @@ public interface LShortPredicateX<X extends Throwable> extends MetaPredicate, Pr
 	}
 
 	@Nonnull
-	public static <X extends Throwable> LShortPredicateX<X> isEqual(short target) {
+	static <X extends Throwable> LShortPredicateX<X> isEqual(short target) {
 		return s -> s == target;
 	}
 

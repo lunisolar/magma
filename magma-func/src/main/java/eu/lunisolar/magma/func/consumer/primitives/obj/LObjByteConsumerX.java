@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LObjByteConsumerX<T, X extends Throwable> extends MetaConsumer, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LObjByteConsumerX: void doAccept(T t, byte b) throws X";
+	static final String DESCRIPTION = "LObjByteConsumerX: void doAccept(T t, byte b) throws X";
 
-	public void doAccept(T t, byte b) throws X;
+	void doAccept(T t, byte b) throws X;
 
 	default void nestingDoAccept(T t, byte b) {
 		try {
@@ -101,14 +101,14 @@ public interface LObjByteConsumerX<T, X extends Throwable> extends MetaConsumer,
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T, X extends Throwable> LObjByteConsumerX<T, X> lX(final @Nonnull LObjByteConsumerX<T, X> lambda) {
+	static <T, X extends Throwable> LObjByteConsumerX<T, X> lX(final @Nonnull LObjByteConsumerX<T, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T, X extends Throwable> LObjByteConsumerX<T, X> lX(@Nonnull Class<X> xClass, final @Nonnull LObjByteConsumerX<T, X> lambda) {
+	static <T, X extends Throwable> LObjByteConsumerX<T, X> lX(@Nonnull Class<X> xClass, final @Nonnull LObjByteConsumerX<T, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -117,7 +117,7 @@ public interface LObjByteConsumerX<T, X extends Throwable> extends MetaConsumer,
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, X extends Throwable> LObjByteConsumerX<T, X> wrapX(final @Nonnull LObjByteConsumer<T> other) {
+	static <T, X extends Throwable> LObjByteConsumerX<T, X> wrapX(final @Nonnull LObjByteConsumer<T> other) {
 		return (LObjByteConsumerX) other;
 	}
 

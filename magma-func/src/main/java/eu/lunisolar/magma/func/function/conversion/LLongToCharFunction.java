@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LLongToCharFunction extends LLongToCharFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LLongToCharFunction: char doApplyAsChar(long l)";
+	static final String DESCRIPTION = "LLongToCharFunction: char doApplyAsChar(long l)";
 
-	public char doApplyAsChar(long l);
+	char doApplyAsChar(long l);
 
 	default char nestingDoApplyAsChar(long l) {
 		return this.doApplyAsChar(l);
@@ -88,13 +88,13 @@ public interface LLongToCharFunction extends LLongToCharFunctionX<RuntimeExcepti
 		return () -> this.doApplyAsChar(l);
 	}
 
-	public static LLongToCharFunction constant(char r) {
+	static LLongToCharFunction constant(char r) {
 		return l -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LLongToCharFunction l(final @Nonnull LLongToCharFunction lambda) {
+	static LLongToCharFunction l(final @Nonnull LLongToCharFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -103,7 +103,7 @@ public interface LLongToCharFunction extends LLongToCharFunctionX<RuntimeExcepti
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LLongToCharFunction wrap(final @Nonnull LLongToCharFunctionX<X> other) {
+	static <X extends Throwable> LLongToCharFunction wrap(final @Nonnull LLongToCharFunctionX<X> other) {
 		return other::nestingDoApplyAsChar;
 	}
 

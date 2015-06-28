@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBooleanBinaryOperator extends LBooleanBinaryOperatorX<RuntimeException>, MetaLogicalOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LBooleanBinaryOperator: boolean doApplyAsBoolean(boolean b1,boolean b2)";
+	static final String DESCRIPTION = "LBooleanBinaryOperator: boolean doApplyAsBoolean(boolean b1,boolean b2)";
 
-	public boolean doApplyAsBoolean(boolean b1, boolean b2);
+	boolean doApplyAsBoolean(boolean b1, boolean b2);
 
 	default boolean nestingDoApplyAsBoolean(boolean b1, boolean b2) {
 		return this.doApplyAsBoolean(b1, b2);
@@ -93,13 +93,13 @@ public interface LBooleanBinaryOperator extends LBooleanBinaryOperatorX<RuntimeE
 		return () -> this.doApplyAsBoolean(b1, b2);
 	}
 
-	public static LBooleanBinaryOperator constant(boolean r) {
+	static LBooleanBinaryOperator constant(boolean r) {
 		return (b1, b2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LBooleanBinaryOperator l(final @Nonnull LBooleanBinaryOperator lambda) {
+	static LBooleanBinaryOperator l(final @Nonnull LBooleanBinaryOperator lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -108,7 +108,7 @@ public interface LBooleanBinaryOperator extends LBooleanBinaryOperatorX<RuntimeE
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LBooleanBinaryOperator wrap(final @Nonnull LBooleanBinaryOperatorX<X> other) {
+	static <X extends Throwable> LBooleanBinaryOperator wrap(final @Nonnull LBooleanBinaryOperatorX<X> other) {
 		return other::nestingDoApplyAsBoolean;
 	}
 
@@ -154,7 +154,7 @@ public interface LBooleanBinaryOperator extends LBooleanBinaryOperatorX<RuntimeE
 	 *  @see {@link java.util.function.Predicate#isEqual()}
 	 */
 	@Nonnull
-	public static LBooleanBinaryOperator isEqual(final boolean v1, final boolean v2) {
+	static LBooleanBinaryOperator isEqual(final boolean v1, final boolean v2) {
 		return (b1, b2) -> (b1 == v1) && (b2 == v2);
 	}
 
@@ -165,7 +165,7 @@ public interface LBooleanBinaryOperator extends LBooleanBinaryOperatorX<RuntimeE
 	 *
 	 */
 	@Nonnull
-	public static LBooleanBinaryOperator and() {
+	static LBooleanBinaryOperator and() {
 		return Boolean::logicalAnd;
 	}
 
@@ -173,7 +173,7 @@ public interface LBooleanBinaryOperator extends LBooleanBinaryOperatorX<RuntimeE
 	 * @see {@link java.util.function.BinaryOperator#minBy()}
 	 */
 	@Nonnull
-	public static LBooleanBinaryOperator xor() {
+	static LBooleanBinaryOperator xor() {
 		return Boolean::logicalXor;
 	}
 
@@ -181,7 +181,7 @@ public interface LBooleanBinaryOperator extends LBooleanBinaryOperatorX<RuntimeE
 	 * @see {@link java.util.function.BinaryOperator#maxBy()}
 	 */
 	@Nonnull
-	public static LBooleanBinaryOperator or() {
+	static LBooleanBinaryOperator or() {
 		return Boolean::logicalOr;
 	}
 

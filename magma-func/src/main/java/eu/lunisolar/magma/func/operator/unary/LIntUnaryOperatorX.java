@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LIntUnaryOperatorX<X extends Throwable> extends java.util.function.IntUnaryOperator, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LIntUnaryOperatorX: int doApplyAsInt(int i) throws X";
+	static final String DESCRIPTION = "LIntUnaryOperatorX: int doApplyAsInt(int i) throws X";
 
 	@Override
 	@Deprecated
@@ -69,7 +69,7 @@ public interface LIntUnaryOperatorX<X extends Throwable> extends java.util.funct
 		return this.nestingDoApplyAsInt(i);
 	}
 
-	public int doApplyAsInt(int i) throws X;
+	int doApplyAsInt(int i) throws X;
 
 	default int nestingDoApplyAsInt(int i) {
 		try {
@@ -110,20 +110,20 @@ public interface LIntUnaryOperatorX<X extends Throwable> extends java.util.funct
 		return () -> this.doApplyAsInt(i);
 	}
 
-	public static <X extends Throwable> LIntUnaryOperatorX<X> constant(int r) {
+	static <X extends Throwable> LIntUnaryOperatorX<X> constant(int r) {
 		return i -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LIntUnaryOperatorX<X> lX(final @Nonnull LIntUnaryOperatorX<X> lambda) {
+	static <X extends Throwable> LIntUnaryOperatorX<X> lX(final @Nonnull LIntUnaryOperatorX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LIntUnaryOperatorX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LIntUnaryOperatorX<X> lambda) {
+	static <X extends Throwable> LIntUnaryOperatorX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LIntUnaryOperatorX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -132,13 +132,13 @@ public interface LIntUnaryOperatorX<X extends Throwable> extends java.util.funct
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Throwable> LIntUnaryOperatorX<X> wrap(final java.util.function.IntUnaryOperator other) {
+	static <X extends Throwable> LIntUnaryOperatorX<X> wrap(final java.util.function.IntUnaryOperator other) {
 		return other::applyAsInt;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LIntUnaryOperatorX<X> wrapX(final @Nonnull LIntUnaryOperator other) {
+	static <X extends Throwable> LIntUnaryOperatorX<X> wrapX(final @Nonnull LIntUnaryOperator other) {
 		return (LIntUnaryOperatorX) other;
 	}
 
@@ -235,7 +235,7 @@ public interface LIntUnaryOperatorX<X extends Throwable> extends java.util.funct
 
 	/** Returns a function that always returns its input argument. */
 	@Nonnull
-	public static <X extends Throwable> LIntUnaryOperatorX<X> identity() {
+	static <X extends Throwable> LIntUnaryOperatorX<X> identity() {
 		return t -> t;
 	}
 	// <editor-fold desc="variant conversions">

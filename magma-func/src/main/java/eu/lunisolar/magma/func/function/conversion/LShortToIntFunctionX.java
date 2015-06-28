@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LShortToIntFunctionX<X extends Throwable> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LShortToIntFunctionX: int doApplyAsInt(short s) throws X";
+	static final String DESCRIPTION = "LShortToIntFunctionX: int doApplyAsInt(short s) throws X";
 
-	public int doApplyAsInt(short s) throws X;
+	int doApplyAsInt(short s) throws X;
 
 	default int nestingDoApplyAsInt(short s) {
 		try {
@@ -103,20 +103,20 @@ public interface LShortToIntFunctionX<X extends Throwable> extends MetaFunction,
 		return () -> this.doApplyAsInt(s);
 	}
 
-	public static <X extends Throwable> LShortToIntFunctionX<X> constant(int r) {
+	static <X extends Throwable> LShortToIntFunctionX<X> constant(int r) {
 		return s -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LShortToIntFunctionX<X> lX(final @Nonnull LShortToIntFunctionX<X> lambda) {
+	static <X extends Throwable> LShortToIntFunctionX<X> lX(final @Nonnull LShortToIntFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LShortToIntFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LShortToIntFunctionX<X> lambda) {
+	static <X extends Throwable> LShortToIntFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LShortToIntFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -125,7 +125,7 @@ public interface LShortToIntFunctionX<X extends Throwable> extends MetaFunction,
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LShortToIntFunctionX<X> wrapX(final @Nonnull LShortToIntFunction other) {
+	static <X extends Throwable> LShortToIntFunctionX<X> wrapX(final @Nonnull LShortToIntFunction other) {
 		return (LShortToIntFunctionX) other;
 	}
 

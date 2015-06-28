@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LObjDoublePredicate<T> extends LObjDoublePredicateX<T, RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LObjDoublePredicate: boolean doTest(T t, double d)";
+	static final String DESCRIPTION = "LObjDoublePredicate: boolean doTest(T t, double d)";
 
-	public boolean doTest(T t, double d);
+	boolean doTest(T t, double d);
 
 	default boolean nestingDoTest(T t, double d) {
 		return this.doTest(t, d);
@@ -94,13 +94,13 @@ public interface LObjDoublePredicate<T> extends LObjDoublePredicateX<T, RuntimeE
 		return () -> this.doTest(t, d);
 	}
 
-	public static <T> LObjDoublePredicate<T> constant(boolean r) {
+	static <T> LObjDoublePredicate<T> constant(boolean r) {
 		return (t, d) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T> LObjDoublePredicate<T> l(final @Nonnull LObjDoublePredicate<T> lambda) {
+	static <T> LObjDoublePredicate<T> l(final @Nonnull LObjDoublePredicate<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -109,7 +109,7 @@ public interface LObjDoublePredicate<T> extends LObjDoublePredicateX<T, RuntimeE
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, X extends Throwable> LObjDoublePredicate<T> wrap(final @Nonnull LObjDoublePredicateX<T, X> other) {
+	static <T, X extends Throwable> LObjDoublePredicate<T> wrap(final @Nonnull LObjDoublePredicateX<T, X> other) {
 		return other::nestingDoTest;
 	}
 
@@ -155,7 +155,7 @@ public interface LObjDoublePredicate<T> extends LObjDoublePredicateX<T, RuntimeE
 	 *  @see {@link java.util.function.Predicate#isEqual()}
 	 */
 	@Nonnull
-	public static <T1> LObjDoublePredicate<T1> isEqual(final T1 v1, final double v2) {
+	static <T1> LObjDoublePredicate<T1> isEqual(final T1 v1, final double v2) {
 		return (t, d) -> (t == null ? v1 == null : t.equals(v1)) && (d == v2);
 	}
 

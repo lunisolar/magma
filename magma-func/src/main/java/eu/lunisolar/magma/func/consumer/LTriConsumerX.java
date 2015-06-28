@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LTriConsumerX<T1, T2, T3, X extends Throwable> extends MetaConsumer, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LTriConsumerX: void doAccept(T1 t1,T2 t2,T3 t3) throws X";
+	static final String DESCRIPTION = "LTriConsumerX: void doAccept(T1 t1,T2 t2,T3 t3) throws X";
 
-	public void doAccept(T1 t1, T2 t2, T3 t3) throws X;
+	void doAccept(T1 t1, T2 t2, T3 t3) throws X;
 
 	default void nestingDoAccept(T1 t1, T2 t2, T3 t3) {
 		try {
@@ -101,14 +101,14 @@ public interface LTriConsumerX<T1, T2, T3, X extends Throwable> extends MetaCons
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T1, T2, T3, X extends Throwable> LTriConsumerX<T1, T2, T3, X> lX(final @Nonnull LTriConsumerX<T1, T2, T3, X> lambda) {
+	static <T1, T2, T3, X extends Throwable> LTriConsumerX<T1, T2, T3, X> lX(final @Nonnull LTriConsumerX<T1, T2, T3, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T1, T2, T3, X extends Throwable> LTriConsumerX<T1, T2, T3, X> lX(@Nonnull Class<X> xClass, final @Nonnull LTriConsumerX<T1, T2, T3, X> lambda) {
+	static <T1, T2, T3, X extends Throwable> LTriConsumerX<T1, T2, T3, X> lX(@Nonnull Class<X> xClass, final @Nonnull LTriConsumerX<T1, T2, T3, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -117,7 +117,7 @@ public interface LTriConsumerX<T1, T2, T3, X extends Throwable> extends MetaCons
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T1, T2, T3, X extends Throwable> LTriConsumerX<T1, T2, T3, X> wrapX(final @Nonnull LTriConsumer<T1, T2, T3> other) {
+	static <T1, T2, T3, X extends Throwable> LTriConsumerX<T1, T2, T3, X> wrapX(final @Nonnull LTriConsumer<T1, T2, T3> other) {
 		return (LTriConsumerX) other;
 	}
 

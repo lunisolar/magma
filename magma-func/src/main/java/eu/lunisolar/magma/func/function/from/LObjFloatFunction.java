@@ -60,10 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LObjFloatFunction<T, R> extends LObjFloatFunctionX<T, R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LObjFloatFunction: R doApply(T t, float f)";
+	static final String DESCRIPTION = "LObjFloatFunction: R doApply(T t, float f)";
 
 	@Nullable
-	public R doApply(T t, float f);
+	R doApply(T t, float f);
 
 	default R nestingDoApply(T t, float f) {
 		return this.doApply(t, f);
@@ -73,7 +73,7 @@ public interface LObjFloatFunction<T, R> extends LObjFloatFunctionX<T, R, Runtim
 		return this.doApply(t, f);
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
 	@Nonnull
@@ -92,13 +92,13 @@ public interface LObjFloatFunction<T, R> extends LObjFloatFunctionX<T, R, Runtim
 		return () -> this.doApply(t, f);
 	}
 
-	public static <T, R> LObjFloatFunction<T, R> constant(R r) {
+	static <T, R> LObjFloatFunction<T, R> constant(R r) {
 		return (t, f) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T, R> LObjFloatFunction<T, R> l(final @Nonnull LObjFloatFunction<T, R> lambda) {
+	static <T, R> LObjFloatFunction<T, R> l(final @Nonnull LObjFloatFunction<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -107,7 +107,7 @@ public interface LObjFloatFunction<T, R> extends LObjFloatFunctionX<T, R, Runtim
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, R, X extends Throwable> LObjFloatFunction<T, R> wrap(final @Nonnull LObjFloatFunctionX<T, R, X> other) {
+	static <T, R, X extends Throwable> LObjFloatFunction<T, R> wrap(final @Nonnull LObjFloatFunctionX<T, R, X> other) {
 		return other::nestingDoApply;
 	}
 

@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LCharToShortFunctionX<X extends Throwable> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LCharToShortFunctionX: short doApplyAsShort(char c) throws X";
+	static final String DESCRIPTION = "LCharToShortFunctionX: short doApplyAsShort(char c) throws X";
 
-	public short doApplyAsShort(char c) throws X;
+	short doApplyAsShort(char c) throws X;
 
 	default short nestingDoApplyAsShort(char c) {
 		try {
@@ -103,20 +103,20 @@ public interface LCharToShortFunctionX<X extends Throwable> extends MetaFunction
 		return () -> this.doApplyAsShort(c);
 	}
 
-	public static <X extends Throwable> LCharToShortFunctionX<X> constant(short r) {
+	static <X extends Throwable> LCharToShortFunctionX<X> constant(short r) {
 		return c -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LCharToShortFunctionX<X> lX(final @Nonnull LCharToShortFunctionX<X> lambda) {
+	static <X extends Throwable> LCharToShortFunctionX<X> lX(final @Nonnull LCharToShortFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LCharToShortFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LCharToShortFunctionX<X> lambda) {
+	static <X extends Throwable> LCharToShortFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LCharToShortFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -125,7 +125,7 @@ public interface LCharToShortFunctionX<X extends Throwable> extends MetaFunction
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LCharToShortFunctionX<X> wrapX(final @Nonnull LCharToShortFunction other) {
+	static <X extends Throwable> LCharToShortFunctionX<X> wrapX(final @Nonnull LCharToShortFunction other) {
 		return (LCharToShortFunctionX) other;
 	}
 

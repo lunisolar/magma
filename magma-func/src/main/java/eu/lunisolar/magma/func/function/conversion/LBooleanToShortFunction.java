@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBooleanToShortFunction extends LBooleanToShortFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LBooleanToShortFunction: short doApplyAsShort(boolean b)";
+	static final String DESCRIPTION = "LBooleanToShortFunction: short doApplyAsShort(boolean b)";
 
-	public short doApplyAsShort(boolean b);
+	short doApplyAsShort(boolean b);
 
 	default short nestingDoApplyAsShort(boolean b) {
 		return this.doApplyAsShort(b);
@@ -88,13 +88,13 @@ public interface LBooleanToShortFunction extends LBooleanToShortFunctionX<Runtim
 		return () -> this.doApplyAsShort(b);
 	}
 
-	public static LBooleanToShortFunction constant(short r) {
+	static LBooleanToShortFunction constant(short r) {
 		return b -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LBooleanToShortFunction l(final @Nonnull LBooleanToShortFunction lambda) {
+	static LBooleanToShortFunction l(final @Nonnull LBooleanToShortFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -103,7 +103,7 @@ public interface LBooleanToShortFunction extends LBooleanToShortFunctionX<Runtim
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LBooleanToShortFunction wrap(final @Nonnull LBooleanToShortFunctionX<X> other) {
+	static <X extends Throwable> LBooleanToShortFunction wrap(final @Nonnull LBooleanToShortFunctionX<X> other) {
 		return other::nestingDoApplyAsShort;
 	}
 

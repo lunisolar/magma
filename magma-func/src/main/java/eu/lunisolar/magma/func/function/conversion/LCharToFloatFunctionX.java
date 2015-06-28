@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LCharToFloatFunctionX<X extends Throwable> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LCharToFloatFunctionX: float doApplyAsFloat(char c) throws X";
+	static final String DESCRIPTION = "LCharToFloatFunctionX: float doApplyAsFloat(char c) throws X";
 
-	public float doApplyAsFloat(char c) throws X;
+	float doApplyAsFloat(char c) throws X;
 
 	default float nestingDoApplyAsFloat(char c) {
 		try {
@@ -103,20 +103,20 @@ public interface LCharToFloatFunctionX<X extends Throwable> extends MetaFunction
 		return () -> this.doApplyAsFloat(c);
 	}
 
-	public static <X extends Throwable> LCharToFloatFunctionX<X> constant(float r) {
+	static <X extends Throwable> LCharToFloatFunctionX<X> constant(float r) {
 		return c -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LCharToFloatFunctionX<X> lX(final @Nonnull LCharToFloatFunctionX<X> lambda) {
+	static <X extends Throwable> LCharToFloatFunctionX<X> lX(final @Nonnull LCharToFloatFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LCharToFloatFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LCharToFloatFunctionX<X> lambda) {
+	static <X extends Throwable> LCharToFloatFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LCharToFloatFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -125,7 +125,7 @@ public interface LCharToFloatFunctionX<X extends Throwable> extends MetaFunction
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LCharToFloatFunctionX<X> wrapX(final @Nonnull LCharToFloatFunction other) {
+	static <X extends Throwable> LCharToFloatFunctionX<X> wrapX(final @Nonnull LCharToFloatFunction other) {
 		return (LCharToFloatFunctionX) other;
 	}
 

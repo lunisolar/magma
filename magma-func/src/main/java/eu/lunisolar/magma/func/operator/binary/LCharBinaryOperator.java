@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LCharBinaryOperator extends LCharBinaryOperatorX<RuntimeException>, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LCharBinaryOperator: char doApplyAsChar(char c1,char c2)";
+	static final String DESCRIPTION = "LCharBinaryOperator: char doApplyAsChar(char c1,char c2)";
 
-	public char doApplyAsChar(char c1, char c2);
+	char doApplyAsChar(char c1, char c2);
 
 	default char nestingDoApplyAsChar(char c1, char c2) {
 		return this.doApplyAsChar(c1, c2);
@@ -88,13 +88,13 @@ public interface LCharBinaryOperator extends LCharBinaryOperatorX<RuntimeExcepti
 		return () -> this.doApplyAsChar(c1, c2);
 	}
 
-	public static LCharBinaryOperator constant(char r) {
+	static LCharBinaryOperator constant(char r) {
 		return (c1, c2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LCharBinaryOperator l(final @Nonnull LCharBinaryOperator lambda) {
+	static LCharBinaryOperator l(final @Nonnull LCharBinaryOperator lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -103,7 +103,7 @@ public interface LCharBinaryOperator extends LCharBinaryOperatorX<RuntimeExcepti
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LCharBinaryOperator wrap(final @Nonnull LCharBinaryOperatorX<X> other) {
+	static <X extends Throwable> LCharBinaryOperator wrap(final @Nonnull LCharBinaryOperatorX<X> other) {
 		return other::nestingDoApplyAsChar;
 	}
 
@@ -114,7 +114,7 @@ public interface LCharBinaryOperator extends LCharBinaryOperatorX<RuntimeExcepti
 	 * @see {@link java.util.function.BinaryOperator#minBy()}
 	 */
 	@Nonnull
-	public static LCharBinaryOperator min() {
+	static LCharBinaryOperator min() {
 		return (a, b) -> (a <= b) ? a : b;
 	}
 
@@ -122,7 +122,7 @@ public interface LCharBinaryOperator extends LCharBinaryOperatorX<RuntimeExcepti
 	 * @see {@link java.util.function.BinaryOperator#maxBy()}
 	 */
 	@Nonnull
-	public static LCharBinaryOperator max() {
+	static LCharBinaryOperator max() {
 		return (a, b) -> (a >= b) ? a : b;
 	}
 

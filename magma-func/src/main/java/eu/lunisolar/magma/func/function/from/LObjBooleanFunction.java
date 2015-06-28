@@ -60,10 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LObjBooleanFunction<T, R> extends LObjBooleanFunctionX<T, R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LObjBooleanFunction: R doApply(T t, boolean b)";
+	static final String DESCRIPTION = "LObjBooleanFunction: R doApply(T t, boolean b)";
 
 	@Nullable
-	public R doApply(T t, boolean b);
+	R doApply(T t, boolean b);
 
 	default R nestingDoApply(T t, boolean b) {
 		return this.doApply(t, b);
@@ -73,7 +73,7 @@ public interface LObjBooleanFunction<T, R> extends LObjBooleanFunctionX<T, R, Ru
 		return this.doApply(t, b);
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
 	@Nonnull
@@ -92,13 +92,13 @@ public interface LObjBooleanFunction<T, R> extends LObjBooleanFunctionX<T, R, Ru
 		return () -> this.doApply(t, b);
 	}
 
-	public static <T, R> LObjBooleanFunction<T, R> constant(R r) {
+	static <T, R> LObjBooleanFunction<T, R> constant(R r) {
 		return (t, b) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T, R> LObjBooleanFunction<T, R> l(final @Nonnull LObjBooleanFunction<T, R> lambda) {
+	static <T, R> LObjBooleanFunction<T, R> l(final @Nonnull LObjBooleanFunction<T, R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -107,7 +107,7 @@ public interface LObjBooleanFunction<T, R> extends LObjBooleanFunctionX<T, R, Ru
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, R, X extends Throwable> LObjBooleanFunction<T, R> wrap(final @Nonnull LObjBooleanFunctionX<T, R, X> other) {
+	static <T, R, X extends Throwable> LObjBooleanFunction<T, R> wrap(final @Nonnull LObjBooleanFunctionX<T, R, X> other) {
 		return other::nestingDoApply;
 	}
 

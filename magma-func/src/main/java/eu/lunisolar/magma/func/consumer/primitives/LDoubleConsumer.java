@@ -61,7 +61,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LDoubleConsumer extends LDoubleConsumerX<RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LDoubleConsumer: void doAccept(double d)";
+	static final String DESCRIPTION = "LDoubleConsumer: void doAccept(double d)";
 
 	@Override
 	@Deprecated
@@ -70,7 +70,7 @@ public interface LDoubleConsumer extends LDoubleConsumerX<RuntimeException>, Met
 		this.nestingDoAccept(d);
 	}
 
-	public void doAccept(double d);
+	void doAccept(double d);
 
 	default void nestingDoAccept(double d) {
 		this.doAccept(d);
@@ -93,7 +93,7 @@ public interface LDoubleConsumer extends LDoubleConsumerX<RuntimeException>, Met
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LDoubleConsumer l(final @Nonnull LDoubleConsumer lambda) {
+	static LDoubleConsumer l(final @Nonnull LDoubleConsumer lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -102,13 +102,13 @@ public interface LDoubleConsumer extends LDoubleConsumerX<RuntimeException>, Met
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LDoubleConsumer wrap(final java.util.function.DoubleConsumer other) {
+	static LDoubleConsumer wrap(final java.util.function.DoubleConsumer other) {
 		return other::accept;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LDoubleConsumer wrap(final @Nonnull LDoubleConsumerX<X> other) {
+	static <X extends Throwable> LDoubleConsumer wrap(final @Nonnull LDoubleConsumerX<X> other) {
 		return other::nestingDoAccept;
 	}
 

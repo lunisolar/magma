@@ -60,10 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBooleanBiFunction<R> extends LBooleanBiFunctionX<R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LBooleanBiFunction: R doApply(boolean b1,boolean b2)";
+	static final String DESCRIPTION = "LBooleanBiFunction: R doApply(boolean b1,boolean b2)";
 
 	@Nullable
-	public R doApply(boolean b1, boolean b2);
+	R doApply(boolean b1, boolean b2);
 
 	default R nestingDoApply(boolean b1, boolean b2) {
 		return this.doApply(b1, b2);
@@ -73,7 +73,7 @@ public interface LBooleanBiFunction<R> extends LBooleanBiFunctionX<R, RuntimeExc
 		return this.doApply(b1, b2);
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
 	@Nonnull
@@ -92,13 +92,13 @@ public interface LBooleanBiFunction<R> extends LBooleanBiFunctionX<R, RuntimeExc
 		return () -> this.doApply(b1, b2);
 	}
 
-	public static <R> LBooleanBiFunction<R> constant(R r) {
+	static <R> LBooleanBiFunction<R> constant(R r) {
 		return (b1, b2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <R> LBooleanBiFunction<R> l(final @Nonnull LBooleanBiFunction<R> lambda) {
+	static <R> LBooleanBiFunction<R> l(final @Nonnull LBooleanBiFunction<R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -107,7 +107,7 @@ public interface LBooleanBiFunction<R> extends LBooleanBiFunctionX<R, RuntimeExc
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <R, X extends Throwable> LBooleanBiFunction<R> wrap(final @Nonnull LBooleanBiFunctionX<R, X> other) {
+	static <R, X extends Throwable> LBooleanBiFunction<R> wrap(final @Nonnull LBooleanBiFunctionX<R, X> other) {
 		return other::nestingDoApply;
 	}
 

@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBiCharPredicateX<X extends Throwable> extends MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LBiCharPredicateX: boolean doTest(char c1,char c2) throws X";
+	static final String DESCRIPTION = "LBiCharPredicateX: boolean doTest(char c1,char c2) throws X";
 
-	public boolean doTest(char c1, char c2) throws X;
+	boolean doTest(char c1, char c2) throws X;
 
 	default boolean nestingDoTest(char c1, char c2) {
 		try {
@@ -109,20 +109,20 @@ public interface LBiCharPredicateX<X extends Throwable> extends MetaPredicate, P
 		return () -> this.doTest(c1, c2);
 	}
 
-	public static <X extends Throwable> LBiCharPredicateX<X> constant(boolean r) {
+	static <X extends Throwable> LBiCharPredicateX<X> constant(boolean r) {
 		return (c1, c2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LBiCharPredicateX<X> lX(final @Nonnull LBiCharPredicateX<X> lambda) {
+	static <X extends Throwable> LBiCharPredicateX<X> lX(final @Nonnull LBiCharPredicateX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LBiCharPredicateX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LBiCharPredicateX<X> lambda) {
+	static <X extends Throwable> LBiCharPredicateX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LBiCharPredicateX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -131,7 +131,7 @@ public interface LBiCharPredicateX<X extends Throwable> extends MetaPredicate, P
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LBiCharPredicateX<X> wrapX(final @Nonnull LBiCharPredicate other) {
+	static <X extends Throwable> LBiCharPredicateX<X> wrapX(final @Nonnull LBiCharPredicate other) {
 		return (LBiCharPredicateX) other;
 	}
 
@@ -177,7 +177,7 @@ public interface LBiCharPredicateX<X extends Throwable> extends MetaPredicate, P
 	 *  @see {@link java.util.function.Predicate#isEqual()}
 	 */
 	@Nonnull
-	public static <X extends Throwable> LBiCharPredicateX<X> isEqual(final char v1, final char v2) {
+	static <X extends Throwable> LBiCharPredicateX<X> isEqual(final char v1, final char v2) {
 		return (c1, c2) -> (c1 == v1) && (c2 == v2);
 	}
 

@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBooleanToLongFunction extends LBooleanToLongFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LBooleanToLongFunction: long doApplyAsLong(boolean b)";
+	static final String DESCRIPTION = "LBooleanToLongFunction: long doApplyAsLong(boolean b)";
 
-	public long doApplyAsLong(boolean b);
+	long doApplyAsLong(boolean b);
 
 	default long nestingDoApplyAsLong(boolean b) {
 		return this.doApplyAsLong(b);
@@ -88,13 +88,13 @@ public interface LBooleanToLongFunction extends LBooleanToLongFunctionX<RuntimeE
 		return () -> this.doApplyAsLong(b);
 	}
 
-	public static LBooleanToLongFunction constant(long r) {
+	static LBooleanToLongFunction constant(long r) {
 		return b -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LBooleanToLongFunction l(final @Nonnull LBooleanToLongFunction lambda) {
+	static LBooleanToLongFunction l(final @Nonnull LBooleanToLongFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -103,7 +103,7 @@ public interface LBooleanToLongFunction extends LBooleanToLongFunctionX<RuntimeE
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LBooleanToLongFunction wrap(final @Nonnull LBooleanToLongFunctionX<X> other) {
+	static <X extends Throwable> LBooleanToLongFunction wrap(final @Nonnull LBooleanToLongFunctionX<X> other) {
 		return other::nestingDoApplyAsLong;
 	}
 

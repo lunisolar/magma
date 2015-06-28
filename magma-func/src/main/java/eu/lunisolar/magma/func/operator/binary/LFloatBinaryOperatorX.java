@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LFloatBinaryOperatorX<X extends Throwable> extends MetaOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LFloatBinaryOperatorX: float doApplyAsFloat(float f1,float f2) throws X";
+	static final String DESCRIPTION = "LFloatBinaryOperatorX: float doApplyAsFloat(float f1,float f2) throws X";
 
-	public float doApplyAsFloat(float f1, float f2) throws X;
+	float doApplyAsFloat(float f1, float f2) throws X;
 
 	default float nestingDoApplyAsFloat(float f1, float f2) {
 		try {
@@ -103,20 +103,20 @@ public interface LFloatBinaryOperatorX<X extends Throwable> extends MetaOperator
 		return () -> this.doApplyAsFloat(f1, f2);
 	}
 
-	public static <X extends Throwable> LFloatBinaryOperatorX<X> constant(float r) {
+	static <X extends Throwable> LFloatBinaryOperatorX<X> constant(float r) {
 		return (f1, f2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LFloatBinaryOperatorX<X> lX(final @Nonnull LFloatBinaryOperatorX<X> lambda) {
+	static <X extends Throwable> LFloatBinaryOperatorX<X> lX(final @Nonnull LFloatBinaryOperatorX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LFloatBinaryOperatorX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LFloatBinaryOperatorX<X> lambda) {
+	static <X extends Throwable> LFloatBinaryOperatorX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LFloatBinaryOperatorX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -125,7 +125,7 @@ public interface LFloatBinaryOperatorX<X extends Throwable> extends MetaOperator
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LFloatBinaryOperatorX<X> wrapX(final @Nonnull LFloatBinaryOperator other) {
+	static <X extends Throwable> LFloatBinaryOperatorX<X> wrapX(final @Nonnull LFloatBinaryOperator other) {
 		return (LFloatBinaryOperatorX) other;
 	}
 
@@ -136,7 +136,7 @@ public interface LFloatBinaryOperatorX<X extends Throwable> extends MetaOperator
 	 * @see {@link java.util.function.BinaryOperator#minBy()}
 	 */
 	@Nonnull
-	public static <X extends Throwable> LFloatBinaryOperatorX<X> min() {
+	static <X extends Throwable> LFloatBinaryOperatorX<X> min() {
 		return Float::min;
 	}
 
@@ -144,7 +144,7 @@ public interface LFloatBinaryOperatorX<X extends Throwable> extends MetaOperator
 	 * @see {@link java.util.function.BinaryOperator#maxBy()}
 	 */
 	@Nonnull
-	public static <X extends Throwable> LFloatBinaryOperatorX<X> max() {
+	static <X extends Throwable> LFloatBinaryOperatorX<X> max() {
 		return Float::max;
 	}
 

@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LByteToShortFunctionX<X extends Throwable> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LByteToShortFunctionX: short doApplyAsShort(byte b) throws X";
+	static final String DESCRIPTION = "LByteToShortFunctionX: short doApplyAsShort(byte b) throws X";
 
-	public short doApplyAsShort(byte b) throws X;
+	short doApplyAsShort(byte b) throws X;
 
 	default short nestingDoApplyAsShort(byte b) {
 		try {
@@ -103,20 +103,20 @@ public interface LByteToShortFunctionX<X extends Throwable> extends MetaFunction
 		return () -> this.doApplyAsShort(b);
 	}
 
-	public static <X extends Throwable> LByteToShortFunctionX<X> constant(short r) {
+	static <X extends Throwable> LByteToShortFunctionX<X> constant(short r) {
 		return b -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LByteToShortFunctionX<X> lX(final @Nonnull LByteToShortFunctionX<X> lambda) {
+	static <X extends Throwable> LByteToShortFunctionX<X> lX(final @Nonnull LByteToShortFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LByteToShortFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LByteToShortFunctionX<X> lambda) {
+	static <X extends Throwable> LByteToShortFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LByteToShortFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -125,7 +125,7 @@ public interface LByteToShortFunctionX<X extends Throwable> extends MetaFunction
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LByteToShortFunctionX<X> wrapX(final @Nonnull LByteToShortFunction other) {
+	static <X extends Throwable> LByteToShortFunctionX<X> wrapX(final @Nonnull LByteToShortFunction other) {
 		return (LByteToShortFunctionX) other;
 	}
 

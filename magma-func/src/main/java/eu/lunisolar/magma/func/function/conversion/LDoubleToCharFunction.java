@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LDoubleToCharFunction extends LDoubleToCharFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LDoubleToCharFunction: char doApplyAsChar(double d)";
+	static final String DESCRIPTION = "LDoubleToCharFunction: char doApplyAsChar(double d)";
 
-	public char doApplyAsChar(double d);
+	char doApplyAsChar(double d);
 
 	default char nestingDoApplyAsChar(double d) {
 		return this.doApplyAsChar(d);
@@ -88,13 +88,13 @@ public interface LDoubleToCharFunction extends LDoubleToCharFunctionX<RuntimeExc
 		return () -> this.doApplyAsChar(d);
 	}
 
-	public static LDoubleToCharFunction constant(char r) {
+	static LDoubleToCharFunction constant(char r) {
 		return d -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LDoubleToCharFunction l(final @Nonnull LDoubleToCharFunction lambda) {
+	static LDoubleToCharFunction l(final @Nonnull LDoubleToCharFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -103,7 +103,7 @@ public interface LDoubleToCharFunction extends LDoubleToCharFunctionX<RuntimeExc
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LDoubleToCharFunction wrap(final @Nonnull LDoubleToCharFunctionX<X> other) {
+	static <X extends Throwable> LDoubleToCharFunction wrap(final @Nonnull LDoubleToCharFunctionX<X> other) {
 		return other::nestingDoApplyAsChar;
 	}
 

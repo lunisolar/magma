@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBooleanSupplier extends LBooleanSupplierX<RuntimeException>, MetaSupplier, PrimitiveCodomain<Object>, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LBooleanSupplier: boolean doGetAsBoolean()";
+	static final String DESCRIPTION = "LBooleanSupplier: boolean doGetAsBoolean()";
 
 	@Override
 	@Deprecated
@@ -69,7 +69,7 @@ public interface LBooleanSupplier extends LBooleanSupplierX<RuntimeException>, M
 		return this.nestingDoGetAsBoolean();
 	}
 
-	public boolean doGetAsBoolean();
+	boolean doGetAsBoolean();
 
 	default boolean nestingDoGetAsBoolean() {
 		return this.doGetAsBoolean();
@@ -90,13 +90,13 @@ public interface LBooleanSupplier extends LBooleanSupplierX<RuntimeException>, M
 		return LBooleanSupplier.DESCRIPTION;
 	}
 
-	public static LBooleanSupplier of(boolean r) {
+	static LBooleanSupplier of(boolean r) {
 		return () -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LBooleanSupplier l(final @Nonnull LBooleanSupplier lambda) {
+	static LBooleanSupplier l(final @Nonnull LBooleanSupplier lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -105,13 +105,13 @@ public interface LBooleanSupplier extends LBooleanSupplierX<RuntimeException>, M
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LBooleanSupplier wrap(final java.util.function.BooleanSupplier other) {
+	static LBooleanSupplier wrap(final java.util.function.BooleanSupplier other) {
 		return other::getAsBoolean;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LBooleanSupplier wrap(final @Nonnull LBooleanSupplierX<X> other) {
+	static <X extends Throwable> LBooleanSupplier wrap(final @Nonnull LBooleanSupplierX<X> other) {
 		return other::nestingDoGetAsBoolean;
 	}
 

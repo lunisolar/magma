@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBiObjBytePredicate<T1, T2> extends LBiObjBytePredicateX<T1, T2, RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LBiObjBytePredicate: boolean doTest(T1 t1,T2 t2, byte b)";
+	static final String DESCRIPTION = "LBiObjBytePredicate: boolean doTest(T1 t1,T2 t2, byte b)";
 
-	public boolean doTest(T1 t1, T2 t2, byte b);
+	boolean doTest(T1 t1, T2 t2, byte b);
 
 	default boolean nestingDoTest(T1 t1, T2 t2, byte b) {
 		return this.doTest(t1, t2, b);
@@ -94,13 +94,13 @@ public interface LBiObjBytePredicate<T1, T2> extends LBiObjBytePredicateX<T1, T2
 		return () -> this.doTest(t1, t2, b);
 	}
 
-	public static <T1, T2> LBiObjBytePredicate<T1, T2> constant(boolean r) {
+	static <T1, T2> LBiObjBytePredicate<T1, T2> constant(boolean r) {
 		return (t1, t2, b) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T1, T2> LBiObjBytePredicate<T1, T2> l(final @Nonnull LBiObjBytePredicate<T1, T2> lambda) {
+	static <T1, T2> LBiObjBytePredicate<T1, T2> l(final @Nonnull LBiObjBytePredicate<T1, T2> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -109,7 +109,7 @@ public interface LBiObjBytePredicate<T1, T2> extends LBiObjBytePredicateX<T1, T2
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T1, T2, X extends Throwable> LBiObjBytePredicate<T1, T2> wrap(final @Nonnull LBiObjBytePredicateX<T1, T2, X> other) {
+	static <T1, T2, X extends Throwable> LBiObjBytePredicate<T1, T2> wrap(final @Nonnull LBiObjBytePredicateX<T1, T2, X> other) {
 		return other::nestingDoTest;
 	}
 
@@ -155,7 +155,7 @@ public interface LBiObjBytePredicate<T1, T2> extends LBiObjBytePredicateX<T1, T2
 	 *  @see {@link java.util.function.Predicate#isEqual()}
 	 */
 	@Nonnull
-	public static <T1, T2> LBiObjBytePredicate<T1, T2> isEqual(final T1 v1, final T2 v2, final byte v3) {
+	static <T1, T2> LBiObjBytePredicate<T1, T2> isEqual(final T1 v1, final T2 v2, final byte v3) {
 		return (t1, t2, b) -> (t1 == null ? v1 == null : t1.equals(v1)) && (t2 == null ? v2 == null : t2.equals(v2)) && (b == v3);
 	}
 

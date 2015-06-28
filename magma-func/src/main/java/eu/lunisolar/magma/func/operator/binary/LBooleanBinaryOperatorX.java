@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBooleanBinaryOperatorX<X extends Throwable> extends MetaLogicalOperator, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LBooleanBinaryOperatorX: boolean doApplyAsBoolean(boolean b1,boolean b2) throws X";
+	static final String DESCRIPTION = "LBooleanBinaryOperatorX: boolean doApplyAsBoolean(boolean b1,boolean b2) throws X";
 
-	public boolean doApplyAsBoolean(boolean b1, boolean b2) throws X;
+	boolean doApplyAsBoolean(boolean b1, boolean b2) throws X;
 
 	default boolean nestingDoApplyAsBoolean(boolean b1, boolean b2) {
 		try {
@@ -108,20 +108,20 @@ public interface LBooleanBinaryOperatorX<X extends Throwable> extends MetaLogica
 		return () -> this.doApplyAsBoolean(b1, b2);
 	}
 
-	public static <X extends Throwable> LBooleanBinaryOperatorX<X> constant(boolean r) {
+	static <X extends Throwable> LBooleanBinaryOperatorX<X> constant(boolean r) {
 		return (b1, b2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LBooleanBinaryOperatorX<X> lX(final @Nonnull LBooleanBinaryOperatorX<X> lambda) {
+	static <X extends Throwable> LBooleanBinaryOperatorX<X> lX(final @Nonnull LBooleanBinaryOperatorX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LBooleanBinaryOperatorX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LBooleanBinaryOperatorX<X> lambda) {
+	static <X extends Throwable> LBooleanBinaryOperatorX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LBooleanBinaryOperatorX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -130,7 +130,7 @@ public interface LBooleanBinaryOperatorX<X extends Throwable> extends MetaLogica
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LBooleanBinaryOperatorX<X> wrapX(final @Nonnull LBooleanBinaryOperator other) {
+	static <X extends Throwable> LBooleanBinaryOperatorX<X> wrapX(final @Nonnull LBooleanBinaryOperator other) {
 		return (LBooleanBinaryOperatorX) other;
 	}
 
@@ -176,7 +176,7 @@ public interface LBooleanBinaryOperatorX<X extends Throwable> extends MetaLogica
 	 *  @see {@link java.util.function.Predicate#isEqual()}
 	 */
 	@Nonnull
-	public static <X extends Throwable> LBooleanBinaryOperatorX<X> isEqual(final boolean v1, final boolean v2) {
+	static <X extends Throwable> LBooleanBinaryOperatorX<X> isEqual(final boolean v1, final boolean v2) {
 		return (b1, b2) -> (b1 == v1) && (b2 == v2);
 	}
 
@@ -187,7 +187,7 @@ public interface LBooleanBinaryOperatorX<X extends Throwable> extends MetaLogica
 	 *
 	 */
 	@Nonnull
-	public static <X extends Throwable> LBooleanBinaryOperatorX<X> and() {
+	static <X extends Throwable> LBooleanBinaryOperatorX<X> and() {
 		return Boolean::logicalAnd;
 	}
 
@@ -195,7 +195,7 @@ public interface LBooleanBinaryOperatorX<X extends Throwable> extends MetaLogica
 	 * @see {@link java.util.function.BinaryOperator#minBy()}
 	 */
 	@Nonnull
-	public static <X extends Throwable> LBooleanBinaryOperatorX<X> xor() {
+	static <X extends Throwable> LBooleanBinaryOperatorX<X> xor() {
 		return Boolean::logicalXor;
 	}
 
@@ -203,7 +203,7 @@ public interface LBooleanBinaryOperatorX<X extends Throwable> extends MetaLogica
 	 * @see {@link java.util.function.BinaryOperator#maxBy()}
 	 */
 	@Nonnull
-	public static <X extends Throwable> LBooleanBinaryOperatorX<X> or() {
+	static <X extends Throwable> LBooleanBinaryOperatorX<X> or() {
 		return Boolean::logicalOr;
 	}
 

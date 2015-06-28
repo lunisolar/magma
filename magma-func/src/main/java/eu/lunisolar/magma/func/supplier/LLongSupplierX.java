@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LLongSupplierX<X extends Throwable> extends java.util.function.LongSupplier, MetaSupplier, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LLongSupplierX: long doGetAsLong() throws X";
+	static final String DESCRIPTION = "LLongSupplierX: long doGetAsLong() throws X";
 
 	@Override
 	@Deprecated
@@ -69,7 +69,7 @@ public interface LLongSupplierX<X extends Throwable> extends java.util.function.
 		return this.nestingDoGetAsLong();
 	}
 
-	public long doGetAsLong() throws X;
+	long doGetAsLong() throws X;
 
 	default long nestingDoGetAsLong() {
 		try {
@@ -105,20 +105,20 @@ public interface LLongSupplierX<X extends Throwable> extends java.util.function.
 		return LLongSupplierX.DESCRIPTION;
 	}
 
-	public static <X extends Throwable> LLongSupplierX<X> of(long r) {
+	static <X extends Throwable> LLongSupplierX<X> of(long r) {
 		return () -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LLongSupplierX<X> lX(final @Nonnull LLongSupplierX<X> lambda) {
+	static <X extends Throwable> LLongSupplierX<X> lX(final @Nonnull LLongSupplierX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LLongSupplierX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LLongSupplierX<X> lambda) {
+	static <X extends Throwable> LLongSupplierX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LLongSupplierX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -127,13 +127,13 @@ public interface LLongSupplierX<X extends Throwable> extends java.util.function.
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Throwable> LLongSupplierX<X> wrap(final java.util.function.LongSupplier other) {
+	static <X extends Throwable> LLongSupplierX<X> wrap(final java.util.function.LongSupplier other) {
 		return other::getAsLong;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LLongSupplierX<X> wrapX(final @Nonnull LLongSupplier other) {
+	static <X extends Throwable> LLongSupplierX<X> wrapX(final @Nonnull LLongSupplier other) {
 		return (LLongSupplierX) other;
 	}
 

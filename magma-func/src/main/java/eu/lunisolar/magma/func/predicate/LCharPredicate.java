@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LCharPredicate: boolean doTest(char c)";
+	static final String DESCRIPTION = "LCharPredicate: boolean doTest(char c)";
 
-	public boolean doTest(char c);
+	boolean doTest(char c);
 
 	default boolean nestingDoTest(char c) {
 		return this.doTest(c);
@@ -94,13 +94,13 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 		return () -> this.doTest(c);
 	}
 
-	public static LCharPredicate constant(boolean r) {
+	static LCharPredicate constant(boolean r) {
 		return c -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LCharPredicate l(final @Nonnull LCharPredicate lambda) {
+	static LCharPredicate l(final @Nonnull LCharPredicate lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -109,7 +109,7 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LCharPredicate wrap(final @Nonnull LCharPredicateX<X> other) {
+	static <X extends Throwable> LCharPredicate wrap(final @Nonnull LCharPredicateX<X> other) {
 		return other::nestingDoTest;
 	}
 
@@ -152,7 +152,7 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 	}
 
 	@Nonnull
-	public static LCharPredicate isEqual(char target) {
+	static LCharPredicate isEqual(char target) {
 		return c -> c == target;
 	}
 

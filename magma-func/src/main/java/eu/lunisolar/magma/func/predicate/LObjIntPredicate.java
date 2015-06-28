@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LObjIntPredicate<T> extends LObjIntPredicateX<T, RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LObjIntPredicate: boolean doTest(T t, int i)";
+	static final String DESCRIPTION = "LObjIntPredicate: boolean doTest(T t, int i)";
 
-	public boolean doTest(T t, int i);
+	boolean doTest(T t, int i);
 
 	default boolean nestingDoTest(T t, int i) {
 		return this.doTest(t, i);
@@ -94,13 +94,13 @@ public interface LObjIntPredicate<T> extends LObjIntPredicateX<T, RuntimeExcepti
 		return () -> this.doTest(t, i);
 	}
 
-	public static <T> LObjIntPredicate<T> constant(boolean r) {
+	static <T> LObjIntPredicate<T> constant(boolean r) {
 		return (t, i) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T> LObjIntPredicate<T> l(final @Nonnull LObjIntPredicate<T> lambda) {
+	static <T> LObjIntPredicate<T> l(final @Nonnull LObjIntPredicate<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -109,7 +109,7 @@ public interface LObjIntPredicate<T> extends LObjIntPredicateX<T, RuntimeExcepti
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, X extends Throwable> LObjIntPredicate<T> wrap(final @Nonnull LObjIntPredicateX<T, X> other) {
+	static <T, X extends Throwable> LObjIntPredicate<T> wrap(final @Nonnull LObjIntPredicateX<T, X> other) {
 		return other::nestingDoTest;
 	}
 
@@ -155,7 +155,7 @@ public interface LObjIntPredicate<T> extends LObjIntPredicateX<T, RuntimeExcepti
 	 *  @see {@link java.util.function.Predicate#isEqual()}
 	 */
 	@Nonnull
-	public static <T1> LObjIntPredicate<T1> isEqual(final T1 v1, final int v2) {
+	static <T1> LObjIntPredicate<T1> isEqual(final T1 v1, final int v2) {
 		return (t, i) -> (t == null ? v1 == null : t.equals(v1)) && (i == v2);
 	}
 

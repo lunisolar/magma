@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBiPredicate<T1, T2> extends LBiPredicateX<T1, T2, RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LBiPredicate: boolean doTest(T1 t1,T2 t2)";
+	static final String DESCRIPTION = "LBiPredicate: boolean doTest(T1 t1,T2 t2)";
 
 	@Override
 	@Deprecated
@@ -69,7 +69,7 @@ public interface LBiPredicate<T1, T2> extends LBiPredicateX<T1, T2, RuntimeExcep
 		return this.nestingDoTest(t1, t2);
 	}
 
-	public boolean doTest(T1 t1, T2 t2);
+	boolean doTest(T1 t1, T2 t2);
 
 	default boolean nestingDoTest(T1 t1, T2 t2) {
 		return this.doTest(t1, t2);
@@ -101,13 +101,13 @@ public interface LBiPredicate<T1, T2> extends LBiPredicateX<T1, T2, RuntimeExcep
 		return () -> this.doTest(t1, t2);
 	}
 
-	public static <T1, T2> LBiPredicate<T1, T2> constant(boolean r) {
+	static <T1, T2> LBiPredicate<T1, T2> constant(boolean r) {
 		return (t1, t2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T1, T2> LBiPredicate<T1, T2> l(final @Nonnull LBiPredicate<T1, T2> lambda) {
+	static <T1, T2> LBiPredicate<T1, T2> l(final @Nonnull LBiPredicate<T1, T2> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -116,13 +116,13 @@ public interface LBiPredicate<T1, T2> extends LBiPredicateX<T1, T2, RuntimeExcep
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T1, T2> LBiPredicate<T1, T2> wrap(final java.util.function.BiPredicate<T1, T2> other) {
+	static <T1, T2> LBiPredicate<T1, T2> wrap(final java.util.function.BiPredicate<T1, T2> other) {
 		return other::test;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T1, T2, X extends Throwable> LBiPredicate<T1, T2> wrap(final @Nonnull LBiPredicateX<T1, T2, X> other) {
+	static <T1, T2, X extends Throwable> LBiPredicate<T1, T2> wrap(final @Nonnull LBiPredicateX<T1, T2, X> other) {
 		return other::nestingDoTest;
 	}
 
@@ -168,7 +168,7 @@ public interface LBiPredicate<T1, T2> extends LBiPredicateX<T1, T2, RuntimeExcep
 	 *  @see {@link java.util.function.Predicate#isEqual()}
 	 */
 	@Nonnull
-	public static <T1, T2> LBiPredicate<T1, T2> isEqual(final T1 v1, final T2 v2) {
+	static <T1, T2> LBiPredicate<T1, T2> isEqual(final T1 v1, final T2 v2) {
 		return (t1, t2) -> (t1 == null ? v1 == null : t1.equals(v1)) && (t2 == null ? v2 == null : t2.equals(v2));
 	}
 

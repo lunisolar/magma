@@ -60,10 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBooleanTriFunction<R> extends LBooleanTriFunctionX<R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LBooleanTriFunction: R doApply(boolean b1,boolean b2,boolean b3)";
+	static final String DESCRIPTION = "LBooleanTriFunction: R doApply(boolean b1,boolean b2,boolean b3)";
 
 	@Nullable
-	public R doApply(boolean b1, boolean b2, boolean b3);
+	R doApply(boolean b1, boolean b2, boolean b3);
 
 	default R nestingDoApply(boolean b1, boolean b2, boolean b3) {
 		return this.doApply(b1, b2, b3);
@@ -73,7 +73,7 @@ public interface LBooleanTriFunction<R> extends LBooleanTriFunctionX<R, RuntimeE
 		return this.doApply(b1, b2, b3);
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
 	@Nonnull
@@ -92,13 +92,13 @@ public interface LBooleanTriFunction<R> extends LBooleanTriFunctionX<R, RuntimeE
 		return () -> this.doApply(b1, b2, b3);
 	}
 
-	public static <R> LBooleanTriFunction<R> constant(R r) {
+	static <R> LBooleanTriFunction<R> constant(R r) {
 		return (b1, b2, b3) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <R> LBooleanTriFunction<R> l(final @Nonnull LBooleanTriFunction<R> lambda) {
+	static <R> LBooleanTriFunction<R> l(final @Nonnull LBooleanTriFunction<R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -107,7 +107,7 @@ public interface LBooleanTriFunction<R> extends LBooleanTriFunctionX<R, RuntimeE
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <R, X extends Throwable> LBooleanTriFunction<R> wrap(final @Nonnull LBooleanTriFunctionX<R, X> other) {
+	static <R, X extends Throwable> LBooleanTriFunction<R> wrap(final @Nonnull LBooleanTriFunctionX<R, X> other) {
 		return other::nestingDoApply;
 	}
 

@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LToShortFunction<T> extends LToShortFunctionX<T, RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LToShortFunction: short doApplyAsShort(T t)";
+	static final String DESCRIPTION = "LToShortFunction: short doApplyAsShort(T t)";
 
-	public short doApplyAsShort(T t);
+	short doApplyAsShort(T t);
 
 	default short nestingDoApplyAsShort(T t) {
 		return this.doApplyAsShort(t);
@@ -88,13 +88,13 @@ public interface LToShortFunction<T> extends LToShortFunctionX<T, RuntimeExcepti
 		return () -> this.doApplyAsShort(t);
 	}
 
-	public static <T> LToShortFunction<T> constant(short r) {
+	static <T> LToShortFunction<T> constant(short r) {
 		return t -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T> LToShortFunction<T> l(final @Nonnull LToShortFunction<T> lambda) {
+	static <T> LToShortFunction<T> l(final @Nonnull LToShortFunction<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -103,7 +103,7 @@ public interface LToShortFunction<T> extends LToShortFunctionX<T, RuntimeExcepti
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, X extends Throwable> LToShortFunction<T> wrap(final @Nonnull LToShortFunctionX<T, X> other) {
+	static <T, X extends Throwable> LToShortFunction<T> wrap(final @Nonnull LToShortFunctionX<T, X> other) {
 		return other::nestingDoApplyAsShort;
 	}
 

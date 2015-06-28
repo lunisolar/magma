@@ -92,7 +92,7 @@ public final class BinaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Ba
 	public final BinaryOperatorBuilder<T> withHandling(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
 		Null.nonNullArg(handling, "handling");
 		if (this.handling != null) {
-			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+			throw new UnsupportedOperationException("Handling is already set for this builder.");
 		}
 		this.handling = handling;
 		return self();

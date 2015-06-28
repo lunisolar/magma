@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LFloatPredicate: boolean doTest(float f)";
+	static final String DESCRIPTION = "LFloatPredicate: boolean doTest(float f)";
 
-	public boolean doTest(float f);
+	boolean doTest(float f);
 
 	default boolean nestingDoTest(float f) {
 		return this.doTest(f);
@@ -94,13 +94,13 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 		return () -> this.doTest(f);
 	}
 
-	public static LFloatPredicate constant(boolean r) {
+	static LFloatPredicate constant(boolean r) {
 		return f -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LFloatPredicate l(final @Nonnull LFloatPredicate lambda) {
+	static LFloatPredicate l(final @Nonnull LFloatPredicate lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -109,7 +109,7 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LFloatPredicate wrap(final @Nonnull LFloatPredicateX<X> other) {
+	static <X extends Throwable> LFloatPredicate wrap(final @Nonnull LFloatPredicateX<X> other) {
 		return other::nestingDoTest;
 	}
 
@@ -152,7 +152,7 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 	}
 
 	@Nonnull
-	public static LFloatPredicate isEqual(float target) {
+	static LFloatPredicate isEqual(float target) {
 		return f -> f == target;
 	}
 

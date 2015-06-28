@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LCharToDoubleFunctionX<X extends Throwable> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LCharToDoubleFunctionX: double doApplyAsDouble(char c) throws X";
+	static final String DESCRIPTION = "LCharToDoubleFunctionX: double doApplyAsDouble(char c) throws X";
 
-	public double doApplyAsDouble(char c) throws X;
+	double doApplyAsDouble(char c) throws X;
 
 	default double nestingDoApplyAsDouble(char c) {
 		try {
@@ -103,20 +103,20 @@ public interface LCharToDoubleFunctionX<X extends Throwable> extends MetaFunctio
 		return () -> this.doApplyAsDouble(c);
 	}
 
-	public static <X extends Throwable> LCharToDoubleFunctionX<X> constant(double r) {
+	static <X extends Throwable> LCharToDoubleFunctionX<X> constant(double r) {
 		return c -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LCharToDoubleFunctionX<X> lX(final @Nonnull LCharToDoubleFunctionX<X> lambda) {
+	static <X extends Throwable> LCharToDoubleFunctionX<X> lX(final @Nonnull LCharToDoubleFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LCharToDoubleFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LCharToDoubleFunctionX<X> lambda) {
+	static <X extends Throwable> LCharToDoubleFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LCharToDoubleFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -125,7 +125,7 @@ public interface LCharToDoubleFunctionX<X extends Throwable> extends MetaFunctio
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LCharToDoubleFunctionX<X> wrapX(final @Nonnull LCharToDoubleFunction other) {
+	static <X extends Throwable> LCharToDoubleFunctionX<X> wrapX(final @Nonnull LCharToDoubleFunction other) {
 		return (LCharToDoubleFunctionX) other;
 	}
 

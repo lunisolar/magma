@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LFloatSupplierX<X extends Throwable> extends MetaSupplier, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LFloatSupplierX: float doGetAsFloat() throws X";
+	static final String DESCRIPTION = "LFloatSupplierX: float doGetAsFloat() throws X";
 
-	public float doGetAsFloat() throws X;
+	float doGetAsFloat() throws X;
 
 	default float nestingDoGetAsFloat() {
 		try {
@@ -98,20 +98,20 @@ public interface LFloatSupplierX<X extends Throwable> extends MetaSupplier, Prim
 		return LFloatSupplierX.DESCRIPTION;
 	}
 
-	public static <X extends Throwable> LFloatSupplierX<X> of(float r) {
+	static <X extends Throwable> LFloatSupplierX<X> of(float r) {
 		return () -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LFloatSupplierX<X> lX(final @Nonnull LFloatSupplierX<X> lambda) {
+	static <X extends Throwable> LFloatSupplierX<X> lX(final @Nonnull LFloatSupplierX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LFloatSupplierX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LFloatSupplierX<X> lambda) {
+	static <X extends Throwable> LFloatSupplierX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LFloatSupplierX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -120,7 +120,7 @@ public interface LFloatSupplierX<X extends Throwable> extends MetaSupplier, Prim
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LFloatSupplierX<X> wrapX(final @Nonnull LFloatSupplier other) {
+	static <X extends Throwable> LFloatSupplierX<X> wrapX(final @Nonnull LFloatSupplier other) {
 		return (LFloatSupplierX) other;
 	}
 

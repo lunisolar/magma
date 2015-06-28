@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LShortToDoubleFunctionX<X extends Throwable> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LShortToDoubleFunctionX: double doApplyAsDouble(short s) throws X";
+	static final String DESCRIPTION = "LShortToDoubleFunctionX: double doApplyAsDouble(short s) throws X";
 
-	public double doApplyAsDouble(short s) throws X;
+	double doApplyAsDouble(short s) throws X;
 
 	default double nestingDoApplyAsDouble(short s) {
 		try {
@@ -103,20 +103,20 @@ public interface LShortToDoubleFunctionX<X extends Throwable> extends MetaFuncti
 		return () -> this.doApplyAsDouble(s);
 	}
 
-	public static <X extends Throwable> LShortToDoubleFunctionX<X> constant(double r) {
+	static <X extends Throwable> LShortToDoubleFunctionX<X> constant(double r) {
 		return s -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LShortToDoubleFunctionX<X> lX(final @Nonnull LShortToDoubleFunctionX<X> lambda) {
+	static <X extends Throwable> LShortToDoubleFunctionX<X> lX(final @Nonnull LShortToDoubleFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LShortToDoubleFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LShortToDoubleFunctionX<X> lambda) {
+	static <X extends Throwable> LShortToDoubleFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LShortToDoubleFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -125,7 +125,7 @@ public interface LShortToDoubleFunctionX<X extends Throwable> extends MetaFuncti
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LShortToDoubleFunctionX<X> wrapX(final @Nonnull LShortToDoubleFunction other) {
+	static <X extends Throwable> LShortToDoubleFunctionX<X> wrapX(final @Nonnull LShortToDoubleFunction other) {
 		return (LShortToDoubleFunctionX) other;
 	}
 

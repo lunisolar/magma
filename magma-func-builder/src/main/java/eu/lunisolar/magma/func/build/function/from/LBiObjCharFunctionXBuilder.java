@@ -93,7 +93,7 @@ public final class LBiObjCharFunctionXBuilder<T1, T2, R, X extends Throwable> ex
 	public final LBiObjCharFunctionXBuilder<T1, T2, R, X> withHandling(@Nonnull HandlingInstructions<X, X> handling) {
 		Null.nonNullArg(handling, "handling");
 		if (this.handling != null) {
-			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+			throw new UnsupportedOperationException("Handling is already set for this builder.");
 		}
 		this.handling = handling;
 		return self();

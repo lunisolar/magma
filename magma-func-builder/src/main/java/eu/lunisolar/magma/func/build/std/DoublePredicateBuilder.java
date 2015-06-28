@@ -92,7 +92,7 @@ public final class DoublePredicateBuilder extends PerCaseBuilderWithBooleanProdu
 	public final DoublePredicateBuilder withHandling(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
 		Null.nonNullArg(handling, "handling");
 		if (this.handling != null) {
-			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+			throw new UnsupportedOperationException("Handling is already set for this builder.");
 		}
 		this.handling = handling;
 		return self();

@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LByteToIntFunction extends LByteToIntFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LByteToIntFunction: int doApplyAsInt(byte b)";
+	static final String DESCRIPTION = "LByteToIntFunction: int doApplyAsInt(byte b)";
 
-	public int doApplyAsInt(byte b);
+	int doApplyAsInt(byte b);
 
 	default int nestingDoApplyAsInt(byte b) {
 		return this.doApplyAsInt(b);
@@ -88,13 +88,13 @@ public interface LByteToIntFunction extends LByteToIntFunctionX<RuntimeException
 		return () -> this.doApplyAsInt(b);
 	}
 
-	public static LByteToIntFunction constant(int r) {
+	static LByteToIntFunction constant(int r) {
 		return b -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LByteToIntFunction l(final @Nonnull LByteToIntFunction lambda) {
+	static LByteToIntFunction l(final @Nonnull LByteToIntFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -103,7 +103,7 @@ public interface LByteToIntFunction extends LByteToIntFunctionX<RuntimeException
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LByteToIntFunction wrap(final @Nonnull LByteToIntFunctionX<X> other) {
+	static <X extends Throwable> LByteToIntFunction wrap(final @Nonnull LByteToIntFunctionX<X> other) {
 		return other::nestingDoApplyAsInt;
 	}
 

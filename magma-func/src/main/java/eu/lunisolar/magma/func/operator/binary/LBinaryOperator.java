@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBinaryOperator<T> extends LBinaryOperatorX<T, RuntimeException>, MetaOperator, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LBinaryOperator: T doApply(T t1,T t2)";
+	static final String DESCRIPTION = "LBinaryOperator: T doApply(T t1,T t2)";
 
 	@Override
 	@Deprecated
@@ -70,7 +70,7 @@ public interface LBinaryOperator<T> extends LBinaryOperatorX<T, RuntimeException
 	}
 
 	@Nullable
-	public T doApply(T t1, T t2);
+	T doApply(T t1, T t2);
 
 	default T nestingDoApply(T t1, T t2) {
 		return this.doApply(t1, t2);
@@ -80,7 +80,7 @@ public interface LBinaryOperator<T> extends LBinaryOperatorX<T, RuntimeException
 		return this.doApply(t1, t2);
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
 	@Nonnull
@@ -99,13 +99,13 @@ public interface LBinaryOperator<T> extends LBinaryOperatorX<T, RuntimeException
 		return () -> this.doApply(t1, t2);
 	}
 
-	public static <T> LBinaryOperator<T> constant(T r) {
+	static <T> LBinaryOperator<T> constant(T r) {
 		return (t1, t2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T> LBinaryOperator<T> l(final @Nonnull LBinaryOperator<T> lambda) {
+	static <T> LBinaryOperator<T> l(final @Nonnull LBinaryOperator<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -114,13 +114,13 @@ public interface LBinaryOperator<T> extends LBinaryOperatorX<T, RuntimeException
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T> LBinaryOperator<T> wrap(final java.util.function.BinaryOperator<T> other) {
+	static <T> LBinaryOperator<T> wrap(final java.util.function.BinaryOperator<T> other) {
 		return other::apply;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, X extends Throwable> LBinaryOperator<T> wrap(final @Nonnull LBinaryOperatorX<T, X> other) {
+	static <T, X extends Throwable> LBinaryOperator<T> wrap(final @Nonnull LBinaryOperatorX<T, X> other) {
 		return other::nestingDoApply;
 	}
 

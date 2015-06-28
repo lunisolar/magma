@@ -54,7 +54,7 @@ import eu.lunisolar.magma.func.supplier.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LActionX<X extends Throwable> extends Runnable, MetaAction, MetaInterface.Throwing<X> {
 
-	public static final String DESCRIPTION = "LActionX: void doExecute() throws X";
+	static final String DESCRIPTION = "LActionX: void doExecute() throws X";
 
 	@Override
 	@Deprecated
@@ -63,7 +63,7 @@ public interface LActionX<X extends Throwable> extends Runnable, MetaAction, Met
 		this.nestingDoExecute();
 	}
 
-	public void doExecute() throws X;
+	void doExecute() throws X;
 
 	default void nestingDoExecute() {
 		try {
@@ -96,14 +96,14 @@ public interface LActionX<X extends Throwable> extends Runnable, MetaAction, Met
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LActionX<X> lX(final @Nonnull LActionX<X> lambda) {
+	static <X extends Throwable> LActionX<X> lX(final @Nonnull LActionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LActionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LActionX<X> lambda) {
+	static <X extends Throwable> LActionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LActionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -112,13 +112,13 @@ public interface LActionX<X extends Throwable> extends Runnable, MetaAction, Met
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <X extends Throwable> LActionX<X> wrap(final Runnable other) {
+	static <X extends Throwable> LActionX<X> wrap(final Runnable other) {
 		return other::run;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LActionX<X> wrapX(final @Nonnull LAction other) {
+	static <X extends Throwable> LActionX<X> wrapX(final @Nonnull LAction other) {
 		return (LActionX) other;
 	}
 

@@ -60,10 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LTernaryOperatorX<T, X extends Throwable> extends MetaOperator, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LTernaryOperatorX: T doApply(T t1,T t2,T t3) throws X";
+	static final String DESCRIPTION = "LTernaryOperatorX: T doApply(T t1,T t2,T t3) throws X";
 
 	@Nullable
-	public T doApply(T t1, T t2, T t3) throws X;
+	T doApply(T t1, T t2, T t3) throws X;
 
 	default T nestingDoApply(T t1, T t2, T t3) {
 		try {
@@ -88,7 +88,7 @@ public interface LTernaryOperatorX<T, X extends Throwable> extends MetaOperator,
 		}
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
 	@Nonnull
@@ -107,20 +107,20 @@ public interface LTernaryOperatorX<T, X extends Throwable> extends MetaOperator,
 		return () -> this.doApply(t1, t2, t3);
 	}
 
-	public static <T, X extends Throwable> LTernaryOperatorX<T, X> constant(T r) {
+	static <T, X extends Throwable> LTernaryOperatorX<T, X> constant(T r) {
 		return (t1, t2, t3) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T, X extends Throwable> LTernaryOperatorX<T, X> lX(final @Nonnull LTernaryOperatorX<T, X> lambda) {
+	static <T, X extends Throwable> LTernaryOperatorX<T, X> lX(final @Nonnull LTernaryOperatorX<T, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T, X extends Throwable> LTernaryOperatorX<T, X> lX(@Nonnull Class<X> xClass, final @Nonnull LTernaryOperatorX<T, X> lambda) {
+	static <T, X extends Throwable> LTernaryOperatorX<T, X> lX(@Nonnull Class<X> xClass, final @Nonnull LTernaryOperatorX<T, X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -129,7 +129,7 @@ public interface LTernaryOperatorX<T, X extends Throwable> extends MetaOperator,
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, X extends Throwable> LTernaryOperatorX<T, X> wrapX(final @Nonnull LTernaryOperator<T> other) {
+	static <T, X extends Throwable> LTernaryOperatorX<T, X> wrapX(final @Nonnull LTernaryOperator<T> other) {
 		return (LTernaryOperatorX) other;
 	}
 

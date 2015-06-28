@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LTriConsumer<T1, T2, T3> extends LTriConsumerX<T1, T2, T3, RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LTriConsumer: void doAccept(T1 t1,T2 t2,T3 t3)";
+	static final String DESCRIPTION = "LTriConsumer: void doAccept(T1 t1,T2 t2,T3 t3)";
 
-	public void doAccept(T1 t1, T2 t2, T3 t3);
+	void doAccept(T1 t1, T2 t2, T3 t3);
 
 	default void nestingDoAccept(T1 t1, T2 t2, T3 t3) {
 		this.doAccept(t1, t2, t3);
@@ -86,7 +86,7 @@ public interface LTriConsumer<T1, T2, T3> extends LTriConsumerX<T1, T2, T3, Runt
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T1, T2, T3> LTriConsumer<T1, T2, T3> l(final @Nonnull LTriConsumer<T1, T2, T3> lambda) {
+	static <T1, T2, T3> LTriConsumer<T1, T2, T3> l(final @Nonnull LTriConsumer<T1, T2, T3> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -95,7 +95,7 @@ public interface LTriConsumer<T1, T2, T3> extends LTriConsumerX<T1, T2, T3, Runt
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T1, T2, T3, X extends Throwable> LTriConsumer<T1, T2, T3> wrap(final @Nonnull LTriConsumerX<T1, T2, T3, X> other) {
+	static <T1, T2, T3, X extends Throwable> LTriConsumer<T1, T2, T3> wrap(final @Nonnull LTriConsumerX<T1, T2, T3, X> other) {
 		return other::nestingDoAccept;
 	}
 

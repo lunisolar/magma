@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LShortToIntFunction extends LShortToIntFunctionX<RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LShortToIntFunction: int doApplyAsInt(short s)";
+	static final String DESCRIPTION = "LShortToIntFunction: int doApplyAsInt(short s)";
 
-	public int doApplyAsInt(short s);
+	int doApplyAsInt(short s);
 
 	default int nestingDoApplyAsInt(short s) {
 		return this.doApplyAsInt(s);
@@ -88,13 +88,13 @@ public interface LShortToIntFunction extends LShortToIntFunctionX<RuntimeExcepti
 		return () -> this.doApplyAsInt(s);
 	}
 
-	public static LShortToIntFunction constant(int r) {
+	static LShortToIntFunction constant(int r) {
 		return s -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LShortToIntFunction l(final @Nonnull LShortToIntFunction lambda) {
+	static LShortToIntFunction l(final @Nonnull LShortToIntFunction lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -103,7 +103,7 @@ public interface LShortToIntFunction extends LShortToIntFunctionX<RuntimeExcepti
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LShortToIntFunction wrap(final @Nonnull LShortToIntFunctionX<X> other) {
+	static <X extends Throwable> LShortToIntFunction wrap(final @Nonnull LShortToIntFunctionX<X> other) {
 		return other::nestingDoApplyAsInt;
 	}
 

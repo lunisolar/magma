@@ -92,7 +92,7 @@ public final class LongConsumerBuilder extends PerCaseBuilder.Base<LongConsumerB
 	public final LongConsumerBuilder withHandling(@Nonnull HandlingInstructions<RuntimeException, RuntimeException> handling) {
 		Null.nonNullArg(handling, "handling");
 		if (this.handling != null) {
-			throw new UnsupportedOperationException("Handling is allready set for this builder.");
+			throw new UnsupportedOperationException("Handling is already set for this builder.");
 		}
 		this.handling = handling;
 		return self();

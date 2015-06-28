@@ -60,10 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LIntBiFunction<R> extends LIntBiFunctionX<R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LIntBiFunction: R doApply(int i1,int i2)";
+	static final String DESCRIPTION = "LIntBiFunction: R doApply(int i1,int i2)";
 
 	@Nullable
-	public R doApply(int i1, int i2);
+	R doApply(int i1, int i2);
 
 	default R nestingDoApply(int i1, int i2) {
 		return this.doApply(i1, i2);
@@ -73,7 +73,7 @@ public interface LIntBiFunction<R> extends LIntBiFunctionX<R, RuntimeException>,
 		return this.doApply(i1, i2);
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
 	@Nonnull
@@ -92,13 +92,13 @@ public interface LIntBiFunction<R> extends LIntBiFunctionX<R, RuntimeException>,
 		return () -> this.doApply(i1, i2);
 	}
 
-	public static <R> LIntBiFunction<R> constant(R r) {
+	static <R> LIntBiFunction<R> constant(R r) {
 		return (i1, i2) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <R> LIntBiFunction<R> l(final @Nonnull LIntBiFunction<R> lambda) {
+	static <R> LIntBiFunction<R> l(final @Nonnull LIntBiFunction<R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -107,7 +107,7 @@ public interface LIntBiFunction<R> extends LIntBiFunctionX<R, RuntimeException>,
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <R, X extends Throwable> LIntBiFunction<R> wrap(final @Nonnull LIntBiFunctionX<R, X> other) {
+	static <R, X extends Throwable> LIntBiFunction<R> wrap(final @Nonnull LIntBiFunctionX<R, X> other) {
 		return other::nestingDoApply;
 	}
 

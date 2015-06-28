@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LDoublePredicate extends LDoublePredicateX<RuntimeException>, MetaPredicate, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LDoublePredicate: boolean doTest(double d)";
+	static final String DESCRIPTION = "LDoublePredicate: boolean doTest(double d)";
 
 	@Override
 	@Deprecated
@@ -69,7 +69,7 @@ public interface LDoublePredicate extends LDoublePredicateX<RuntimeException>, M
 		return this.nestingDoTest(d);
 	}
 
-	public boolean doTest(double d);
+	boolean doTest(double d);
 
 	default boolean nestingDoTest(double d) {
 		return this.doTest(d);
@@ -101,13 +101,13 @@ public interface LDoublePredicate extends LDoublePredicateX<RuntimeException>, M
 		return () -> this.doTest(d);
 	}
 
-	public static LDoublePredicate constant(boolean r) {
+	static LDoublePredicate constant(boolean r) {
 		return d -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LDoublePredicate l(final @Nonnull LDoublePredicate lambda) {
+	static LDoublePredicate l(final @Nonnull LDoublePredicate lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -116,13 +116,13 @@ public interface LDoublePredicate extends LDoublePredicateX<RuntimeException>, M
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LDoublePredicate wrap(final java.util.function.DoublePredicate other) {
+	static LDoublePredicate wrap(final java.util.function.DoublePredicate other) {
 		return other::test;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LDoublePredicate wrap(final @Nonnull LDoublePredicateX<X> other) {
+	static <X extends Throwable> LDoublePredicate wrap(final @Nonnull LDoublePredicateX<X> other) {
 		return other::nestingDoTest;
 	}
 
@@ -165,7 +165,7 @@ public interface LDoublePredicate extends LDoublePredicateX<RuntimeException>, M
 	}
 
 	@Nonnull
-	public static LDoublePredicate isEqual(double target) {
+	static LDoublePredicate isEqual(double target) {
 		return d -> d == target;
 	}
 

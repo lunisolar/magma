@@ -60,10 +60,10 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LShortFunction<R> extends LShortFunctionX<R, RuntimeException>, MetaFunction, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LShortFunction: R doApply(short s)";
+	static final String DESCRIPTION = "LShortFunction: R doApply(short s)";
 
 	@Nullable
-	public R doApply(short s);
+	R doApply(short s);
 
 	default R nestingDoApply(short s) {
 		return this.doApply(s);
@@ -73,7 +73,7 @@ public interface LShortFunction<R> extends LShortFunctionX<R, RuntimeException>,
 		return this.doApply(s);
 	}
 
-	public static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
+	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
 	/** Ensures the result is not null */
 	@Nonnull
@@ -92,13 +92,13 @@ public interface LShortFunction<R> extends LShortFunctionX<R, RuntimeException>,
 		return () -> this.doApply(s);
 	}
 
-	public static <R> LShortFunction<R> constant(R r) {
+	static <R> LShortFunction<R> constant(R r) {
 		return s -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <R> LShortFunction<R> l(final @Nonnull LShortFunction<R> lambda) {
+	static <R> LShortFunction<R> l(final @Nonnull LShortFunction<R> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -107,7 +107,7 @@ public interface LShortFunction<R> extends LShortFunctionX<R, RuntimeException>,
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <R, X extends Throwable> LShortFunction<R> wrap(final @Nonnull LShortFunctionX<R, X> other) {
+	static <R, X extends Throwable> LShortFunction<R> wrap(final @Nonnull LShortFunctionX<R, X> other) {
 		return other::nestingDoApply;
 	}
 

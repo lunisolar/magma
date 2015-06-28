@@ -61,9 +61,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LObjCharConsumer<T> extends LObjCharConsumerX<T, RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LObjCharConsumer: void doAccept(T t, char c)";
+	static final String DESCRIPTION = "LObjCharConsumer: void doAccept(T t, char c)";
 
-	public void doAccept(T t, char c);
+	void doAccept(T t, char c);
 
 	default void nestingDoAccept(T t, char c) {
 		this.doAccept(t, c);
@@ -86,7 +86,7 @@ public interface LObjCharConsumer<T> extends LObjCharConsumerX<T, RuntimeExcepti
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T> LObjCharConsumer<T> l(final @Nonnull LObjCharConsumer<T> lambda) {
+	static <T> LObjCharConsumer<T> l(final @Nonnull LObjCharConsumer<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -95,7 +95,7 @@ public interface LObjCharConsumer<T> extends LObjCharConsumerX<T, RuntimeExcepti
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, X extends Throwable> LObjCharConsumer<T> wrap(final @Nonnull LObjCharConsumerX<T, X> other) {
+	static <T, X extends Throwable> LObjCharConsumer<T> wrap(final @Nonnull LObjCharConsumerX<T, X> other) {
 		return other::nestingDoAccept;
 	}
 

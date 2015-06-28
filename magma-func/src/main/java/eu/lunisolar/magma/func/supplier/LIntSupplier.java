@@ -60,7 +60,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LIntSupplier extends LIntSupplierX<RuntimeException>, MetaSupplier, PrimitiveCodomain<Object>, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LIntSupplier: int doGetAsInt()";
+	static final String DESCRIPTION = "LIntSupplier: int doGetAsInt()";
 
 	@Override
 	@Deprecated
@@ -69,7 +69,7 @@ public interface LIntSupplier extends LIntSupplierX<RuntimeException>, MetaSuppl
 		return this.nestingDoGetAsInt();
 	}
 
-	public int doGetAsInt();
+	int doGetAsInt();
 
 	default int nestingDoGetAsInt() {
 		return this.doGetAsInt();
@@ -90,13 +90,13 @@ public interface LIntSupplier extends LIntSupplierX<RuntimeException>, MetaSuppl
 		return LIntSupplier.DESCRIPTION;
 	}
 
-	public static LIntSupplier of(int r) {
+	static LIntSupplier of(int r) {
 		return () -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LIntSupplier l(final @Nonnull LIntSupplier lambda) {
+	static LIntSupplier l(final @Nonnull LIntSupplier lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -105,13 +105,13 @@ public interface LIntSupplier extends LIntSupplierX<RuntimeException>, MetaSuppl
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static LIntSupplier wrap(final java.util.function.IntSupplier other) {
+	static LIntSupplier wrap(final java.util.function.IntSupplier other) {
 		return other::getAsInt;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LIntSupplier wrap(final @Nonnull LIntSupplierX<X> other) {
+	static <X extends Throwable> LIntSupplier wrap(final @Nonnull LIntSupplierX<X> other) {
 		return other::nestingDoGetAsInt;
 	}
 

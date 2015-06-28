@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LCharUnaryOperator extends LCharUnaryOperatorX<RuntimeException>, MetaOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LCharUnaryOperator: char doApplyAsChar(char c)";
+	static final String DESCRIPTION = "LCharUnaryOperator: char doApplyAsChar(char c)";
 
-	public char doApplyAsChar(char c);
+	char doApplyAsChar(char c);
 
 	default char nestingDoApplyAsChar(char c) {
 		return this.doApplyAsChar(c);
@@ -88,13 +88,13 @@ public interface LCharUnaryOperator extends LCharUnaryOperatorX<RuntimeException
 		return () -> this.doApplyAsChar(c);
 	}
 
-	public static LCharUnaryOperator constant(char r) {
+	static LCharUnaryOperator constant(char r) {
 		return c -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LCharUnaryOperator l(final @Nonnull LCharUnaryOperator lambda) {
+	static LCharUnaryOperator l(final @Nonnull LCharUnaryOperator lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -103,7 +103,7 @@ public interface LCharUnaryOperator extends LCharUnaryOperatorX<RuntimeException
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LCharUnaryOperator wrap(final @Nonnull LCharUnaryOperatorX<X> other) {
+	static <X extends Throwable> LCharUnaryOperator wrap(final @Nonnull LCharUnaryOperatorX<X> other) {
 		return other::nestingDoApplyAsChar;
 	}
 
@@ -200,7 +200,7 @@ public interface LCharUnaryOperator extends LCharUnaryOperatorX<RuntimeException
 
 	/** Returns a function that always returns its input argument. */
 	@Nonnull
-	public static LCharUnaryOperator identity() {
+	static LCharUnaryOperator identity() {
 		return t -> t;
 	}
 	// <editor-fold desc="variant conversions">

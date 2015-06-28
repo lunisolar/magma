@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LToByteFunction<T> extends LToByteFunctionX<T, RuntimeException>, MetaFunction, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LToByteFunction: byte doApplyAsByte(T t)";
+	static final String DESCRIPTION = "LToByteFunction: byte doApplyAsByte(T t)";
 
-	public byte doApplyAsByte(T t);
+	byte doApplyAsByte(T t);
 
 	default byte nestingDoApplyAsByte(T t) {
 		return this.doApplyAsByte(t);
@@ -88,13 +88,13 @@ public interface LToByteFunction<T> extends LToByteFunctionX<T, RuntimeException
 		return () -> this.doApplyAsByte(t);
 	}
 
-	public static <T> LToByteFunction<T> constant(byte r) {
+	static <T> LToByteFunction<T> constant(byte r) {
 		return t -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T> LToByteFunction<T> l(final @Nonnull LToByteFunction<T> lambda) {
+	static <T> LToByteFunction<T> l(final @Nonnull LToByteFunction<T> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -103,7 +103,7 @@ public interface LToByteFunction<T> extends LToByteFunctionX<T, RuntimeException
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T, X extends Throwable> LToByteFunction<T> wrap(final @Nonnull LToByteFunctionX<T, X> other) {
+	static <T, X extends Throwable> LToByteFunction<T> wrap(final @Nonnull LToByteFunctionX<T, X> other) {
 		return other::nestingDoApplyAsByte;
 	}
 

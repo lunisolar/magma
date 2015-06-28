@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBooleanTernaryOperator extends LBooleanTernaryOperatorX<RuntimeException>, MetaLogicalOperator, PrimitiveCodomain<Object>, MetaInterface.NonThrowing { // NOSONAR
 
-	public static final String DESCRIPTION = "LBooleanTernaryOperator: boolean doApply(boolean b1,boolean b2,boolean b3)";
+	static final String DESCRIPTION = "LBooleanTernaryOperator: boolean doApply(boolean b1,boolean b2,boolean b3)";
 
-	public boolean doApply(boolean b1, boolean b2, boolean b3);
+	boolean doApply(boolean b1, boolean b2, boolean b3);
 
 	default boolean nestingDoApply(boolean b1, boolean b2, boolean b3) {
 		return this.doApply(b1, b2, b3);
@@ -93,13 +93,13 @@ public interface LBooleanTernaryOperator extends LBooleanTernaryOperatorX<Runtim
 		return () -> this.doApply(b1, b2, b3);
 	}
 
-	public static LBooleanTernaryOperator constant(boolean r) {
+	static LBooleanTernaryOperator constant(boolean r) {
 		return (b1, b2, b3) -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static LBooleanTernaryOperator l(final @Nonnull LBooleanTernaryOperator lambda) {
+	static LBooleanTernaryOperator l(final @Nonnull LBooleanTernaryOperator lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -108,7 +108,7 @@ public interface LBooleanTernaryOperator extends LBooleanTernaryOperatorX<Runtim
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LBooleanTernaryOperator wrap(final @Nonnull LBooleanTernaryOperatorX<X> other) {
+	static <X extends Throwable> LBooleanTernaryOperator wrap(final @Nonnull LBooleanTernaryOperatorX<X> other) {
 		return other::nestingDoApply;
 	}
 
@@ -154,7 +154,7 @@ public interface LBooleanTernaryOperator extends LBooleanTernaryOperatorX<Runtim
 	 *  @see {@link java.util.function.Predicate#isEqual()}
 	 */
 	@Nonnull
-	public static LBooleanTernaryOperator isEqual(final boolean v1, final boolean v2, final boolean v3) {
+	static LBooleanTernaryOperator isEqual(final boolean v1, final boolean v2, final boolean v3) {
 		return (b1, b2, b3) -> (b1 == v1) && (b2 == v2) && (b3 == v3);
 	}
 

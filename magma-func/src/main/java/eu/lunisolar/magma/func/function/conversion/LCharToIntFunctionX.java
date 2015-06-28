@@ -60,9 +60,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LCharToIntFunctionX<X extends Throwable> extends MetaFunction, PrimitiveCodomain<Object>, MetaInterface.Throwing<X> { // NOSONAR
 
-	public static final String DESCRIPTION = "LCharToIntFunctionX: int doApplyAsInt(char c) throws X";
+	static final String DESCRIPTION = "LCharToIntFunctionX: int doApplyAsInt(char c) throws X";
 
-	public int doApplyAsInt(char c) throws X;
+	int doApplyAsInt(char c) throws X;
 
 	default int nestingDoApplyAsInt(char c) {
 		try {
@@ -103,20 +103,20 @@ public interface LCharToIntFunctionX<X extends Throwable> extends MetaFunction, 
 		return () -> this.doApplyAsInt(c);
 	}
 
-	public static <X extends Throwable> LCharToIntFunctionX<X> constant(int r) {
+	static <X extends Throwable> LCharToIntFunctionX<X> constant(int r) {
 		return c -> r;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LCharToIntFunctionX<X> lX(final @Nonnull LCharToIntFunctionX<X> lambda) {
+	static <X extends Throwable> LCharToIntFunctionX<X> lX(final @Nonnull LCharToIntFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <X extends Throwable> LCharToIntFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LCharToIntFunctionX<X> lambda) {
+	static <X extends Throwable> LCharToIntFunctionX<X> lX(@Nonnull Class<X> xClass, final @Nonnull LCharToIntFunctionX<X> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -125,7 +125,7 @@ public interface LCharToIntFunctionX<X extends Throwable> extends MetaFunction, 
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <X extends Throwable> LCharToIntFunctionX<X> wrapX(final @Nonnull LCharToIntFunction other) {
+	static <X extends Throwable> LCharToIntFunctionX<X> wrapX(final @Nonnull LCharToIntFunction other) {
 		return (LCharToIntFunctionX) other;
 	}
 

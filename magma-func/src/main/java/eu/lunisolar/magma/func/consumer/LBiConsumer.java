@@ -61,7 +61,7 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @SuppressWarnings("UnusedDeclaration")
 public interface LBiConsumer<T1, T2> extends LBiConsumerX<T1, T2, RuntimeException>, MetaConsumer, MetaInterface.NonThrowing {
 
-	public static final String DESCRIPTION = "LBiConsumer: void doAccept(T1 t1,T2 t2)";
+	static final String DESCRIPTION = "LBiConsumer: void doAccept(T1 t1,T2 t2)";
 
 	@Override
 	@Deprecated
@@ -70,7 +70,7 @@ public interface LBiConsumer<T1, T2> extends LBiConsumerX<T1, T2, RuntimeExcepti
 		this.nestingDoAccept(t1, t2);
 	}
 
-	public void doAccept(T1 t1, T2 t2);
+	void doAccept(T1 t1, T2 t2);
 
 	default void nestingDoAccept(T1 t1, T2 t2) {
 		this.doAccept(t1, t2);
@@ -93,7 +93,7 @@ public interface LBiConsumer<T1, T2> extends LBiConsumerX<T1, T2, RuntimeExcepti
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
 	@Nonnull
-	public static <T1, T2> LBiConsumer<T1, T2> l(final @Nonnull LBiConsumer<T1, T2> lambda) {
+	static <T1, T2> LBiConsumer<T1, T2> l(final @Nonnull LBiConsumer<T1, T2> lambda) {
 		Null.nonNullArg(lambda, "lambda");
 		return lambda;
 	}
@@ -102,13 +102,13 @@ public interface LBiConsumer<T1, T2> extends LBiConsumerX<T1, T2, RuntimeExcepti
 
 	/** Wraps JRE instance. */
 	@Nonnull
-	public static <T1, T2> LBiConsumer<T1, T2> wrap(final java.util.function.BiConsumer<T1, T2> other) {
+	static <T1, T2> LBiConsumer<T1, T2> wrap(final java.util.function.BiConsumer<T1, T2> other) {
 		return other::accept;
 	}
 
 	/** Wraps opposite (throwing/non-throwing) instance. */
 	@Nonnull
-	public static <T1, T2, X extends Throwable> LBiConsumer<T1, T2> wrap(final @Nonnull LBiConsumerX<T1, T2, X> other) {
+	static <T1, T2, X extends Throwable> LBiConsumer<T1, T2> wrap(final @Nonnull LBiConsumerX<T1, T2, X> other) {
 		return other::nestingDoAccept;
 	}
 
