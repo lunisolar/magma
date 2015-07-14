@@ -84,7 +84,7 @@ public interface LIntToShortFunction extends LIntToShortFunctionX<RuntimeExcepti
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LShortSupplier capture(int i) {
+	default LShortSupplier captureIToSFunc(int i) {
 		return () -> this.doApplyAsShort(i);
 	}
 
@@ -112,19 +112,19 @@ public interface LIntToShortFunction extends LIntToShortFunctionX<RuntimeExcepti
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LIntToShortFunction fromInt(@Nonnull final LIntUnaryOperator before1) {
+	default LIntToShortFunction iToSFuncFromInt(@Nonnull final LIntUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsShort(before1.doApplyAsInt(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToShortFunction<V1> from(@Nonnull final LToIntFunction<? super V1> before1) {
+	default <V1> LToShortFunction<V1> iToSFuncFrom(@Nonnull final LToIntFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsShort(before1.doApplyAsInt(v1));
 	}
@@ -201,23 +201,23 @@ public interface LIntToShortFunction extends LIntToShortFunctionX<RuntimeExcepti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntToShortFunction nest() {
+	default LIntToShortFunction nestingIToSFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntToShortFunctionX<RuntimeException> nestX() {
+	default LIntToShortFunctionX<RuntimeException> nestingIToSFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntToShortFunction shove() {
+	default LIntToShortFunction shovingIToSFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntToShortFunctionX<RuntimeException> shoveX() {
+	default LIntToShortFunctionX<RuntimeException> shovingIToSFuncX() {
 		return this;
 	}
 

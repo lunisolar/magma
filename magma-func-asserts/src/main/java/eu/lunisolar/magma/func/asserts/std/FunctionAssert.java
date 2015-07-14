@@ -26,15 +26,24 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for java.util.function.Function. */
-public interface FunctionAssert<S extends FunctionAssert<S, A, RS, T, R>, A extends java.util.function.Function<T, R>, RS extends Assert<RS, R>, T, R> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, R, Exception> {
+public interface FunctionAssert<S extends FunctionAssert<S, A, RS, T, R>, A extends java.util.function.Function<T, R>, RS extends Assert<RS, R>, T, R> extends Assert<S, A>, FullFunctionalAssert<S, LConsumerX<T, Exception>, A, RS, R, Exception> {
 
 	@Nonnull
-	Evaluation<S, A, RS, R, Exception> doesApply(T t);
+	Evaluation<S, LConsumerX<T, Exception>, A, RS, R, Exception> doesApply(T t);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends java.util.function.Function<T, R>, RS extends Assert<RS, R>, T, R> extends Base<Impl<A, RS, T, R>, A, RS, T, R> {
@@ -45,7 +54,9 @@ public interface FunctionAssert<S extends FunctionAssert<S, A, RS, T, R>, A exte
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, T, R>, A extends java.util.function.Function<T, R>, RS extends Assert<RS, R>, T, R> extends FullFunctionalAssert.Base<S, A, RS, R, Exception> implements FunctionAssert<S, A, RS, T, R> {
+	public static class Base<S extends Base<S, A, RS, T, R>, A extends java.util.function.Function<T, R>, RS extends Assert<RS, R>, T, R> extends FullFunctionalAssert.Base<S, LConsumerX<T, Exception>, A, RS, R, Exception>
+			implements
+				FunctionAssert<S, A, RS, T, R> {
 
 		protected final java.util.function.Function<R, RS> assertFactory;
 
@@ -55,8 +66,15 @@ public interface FunctionAssert<S extends FunctionAssert<S, A, RS, T, R>, A exte
 		}
 
 		@Nonnull
-		public Evaluation<S, A, RS, R, Exception> doesApply(T t) {
-			return evaluation(() -> assertFactory.apply((R) actual.apply(t)));
+		public Evaluation<S, LConsumerX<T, Exception>, A, RS, R, Exception> doesApply(T t) {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doAccept(t);
+				}
+				return assertFactory.apply((R) actual.apply(t));
+			});
+
 		}
 
 	}

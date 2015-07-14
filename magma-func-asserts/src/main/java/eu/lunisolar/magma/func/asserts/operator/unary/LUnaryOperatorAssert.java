@@ -26,16 +26,25 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*;
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LUnaryOperator. */
-public interface LUnaryOperatorAssert<S extends LUnaryOperatorAssert<S, A, RS, T>, A extends LUnaryOperator<T>, RS extends Assert<RS, T>, T> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, T, Exception> {
+public interface LUnaryOperatorAssert<S extends LUnaryOperatorAssert<S, A, RS, T>, A extends LUnaryOperator<T>, RS extends Assert<RS, T>, T> extends Assert<S, A>, FullFunctionalAssert<S, LConsumerX<T, Exception>, A, RS, T, Exception> {
 
 	@Nonnull
-	Evaluation<S, A, RS, T, Exception> doesApply(T t);
+	Evaluation<S, LConsumerX<T, Exception>, A, RS, T, Exception> doesApply(T t);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends LUnaryOperator<T>, RS extends Assert<RS, T>, T> extends Base<Impl<A, RS, T>, A, RS, T> {
@@ -46,7 +55,7 @@ public interface LUnaryOperatorAssert<S extends LUnaryOperatorAssert<S, A, RS, T
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, T>, A extends LUnaryOperator<T>, RS extends Assert<RS, T>, T> extends FullFunctionalAssert.Base<S, A, RS, T, Exception> implements LUnaryOperatorAssert<S, A, RS, T> {
+	public static class Base<S extends Base<S, A, RS, T>, A extends LUnaryOperator<T>, RS extends Assert<RS, T>, T> extends FullFunctionalAssert.Base<S, LConsumerX<T, Exception>, A, RS, T, Exception> implements LUnaryOperatorAssert<S, A, RS, T> {
 
 		protected final java.util.function.Function<T, RS> assertFactory;
 
@@ -56,8 +65,15 @@ public interface LUnaryOperatorAssert<S extends LUnaryOperatorAssert<S, A, RS, T
 		}
 
 		@Nonnull
-		public Evaluation<S, A, RS, T, Exception> doesApply(T t) {
-			return evaluation(() -> assertFactory.apply((T) actual.doApply(t)));
+		public Evaluation<S, LConsumerX<T, Exception>, A, RS, T, Exception> doesApply(T t) {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doAccept(t);
+				}
+				return assertFactory.apply((T) actual.doApply(t));
+			});
+
 		}
 
 	}

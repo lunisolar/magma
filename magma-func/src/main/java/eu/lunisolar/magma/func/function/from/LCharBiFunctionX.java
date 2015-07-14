@@ -103,7 +103,7 @@ public interface LCharBiFunctionX<R, X extends Throwable> extends MetaFunction, 
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplierX<R, X> capture(char c1, char c2) {
+	default LSupplierX<R, X> captureCBiFunc(char c1, char c2) {
 		return () -> this.doApply(c1, c2);
 	}
 
@@ -138,20 +138,20 @@ public interface LCharBiFunctionX<R, X extends Throwable> extends MetaFunction, 
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LCharBiFunctionX<R, X> fromChar(@Nonnull final LCharUnaryOperatorX<X> before1, @Nonnull final LCharUnaryOperatorX<X> before2) {
+	default LCharBiFunctionX<R, X> cBiFuncFromChar(@Nonnull final LCharUnaryOperatorX<X> before1, @Nonnull final LCharUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final char v1, final char v2) -> this.doApply(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiFunctionX<V1, V2, R, X> from(@Nonnull final LToCharFunctionX<? super V1, X> before1, @Nonnull final LToCharFunctionX<? super V2, X> before2) {
+	default <V1, V2> LBiFunctionX<V1, V2, R, X> cBiFuncFrom(@Nonnull final LToCharFunctionX<? super V1, X> before1, @Nonnull final LToCharFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApply(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
@@ -180,42 +180,42 @@ public interface LCharBiFunctionX<R, X extends Throwable> extends MetaFunction, 
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LCharBiFunction<R> nest() {
+	default LCharBiFunction<R> nestingCBiFunc() {
 		return this::nestingDoApply;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LCharBiFunctionX<R, RuntimeException> nestX() {
+	default LCharBiFunctionX<R, RuntimeException> nestingCBiFuncX() {
 		return this::nestingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharBiFunction<R> shove() {
+	default LCharBiFunction<R> shovingCBiFunc() {
 		return this::shovingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharBiFunctionX<R, RuntimeException> shoveX() {
+	default LCharBiFunctionX<R, RuntimeException> shovingCBiFuncX() {
 		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LCharBiFunctionX<R, X> nonNullableX() {
+	default LCharBiFunctionX<R, X> nonNullCBiFunc() {
 		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LCharBiFunction<R> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LCharBiFunction<R> handleCBiFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (char c1, char c2) -> this.handlingDoApply(c1, c2, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LCharBiFunctionX<R, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LCharBiFunctionX<R, Y> handleCBiFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (char c1, char c2) -> this.handlingDoApply(c1, c2, handling);
 	}
 

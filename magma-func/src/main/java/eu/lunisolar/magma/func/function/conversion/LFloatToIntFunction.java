@@ -84,7 +84,7 @@ public interface LFloatToIntFunction extends LFloatToIntFunctionX<RuntimeExcepti
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LIntSupplier capture(float f) {
+	default LIntSupplier captureFToIFunc(float f) {
 		return () -> this.doApplyAsInt(f);
 	}
 
@@ -112,19 +112,19 @@ public interface LFloatToIntFunction extends LFloatToIntFunctionX<RuntimeExcepti
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LFloatToIntFunction fromFloat(@Nonnull final LFloatUnaryOperator before1) {
+	default LFloatToIntFunction fToIFuncFromFloat(@Nonnull final LFloatUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsInt(before1.doApplyAsFloat(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToIntFunction<V1> from(@Nonnull final LToFloatFunction<? super V1> before1) {
+	default <V1> LToIntFunction<V1> fToIFuncFrom(@Nonnull final LToFloatFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsInt(before1.doApplyAsFloat(v1));
 	}
@@ -201,23 +201,23 @@ public interface LFloatToIntFunction extends LFloatToIntFunctionX<RuntimeExcepti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LFloatToIntFunction nest() {
+	default LFloatToIntFunction nestingFToIFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LFloatToIntFunctionX<RuntimeException> nestX() {
+	default LFloatToIntFunctionX<RuntimeException> nestingFToIFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatToIntFunction shove() {
+	default LFloatToIntFunction shovingFToIFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatToIntFunctionX<RuntimeException> shoveX() {
+	default LFloatToIntFunctionX<RuntimeException> shovingFToIFuncX() {
 		return this;
 	}
 

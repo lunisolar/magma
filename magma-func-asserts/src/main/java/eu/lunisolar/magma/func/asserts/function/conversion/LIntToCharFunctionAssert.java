@@ -26,16 +26,28 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
 import eu.lunisolar.magma.func.function.conversion.*;
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LIntToCharFunction. */
-public interface LIntToCharFunctionAssert<S extends LIntToCharFunctionAssert<S, A, RS>, A extends LIntToCharFunction, RS extends AbstractCharacterAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, Character, Exception> {
+public interface LIntToCharFunctionAssert<S extends LIntToCharFunctionAssert<S, A, RS>, A extends LIntToCharFunction, RS extends AbstractCharacterAssert<RS>>
+		extends
+			Assert<S, A>,
+			FullFunctionalAssert<S, LIntConsumerX<Exception>, A, RS, Character, Exception> {
 
 	@Nonnull
-	Evaluation<S, A, RS, Character, Exception> doesApplyAsChar(int i);
+	Evaluation<S, LIntConsumerX<Exception>, A, RS, Character, Exception> doesApplyAsChar(int i);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends LIntToCharFunction, RS extends AbstractCharacterAssert<RS>> extends Base<Impl<A, RS>, A, RS> {
@@ -46,7 +58,9 @@ public interface LIntToCharFunctionAssert<S extends LIntToCharFunctionAssert<S, 
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS>, A extends LIntToCharFunction, RS extends AbstractCharacterAssert<RS>> extends FullFunctionalAssert.Base<S, A, RS, Character, Exception> implements LIntToCharFunctionAssert<S, A, RS> {
+	public static class Base<S extends Base<S, A, RS>, A extends LIntToCharFunction, RS extends AbstractCharacterAssert<RS>> extends FullFunctionalAssert.Base<S, LIntConsumerX<Exception>, A, RS, Character, Exception>
+			implements
+				LIntToCharFunctionAssert<S, A, RS> {
 
 		protected final java.util.function.Function<Character, RS> assertFactory;
 
@@ -56,8 +70,15 @@ public interface LIntToCharFunctionAssert<S extends LIntToCharFunctionAssert<S, 
 		}
 
 		@Nonnull
-		public Evaluation<S, A, RS, Character, Exception> doesApplyAsChar(int i) {
-			return evaluation(() -> assertFactory.apply((Character) actual.doApplyAsChar(i)));
+		public Evaluation<S, LIntConsumerX<Exception>, A, RS, Character, Exception> doesApplyAsChar(int i) {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doAccept(i);
+				}
+				return assertFactory.apply((Character) actual.doApplyAsChar(i));
+			});
+
 		}
 
 	}

@@ -127,3 +127,5 @@ public class IntSupplierAssertTest<X extends Throwable> {
     }
 
 }
+
+

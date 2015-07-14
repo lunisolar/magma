@@ -84,7 +84,7 @@ public interface LBooleanToFloatFunction extends LBooleanToFloatFunctionX<Runtim
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LFloatSupplier capture(boolean b) {
+	default LFloatSupplier captureBoolToFFunc(boolean b) {
 		return () -> this.doApplyAsFloat(b);
 	}
 
@@ -112,21 +112,21 @@ public interface LBooleanToFloatFunction extends LBooleanToFloatFunctionX<Runtim
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LBooleanToFloatFunction fromBoolean(@Nonnull final LBooleanUnaryOperator before1) {
+	default LBooleanToFloatFunction boolToFFuncFromBoolean(@Nonnull final LLogicalOperator before1) {
 		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsFloat(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doApplyAsFloat(before1.doApply(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToFloatFunction<V1> from(@Nonnull final LPredicate<? super V1> before1) {
+	default <V1> LToFloatFunction<V1> boolToFFuncFrom(@Nonnull final LPredicate<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsFloat(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doApplyAsFloat(before1.doTest(v1));
 	}
 
 	// </editor-fold>
@@ -191,7 +191,7 @@ public interface LBooleanToFloatFunction extends LBooleanToFloatFunctionX<Runtim
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LBooleanUnaryOperator thenToBoolean(@Nonnull LFloatPredicate after) {
+	default LLogicalOperator thenToBoolean(@Nonnull LFloatPredicate after) {
 		Null.nonNullArg(after, "after");
 		return b -> after.doTest(this.doApplyAsFloat(b));
 	}
@@ -201,23 +201,23 @@ public interface LBooleanToFloatFunction extends LBooleanToFloatFunctionX<Runtim
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanToFloatFunction nest() {
+	default LBooleanToFloatFunction nestingBoolToFFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanToFloatFunctionX<RuntimeException> nestX() {
+	default LBooleanToFloatFunctionX<RuntimeException> nestingBoolToFFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanToFloatFunction shove() {
+	default LBooleanToFloatFunction shovingBoolToFFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanToFloatFunctionX<RuntimeException> shoveX() {
+	default LBooleanToFloatFunctionX<RuntimeException> shovingBoolToFFuncX() {
 		return this;
 	}
 

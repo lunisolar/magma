@@ -26,15 +26,24 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for java.util.function.DoubleConsumer. */
-public interface DoubleConsumerAssert<S extends DoubleConsumerAssert<S, A>, A extends java.util.function.DoubleConsumer> extends Assert<S, A>, FunctionalAssert.Simple<S, A, Exception> {
+public interface DoubleConsumerAssert<S extends DoubleConsumerAssert<S, A>, A extends java.util.function.DoubleConsumer> extends Assert<S, A>, FunctionalAssert.Simple<S, LDoubleConsumerX<Exception>, A, Exception> {
 
 	@Nonnull
-	SemiEvaluation<S, A, Exception> doesAccept(double d);
+	SemiEvaluation<S, LDoubleConsumerX<Exception>, A, Exception> doesAccept(double d);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends java.util.function.DoubleConsumer> extends Base<Impl<A>, A> {
@@ -45,15 +54,23 @@ public interface DoubleConsumerAssert<S extends DoubleConsumerAssert<S, A>, A ex
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A>, A extends java.util.function.DoubleConsumer> extends FunctionalAssert.Simple.Base<S, A, Exception> implements DoubleConsumerAssert<S, A> {
+	public static class Base<S extends Base<S, A>, A extends java.util.function.DoubleConsumer> extends FunctionalAssert.Simple.Base<S, LDoubleConsumerX<Exception>, A, Exception> implements DoubleConsumerAssert<S, A> {
 
 		public Base(A actual, Class<?> selfType) {
 			super(actual, selfType);
 		}
 
 		@Nonnull
-		public SemiEvaluation<S, A, Exception> doesAccept(double d) {
-			return evaluation(() -> actual.accept(d));
+		public SemiEvaluation<S, LDoubleConsumerX<Exception>, A, Exception> doesAccept(double d) {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doAccept(d);
+				}
+				actual.accept(d);
+				return null;
+			});
+
 		}
 
 	}

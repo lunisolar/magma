@@ -106,7 +106,7 @@ public interface LLongBinaryOperatorX<X extends Throwable> extends java.util.fun
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LLongSupplierX<X> capture(long l1, long l2) {
+	default LLongSupplierX<X> captureLongBinaryOp(long l1, long l2) {
 		return () -> this.doApplyAsLong(l1, l2);
 	}
 
@@ -166,20 +166,20 @@ public interface LLongBinaryOperatorX<X extends Throwable> extends java.util.fun
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LLongBinaryOperatorX<X> fromLong(@Nonnull final LLongUnaryOperatorX<X> before1, @Nonnull final LLongUnaryOperatorX<X> before2) {
+	default LLongBinaryOperatorX<X> longBinaryOpFromLong(@Nonnull final LLongUnaryOperatorX<X> before1, @Nonnull final LLongUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final long v1, final long v2) -> this.doApplyAsLong(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LToLongBiFunctionX<V1, V2, X> from(@Nonnull final LToLongFunctionX<? super V1, X> before1, @Nonnull final LToLongFunctionX<? super V2, X> before2) {
+	default <V1, V2> LToLongBiFunctionX<V1, V2, X> longBinaryOpFrom(@Nonnull final LToLongFunctionX<? super V1, X> before1, @Nonnull final LToLongFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApplyAsLong(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
@@ -201,23 +201,23 @@ public interface LLongBinaryOperatorX<X extends Throwable> extends java.util.fun
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LLongBinaryOperator nest() {
+	default LLongBinaryOperator nestingLongBinaryOp() {
 		return this::nestingDoApplyAsLong;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LLongBinaryOperatorX<RuntimeException> nestX() {
+	default LLongBinaryOperatorX<RuntimeException> nestingLongBinaryOpX() {
 		return this::nestingDoApplyAsLong;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LLongBinaryOperator shove() {
+	default LLongBinaryOperator shovingLongBinaryOp() {
 		return this::shovingDoApplyAsLong;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LLongBinaryOperatorX<RuntimeException> shoveX() {
+	default LLongBinaryOperatorX<RuntimeException> shovingLongBinaryOpX() {
 		return this::shovingDoApplyAsLong;
 	}
 
@@ -226,12 +226,12 @@ public interface LLongBinaryOperatorX<X extends Throwable> extends java.util.fun
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LLongBinaryOperator handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LLongBinaryOperator handleLongBinaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (long l1, long l2) -> this.handlingDoApplyAsLong(l1, l2, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LLongBinaryOperatorX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LLongBinaryOperatorX<Y> handleLongBinaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (long l1, long l2) -> this.handlingDoApplyAsLong(l1, l2, handling);
 	}
 

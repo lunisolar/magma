@@ -125,12 +125,14 @@ public class LCharSupplierXBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesGetAsChar(()->externalInfluence.set(0)).to(a -> a.isEqualTo((char)0))
-            .doesGetAsChar(()->externalInfluence.set(5)).to(a -> a.isEqualTo((char)1))
-            .doesGetAsChar(()->externalInfluence.set(15)).to(a -> a.isEqualTo((char)2))
-            .doesGetAsChar(()->externalInfluence.set(10)).to(a -> a.isEqualTo((char)99))
+            .doesGetAsChar().when(()->externalInfluence.set(0)).to(a -> a.isEqualTo((char)0))
+            .doesGetAsChar().when(()->externalInfluence.set(5)).to(a -> a.isEqualTo((char)1))
+            .doesGetAsChar().when(()->externalInfluence.set(15)).to(a -> a.isEqualTo((char)2))
+            .doesGetAsChar().when(()->externalInfluence.set(10)).to(a -> a.isEqualTo((char)99))
         ;
 
     }
 
 }
+
+

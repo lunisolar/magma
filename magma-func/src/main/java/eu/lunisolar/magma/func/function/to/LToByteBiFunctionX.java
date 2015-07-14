@@ -99,7 +99,7 @@ public interface LToByteBiFunctionX<T1, T2, X extends Throwable> extends MetaFun
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LByteSupplierX<X> capture(T1 t1, T2 t2) {
+	default LByteSupplierX<X> captureToBBiFunc(T1 t1, T2 t2) {
 		return () -> this.doApplyAsByte(t1, t2);
 	}
 
@@ -134,10 +134,10 @@ public interface LToByteBiFunctionX<T1, T2, X extends Throwable> extends MetaFun
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LToByteBiFunctionX<V1, V2, X> from(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
+	default <V1, V2> LToByteBiFunctionX<V1, V2, X> toBBiFuncFrom(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final V2 v2) -> this.doApplyAsByte(before1.doApply(v1), before2.doApply(v2));
@@ -159,23 +159,23 @@ public interface LToByteBiFunctionX<T1, T2, X extends Throwable> extends MetaFun
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToByteBiFunction<T1, T2> nest() {
+	default LToByteBiFunction<T1, T2> nestingToBBiFunc() {
 		return this::nestingDoApplyAsByte;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToByteBiFunctionX<T1, T2, RuntimeException> nestX() {
+	default LToByteBiFunctionX<T1, T2, RuntimeException> nestingToBBiFuncX() {
 		return this::nestingDoApplyAsByte;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToByteBiFunction<T1, T2> shove() {
+	default LToByteBiFunction<T1, T2> shovingToBBiFunc() {
 		return this::shovingDoApplyAsByte;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToByteBiFunctionX<T1, T2, RuntimeException> shoveX() {
+	default LToByteBiFunctionX<T1, T2, RuntimeException> shovingToBBiFuncX() {
 		return this::shovingDoApplyAsByte;
 	}
 
@@ -184,12 +184,12 @@ public interface LToByteBiFunctionX<T1, T2, X extends Throwable> extends MetaFun
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LToByteBiFunction<T1, T2> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LToByteBiFunction<T1, T2> handleToBBiFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T1 t1, T2 t2) -> this.handlingDoApplyAsByte(t1, t2, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LToByteBiFunctionX<T1, T2, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LToByteBiFunctionX<T1, T2, Y> handleToBBiFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T1 t1, T2 t2) -> this.handlingDoApplyAsByte(t1, t2, handling);
 	}
 

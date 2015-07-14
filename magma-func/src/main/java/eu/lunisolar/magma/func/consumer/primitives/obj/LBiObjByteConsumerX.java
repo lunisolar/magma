@@ -95,7 +95,7 @@ public interface LBiObjByteConsumerX<T1, T2, X extends Throwable> extends MetaCo
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LActionX<X> capture(T1 t1, T2 t2, byte b) {
+	default LActionX<X> captureBiObjBCons(T1 t1, T2 t2, byte b) {
 		return () -> this.doAccept(t1, t2, b);
 	}
 
@@ -126,10 +126,10 @@ public interface LBiObjByteConsumerX<T1, T2, X extends Throwable> extends MetaCo
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiObjByteConsumerX<V1, V2, X> fromByte(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LByteUnaryOperatorX<X> before3) {
+	default <V1, V2> LBiObjByteConsumerX<V1, V2, X> biObjBConsFromByte(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LByteUnaryOperatorX<X> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
@@ -137,10 +137,10 @@ public interface LBiObjByteConsumerX<T1, T2, X extends Throwable> extends MetaCo
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2, V3> LTriConsumerX<V1, V2, V3, X> from(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LToByteFunctionX<? super V3, X> before3) {
+	default <V1, V2, V3> LTriConsumerX<V1, V2, V3, X> biObjBConsFrom(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LToByteFunctionX<? super V3, X> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
@@ -165,23 +165,23 @@ public interface LBiObjByteConsumerX<T1, T2, X extends Throwable> extends MetaCo
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiObjByteConsumer<T1, T2> nest() {
+	default LBiObjByteConsumer<T1, T2> nestingBiObjBCons() {
 		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiObjByteConsumerX<T1, T2, RuntimeException> nestX() {
+	default LBiObjByteConsumerX<T1, T2, RuntimeException> nestingBiObjBConsX() {
 		return this::nestingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjByteConsumer<T1, T2> shove() {
+	default LBiObjByteConsumer<T1, T2> shovingBiObjBCons() {
 		return this::shovingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjByteConsumerX<T1, T2, RuntimeException> shoveX() {
+	default LBiObjByteConsumerX<T1, T2, RuntimeException> shovingBiObjBConsX() {
 		return this::shovingDoAccept;
 	}
 
@@ -190,12 +190,12 @@ public interface LBiObjByteConsumerX<T1, T2, X extends Throwable> extends MetaCo
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LBiObjByteConsumer<T1, T2> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LBiObjByteConsumer<T1, T2> handleBiObjBCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T1 t1, T2 t2, byte b) -> this.handlingDoAccept(t1, t2, b, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LBiObjByteConsumerX<T1, T2, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LBiObjByteConsumerX<T1, T2, Y> handleBiObjBConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T1 t1, T2 t2, byte b) -> this.handlingDoAccept(t1, t2, b, handling);
 	}
 

@@ -143,63 +143,63 @@ public interface LLongSupplierX<X extends Throwable> extends java.util.function.
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default <V> LSupplierX<V, X> then(@Nonnull LLongFunctionX<? extends V, X> after) {
+	default <V> LSupplierX<V, X> toSupplier(@Nonnull LLongFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApply(this.doGetAsLong());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LByteSupplierX<X> thenToByte(@Nonnull LLongToByteFunctionX<X> after) {
+	default LByteSupplierX<X> toByteSupplier(@Nonnull LLongToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsByte(this.doGetAsLong());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LShortSupplierX<X> thenToShort(@Nonnull LLongToShortFunctionX<X> after) {
+	default LShortSupplierX<X> toShortSupplier(@Nonnull LLongToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsShort(this.doGetAsLong());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LIntSupplierX<X> thenToInt(@Nonnull LLongToIntFunctionX<X> after) {
+	default LIntSupplierX<X> toIntSupplier(@Nonnull LLongToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsInt(this.doGetAsLong());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LLongSupplierX<X> thenToLong(@Nonnull LLongUnaryOperatorX<X> after) {
+	default LLongSupplierX<X> toLongSupplier(@Nonnull LLongUnaryOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsLong(this.doGetAsLong());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LFloatSupplierX<X> thenToFloat(@Nonnull LLongToFloatFunctionX<X> after) {
+	default LFloatSupplierX<X> toFloatSupplier(@Nonnull LLongToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsFloat(this.doGetAsLong());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LDoubleSupplierX<X> thenToDouble(@Nonnull LLongToDoubleFunctionX<X> after) {
+	default LDoubleSupplierX<X> toDoubleSupplier(@Nonnull LLongToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsDouble(this.doGetAsLong());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LCharSupplierX<X> thenToChar(@Nonnull LLongToCharFunctionX<X> after) {
+	default LCharSupplierX<X> toCharSupplier(@Nonnull LLongToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsChar(this.doGetAsLong());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LBooleanSupplierX<X> thenToBoolean(@Nonnull LLongPredicateX<X> after) {
+	default LBooleanSupplierX<X> toBooleanSupplier(@Nonnull LLongPredicateX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doTest(this.doGetAsLong());
 	}
@@ -209,23 +209,23 @@ public interface LLongSupplierX<X extends Throwable> extends java.util.function.
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LLongSupplier nest() {
+	default LLongSupplier nestingLongSup() {
 		return this::nestingDoGetAsLong;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LLongSupplierX<RuntimeException> nestX() {
+	default LLongSupplierX<RuntimeException> nestingLongSupX() {
 		return this::nestingDoGetAsLong;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LLongSupplier shove() {
+	default LLongSupplier shovingLongSup() {
 		return this::shovingDoGetAsLong;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LLongSupplierX<RuntimeException> shoveX() {
+	default LLongSupplierX<RuntimeException> shovingLongSupX() {
 		return this::shovingDoGetAsLong;
 	}
 
@@ -234,12 +234,12 @@ public interface LLongSupplierX<X extends Throwable> extends java.util.function.
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LLongSupplier handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LLongSupplier handleLongSup(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return () -> this.handlingDoGetAsLong(handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LLongSupplierX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LLongSupplierX<Y> handleLongSupX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return () -> this.handlingDoGetAsLong(handling);
 	}
 

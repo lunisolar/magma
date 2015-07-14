@@ -84,7 +84,7 @@ public interface LByteToFloatFunction extends LByteToFloatFunctionX<RuntimeExcep
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LFloatSupplier capture(byte b) {
+	default LFloatSupplier captureBToFFunc(byte b) {
 		return () -> this.doApplyAsFloat(b);
 	}
 
@@ -112,19 +112,19 @@ public interface LByteToFloatFunction extends LByteToFloatFunctionX<RuntimeExcep
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LByteToFloatFunction fromByte(@Nonnull final LByteUnaryOperator before1) {
+	default LByteToFloatFunction bToFFuncFromByte(@Nonnull final LByteUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsFloat(before1.doApplyAsByte(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToFloatFunction<V1> from(@Nonnull final LToByteFunction<? super V1> before1) {
+	default <V1> LToFloatFunction<V1> bToFFuncFrom(@Nonnull final LToByteFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsFloat(before1.doApplyAsByte(v1));
 	}
@@ -201,23 +201,23 @@ public interface LByteToFloatFunction extends LByteToFloatFunctionX<RuntimeExcep
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LByteToFloatFunction nest() {
+	default LByteToFloatFunction nestingBToFFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LByteToFloatFunctionX<RuntimeException> nestX() {
+	default LByteToFloatFunctionX<RuntimeException> nestingBToFFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteToFloatFunction shove() {
+	default LByteToFloatFunction shovingBToFFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteToFloatFunctionX<RuntimeException> shoveX() {
+	default LByteToFloatFunctionX<RuntimeException> shovingBToFFuncX() {
 		return this;
 	}
 

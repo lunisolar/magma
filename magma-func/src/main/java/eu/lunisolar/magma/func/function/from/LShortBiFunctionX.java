@@ -103,7 +103,7 @@ public interface LShortBiFunctionX<R, X extends Throwable> extends MetaFunction,
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplierX<R, X> capture(short s1, short s2) {
+	default LSupplierX<R, X> captureSBiFunc(short s1, short s2) {
 		return () -> this.doApply(s1, s2);
 	}
 
@@ -138,20 +138,20 @@ public interface LShortBiFunctionX<R, X extends Throwable> extends MetaFunction,
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LShortBiFunctionX<R, X> fromShort(@Nonnull final LShortUnaryOperatorX<X> before1, @Nonnull final LShortUnaryOperatorX<X> before2) {
+	default LShortBiFunctionX<R, X> sBiFuncFromShort(@Nonnull final LShortUnaryOperatorX<X> before1, @Nonnull final LShortUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final short v1, final short v2) -> this.doApply(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiFunctionX<V1, V2, R, X> from(@Nonnull final LToShortFunctionX<? super V1, X> before1, @Nonnull final LToShortFunctionX<? super V2, X> before2) {
+	default <V1, V2> LBiFunctionX<V1, V2, R, X> sBiFuncFrom(@Nonnull final LToShortFunctionX<? super V1, X> before1, @Nonnull final LToShortFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApply(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
@@ -180,42 +180,42 @@ public interface LShortBiFunctionX<R, X extends Throwable> extends MetaFunction,
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LShortBiFunction<R> nest() {
+	default LShortBiFunction<R> nestingSBiFunc() {
 		return this::nestingDoApply;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LShortBiFunctionX<R, RuntimeException> nestX() {
+	default LShortBiFunctionX<R, RuntimeException> nestingSBiFuncX() {
 		return this::nestingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortBiFunction<R> shove() {
+	default LShortBiFunction<R> shovingSBiFunc() {
 		return this::shovingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortBiFunctionX<R, RuntimeException> shoveX() {
+	default LShortBiFunctionX<R, RuntimeException> shovingSBiFuncX() {
 		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LShortBiFunctionX<R, X> nonNullableX() {
+	default LShortBiFunctionX<R, X> nonNullSBiFunc() {
 		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LShortBiFunction<R> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LShortBiFunction<R> handleSBiFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (short s1, short s2) -> this.handlingDoApply(s1, s2, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LShortBiFunctionX<R, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LShortBiFunctionX<R, Y> handleSBiFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (short s1, short s2) -> this.handlingDoApply(s1, s2, handling);
 	}
 

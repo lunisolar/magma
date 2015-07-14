@@ -195,7 +195,7 @@ public class LShortBiFunctionXTest<R,X extends ParseException> {
         });
 
         // when
-        LShortBiFunctionX<R,X> wrapped = sutThrowing.handleX(handler -> handler
+        LShortBiFunctionX<R,X> wrapped = sutThrowing.handleSBiFuncX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -219,7 +219,7 @@ public class LShortBiFunctionXTest<R,X extends ParseException> {
         });
 
         // when
-        LShortBiFunctionX<R,X> wrapped = sutThrowing.handleX(handler -> handler
+        LShortBiFunctionX<R,X> wrapped = sutThrowing.handleSBiFuncX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -243,7 +243,7 @@ public class LShortBiFunctionXTest<R,X extends ParseException> {
         });
 
         // when
-        LShortBiFunctionX<R,X> wrapped = sutThrowing.handleX(handler -> handler
+        LShortBiFunctionX<R,X> wrapped = sutThrowing.handleSBiFuncX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -268,7 +268,7 @@ public class LShortBiFunctionXTest<R,X extends ParseException> {
         });
 
         // when
-        LShortBiFunctionX<R,X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
+        LShortBiFunctionX<R,X> wrapped = sutThrowing.handleSBiFuncX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -287,7 +287,7 @@ public class LShortBiFunctionXTest<R,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromShort() throws X {
+    public void testsBiFuncFromShort() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -312,7 +312,7 @@ public class LShortBiFunctionXTest<R,X extends ParseException> {
         };
 
         //when
-        LShortBiFunctionX<Integer ,X> function = sutO.fromShort(before1,before2);
+        LShortBiFunctionX<Integer ,X> function = sutO.sBiFuncFromShort(before1,before2);
         function.doApply((short)80,(short)81);
 
         //then - finals
@@ -322,7 +322,7 @@ public class LShortBiFunctionXTest<R,X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws X {
+    public void testsBiFuncFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -347,7 +347,7 @@ public class LShortBiFunctionXTest<R,X extends ParseException> {
         };
 
         //when
-        LBiFunctionX<Integer ,Integer ,Integer ,X> function = sutO.from(before1,before2);
+        LBiFunctionX<Integer ,Integer ,Integer ,X> function = sutO.sBiFuncFrom(before1,before2);
         function.doApply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
@@ -433,25 +433,25 @@ public class LShortBiFunctionXTest<R,X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingSBiFunc())
             .isInstanceOf(LShortBiFunction.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingSBiFunc())
             .isInstanceOf(LShortBiFunction.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingSBiFuncX())
             .isInstanceOf(LShortBiFunctionX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingSBiFuncX())
             .isInstanceOf(LShortBiFunctionX.class);
     }
 
@@ -464,11 +464,11 @@ public class LShortBiFunctionXTest<R,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doApply((short)100,(short)100);
+        sutThrowing.shovingSBiFunc().doApply((short)100,(short)100);
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleSBiFunc() throws X {
 
         // given
         LShortBiFunctionX<R,X> sutThrowing = LShortBiFunctionX.lX((short s1,short s2) -> {
@@ -476,7 +476,7 @@ public class LShortBiFunctionXTest<R,X extends ParseException> {
         });
 
         // when
-        LShortBiFunctionX<R,X> wrapped = sutThrowing.handleX(h -> {
+        LShortBiFunctionX<R,X> wrapped = sutThrowing.handleSBiFuncX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -513,3 +513,5 @@ public class LShortBiFunctionXTest<R,X extends ParseException> {
 
 
 }
+
+

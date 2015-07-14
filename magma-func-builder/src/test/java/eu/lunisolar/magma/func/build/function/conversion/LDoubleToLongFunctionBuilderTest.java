@@ -124,12 +124,14 @@ public class LDoubleToLongFunctionBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsLong((double)0).to(a -> a.isEqualTo((long)0))
-            .doesApplyAsLong((double)5).to(a -> a.isEqualTo((long)1))
-            .doesApplyAsLong((double)15).to(a -> a.isEqualTo((long)2))
-            .doesApplyAsLong((double)10).to(a -> a.isEqualTo((long)99))
+            .doesApplyAsLong((double)0).when(null).to(a -> a.isEqualTo((long)0))
+            .doesApplyAsLong((double)5).when(null).to(a -> a.isEqualTo((long)1))
+            .doesApplyAsLong((double)15).when(null).to(a -> a.isEqualTo((long)2))
+            .doesApplyAsLong((double)10).when(null).to(a -> a.isEqualTo((long)99))
         ;
 
     }
 
 }
+
+

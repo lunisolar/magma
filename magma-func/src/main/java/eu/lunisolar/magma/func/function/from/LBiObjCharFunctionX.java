@@ -103,7 +103,7 @@ public interface LBiObjCharFunctionX<T1, T2, R, X extends Throwable> extends Met
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplierX<R, X> capture(T1 t1, T2 t2, char c) {
+	default LSupplierX<R, X> captureBiObjCFunc(T1 t1, T2 t2, char c) {
 		return () -> this.doApply(t1, t2, c);
 	}
 
@@ -138,10 +138,10 @@ public interface LBiObjCharFunctionX<T1, T2, R, X extends Throwable> extends Met
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiObjCharFunctionX<V1, V2, R, X> fromChar(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LCharUnaryOperatorX<X> before3) {
+	default <V1, V2> LBiObjCharFunctionX<V1, V2, R, X> biObjCFuncFromChar(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LCharUnaryOperatorX<X> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
@@ -149,10 +149,10 @@ public interface LBiObjCharFunctionX<T1, T2, R, X extends Throwable> extends Met
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2, V3> LTriFunctionX<V1, V2, V3, R, X> from(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LToCharFunctionX<? super V3, X> before3) {
+	default <V1, V2, V3> LTriFunctionX<V1, V2, V3, R, X> biObjCFuncFrom(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LToCharFunctionX<? super V3, X> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
@@ -182,42 +182,42 @@ public interface LBiObjCharFunctionX<T1, T2, R, X extends Throwable> extends Met
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiObjCharFunction<T1, T2, R> nest() {
+	default LBiObjCharFunction<T1, T2, R> nestingBiObjCFunc() {
 		return this::nestingDoApply;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiObjCharFunctionX<T1, T2, R, RuntimeException> nestX() {
+	default LBiObjCharFunctionX<T1, T2, R, RuntimeException> nestingBiObjCFuncX() {
 		return this::nestingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjCharFunction<T1, T2, R> shove() {
+	default LBiObjCharFunction<T1, T2, R> shovingBiObjCFunc() {
 		return this::shovingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjCharFunctionX<T1, T2, R, RuntimeException> shoveX() {
+	default LBiObjCharFunctionX<T1, T2, R, RuntimeException> shovingBiObjCFuncX() {
 		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LBiObjCharFunctionX<T1, T2, R, X> nonNullableX() {
+	default LBiObjCharFunctionX<T1, T2, R, X> nonNullBiObjCFunc() {
 		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LBiObjCharFunction<T1, T2, R> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LBiObjCharFunction<T1, T2, R> handleBiObjCFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T1 t1, T2 t2, char c) -> this.handlingDoApply(t1, t2, c, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LBiObjCharFunctionX<T1, T2, R, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LBiObjCharFunctionX<T1, T2, R, Y> handleBiObjCFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T1 t1, T2 t2, char c) -> this.handlingDoApply(t1, t2, c, handling);
 	}
 

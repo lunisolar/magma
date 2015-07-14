@@ -179,7 +179,7 @@ public class LLongConsumerXTest<X extends ParseException> {
         });
 
         // when
-        LLongConsumerX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LLongConsumerX<X> wrapped = sutThrowing.handleLongConsX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -203,7 +203,7 @@ public class LLongConsumerXTest<X extends ParseException> {
         });
 
         // when
-        LLongConsumerX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LLongConsumerX<X> wrapped = sutThrowing.handleLongConsX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -227,7 +227,7 @@ public class LLongConsumerXTest<X extends ParseException> {
         });
 
         // when
-        LLongConsumerX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LLongConsumerX<X> wrapped = sutThrowing.handleLongConsX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -252,7 +252,7 @@ public class LLongConsumerXTest<X extends ParseException> {
         });
 
         // when
-        LLongConsumerX<X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
+        LLongConsumerX<X> wrapped = sutThrowing.handleLongConsX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -271,7 +271,7 @@ public class LLongConsumerXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromLong() throws X {
+    public void testlongConsFromLong() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -289,7 +289,7 @@ public class LLongConsumerXTest<X extends ParseException> {
         };
 
         //when
-        LLongConsumerX<X> function = sutO.fromLong(before1);
+        LLongConsumerX<X> function = sutO.longConsFromLong(before1);
         function.doAccept((long)80);
 
         //then - finals
@@ -299,7 +299,7 @@ public class LLongConsumerXTest<X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws X {
+    public void testlongConsFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -317,7 +317,7 @@ public class LLongConsumerXTest<X extends ParseException> {
         };
 
         //when
-        LConsumerX<Integer ,X> function = sutO.from(before1);
+        LConsumerX<Integer ,X> function = sutO.longConsFrom(before1);
         function.doAccept((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -356,25 +356,25 @@ public class LLongConsumerXTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingLongCons())
             .isInstanceOf(LLongConsumer.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingLongCons())
             .isInstanceOf(LLongConsumer.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingLongConsX())
             .isInstanceOf(LLongConsumerX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingLongConsX())
             .isInstanceOf(LLongConsumerX.class);
     }
 
@@ -387,11 +387,11 @@ public class LLongConsumerXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doAccept((long)100);
+        sutThrowing.shovingLongCons().doAccept((long)100);
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleLongCons() throws X {
 
         // given
         LLongConsumerX<X> sutThrowing = LLongConsumerX.lX(l -> {
@@ -399,7 +399,7 @@ public class LLongConsumerXTest<X extends ParseException> {
         });
 
         // when
-        LLongConsumerX<X> wrapped = sutThrowing.handleX(h -> {
+        LLongConsumerX<X> wrapped = sutThrowing.handleLongConsX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -436,3 +436,5 @@ public class LLongConsumerXTest<X extends ParseException> {
 
 
 }
+
+

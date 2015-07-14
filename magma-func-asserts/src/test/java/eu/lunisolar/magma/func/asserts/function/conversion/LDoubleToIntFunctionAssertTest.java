@@ -128,3 +128,5 @@ public class LDoubleToIntFunctionAssertTest<X extends Throwable> {
     }
 
 }
+
+

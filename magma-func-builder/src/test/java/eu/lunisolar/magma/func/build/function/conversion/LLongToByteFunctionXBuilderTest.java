@@ -124,12 +124,14 @@ public class LLongToByteFunctionXBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsByte((long)0).to(a -> a.isEqualTo((byte)0))
-            .doesApplyAsByte((long)5).to(a -> a.isEqualTo((byte)1))
-            .doesApplyAsByte((long)15).to(a -> a.isEqualTo((byte)2))
-            .doesApplyAsByte((long)10).to(a -> a.isEqualTo((byte)99))
+            .doesApplyAsByte((long)0).when(null).to(a -> a.isEqualTo((byte)0))
+            .doesApplyAsByte((long)5).when(null).to(a -> a.isEqualTo((byte)1))
+            .doesApplyAsByte((long)15).when(null).to(a -> a.isEqualTo((byte)2))
+            .doesApplyAsByte((long)10).when(null).to(a -> a.isEqualTo((byte)99))
         ;
 
     }
 
 }
+
+

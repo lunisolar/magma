@@ -88,7 +88,7 @@ public interface LLongBiFunction<R> extends LLongBiFunctionX<R, RuntimeException
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> capture(long l1, long l2) {
+	default LSupplier<R> captureLongBiFunc(long l1, long l2) {
 		return () -> this.doApply(l1, l2);
 	}
 
@@ -116,20 +116,20 @@ public interface LLongBiFunction<R> extends LLongBiFunctionX<R, RuntimeException
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LLongBiFunction<R> fromLong(@Nonnull final LLongUnaryOperator before1, @Nonnull final LLongUnaryOperator before2) {
+	default LLongBiFunction<R> longBiFuncFromLong(@Nonnull final LLongUnaryOperator before1, @Nonnull final LLongUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final long v1, final long v2) -> this.doApply(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiFunction<V1, V2, R> from(@Nonnull final LToLongFunction<? super V1> before1, @Nonnull final LToLongFunction<? super V2> before2) {
+	default <V1, V2> LBiFunction<V1, V2, R> longBiFuncFrom(@Nonnull final LToLongFunction<? super V1> before1, @Nonnull final LToLongFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApply(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
@@ -158,30 +158,30 @@ public interface LLongBiFunction<R> extends LLongBiFunctionX<R, RuntimeException
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LLongBiFunction<R> nest() {
+	default LLongBiFunction<R> nestingLongBiFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LLongBiFunctionX<R, RuntimeException> nestX() {
+	default LLongBiFunctionX<R, RuntimeException> nestingLongBiFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LLongBiFunction<R> shove() {
+	default LLongBiFunction<R> shovingLongBiFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LLongBiFunctionX<R, RuntimeException> shoveX() {
+	default LLongBiFunctionX<R, RuntimeException> shovingLongBiFuncX() {
 		return this;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LLongBiFunction<R> nonNullable() {
+	default LLongBiFunction<R> nonNullLongBiFunc() {
 		return this::nonNullDoApply;
 	}
 

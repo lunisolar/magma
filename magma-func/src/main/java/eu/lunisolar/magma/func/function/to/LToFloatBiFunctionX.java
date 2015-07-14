@@ -99,7 +99,7 @@ public interface LToFloatBiFunctionX<T1, T2, X extends Throwable> extends MetaFu
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LFloatSupplierX<X> capture(T1 t1, T2 t2) {
+	default LFloatSupplierX<X> captureToFBiFunc(T1 t1, T2 t2) {
 		return () -> this.doApplyAsFloat(t1, t2);
 	}
 
@@ -134,10 +134,10 @@ public interface LToFloatBiFunctionX<T1, T2, X extends Throwable> extends MetaFu
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LToFloatBiFunctionX<V1, V2, X> from(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
+	default <V1, V2> LToFloatBiFunctionX<V1, V2, X> toFBiFuncFrom(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final V2 v2) -> this.doApplyAsFloat(before1.doApply(v1), before2.doApply(v2));
@@ -159,23 +159,23 @@ public interface LToFloatBiFunctionX<T1, T2, X extends Throwable> extends MetaFu
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToFloatBiFunction<T1, T2> nest() {
+	default LToFloatBiFunction<T1, T2> nestingToFBiFunc() {
 		return this::nestingDoApplyAsFloat;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToFloatBiFunctionX<T1, T2, RuntimeException> nestX() {
+	default LToFloatBiFunctionX<T1, T2, RuntimeException> nestingToFBiFuncX() {
 		return this::nestingDoApplyAsFloat;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToFloatBiFunction<T1, T2> shove() {
+	default LToFloatBiFunction<T1, T2> shovingToFBiFunc() {
 		return this::shovingDoApplyAsFloat;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToFloatBiFunctionX<T1, T2, RuntimeException> shoveX() {
+	default LToFloatBiFunctionX<T1, T2, RuntimeException> shovingToFBiFuncX() {
 		return this::shovingDoApplyAsFloat;
 	}
 
@@ -184,12 +184,12 @@ public interface LToFloatBiFunctionX<T1, T2, X extends Throwable> extends MetaFu
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LToFloatBiFunction<T1, T2> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LToFloatBiFunction<T1, T2> handleToFBiFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T1 t1, T2 t2) -> this.handlingDoApplyAsFloat(t1, t2, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LToFloatBiFunctionX<T1, T2, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LToFloatBiFunctionX<T1, T2, Y> handleToFBiFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T1 t1, T2 t2) -> this.handlingDoApplyAsFloat(t1, t2, handling);
 	}
 

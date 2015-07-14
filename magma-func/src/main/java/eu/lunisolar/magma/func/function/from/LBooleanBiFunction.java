@@ -88,7 +88,7 @@ public interface LBooleanBiFunction<R> extends LBooleanBiFunctionX<R, RuntimeExc
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> capture(boolean b1, boolean b2) {
+	default LSupplier<R> captureBoolBiFunc(boolean b1, boolean b2) {
 		return () -> this.doApply(b1, b2);
 	}
 
@@ -116,23 +116,23 @@ public interface LBooleanBiFunction<R> extends LBooleanBiFunctionX<R, RuntimeExc
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LBooleanBiFunction<R> fromBoolean(@Nonnull final LBooleanUnaryOperator before1, @Nonnull final LBooleanUnaryOperator before2) {
+	default LBooleanBiFunction<R> boolBiFuncFromBoolean(@Nonnull final LLogicalOperator before1, @Nonnull final LLogicalOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (final boolean v1, final boolean v2) -> this.doApply(before1.doApplyAsBoolean(v1), before2.doApplyAsBoolean(v2));
+		return (final boolean v1, final boolean v2) -> this.doApply(before1.doApply(v1), before2.doApply(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiFunction<V1, V2, R> from(@Nonnull final LPredicate<? super V1> before1, @Nonnull final LPredicate<? super V2> before2) {
+	default <V1, V2> LBiFunction<V1, V2, R> boolBiFuncFrom(@Nonnull final LPredicate<? super V1> before1, @Nonnull final LPredicate<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doApply(before1.doApplyAsBoolean(v1), before2.doApplyAsBoolean(v2));
+		return (V1 v1, V2 v2) -> this.doApply(before1.doTest(v1), before2.doTest(v2));
 	}
 
 	// </editor-fold>
@@ -158,30 +158,30 @@ public interface LBooleanBiFunction<R> extends LBooleanBiFunctionX<R, RuntimeExc
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanBiFunction<R> nest() {
+	default LBooleanBiFunction<R> nestingBoolBiFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanBiFunctionX<R, RuntimeException> nestX() {
+	default LBooleanBiFunctionX<R, RuntimeException> nestingBoolBiFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanBiFunction<R> shove() {
+	default LBooleanBiFunction<R> shovingBoolBiFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanBiFunctionX<R, RuntimeException> shoveX() {
+	default LBooleanBiFunctionX<R, RuntimeException> shovingBoolBiFuncX() {
 		return this;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LBooleanBiFunction<R> nonNullable() {
+	default LBooleanBiFunction<R> nonNullBoolBiFunc() {
 		return this::nonNullDoApply;
 	}
 

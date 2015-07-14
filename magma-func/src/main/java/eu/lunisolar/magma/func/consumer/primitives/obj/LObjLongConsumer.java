@@ -87,7 +87,7 @@ public interface LObjLongConsumer<T> extends LObjLongConsumerX<T, RuntimeExcepti
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LAction capture(T t, long l) {
+	default LAction captureObjLongCons(T t, long l) {
 		return () -> this.doAccept(t, l);
 	}
 
@@ -117,20 +117,20 @@ public interface LObjLongConsumer<T> extends LObjLongConsumerX<T, RuntimeExcepti
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LObjLongConsumer<V1> fromLong(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LLongUnaryOperator before2) {
+	default <V1> LObjLongConsumer<V1> objLongConsFromLong(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LLongUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final long v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsLong(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiConsumer<V1, V2> from(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToLongFunction<? super V2> before2) {
+	default <V1, V2> LBiConsumer<V1, V2> objLongConsFrom(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToLongFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsLong(v2));
@@ -154,23 +154,23 @@ public interface LObjLongConsumer<T> extends LObjLongConsumerX<T, RuntimeExcepti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjLongConsumer<T> nest() {
+	default LObjLongConsumer<T> nestingObjLongCons() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjLongConsumerX<T, RuntimeException> nestX() {
+	default LObjLongConsumerX<T, RuntimeException> nestingObjLongConsX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjLongConsumer<T> shove() {
+	default LObjLongConsumer<T> shovingObjLongCons() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjLongConsumerX<T, RuntimeException> shoveX() {
+	default LObjLongConsumerX<T, RuntimeException> shovingObjLongConsX() {
 		return this;
 	}
 

@@ -128,3 +128,5 @@ public class LBiObjCharFunctionAssertTest<T1,T2,R,X extends Throwable> {
     }
 
 }
+
+

@@ -26,16 +26,28 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
 import eu.lunisolar.magma.func.function.conversion.*;
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LShortToByteFunction. */
-public interface LShortToByteFunctionAssert<S extends LShortToByteFunctionAssert<S, A, RS>, A extends LShortToByteFunction, RS extends AbstractByteAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, Byte, Exception> {
+public interface LShortToByteFunctionAssert<S extends LShortToByteFunctionAssert<S, A, RS>, A extends LShortToByteFunction, RS extends AbstractByteAssert<RS>>
+		extends
+			Assert<S, A>,
+			FullFunctionalAssert<S, LShortConsumerX<Exception>, A, RS, Byte, Exception> {
 
 	@Nonnull
-	Evaluation<S, A, RS, Byte, Exception> doesApplyAsByte(short s);
+	Evaluation<S, LShortConsumerX<Exception>, A, RS, Byte, Exception> doesApplyAsByte(short s);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends LShortToByteFunction, RS extends AbstractByteAssert<RS>> extends Base<Impl<A, RS>, A, RS> {
@@ -46,7 +58,9 @@ public interface LShortToByteFunctionAssert<S extends LShortToByteFunctionAssert
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS>, A extends LShortToByteFunction, RS extends AbstractByteAssert<RS>> extends FullFunctionalAssert.Base<S, A, RS, Byte, Exception> implements LShortToByteFunctionAssert<S, A, RS> {
+	public static class Base<S extends Base<S, A, RS>, A extends LShortToByteFunction, RS extends AbstractByteAssert<RS>> extends FullFunctionalAssert.Base<S, LShortConsumerX<Exception>, A, RS, Byte, Exception>
+			implements
+				LShortToByteFunctionAssert<S, A, RS> {
 
 		protected final java.util.function.Function<Byte, RS> assertFactory;
 
@@ -56,8 +70,15 @@ public interface LShortToByteFunctionAssert<S extends LShortToByteFunctionAssert
 		}
 
 		@Nonnull
-		public Evaluation<S, A, RS, Byte, Exception> doesApplyAsByte(short s) {
-			return evaluation(() -> assertFactory.apply((Byte) actual.doApplyAsByte(s)));
+		public Evaluation<S, LShortConsumerX<Exception>, A, RS, Byte, Exception> doesApplyAsByte(short s) {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doAccept(s);
+				}
+				return assertFactory.apply((Byte) actual.doApplyAsByte(s));
+			});
+
 		}
 
 	}

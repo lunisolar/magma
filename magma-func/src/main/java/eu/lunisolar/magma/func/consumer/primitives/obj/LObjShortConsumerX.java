@@ -95,7 +95,7 @@ public interface LObjShortConsumerX<T, X extends Throwable> extends MetaConsumer
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LActionX<X> capture(T t, short s) {
+	default LActionX<X> captureObjSCons(T t, short s) {
 		return () -> this.doAccept(t, s);
 	}
 
@@ -126,20 +126,20 @@ public interface LObjShortConsumerX<T, X extends Throwable> extends MetaConsumer
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LObjShortConsumerX<V1, X> fromShort(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LShortUnaryOperatorX<X> before2) {
+	default <V1> LObjShortConsumerX<V1, X> objSConsFromShort(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LShortUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final short v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsShort(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiConsumerX<V1, V2, X> from(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToShortFunctionX<? super V2, X> before2) {
+	default <V1, V2> LBiConsumerX<V1, V2, X> objSConsFrom(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToShortFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsShort(v2));
@@ -163,23 +163,23 @@ public interface LObjShortConsumerX<T, X extends Throwable> extends MetaConsumer
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjShortConsumer<T> nest() {
+	default LObjShortConsumer<T> nestingObjSCons() {
 		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjShortConsumerX<T, RuntimeException> nestX() {
+	default LObjShortConsumerX<T, RuntimeException> nestingObjSConsX() {
 		return this::nestingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjShortConsumer<T> shove() {
+	default LObjShortConsumer<T> shovingObjSCons() {
 		return this::shovingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjShortConsumerX<T, RuntimeException> shoveX() {
+	default LObjShortConsumerX<T, RuntimeException> shovingObjSConsX() {
 		return this::shovingDoAccept;
 	}
 
@@ -188,12 +188,12 @@ public interface LObjShortConsumerX<T, X extends Throwable> extends MetaConsumer
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LObjShortConsumer<T> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LObjShortConsumer<T> handleObjSCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T t, short s) -> this.handlingDoAccept(t, s, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LObjShortConsumerX<T, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LObjShortConsumerX<T, Y> handleObjSConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T t, short s) -> this.handlingDoAccept(t, s, handling);
 	}
 

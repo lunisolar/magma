@@ -105,7 +105,7 @@ public interface LBiLongPredicateX<X extends Throwable> extends MetaPredicate, P
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> capture(long l1, long l2) {
+	default LBooleanSupplierX<X> captureBiLongPred(long l1, long l2) {
 		return () -> this.doTest(l1, l2);
 	}
 
@@ -186,20 +186,20 @@ public interface LBiLongPredicateX<X extends Throwable> extends MetaPredicate, P
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LBiLongPredicateX<X> fromLong(@Nonnull final LLongUnaryOperatorX<X> before1, @Nonnull final LLongUnaryOperatorX<X> before2) {
+	default LBiLongPredicateX<X> biLongPredFromLong(@Nonnull final LLongUnaryOperatorX<X> before1, @Nonnull final LLongUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final long v1, final long v2) -> this.doTest(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiPredicateX<V1, V2, X> from(@Nonnull final LToLongFunctionX<? super V1, X> before1, @Nonnull final LToLongFunctionX<? super V2, X> before2) {
+	default <V1, V2> LBiPredicateX<V1, V2, X> biLongPredFrom(@Nonnull final LToLongFunctionX<? super V1, X> before1, @Nonnull final LToLongFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doTest(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
@@ -211,7 +211,7 @@ public interface LBiLongPredicateX<X extends Throwable> extends MetaPredicate, P
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LLongBiFunctionX<V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LLongBiFunctionX<V, X> boolToLongBiFunction(@Nonnull LBooleanFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (long l1, long l2) -> after.doApply(this.doTest(l1, l2));
 	}
@@ -221,23 +221,23 @@ public interface LBiLongPredicateX<X extends Throwable> extends MetaPredicate, P
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiLongPredicate nest() {
+	default LBiLongPredicate nestingBiLongPred() {
 		return this::nestingDoTest;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiLongPredicateX<RuntimeException> nestX() {
+	default LBiLongPredicateX<RuntimeException> nestingBiLongPredX() {
 		return this::nestingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiLongPredicate shove() {
+	default LBiLongPredicate shovingBiLongPred() {
 		return this::shovingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiLongPredicateX<RuntimeException> shoveX() {
+	default LBiLongPredicateX<RuntimeException> shovingBiLongPredX() {
 		return this::shovingDoTest;
 	}
 
@@ -246,12 +246,12 @@ public interface LBiLongPredicateX<X extends Throwable> extends MetaPredicate, P
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LBiLongPredicate handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LBiLongPredicate handleBiLongPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (long l1, long l2) -> this.handlingDoTest(l1, l2, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LBiLongPredicateX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LBiLongPredicateX<Y> handleBiLongPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (long l1, long l2) -> this.handlingDoTest(l1, l2, handling);
 	}
 

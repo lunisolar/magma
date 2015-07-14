@@ -88,7 +88,7 @@ public interface LTriFunction<T1, T2, T3, R> extends LTriFunctionX<T1, T2, T3, R
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> capture(T1 t1, T2 t2, T3 t3) {
+	default LSupplier<R> captureTriFunc(T1 t1, T2 t2, T3 t3) {
 		return () -> this.doApply(t1, t2, t3);
 	}
 
@@ -116,10 +116,10 @@ public interface LTriFunction<T1, T2, T3, R> extends LTriFunctionX<T1, T2, T3, R
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2, V3> LTriFunction<V1, V2, V3, R> from(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LFunction<? super V3, ? extends T3> before3) {
+	default <V1, V2, V3> LTriFunction<V1, V2, V3, R> triFuncFrom(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LFunction<? super V3, ? extends T3> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
@@ -149,30 +149,30 @@ public interface LTriFunction<T1, T2, T3, R> extends LTriFunctionX<T1, T2, T3, R
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LTriFunction<T1, T2, T3, R> nest() {
+	default LTriFunction<T1, T2, T3, R> nestingTriFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LTriFunctionX<T1, T2, T3, R, RuntimeException> nestX() {
+	default LTriFunctionX<T1, T2, T3, R, RuntimeException> nestingTriFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LTriFunction<T1, T2, T3, R> shove() {
+	default LTriFunction<T1, T2, T3, R> shovingTriFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LTriFunctionX<T1, T2, T3, R, RuntimeException> shoveX() {
+	default LTriFunctionX<T1, T2, T3, R, RuntimeException> shovingTriFuncX() {
 		return this;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LTriFunction<T1, T2, T3, R> nonNullable() {
+	default LTriFunction<T1, T2, T3, R> nonNullTriFunc() {
 		return this::nonNullDoApply;
 	}
 

@@ -128,3 +128,5 @@ public class LObjCharFunctionAssertTest<T,R,X extends Throwable> {
     }
 
 }
+
+

@@ -99,7 +99,7 @@ public interface LIntToShortFunctionX<X extends Throwable> extends MetaFunction,
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LShortSupplierX<X> capture(int i) {
+	default LShortSupplierX<X> captureIToSFunc(int i) {
 		return () -> this.doApplyAsShort(i);
 	}
 
@@ -134,19 +134,19 @@ public interface LIntToShortFunctionX<X extends Throwable> extends MetaFunction,
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LIntToShortFunctionX<X> fromInt(@Nonnull final LIntUnaryOperatorX<X> before1) {
+	default LIntToShortFunctionX<X> iToSFuncFromInt(@Nonnull final LIntUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsShort(before1.doApplyAsInt(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToShortFunctionX<V1, X> from(@Nonnull final LToIntFunctionX<? super V1, X> before1) {
+	default <V1> LToShortFunctionX<V1, X> iToSFuncFrom(@Nonnull final LToIntFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsShort(before1.doApplyAsInt(v1));
 	}
@@ -223,23 +223,23 @@ public interface LIntToShortFunctionX<X extends Throwable> extends MetaFunction,
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntToShortFunction nest() {
+	default LIntToShortFunction nestingIToSFunc() {
 		return this::nestingDoApplyAsShort;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntToShortFunctionX<RuntimeException> nestX() {
+	default LIntToShortFunctionX<RuntimeException> nestingIToSFuncX() {
 		return this::nestingDoApplyAsShort;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntToShortFunction shove() {
+	default LIntToShortFunction shovingIToSFunc() {
 		return this::shovingDoApplyAsShort;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntToShortFunctionX<RuntimeException> shoveX() {
+	default LIntToShortFunctionX<RuntimeException> shovingIToSFuncX() {
 		return this::shovingDoApplyAsShort;
 	}
 
@@ -248,12 +248,12 @@ public interface LIntToShortFunctionX<X extends Throwable> extends MetaFunction,
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LIntToShortFunction handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LIntToShortFunction handleIToSFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return i -> this.handlingDoApplyAsShort(i, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LIntToShortFunctionX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LIntToShortFunctionX<Y> handleIToSFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return i -> this.handlingDoApplyAsShort(i, handling);
 	}
 

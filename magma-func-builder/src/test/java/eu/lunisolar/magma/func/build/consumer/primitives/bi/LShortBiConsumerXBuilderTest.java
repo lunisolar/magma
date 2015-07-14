@@ -125,12 +125,14 @@ public class LShortBiConsumerXBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesAccept((short)0,(short)0).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(0)))
-            .doesAccept((short)5,(short)5).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(1)))
-            .doesAccept((short)15,(short)15).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(2)))
-            .doesAccept((short)10,(short)10).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(99)))
+            .doesAccept((short)0,(short)0).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(0)))
+            .doesAccept((short)5,(short)5).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(1)))
+            .doesAccept((short)15,(short)15).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(2)))
+            .doesAccept((short)10,(short)10).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(99)))
         ;
 
     }
 
 }
+
+

@@ -99,7 +99,7 @@ public interface LBooleanToCharFunctionX<X extends Throwable> extends MetaFuncti
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LCharSupplierX<X> capture(boolean b) {
+	default LCharSupplierX<X> captureBoolToCFunc(boolean b) {
 		return () -> this.doApplyAsChar(b);
 	}
 
@@ -134,21 +134,21 @@ public interface LBooleanToCharFunctionX<X extends Throwable> extends MetaFuncti
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LBooleanToCharFunctionX<X> fromBoolean(@Nonnull final LBooleanUnaryOperatorX<X> before1) {
+	default LBooleanToCharFunctionX<X> boolToCFuncFromBoolean(@Nonnull final LLogicalOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsChar(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doApplyAsChar(before1.doApply(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToCharFunctionX<V1, X> from(@Nonnull final LPredicateX<? super V1, X> before1) {
+	default <V1> LToCharFunctionX<V1, X> boolToCFuncFrom(@Nonnull final LPredicateX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsChar(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doApplyAsChar(before1.doTest(v1));
 	}
 
 	// </editor-fold>
@@ -213,7 +213,7 @@ public interface LBooleanToCharFunctionX<X extends Throwable> extends MetaFuncti
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LBooleanUnaryOperatorX<X> thenToBoolean(@Nonnull LCharPredicateX<X> after) {
+	default LLogicalOperatorX<X> thenToBoolean(@Nonnull LCharPredicateX<X> after) {
 		Null.nonNullArg(after, "after");
 		return b -> after.doTest(this.doApplyAsChar(b));
 	}
@@ -223,23 +223,23 @@ public interface LBooleanToCharFunctionX<X extends Throwable> extends MetaFuncti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanToCharFunction nest() {
+	default LBooleanToCharFunction nestingBoolToCFunc() {
 		return this::nestingDoApplyAsChar;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanToCharFunctionX<RuntimeException> nestX() {
+	default LBooleanToCharFunctionX<RuntimeException> nestingBoolToCFuncX() {
 		return this::nestingDoApplyAsChar;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanToCharFunction shove() {
+	default LBooleanToCharFunction shovingBoolToCFunc() {
 		return this::shovingDoApplyAsChar;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanToCharFunctionX<RuntimeException> shoveX() {
+	default LBooleanToCharFunctionX<RuntimeException> shovingBoolToCFuncX() {
 		return this::shovingDoApplyAsChar;
 	}
 
@@ -248,12 +248,12 @@ public interface LBooleanToCharFunctionX<X extends Throwable> extends MetaFuncti
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LBooleanToCharFunction handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LBooleanToCharFunction handleBoolToCFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return b -> this.handlingDoApplyAsChar(b, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LBooleanToCharFunctionX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LBooleanToCharFunctionX<Y> handleBoolToCFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return b -> this.handlingDoApplyAsChar(b, handling);
 	}
 

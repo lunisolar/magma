@@ -27,62 +27,74 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.ThreadSafe;
+import java.util.*;
 import java.util.function.*;
 
 import static org.assertj.core.api.Fail.fail;
 
 /**
  * Fluent sub-context for functional interface assertions.
+ *
+ * @param <PC> Preconditioner can establish external conditions that are required in order for evaluation case to be completed.
  */
 @Immutable
 @ThreadSafe
 @SuppressWarnings("unchecked")
-public abstract class AbstractEvaluation<SELF extends AbstractEvaluation<SELF, CTX, C, X>, CTX extends Fluent<CTX>, C, X extends Exception>
+public abstract class AbstractEvaluation<SELF extends AbstractEvaluation<SELF, CTX, PC, A, X>, CTX extends Fluent<CTX>, PC, A, X extends Exception>
         implements FluentSubcontext<SELF, CTX> {
 
-    protected final @Nonnull  AssertionSupplier<C> assertSupplier;
-    protected final @Nullable Consumer<C>             assertPreConsumer;
+    protected @Nullable       PC                       preconditioner;
+    protected final @Nonnull  AssertionFunction<PC, A> assertFunction;
+    protected final @Nullable Consumer<A>              assertPreConsumer;
 
     protected final @Nonnull CTX context;
 
     protected AbstractEvaluation(
             @Nonnull CTX context,
-            @Nullable Consumer<C> assertPreConsumer,
-            @Nonnull AssertionSupplier<C> assertSupplier) {
+            @Nonnull AssertionFunction<PC, A> assertFunction,
+            @Nullable Consumer<A> assertPreConsumer) {
         this.assertPreConsumer = assertPreConsumer;
-        this.assertSupplier = assertSupplier;
+        this.assertFunction = Objects.requireNonNull(assertFunction);
         this.context = context;
+
     }
 
-    protected AbstractEvaluation(@Nonnull CTX context, @Nullable AssertionsCheck assertPreConsumer, AssertionSupplier<C> assertSupplier) {
-        this(context, assertPreConsumer == null ? null : (a) -> assertPreConsumer.assertionsCheck(), assertSupplier);
+    protected AbstractEvaluation(
+            @Nonnull CTX context, @Nullable AssertionsCheck assertPreConsumer, AssertionFunction<PC, A> assertFunction) {
+        this(context, assertFunction, assertPreConsumer == null ? null : (a) -> assertPreConsumer.assertionsCheck());
+    }
+
+    public SELF when(PC preconditioner) {
+        this.preconditioner = preconditioner;
+        return self();
     }
 
     /** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
     public CTX soThat(@Nonnull AssertionsCheck assertions) {
-        normalCheck(assertSupplier, assertPreConsumer, (a) -> assertions.assertionsCheck());
+        normalCheck(preconditioner, assertFunction, assertPreConsumer, (a) -> assertions.assertionsCheck());
         return context.self();
     }
 
     public CTX withoutException() {
-        exceptionCheck(assertSupplier, a -> {
+        exceptionCheck(preconditioner, assertFunction, a -> {
         });
         return context.self();
     }
 
-    /** Assertion for the failure of the method unther test. */
+    /** Assertion for the failure of the method under test. */
     public CTX withException(@Nonnull Consumer<AbstractThrowableAssert<?, ? extends Throwable>> assertions) {
-        exceptionCheck(assertSupplier, assertions);
+        exceptionCheck(preconditioner, assertFunction, assertions);
         return context.self();
     }
 
-    protected static <RS, X extends Exception> void normalCheck(
-            @Nonnull AssertionSupplier<RS> assertSupplier,
-            @Nullable Consumer<RS> assertPreConsumer,
-            @Nonnull Consumer<RS> assertConsumer
+    protected static <PC, A, X extends Exception> void normalCheck(
+            @Nullable PC preconditioner,
+            @Nonnull AssertionFunction<PC, A> assertFunction,
+            @Nullable Consumer<A> assertPreConsumer,
+            @Nonnull Consumer<A> assertConsumer
     ) {
         try {
-            RS resultAssert = assertSupplier.get();
+            A resultAssert = assertFunction.applyAndCreateResultAssert(preconditioner);
 
             try {
                 if (assertPreConsumer != null) {
@@ -100,13 +112,14 @@ public abstract class AbstractEvaluation<SELF extends AbstractEvaluation<SELF, C
         }
     }
 
-    protected static <RS, X extends Exception> void exceptionCheck(
-            @Nonnull AssertionSupplier<RS> assertSupplier,
+    protected static <PC, A, X extends Exception> void exceptionCheck(
+            @Nullable PC preconditioner,
+            @Nonnull AssertionFunction<PC, A> assertFunction,
             @Nonnull Consumer<AbstractThrowableAssert<?, ? extends Throwable>> assertConsumer
     ) {
         try {
             // supplier will fail with the
-            assertSupplier.get();
+            assertFunction.applyAndCreateResultAssert(preconditioner);
             fail("Should evaluate with exception.");
         } catch (Throwable e) {  // NOSONAR
             assertConsumer.accept(Assertions.assertThat(e));

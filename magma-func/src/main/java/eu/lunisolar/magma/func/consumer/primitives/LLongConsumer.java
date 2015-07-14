@@ -87,7 +87,7 @@ public interface LLongConsumer extends LLongConsumerX<RuntimeException>, MetaCon
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LAction capture(long l) {
+	default LAction captureLongCons(long l) {
 		return () -> this.doAccept(l);
 	}
 
@@ -117,19 +117,19 @@ public interface LLongConsumer extends LLongConsumerX<RuntimeException>, MetaCon
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LLongConsumer fromLong(@Nonnull final LLongUnaryOperator before1) {
+	default LLongConsumer longConsFromLong(@Nonnull final LLongUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doApplyAsLong(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LConsumer<V1> from(@Nonnull final LToLongFunction<? super V1> before1) {
+	default <V1> LConsumer<V1> longConsFrom(@Nonnull final LToLongFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doApplyAsLong(v1));
 	}
@@ -152,23 +152,23 @@ public interface LLongConsumer extends LLongConsumerX<RuntimeException>, MetaCon
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LLongConsumer nest() {
+	default LLongConsumer nestingLongCons() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LLongConsumerX<RuntimeException> nestX() {
+	default LLongConsumerX<RuntimeException> nestingLongConsX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LLongConsumer shove() {
+	default LLongConsumer shovingLongCons() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LLongConsumerX<RuntimeException> shoveX() {
+	default LLongConsumerX<RuntimeException> shovingLongConsX() {
 		return this;
 	}
 

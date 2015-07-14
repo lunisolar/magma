@@ -84,7 +84,7 @@ public interface LShortToByteFunction extends LShortToByteFunctionX<RuntimeExcep
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LByteSupplier capture(short s) {
+	default LByteSupplier captureSToBFunc(short s) {
 		return () -> this.doApplyAsByte(s);
 	}
 
@@ -112,19 +112,19 @@ public interface LShortToByteFunction extends LShortToByteFunctionX<RuntimeExcep
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LShortToByteFunction fromShort(@Nonnull final LShortUnaryOperator before1) {
+	default LShortToByteFunction sToBFuncFromShort(@Nonnull final LShortUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsByte(before1.doApplyAsShort(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToByteFunction<V1> from(@Nonnull final LToShortFunction<? super V1> before1) {
+	default <V1> LToByteFunction<V1> sToBFuncFrom(@Nonnull final LToShortFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsByte(before1.doApplyAsShort(v1));
 	}
@@ -201,23 +201,23 @@ public interface LShortToByteFunction extends LShortToByteFunctionX<RuntimeExcep
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LShortToByteFunction nest() {
+	default LShortToByteFunction nestingSToBFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LShortToByteFunctionX<RuntimeException> nestX() {
+	default LShortToByteFunctionX<RuntimeException> nestingSToBFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortToByteFunction shove() {
+	default LShortToByteFunction shovingSToBFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortToByteFunctionX<RuntimeException> shoveX() {
+	default LShortToByteFunctionX<RuntimeException> shovingSToBFuncX() {
 		return this;
 	}
 

@@ -103,7 +103,7 @@ public interface LObjShortFunctionX<T, R, X extends Throwable> extends MetaFunct
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplierX<R, X> capture(T t, short s) {
+	default LSupplierX<R, X> captureObjSFunc(T t, short s) {
 		return () -> this.doApply(t, s);
 	}
 
@@ -138,20 +138,20 @@ public interface LObjShortFunctionX<T, R, X extends Throwable> extends MetaFunct
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LObjShortFunctionX<V1, R, X> fromShort(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LShortUnaryOperatorX<X> before2) {
+	default <V1> LObjShortFunctionX<V1, R, X> objSFuncFromShort(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LShortUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final short v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsShort(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiFunctionX<V1, V2, R, X> from(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToShortFunctionX<? super V2, X> before2) {
+	default <V1, V2> LBiFunctionX<V1, V2, R, X> objSFuncFrom(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToShortFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsShort(v2));
@@ -180,42 +180,42 @@ public interface LObjShortFunctionX<T, R, X extends Throwable> extends MetaFunct
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjShortFunction<T, R> nest() {
+	default LObjShortFunction<T, R> nestingObjSFunc() {
 		return this::nestingDoApply;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjShortFunctionX<T, R, RuntimeException> nestX() {
+	default LObjShortFunctionX<T, R, RuntimeException> nestingObjSFuncX() {
 		return this::nestingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjShortFunction<T, R> shove() {
+	default LObjShortFunction<T, R> shovingObjSFunc() {
 		return this::shovingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjShortFunctionX<T, R, RuntimeException> shoveX() {
+	default LObjShortFunctionX<T, R, RuntimeException> shovingObjSFuncX() {
 		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LObjShortFunctionX<T, R, X> nonNullableX() {
+	default LObjShortFunctionX<T, R, X> nonNullObjSFunc() {
 		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LObjShortFunction<T, R> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LObjShortFunction<T, R> handleObjSFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T t, short s) -> this.handlingDoApply(t, s, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LObjShortFunctionX<T, R, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LObjShortFunctionX<T, R, Y> handleObjSFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T t, short s) -> this.handlingDoApply(t, s, handling);
 	}
 

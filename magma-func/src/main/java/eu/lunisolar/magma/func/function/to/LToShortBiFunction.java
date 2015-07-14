@@ -84,7 +84,7 @@ public interface LToShortBiFunction<T1, T2> extends LToShortBiFunctionX<T1, T2, 
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LShortSupplier capture(T1 t1, T2 t2) {
+	default LShortSupplier captureToSBiFunc(T1 t1, T2 t2) {
 		return () -> this.doApplyAsShort(t1, t2);
 	}
 
@@ -112,10 +112,10 @@ public interface LToShortBiFunction<T1, T2> extends LToShortBiFunctionX<T1, T2, 
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LToShortBiFunction<V1, V2> from(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2) {
+	default <V1, V2> LToShortBiFunction<V1, V2> toSBiFuncFrom(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final V2 v2) -> this.doApplyAsShort(before1.doApply(v1), before2.doApply(v2));
@@ -137,23 +137,23 @@ public interface LToShortBiFunction<T1, T2> extends LToShortBiFunctionX<T1, T2, 
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToShortBiFunction<T1, T2> nest() {
+	default LToShortBiFunction<T1, T2> nestingToSBiFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToShortBiFunctionX<T1, T2, RuntimeException> nestX() {
+	default LToShortBiFunctionX<T1, T2, RuntimeException> nestingToSBiFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToShortBiFunction<T1, T2> shove() {
+	default LToShortBiFunction<T1, T2> shovingToSBiFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToShortBiFunctionX<T1, T2, RuntimeException> shoveX() {
+	default LToShortBiFunctionX<T1, T2, RuntimeException> shovingToSBiFuncX() {
 		return this;
 	}
 

@@ -26,16 +26,28 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
 import eu.lunisolar.magma.func.function.conversion.*;
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LDoubleToIntFunction. */
-public interface LDoubleToIntFunctionAssert<S extends LDoubleToIntFunctionAssert<S, A, RS>, A extends LDoubleToIntFunction, RS extends AbstractIntegerAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, Integer, Exception> {
+public interface LDoubleToIntFunctionAssert<S extends LDoubleToIntFunctionAssert<S, A, RS>, A extends LDoubleToIntFunction, RS extends AbstractIntegerAssert<RS>>
+		extends
+			Assert<S, A>,
+			FullFunctionalAssert<S, LDoubleConsumerX<Exception>, A, RS, Integer, Exception> {
 
 	@Nonnull
-	Evaluation<S, A, RS, Integer, Exception> doesApplyAsInt(double d);
+	Evaluation<S, LDoubleConsumerX<Exception>, A, RS, Integer, Exception> doesApplyAsInt(double d);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends LDoubleToIntFunction, RS extends AbstractIntegerAssert<RS>> extends Base<Impl<A, RS>, A, RS> {
@@ -46,7 +58,9 @@ public interface LDoubleToIntFunctionAssert<S extends LDoubleToIntFunctionAssert
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS>, A extends LDoubleToIntFunction, RS extends AbstractIntegerAssert<RS>> extends FullFunctionalAssert.Base<S, A, RS, Integer, Exception> implements LDoubleToIntFunctionAssert<S, A, RS> {
+	public static class Base<S extends Base<S, A, RS>, A extends LDoubleToIntFunction, RS extends AbstractIntegerAssert<RS>> extends FullFunctionalAssert.Base<S, LDoubleConsumerX<Exception>, A, RS, Integer, Exception>
+			implements
+				LDoubleToIntFunctionAssert<S, A, RS> {
 
 		protected final java.util.function.Function<Integer, RS> assertFactory;
 
@@ -56,8 +70,15 @@ public interface LDoubleToIntFunctionAssert<S extends LDoubleToIntFunctionAssert
 		}
 
 		@Nonnull
-		public Evaluation<S, A, RS, Integer, Exception> doesApplyAsInt(double d) {
-			return evaluation(() -> assertFactory.apply((Integer) actual.doApplyAsInt(d)));
+		public Evaluation<S, LDoubleConsumerX<Exception>, A, RS, Integer, Exception> doesApplyAsInt(double d) {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doAccept(d);
+				}
+				return assertFactory.apply((Integer) actual.doApplyAsInt(d));
+			});
+
 		}
 
 	}

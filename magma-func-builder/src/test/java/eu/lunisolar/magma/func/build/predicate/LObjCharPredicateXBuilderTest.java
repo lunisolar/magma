@@ -124,12 +124,14 @@ public class LObjCharPredicateXBuilderTest<T,X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesTest(Integer.valueOf(0),(char)0).to(a -> a.isEqualTo(false))
-            .doesTest(Integer.valueOf(5),(char)5).to(a -> a.isEqualTo(true))
-            .doesTest(Integer.valueOf(15),(char)15).to(a -> a.isEqualTo(true))
-            .doesTest(Integer.valueOf(10),(char)10).to(a -> a.isEqualTo(true))
+            .doesTest(Integer.valueOf(0),(char)0).when(null).to(a -> a.isEqualTo(false))
+            .doesTest(Integer.valueOf(5),(char)5).when(null).to(a -> a.isEqualTo(true))
+            .doesTest(Integer.valueOf(15),(char)15).when(null).to(a -> a.isEqualTo(true))
+            .doesTest(Integer.valueOf(10),(char)10).when(null).to(a -> a.isEqualTo(true))
         ;
 
     }
 
 }
+
+

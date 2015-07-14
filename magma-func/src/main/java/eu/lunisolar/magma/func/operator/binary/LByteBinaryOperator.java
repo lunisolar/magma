@@ -84,7 +84,7 @@ public interface LByteBinaryOperator extends LByteBinaryOperatorX<RuntimeExcepti
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LByteSupplier capture(byte b1, byte b2) {
+	default LByteSupplier captureBBinaryOp(byte b1, byte b2) {
 		return () -> this.doApplyAsByte(b1, b2);
 	}
 
@@ -131,20 +131,20 @@ public interface LByteBinaryOperator extends LByteBinaryOperatorX<RuntimeExcepti
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LByteBinaryOperator fromByte(@Nonnull final LByteUnaryOperator before1, @Nonnull final LByteUnaryOperator before2) {
+	default LByteBinaryOperator bBinaryOpFromByte(@Nonnull final LByteUnaryOperator before1, @Nonnull final LByteUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final byte v1, final byte v2) -> this.doApplyAsByte(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LToByteBiFunction<V1, V2> from(@Nonnull final LToByteFunction<? super V1> before1, @Nonnull final LToByteFunction<? super V2> before2) {
+	default <V1, V2> LToByteBiFunction<V1, V2> bBinaryOpFrom(@Nonnull final LToByteFunction<? super V1> before1, @Nonnull final LToByteFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApplyAsByte(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
@@ -166,23 +166,23 @@ public interface LByteBinaryOperator extends LByteBinaryOperatorX<RuntimeExcepti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LByteBinaryOperator nest() {
+	default LByteBinaryOperator nestingBBinaryOp() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LByteBinaryOperatorX<RuntimeException> nestX() {
+	default LByteBinaryOperatorX<RuntimeException> nestingBBinaryOpX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteBinaryOperator shove() {
+	default LByteBinaryOperator shovingBBinaryOp() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteBinaryOperatorX<RuntimeException> shoveX() {
+	default LByteBinaryOperatorX<RuntimeException> shovingBBinaryOpX() {
 		return this;
 	}
 

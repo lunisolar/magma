@@ -80,7 +80,7 @@ public interface LBiObjCharConsumer<T1, T2> extends LBiObjCharConsumerX<T1, T2, 
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LAction capture(T1 t1, T2 t2, char c) {
+	default LAction captureBiObjCCons(T1 t1, T2 t2, char c) {
 		return () -> this.doAccept(t1, t2, c);
 	}
 
@@ -104,10 +104,10 @@ public interface LBiObjCharConsumer<T1, T2> extends LBiObjCharConsumerX<T1, T2, 
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiObjCharConsumer<V1, V2> fromChar(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LCharUnaryOperator before3) {
+	default <V1, V2> LBiObjCharConsumer<V1, V2> biObjCConsFromChar(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LCharUnaryOperator before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
@@ -115,10 +115,10 @@ public interface LBiObjCharConsumer<T1, T2> extends LBiObjCharConsumerX<T1, T2, 
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2, V3> LTriConsumer<V1, V2, V3> from(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LToCharFunction<? super V3> before3) {
+	default <V1, V2, V3> LTriConsumer<V1, V2, V3> biObjCConsFrom(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LToCharFunction<? super V3> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
@@ -143,23 +143,23 @@ public interface LBiObjCharConsumer<T1, T2> extends LBiObjCharConsumerX<T1, T2, 
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiObjCharConsumer<T1, T2> nest() {
+	default LBiObjCharConsumer<T1, T2> nestingBiObjCCons() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiObjCharConsumerX<T1, T2, RuntimeException> nestX() {
+	default LBiObjCharConsumerX<T1, T2, RuntimeException> nestingBiObjCConsX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjCharConsumer<T1, T2> shove() {
+	default LBiObjCharConsumer<T1, T2> shovingBiObjCCons() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjCharConsumerX<T1, T2, RuntimeException> shoveX() {
+	default LBiObjCharConsumerX<T1, T2, RuntimeException> shovingBiObjCConsX() {
 		return this;
 	}
 

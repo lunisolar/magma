@@ -99,7 +99,7 @@ public interface LLongToByteFunctionX<X extends Throwable> extends MetaFunction,
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LByteSupplierX<X> capture(long l) {
+	default LByteSupplierX<X> captureLongToBFunc(long l) {
 		return () -> this.doApplyAsByte(l);
 	}
 
@@ -134,19 +134,19 @@ public interface LLongToByteFunctionX<X extends Throwable> extends MetaFunction,
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LLongToByteFunctionX<X> fromLong(@Nonnull final LLongUnaryOperatorX<X> before1) {
+	default LLongToByteFunctionX<X> longToBFuncFromLong(@Nonnull final LLongUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsByte(before1.doApplyAsLong(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToByteFunctionX<V1, X> from(@Nonnull final LToLongFunctionX<? super V1, X> before1) {
+	default <V1> LToByteFunctionX<V1, X> longToBFuncFrom(@Nonnull final LToLongFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsByte(before1.doApplyAsLong(v1));
 	}
@@ -223,23 +223,23 @@ public interface LLongToByteFunctionX<X extends Throwable> extends MetaFunction,
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LLongToByteFunction nest() {
+	default LLongToByteFunction nestingLongToBFunc() {
 		return this::nestingDoApplyAsByte;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LLongToByteFunctionX<RuntimeException> nestX() {
+	default LLongToByteFunctionX<RuntimeException> nestingLongToBFuncX() {
 		return this::nestingDoApplyAsByte;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LLongToByteFunction shove() {
+	default LLongToByteFunction shovingLongToBFunc() {
 		return this::shovingDoApplyAsByte;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LLongToByteFunctionX<RuntimeException> shoveX() {
+	default LLongToByteFunctionX<RuntimeException> shovingLongToBFuncX() {
 		return this::shovingDoApplyAsByte;
 	}
 
@@ -248,12 +248,12 @@ public interface LLongToByteFunctionX<X extends Throwable> extends MetaFunction,
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LLongToByteFunction handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LLongToByteFunction handleLongToBFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return l -> this.handlingDoApplyAsByte(l, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LLongToByteFunctionX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LLongToByteFunctionX<Y> handleLongToBFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return l -> this.handlingDoApplyAsByte(l, handling);
 	}
 

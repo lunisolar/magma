@@ -124,12 +124,14 @@ public class LDoubleToCharFunctionBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsChar((double)0).to(a -> a.isEqualTo((char)0))
-            .doesApplyAsChar((double)5).to(a -> a.isEqualTo((char)1))
-            .doesApplyAsChar((double)15).to(a -> a.isEqualTo((char)2))
-            .doesApplyAsChar((double)10).to(a -> a.isEqualTo((char)99))
+            .doesApplyAsChar((double)0).when(null).to(a -> a.isEqualTo((char)0))
+            .doesApplyAsChar((double)5).when(null).to(a -> a.isEqualTo((char)1))
+            .doesApplyAsChar((double)15).when(null).to(a -> a.isEqualTo((char)2))
+            .doesApplyAsChar((double)10).when(null).to(a -> a.isEqualTo((char)99))
         ;
 
     }
 
 }
+
+

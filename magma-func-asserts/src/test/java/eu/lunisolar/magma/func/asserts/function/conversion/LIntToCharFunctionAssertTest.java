@@ -128,3 +128,5 @@ public class LIntToCharFunctionAssertTest<X extends Throwable> {
     }
 
 }
+
+

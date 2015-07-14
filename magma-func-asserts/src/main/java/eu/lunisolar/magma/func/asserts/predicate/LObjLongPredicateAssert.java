@@ -26,16 +26,28 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
 import eu.lunisolar.magma.func.predicate.*;
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LObjLongPredicate. */
-public interface LObjLongPredicateAssert<S extends LObjLongPredicateAssert<S, A, RS, T>, A extends LObjLongPredicate<T>, RS extends AbstractBooleanAssert<RS>, T> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, Boolean, Exception> {
+public interface LObjLongPredicateAssert<S extends LObjLongPredicateAssert<S, A, RS, T>, A extends LObjLongPredicate<T>, RS extends AbstractBooleanAssert<RS>, T>
+		extends
+			Assert<S, A>,
+			FullFunctionalAssert<S, LObjLongConsumerX<T, Exception>, A, RS, Boolean, Exception> {
 
 	@Nonnull
-	Evaluation<S, A, RS, Boolean, Exception> doesTest(T t, long l);
+	Evaluation<S, LObjLongConsumerX<T, Exception>, A, RS, Boolean, Exception> doesTest(T t, long l);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends LObjLongPredicate<T>, RS extends AbstractBooleanAssert<RS>, T> extends Base<Impl<A, RS, T>, A, RS, T> {
@@ -46,7 +58,9 @@ public interface LObjLongPredicateAssert<S extends LObjLongPredicateAssert<S, A,
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, T>, A extends LObjLongPredicate<T>, RS extends AbstractBooleanAssert<RS>, T> extends FullFunctionalAssert.Base<S, A, RS, Boolean, Exception> implements LObjLongPredicateAssert<S, A, RS, T> {
+	public static class Base<S extends Base<S, A, RS, T>, A extends LObjLongPredicate<T>, RS extends AbstractBooleanAssert<RS>, T> extends FullFunctionalAssert.Base<S, LObjLongConsumerX<T, Exception>, A, RS, Boolean, Exception>
+			implements
+				LObjLongPredicateAssert<S, A, RS, T> {
 
 		protected final java.util.function.Function<Boolean, RS> assertFactory;
 
@@ -56,8 +70,15 @@ public interface LObjLongPredicateAssert<S extends LObjLongPredicateAssert<S, A,
 		}
 
 		@Nonnull
-		public Evaluation<S, A, RS, Boolean, Exception> doesTest(T t, long l) {
-			return evaluation(() -> assertFactory.apply((Boolean) actual.doTest(t, l)));
+		public Evaluation<S, LObjLongConsumerX<T, Exception>, A, RS, Boolean, Exception> doesTest(T t, long l) {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doAccept(t, l);
+				}
+				return assertFactory.apply((Boolean) actual.doTest(t, l));
+			});
+
 		}
 
 	}

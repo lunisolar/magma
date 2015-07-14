@@ -26,16 +26,28 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
 import eu.lunisolar.magma.func.function.conversion.*;
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LBooleanToByteFunction. */
-public interface LBooleanToByteFunctionAssert<S extends LBooleanToByteFunctionAssert<S, A, RS>, A extends LBooleanToByteFunction, RS extends AbstractByteAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, Byte, Exception> {
+public interface LBooleanToByteFunctionAssert<S extends LBooleanToByteFunctionAssert<S, A, RS>, A extends LBooleanToByteFunction, RS extends AbstractByteAssert<RS>>
+		extends
+			Assert<S, A>,
+			FullFunctionalAssert<S, LBooleanConsumerX<Exception>, A, RS, Byte, Exception> {
 
 	@Nonnull
-	Evaluation<S, A, RS, Byte, Exception> doesApplyAsByte(boolean b);
+	Evaluation<S, LBooleanConsumerX<Exception>, A, RS, Byte, Exception> doesApplyAsByte(boolean b);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends LBooleanToByteFunction, RS extends AbstractByteAssert<RS>> extends Base<Impl<A, RS>, A, RS> {
@@ -46,7 +58,9 @@ public interface LBooleanToByteFunctionAssert<S extends LBooleanToByteFunctionAs
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS>, A extends LBooleanToByteFunction, RS extends AbstractByteAssert<RS>> extends FullFunctionalAssert.Base<S, A, RS, Byte, Exception> implements LBooleanToByteFunctionAssert<S, A, RS> {
+	public static class Base<S extends Base<S, A, RS>, A extends LBooleanToByteFunction, RS extends AbstractByteAssert<RS>> extends FullFunctionalAssert.Base<S, LBooleanConsumerX<Exception>, A, RS, Byte, Exception>
+			implements
+				LBooleanToByteFunctionAssert<S, A, RS> {
 
 		protected final java.util.function.Function<Byte, RS> assertFactory;
 
@@ -56,8 +70,15 @@ public interface LBooleanToByteFunctionAssert<S extends LBooleanToByteFunctionAs
 		}
 
 		@Nonnull
-		public Evaluation<S, A, RS, Byte, Exception> doesApplyAsByte(boolean b) {
-			return evaluation(() -> assertFactory.apply((Byte) actual.doApplyAsByte(b)));
+		public Evaluation<S, LBooleanConsumerX<Exception>, A, RS, Byte, Exception> doesApplyAsByte(boolean b) {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doAccept(b);
+				}
+				return assertFactory.apply((Byte) actual.doApplyAsByte(b));
+			});
+
 		}
 
 	}

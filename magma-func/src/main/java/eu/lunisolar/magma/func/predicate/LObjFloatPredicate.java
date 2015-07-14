@@ -90,7 +90,7 @@ public interface LObjFloatPredicate<T> extends LObjFloatPredicateX<T, RuntimeExc
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier capture(T t, float f) {
+	default LBooleanSupplier captureObjFPred(T t, float f) {
 		return () -> this.doTest(t, f);
 	}
 
@@ -164,20 +164,20 @@ public interface LObjFloatPredicate<T> extends LObjFloatPredicateX<T, RuntimeExc
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LObjFloatPredicate<V1> fromFloat(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LFloatUnaryOperator before2) {
+	default <V1> LObjFloatPredicate<V1> objFPredFromFloat(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LFloatUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final float v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsFloat(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiPredicate<V1, V2> from(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToFloatFunction<? super V2> before2) {
+	default <V1, V2> LBiPredicate<V1, V2> objFPredFrom(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToFloatFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsFloat(v2));
@@ -189,7 +189,7 @@ public interface LObjFloatPredicate<T> extends LObjFloatPredicateX<T, RuntimeExc
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LObjFloatFunction<T, V> then(@Nonnull LBooleanFunction<? extends V> after) {
+	default <V> LObjFloatFunction<T, V> boolToObjFloatFunction(@Nonnull LBooleanFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (T t, float f) -> after.doApply(this.doTest(t, f));
 	}
@@ -199,23 +199,23 @@ public interface LObjFloatPredicate<T> extends LObjFloatPredicateX<T, RuntimeExc
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjFloatPredicate<T> nest() {
+	default LObjFloatPredicate<T> nestingObjFPred() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjFloatPredicateX<T, RuntimeException> nestX() {
+	default LObjFloatPredicateX<T, RuntimeException> nestingObjFPredX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjFloatPredicate<T> shove() {
+	default LObjFloatPredicate<T> shovingObjFPred() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjFloatPredicateX<T, RuntimeException> shoveX() {
+	default LObjFloatPredicateX<T, RuntimeException> shovingObjFPredX() {
 		return this;
 	}
 

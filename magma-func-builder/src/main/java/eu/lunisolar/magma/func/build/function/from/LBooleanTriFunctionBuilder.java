@@ -48,7 +48,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for LBooleanTriFunction. */
-public final class LBooleanTriFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base<LBooleanTriFunctionBuilder<R>, LBooleanTernaryOperator, LBooleanTriFunction<R>, R> {
+public final class LBooleanTriFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base<LBooleanTriFunctionBuilder<R>, LLogicalTernaryOperator, LBooleanTriFunction<R>, R> {
 
 	private Consumer<LBooleanTriFunction<R>> consumer;
 
@@ -107,10 +107,10 @@ public final class LBooleanTriFunctionBuilder<R> extends PerCaseBuilderWithProdu
 
 		LBooleanTriFunction<R> retval;
 
-		final Case<LBooleanTernaryOperator, LBooleanTriFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
+		final Case<LLogicalTernaryOperator, LBooleanTriFunction<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
 		retval = LBooleanTriFunction.<R> l((boolean b1, boolean b2, boolean b3) -> {
 			try {
-				for (Case<LBooleanTernaryOperator, LBooleanTriFunction<R>> aCase : casesArray) {
+				for (Case<LLogicalTernaryOperator, LBooleanTriFunction<R>> aCase : casesArray) {
 					if (aCase.casePredicate().doApply(b1, b2, b3)) {
 						return aCase.caseFunction().doApply(b1, b2, b3);
 					}

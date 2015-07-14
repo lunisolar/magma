@@ -124,12 +124,14 @@ public class LIntToDoubleFunctionBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsDouble((int)0).to(a -> a.isEqualTo((double)0))
-            .doesApplyAsDouble((int)5).to(a -> a.isEqualTo((double)1))
-            .doesApplyAsDouble((int)15).to(a -> a.isEqualTo((double)2))
-            .doesApplyAsDouble((int)10).to(a -> a.isEqualTo((double)99))
+            .doesApplyAsDouble((int)0).when(null).to(a -> a.isEqualTo((double)0))
+            .doesApplyAsDouble((int)5).when(null).to(a -> a.isEqualTo((double)1))
+            .doesApplyAsDouble((int)15).when(null).to(a -> a.isEqualTo((double)2))
+            .doesApplyAsDouble((int)10).when(null).to(a -> a.isEqualTo((double)99))
         ;
 
     }
 
 }
+
+

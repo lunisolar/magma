@@ -192,7 +192,7 @@ public class LLongUnaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        LLongUnaryOperatorX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LLongUnaryOperatorX<X> wrapped = sutThrowing.handleLongUnaryOpX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -216,7 +216,7 @@ public class LLongUnaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        LLongUnaryOperatorX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LLongUnaryOperatorX<X> wrapped = sutThrowing.handleLongUnaryOpX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -240,7 +240,7 @@ public class LLongUnaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        LLongUnaryOperatorX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LLongUnaryOperatorX<X> wrapped = sutThrowing.handleLongUnaryOpX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -265,7 +265,7 @@ public class LLongUnaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        LLongUnaryOperatorX<X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
+        LLongUnaryOperatorX<X> wrapped = sutThrowing.handleLongUnaryOpX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -284,7 +284,7 @@ public class LLongUnaryOperatorXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromLong() throws X {
+    public void testlongUnaryOpFromLong() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -303,7 +303,7 @@ public class LLongUnaryOperatorXTest<X extends ParseException> {
         };
 
         //when
-        LLongUnaryOperatorX<X> function = sutO.fromLong(before1);
+        LLongUnaryOperatorX<X> function = sutO.longUnaryOpFromLong(before1);
         function.doApplyAsLong((long)80);
 
         //then - finals
@@ -313,7 +313,7 @@ public class LLongUnaryOperatorXTest<X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws X {
+    public void testlongUnaryOpFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -332,7 +332,7 @@ public class LLongUnaryOperatorXTest<X extends ParseException> {
         };
 
         //when
-        LToLongFunctionX<Integer ,X> function = sutO.from(before1);
+        LToLongFunctionX<Integer ,X> function = sutO.longUnaryOpFrom(before1);
         function.doApplyAsLong((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -671,25 +671,25 @@ public class LLongUnaryOperatorXTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingLongUnaryOp())
             .isInstanceOf(LLongUnaryOperator.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingLongUnaryOp())
             .isInstanceOf(LLongUnaryOperator.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingLongUnaryOpX())
             .isInstanceOf(LLongUnaryOperatorX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingLongUnaryOpX())
             .isInstanceOf(LLongUnaryOperatorX.class);
     }
 
@@ -702,11 +702,11 @@ public class LLongUnaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doApplyAsLong((long)100);
+        sutThrowing.shovingLongUnaryOp().doApplyAsLong((long)100);
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleLongUnaryOp() throws X {
 
         // given
         LLongUnaryOperatorX<X> sutThrowing = LLongUnaryOperatorX.lX(l -> {
@@ -714,7 +714,7 @@ public class LLongUnaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        LLongUnaryOperatorX<X> wrapped = sutThrowing.handleX(h -> {
+        LLongUnaryOperatorX<X> wrapped = sutThrowing.handleLongUnaryOpX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -751,3 +751,5 @@ public class LLongUnaryOperatorXTest<X extends ParseException> {
 
 
 }
+
+

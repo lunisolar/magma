@@ -143,65 +143,65 @@ public interface LBooleanSupplierX<X extends Throwable> extends java.util.functi
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default <V> LSupplierX<V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LSupplierX<V, X> toSupplier(@Nonnull LBooleanFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApply(this.doGetAsBoolean());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LByteSupplierX<X> thenToByte(@Nonnull LBooleanToByteFunctionX<X> after) {
+	default LByteSupplierX<X> toByteSupplier(@Nonnull LBooleanToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsByte(this.doGetAsBoolean());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LShortSupplierX<X> thenToShort(@Nonnull LBooleanToShortFunctionX<X> after) {
+	default LShortSupplierX<X> toShortSupplier(@Nonnull LBooleanToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsShort(this.doGetAsBoolean());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LIntSupplierX<X> thenToInt(@Nonnull LBooleanToIntFunctionX<X> after) {
+	default LIntSupplierX<X> toIntSupplier(@Nonnull LBooleanToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsInt(this.doGetAsBoolean());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LLongSupplierX<X> thenToLong(@Nonnull LBooleanToLongFunctionX<X> after) {
+	default LLongSupplierX<X> toLongSupplier(@Nonnull LBooleanToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsLong(this.doGetAsBoolean());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LFloatSupplierX<X> thenToFloat(@Nonnull LBooleanToFloatFunctionX<X> after) {
+	default LFloatSupplierX<X> toFloatSupplier(@Nonnull LBooleanToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsFloat(this.doGetAsBoolean());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LDoubleSupplierX<X> thenToDouble(@Nonnull LBooleanToDoubleFunctionX<X> after) {
+	default LDoubleSupplierX<X> toDoubleSupplier(@Nonnull LBooleanToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsDouble(this.doGetAsBoolean());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LCharSupplierX<X> thenToChar(@Nonnull LBooleanToCharFunctionX<X> after) {
+	default LCharSupplierX<X> toCharSupplier(@Nonnull LBooleanToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsChar(this.doGetAsBoolean());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LBooleanSupplierX<X> thenToBoolean(@Nonnull LBooleanUnaryOperatorX<X> after) {
+	default LBooleanSupplierX<X> toBooleanSupplier(@Nonnull LLogicalOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsBoolean(this.doGetAsBoolean());
+		return () -> after.doApply(this.doGetAsBoolean());
 	}
 
 	// </editor-fold>
@@ -209,23 +209,23 @@ public interface LBooleanSupplierX<X extends Throwable> extends java.util.functi
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanSupplier nest() {
+	default LBooleanSupplier nestingBoolSup() {
 		return this::nestingDoGetAsBoolean;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanSupplierX<RuntimeException> nestX() {
+	default LBooleanSupplierX<RuntimeException> nestingBoolSupX() {
 		return this::nestingDoGetAsBoolean;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanSupplier shove() {
+	default LBooleanSupplier shovingBoolSup() {
 		return this::shovingDoGetAsBoolean;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanSupplierX<RuntimeException> shoveX() {
+	default LBooleanSupplierX<RuntimeException> shovingBoolSupX() {
 		return this::shovingDoGetAsBoolean;
 	}
 
@@ -234,12 +234,12 @@ public interface LBooleanSupplierX<X extends Throwable> extends java.util.functi
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LBooleanSupplier handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LBooleanSupplier handleBoolSup(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return () -> this.handlingDoGetAsBoolean(handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LBooleanSupplierX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LBooleanSupplierX<Y> handleBoolSupX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return () -> this.handlingDoGetAsBoolean(handling);
 	}
 

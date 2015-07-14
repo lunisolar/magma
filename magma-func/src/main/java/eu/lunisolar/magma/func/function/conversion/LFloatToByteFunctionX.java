@@ -99,7 +99,7 @@ public interface LFloatToByteFunctionX<X extends Throwable> extends MetaFunction
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LByteSupplierX<X> capture(float f) {
+	default LByteSupplierX<X> captureFToBFunc(float f) {
 		return () -> this.doApplyAsByte(f);
 	}
 
@@ -134,19 +134,19 @@ public interface LFloatToByteFunctionX<X extends Throwable> extends MetaFunction
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LFloatToByteFunctionX<X> fromFloat(@Nonnull final LFloatUnaryOperatorX<X> before1) {
+	default LFloatToByteFunctionX<X> fToBFuncFromFloat(@Nonnull final LFloatUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsByte(before1.doApplyAsFloat(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToByteFunctionX<V1, X> from(@Nonnull final LToFloatFunctionX<? super V1, X> before1) {
+	default <V1> LToByteFunctionX<V1, X> fToBFuncFrom(@Nonnull final LToFloatFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsByte(before1.doApplyAsFloat(v1));
 	}
@@ -223,23 +223,23 @@ public interface LFloatToByteFunctionX<X extends Throwable> extends MetaFunction
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LFloatToByteFunction nest() {
+	default LFloatToByteFunction nestingFToBFunc() {
 		return this::nestingDoApplyAsByte;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LFloatToByteFunctionX<RuntimeException> nestX() {
+	default LFloatToByteFunctionX<RuntimeException> nestingFToBFuncX() {
 		return this::nestingDoApplyAsByte;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatToByteFunction shove() {
+	default LFloatToByteFunction shovingFToBFunc() {
 		return this::shovingDoApplyAsByte;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatToByteFunctionX<RuntimeException> shoveX() {
+	default LFloatToByteFunctionX<RuntimeException> shovingFToBFuncX() {
 		return this::shovingDoApplyAsByte;
 	}
 
@@ -248,12 +248,12 @@ public interface LFloatToByteFunctionX<X extends Throwable> extends MetaFunction
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LFloatToByteFunction handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LFloatToByteFunction handleFToBFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return f -> this.handlingDoApplyAsByte(f, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LFloatToByteFunctionX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LFloatToByteFunctionX<Y> handleFToBFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return f -> this.handlingDoApplyAsByte(f, handling);
 	}
 

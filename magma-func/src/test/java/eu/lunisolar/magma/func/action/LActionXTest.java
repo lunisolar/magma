@@ -179,7 +179,7 @@ public class LActionXTest<X extends ParseException> {
         });
 
         // when
-        LActionX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LActionX<X> wrapped = sutThrowing.handleActX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -203,7 +203,7 @@ public class LActionXTest<X extends ParseException> {
         });
 
         // when
-        LActionX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LActionX<X> wrapped = sutThrowing.handleActX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -227,7 +227,7 @@ public class LActionXTest<X extends ParseException> {
         });
 
         // when
-        LActionX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LActionX<X> wrapped = sutThrowing.handleActX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -252,7 +252,7 @@ public class LActionXTest<X extends ParseException> {
         });
 
         // when
-        LActionX<X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
+        LActionX<X> wrapped = sutThrowing.handleActX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -294,25 +294,25 @@ public class LActionXTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingAct())
             .isInstanceOf(LAction.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingAct())
             .isInstanceOf(LAction.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingActX())
             .isInstanceOf(LActionX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingActX())
             .isInstanceOf(LActionX.class);
     }
 
@@ -325,11 +325,11 @@ public class LActionXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doExecute();
+        sutThrowing.shovingAct().doExecute();
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleAct() throws X {
 
         // given
         LActionX<X> sutThrowing = LActionX.lX(() -> {
@@ -337,7 +337,7 @@ public class LActionXTest<X extends ParseException> {
         });
 
         // when
-        LActionX<X> wrapped = sutThrowing.handleX(h -> {
+        LActionX<X> wrapped = sutThrowing.handleActX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -374,3 +374,5 @@ public class LActionXTest<X extends ParseException> {
 
 
 }
+
+

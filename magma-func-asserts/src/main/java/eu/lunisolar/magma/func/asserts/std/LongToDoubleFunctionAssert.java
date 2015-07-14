@@ -26,15 +26,27 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for java.util.function.LongToDoubleFunction. */
-public interface LongToDoubleFunctionAssert<S extends LongToDoubleFunctionAssert<S, A, RS>, A extends java.util.function.LongToDoubleFunction, RS extends AbstractDoubleAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, Double, Exception> {
+public interface LongToDoubleFunctionAssert<S extends LongToDoubleFunctionAssert<S, A, RS>, A extends java.util.function.LongToDoubleFunction, RS extends AbstractDoubleAssert<RS>>
+		extends
+			Assert<S, A>,
+			FullFunctionalAssert<S, LLongConsumerX<Exception>, A, RS, Double, Exception> {
 
 	@Nonnull
-	Evaluation<S, A, RS, Double, Exception> doesApplyAsDouble(long l);
+	Evaluation<S, LLongConsumerX<Exception>, A, RS, Double, Exception> doesApplyAsDouble(long l);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends java.util.function.LongToDoubleFunction, RS extends AbstractDoubleAssert<RS>> extends Base<Impl<A, RS>, A, RS> {
@@ -45,7 +57,9 @@ public interface LongToDoubleFunctionAssert<S extends LongToDoubleFunctionAssert
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS>, A extends java.util.function.LongToDoubleFunction, RS extends AbstractDoubleAssert<RS>> extends FullFunctionalAssert.Base<S, A, RS, Double, Exception> implements LongToDoubleFunctionAssert<S, A, RS> {
+	public static class Base<S extends Base<S, A, RS>, A extends java.util.function.LongToDoubleFunction, RS extends AbstractDoubleAssert<RS>> extends FullFunctionalAssert.Base<S, LLongConsumerX<Exception>, A, RS, Double, Exception>
+			implements
+				LongToDoubleFunctionAssert<S, A, RS> {
 
 		protected final java.util.function.Function<Double, RS> assertFactory;
 
@@ -55,8 +69,15 @@ public interface LongToDoubleFunctionAssert<S extends LongToDoubleFunctionAssert
 		}
 
 		@Nonnull
-		public Evaluation<S, A, RS, Double, Exception> doesApplyAsDouble(long l) {
-			return evaluation(() -> assertFactory.apply((Double) actual.applyAsDouble(l)));
+		public Evaluation<S, LLongConsumerX<Exception>, A, RS, Double, Exception> doesApplyAsDouble(long l) {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doAccept(l);
+				}
+				return assertFactory.apply((Double) actual.applyAsDouble(l));
+			});
+
 		}
 
 	}

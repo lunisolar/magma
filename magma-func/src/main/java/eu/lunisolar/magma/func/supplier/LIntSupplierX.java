@@ -143,63 +143,63 @@ public interface LIntSupplierX<X extends Throwable> extends java.util.function.I
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default <V> LSupplierX<V, X> then(@Nonnull LIntFunctionX<? extends V, X> after) {
+	default <V> LSupplierX<V, X> toSupplier(@Nonnull LIntFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApply(this.doGetAsInt());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LByteSupplierX<X> thenToByte(@Nonnull LIntToByteFunctionX<X> after) {
+	default LByteSupplierX<X> toByteSupplier(@Nonnull LIntToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsByte(this.doGetAsInt());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LShortSupplierX<X> thenToShort(@Nonnull LIntToShortFunctionX<X> after) {
+	default LShortSupplierX<X> toShortSupplier(@Nonnull LIntToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsShort(this.doGetAsInt());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LIntSupplierX<X> thenToInt(@Nonnull LIntUnaryOperatorX<X> after) {
+	default LIntSupplierX<X> toIntSupplier(@Nonnull LIntUnaryOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsInt(this.doGetAsInt());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LLongSupplierX<X> thenToLong(@Nonnull LIntToLongFunctionX<X> after) {
+	default LLongSupplierX<X> toLongSupplier(@Nonnull LIntToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsLong(this.doGetAsInt());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LFloatSupplierX<X> thenToFloat(@Nonnull LIntToFloatFunctionX<X> after) {
+	default LFloatSupplierX<X> toFloatSupplier(@Nonnull LIntToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsFloat(this.doGetAsInt());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LDoubleSupplierX<X> thenToDouble(@Nonnull LIntToDoubleFunctionX<X> after) {
+	default LDoubleSupplierX<X> toDoubleSupplier(@Nonnull LIntToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsDouble(this.doGetAsInt());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LCharSupplierX<X> thenToChar(@Nonnull LIntToCharFunctionX<X> after) {
+	default LCharSupplierX<X> toCharSupplier(@Nonnull LIntToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsChar(this.doGetAsInt());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LBooleanSupplierX<X> thenToBoolean(@Nonnull LIntPredicateX<X> after) {
+	default LBooleanSupplierX<X> toBooleanSupplier(@Nonnull LIntPredicateX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doTest(this.doGetAsInt());
 	}
@@ -209,23 +209,23 @@ public interface LIntSupplierX<X extends Throwable> extends java.util.function.I
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntSupplier nest() {
+	default LIntSupplier nestingISup() {
 		return this::nestingDoGetAsInt;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntSupplierX<RuntimeException> nestX() {
+	default LIntSupplierX<RuntimeException> nestingISupX() {
 		return this::nestingDoGetAsInt;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntSupplier shove() {
+	default LIntSupplier shovingISup() {
 		return this::shovingDoGetAsInt;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntSupplierX<RuntimeException> shoveX() {
+	default LIntSupplierX<RuntimeException> shovingISupX() {
 		return this::shovingDoGetAsInt;
 	}
 
@@ -234,12 +234,12 @@ public interface LIntSupplierX<X extends Throwable> extends java.util.function.I
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LIntSupplier handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LIntSupplier handleISup(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return () -> this.handlingDoGetAsInt(handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LIntSupplierX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LIntSupplierX<Y> handleISupX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return () -> this.handlingDoGetAsInt(handling);
 	}
 

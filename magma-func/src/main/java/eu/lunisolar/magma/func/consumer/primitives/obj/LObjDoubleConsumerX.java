@@ -102,7 +102,7 @@ public interface LObjDoubleConsumerX<T, X extends Throwable> extends java.util.f
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LActionX<X> capture(T t, double d) {
+	default LActionX<X> captureObjDCons(T t, double d) {
 		return () -> this.doAccept(t, d);
 	}
 
@@ -139,20 +139,20 @@ public interface LObjDoubleConsumerX<T, X extends Throwable> extends java.util.f
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LObjDoubleConsumerX<V1, X> fromDouble(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LDoubleUnaryOperatorX<X> before2) {
+	default <V1> LObjDoubleConsumerX<V1, X> objDConsFromDouble(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LDoubleUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final double v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsDouble(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiConsumerX<V1, V2, X> from(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToDoubleFunctionX<? super V2, X> before2) {
+	default <V1, V2> LBiConsumerX<V1, V2, X> objDConsFrom(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToDoubleFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsDouble(v2));
@@ -176,23 +176,23 @@ public interface LObjDoubleConsumerX<T, X extends Throwable> extends java.util.f
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjDoubleConsumer<T> nest() {
+	default LObjDoubleConsumer<T> nestingObjDCons() {
 		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjDoubleConsumerX<T, RuntimeException> nestX() {
+	default LObjDoubleConsumerX<T, RuntimeException> nestingObjDConsX() {
 		return this::nestingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjDoubleConsumer<T> shove() {
+	default LObjDoubleConsumer<T> shovingObjDCons() {
 		return this::shovingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjDoubleConsumerX<T, RuntimeException> shoveX() {
+	default LObjDoubleConsumerX<T, RuntimeException> shovingObjDConsX() {
 		return this::shovingDoAccept;
 	}
 
@@ -201,12 +201,12 @@ public interface LObjDoubleConsumerX<T, X extends Throwable> extends java.util.f
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LObjDoubleConsumer<T> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LObjDoubleConsumer<T> handleObjDCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T t, double d) -> this.handlingDoAccept(t, d, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LObjDoubleConsumerX<T, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LObjDoubleConsumerX<T, Y> handleObjDConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T t, double d) -> this.handlingDoAccept(t, d, handling);
 	}
 

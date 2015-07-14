@@ -84,7 +84,7 @@ public interface LToFloatBiFunction<T1, T2> extends LToFloatBiFunctionX<T1, T2, 
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LFloatSupplier capture(T1 t1, T2 t2) {
+	default LFloatSupplier captureToFBiFunc(T1 t1, T2 t2) {
 		return () -> this.doApplyAsFloat(t1, t2);
 	}
 
@@ -112,10 +112,10 @@ public interface LToFloatBiFunction<T1, T2> extends LToFloatBiFunctionX<T1, T2, 
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LToFloatBiFunction<V1, V2> from(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2) {
+	default <V1, V2> LToFloatBiFunction<V1, V2> toFBiFuncFrom(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final V2 v2) -> this.doApplyAsFloat(before1.doApply(v1), before2.doApply(v2));
@@ -137,23 +137,23 @@ public interface LToFloatBiFunction<T1, T2> extends LToFloatBiFunctionX<T1, T2, 
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToFloatBiFunction<T1, T2> nest() {
+	default LToFloatBiFunction<T1, T2> nestingToFBiFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToFloatBiFunctionX<T1, T2, RuntimeException> nestX() {
+	default LToFloatBiFunctionX<T1, T2, RuntimeException> nestingToFBiFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToFloatBiFunction<T1, T2> shove() {
+	default LToFloatBiFunction<T1, T2> shovingToFBiFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToFloatBiFunctionX<T1, T2, RuntimeException> shoveX() {
+	default LToFloatBiFunctionX<T1, T2, RuntimeException> shovingToFBiFuncX() {
 		return this;
 	}
 

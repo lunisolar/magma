@@ -103,7 +103,7 @@ public interface LBooleanTriFunctionX<R, X extends Throwable> extends MetaFuncti
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplierX<R, X> capture(boolean b1, boolean b2, boolean b3) {
+	default LSupplierX<R, X> captureBoolTriFunc(boolean b1, boolean b2, boolean b3) {
 		return () -> this.doApply(b1, b2, b3);
 	}
 
@@ -138,25 +138,25 @@ public interface LBooleanTriFunctionX<R, X extends Throwable> extends MetaFuncti
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LBooleanTriFunctionX<R, X> fromBoolean(@Nonnull final LBooleanUnaryOperatorX<X> before1, @Nonnull final LBooleanUnaryOperatorX<X> before2, @Nonnull final LBooleanUnaryOperatorX<X> before3) {
+	default LBooleanTriFunctionX<R, X> boolTriFuncFromBoolean(@Nonnull final LLogicalOperatorX<X> before1, @Nonnull final LLogicalOperatorX<X> before2, @Nonnull final LLogicalOperatorX<X> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (final boolean v1, final boolean v2, final boolean v3) -> this.doApply(before1.doApplyAsBoolean(v1), before2.doApplyAsBoolean(v2), before3.doApplyAsBoolean(v3));
+		return (final boolean v1, final boolean v2, final boolean v3) -> this.doApply(before1.doApply(v1), before2.doApply(v2), before3.doApply(v3));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2, V3> LTriFunctionX<V1, V2, V3, R, X> from(@Nonnull final LPredicateX<? super V1, X> before1, @Nonnull final LPredicateX<? super V2, X> before2, @Nonnull final LPredicateX<? super V3, X> before3) {
+	default <V1, V2, V3> LTriFunctionX<V1, V2, V3, R, X> boolTriFuncFrom(@Nonnull final LPredicateX<? super V1, X> before1, @Nonnull final LPredicateX<? super V2, X> before2, @Nonnull final LPredicateX<? super V3, X> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (V1 v1, V2 v2, V3 v3) -> this.doApply(before1.doApplyAsBoolean(v1), before2.doApplyAsBoolean(v2), before3.doApplyAsBoolean(v3));
+		return (V1 v1, V2 v2, V3 v3) -> this.doApply(before1.doTest(v1), before2.doTest(v2), before3.doTest(v3));
 	}
 
 	// </editor-fold>
@@ -182,42 +182,42 @@ public interface LBooleanTriFunctionX<R, X extends Throwable> extends MetaFuncti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanTriFunction<R> nest() {
+	default LBooleanTriFunction<R> nestingBoolTriFunc() {
 		return this::nestingDoApply;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanTriFunctionX<R, RuntimeException> nestX() {
+	default LBooleanTriFunctionX<R, RuntimeException> nestingBoolTriFuncX() {
 		return this::nestingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanTriFunction<R> shove() {
+	default LBooleanTriFunction<R> shovingBoolTriFunc() {
 		return this::shovingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanTriFunctionX<R, RuntimeException> shoveX() {
+	default LBooleanTriFunctionX<R, RuntimeException> shovingBoolTriFuncX() {
 		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LBooleanTriFunctionX<R, X> nonNullableX() {
+	default LBooleanTriFunctionX<R, X> nonNullBoolTriFunc() {
 		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LBooleanTriFunction<R> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LBooleanTriFunction<R> handleBoolTriFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (boolean b1, boolean b2, boolean b3) -> this.handlingDoApply(b1, b2, b3, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LBooleanTriFunctionX<R, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LBooleanTriFunctionX<R, Y> handleBoolTriFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (boolean b1, boolean b2, boolean b3) -> this.handlingDoApply(b1, b2, b3, handling);
 	}
 

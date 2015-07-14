@@ -128,3 +128,5 @@ public class LCharBiFunctionXAssertTest<R,X extends Throwable> {
     }
 
 }
+
+

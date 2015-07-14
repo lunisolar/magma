@@ -105,7 +105,7 @@ public interface LObjBytePredicateX<T, X extends Throwable> extends MetaPredicat
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> capture(T t, byte b) {
+	default LBooleanSupplierX<X> captureObjBPred(T t, byte b) {
 		return () -> this.doTest(t, b);
 	}
 
@@ -186,20 +186,20 @@ public interface LObjBytePredicateX<T, X extends Throwable> extends MetaPredicat
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LObjBytePredicateX<V1, X> fromByte(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LByteUnaryOperatorX<X> before2) {
+	default <V1> LObjBytePredicateX<V1, X> objBPredFromByte(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LByteUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final byte v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsByte(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiPredicateX<V1, V2, X> from(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToByteFunctionX<? super V2, X> before2) {
+	default <V1, V2> LBiPredicateX<V1, V2, X> objBPredFrom(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToByteFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsByte(v2));
@@ -211,7 +211,7 @@ public interface LObjBytePredicateX<T, X extends Throwable> extends MetaPredicat
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LObjByteFunctionX<T, V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LObjByteFunctionX<T, V, X> boolToObjByteFunction(@Nonnull LBooleanFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (T t, byte b) -> after.doApply(this.doTest(t, b));
 	}
@@ -221,23 +221,23 @@ public interface LObjBytePredicateX<T, X extends Throwable> extends MetaPredicat
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjBytePredicate<T> nest() {
+	default LObjBytePredicate<T> nestingObjBPred() {
 		return this::nestingDoTest;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjBytePredicateX<T, RuntimeException> nestX() {
+	default LObjBytePredicateX<T, RuntimeException> nestingObjBPredX() {
 		return this::nestingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjBytePredicate<T> shove() {
+	default LObjBytePredicate<T> shovingObjBPred() {
 		return this::shovingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjBytePredicateX<T, RuntimeException> shoveX() {
+	default LObjBytePredicateX<T, RuntimeException> shovingObjBPredX() {
 		return this::shovingDoTest;
 	}
 
@@ -246,12 +246,12 @@ public interface LObjBytePredicateX<T, X extends Throwable> extends MetaPredicat
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LObjBytePredicate<T> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LObjBytePredicate<T> handleObjBPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T t, byte b) -> this.handlingDoTest(t, b, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LObjBytePredicateX<T, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LObjBytePredicateX<T, Y> handleObjBPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T t, byte b) -> this.handlingDoTest(t, b, handling);
 	}
 

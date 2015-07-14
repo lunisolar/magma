@@ -99,7 +99,7 @@ public interface LShortBinaryOperatorX<X extends Throwable> extends MetaOperator
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LShortSupplierX<X> capture(short s1, short s2) {
+	default LShortSupplierX<X> captureSBinaryOp(short s1, short s2) {
 		return () -> this.doApplyAsShort(s1, s2);
 	}
 
@@ -153,20 +153,20 @@ public interface LShortBinaryOperatorX<X extends Throwable> extends MetaOperator
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LShortBinaryOperatorX<X> fromShort(@Nonnull final LShortUnaryOperatorX<X> before1, @Nonnull final LShortUnaryOperatorX<X> before2) {
+	default LShortBinaryOperatorX<X> sBinaryOpFromShort(@Nonnull final LShortUnaryOperatorX<X> before1, @Nonnull final LShortUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final short v1, final short v2) -> this.doApplyAsShort(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LToShortBiFunctionX<V1, V2, X> from(@Nonnull final LToShortFunctionX<? super V1, X> before1, @Nonnull final LToShortFunctionX<? super V2, X> before2) {
+	default <V1, V2> LToShortBiFunctionX<V1, V2, X> sBinaryOpFrom(@Nonnull final LToShortFunctionX<? super V1, X> before1, @Nonnull final LToShortFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApplyAsShort(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
@@ -188,23 +188,23 @@ public interface LShortBinaryOperatorX<X extends Throwable> extends MetaOperator
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LShortBinaryOperator nest() {
+	default LShortBinaryOperator nestingSBinaryOp() {
 		return this::nestingDoApplyAsShort;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LShortBinaryOperatorX<RuntimeException> nestX() {
+	default LShortBinaryOperatorX<RuntimeException> nestingSBinaryOpX() {
 		return this::nestingDoApplyAsShort;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortBinaryOperator shove() {
+	default LShortBinaryOperator shovingSBinaryOp() {
 		return this::shovingDoApplyAsShort;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortBinaryOperatorX<RuntimeException> shoveX() {
+	default LShortBinaryOperatorX<RuntimeException> shovingSBinaryOpX() {
 		return this::shovingDoApplyAsShort;
 	}
 
@@ -213,12 +213,12 @@ public interface LShortBinaryOperatorX<X extends Throwable> extends MetaOperator
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LShortBinaryOperator handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LShortBinaryOperator handleSBinaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (short s1, short s2) -> this.handlingDoApplyAsShort(s1, s2, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LShortBinaryOperatorX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LShortBinaryOperatorX<Y> handleSBinaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (short s1, short s2) -> this.handlingDoApplyAsShort(s1, s2, handling);
 	}
 

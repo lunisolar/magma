@@ -84,7 +84,7 @@ public interface LCharToLongFunction extends LCharToLongFunctionX<RuntimeExcepti
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LLongSupplier capture(char c) {
+	default LLongSupplier captureCToLongFunc(char c) {
 		return () -> this.doApplyAsLong(c);
 	}
 
@@ -112,19 +112,19 @@ public interface LCharToLongFunction extends LCharToLongFunctionX<RuntimeExcepti
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LCharToLongFunction fromChar(@Nonnull final LCharUnaryOperator before1) {
+	default LCharToLongFunction cToLongFuncFromChar(@Nonnull final LCharUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsLong(before1.doApplyAsChar(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToLongFunction<V1> from(@Nonnull final LToCharFunction<? super V1> before1) {
+	default <V1> LToLongFunction<V1> cToLongFuncFrom(@Nonnull final LToCharFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsLong(before1.doApplyAsChar(v1));
 	}
@@ -201,23 +201,23 @@ public interface LCharToLongFunction extends LCharToLongFunctionX<RuntimeExcepti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LCharToLongFunction nest() {
+	default LCharToLongFunction nestingCToLongFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LCharToLongFunctionX<RuntimeException> nestX() {
+	default LCharToLongFunctionX<RuntimeException> nestingCToLongFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharToLongFunction shove() {
+	default LCharToLongFunction shovingCToLongFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharToLongFunctionX<RuntimeException> shoveX() {
+	default LCharToLongFunctionX<RuntimeException> shovingCToLongFuncX() {
 		return this;
 	}
 

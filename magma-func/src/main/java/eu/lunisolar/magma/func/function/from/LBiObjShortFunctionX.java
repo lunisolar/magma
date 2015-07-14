@@ -103,7 +103,7 @@ public interface LBiObjShortFunctionX<T1, T2, R, X extends Throwable> extends Me
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplierX<R, X> capture(T1 t1, T2 t2, short s) {
+	default LSupplierX<R, X> captureBiObjSFunc(T1 t1, T2 t2, short s) {
 		return () -> this.doApply(t1, t2, s);
 	}
 
@@ -138,10 +138,10 @@ public interface LBiObjShortFunctionX<T1, T2, R, X extends Throwable> extends Me
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiObjShortFunctionX<V1, V2, R, X> fromShort(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LShortUnaryOperatorX<X> before3) {
+	default <V1, V2> LBiObjShortFunctionX<V1, V2, R, X> biObjSFuncFromShort(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LShortUnaryOperatorX<X> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
@@ -149,10 +149,10 @@ public interface LBiObjShortFunctionX<T1, T2, R, X extends Throwable> extends Me
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2, V3> LTriFunctionX<V1, V2, V3, R, X> from(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LToShortFunctionX<? super V3, X> before3) {
+	default <V1, V2, V3> LTriFunctionX<V1, V2, V3, R, X> biObjSFuncFrom(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LToShortFunctionX<? super V3, X> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
@@ -182,42 +182,42 @@ public interface LBiObjShortFunctionX<T1, T2, R, X extends Throwable> extends Me
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiObjShortFunction<T1, T2, R> nest() {
+	default LBiObjShortFunction<T1, T2, R> nestingBiObjSFunc() {
 		return this::nestingDoApply;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiObjShortFunctionX<T1, T2, R, RuntimeException> nestX() {
+	default LBiObjShortFunctionX<T1, T2, R, RuntimeException> nestingBiObjSFuncX() {
 		return this::nestingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjShortFunction<T1, T2, R> shove() {
+	default LBiObjShortFunction<T1, T2, R> shovingBiObjSFunc() {
 		return this::shovingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjShortFunctionX<T1, T2, R, RuntimeException> shoveX() {
+	default LBiObjShortFunctionX<T1, T2, R, RuntimeException> shovingBiObjSFuncX() {
 		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LBiObjShortFunctionX<T1, T2, R, X> nonNullableX() {
+	default LBiObjShortFunctionX<T1, T2, R, X> nonNullBiObjSFunc() {
 		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LBiObjShortFunction<T1, T2, R> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LBiObjShortFunction<T1, T2, R> handleBiObjSFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T1 t1, T2 t2, short s) -> this.handlingDoApply(t1, t2, s, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LBiObjShortFunctionX<T1, T2, R, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LBiObjShortFunctionX<T1, T2, R, Y> handleBiObjSFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T1 t1, T2 t2, short s) -> this.handlingDoApply(t1, t2, s, handling);
 	}
 

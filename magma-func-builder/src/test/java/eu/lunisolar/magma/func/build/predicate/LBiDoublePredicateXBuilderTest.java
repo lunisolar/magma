@@ -124,12 +124,14 @@ public class LBiDoublePredicateXBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesTest((double)0,(double)0).to(a -> a.isEqualTo(false))
-            .doesTest((double)5,(double)5).to(a -> a.isEqualTo(true))
-            .doesTest((double)15,(double)15).to(a -> a.isEqualTo(true))
-            .doesTest((double)10,(double)10).to(a -> a.isEqualTo(true))
+            .doesTest((double)0,(double)0).when(null).to(a -> a.isEqualTo(false))
+            .doesTest((double)5,(double)5).when(null).to(a -> a.isEqualTo(true))
+            .doesTest((double)15,(double)15).when(null).to(a -> a.isEqualTo(true))
+            .doesTest((double)10,(double)10).when(null).to(a -> a.isEqualTo(true))
         ;
 
     }
 
 }
+
+

@@ -192,7 +192,7 @@ public class LLongBinaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        LLongBinaryOperatorX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LLongBinaryOperatorX<X> wrapped = sutThrowing.handleLongBinaryOpX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -216,7 +216,7 @@ public class LLongBinaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        LLongBinaryOperatorX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LLongBinaryOperatorX<X> wrapped = sutThrowing.handleLongBinaryOpX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -240,7 +240,7 @@ public class LLongBinaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        LLongBinaryOperatorX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LLongBinaryOperatorX<X> wrapped = sutThrowing.handleLongBinaryOpX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -265,7 +265,7 @@ public class LLongBinaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        LLongBinaryOperatorX<X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
+        LLongBinaryOperatorX<X> wrapped = sutThrowing.handleLongBinaryOpX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -318,7 +318,7 @@ public class LLongBinaryOperatorXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromLong() throws X {
+    public void testlongBinaryOpFromLong() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -343,7 +343,7 @@ public class LLongBinaryOperatorXTest<X extends ParseException> {
         };
 
         //when
-        LLongBinaryOperatorX<X> function = sutO.fromLong(before1,before2);
+        LLongBinaryOperatorX<X> function = sutO.longBinaryOpFromLong(before1,before2);
         function.doApplyAsLong((long)80,(long)81);
 
         //then - finals
@@ -353,7 +353,7 @@ public class LLongBinaryOperatorXTest<X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws X {
+    public void testlongBinaryOpFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -378,7 +378,7 @@ public class LLongBinaryOperatorXTest<X extends ParseException> {
         };
 
         //when
-        LToLongBiFunctionX<Integer ,Integer ,X> function = sutO.from(before1,before2);
+        LToLongBiFunctionX<Integer ,Integer ,X> function = sutO.longBinaryOpFrom(before1,before2);
         function.doApplyAsLong((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
@@ -431,25 +431,25 @@ public class LLongBinaryOperatorXTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingLongBinaryOp())
             .isInstanceOf(LLongBinaryOperator.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingLongBinaryOp())
             .isInstanceOf(LLongBinaryOperator.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingLongBinaryOpX())
             .isInstanceOf(LLongBinaryOperatorX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingLongBinaryOpX())
             .isInstanceOf(LLongBinaryOperatorX.class);
     }
 
@@ -462,11 +462,11 @@ public class LLongBinaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doApplyAsLong((long)100,(long)100);
+        sutThrowing.shovingLongBinaryOp().doApplyAsLong((long)100,(long)100);
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleLongBinaryOp() throws X {
 
         // given
         LLongBinaryOperatorX<X> sutThrowing = LLongBinaryOperatorX.lX((long l1,long l2) -> {
@@ -474,7 +474,7 @@ public class LLongBinaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        LLongBinaryOperatorX<X> wrapped = sutThrowing.handleX(h -> {
+        LLongBinaryOperatorX<X> wrapped = sutThrowing.handleLongBinaryOpX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -511,3 +511,5 @@ public class LLongBinaryOperatorXTest<X extends ParseException> {
 
 
 }
+
+

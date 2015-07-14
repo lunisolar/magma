@@ -125,12 +125,14 @@ public class LFloatBiConsumerBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesAccept((float)0,(float)0).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(0)))
-            .doesAccept((float)5,(float)5).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(1)))
-            .doesAccept((float)15,(float)15).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(2)))
-            .doesAccept((float)10,(float)10).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(99)))
+            .doesAccept((float)0,(float)0).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(0)))
+            .doesAccept((float)5,(float)5).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(1)))
+            .doesAccept((float)15,(float)15).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(2)))
+            .doesAccept((float)10,(float)10).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(99)))
         ;
 
     }
 
 }
+
+

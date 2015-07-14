@@ -26,7 +26,16 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
 import eu.lunisolar.magma.func.predicate.*;
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
@@ -35,10 +44,10 @@ import static org.assertj.core.api.Fail.fail;
 public interface LTriPredicateXAssert<S extends LTriPredicateXAssert<S, A, RS, T1, T2, T3, X>, A extends LTriPredicateX<T1, T2, T3, X>, RS extends AbstractBooleanAssert<RS>, T1, T2, T3, X extends Throwable>
 		extends
 			Assert<S, A>,
-			FullFunctionalAssert<S, A, RS, Boolean, Exception> {
+			FullFunctionalAssert<S, LTriConsumerX<T1, T2, T3, Exception>, A, RS, Boolean, Exception> {
 
 	@Nonnull
-	Evaluation<S, A, RS, Boolean, Exception> doesTest(T1 t1, T2 t2, T3 t3);
+	Evaluation<S, LTriConsumerX<T1, T2, T3, Exception>, A, RS, Boolean, Exception> doesTest(T1 t1, T2 t2, T3 t3);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends LTriPredicateX<T1, T2, T3, X>, RS extends AbstractBooleanAssert<RS>, T1, T2, T3, X extends Throwable> extends Base<Impl<A, RS, T1, T2, T3, X>, A, RS, T1, T2, T3, X> {
@@ -49,9 +58,9 @@ public interface LTriPredicateXAssert<S extends LTriPredicateXAssert<S, A, RS, T
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, T1, T2, T3, X>, A extends LTriPredicateX<T1, T2, T3, X>, RS extends AbstractBooleanAssert<RS>, T1, T2, T3, X extends Throwable> extends FullFunctionalAssert.Base<S, A, RS, Boolean, Exception>
-			implements
-				LTriPredicateXAssert<S, A, RS, T1, T2, T3, X> {
+	public static class Base<S extends Base<S, A, RS, T1, T2, T3, X>, A extends LTriPredicateX<T1, T2, T3, X>, RS extends AbstractBooleanAssert<RS>, T1, T2, T3, X extends Throwable>
+			extends
+				FullFunctionalAssert.Base<S, LTriConsumerX<T1, T2, T3, Exception>, A, RS, Boolean, Exception> implements LTriPredicateXAssert<S, A, RS, T1, T2, T3, X> {
 
 		protected final java.util.function.Function<Boolean, RS> assertFactory;
 
@@ -61,8 +70,15 @@ public interface LTriPredicateXAssert<S extends LTriPredicateXAssert<S, A, RS, T
 		}
 
 		@Nonnull
-		public Evaluation<S, A, RS, Boolean, Exception> doesTest(T1 t1, T2 t2, T3 t3) {
-			return evaluation(() -> assertFactory.apply((Boolean) actual.doTest(t1, t2, t3)));
+		public Evaluation<S, LTriConsumerX<T1, T2, T3, Exception>, A, RS, Boolean, Exception> doesTest(T1 t1, T2 t2, T3 t3) {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doAccept(t1, t2, t3);
+				}
+				return assertFactory.apply((Boolean) actual.doTest(t1, t2, t3));
+			});
+
 		}
 
 	}

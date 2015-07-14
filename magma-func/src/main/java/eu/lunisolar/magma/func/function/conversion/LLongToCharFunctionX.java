@@ -99,7 +99,7 @@ public interface LLongToCharFunctionX<X extends Throwable> extends MetaFunction,
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LCharSupplierX<X> capture(long l) {
+	default LCharSupplierX<X> captureLongToCFunc(long l) {
 		return () -> this.doApplyAsChar(l);
 	}
 
@@ -134,19 +134,19 @@ public interface LLongToCharFunctionX<X extends Throwable> extends MetaFunction,
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LLongToCharFunctionX<X> fromLong(@Nonnull final LLongUnaryOperatorX<X> before1) {
+	default LLongToCharFunctionX<X> longToCFuncFromLong(@Nonnull final LLongUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsChar(before1.doApplyAsLong(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToCharFunctionX<V1, X> from(@Nonnull final LToLongFunctionX<? super V1, X> before1) {
+	default <V1> LToCharFunctionX<V1, X> longToCFuncFrom(@Nonnull final LToLongFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsChar(before1.doApplyAsLong(v1));
 	}
@@ -223,23 +223,23 @@ public interface LLongToCharFunctionX<X extends Throwable> extends MetaFunction,
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LLongToCharFunction nest() {
+	default LLongToCharFunction nestingLongToCFunc() {
 		return this::nestingDoApplyAsChar;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LLongToCharFunctionX<RuntimeException> nestX() {
+	default LLongToCharFunctionX<RuntimeException> nestingLongToCFuncX() {
 		return this::nestingDoApplyAsChar;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LLongToCharFunction shove() {
+	default LLongToCharFunction shovingLongToCFunc() {
 		return this::shovingDoApplyAsChar;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LLongToCharFunctionX<RuntimeException> shoveX() {
+	default LLongToCharFunctionX<RuntimeException> shovingLongToCFuncX() {
 		return this::shovingDoApplyAsChar;
 	}
 
@@ -248,12 +248,12 @@ public interface LLongToCharFunctionX<X extends Throwable> extends MetaFunction,
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LLongToCharFunction handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LLongToCharFunction handleLongToCFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return l -> this.handlingDoApplyAsChar(l, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LLongToCharFunctionX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LLongToCharFunctionX<Y> handleLongToCFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return l -> this.handlingDoApplyAsChar(l, handling);
 	}
 

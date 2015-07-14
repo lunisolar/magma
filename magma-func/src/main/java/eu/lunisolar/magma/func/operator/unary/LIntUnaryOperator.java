@@ -91,7 +91,7 @@ public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>,
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LIntSupplier capture(int i) {
+	default LIntSupplier captureIUnaryOp(int i) {
 		return () -> this.doApplyAsInt(i);
 	}
 
@@ -125,19 +125,19 @@ public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>,
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LIntUnaryOperator fromInt(@Nonnull final LIntUnaryOperator before1) {
+	default LIntUnaryOperator iUnaryOpFromInt(@Nonnull final LIntUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsInt(before1.doApplyAsInt(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToIntFunction<V1> from(@Nonnull final LToIntFunction<? super V1> before1) {
+	default <V1> LToIntFunction<V1> iUnaryOpFrom(@Nonnull final LToIntFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsInt(before1.doApplyAsInt(v1));
 	}
@@ -220,23 +220,23 @@ public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>,
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntUnaryOperator nest() {
+	default LIntUnaryOperator nestingIUnaryOp() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntUnaryOperatorX<RuntimeException> nestX() {
+	default LIntUnaryOperatorX<RuntimeException> nestingIUnaryOpX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntUnaryOperator shove() {
+	default LIntUnaryOperator shovingIUnaryOp() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntUnaryOperatorX<RuntimeException> shoveX() {
+	default LIntUnaryOperatorX<RuntimeException> shovingIUnaryOpX() {
 		return this;
 	}
 

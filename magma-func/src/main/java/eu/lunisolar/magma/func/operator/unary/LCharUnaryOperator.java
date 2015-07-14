@@ -84,7 +84,7 @@ public interface LCharUnaryOperator extends LCharUnaryOperatorX<RuntimeException
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LCharSupplier capture(char c) {
+	default LCharSupplier captureCUnaryOp(char c) {
 		return () -> this.doApplyAsChar(c);
 	}
 
@@ -112,19 +112,19 @@ public interface LCharUnaryOperator extends LCharUnaryOperatorX<RuntimeException
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LCharUnaryOperator fromChar(@Nonnull final LCharUnaryOperator before1) {
+	default LCharUnaryOperator cUnaryOpFromChar(@Nonnull final LCharUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsChar(before1.doApplyAsChar(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToCharFunction<V1> from(@Nonnull final LToCharFunction<? super V1> before1) {
+	default <V1> LToCharFunction<V1> cUnaryOpFrom(@Nonnull final LToCharFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsChar(before1.doApplyAsChar(v1));
 	}
@@ -207,23 +207,23 @@ public interface LCharUnaryOperator extends LCharUnaryOperatorX<RuntimeException
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LCharUnaryOperator nest() {
+	default LCharUnaryOperator nestingCUnaryOp() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LCharUnaryOperatorX<RuntimeException> nestX() {
+	default LCharUnaryOperatorX<RuntimeException> nestingCUnaryOpX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharUnaryOperator shove() {
+	default LCharUnaryOperator shovingCUnaryOp() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharUnaryOperatorX<RuntimeException> shoveX() {
+	default LCharUnaryOperatorX<RuntimeException> shovingCUnaryOpX() {
 		return this;
 	}
 

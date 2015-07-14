@@ -26,16 +26,28 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
 import eu.lunisolar.magma.func.function.to.*;
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LToDoubleFunction. */
-public interface LToDoubleFunctionAssert<S extends LToDoubleFunctionAssert<S, A, RS, T>, A extends LToDoubleFunction<T>, RS extends AbstractDoubleAssert<RS>, T> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, Double, Exception> {
+public interface LToDoubleFunctionAssert<S extends LToDoubleFunctionAssert<S, A, RS, T>, A extends LToDoubleFunction<T>, RS extends AbstractDoubleAssert<RS>, T>
+		extends
+			Assert<S, A>,
+			FullFunctionalAssert<S, LConsumerX<T, Exception>, A, RS, Double, Exception> {
 
 	@Nonnull
-	Evaluation<S, A, RS, Double, Exception> doesApplyAsDouble(T t);
+	Evaluation<S, LConsumerX<T, Exception>, A, RS, Double, Exception> doesApplyAsDouble(T t);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends LToDoubleFunction<T>, RS extends AbstractDoubleAssert<RS>, T> extends Base<Impl<A, RS, T>, A, RS, T> {
@@ -46,7 +58,9 @@ public interface LToDoubleFunctionAssert<S extends LToDoubleFunctionAssert<S, A,
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, T>, A extends LToDoubleFunction<T>, RS extends AbstractDoubleAssert<RS>, T> extends FullFunctionalAssert.Base<S, A, RS, Double, Exception> implements LToDoubleFunctionAssert<S, A, RS, T> {
+	public static class Base<S extends Base<S, A, RS, T>, A extends LToDoubleFunction<T>, RS extends AbstractDoubleAssert<RS>, T> extends FullFunctionalAssert.Base<S, LConsumerX<T, Exception>, A, RS, Double, Exception>
+			implements
+				LToDoubleFunctionAssert<S, A, RS, T> {
 
 		protected final java.util.function.Function<Double, RS> assertFactory;
 
@@ -56,8 +70,15 @@ public interface LToDoubleFunctionAssert<S extends LToDoubleFunctionAssert<S, A,
 		}
 
 		@Nonnull
-		public Evaluation<S, A, RS, Double, Exception> doesApplyAsDouble(T t) {
-			return evaluation(() -> assertFactory.apply((Double) actual.doApplyAsDouble(t)));
+		public Evaluation<S, LConsumerX<T, Exception>, A, RS, Double, Exception> doesApplyAsDouble(T t) {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doAccept(t);
+				}
+				return assertFactory.apply((Double) actual.doApplyAsDouble(t));
+			});
+
 		}
 
 	}

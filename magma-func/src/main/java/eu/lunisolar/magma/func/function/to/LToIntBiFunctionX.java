@@ -106,7 +106,7 @@ public interface LToIntBiFunctionX<T1, T2, X extends Throwable> extends java.uti
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LIntSupplierX<X> capture(T1 t1, T2 t2) {
+	default LIntSupplierX<X> captureToIBiFunc(T1 t1, T2 t2) {
 		return () -> this.doApplyAsInt(t1, t2);
 	}
 
@@ -147,10 +147,10 @@ public interface LToIntBiFunctionX<T1, T2, X extends Throwable> extends java.uti
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LToIntBiFunctionX<V1, V2, X> from(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
+	default <V1, V2> LToIntBiFunctionX<V1, V2, X> toIBiFuncFrom(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final V2 v2) -> this.doApplyAsInt(before1.doApply(v1), before2.doApply(v2));
@@ -172,23 +172,23 @@ public interface LToIntBiFunctionX<T1, T2, X extends Throwable> extends java.uti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToIntBiFunction<T1, T2> nest() {
+	default LToIntBiFunction<T1, T2> nestingToIBiFunc() {
 		return this::nestingDoApplyAsInt;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToIntBiFunctionX<T1, T2, RuntimeException> nestX() {
+	default LToIntBiFunctionX<T1, T2, RuntimeException> nestingToIBiFuncX() {
 		return this::nestingDoApplyAsInt;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToIntBiFunction<T1, T2> shove() {
+	default LToIntBiFunction<T1, T2> shovingToIBiFunc() {
 		return this::shovingDoApplyAsInt;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToIntBiFunctionX<T1, T2, RuntimeException> shoveX() {
+	default LToIntBiFunctionX<T1, T2, RuntimeException> shovingToIBiFuncX() {
 		return this::shovingDoApplyAsInt;
 	}
 
@@ -197,12 +197,12 @@ public interface LToIntBiFunctionX<T1, T2, X extends Throwable> extends java.uti
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LToIntBiFunction<T1, T2> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LToIntBiFunction<T1, T2> handleToIBiFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T1 t1, T2 t2) -> this.handlingDoApplyAsInt(t1, t2, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LToIntBiFunctionX<T1, T2, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LToIntBiFunctionX<T1, T2, Y> handleToIBiFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T1 t1, T2 t2) -> this.handlingDoApplyAsInt(t1, t2, handling);
 	}
 

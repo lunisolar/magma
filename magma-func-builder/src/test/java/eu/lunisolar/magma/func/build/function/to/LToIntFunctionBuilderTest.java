@@ -124,12 +124,14 @@ public class LToIntFunctionBuilderTest<T,X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsInt(Integer.valueOf(0)).to(a -> a.isEqualTo((int)0))
-            .doesApplyAsInt(Integer.valueOf(5)).to(a -> a.isEqualTo((int)1))
-            .doesApplyAsInt(Integer.valueOf(15)).to(a -> a.isEqualTo((int)2))
-            .doesApplyAsInt(Integer.valueOf(10)).to(a -> a.isEqualTo((int)99))
+            .doesApplyAsInt(Integer.valueOf(0)).when(null).to(a -> a.isEqualTo((int)0))
+            .doesApplyAsInt(Integer.valueOf(5)).when(null).to(a -> a.isEqualTo((int)1))
+            .doesApplyAsInt(Integer.valueOf(15)).when(null).to(a -> a.isEqualTo((int)2))
+            .doesApplyAsInt(Integer.valueOf(10)).when(null).to(a -> a.isEqualTo((int)99))
         ;
 
     }
 
 }
+
+

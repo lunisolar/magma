@@ -26,16 +26,28 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
 import eu.lunisolar.magma.func.function.conversion.*;
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LFloatToDoubleFunction. */
-public interface LFloatToDoubleFunctionAssert<S extends LFloatToDoubleFunctionAssert<S, A, RS>, A extends LFloatToDoubleFunction, RS extends AbstractDoubleAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, Double, Exception> {
+public interface LFloatToDoubleFunctionAssert<S extends LFloatToDoubleFunctionAssert<S, A, RS>, A extends LFloatToDoubleFunction, RS extends AbstractDoubleAssert<RS>>
+		extends
+			Assert<S, A>,
+			FullFunctionalAssert<S, LFloatConsumerX<Exception>, A, RS, Double, Exception> {
 
 	@Nonnull
-	Evaluation<S, A, RS, Double, Exception> doesApplyAsDouble(float f);
+	Evaluation<S, LFloatConsumerX<Exception>, A, RS, Double, Exception> doesApplyAsDouble(float f);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends LFloatToDoubleFunction, RS extends AbstractDoubleAssert<RS>> extends Base<Impl<A, RS>, A, RS> {
@@ -46,7 +58,9 @@ public interface LFloatToDoubleFunctionAssert<S extends LFloatToDoubleFunctionAs
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS>, A extends LFloatToDoubleFunction, RS extends AbstractDoubleAssert<RS>> extends FullFunctionalAssert.Base<S, A, RS, Double, Exception> implements LFloatToDoubleFunctionAssert<S, A, RS> {
+	public static class Base<S extends Base<S, A, RS>, A extends LFloatToDoubleFunction, RS extends AbstractDoubleAssert<RS>> extends FullFunctionalAssert.Base<S, LFloatConsumerX<Exception>, A, RS, Double, Exception>
+			implements
+				LFloatToDoubleFunctionAssert<S, A, RS> {
 
 		protected final java.util.function.Function<Double, RS> assertFactory;
 
@@ -56,8 +70,15 @@ public interface LFloatToDoubleFunctionAssert<S extends LFloatToDoubleFunctionAs
 		}
 
 		@Nonnull
-		public Evaluation<S, A, RS, Double, Exception> doesApplyAsDouble(float f) {
-			return evaluation(() -> assertFactory.apply((Double) actual.doApplyAsDouble(f)));
+		public Evaluation<S, LFloatConsumerX<Exception>, A, RS, Double, Exception> doesApplyAsDouble(float f) {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doAccept(f);
+				}
+				return assertFactory.apply((Double) actual.doApplyAsDouble(f));
+			});
+
 		}
 
 	}

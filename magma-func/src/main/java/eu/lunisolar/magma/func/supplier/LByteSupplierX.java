@@ -130,63 +130,63 @@ public interface LByteSupplierX<X extends Throwable> extends MetaSupplier, Primi
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default <V> LSupplierX<V, X> then(@Nonnull LByteFunctionX<? extends V, X> after) {
+	default <V> LSupplierX<V, X> toSupplier(@Nonnull LByteFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApply(this.doGetAsByte());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LByteSupplierX<X> thenToByte(@Nonnull LByteUnaryOperatorX<X> after) {
+	default LByteSupplierX<X> toByteSupplier(@Nonnull LByteUnaryOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsByte(this.doGetAsByte());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LShortSupplierX<X> thenToShort(@Nonnull LByteToShortFunctionX<X> after) {
+	default LShortSupplierX<X> toShortSupplier(@Nonnull LByteToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsShort(this.doGetAsByte());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LIntSupplierX<X> thenToInt(@Nonnull LByteToIntFunctionX<X> after) {
+	default LIntSupplierX<X> toIntSupplier(@Nonnull LByteToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsInt(this.doGetAsByte());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LLongSupplierX<X> thenToLong(@Nonnull LByteToLongFunctionX<X> after) {
+	default LLongSupplierX<X> toLongSupplier(@Nonnull LByteToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsLong(this.doGetAsByte());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LFloatSupplierX<X> thenToFloat(@Nonnull LByteToFloatFunctionX<X> after) {
+	default LFloatSupplierX<X> toFloatSupplier(@Nonnull LByteToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsFloat(this.doGetAsByte());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LDoubleSupplierX<X> thenToDouble(@Nonnull LByteToDoubleFunctionX<X> after) {
+	default LDoubleSupplierX<X> toDoubleSupplier(@Nonnull LByteToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsDouble(this.doGetAsByte());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LCharSupplierX<X> thenToChar(@Nonnull LByteToCharFunctionX<X> after) {
+	default LCharSupplierX<X> toCharSupplier(@Nonnull LByteToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsChar(this.doGetAsByte());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LBooleanSupplierX<X> thenToBoolean(@Nonnull LBytePredicateX<X> after) {
+	default LBooleanSupplierX<X> toBooleanSupplier(@Nonnull LBytePredicateX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doTest(this.doGetAsByte());
 	}
@@ -196,23 +196,23 @@ public interface LByteSupplierX<X extends Throwable> extends MetaSupplier, Primi
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LByteSupplier nest() {
+	default LByteSupplier nestingBSup() {
 		return this::nestingDoGetAsByte;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LByteSupplierX<RuntimeException> nestX() {
+	default LByteSupplierX<RuntimeException> nestingBSupX() {
 		return this::nestingDoGetAsByte;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteSupplier shove() {
+	default LByteSupplier shovingBSup() {
 		return this::shovingDoGetAsByte;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteSupplierX<RuntimeException> shoveX() {
+	default LByteSupplierX<RuntimeException> shovingBSupX() {
 		return this::shovingDoGetAsByte;
 	}
 
@@ -221,12 +221,12 @@ public interface LByteSupplierX<X extends Throwable> extends MetaSupplier, Primi
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LByteSupplier handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LByteSupplier handleBSup(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return () -> this.handlingDoGetAsByte(handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LByteSupplierX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LByteSupplierX<Y> handleBSupX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return () -> this.handlingDoGetAsByte(handling);
 	}
 

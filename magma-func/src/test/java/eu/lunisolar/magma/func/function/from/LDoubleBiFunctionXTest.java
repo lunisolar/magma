@@ -195,7 +195,7 @@ public class LDoubleBiFunctionXTest<R,X extends ParseException> {
         });
 
         // when
-        LDoubleBiFunctionX<R,X> wrapped = sutThrowing.handleX(handler -> handler
+        LDoubleBiFunctionX<R,X> wrapped = sutThrowing.handleDBiFuncX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -219,7 +219,7 @@ public class LDoubleBiFunctionXTest<R,X extends ParseException> {
         });
 
         // when
-        LDoubleBiFunctionX<R,X> wrapped = sutThrowing.handleX(handler -> handler
+        LDoubleBiFunctionX<R,X> wrapped = sutThrowing.handleDBiFuncX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -243,7 +243,7 @@ public class LDoubleBiFunctionXTest<R,X extends ParseException> {
         });
 
         // when
-        LDoubleBiFunctionX<R,X> wrapped = sutThrowing.handleX(handler -> handler
+        LDoubleBiFunctionX<R,X> wrapped = sutThrowing.handleDBiFuncX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -268,7 +268,7 @@ public class LDoubleBiFunctionXTest<R,X extends ParseException> {
         });
 
         // when
-        LDoubleBiFunctionX<R,X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
+        LDoubleBiFunctionX<R,X> wrapped = sutThrowing.handleDBiFuncX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -287,7 +287,7 @@ public class LDoubleBiFunctionXTest<R,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromDouble() throws X {
+    public void testdBiFuncFromDouble() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -312,7 +312,7 @@ public class LDoubleBiFunctionXTest<R,X extends ParseException> {
         };
 
         //when
-        LDoubleBiFunctionX<Integer ,X> function = sutO.fromDouble(before1,before2);
+        LDoubleBiFunctionX<Integer ,X> function = sutO.dBiFuncFromDouble(before1,before2);
         function.doApply((double)80,(double)81);
 
         //then - finals
@@ -322,7 +322,7 @@ public class LDoubleBiFunctionXTest<R,X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws X {
+    public void testdBiFuncFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -347,7 +347,7 @@ public class LDoubleBiFunctionXTest<R,X extends ParseException> {
         };
 
         //when
-        LBiFunctionX<Integer ,Integer ,Integer ,X> function = sutO.from(before1,before2);
+        LBiFunctionX<Integer ,Integer ,Integer ,X> function = sutO.dBiFuncFrom(before1,before2);
         function.doApply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
@@ -433,25 +433,25 @@ public class LDoubleBiFunctionXTest<R,X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingDBiFunc())
             .isInstanceOf(LDoubleBiFunction.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingDBiFunc())
             .isInstanceOf(LDoubleBiFunction.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingDBiFuncX())
             .isInstanceOf(LDoubleBiFunctionX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingDBiFuncX())
             .isInstanceOf(LDoubleBiFunctionX.class);
     }
 
@@ -464,11 +464,11 @@ public class LDoubleBiFunctionXTest<R,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doApply((double)100,(double)100);
+        sutThrowing.shovingDBiFunc().doApply((double)100,(double)100);
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleDBiFunc() throws X {
 
         // given
         LDoubleBiFunctionX<R,X> sutThrowing = LDoubleBiFunctionX.lX((double d1,double d2) -> {
@@ -476,7 +476,7 @@ public class LDoubleBiFunctionXTest<R,X extends ParseException> {
         });
 
         // when
-        LDoubleBiFunctionX<R,X> wrapped = sutThrowing.handleX(h -> {
+        LDoubleBiFunctionX<R,X> wrapped = sutThrowing.handleDBiFuncX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -513,3 +513,5 @@ public class LDoubleBiFunctionXTest<R,X extends ParseException> {
 
 
 }
+
+

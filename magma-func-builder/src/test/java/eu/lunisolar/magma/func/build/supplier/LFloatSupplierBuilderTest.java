@@ -125,12 +125,14 @@ public class LFloatSupplierBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesGetAsFloat(()->externalInfluence.set(0)).to(a -> a.isEqualTo((float)0))
-            .doesGetAsFloat(()->externalInfluence.set(5)).to(a -> a.isEqualTo((float)1))
-            .doesGetAsFloat(()->externalInfluence.set(15)).to(a -> a.isEqualTo((float)2))
-            .doesGetAsFloat(()->externalInfluence.set(10)).to(a -> a.isEqualTo((float)99))
+            .doesGetAsFloat().when(()->externalInfluence.set(0)).to(a -> a.isEqualTo((float)0))
+            .doesGetAsFloat().when(()->externalInfluence.set(5)).to(a -> a.isEqualTo((float)1))
+            .doesGetAsFloat().when(()->externalInfluence.set(15)).to(a -> a.isEqualTo((float)2))
+            .doesGetAsFloat().when(()->externalInfluence.set(10)).to(a -> a.isEqualTo((float)99))
         ;
 
     }
 
 }
+
+

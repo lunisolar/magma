@@ -206,7 +206,7 @@ public class LBooleanTriFunctionTest<R,X extends ParseException> {
         });
 
         // when
-        LBooleanTriFunction<R> wrapped = sutThrowing.handle(handler -> handler
+        LBooleanTriFunction<R> wrapped = sutThrowing.handleBoolTriFunc(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -230,7 +230,7 @@ public class LBooleanTriFunctionTest<R,X extends ParseException> {
         });
 
         // when
-        LBooleanTriFunction<R> wrapped = sutThrowing.handle(handler -> handler
+        LBooleanTriFunction<R> wrapped = sutThrowing.handleBoolTriFunc(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -254,7 +254,7 @@ public class LBooleanTriFunctionTest<R,X extends ParseException> {
         });
 
         // when
-        LBooleanTriFunction<R> wrapped = sutThrowing.handle(handler -> handler
+        LBooleanTriFunction<R> wrapped = sutThrowing.handleBoolTriFunc(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -279,7 +279,7 @@ public class LBooleanTriFunctionTest<R,X extends ParseException> {
         });
 
         // when
-        LBooleanTriFunction<R> wrapped = sutThrowing.handle(h -> Function4U.doNothing());
+        LBooleanTriFunction<R> wrapped = sutThrowing.handleBoolTriFunc(h -> Function4U.doNothing());
 
         // then
         try {
@@ -298,7 +298,7 @@ public class LBooleanTriFunctionTest<R,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromBoolean() throws X {
+    public void testboolTriFuncFromBoolean() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -312,24 +312,24 @@ public class LBooleanTriFunctionTest<R,X extends ParseException> {
                 return 9;
         };
 
-        LBooleanUnaryOperator before1 = p0 -> {
+        LLogicalOperator before1 = p0 -> {
             assertThat(p0).isEqualTo(true);
             beforeCalls.incrementAndGet();
             return true;
         };
-        LBooleanUnaryOperator before2 = p1 -> {
+        LLogicalOperator before2 = p1 -> {
             assertThat(p1).isEqualTo(true);
             beforeCalls.incrementAndGet();
             return true;
         };
-        LBooleanUnaryOperator before3 = p2 -> {
+        LLogicalOperator before3 = p2 -> {
             assertThat(p2).isEqualTo(true);
             beforeCalls.incrementAndGet();
             return true;
         };
 
         //when
-        LBooleanTriFunction<Integer > function = sutO.fromBoolean(before1,before2,before3);
+        LBooleanTriFunction<Integer > function = sutO.boolTriFuncFromBoolean(before1,before2,before3);
         function.doApply(true,true,true);
 
         //then - finals
@@ -339,7 +339,7 @@ public class LBooleanTriFunctionTest<R,X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws X {
+    public void testboolTriFuncFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -370,7 +370,7 @@ public class LBooleanTriFunctionTest<R,X extends ParseException> {
         };
 
         //when
-        LTriFunction<Integer ,Integer ,Integer ,Integer > function = sutO.from(before1,before2,before3);
+        LTriFunction<Integer ,Integer ,Integer ,Integer > function = sutO.boolTriFuncFrom(before1,before2,before3);
         function.doApply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(Integer )Integer.valueOf(82));
 
         //then - finals
@@ -458,28 +458,28 @@ public class LBooleanTriFunctionTest<R,X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingBoolTriFunc())
             .isSameAs(sut)
             .isInstanceOf(LBooleanTriFunction.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingBoolTriFunc())
             .isSameAs(sut)
             .isInstanceOf(LBooleanTriFunction.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingBoolTriFuncX())
             .isSameAs(sut)
             .isInstanceOf(LBooleanTriFunctionX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingBoolTriFuncX())
             .isSameAs(sut)
             .isInstanceOf(LBooleanTriFunctionX.class);
     }
@@ -493,11 +493,11 @@ public class LBooleanTriFunctionTest<R,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doApply(true,true,true);
+        sutThrowing.shovingBoolTriFunc().doApply(true,true,true);
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleBoolTriFunc() throws X {
 
         // given
         LBooleanTriFunction<R> sutThrowing = LBooleanTriFunction.l((boolean b1,boolean b2,boolean b3) -> {
@@ -505,7 +505,7 @@ public class LBooleanTriFunctionTest<R,X extends ParseException> {
         });
 
         // when
-        LBooleanTriFunction<R> wrapped = sutThrowing.handle(h -> {
+        LBooleanTriFunction<R> wrapped = sutThrowing.handleBoolTriFunc(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -542,3 +542,5 @@ public class LBooleanTriFunctionTest<R,X extends ParseException> {
 
 
 }
+
+

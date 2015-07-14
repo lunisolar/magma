@@ -143,63 +143,63 @@ public interface LDoubleSupplierX<X extends Throwable> extends java.util.functio
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default <V> LSupplierX<V, X> then(@Nonnull LDoubleFunctionX<? extends V, X> after) {
+	default <V> LSupplierX<V, X> toSupplier(@Nonnull LDoubleFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApply(this.doGetAsDouble());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LByteSupplierX<X> thenToByte(@Nonnull LDoubleToByteFunctionX<X> after) {
+	default LByteSupplierX<X> toByteSupplier(@Nonnull LDoubleToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsByte(this.doGetAsDouble());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LShortSupplierX<X> thenToShort(@Nonnull LDoubleToShortFunctionX<X> after) {
+	default LShortSupplierX<X> toShortSupplier(@Nonnull LDoubleToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsShort(this.doGetAsDouble());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LIntSupplierX<X> thenToInt(@Nonnull LDoubleToIntFunctionX<X> after) {
+	default LIntSupplierX<X> toIntSupplier(@Nonnull LDoubleToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsInt(this.doGetAsDouble());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LLongSupplierX<X> thenToLong(@Nonnull LDoubleToLongFunctionX<X> after) {
+	default LLongSupplierX<X> toLongSupplier(@Nonnull LDoubleToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsLong(this.doGetAsDouble());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LFloatSupplierX<X> thenToFloat(@Nonnull LDoubleToFloatFunctionX<X> after) {
+	default LFloatSupplierX<X> toFloatSupplier(@Nonnull LDoubleToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsFloat(this.doGetAsDouble());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LDoubleSupplierX<X> thenToDouble(@Nonnull LDoubleUnaryOperatorX<X> after) {
+	default LDoubleSupplierX<X> toDoubleSupplier(@Nonnull LDoubleUnaryOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsDouble(this.doGetAsDouble());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LCharSupplierX<X> thenToChar(@Nonnull LDoubleToCharFunctionX<X> after) {
+	default LCharSupplierX<X> toCharSupplier(@Nonnull LDoubleToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsChar(this.doGetAsDouble());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LBooleanSupplierX<X> thenToBoolean(@Nonnull LDoublePredicateX<X> after) {
+	default LBooleanSupplierX<X> toBooleanSupplier(@Nonnull LDoublePredicateX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doTest(this.doGetAsDouble());
 	}
@@ -209,23 +209,23 @@ public interface LDoubleSupplierX<X extends Throwable> extends java.util.functio
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoubleSupplier nest() {
+	default LDoubleSupplier nestingDSup() {
 		return this::nestingDoGetAsDouble;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoubleSupplierX<RuntimeException> nestX() {
+	default LDoubleSupplierX<RuntimeException> nestingDSupX() {
 		return this::nestingDoGetAsDouble;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleSupplier shove() {
+	default LDoubleSupplier shovingDSup() {
 		return this::shovingDoGetAsDouble;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleSupplierX<RuntimeException> shoveX() {
+	default LDoubleSupplierX<RuntimeException> shovingDSupX() {
 		return this::shovingDoGetAsDouble;
 	}
 
@@ -234,12 +234,12 @@ public interface LDoubleSupplierX<X extends Throwable> extends java.util.functio
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LDoubleSupplier handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LDoubleSupplier handleDSup(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return () -> this.handlingDoGetAsDouble(handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LDoubleSupplierX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LDoubleSupplierX<Y> handleDSupX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return () -> this.handlingDoGetAsDouble(handling);
 	}
 

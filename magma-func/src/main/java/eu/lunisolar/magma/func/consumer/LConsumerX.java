@@ -102,7 +102,7 @@ public interface LConsumerX<T, X extends Throwable> extends java.util.function.C
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LActionX<X> capture(T t) {
+	default LActionX<X> captureCons(T t) {
 		return () -> this.doAccept(t);
 	}
 
@@ -139,10 +139,10 @@ public interface LConsumerX<T, X extends Throwable> extends java.util.function.C
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LConsumerX<V1, X> from(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1) {
+	default <V1> LConsumerX<V1, X> consFrom(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doApply(v1));
 	}
@@ -165,23 +165,23 @@ public interface LConsumerX<T, X extends Throwable> extends java.util.function.C
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LConsumer<T> nest() {
+	default LConsumer<T> nestingCons() {
 		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LConsumerX<T, RuntimeException> nestX() {
+	default LConsumerX<T, RuntimeException> nestingConsX() {
 		return this::nestingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LConsumer<T> shove() {
+	default LConsumer<T> shovingCons() {
 		return this::shovingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LConsumerX<T, RuntimeException> shoveX() {
+	default LConsumerX<T, RuntimeException> shovingConsX() {
 		return this::shovingDoAccept;
 	}
 
@@ -190,12 +190,12 @@ public interface LConsumerX<T, X extends Throwable> extends java.util.function.C
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LConsumer<T> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LConsumer<T> handleCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return t -> this.handlingDoAccept(t, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LConsumerX<T, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LConsumerX<T, Y> handleConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return t -> this.handlingDoAccept(t, handling);
 	}
 

@@ -105,7 +105,7 @@ public interface LBiDoublePredicateX<X extends Throwable> extends MetaPredicate,
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> capture(double d1, double d2) {
+	default LBooleanSupplierX<X> captureBiDPred(double d1, double d2) {
 		return () -> this.doTest(d1, d2);
 	}
 
@@ -186,20 +186,20 @@ public interface LBiDoublePredicateX<X extends Throwable> extends MetaPredicate,
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LBiDoublePredicateX<X> fromDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1, @Nonnull final LDoubleUnaryOperatorX<X> before2) {
+	default LBiDoublePredicateX<X> biDPredFromDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1, @Nonnull final LDoubleUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final double v1, final double v2) -> this.doTest(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiPredicateX<V1, V2, X> from(@Nonnull final LToDoubleFunctionX<? super V1, X> before1, @Nonnull final LToDoubleFunctionX<? super V2, X> before2) {
+	default <V1, V2> LBiPredicateX<V1, V2, X> biDPredFrom(@Nonnull final LToDoubleFunctionX<? super V1, X> before1, @Nonnull final LToDoubleFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doTest(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
@@ -211,7 +211,7 @@ public interface LBiDoublePredicateX<X extends Throwable> extends MetaPredicate,
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LDoubleBiFunctionX<V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LDoubleBiFunctionX<V, X> boolToDoubleBiFunction(@Nonnull LBooleanFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (double d1, double d2) -> after.doApply(this.doTest(d1, d2));
 	}
@@ -221,23 +221,23 @@ public interface LBiDoublePredicateX<X extends Throwable> extends MetaPredicate,
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiDoublePredicate nest() {
+	default LBiDoublePredicate nestingBiDPred() {
 		return this::nestingDoTest;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiDoublePredicateX<RuntimeException> nestX() {
+	default LBiDoublePredicateX<RuntimeException> nestingBiDPredX() {
 		return this::nestingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiDoublePredicate shove() {
+	default LBiDoublePredicate shovingBiDPred() {
 		return this::shovingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiDoublePredicateX<RuntimeException> shoveX() {
+	default LBiDoublePredicateX<RuntimeException> shovingBiDPredX() {
 		return this::shovingDoTest;
 	}
 
@@ -246,12 +246,12 @@ public interface LBiDoublePredicateX<X extends Throwable> extends MetaPredicate,
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LBiDoublePredicate handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LBiDoublePredicate handleBiDPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (double d1, double d2) -> this.handlingDoTest(d1, d2, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LBiDoublePredicateX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LBiDoublePredicateX<Y> handleBiDPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (double d1, double d2) -> this.handlingDoTest(d1, d2, handling);
 	}
 

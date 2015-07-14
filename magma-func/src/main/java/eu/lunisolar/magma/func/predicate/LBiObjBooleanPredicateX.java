@@ -105,7 +105,7 @@ public interface LBiObjBooleanPredicateX<T1, T2, X extends Throwable> extends Me
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> capture(T1 t1, T2 t2, boolean b) {
+	default LBooleanSupplierX<X> captureBiObjBoolPred(T1 t1, T2 t2, boolean b) {
 		return () -> this.doTest(t1, t2, b);
 	}
 
@@ -186,25 +186,25 @@ public interface LBiObjBooleanPredicateX<T1, T2, X extends Throwable> extends Me
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiObjBooleanPredicateX<V1, V2, X> fromBoolean(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LBooleanUnaryOperatorX<X> before3) {
+	default <V1, V2> LBiObjBooleanPredicateX<V1, V2, X> biObjBoolPredFromBoolean(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LLogicalOperatorX<X> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (final V1 v1, final V2 v2, final boolean v3) -> this.doTest(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsBoolean(v3));
+		return (final V1 v1, final V2 v2, final boolean v3) -> this.doTest(before1.doApply(v1), before2.doApply(v2), before3.doApply(v3));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2, V3> LTriPredicateX<V1, V2, V3, X> from(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LPredicateX<? super V3, X> before3) {
+	default <V1, V2, V3> LTriPredicateX<V1, V2, V3, X> biObjBoolPredFrom(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LPredicateX<? super V3, X> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (V1 v1, V2 v2, V3 v3) -> this.doTest(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsBoolean(v3));
+		return (V1 v1, V2 v2, V3 v3) -> this.doTest(before1.doApply(v1), before2.doApply(v2), before3.doTest(v3));
 	}
 
 	// </editor-fold>
@@ -213,7 +213,7 @@ public interface LBiObjBooleanPredicateX<T1, T2, X extends Throwable> extends Me
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LBiObjBooleanFunctionX<T1, T2, V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LBiObjBooleanFunctionX<T1, T2, V, X> boolToBiObjBooleanFunction(@Nonnull LBooleanFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (T1 t1, T2 t2, boolean b) -> after.doApply(this.doTest(t1, t2, b));
 	}
@@ -223,23 +223,23 @@ public interface LBiObjBooleanPredicateX<T1, T2, X extends Throwable> extends Me
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiObjBooleanPredicate<T1, T2> nest() {
+	default LBiObjBooleanPredicate<T1, T2> nestingBiObjBoolPred() {
 		return this::nestingDoTest;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiObjBooleanPredicateX<T1, T2, RuntimeException> nestX() {
+	default LBiObjBooleanPredicateX<T1, T2, RuntimeException> nestingBiObjBoolPredX() {
 		return this::nestingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjBooleanPredicate<T1, T2> shove() {
+	default LBiObjBooleanPredicate<T1, T2> shovingBiObjBoolPred() {
 		return this::shovingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjBooleanPredicateX<T1, T2, RuntimeException> shoveX() {
+	default LBiObjBooleanPredicateX<T1, T2, RuntimeException> shovingBiObjBoolPredX() {
 		return this::shovingDoTest;
 	}
 
@@ -248,12 +248,12 @@ public interface LBiObjBooleanPredicateX<T1, T2, X extends Throwable> extends Me
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LBiObjBooleanPredicate<T1, T2> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LBiObjBooleanPredicate<T1, T2> handleBiObjBoolPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T1 t1, T2 t2, boolean b) -> this.handlingDoTest(t1, t2, b, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LBiObjBooleanPredicateX<T1, T2, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LBiObjBooleanPredicateX<T1, T2, Y> handleBiObjBoolPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T1 t1, T2 t2, boolean b) -> this.handlingDoTest(t1, t2, b, handling);
 	}
 

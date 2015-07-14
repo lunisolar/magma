@@ -124,12 +124,14 @@ public class LFloatToLongFunctionBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsLong((float)0).to(a -> a.isEqualTo((long)0))
-            .doesApplyAsLong((float)5).to(a -> a.isEqualTo((long)1))
-            .doesApplyAsLong((float)15).to(a -> a.isEqualTo((long)2))
-            .doesApplyAsLong((float)10).to(a -> a.isEqualTo((long)99))
+            .doesApplyAsLong((float)0).when(null).to(a -> a.isEqualTo((long)0))
+            .doesApplyAsLong((float)5).when(null).to(a -> a.isEqualTo((long)1))
+            .doesApplyAsLong((float)15).when(null).to(a -> a.isEqualTo((long)2))
+            .doesApplyAsLong((float)10).when(null).to(a -> a.isEqualTo((long)99))
         ;
 
     }
 
 }
+
+

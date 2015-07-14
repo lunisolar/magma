@@ -48,7 +48,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for LBooleanToByteFunction. */
-public final class LBooleanToByteFunctionBuilder extends PerCaseBuilderWithByteProduct.Base<LBooleanToByteFunctionBuilder, LBooleanUnaryOperator, LBooleanToByteFunction> {
+public final class LBooleanToByteFunctionBuilder extends PerCaseBuilderWithByteProduct.Base<LBooleanToByteFunctionBuilder, LLogicalOperator, LBooleanToByteFunction> {
 
 	private Consumer<LBooleanToByteFunction> consumer;
 
@@ -107,11 +107,11 @@ public final class LBooleanToByteFunctionBuilder extends PerCaseBuilderWithByteP
 
 		LBooleanToByteFunction retval;
 
-		final Case<LBooleanUnaryOperator, LBooleanToByteFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
+		final Case<LLogicalOperator, LBooleanToByteFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 		retval = LBooleanToByteFunction.l(b -> {
 			try {
-				for (Case<LBooleanUnaryOperator, LBooleanToByteFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doApplyAsBoolean(b)) {
+				for (Case<LLogicalOperator, LBooleanToByteFunction> aCase : casesArray) {
+					if (aCase.casePredicate().doApply(b)) {
 						return aCase.caseFunction().doApplyAsByte(b);
 					}
 				}

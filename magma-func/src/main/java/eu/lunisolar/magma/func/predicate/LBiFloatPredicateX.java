@@ -105,7 +105,7 @@ public interface LBiFloatPredicateX<X extends Throwable> extends MetaPredicate, 
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> capture(float f1, float f2) {
+	default LBooleanSupplierX<X> captureBiFPred(float f1, float f2) {
 		return () -> this.doTest(f1, f2);
 	}
 
@@ -186,20 +186,20 @@ public interface LBiFloatPredicateX<X extends Throwable> extends MetaPredicate, 
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LBiFloatPredicateX<X> fromFloat(@Nonnull final LFloatUnaryOperatorX<X> before1, @Nonnull final LFloatUnaryOperatorX<X> before2) {
+	default LBiFloatPredicateX<X> biFPredFromFloat(@Nonnull final LFloatUnaryOperatorX<X> before1, @Nonnull final LFloatUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final float v1, final float v2) -> this.doTest(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiPredicateX<V1, V2, X> from(@Nonnull final LToFloatFunctionX<? super V1, X> before1, @Nonnull final LToFloatFunctionX<? super V2, X> before2) {
+	default <V1, V2> LBiPredicateX<V1, V2, X> biFPredFrom(@Nonnull final LToFloatFunctionX<? super V1, X> before1, @Nonnull final LToFloatFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doTest(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
@@ -211,7 +211,7 @@ public interface LBiFloatPredicateX<X extends Throwable> extends MetaPredicate, 
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LFloatBiFunctionX<V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LFloatBiFunctionX<V, X> boolToFloatBiFunction(@Nonnull LBooleanFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (float f1, float f2) -> after.doApply(this.doTest(f1, f2));
 	}
@@ -221,23 +221,23 @@ public interface LBiFloatPredicateX<X extends Throwable> extends MetaPredicate, 
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiFloatPredicate nest() {
+	default LBiFloatPredicate nestingBiFPred() {
 		return this::nestingDoTest;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiFloatPredicateX<RuntimeException> nestX() {
+	default LBiFloatPredicateX<RuntimeException> nestingBiFPredX() {
 		return this::nestingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiFloatPredicate shove() {
+	default LBiFloatPredicate shovingBiFPred() {
 		return this::shovingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiFloatPredicateX<RuntimeException> shoveX() {
+	default LBiFloatPredicateX<RuntimeException> shovingBiFPredX() {
 		return this::shovingDoTest;
 	}
 
@@ -246,12 +246,12 @@ public interface LBiFloatPredicateX<X extends Throwable> extends MetaPredicate, 
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LBiFloatPredicate handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LBiFloatPredicate handleBiFPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (float f1, float f2) -> this.handlingDoTest(f1, f2, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LBiFloatPredicateX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LBiFloatPredicateX<Y> handleBiFPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (float f1, float f2) -> this.handlingDoTest(f1, f2, handling);
 	}
 

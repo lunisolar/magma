@@ -90,7 +90,7 @@ public interface LTriPredicate<T1, T2, T3> extends LTriPredicateX<T1, T2, T3, Ru
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier capture(T1 t1, T2 t2, T3 t3) {
+	default LBooleanSupplier captureTriPred(T1 t1, T2 t2, T3 t3) {
 		return () -> this.doTest(t1, t2, t3);
 	}
 
@@ -164,10 +164,10 @@ public interface LTriPredicate<T1, T2, T3> extends LTriPredicateX<T1, T2, T3, Ru
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2, V3> LTriPredicate<V1, V2, V3> from(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LFunction<? super V3, ? extends T3> before3) {
+	default <V1, V2, V3> LTriPredicate<V1, V2, V3> triPredFrom(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LFunction<? super V3, ? extends T3> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
@@ -180,7 +180,7 @@ public interface LTriPredicate<T1, T2, T3> extends LTriPredicateX<T1, T2, T3, Ru
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LTriFunction<T1, T2, T3, V> then(@Nonnull LBooleanFunction<? extends V> after) {
+	default <V> LTriFunction<T1, T2, T3, V> boolToTriFunction(@Nonnull LBooleanFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (T1 t1, T2 t2, T3 t3) -> after.doApply(this.doTest(t1, t2, t3));
 	}
@@ -190,23 +190,23 @@ public interface LTriPredicate<T1, T2, T3> extends LTriPredicateX<T1, T2, T3, Ru
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LTriPredicate<T1, T2, T3> nest() {
+	default LTriPredicate<T1, T2, T3> nestingTriPred() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LTriPredicateX<T1, T2, T3, RuntimeException> nestX() {
+	default LTriPredicateX<T1, T2, T3, RuntimeException> nestingTriPredX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LTriPredicate<T1, T2, T3> shove() {
+	default LTriPredicate<T1, T2, T3> shovingTriPred() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LTriPredicateX<T1, T2, T3, RuntimeException> shoveX() {
+	default LTriPredicateX<T1, T2, T3, RuntimeException> shovingTriPredX() {
 		return this;
 	}
 

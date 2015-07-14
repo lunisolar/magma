@@ -99,7 +99,7 @@ public interface LIntToCharFunctionX<X extends Throwable> extends MetaFunction, 
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LCharSupplierX<X> capture(int i) {
+	default LCharSupplierX<X> captureIToCFunc(int i) {
 		return () -> this.doApplyAsChar(i);
 	}
 
@@ -134,19 +134,19 @@ public interface LIntToCharFunctionX<X extends Throwable> extends MetaFunction, 
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LIntToCharFunctionX<X> fromInt(@Nonnull final LIntUnaryOperatorX<X> before1) {
+	default LIntToCharFunctionX<X> iToCFuncFromInt(@Nonnull final LIntUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsChar(before1.doApplyAsInt(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToCharFunctionX<V1, X> from(@Nonnull final LToIntFunctionX<? super V1, X> before1) {
+	default <V1> LToCharFunctionX<V1, X> iToCFuncFrom(@Nonnull final LToIntFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsChar(before1.doApplyAsInt(v1));
 	}
@@ -223,23 +223,23 @@ public interface LIntToCharFunctionX<X extends Throwable> extends MetaFunction, 
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntToCharFunction nest() {
+	default LIntToCharFunction nestingIToCFunc() {
 		return this::nestingDoApplyAsChar;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntToCharFunctionX<RuntimeException> nestX() {
+	default LIntToCharFunctionX<RuntimeException> nestingIToCFuncX() {
 		return this::nestingDoApplyAsChar;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntToCharFunction shove() {
+	default LIntToCharFunction shovingIToCFunc() {
 		return this::shovingDoApplyAsChar;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntToCharFunctionX<RuntimeException> shoveX() {
+	default LIntToCharFunctionX<RuntimeException> shovingIToCFuncX() {
 		return this::shovingDoApplyAsChar;
 	}
 
@@ -248,12 +248,12 @@ public interface LIntToCharFunctionX<X extends Throwable> extends MetaFunction, 
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LIntToCharFunction handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LIntToCharFunction handleIToCFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return i -> this.handlingDoApplyAsChar(i, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LIntToCharFunctionX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LIntToCharFunctionX<Y> handleIToCFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return i -> this.handlingDoApplyAsChar(i, handling);
 	}
 

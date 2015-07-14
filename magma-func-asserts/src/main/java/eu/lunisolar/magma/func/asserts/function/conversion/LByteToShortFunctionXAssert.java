@@ -26,7 +26,16 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
 import eu.lunisolar.magma.func.function.conversion.*;
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
@@ -35,10 +44,10 @@ import static org.assertj.core.api.Fail.fail;
 public interface LByteToShortFunctionXAssert<S extends LByteToShortFunctionXAssert<S, A, RS, X>, A extends LByteToShortFunctionX<X>, RS extends AbstractShortAssert<RS>, X extends Throwable>
 		extends
 			Assert<S, A>,
-			FullFunctionalAssert<S, A, RS, Short, Exception> {
+			FullFunctionalAssert<S, LByteConsumerX<Exception>, A, RS, Short, Exception> {
 
 	@Nonnull
-	Evaluation<S, A, RS, Short, Exception> doesApplyAsShort(byte b);
+	Evaluation<S, LByteConsumerX<Exception>, A, RS, Short, Exception> doesApplyAsShort(byte b);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends LByteToShortFunctionX<X>, RS extends AbstractShortAssert<RS>, X extends Throwable> extends Base<Impl<A, RS, X>, A, RS, X> {
@@ -49,7 +58,7 @@ public interface LByteToShortFunctionXAssert<S extends LByteToShortFunctionXAsse
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, X>, A extends LByteToShortFunctionX<X>, RS extends AbstractShortAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, A, RS, Short, Exception>
+	public static class Base<S extends Base<S, A, RS, X>, A extends LByteToShortFunctionX<X>, RS extends AbstractShortAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, LByteConsumerX<Exception>, A, RS, Short, Exception>
 			implements
 				LByteToShortFunctionXAssert<S, A, RS, X> {
 
@@ -61,8 +70,15 @@ public interface LByteToShortFunctionXAssert<S extends LByteToShortFunctionXAsse
 		}
 
 		@Nonnull
-		public Evaluation<S, A, RS, Short, Exception> doesApplyAsShort(byte b) {
-			return evaluation(() -> assertFactory.apply((Short) actual.doApplyAsShort(b)));
+		public Evaluation<S, LByteConsumerX<Exception>, A, RS, Short, Exception> doesApplyAsShort(byte b) {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doAccept(b);
+				}
+				return assertFactory.apply((Short) actual.doApplyAsShort(b));
+			});
+
 		}
 
 	}

@@ -124,10 +124,12 @@ public class LBooleanTriConsumerXBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesAccept(false,false,false).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(0)))
-            .doesAccept(true,true,true).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(1)))
+            .doesAccept(false,false,false).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(0)))
+            .doesAccept(true,true,true).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(1)))
         ;
 
     }
 
 }
+
+

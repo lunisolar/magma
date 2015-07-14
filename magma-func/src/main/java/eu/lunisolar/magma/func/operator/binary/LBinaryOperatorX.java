@@ -58,19 +58,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBinaryOperatorX<T, X extends Throwable> extends java.util.function.BinaryOperator<T>, MetaOperator, MetaInterface.Throwing<X> { // NOSONAR
+public interface LBinaryOperatorX<T, X extends Throwable> extends java.util.function.BinaryOperator<T>, MetaOperator, MetaInterface.Throwing<X>, LBiFunctionX<T, T, T, X> { // NOSONAR
 
 	static final String DESCRIPTION = "LBinaryOperatorX: T doApply(T t1,T t2) throws X";
-
-	@Override
-	@Deprecated
-	// calling this method via LBinaryOperatorX interface should be discouraged.
-	default T apply(T t1, T t2) {
-		return this.nestingDoApply(t1, t2);
-	}
-
-	@Nullable
-	T doApply(T t1, T t2) throws X;
 
 	default T nestingDoApply(T t1, T t2) {
 		try {
@@ -110,7 +100,7 @@ public interface LBinaryOperatorX<T, X extends Throwable> extends java.util.func
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplierX<T, X> capture(T t1, T t2) {
+	default LSupplierX<T, X> captureBinaryOp(T t1, T t2) {
 		return () -> this.doApply(t1, t2);
 	}
 
@@ -164,42 +154,42 @@ public interface LBinaryOperatorX<T, X extends Throwable> extends java.util.func
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBinaryOperator<T> nest() {
+	default LBinaryOperator<T> nestingBinaryOp() {
 		return this::nestingDoApply;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBinaryOperatorX<T, RuntimeException> nestX() {
+	default LBinaryOperatorX<T, RuntimeException> nestingBinaryOpX() {
 		return this::nestingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBinaryOperator<T> shove() {
+	default LBinaryOperator<T> shovingBinaryOp() {
 		return this::shovingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBinaryOperatorX<T, RuntimeException> shoveX() {
+	default LBinaryOperatorX<T, RuntimeException> shovingBinaryOpX() {
 		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LBinaryOperatorX<T, X> nonNullableX() {
+	default LBinaryOperatorX<T, X> nonNullBinaryOp() {
 		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LBinaryOperator<T> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LBinaryOperator<T> handleBinaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T t1, T t2) -> this.handlingDoApply(t1, t2, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LBinaryOperatorX<T, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LBinaryOperatorX<T, Y> handleBinaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T t1, T t2) -> this.handlingDoApply(t1, t2, handling);
 	}
 

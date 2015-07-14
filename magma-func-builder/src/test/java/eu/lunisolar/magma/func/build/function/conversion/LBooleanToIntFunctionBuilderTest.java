@@ -123,10 +123,12 @@ public class LBooleanToIntFunctionBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsInt(false).to(a -> a.isEqualTo((int)0))
-            .doesApplyAsInt(true).to(a -> a.isEqualTo((int)1))
+            .doesApplyAsInt(false).when(null).to(a -> a.isEqualTo((int)0))
+            .doesApplyAsInt(true).when(null).to(a -> a.isEqualTo((int)1))
         ;
 
     }
 
 }
+
+

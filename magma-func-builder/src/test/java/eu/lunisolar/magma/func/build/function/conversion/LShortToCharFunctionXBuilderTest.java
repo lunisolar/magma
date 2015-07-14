@@ -124,12 +124,14 @@ public class LShortToCharFunctionXBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsChar((short)0).to(a -> a.isEqualTo((char)0))
-            .doesApplyAsChar((short)5).to(a -> a.isEqualTo((char)1))
-            .doesApplyAsChar((short)15).to(a -> a.isEqualTo((char)2))
-            .doesApplyAsChar((short)10).to(a -> a.isEqualTo((char)99))
+            .doesApplyAsChar((short)0).when(null).to(a -> a.isEqualTo((char)0))
+            .doesApplyAsChar((short)5).when(null).to(a -> a.isEqualTo((char)1))
+            .doesApplyAsChar((short)15).when(null).to(a -> a.isEqualTo((char)2))
+            .doesApplyAsChar((short)10).when(null).to(a -> a.isEqualTo((char)99))
         ;
 
     }
 
 }
+
+

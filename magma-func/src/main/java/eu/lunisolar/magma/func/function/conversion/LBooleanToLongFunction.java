@@ -84,7 +84,7 @@ public interface LBooleanToLongFunction extends LBooleanToLongFunctionX<RuntimeE
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LLongSupplier capture(boolean b) {
+	default LLongSupplier captureBoolToLongFunc(boolean b) {
 		return () -> this.doApplyAsLong(b);
 	}
 
@@ -112,21 +112,21 @@ public interface LBooleanToLongFunction extends LBooleanToLongFunctionX<RuntimeE
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LBooleanToLongFunction fromBoolean(@Nonnull final LBooleanUnaryOperator before1) {
+	default LBooleanToLongFunction boolToLongFuncFromBoolean(@Nonnull final LLogicalOperator before1) {
 		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsLong(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doApplyAsLong(before1.doApply(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToLongFunction<V1> from(@Nonnull final LPredicate<? super V1> before1) {
+	default <V1> LToLongFunction<V1> boolToLongFuncFrom(@Nonnull final LPredicate<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsLong(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doApplyAsLong(before1.doTest(v1));
 	}
 
 	// </editor-fold>
@@ -191,7 +191,7 @@ public interface LBooleanToLongFunction extends LBooleanToLongFunctionX<RuntimeE
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LBooleanUnaryOperator thenToBoolean(@Nonnull LLongPredicate after) {
+	default LLogicalOperator thenToBoolean(@Nonnull LLongPredicate after) {
 		Null.nonNullArg(after, "after");
 		return b -> after.doTest(this.doApplyAsLong(b));
 	}
@@ -201,23 +201,23 @@ public interface LBooleanToLongFunction extends LBooleanToLongFunctionX<RuntimeE
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanToLongFunction nest() {
+	default LBooleanToLongFunction nestingBoolToLongFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanToLongFunctionX<RuntimeException> nestX() {
+	default LBooleanToLongFunctionX<RuntimeException> nestingBoolToLongFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanToLongFunction shove() {
+	default LBooleanToLongFunction shovingBoolToLongFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanToLongFunctionX<RuntimeException> shoveX() {
+	default LBooleanToLongFunctionX<RuntimeException> shovingBoolToLongFuncX() {
 		return this;
 	}
 

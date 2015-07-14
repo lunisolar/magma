@@ -84,7 +84,7 @@ public interface LBooleanToCharFunction extends LBooleanToCharFunctionX<RuntimeE
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LCharSupplier capture(boolean b) {
+	default LCharSupplier captureBoolToCFunc(boolean b) {
 		return () -> this.doApplyAsChar(b);
 	}
 
@@ -112,21 +112,21 @@ public interface LBooleanToCharFunction extends LBooleanToCharFunctionX<RuntimeE
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LBooleanToCharFunction fromBoolean(@Nonnull final LBooleanUnaryOperator before1) {
+	default LBooleanToCharFunction boolToCFuncFromBoolean(@Nonnull final LLogicalOperator before1) {
 		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsChar(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doApplyAsChar(before1.doApply(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToCharFunction<V1> from(@Nonnull final LPredicate<? super V1> before1) {
+	default <V1> LToCharFunction<V1> boolToCFuncFrom(@Nonnull final LPredicate<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsChar(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doApplyAsChar(before1.doTest(v1));
 	}
 
 	// </editor-fold>
@@ -191,7 +191,7 @@ public interface LBooleanToCharFunction extends LBooleanToCharFunctionX<RuntimeE
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LBooleanUnaryOperator thenToBoolean(@Nonnull LCharPredicate after) {
+	default LLogicalOperator thenToBoolean(@Nonnull LCharPredicate after) {
 		Null.nonNullArg(after, "after");
 		return b -> after.doTest(this.doApplyAsChar(b));
 	}
@@ -201,23 +201,23 @@ public interface LBooleanToCharFunction extends LBooleanToCharFunctionX<RuntimeE
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanToCharFunction nest() {
+	default LBooleanToCharFunction nestingBoolToCFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanToCharFunctionX<RuntimeException> nestX() {
+	default LBooleanToCharFunctionX<RuntimeException> nestingBoolToCFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanToCharFunction shove() {
+	default LBooleanToCharFunction shovingBoolToCFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanToCharFunctionX<RuntimeException> shoveX() {
+	default LBooleanToCharFunctionX<RuntimeException> shovingBoolToCFuncX() {
 		return this;
 	}
 

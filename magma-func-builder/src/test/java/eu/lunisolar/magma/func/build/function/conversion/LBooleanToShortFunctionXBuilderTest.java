@@ -123,10 +123,12 @@ public class LBooleanToShortFunctionXBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsShort(false).to(a -> a.isEqualTo((short)0))
-            .doesApplyAsShort(true).to(a -> a.isEqualTo((short)1))
+            .doesApplyAsShort(false).when(null).to(a -> a.isEqualTo((short)0))
+            .doesApplyAsShort(true).when(null).to(a -> a.isEqualTo((short)1))
         ;
 
     }
 
 }
+
+

@@ -95,7 +95,7 @@ public interface LBiObjLongConsumerX<T1, T2, X extends Throwable> extends MetaCo
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LActionX<X> capture(T1 t1, T2 t2, long l) {
+	default LActionX<X> captureBiObjLongCons(T1 t1, T2 t2, long l) {
 		return () -> this.doAccept(t1, t2, l);
 	}
 
@@ -126,10 +126,10 @@ public interface LBiObjLongConsumerX<T1, T2, X extends Throwable> extends MetaCo
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiObjLongConsumerX<V1, V2, X> fromLong(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LLongUnaryOperatorX<X> before3) {
+	default <V1, V2> LBiObjLongConsumerX<V1, V2, X> biObjLongConsFromLong(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LLongUnaryOperatorX<X> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
@@ -137,10 +137,10 @@ public interface LBiObjLongConsumerX<T1, T2, X extends Throwable> extends MetaCo
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2, V3> LTriConsumerX<V1, V2, V3, X> from(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LToLongFunctionX<? super V3, X> before3) {
+	default <V1, V2, V3> LTriConsumerX<V1, V2, V3, X> biObjLongConsFrom(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LToLongFunctionX<? super V3, X> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
@@ -165,23 +165,23 @@ public interface LBiObjLongConsumerX<T1, T2, X extends Throwable> extends MetaCo
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiObjLongConsumer<T1, T2> nest() {
+	default LBiObjLongConsumer<T1, T2> nestingBiObjLongCons() {
 		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiObjLongConsumerX<T1, T2, RuntimeException> nestX() {
+	default LBiObjLongConsumerX<T1, T2, RuntimeException> nestingBiObjLongConsX() {
 		return this::nestingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjLongConsumer<T1, T2> shove() {
+	default LBiObjLongConsumer<T1, T2> shovingBiObjLongCons() {
 		return this::shovingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjLongConsumerX<T1, T2, RuntimeException> shoveX() {
+	default LBiObjLongConsumerX<T1, T2, RuntimeException> shovingBiObjLongConsX() {
 		return this::shovingDoAccept;
 	}
 
@@ -190,12 +190,12 @@ public interface LBiObjLongConsumerX<T1, T2, X extends Throwable> extends MetaCo
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LBiObjLongConsumer<T1, T2> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LBiObjLongConsumer<T1, T2> handleBiObjLongCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T1 t1, T2 t2, long l) -> this.handlingDoAccept(t1, t2, l, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LBiObjLongConsumerX<T1, T2, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LBiObjLongConsumerX<T1, T2, Y> handleBiObjLongConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T1 t1, T2 t2, long l) -> this.handlingDoAccept(t1, t2, l, handling);
 	}
 

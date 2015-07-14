@@ -31,16 +31,13 @@ import javax.annotation.concurrent.ThreadSafe;
 @Immutable
 @ThreadSafe
 @SuppressWarnings("unchecked")
-public final class SemiEvaluation<CTX extends FunctionalAssert.Simple<CTX, A, X>, A, X extends Exception>
-        extends AbstractEvaluation<SemiEvaluation<CTX, A, X>, CTX, Object, X> {
+public final class SemiEvaluation<CTX extends FunctionalAssert.Simple<CTX, PC, A, X>, PC, A, X extends Exception>
+        extends AbstractEvaluation<SemiEvaluation<CTX, PC, A, X>, CTX, PC, A, X> {
 
     public SemiEvaluation(
             @Nonnull CTX context,
             @Nullable AssertionsCheck assertPreConsumer,
-            @Nonnull ThrowableAssert.ThrowingCallable callWrapper) {
-        super(context, assertPreConsumer, () -> {
-            callWrapper.call();
-            return null;
-        });
+            @Nonnull AssertionFunction<PC, A> assertFunction) {
+        super(context, assertPreConsumer, assertFunction);
     }
 }

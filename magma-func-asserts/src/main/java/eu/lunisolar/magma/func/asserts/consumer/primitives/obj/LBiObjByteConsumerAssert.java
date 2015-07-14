@@ -26,16 +26,25 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
 import eu.lunisolar.magma.func.consumer.primitives.obj.*;
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LBiObjByteConsumer. */
-public interface LBiObjByteConsumerAssert<S extends LBiObjByteConsumerAssert<S, A, T1, T2>, A extends LBiObjByteConsumer<T1, T2>, T1, T2> extends Assert<S, A>, FunctionalAssert.Simple<S, A, Exception> {
+public interface LBiObjByteConsumerAssert<S extends LBiObjByteConsumerAssert<S, A, T1, T2>, A extends LBiObjByteConsumer<T1, T2>, T1, T2> extends Assert<S, A>, FunctionalAssert.Simple<S, LBiObjByteConsumerX<T1, T2, Exception>, A, Exception> {
 
 	@Nonnull
-	SemiEvaluation<S, A, Exception> doesAccept(T1 t1, T2 t2, byte b);
+	SemiEvaluation<S, LBiObjByteConsumerX<T1, T2, Exception>, A, Exception> doesAccept(T1 t1, T2 t2, byte b);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends LBiObjByteConsumer<T1, T2>, T1, T2> extends Base<Impl<A, T1, T2>, A, T1, T2> {
@@ -46,15 +55,23 @@ public interface LBiObjByteConsumerAssert<S extends LBiObjByteConsumerAssert<S, 
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, T1, T2>, A extends LBiObjByteConsumer<T1, T2>, T1, T2> extends FunctionalAssert.Simple.Base<S, A, Exception> implements LBiObjByteConsumerAssert<S, A, T1, T2> {
+	public static class Base<S extends Base<S, A, T1, T2>, A extends LBiObjByteConsumer<T1, T2>, T1, T2> extends FunctionalAssert.Simple.Base<S, LBiObjByteConsumerX<T1, T2, Exception>, A, Exception> implements LBiObjByteConsumerAssert<S, A, T1, T2> {
 
 		public Base(A actual, Class<?> selfType) {
 			super(actual, selfType);
 		}
 
 		@Nonnull
-		public SemiEvaluation<S, A, Exception> doesAccept(T1 t1, T2 t2, byte b) {
-			return evaluation(() -> actual.doAccept(t1, t2, b));
+		public SemiEvaluation<S, LBiObjByteConsumerX<T1, T2, Exception>, A, Exception> doesAccept(T1 t1, T2 t2, byte b) {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doAccept(t1, t2, b);
+				}
+				actual.doAccept(t1, t2, b);
+				return null;
+			});
+
 		}
 
 	}

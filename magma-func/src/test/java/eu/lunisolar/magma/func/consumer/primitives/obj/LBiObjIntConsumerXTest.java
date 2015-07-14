@@ -171,7 +171,7 @@ public class LBiObjIntConsumerXTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        LBiObjIntConsumerX<T1,T2,X> wrapped = sutThrowing.handleX(handler -> handler
+        LBiObjIntConsumerX<T1,T2,X> wrapped = sutThrowing.handleBiObjIConsX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -195,7 +195,7 @@ public class LBiObjIntConsumerXTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        LBiObjIntConsumerX<T1,T2,X> wrapped = sutThrowing.handleX(handler -> handler
+        LBiObjIntConsumerX<T1,T2,X> wrapped = sutThrowing.handleBiObjIConsX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -219,7 +219,7 @@ public class LBiObjIntConsumerXTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        LBiObjIntConsumerX<T1,T2,X> wrapped = sutThrowing.handleX(handler -> handler
+        LBiObjIntConsumerX<T1,T2,X> wrapped = sutThrowing.handleBiObjIConsX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -244,7 +244,7 @@ public class LBiObjIntConsumerXTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        LBiObjIntConsumerX<T1,T2,X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
+        LBiObjIntConsumerX<T1,T2,X> wrapped = sutThrowing.handleBiObjIConsX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -263,7 +263,7 @@ public class LBiObjIntConsumerXTest<T1,T2,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromInt() throws X {
+    public void testbiObjIConsFromInt() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -293,7 +293,7 @@ public class LBiObjIntConsumerXTest<T1,T2,X extends ParseException> {
         };
 
         //when
-        LBiObjIntConsumerX<Integer ,Integer ,X> function = sutO.fromInt(before1,before2,before3);
+        LBiObjIntConsumerX<Integer ,Integer ,X> function = sutO.biObjIConsFromInt(before1,before2,before3);
         function.doAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(int)82);
 
         //then - finals
@@ -303,7 +303,7 @@ public class LBiObjIntConsumerXTest<T1,T2,X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws X {
+    public void testbiObjIConsFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -333,7 +333,7 @@ public class LBiObjIntConsumerXTest<T1,T2,X extends ParseException> {
         };
 
         //when
-        LTriConsumerX<Integer ,Integer ,Integer ,X> function = sutO.from(before1,before2,before3);
+        LTriConsumerX<Integer ,Integer ,Integer ,X> function = sutO.biObjIConsFrom(before1,before2,before3);
         function.doAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(Integer )Integer.valueOf(82));
 
         //then - finals
@@ -376,25 +376,25 @@ public class LBiObjIntConsumerXTest<T1,T2,X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingBiObjICons())
             .isInstanceOf(LBiObjIntConsumer.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingBiObjICons())
             .isInstanceOf(LBiObjIntConsumer.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingBiObjIConsX())
             .isInstanceOf(LBiObjIntConsumerX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingBiObjIConsX())
             .isInstanceOf(LBiObjIntConsumerX.class);
     }
 
@@ -407,11 +407,11 @@ public class LBiObjIntConsumerXTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doAccept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(int)100);
+        sutThrowing.shovingBiObjICons().doAccept((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(int)100);
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleBiObjICons() throws X {
 
         // given
         LBiObjIntConsumerX<T1,T2,X> sutThrowing = LBiObjIntConsumerX.lX((T1 t1,T2 t2, int i) -> {
@@ -419,7 +419,7 @@ public class LBiObjIntConsumerXTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        LBiObjIntConsumerX<T1,T2,X> wrapped = sutThrowing.handleX(h -> {
+        LBiObjIntConsumerX<T1,T2,X> wrapped = sutThrowing.handleBiObjIConsX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -456,3 +456,5 @@ public class LBiObjIntConsumerXTest<T1,T2,X extends ParseException> {
 
 
 }
+
+

@@ -123,10 +123,12 @@ public class LBooleanToDoubleFunctionXBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsDouble(false).to(a -> a.isEqualTo((double)0))
-            .doesApplyAsDouble(true).to(a -> a.isEqualTo((double)1))
+            .doesApplyAsDouble(false).when(null).to(a -> a.isEqualTo((double)0))
+            .doesApplyAsDouble(true).when(null).to(a -> a.isEqualTo((double)1))
         ;
 
     }
 
 }
+
+

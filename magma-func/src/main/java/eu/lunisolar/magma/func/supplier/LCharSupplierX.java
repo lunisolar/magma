@@ -130,63 +130,63 @@ public interface LCharSupplierX<X extends Throwable> extends MetaSupplier, Primi
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default <V> LSupplierX<V, X> then(@Nonnull LCharFunctionX<? extends V, X> after) {
+	default <V> LSupplierX<V, X> toSupplier(@Nonnull LCharFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApply(this.doGetAsChar());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LByteSupplierX<X> thenToByte(@Nonnull LCharToByteFunctionX<X> after) {
+	default LByteSupplierX<X> toByteSupplier(@Nonnull LCharToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsByte(this.doGetAsChar());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LShortSupplierX<X> thenToShort(@Nonnull LCharToShortFunctionX<X> after) {
+	default LShortSupplierX<X> toShortSupplier(@Nonnull LCharToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsShort(this.doGetAsChar());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LIntSupplierX<X> thenToInt(@Nonnull LCharToIntFunctionX<X> after) {
+	default LIntSupplierX<X> toIntSupplier(@Nonnull LCharToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsInt(this.doGetAsChar());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LLongSupplierX<X> thenToLong(@Nonnull LCharToLongFunctionX<X> after) {
+	default LLongSupplierX<X> toLongSupplier(@Nonnull LCharToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsLong(this.doGetAsChar());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LFloatSupplierX<X> thenToFloat(@Nonnull LCharToFloatFunctionX<X> after) {
+	default LFloatSupplierX<X> toFloatSupplier(@Nonnull LCharToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsFloat(this.doGetAsChar());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LDoubleSupplierX<X> thenToDouble(@Nonnull LCharToDoubleFunctionX<X> after) {
+	default LDoubleSupplierX<X> toDoubleSupplier(@Nonnull LCharToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsDouble(this.doGetAsChar());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LCharSupplierX<X> thenToChar(@Nonnull LCharUnaryOperatorX<X> after) {
+	default LCharSupplierX<X> toCharSupplier(@Nonnull LCharUnaryOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsChar(this.doGetAsChar());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LBooleanSupplierX<X> thenToBoolean(@Nonnull LCharPredicateX<X> after) {
+	default LBooleanSupplierX<X> toBooleanSupplier(@Nonnull LCharPredicateX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doTest(this.doGetAsChar());
 	}
@@ -196,23 +196,23 @@ public interface LCharSupplierX<X extends Throwable> extends MetaSupplier, Primi
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LCharSupplier nest() {
+	default LCharSupplier nestingCSup() {
 		return this::nestingDoGetAsChar;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LCharSupplierX<RuntimeException> nestX() {
+	default LCharSupplierX<RuntimeException> nestingCSupX() {
 		return this::nestingDoGetAsChar;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharSupplier shove() {
+	default LCharSupplier shovingCSup() {
 		return this::shovingDoGetAsChar;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharSupplierX<RuntimeException> shoveX() {
+	default LCharSupplierX<RuntimeException> shovingCSupX() {
 		return this::shovingDoGetAsChar;
 	}
 
@@ -221,12 +221,12 @@ public interface LCharSupplierX<X extends Throwable> extends MetaSupplier, Primi
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LCharSupplier handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LCharSupplier handleCSup(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return () -> this.handlingDoGetAsChar(handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LCharSupplierX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LCharSupplierX<Y> handleCSupX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return () -> this.handlingDoGetAsChar(handling);
 	}
 

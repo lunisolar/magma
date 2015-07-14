@@ -128,3 +128,5 @@ public class LCharFunctionXAssertTest<R,X extends Throwable> {
     }
 
 }
+
+

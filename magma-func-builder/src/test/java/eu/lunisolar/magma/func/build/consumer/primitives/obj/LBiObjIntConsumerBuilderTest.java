@@ -125,12 +125,14 @@ public class LBiObjIntConsumerBuilderTest<T1,T2,X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesAccept(Integer.valueOf(0),Integer.valueOf(0),(int)0).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(0)))
-            .doesAccept(Integer.valueOf(5),Integer.valueOf(5),(int)5).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(1)))
-            .doesAccept(Integer.valueOf(15),Integer.valueOf(15),(int)15).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(2)))
-            .doesAccept(Integer.valueOf(10),Integer.valueOf(10),(int)10).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(99)))
+            .doesAccept(Integer.valueOf(0),Integer.valueOf(0),(int)0).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(0)))
+            .doesAccept(Integer.valueOf(5),Integer.valueOf(5),(int)5).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(1)))
+            .doesAccept(Integer.valueOf(15),Integer.valueOf(15),(int)15).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(2)))
+            .doesAccept(Integer.valueOf(10),Integer.valueOf(10),(int)10).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(99)))
         ;
 
     }
 
 }
+
+

@@ -214,7 +214,7 @@ public class LBinaryOperatorTest<T,X extends ParseException> {
         });
 
         // when
-        LBinaryOperator<T> wrapped = sutThrowing.handle(handler -> handler
+        LBinaryOperator<T> wrapped = sutThrowing.handleBinaryOp(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -238,7 +238,7 @@ public class LBinaryOperatorTest<T,X extends ParseException> {
         });
 
         // when
-        LBinaryOperator<T> wrapped = sutThrowing.handle(handler -> handler
+        LBinaryOperator<T> wrapped = sutThrowing.handleBinaryOp(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -262,7 +262,7 @@ public class LBinaryOperatorTest<T,X extends ParseException> {
         });
 
         // when
-        LBinaryOperator<T> wrapped = sutThrowing.handle(handler -> handler
+        LBinaryOperator<T> wrapped = sutThrowing.handleBinaryOp(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -287,7 +287,7 @@ public class LBinaryOperatorTest<T,X extends ParseException> {
         });
 
         // when
-        LBinaryOperator<T> wrapped = sutThrowing.handle(h -> Function4U.doNothing());
+        LBinaryOperator<T> wrapped = sutThrowing.handleBinaryOp(h -> Function4U.doNothing());
 
         // then
         try {
@@ -345,28 +345,28 @@ public class LBinaryOperatorTest<T,X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingBinaryOp())
             .isSameAs(sut)
             .isInstanceOf(LBinaryOperator.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingBinaryOp())
             .isSameAs(sut)
             .isInstanceOf(LBinaryOperator.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingBinaryOpX())
             .isSameAs(sut)
             .isInstanceOf(LBinaryOperatorX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingBinaryOpX())
             .isSameAs(sut)
             .isInstanceOf(LBinaryOperatorX.class);
     }
@@ -380,11 +380,11 @@ public class LBinaryOperatorTest<T,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doApply((T)Integer.valueOf(100),(T)Integer.valueOf(100));
+        sutThrowing.shovingBinaryOp().doApply((T)Integer.valueOf(100),(T)Integer.valueOf(100));
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleBinaryOp() throws X {
 
         // given
         LBinaryOperator<T> sutThrowing = LBinaryOperator.l((T t1,T t2) -> {
@@ -392,7 +392,7 @@ public class LBinaryOperatorTest<T,X extends ParseException> {
         });
 
         // when
-        LBinaryOperator<T> wrapped = sutThrowing.handle(h -> {
+        LBinaryOperator<T> wrapped = sutThrowing.handleBinaryOp(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -429,3 +429,5 @@ public class LBinaryOperatorTest<T,X extends ParseException> {
 
 
 }
+
+

@@ -123,10 +123,12 @@ public class LBooleanFunctionBuilderTest<R,X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApply(false).to(a -> a.isEqualTo(Integer.valueOf(0)))
-            .doesApply(true).to(a -> a.isEqualTo(Integer.valueOf(1)))
+            .doesApply(false).when(null).to(a -> a.isEqualTo(Integer.valueOf(0)))
+            .doesApply(true).when(null).to(a -> a.isEqualTo(Integer.valueOf(1)))
         ;
 
     }
 
 }
+
+

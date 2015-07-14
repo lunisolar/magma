@@ -103,7 +103,7 @@ public interface LObjBooleanFunctionX<T, R, X extends Throwable> extends MetaFun
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplierX<R, X> capture(T t, boolean b) {
+	default LSupplierX<R, X> captureObjBoolFunc(T t, boolean b) {
 		return () -> this.doApply(t, b);
 	}
 
@@ -138,23 +138,23 @@ public interface LObjBooleanFunctionX<T, R, X extends Throwable> extends MetaFun
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LObjBooleanFunctionX<V1, R, X> fromBoolean(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LBooleanUnaryOperatorX<X> before2) {
+	default <V1> LObjBooleanFunctionX<V1, R, X> objBoolFuncFromBoolean(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LLogicalOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (final V1 v1, final boolean v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsBoolean(v2));
+		return (final V1 v1, final boolean v2) -> this.doApply(before1.doApply(v1), before2.doApply(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiFunctionX<V1, V2, R, X> from(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LPredicateX<? super V2, X> before2) {
+	default <V1, V2> LBiFunctionX<V1, V2, R, X> objBoolFuncFrom(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LPredicateX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsBoolean(v2));
+		return (V1 v1, V2 v2) -> this.doApply(before1.doApply(v1), before2.doTest(v2));
 	}
 
 	// </editor-fold>
@@ -180,42 +180,42 @@ public interface LObjBooleanFunctionX<T, R, X extends Throwable> extends MetaFun
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjBooleanFunction<T, R> nest() {
+	default LObjBooleanFunction<T, R> nestingObjBoolFunc() {
 		return this::nestingDoApply;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjBooleanFunctionX<T, R, RuntimeException> nestX() {
+	default LObjBooleanFunctionX<T, R, RuntimeException> nestingObjBoolFuncX() {
 		return this::nestingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjBooleanFunction<T, R> shove() {
+	default LObjBooleanFunction<T, R> shovingObjBoolFunc() {
 		return this::shovingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjBooleanFunctionX<T, R, RuntimeException> shoveX() {
+	default LObjBooleanFunctionX<T, R, RuntimeException> shovingObjBoolFuncX() {
 		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LObjBooleanFunctionX<T, R, X> nonNullableX() {
+	default LObjBooleanFunctionX<T, R, X> nonNullObjBoolFunc() {
 		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LObjBooleanFunction<T, R> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LObjBooleanFunction<T, R> handleObjBoolFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T t, boolean b) -> this.handlingDoApply(t, b, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LObjBooleanFunctionX<T, R, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LObjBooleanFunctionX<T, R, Y> handleObjBoolFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T t, boolean b) -> this.handlingDoApply(t, b, handling);
 	}
 

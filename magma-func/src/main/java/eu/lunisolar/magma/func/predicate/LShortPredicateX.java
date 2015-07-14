@@ -105,7 +105,7 @@ public interface LShortPredicateX<X extends Throwable> extends MetaPredicate, Pr
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> capture(short s) {
+	default LBooleanSupplierX<X> captureSPred(short s) {
 		return () -> this.doTest(s);
 	}
 
@@ -183,19 +183,19 @@ public interface LShortPredicateX<X extends Throwable> extends MetaPredicate, Pr
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LShortPredicateX<X> fromShort(@Nonnull final LShortUnaryOperatorX<X> before1) {
+	default LShortPredicateX<X> sPredFromShort(@Nonnull final LShortUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doTest(before1.doApplyAsShort(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LPredicateX<V1, X> from(@Nonnull final LToShortFunctionX<? super V1, X> before1) {
+	default <V1> LPredicateX<V1, X> sPredFrom(@Nonnull final LToShortFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doTest(before1.doApplyAsShort(v1));
 	}
@@ -206,65 +206,65 @@ public interface LShortPredicateX<X extends Throwable> extends MetaPredicate, Pr
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LShortFunctionX<V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LShortFunctionX<V, X> boolToShortFunction(@Nonnull LBooleanFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return s -> after.doApply(this.doTest(s));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LShortToByteFunctionX<X> thenToByte(@Nonnull LBooleanToByteFunctionX<X> after) {
+	default LShortToByteFunctionX<X> boolToShortToByteFunction(@Nonnull LBooleanToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return s -> after.doApplyAsByte(this.doTest(s));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LShortUnaryOperatorX<X> thenToShort(@Nonnull LBooleanToShortFunctionX<X> after) {
+	default LShortUnaryOperatorX<X> boolToShortUnaryOperator(@Nonnull LBooleanToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return s -> after.doApplyAsShort(this.doTest(s));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LShortToIntFunctionX<X> thenToInt(@Nonnull LBooleanToIntFunctionX<X> after) {
+	default LShortToIntFunctionX<X> boolToShortToIntFunction(@Nonnull LBooleanToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return s -> after.doApplyAsInt(this.doTest(s));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LShortToLongFunctionX<X> thenToLong(@Nonnull LBooleanToLongFunctionX<X> after) {
+	default LShortToLongFunctionX<X> boolToShortToLongFunction(@Nonnull LBooleanToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return s -> after.doApplyAsLong(this.doTest(s));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LShortToFloatFunctionX<X> thenToFloat(@Nonnull LBooleanToFloatFunctionX<X> after) {
+	default LShortToFloatFunctionX<X> boolToShortToFloatFunction(@Nonnull LBooleanToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return s -> after.doApplyAsFloat(this.doTest(s));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LShortToDoubleFunctionX<X> thenToDouble(@Nonnull LBooleanToDoubleFunctionX<X> after) {
+	default LShortToDoubleFunctionX<X> boolToShortToDoubleFunction(@Nonnull LBooleanToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return s -> after.doApplyAsDouble(this.doTest(s));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LShortToCharFunctionX<X> thenToChar(@Nonnull LBooleanToCharFunctionX<X> after) {
+	default LShortToCharFunctionX<X> boolToShortToCharFunction(@Nonnull LBooleanToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return s -> after.doApplyAsChar(this.doTest(s));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LShortPredicateX<X> thenToBoolean(@Nonnull LBooleanUnaryOperatorX<X> after) {
+	default LShortPredicateX<X> boolToShortPredicate(@Nonnull LLogicalOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
-		return s -> after.doApplyAsBoolean(this.doTest(s));
+		return s -> after.doApply(this.doTest(s));
 	}
 
 	// </editor-fold>
@@ -272,23 +272,23 @@ public interface LShortPredicateX<X extends Throwable> extends MetaPredicate, Pr
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LShortPredicate nest() {
+	default LShortPredicate nestingSPred() {
 		return this::nestingDoTest;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LShortPredicateX<RuntimeException> nestX() {
+	default LShortPredicateX<RuntimeException> nestingSPredX() {
 		return this::nestingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortPredicate shove() {
+	default LShortPredicate shovingSPred() {
 		return this::shovingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortPredicateX<RuntimeException> shoveX() {
+	default LShortPredicateX<RuntimeException> shovingSPredX() {
 		return this::shovingDoTest;
 	}
 
@@ -297,12 +297,12 @@ public interface LShortPredicateX<X extends Throwable> extends MetaPredicate, Pr
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LShortPredicate handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LShortPredicate handleSPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return s -> this.handlingDoTest(s, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LShortPredicateX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LShortPredicateX<Y> handleSPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return s -> this.handlingDoTest(s, handling);
 	}
 

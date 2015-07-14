@@ -125,12 +125,14 @@ public class LByteSupplierXBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesGetAsByte(()->externalInfluence.set(0)).to(a -> a.isEqualTo((byte)0))
-            .doesGetAsByte(()->externalInfluence.set(5)).to(a -> a.isEqualTo((byte)1))
-            .doesGetAsByte(()->externalInfluence.set(15)).to(a -> a.isEqualTo((byte)2))
-            .doesGetAsByte(()->externalInfluence.set(10)).to(a -> a.isEqualTo((byte)99))
+            .doesGetAsByte().when(()->externalInfluence.set(0)).to(a -> a.isEqualTo((byte)0))
+            .doesGetAsByte().when(()->externalInfluence.set(5)).to(a -> a.isEqualTo((byte)1))
+            .doesGetAsByte().when(()->externalInfluence.set(15)).to(a -> a.isEqualTo((byte)2))
+            .doesGetAsByte().when(()->externalInfluence.set(10)).to(a -> a.isEqualTo((byte)99))
         ;
 
     }
 
 }
+
+

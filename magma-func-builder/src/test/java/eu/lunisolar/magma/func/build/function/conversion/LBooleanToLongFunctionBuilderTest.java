@@ -123,10 +123,12 @@ public class LBooleanToLongFunctionBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsLong(false).to(a -> a.isEqualTo((long)0))
-            .doesApplyAsLong(true).to(a -> a.isEqualTo((long)1))
+            .doesApplyAsLong(false).when(null).to(a -> a.isEqualTo((long)0))
+            .doesApplyAsLong(true).when(null).to(a -> a.isEqualTo((long)1))
         ;
 
     }
 
 }
+
+

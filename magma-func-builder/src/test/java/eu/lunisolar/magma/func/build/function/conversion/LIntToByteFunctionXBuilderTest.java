@@ -124,12 +124,14 @@ public class LIntToByteFunctionXBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsByte((int)0).to(a -> a.isEqualTo((byte)0))
-            .doesApplyAsByte((int)5).to(a -> a.isEqualTo((byte)1))
-            .doesApplyAsByte((int)15).to(a -> a.isEqualTo((byte)2))
-            .doesApplyAsByte((int)10).to(a -> a.isEqualTo((byte)99))
+            .doesApplyAsByte((int)0).when(null).to(a -> a.isEqualTo((byte)0))
+            .doesApplyAsByte((int)5).when(null).to(a -> a.isEqualTo((byte)1))
+            .doesApplyAsByte((int)15).when(null).to(a -> a.isEqualTo((byte)2))
+            .doesApplyAsByte((int)10).when(null).to(a -> a.isEqualTo((byte)99))
         ;
 
     }
 
 }
+
+

@@ -124,12 +124,14 @@ public class LLongToShortFunctionXBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsShort((long)0).to(a -> a.isEqualTo((short)0))
-            .doesApplyAsShort((long)5).to(a -> a.isEqualTo((short)1))
-            .doesApplyAsShort((long)15).to(a -> a.isEqualTo((short)2))
-            .doesApplyAsShort((long)10).to(a -> a.isEqualTo((short)99))
+            .doesApplyAsShort((long)0).when(null).to(a -> a.isEqualTo((short)0))
+            .doesApplyAsShort((long)5).when(null).to(a -> a.isEqualTo((short)1))
+            .doesApplyAsShort((long)15).when(null).to(a -> a.isEqualTo((short)2))
+            .doesApplyAsShort((long)10).when(null).to(a -> a.isEqualTo((short)99))
         ;
 
     }
 
 }
+
+

@@ -171,7 +171,7 @@ public class LShortConsumerXTest<X extends ParseException> {
         });
 
         // when
-        LShortConsumerX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LShortConsumerX<X> wrapped = sutThrowing.handleSConsX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -195,7 +195,7 @@ public class LShortConsumerXTest<X extends ParseException> {
         });
 
         // when
-        LShortConsumerX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LShortConsumerX<X> wrapped = sutThrowing.handleSConsX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -219,7 +219,7 @@ public class LShortConsumerXTest<X extends ParseException> {
         });
 
         // when
-        LShortConsumerX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LShortConsumerX<X> wrapped = sutThrowing.handleSConsX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -244,7 +244,7 @@ public class LShortConsumerXTest<X extends ParseException> {
         });
 
         // when
-        LShortConsumerX<X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
+        LShortConsumerX<X> wrapped = sutThrowing.handleSConsX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -263,7 +263,7 @@ public class LShortConsumerXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromShort() throws X {
+    public void testsConsFromShort() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -281,7 +281,7 @@ public class LShortConsumerXTest<X extends ParseException> {
         };
 
         //when
-        LShortConsumerX<X> function = sutO.fromShort(before1);
+        LShortConsumerX<X> function = sutO.sConsFromShort(before1);
         function.doAccept((short)80);
 
         //then - finals
@@ -291,7 +291,7 @@ public class LShortConsumerXTest<X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws X {
+    public void testsConsFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -309,7 +309,7 @@ public class LShortConsumerXTest<X extends ParseException> {
         };
 
         //when
-        LConsumerX<Integer ,X> function = sutO.from(before1);
+        LConsumerX<Integer ,X> function = sutO.sConsFrom(before1);
         function.doAccept((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -348,25 +348,25 @@ public class LShortConsumerXTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingSCons())
             .isInstanceOf(LShortConsumer.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingSCons())
             .isInstanceOf(LShortConsumer.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingSConsX())
             .isInstanceOf(LShortConsumerX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingSConsX())
             .isInstanceOf(LShortConsumerX.class);
     }
 
@@ -379,11 +379,11 @@ public class LShortConsumerXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doAccept((short)100);
+        sutThrowing.shovingSCons().doAccept((short)100);
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleSCons() throws X {
 
         // given
         LShortConsumerX<X> sutThrowing = LShortConsumerX.lX(s -> {
@@ -391,7 +391,7 @@ public class LShortConsumerXTest<X extends ParseException> {
         });
 
         // when
-        LShortConsumerX<X> wrapped = sutThrowing.handleX(h -> {
+        LShortConsumerX<X> wrapped = sutThrowing.handleSConsX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -428,3 +428,5 @@ public class LShortConsumerXTest<X extends ParseException> {
 
 
 }
+
+

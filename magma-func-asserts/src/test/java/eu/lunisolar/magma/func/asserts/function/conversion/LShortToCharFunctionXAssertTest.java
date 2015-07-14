@@ -128,3 +128,5 @@ public class LShortToCharFunctionXAssertTest<X extends Throwable> {
     }
 
 }
+
+

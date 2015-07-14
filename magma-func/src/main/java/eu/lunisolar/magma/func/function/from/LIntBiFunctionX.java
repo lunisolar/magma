@@ -103,7 +103,7 @@ public interface LIntBiFunctionX<R, X extends Throwable> extends MetaFunction, M
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplierX<R, X> capture(int i1, int i2) {
+	default LSupplierX<R, X> captureIBiFunc(int i1, int i2) {
 		return () -> this.doApply(i1, i2);
 	}
 
@@ -138,20 +138,20 @@ public interface LIntBiFunctionX<R, X extends Throwable> extends MetaFunction, M
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LIntBiFunctionX<R, X> fromInt(@Nonnull final LIntUnaryOperatorX<X> before1, @Nonnull final LIntUnaryOperatorX<X> before2) {
+	default LIntBiFunctionX<R, X> iBiFuncFromInt(@Nonnull final LIntUnaryOperatorX<X> before1, @Nonnull final LIntUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final int v1, final int v2) -> this.doApply(before1.doApplyAsInt(v1), before2.doApplyAsInt(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiFunctionX<V1, V2, R, X> from(@Nonnull final LToIntFunctionX<? super V1, X> before1, @Nonnull final LToIntFunctionX<? super V2, X> before2) {
+	default <V1, V2> LBiFunctionX<V1, V2, R, X> iBiFuncFrom(@Nonnull final LToIntFunctionX<? super V1, X> before1, @Nonnull final LToIntFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApply(before1.doApplyAsInt(v1), before2.doApplyAsInt(v2));
@@ -180,42 +180,42 @@ public interface LIntBiFunctionX<R, X extends Throwable> extends MetaFunction, M
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntBiFunction<R> nest() {
+	default LIntBiFunction<R> nestingIBiFunc() {
 		return this::nestingDoApply;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntBiFunctionX<R, RuntimeException> nestX() {
+	default LIntBiFunctionX<R, RuntimeException> nestingIBiFuncX() {
 		return this::nestingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntBiFunction<R> shove() {
+	default LIntBiFunction<R> shovingIBiFunc() {
 		return this::shovingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntBiFunctionX<R, RuntimeException> shoveX() {
+	default LIntBiFunctionX<R, RuntimeException> shovingIBiFuncX() {
 		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LIntBiFunctionX<R, X> nonNullableX() {
+	default LIntBiFunctionX<R, X> nonNullIBiFunc() {
 		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LIntBiFunction<R> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LIntBiFunction<R> handleIBiFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (int i1, int i2) -> this.handlingDoApply(i1, i2, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LIntBiFunctionX<R, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LIntBiFunctionX<R, Y> handleIBiFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (int i1, int i2) -> this.handlingDoApply(i1, i2, handling);
 	}
 

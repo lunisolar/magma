@@ -90,7 +90,7 @@ public interface LBiDoublePredicate extends LBiDoublePredicateX<RuntimeException
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier capture(double d1, double d2) {
+	default LBooleanSupplier captureBiDPred(double d1, double d2) {
 		return () -> this.doTest(d1, d2);
 	}
 
@@ -164,20 +164,20 @@ public interface LBiDoublePredicate extends LBiDoublePredicateX<RuntimeException
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LBiDoublePredicate fromDouble(@Nonnull final LDoubleUnaryOperator before1, @Nonnull final LDoubleUnaryOperator before2) {
+	default LBiDoublePredicate biDPredFromDouble(@Nonnull final LDoubleUnaryOperator before1, @Nonnull final LDoubleUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final double v1, final double v2) -> this.doTest(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiPredicate<V1, V2> from(@Nonnull final LToDoubleFunction<? super V1> before1, @Nonnull final LToDoubleFunction<? super V2> before2) {
+	default <V1, V2> LBiPredicate<V1, V2> biDPredFrom(@Nonnull final LToDoubleFunction<? super V1> before1, @Nonnull final LToDoubleFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doTest(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
@@ -189,7 +189,7 @@ public interface LBiDoublePredicate extends LBiDoublePredicateX<RuntimeException
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LDoubleBiFunction<V> then(@Nonnull LBooleanFunction<? extends V> after) {
+	default <V> LDoubleBiFunction<V> boolToDoubleBiFunction(@Nonnull LBooleanFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (double d1, double d2) -> after.doApply(this.doTest(d1, d2));
 	}
@@ -199,23 +199,23 @@ public interface LBiDoublePredicate extends LBiDoublePredicateX<RuntimeException
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiDoublePredicate nest() {
+	default LBiDoublePredicate nestingBiDPred() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiDoublePredicateX<RuntimeException> nestX() {
+	default LBiDoublePredicateX<RuntimeException> nestingBiDPredX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiDoublePredicate shove() {
+	default LBiDoublePredicate shovingBiDPred() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiDoublePredicateX<RuntimeException> shoveX() {
+	default LBiDoublePredicateX<RuntimeException> shovingBiDPredX() {
 		return this;
 	}
 

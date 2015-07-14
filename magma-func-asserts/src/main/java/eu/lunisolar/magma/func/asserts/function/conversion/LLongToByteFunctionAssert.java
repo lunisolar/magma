@@ -26,16 +26,25 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
 import eu.lunisolar.magma.func.function.conversion.*;
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LLongToByteFunction. */
-public interface LLongToByteFunctionAssert<S extends LLongToByteFunctionAssert<S, A, RS>, A extends LLongToByteFunction, RS extends AbstractByteAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, Byte, Exception> {
+public interface LLongToByteFunctionAssert<S extends LLongToByteFunctionAssert<S, A, RS>, A extends LLongToByteFunction, RS extends AbstractByteAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LLongConsumerX<Exception>, A, RS, Byte, Exception> {
 
 	@Nonnull
-	Evaluation<S, A, RS, Byte, Exception> doesApplyAsByte(long l);
+	Evaluation<S, LLongConsumerX<Exception>, A, RS, Byte, Exception> doesApplyAsByte(long l);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends LLongToByteFunction, RS extends AbstractByteAssert<RS>> extends Base<Impl<A, RS>, A, RS> {
@@ -46,7 +55,9 @@ public interface LLongToByteFunctionAssert<S extends LLongToByteFunctionAssert<S
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS>, A extends LLongToByteFunction, RS extends AbstractByteAssert<RS>> extends FullFunctionalAssert.Base<S, A, RS, Byte, Exception> implements LLongToByteFunctionAssert<S, A, RS> {
+	public static class Base<S extends Base<S, A, RS>, A extends LLongToByteFunction, RS extends AbstractByteAssert<RS>> extends FullFunctionalAssert.Base<S, LLongConsumerX<Exception>, A, RS, Byte, Exception>
+			implements
+				LLongToByteFunctionAssert<S, A, RS> {
 
 		protected final java.util.function.Function<Byte, RS> assertFactory;
 
@@ -56,8 +67,15 @@ public interface LLongToByteFunctionAssert<S extends LLongToByteFunctionAssert<S
 		}
 
 		@Nonnull
-		public Evaluation<S, A, RS, Byte, Exception> doesApplyAsByte(long l) {
-			return evaluation(() -> assertFactory.apply((Byte) actual.doApplyAsByte(l)));
+		public Evaluation<S, LLongConsumerX<Exception>, A, RS, Byte, Exception> doesApplyAsByte(long l) {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doAccept(l);
+				}
+				return assertFactory.apply((Byte) actual.doApplyAsByte(l));
+			});
+
 		}
 
 	}

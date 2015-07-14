@@ -99,7 +99,7 @@ public interface LToShortBiFunctionX<T1, T2, X extends Throwable> extends MetaFu
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LShortSupplierX<X> capture(T1 t1, T2 t2) {
+	default LShortSupplierX<X> captureToSBiFunc(T1 t1, T2 t2) {
 		return () -> this.doApplyAsShort(t1, t2);
 	}
 
@@ -134,10 +134,10 @@ public interface LToShortBiFunctionX<T1, T2, X extends Throwable> extends MetaFu
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LToShortBiFunctionX<V1, V2, X> from(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
+	default <V1, V2> LToShortBiFunctionX<V1, V2, X> toSBiFuncFrom(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final V2 v2) -> this.doApplyAsShort(before1.doApply(v1), before2.doApply(v2));
@@ -159,23 +159,23 @@ public interface LToShortBiFunctionX<T1, T2, X extends Throwable> extends MetaFu
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToShortBiFunction<T1, T2> nest() {
+	default LToShortBiFunction<T1, T2> nestingToSBiFunc() {
 		return this::nestingDoApplyAsShort;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToShortBiFunctionX<T1, T2, RuntimeException> nestX() {
+	default LToShortBiFunctionX<T1, T2, RuntimeException> nestingToSBiFuncX() {
 		return this::nestingDoApplyAsShort;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToShortBiFunction<T1, T2> shove() {
+	default LToShortBiFunction<T1, T2> shovingToSBiFunc() {
 		return this::shovingDoApplyAsShort;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToShortBiFunctionX<T1, T2, RuntimeException> shoveX() {
+	default LToShortBiFunctionX<T1, T2, RuntimeException> shovingToSBiFuncX() {
 		return this::shovingDoApplyAsShort;
 	}
 
@@ -184,12 +184,12 @@ public interface LToShortBiFunctionX<T1, T2, X extends Throwable> extends MetaFu
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LToShortBiFunction<T1, T2> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LToShortBiFunction<T1, T2> handleToSBiFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T1 t1, T2 t2) -> this.handlingDoApplyAsShort(t1, t2, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LToShortBiFunctionX<T1, T2, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LToShortBiFunctionX<T1, T2, Y> handleToSBiFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T1 t1, T2 t2) -> this.handlingDoApplyAsShort(t1, t2, handling);
 	}
 

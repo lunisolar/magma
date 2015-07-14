@@ -184,7 +184,7 @@ public class LIntToCharFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LIntToCharFunctionX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LIntToCharFunctionX<X> wrapped = sutThrowing.handleIToCFuncX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -208,7 +208,7 @@ public class LIntToCharFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LIntToCharFunctionX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LIntToCharFunctionX<X> wrapped = sutThrowing.handleIToCFuncX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -232,7 +232,7 @@ public class LIntToCharFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LIntToCharFunctionX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LIntToCharFunctionX<X> wrapped = sutThrowing.handleIToCFuncX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -257,7 +257,7 @@ public class LIntToCharFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LIntToCharFunctionX<X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
+        LIntToCharFunctionX<X> wrapped = sutThrowing.handleIToCFuncX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -276,7 +276,7 @@ public class LIntToCharFunctionXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromInt() throws X {
+    public void testiToCFuncFromInt() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -295,7 +295,7 @@ public class LIntToCharFunctionXTest<X extends ParseException> {
         };
 
         //when
-        LIntToCharFunctionX<X> function = sutO.fromInt(before1);
+        LIntToCharFunctionX<X> function = sutO.iToCFuncFromInt(before1);
         function.doApplyAsChar((int)80);
 
         //then - finals
@@ -305,7 +305,7 @@ public class LIntToCharFunctionXTest<X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws X {
+    public void testiToCFuncFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -324,7 +324,7 @@ public class LIntToCharFunctionXTest<X extends ParseException> {
         };
 
         //when
-        LToCharFunctionX<Integer ,X> function = sutO.from(before1);
+        LToCharFunctionX<Integer ,X> function = sutO.iToCFuncFrom(before1);
         function.doApplyAsChar((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -656,25 +656,25 @@ public class LIntToCharFunctionXTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingIToCFunc())
             .isInstanceOf(LIntToCharFunction.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingIToCFunc())
             .isInstanceOf(LIntToCharFunction.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingIToCFuncX())
             .isInstanceOf(LIntToCharFunctionX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingIToCFuncX())
             .isInstanceOf(LIntToCharFunctionX.class);
     }
 
@@ -687,11 +687,11 @@ public class LIntToCharFunctionXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doApplyAsChar((int)100);
+        sutThrowing.shovingIToCFunc().doApplyAsChar((int)100);
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleIToCFunc() throws X {
 
         // given
         LIntToCharFunctionX<X> sutThrowing = LIntToCharFunctionX.lX(i -> {
@@ -699,7 +699,7 @@ public class LIntToCharFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LIntToCharFunctionX<X> wrapped = sutThrowing.handleX(h -> {
+        LIntToCharFunctionX<X> wrapped = sutThrowing.handleIToCFuncX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -736,3 +736,5 @@ public class LIntToCharFunctionXTest<X extends ParseException> {
 
 
 }
+
+

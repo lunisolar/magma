@@ -191,7 +191,7 @@ public class LFloatPredicateXTest<X extends ParseException> {
         });
 
         // when
-        LFloatPredicateX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LFloatPredicateX<X> wrapped = sutThrowing.handleFPredX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -215,7 +215,7 @@ public class LFloatPredicateXTest<X extends ParseException> {
         });
 
         // when
-        LFloatPredicateX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LFloatPredicateX<X> wrapped = sutThrowing.handleFPredX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -239,7 +239,7 @@ public class LFloatPredicateXTest<X extends ParseException> {
         });
 
         // when
-        LFloatPredicateX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LFloatPredicateX<X> wrapped = sutThrowing.handleFPredX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -264,7 +264,7 @@ public class LFloatPredicateXTest<X extends ParseException> {
         });
 
         // when
-        LFloatPredicateX<X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
+        LFloatPredicateX<X> wrapped = sutThrowing.handleFPredX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -279,7 +279,7 @@ public class LFloatPredicateXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNegate() throws X {
+    public void testnegate() throws X {
         assertThat(sut.negate().doTest((float)100))
             .isEqualTo(!testValue);
     }
@@ -336,7 +336,7 @@ public class LFloatPredicateXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromFloat() throws X {
+    public void testfPredFromFloat() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -355,7 +355,7 @@ public class LFloatPredicateXTest<X extends ParseException> {
         };
 
         //when
-        LFloatPredicateX<X> function = sutO.fromFloat(before1);
+        LFloatPredicateX<X> function = sutO.fPredFromFloat(before1);
         function.doTest((float)80);
 
         //then - finals
@@ -365,7 +365,7 @@ public class LFloatPredicateXTest<X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws X {
+    public void testfPredFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -384,7 +384,7 @@ public class LFloatPredicateXTest<X extends ParseException> {
         };
 
         //when
-        LPredicateX<Integer ,X> function = sutO.from(before1);
+        LPredicateX<Integer ,X> function = sutO.fPredFrom(before1);
         function.doTest((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -420,7 +420,7 @@ public class LFloatPredicateXTest<X extends ParseException> {
         };
 
         //when
-        LFloatFunctionX<Integer ,X> function = sutO.then(thenFunction);
+        LFloatFunctionX<Integer ,X> function = sutO.boolToFloatFunction(thenFunction);
         Integer  finalValue = function.doApply((float)80);
 
         //then - finals
@@ -455,7 +455,7 @@ public class LFloatPredicateXTest<X extends ParseException> {
         };
 
         //when
-        LFloatToByteFunctionX<X> function = sutO.thenToByte(thenFunction);
+        LFloatToByteFunctionX<X> function = sutO.boolToFloatToByteFunction(thenFunction);
         byte finalValue = function.doApplyAsByte((float)80);
 
         //then - finals
@@ -490,7 +490,7 @@ public class LFloatPredicateXTest<X extends ParseException> {
         };
 
         //when
-        LFloatToShortFunctionX<X> function = sutO.thenToShort(thenFunction);
+        LFloatToShortFunctionX<X> function = sutO.boolToFloatToShortFunction(thenFunction);
         short finalValue = function.doApplyAsShort((float)80);
 
         //then - finals
@@ -525,7 +525,7 @@ public class LFloatPredicateXTest<X extends ParseException> {
         };
 
         //when
-        LFloatToIntFunctionX<X> function = sutO.thenToInt(thenFunction);
+        LFloatToIntFunctionX<X> function = sutO.boolToFloatToIntFunction(thenFunction);
         int finalValue = function.doApplyAsInt((float)80);
 
         //then - finals
@@ -560,7 +560,7 @@ public class LFloatPredicateXTest<X extends ParseException> {
         };
 
         //when
-        LFloatToLongFunctionX<X> function = sutO.thenToLong(thenFunction);
+        LFloatToLongFunctionX<X> function = sutO.boolToFloatToLongFunction(thenFunction);
         long finalValue = function.doApplyAsLong((float)80);
 
         //then - finals
@@ -595,7 +595,7 @@ public class LFloatPredicateXTest<X extends ParseException> {
         };
 
         //when
-        LFloatUnaryOperatorX<X> function = sutO.thenToFloat(thenFunction);
+        LFloatUnaryOperatorX<X> function = sutO.boolToFloatUnaryOperator(thenFunction);
         float finalValue = function.doApplyAsFloat((float)80);
 
         //then - finals
@@ -630,7 +630,7 @@ public class LFloatPredicateXTest<X extends ParseException> {
         };
 
         //when
-        LFloatToDoubleFunctionX<X> function = sutO.thenToDouble(thenFunction);
+        LFloatToDoubleFunctionX<X> function = sutO.boolToFloatToDoubleFunction(thenFunction);
         double finalValue = function.doApplyAsDouble((float)80);
 
         //then - finals
@@ -665,7 +665,7 @@ public class LFloatPredicateXTest<X extends ParseException> {
         };
 
         //when
-        LFloatToCharFunctionX<X> function = sutO.thenToChar(thenFunction);
+        LFloatToCharFunctionX<X> function = sutO.boolToFloatToCharFunction(thenFunction);
         char finalValue = function.doApplyAsChar((float)80);
 
         //then - finals
@@ -691,7 +691,7 @@ public class LFloatPredicateXTest<X extends ParseException> {
                 return true;
         };
 
-        LBooleanUnaryOperatorX<X> thenFunction = p -> {
+        LLogicalOperatorX<X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // 
                 assertThat(p).isEqualTo(true);
@@ -700,7 +700,7 @@ public class LFloatPredicateXTest<X extends ParseException> {
         };
 
         //when
-        LFloatPredicateX<X> function = sutO.thenToBoolean(thenFunction);
+        LFloatPredicateX<X> function = sutO.boolToFloatPredicate(thenFunction);
         boolean finalValue = function.doTest((float)80);
 
         //then - finals
@@ -716,25 +716,25 @@ public class LFloatPredicateXTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingFPred())
             .isInstanceOf(LFloatPredicate.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingFPred())
             .isInstanceOf(LFloatPredicate.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingFPredX())
             .isInstanceOf(LFloatPredicateX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingFPredX())
             .isInstanceOf(LFloatPredicateX.class);
     }
 
@@ -747,11 +747,11 @@ public class LFloatPredicateXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doTest((float)100);
+        sutThrowing.shovingFPred().doTest((float)100);
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleFPred() throws X {
 
         // given
         LFloatPredicateX<X> sutThrowing = LFloatPredicateX.lX(f -> {
@@ -759,7 +759,7 @@ public class LFloatPredicateXTest<X extends ParseException> {
         });
 
         // when
-        LFloatPredicateX<X> wrapped = sutThrowing.handleX(h -> {
+        LFloatPredicateX<X> wrapped = sutThrowing.handleFPredX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -796,3 +796,5 @@ public class LFloatPredicateXTest<X extends ParseException> {
 
 
 }
+
+

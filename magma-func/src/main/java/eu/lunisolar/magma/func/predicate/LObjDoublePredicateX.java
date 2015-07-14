@@ -105,7 +105,7 @@ public interface LObjDoublePredicateX<T, X extends Throwable> extends MetaPredic
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> capture(T t, double d) {
+	default LBooleanSupplierX<X> captureObjDPred(T t, double d) {
 		return () -> this.doTest(t, d);
 	}
 
@@ -186,20 +186,20 @@ public interface LObjDoublePredicateX<T, X extends Throwable> extends MetaPredic
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LObjDoublePredicateX<V1, X> fromDouble(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LDoubleUnaryOperatorX<X> before2) {
+	default <V1> LObjDoublePredicateX<V1, X> objDPredFromDouble(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LDoubleUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final double v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsDouble(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiPredicateX<V1, V2, X> from(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToDoubleFunctionX<? super V2, X> before2) {
+	default <V1, V2> LBiPredicateX<V1, V2, X> objDPredFrom(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToDoubleFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsDouble(v2));
@@ -211,7 +211,7 @@ public interface LObjDoublePredicateX<T, X extends Throwable> extends MetaPredic
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LObjDoubleFunctionX<T, V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LObjDoubleFunctionX<T, V, X> boolToObjDoubleFunction(@Nonnull LBooleanFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (T t, double d) -> after.doApply(this.doTest(t, d));
 	}
@@ -221,23 +221,23 @@ public interface LObjDoublePredicateX<T, X extends Throwable> extends MetaPredic
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjDoublePredicate<T> nest() {
+	default LObjDoublePredicate<T> nestingObjDPred() {
 		return this::nestingDoTest;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjDoublePredicateX<T, RuntimeException> nestX() {
+	default LObjDoublePredicateX<T, RuntimeException> nestingObjDPredX() {
 		return this::nestingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjDoublePredicate<T> shove() {
+	default LObjDoublePredicate<T> shovingObjDPred() {
 		return this::shovingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjDoublePredicateX<T, RuntimeException> shoveX() {
+	default LObjDoublePredicateX<T, RuntimeException> shovingObjDPredX() {
 		return this::shovingDoTest;
 	}
 
@@ -246,12 +246,12 @@ public interface LObjDoublePredicateX<T, X extends Throwable> extends MetaPredic
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LObjDoublePredicate<T> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LObjDoublePredicate<T> handleObjDPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T t, double d) -> this.handlingDoTest(t, d, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LObjDoublePredicateX<T, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LObjDoublePredicateX<T, Y> handleObjDPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T t, double d) -> this.handlingDoTest(t, d, handling);
 	}
 

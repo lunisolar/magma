@@ -184,7 +184,7 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LCharToShortFunctionX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LCharToShortFunctionX<X> wrapped = sutThrowing.handleCToSFuncX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -208,7 +208,7 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LCharToShortFunctionX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LCharToShortFunctionX<X> wrapped = sutThrowing.handleCToSFuncX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -232,7 +232,7 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LCharToShortFunctionX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LCharToShortFunctionX<X> wrapped = sutThrowing.handleCToSFuncX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -257,7 +257,7 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LCharToShortFunctionX<X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
+        LCharToShortFunctionX<X> wrapped = sutThrowing.handleCToSFuncX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -276,7 +276,7 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromChar() throws X {
+    public void testcToSFuncFromChar() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -295,7 +295,7 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
         };
 
         //when
-        LCharToShortFunctionX<X> function = sutO.fromChar(before1);
+        LCharToShortFunctionX<X> function = sutO.cToSFuncFromChar(before1);
         function.doApplyAsShort((char)80);
 
         //then - finals
@@ -305,7 +305,7 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws X {
+    public void testcToSFuncFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -324,7 +324,7 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
         };
 
         //when
-        LToShortFunctionX<Integer ,X> function = sutO.from(before1);
+        LToShortFunctionX<Integer ,X> function = sutO.cToSFuncFrom(before1);
         function.doApplyAsShort((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -656,25 +656,25 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingCToSFunc())
             .isInstanceOf(LCharToShortFunction.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingCToSFunc())
             .isInstanceOf(LCharToShortFunction.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingCToSFuncX())
             .isInstanceOf(LCharToShortFunctionX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingCToSFuncX())
             .isInstanceOf(LCharToShortFunctionX.class);
     }
 
@@ -687,11 +687,11 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doApplyAsShort((char)100);
+        sutThrowing.shovingCToSFunc().doApplyAsShort((char)100);
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleCToSFunc() throws X {
 
         // given
         LCharToShortFunctionX<X> sutThrowing = LCharToShortFunctionX.lX(c -> {
@@ -699,7 +699,7 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LCharToShortFunctionX<X> wrapped = sutThrowing.handleX(h -> {
+        LCharToShortFunctionX<X> wrapped = sutThrowing.handleCToSFuncX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -736,3 +736,5 @@ public class LCharToShortFunctionXTest<X extends ParseException> {
 
 
 }
+
+

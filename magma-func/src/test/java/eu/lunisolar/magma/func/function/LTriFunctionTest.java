@@ -206,7 +206,7 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
         });
 
         // when
-        LTriFunction<T1,T2,T3,R> wrapped = sutThrowing.handle(handler -> handler
+        LTriFunction<T1,T2,T3,R> wrapped = sutThrowing.handleTriFunc(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -230,7 +230,7 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
         });
 
         // when
-        LTriFunction<T1,T2,T3,R> wrapped = sutThrowing.handle(handler -> handler
+        LTriFunction<T1,T2,T3,R> wrapped = sutThrowing.handleTriFunc(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -254,7 +254,7 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
         });
 
         // when
-        LTriFunction<T1,T2,T3,R> wrapped = sutThrowing.handle(handler -> handler
+        LTriFunction<T1,T2,T3,R> wrapped = sutThrowing.handleTriFunc(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -279,7 +279,7 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
         });
 
         // when
-        LTriFunction<T1,T2,T3,R> wrapped = sutThrowing.handle(h -> Function4U.doNothing());
+        LTriFunction<T1,T2,T3,R> wrapped = sutThrowing.handleTriFunc(h -> Function4U.doNothing());
 
         // then
         try {
@@ -298,7 +298,7 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfrom() throws X {
+    public void testtriFuncFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -329,7 +329,7 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
         };
 
         //when
-        LTriFunction<Integer ,Integer ,Integer ,Integer > function = sutO.from(before1,before2,before3);
+        LTriFunction<Integer ,Integer ,Integer ,Integer > function = sutO.triFuncFrom(before1,before2,before3);
         function.doApply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(Integer )Integer.valueOf(82));
 
         //then - finals
@@ -417,28 +417,28 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingTriFunc())
             .isSameAs(sut)
             .isInstanceOf(LTriFunction.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingTriFunc())
             .isSameAs(sut)
             .isInstanceOf(LTriFunction.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingTriFuncX())
             .isSameAs(sut)
             .isInstanceOf(LTriFunctionX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingTriFuncX())
             .isSameAs(sut)
             .isInstanceOf(LTriFunctionX.class);
     }
@@ -452,11 +452,11 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100));
+        sutThrowing.shovingTriFunc().doApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100));
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleTriFunc() throws X {
 
         // given
         LTriFunction<T1,T2,T3,R> sutThrowing = LTriFunction.l((T1 t1,T2 t2,T3 t3) -> {
@@ -464,7 +464,7 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
         });
 
         // when
-        LTriFunction<T1,T2,T3,R> wrapped = sutThrowing.handle(h -> {
+        LTriFunction<T1,T2,T3,R> wrapped = sutThrowing.handleTriFunc(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -501,3 +501,5 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
 
 
 }
+
+

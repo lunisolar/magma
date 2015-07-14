@@ -48,7 +48,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for LBooleanToCharFunctionX. */
-public final class LBooleanToCharFunctionXBuilder<X extends Throwable> extends PerCaseBuilderWithCharProduct.Base<LBooleanToCharFunctionXBuilder<X>, LBooleanUnaryOperatorX<X>, LBooleanToCharFunctionX<X>> {
+public final class LBooleanToCharFunctionXBuilder<X extends Throwable> extends PerCaseBuilderWithCharProduct.Base<LBooleanToCharFunctionXBuilder<X>, LLogicalOperatorX<X>, LBooleanToCharFunctionX<X>> {
 
 	private Consumer<LBooleanToCharFunctionX<X>> consumer;
 
@@ -107,11 +107,11 @@ public final class LBooleanToCharFunctionXBuilder<X extends Throwable> extends P
 
 		LBooleanToCharFunctionX<X> retval;
 
-		final Case<LBooleanUnaryOperatorX<X>, LBooleanToCharFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
+		final Case<LLogicalOperatorX<X>, LBooleanToCharFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 		retval = LBooleanToCharFunctionX.<X> lX(b -> {
 			try {
-				for (Case<LBooleanUnaryOperatorX<X>, LBooleanToCharFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doApplyAsBoolean(b)) {
+				for (Case<LLogicalOperatorX<X>, LBooleanToCharFunctionX<X>> aCase : casesArray) {
+					if (aCase.casePredicate().doApply(b)) {
 						return aCase.caseFunction().doApplyAsChar(b);
 					}
 				}

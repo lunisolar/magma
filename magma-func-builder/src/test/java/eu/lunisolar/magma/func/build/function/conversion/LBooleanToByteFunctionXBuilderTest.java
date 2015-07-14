@@ -123,10 +123,12 @@ public class LBooleanToByteFunctionXBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsByte(false).to(a -> a.isEqualTo((byte)0))
-            .doesApplyAsByte(true).to(a -> a.isEqualTo((byte)1))
+            .doesApplyAsByte(false).when(null).to(a -> a.isEqualTo((byte)0))
+            .doesApplyAsByte(true).when(null).to(a -> a.isEqualTo((byte)1))
         ;
 
     }
 
 }
+
+

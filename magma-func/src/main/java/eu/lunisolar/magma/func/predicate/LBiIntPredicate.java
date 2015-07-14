@@ -90,7 +90,7 @@ public interface LBiIntPredicate extends LBiIntPredicateX<RuntimeException>, Met
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier capture(int i1, int i2) {
+	default LBooleanSupplier captureBiIPred(int i1, int i2) {
 		return () -> this.doTest(i1, i2);
 	}
 
@@ -164,20 +164,20 @@ public interface LBiIntPredicate extends LBiIntPredicateX<RuntimeException>, Met
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LBiIntPredicate fromInt(@Nonnull final LIntUnaryOperator before1, @Nonnull final LIntUnaryOperator before2) {
+	default LBiIntPredicate biIPredFromInt(@Nonnull final LIntUnaryOperator before1, @Nonnull final LIntUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final int v1, final int v2) -> this.doTest(before1.doApplyAsInt(v1), before2.doApplyAsInt(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiPredicate<V1, V2> from(@Nonnull final LToIntFunction<? super V1> before1, @Nonnull final LToIntFunction<? super V2> before2) {
+	default <V1, V2> LBiPredicate<V1, V2> biIPredFrom(@Nonnull final LToIntFunction<? super V1> before1, @Nonnull final LToIntFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doTest(before1.doApplyAsInt(v1), before2.doApplyAsInt(v2));
@@ -189,7 +189,7 @@ public interface LBiIntPredicate extends LBiIntPredicateX<RuntimeException>, Met
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LIntBiFunction<V> then(@Nonnull LBooleanFunction<? extends V> after) {
+	default <V> LIntBiFunction<V> boolToIntBiFunction(@Nonnull LBooleanFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (int i1, int i2) -> after.doApply(this.doTest(i1, i2));
 	}
@@ -199,23 +199,23 @@ public interface LBiIntPredicate extends LBiIntPredicateX<RuntimeException>, Met
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiIntPredicate nest() {
+	default LBiIntPredicate nestingBiIPred() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiIntPredicateX<RuntimeException> nestX() {
+	default LBiIntPredicateX<RuntimeException> nestingBiIPredX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiIntPredicate shove() {
+	default LBiIntPredicate shovingBiIPred() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiIntPredicateX<RuntimeException> shoveX() {
+	default LBiIntPredicateX<RuntimeException> shovingBiIPredX() {
 		return this;
 	}
 

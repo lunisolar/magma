@@ -128,3 +128,5 @@ public class LFloatToDoubleFunctionAssertTest<X extends Throwable> {
     }
 
 }
+
+

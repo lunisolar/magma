@@ -24,25 +24,25 @@ import org.assertj.core.api.ThrowableAssert;
 
 import javax.annotation.Nonnull;
 
-public interface FunctionalAssert<S extends FunctionalAssert<S, A, RA, X>, A, RA, X extends Exception>
+public interface FunctionalAssert<S extends FunctionalAssert<S, PC, A, RA, X>, PC, A, RA, X extends Exception>
         extends RecurringAsserts<S, A, RA>, Assert<S, A>, Fluent<S> {
 
-    interface Simple<S extends Simple<S, A, X>, A, X extends Exception> extends FunctionalAssert<S, A, AssertionsCheck, X> {
+    interface Simple<S extends Simple<S, PC, A, X>, PC, A, X extends Exception> extends FunctionalAssert<S, PC, A, AssertionsCheck, X> {
 
     }
 
     @SuppressWarnings("unchecked")
-    abstract class Base<S extends Base<S, A, X>, A, X extends Exception>
+    abstract class Base<S extends Base<S, PC, A, X>, PC, A, X extends Exception>
             extends RecurringAsserts.Base<S, A, AssertionsCheck>
-            implements FunctionalAssert.Simple<S, A, X>, Fluent<S> {
+            implements FunctionalAssert.Simple<S, PC, A, X>, Fluent<S> {
 
         public Base(A actual, Class<?> selfType) {
             super(actual, selfType);
         }
 
         @Nonnull
-        protected SemiEvaluation<S, A, X> evaluation(ThrowableAssert.ThrowingCallable callWrapper) {
-            return new SemiEvaluation(self(), recurringAssert, callWrapper);
+        protected SemiEvaluation<S, PC, A, X> evaluation(@Nonnull AssertionFunction<PC, ?> assertFunction) {
+            return new SemiEvaluation(self(), recurringAssert, assertFunction);
         }
 
     }

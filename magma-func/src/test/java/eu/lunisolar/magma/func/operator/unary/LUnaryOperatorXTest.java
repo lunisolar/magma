@@ -203,7 +203,7 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
         });
 
         // when
-        LUnaryOperatorX<T,X> wrapped = sutThrowing.handleX(handler -> handler
+        LUnaryOperatorX<T,X> wrapped = sutThrowing.handleUnaryOpX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -227,7 +227,7 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
         });
 
         // when
-        LUnaryOperatorX<T,X> wrapped = sutThrowing.handleX(handler -> handler
+        LUnaryOperatorX<T,X> wrapped = sutThrowing.handleUnaryOpX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -251,7 +251,7 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
         });
 
         // when
-        LUnaryOperatorX<T,X> wrapped = sutThrowing.handleX(handler -> handler
+        LUnaryOperatorX<T,X> wrapped = sutThrowing.handleUnaryOpX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -276,7 +276,7 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
         });
 
         // when
-        LUnaryOperatorX<T,X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
+        LUnaryOperatorX<T,X> wrapped = sutThrowing.handleUnaryOpX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -620,25 +620,25 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingUnaryOp())
             .isInstanceOf(LUnaryOperator.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingUnaryOp())
             .isInstanceOf(LUnaryOperator.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingUnaryOpX())
             .isInstanceOf(LUnaryOperatorX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingUnaryOpX())
             .isInstanceOf(LUnaryOperatorX.class);
     }
 
@@ -651,11 +651,11 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doApply((T)Integer.valueOf(100));
+        sutThrowing.shovingUnaryOp().doApply((T)Integer.valueOf(100));
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleUnaryOp() throws X {
 
         // given
         LUnaryOperatorX<T,X> sutThrowing = LUnaryOperatorX.lX(t -> {
@@ -663,7 +663,7 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
         });
 
         // when
-        LUnaryOperatorX<T,X> wrapped = sutThrowing.handleX(h -> {
+        LUnaryOperatorX<T,X> wrapped = sutThrowing.handleUnaryOpX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -700,3 +700,5 @@ public class LUnaryOperatorXTest<T,X extends ParseException> {
 
 
 }
+
+

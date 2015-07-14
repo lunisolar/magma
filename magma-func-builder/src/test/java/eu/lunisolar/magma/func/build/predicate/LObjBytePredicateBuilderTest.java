@@ -124,12 +124,14 @@ public class LObjBytePredicateBuilderTest<T,X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesTest(Integer.valueOf(0),(byte)0).to(a -> a.isEqualTo(false))
-            .doesTest(Integer.valueOf(5),(byte)5).to(a -> a.isEqualTo(true))
-            .doesTest(Integer.valueOf(15),(byte)15).to(a -> a.isEqualTo(true))
-            .doesTest(Integer.valueOf(10),(byte)10).to(a -> a.isEqualTo(true))
+            .doesTest(Integer.valueOf(0),(byte)0).when(null).to(a -> a.isEqualTo(false))
+            .doesTest(Integer.valueOf(5),(byte)5).when(null).to(a -> a.isEqualTo(true))
+            .doesTest(Integer.valueOf(15),(byte)15).when(null).to(a -> a.isEqualTo(true))
+            .doesTest(Integer.valueOf(10),(byte)10).when(null).to(a -> a.isEqualTo(true))
         ;
 
     }
 
 }
+
+

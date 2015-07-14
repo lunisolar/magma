@@ -202,7 +202,7 @@ public class LBiBytePredicateTest<X extends ParseException> {
         });
 
         // when
-        LBiBytePredicate wrapped = sutThrowing.handle(handler -> handler
+        LBiBytePredicate wrapped = sutThrowing.handleBiBPred(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -226,7 +226,7 @@ public class LBiBytePredicateTest<X extends ParseException> {
         });
 
         // when
-        LBiBytePredicate wrapped = sutThrowing.handle(handler -> handler
+        LBiBytePredicate wrapped = sutThrowing.handleBiBPred(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -250,7 +250,7 @@ public class LBiBytePredicateTest<X extends ParseException> {
         });
 
         // when
-        LBiBytePredicate wrapped = sutThrowing.handle(handler -> handler
+        LBiBytePredicate wrapped = sutThrowing.handleBiBPred(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -275,7 +275,7 @@ public class LBiBytePredicateTest<X extends ParseException> {
         });
 
         // when
-        LBiBytePredicate wrapped = sutThrowing.handle(h -> Function4U.doNothing());
+        LBiBytePredicate wrapped = sutThrowing.handleBiBPred(h -> Function4U.doNothing());
 
         // then
         try {
@@ -290,7 +290,7 @@ public class LBiBytePredicateTest<X extends ParseException> {
     }
 
     @Test
-    public void testNegate() throws X {
+    public void testnegate() throws X {
         assertThat(sut.negate().doTest((byte)100,(byte)100))
             .isEqualTo(!testValue);
     }
@@ -347,7 +347,7 @@ public class LBiBytePredicateTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromByte() throws X {
+    public void testbiBPredFromByte() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -372,7 +372,7 @@ public class LBiBytePredicateTest<X extends ParseException> {
         };
 
         //when
-        LBiBytePredicate function = sutO.fromByte(before1,before2);
+        LBiBytePredicate function = sutO.biBPredFromByte(before1,before2);
         function.doTest((byte)80,(byte)81);
 
         //then - finals
@@ -382,7 +382,7 @@ public class LBiBytePredicateTest<X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws X {
+    public void testbiBPredFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -407,7 +407,7 @@ public class LBiBytePredicateTest<X extends ParseException> {
         };
 
         //when
-        LBiPredicate<Integer ,Integer > function = sutO.from(before1,before2);
+        LBiPredicate<Integer ,Integer > function = sutO.biBPredFrom(before1,before2);
         function.doTest((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
@@ -444,7 +444,7 @@ public class LBiBytePredicateTest<X extends ParseException> {
         };
 
         //when
-        LByteBiFunction<Integer > function = sutO.then(thenFunction);
+        LByteBiFunction<Integer > function = sutO.boolToByteBiFunction(thenFunction);
         Integer  finalValue = function.doApply((byte)80,(byte)81);
 
         //then - finals
@@ -460,28 +460,28 @@ public class LBiBytePredicateTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingBiBPred())
             .isSameAs(sut)
             .isInstanceOf(LBiBytePredicate.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingBiBPred())
             .isSameAs(sut)
             .isInstanceOf(LBiBytePredicate.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingBiBPredX())
             .isSameAs(sut)
             .isInstanceOf(LBiBytePredicateX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingBiBPredX())
             .isSameAs(sut)
             .isInstanceOf(LBiBytePredicateX.class);
     }
@@ -495,11 +495,11 @@ public class LBiBytePredicateTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doTest((byte)100,(byte)100);
+        sutThrowing.shovingBiBPred().doTest((byte)100,(byte)100);
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleBiBPred() throws X {
 
         // given
         LBiBytePredicate sutThrowing = LBiBytePredicate.l((byte b1,byte b2) -> {
@@ -507,7 +507,7 @@ public class LBiBytePredicateTest<X extends ParseException> {
         });
 
         // when
-        LBiBytePredicate wrapped = sutThrowing.handle(h -> {
+        LBiBytePredicate wrapped = sutThrowing.handleBiBPred(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -544,3 +544,5 @@ public class LBiBytePredicateTest<X extends ParseException> {
 
 
 }
+
+

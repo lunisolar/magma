@@ -128,3 +128,5 @@ public class LBooleanToFloatFunctionAssertTest<X extends Throwable> {
     }
 
 }
+
+

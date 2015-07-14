@@ -26,15 +26,27 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for java.util.function.BiFunction. */
-public interface BiFunctionAssert<S extends BiFunctionAssert<S, A, RS, T1, T2, R>, A extends java.util.function.BiFunction<T1, T2, R>, RS extends Assert<RS, R>, T1, T2, R> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, R, Exception> {
+public interface BiFunctionAssert<S extends BiFunctionAssert<S, A, RS, T1, T2, R>, A extends java.util.function.BiFunction<T1, T2, R>, RS extends Assert<RS, R>, T1, T2, R>
+		extends
+			Assert<S, A>,
+			FullFunctionalAssert<S, LBiConsumerX<T1, T2, Exception>, A, RS, R, Exception> {
 
 	@Nonnull
-	Evaluation<S, A, RS, R, Exception> doesApply(T1 t1, T2 t2);
+	Evaluation<S, LBiConsumerX<T1, T2, Exception>, A, RS, R, Exception> doesApply(T1 t1, T2 t2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends java.util.function.BiFunction<T1, T2, R>, RS extends Assert<RS, R>, T1, T2, R> extends Base<Impl<A, RS, T1, T2, R>, A, RS, T1, T2, R> {
@@ -45,7 +57,7 @@ public interface BiFunctionAssert<S extends BiFunctionAssert<S, A, RS, T1, T2, R
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, T1, T2, R>, A extends java.util.function.BiFunction<T1, T2, R>, RS extends Assert<RS, R>, T1, T2, R> extends FullFunctionalAssert.Base<S, A, RS, R, Exception>
+	public static class Base<S extends Base<S, A, RS, T1, T2, R>, A extends java.util.function.BiFunction<T1, T2, R>, RS extends Assert<RS, R>, T1, T2, R> extends FullFunctionalAssert.Base<S, LBiConsumerX<T1, T2, Exception>, A, RS, R, Exception>
 			implements
 				BiFunctionAssert<S, A, RS, T1, T2, R> {
 
@@ -57,8 +69,15 @@ public interface BiFunctionAssert<S extends BiFunctionAssert<S, A, RS, T1, T2, R
 		}
 
 		@Nonnull
-		public Evaluation<S, A, RS, R, Exception> doesApply(T1 t1, T2 t2) {
-			return evaluation(() -> assertFactory.apply((R) actual.apply(t1, t2)));
+		public Evaluation<S, LBiConsumerX<T1, T2, Exception>, A, RS, R, Exception> doesApply(T1 t1, T2 t2) {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doAccept(t1, t2);
+				}
+				return assertFactory.apply((R) actual.apply(t1, t2));
+			});
+
 		}
 
 	}

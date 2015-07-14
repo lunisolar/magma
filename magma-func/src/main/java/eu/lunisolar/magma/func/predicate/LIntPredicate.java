@@ -97,7 +97,7 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier capture(int i) {
+	default LBooleanSupplier captureIPred(int i) {
 		return () -> this.doTest(i);
 	}
 
@@ -174,19 +174,19 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LIntPredicate fromInt(@Nonnull final LIntUnaryOperator before1) {
+	default LIntPredicate iPredFromInt(@Nonnull final LIntUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doTest(before1.doApplyAsInt(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LPredicate<V1> from(@Nonnull final LToIntFunction<? super V1> before1) {
+	default <V1> LPredicate<V1> iPredFrom(@Nonnull final LToIntFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doTest(before1.doApplyAsInt(v1));
 	}
@@ -197,65 +197,65 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LIntFunction<V> then(@Nonnull LBooleanFunction<? extends V> after) {
+	default <V> LIntFunction<V> boolToIntFunction(@Nonnull LBooleanFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return i -> after.doApply(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LIntToByteFunction thenToByte(@Nonnull LBooleanToByteFunction after) {
+	default LIntToByteFunction boolToIntToByteFunction(@Nonnull LBooleanToByteFunction after) {
 		Null.nonNullArg(after, "after");
 		return i -> after.doApplyAsByte(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LIntToShortFunction thenToShort(@Nonnull LBooleanToShortFunction after) {
+	default LIntToShortFunction boolToIntToShortFunction(@Nonnull LBooleanToShortFunction after) {
 		Null.nonNullArg(after, "after");
 		return i -> after.doApplyAsShort(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LIntUnaryOperator thenToInt(@Nonnull LBooleanToIntFunction after) {
+	default LIntUnaryOperator boolToIntUnaryOperator(@Nonnull LBooleanToIntFunction after) {
 		Null.nonNullArg(after, "after");
 		return i -> after.doApplyAsInt(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LIntToLongFunction thenToLong(@Nonnull LBooleanToLongFunction after) {
+	default LIntToLongFunction boolToIntToLongFunction(@Nonnull LBooleanToLongFunction after) {
 		Null.nonNullArg(after, "after");
 		return i -> after.doApplyAsLong(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LIntToFloatFunction thenToFloat(@Nonnull LBooleanToFloatFunction after) {
+	default LIntToFloatFunction boolToIntToFloatFunction(@Nonnull LBooleanToFloatFunction after) {
 		Null.nonNullArg(after, "after");
 		return i -> after.doApplyAsFloat(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LIntToDoubleFunction thenToDouble(@Nonnull LBooleanToDoubleFunction after) {
+	default LIntToDoubleFunction boolToIntToDoubleFunction(@Nonnull LBooleanToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
 		return i -> after.doApplyAsDouble(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LIntToCharFunction thenToChar(@Nonnull LBooleanToCharFunction after) {
+	default LIntToCharFunction boolToIntToCharFunction(@Nonnull LBooleanToCharFunction after) {
 		Null.nonNullArg(after, "after");
 		return i -> after.doApplyAsChar(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LIntPredicate thenToBoolean(@Nonnull LBooleanUnaryOperator after) {
+	default LIntPredicate boolToIntPredicate(@Nonnull LLogicalOperator after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsBoolean(this.doTest(i));
+		return i -> after.doApply(this.doTest(i));
 	}
 
 	// </editor-fold>
@@ -263,23 +263,23 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntPredicate nest() {
+	default LIntPredicate nestingIPred() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntPredicateX<RuntimeException> nestX() {
+	default LIntPredicateX<RuntimeException> nestingIPredX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntPredicate shove() {
+	default LIntPredicate shovingIPred() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntPredicateX<RuntimeException> shoveX() {
+	default LIntPredicateX<RuntimeException> shovingIPredX() {
 		return this;
 	}
 

@@ -124,12 +124,14 @@ public class LIntPredicateXBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesTest((int)0).to(a -> a.isEqualTo(false))
-            .doesTest((int)5).to(a -> a.isEqualTo(true))
-            .doesTest((int)15).to(a -> a.isEqualTo(true))
-            .doesTest((int)10).to(a -> a.isEqualTo(true))
+            .doesTest((int)0).when(null).to(a -> a.isEqualTo(false))
+            .doesTest((int)5).when(null).to(a -> a.isEqualTo(true))
+            .doesTest((int)15).when(null).to(a -> a.isEqualTo(true))
+            .doesTest((int)10).when(null).to(a -> a.isEqualTo(true))
         ;
 
     }
 
 }
+
+

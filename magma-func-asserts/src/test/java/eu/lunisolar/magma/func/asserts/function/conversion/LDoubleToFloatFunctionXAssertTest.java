@@ -128,3 +128,5 @@ public class LDoubleToFloatFunctionXAssertTest<X extends Throwable> {
     }
 
 }
+
+

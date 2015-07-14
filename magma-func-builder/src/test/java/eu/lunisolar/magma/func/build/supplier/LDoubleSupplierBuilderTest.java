@@ -125,12 +125,14 @@ public class LDoubleSupplierBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesGetAsDouble(()->externalInfluence.set(0)).to(a -> a.isEqualTo((double)0))
-            .doesGetAsDouble(()->externalInfluence.set(5)).to(a -> a.isEqualTo((double)1))
-            .doesGetAsDouble(()->externalInfluence.set(15)).to(a -> a.isEqualTo((double)2))
-            .doesGetAsDouble(()->externalInfluence.set(10)).to(a -> a.isEqualTo((double)99))
+            .doesGetAsDouble().when(()->externalInfluence.set(0)).to(a -> a.isEqualTo((double)0))
+            .doesGetAsDouble().when(()->externalInfluence.set(5)).to(a -> a.isEqualTo((double)1))
+            .doesGetAsDouble().when(()->externalInfluence.set(15)).to(a -> a.isEqualTo((double)2))
+            .doesGetAsDouble().when(()->externalInfluence.set(10)).to(a -> a.isEqualTo((double)99))
         ;
 
     }
 
 }
+
+

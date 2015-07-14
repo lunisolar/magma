@@ -91,7 +91,7 @@ public interface LIntBinaryOperator extends LIntBinaryOperatorX<RuntimeException
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LIntSupplier capture(int i1, int i2) {
+	default LIntSupplier captureIBinaryOp(int i1, int i2) {
 		return () -> this.doApplyAsInt(i1, i2);
 	}
 
@@ -144,20 +144,20 @@ public interface LIntBinaryOperator extends LIntBinaryOperatorX<RuntimeException
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LIntBinaryOperator fromInt(@Nonnull final LIntUnaryOperator before1, @Nonnull final LIntUnaryOperator before2) {
+	default LIntBinaryOperator iBinaryOpFromInt(@Nonnull final LIntUnaryOperator before1, @Nonnull final LIntUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final int v1, final int v2) -> this.doApplyAsInt(before1.doApplyAsInt(v1), before2.doApplyAsInt(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LToIntBiFunction<V1, V2> from(@Nonnull final LToIntFunction<? super V1> before1, @Nonnull final LToIntFunction<? super V2> before2) {
+	default <V1, V2> LToIntBiFunction<V1, V2> iBinaryOpFrom(@Nonnull final LToIntFunction<? super V1> before1, @Nonnull final LToIntFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApplyAsInt(before1.doApplyAsInt(v1), before2.doApplyAsInt(v2));
@@ -179,23 +179,23 @@ public interface LIntBinaryOperator extends LIntBinaryOperatorX<RuntimeException
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntBinaryOperator nest() {
+	default LIntBinaryOperator nestingIBinaryOp() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntBinaryOperatorX<RuntimeException> nestX() {
+	default LIntBinaryOperatorX<RuntimeException> nestingIBinaryOpX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntBinaryOperator shove() {
+	default LIntBinaryOperator shovingIBinaryOp() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntBinaryOperatorX<RuntimeException> shoveX() {
+	default LIntBinaryOperatorX<RuntimeException> shovingIBinaryOpX() {
 		return this;
 	}
 

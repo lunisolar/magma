@@ -95,7 +95,7 @@ public interface LShortBiConsumerX<X extends Throwable> extends MetaConsumer, Me
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LActionX<X> capture(short s1, short s2) {
+	default LActionX<X> captureSBiCons(short s1, short s2) {
 		return () -> this.doAccept(s1, s2);
 	}
 
@@ -126,20 +126,20 @@ public interface LShortBiConsumerX<X extends Throwable> extends MetaConsumer, Me
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LShortBiConsumerX<X> fromShort(@Nonnull final LShortUnaryOperatorX<X> before1, @Nonnull final LShortUnaryOperatorX<X> before2) {
+	default LShortBiConsumerX<X> sBiConsFromShort(@Nonnull final LShortUnaryOperatorX<X> before1, @Nonnull final LShortUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final short v1, final short v2) -> this.doAccept(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiConsumerX<V1, V2, X> from(@Nonnull final LToShortFunctionX<? super V1, X> before1, @Nonnull final LToShortFunctionX<? super V2, X> before2) {
+	default <V1, V2> LBiConsumerX<V1, V2, X> sBiConsFrom(@Nonnull final LToShortFunctionX<? super V1, X> before1, @Nonnull final LToShortFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doAccept(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
@@ -163,23 +163,23 @@ public interface LShortBiConsumerX<X extends Throwable> extends MetaConsumer, Me
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LShortBiConsumer nest() {
+	default LShortBiConsumer nestingSBiCons() {
 		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LShortBiConsumerX<RuntimeException> nestX() {
+	default LShortBiConsumerX<RuntimeException> nestingSBiConsX() {
 		return this::nestingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortBiConsumer shove() {
+	default LShortBiConsumer shovingSBiCons() {
 		return this::shovingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortBiConsumerX<RuntimeException> shoveX() {
+	default LShortBiConsumerX<RuntimeException> shovingSBiConsX() {
 		return this::shovingDoAccept;
 	}
 
@@ -188,12 +188,12 @@ public interface LShortBiConsumerX<X extends Throwable> extends MetaConsumer, Me
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LShortBiConsumer handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LShortBiConsumer handleSBiCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (short s1, short s2) -> this.handlingDoAccept(s1, s2, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LShortBiConsumerX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LShortBiConsumerX<Y> handleSBiConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (short s1, short s2) -> this.handlingDoAccept(s1, s2, handling);
 	}
 

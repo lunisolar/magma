@@ -80,7 +80,7 @@ public interface LShortConsumer extends LShortConsumerX<RuntimeException>, MetaC
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LAction capture(short s) {
+	default LAction captureSCons(short s) {
 		return () -> this.doAccept(s);
 	}
 
@@ -104,19 +104,19 @@ public interface LShortConsumer extends LShortConsumerX<RuntimeException>, MetaC
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LShortConsumer fromShort(@Nonnull final LShortUnaryOperator before1) {
+	default LShortConsumer sConsFromShort(@Nonnull final LShortUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doApplyAsShort(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LConsumer<V1> from(@Nonnull final LToShortFunction<? super V1> before1) {
+	default <V1> LConsumer<V1> sConsFrom(@Nonnull final LToShortFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doApplyAsShort(v1));
 	}
@@ -139,23 +139,23 @@ public interface LShortConsumer extends LShortConsumerX<RuntimeException>, MetaC
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LShortConsumer nest() {
+	default LShortConsumer nestingSCons() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LShortConsumerX<RuntimeException> nestX() {
+	default LShortConsumerX<RuntimeException> nestingSConsX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortConsumer shove() {
+	default LShortConsumer shovingSCons() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortConsumerX<RuntimeException> shoveX() {
+	default LShortConsumerX<RuntimeException> shovingSConsX() {
 		return this;
 	}
 

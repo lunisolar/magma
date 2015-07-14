@@ -58,19 +58,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LBinaryOperator<T> extends LBinaryOperatorX<T, RuntimeException>, MetaOperator, MetaInterface.NonThrowing { // NOSONAR
+public interface LBinaryOperator<T> extends LBinaryOperatorX<T, RuntimeException>, MetaOperator, MetaInterface.NonThrowing, LBiFunction<T, T, T> { // NOSONAR
 
 	static final String DESCRIPTION = "LBinaryOperator: T doApply(T t1,T t2)";
-
-	@Override
-	@Deprecated
-	// calling this method via LBinaryOperator interface should be discouraged.
-	default T apply(T t1, T t2) {
-		return this.nestingDoApply(t1, t2);
-	}
-
-	@Nullable
-	T doApply(T t1, T t2);
 
 	default T nestingDoApply(T t1, T t2) {
 		return this.doApply(t1, t2);
@@ -95,7 +85,7 @@ public interface LBinaryOperator<T> extends LBinaryOperatorX<T, RuntimeException
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<T> capture(T t1, T t2) {
+	default LSupplier<T> captureBinaryOp(T t1, T t2) {
 		return () -> this.doApply(t1, t2);
 	}
 
@@ -142,30 +132,30 @@ public interface LBinaryOperator<T> extends LBinaryOperatorX<T, RuntimeException
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBinaryOperator<T> nest() {
+	default LBinaryOperator<T> nestingBinaryOp() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBinaryOperatorX<T, RuntimeException> nestX() {
+	default LBinaryOperatorX<T, RuntimeException> nestingBinaryOpX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBinaryOperator<T> shove() {
+	default LBinaryOperator<T> shovingBinaryOp() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBinaryOperatorX<T, RuntimeException> shoveX() {
+	default LBinaryOperatorX<T, RuntimeException> shovingBinaryOpX() {
 		return this;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LBinaryOperator<T> nonNullable() {
+	default LBinaryOperator<T> nonNullBinaryOp() {
 		return this::nonNullDoApply;
 	}
 

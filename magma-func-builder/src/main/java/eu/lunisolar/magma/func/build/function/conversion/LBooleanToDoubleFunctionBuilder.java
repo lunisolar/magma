@@ -48,7 +48,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for LBooleanToDoubleFunction. */
-public final class LBooleanToDoubleFunctionBuilder extends PerCaseBuilderWithDoubleProduct.Base<LBooleanToDoubleFunctionBuilder, LBooleanUnaryOperator, LBooleanToDoubleFunction> {
+public final class LBooleanToDoubleFunctionBuilder extends PerCaseBuilderWithDoubleProduct.Base<LBooleanToDoubleFunctionBuilder, LLogicalOperator, LBooleanToDoubleFunction> {
 
 	private Consumer<LBooleanToDoubleFunction> consumer;
 
@@ -107,11 +107,11 @@ public final class LBooleanToDoubleFunctionBuilder extends PerCaseBuilderWithDou
 
 		LBooleanToDoubleFunction retval;
 
-		final Case<LBooleanUnaryOperator, LBooleanToDoubleFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
+		final Case<LLogicalOperator, LBooleanToDoubleFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 		retval = LBooleanToDoubleFunction.l(b -> {
 			try {
-				for (Case<LBooleanUnaryOperator, LBooleanToDoubleFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doApplyAsBoolean(b)) {
+				for (Case<LLogicalOperator, LBooleanToDoubleFunction> aCase : casesArray) {
+					if (aCase.casePredicate().doApply(b)) {
 						return aCase.caseFunction().doApplyAsDouble(b);
 					}
 				}

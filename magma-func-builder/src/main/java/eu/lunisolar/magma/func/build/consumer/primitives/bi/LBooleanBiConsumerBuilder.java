@@ -48,7 +48,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for LBooleanBiConsumer. */
-public final class LBooleanBiConsumerBuilder extends PerCaseBuilder.Base<LBooleanBiConsumerBuilder, LBooleanBinaryOperator, LBooleanBiConsumer> {
+public final class LBooleanBiConsumerBuilder extends PerCaseBuilder.Base<LBooleanBiConsumerBuilder, LLogicalBinaryOperator, LBooleanBiConsumer> {
 
 	private Consumer<LBooleanBiConsumer> consumer;
 
@@ -107,11 +107,11 @@ public final class LBooleanBiConsumerBuilder extends PerCaseBuilder.Base<LBoolea
 
 		LBooleanBiConsumer retval;
 
-		final Case<LBooleanBinaryOperator, LBooleanBiConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
+		final Case<LLogicalBinaryOperator, LBooleanBiConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
 		retval = LBooleanBiConsumer.l((boolean b1, boolean b2) -> {
 			try {
-				for (Case<LBooleanBinaryOperator, LBooleanBiConsumer> aCase : casesArray) {
-					if (aCase.casePredicate().doApplyAsBoolean(b1, b2)) {
+				for (Case<LLogicalBinaryOperator, LBooleanBiConsumer> aCase : casesArray) {
+					if (aCase.casePredicate().doApply(b1, b2)) {
 						aCase.caseFunction().doAccept(b1, b2);
 						return;
 					}

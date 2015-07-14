@@ -124,12 +124,14 @@ public class LByteToCharFunctionXBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsChar((byte)0).to(a -> a.isEqualTo((char)0))
-            .doesApplyAsChar((byte)5).to(a -> a.isEqualTo((char)1))
-            .doesApplyAsChar((byte)15).to(a -> a.isEqualTo((char)2))
-            .doesApplyAsChar((byte)10).to(a -> a.isEqualTo((char)99))
+            .doesApplyAsChar((byte)0).when(null).to(a -> a.isEqualTo((char)0))
+            .doesApplyAsChar((byte)5).when(null).to(a -> a.isEqualTo((char)1))
+            .doesApplyAsChar((byte)15).when(null).to(a -> a.isEqualTo((char)2))
+            .doesApplyAsChar((byte)10).when(null).to(a -> a.isEqualTo((char)99))
         ;
 
     }
 
 }
+
+

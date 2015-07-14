@@ -184,7 +184,7 @@ public class LToByteFunctionXTest<T,X extends ParseException> {
         });
 
         // when
-        LToByteFunctionX<T,X> wrapped = sutThrowing.handleX(handler -> handler
+        LToByteFunctionX<T,X> wrapped = sutThrowing.handleToBFuncX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -208,7 +208,7 @@ public class LToByteFunctionXTest<T,X extends ParseException> {
         });
 
         // when
-        LToByteFunctionX<T,X> wrapped = sutThrowing.handleX(handler -> handler
+        LToByteFunctionX<T,X> wrapped = sutThrowing.handleToBFuncX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -232,7 +232,7 @@ public class LToByteFunctionXTest<T,X extends ParseException> {
         });
 
         // when
-        LToByteFunctionX<T,X> wrapped = sutThrowing.handleX(handler -> handler
+        LToByteFunctionX<T,X> wrapped = sutThrowing.handleToBFuncX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -257,7 +257,7 @@ public class LToByteFunctionXTest<T,X extends ParseException> {
         });
 
         // when
-        LToByteFunctionX<T,X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
+        LToByteFunctionX<T,X> wrapped = sutThrowing.handleToBFuncX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -276,7 +276,7 @@ public class LToByteFunctionXTest<T,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfrom() throws X {
+    public void testtoBFuncFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -295,7 +295,7 @@ public class LToByteFunctionXTest<T,X extends ParseException> {
         };
 
         //when
-        LToByteFunctionX<Integer ,X> function = sutO.from(before1);
+        LToByteFunctionX<Integer ,X> function = sutO.toBFuncFrom(before1);
         function.doApplyAsByte((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -627,25 +627,25 @@ public class LToByteFunctionXTest<T,X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingToBFunc())
             .isInstanceOf(LToByteFunction.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingToBFunc())
             .isInstanceOf(LToByteFunction.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingToBFuncX())
             .isInstanceOf(LToByteFunctionX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingToBFuncX())
             .isInstanceOf(LToByteFunctionX.class);
     }
 
@@ -658,11 +658,11 @@ public class LToByteFunctionXTest<T,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doApplyAsByte((T)Integer.valueOf(100));
+        sutThrowing.shovingToBFunc().doApplyAsByte((T)Integer.valueOf(100));
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleToBFunc() throws X {
 
         // given
         LToByteFunctionX<T,X> sutThrowing = LToByteFunctionX.lX(t -> {
@@ -670,7 +670,7 @@ public class LToByteFunctionXTest<T,X extends ParseException> {
         });
 
         // when
-        LToByteFunctionX<T,X> wrapped = sutThrowing.handleX(h -> {
+        LToByteFunctionX<T,X> wrapped = sutThrowing.handleToBFuncX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -707,3 +707,5 @@ public class LToByteFunctionXTest<T,X extends ParseException> {
 
 
 }
+
+

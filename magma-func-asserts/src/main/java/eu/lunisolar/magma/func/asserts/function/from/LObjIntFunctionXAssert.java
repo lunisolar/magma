@@ -26,16 +26,28 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
 import eu.lunisolar.magma.func.function.from.*;
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LObjIntFunctionX. */
-public interface LObjIntFunctionXAssert<S extends LObjIntFunctionXAssert<S, A, RS, T, R, X>, A extends LObjIntFunctionX<T, R, X>, RS extends Assert<RS, R>, T, R, X extends Throwable> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, R, Exception> {
+public interface LObjIntFunctionXAssert<S extends LObjIntFunctionXAssert<S, A, RS, T, R, X>, A extends LObjIntFunctionX<T, R, X>, RS extends Assert<RS, R>, T, R, X extends Throwable>
+		extends
+			Assert<S, A>,
+			FullFunctionalAssert<S, LObjIntConsumerX<T, Exception>, A, RS, R, Exception> {
 
 	@Nonnull
-	Evaluation<S, A, RS, R, Exception> doesApply(T t, int i);
+	Evaluation<S, LObjIntConsumerX<T, Exception>, A, RS, R, Exception> doesApply(T t, int i);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends LObjIntFunctionX<T, R, X>, RS extends Assert<RS, R>, T, R, X extends Throwable> extends Base<Impl<A, RS, T, R, X>, A, RS, T, R, X> {
@@ -46,7 +58,7 @@ public interface LObjIntFunctionXAssert<S extends LObjIntFunctionXAssert<S, A, R
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, T, R, X>, A extends LObjIntFunctionX<T, R, X>, RS extends Assert<RS, R>, T, R, X extends Throwable> extends FullFunctionalAssert.Base<S, A, RS, R, Exception>
+	public static class Base<S extends Base<S, A, RS, T, R, X>, A extends LObjIntFunctionX<T, R, X>, RS extends Assert<RS, R>, T, R, X extends Throwable> extends FullFunctionalAssert.Base<S, LObjIntConsumerX<T, Exception>, A, RS, R, Exception>
 			implements
 				LObjIntFunctionXAssert<S, A, RS, T, R, X> {
 
@@ -58,8 +70,15 @@ public interface LObjIntFunctionXAssert<S extends LObjIntFunctionXAssert<S, A, R
 		}
 
 		@Nonnull
-		public Evaluation<S, A, RS, R, Exception> doesApply(T t, int i) {
-			return evaluation(() -> assertFactory.apply((R) actual.doApply(t, i)));
+		public Evaluation<S, LObjIntConsumerX<T, Exception>, A, RS, R, Exception> doesApply(T t, int i) {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doAccept(t, i);
+				}
+				return assertFactory.apply((R) actual.doApply(t, i));
+			});
+
 		}
 
 	}

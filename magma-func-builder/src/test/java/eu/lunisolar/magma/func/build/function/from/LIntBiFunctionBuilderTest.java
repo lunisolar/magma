@@ -124,12 +124,14 @@ public class LIntBiFunctionBuilderTest<R,X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApply((int)0,(int)0).to(a -> a.isEqualTo(Integer.valueOf(0)))
-            .doesApply((int)5,(int)5).to(a -> a.isEqualTo(Integer.valueOf(1)))
-            .doesApply((int)15,(int)15).to(a -> a.isEqualTo(Integer.valueOf(2)))
-            .doesApply((int)10,(int)10).to(a -> a.isEqualTo(Integer.valueOf(99)))
+            .doesApply((int)0,(int)0).when(null).to(a -> a.isEqualTo(Integer.valueOf(0)))
+            .doesApply((int)5,(int)5).when(null).to(a -> a.isEqualTo(Integer.valueOf(1)))
+            .doesApply((int)15,(int)15).when(null).to(a -> a.isEqualTo(Integer.valueOf(2)))
+            .doesApply((int)10,(int)10).when(null).to(a -> a.isEqualTo(Integer.valueOf(99)))
         ;
 
     }
 
 }
+
+

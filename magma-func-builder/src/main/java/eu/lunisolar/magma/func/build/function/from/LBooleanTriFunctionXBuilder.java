@@ -48,7 +48,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for LBooleanTriFunctionX. */
-public final class LBooleanTriFunctionXBuilder<R, X extends Throwable> extends PerCaseBuilderWithProduct.Base<LBooleanTriFunctionXBuilder<R, X>, LBooleanTernaryOperatorX<X>, LBooleanTriFunctionX<R, X>, R> {
+public final class LBooleanTriFunctionXBuilder<R, X extends Throwable> extends PerCaseBuilderWithProduct.Base<LBooleanTriFunctionXBuilder<R, X>, LLogicalTernaryOperatorX<X>, LBooleanTriFunctionX<R, X>, R> {
 
 	private Consumer<LBooleanTriFunctionX<R, X>> consumer;
 
@@ -107,10 +107,10 @@ public final class LBooleanTriFunctionXBuilder<R, X extends Throwable> extends P
 
 		LBooleanTriFunctionX<R, X> retval;
 
-		final Case<LBooleanTernaryOperatorX<X>, LBooleanTriFunctionX<R, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
+		final Case<LLogicalTernaryOperatorX<X>, LBooleanTriFunctionX<R, X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 		retval = LBooleanTriFunctionX.<R, X> lX((boolean b1, boolean b2, boolean b3) -> {
 			try {
-				for (Case<LBooleanTernaryOperatorX<X>, LBooleanTriFunctionX<R, X>> aCase : casesArray) {
+				for (Case<LLogicalTernaryOperatorX<X>, LBooleanTriFunctionX<R, X>> aCase : casesArray) {
 					if (aCase.casePredicate().doApply(b1, b2, b3)) {
 						return aCase.caseFunction().doApply(b1, b2, b3);
 					}

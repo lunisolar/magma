@@ -128,3 +128,5 @@ public class LDoubleToShortFunctionAssertTest<X extends Throwable> {
     }
 
 }
+
+

@@ -26,15 +26,24 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for java.util.function.ObjLongConsumer. */
-public interface ObjLongConsumerAssert<S extends ObjLongConsumerAssert<S, A, T>, A extends java.util.function.ObjLongConsumer<T>, T> extends Assert<S, A>, FunctionalAssert.Simple<S, A, Exception> {
+public interface ObjLongConsumerAssert<S extends ObjLongConsumerAssert<S, A, T>, A extends java.util.function.ObjLongConsumer<T>, T> extends Assert<S, A>, FunctionalAssert.Simple<S, LObjLongConsumerX<T, Exception>, A, Exception> {
 
 	@Nonnull
-	SemiEvaluation<S, A, Exception> doesAccept(T t, long l);
+	SemiEvaluation<S, LObjLongConsumerX<T, Exception>, A, Exception> doesAccept(T t, long l);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends java.util.function.ObjLongConsumer<T>, T> extends Base<Impl<A, T>, A, T> {
@@ -45,15 +54,23 @@ public interface ObjLongConsumerAssert<S extends ObjLongConsumerAssert<S, A, T>,
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, T>, A extends java.util.function.ObjLongConsumer<T>, T> extends FunctionalAssert.Simple.Base<S, A, Exception> implements ObjLongConsumerAssert<S, A, T> {
+	public static class Base<S extends Base<S, A, T>, A extends java.util.function.ObjLongConsumer<T>, T> extends FunctionalAssert.Simple.Base<S, LObjLongConsumerX<T, Exception>, A, Exception> implements ObjLongConsumerAssert<S, A, T> {
 
 		public Base(A actual, Class<?> selfType) {
 			super(actual, selfType);
 		}
 
 		@Nonnull
-		public SemiEvaluation<S, A, Exception> doesAccept(T t, long l) {
-			return evaluation(() -> actual.accept(t, l));
+		public SemiEvaluation<S, LObjLongConsumerX<T, Exception>, A, Exception> doesAccept(T t, long l) {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doAccept(t, l);
+				}
+				actual.accept(t, l);
+				return null;
+			});
+
 		}
 
 	}

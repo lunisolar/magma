@@ -105,7 +105,7 @@ public interface LObjIntPredicateX<T, X extends Throwable> extends MetaPredicate
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> capture(T t, int i) {
+	default LBooleanSupplierX<X> captureObjIPred(T t, int i) {
 		return () -> this.doTest(t, i);
 	}
 
@@ -186,20 +186,20 @@ public interface LObjIntPredicateX<T, X extends Throwable> extends MetaPredicate
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LObjIntPredicateX<V1, X> fromInt(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LIntUnaryOperatorX<X> before2) {
+	default <V1> LObjIntPredicateX<V1, X> objIPredFromInt(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LIntUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final int v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsInt(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiPredicateX<V1, V2, X> from(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToIntFunctionX<? super V2, X> before2) {
+	default <V1, V2> LBiPredicateX<V1, V2, X> objIPredFrom(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToIntFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsInt(v2));
@@ -211,7 +211,7 @@ public interface LObjIntPredicateX<T, X extends Throwable> extends MetaPredicate
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LObjIntFunctionX<T, V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LObjIntFunctionX<T, V, X> boolToObjIntFunction(@Nonnull LBooleanFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (T t, int i) -> after.doApply(this.doTest(t, i));
 	}
@@ -221,23 +221,23 @@ public interface LObjIntPredicateX<T, X extends Throwable> extends MetaPredicate
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjIntPredicate<T> nest() {
+	default LObjIntPredicate<T> nestingObjIPred() {
 		return this::nestingDoTest;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjIntPredicateX<T, RuntimeException> nestX() {
+	default LObjIntPredicateX<T, RuntimeException> nestingObjIPredX() {
 		return this::nestingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjIntPredicate<T> shove() {
+	default LObjIntPredicate<T> shovingObjIPred() {
 		return this::shovingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjIntPredicateX<T, RuntimeException> shoveX() {
+	default LObjIntPredicateX<T, RuntimeException> shovingObjIPredX() {
 		return this::shovingDoTest;
 	}
 
@@ -246,12 +246,12 @@ public interface LObjIntPredicateX<T, X extends Throwable> extends MetaPredicate
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LObjIntPredicate<T> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LObjIntPredicate<T> handleObjIPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T t, int i) -> this.handlingDoTest(t, i, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LObjIntPredicateX<T, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LObjIntPredicateX<T, Y> handleObjIPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T t, int i) -> this.handlingDoTest(t, i, handling);
 	}
 

@@ -26,16 +26,28 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
 import eu.lunisolar.magma.func.function.*;
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LTriFunction. */
-public interface LTriFunctionAssert<S extends LTriFunctionAssert<S, A, RS, T1, T2, T3, R>, A extends LTriFunction<T1, T2, T3, R>, RS extends Assert<RS, R>, T1, T2, T3, R> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, R, Exception> {
+public interface LTriFunctionAssert<S extends LTriFunctionAssert<S, A, RS, T1, T2, T3, R>, A extends LTriFunction<T1, T2, T3, R>, RS extends Assert<RS, R>, T1, T2, T3, R>
+		extends
+			Assert<S, A>,
+			FullFunctionalAssert<S, LTriConsumerX<T1, T2, T3, Exception>, A, RS, R, Exception> {
 
 	@Nonnull
-	Evaluation<S, A, RS, R, Exception> doesApply(T1 t1, T2 t2, T3 t3);
+	Evaluation<S, LTriConsumerX<T1, T2, T3, Exception>, A, RS, R, Exception> doesApply(T1 t1, T2 t2, T3 t3);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends LTriFunction<T1, T2, T3, R>, RS extends Assert<RS, R>, T1, T2, T3, R> extends Base<Impl<A, RS, T1, T2, T3, R>, A, RS, T1, T2, T3, R> {
@@ -46,7 +58,7 @@ public interface LTriFunctionAssert<S extends LTriFunctionAssert<S, A, RS, T1, T
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, T1, T2, T3, R>, A extends LTriFunction<T1, T2, T3, R>, RS extends Assert<RS, R>, T1, T2, T3, R> extends FullFunctionalAssert.Base<S, A, RS, R, Exception>
+	public static class Base<S extends Base<S, A, RS, T1, T2, T3, R>, A extends LTriFunction<T1, T2, T3, R>, RS extends Assert<RS, R>, T1, T2, T3, R> extends FullFunctionalAssert.Base<S, LTriConsumerX<T1, T2, T3, Exception>, A, RS, R, Exception>
 			implements
 				LTriFunctionAssert<S, A, RS, T1, T2, T3, R> {
 
@@ -58,8 +70,15 @@ public interface LTriFunctionAssert<S extends LTriFunctionAssert<S, A, RS, T1, T
 		}
 
 		@Nonnull
-		public Evaluation<S, A, RS, R, Exception> doesApply(T1 t1, T2 t2, T3 t3) {
-			return evaluation(() -> assertFactory.apply((R) actual.doApply(t1, t2, t3)));
+		public Evaluation<S, LTriConsumerX<T1, T2, T3, Exception>, A, RS, R, Exception> doesApply(T1 t1, T2 t2, T3 t3) {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doAccept(t1, t2, t3);
+				}
+				return assertFactory.apply((R) actual.doApply(t1, t2, t3));
+			});
+
 		}
 
 	}

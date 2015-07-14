@@ -124,12 +124,14 @@ public class LToShortBiFunctionBuilderTest<T1,T2,X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsShort(Integer.valueOf(0),Integer.valueOf(0)).to(a -> a.isEqualTo((short)0))
-            .doesApplyAsShort(Integer.valueOf(5),Integer.valueOf(5)).to(a -> a.isEqualTo((short)1))
-            .doesApplyAsShort(Integer.valueOf(15),Integer.valueOf(15)).to(a -> a.isEqualTo((short)2))
-            .doesApplyAsShort(Integer.valueOf(10),Integer.valueOf(10)).to(a -> a.isEqualTo((short)99))
+            .doesApplyAsShort(Integer.valueOf(0),Integer.valueOf(0)).when(null).to(a -> a.isEqualTo((short)0))
+            .doesApplyAsShort(Integer.valueOf(5),Integer.valueOf(5)).when(null).to(a -> a.isEqualTo((short)1))
+            .doesApplyAsShort(Integer.valueOf(15),Integer.valueOf(15)).when(null).to(a -> a.isEqualTo((short)2))
+            .doesApplyAsShort(Integer.valueOf(10),Integer.valueOf(10)).when(null).to(a -> a.isEqualTo((short)99))
         ;
 
     }
 
 }
+
+

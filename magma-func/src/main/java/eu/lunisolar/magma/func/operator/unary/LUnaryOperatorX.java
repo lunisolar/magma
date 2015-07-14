@@ -58,19 +58,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LUnaryOperatorX<T, X extends Throwable> extends java.util.function.UnaryOperator<T>, MetaOperator, MetaInterface.Throwing<X> { // NOSONAR
+public interface LUnaryOperatorX<T, X extends Throwable> extends java.util.function.UnaryOperator<T>, MetaOperator, MetaInterface.Throwing<X>, LFunctionX<T, T, X> { // NOSONAR
 
 	static final String DESCRIPTION = "LUnaryOperatorX: T doApply(T t) throws X";
-
-	@Override
-	@Deprecated
-	// calling this method via LUnaryOperatorX interface should be discouraged.
-	default T apply(T t) {
-		return this.nestingDoApply(t);
-	}
-
-	@Nullable
-	T doApply(T t) throws X;
 
 	default T nestingDoApply(T t) {
 		try {
@@ -110,7 +100,7 @@ public interface LUnaryOperatorX<T, X extends Throwable> extends java.util.funct
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplierX<T, X> capture(T t) {
+	default LSupplierX<T, X> captureUnaryOp(T t) {
 		return () -> this.doApply(t);
 	}
 
@@ -224,42 +214,42 @@ public interface LUnaryOperatorX<T, X extends Throwable> extends java.util.funct
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LUnaryOperator<T> nest() {
+	default LUnaryOperator<T> nestingUnaryOp() {
 		return this::nestingDoApply;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LUnaryOperatorX<T, RuntimeException> nestX() {
+	default LUnaryOperatorX<T, RuntimeException> nestingUnaryOpX() {
 		return this::nestingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LUnaryOperator<T> shove() {
+	default LUnaryOperator<T> shovingUnaryOp() {
 		return this::shovingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LUnaryOperatorX<T, RuntimeException> shoveX() {
+	default LUnaryOperatorX<T, RuntimeException> shovingUnaryOpX() {
 		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LUnaryOperatorX<T, X> nonNullableX() {
+	default LUnaryOperatorX<T, X> nonNullUnaryOp() {
 		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LUnaryOperator<T> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LUnaryOperator<T> handleUnaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return t -> this.handlingDoApply(t, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LUnaryOperatorX<T, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LUnaryOperatorX<T, Y> handleUnaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return t -> this.handlingDoApply(t, handling);
 	}
 

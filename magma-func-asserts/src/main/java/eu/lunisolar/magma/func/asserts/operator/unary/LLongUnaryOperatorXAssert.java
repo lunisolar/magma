@@ -26,16 +26,28 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*;
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LLongUnaryOperatorX. */
-public interface LLongUnaryOperatorXAssert<S extends LLongUnaryOperatorXAssert<S, A, RS, X>, A extends LLongUnaryOperatorX<X>, RS extends AbstractLongAssert<RS>, X extends Throwable> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, Long, Exception> {
+public interface LLongUnaryOperatorXAssert<S extends LLongUnaryOperatorXAssert<S, A, RS, X>, A extends LLongUnaryOperatorX<X>, RS extends AbstractLongAssert<RS>, X extends Throwable>
+		extends
+			Assert<S, A>,
+			FullFunctionalAssert<S, LLongConsumerX<Exception>, A, RS, Long, Exception> {
 
 	@Nonnull
-	Evaluation<S, A, RS, Long, Exception> doesApplyAsLong(long l);
+	Evaluation<S, LLongConsumerX<Exception>, A, RS, Long, Exception> doesApplyAsLong(long l);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends LLongUnaryOperatorX<X>, RS extends AbstractLongAssert<RS>, X extends Throwable> extends Base<Impl<A, RS, X>, A, RS, X> {
@@ -46,7 +58,7 @@ public interface LLongUnaryOperatorXAssert<S extends LLongUnaryOperatorXAssert<S
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, X>, A extends LLongUnaryOperatorX<X>, RS extends AbstractLongAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, A, RS, Long, Exception>
+	public static class Base<S extends Base<S, A, RS, X>, A extends LLongUnaryOperatorX<X>, RS extends AbstractLongAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, LLongConsumerX<Exception>, A, RS, Long, Exception>
 			implements
 				LLongUnaryOperatorXAssert<S, A, RS, X> {
 
@@ -58,8 +70,15 @@ public interface LLongUnaryOperatorXAssert<S extends LLongUnaryOperatorXAssert<S
 		}
 
 		@Nonnull
-		public Evaluation<S, A, RS, Long, Exception> doesApplyAsLong(long l) {
-			return evaluation(() -> assertFactory.apply((Long) actual.doApplyAsLong(l)));
+		public Evaluation<S, LLongConsumerX<Exception>, A, RS, Long, Exception> doesApplyAsLong(long l) {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doAccept(l);
+				}
+				return assertFactory.apply((Long) actual.doApplyAsLong(l));
+			});
+
 		}
 
 	}

@@ -88,7 +88,7 @@ public interface LByteBiFunction<R> extends LByteBiFunctionX<R, RuntimeException
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> capture(byte b1, byte b2) {
+	default LSupplier<R> captureBBiFunc(byte b1, byte b2) {
 		return () -> this.doApply(b1, b2);
 	}
 
@@ -116,20 +116,20 @@ public interface LByteBiFunction<R> extends LByteBiFunctionX<R, RuntimeException
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LByteBiFunction<R> fromByte(@Nonnull final LByteUnaryOperator before1, @Nonnull final LByteUnaryOperator before2) {
+	default LByteBiFunction<R> bBiFuncFromByte(@Nonnull final LByteUnaryOperator before1, @Nonnull final LByteUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final byte v1, final byte v2) -> this.doApply(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiFunction<V1, V2, R> from(@Nonnull final LToByteFunction<? super V1> before1, @Nonnull final LToByteFunction<? super V2> before2) {
+	default <V1, V2> LBiFunction<V1, V2, R> bBiFuncFrom(@Nonnull final LToByteFunction<? super V1> before1, @Nonnull final LToByteFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApply(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
@@ -158,30 +158,30 @@ public interface LByteBiFunction<R> extends LByteBiFunctionX<R, RuntimeException
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LByteBiFunction<R> nest() {
+	default LByteBiFunction<R> nestingBBiFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LByteBiFunctionX<R, RuntimeException> nestX() {
+	default LByteBiFunctionX<R, RuntimeException> nestingBBiFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteBiFunction<R> shove() {
+	default LByteBiFunction<R> shovingBBiFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteBiFunctionX<R, RuntimeException> shoveX() {
+	default LByteBiFunctionX<R, RuntimeException> shovingBBiFuncX() {
 		return this;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LByteBiFunction<R> nonNullable() {
+	default LByteBiFunction<R> nonNullBBiFunc() {
 		return this::nonNullDoApply;
 	}
 

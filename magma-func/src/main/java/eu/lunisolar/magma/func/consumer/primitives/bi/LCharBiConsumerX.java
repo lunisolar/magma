@@ -95,7 +95,7 @@ public interface LCharBiConsumerX<X extends Throwable> extends MetaConsumer, Met
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LActionX<X> capture(char c1, char c2) {
+	default LActionX<X> captureCBiCons(char c1, char c2) {
 		return () -> this.doAccept(c1, c2);
 	}
 
@@ -126,20 +126,20 @@ public interface LCharBiConsumerX<X extends Throwable> extends MetaConsumer, Met
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LCharBiConsumerX<X> fromChar(@Nonnull final LCharUnaryOperatorX<X> before1, @Nonnull final LCharUnaryOperatorX<X> before2) {
+	default LCharBiConsumerX<X> cBiConsFromChar(@Nonnull final LCharUnaryOperatorX<X> before1, @Nonnull final LCharUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final char v1, final char v2) -> this.doAccept(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiConsumerX<V1, V2, X> from(@Nonnull final LToCharFunctionX<? super V1, X> before1, @Nonnull final LToCharFunctionX<? super V2, X> before2) {
+	default <V1, V2> LBiConsumerX<V1, V2, X> cBiConsFrom(@Nonnull final LToCharFunctionX<? super V1, X> before1, @Nonnull final LToCharFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doAccept(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
@@ -163,23 +163,23 @@ public interface LCharBiConsumerX<X extends Throwable> extends MetaConsumer, Met
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LCharBiConsumer nest() {
+	default LCharBiConsumer nestingCBiCons() {
 		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LCharBiConsumerX<RuntimeException> nestX() {
+	default LCharBiConsumerX<RuntimeException> nestingCBiConsX() {
 		return this::nestingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharBiConsumer shove() {
+	default LCharBiConsumer shovingCBiCons() {
 		return this::shovingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharBiConsumerX<RuntimeException> shoveX() {
+	default LCharBiConsumerX<RuntimeException> shovingCBiConsX() {
 		return this::shovingDoAccept;
 	}
 
@@ -188,12 +188,12 @@ public interface LCharBiConsumerX<X extends Throwable> extends MetaConsumer, Met
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LCharBiConsumer handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LCharBiConsumer handleCBiCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (char c1, char c2) -> this.handlingDoAccept(c1, c2, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LCharBiConsumerX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LCharBiConsumerX<Y> handleCBiConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (char c1, char c2) -> this.handlingDoAccept(c1, c2, handling);
 	}
 

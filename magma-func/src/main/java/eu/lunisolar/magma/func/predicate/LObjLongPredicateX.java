@@ -105,7 +105,7 @@ public interface LObjLongPredicateX<T, X extends Throwable> extends MetaPredicat
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> capture(T t, long l) {
+	default LBooleanSupplierX<X> captureObjLongPred(T t, long l) {
 		return () -> this.doTest(t, l);
 	}
 
@@ -186,20 +186,20 @@ public interface LObjLongPredicateX<T, X extends Throwable> extends MetaPredicat
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LObjLongPredicateX<V1, X> fromLong(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LLongUnaryOperatorX<X> before2) {
+	default <V1> LObjLongPredicateX<V1, X> objLongPredFromLong(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LLongUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final long v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsLong(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiPredicateX<V1, V2, X> from(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToLongFunctionX<? super V2, X> before2) {
+	default <V1, V2> LBiPredicateX<V1, V2, X> objLongPredFrom(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToLongFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsLong(v2));
@@ -211,7 +211,7 @@ public interface LObjLongPredicateX<T, X extends Throwable> extends MetaPredicat
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LObjLongFunctionX<T, V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LObjLongFunctionX<T, V, X> boolToObjLongFunction(@Nonnull LBooleanFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (T t, long l) -> after.doApply(this.doTest(t, l));
 	}
@@ -221,23 +221,23 @@ public interface LObjLongPredicateX<T, X extends Throwable> extends MetaPredicat
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjLongPredicate<T> nest() {
+	default LObjLongPredicate<T> nestingObjLongPred() {
 		return this::nestingDoTest;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjLongPredicateX<T, RuntimeException> nestX() {
+	default LObjLongPredicateX<T, RuntimeException> nestingObjLongPredX() {
 		return this::nestingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjLongPredicate<T> shove() {
+	default LObjLongPredicate<T> shovingObjLongPred() {
 		return this::shovingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjLongPredicateX<T, RuntimeException> shoveX() {
+	default LObjLongPredicateX<T, RuntimeException> shovingObjLongPredX() {
 		return this::shovingDoTest;
 	}
 
@@ -246,12 +246,12 @@ public interface LObjLongPredicateX<T, X extends Throwable> extends MetaPredicat
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LObjLongPredicate<T> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LObjLongPredicate<T> handleObjLongPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T t, long l) -> this.handlingDoTest(t, l, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LObjLongPredicateX<T, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LObjLongPredicateX<T, Y> handleObjLongPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T t, long l) -> this.handlingDoTest(t, l, handling);
 	}
 

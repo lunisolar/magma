@@ -84,7 +84,7 @@ public interface LShortBinaryOperator extends LShortBinaryOperatorX<RuntimeExcep
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LShortSupplier capture(short s1, short s2) {
+	default LShortSupplier captureSBinaryOp(short s1, short s2) {
 		return () -> this.doApplyAsShort(s1, s2);
 	}
 
@@ -131,20 +131,20 @@ public interface LShortBinaryOperator extends LShortBinaryOperatorX<RuntimeExcep
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LShortBinaryOperator fromShort(@Nonnull final LShortUnaryOperator before1, @Nonnull final LShortUnaryOperator before2) {
+	default LShortBinaryOperator sBinaryOpFromShort(@Nonnull final LShortUnaryOperator before1, @Nonnull final LShortUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final short v1, final short v2) -> this.doApplyAsShort(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LToShortBiFunction<V1, V2> from(@Nonnull final LToShortFunction<? super V1> before1, @Nonnull final LToShortFunction<? super V2> before2) {
+	default <V1, V2> LToShortBiFunction<V1, V2> sBinaryOpFrom(@Nonnull final LToShortFunction<? super V1> before1, @Nonnull final LToShortFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApplyAsShort(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
@@ -166,23 +166,23 @@ public interface LShortBinaryOperator extends LShortBinaryOperatorX<RuntimeExcep
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LShortBinaryOperator nest() {
+	default LShortBinaryOperator nestingSBinaryOp() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LShortBinaryOperatorX<RuntimeException> nestX() {
+	default LShortBinaryOperatorX<RuntimeException> nestingSBinaryOpX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortBinaryOperator shove() {
+	default LShortBinaryOperator shovingSBinaryOp() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortBinaryOperatorX<RuntimeException> shoveX() {
+	default LShortBinaryOperatorX<RuntimeException> shovingSBinaryOpX() {
 		return this;
 	}
 

@@ -128,3 +128,5 @@ public class LToCharFunctionAssertTest<T,X extends Throwable> {
     }
 
 }
+
+

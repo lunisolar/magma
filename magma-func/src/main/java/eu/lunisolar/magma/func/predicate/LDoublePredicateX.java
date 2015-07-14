@@ -112,7 +112,7 @@ public interface LDoublePredicateX<X extends Throwable> extends java.util.functi
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> capture(double d) {
+	default LBooleanSupplierX<X> captureDPred(double d) {
 		return () -> this.doTest(d);
 	}
 
@@ -196,19 +196,19 @@ public interface LDoublePredicateX<X extends Throwable> extends java.util.functi
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LDoublePredicateX<X> fromDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1) {
+	default LDoublePredicateX<X> dPredFromDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doTest(before1.doApplyAsDouble(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LPredicateX<V1, X> from(@Nonnull final LToDoubleFunctionX<? super V1, X> before1) {
+	default <V1> LPredicateX<V1, X> dPredFrom(@Nonnull final LToDoubleFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doTest(before1.doApplyAsDouble(v1));
 	}
@@ -219,65 +219,65 @@ public interface LDoublePredicateX<X extends Throwable> extends java.util.functi
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LDoubleFunctionX<V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LDoubleFunctionX<V, X> boolToDoubleFunction(@Nonnull LBooleanFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return d -> after.doApply(this.doTest(d));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LDoubleToByteFunctionX<X> thenToByte(@Nonnull LBooleanToByteFunctionX<X> after) {
+	default LDoubleToByteFunctionX<X> boolToDoubleToByteFunction(@Nonnull LBooleanToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return d -> after.doApplyAsByte(this.doTest(d));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LDoubleToShortFunctionX<X> thenToShort(@Nonnull LBooleanToShortFunctionX<X> after) {
+	default LDoubleToShortFunctionX<X> boolToDoubleToShortFunction(@Nonnull LBooleanToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return d -> after.doApplyAsShort(this.doTest(d));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LDoubleToIntFunctionX<X> thenToInt(@Nonnull LBooleanToIntFunctionX<X> after) {
+	default LDoubleToIntFunctionX<X> boolToDoubleToIntFunction(@Nonnull LBooleanToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return d -> after.doApplyAsInt(this.doTest(d));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LDoubleToLongFunctionX<X> thenToLong(@Nonnull LBooleanToLongFunctionX<X> after) {
+	default LDoubleToLongFunctionX<X> boolToDoubleToLongFunction(@Nonnull LBooleanToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return d -> after.doApplyAsLong(this.doTest(d));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LDoubleToFloatFunctionX<X> thenToFloat(@Nonnull LBooleanToFloatFunctionX<X> after) {
+	default LDoubleToFloatFunctionX<X> boolToDoubleToFloatFunction(@Nonnull LBooleanToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return d -> after.doApplyAsFloat(this.doTest(d));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LDoubleUnaryOperatorX<X> thenToDouble(@Nonnull LBooleanToDoubleFunctionX<X> after) {
+	default LDoubleUnaryOperatorX<X> boolToDoubleUnaryOperator(@Nonnull LBooleanToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return d -> after.doApplyAsDouble(this.doTest(d));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LDoubleToCharFunctionX<X> thenToChar(@Nonnull LBooleanToCharFunctionX<X> after) {
+	default LDoubleToCharFunctionX<X> boolToDoubleToCharFunction(@Nonnull LBooleanToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return d -> after.doApplyAsChar(this.doTest(d));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LDoublePredicateX<X> thenToBoolean(@Nonnull LBooleanUnaryOperatorX<X> after) {
+	default LDoublePredicateX<X> boolToDoublePredicate(@Nonnull LLogicalOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
-		return d -> after.doApplyAsBoolean(this.doTest(d));
+		return d -> after.doApply(this.doTest(d));
 	}
 
 	// </editor-fold>
@@ -285,23 +285,23 @@ public interface LDoublePredicateX<X extends Throwable> extends java.util.functi
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoublePredicate nest() {
+	default LDoublePredicate nestingDPred() {
 		return this::nestingDoTest;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoublePredicateX<RuntimeException> nestX() {
+	default LDoublePredicateX<RuntimeException> nestingDPredX() {
 		return this::nestingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoublePredicate shove() {
+	default LDoublePredicate shovingDPred() {
 		return this::shovingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoublePredicateX<RuntimeException> shoveX() {
+	default LDoublePredicateX<RuntimeException> shovingDPredX() {
 		return this::shovingDoTest;
 	}
 
@@ -310,12 +310,12 @@ public interface LDoublePredicateX<X extends Throwable> extends java.util.functi
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LDoublePredicate handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LDoublePredicate handleDPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return d -> this.handlingDoTest(d, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LDoublePredicateX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LDoublePredicateX<Y> handleDPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return d -> this.handlingDoTest(d, handling);
 	}
 

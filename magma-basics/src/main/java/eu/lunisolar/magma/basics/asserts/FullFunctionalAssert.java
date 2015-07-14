@@ -24,24 +24,24 @@ import org.assertj.core.api.Assert;
 import javax.annotation.Nonnull;
 import java.util.function.*;
 
-public interface FullFunctionalAssert<S extends FullFunctionalAssert<S, A, RS, R, X>, A, RS extends Assert<RS, R>, R, X extends Exception>
-        extends FunctionalAssert<S, A, Consumer<RS>, X>, Assert<S, A>, Fluent<S> {
+public interface FullFunctionalAssert<S extends FullFunctionalAssert<S, PC, A, RS, R, X>, PC, A, RS extends Assert<RS, R>, R, X extends Exception>
+        extends FunctionalAssert<S, PC, A, Consumer<RS>, X>, Assert<S, A>, Fluent<S> {
 
     @SuppressWarnings("unchecked")
-    abstract class Base<S extends Base<S, A, RS, R, X>, A, RS extends Assert<RS, R>, R, X extends Exception>
+    abstract class Base<S extends Base<S, PC, A, RS, R, X>, PC, A, RS extends Assert<RS, R>, R, X extends Exception>
             extends RecurringAsserts.Base<S, A, Consumer<RS>>
-            implements FullFunctionalAssert<S, A, RS, R, X>, Fluent<S> {
+            implements FullFunctionalAssert<S, PC, A, RS, R, X>, Fluent<S> {
 
         public Base(A actual, Class<?> selfType) {
             super(actual, selfType);
         }
 
         @Nonnull
-        protected Evaluation<S, A, RS, R, X> evaluation(AssertionSupplier<RS> assertSupplier) {
-            return new Evaluation(self(), recurringAssert, () -> {
+        protected Evaluation<S, PC, A, RS, R, X> evaluation(AssertionFunction<PC, RS> assertFunction) {
+            return new Evaluation<>(self(), (PC pc) -> {
                 isNotNull();
-                return assertSupplier.get();
-            });
+                return assertFunction.applyAndCreateResultAssert(pc);
+            }, recurringAssert);
         }
 
     }

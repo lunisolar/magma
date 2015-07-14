@@ -110,7 +110,7 @@ public interface LIntFunctionX<R, X extends Throwable> extends java.util.functio
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplierX<R, X> capture(int i) {
+	default LSupplierX<R, X> captureIFunc(int i) {
 		return () -> this.doApply(i);
 	}
 
@@ -151,19 +151,19 @@ public interface LIntFunctionX<R, X extends Throwable> extends java.util.functio
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LIntFunctionX<R, X> fromInt(@Nonnull final LIntUnaryOperatorX<X> before1) {
+	default LIntFunctionX<R, X> iFuncFromInt(@Nonnull final LIntUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doApplyAsInt(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LFunctionX<V1, R, X> from(@Nonnull final LToIntFunctionX<? super V1, X> before1) {
+	default <V1> LFunctionX<V1, R, X> iFuncFrom(@Nonnull final LToIntFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doApplyAsInt(v1));
 	}
@@ -247,42 +247,42 @@ public interface LIntFunctionX<R, X extends Throwable> extends java.util.functio
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntFunction<R> nest() {
+	default LIntFunction<R> nestingIFunc() {
 		return this::nestingDoApply;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntFunctionX<R, RuntimeException> nestX() {
+	default LIntFunctionX<R, RuntimeException> nestingIFuncX() {
 		return this::nestingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntFunction<R> shove() {
+	default LIntFunction<R> shovingIFunc() {
 		return this::shovingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntFunctionX<R, RuntimeException> shoveX() {
+	default LIntFunctionX<R, RuntimeException> shovingIFuncX() {
 		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LIntFunctionX<R, X> nonNullableX() {
+	default LIntFunctionX<R, X> nonNullIFunc() {
 		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LIntFunction<R> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LIntFunction<R> handleIFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return i -> this.handlingDoApply(i, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LIntFunctionX<R, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LIntFunctionX<R, Y> handleIFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return i -> this.handlingDoApply(i, handling);
 	}
 

@@ -95,7 +95,7 @@ public interface LBiObjBooleanConsumerX<T1, T2, X extends Throwable> extends Met
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LActionX<X> capture(T1 t1, T2 t2, boolean b) {
+	default LActionX<X> captureBiObjBoolCons(T1 t1, T2 t2, boolean b) {
 		return () -> this.doAccept(t1, t2, b);
 	}
 
@@ -126,25 +126,25 @@ public interface LBiObjBooleanConsumerX<T1, T2, X extends Throwable> extends Met
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiObjBooleanConsumerX<V1, V2, X> fromBoolean(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LBooleanUnaryOperatorX<X> before3) {
+	default <V1, V2> LBiObjBooleanConsumerX<V1, V2, X> biObjBoolConsFromBoolean(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LLogicalOperatorX<X> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (final V1 v1, final V2 v2, final boolean v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsBoolean(v3));
+		return (final V1 v1, final V2 v2, final boolean v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApply(v3));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2, V3> LTriConsumerX<V1, V2, V3, X> from(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LPredicateX<? super V3, X> before3) {
+	default <V1, V2, V3> LTriConsumerX<V1, V2, V3, X> biObjBoolConsFrom(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LPredicateX<? super V3, X> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (V1 v1, V2 v2, V3 v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsBoolean(v3));
+		return (V1 v1, V2 v2, V3 v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doTest(v3));
 	}
 
 	// </editor-fold>
@@ -165,23 +165,23 @@ public interface LBiObjBooleanConsumerX<T1, T2, X extends Throwable> extends Met
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiObjBooleanConsumer<T1, T2> nest() {
+	default LBiObjBooleanConsumer<T1, T2> nestingBiObjBoolCons() {
 		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiObjBooleanConsumerX<T1, T2, RuntimeException> nestX() {
+	default LBiObjBooleanConsumerX<T1, T2, RuntimeException> nestingBiObjBoolConsX() {
 		return this::nestingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjBooleanConsumer<T1, T2> shove() {
+	default LBiObjBooleanConsumer<T1, T2> shovingBiObjBoolCons() {
 		return this::shovingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjBooleanConsumerX<T1, T2, RuntimeException> shoveX() {
+	default LBiObjBooleanConsumerX<T1, T2, RuntimeException> shovingBiObjBoolConsX() {
 		return this::shovingDoAccept;
 	}
 
@@ -190,12 +190,12 @@ public interface LBiObjBooleanConsumerX<T1, T2, X extends Throwable> extends Met
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LBiObjBooleanConsumer<T1, T2> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LBiObjBooleanConsumer<T1, T2> handleBiObjBoolCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T1 t1, T2 t2, boolean b) -> this.handlingDoAccept(t1, t2, b, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LBiObjBooleanConsumerX<T1, T2, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LBiObjBooleanConsumerX<T1, T2, Y> handleBiObjBoolConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T1 t1, T2 t2, boolean b) -> this.handlingDoAccept(t1, t2, b, handling);
 	}
 

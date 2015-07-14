@@ -90,7 +90,7 @@ public interface LBiObjBooleanPredicate<T1, T2> extends LBiObjBooleanPredicateX<
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier capture(T1 t1, T2 t2, boolean b) {
+	default LBooleanSupplier captureBiObjBoolPred(T1 t1, T2 t2, boolean b) {
 		return () -> this.doTest(t1, t2, b);
 	}
 
@@ -164,25 +164,25 @@ public interface LBiObjBooleanPredicate<T1, T2> extends LBiObjBooleanPredicateX<
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiObjBooleanPredicate<V1, V2> fromBoolean(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LBooleanUnaryOperator before3) {
+	default <V1, V2> LBiObjBooleanPredicate<V1, V2> biObjBoolPredFromBoolean(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LLogicalOperator before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (final V1 v1, final V2 v2, final boolean v3) -> this.doTest(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsBoolean(v3));
+		return (final V1 v1, final V2 v2, final boolean v3) -> this.doTest(before1.doApply(v1), before2.doApply(v2), before3.doApply(v3));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2, V3> LTriPredicate<V1, V2, V3> from(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LPredicate<? super V3> before3) {
+	default <V1, V2, V3> LTriPredicate<V1, V2, V3> biObjBoolPredFrom(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LPredicate<? super V3> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (V1 v1, V2 v2, V3 v3) -> this.doTest(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsBoolean(v3));
+		return (V1 v1, V2 v2, V3 v3) -> this.doTest(before1.doApply(v1), before2.doApply(v2), before3.doTest(v3));
 	}
 
 	// </editor-fold>
@@ -191,7 +191,7 @@ public interface LBiObjBooleanPredicate<T1, T2> extends LBiObjBooleanPredicateX<
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LBiObjBooleanFunction<T1, T2, V> then(@Nonnull LBooleanFunction<? extends V> after) {
+	default <V> LBiObjBooleanFunction<T1, T2, V> boolToBiObjBooleanFunction(@Nonnull LBooleanFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (T1 t1, T2 t2, boolean b) -> after.doApply(this.doTest(t1, t2, b));
 	}
@@ -201,23 +201,23 @@ public interface LBiObjBooleanPredicate<T1, T2> extends LBiObjBooleanPredicateX<
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiObjBooleanPredicate<T1, T2> nest() {
+	default LBiObjBooleanPredicate<T1, T2> nestingBiObjBoolPred() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiObjBooleanPredicateX<T1, T2, RuntimeException> nestX() {
+	default LBiObjBooleanPredicateX<T1, T2, RuntimeException> nestingBiObjBoolPredX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjBooleanPredicate<T1, T2> shove() {
+	default LBiObjBooleanPredicate<T1, T2> shovingBiObjBoolPred() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjBooleanPredicateX<T1, T2, RuntimeException> shoveX() {
+	default LBiObjBooleanPredicateX<T1, T2, RuntimeException> shovingBiObjBoolPredX() {
 		return this;
 	}
 

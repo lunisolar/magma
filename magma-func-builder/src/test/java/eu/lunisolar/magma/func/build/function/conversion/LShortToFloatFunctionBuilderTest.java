@@ -124,12 +124,14 @@ public class LShortToFloatFunctionBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsFloat((short)0).to(a -> a.isEqualTo((float)0))
-            .doesApplyAsFloat((short)5).to(a -> a.isEqualTo((float)1))
-            .doesApplyAsFloat((short)15).to(a -> a.isEqualTo((float)2))
-            .doesApplyAsFloat((short)10).to(a -> a.isEqualTo((float)99))
+            .doesApplyAsFloat((short)0).when(null).to(a -> a.isEqualTo((float)0))
+            .doesApplyAsFloat((short)5).when(null).to(a -> a.isEqualTo((float)1))
+            .doesApplyAsFloat((short)15).when(null).to(a -> a.isEqualTo((float)2))
+            .doesApplyAsFloat((short)10).when(null).to(a -> a.isEqualTo((float)99))
         ;
 
     }
 
 }
+
+

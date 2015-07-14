@@ -128,3 +128,5 @@ public class LBooleanToCharFunctionXAssertTest<X extends Throwable> {
     }
 
 }
+
+

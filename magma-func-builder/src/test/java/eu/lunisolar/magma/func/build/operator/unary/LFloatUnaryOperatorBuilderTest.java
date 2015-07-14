@@ -124,12 +124,14 @@ public class LFloatUnaryOperatorBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsFloat((float)0).to(a -> a.isEqualTo((float)0))
-            .doesApplyAsFloat((float)5).to(a -> a.isEqualTo((float)1))
-            .doesApplyAsFloat((float)15).to(a -> a.isEqualTo((float)2))
-            .doesApplyAsFloat((float)10).to(a -> a.isEqualTo((float)99))
+            .doesApplyAsFloat((float)0).when(null).to(a -> a.isEqualTo((float)0))
+            .doesApplyAsFloat((float)5).when(null).to(a -> a.isEqualTo((float)1))
+            .doesApplyAsFloat((float)15).when(null).to(a -> a.isEqualTo((float)2))
+            .doesApplyAsFloat((float)10).when(null).to(a -> a.isEqualTo((float)99))
         ;
 
     }
 
 }
+
+

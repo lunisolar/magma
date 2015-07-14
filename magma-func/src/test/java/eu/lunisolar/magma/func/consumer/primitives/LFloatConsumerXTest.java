@@ -171,7 +171,7 @@ public class LFloatConsumerXTest<X extends ParseException> {
         });
 
         // when
-        LFloatConsumerX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LFloatConsumerX<X> wrapped = sutThrowing.handleFConsX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -195,7 +195,7 @@ public class LFloatConsumerXTest<X extends ParseException> {
         });
 
         // when
-        LFloatConsumerX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LFloatConsumerX<X> wrapped = sutThrowing.handleFConsX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -219,7 +219,7 @@ public class LFloatConsumerXTest<X extends ParseException> {
         });
 
         // when
-        LFloatConsumerX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LFloatConsumerX<X> wrapped = sutThrowing.handleFConsX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -244,7 +244,7 @@ public class LFloatConsumerXTest<X extends ParseException> {
         });
 
         // when
-        LFloatConsumerX<X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
+        LFloatConsumerX<X> wrapped = sutThrowing.handleFConsX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -263,7 +263,7 @@ public class LFloatConsumerXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromFloat() throws X {
+    public void testfConsFromFloat() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -281,7 +281,7 @@ public class LFloatConsumerXTest<X extends ParseException> {
         };
 
         //when
-        LFloatConsumerX<X> function = sutO.fromFloat(before1);
+        LFloatConsumerX<X> function = sutO.fConsFromFloat(before1);
         function.doAccept((float)80);
 
         //then - finals
@@ -291,7 +291,7 @@ public class LFloatConsumerXTest<X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws X {
+    public void testfConsFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -309,7 +309,7 @@ public class LFloatConsumerXTest<X extends ParseException> {
         };
 
         //when
-        LConsumerX<Integer ,X> function = sutO.from(before1);
+        LConsumerX<Integer ,X> function = sutO.fConsFrom(before1);
         function.doAccept((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -348,25 +348,25 @@ public class LFloatConsumerXTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingFCons())
             .isInstanceOf(LFloatConsumer.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingFCons())
             .isInstanceOf(LFloatConsumer.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingFConsX())
             .isInstanceOf(LFloatConsumerX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingFConsX())
             .isInstanceOf(LFloatConsumerX.class);
     }
 
@@ -379,11 +379,11 @@ public class LFloatConsumerXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doAccept((float)100);
+        sutThrowing.shovingFCons().doAccept((float)100);
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleFCons() throws X {
 
         // given
         LFloatConsumerX<X> sutThrowing = LFloatConsumerX.lX(f -> {
@@ -391,7 +391,7 @@ public class LFloatConsumerXTest<X extends ParseException> {
         });
 
         // when
-        LFloatConsumerX<X> wrapped = sutThrowing.handleX(h -> {
+        LFloatConsumerX<X> wrapped = sutThrowing.handleFConsX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -428,3 +428,5 @@ public class LFloatConsumerXTest<X extends ParseException> {
 
 
 }
+
+

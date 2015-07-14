@@ -184,7 +184,7 @@ public class LFloatToLongFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LFloatToLongFunctionX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LFloatToLongFunctionX<X> wrapped = sutThrowing.handleFToLongFuncX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -208,7 +208,7 @@ public class LFloatToLongFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LFloatToLongFunctionX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LFloatToLongFunctionX<X> wrapped = sutThrowing.handleFToLongFuncX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -232,7 +232,7 @@ public class LFloatToLongFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LFloatToLongFunctionX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LFloatToLongFunctionX<X> wrapped = sutThrowing.handleFToLongFuncX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -257,7 +257,7 @@ public class LFloatToLongFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LFloatToLongFunctionX<X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
+        LFloatToLongFunctionX<X> wrapped = sutThrowing.handleFToLongFuncX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -276,7 +276,7 @@ public class LFloatToLongFunctionXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromFloat() throws X {
+    public void testfToLongFuncFromFloat() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -295,7 +295,7 @@ public class LFloatToLongFunctionXTest<X extends ParseException> {
         };
 
         //when
-        LFloatToLongFunctionX<X> function = sutO.fromFloat(before1);
+        LFloatToLongFunctionX<X> function = sutO.fToLongFuncFromFloat(before1);
         function.doApplyAsLong((float)80);
 
         //then - finals
@@ -305,7 +305,7 @@ public class LFloatToLongFunctionXTest<X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws X {
+    public void testfToLongFuncFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -324,7 +324,7 @@ public class LFloatToLongFunctionXTest<X extends ParseException> {
         };
 
         //when
-        LToLongFunctionX<Integer ,X> function = sutO.from(before1);
+        LToLongFunctionX<Integer ,X> function = sutO.fToLongFuncFrom(before1);
         function.doApplyAsLong((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -656,25 +656,25 @@ public class LFloatToLongFunctionXTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingFToLongFunc())
             .isInstanceOf(LFloatToLongFunction.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingFToLongFunc())
             .isInstanceOf(LFloatToLongFunction.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingFToLongFuncX())
             .isInstanceOf(LFloatToLongFunctionX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingFToLongFuncX())
             .isInstanceOf(LFloatToLongFunctionX.class);
     }
 
@@ -687,11 +687,11 @@ public class LFloatToLongFunctionXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doApplyAsLong((float)100);
+        sutThrowing.shovingFToLongFunc().doApplyAsLong((float)100);
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleFToLongFunc() throws X {
 
         // given
         LFloatToLongFunctionX<X> sutThrowing = LFloatToLongFunctionX.lX(f -> {
@@ -699,7 +699,7 @@ public class LFloatToLongFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LFloatToLongFunctionX<X> wrapped = sutThrowing.handleX(h -> {
+        LFloatToLongFunctionX<X> wrapped = sutThrowing.handleFToLongFuncX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -736,3 +736,5 @@ public class LFloatToLongFunctionXTest<X extends ParseException> {
 
 
 }
+
+

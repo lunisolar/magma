@@ -203,7 +203,7 @@ public class LToDoubleFunctionTest<T,X extends ParseException> {
         });
 
         // when
-        LToDoubleFunction<T> wrapped = sutThrowing.handle(handler -> handler
+        LToDoubleFunction<T> wrapped = sutThrowing.handleToDFunc(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -227,7 +227,7 @@ public class LToDoubleFunctionTest<T,X extends ParseException> {
         });
 
         // when
-        LToDoubleFunction<T> wrapped = sutThrowing.handle(handler -> handler
+        LToDoubleFunction<T> wrapped = sutThrowing.handleToDFunc(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -251,7 +251,7 @@ public class LToDoubleFunctionTest<T,X extends ParseException> {
         });
 
         // when
-        LToDoubleFunction<T> wrapped = sutThrowing.handle(handler -> handler
+        LToDoubleFunction<T> wrapped = sutThrowing.handleToDFunc(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -276,7 +276,7 @@ public class LToDoubleFunctionTest<T,X extends ParseException> {
         });
 
         // when
-        LToDoubleFunction<T> wrapped = sutThrowing.handle(h -> Function4U.doNothing());
+        LToDoubleFunction<T> wrapped = sutThrowing.handleToDFunc(h -> Function4U.doNothing());
 
         // then
         try {
@@ -295,7 +295,7 @@ public class LToDoubleFunctionTest<T,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfrom() throws X {
+    public void testtoDFuncFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -314,7 +314,7 @@ public class LToDoubleFunctionTest<T,X extends ParseException> {
         };
 
         //when
-        LToDoubleFunction<Integer > function = sutO.from(before1);
+        LToDoubleFunction<Integer > function = sutO.toDFuncFrom(before1);
         function.doApplyAsDouble((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -646,28 +646,28 @@ public class LToDoubleFunctionTest<T,X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingToDFunc())
             .isSameAs(sut)
             .isInstanceOf(LToDoubleFunction.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingToDFunc())
             .isSameAs(sut)
             .isInstanceOf(LToDoubleFunction.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingToDFuncX())
             .isSameAs(sut)
             .isInstanceOf(LToDoubleFunctionX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingToDFuncX())
             .isSameAs(sut)
             .isInstanceOf(LToDoubleFunctionX.class);
     }
@@ -681,11 +681,11 @@ public class LToDoubleFunctionTest<T,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doApplyAsDouble((T)Integer.valueOf(100));
+        sutThrowing.shovingToDFunc().doApplyAsDouble((T)Integer.valueOf(100));
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleToDFunc() throws X {
 
         // given
         LToDoubleFunction<T> sutThrowing = LToDoubleFunction.l(t -> {
@@ -693,7 +693,7 @@ public class LToDoubleFunctionTest<T,X extends ParseException> {
         });
 
         // when
-        LToDoubleFunction<T> wrapped = sutThrowing.handle(h -> {
+        LToDoubleFunction<T> wrapped = sutThrowing.handleToDFunc(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -730,3 +730,5 @@ public class LToDoubleFunctionTest<T,X extends ParseException> {
 
 
 }
+
+

@@ -48,7 +48,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for LBooleanToCharFunction. */
-public final class LBooleanToCharFunctionBuilder extends PerCaseBuilderWithCharProduct.Base<LBooleanToCharFunctionBuilder, LBooleanUnaryOperator, LBooleanToCharFunction> {
+public final class LBooleanToCharFunctionBuilder extends PerCaseBuilderWithCharProduct.Base<LBooleanToCharFunctionBuilder, LLogicalOperator, LBooleanToCharFunction> {
 
 	private Consumer<LBooleanToCharFunction> consumer;
 
@@ -107,11 +107,11 @@ public final class LBooleanToCharFunctionBuilder extends PerCaseBuilderWithCharP
 
 		LBooleanToCharFunction retval;
 
-		final Case<LBooleanUnaryOperator, LBooleanToCharFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
+		final Case<LLogicalOperator, LBooleanToCharFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 		retval = LBooleanToCharFunction.l(b -> {
 			try {
-				for (Case<LBooleanUnaryOperator, LBooleanToCharFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doApplyAsBoolean(b)) {
+				for (Case<LLogicalOperator, LBooleanToCharFunction> aCase : casesArray) {
+					if (aCase.casePredicate().doApply(b)) {
 						return aCase.caseFunction().doApplyAsChar(b);
 					}
 				}

@@ -84,7 +84,7 @@ public interface LObjIntToIntFunction<T> extends LObjIntToIntFunctionX<T, Runtim
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LIntSupplier capture(T t, int i) {
+	default LIntSupplier captureObjIToIFunc(T t, int i) {
 		return () -> this.doApplyAsInt(t, i);
 	}
 
@@ -112,20 +112,20 @@ public interface LObjIntToIntFunction<T> extends LObjIntToIntFunctionX<T, Runtim
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LObjIntToIntFunction<V1> fromInt(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LIntUnaryOperator before2) {
+	default <V1> LObjIntToIntFunction<V1> objIToIFuncFromInt(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LIntUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final int v2) -> this.doApplyAsInt(before1.doApply(v1), before2.doApplyAsInt(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LToIntBiFunction<V1, V2> from(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToIntFunction<? super V2> before2) {
+	default <V1, V2> LToIntBiFunction<V1, V2> objIToIFuncFrom(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToIntFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApplyAsInt(before1.doApply(v1), before2.doApplyAsInt(v2));
@@ -147,23 +147,23 @@ public interface LObjIntToIntFunction<T> extends LObjIntToIntFunctionX<T, Runtim
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjIntToIntFunction<T> nest() {
+	default LObjIntToIntFunction<T> nestingObjIToIFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjIntToIntFunctionX<T, RuntimeException> nestX() {
+	default LObjIntToIntFunctionX<T, RuntimeException> nestingObjIToIFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjIntToIntFunction<T> shove() {
+	default LObjIntToIntFunction<T> shovingObjIToIFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjIntToIntFunctionX<T, RuntimeException> shoveX() {
+	default LObjIntToIntFunctionX<T, RuntimeException> shovingObjIToIFuncX() {
 		return this;
 	}
 

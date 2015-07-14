@@ -130,63 +130,63 @@ public interface LShortSupplierX<X extends Throwable> extends MetaSupplier, Prim
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default <V> LSupplierX<V, X> then(@Nonnull LShortFunctionX<? extends V, X> after) {
+	default <V> LSupplierX<V, X> toSupplier(@Nonnull LShortFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApply(this.doGetAsShort());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LByteSupplierX<X> thenToByte(@Nonnull LShortToByteFunctionX<X> after) {
+	default LByteSupplierX<X> toByteSupplier(@Nonnull LShortToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsByte(this.doGetAsShort());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LShortSupplierX<X> thenToShort(@Nonnull LShortUnaryOperatorX<X> after) {
+	default LShortSupplierX<X> toShortSupplier(@Nonnull LShortUnaryOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsShort(this.doGetAsShort());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LIntSupplierX<X> thenToInt(@Nonnull LShortToIntFunctionX<X> after) {
+	default LIntSupplierX<X> toIntSupplier(@Nonnull LShortToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsInt(this.doGetAsShort());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LLongSupplierX<X> thenToLong(@Nonnull LShortToLongFunctionX<X> after) {
+	default LLongSupplierX<X> toLongSupplier(@Nonnull LShortToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsLong(this.doGetAsShort());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LFloatSupplierX<X> thenToFloat(@Nonnull LShortToFloatFunctionX<X> after) {
+	default LFloatSupplierX<X> toFloatSupplier(@Nonnull LShortToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsFloat(this.doGetAsShort());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LDoubleSupplierX<X> thenToDouble(@Nonnull LShortToDoubleFunctionX<X> after) {
+	default LDoubleSupplierX<X> toDoubleSupplier(@Nonnull LShortToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsDouble(this.doGetAsShort());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LCharSupplierX<X> thenToChar(@Nonnull LShortToCharFunctionX<X> after) {
+	default LCharSupplierX<X> toCharSupplier(@Nonnull LShortToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsChar(this.doGetAsShort());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LBooleanSupplierX<X> thenToBoolean(@Nonnull LShortPredicateX<X> after) {
+	default LBooleanSupplierX<X> toBooleanSupplier(@Nonnull LShortPredicateX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doTest(this.doGetAsShort());
 	}
@@ -196,23 +196,23 @@ public interface LShortSupplierX<X extends Throwable> extends MetaSupplier, Prim
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LShortSupplier nest() {
+	default LShortSupplier nestingSSup() {
 		return this::nestingDoGetAsShort;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LShortSupplierX<RuntimeException> nestX() {
+	default LShortSupplierX<RuntimeException> nestingSSupX() {
 		return this::nestingDoGetAsShort;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortSupplier shove() {
+	default LShortSupplier shovingSSup() {
 		return this::shovingDoGetAsShort;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortSupplierX<RuntimeException> shoveX() {
+	default LShortSupplierX<RuntimeException> shovingSSupX() {
 		return this::shovingDoGetAsShort;
 	}
 
@@ -221,12 +221,12 @@ public interface LShortSupplierX<X extends Throwable> extends MetaSupplier, Prim
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LShortSupplier handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LShortSupplier handleSSup(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return () -> this.handlingDoGetAsShort(handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LShortSupplierX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LShortSupplierX<Y> handleSSupX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return () -> this.handlingDoGetAsShort(handling);
 	}
 

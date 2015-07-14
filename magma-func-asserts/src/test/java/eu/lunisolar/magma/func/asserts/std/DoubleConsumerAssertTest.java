@@ -128,3 +128,5 @@ public class DoubleConsumerAssertTest<X extends Throwable> {
     }
 
 }
+
+

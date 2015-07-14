@@ -95,7 +95,7 @@ public interface LBooleanConsumerX<X extends Throwable> extends MetaConsumer, Me
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LActionX<X> capture(boolean b) {
+	default LActionX<X> captureBoolCons(boolean b) {
 		return () -> this.doAccept(b);
 	}
 
@@ -126,21 +126,21 @@ public interface LBooleanConsumerX<X extends Throwable> extends MetaConsumer, Me
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LBooleanConsumerX<X> fromBoolean(@Nonnull final LBooleanUnaryOperatorX<X> before1) {
+	default LBooleanConsumerX<X> boolConsFromBoolean(@Nonnull final LLogicalOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doAccept(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doAccept(before1.doApply(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LConsumerX<V1, X> from(@Nonnull final LPredicateX<? super V1, X> before1) {
+	default <V1> LConsumerX<V1, X> boolConsFrom(@Nonnull final LPredicateX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doAccept(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doAccept(before1.doTest(v1));
 	}
 
 	// </editor-fold>
@@ -161,23 +161,23 @@ public interface LBooleanConsumerX<X extends Throwable> extends MetaConsumer, Me
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanConsumer nest() {
+	default LBooleanConsumer nestingBoolCons() {
 		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanConsumerX<RuntimeException> nestX() {
+	default LBooleanConsumerX<RuntimeException> nestingBoolConsX() {
 		return this::nestingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanConsumer shove() {
+	default LBooleanConsumer shovingBoolCons() {
 		return this::shovingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanConsumerX<RuntimeException> shoveX() {
+	default LBooleanConsumerX<RuntimeException> shovingBoolConsX() {
 		return this::shovingDoAccept;
 	}
 
@@ -186,12 +186,12 @@ public interface LBooleanConsumerX<X extends Throwable> extends MetaConsumer, Me
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LBooleanConsumer handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LBooleanConsumer handleBoolCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return b -> this.handlingDoAccept(b, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LBooleanConsumerX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LBooleanConsumerX<Y> handleBoolConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return b -> this.handlingDoAccept(b, handling);
 	}
 

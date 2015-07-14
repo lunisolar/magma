@@ -118,23 +118,23 @@ public interface LAction extends LActionX<RuntimeException>, MetaAction, MetaInt
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LAction nest() {
+	default LAction nestingAct() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LActionX<RuntimeException> nestX() {
+	default LActionX<RuntimeException> nestingActX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LAction shove() {
+	default LAction shovingAct() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LActionX<RuntimeException> shoveX() {
+	default LActionX<RuntimeException> shovingActX() {
 		return this;
 	}
 

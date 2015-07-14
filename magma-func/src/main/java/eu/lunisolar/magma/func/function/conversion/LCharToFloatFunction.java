@@ -84,7 +84,7 @@ public interface LCharToFloatFunction extends LCharToFloatFunctionX<RuntimeExcep
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LFloatSupplier capture(char c) {
+	default LFloatSupplier captureCToFFunc(char c) {
 		return () -> this.doApplyAsFloat(c);
 	}
 
@@ -112,19 +112,19 @@ public interface LCharToFloatFunction extends LCharToFloatFunctionX<RuntimeExcep
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LCharToFloatFunction fromChar(@Nonnull final LCharUnaryOperator before1) {
+	default LCharToFloatFunction cToFFuncFromChar(@Nonnull final LCharUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsFloat(before1.doApplyAsChar(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToFloatFunction<V1> from(@Nonnull final LToCharFunction<? super V1> before1) {
+	default <V1> LToFloatFunction<V1> cToFFuncFrom(@Nonnull final LToCharFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsFloat(before1.doApplyAsChar(v1));
 	}
@@ -201,23 +201,23 @@ public interface LCharToFloatFunction extends LCharToFloatFunctionX<RuntimeExcep
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LCharToFloatFunction nest() {
+	default LCharToFloatFunction nestingCToFFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LCharToFloatFunctionX<RuntimeException> nestX() {
+	default LCharToFloatFunctionX<RuntimeException> nestingCToFFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharToFloatFunction shove() {
+	default LCharToFloatFunction shovingCToFFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharToFloatFunctionX<RuntimeException> shoveX() {
+	default LCharToFloatFunctionX<RuntimeException> shovingCToFFuncX() {
 		return this;
 	}
 

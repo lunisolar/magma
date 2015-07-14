@@ -105,7 +105,7 @@ public interface LObjFloatPredicateX<T, X extends Throwable> extends MetaPredica
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> capture(T t, float f) {
+	default LBooleanSupplierX<X> captureObjFPred(T t, float f) {
 		return () -> this.doTest(t, f);
 	}
 
@@ -186,20 +186,20 @@ public interface LObjFloatPredicateX<T, X extends Throwable> extends MetaPredica
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LObjFloatPredicateX<V1, X> fromFloat(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LFloatUnaryOperatorX<X> before2) {
+	default <V1> LObjFloatPredicateX<V1, X> objFPredFromFloat(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LFloatUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final float v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsFloat(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiPredicateX<V1, V2, X> from(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToFloatFunctionX<? super V2, X> before2) {
+	default <V1, V2> LBiPredicateX<V1, V2, X> objFPredFrom(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToFloatFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsFloat(v2));
@@ -211,7 +211,7 @@ public interface LObjFloatPredicateX<T, X extends Throwable> extends MetaPredica
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LObjFloatFunctionX<T, V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LObjFloatFunctionX<T, V, X> boolToObjFloatFunction(@Nonnull LBooleanFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (T t, float f) -> after.doApply(this.doTest(t, f));
 	}
@@ -221,23 +221,23 @@ public interface LObjFloatPredicateX<T, X extends Throwable> extends MetaPredica
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjFloatPredicate<T> nest() {
+	default LObjFloatPredicate<T> nestingObjFPred() {
 		return this::nestingDoTest;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjFloatPredicateX<T, RuntimeException> nestX() {
+	default LObjFloatPredicateX<T, RuntimeException> nestingObjFPredX() {
 		return this::nestingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjFloatPredicate<T> shove() {
+	default LObjFloatPredicate<T> shovingObjFPred() {
 		return this::shovingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjFloatPredicateX<T, RuntimeException> shoveX() {
+	default LObjFloatPredicateX<T, RuntimeException> shovingObjFPredX() {
 		return this::shovingDoTest;
 	}
 
@@ -246,12 +246,12 @@ public interface LObjFloatPredicateX<T, X extends Throwable> extends MetaPredica
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LObjFloatPredicate<T> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LObjFloatPredicate<T> handleObjFPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T t, float f) -> this.handlingDoTest(t, f, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LObjFloatPredicateX<T, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LObjFloatPredicateX<T, Y> handleObjFPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T t, float f) -> this.handlingDoTest(t, f, handling);
 	}
 

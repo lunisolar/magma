@@ -91,7 +91,7 @@ public interface LToLongFunction<T> extends LToLongFunctionX<T, RuntimeException
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LLongSupplier capture(T t) {
+	default LLongSupplier captureToLongFunc(T t) {
 		return () -> this.doApplyAsLong(t);
 	}
 
@@ -125,10 +125,10 @@ public interface LToLongFunction<T> extends LToLongFunctionX<T, RuntimeException
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToLongFunction<V1> from(@Nonnull final LFunction<? super V1, ? extends T> before1) {
+	default <V1> LToLongFunction<V1> toLongFuncFrom(@Nonnull final LFunction<? super V1, ? extends T> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsLong(before1.doApply(v1));
 	}
@@ -205,23 +205,23 @@ public interface LToLongFunction<T> extends LToLongFunctionX<T, RuntimeException
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToLongFunction<T> nest() {
+	default LToLongFunction<T> nestingToLongFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToLongFunctionX<T, RuntimeException> nestX() {
+	default LToLongFunctionX<T, RuntimeException> nestingToLongFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToLongFunction<T> shove() {
+	default LToLongFunction<T> shovingToLongFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToLongFunctionX<T, RuntimeException> shoveX() {
+	default LToLongFunctionX<T, RuntimeException> shovingToLongFuncX() {
 		return this;
 	}
 

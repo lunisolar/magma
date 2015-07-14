@@ -124,12 +124,14 @@ public class LToDoubleBiFunctionXBuilderTest<T1,T2,X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsDouble(Integer.valueOf(0),Integer.valueOf(0)).to(a -> a.isEqualTo((double)0))
-            .doesApplyAsDouble(Integer.valueOf(5),Integer.valueOf(5)).to(a -> a.isEqualTo((double)1))
-            .doesApplyAsDouble(Integer.valueOf(15),Integer.valueOf(15)).to(a -> a.isEqualTo((double)2))
-            .doesApplyAsDouble(Integer.valueOf(10),Integer.valueOf(10)).to(a -> a.isEqualTo((double)99))
+            .doesApplyAsDouble(Integer.valueOf(0),Integer.valueOf(0)).when(null).to(a -> a.isEqualTo((double)0))
+            .doesApplyAsDouble(Integer.valueOf(5),Integer.valueOf(5)).when(null).to(a -> a.isEqualTo((double)1))
+            .doesApplyAsDouble(Integer.valueOf(15),Integer.valueOf(15)).when(null).to(a -> a.isEqualTo((double)2))
+            .doesApplyAsDouble(Integer.valueOf(10),Integer.valueOf(10)).when(null).to(a -> a.isEqualTo((double)99))
         ;
 
     }
 
 }
+
+

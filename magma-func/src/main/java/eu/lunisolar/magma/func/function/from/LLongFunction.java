@@ -95,7 +95,7 @@ public interface LLongFunction<R> extends LLongFunctionX<R, RuntimeException>, M
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> capture(long l) {
+	default LSupplier<R> captureLongFunc(long l) {
 		return () -> this.doApply(l);
 	}
 
@@ -129,19 +129,19 @@ public interface LLongFunction<R> extends LLongFunctionX<R, RuntimeException>, M
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LLongFunction<R> fromLong(@Nonnull final LLongUnaryOperator before1) {
+	default LLongFunction<R> longFuncFromLong(@Nonnull final LLongUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doApplyAsLong(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LFunction<V1, R> from(@Nonnull final LToLongFunction<? super V1> before1) {
+	default <V1> LFunction<V1, R> longFuncFrom(@Nonnull final LToLongFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doApplyAsLong(v1));
 	}
@@ -225,30 +225,30 @@ public interface LLongFunction<R> extends LLongFunctionX<R, RuntimeException>, M
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LLongFunction<R> nest() {
+	default LLongFunction<R> nestingLongFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LLongFunctionX<R, RuntimeException> nestX() {
+	default LLongFunctionX<R, RuntimeException> nestingLongFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LLongFunction<R> shove() {
+	default LLongFunction<R> shovingLongFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LLongFunctionX<R, RuntimeException> shoveX() {
+	default LLongFunctionX<R, RuntimeException> shovingLongFuncX() {
 		return this;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LLongFunction<R> nonNullable() {
+	default LLongFunction<R> nonNullLongFunc() {
 		return this::nonNullDoApply;
 	}
 

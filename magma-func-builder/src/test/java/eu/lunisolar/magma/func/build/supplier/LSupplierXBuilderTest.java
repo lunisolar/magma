@@ -125,12 +125,14 @@ public class LSupplierXBuilderTest<R,X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesGet(()->externalInfluence.set(0)).to(a -> a.isEqualTo(Integer.valueOf(0)))
-            .doesGet(()->externalInfluence.set(5)).to(a -> a.isEqualTo(Integer.valueOf(1)))
-            .doesGet(()->externalInfluence.set(15)).to(a -> a.isEqualTo(Integer.valueOf(2)))
-            .doesGet(()->externalInfluence.set(10)).to(a -> a.isEqualTo(Integer.valueOf(99)))
+            .doesGet().when(()->externalInfluence.set(0)).to(a -> a.isEqualTo(Integer.valueOf(0)))
+            .doesGet().when(()->externalInfluence.set(5)).to(a -> a.isEqualTo(Integer.valueOf(1)))
+            .doesGet().when(()->externalInfluence.set(15)).to(a -> a.isEqualTo(Integer.valueOf(2)))
+            .doesGet().when(()->externalInfluence.set(10)).to(a -> a.isEqualTo(Integer.valueOf(99)))
         ;
 
     }
 
 }
+
+

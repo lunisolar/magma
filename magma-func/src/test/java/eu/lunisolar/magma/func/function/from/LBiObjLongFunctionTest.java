@@ -206,7 +206,7 @@ public class LBiObjLongFunctionTest<T1,T2,R,X extends ParseException> {
         });
 
         // when
-        LBiObjLongFunction<T1,T2,R> wrapped = sutThrowing.handle(handler -> handler
+        LBiObjLongFunction<T1,T2,R> wrapped = sutThrowing.handleBiObjLongFunc(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -230,7 +230,7 @@ public class LBiObjLongFunctionTest<T1,T2,R,X extends ParseException> {
         });
 
         // when
-        LBiObjLongFunction<T1,T2,R> wrapped = sutThrowing.handle(handler -> handler
+        LBiObjLongFunction<T1,T2,R> wrapped = sutThrowing.handleBiObjLongFunc(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -254,7 +254,7 @@ public class LBiObjLongFunctionTest<T1,T2,R,X extends ParseException> {
         });
 
         // when
-        LBiObjLongFunction<T1,T2,R> wrapped = sutThrowing.handle(handler -> handler
+        LBiObjLongFunction<T1,T2,R> wrapped = sutThrowing.handleBiObjLongFunc(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -279,7 +279,7 @@ public class LBiObjLongFunctionTest<T1,T2,R,X extends ParseException> {
         });
 
         // when
-        LBiObjLongFunction<T1,T2,R> wrapped = sutThrowing.handle(h -> Function4U.doNothing());
+        LBiObjLongFunction<T1,T2,R> wrapped = sutThrowing.handleBiObjLongFunc(h -> Function4U.doNothing());
 
         // then
         try {
@@ -298,7 +298,7 @@ public class LBiObjLongFunctionTest<T1,T2,R,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromLong() throws X {
+    public void testbiObjLongFuncFromLong() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -329,7 +329,7 @@ public class LBiObjLongFunctionTest<T1,T2,R,X extends ParseException> {
         };
 
         //when
-        LBiObjLongFunction<Integer ,Integer ,Integer > function = sutO.fromLong(before1,before2,before3);
+        LBiObjLongFunction<Integer ,Integer ,Integer > function = sutO.biObjLongFuncFromLong(before1,before2,before3);
         function.doApply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(long)82);
 
         //then - finals
@@ -339,7 +339,7 @@ public class LBiObjLongFunctionTest<T1,T2,R,X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws X {
+    public void testbiObjLongFuncFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -370,7 +370,7 @@ public class LBiObjLongFunctionTest<T1,T2,R,X extends ParseException> {
         };
 
         //when
-        LTriFunction<Integer ,Integer ,Integer ,Integer > function = sutO.from(before1,before2,before3);
+        LTriFunction<Integer ,Integer ,Integer ,Integer > function = sutO.biObjLongFuncFrom(before1,before2,before3);
         function.doApply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(Integer )Integer.valueOf(82));
 
         //then - finals
@@ -458,28 +458,28 @@ public class LBiObjLongFunctionTest<T1,T2,R,X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingBiObjLongFunc())
             .isSameAs(sut)
             .isInstanceOf(LBiObjLongFunction.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingBiObjLongFunc())
             .isSameAs(sut)
             .isInstanceOf(LBiObjLongFunction.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingBiObjLongFuncX())
             .isSameAs(sut)
             .isInstanceOf(LBiObjLongFunctionX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingBiObjLongFuncX())
             .isSameAs(sut)
             .isInstanceOf(LBiObjLongFunctionX.class);
     }
@@ -493,11 +493,11 @@ public class LBiObjLongFunctionTest<T1,T2,R,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(long)100);
+        sutThrowing.shovingBiObjLongFunc().doApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(long)100);
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleBiObjLongFunc() throws X {
 
         // given
         LBiObjLongFunction<T1,T2,R> sutThrowing = LBiObjLongFunction.l((T1 t1,T2 t2, long l) -> {
@@ -505,7 +505,7 @@ public class LBiObjLongFunctionTest<T1,T2,R,X extends ParseException> {
         });
 
         // when
-        LBiObjLongFunction<T1,T2,R> wrapped = sutThrowing.handle(h -> {
+        LBiObjLongFunction<T1,T2,R> wrapped = sutThrowing.handleBiObjLongFunc(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -542,3 +542,5 @@ public class LBiObjLongFunctionTest<T1,T2,R,X extends ParseException> {
 
 
 }
+
+

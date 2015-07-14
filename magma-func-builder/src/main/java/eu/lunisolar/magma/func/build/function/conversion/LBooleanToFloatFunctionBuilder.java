@@ -48,7 +48,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for LBooleanToFloatFunction. */
-public final class LBooleanToFloatFunctionBuilder extends PerCaseBuilderWithFloatProduct.Base<LBooleanToFloatFunctionBuilder, LBooleanUnaryOperator, LBooleanToFloatFunction> {
+public final class LBooleanToFloatFunctionBuilder extends PerCaseBuilderWithFloatProduct.Base<LBooleanToFloatFunctionBuilder, LLogicalOperator, LBooleanToFloatFunction> {
 
 	private Consumer<LBooleanToFloatFunction> consumer;
 
@@ -107,11 +107,11 @@ public final class LBooleanToFloatFunctionBuilder extends PerCaseBuilderWithFloa
 
 		LBooleanToFloatFunction retval;
 
-		final Case<LBooleanUnaryOperator, LBooleanToFloatFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
+		final Case<LLogicalOperator, LBooleanToFloatFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 		retval = LBooleanToFloatFunction.l(b -> {
 			try {
-				for (Case<LBooleanUnaryOperator, LBooleanToFloatFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doApplyAsBoolean(b)) {
+				for (Case<LLogicalOperator, LBooleanToFloatFunction> aCase : casesArray) {
+					if (aCase.casePredicate().doApply(b)) {
 						return aCase.caseFunction().doApplyAsFloat(b);
 					}
 				}

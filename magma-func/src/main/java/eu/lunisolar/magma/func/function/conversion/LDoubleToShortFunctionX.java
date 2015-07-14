@@ -99,7 +99,7 @@ public interface LDoubleToShortFunctionX<X extends Throwable> extends MetaFuncti
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LShortSupplierX<X> capture(double d) {
+	default LShortSupplierX<X> captureDToSFunc(double d) {
 		return () -> this.doApplyAsShort(d);
 	}
 
@@ -134,19 +134,19 @@ public interface LDoubleToShortFunctionX<X extends Throwable> extends MetaFuncti
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LDoubleToShortFunctionX<X> fromDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1) {
+	default LDoubleToShortFunctionX<X> dToSFuncFromDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsShort(before1.doApplyAsDouble(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToShortFunctionX<V1, X> from(@Nonnull final LToDoubleFunctionX<? super V1, X> before1) {
+	default <V1> LToShortFunctionX<V1, X> dToSFuncFrom(@Nonnull final LToDoubleFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsShort(before1.doApplyAsDouble(v1));
 	}
@@ -223,23 +223,23 @@ public interface LDoubleToShortFunctionX<X extends Throwable> extends MetaFuncti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoubleToShortFunction nest() {
+	default LDoubleToShortFunction nestingDToSFunc() {
 		return this::nestingDoApplyAsShort;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoubleToShortFunctionX<RuntimeException> nestX() {
+	default LDoubleToShortFunctionX<RuntimeException> nestingDToSFuncX() {
 		return this::nestingDoApplyAsShort;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleToShortFunction shove() {
+	default LDoubleToShortFunction shovingDToSFunc() {
 		return this::shovingDoApplyAsShort;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleToShortFunctionX<RuntimeException> shoveX() {
+	default LDoubleToShortFunctionX<RuntimeException> shovingDToSFuncX() {
 		return this::shovingDoApplyAsShort;
 	}
 
@@ -248,12 +248,12 @@ public interface LDoubleToShortFunctionX<X extends Throwable> extends MetaFuncti
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LDoubleToShortFunction handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LDoubleToShortFunction handleDToSFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return d -> this.handlingDoApplyAsShort(d, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LDoubleToShortFunctionX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LDoubleToShortFunctionX<Y> handleDToSFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return d -> this.handlingDoApplyAsShort(d, handling);
 	}
 

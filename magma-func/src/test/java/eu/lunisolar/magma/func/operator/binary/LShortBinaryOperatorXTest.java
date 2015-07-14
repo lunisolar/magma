@@ -184,7 +184,7 @@ public class LShortBinaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        LShortBinaryOperatorX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LShortBinaryOperatorX<X> wrapped = sutThrowing.handleSBinaryOpX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -208,7 +208,7 @@ public class LShortBinaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        LShortBinaryOperatorX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LShortBinaryOperatorX<X> wrapped = sutThrowing.handleSBinaryOpX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -232,7 +232,7 @@ public class LShortBinaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        LShortBinaryOperatorX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LShortBinaryOperatorX<X> wrapped = sutThrowing.handleSBinaryOpX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -257,7 +257,7 @@ public class LShortBinaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        LShortBinaryOperatorX<X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
+        LShortBinaryOperatorX<X> wrapped = sutThrowing.handleSBinaryOpX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -310,7 +310,7 @@ public class LShortBinaryOperatorXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromShort() throws X {
+    public void testsBinaryOpFromShort() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -335,7 +335,7 @@ public class LShortBinaryOperatorXTest<X extends ParseException> {
         };
 
         //when
-        LShortBinaryOperatorX<X> function = sutO.fromShort(before1,before2);
+        LShortBinaryOperatorX<X> function = sutO.sBinaryOpFromShort(before1,before2);
         function.doApplyAsShort((short)80,(short)81);
 
         //then - finals
@@ -345,7 +345,7 @@ public class LShortBinaryOperatorXTest<X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws X {
+    public void testsBinaryOpFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -370,7 +370,7 @@ public class LShortBinaryOperatorXTest<X extends ParseException> {
         };
 
         //when
-        LToShortBiFunctionX<Integer ,Integer ,X> function = sutO.from(before1,before2);
+        LToShortBiFunctionX<Integer ,Integer ,X> function = sutO.sBinaryOpFrom(before1,before2);
         function.doApplyAsShort((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
@@ -423,25 +423,25 @@ public class LShortBinaryOperatorXTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingSBinaryOp())
             .isInstanceOf(LShortBinaryOperator.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingSBinaryOp())
             .isInstanceOf(LShortBinaryOperator.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingSBinaryOpX())
             .isInstanceOf(LShortBinaryOperatorX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingSBinaryOpX())
             .isInstanceOf(LShortBinaryOperatorX.class);
     }
 
@@ -454,11 +454,11 @@ public class LShortBinaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doApplyAsShort((short)100,(short)100);
+        sutThrowing.shovingSBinaryOp().doApplyAsShort((short)100,(short)100);
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleSBinaryOp() throws X {
 
         // given
         LShortBinaryOperatorX<X> sutThrowing = LShortBinaryOperatorX.lX((short s1,short s2) -> {
@@ -466,7 +466,7 @@ public class LShortBinaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        LShortBinaryOperatorX<X> wrapped = sutThrowing.handleX(h -> {
+        LShortBinaryOperatorX<X> wrapped = sutThrowing.handleSBinaryOpX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -503,3 +503,5 @@ public class LShortBinaryOperatorXTest<X extends ParseException> {
 
 
 }
+
+

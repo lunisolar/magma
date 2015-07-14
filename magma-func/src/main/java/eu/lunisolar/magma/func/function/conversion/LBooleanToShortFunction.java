@@ -84,7 +84,7 @@ public interface LBooleanToShortFunction extends LBooleanToShortFunctionX<Runtim
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LShortSupplier capture(boolean b) {
+	default LShortSupplier captureBoolToSFunc(boolean b) {
 		return () -> this.doApplyAsShort(b);
 	}
 
@@ -112,21 +112,21 @@ public interface LBooleanToShortFunction extends LBooleanToShortFunctionX<Runtim
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LBooleanToShortFunction fromBoolean(@Nonnull final LBooleanUnaryOperator before1) {
+	default LBooleanToShortFunction boolToSFuncFromBoolean(@Nonnull final LLogicalOperator before1) {
 		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsShort(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doApplyAsShort(before1.doApply(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToShortFunction<V1> from(@Nonnull final LPredicate<? super V1> before1) {
+	default <V1> LToShortFunction<V1> boolToSFuncFrom(@Nonnull final LPredicate<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsShort(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doApplyAsShort(before1.doTest(v1));
 	}
 
 	// </editor-fold>
@@ -191,7 +191,7 @@ public interface LBooleanToShortFunction extends LBooleanToShortFunctionX<Runtim
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LBooleanUnaryOperator thenToBoolean(@Nonnull LShortPredicate after) {
+	default LLogicalOperator thenToBoolean(@Nonnull LShortPredicate after) {
 		Null.nonNullArg(after, "after");
 		return b -> after.doTest(this.doApplyAsShort(b));
 	}
@@ -201,23 +201,23 @@ public interface LBooleanToShortFunction extends LBooleanToShortFunctionX<Runtim
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanToShortFunction nest() {
+	default LBooleanToShortFunction nestingBoolToSFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanToShortFunctionX<RuntimeException> nestX() {
+	default LBooleanToShortFunctionX<RuntimeException> nestingBoolToSFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanToShortFunction shove() {
+	default LBooleanToShortFunction shovingBoolToSFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanToShortFunctionX<RuntimeException> shoveX() {
+	default LBooleanToShortFunctionX<RuntimeException> shovingBoolToSFuncX() {
 		return this;
 	}
 

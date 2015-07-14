@@ -84,7 +84,7 @@ public interface LByteToDoubleFunction extends LByteToDoubleFunctionX<RuntimeExc
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LDoubleSupplier capture(byte b) {
+	default LDoubleSupplier captureBToDFunc(byte b) {
 		return () -> this.doApplyAsDouble(b);
 	}
 
@@ -112,19 +112,19 @@ public interface LByteToDoubleFunction extends LByteToDoubleFunctionX<RuntimeExc
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LByteToDoubleFunction fromByte(@Nonnull final LByteUnaryOperator before1) {
+	default LByteToDoubleFunction bToDFuncFromByte(@Nonnull final LByteUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsDouble(before1.doApplyAsByte(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToDoubleFunction<V1> from(@Nonnull final LToByteFunction<? super V1> before1) {
+	default <V1> LToDoubleFunction<V1> bToDFuncFrom(@Nonnull final LToByteFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsDouble(before1.doApplyAsByte(v1));
 	}
@@ -201,23 +201,23 @@ public interface LByteToDoubleFunction extends LByteToDoubleFunctionX<RuntimeExc
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LByteToDoubleFunction nest() {
+	default LByteToDoubleFunction nestingBToDFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LByteToDoubleFunctionX<RuntimeException> nestX() {
+	default LByteToDoubleFunctionX<RuntimeException> nestingBToDFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteToDoubleFunction shove() {
+	default LByteToDoubleFunction shovingBToDFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteToDoubleFunctionX<RuntimeException> shoveX() {
+	default LByteToDoubleFunctionX<RuntimeException> shovingBToDFuncX() {
 		return this;
 	}
 

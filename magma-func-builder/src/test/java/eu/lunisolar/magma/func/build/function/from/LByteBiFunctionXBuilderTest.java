@@ -124,12 +124,14 @@ public class LByteBiFunctionXBuilderTest<R,X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApply((byte)0,(byte)0).to(a -> a.isEqualTo(Integer.valueOf(0)))
-            .doesApply((byte)5,(byte)5).to(a -> a.isEqualTo(Integer.valueOf(1)))
-            .doesApply((byte)15,(byte)15).to(a -> a.isEqualTo(Integer.valueOf(2)))
-            .doesApply((byte)10,(byte)10).to(a -> a.isEqualTo(Integer.valueOf(99)))
+            .doesApply((byte)0,(byte)0).when(null).to(a -> a.isEqualTo(Integer.valueOf(0)))
+            .doesApply((byte)5,(byte)5).when(null).to(a -> a.isEqualTo(Integer.valueOf(1)))
+            .doesApply((byte)15,(byte)15).when(null).to(a -> a.isEqualTo(Integer.valueOf(2)))
+            .doesApply((byte)10,(byte)10).when(null).to(a -> a.isEqualTo(Integer.valueOf(99)))
         ;
 
     }
 
 }
+
+

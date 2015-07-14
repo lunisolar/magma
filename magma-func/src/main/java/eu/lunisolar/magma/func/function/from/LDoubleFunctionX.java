@@ -110,7 +110,7 @@ public interface LDoubleFunctionX<R, X extends Throwable> extends java.util.func
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplierX<R, X> capture(double d) {
+	default LSupplierX<R, X> captureDFunc(double d) {
 		return () -> this.doApply(d);
 	}
 
@@ -151,19 +151,19 @@ public interface LDoubleFunctionX<R, X extends Throwable> extends java.util.func
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LDoubleFunctionX<R, X> fromDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1) {
+	default LDoubleFunctionX<R, X> dFuncFromDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doApplyAsDouble(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LFunctionX<V1, R, X> from(@Nonnull final LToDoubleFunctionX<? super V1, X> before1) {
+	default <V1> LFunctionX<V1, R, X> dFuncFrom(@Nonnull final LToDoubleFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doApplyAsDouble(v1));
 	}
@@ -247,42 +247,42 @@ public interface LDoubleFunctionX<R, X extends Throwable> extends java.util.func
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoubleFunction<R> nest() {
+	default LDoubleFunction<R> nestingDFunc() {
 		return this::nestingDoApply;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoubleFunctionX<R, RuntimeException> nestX() {
+	default LDoubleFunctionX<R, RuntimeException> nestingDFuncX() {
 		return this::nestingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleFunction<R> shove() {
+	default LDoubleFunction<R> shovingDFunc() {
 		return this::shovingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleFunctionX<R, RuntimeException> shoveX() {
+	default LDoubleFunctionX<R, RuntimeException> shovingDFuncX() {
 		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LDoubleFunctionX<R, X> nonNullableX() {
+	default LDoubleFunctionX<R, X> nonNullDFunc() {
 		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LDoubleFunction<R> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LDoubleFunction<R> handleDFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return d -> this.handlingDoApply(d, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LDoubleFunctionX<R, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LDoubleFunctionX<R, Y> handleDFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return d -> this.handlingDoApply(d, handling);
 	}
 

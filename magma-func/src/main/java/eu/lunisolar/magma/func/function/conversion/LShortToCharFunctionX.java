@@ -99,7 +99,7 @@ public interface LShortToCharFunctionX<X extends Throwable> extends MetaFunction
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LCharSupplierX<X> capture(short s) {
+	default LCharSupplierX<X> captureSToCFunc(short s) {
 		return () -> this.doApplyAsChar(s);
 	}
 
@@ -134,19 +134,19 @@ public interface LShortToCharFunctionX<X extends Throwable> extends MetaFunction
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LShortToCharFunctionX<X> fromShort(@Nonnull final LShortUnaryOperatorX<X> before1) {
+	default LShortToCharFunctionX<X> sToCFuncFromShort(@Nonnull final LShortUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsChar(before1.doApplyAsShort(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToCharFunctionX<V1, X> from(@Nonnull final LToShortFunctionX<? super V1, X> before1) {
+	default <V1> LToCharFunctionX<V1, X> sToCFuncFrom(@Nonnull final LToShortFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsChar(before1.doApplyAsShort(v1));
 	}
@@ -223,23 +223,23 @@ public interface LShortToCharFunctionX<X extends Throwable> extends MetaFunction
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LShortToCharFunction nest() {
+	default LShortToCharFunction nestingSToCFunc() {
 		return this::nestingDoApplyAsChar;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LShortToCharFunctionX<RuntimeException> nestX() {
+	default LShortToCharFunctionX<RuntimeException> nestingSToCFuncX() {
 		return this::nestingDoApplyAsChar;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortToCharFunction shove() {
+	default LShortToCharFunction shovingSToCFunc() {
 		return this::shovingDoApplyAsChar;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortToCharFunctionX<RuntimeException> shoveX() {
+	default LShortToCharFunctionX<RuntimeException> shovingSToCFuncX() {
 		return this::shovingDoApplyAsChar;
 	}
 
@@ -248,12 +248,12 @@ public interface LShortToCharFunctionX<X extends Throwable> extends MetaFunction
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LShortToCharFunction handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LShortToCharFunction handleSToCFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return s -> this.handlingDoApplyAsChar(s, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LShortToCharFunctionX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LShortToCharFunctionX<Y> handleSToCFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return s -> this.handlingDoApplyAsChar(s, handling);
 	}
 

@@ -128,3 +128,5 @@ public class LBiObjBooleanFunctionXAssertTest<T1,T2,R,X extends Throwable> {
     }
 
 }
+
+

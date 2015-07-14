@@ -58,12 +58,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LTernaryOperator<T> extends LTernaryOperatorX<T, RuntimeException>, MetaOperator, MetaInterface.NonThrowing { // NOSONAR
+public interface LTernaryOperator<T> extends LTernaryOperatorX<T, RuntimeException>, MetaOperator, MetaInterface.NonThrowing, LTriFunction<T, T, T, T> { // NOSONAR
 
 	static final String DESCRIPTION = "LTernaryOperator: T doApply(T t1,T t2,T t3)";
-
-	@Nullable
-	T doApply(T t1, T t2, T t3);
 
 	default T nestingDoApply(T t1, T t2, T t3) {
 		return this.doApply(t1, t2, t3);
@@ -88,7 +85,7 @@ public interface LTernaryOperator<T> extends LTernaryOperatorX<T, RuntimeExcepti
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<T> capture(T t1, T t2, T t3) {
+	default LSupplier<T> captureTernaryOp(T t1, T t2, T t3) {
 		return () -> this.doApply(t1, t2, t3);
 	}
 
@@ -127,30 +124,30 @@ public interface LTernaryOperator<T> extends LTernaryOperatorX<T, RuntimeExcepti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LTernaryOperator<T> nest() {
+	default LTernaryOperator<T> nestingTernaryOp() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LTernaryOperatorX<T, RuntimeException> nestX() {
+	default LTernaryOperatorX<T, RuntimeException> nestingTernaryOpX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LTernaryOperator<T> shove() {
+	default LTernaryOperator<T> shovingTernaryOp() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LTernaryOperatorX<T, RuntimeException> shoveX() {
+	default LTernaryOperatorX<T, RuntimeException> shovingTernaryOpX() {
 		return this;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LTernaryOperator<T> nonNullable() {
+	default LTernaryOperator<T> nonNullTernaryOp() {
 		return this::nonNullDoApply;
 	}
 

@@ -128,3 +128,5 @@ public class LShortToCharFunctionAssertTest<X extends Throwable> {
     }
 
 }
+
+

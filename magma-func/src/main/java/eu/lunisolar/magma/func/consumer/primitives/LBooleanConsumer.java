@@ -80,7 +80,7 @@ public interface LBooleanConsumer extends LBooleanConsumerX<RuntimeException>, M
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LAction capture(boolean b) {
+	default LAction captureBoolCons(boolean b) {
 		return () -> this.doAccept(b);
 	}
 
@@ -104,21 +104,21 @@ public interface LBooleanConsumer extends LBooleanConsumerX<RuntimeException>, M
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LBooleanConsumer fromBoolean(@Nonnull final LBooleanUnaryOperator before1) {
+	default LBooleanConsumer boolConsFromBoolean(@Nonnull final LLogicalOperator before1) {
 		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doAccept(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doAccept(before1.doApply(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LConsumer<V1> from(@Nonnull final LPredicate<? super V1> before1) {
+	default <V1> LConsumer<V1> boolConsFrom(@Nonnull final LPredicate<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doAccept(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doAccept(before1.doTest(v1));
 	}
 
 	// </editor-fold>
@@ -139,23 +139,23 @@ public interface LBooleanConsumer extends LBooleanConsumerX<RuntimeException>, M
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanConsumer nest() {
+	default LBooleanConsumer nestingBoolCons() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanConsumerX<RuntimeException> nestX() {
+	default LBooleanConsumerX<RuntimeException> nestingBoolConsX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanConsumer shove() {
+	default LBooleanConsumer shovingBoolCons() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanConsumerX<RuntimeException> shoveX() {
+	default LBooleanConsumerX<RuntimeException> shovingBoolConsX() {
 		return this;
 	}
 

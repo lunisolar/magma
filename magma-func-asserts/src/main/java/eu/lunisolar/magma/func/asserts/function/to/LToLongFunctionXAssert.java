@@ -26,16 +26,28 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
 import eu.lunisolar.magma.func.function.to.*;
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LToLongFunctionX. */
-public interface LToLongFunctionXAssert<S extends LToLongFunctionXAssert<S, A, RS, T, X>, A extends LToLongFunctionX<T, X>, RS extends AbstractLongAssert<RS>, T, X extends Throwable> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, Long, Exception> {
+public interface LToLongFunctionXAssert<S extends LToLongFunctionXAssert<S, A, RS, T, X>, A extends LToLongFunctionX<T, X>, RS extends AbstractLongAssert<RS>, T, X extends Throwable>
+		extends
+			Assert<S, A>,
+			FullFunctionalAssert<S, LConsumerX<T, Exception>, A, RS, Long, Exception> {
 
 	@Nonnull
-	Evaluation<S, A, RS, Long, Exception> doesApplyAsLong(T t);
+	Evaluation<S, LConsumerX<T, Exception>, A, RS, Long, Exception> doesApplyAsLong(T t);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends LToLongFunctionX<T, X>, RS extends AbstractLongAssert<RS>, T, X extends Throwable> extends Base<Impl<A, RS, T, X>, A, RS, T, X> {
@@ -46,7 +58,7 @@ public interface LToLongFunctionXAssert<S extends LToLongFunctionXAssert<S, A, R
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, T, X>, A extends LToLongFunctionX<T, X>, RS extends AbstractLongAssert<RS>, T, X extends Throwable> extends FullFunctionalAssert.Base<S, A, RS, Long, Exception>
+	public static class Base<S extends Base<S, A, RS, T, X>, A extends LToLongFunctionX<T, X>, RS extends AbstractLongAssert<RS>, T, X extends Throwable> extends FullFunctionalAssert.Base<S, LConsumerX<T, Exception>, A, RS, Long, Exception>
 			implements
 				LToLongFunctionXAssert<S, A, RS, T, X> {
 
@@ -58,8 +70,15 @@ public interface LToLongFunctionXAssert<S extends LToLongFunctionXAssert<S, A, R
 		}
 
 		@Nonnull
-		public Evaluation<S, A, RS, Long, Exception> doesApplyAsLong(T t) {
-			return evaluation(() -> assertFactory.apply((Long) actual.doApplyAsLong(t)));
+		public Evaluation<S, LConsumerX<T, Exception>, A, RS, Long, Exception> doesApplyAsLong(T t) {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doAccept(t);
+				}
+				return assertFactory.apply((Long) actual.doApplyAsLong(t));
+			});
+
 		}
 
 	}

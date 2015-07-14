@@ -123,10 +123,12 @@ public class LBooleanToFloatFunctionBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsFloat(false).to(a -> a.isEqualTo((float)0))
-            .doesApplyAsFloat(true).to(a -> a.isEqualTo((float)1))
+            .doesApplyAsFloat(false).when(null).to(a -> a.isEqualTo((float)0))
+            .doesApplyAsFloat(true).when(null).to(a -> a.isEqualTo((float)1))
         ;
 
     }
 
 }
+
+

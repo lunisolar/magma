@@ -99,7 +99,7 @@ public interface LCharBinaryOperatorX<X extends Throwable> extends MetaOperator,
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LCharSupplierX<X> capture(char c1, char c2) {
+	default LCharSupplierX<X> captureCBinaryOp(char c1, char c2) {
 		return () -> this.doApplyAsChar(c1, c2);
 	}
 
@@ -153,20 +153,20 @@ public interface LCharBinaryOperatorX<X extends Throwable> extends MetaOperator,
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LCharBinaryOperatorX<X> fromChar(@Nonnull final LCharUnaryOperatorX<X> before1, @Nonnull final LCharUnaryOperatorX<X> before2) {
+	default LCharBinaryOperatorX<X> cBinaryOpFromChar(@Nonnull final LCharUnaryOperatorX<X> before1, @Nonnull final LCharUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final char v1, final char v2) -> this.doApplyAsChar(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LToCharBiFunctionX<V1, V2, X> from(@Nonnull final LToCharFunctionX<? super V1, X> before1, @Nonnull final LToCharFunctionX<? super V2, X> before2) {
+	default <V1, V2> LToCharBiFunctionX<V1, V2, X> cBinaryOpFrom(@Nonnull final LToCharFunctionX<? super V1, X> before1, @Nonnull final LToCharFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApplyAsChar(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
@@ -188,23 +188,23 @@ public interface LCharBinaryOperatorX<X extends Throwable> extends MetaOperator,
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LCharBinaryOperator nest() {
+	default LCharBinaryOperator nestingCBinaryOp() {
 		return this::nestingDoApplyAsChar;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LCharBinaryOperatorX<RuntimeException> nestX() {
+	default LCharBinaryOperatorX<RuntimeException> nestingCBinaryOpX() {
 		return this::nestingDoApplyAsChar;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharBinaryOperator shove() {
+	default LCharBinaryOperator shovingCBinaryOp() {
 		return this::shovingDoApplyAsChar;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharBinaryOperatorX<RuntimeException> shoveX() {
+	default LCharBinaryOperatorX<RuntimeException> shovingCBinaryOpX() {
 		return this::shovingDoApplyAsChar;
 	}
 
@@ -213,12 +213,12 @@ public interface LCharBinaryOperatorX<X extends Throwable> extends MetaOperator,
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LCharBinaryOperator handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LCharBinaryOperator handleCBinaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (char c1, char c2) -> this.handlingDoApplyAsChar(c1, c2, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LCharBinaryOperatorX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LCharBinaryOperatorX<Y> handleCBinaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (char c1, char c2) -> this.handlingDoApplyAsChar(c1, c2, handling);
 	}
 

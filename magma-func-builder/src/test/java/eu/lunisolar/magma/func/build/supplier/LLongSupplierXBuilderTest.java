@@ -125,12 +125,14 @@ public class LLongSupplierXBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesGetAsLong(()->externalInfluence.set(0)).to(a -> a.isEqualTo((long)0))
-            .doesGetAsLong(()->externalInfluence.set(5)).to(a -> a.isEqualTo((long)1))
-            .doesGetAsLong(()->externalInfluence.set(15)).to(a -> a.isEqualTo((long)2))
-            .doesGetAsLong(()->externalInfluence.set(10)).to(a -> a.isEqualTo((long)99))
+            .doesGetAsLong().when(()->externalInfluence.set(0)).to(a -> a.isEqualTo((long)0))
+            .doesGetAsLong().when(()->externalInfluence.set(5)).to(a -> a.isEqualTo((long)1))
+            .doesGetAsLong().when(()->externalInfluence.set(15)).to(a -> a.isEqualTo((long)2))
+            .doesGetAsLong().when(()->externalInfluence.set(10)).to(a -> a.isEqualTo((long)99))
         ;
 
     }
 
 }
+
+

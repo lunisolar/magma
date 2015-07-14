@@ -125,70 +125,70 @@ public interface LSupplier<R> extends LSupplierX<R, RuntimeException>, MetaSuppl
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default <V> LSupplier<V> then(@Nonnull LFunction<? super R, ? extends V> after) {
+	default <V> LSupplier<V> toSupplier(@Nonnull LFunction<? super R, ? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApply(this.doGet());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LAction then(@Nonnull LConsumer<? super R> after) {
+	default LAction toAction(@Nonnull LConsumer<? super R> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doAccept(this.doGet());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LByteSupplier thenToByte(@Nonnull LToByteFunction<? super R> after) {
+	default LByteSupplier toByteSupplier(@Nonnull LToByteFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsByte(this.doGet());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LShortSupplier thenToShort(@Nonnull LToShortFunction<? super R> after) {
+	default LShortSupplier toShortSupplier(@Nonnull LToShortFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsShort(this.doGet());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LIntSupplier thenToInt(@Nonnull LToIntFunction<? super R> after) {
+	default LIntSupplier toIntSupplier(@Nonnull LToIntFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsInt(this.doGet());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LLongSupplier thenToLong(@Nonnull LToLongFunction<? super R> after) {
+	default LLongSupplier toLongSupplier(@Nonnull LToLongFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsLong(this.doGet());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LFloatSupplier thenToFloat(@Nonnull LToFloatFunction<? super R> after) {
+	default LFloatSupplier toFloatSupplier(@Nonnull LToFloatFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsFloat(this.doGet());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LDoubleSupplier thenToDouble(@Nonnull LToDoubleFunction<? super R> after) {
+	default LDoubleSupplier toDoubleSupplier(@Nonnull LToDoubleFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsDouble(this.doGet());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LCharSupplier thenToChar(@Nonnull LToCharFunction<? super R> after) {
+	default LCharSupplier toCharSupplier(@Nonnull LToCharFunction<? super R> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsChar(this.doGet());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LBooleanSupplier thenToBoolean(@Nonnull LPredicate<? super R> after) {
+	default LBooleanSupplier toBooleanSupplier(@Nonnull LPredicate<? super R> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doTest(this.doGet());
 	}
@@ -198,30 +198,30 @@ public interface LSupplier<R> extends LSupplierX<R, RuntimeException>, MetaSuppl
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LSupplier<R> nest() {
+	default LSupplier<R> nestingSup() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LSupplierX<R, RuntimeException> nestX() {
+	default LSupplierX<R, RuntimeException> nestingSupX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LSupplier<R> shove() {
+	default LSupplier<R> shovingSup() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LSupplierX<R, RuntimeException> shoveX() {
+	default LSupplierX<R, RuntimeException> shovingSupX() {
 		return this;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LSupplier<R> nonNullable() {
+	default LSupplier<R> nonNullSup() {
 		return this::nonNullDoGet;
 	}
 

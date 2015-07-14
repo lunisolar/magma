@@ -195,7 +195,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
         });
 
         // when
-        LToCharFunction<T> wrapped = sutThrowing.handle(handler -> handler
+        LToCharFunction<T> wrapped = sutThrowing.handleToCFunc(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -219,7 +219,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
         });
 
         // when
-        LToCharFunction<T> wrapped = sutThrowing.handle(handler -> handler
+        LToCharFunction<T> wrapped = sutThrowing.handleToCFunc(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -243,7 +243,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
         });
 
         // when
-        LToCharFunction<T> wrapped = sutThrowing.handle(handler -> handler
+        LToCharFunction<T> wrapped = sutThrowing.handleToCFunc(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -268,7 +268,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
         });
 
         // when
-        LToCharFunction<T> wrapped = sutThrowing.handle(h -> Function4U.doNothing());
+        LToCharFunction<T> wrapped = sutThrowing.handleToCFunc(h -> Function4U.doNothing());
 
         // then
         try {
@@ -287,7 +287,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfrom() throws X {
+    public void testtoCFuncFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -306,7 +306,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
         };
 
         //when
-        LToCharFunction<Integer > function = sutO.from(before1);
+        LToCharFunction<Integer > function = sutO.toCFuncFrom(before1);
         function.doApplyAsChar((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -638,28 +638,28 @@ public class LToCharFunctionTest<T,X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingToCFunc())
             .isSameAs(sut)
             .isInstanceOf(LToCharFunction.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingToCFunc())
             .isSameAs(sut)
             .isInstanceOf(LToCharFunction.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingToCFuncX())
             .isSameAs(sut)
             .isInstanceOf(LToCharFunctionX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingToCFuncX())
             .isSameAs(sut)
             .isInstanceOf(LToCharFunctionX.class);
     }
@@ -673,11 +673,11 @@ public class LToCharFunctionTest<T,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doApplyAsChar((T)Integer.valueOf(100));
+        sutThrowing.shovingToCFunc().doApplyAsChar((T)Integer.valueOf(100));
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleToCFunc() throws X {
 
         // given
         LToCharFunction<T> sutThrowing = LToCharFunction.l(t -> {
@@ -685,7 +685,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
         });
 
         // when
-        LToCharFunction<T> wrapped = sutThrowing.handle(h -> {
+        LToCharFunction<T> wrapped = sutThrowing.handleToCFunc(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -722,3 +722,5 @@ public class LToCharFunctionTest<T,X extends ParseException> {
 
 
 }
+
+

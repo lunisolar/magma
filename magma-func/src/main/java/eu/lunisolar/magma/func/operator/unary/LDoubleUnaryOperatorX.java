@@ -106,7 +106,7 @@ public interface LDoubleUnaryOperatorX<X extends Throwable> extends java.util.fu
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LDoubleSupplierX<X> capture(double d) {
+	default LDoubleSupplierX<X> captureDUnaryOp(double d) {
 		return () -> this.doApplyAsDouble(d);
 	}
 
@@ -147,19 +147,19 @@ public interface LDoubleUnaryOperatorX<X extends Throwable> extends java.util.fu
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LDoubleUnaryOperatorX<X> fromDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1) {
+	default LDoubleUnaryOperatorX<X> dUnaryOpFromDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsDouble(before1.doApplyAsDouble(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToDoubleFunctionX<V1, X> from(@Nonnull final LToDoubleFunctionX<? super V1, X> before1) {
+	default <V1> LToDoubleFunctionX<V1, X> dUnaryOpFrom(@Nonnull final LToDoubleFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsDouble(before1.doApplyAsDouble(v1));
 	}
@@ -242,23 +242,23 @@ public interface LDoubleUnaryOperatorX<X extends Throwable> extends java.util.fu
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoubleUnaryOperator nest() {
+	default LDoubleUnaryOperator nestingDUnaryOp() {
 		return this::nestingDoApplyAsDouble;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoubleUnaryOperatorX<RuntimeException> nestX() {
+	default LDoubleUnaryOperatorX<RuntimeException> nestingDUnaryOpX() {
 		return this::nestingDoApplyAsDouble;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleUnaryOperator shove() {
+	default LDoubleUnaryOperator shovingDUnaryOp() {
 		return this::shovingDoApplyAsDouble;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleUnaryOperatorX<RuntimeException> shoveX() {
+	default LDoubleUnaryOperatorX<RuntimeException> shovingDUnaryOpX() {
 		return this::shovingDoApplyAsDouble;
 	}
 
@@ -267,12 +267,12 @@ public interface LDoubleUnaryOperatorX<X extends Throwable> extends java.util.fu
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LDoubleUnaryOperator handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LDoubleUnaryOperator handleDUnaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return d -> this.handlingDoApplyAsDouble(d, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LDoubleUnaryOperatorX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LDoubleUnaryOperatorX<Y> handleDUnaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return d -> this.handlingDoApplyAsDouble(d, handling);
 	}
 

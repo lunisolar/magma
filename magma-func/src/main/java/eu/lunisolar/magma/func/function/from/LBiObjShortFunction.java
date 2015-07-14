@@ -88,7 +88,7 @@ public interface LBiObjShortFunction<T1, T2, R> extends LBiObjShortFunctionX<T1,
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> capture(T1 t1, T2 t2, short s) {
+	default LSupplier<R> captureBiObjSFunc(T1 t1, T2 t2, short s) {
 		return () -> this.doApply(t1, t2, s);
 	}
 
@@ -116,10 +116,10 @@ public interface LBiObjShortFunction<T1, T2, R> extends LBiObjShortFunctionX<T1,
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiObjShortFunction<V1, V2, R> fromShort(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LShortUnaryOperator before3) {
+	default <V1, V2> LBiObjShortFunction<V1, V2, R> biObjSFuncFromShort(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LShortUnaryOperator before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
@@ -127,10 +127,10 @@ public interface LBiObjShortFunction<T1, T2, R> extends LBiObjShortFunctionX<T1,
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2, V3> LTriFunction<V1, V2, V3, R> from(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LToShortFunction<? super V3> before3) {
+	default <V1, V2, V3> LTriFunction<V1, V2, V3, R> biObjSFuncFrom(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LToShortFunction<? super V3> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
@@ -160,30 +160,30 @@ public interface LBiObjShortFunction<T1, T2, R> extends LBiObjShortFunctionX<T1,
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiObjShortFunction<T1, T2, R> nest() {
+	default LBiObjShortFunction<T1, T2, R> nestingBiObjSFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiObjShortFunctionX<T1, T2, R, RuntimeException> nestX() {
+	default LBiObjShortFunctionX<T1, T2, R, RuntimeException> nestingBiObjSFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjShortFunction<T1, T2, R> shove() {
+	default LBiObjShortFunction<T1, T2, R> shovingBiObjSFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjShortFunctionX<T1, T2, R, RuntimeException> shoveX() {
+	default LBiObjShortFunctionX<T1, T2, R, RuntimeException> shovingBiObjSFuncX() {
 		return this;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LBiObjShortFunction<T1, T2, R> nonNullable() {
+	default LBiObjShortFunction<T1, T2, R> nonNullBiObjSFunc() {
 		return this::nonNullDoApply;
 	}
 

@@ -95,7 +95,7 @@ public interface LByteBiConsumerX<X extends Throwable> extends MetaConsumer, Met
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LActionX<X> capture(byte b1, byte b2) {
+	default LActionX<X> captureBBiCons(byte b1, byte b2) {
 		return () -> this.doAccept(b1, b2);
 	}
 
@@ -126,20 +126,20 @@ public interface LByteBiConsumerX<X extends Throwable> extends MetaConsumer, Met
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LByteBiConsumerX<X> fromByte(@Nonnull final LByteUnaryOperatorX<X> before1, @Nonnull final LByteUnaryOperatorX<X> before2) {
+	default LByteBiConsumerX<X> bBiConsFromByte(@Nonnull final LByteUnaryOperatorX<X> before1, @Nonnull final LByteUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final byte v1, final byte v2) -> this.doAccept(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiConsumerX<V1, V2, X> from(@Nonnull final LToByteFunctionX<? super V1, X> before1, @Nonnull final LToByteFunctionX<? super V2, X> before2) {
+	default <V1, V2> LBiConsumerX<V1, V2, X> bBiConsFrom(@Nonnull final LToByteFunctionX<? super V1, X> before1, @Nonnull final LToByteFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doAccept(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
@@ -163,23 +163,23 @@ public interface LByteBiConsumerX<X extends Throwable> extends MetaConsumer, Met
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LByteBiConsumer nest() {
+	default LByteBiConsumer nestingBBiCons() {
 		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LByteBiConsumerX<RuntimeException> nestX() {
+	default LByteBiConsumerX<RuntimeException> nestingBBiConsX() {
 		return this::nestingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteBiConsumer shove() {
+	default LByteBiConsumer shovingBBiCons() {
 		return this::shovingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteBiConsumerX<RuntimeException> shoveX() {
+	default LByteBiConsumerX<RuntimeException> shovingBBiConsX() {
 		return this::shovingDoAccept;
 	}
 
@@ -188,12 +188,12 @@ public interface LByteBiConsumerX<X extends Throwable> extends MetaConsumer, Met
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LByteBiConsumer handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LByteBiConsumer handleBBiCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (byte b1, byte b2) -> this.handlingDoAccept(b1, b2, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LByteBiConsumerX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LByteBiConsumerX<Y> handleBBiConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (byte b1, byte b2) -> this.handlingDoAccept(b1, b2, handling);
 	}
 

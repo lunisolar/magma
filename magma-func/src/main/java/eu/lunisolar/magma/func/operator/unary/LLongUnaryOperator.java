@@ -91,7 +91,7 @@ public interface LLongUnaryOperator extends LLongUnaryOperatorX<RuntimeException
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LLongSupplier capture(long l) {
+	default LLongSupplier captureLongUnaryOp(long l) {
 		return () -> this.doApplyAsLong(l);
 	}
 
@@ -125,19 +125,19 @@ public interface LLongUnaryOperator extends LLongUnaryOperatorX<RuntimeException
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LLongUnaryOperator fromLong(@Nonnull final LLongUnaryOperator before1) {
+	default LLongUnaryOperator longUnaryOpFromLong(@Nonnull final LLongUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsLong(before1.doApplyAsLong(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToLongFunction<V1> from(@Nonnull final LToLongFunction<? super V1> before1) {
+	default <V1> LToLongFunction<V1> longUnaryOpFrom(@Nonnull final LToLongFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsLong(before1.doApplyAsLong(v1));
 	}
@@ -220,23 +220,23 @@ public interface LLongUnaryOperator extends LLongUnaryOperatorX<RuntimeException
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LLongUnaryOperator nest() {
+	default LLongUnaryOperator nestingLongUnaryOp() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LLongUnaryOperatorX<RuntimeException> nestX() {
+	default LLongUnaryOperatorX<RuntimeException> nestingLongUnaryOpX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LLongUnaryOperator shove() {
+	default LLongUnaryOperator shovingLongUnaryOp() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LLongUnaryOperatorX<RuntimeException> shoveX() {
+	default LLongUnaryOperatorX<RuntimeException> shovingLongUnaryOpX() {
 		return this;
 	}
 

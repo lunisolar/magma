@@ -26,16 +26,25 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
 import eu.lunisolar.magma.func.function.from.*;
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LCharFunction. */
-public interface LCharFunctionAssert<S extends LCharFunctionAssert<S, A, RS, R>, A extends LCharFunction<R>, RS extends Assert<RS, R>, R> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, R, Exception> {
+public interface LCharFunctionAssert<S extends LCharFunctionAssert<S, A, RS, R>, A extends LCharFunction<R>, RS extends Assert<RS, R>, R> extends Assert<S, A>, FullFunctionalAssert<S, LCharConsumerX<Exception>, A, RS, R, Exception> {
 
 	@Nonnull
-	Evaluation<S, A, RS, R, Exception> doesApply(char c);
+	Evaluation<S, LCharConsumerX<Exception>, A, RS, R, Exception> doesApply(char c);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends LCharFunction<R>, RS extends Assert<RS, R>, R> extends Base<Impl<A, RS, R>, A, RS, R> {
@@ -46,7 +55,7 @@ public interface LCharFunctionAssert<S extends LCharFunctionAssert<S, A, RS, R>,
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, R>, A extends LCharFunction<R>, RS extends Assert<RS, R>, R> extends FullFunctionalAssert.Base<S, A, RS, R, Exception> implements LCharFunctionAssert<S, A, RS, R> {
+	public static class Base<S extends Base<S, A, RS, R>, A extends LCharFunction<R>, RS extends Assert<RS, R>, R> extends FullFunctionalAssert.Base<S, LCharConsumerX<Exception>, A, RS, R, Exception> implements LCharFunctionAssert<S, A, RS, R> {
 
 		protected final java.util.function.Function<R, RS> assertFactory;
 
@@ -56,8 +65,15 @@ public interface LCharFunctionAssert<S extends LCharFunctionAssert<S, A, RS, R>,
 		}
 
 		@Nonnull
-		public Evaluation<S, A, RS, R, Exception> doesApply(char c) {
-			return evaluation(() -> assertFactory.apply((R) actual.doApply(c)));
+		public Evaluation<S, LCharConsumerX<Exception>, A, RS, R, Exception> doesApply(char c) {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doAccept(c);
+				}
+				return assertFactory.apply((R) actual.doApply(c));
+			});
+
 		}
 
 	}

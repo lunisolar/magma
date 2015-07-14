@@ -124,12 +124,14 @@ public class LIntBinaryOperatorBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsInt((int)0,(int)0).to(a -> a.isEqualTo((int)0))
-            .doesApplyAsInt((int)5,(int)5).to(a -> a.isEqualTo((int)1))
-            .doesApplyAsInt((int)15,(int)15).to(a -> a.isEqualTo((int)2))
-            .doesApplyAsInt((int)10,(int)10).to(a -> a.isEqualTo((int)99))
+            .doesApplyAsInt((int)0,(int)0).when(null).to(a -> a.isEqualTo((int)0))
+            .doesApplyAsInt((int)5,(int)5).when(null).to(a -> a.isEqualTo((int)1))
+            .doesApplyAsInt((int)15,(int)15).when(null).to(a -> a.isEqualTo((int)2))
+            .doesApplyAsInt((int)10,(int)10).when(null).to(a -> a.isEqualTo((int)99))
         ;
 
     }
 
 }
+
+

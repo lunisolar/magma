@@ -128,3 +128,5 @@ public class LFloatToLongFunctionAssertTest<X extends Throwable> {
     }
 
 }
+
+

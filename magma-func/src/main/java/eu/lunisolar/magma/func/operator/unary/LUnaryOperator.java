@@ -58,19 +58,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LUnaryOperator<T> extends LUnaryOperatorX<T, RuntimeException>, MetaOperator, MetaInterface.NonThrowing { // NOSONAR
+public interface LUnaryOperator<T> extends LUnaryOperatorX<T, RuntimeException>, MetaOperator, MetaInterface.NonThrowing, LFunction<T, T> { // NOSONAR
 
 	static final String DESCRIPTION = "LUnaryOperator: T doApply(T t)";
-
-	@Override
-	@Deprecated
-	// calling this method via LUnaryOperator interface should be discouraged.
-	default T apply(T t) {
-		return this.nestingDoApply(t);
-	}
-
-	@Nullable
-	T doApply(T t);
 
 	default T nestingDoApply(T t) {
 		return this.doApply(t);
@@ -95,7 +85,7 @@ public interface LUnaryOperator<T> extends LUnaryOperatorX<T, RuntimeException>,
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<T> capture(T t) {
+	default LSupplier<T> captureUnaryOp(T t) {
 		return () -> this.doApply(t);
 	}
 
@@ -202,30 +192,30 @@ public interface LUnaryOperator<T> extends LUnaryOperatorX<T, RuntimeException>,
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LUnaryOperator<T> nest() {
+	default LUnaryOperator<T> nestingUnaryOp() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LUnaryOperatorX<T, RuntimeException> nestX() {
+	default LUnaryOperatorX<T, RuntimeException> nestingUnaryOpX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LUnaryOperator<T> shove() {
+	default LUnaryOperator<T> shovingUnaryOp() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LUnaryOperatorX<T, RuntimeException> shoveX() {
+	default LUnaryOperatorX<T, RuntimeException> shovingUnaryOpX() {
 		return this;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LUnaryOperator<T> nonNullable() {
+	default LUnaryOperator<T> nonNullUnaryOp() {
 		return this::nonNullDoApply;
 	}
 

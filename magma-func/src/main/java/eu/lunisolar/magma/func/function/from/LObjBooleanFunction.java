@@ -88,7 +88,7 @@ public interface LObjBooleanFunction<T, R> extends LObjBooleanFunctionX<T, R, Ru
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> capture(T t, boolean b) {
+	default LSupplier<R> captureObjBoolFunc(T t, boolean b) {
 		return () -> this.doApply(t, b);
 	}
 
@@ -116,23 +116,23 @@ public interface LObjBooleanFunction<T, R> extends LObjBooleanFunctionX<T, R, Ru
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LObjBooleanFunction<V1, R> fromBoolean(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LBooleanUnaryOperator before2) {
+	default <V1> LObjBooleanFunction<V1, R> objBoolFuncFromBoolean(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LLogicalOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (final V1 v1, final boolean v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsBoolean(v2));
+		return (final V1 v1, final boolean v2) -> this.doApply(before1.doApply(v1), before2.doApply(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiFunction<V1, V2, R> from(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LPredicate<? super V2> before2) {
+	default <V1, V2> LBiFunction<V1, V2, R> objBoolFuncFrom(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LPredicate<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsBoolean(v2));
+		return (V1 v1, V2 v2) -> this.doApply(before1.doApply(v1), before2.doTest(v2));
 	}
 
 	// </editor-fold>
@@ -158,30 +158,30 @@ public interface LObjBooleanFunction<T, R> extends LObjBooleanFunctionX<T, R, Ru
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjBooleanFunction<T, R> nest() {
+	default LObjBooleanFunction<T, R> nestingObjBoolFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjBooleanFunctionX<T, R, RuntimeException> nestX() {
+	default LObjBooleanFunctionX<T, R, RuntimeException> nestingObjBoolFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjBooleanFunction<T, R> shove() {
+	default LObjBooleanFunction<T, R> shovingObjBoolFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjBooleanFunctionX<T, R, RuntimeException> shoveX() {
+	default LObjBooleanFunctionX<T, R, RuntimeException> shovingObjBoolFuncX() {
 		return this;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LObjBooleanFunction<T, R> nonNullable() {
+	default LObjBooleanFunction<T, R> nonNullObjBoolFunc() {
 		return this::nonNullDoApply;
 	}
 

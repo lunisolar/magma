@@ -91,7 +91,7 @@ public interface LDoubleToIntFunction extends LDoubleToIntFunctionX<RuntimeExcep
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LIntSupplier capture(double d) {
+	default LIntSupplier captureDToIFunc(double d) {
 		return () -> this.doApplyAsInt(d);
 	}
 
@@ -125,19 +125,19 @@ public interface LDoubleToIntFunction extends LDoubleToIntFunctionX<RuntimeExcep
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LDoubleToIntFunction fromDouble(@Nonnull final LDoubleUnaryOperator before1) {
+	default LDoubleToIntFunction dToIFuncFromDouble(@Nonnull final LDoubleUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsInt(before1.doApplyAsDouble(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToIntFunction<V1> from(@Nonnull final LToDoubleFunction<? super V1> before1) {
+	default <V1> LToIntFunction<V1> dToIFuncFrom(@Nonnull final LToDoubleFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsInt(before1.doApplyAsDouble(v1));
 	}
@@ -214,23 +214,23 @@ public interface LDoubleToIntFunction extends LDoubleToIntFunctionX<RuntimeExcep
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoubleToIntFunction nest() {
+	default LDoubleToIntFunction nestingDToIFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoubleToIntFunctionX<RuntimeException> nestX() {
+	default LDoubleToIntFunctionX<RuntimeException> nestingDToIFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleToIntFunction shove() {
+	default LDoubleToIntFunction shovingDToIFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleToIntFunctionX<RuntimeException> shoveX() {
+	default LDoubleToIntFunctionX<RuntimeException> shovingDToIFuncX() {
 		return this;
 	}
 

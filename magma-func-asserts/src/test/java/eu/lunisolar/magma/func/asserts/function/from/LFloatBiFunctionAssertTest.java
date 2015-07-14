@@ -128,3 +128,5 @@ public class LFloatBiFunctionAssertTest<R,X extends Throwable> {
     }
 
 }
+
+

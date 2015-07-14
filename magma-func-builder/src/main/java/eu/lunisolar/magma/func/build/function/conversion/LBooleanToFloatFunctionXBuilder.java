@@ -48,7 +48,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for LBooleanToFloatFunctionX. */
-public final class LBooleanToFloatFunctionXBuilder<X extends Throwable> extends PerCaseBuilderWithFloatProduct.Base<LBooleanToFloatFunctionXBuilder<X>, LBooleanUnaryOperatorX<X>, LBooleanToFloatFunctionX<X>> {
+public final class LBooleanToFloatFunctionXBuilder<X extends Throwable> extends PerCaseBuilderWithFloatProduct.Base<LBooleanToFloatFunctionXBuilder<X>, LLogicalOperatorX<X>, LBooleanToFloatFunctionX<X>> {
 
 	private Consumer<LBooleanToFloatFunctionX<X>> consumer;
 
@@ -107,11 +107,11 @@ public final class LBooleanToFloatFunctionXBuilder<X extends Throwable> extends 
 
 		LBooleanToFloatFunctionX<X> retval;
 
-		final Case<LBooleanUnaryOperatorX<X>, LBooleanToFloatFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
+		final Case<LLogicalOperatorX<X>, LBooleanToFloatFunctionX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 		retval = LBooleanToFloatFunctionX.<X> lX(b -> {
 			try {
-				for (Case<LBooleanUnaryOperatorX<X>, LBooleanToFloatFunctionX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doApplyAsBoolean(b)) {
+				for (Case<LLogicalOperatorX<X>, LBooleanToFloatFunctionX<X>> aCase : casesArray) {
+					if (aCase.casePredicate().doApply(b)) {
 						return aCase.caseFunction().doApplyAsFloat(b);
 					}
 				}

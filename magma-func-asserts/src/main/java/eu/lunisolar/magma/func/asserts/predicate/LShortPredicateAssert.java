@@ -26,16 +26,25 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
 import eu.lunisolar.magma.func.predicate.*;
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LShortPredicate. */
-public interface LShortPredicateAssert<S extends LShortPredicateAssert<S, A, RS>, A extends LShortPredicate, RS extends AbstractBooleanAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, Boolean, Exception> {
+public interface LShortPredicateAssert<S extends LShortPredicateAssert<S, A, RS>, A extends LShortPredicate, RS extends AbstractBooleanAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LShortConsumerX<Exception>, A, RS, Boolean, Exception> {
 
 	@Nonnull
-	Evaluation<S, A, RS, Boolean, Exception> doesTest(short s);
+	Evaluation<S, LShortConsumerX<Exception>, A, RS, Boolean, Exception> doesTest(short s);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends LShortPredicate, RS extends AbstractBooleanAssert<RS>> extends Base<Impl<A, RS>, A, RS> {
@@ -46,7 +55,7 @@ public interface LShortPredicateAssert<S extends LShortPredicateAssert<S, A, RS>
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS>, A extends LShortPredicate, RS extends AbstractBooleanAssert<RS>> extends FullFunctionalAssert.Base<S, A, RS, Boolean, Exception> implements LShortPredicateAssert<S, A, RS> {
+	public static class Base<S extends Base<S, A, RS>, A extends LShortPredicate, RS extends AbstractBooleanAssert<RS>> extends FullFunctionalAssert.Base<S, LShortConsumerX<Exception>, A, RS, Boolean, Exception> implements LShortPredicateAssert<S, A, RS> {
 
 		protected final java.util.function.Function<Boolean, RS> assertFactory;
 
@@ -56,8 +65,15 @@ public interface LShortPredicateAssert<S extends LShortPredicateAssert<S, A, RS>
 		}
 
 		@Nonnull
-		public Evaluation<S, A, RS, Boolean, Exception> doesTest(short s) {
-			return evaluation(() -> assertFactory.apply((Boolean) actual.doTest(s)));
+		public Evaluation<S, LShortConsumerX<Exception>, A, RS, Boolean, Exception> doesTest(short s) {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doAccept(s);
+				}
+				return assertFactory.apply((Boolean) actual.doTest(s));
+			});
+
 		}
 
 	}

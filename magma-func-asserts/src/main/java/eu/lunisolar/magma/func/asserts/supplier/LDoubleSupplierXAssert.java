@@ -26,19 +26,28 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
 import eu.lunisolar.magma.func.supplier.*;
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LDoubleSupplierX. */
-public interface LDoubleSupplierXAssert<S extends LDoubleSupplierXAssert<S, A, RS, X>, A extends LDoubleSupplierX<X>, RS extends AbstractDoubleAssert<RS>, X extends Throwable> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, Double, Exception> {
+public interface LDoubleSupplierXAssert<S extends LDoubleSupplierXAssert<S, A, RS, X>, A extends LDoubleSupplierX<X>, RS extends AbstractDoubleAssert<RS>, X extends Throwable>
+		extends
+			Assert<S, A>,
+			FullFunctionalAssert<S, LActionX<Exception>, A, RS, Double, Exception> {
 
 	@Nonnull
-	Evaluation<S, A, RS, Double, Exception> doesGetAsDouble();
-
-	@Nonnull
-	Evaluation<S, A, RS, Double, Exception> doesGetAsDouble(LAction before);
+	Evaluation<S, LActionX<Exception>, A, RS, Double, Exception> doesGetAsDouble();
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends LDoubleSupplierX<X>, RS extends AbstractDoubleAssert<RS>, X extends Throwable> extends Base<Impl<A, RS, X>, A, RS, X> {
@@ -49,7 +58,7 @@ public interface LDoubleSupplierXAssert<S extends LDoubleSupplierXAssert<S, A, R
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, X>, A extends LDoubleSupplierX<X>, RS extends AbstractDoubleAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, A, RS, Double, Exception>
+	public static class Base<S extends Base<S, A, RS, X>, A extends LDoubleSupplierX<X>, RS extends AbstractDoubleAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, LActionX<Exception>, A, RS, Double, Exception>
 			implements
 				LDoubleSupplierXAssert<S, A, RS, X> {
 
@@ -61,8 +70,15 @@ public interface LDoubleSupplierXAssert<S extends LDoubleSupplierXAssert<S, A, R
 		}
 
 		@Nonnull
-		public Evaluation<S, A, RS, Double, Exception> doesGetAsDouble() {
-			return evaluation(() -> assertFactory.apply((Double) actual.doGetAsDouble()));
+		public Evaluation<S, LActionX<Exception>, A, RS, Double, Exception> doesGetAsDouble() {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doExecute();
+				}
+				return assertFactory.apply((Double) actual.doGetAsDouble());
+			});
+
 		}
 
 		@Nonnull
@@ -71,11 +87,6 @@ public interface LDoubleSupplierXAssert<S extends LDoubleSupplierXAssert<S, A, R
 			return self();
 		}
 
-		@Nonnull
-		public Evaluation<S, A, RS, Double, Exception> doesGetAsDouble(LAction before) {
-			before.doExecute();
-			return doesGetAsDouble();
-		}
 	}
 
 }

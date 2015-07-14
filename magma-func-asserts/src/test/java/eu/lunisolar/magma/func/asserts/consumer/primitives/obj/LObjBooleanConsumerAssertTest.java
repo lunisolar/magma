@@ -129,3 +129,5 @@ public class LObjBooleanConsumerAssertTest<T,X extends Throwable> {
     }
 
 }
+
+

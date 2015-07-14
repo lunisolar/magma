@@ -106,7 +106,7 @@ public interface LToDoubleFunctionX<T, X extends Throwable> extends java.util.fu
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LDoubleSupplierX<X> capture(T t) {
+	default LDoubleSupplierX<X> captureToDFunc(T t) {
 		return () -> this.doApplyAsDouble(t);
 	}
 
@@ -147,10 +147,10 @@ public interface LToDoubleFunctionX<T, X extends Throwable> extends java.util.fu
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToDoubleFunctionX<V1, X> from(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1) {
+	default <V1> LToDoubleFunctionX<V1, X> toDFuncFrom(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsDouble(before1.doApply(v1));
 	}
@@ -227,23 +227,23 @@ public interface LToDoubleFunctionX<T, X extends Throwable> extends java.util.fu
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToDoubleFunction<T> nest() {
+	default LToDoubleFunction<T> nestingToDFunc() {
 		return this::nestingDoApplyAsDouble;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToDoubleFunctionX<T, RuntimeException> nestX() {
+	default LToDoubleFunctionX<T, RuntimeException> nestingToDFuncX() {
 		return this::nestingDoApplyAsDouble;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToDoubleFunction<T> shove() {
+	default LToDoubleFunction<T> shovingToDFunc() {
 		return this::shovingDoApplyAsDouble;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToDoubleFunctionX<T, RuntimeException> shoveX() {
+	default LToDoubleFunctionX<T, RuntimeException> shovingToDFuncX() {
 		return this::shovingDoApplyAsDouble;
 	}
 
@@ -252,12 +252,12 @@ public interface LToDoubleFunctionX<T, X extends Throwable> extends java.util.fu
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LToDoubleFunction<T> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LToDoubleFunction<T> handleToDFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return t -> this.handlingDoApplyAsDouble(t, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LToDoubleFunctionX<T, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LToDoubleFunctionX<T, Y> handleToDFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return t -> this.handlingDoApplyAsDouble(t, handling);
 	}
 

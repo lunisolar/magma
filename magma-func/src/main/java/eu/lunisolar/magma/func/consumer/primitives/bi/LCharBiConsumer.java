@@ -80,7 +80,7 @@ public interface LCharBiConsumer extends LCharBiConsumerX<RuntimeException>, Met
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LAction capture(char c1, char c2) {
+	default LAction captureCBiCons(char c1, char c2) {
 		return () -> this.doAccept(c1, c2);
 	}
 
@@ -104,20 +104,20 @@ public interface LCharBiConsumer extends LCharBiConsumerX<RuntimeException>, Met
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LCharBiConsumer fromChar(@Nonnull final LCharUnaryOperator before1, @Nonnull final LCharUnaryOperator before2) {
+	default LCharBiConsumer cBiConsFromChar(@Nonnull final LCharUnaryOperator before1, @Nonnull final LCharUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final char v1, final char v2) -> this.doAccept(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiConsumer<V1, V2> from(@Nonnull final LToCharFunction<? super V1> before1, @Nonnull final LToCharFunction<? super V2> before2) {
+	default <V1, V2> LBiConsumer<V1, V2> cBiConsFrom(@Nonnull final LToCharFunction<? super V1> before1, @Nonnull final LToCharFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doAccept(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
@@ -141,23 +141,23 @@ public interface LCharBiConsumer extends LCharBiConsumerX<RuntimeException>, Met
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LCharBiConsumer nest() {
+	default LCharBiConsumer nestingCBiCons() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LCharBiConsumerX<RuntimeException> nestX() {
+	default LCharBiConsumerX<RuntimeException> nestingCBiConsX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharBiConsumer shove() {
+	default LCharBiConsumer shovingCBiCons() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharBiConsumerX<RuntimeException> shoveX() {
+	default LCharBiConsumerX<RuntimeException> shovingCBiConsX() {
 		return this;
 	}
 

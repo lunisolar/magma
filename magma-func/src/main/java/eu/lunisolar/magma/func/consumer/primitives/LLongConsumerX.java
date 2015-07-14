@@ -102,7 +102,7 @@ public interface LLongConsumerX<X extends Throwable> extends java.util.function.
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LActionX<X> capture(long l) {
+	default LActionX<X> captureLongCons(long l) {
 		return () -> this.doAccept(l);
 	}
 
@@ -139,19 +139,19 @@ public interface LLongConsumerX<X extends Throwable> extends java.util.function.
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LLongConsumerX<X> fromLong(@Nonnull final LLongUnaryOperatorX<X> before1) {
+	default LLongConsumerX<X> longConsFromLong(@Nonnull final LLongUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doApplyAsLong(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LConsumerX<V1, X> from(@Nonnull final LToLongFunctionX<? super V1, X> before1) {
+	default <V1> LConsumerX<V1, X> longConsFrom(@Nonnull final LToLongFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doApplyAsLong(v1));
 	}
@@ -174,23 +174,23 @@ public interface LLongConsumerX<X extends Throwable> extends java.util.function.
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LLongConsumer nest() {
+	default LLongConsumer nestingLongCons() {
 		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LLongConsumerX<RuntimeException> nestX() {
+	default LLongConsumerX<RuntimeException> nestingLongConsX() {
 		return this::nestingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LLongConsumer shove() {
+	default LLongConsumer shovingLongCons() {
 		return this::shovingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LLongConsumerX<RuntimeException> shoveX() {
+	default LLongConsumerX<RuntimeException> shovingLongConsX() {
 		return this::shovingDoAccept;
 	}
 
@@ -199,12 +199,12 @@ public interface LLongConsumerX<X extends Throwable> extends java.util.function.
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LLongConsumer handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LLongConsumer handleLongCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return l -> this.handlingDoAccept(l, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LLongConsumerX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LLongConsumerX<Y> handleLongConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return l -> this.handlingDoAccept(l, handling);
 	}
 

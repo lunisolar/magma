@@ -124,12 +124,14 @@ public class LLongUnaryOperatorBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsLong((long)0).to(a -> a.isEqualTo((long)0))
-            .doesApplyAsLong((long)5).to(a -> a.isEqualTo((long)1))
-            .doesApplyAsLong((long)15).to(a -> a.isEqualTo((long)2))
-            .doesApplyAsLong((long)10).to(a -> a.isEqualTo((long)99))
+            .doesApplyAsLong((long)0).when(null).to(a -> a.isEqualTo((long)0))
+            .doesApplyAsLong((long)5).when(null).to(a -> a.isEqualTo((long)1))
+            .doesApplyAsLong((long)15).when(null).to(a -> a.isEqualTo((long)2))
+            .doesApplyAsLong((long)10).when(null).to(a -> a.isEqualTo((long)99))
         ;
 
     }
 
 }
+
+

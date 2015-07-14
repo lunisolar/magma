@@ -80,7 +80,7 @@ public interface LIntBiConsumer extends LIntBiConsumerX<RuntimeException>, MetaC
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LAction capture(int i1, int i2) {
+	default LAction captureIBiCons(int i1, int i2) {
 		return () -> this.doAccept(i1, i2);
 	}
 
@@ -104,20 +104,20 @@ public interface LIntBiConsumer extends LIntBiConsumerX<RuntimeException>, MetaC
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LIntBiConsumer fromInt(@Nonnull final LIntUnaryOperator before1, @Nonnull final LIntUnaryOperator before2) {
+	default LIntBiConsumer iBiConsFromInt(@Nonnull final LIntUnaryOperator before1, @Nonnull final LIntUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final int v1, final int v2) -> this.doAccept(before1.doApplyAsInt(v1), before2.doApplyAsInt(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiConsumer<V1, V2> from(@Nonnull final LToIntFunction<? super V1> before1, @Nonnull final LToIntFunction<? super V2> before2) {
+	default <V1, V2> LBiConsumer<V1, V2> iBiConsFrom(@Nonnull final LToIntFunction<? super V1> before1, @Nonnull final LToIntFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doAccept(before1.doApplyAsInt(v1), before2.doApplyAsInt(v2));
@@ -141,23 +141,23 @@ public interface LIntBiConsumer extends LIntBiConsumerX<RuntimeException>, MetaC
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntBiConsumer nest() {
+	default LIntBiConsumer nestingIBiCons() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntBiConsumerX<RuntimeException> nestX() {
+	default LIntBiConsumerX<RuntimeException> nestingIBiConsX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntBiConsumer shove() {
+	default LIntBiConsumer shovingIBiCons() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntBiConsumerX<RuntimeException> shoveX() {
+	default LIntBiConsumerX<RuntimeException> shovingIBiConsX() {
 		return this;
 	}
 

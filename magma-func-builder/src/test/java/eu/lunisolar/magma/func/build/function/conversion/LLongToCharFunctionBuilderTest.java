@@ -124,12 +124,14 @@ public class LLongToCharFunctionBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsChar((long)0).to(a -> a.isEqualTo((char)0))
-            .doesApplyAsChar((long)5).to(a -> a.isEqualTo((char)1))
-            .doesApplyAsChar((long)15).to(a -> a.isEqualTo((char)2))
-            .doesApplyAsChar((long)10).to(a -> a.isEqualTo((char)99))
+            .doesApplyAsChar((long)0).when(null).to(a -> a.isEqualTo((char)0))
+            .doesApplyAsChar((long)5).when(null).to(a -> a.isEqualTo((char)1))
+            .doesApplyAsChar((long)15).when(null).to(a -> a.isEqualTo((char)2))
+            .doesApplyAsChar((long)10).when(null).to(a -> a.isEqualTo((char)99))
         ;
 
     }
 
 }
+
+

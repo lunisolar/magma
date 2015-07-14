@@ -48,8 +48,8 @@ public class Example6Test {
     @Test
     public void example1() {
 
-        Function<Integer, Integer> f1 = throwingAlways.nest();
-        Function<Integer, Integer> f2 = throwingAlways.nest();
+        Function<Integer, Integer> f1 = throwingAlways.nestingFunc();
+        Function<Integer, Integer> f2 = throwingAlways.nestingFunc();
 
 //       then.assertThat(f1)
 //           .isSameAs(f2);

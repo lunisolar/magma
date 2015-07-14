@@ -124,12 +124,14 @@ public class LDoubleToFloatFunctionBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsFloat((double)0).to(a -> a.isEqualTo((float)0))
-            .doesApplyAsFloat((double)5).to(a -> a.isEqualTo((float)1))
-            .doesApplyAsFloat((double)15).to(a -> a.isEqualTo((float)2))
-            .doesApplyAsFloat((double)10).to(a -> a.isEqualTo((float)99))
+            .doesApplyAsFloat((double)0).when(null).to(a -> a.isEqualTo((float)0))
+            .doesApplyAsFloat((double)5).when(null).to(a -> a.isEqualTo((float)1))
+            .doesApplyAsFloat((double)15).when(null).to(a -> a.isEqualTo((float)2))
+            .doesApplyAsFloat((double)10).when(null).to(a -> a.isEqualTo((float)99))
         ;
 
     }
 
 }
+
+

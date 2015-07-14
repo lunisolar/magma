@@ -124,12 +124,14 @@ public class LDoubleFunctionXBuilderTest<R,X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApply((double)0).to(a -> a.isEqualTo(Integer.valueOf(0)))
-            .doesApply((double)5).to(a -> a.isEqualTo(Integer.valueOf(1)))
-            .doesApply((double)15).to(a -> a.isEqualTo(Integer.valueOf(2)))
-            .doesApply((double)10).to(a -> a.isEqualTo(Integer.valueOf(99)))
+            .doesApply((double)0).when(null).to(a -> a.isEqualTo(Integer.valueOf(0)))
+            .doesApply((double)5).when(null).to(a -> a.isEqualTo(Integer.valueOf(1)))
+            .doesApply((double)15).when(null).to(a -> a.isEqualTo(Integer.valueOf(2)))
+            .doesApply((double)10).when(null).to(a -> a.isEqualTo(Integer.valueOf(99)))
         ;
 
     }
 
 }
+
+

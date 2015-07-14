@@ -125,12 +125,14 @@ public class LIntSupplierXBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesGetAsInt(()->externalInfluence.set(0)).to(a -> a.isEqualTo((int)0))
-            .doesGetAsInt(()->externalInfluence.set(5)).to(a -> a.isEqualTo((int)1))
-            .doesGetAsInt(()->externalInfluence.set(15)).to(a -> a.isEqualTo((int)2))
-            .doesGetAsInt(()->externalInfluence.set(10)).to(a -> a.isEqualTo((int)99))
+            .doesGetAsInt().when(()->externalInfluence.set(0)).to(a -> a.isEqualTo((int)0))
+            .doesGetAsInt().when(()->externalInfluence.set(5)).to(a -> a.isEqualTo((int)1))
+            .doesGetAsInt().when(()->externalInfluence.set(15)).to(a -> a.isEqualTo((int)2))
+            .doesGetAsInt().when(()->externalInfluence.set(10)).to(a -> a.isEqualTo((int)99))
         ;
 
     }
 
 }
+
+

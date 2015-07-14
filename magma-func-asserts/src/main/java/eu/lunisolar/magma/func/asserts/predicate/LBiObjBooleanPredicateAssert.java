@@ -26,7 +26,16 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
 import eu.lunisolar.magma.func.predicate.*;
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
@@ -35,10 +44,10 @@ import static org.assertj.core.api.Fail.fail;
 public interface LBiObjBooleanPredicateAssert<S extends LBiObjBooleanPredicateAssert<S, A, RS, T1, T2>, A extends LBiObjBooleanPredicate<T1, T2>, RS extends AbstractBooleanAssert<RS>, T1, T2>
 		extends
 			Assert<S, A>,
-			FullFunctionalAssert<S, A, RS, Boolean, Exception> {
+			FullFunctionalAssert<S, LBiObjBooleanConsumerX<T1, T2, Exception>, A, RS, Boolean, Exception> {
 
 	@Nonnull
-	Evaluation<S, A, RS, Boolean, Exception> doesTest(T1 t1, T2 t2, boolean b);
+	Evaluation<S, LBiObjBooleanConsumerX<T1, T2, Exception>, A, RS, Boolean, Exception> doesTest(T1 t1, T2 t2, boolean b);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends LBiObjBooleanPredicate<T1, T2>, RS extends AbstractBooleanAssert<RS>, T1, T2> extends Base<Impl<A, RS, T1, T2>, A, RS, T1, T2> {
@@ -49,9 +58,9 @@ public interface LBiObjBooleanPredicateAssert<S extends LBiObjBooleanPredicateAs
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, T1, T2>, A extends LBiObjBooleanPredicate<T1, T2>, RS extends AbstractBooleanAssert<RS>, T1, T2> extends FullFunctionalAssert.Base<S, A, RS, Boolean, Exception>
-			implements
-				LBiObjBooleanPredicateAssert<S, A, RS, T1, T2> {
+	public static class Base<S extends Base<S, A, RS, T1, T2>, A extends LBiObjBooleanPredicate<T1, T2>, RS extends AbstractBooleanAssert<RS>, T1, T2>
+			extends
+				FullFunctionalAssert.Base<S, LBiObjBooleanConsumerX<T1, T2, Exception>, A, RS, Boolean, Exception> implements LBiObjBooleanPredicateAssert<S, A, RS, T1, T2> {
 
 		protected final java.util.function.Function<Boolean, RS> assertFactory;
 
@@ -61,8 +70,15 @@ public interface LBiObjBooleanPredicateAssert<S extends LBiObjBooleanPredicateAs
 		}
 
 		@Nonnull
-		public Evaluation<S, A, RS, Boolean, Exception> doesTest(T1 t1, T2 t2, boolean b) {
-			return evaluation(() -> assertFactory.apply((Boolean) actual.doTest(t1, t2, b)));
+		public Evaluation<S, LBiObjBooleanConsumerX<T1, T2, Exception>, A, RS, Boolean, Exception> doesTest(T1 t1, T2 t2, boolean b) {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doAccept(t1, t2, b);
+				}
+				return assertFactory.apply((Boolean) actual.doTest(t1, t2, b));
+			});
+
 		}
 
 	}

@@ -95,7 +95,7 @@ public interface LBiFunction<T1, T2, R> extends LBiFunctionX<T1, T2, R, RuntimeE
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> capture(T1 t1, T2 t2) {
+	default LSupplier<R> captureBiFunc(T1 t1, T2 t2) {
 		return () -> this.doApply(t1, t2);
 	}
 
@@ -129,10 +129,10 @@ public interface LBiFunction<T1, T2, R> extends LBiFunctionX<T1, T2, R, RuntimeE
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiFunction<V1, V2, R> from(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2) {
+	default <V1, V2> LBiFunction<V1, V2, R> biFuncFrom(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final V2 v2) -> this.doApply(before1.doApply(v1), before2.doApply(v2));
@@ -161,30 +161,30 @@ public interface LBiFunction<T1, T2, R> extends LBiFunctionX<T1, T2, R, RuntimeE
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiFunction<T1, T2, R> nest() {
+	default LBiFunction<T1, T2, R> nestingBiFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiFunctionX<T1, T2, R, RuntimeException> nestX() {
+	default LBiFunctionX<T1, T2, R, RuntimeException> nestingBiFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiFunction<T1, T2, R> shove() {
+	default LBiFunction<T1, T2, R> shovingBiFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiFunctionX<T1, T2, R, RuntimeException> shoveX() {
+	default LBiFunctionX<T1, T2, R, RuntimeException> shovingBiFuncX() {
 		return this;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LBiFunction<T1, T2, R> nonNullable() {
+	default LBiFunction<T1, T2, R> nonNullBiFunc() {
 		return this::nonNullDoApply;
 	}
 

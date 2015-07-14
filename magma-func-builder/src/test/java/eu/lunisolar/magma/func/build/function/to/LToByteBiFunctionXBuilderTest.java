@@ -124,12 +124,14 @@ public class LToByteBiFunctionXBuilderTest<T1,T2,X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsByte(Integer.valueOf(0),Integer.valueOf(0)).to(a -> a.isEqualTo((byte)0))
-            .doesApplyAsByte(Integer.valueOf(5),Integer.valueOf(5)).to(a -> a.isEqualTo((byte)1))
-            .doesApplyAsByte(Integer.valueOf(15),Integer.valueOf(15)).to(a -> a.isEqualTo((byte)2))
-            .doesApplyAsByte(Integer.valueOf(10),Integer.valueOf(10)).to(a -> a.isEqualTo((byte)99))
+            .doesApplyAsByte(Integer.valueOf(0),Integer.valueOf(0)).when(null).to(a -> a.isEqualTo((byte)0))
+            .doesApplyAsByte(Integer.valueOf(5),Integer.valueOf(5)).when(null).to(a -> a.isEqualTo((byte)1))
+            .doesApplyAsByte(Integer.valueOf(15),Integer.valueOf(15)).when(null).to(a -> a.isEqualTo((byte)2))
+            .doesApplyAsByte(Integer.valueOf(10),Integer.valueOf(10)).when(null).to(a -> a.isEqualTo((byte)99))
         ;
 
     }
 
 }
+
+

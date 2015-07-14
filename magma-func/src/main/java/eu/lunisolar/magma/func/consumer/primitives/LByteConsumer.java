@@ -80,7 +80,7 @@ public interface LByteConsumer extends LByteConsumerX<RuntimeException>, MetaCon
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LAction capture(byte b) {
+	default LAction captureBCons(byte b) {
 		return () -> this.doAccept(b);
 	}
 
@@ -104,19 +104,19 @@ public interface LByteConsumer extends LByteConsumerX<RuntimeException>, MetaCon
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LByteConsumer fromByte(@Nonnull final LByteUnaryOperator before1) {
+	default LByteConsumer bConsFromByte(@Nonnull final LByteUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doApplyAsByte(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LConsumer<V1> from(@Nonnull final LToByteFunction<? super V1> before1) {
+	default <V1> LConsumer<V1> bConsFrom(@Nonnull final LToByteFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doApplyAsByte(v1));
 	}
@@ -139,23 +139,23 @@ public interface LByteConsumer extends LByteConsumerX<RuntimeException>, MetaCon
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LByteConsumer nest() {
+	default LByteConsumer nestingBCons() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LByteConsumerX<RuntimeException> nestX() {
+	default LByteConsumerX<RuntimeException> nestingBConsX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteConsumer shove() {
+	default LByteConsumer shovingBCons() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteConsumerX<RuntimeException> shoveX() {
+	default LByteConsumerX<RuntimeException> shovingBConsX() {
 		return this;
 	}
 

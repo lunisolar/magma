@@ -103,7 +103,7 @@ public interface LFloatFunctionX<R, X extends Throwable> extends MetaFunction, M
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplierX<R, X> capture(float f) {
+	default LSupplierX<R, X> captureFFunc(float f) {
 		return () -> this.doApply(f);
 	}
 
@@ -138,19 +138,19 @@ public interface LFloatFunctionX<R, X extends Throwable> extends MetaFunction, M
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LFloatFunctionX<R, X> fromFloat(@Nonnull final LFloatUnaryOperatorX<X> before1) {
+	default LFloatFunctionX<R, X> fFuncFromFloat(@Nonnull final LFloatUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doApplyAsFloat(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LFunctionX<V1, R, X> from(@Nonnull final LToFloatFunctionX<? super V1, X> before1) {
+	default <V1> LFunctionX<V1, R, X> fFuncFrom(@Nonnull final LToFloatFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doApplyAsFloat(v1));
 	}
@@ -234,42 +234,42 @@ public interface LFloatFunctionX<R, X extends Throwable> extends MetaFunction, M
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LFloatFunction<R> nest() {
+	default LFloatFunction<R> nestingFFunc() {
 		return this::nestingDoApply;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LFloatFunctionX<R, RuntimeException> nestX() {
+	default LFloatFunctionX<R, RuntimeException> nestingFFuncX() {
 		return this::nestingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatFunction<R> shove() {
+	default LFloatFunction<R> shovingFFunc() {
 		return this::shovingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatFunctionX<R, RuntimeException> shoveX() {
+	default LFloatFunctionX<R, RuntimeException> shovingFFuncX() {
 		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LFloatFunctionX<R, X> nonNullableX() {
+	default LFloatFunctionX<R, X> nonNullFFunc() {
 		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LFloatFunction<R> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LFloatFunction<R> handleFFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return f -> this.handlingDoApply(f, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LFloatFunctionX<R, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LFloatFunctionX<R, Y> handleFFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return f -> this.handlingDoApply(f, handling);
 	}
 

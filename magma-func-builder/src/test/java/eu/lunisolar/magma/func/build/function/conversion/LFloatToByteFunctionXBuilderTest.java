@@ -124,12 +124,14 @@ public class LFloatToByteFunctionXBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsByte((float)0).to(a -> a.isEqualTo((byte)0))
-            .doesApplyAsByte((float)5).to(a -> a.isEqualTo((byte)1))
-            .doesApplyAsByte((float)15).to(a -> a.isEqualTo((byte)2))
-            .doesApplyAsByte((float)10).to(a -> a.isEqualTo((byte)99))
+            .doesApplyAsByte((float)0).when(null).to(a -> a.isEqualTo((byte)0))
+            .doesApplyAsByte((float)5).when(null).to(a -> a.isEqualTo((byte)1))
+            .doesApplyAsByte((float)15).when(null).to(a -> a.isEqualTo((byte)2))
+            .doesApplyAsByte((float)10).when(null).to(a -> a.isEqualTo((byte)99))
         ;
 
     }
 
 }
+
+

@@ -105,7 +105,7 @@ public interface LFloatPredicateX<X extends Throwable> extends MetaPredicate, Pr
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> capture(float f) {
+	default LBooleanSupplierX<X> captureFPred(float f) {
 		return () -> this.doTest(f);
 	}
 
@@ -183,19 +183,19 @@ public interface LFloatPredicateX<X extends Throwable> extends MetaPredicate, Pr
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LFloatPredicateX<X> fromFloat(@Nonnull final LFloatUnaryOperatorX<X> before1) {
+	default LFloatPredicateX<X> fPredFromFloat(@Nonnull final LFloatUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doTest(before1.doApplyAsFloat(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LPredicateX<V1, X> from(@Nonnull final LToFloatFunctionX<? super V1, X> before1) {
+	default <V1> LPredicateX<V1, X> fPredFrom(@Nonnull final LToFloatFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doTest(before1.doApplyAsFloat(v1));
 	}
@@ -206,65 +206,65 @@ public interface LFloatPredicateX<X extends Throwable> extends MetaPredicate, Pr
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LFloatFunctionX<V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LFloatFunctionX<V, X> boolToFloatFunction(@Nonnull LBooleanFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return f -> after.doApply(this.doTest(f));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LFloatToByteFunctionX<X> thenToByte(@Nonnull LBooleanToByteFunctionX<X> after) {
+	default LFloatToByteFunctionX<X> boolToFloatToByteFunction(@Nonnull LBooleanToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return f -> after.doApplyAsByte(this.doTest(f));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LFloatToShortFunctionX<X> thenToShort(@Nonnull LBooleanToShortFunctionX<X> after) {
+	default LFloatToShortFunctionX<X> boolToFloatToShortFunction(@Nonnull LBooleanToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return f -> after.doApplyAsShort(this.doTest(f));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LFloatToIntFunctionX<X> thenToInt(@Nonnull LBooleanToIntFunctionX<X> after) {
+	default LFloatToIntFunctionX<X> boolToFloatToIntFunction(@Nonnull LBooleanToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return f -> after.doApplyAsInt(this.doTest(f));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LFloatToLongFunctionX<X> thenToLong(@Nonnull LBooleanToLongFunctionX<X> after) {
+	default LFloatToLongFunctionX<X> boolToFloatToLongFunction(@Nonnull LBooleanToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return f -> after.doApplyAsLong(this.doTest(f));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LFloatUnaryOperatorX<X> thenToFloat(@Nonnull LBooleanToFloatFunctionX<X> after) {
+	default LFloatUnaryOperatorX<X> boolToFloatUnaryOperator(@Nonnull LBooleanToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return f -> after.doApplyAsFloat(this.doTest(f));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LFloatToDoubleFunctionX<X> thenToDouble(@Nonnull LBooleanToDoubleFunctionX<X> after) {
+	default LFloatToDoubleFunctionX<X> boolToFloatToDoubleFunction(@Nonnull LBooleanToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return f -> after.doApplyAsDouble(this.doTest(f));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LFloatToCharFunctionX<X> thenToChar(@Nonnull LBooleanToCharFunctionX<X> after) {
+	default LFloatToCharFunctionX<X> boolToFloatToCharFunction(@Nonnull LBooleanToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return f -> after.doApplyAsChar(this.doTest(f));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LFloatPredicateX<X> thenToBoolean(@Nonnull LBooleanUnaryOperatorX<X> after) {
+	default LFloatPredicateX<X> boolToFloatPredicate(@Nonnull LLogicalOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
-		return f -> after.doApplyAsBoolean(this.doTest(f));
+		return f -> after.doApply(this.doTest(f));
 	}
 
 	// </editor-fold>
@@ -272,23 +272,23 @@ public interface LFloatPredicateX<X extends Throwable> extends MetaPredicate, Pr
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LFloatPredicate nest() {
+	default LFloatPredicate nestingFPred() {
 		return this::nestingDoTest;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LFloatPredicateX<RuntimeException> nestX() {
+	default LFloatPredicateX<RuntimeException> nestingFPredX() {
 		return this::nestingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatPredicate shove() {
+	default LFloatPredicate shovingFPred() {
 		return this::shovingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatPredicateX<RuntimeException> shoveX() {
+	default LFloatPredicateX<RuntimeException> shovingFPredX() {
 		return this::shovingDoTest;
 	}
 
@@ -297,12 +297,12 @@ public interface LFloatPredicateX<X extends Throwable> extends MetaPredicate, Pr
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LFloatPredicate handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LFloatPredicate handleFPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return f -> this.handlingDoTest(f, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LFloatPredicateX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LFloatPredicateX<Y> handleFPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return f -> this.handlingDoTest(f, handling);
 	}
 

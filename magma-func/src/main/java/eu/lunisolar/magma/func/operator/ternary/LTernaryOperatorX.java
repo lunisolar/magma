@@ -58,12 +58,9 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  */
 @FunctionalInterface
 @SuppressWarnings("UnusedDeclaration")
-public interface LTernaryOperatorX<T, X extends Throwable> extends MetaOperator, MetaInterface.Throwing<X> { // NOSONAR
+public interface LTernaryOperatorX<T, X extends Throwable> extends MetaOperator, MetaInterface.Throwing<X>, LTriFunctionX<T, T, T, T, X> { // NOSONAR
 
 	static final String DESCRIPTION = "LTernaryOperatorX: T doApply(T t1,T t2,T t3) throws X";
-
-	@Nullable
-	T doApply(T t1, T t2, T t3) throws X;
 
 	default T nestingDoApply(T t1, T t2, T t3) {
 		try {
@@ -103,7 +100,7 @@ public interface LTernaryOperatorX<T, X extends Throwable> extends MetaOperator,
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplierX<T, X> capture(T t1, T t2, T t3) {
+	default LSupplierX<T, X> captureTernaryOp(T t1, T t2, T t3) {
 		return () -> this.doApply(t1, t2, t3);
 	}
 
@@ -149,42 +146,42 @@ public interface LTernaryOperatorX<T, X extends Throwable> extends MetaOperator,
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LTernaryOperator<T> nest() {
+	default LTernaryOperator<T> nestingTernaryOp() {
 		return this::nestingDoApply;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LTernaryOperatorX<T, RuntimeException> nestX() {
+	default LTernaryOperatorX<T, RuntimeException> nestingTernaryOpX() {
 		return this::nestingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LTernaryOperator<T> shove() {
+	default LTernaryOperator<T> shovingTernaryOp() {
 		return this::shovingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LTernaryOperatorX<T, RuntimeException> shoveX() {
+	default LTernaryOperatorX<T, RuntimeException> shovingTernaryOpX() {
 		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LTernaryOperatorX<T, X> nonNullableX() {
+	default LTernaryOperatorX<T, X> nonNullTernaryOp() {
 		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LTernaryOperator<T> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LTernaryOperator<T> handleTernaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T t1, T t2, T t3) -> this.handlingDoApply(t1, t2, t3, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LTernaryOperatorX<T, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LTernaryOperatorX<T, Y> handleTernaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T t1, T t2, T t3) -> this.handlingDoApply(t1, t2, t3, handling);
 	}
 

@@ -84,7 +84,7 @@ public interface LToCharFunction<T> extends LToCharFunctionX<T, RuntimeException
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LCharSupplier capture(T t) {
+	default LCharSupplier captureToCFunc(T t) {
 		return () -> this.doApplyAsChar(t);
 	}
 
@@ -112,10 +112,10 @@ public interface LToCharFunction<T> extends LToCharFunctionX<T, RuntimeException
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToCharFunction<V1> from(@Nonnull final LFunction<? super V1, ? extends T> before1) {
+	default <V1> LToCharFunction<V1> toCFuncFrom(@Nonnull final LFunction<? super V1, ? extends T> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsChar(before1.doApply(v1));
 	}
@@ -192,23 +192,23 @@ public interface LToCharFunction<T> extends LToCharFunctionX<T, RuntimeException
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToCharFunction<T> nest() {
+	default LToCharFunction<T> nestingToCFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToCharFunctionX<T, RuntimeException> nestX() {
+	default LToCharFunctionX<T, RuntimeException> nestingToCFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToCharFunction<T> shove() {
+	default LToCharFunction<T> shovingToCFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToCharFunctionX<T, RuntimeException> shoveX() {
+	default LToCharFunctionX<T, RuntimeException> shovingToCFuncX() {
 		return this;
 	}
 

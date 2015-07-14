@@ -206,7 +206,7 @@ public class LObjFloatFunctionTest<T,R,X extends ParseException> {
         });
 
         // when
-        LObjFloatFunction<T,R> wrapped = sutThrowing.handle(handler -> handler
+        LObjFloatFunction<T,R> wrapped = sutThrowing.handleObjFFunc(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -230,7 +230,7 @@ public class LObjFloatFunctionTest<T,R,X extends ParseException> {
         });
 
         // when
-        LObjFloatFunction<T,R> wrapped = sutThrowing.handle(handler -> handler
+        LObjFloatFunction<T,R> wrapped = sutThrowing.handleObjFFunc(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -254,7 +254,7 @@ public class LObjFloatFunctionTest<T,R,X extends ParseException> {
         });
 
         // when
-        LObjFloatFunction<T,R> wrapped = sutThrowing.handle(handler -> handler
+        LObjFloatFunction<T,R> wrapped = sutThrowing.handleObjFFunc(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -279,7 +279,7 @@ public class LObjFloatFunctionTest<T,R,X extends ParseException> {
         });
 
         // when
-        LObjFloatFunction<T,R> wrapped = sutThrowing.handle(h -> Function4U.doNothing());
+        LObjFloatFunction<T,R> wrapped = sutThrowing.handleObjFFunc(h -> Function4U.doNothing());
 
         // then
         try {
@@ -298,7 +298,7 @@ public class LObjFloatFunctionTest<T,R,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromFloat() throws X {
+    public void testobjFFuncFromFloat() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -323,7 +323,7 @@ public class LObjFloatFunctionTest<T,R,X extends ParseException> {
         };
 
         //when
-        LObjFloatFunction<Integer ,Integer > function = sutO.fromFloat(before1,before2);
+        LObjFloatFunction<Integer ,Integer > function = sutO.objFFuncFromFloat(before1,before2);
         function.doApply((Integer )Integer.valueOf(80),(float)81);
 
         //then - finals
@@ -333,7 +333,7 @@ public class LObjFloatFunctionTest<T,R,X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws X {
+    public void testobjFFuncFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -358,7 +358,7 @@ public class LObjFloatFunctionTest<T,R,X extends ParseException> {
         };
 
         //when
-        LBiFunction<Integer ,Integer ,Integer > function = sutO.from(before1,before2);
+        LBiFunction<Integer ,Integer ,Integer > function = sutO.objFFuncFrom(before1,before2);
         function.doApply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
@@ -444,28 +444,28 @@ public class LObjFloatFunctionTest<T,R,X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingObjFFunc())
             .isSameAs(sut)
             .isInstanceOf(LObjFloatFunction.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingObjFFunc())
             .isSameAs(sut)
             .isInstanceOf(LObjFloatFunction.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingObjFFuncX())
             .isSameAs(sut)
             .isInstanceOf(LObjFloatFunctionX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingObjFFuncX())
             .isSameAs(sut)
             .isInstanceOf(LObjFloatFunctionX.class);
     }
@@ -479,11 +479,11 @@ public class LObjFloatFunctionTest<T,R,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doApply((T)Integer.valueOf(100),(float)100);
+        sutThrowing.shovingObjFFunc().doApply((T)Integer.valueOf(100),(float)100);
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleObjFFunc() throws X {
 
         // given
         LObjFloatFunction<T,R> sutThrowing = LObjFloatFunction.l((T t, float f) -> {
@@ -491,7 +491,7 @@ public class LObjFloatFunctionTest<T,R,X extends ParseException> {
         });
 
         // when
-        LObjFloatFunction<T,R> wrapped = sutThrowing.handle(h -> {
+        LObjFloatFunction<T,R> wrapped = sutThrowing.handleObjFFunc(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -528,3 +528,5 @@ public class LObjFloatFunctionTest<T,R,X extends ParseException> {
 
 
 }
+
+

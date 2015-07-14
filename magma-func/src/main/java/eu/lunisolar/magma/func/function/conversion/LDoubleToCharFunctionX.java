@@ -99,7 +99,7 @@ public interface LDoubleToCharFunctionX<X extends Throwable> extends MetaFunctio
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LCharSupplierX<X> capture(double d) {
+	default LCharSupplierX<X> captureDToCFunc(double d) {
 		return () -> this.doApplyAsChar(d);
 	}
 
@@ -134,19 +134,19 @@ public interface LDoubleToCharFunctionX<X extends Throwable> extends MetaFunctio
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LDoubleToCharFunctionX<X> fromDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1) {
+	default LDoubleToCharFunctionX<X> dToCFuncFromDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsChar(before1.doApplyAsDouble(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToCharFunctionX<V1, X> from(@Nonnull final LToDoubleFunctionX<? super V1, X> before1) {
+	default <V1> LToCharFunctionX<V1, X> dToCFuncFrom(@Nonnull final LToDoubleFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsChar(before1.doApplyAsDouble(v1));
 	}
@@ -223,23 +223,23 @@ public interface LDoubleToCharFunctionX<X extends Throwable> extends MetaFunctio
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoubleToCharFunction nest() {
+	default LDoubleToCharFunction nestingDToCFunc() {
 		return this::nestingDoApplyAsChar;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoubleToCharFunctionX<RuntimeException> nestX() {
+	default LDoubleToCharFunctionX<RuntimeException> nestingDToCFuncX() {
 		return this::nestingDoApplyAsChar;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleToCharFunction shove() {
+	default LDoubleToCharFunction shovingDToCFunc() {
 		return this::shovingDoApplyAsChar;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleToCharFunctionX<RuntimeException> shoveX() {
+	default LDoubleToCharFunctionX<RuntimeException> shovingDToCFuncX() {
 		return this::shovingDoApplyAsChar;
 	}
 
@@ -248,12 +248,12 @@ public interface LDoubleToCharFunctionX<X extends Throwable> extends MetaFunctio
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LDoubleToCharFunction handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LDoubleToCharFunction handleDToCFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return d -> this.handlingDoApplyAsChar(d, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LDoubleToCharFunctionX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LDoubleToCharFunctionX<Y> handleDToCFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return d -> this.handlingDoApplyAsChar(d, handling);
 	}
 

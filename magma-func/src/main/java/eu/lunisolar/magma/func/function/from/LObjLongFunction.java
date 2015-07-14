@@ -88,7 +88,7 @@ public interface LObjLongFunction<T, R> extends LObjLongFunctionX<T, R, RuntimeE
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> capture(T t, long l) {
+	default LSupplier<R> captureObjLongFunc(T t, long l) {
 		return () -> this.doApply(t, l);
 	}
 
@@ -116,20 +116,20 @@ public interface LObjLongFunction<T, R> extends LObjLongFunctionX<T, R, RuntimeE
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LObjLongFunction<V1, R> fromLong(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LLongUnaryOperator before2) {
+	default <V1> LObjLongFunction<V1, R> objLongFuncFromLong(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LLongUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final long v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsLong(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiFunction<V1, V2, R> from(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToLongFunction<? super V2> before2) {
+	default <V1, V2> LBiFunction<V1, V2, R> objLongFuncFrom(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToLongFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsLong(v2));
@@ -158,30 +158,30 @@ public interface LObjLongFunction<T, R> extends LObjLongFunctionX<T, R, RuntimeE
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjLongFunction<T, R> nest() {
+	default LObjLongFunction<T, R> nestingObjLongFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjLongFunctionX<T, R, RuntimeException> nestX() {
+	default LObjLongFunctionX<T, R, RuntimeException> nestingObjLongFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjLongFunction<T, R> shove() {
+	default LObjLongFunction<T, R> shovingObjLongFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjLongFunctionX<T, R, RuntimeException> shoveX() {
+	default LObjLongFunctionX<T, R, RuntimeException> shovingObjLongFuncX() {
 		return this;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LObjLongFunction<T, R> nonNullable() {
+	default LObjLongFunction<T, R> nonNullObjLongFunc() {
 		return this::nonNullDoApply;
 	}
 

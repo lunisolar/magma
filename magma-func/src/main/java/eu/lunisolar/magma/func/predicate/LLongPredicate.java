@@ -97,7 +97,7 @@ public interface LLongPredicate extends LLongPredicateX<RuntimeException>, MetaP
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier capture(long l) {
+	default LBooleanSupplier captureLongPred(long l) {
 		return () -> this.doTest(l);
 	}
 
@@ -174,19 +174,19 @@ public interface LLongPredicate extends LLongPredicateX<RuntimeException>, MetaP
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LLongPredicate fromLong(@Nonnull final LLongUnaryOperator before1) {
+	default LLongPredicate longPredFromLong(@Nonnull final LLongUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doTest(before1.doApplyAsLong(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LPredicate<V1> from(@Nonnull final LToLongFunction<? super V1> before1) {
+	default <V1> LPredicate<V1> longPredFrom(@Nonnull final LToLongFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doTest(before1.doApplyAsLong(v1));
 	}
@@ -197,65 +197,65 @@ public interface LLongPredicate extends LLongPredicateX<RuntimeException>, MetaP
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LLongFunction<V> then(@Nonnull LBooleanFunction<? extends V> after) {
+	default <V> LLongFunction<V> boolToLongFunction(@Nonnull LBooleanFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return l -> after.doApply(this.doTest(l));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LLongToByteFunction thenToByte(@Nonnull LBooleanToByteFunction after) {
+	default LLongToByteFunction boolToLongToByteFunction(@Nonnull LBooleanToByteFunction after) {
 		Null.nonNullArg(after, "after");
 		return l -> after.doApplyAsByte(this.doTest(l));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LLongToShortFunction thenToShort(@Nonnull LBooleanToShortFunction after) {
+	default LLongToShortFunction boolToLongToShortFunction(@Nonnull LBooleanToShortFunction after) {
 		Null.nonNullArg(after, "after");
 		return l -> after.doApplyAsShort(this.doTest(l));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LLongToIntFunction thenToInt(@Nonnull LBooleanToIntFunction after) {
+	default LLongToIntFunction boolToLongToIntFunction(@Nonnull LBooleanToIntFunction after) {
 		Null.nonNullArg(after, "after");
 		return l -> after.doApplyAsInt(this.doTest(l));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LLongUnaryOperator thenToLong(@Nonnull LBooleanToLongFunction after) {
+	default LLongUnaryOperator boolToLongUnaryOperator(@Nonnull LBooleanToLongFunction after) {
 		Null.nonNullArg(after, "after");
 		return l -> after.doApplyAsLong(this.doTest(l));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LLongToFloatFunction thenToFloat(@Nonnull LBooleanToFloatFunction after) {
+	default LLongToFloatFunction boolToLongToFloatFunction(@Nonnull LBooleanToFloatFunction after) {
 		Null.nonNullArg(after, "after");
 		return l -> after.doApplyAsFloat(this.doTest(l));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LLongToDoubleFunction thenToDouble(@Nonnull LBooleanToDoubleFunction after) {
+	default LLongToDoubleFunction boolToLongToDoubleFunction(@Nonnull LBooleanToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
 		return l -> after.doApplyAsDouble(this.doTest(l));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LLongToCharFunction thenToChar(@Nonnull LBooleanToCharFunction after) {
+	default LLongToCharFunction boolToLongToCharFunction(@Nonnull LBooleanToCharFunction after) {
 		Null.nonNullArg(after, "after");
 		return l -> after.doApplyAsChar(this.doTest(l));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LLongPredicate thenToBoolean(@Nonnull LBooleanUnaryOperator after) {
+	default LLongPredicate boolToLongPredicate(@Nonnull LLogicalOperator after) {
 		Null.nonNullArg(after, "after");
-		return l -> after.doApplyAsBoolean(this.doTest(l));
+		return l -> after.doApply(this.doTest(l));
 	}
 
 	// </editor-fold>
@@ -263,23 +263,23 @@ public interface LLongPredicate extends LLongPredicateX<RuntimeException>, MetaP
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LLongPredicate nest() {
+	default LLongPredicate nestingLongPred() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LLongPredicateX<RuntimeException> nestX() {
+	default LLongPredicateX<RuntimeException> nestingLongPredX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LLongPredicate shove() {
+	default LLongPredicate shovingLongPred() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LLongPredicateX<RuntimeException> shoveX() {
+	default LLongPredicateX<RuntimeException> shovingLongPredX() {
 		return this;
 	}
 

@@ -126,12 +126,14 @@ public class LActionBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesExecute(()->externalInfluence.set(0)).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(0)))
-            .doesExecute(()->externalInfluence.set(5)).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(1)))
-            .doesExecute(()->externalInfluence.set(15)).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(2)))
-            .doesExecute(()->externalInfluence.set(10)).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(99)))
+            .doesExecute().when(()->externalInfluence.set(0)).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(0)))
+            .doesExecute().when(()->externalInfluence.set(5)).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(1)))
+            .doesExecute().when(()->externalInfluence.set(15)).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(2)))
+            .doesExecute().when(()->externalInfluence.set(10)).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(99)))
         ;
 
     }
 
 }
+
+

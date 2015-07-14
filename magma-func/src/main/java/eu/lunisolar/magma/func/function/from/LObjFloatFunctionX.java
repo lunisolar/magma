@@ -103,7 +103,7 @@ public interface LObjFloatFunctionX<T, R, X extends Throwable> extends MetaFunct
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplierX<R, X> capture(T t, float f) {
+	default LSupplierX<R, X> captureObjFFunc(T t, float f) {
 		return () -> this.doApply(t, f);
 	}
 
@@ -138,20 +138,20 @@ public interface LObjFloatFunctionX<T, R, X extends Throwable> extends MetaFunct
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LObjFloatFunctionX<V1, R, X> fromFloat(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LFloatUnaryOperatorX<X> before2) {
+	default <V1> LObjFloatFunctionX<V1, R, X> objFFuncFromFloat(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LFloatUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final float v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsFloat(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiFunctionX<V1, V2, R, X> from(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToFloatFunctionX<? super V2, X> before2) {
+	default <V1, V2> LBiFunctionX<V1, V2, R, X> objFFuncFrom(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToFloatFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsFloat(v2));
@@ -180,42 +180,42 @@ public interface LObjFloatFunctionX<T, R, X extends Throwable> extends MetaFunct
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjFloatFunction<T, R> nest() {
+	default LObjFloatFunction<T, R> nestingObjFFunc() {
 		return this::nestingDoApply;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjFloatFunctionX<T, R, RuntimeException> nestX() {
+	default LObjFloatFunctionX<T, R, RuntimeException> nestingObjFFuncX() {
 		return this::nestingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjFloatFunction<T, R> shove() {
+	default LObjFloatFunction<T, R> shovingObjFFunc() {
 		return this::shovingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjFloatFunctionX<T, R, RuntimeException> shoveX() {
+	default LObjFloatFunctionX<T, R, RuntimeException> shovingObjFFuncX() {
 		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LObjFloatFunctionX<T, R, X> nonNullableX() {
+	default LObjFloatFunctionX<T, R, X> nonNullObjFFunc() {
 		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LObjFloatFunction<T, R> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LObjFloatFunction<T, R> handleObjFFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T t, float f) -> this.handlingDoApply(t, f, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LObjFloatFunctionX<T, R, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LObjFloatFunctionX<T, R, Y> handleObjFFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T t, float f) -> this.handlingDoApply(t, f, handling);
 	}
 

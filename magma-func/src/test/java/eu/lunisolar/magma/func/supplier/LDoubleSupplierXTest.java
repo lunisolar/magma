@@ -192,7 +192,7 @@ public class LDoubleSupplierXTest<X extends ParseException> {
         });
 
         // when
-        LDoubleSupplierX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LDoubleSupplierX<X> wrapped = sutThrowing.handleDSupX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -216,7 +216,7 @@ public class LDoubleSupplierXTest<X extends ParseException> {
         });
 
         // when
-        LDoubleSupplierX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LDoubleSupplierX<X> wrapped = sutThrowing.handleDSupX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -240,7 +240,7 @@ public class LDoubleSupplierXTest<X extends ParseException> {
         });
 
         // when
-        LDoubleSupplierX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LDoubleSupplierX<X> wrapped = sutThrowing.handleDSupX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -265,7 +265,7 @@ public class LDoubleSupplierXTest<X extends ParseException> {
         });
 
         // when
-        LDoubleSupplierX<X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
+        LDoubleSupplierX<X> wrapped = sutThrowing.handleDSupX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -305,7 +305,7 @@ public class LDoubleSupplierXTest<X extends ParseException> {
         };
 
         //when
-        LSupplierX<Integer ,X> function = sutO.then(thenFunction);
+        LSupplierX<Integer ,X> function = sutO.toSupplier(thenFunction);
         Integer  finalValue = function.doGet();
 
         //then - finals
@@ -339,7 +339,7 @@ public class LDoubleSupplierXTest<X extends ParseException> {
         };
 
         //when
-        LByteSupplierX<X> function = sutO.thenToByte(thenFunction);
+        LByteSupplierX<X> function = sutO.toByteSupplier(thenFunction);
         byte finalValue = function.doGetAsByte();
 
         //then - finals
@@ -373,7 +373,7 @@ public class LDoubleSupplierXTest<X extends ParseException> {
         };
 
         //when
-        LShortSupplierX<X> function = sutO.thenToShort(thenFunction);
+        LShortSupplierX<X> function = sutO.toShortSupplier(thenFunction);
         short finalValue = function.doGetAsShort();
 
         //then - finals
@@ -407,7 +407,7 @@ public class LDoubleSupplierXTest<X extends ParseException> {
         };
 
         //when
-        LIntSupplierX<X> function = sutO.thenToInt(thenFunction);
+        LIntSupplierX<X> function = sutO.toIntSupplier(thenFunction);
         int finalValue = function.doGetAsInt();
 
         //then - finals
@@ -441,7 +441,7 @@ public class LDoubleSupplierXTest<X extends ParseException> {
         };
 
         //when
-        LLongSupplierX<X> function = sutO.thenToLong(thenFunction);
+        LLongSupplierX<X> function = sutO.toLongSupplier(thenFunction);
         long finalValue = function.doGetAsLong();
 
         //then - finals
@@ -475,7 +475,7 @@ public class LDoubleSupplierXTest<X extends ParseException> {
         };
 
         //when
-        LFloatSupplierX<X> function = sutO.thenToFloat(thenFunction);
+        LFloatSupplierX<X> function = sutO.toFloatSupplier(thenFunction);
         float finalValue = function.doGetAsFloat();
 
         //then - finals
@@ -509,7 +509,7 @@ public class LDoubleSupplierXTest<X extends ParseException> {
         };
 
         //when
-        LDoubleSupplierX<X> function = sutO.thenToDouble(thenFunction);
+        LDoubleSupplierX<X> function = sutO.toDoubleSupplier(thenFunction);
         double finalValue = function.doGetAsDouble();
 
         //then - finals
@@ -543,7 +543,7 @@ public class LDoubleSupplierXTest<X extends ParseException> {
         };
 
         //when
-        LCharSupplierX<X> function = sutO.thenToChar(thenFunction);
+        LCharSupplierX<X> function = sutO.toCharSupplier(thenFunction);
         char finalValue = function.doGetAsChar();
 
         //then - finals
@@ -577,7 +577,7 @@ public class LDoubleSupplierXTest<X extends ParseException> {
         };
 
         //when
-        LBooleanSupplierX<X> function = sutO.thenToBoolean(thenFunction);
+        LBooleanSupplierX<X> function = sutO.toBooleanSupplier(thenFunction);
         boolean finalValue = function.doGetAsBoolean();
 
         //then - finals
@@ -593,25 +593,25 @@ public class LDoubleSupplierXTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingDSup())
             .isInstanceOf(LDoubleSupplier.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingDSup())
             .isInstanceOf(LDoubleSupplier.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingDSupX())
             .isInstanceOf(LDoubleSupplierX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingDSupX())
             .isInstanceOf(LDoubleSupplierX.class);
     }
 
@@ -624,11 +624,11 @@ public class LDoubleSupplierXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doGetAsDouble();
+        sutThrowing.shovingDSup().doGetAsDouble();
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleDSup() throws X {
 
         // given
         LDoubleSupplierX<X> sutThrowing = LDoubleSupplierX.lX(() -> {
@@ -636,7 +636,7 @@ public class LDoubleSupplierXTest<X extends ParseException> {
         });
 
         // when
-        LDoubleSupplierX<X> wrapped = sutThrowing.handleX(h -> {
+        LDoubleSupplierX<X> wrapped = sutThrowing.handleDSupX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -673,3 +673,5 @@ public class LDoubleSupplierXTest<X extends ParseException> {
 
 
 }
+
+

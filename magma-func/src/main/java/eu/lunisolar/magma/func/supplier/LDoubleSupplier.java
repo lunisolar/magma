@@ -121,63 +121,63 @@ public interface LDoubleSupplier extends LDoubleSupplierX<RuntimeException>, Met
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default <V> LSupplier<V> then(@Nonnull LDoubleFunction<? extends V> after) {
+	default <V> LSupplier<V> toSupplier(@Nonnull LDoubleFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApply(this.doGetAsDouble());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LByteSupplier thenToByte(@Nonnull LDoubleToByteFunction after) {
+	default LByteSupplier toByteSupplier(@Nonnull LDoubleToByteFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsByte(this.doGetAsDouble());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LShortSupplier thenToShort(@Nonnull LDoubleToShortFunction after) {
+	default LShortSupplier toShortSupplier(@Nonnull LDoubleToShortFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsShort(this.doGetAsDouble());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LIntSupplier thenToInt(@Nonnull LDoubleToIntFunction after) {
+	default LIntSupplier toIntSupplier(@Nonnull LDoubleToIntFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsInt(this.doGetAsDouble());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LLongSupplier thenToLong(@Nonnull LDoubleToLongFunction after) {
+	default LLongSupplier toLongSupplier(@Nonnull LDoubleToLongFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsLong(this.doGetAsDouble());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LFloatSupplier thenToFloat(@Nonnull LDoubleToFloatFunction after) {
+	default LFloatSupplier toFloatSupplier(@Nonnull LDoubleToFloatFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsFloat(this.doGetAsDouble());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LDoubleSupplier thenToDouble(@Nonnull LDoubleUnaryOperator after) {
+	default LDoubleSupplier toDoubleSupplier(@Nonnull LDoubleUnaryOperator after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsDouble(this.doGetAsDouble());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LCharSupplier thenToChar(@Nonnull LDoubleToCharFunction after) {
+	default LCharSupplier toCharSupplier(@Nonnull LDoubleToCharFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsChar(this.doGetAsDouble());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LBooleanSupplier thenToBoolean(@Nonnull LDoublePredicate after) {
+	default LBooleanSupplier toBooleanSupplier(@Nonnull LDoublePredicate after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doTest(this.doGetAsDouble());
 	}
@@ -187,23 +187,23 @@ public interface LDoubleSupplier extends LDoubleSupplierX<RuntimeException>, Met
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoubleSupplier nest() {
+	default LDoubleSupplier nestingDSup() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoubleSupplierX<RuntimeException> nestX() {
+	default LDoubleSupplierX<RuntimeException> nestingDSupX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleSupplier shove() {
+	default LDoubleSupplier shovingDSup() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleSupplierX<RuntimeException> shoveX() {
+	default LDoubleSupplierX<RuntimeException> shovingDSupX() {
 		return this;
 	}
 

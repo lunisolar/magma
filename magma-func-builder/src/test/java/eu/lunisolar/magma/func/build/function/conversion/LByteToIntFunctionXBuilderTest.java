@@ -124,12 +124,14 @@ public class LByteToIntFunctionXBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsInt((byte)0).to(a -> a.isEqualTo((int)0))
-            .doesApplyAsInt((byte)5).to(a -> a.isEqualTo((int)1))
-            .doesApplyAsInt((byte)15).to(a -> a.isEqualTo((int)2))
-            .doesApplyAsInt((byte)10).to(a -> a.isEqualTo((int)99))
+            .doesApplyAsInt((byte)0).when(null).to(a -> a.isEqualTo((int)0))
+            .doesApplyAsInt((byte)5).when(null).to(a -> a.isEqualTo((int)1))
+            .doesApplyAsInt((byte)15).when(null).to(a -> a.isEqualTo((int)2))
+            .doesApplyAsInt((byte)10).when(null).to(a -> a.isEqualTo((int)99))
         ;
 
     }
 
 }
+
+

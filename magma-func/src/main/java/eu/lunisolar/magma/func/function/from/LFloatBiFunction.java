@@ -88,7 +88,7 @@ public interface LFloatBiFunction<R> extends LFloatBiFunctionX<R, RuntimeExcepti
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> capture(float f1, float f2) {
+	default LSupplier<R> captureFBiFunc(float f1, float f2) {
 		return () -> this.doApply(f1, f2);
 	}
 
@@ -116,20 +116,20 @@ public interface LFloatBiFunction<R> extends LFloatBiFunctionX<R, RuntimeExcepti
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LFloatBiFunction<R> fromFloat(@Nonnull final LFloatUnaryOperator before1, @Nonnull final LFloatUnaryOperator before2) {
+	default LFloatBiFunction<R> fBiFuncFromFloat(@Nonnull final LFloatUnaryOperator before1, @Nonnull final LFloatUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final float v1, final float v2) -> this.doApply(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiFunction<V1, V2, R> from(@Nonnull final LToFloatFunction<? super V1> before1, @Nonnull final LToFloatFunction<? super V2> before2) {
+	default <V1, V2> LBiFunction<V1, V2, R> fBiFuncFrom(@Nonnull final LToFloatFunction<? super V1> before1, @Nonnull final LToFloatFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApply(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
@@ -158,30 +158,30 @@ public interface LFloatBiFunction<R> extends LFloatBiFunctionX<R, RuntimeExcepti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LFloatBiFunction<R> nest() {
+	default LFloatBiFunction<R> nestingFBiFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LFloatBiFunctionX<R, RuntimeException> nestX() {
+	default LFloatBiFunctionX<R, RuntimeException> nestingFBiFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatBiFunction<R> shove() {
+	default LFloatBiFunction<R> shovingFBiFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatBiFunctionX<R, RuntimeException> shoveX() {
+	default LFloatBiFunctionX<R, RuntimeException> shovingFBiFuncX() {
 		return this;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LFloatBiFunction<R> nonNullable() {
+	default LFloatBiFunction<R> nonNullFBiFunc() {
 		return this::nonNullDoApply;
 	}
 

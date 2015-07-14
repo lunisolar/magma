@@ -128,3 +128,5 @@ public class LObjIntToIntFunctionXAssertTest<T,X extends Throwable> {
     }
 
 }
+
+

@@ -125,10 +125,12 @@ public class LBooleanSupplierBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesGetAsBoolean(()->externalInfluence.set(0)).to(a -> a.isEqualTo(false))
-            .doesGetAsBoolean(()->externalInfluence.set(5)).to(a -> a.isEqualTo(true))
+            .doesGetAsBoolean().when(()->externalInfluence.set(0)).to(a -> a.isEqualTo(false))
+            .doesGetAsBoolean().when(()->externalInfluence.set(5)).to(a -> a.isEqualTo(true))
         ;
 
     }
 
 }
+
+

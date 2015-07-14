@@ -105,7 +105,7 @@ public interface LObjBooleanPredicateX<T, X extends Throwable> extends MetaPredi
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> capture(T t, boolean b) {
+	default LBooleanSupplierX<X> captureObjBoolPred(T t, boolean b) {
 		return () -> this.doTest(t, b);
 	}
 
@@ -186,23 +186,23 @@ public interface LObjBooleanPredicateX<T, X extends Throwable> extends MetaPredi
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LObjBooleanPredicateX<V1, X> fromBoolean(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LBooleanUnaryOperatorX<X> before2) {
+	default <V1> LObjBooleanPredicateX<V1, X> objBoolPredFromBoolean(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LLogicalOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (final V1 v1, final boolean v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsBoolean(v2));
+		return (final V1 v1, final boolean v2) -> this.doTest(before1.doApply(v1), before2.doApply(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiPredicateX<V1, V2, X> from(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LPredicateX<? super V2, X> before2) {
+	default <V1, V2> LBiPredicateX<V1, V2, X> objBoolPredFrom(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LPredicateX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsBoolean(v2));
+		return (V1 v1, V2 v2) -> this.doTest(before1.doApply(v1), before2.doTest(v2));
 	}
 
 	// </editor-fold>
@@ -211,7 +211,7 @@ public interface LObjBooleanPredicateX<T, X extends Throwable> extends MetaPredi
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LObjBooleanFunctionX<T, V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LObjBooleanFunctionX<T, V, X> boolToObjBooleanFunction(@Nonnull LBooleanFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (T t, boolean b) -> after.doApply(this.doTest(t, b));
 	}
@@ -221,23 +221,23 @@ public interface LObjBooleanPredicateX<T, X extends Throwable> extends MetaPredi
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjBooleanPredicate<T> nest() {
+	default LObjBooleanPredicate<T> nestingObjBoolPred() {
 		return this::nestingDoTest;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjBooleanPredicateX<T, RuntimeException> nestX() {
+	default LObjBooleanPredicateX<T, RuntimeException> nestingObjBoolPredX() {
 		return this::nestingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjBooleanPredicate<T> shove() {
+	default LObjBooleanPredicate<T> shovingObjBoolPred() {
 		return this::shovingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjBooleanPredicateX<T, RuntimeException> shoveX() {
+	default LObjBooleanPredicateX<T, RuntimeException> shovingObjBoolPredX() {
 		return this::shovingDoTest;
 	}
 
@@ -246,12 +246,12 @@ public interface LObjBooleanPredicateX<T, X extends Throwable> extends MetaPredi
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LObjBooleanPredicate<T> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LObjBooleanPredicate<T> handleObjBoolPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T t, boolean b) -> this.handlingDoTest(t, b, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LObjBooleanPredicateX<T, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LObjBooleanPredicateX<T, Y> handleObjBoolPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T t, boolean b) -> this.handlingDoTest(t, b, handling);
 	}
 

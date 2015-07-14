@@ -26,18 +26,24 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for java.util.function.LongSupplier. */
-public interface LongSupplierAssert<S extends LongSupplierAssert<S, A, RS>, A extends java.util.function.LongSupplier, RS extends AbstractLongAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, Long, Exception> {
+public interface LongSupplierAssert<S extends LongSupplierAssert<S, A, RS>, A extends java.util.function.LongSupplier, RS extends AbstractLongAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LActionX<Exception>, A, RS, Long, Exception> {
 
 	@Nonnull
-	Evaluation<S, A, RS, Long, Exception> doesGetAsLong();
-
-	@Nonnull
-	Evaluation<S, A, RS, Long, Exception> doesGetAsLong(LAction before);
+	Evaluation<S, LActionX<Exception>, A, RS, Long, Exception> doesGetAsLong();
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends java.util.function.LongSupplier, RS extends AbstractLongAssert<RS>> extends Base<Impl<A, RS>, A, RS> {
@@ -48,7 +54,7 @@ public interface LongSupplierAssert<S extends LongSupplierAssert<S, A, RS>, A ex
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS>, A extends java.util.function.LongSupplier, RS extends AbstractLongAssert<RS>> extends FullFunctionalAssert.Base<S, A, RS, Long, Exception> implements LongSupplierAssert<S, A, RS> {
+	public static class Base<S extends Base<S, A, RS>, A extends java.util.function.LongSupplier, RS extends AbstractLongAssert<RS>> extends FullFunctionalAssert.Base<S, LActionX<Exception>, A, RS, Long, Exception> implements LongSupplierAssert<S, A, RS> {
 
 		protected final java.util.function.Function<Long, RS> assertFactory;
 
@@ -58,8 +64,15 @@ public interface LongSupplierAssert<S extends LongSupplierAssert<S, A, RS>, A ex
 		}
 
 		@Nonnull
-		public Evaluation<S, A, RS, Long, Exception> doesGetAsLong() {
-			return evaluation(() -> assertFactory.apply((Long) actual.getAsLong()));
+		public Evaluation<S, LActionX<Exception>, A, RS, Long, Exception> doesGetAsLong() {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doExecute();
+				}
+				return assertFactory.apply((Long) actual.getAsLong());
+			});
+
 		}
 
 		@Nonnull
@@ -68,11 +81,6 @@ public interface LongSupplierAssert<S extends LongSupplierAssert<S, A, RS>, A ex
 			return self();
 		}
 
-		@Nonnull
-		public Evaluation<S, A, RS, Long, Exception> doesGetAsLong(LAction before) {
-			before.doExecute();
-			return doesGetAsLong();
-		}
 	}
 
 }

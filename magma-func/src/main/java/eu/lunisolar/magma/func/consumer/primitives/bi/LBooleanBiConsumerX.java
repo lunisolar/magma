@@ -95,7 +95,7 @@ public interface LBooleanBiConsumerX<X extends Throwable> extends MetaConsumer, 
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LActionX<X> capture(boolean b1, boolean b2) {
+	default LActionX<X> captureBoolBiCons(boolean b1, boolean b2) {
 		return () -> this.doAccept(b1, b2);
 	}
 
@@ -126,23 +126,23 @@ public interface LBooleanBiConsumerX<X extends Throwable> extends MetaConsumer, 
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LBooleanBiConsumerX<X> fromBoolean(@Nonnull final LBooleanUnaryOperatorX<X> before1, @Nonnull final LBooleanUnaryOperatorX<X> before2) {
+	default LBooleanBiConsumerX<X> boolBiConsFromBoolean(@Nonnull final LLogicalOperatorX<X> before1, @Nonnull final LLogicalOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (final boolean v1, final boolean v2) -> this.doAccept(before1.doApplyAsBoolean(v1), before2.doApplyAsBoolean(v2));
+		return (final boolean v1, final boolean v2) -> this.doAccept(before1.doApply(v1), before2.doApply(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiConsumerX<V1, V2, X> from(@Nonnull final LPredicateX<? super V1, X> before1, @Nonnull final LPredicateX<? super V2, X> before2) {
+	default <V1, V2> LBiConsumerX<V1, V2, X> boolBiConsFrom(@Nonnull final LPredicateX<? super V1, X> before1, @Nonnull final LPredicateX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doAccept(before1.doApplyAsBoolean(v1), before2.doApplyAsBoolean(v2));
+		return (V1 v1, V2 v2) -> this.doAccept(before1.doTest(v1), before2.doTest(v2));
 	}
 
 	// </editor-fold>
@@ -163,23 +163,23 @@ public interface LBooleanBiConsumerX<X extends Throwable> extends MetaConsumer, 
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanBiConsumer nest() {
+	default LBooleanBiConsumer nestingBoolBiCons() {
 		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanBiConsumerX<RuntimeException> nestX() {
+	default LBooleanBiConsumerX<RuntimeException> nestingBoolBiConsX() {
 		return this::nestingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanBiConsumer shove() {
+	default LBooleanBiConsumer shovingBoolBiCons() {
 		return this::shovingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanBiConsumerX<RuntimeException> shoveX() {
+	default LBooleanBiConsumerX<RuntimeException> shovingBoolBiConsX() {
 		return this::shovingDoAccept;
 	}
 
@@ -188,12 +188,12 @@ public interface LBooleanBiConsumerX<X extends Throwable> extends MetaConsumer, 
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LBooleanBiConsumer handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LBooleanBiConsumer handleBoolBiCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (boolean b1, boolean b2) -> this.handlingDoAccept(b1, b2, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LBooleanBiConsumerX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LBooleanBiConsumerX<Y> handleBoolBiConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (boolean b1, boolean b2) -> this.handlingDoAccept(b1, b2, handling);
 	}
 

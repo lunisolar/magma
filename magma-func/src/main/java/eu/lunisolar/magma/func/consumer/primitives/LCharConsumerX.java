@@ -95,7 +95,7 @@ public interface LCharConsumerX<X extends Throwable> extends MetaConsumer, MetaI
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LActionX<X> capture(char c) {
+	default LActionX<X> captureCCons(char c) {
 		return () -> this.doAccept(c);
 	}
 
@@ -126,19 +126,19 @@ public interface LCharConsumerX<X extends Throwable> extends MetaConsumer, MetaI
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LCharConsumerX<X> fromChar(@Nonnull final LCharUnaryOperatorX<X> before1) {
+	default LCharConsumerX<X> cConsFromChar(@Nonnull final LCharUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doApplyAsChar(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LConsumerX<V1, X> from(@Nonnull final LToCharFunctionX<? super V1, X> before1) {
+	default <V1> LConsumerX<V1, X> cConsFrom(@Nonnull final LToCharFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doApplyAsChar(v1));
 	}
@@ -161,23 +161,23 @@ public interface LCharConsumerX<X extends Throwable> extends MetaConsumer, MetaI
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LCharConsumer nest() {
+	default LCharConsumer nestingCCons() {
 		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LCharConsumerX<RuntimeException> nestX() {
+	default LCharConsumerX<RuntimeException> nestingCConsX() {
 		return this::nestingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharConsumer shove() {
+	default LCharConsumer shovingCCons() {
 		return this::shovingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharConsumerX<RuntimeException> shoveX() {
+	default LCharConsumerX<RuntimeException> shovingCConsX() {
 		return this::shovingDoAccept;
 	}
 
@@ -186,12 +186,12 @@ public interface LCharConsumerX<X extends Throwable> extends MetaConsumer, MetaI
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LCharConsumer handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LCharConsumer handleCCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return c -> this.handlingDoAccept(c, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LCharConsumerX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LCharConsumerX<Y> handleCConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return c -> this.handlingDoAccept(c, handling);
 	}
 

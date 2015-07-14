@@ -106,7 +106,7 @@ public interface LDoubleBinaryOperatorX<X extends Throwable> extends java.util.f
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LDoubleSupplierX<X> capture(double d1, double d2) {
+	default LDoubleSupplierX<X> captureDBinaryOp(double d1, double d2) {
 		return () -> this.doApplyAsDouble(d1, d2);
 	}
 
@@ -166,20 +166,20 @@ public interface LDoubleBinaryOperatorX<X extends Throwable> extends java.util.f
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LDoubleBinaryOperatorX<X> fromDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1, @Nonnull final LDoubleUnaryOperatorX<X> before2) {
+	default LDoubleBinaryOperatorX<X> dBinaryOpFromDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1, @Nonnull final LDoubleUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final double v1, final double v2) -> this.doApplyAsDouble(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LToDoubleBiFunctionX<V1, V2, X> from(@Nonnull final LToDoubleFunctionX<? super V1, X> before1, @Nonnull final LToDoubleFunctionX<? super V2, X> before2) {
+	default <V1, V2> LToDoubleBiFunctionX<V1, V2, X> dBinaryOpFrom(@Nonnull final LToDoubleFunctionX<? super V1, X> before1, @Nonnull final LToDoubleFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApplyAsDouble(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
@@ -201,23 +201,23 @@ public interface LDoubleBinaryOperatorX<X extends Throwable> extends java.util.f
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoubleBinaryOperator nest() {
+	default LDoubleBinaryOperator nestingDBinaryOp() {
 		return this::nestingDoApplyAsDouble;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoubleBinaryOperatorX<RuntimeException> nestX() {
+	default LDoubleBinaryOperatorX<RuntimeException> nestingDBinaryOpX() {
 		return this::nestingDoApplyAsDouble;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleBinaryOperator shove() {
+	default LDoubleBinaryOperator shovingDBinaryOp() {
 		return this::shovingDoApplyAsDouble;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleBinaryOperatorX<RuntimeException> shoveX() {
+	default LDoubleBinaryOperatorX<RuntimeException> shovingDBinaryOpX() {
 		return this::shovingDoApplyAsDouble;
 	}
 
@@ -226,12 +226,12 @@ public interface LDoubleBinaryOperatorX<X extends Throwable> extends java.util.f
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LDoubleBinaryOperator handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LDoubleBinaryOperator handleDBinaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (double d1, double d2) -> this.handlingDoApplyAsDouble(d1, d2, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LDoubleBinaryOperatorX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LDoubleBinaryOperatorX<Y> handleDBinaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (double d1, double d2) -> this.handlingDoApplyAsDouble(d1, d2, handling);
 	}
 

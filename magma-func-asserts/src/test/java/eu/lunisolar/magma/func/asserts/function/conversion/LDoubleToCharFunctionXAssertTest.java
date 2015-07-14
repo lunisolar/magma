@@ -128,3 +128,5 @@ public class LDoubleToCharFunctionXAssertTest<X extends Throwable> {
     }
 
 }
+
+

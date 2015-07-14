@@ -210,7 +210,7 @@ public class LDoublePredicateTest<X extends ParseException> {
         });
 
         // when
-        LDoublePredicate wrapped = sutThrowing.handle(handler -> handler
+        LDoublePredicate wrapped = sutThrowing.handleDPred(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -234,7 +234,7 @@ public class LDoublePredicateTest<X extends ParseException> {
         });
 
         // when
-        LDoublePredicate wrapped = sutThrowing.handle(handler -> handler
+        LDoublePredicate wrapped = sutThrowing.handleDPred(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -258,7 +258,7 @@ public class LDoublePredicateTest<X extends ParseException> {
         });
 
         // when
-        LDoublePredicate wrapped = sutThrowing.handle(handler -> handler
+        LDoublePredicate wrapped = sutThrowing.handleDPred(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -283,7 +283,7 @@ public class LDoublePredicateTest<X extends ParseException> {
         });
 
         // when
-        LDoublePredicate wrapped = sutThrowing.handle(h -> Function4U.doNothing());
+        LDoublePredicate wrapped = sutThrowing.handleDPred(h -> Function4U.doNothing());
 
         // then
         try {
@@ -298,7 +298,7 @@ public class LDoublePredicateTest<X extends ParseException> {
     }
 
     @Test
-    public void testNegate() throws X {
+    public void testnegate() throws X {
         assertThat(sut.negate().doTest((double)100))
             .isEqualTo(!testValue);
     }
@@ -355,7 +355,7 @@ public class LDoublePredicateTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromDouble() throws X {
+    public void testdPredFromDouble() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -374,7 +374,7 @@ public class LDoublePredicateTest<X extends ParseException> {
         };
 
         //when
-        LDoublePredicate function = sutO.fromDouble(before1);
+        LDoublePredicate function = sutO.dPredFromDouble(before1);
         function.doTest((double)80);
 
         //then - finals
@@ -384,7 +384,7 @@ public class LDoublePredicateTest<X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws X {
+    public void testdPredFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -403,7 +403,7 @@ public class LDoublePredicateTest<X extends ParseException> {
         };
 
         //when
-        LPredicate<Integer > function = sutO.from(before1);
+        LPredicate<Integer > function = sutO.dPredFrom(before1);
         function.doTest((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -439,7 +439,7 @@ public class LDoublePredicateTest<X extends ParseException> {
         };
 
         //when
-        LDoubleFunction<Integer > function = sutO.then(thenFunction);
+        LDoubleFunction<Integer > function = sutO.boolToDoubleFunction(thenFunction);
         Integer  finalValue = function.doApply((double)80);
 
         //then - finals
@@ -474,7 +474,7 @@ public class LDoublePredicateTest<X extends ParseException> {
         };
 
         //when
-        LDoubleToByteFunction function = sutO.thenToByte(thenFunction);
+        LDoubleToByteFunction function = sutO.boolToDoubleToByteFunction(thenFunction);
         byte finalValue = function.doApplyAsByte((double)80);
 
         //then - finals
@@ -509,7 +509,7 @@ public class LDoublePredicateTest<X extends ParseException> {
         };
 
         //when
-        LDoubleToShortFunction function = sutO.thenToShort(thenFunction);
+        LDoubleToShortFunction function = sutO.boolToDoubleToShortFunction(thenFunction);
         short finalValue = function.doApplyAsShort((double)80);
 
         //then - finals
@@ -544,7 +544,7 @@ public class LDoublePredicateTest<X extends ParseException> {
         };
 
         //when
-        LDoubleToIntFunction function = sutO.thenToInt(thenFunction);
+        LDoubleToIntFunction function = sutO.boolToDoubleToIntFunction(thenFunction);
         int finalValue = function.doApplyAsInt((double)80);
 
         //then - finals
@@ -579,7 +579,7 @@ public class LDoublePredicateTest<X extends ParseException> {
         };
 
         //when
-        LDoubleToLongFunction function = sutO.thenToLong(thenFunction);
+        LDoubleToLongFunction function = sutO.boolToDoubleToLongFunction(thenFunction);
         long finalValue = function.doApplyAsLong((double)80);
 
         //then - finals
@@ -614,7 +614,7 @@ public class LDoublePredicateTest<X extends ParseException> {
         };
 
         //when
-        LDoubleToFloatFunction function = sutO.thenToFloat(thenFunction);
+        LDoubleToFloatFunction function = sutO.boolToDoubleToFloatFunction(thenFunction);
         float finalValue = function.doApplyAsFloat((double)80);
 
         //then - finals
@@ -649,7 +649,7 @@ public class LDoublePredicateTest<X extends ParseException> {
         };
 
         //when
-        LDoubleUnaryOperator function = sutO.thenToDouble(thenFunction);
+        LDoubleUnaryOperator function = sutO.boolToDoubleUnaryOperator(thenFunction);
         double finalValue = function.doApplyAsDouble((double)80);
 
         //then - finals
@@ -684,7 +684,7 @@ public class LDoublePredicateTest<X extends ParseException> {
         };
 
         //when
-        LDoubleToCharFunction function = sutO.thenToChar(thenFunction);
+        LDoubleToCharFunction function = sutO.boolToDoubleToCharFunction(thenFunction);
         char finalValue = function.doApplyAsChar((double)80);
 
         //then - finals
@@ -710,7 +710,7 @@ public class LDoublePredicateTest<X extends ParseException> {
                 return true;
         };
 
-        LBooleanUnaryOperator thenFunction = p -> {
+        LLogicalOperator thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // 
                 assertThat(p).isEqualTo(true);
@@ -719,7 +719,7 @@ public class LDoublePredicateTest<X extends ParseException> {
         };
 
         //when
-        LDoublePredicate function = sutO.thenToBoolean(thenFunction);
+        LDoublePredicate function = sutO.boolToDoublePredicate(thenFunction);
         boolean finalValue = function.doTest((double)80);
 
         //then - finals
@@ -735,28 +735,28 @@ public class LDoublePredicateTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingDPred())
             .isSameAs(sut)
             .isInstanceOf(LDoublePredicate.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingDPred())
             .isSameAs(sut)
             .isInstanceOf(LDoublePredicate.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingDPredX())
             .isSameAs(sut)
             .isInstanceOf(LDoublePredicateX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingDPredX())
             .isSameAs(sut)
             .isInstanceOf(LDoublePredicateX.class);
     }
@@ -770,11 +770,11 @@ public class LDoublePredicateTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doTest((double)100);
+        sutThrowing.shovingDPred().doTest((double)100);
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleDPred() throws X {
 
         // given
         LDoublePredicate sutThrowing = LDoublePredicate.l(d -> {
@@ -782,7 +782,7 @@ public class LDoublePredicateTest<X extends ParseException> {
         });
 
         // when
-        LDoublePredicate wrapped = sutThrowing.handle(h -> {
+        LDoublePredicate wrapped = sutThrowing.handleDPred(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -819,3 +819,5 @@ public class LDoublePredicateTest<X extends ParseException> {
 
 
 }
+
+

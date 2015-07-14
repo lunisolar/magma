@@ -88,7 +88,7 @@ public interface LObjCharFunction<T, R> extends LObjCharFunctionX<T, R, RuntimeE
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> capture(T t, char c) {
+	default LSupplier<R> captureObjCFunc(T t, char c) {
 		return () -> this.doApply(t, c);
 	}
 
@@ -116,20 +116,20 @@ public interface LObjCharFunction<T, R> extends LObjCharFunctionX<T, R, RuntimeE
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LObjCharFunction<V1, R> fromChar(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LCharUnaryOperator before2) {
+	default <V1> LObjCharFunction<V1, R> objCFuncFromChar(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LCharUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final char v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsChar(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiFunction<V1, V2, R> from(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToCharFunction<? super V2> before2) {
+	default <V1, V2> LBiFunction<V1, V2, R> objCFuncFrom(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToCharFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsChar(v2));
@@ -158,30 +158,30 @@ public interface LObjCharFunction<T, R> extends LObjCharFunctionX<T, R, RuntimeE
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjCharFunction<T, R> nest() {
+	default LObjCharFunction<T, R> nestingObjCFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjCharFunctionX<T, R, RuntimeException> nestX() {
+	default LObjCharFunctionX<T, R, RuntimeException> nestingObjCFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjCharFunction<T, R> shove() {
+	default LObjCharFunction<T, R> shovingObjCFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjCharFunctionX<T, R, RuntimeException> shoveX() {
+	default LObjCharFunctionX<T, R, RuntimeException> shovingObjCFuncX() {
 		return this;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LObjCharFunction<T, R> nonNullable() {
+	default LObjCharFunction<T, R> nonNullObjCFunc() {
 		return this::nonNullDoApply;
 	}
 

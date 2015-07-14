@@ -80,7 +80,7 @@ public interface LDoubleBiConsumer extends LDoubleBiConsumerX<RuntimeException>,
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LAction capture(double d1, double d2) {
+	default LAction captureDBiCons(double d1, double d2) {
 		return () -> this.doAccept(d1, d2);
 	}
 
@@ -104,20 +104,20 @@ public interface LDoubleBiConsumer extends LDoubleBiConsumerX<RuntimeException>,
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LDoubleBiConsumer fromDouble(@Nonnull final LDoubleUnaryOperator before1, @Nonnull final LDoubleUnaryOperator before2) {
+	default LDoubleBiConsumer dBiConsFromDouble(@Nonnull final LDoubleUnaryOperator before1, @Nonnull final LDoubleUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final double v1, final double v2) -> this.doAccept(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiConsumer<V1, V2> from(@Nonnull final LToDoubleFunction<? super V1> before1, @Nonnull final LToDoubleFunction<? super V2> before2) {
+	default <V1, V2> LBiConsumer<V1, V2> dBiConsFrom(@Nonnull final LToDoubleFunction<? super V1> before1, @Nonnull final LToDoubleFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doAccept(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
@@ -141,23 +141,23 @@ public interface LDoubleBiConsumer extends LDoubleBiConsumerX<RuntimeException>,
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoubleBiConsumer nest() {
+	default LDoubleBiConsumer nestingDBiCons() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoubleBiConsumerX<RuntimeException> nestX() {
+	default LDoubleBiConsumerX<RuntimeException> nestingDBiConsX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleBiConsumer shove() {
+	default LDoubleBiConsumer shovingDBiCons() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleBiConsumerX<RuntimeException> shoveX() {
+	default LDoubleBiConsumerX<RuntimeException> shovingDBiConsX() {
 		return this;
 	}
 

@@ -26,15 +26,27 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for java.util.function.LongPredicate. */
-public interface LongPredicateAssert<S extends LongPredicateAssert<S, A, RS>, A extends java.util.function.LongPredicate, RS extends AbstractBooleanAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, Boolean, Exception> {
+public interface LongPredicateAssert<S extends LongPredicateAssert<S, A, RS>, A extends java.util.function.LongPredicate, RS extends AbstractBooleanAssert<RS>>
+		extends
+			Assert<S, A>,
+			FullFunctionalAssert<S, LLongConsumerX<Exception>, A, RS, Boolean, Exception> {
 
 	@Nonnull
-	Evaluation<S, A, RS, Boolean, Exception> doesTest(long l);
+	Evaluation<S, LLongConsumerX<Exception>, A, RS, Boolean, Exception> doesTest(long l);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends java.util.function.LongPredicate, RS extends AbstractBooleanAssert<RS>> extends Base<Impl<A, RS>, A, RS> {
@@ -45,7 +57,9 @@ public interface LongPredicateAssert<S extends LongPredicateAssert<S, A, RS>, A 
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS>, A extends java.util.function.LongPredicate, RS extends AbstractBooleanAssert<RS>> extends FullFunctionalAssert.Base<S, A, RS, Boolean, Exception> implements LongPredicateAssert<S, A, RS> {
+	public static class Base<S extends Base<S, A, RS>, A extends java.util.function.LongPredicate, RS extends AbstractBooleanAssert<RS>> extends FullFunctionalAssert.Base<S, LLongConsumerX<Exception>, A, RS, Boolean, Exception>
+			implements
+				LongPredicateAssert<S, A, RS> {
 
 		protected final java.util.function.Function<Boolean, RS> assertFactory;
 
@@ -55,8 +69,15 @@ public interface LongPredicateAssert<S extends LongPredicateAssert<S, A, RS>, A 
 		}
 
 		@Nonnull
-		public Evaluation<S, A, RS, Boolean, Exception> doesTest(long l) {
-			return evaluation(() -> assertFactory.apply((Boolean) actual.test(l)));
+		public Evaluation<S, LLongConsumerX<Exception>, A, RS, Boolean, Exception> doesTest(long l) {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doAccept(l);
+				}
+				return assertFactory.apply((Boolean) actual.test(l));
+			});
+
 		}
 
 	}

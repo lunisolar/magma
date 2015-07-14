@@ -91,7 +91,7 @@ public interface LIntToLongFunction extends LIntToLongFunctionX<RuntimeException
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LLongSupplier capture(int i) {
+	default LLongSupplier captureIToLongFunc(int i) {
 		return () -> this.doApplyAsLong(i);
 	}
 
@@ -125,19 +125,19 @@ public interface LIntToLongFunction extends LIntToLongFunctionX<RuntimeException
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LIntToLongFunction fromInt(@Nonnull final LIntUnaryOperator before1) {
+	default LIntToLongFunction iToLongFuncFromInt(@Nonnull final LIntUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsLong(before1.doApplyAsInt(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToLongFunction<V1> from(@Nonnull final LToIntFunction<? super V1> before1) {
+	default <V1> LToLongFunction<V1> iToLongFuncFrom(@Nonnull final LToIntFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsLong(before1.doApplyAsInt(v1));
 	}
@@ -214,23 +214,23 @@ public interface LIntToLongFunction extends LIntToLongFunctionX<RuntimeException
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntToLongFunction nest() {
+	default LIntToLongFunction nestingIToLongFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntToLongFunctionX<RuntimeException> nestX() {
+	default LIntToLongFunctionX<RuntimeException> nestingIToLongFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntToLongFunction shove() {
+	default LIntToLongFunction shovingIToLongFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntToLongFunctionX<RuntimeException> shoveX() {
+	default LIntToLongFunctionX<RuntimeException> shovingIToLongFuncX() {
 		return this;
 	}
 

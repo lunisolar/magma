@@ -124,12 +124,14 @@ public class LBiShortPredicateBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesTest((short)0,(short)0).to(a -> a.isEqualTo(false))
-            .doesTest((short)5,(short)5).to(a -> a.isEqualTo(true))
-            .doesTest((short)15,(short)15).to(a -> a.isEqualTo(true))
-            .doesTest((short)10,(short)10).to(a -> a.isEqualTo(true))
+            .doesTest((short)0,(short)0).when(null).to(a -> a.isEqualTo(false))
+            .doesTest((short)5,(short)5).when(null).to(a -> a.isEqualTo(true))
+            .doesTest((short)15,(short)15).when(null).to(a -> a.isEqualTo(true))
+            .doesTest((short)10,(short)10).when(null).to(a -> a.isEqualTo(true))
         ;
 
     }
 
 }
+
+

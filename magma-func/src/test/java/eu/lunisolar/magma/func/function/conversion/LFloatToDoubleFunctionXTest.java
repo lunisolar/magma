@@ -184,7 +184,7 @@ public class LFloatToDoubleFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LFloatToDoubleFunctionX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LFloatToDoubleFunctionX<X> wrapped = sutThrowing.handleFToDFuncX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -208,7 +208,7 @@ public class LFloatToDoubleFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LFloatToDoubleFunctionX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LFloatToDoubleFunctionX<X> wrapped = sutThrowing.handleFToDFuncX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -232,7 +232,7 @@ public class LFloatToDoubleFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LFloatToDoubleFunctionX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LFloatToDoubleFunctionX<X> wrapped = sutThrowing.handleFToDFuncX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -257,7 +257,7 @@ public class LFloatToDoubleFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LFloatToDoubleFunctionX<X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
+        LFloatToDoubleFunctionX<X> wrapped = sutThrowing.handleFToDFuncX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -276,7 +276,7 @@ public class LFloatToDoubleFunctionXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromFloat() throws X {
+    public void testfToDFuncFromFloat() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -295,7 +295,7 @@ public class LFloatToDoubleFunctionXTest<X extends ParseException> {
         };
 
         //when
-        LFloatToDoubleFunctionX<X> function = sutO.fromFloat(before1);
+        LFloatToDoubleFunctionX<X> function = sutO.fToDFuncFromFloat(before1);
         function.doApplyAsDouble((float)80);
 
         //then - finals
@@ -305,7 +305,7 @@ public class LFloatToDoubleFunctionXTest<X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws X {
+    public void testfToDFuncFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -324,7 +324,7 @@ public class LFloatToDoubleFunctionXTest<X extends ParseException> {
         };
 
         //when
-        LToDoubleFunctionX<Integer ,X> function = sutO.from(before1);
+        LToDoubleFunctionX<Integer ,X> function = sutO.fToDFuncFrom(before1);
         function.doApplyAsDouble((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -656,25 +656,25 @@ public class LFloatToDoubleFunctionXTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingFToDFunc())
             .isInstanceOf(LFloatToDoubleFunction.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingFToDFunc())
             .isInstanceOf(LFloatToDoubleFunction.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingFToDFuncX())
             .isInstanceOf(LFloatToDoubleFunctionX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingFToDFuncX())
             .isInstanceOf(LFloatToDoubleFunctionX.class);
     }
 
@@ -687,11 +687,11 @@ public class LFloatToDoubleFunctionXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doApplyAsDouble((float)100);
+        sutThrowing.shovingFToDFunc().doApplyAsDouble((float)100);
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleFToDFunc() throws X {
 
         // given
         LFloatToDoubleFunctionX<X> sutThrowing = LFloatToDoubleFunctionX.lX(f -> {
@@ -699,7 +699,7 @@ public class LFloatToDoubleFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LFloatToDoubleFunctionX<X> wrapped = sutThrowing.handleX(h -> {
+        LFloatToDoubleFunctionX<X> wrapped = sutThrowing.handleFToDFuncX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -736,3 +736,5 @@ public class LFloatToDoubleFunctionXTest<X extends ParseException> {
 
 
 }
+
+

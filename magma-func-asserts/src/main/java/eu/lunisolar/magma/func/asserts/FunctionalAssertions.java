@@ -538,13 +538,13 @@ public interface FunctionalAssertions {
 	}
 
 	@Nonnull
-	public static <A extends LBooleanUnaryOperator, RS extends AbstractBooleanAssert<RS>> LBooleanUnaryOperatorAssert.Impl<A, RS> assertThat(LBooleanUnaryOperator functionalInterface) {
-		return new LBooleanUnaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LLogicalOperator, RS extends AbstractBooleanAssert<RS>> LLogicalOperatorAssert.Impl<A, RS> assertThat(LLogicalOperator functionalInterface) {
+		return new LLogicalOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends LBooleanUnaryOperatorX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> LBooleanUnaryOperatorXAssert.Impl<A, RS, X> assertThat(LBooleanUnaryOperatorX<X> functionalInterface) {
-		return new LBooleanUnaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LLogicalOperatorX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> LLogicalOperatorXAssert.Impl<A, RS, X> assertThat(LLogicalOperatorX<X> functionalInterface) {
+		return new LLogicalOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
@@ -618,23 +618,23 @@ public interface FunctionalAssertions {
 	}
 
 	@Nonnull
-	public static <A extends LBooleanBinaryOperator, RS extends AbstractBooleanAssert<RS>> LBooleanBinaryOperatorAssert.Impl<A, RS> assertThat(LBooleanBinaryOperator functionalInterface) {
-		return new LBooleanBinaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LLogicalBinaryOperator, RS extends AbstractBooleanAssert<RS>> LLogicalBinaryOperatorAssert.Impl<A, RS> assertThat(LLogicalBinaryOperator functionalInterface) {
+		return new LLogicalBinaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends LBooleanBinaryOperatorX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> LBooleanBinaryOperatorXAssert.Impl<A, RS, X> assertThat(LBooleanBinaryOperatorX<X> functionalInterface) {
-		return new LBooleanBinaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LLogicalBinaryOperatorX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> LLogicalBinaryOperatorXAssert.Impl<A, RS, X> assertThat(LLogicalBinaryOperatorX<X> functionalInterface) {
+		return new LLogicalBinaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends LBooleanTernaryOperator, RS extends AbstractBooleanAssert<RS>> LBooleanTernaryOperatorAssert.Impl<A, RS> assertThat(LBooleanTernaryOperator functionalInterface) {
-		return new LBooleanTernaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LLogicalTernaryOperator, RS extends AbstractBooleanAssert<RS>> LLogicalTernaryOperatorAssert.Impl<A, RS> assertThat(LLogicalTernaryOperator functionalInterface) {
+		return new LLogicalTernaryOperatorAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull
-	public static <A extends LBooleanTernaryOperatorX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> LBooleanTernaryOperatorXAssert.Impl<A, RS, X> assertThat(LBooleanTernaryOperatorX<X> functionalInterface) {
-		return new LBooleanTernaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
+	public static <A extends LLogicalTernaryOperatorX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> LLogicalTernaryOperatorXAssert.Impl<A, RS, X> assertThat(LLogicalTernaryOperatorX<X> functionalInterface) {
+		return new LLogicalTernaryOperatorXAssert.Impl(functionalInterface, Assertions::assertThat);
 	}
 
 	@Nonnull

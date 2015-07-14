@@ -125,10 +125,12 @@ public class LBiObjBooleanConsumerBuilderTest<T1,T2,X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesAccept(Integer.valueOf(0),Integer.valueOf(0),false).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(0)))
-            .doesAccept(Integer.valueOf(5),Integer.valueOf(5),true).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(1)))
+            .doesAccept(Integer.valueOf(0),Integer.valueOf(0),false).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(0)))
+            .doesAccept(Integer.valueOf(5),Integer.valueOf(5),true).when(null).soThat(() -> assertThat(externalEffect.get()).isEqualTo(Integer.valueOf(1)))
         ;
 
     }
 
 }
+
+

@@ -26,16 +26,28 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
 import eu.lunisolar.magma.func.predicate.*;
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LCharPredicateX. */
-public interface LCharPredicateXAssert<S extends LCharPredicateXAssert<S, A, RS, X>, A extends LCharPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, Boolean, Exception> {
+public interface LCharPredicateXAssert<S extends LCharPredicateXAssert<S, A, RS, X>, A extends LCharPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable>
+		extends
+			Assert<S, A>,
+			FullFunctionalAssert<S, LCharConsumerX<Exception>, A, RS, Boolean, Exception> {
 
 	@Nonnull
-	Evaluation<S, A, RS, Boolean, Exception> doesTest(char c);
+	Evaluation<S, LCharConsumerX<Exception>, A, RS, Boolean, Exception> doesTest(char c);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends LCharPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> extends Base<Impl<A, RS, X>, A, RS, X> {
@@ -46,7 +58,7 @@ public interface LCharPredicateXAssert<S extends LCharPredicateXAssert<S, A, RS,
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, X>, A extends LCharPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, A, RS, Boolean, Exception>
+	public static class Base<S extends Base<S, A, RS, X>, A extends LCharPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, LCharConsumerX<Exception>, A, RS, Boolean, Exception>
 			implements
 				LCharPredicateXAssert<S, A, RS, X> {
 
@@ -58,8 +70,15 @@ public interface LCharPredicateXAssert<S extends LCharPredicateXAssert<S, A, RS,
 		}
 
 		@Nonnull
-		public Evaluation<S, A, RS, Boolean, Exception> doesTest(char c) {
-			return evaluation(() -> assertFactory.apply((Boolean) actual.doTest(c)));
+		public Evaluation<S, LCharConsumerX<Exception>, A, RS, Boolean, Exception> doesTest(char c) {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doAccept(c);
+				}
+				return assertFactory.apply((Boolean) actual.doTest(c));
+			});
+
 		}
 
 	}

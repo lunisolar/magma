@@ -199,7 +199,7 @@ public class LIntPredicateXTest<X extends ParseException> {
         });
 
         // when
-        LIntPredicateX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LIntPredicateX<X> wrapped = sutThrowing.handleIPredX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -223,7 +223,7 @@ public class LIntPredicateXTest<X extends ParseException> {
         });
 
         // when
-        LIntPredicateX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LIntPredicateX<X> wrapped = sutThrowing.handleIPredX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -247,7 +247,7 @@ public class LIntPredicateXTest<X extends ParseException> {
         });
 
         // when
-        LIntPredicateX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LIntPredicateX<X> wrapped = sutThrowing.handleIPredX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -272,7 +272,7 @@ public class LIntPredicateXTest<X extends ParseException> {
         });
 
         // when
-        LIntPredicateX<X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
+        LIntPredicateX<X> wrapped = sutThrowing.handleIPredX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -287,7 +287,7 @@ public class LIntPredicateXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNegate() throws X {
+    public void testnegate() throws X {
         assertThat(sut.negate().doTest((int)100))
             .isEqualTo(!testValue);
     }
@@ -344,7 +344,7 @@ public class LIntPredicateXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromInt() throws X {
+    public void testiPredFromInt() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -363,7 +363,7 @@ public class LIntPredicateXTest<X extends ParseException> {
         };
 
         //when
-        LIntPredicateX<X> function = sutO.fromInt(before1);
+        LIntPredicateX<X> function = sutO.iPredFromInt(before1);
         function.doTest((int)80);
 
         //then - finals
@@ -373,7 +373,7 @@ public class LIntPredicateXTest<X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws X {
+    public void testiPredFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -392,7 +392,7 @@ public class LIntPredicateXTest<X extends ParseException> {
         };
 
         //when
-        LPredicateX<Integer ,X> function = sutO.from(before1);
+        LPredicateX<Integer ,X> function = sutO.iPredFrom(before1);
         function.doTest((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -428,7 +428,7 @@ public class LIntPredicateXTest<X extends ParseException> {
         };
 
         //when
-        LIntFunctionX<Integer ,X> function = sutO.then(thenFunction);
+        LIntFunctionX<Integer ,X> function = sutO.boolToIntFunction(thenFunction);
         Integer  finalValue = function.doApply((int)80);
 
         //then - finals
@@ -463,7 +463,7 @@ public class LIntPredicateXTest<X extends ParseException> {
         };
 
         //when
-        LIntToByteFunctionX<X> function = sutO.thenToByte(thenFunction);
+        LIntToByteFunctionX<X> function = sutO.boolToIntToByteFunction(thenFunction);
         byte finalValue = function.doApplyAsByte((int)80);
 
         //then - finals
@@ -498,7 +498,7 @@ public class LIntPredicateXTest<X extends ParseException> {
         };
 
         //when
-        LIntToShortFunctionX<X> function = sutO.thenToShort(thenFunction);
+        LIntToShortFunctionX<X> function = sutO.boolToIntToShortFunction(thenFunction);
         short finalValue = function.doApplyAsShort((int)80);
 
         //then - finals
@@ -533,7 +533,7 @@ public class LIntPredicateXTest<X extends ParseException> {
         };
 
         //when
-        LIntUnaryOperatorX<X> function = sutO.thenToInt(thenFunction);
+        LIntUnaryOperatorX<X> function = sutO.boolToIntUnaryOperator(thenFunction);
         int finalValue = function.doApplyAsInt((int)80);
 
         //then - finals
@@ -568,7 +568,7 @@ public class LIntPredicateXTest<X extends ParseException> {
         };
 
         //when
-        LIntToLongFunctionX<X> function = sutO.thenToLong(thenFunction);
+        LIntToLongFunctionX<X> function = sutO.boolToIntToLongFunction(thenFunction);
         long finalValue = function.doApplyAsLong((int)80);
 
         //then - finals
@@ -603,7 +603,7 @@ public class LIntPredicateXTest<X extends ParseException> {
         };
 
         //when
-        LIntToFloatFunctionX<X> function = sutO.thenToFloat(thenFunction);
+        LIntToFloatFunctionX<X> function = sutO.boolToIntToFloatFunction(thenFunction);
         float finalValue = function.doApplyAsFloat((int)80);
 
         //then - finals
@@ -638,7 +638,7 @@ public class LIntPredicateXTest<X extends ParseException> {
         };
 
         //when
-        LIntToDoubleFunctionX<X> function = sutO.thenToDouble(thenFunction);
+        LIntToDoubleFunctionX<X> function = sutO.boolToIntToDoubleFunction(thenFunction);
         double finalValue = function.doApplyAsDouble((int)80);
 
         //then - finals
@@ -673,7 +673,7 @@ public class LIntPredicateXTest<X extends ParseException> {
         };
 
         //when
-        LIntToCharFunctionX<X> function = sutO.thenToChar(thenFunction);
+        LIntToCharFunctionX<X> function = sutO.boolToIntToCharFunction(thenFunction);
         char finalValue = function.doApplyAsChar((int)80);
 
         //then - finals
@@ -699,7 +699,7 @@ public class LIntPredicateXTest<X extends ParseException> {
                 return true;
         };
 
-        LBooleanUnaryOperatorX<X> thenFunction = p -> {
+        LLogicalOperatorX<X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // 
                 assertThat(p).isEqualTo(true);
@@ -708,7 +708,7 @@ public class LIntPredicateXTest<X extends ParseException> {
         };
 
         //when
-        LIntPredicateX<X> function = sutO.thenToBoolean(thenFunction);
+        LIntPredicateX<X> function = sutO.boolToIntPredicate(thenFunction);
         boolean finalValue = function.doTest((int)80);
 
         //then - finals
@@ -724,25 +724,25 @@ public class LIntPredicateXTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingIPred())
             .isInstanceOf(LIntPredicate.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingIPred())
             .isInstanceOf(LIntPredicate.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingIPredX())
             .isInstanceOf(LIntPredicateX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingIPredX())
             .isInstanceOf(LIntPredicateX.class);
     }
 
@@ -755,11 +755,11 @@ public class LIntPredicateXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doTest((int)100);
+        sutThrowing.shovingIPred().doTest((int)100);
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleIPred() throws X {
 
         // given
         LIntPredicateX<X> sutThrowing = LIntPredicateX.lX(i -> {
@@ -767,7 +767,7 @@ public class LIntPredicateXTest<X extends ParseException> {
         });
 
         // when
-        LIntPredicateX<X> wrapped = sutThrowing.handleX(h -> {
+        LIntPredicateX<X> wrapped = sutThrowing.handleIPredX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -804,3 +804,5 @@ public class LIntPredicateXTest<X extends ParseException> {
 
 
 }
+
+

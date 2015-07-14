@@ -90,7 +90,7 @@ public interface LBiFloatPredicate extends LBiFloatPredicateX<RuntimeException>,
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier capture(float f1, float f2) {
+	default LBooleanSupplier captureBiFPred(float f1, float f2) {
 		return () -> this.doTest(f1, f2);
 	}
 
@@ -164,20 +164,20 @@ public interface LBiFloatPredicate extends LBiFloatPredicateX<RuntimeException>,
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LBiFloatPredicate fromFloat(@Nonnull final LFloatUnaryOperator before1, @Nonnull final LFloatUnaryOperator before2) {
+	default LBiFloatPredicate biFPredFromFloat(@Nonnull final LFloatUnaryOperator before1, @Nonnull final LFloatUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final float v1, final float v2) -> this.doTest(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiPredicate<V1, V2> from(@Nonnull final LToFloatFunction<? super V1> before1, @Nonnull final LToFloatFunction<? super V2> before2) {
+	default <V1, V2> LBiPredicate<V1, V2> biFPredFrom(@Nonnull final LToFloatFunction<? super V1> before1, @Nonnull final LToFloatFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doTest(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
@@ -189,7 +189,7 @@ public interface LBiFloatPredicate extends LBiFloatPredicateX<RuntimeException>,
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LFloatBiFunction<V> then(@Nonnull LBooleanFunction<? extends V> after) {
+	default <V> LFloatBiFunction<V> boolToFloatBiFunction(@Nonnull LBooleanFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (float f1, float f2) -> after.doApply(this.doTest(f1, f2));
 	}
@@ -199,23 +199,23 @@ public interface LBiFloatPredicate extends LBiFloatPredicateX<RuntimeException>,
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiFloatPredicate nest() {
+	default LBiFloatPredicate nestingBiFPred() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiFloatPredicateX<RuntimeException> nestX() {
+	default LBiFloatPredicateX<RuntimeException> nestingBiFPredX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiFloatPredicate shove() {
+	default LBiFloatPredicate shovingBiFPred() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiFloatPredicateX<RuntimeException> shoveX() {
+	default LBiFloatPredicateX<RuntimeException> shovingBiFPredX() {
 		return this;
 	}
 

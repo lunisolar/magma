@@ -84,7 +84,7 @@ public interface LBooleanToByteFunction extends LBooleanToByteFunctionX<RuntimeE
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LByteSupplier capture(boolean b) {
+	default LByteSupplier captureBoolToBFunc(boolean b) {
 		return () -> this.doApplyAsByte(b);
 	}
 
@@ -112,21 +112,21 @@ public interface LBooleanToByteFunction extends LBooleanToByteFunctionX<RuntimeE
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LBooleanToByteFunction fromBoolean(@Nonnull final LBooleanUnaryOperator before1) {
+	default LBooleanToByteFunction boolToBFuncFromBoolean(@Nonnull final LLogicalOperator before1) {
 		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsByte(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doApplyAsByte(before1.doApply(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToByteFunction<V1> from(@Nonnull final LPredicate<? super V1> before1) {
+	default <V1> LToByteFunction<V1> boolToBFuncFrom(@Nonnull final LPredicate<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsByte(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doApplyAsByte(before1.doTest(v1));
 	}
 
 	// </editor-fold>
@@ -191,7 +191,7 @@ public interface LBooleanToByteFunction extends LBooleanToByteFunctionX<RuntimeE
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LBooleanUnaryOperator thenToBoolean(@Nonnull LBytePredicate after) {
+	default LLogicalOperator thenToBoolean(@Nonnull LBytePredicate after) {
 		Null.nonNullArg(after, "after");
 		return b -> after.doTest(this.doApplyAsByte(b));
 	}
@@ -201,23 +201,23 @@ public interface LBooleanToByteFunction extends LBooleanToByteFunctionX<RuntimeE
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanToByteFunction nest() {
+	default LBooleanToByteFunction nestingBoolToBFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanToByteFunctionX<RuntimeException> nestX() {
+	default LBooleanToByteFunctionX<RuntimeException> nestingBoolToBFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanToByteFunction shove() {
+	default LBooleanToByteFunction shovingBoolToBFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanToByteFunctionX<RuntimeException> shoveX() {
+	default LBooleanToByteFunctionX<RuntimeException> shovingBoolToBFuncX() {
 		return this;
 	}
 

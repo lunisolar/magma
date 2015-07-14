@@ -84,7 +84,7 @@ public interface LBooleanToIntFunction extends LBooleanToIntFunctionX<RuntimeExc
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LIntSupplier capture(boolean b) {
+	default LIntSupplier captureBoolToIFunc(boolean b) {
 		return () -> this.doApplyAsInt(b);
 	}
 
@@ -112,21 +112,21 @@ public interface LBooleanToIntFunction extends LBooleanToIntFunctionX<RuntimeExc
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LBooleanToIntFunction fromBoolean(@Nonnull final LBooleanUnaryOperator before1) {
+	default LBooleanToIntFunction boolToIFuncFromBoolean(@Nonnull final LLogicalOperator before1) {
 		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsInt(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doApplyAsInt(before1.doApply(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToIntFunction<V1> from(@Nonnull final LPredicate<? super V1> before1) {
+	default <V1> LToIntFunction<V1> boolToIFuncFrom(@Nonnull final LPredicate<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsInt(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doApplyAsInt(before1.doTest(v1));
 	}
 
 	// </editor-fold>
@@ -191,7 +191,7 @@ public interface LBooleanToIntFunction extends LBooleanToIntFunctionX<RuntimeExc
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LBooleanUnaryOperator thenToBoolean(@Nonnull LIntPredicate after) {
+	default LLogicalOperator thenToBoolean(@Nonnull LIntPredicate after) {
 		Null.nonNullArg(after, "after");
 		return b -> after.doTest(this.doApplyAsInt(b));
 	}
@@ -201,23 +201,23 @@ public interface LBooleanToIntFunction extends LBooleanToIntFunctionX<RuntimeExc
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanToIntFunction nest() {
+	default LBooleanToIntFunction nestingBoolToIFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanToIntFunctionX<RuntimeException> nestX() {
+	default LBooleanToIntFunctionX<RuntimeException> nestingBoolToIFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanToIntFunction shove() {
+	default LBooleanToIntFunction shovingBoolToIFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanToIntFunctionX<RuntimeException> shoveX() {
+	default LBooleanToIntFunctionX<RuntimeException> shovingBoolToIFuncX() {
 		return this;
 	}
 

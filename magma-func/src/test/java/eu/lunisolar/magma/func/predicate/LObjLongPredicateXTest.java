@@ -191,7 +191,7 @@ public class LObjLongPredicateXTest<T,X extends ParseException> {
         });
 
         // when
-        LObjLongPredicateX<T,X> wrapped = sutThrowing.handleX(handler -> handler
+        LObjLongPredicateX<T,X> wrapped = sutThrowing.handleObjLongPredX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -215,7 +215,7 @@ public class LObjLongPredicateXTest<T,X extends ParseException> {
         });
 
         // when
-        LObjLongPredicateX<T,X> wrapped = sutThrowing.handleX(handler -> handler
+        LObjLongPredicateX<T,X> wrapped = sutThrowing.handleObjLongPredX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -239,7 +239,7 @@ public class LObjLongPredicateXTest<T,X extends ParseException> {
         });
 
         // when
-        LObjLongPredicateX<T,X> wrapped = sutThrowing.handleX(handler -> handler
+        LObjLongPredicateX<T,X> wrapped = sutThrowing.handleObjLongPredX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -264,7 +264,7 @@ public class LObjLongPredicateXTest<T,X extends ParseException> {
         });
 
         // when
-        LObjLongPredicateX<T,X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
+        LObjLongPredicateX<T,X> wrapped = sutThrowing.handleObjLongPredX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -279,7 +279,7 @@ public class LObjLongPredicateXTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testNegate() throws X {
+    public void testnegate() throws X {
         assertThat(sut.negate().doTest((T)Integer.valueOf(100),(long)100))
             .isEqualTo(!testValue);
     }
@@ -336,7 +336,7 @@ public class LObjLongPredicateXTest<T,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromLong() throws X {
+    public void testobjLongPredFromLong() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -361,7 +361,7 @@ public class LObjLongPredicateXTest<T,X extends ParseException> {
         };
 
         //when
-        LObjLongPredicateX<Integer ,X> function = sutO.fromLong(before1,before2);
+        LObjLongPredicateX<Integer ,X> function = sutO.objLongPredFromLong(before1,before2);
         function.doTest((Integer )Integer.valueOf(80),(long)81);
 
         //then - finals
@@ -371,7 +371,7 @@ public class LObjLongPredicateXTest<T,X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws X {
+    public void testobjLongPredFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -396,7 +396,7 @@ public class LObjLongPredicateXTest<T,X extends ParseException> {
         };
 
         //when
-        LBiPredicateX<Integer ,Integer ,X> function = sutO.from(before1,before2);
+        LBiPredicateX<Integer ,Integer ,X> function = sutO.objLongPredFrom(before1,before2);
         function.doTest((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
@@ -433,7 +433,7 @@ public class LObjLongPredicateXTest<T,X extends ParseException> {
         };
 
         //when
-        LObjLongFunctionX<Integer ,Integer ,X> function = sutO.then(thenFunction);
+        LObjLongFunctionX<Integer ,Integer ,X> function = sutO.boolToObjLongFunction(thenFunction);
         Integer  finalValue = function.doApply((Integer )Integer.valueOf(80),(long)81);
 
         //then - finals
@@ -449,25 +449,25 @@ public class LObjLongPredicateXTest<T,X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingObjLongPred())
             .isInstanceOf(LObjLongPredicate.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingObjLongPred())
             .isInstanceOf(LObjLongPredicate.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingObjLongPredX())
             .isInstanceOf(LObjLongPredicateX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingObjLongPredX())
             .isInstanceOf(LObjLongPredicateX.class);
     }
 
@@ -480,11 +480,11 @@ public class LObjLongPredicateXTest<T,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doTest((T)Integer.valueOf(100),(long)100);
+        sutThrowing.shovingObjLongPred().doTest((T)Integer.valueOf(100),(long)100);
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleObjLongPred() throws X {
 
         // given
         LObjLongPredicateX<T,X> sutThrowing = LObjLongPredicateX.lX((T t, long l) -> {
@@ -492,7 +492,7 @@ public class LObjLongPredicateXTest<T,X extends ParseException> {
         });
 
         // when
-        LObjLongPredicateX<T,X> wrapped = sutThrowing.handleX(h -> {
+        LObjLongPredicateX<T,X> wrapped = sutThrowing.handleObjLongPredX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -529,3 +529,5 @@ public class LObjLongPredicateXTest<T,X extends ParseException> {
 
 
 }
+
+

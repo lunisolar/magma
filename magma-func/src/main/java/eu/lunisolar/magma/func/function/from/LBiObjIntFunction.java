@@ -88,7 +88,7 @@ public interface LBiObjIntFunction<T1, T2, R> extends LBiObjIntFunctionX<T1, T2,
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> capture(T1 t1, T2 t2, int i) {
+	default LSupplier<R> captureBiObjIFunc(T1 t1, T2 t2, int i) {
 		return () -> this.doApply(t1, t2, i);
 	}
 
@@ -116,10 +116,10 @@ public interface LBiObjIntFunction<T1, T2, R> extends LBiObjIntFunctionX<T1, T2,
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiObjIntFunction<V1, V2, R> fromInt(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LIntUnaryOperator before3) {
+	default <V1, V2> LBiObjIntFunction<V1, V2, R> biObjIFuncFromInt(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LIntUnaryOperator before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
@@ -127,10 +127,10 @@ public interface LBiObjIntFunction<T1, T2, R> extends LBiObjIntFunctionX<T1, T2,
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2, V3> LTriFunction<V1, V2, V3, R> from(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LToIntFunction<? super V3> before3) {
+	default <V1, V2, V3> LTriFunction<V1, V2, V3, R> biObjIFuncFrom(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LToIntFunction<? super V3> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
@@ -160,30 +160,30 @@ public interface LBiObjIntFunction<T1, T2, R> extends LBiObjIntFunctionX<T1, T2,
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiObjIntFunction<T1, T2, R> nest() {
+	default LBiObjIntFunction<T1, T2, R> nestingBiObjIFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiObjIntFunctionX<T1, T2, R, RuntimeException> nestX() {
+	default LBiObjIntFunctionX<T1, T2, R, RuntimeException> nestingBiObjIFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjIntFunction<T1, T2, R> shove() {
+	default LBiObjIntFunction<T1, T2, R> shovingBiObjIFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjIntFunctionX<T1, T2, R, RuntimeException> shoveX() {
+	default LBiObjIntFunctionX<T1, T2, R, RuntimeException> shovingBiObjIFuncX() {
 		return this;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LBiObjIntFunction<T1, T2, R> nonNullable() {
+	default LBiObjIntFunction<T1, T2, R> nonNullBiObjIFunc() {
 		return this::nonNullDoApply;
 	}
 

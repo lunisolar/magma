@@ -99,7 +99,7 @@ public interface LFloatUnaryOperatorX<X extends Throwable> extends MetaOperator,
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LFloatSupplierX<X> capture(float f) {
+	default LFloatSupplierX<X> captureFUnaryOp(float f) {
 		return () -> this.doApplyAsFloat(f);
 	}
 
@@ -134,19 +134,19 @@ public interface LFloatUnaryOperatorX<X extends Throwable> extends MetaOperator,
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LFloatUnaryOperatorX<X> fromFloat(@Nonnull final LFloatUnaryOperatorX<X> before1) {
+	default LFloatUnaryOperatorX<X> fUnaryOpFromFloat(@Nonnull final LFloatUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsFloat(before1.doApplyAsFloat(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToFloatFunctionX<V1, X> from(@Nonnull final LToFloatFunctionX<? super V1, X> before1) {
+	default <V1> LToFloatFunctionX<V1, X> fUnaryOpFrom(@Nonnull final LToFloatFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsFloat(before1.doApplyAsFloat(v1));
 	}
@@ -229,23 +229,23 @@ public interface LFloatUnaryOperatorX<X extends Throwable> extends MetaOperator,
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LFloatUnaryOperator nest() {
+	default LFloatUnaryOperator nestingFUnaryOp() {
 		return this::nestingDoApplyAsFloat;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LFloatUnaryOperatorX<RuntimeException> nestX() {
+	default LFloatUnaryOperatorX<RuntimeException> nestingFUnaryOpX() {
 		return this::nestingDoApplyAsFloat;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatUnaryOperator shove() {
+	default LFloatUnaryOperator shovingFUnaryOp() {
 		return this::shovingDoApplyAsFloat;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatUnaryOperatorX<RuntimeException> shoveX() {
+	default LFloatUnaryOperatorX<RuntimeException> shovingFUnaryOpX() {
 		return this::shovingDoApplyAsFloat;
 	}
 
@@ -254,12 +254,12 @@ public interface LFloatUnaryOperatorX<X extends Throwable> extends MetaOperator,
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LFloatUnaryOperator handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LFloatUnaryOperator handleFUnaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return f -> this.handlingDoApplyAsFloat(f, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LFloatUnaryOperatorX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LFloatUnaryOperatorX<Y> handleFUnaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return f -> this.handlingDoApplyAsFloat(f, handling);
 	}
 

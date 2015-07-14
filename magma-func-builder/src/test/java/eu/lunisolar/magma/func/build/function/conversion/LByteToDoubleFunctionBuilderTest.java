@@ -124,12 +124,14 @@ public class LByteToDoubleFunctionBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsDouble((byte)0).to(a -> a.isEqualTo((double)0))
-            .doesApplyAsDouble((byte)5).to(a -> a.isEqualTo((double)1))
-            .doesApplyAsDouble((byte)15).to(a -> a.isEqualTo((double)2))
-            .doesApplyAsDouble((byte)10).to(a -> a.isEqualTo((double)99))
+            .doesApplyAsDouble((byte)0).when(null).to(a -> a.isEqualTo((double)0))
+            .doesApplyAsDouble((byte)5).when(null).to(a -> a.isEqualTo((double)1))
+            .doesApplyAsDouble((byte)15).when(null).to(a -> a.isEqualTo((double)2))
+            .doesApplyAsDouble((byte)10).when(null).to(a -> a.isEqualTo((double)99))
         ;
 
     }
 
 }
+
+

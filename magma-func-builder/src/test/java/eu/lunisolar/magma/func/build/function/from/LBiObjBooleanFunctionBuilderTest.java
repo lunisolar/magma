@@ -124,10 +124,12 @@ public class LBiObjBooleanFunctionBuilderTest<T1,T2,R,X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApply(Integer.valueOf(0),Integer.valueOf(0),false).to(a -> a.isEqualTo(Integer.valueOf(0)))
-            .doesApply(Integer.valueOf(5),Integer.valueOf(5),true).to(a -> a.isEqualTo(Integer.valueOf(1)))
+            .doesApply(Integer.valueOf(0),Integer.valueOf(0),false).when(null).to(a -> a.isEqualTo(Integer.valueOf(0)))
+            .doesApply(Integer.valueOf(5),Integer.valueOf(5),true).when(null).to(a -> a.isEqualTo(Integer.valueOf(1)))
         ;
 
     }
 
 }
+
+

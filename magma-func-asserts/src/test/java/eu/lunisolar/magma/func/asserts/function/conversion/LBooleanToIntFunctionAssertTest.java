@@ -128,3 +128,5 @@ public class LBooleanToIntFunctionAssertTest<X extends Throwable> {
     }
 
 }
+
+

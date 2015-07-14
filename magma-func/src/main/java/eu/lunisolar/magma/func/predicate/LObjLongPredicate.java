@@ -90,7 +90,7 @@ public interface LObjLongPredicate<T> extends LObjLongPredicateX<T, RuntimeExcep
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier capture(T t, long l) {
+	default LBooleanSupplier captureObjLongPred(T t, long l) {
 		return () -> this.doTest(t, l);
 	}
 
@@ -164,20 +164,20 @@ public interface LObjLongPredicate<T> extends LObjLongPredicateX<T, RuntimeExcep
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LObjLongPredicate<V1> fromLong(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LLongUnaryOperator before2) {
+	default <V1> LObjLongPredicate<V1> objLongPredFromLong(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LLongUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final long v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsLong(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiPredicate<V1, V2> from(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToLongFunction<? super V2> before2) {
+	default <V1, V2> LBiPredicate<V1, V2> objLongPredFrom(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToLongFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsLong(v2));
@@ -189,7 +189,7 @@ public interface LObjLongPredicate<T> extends LObjLongPredicateX<T, RuntimeExcep
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LObjLongFunction<T, V> then(@Nonnull LBooleanFunction<? extends V> after) {
+	default <V> LObjLongFunction<T, V> boolToObjLongFunction(@Nonnull LBooleanFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (T t, long l) -> after.doApply(this.doTest(t, l));
 	}
@@ -199,23 +199,23 @@ public interface LObjLongPredicate<T> extends LObjLongPredicateX<T, RuntimeExcep
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjLongPredicate<T> nest() {
+	default LObjLongPredicate<T> nestingObjLongPred() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjLongPredicateX<T, RuntimeException> nestX() {
+	default LObjLongPredicateX<T, RuntimeException> nestingObjLongPredX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjLongPredicate<T> shove() {
+	default LObjLongPredicate<T> shovingObjLongPred() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjLongPredicateX<T, RuntimeException> shoveX() {
+	default LObjLongPredicateX<T, RuntimeException> shovingObjLongPredX() {
 		return this;
 	}
 

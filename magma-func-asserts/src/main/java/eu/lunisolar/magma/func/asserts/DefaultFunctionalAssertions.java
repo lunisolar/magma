@@ -89,280 +89,315 @@ public interface DefaultFunctionalAssertions<OS extends Assert> extends BasicAss
 
 	default DefaultFunctionalAssertions<AbstractOptionalAssert> withinOptionalCodomain() {
 		return new DefaultFunctionalAssertions<AbstractOptionalAssert>() {
-			public AbstractOptionalAssert assertThatObj(Optional actual) {
-				return Assertions.assertThat(actual);
+			@Override
+			public AbstractOptionalAssert assertThatObj(Object actual) {
+				return Assertions.assertThat((Optional) actual);
 			}
 		};
 	}
 
 	default DefaultFunctionalAssertions<AbstractBigDecimalAssert> withinBigDecimalCodomain() {
 		return new DefaultFunctionalAssertions<AbstractBigDecimalAssert>() {
-			public AbstractBigDecimalAssert assertThatObj(BigDecimal actual) {
-				return Assertions.assertThat(actual);
+			@Override
+			public AbstractBigDecimalAssert assertThatObj(Object actual) {
+				return Assertions.assertThat((BigDecimal) actual);
 			}
 		};
 	}
 
 	default DefaultFunctionalAssertions<AbstractBooleanAssert> withinBooleanCodomain() {
 		return new DefaultFunctionalAssertions<AbstractBooleanAssert>() {
-			public AbstractBooleanAssert assertThatObj(Boolean actual) {
-				return Assertions.assertThat(actual);
+			@Override
+			public AbstractBooleanAssert assertThatObj(Object actual) {
+				return Assertions.assertThat((Boolean) actual);
 			}
 		};
 	}
 
 	default DefaultFunctionalAssertions<AbstractBooleanArrayAssert> withinBooleanArrayCodomain() {
 		return new DefaultFunctionalAssertions<AbstractBooleanArrayAssert>() {
-			public AbstractBooleanArrayAssert assertThatObj(boolean[] actual) {
-				return Assertions.assertThat(actual);
+			@Override
+			public AbstractBooleanArrayAssert assertThatObj(Object actual) {
+				return Assertions.assertThat((boolean[]) actual);
 			}
 		};
 	}
 
 	default DefaultFunctionalAssertions<AbstractByteAssert> withinByteCodomain() {
 		return new DefaultFunctionalAssertions<AbstractByteAssert>() {
-			public AbstractByteAssert assertThatObj(Byte actual) {
-				return Assertions.assertThat(actual);
+			@Override
+			public AbstractByteAssert assertThatObj(Object actual) {
+				return Assertions.assertThat((Byte) actual);
 			}
 		};
 	}
 
 	default DefaultFunctionalAssertions<AbstractByteArrayAssert> withinByteArrayCodomain() {
 		return new DefaultFunctionalAssertions<AbstractByteArrayAssert>() {
-			public AbstractByteArrayAssert assertThatObj(byte[] actual) {
-				return Assertions.assertThat(actual);
+			@Override
+			public AbstractByteArrayAssert assertThatObj(Object actual) {
+				return Assertions.assertThat((byte[]) actual);
 			}
 		};
 	}
 
 	default DefaultFunctionalAssertions<AbstractCharacterAssert> withinCharacterCodomain() {
 		return new DefaultFunctionalAssertions<AbstractCharacterAssert>() {
-			public AbstractCharacterAssert assertThatObj(Character actual) {
-				return Assertions.assertThat(actual);
+			@Override
+			public AbstractCharacterAssert assertThatObj(Object actual) {
+				return Assertions.assertThat((Character) actual);
 			}
 		};
 	}
 
 	default DefaultFunctionalAssertions<AbstractCharArrayAssert> withinCharArrayCodomain() {
 		return new DefaultFunctionalAssertions<AbstractCharArrayAssert>() {
-			public AbstractCharArrayAssert assertThatObj(char[] actual) {
-				return Assertions.assertThat(actual);
+			@Override
+			public AbstractCharArrayAssert assertThatObj(Object actual) {
+				return Assertions.assertThat((char[]) actual);
 			}
 		};
 	}
 
 	default DefaultFunctionalAssertions<AbstractClassAssert> withinClassCodomain() {
 		return new DefaultFunctionalAssertions<AbstractClassAssert>() {
-			public AbstractClassAssert assertThatObj(Class actual) {
-				return Assertions.assertThat(actual);
+			@Override
+			public AbstractClassAssert assertThatObj(Object actual) {
+				return Assertions.assertThat((Class) actual);
 			}
 		};
 	}
 
 	default DefaultFunctionalAssertions<AbstractComparableAssert> withinComparableCodomain() {
 		return new DefaultFunctionalAssertions<AbstractComparableAssert>() {
-			public AbstractComparableAssert assertThatObj(Comparable actual) {
-				return Assertions.assertThat(actual);
+			@Override
+			public AbstractComparableAssert assertThatObj(Object actual) {
+				return Assertions.assertThat((Comparable) actual);
 			}
 		};
 	}
 
 	default DefaultFunctionalAssertions<AbstractIterableAssert> withinIterableCodomain() {
 		return new DefaultFunctionalAssertions<AbstractIterableAssert>() {
-			public AbstractIterableAssert assertThatObj(Iterable actual) {
-				return Assertions.assertThat(actual);
+			@Override
+			public AbstractIterableAssert assertThatObj(Object actual) {
+				return Assertions.assertThat((Iterable) actual);
 			}
 		};
 	}
 
 	default DefaultFunctionalAssertions<AbstractIterableAssert> withinIteratorCodomain() {
 		return new DefaultFunctionalAssertions<AbstractIterableAssert>() {
-			public AbstractIterableAssert assertThatObj(Iterator actual) {
-				return Assertions.assertThat(actual);
+			@Override
+			public AbstractIterableAssert assertThatObj(Object actual) {
+				return Assertions.assertThat((Iterator) actual);
 			}
 		};
 	}
 
 	default DefaultFunctionalAssertions<AbstractDoubleAssert> withinDoubleCodomain() {
 		return new DefaultFunctionalAssertions<AbstractDoubleAssert>() {
-			public AbstractDoubleAssert assertThatObj(Double actual) {
-				return Assertions.assertThat(actual);
+			@Override
+			public AbstractDoubleAssert assertThatObj(Object actual) {
+				return Assertions.assertThat((Double) actual);
 			}
 		};
 	}
 
 	default DefaultFunctionalAssertions<AbstractDoubleArrayAssert> withinDoubleArrayCodomain() {
 		return new DefaultFunctionalAssertions<AbstractDoubleArrayAssert>() {
-			public AbstractDoubleArrayAssert assertThatObj(double[] actual) {
-				return Assertions.assertThat(actual);
+			@Override
+			public AbstractDoubleArrayAssert assertThatObj(Object actual) {
+				return Assertions.assertThat((double[]) actual);
 			}
 		};
 	}
 
 	default DefaultFunctionalAssertions<AbstractPathAssert> withinPathCodomain() {
 		return new DefaultFunctionalAssertions<AbstractPathAssert>() {
-			public AbstractPathAssert assertThatObj(Path actual) {
-				return Assertions.assertThat(actual);
+			@Override
+			public AbstractPathAssert assertThatObj(Object actual) {
+				return Assertions.assertThat((Path) actual);
 			}
 		};
 	}
 
 	default DefaultFunctionalAssertions<AbstractInputStreamAssert> withinInputStreamCodomain() {
 		return new DefaultFunctionalAssertions<AbstractInputStreamAssert>() {
-			public AbstractInputStreamAssert assertThatObj(InputStream actual) {
-				return Assertions.assertThat(actual);
+			@Override
+			public AbstractInputStreamAssert assertThatObj(Object actual) {
+				return Assertions.assertThat((InputStream) actual);
 			}
 		};
 	}
 
 	default DefaultFunctionalAssertions<AbstractFloatAssert> withinFloatCodomain() {
 		return new DefaultFunctionalAssertions<AbstractFloatAssert>() {
-			public AbstractFloatAssert assertThatObj(Float actual) {
-				return Assertions.assertThat(actual);
+			@Override
+			public AbstractFloatAssert assertThatObj(Object actual) {
+				return Assertions.assertThat((Float) actual);
 			}
 		};
 	}
 
 	default DefaultFunctionalAssertions<AbstractFloatArrayAssert> withinFloatArrayCodomain() {
 		return new DefaultFunctionalAssertions<AbstractFloatArrayAssert>() {
-			public AbstractFloatArrayAssert assertThatObj(float[] actual) {
-				return Assertions.assertThat(actual);
+			@Override
+			public AbstractFloatArrayAssert assertThatObj(Object actual) {
+				return Assertions.assertThat((float[]) actual);
 			}
 		};
 	}
 
 	default DefaultFunctionalAssertions<AbstractIntegerAssert> withinIntegerCodomain() {
 		return new DefaultFunctionalAssertions<AbstractIntegerAssert>() {
-			public AbstractIntegerAssert assertThatObj(Integer actual) {
-				return Assertions.assertThat(actual);
+			@Override
+			public AbstractIntegerAssert assertThatObj(Object actual) {
+				return Assertions.assertThat((Integer) actual);
 			}
 		};
 	}
 
 	default DefaultFunctionalAssertions<AbstractIntArrayAssert> withinIntArrayCodomain() {
 		return new DefaultFunctionalAssertions<AbstractIntArrayAssert>() {
-			public AbstractIntArrayAssert assertThatObj(int[] actual) {
-				return Assertions.assertThat(actual);
+			@Override
+			public AbstractIntArrayAssert assertThatObj(Object actual) {
+				return Assertions.assertThat((int[]) actual);
 			}
 		};
 	}
 
 	default DefaultFunctionalAssertions<AbstractListAssert> withinListCodomain() {
 		return new DefaultFunctionalAssertions<AbstractListAssert>() {
-			public AbstractListAssert assertThatObj(List actual) {
-				return Assertions.assertThat(actual);
+			@Override
+			public AbstractListAssert assertThatObj(Object actual) {
+				return Assertions.assertThat((List) actual);
 			}
 		};
 	}
 
 	default DefaultFunctionalAssertions<AbstractLongAssert> withinLongCodomain() {
 		return new DefaultFunctionalAssertions<AbstractLongAssert>() {
-			public AbstractLongAssert assertThatObj(Long actual) {
-				return Assertions.assertThat(actual);
+			@Override
+			public AbstractLongAssert assertThatObj(Object actual) {
+				return Assertions.assertThat((Long) actual);
 			}
 		};
 	}
 
 	default DefaultFunctionalAssertions<AbstractLongArrayAssert> withinLongArrayCodomain() {
 		return new DefaultFunctionalAssertions<AbstractLongArrayAssert>() {
-			public AbstractLongArrayAssert assertThatObj(long[] actual) {
-				return Assertions.assertThat(actual);
+			@Override
+			public AbstractLongArrayAssert assertThatObj(Object actual) {
+				return Assertions.assertThat((long[]) actual);
 			}
 		};
 	}
 
 	default DefaultFunctionalAssertions<AbstractMapAssert> withinMapCodomain() {
 		return new DefaultFunctionalAssertions<AbstractMapAssert>() {
-			public AbstractMapAssert assertThatObj(Map actual) {
-				return Assertions.assertThat(actual);
+			@Override
+			public AbstractMapAssert assertThatObj(Object actual) {
+				return Assertions.assertThat((Map) actual);
 			}
 		};
 	}
 
 	default DefaultFunctionalAssertions<AbstractShortAssert> withinShortCodomain() {
 		return new DefaultFunctionalAssertions<AbstractShortAssert>() {
-			public AbstractShortAssert assertThatObj(Short actual) {
-				return Assertions.assertThat(actual);
+			@Override
+			public AbstractShortAssert assertThatObj(Object actual) {
+				return Assertions.assertThat((Short) actual);
 			}
 		};
 	}
 
 	default DefaultFunctionalAssertions<AbstractShortArrayAssert> withinShortArrayCodomain() {
 		return new DefaultFunctionalAssertions<AbstractShortArrayAssert>() {
-			public AbstractShortArrayAssert assertThatObj(short[] actual) {
-				return Assertions.assertThat(actual);
+			@Override
+			public AbstractShortArrayAssert assertThatObj(Object actual) {
+				return Assertions.assertThat((short[]) actual);
 			}
 		};
 	}
 
 	default DefaultFunctionalAssertions<AbstractCharSequenceAssert> withinCharSequenceCodomain() {
 		return new DefaultFunctionalAssertions<AbstractCharSequenceAssert>() {
-			public AbstractCharSequenceAssert assertThatObj(CharSequence actual) {
-				return Assertions.assertThat(actual);
+			@Override
+			public AbstractCharSequenceAssert assertThatObj(Object actual) {
+				return Assertions.assertThat((CharSequence) actual);
 			}
 		};
 	}
 
 	default DefaultFunctionalAssertions<AbstractCharSequenceAssert> withinStringCodomain() {
 		return new DefaultFunctionalAssertions<AbstractCharSequenceAssert>() {
-			public AbstractCharSequenceAssert assertThatObj(String actual) {
-				return Assertions.assertThat(actual);
+			@Override
+			public AbstractCharSequenceAssert assertThatObj(Object actual) {
+				return Assertions.assertThat((String) actual);
 			}
 		};
 	}
 
 	default DefaultFunctionalAssertions<AbstractDateAssert> withinDateCodomain() {
 		return new DefaultFunctionalAssertions<AbstractDateAssert>() {
-			public AbstractDateAssert assertThatObj(Date actual) {
-				return Assertions.assertThat(actual);
+			@Override
+			public AbstractDateAssert assertThatObj(Object actual) {
+				return Assertions.assertThat((Date) actual);
 			}
 		};
 	}
 
 	default DefaultFunctionalAssertions<AbstractZonedDateTimeAssert> withinZonedDateTimeCodomain() {
 		return new DefaultFunctionalAssertions<AbstractZonedDateTimeAssert>() {
-			public AbstractZonedDateTimeAssert assertThatObj(ZonedDateTime actual) {
-				return Assertions.assertThat(actual);
+			@Override
+			public AbstractZonedDateTimeAssert assertThatObj(Object actual) {
+				return Assertions.assertThat((ZonedDateTime) actual);
 			}
 		};
 	}
 
 	default DefaultFunctionalAssertions<AbstractLocalDateTimeAssert> withinLocalDateTimeCodomain() {
 		return new DefaultFunctionalAssertions<AbstractLocalDateTimeAssert>() {
-			public AbstractLocalDateTimeAssert assertThatObj(LocalDateTime actual) {
-				return Assertions.assertThat(actual);
+			@Override
+			public AbstractLocalDateTimeAssert assertThatObj(Object actual) {
+				return Assertions.assertThat((LocalDateTime) actual);
 			}
 		};
 	}
 
 	default DefaultFunctionalAssertions<AbstractLocalTimeAssert> withinLocalTimeCodomain() {
 		return new DefaultFunctionalAssertions<AbstractLocalTimeAssert>() {
-			public AbstractLocalTimeAssert assertThatObj(LocalTime actual) {
-				return Assertions.assertThat(actual);
+			@Override
+			public AbstractLocalTimeAssert assertThatObj(Object actual) {
+				return Assertions.assertThat((LocalTime) actual);
 			}
 		};
 	}
 
 	default DefaultFunctionalAssertions<AbstractLocalDateAssert> withinLocalDateCodomain() {
 		return new DefaultFunctionalAssertions<AbstractLocalDateAssert>() {
-			public AbstractLocalDateAssert assertThatObj(LocalDate actual) {
-				return Assertions.assertThat(actual);
+			@Override
+			public AbstractLocalDateAssert assertThatObj(Object actual) {
+				return Assertions.assertThat((LocalDate) actual);
 			}
 		};
 	}
 
 	default DefaultFunctionalAssertions<AbstractThrowableAssert> withinThrowableCodomain() {
 		return new DefaultFunctionalAssertions<AbstractThrowableAssert>() {
-			public AbstractThrowableAssert assertThatObj(Throwable actual) {
-				return Assertions.assertThat(actual);
+			@Override
+			public AbstractThrowableAssert assertThatObj(Object actual) {
+				return Assertions.assertThat((Throwable) actual);
 			}
 		};
 	}
 
 	default <T> DefaultFunctionalAssertions<AbstractObjectArrayAssert> withinTArrayCodomain() {
 		return new DefaultFunctionalAssertions<AbstractObjectArrayAssert>() {
-			public AbstractObjectArrayAssert assertThatObj(T[] actual) {
-				return Assertions.assertThat(actual);
+			@Override
+			public AbstractObjectArrayAssert assertThatObj(Object actual) {
+				return Assertions.assertThat((Object[]) actual);
 			}
 		};
 	}
@@ -864,15 +899,15 @@ public interface DefaultFunctionalAssertions<OS extends Assert> extends BasicAss
 	}
 
 	@Nonnull
-	default <A extends LBooleanUnaryOperator> LBooleanUnaryOperatorAssert.Impl<A, ? extends AbstractBooleanAssert> assertThat(LBooleanUnaryOperator functionalInterface) {
+	default <A extends LLogicalOperator> LLogicalOperatorAssert.Impl<A, ? extends AbstractBooleanAssert> assertThat(LLogicalOperator functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBooleanUnaryOperatorAssert.Impl(functionalInterface, assertFunc);
+		return new LLogicalOperatorAssert.Impl(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBooleanUnaryOperatorX<X>, X extends Throwable> LBooleanUnaryOperatorXAssert.Impl<A, ? extends AbstractBooleanAssert, X> assertThat(LBooleanUnaryOperatorX<X> functionalInterface) {
+	default <A extends LLogicalOperatorX<X>, X extends Throwable> LLogicalOperatorXAssert.Impl<A, ? extends AbstractBooleanAssert, X> assertThat(LLogicalOperatorX<X> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBooleanUnaryOperatorXAssert.Impl(functionalInterface, assertFunc);
+		return new LLogicalOperatorXAssert.Impl(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
@@ -960,27 +995,27 @@ public interface DefaultFunctionalAssertions<OS extends Assert> extends BasicAss
 	}
 
 	@Nonnull
-	default <A extends LBooleanBinaryOperator> LBooleanBinaryOperatorAssert.Impl<A, ? extends AbstractBooleanAssert> assertThat(LBooleanBinaryOperator functionalInterface) {
+	default <A extends LLogicalBinaryOperator> LLogicalBinaryOperatorAssert.Impl<A, ? extends AbstractBooleanAssert> assertThat(LLogicalBinaryOperator functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBooleanBinaryOperatorAssert.Impl(functionalInterface, assertFunc);
+		return new LLogicalBinaryOperatorAssert.Impl(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBooleanBinaryOperatorX<X>, X extends Throwable> LBooleanBinaryOperatorXAssert.Impl<A, ? extends AbstractBooleanAssert, X> assertThat(LBooleanBinaryOperatorX<X> functionalInterface) {
+	default <A extends LLogicalBinaryOperatorX<X>, X extends Throwable> LLogicalBinaryOperatorXAssert.Impl<A, ? extends AbstractBooleanAssert, X> assertThat(LLogicalBinaryOperatorX<X> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBooleanBinaryOperatorXAssert.Impl(functionalInterface, assertFunc);
+		return new LLogicalBinaryOperatorXAssert.Impl(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBooleanTernaryOperator> LBooleanTernaryOperatorAssert.Impl<A, ? extends AbstractBooleanAssert> assertThat(LBooleanTernaryOperator functionalInterface) {
+	default <A extends LLogicalTernaryOperator> LLogicalTernaryOperatorAssert.Impl<A, ? extends AbstractBooleanAssert> assertThat(LLogicalTernaryOperator functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBooleanTernaryOperatorAssert.Impl(functionalInterface, assertFunc);
+		return new LLogicalTernaryOperatorAssert.Impl(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBooleanTernaryOperatorX<X>, X extends Throwable> LBooleanTernaryOperatorXAssert.Impl<A, ? extends AbstractBooleanAssert, X> assertThat(LBooleanTernaryOperatorX<X> functionalInterface) {
+	default <A extends LLogicalTernaryOperatorX<X>, X extends Throwable> LLogicalTernaryOperatorXAssert.Impl<A, ? extends AbstractBooleanAssert, X> assertThat(LLogicalTernaryOperatorX<X> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBooleanTernaryOperatorXAssert.Impl(functionalInterface, assertFunc);
+		return new LLogicalTernaryOperatorXAssert.Impl(functionalInterface, assertFunc);
 	}
 
 	@Nonnull

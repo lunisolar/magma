@@ -184,7 +184,7 @@ public class LCharToDoubleFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LCharToDoubleFunctionX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LCharToDoubleFunctionX<X> wrapped = sutThrowing.handleCToDFuncX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -208,7 +208,7 @@ public class LCharToDoubleFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LCharToDoubleFunctionX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LCharToDoubleFunctionX<X> wrapped = sutThrowing.handleCToDFuncX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -232,7 +232,7 @@ public class LCharToDoubleFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LCharToDoubleFunctionX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LCharToDoubleFunctionX<X> wrapped = sutThrowing.handleCToDFuncX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -257,7 +257,7 @@ public class LCharToDoubleFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LCharToDoubleFunctionX<X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
+        LCharToDoubleFunctionX<X> wrapped = sutThrowing.handleCToDFuncX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -276,7 +276,7 @@ public class LCharToDoubleFunctionXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromChar() throws X {
+    public void testcToDFuncFromChar() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -295,7 +295,7 @@ public class LCharToDoubleFunctionXTest<X extends ParseException> {
         };
 
         //when
-        LCharToDoubleFunctionX<X> function = sutO.fromChar(before1);
+        LCharToDoubleFunctionX<X> function = sutO.cToDFuncFromChar(before1);
         function.doApplyAsDouble((char)80);
 
         //then - finals
@@ -305,7 +305,7 @@ public class LCharToDoubleFunctionXTest<X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws X {
+    public void testcToDFuncFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -324,7 +324,7 @@ public class LCharToDoubleFunctionXTest<X extends ParseException> {
         };
 
         //when
-        LToDoubleFunctionX<Integer ,X> function = sutO.from(before1);
+        LToDoubleFunctionX<Integer ,X> function = sutO.cToDFuncFrom(before1);
         function.doApplyAsDouble((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -656,25 +656,25 @@ public class LCharToDoubleFunctionXTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingCToDFunc())
             .isInstanceOf(LCharToDoubleFunction.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingCToDFunc())
             .isInstanceOf(LCharToDoubleFunction.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingCToDFuncX())
             .isInstanceOf(LCharToDoubleFunctionX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingCToDFuncX())
             .isInstanceOf(LCharToDoubleFunctionX.class);
     }
 
@@ -687,11 +687,11 @@ public class LCharToDoubleFunctionXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doApplyAsDouble((char)100);
+        sutThrowing.shovingCToDFunc().doApplyAsDouble((char)100);
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleCToDFunc() throws X {
 
         // given
         LCharToDoubleFunctionX<X> sutThrowing = LCharToDoubleFunctionX.lX(c -> {
@@ -699,7 +699,7 @@ public class LCharToDoubleFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LCharToDoubleFunctionX<X> wrapped = sutThrowing.handleX(h -> {
+        LCharToDoubleFunctionX<X> wrapped = sutThrowing.handleCToDFuncX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -736,3 +736,5 @@ public class LCharToDoubleFunctionXTest<X extends ParseException> {
 
 
 }
+
+

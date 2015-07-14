@@ -84,7 +84,7 @@ public interface LByteUnaryOperator extends LByteUnaryOperatorX<RuntimeException
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LByteSupplier capture(byte b) {
+	default LByteSupplier captureBUnaryOp(byte b) {
 		return () -> this.doApplyAsByte(b);
 	}
 
@@ -112,19 +112,19 @@ public interface LByteUnaryOperator extends LByteUnaryOperatorX<RuntimeException
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LByteUnaryOperator fromByte(@Nonnull final LByteUnaryOperator before1) {
+	default LByteUnaryOperator bUnaryOpFromByte(@Nonnull final LByteUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsByte(before1.doApplyAsByte(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToByteFunction<V1> from(@Nonnull final LToByteFunction<? super V1> before1) {
+	default <V1> LToByteFunction<V1> bUnaryOpFrom(@Nonnull final LToByteFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsByte(before1.doApplyAsByte(v1));
 	}
@@ -207,23 +207,23 @@ public interface LByteUnaryOperator extends LByteUnaryOperatorX<RuntimeException
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LByteUnaryOperator nest() {
+	default LByteUnaryOperator nestingBUnaryOp() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LByteUnaryOperatorX<RuntimeException> nestX() {
+	default LByteUnaryOperatorX<RuntimeException> nestingBUnaryOpX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteUnaryOperator shove() {
+	default LByteUnaryOperator shovingBUnaryOp() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteUnaryOperatorX<RuntimeException> shoveX() {
+	default LByteUnaryOperatorX<RuntimeException> shovingBUnaryOpX() {
 		return this;
 	}
 

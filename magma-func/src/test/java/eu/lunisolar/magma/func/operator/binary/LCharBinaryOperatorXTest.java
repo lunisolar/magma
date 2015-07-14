@@ -184,7 +184,7 @@ public class LCharBinaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        LCharBinaryOperatorX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LCharBinaryOperatorX<X> wrapped = sutThrowing.handleCBinaryOpX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -208,7 +208,7 @@ public class LCharBinaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        LCharBinaryOperatorX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LCharBinaryOperatorX<X> wrapped = sutThrowing.handleCBinaryOpX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -232,7 +232,7 @@ public class LCharBinaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        LCharBinaryOperatorX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LCharBinaryOperatorX<X> wrapped = sutThrowing.handleCBinaryOpX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -257,7 +257,7 @@ public class LCharBinaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        LCharBinaryOperatorX<X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
+        LCharBinaryOperatorX<X> wrapped = sutThrowing.handleCBinaryOpX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -310,7 +310,7 @@ public class LCharBinaryOperatorXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromChar() throws X {
+    public void testcBinaryOpFromChar() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -335,7 +335,7 @@ public class LCharBinaryOperatorXTest<X extends ParseException> {
         };
 
         //when
-        LCharBinaryOperatorX<X> function = sutO.fromChar(before1,before2);
+        LCharBinaryOperatorX<X> function = sutO.cBinaryOpFromChar(before1,before2);
         function.doApplyAsChar((char)80,(char)81);
 
         //then - finals
@@ -345,7 +345,7 @@ public class LCharBinaryOperatorXTest<X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws X {
+    public void testcBinaryOpFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -370,7 +370,7 @@ public class LCharBinaryOperatorXTest<X extends ParseException> {
         };
 
         //when
-        LToCharBiFunctionX<Integer ,Integer ,X> function = sutO.from(before1,before2);
+        LToCharBiFunctionX<Integer ,Integer ,X> function = sutO.cBinaryOpFrom(before1,before2);
         function.doApplyAsChar((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
@@ -423,25 +423,25 @@ public class LCharBinaryOperatorXTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingCBinaryOp())
             .isInstanceOf(LCharBinaryOperator.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingCBinaryOp())
             .isInstanceOf(LCharBinaryOperator.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingCBinaryOpX())
             .isInstanceOf(LCharBinaryOperatorX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingCBinaryOpX())
             .isInstanceOf(LCharBinaryOperatorX.class);
     }
 
@@ -454,11 +454,11 @@ public class LCharBinaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doApplyAsChar((char)100,(char)100);
+        sutThrowing.shovingCBinaryOp().doApplyAsChar((char)100,(char)100);
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleCBinaryOp() throws X {
 
         // given
         LCharBinaryOperatorX<X> sutThrowing = LCharBinaryOperatorX.lX((char c1,char c2) -> {
@@ -466,7 +466,7 @@ public class LCharBinaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        LCharBinaryOperatorX<X> wrapped = sutThrowing.handleX(h -> {
+        LCharBinaryOperatorX<X> wrapped = sutThrowing.handleCBinaryOpX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -503,3 +503,5 @@ public class LCharBinaryOperatorXTest<X extends ParseException> {
 
 
 }
+
+

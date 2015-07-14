@@ -99,7 +99,7 @@ public interface LByteUnaryOperatorX<X extends Throwable> extends MetaOperator, 
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LByteSupplierX<X> capture(byte b) {
+	default LByteSupplierX<X> captureBUnaryOp(byte b) {
 		return () -> this.doApplyAsByte(b);
 	}
 
@@ -134,19 +134,19 @@ public interface LByteUnaryOperatorX<X extends Throwable> extends MetaOperator, 
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LByteUnaryOperatorX<X> fromByte(@Nonnull final LByteUnaryOperatorX<X> before1) {
+	default LByteUnaryOperatorX<X> bUnaryOpFromByte(@Nonnull final LByteUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsByte(before1.doApplyAsByte(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToByteFunctionX<V1, X> from(@Nonnull final LToByteFunctionX<? super V1, X> before1) {
+	default <V1> LToByteFunctionX<V1, X> bUnaryOpFrom(@Nonnull final LToByteFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsByte(before1.doApplyAsByte(v1));
 	}
@@ -229,23 +229,23 @@ public interface LByteUnaryOperatorX<X extends Throwable> extends MetaOperator, 
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LByteUnaryOperator nest() {
+	default LByteUnaryOperator nestingBUnaryOp() {
 		return this::nestingDoApplyAsByte;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LByteUnaryOperatorX<RuntimeException> nestX() {
+	default LByteUnaryOperatorX<RuntimeException> nestingBUnaryOpX() {
 		return this::nestingDoApplyAsByte;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteUnaryOperator shove() {
+	default LByteUnaryOperator shovingBUnaryOp() {
 		return this::shovingDoApplyAsByte;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteUnaryOperatorX<RuntimeException> shoveX() {
+	default LByteUnaryOperatorX<RuntimeException> shovingBUnaryOpX() {
 		return this::shovingDoApplyAsByte;
 	}
 
@@ -254,12 +254,12 @@ public interface LByteUnaryOperatorX<X extends Throwable> extends MetaOperator, 
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LByteUnaryOperator handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LByteUnaryOperator handleBUnaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return b -> this.handlingDoApplyAsByte(b, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LByteUnaryOperatorX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LByteUnaryOperatorX<Y> handleBUnaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return b -> this.handlingDoApplyAsByte(b, handling);
 	}
 

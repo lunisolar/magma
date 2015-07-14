@@ -90,7 +90,7 @@ public interface LObjBooleanPredicate<T> extends LObjBooleanPredicateX<T, Runtim
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier capture(T t, boolean b) {
+	default LBooleanSupplier captureObjBoolPred(T t, boolean b) {
 		return () -> this.doTest(t, b);
 	}
 
@@ -164,23 +164,23 @@ public interface LObjBooleanPredicate<T> extends LObjBooleanPredicateX<T, Runtim
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LObjBooleanPredicate<V1> fromBoolean(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LBooleanUnaryOperator before2) {
+	default <V1> LObjBooleanPredicate<V1> objBoolPredFromBoolean(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LLogicalOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (final V1 v1, final boolean v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsBoolean(v2));
+		return (final V1 v1, final boolean v2) -> this.doTest(before1.doApply(v1), before2.doApply(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiPredicate<V1, V2> from(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LPredicate<? super V2> before2) {
+	default <V1, V2> LBiPredicate<V1, V2> objBoolPredFrom(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LPredicate<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsBoolean(v2));
+		return (V1 v1, V2 v2) -> this.doTest(before1.doApply(v1), before2.doTest(v2));
 	}
 
 	// </editor-fold>
@@ -189,7 +189,7 @@ public interface LObjBooleanPredicate<T> extends LObjBooleanPredicateX<T, Runtim
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LObjBooleanFunction<T, V> then(@Nonnull LBooleanFunction<? extends V> after) {
+	default <V> LObjBooleanFunction<T, V> boolToObjBooleanFunction(@Nonnull LBooleanFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (T t, boolean b) -> after.doApply(this.doTest(t, b));
 	}
@@ -199,23 +199,23 @@ public interface LObjBooleanPredicate<T> extends LObjBooleanPredicateX<T, Runtim
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjBooleanPredicate<T> nest() {
+	default LObjBooleanPredicate<T> nestingObjBoolPred() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjBooleanPredicateX<T, RuntimeException> nestX() {
+	default LObjBooleanPredicateX<T, RuntimeException> nestingObjBoolPredX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjBooleanPredicate<T> shove() {
+	default LObjBooleanPredicate<T> shovingObjBoolPred() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjBooleanPredicateX<T, RuntimeException> shoveX() {
+	default LObjBooleanPredicateX<T, RuntimeException> shovingObjBoolPredX() {
 		return this;
 	}
 

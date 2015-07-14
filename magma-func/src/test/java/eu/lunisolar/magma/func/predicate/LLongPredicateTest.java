@@ -210,7 +210,7 @@ public class LLongPredicateTest<X extends ParseException> {
         });
 
         // when
-        LLongPredicate wrapped = sutThrowing.handle(handler -> handler
+        LLongPredicate wrapped = sutThrowing.handleLongPred(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -234,7 +234,7 @@ public class LLongPredicateTest<X extends ParseException> {
         });
 
         // when
-        LLongPredicate wrapped = sutThrowing.handle(handler -> handler
+        LLongPredicate wrapped = sutThrowing.handleLongPred(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -258,7 +258,7 @@ public class LLongPredicateTest<X extends ParseException> {
         });
 
         // when
-        LLongPredicate wrapped = sutThrowing.handle(handler -> handler
+        LLongPredicate wrapped = sutThrowing.handleLongPred(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -283,7 +283,7 @@ public class LLongPredicateTest<X extends ParseException> {
         });
 
         // when
-        LLongPredicate wrapped = sutThrowing.handle(h -> Function4U.doNothing());
+        LLongPredicate wrapped = sutThrowing.handleLongPred(h -> Function4U.doNothing());
 
         // then
         try {
@@ -298,7 +298,7 @@ public class LLongPredicateTest<X extends ParseException> {
     }
 
     @Test
-    public void testNegate() throws X {
+    public void testnegate() throws X {
         assertThat(sut.negate().doTest((long)100))
             .isEqualTo(!testValue);
     }
@@ -355,7 +355,7 @@ public class LLongPredicateTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromLong() throws X {
+    public void testlongPredFromLong() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -374,7 +374,7 @@ public class LLongPredicateTest<X extends ParseException> {
         };
 
         //when
-        LLongPredicate function = sutO.fromLong(before1);
+        LLongPredicate function = sutO.longPredFromLong(before1);
         function.doTest((long)80);
 
         //then - finals
@@ -384,7 +384,7 @@ public class LLongPredicateTest<X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws X {
+    public void testlongPredFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -403,7 +403,7 @@ public class LLongPredicateTest<X extends ParseException> {
         };
 
         //when
-        LPredicate<Integer > function = sutO.from(before1);
+        LPredicate<Integer > function = sutO.longPredFrom(before1);
         function.doTest((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -439,7 +439,7 @@ public class LLongPredicateTest<X extends ParseException> {
         };
 
         //when
-        LLongFunction<Integer > function = sutO.then(thenFunction);
+        LLongFunction<Integer > function = sutO.boolToLongFunction(thenFunction);
         Integer  finalValue = function.doApply((long)80);
 
         //then - finals
@@ -474,7 +474,7 @@ public class LLongPredicateTest<X extends ParseException> {
         };
 
         //when
-        LLongToByteFunction function = sutO.thenToByte(thenFunction);
+        LLongToByteFunction function = sutO.boolToLongToByteFunction(thenFunction);
         byte finalValue = function.doApplyAsByte((long)80);
 
         //then - finals
@@ -509,7 +509,7 @@ public class LLongPredicateTest<X extends ParseException> {
         };
 
         //when
-        LLongToShortFunction function = sutO.thenToShort(thenFunction);
+        LLongToShortFunction function = sutO.boolToLongToShortFunction(thenFunction);
         short finalValue = function.doApplyAsShort((long)80);
 
         //then - finals
@@ -544,7 +544,7 @@ public class LLongPredicateTest<X extends ParseException> {
         };
 
         //when
-        LLongToIntFunction function = sutO.thenToInt(thenFunction);
+        LLongToIntFunction function = sutO.boolToLongToIntFunction(thenFunction);
         int finalValue = function.doApplyAsInt((long)80);
 
         //then - finals
@@ -579,7 +579,7 @@ public class LLongPredicateTest<X extends ParseException> {
         };
 
         //when
-        LLongUnaryOperator function = sutO.thenToLong(thenFunction);
+        LLongUnaryOperator function = sutO.boolToLongUnaryOperator(thenFunction);
         long finalValue = function.doApplyAsLong((long)80);
 
         //then - finals
@@ -614,7 +614,7 @@ public class LLongPredicateTest<X extends ParseException> {
         };
 
         //when
-        LLongToFloatFunction function = sutO.thenToFloat(thenFunction);
+        LLongToFloatFunction function = sutO.boolToLongToFloatFunction(thenFunction);
         float finalValue = function.doApplyAsFloat((long)80);
 
         //then - finals
@@ -649,7 +649,7 @@ public class LLongPredicateTest<X extends ParseException> {
         };
 
         //when
-        LLongToDoubleFunction function = sutO.thenToDouble(thenFunction);
+        LLongToDoubleFunction function = sutO.boolToLongToDoubleFunction(thenFunction);
         double finalValue = function.doApplyAsDouble((long)80);
 
         //then - finals
@@ -684,7 +684,7 @@ public class LLongPredicateTest<X extends ParseException> {
         };
 
         //when
-        LLongToCharFunction function = sutO.thenToChar(thenFunction);
+        LLongToCharFunction function = sutO.boolToLongToCharFunction(thenFunction);
         char finalValue = function.doApplyAsChar((long)80);
 
         //then - finals
@@ -710,7 +710,7 @@ public class LLongPredicateTest<X extends ParseException> {
                 return true;
         };
 
-        LBooleanUnaryOperator thenFunction = p -> {
+        LLogicalOperator thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // 
                 assertThat(p).isEqualTo(true);
@@ -719,7 +719,7 @@ public class LLongPredicateTest<X extends ParseException> {
         };
 
         //when
-        LLongPredicate function = sutO.thenToBoolean(thenFunction);
+        LLongPredicate function = sutO.boolToLongPredicate(thenFunction);
         boolean finalValue = function.doTest((long)80);
 
         //then - finals
@@ -735,28 +735,28 @@ public class LLongPredicateTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingLongPred())
             .isSameAs(sut)
             .isInstanceOf(LLongPredicate.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingLongPred())
             .isSameAs(sut)
             .isInstanceOf(LLongPredicate.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingLongPredX())
             .isSameAs(sut)
             .isInstanceOf(LLongPredicateX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingLongPredX())
             .isSameAs(sut)
             .isInstanceOf(LLongPredicateX.class);
     }
@@ -770,11 +770,11 @@ public class LLongPredicateTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doTest((long)100);
+        sutThrowing.shovingLongPred().doTest((long)100);
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleLongPred() throws X {
 
         // given
         LLongPredicate sutThrowing = LLongPredicate.l(l -> {
@@ -782,7 +782,7 @@ public class LLongPredicateTest<X extends ParseException> {
         });
 
         // when
-        LLongPredicate wrapped = sutThrowing.handle(h -> {
+        LLongPredicate wrapped = sutThrowing.handleLongPred(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -819,3 +819,5 @@ public class LLongPredicateTest<X extends ParseException> {
 
 
 }
+
+

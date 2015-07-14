@@ -103,7 +103,7 @@ public interface LCharFunctionX<R, X extends Throwable> extends MetaFunction, Me
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplierX<R, X> capture(char c) {
+	default LSupplierX<R, X> captureCFunc(char c) {
 		return () -> this.doApply(c);
 	}
 
@@ -138,19 +138,19 @@ public interface LCharFunctionX<R, X extends Throwable> extends MetaFunction, Me
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LCharFunctionX<R, X> fromChar(@Nonnull final LCharUnaryOperatorX<X> before1) {
+	default LCharFunctionX<R, X> cFuncFromChar(@Nonnull final LCharUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doApplyAsChar(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LFunctionX<V1, R, X> from(@Nonnull final LToCharFunctionX<? super V1, X> before1) {
+	default <V1> LFunctionX<V1, R, X> cFuncFrom(@Nonnull final LToCharFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doApplyAsChar(v1));
 	}
@@ -234,42 +234,42 @@ public interface LCharFunctionX<R, X extends Throwable> extends MetaFunction, Me
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LCharFunction<R> nest() {
+	default LCharFunction<R> nestingCFunc() {
 		return this::nestingDoApply;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LCharFunctionX<R, RuntimeException> nestX() {
+	default LCharFunctionX<R, RuntimeException> nestingCFuncX() {
 		return this::nestingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharFunction<R> shove() {
+	default LCharFunction<R> shovingCFunc() {
 		return this::shovingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharFunctionX<R, RuntimeException> shoveX() {
+	default LCharFunctionX<R, RuntimeException> shovingCFuncX() {
 		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LCharFunctionX<R, X> nonNullableX() {
+	default LCharFunctionX<R, X> nonNullCFunc() {
 		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LCharFunction<R> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LCharFunction<R> handleCFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return c -> this.handlingDoApply(c, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LCharFunctionX<R, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LCharFunctionX<R, Y> handleCFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return c -> this.handlingDoApply(c, handling);
 	}
 

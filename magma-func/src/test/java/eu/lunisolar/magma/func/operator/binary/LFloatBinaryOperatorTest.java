@@ -195,7 +195,7 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LFloatBinaryOperator wrapped = sutThrowing.handle(handler -> handler
+        LFloatBinaryOperator wrapped = sutThrowing.handleFBinaryOp(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -219,7 +219,7 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LFloatBinaryOperator wrapped = sutThrowing.handle(handler -> handler
+        LFloatBinaryOperator wrapped = sutThrowing.handleFBinaryOp(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -243,7 +243,7 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LFloatBinaryOperator wrapped = sutThrowing.handle(handler -> handler
+        LFloatBinaryOperator wrapped = sutThrowing.handleFBinaryOp(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -268,7 +268,7 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LFloatBinaryOperator wrapped = sutThrowing.handle(h -> Function4U.doNothing());
+        LFloatBinaryOperator wrapped = sutThrowing.handleFBinaryOp(h -> Function4U.doNothing());
 
         // then
         try {
@@ -321,7 +321,7 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromFloat() throws X {
+    public void testfBinaryOpFromFloat() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -346,7 +346,7 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
         };
 
         //when
-        LFloatBinaryOperator function = sutO.fromFloat(before1,before2);
+        LFloatBinaryOperator function = sutO.fBinaryOpFromFloat(before1,before2);
         function.doApplyAsFloat((float)80,(float)81);
 
         //then - finals
@@ -356,7 +356,7 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws X {
+    public void testfBinaryOpFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -381,7 +381,7 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
         };
 
         //when
-        LToFloatBiFunction<Integer ,Integer > function = sutO.from(before1,before2);
+        LToFloatBiFunction<Integer ,Integer > function = sutO.fBinaryOpFrom(before1,before2);
         function.doApplyAsFloat((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
@@ -434,28 +434,28 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingFBinaryOp())
             .isSameAs(sut)
             .isInstanceOf(LFloatBinaryOperator.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingFBinaryOp())
             .isSameAs(sut)
             .isInstanceOf(LFloatBinaryOperator.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingFBinaryOpX())
             .isSameAs(sut)
             .isInstanceOf(LFloatBinaryOperatorX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingFBinaryOpX())
             .isSameAs(sut)
             .isInstanceOf(LFloatBinaryOperatorX.class);
     }
@@ -469,11 +469,11 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doApplyAsFloat((float)100,(float)100);
+        sutThrowing.shovingFBinaryOp().doApplyAsFloat((float)100,(float)100);
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleFBinaryOp() throws X {
 
         // given
         LFloatBinaryOperator sutThrowing = LFloatBinaryOperator.l((float f1,float f2) -> {
@@ -481,7 +481,7 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LFloatBinaryOperator wrapped = sutThrowing.handle(h -> {
+        LFloatBinaryOperator wrapped = sutThrowing.handleFBinaryOp(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -518,3 +518,5 @@ public class LFloatBinaryOperatorTest<X extends ParseException> {
 
 
 }
+
+

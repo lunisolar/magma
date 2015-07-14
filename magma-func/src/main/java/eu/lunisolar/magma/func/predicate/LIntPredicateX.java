@@ -112,7 +112,7 @@ public interface LIntPredicateX<X extends Throwable> extends java.util.function.
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> capture(int i) {
+	default LBooleanSupplierX<X> captureIPred(int i) {
 		return () -> this.doTest(i);
 	}
 
@@ -196,19 +196,19 @@ public interface LIntPredicateX<X extends Throwable> extends java.util.function.
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LIntPredicateX<X> fromInt(@Nonnull final LIntUnaryOperatorX<X> before1) {
+	default LIntPredicateX<X> iPredFromInt(@Nonnull final LIntUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doTest(before1.doApplyAsInt(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LPredicateX<V1, X> from(@Nonnull final LToIntFunctionX<? super V1, X> before1) {
+	default <V1> LPredicateX<V1, X> iPredFrom(@Nonnull final LToIntFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doTest(before1.doApplyAsInt(v1));
 	}
@@ -219,65 +219,65 @@ public interface LIntPredicateX<X extends Throwable> extends java.util.function.
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LIntFunctionX<V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LIntFunctionX<V, X> boolToIntFunction(@Nonnull LBooleanFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return i -> after.doApply(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LIntToByteFunctionX<X> thenToByte(@Nonnull LBooleanToByteFunctionX<X> after) {
+	default LIntToByteFunctionX<X> boolToIntToByteFunction(@Nonnull LBooleanToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return i -> after.doApplyAsByte(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LIntToShortFunctionX<X> thenToShort(@Nonnull LBooleanToShortFunctionX<X> after) {
+	default LIntToShortFunctionX<X> boolToIntToShortFunction(@Nonnull LBooleanToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return i -> after.doApplyAsShort(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LIntUnaryOperatorX<X> thenToInt(@Nonnull LBooleanToIntFunctionX<X> after) {
+	default LIntUnaryOperatorX<X> boolToIntUnaryOperator(@Nonnull LBooleanToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return i -> after.doApplyAsInt(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LIntToLongFunctionX<X> thenToLong(@Nonnull LBooleanToLongFunctionX<X> after) {
+	default LIntToLongFunctionX<X> boolToIntToLongFunction(@Nonnull LBooleanToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return i -> after.doApplyAsLong(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LIntToFloatFunctionX<X> thenToFloat(@Nonnull LBooleanToFloatFunctionX<X> after) {
+	default LIntToFloatFunctionX<X> boolToIntToFloatFunction(@Nonnull LBooleanToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return i -> after.doApplyAsFloat(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LIntToDoubleFunctionX<X> thenToDouble(@Nonnull LBooleanToDoubleFunctionX<X> after) {
+	default LIntToDoubleFunctionX<X> boolToIntToDoubleFunction(@Nonnull LBooleanToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return i -> after.doApplyAsDouble(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LIntToCharFunctionX<X> thenToChar(@Nonnull LBooleanToCharFunctionX<X> after) {
+	default LIntToCharFunctionX<X> boolToIntToCharFunction(@Nonnull LBooleanToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return i -> after.doApplyAsChar(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LIntPredicateX<X> thenToBoolean(@Nonnull LBooleanUnaryOperatorX<X> after) {
+	default LIntPredicateX<X> boolToIntPredicate(@Nonnull LLogicalOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
-		return i -> after.doApplyAsBoolean(this.doTest(i));
+		return i -> after.doApply(this.doTest(i));
 	}
 
 	// </editor-fold>
@@ -285,23 +285,23 @@ public interface LIntPredicateX<X extends Throwable> extends java.util.function.
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntPredicate nest() {
+	default LIntPredicate nestingIPred() {
 		return this::nestingDoTest;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntPredicateX<RuntimeException> nestX() {
+	default LIntPredicateX<RuntimeException> nestingIPredX() {
 		return this::nestingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntPredicate shove() {
+	default LIntPredicate shovingIPred() {
 		return this::shovingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntPredicateX<RuntimeException> shoveX() {
+	default LIntPredicateX<RuntimeException> shovingIPredX() {
 		return this::shovingDoTest;
 	}
 
@@ -310,12 +310,12 @@ public interface LIntPredicateX<X extends Throwable> extends java.util.function.
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LIntPredicate handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LIntPredicate handleIPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return i -> this.handlingDoTest(i, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LIntPredicateX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LIntPredicateX<Y> handleIPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return i -> this.handlingDoTest(i, handling);
 	}
 

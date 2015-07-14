@@ -37,10 +37,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 //>inject<:readmore
 
 /**
- * By Example - Throwing lambda expressions and interfaces.
+ * Throwing lambda expressions and interfaces
  * ==========================
  *
- * #### Abstract
+ * ### Abstract
  *
  * This article covers basic explanations (by example) how first of main goals where realised -
  * **Throwing lambda expressions and functional interfaces that declare and throw checked exceptions**.
@@ -50,7 +50,7 @@ public class Example_Goal1_Test {
     private static final List<Integer> integerList = Lists.newArrayList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
 
     /**
-     * #### Introduction to the issue
+     * ### Introduction to the issue
      *
      * Lets consider a method that _unfortunately_ could throw an checked exception:
      */
@@ -110,7 +110,7 @@ public class Example_Goal1_Test {
      * Of course you can always go with only using unchecked exceptions, but in most cases it is not up to you (e.g. Java JRE, or 3rd party libraries have
      * them anyway).
      *
-     * #### Solution
+     * ### Solution
      *
      * What this library introduces is actual functional interfaces that do declare and propagate checked exceptions. Each such interface have additional
      * generic parameter that actually allows to define the exception that can be either checked or unchecked one. This generic parameter is consistently named
@@ -157,10 +157,9 @@ public class Example_Goal1_Test {
         long result = integerList.stream().filter(LPredicateX.lX(i -> throwingAlways(i) != null)).count();
     }
 
+///> Please note that the **LPredicateX** was here presented in to example tests that actually show different behaviour. In first case we call method **doTest()** and in second it is actually **test()** method called since _filter()_ implementation know only about Predicate from JRE.
+
     /**
-     * > Please note that the **LPredicateX** was here presented in to example tests that actually show different behaviour. In first case we call method
-     * **doTest()** and in second it is actually **test()** method called since _filter()_ implementation know only about Predicate from JRE.
-     *
      * In case you need, could also wrap existing JRE Predicate. But mind that this actually is done by instance-capturing lambda unlike the **lX** method.
      */
     //>example<

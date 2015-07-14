@@ -99,7 +99,7 @@ public interface LBooleanToLongFunctionX<X extends Throwable> extends MetaFuncti
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LLongSupplierX<X> capture(boolean b) {
+	default LLongSupplierX<X> captureBoolToLongFunc(boolean b) {
 		return () -> this.doApplyAsLong(b);
 	}
 
@@ -134,21 +134,21 @@ public interface LBooleanToLongFunctionX<X extends Throwable> extends MetaFuncti
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LBooleanToLongFunctionX<X> fromBoolean(@Nonnull final LBooleanUnaryOperatorX<X> before1) {
+	default LBooleanToLongFunctionX<X> boolToLongFuncFromBoolean(@Nonnull final LLogicalOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsLong(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doApplyAsLong(before1.doApply(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToLongFunctionX<V1, X> from(@Nonnull final LPredicateX<? super V1, X> before1) {
+	default <V1> LToLongFunctionX<V1, X> boolToLongFuncFrom(@Nonnull final LPredicateX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsLong(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doApplyAsLong(before1.doTest(v1));
 	}
 
 	// </editor-fold>
@@ -213,7 +213,7 @@ public interface LBooleanToLongFunctionX<X extends Throwable> extends MetaFuncti
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LBooleanUnaryOperatorX<X> thenToBoolean(@Nonnull LLongPredicateX<X> after) {
+	default LLogicalOperatorX<X> thenToBoolean(@Nonnull LLongPredicateX<X> after) {
 		Null.nonNullArg(after, "after");
 		return b -> after.doTest(this.doApplyAsLong(b));
 	}
@@ -223,23 +223,23 @@ public interface LBooleanToLongFunctionX<X extends Throwable> extends MetaFuncti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanToLongFunction nest() {
+	default LBooleanToLongFunction nestingBoolToLongFunc() {
 		return this::nestingDoApplyAsLong;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanToLongFunctionX<RuntimeException> nestX() {
+	default LBooleanToLongFunctionX<RuntimeException> nestingBoolToLongFuncX() {
 		return this::nestingDoApplyAsLong;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanToLongFunction shove() {
+	default LBooleanToLongFunction shovingBoolToLongFunc() {
 		return this::shovingDoApplyAsLong;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanToLongFunctionX<RuntimeException> shoveX() {
+	default LBooleanToLongFunctionX<RuntimeException> shovingBoolToLongFuncX() {
 		return this::shovingDoApplyAsLong;
 	}
 
@@ -248,12 +248,12 @@ public interface LBooleanToLongFunctionX<X extends Throwable> extends MetaFuncti
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LBooleanToLongFunction handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LBooleanToLongFunction handleBoolToLongFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return b -> this.handlingDoApplyAsLong(b, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LBooleanToLongFunctionX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LBooleanToLongFunctionX<Y> handleBoolToLongFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return b -> this.handlingDoApplyAsLong(b, handling);
 	}
 

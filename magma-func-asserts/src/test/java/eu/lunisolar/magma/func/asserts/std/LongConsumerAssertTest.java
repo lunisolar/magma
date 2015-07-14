@@ -128,3 +128,5 @@ public class LongConsumerAssertTest<X extends Throwable> {
     }
 
 }
+
+

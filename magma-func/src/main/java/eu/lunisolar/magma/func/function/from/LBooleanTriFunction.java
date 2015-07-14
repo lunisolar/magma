@@ -88,7 +88,7 @@ public interface LBooleanTriFunction<R> extends LBooleanTriFunctionX<R, RuntimeE
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> capture(boolean b1, boolean b2, boolean b3) {
+	default LSupplier<R> captureBoolTriFunc(boolean b1, boolean b2, boolean b3) {
 		return () -> this.doApply(b1, b2, b3);
 	}
 
@@ -116,25 +116,25 @@ public interface LBooleanTriFunction<R> extends LBooleanTriFunctionX<R, RuntimeE
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LBooleanTriFunction<R> fromBoolean(@Nonnull final LBooleanUnaryOperator before1, @Nonnull final LBooleanUnaryOperator before2, @Nonnull final LBooleanUnaryOperator before3) {
+	default LBooleanTriFunction<R> boolTriFuncFromBoolean(@Nonnull final LLogicalOperator before1, @Nonnull final LLogicalOperator before2, @Nonnull final LLogicalOperator before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (final boolean v1, final boolean v2, final boolean v3) -> this.doApply(before1.doApplyAsBoolean(v1), before2.doApplyAsBoolean(v2), before3.doApplyAsBoolean(v3));
+		return (final boolean v1, final boolean v2, final boolean v3) -> this.doApply(before1.doApply(v1), before2.doApply(v2), before3.doApply(v3));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2, V3> LTriFunction<V1, V2, V3, R> from(@Nonnull final LPredicate<? super V1> before1, @Nonnull final LPredicate<? super V2> before2, @Nonnull final LPredicate<? super V3> before3) {
+	default <V1, V2, V3> LTriFunction<V1, V2, V3, R> boolTriFuncFrom(@Nonnull final LPredicate<? super V1> before1, @Nonnull final LPredicate<? super V2> before2, @Nonnull final LPredicate<? super V3> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (V1 v1, V2 v2, V3 v3) -> this.doApply(before1.doApplyAsBoolean(v1), before2.doApplyAsBoolean(v2), before3.doApplyAsBoolean(v3));
+		return (V1 v1, V2 v2, V3 v3) -> this.doApply(before1.doTest(v1), before2.doTest(v2), before3.doTest(v3));
 	}
 
 	// </editor-fold>
@@ -160,30 +160,30 @@ public interface LBooleanTriFunction<R> extends LBooleanTriFunctionX<R, RuntimeE
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanTriFunction<R> nest() {
+	default LBooleanTriFunction<R> nestingBoolTriFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanTriFunctionX<R, RuntimeException> nestX() {
+	default LBooleanTriFunctionX<R, RuntimeException> nestingBoolTriFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanTriFunction<R> shove() {
+	default LBooleanTriFunction<R> shovingBoolTriFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanTriFunctionX<R, RuntimeException> shoveX() {
+	default LBooleanTriFunctionX<R, RuntimeException> shovingBoolTriFuncX() {
 		return this;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LBooleanTriFunction<R> nonNullable() {
+	default LBooleanTriFunction<R> nonNullBoolTriFunc() {
 		return this::nonNullDoApply;
 	}
 

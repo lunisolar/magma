@@ -124,12 +124,14 @@ public class LFloatToIntFunctionXBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsInt((float)0).to(a -> a.isEqualTo((int)0))
-            .doesApplyAsInt((float)5).to(a -> a.isEqualTo((int)1))
-            .doesApplyAsInt((float)15).to(a -> a.isEqualTo((int)2))
-            .doesApplyAsInt((float)10).to(a -> a.isEqualTo((int)99))
+            .doesApplyAsInt((float)0).when(null).to(a -> a.isEqualTo((int)0))
+            .doesApplyAsInt((float)5).when(null).to(a -> a.isEqualTo((int)1))
+            .doesApplyAsInt((float)15).when(null).to(a -> a.isEqualTo((int)2))
+            .doesApplyAsInt((float)10).when(null).to(a -> a.isEqualTo((int)99))
         ;
 
     }
 
 }
+
+

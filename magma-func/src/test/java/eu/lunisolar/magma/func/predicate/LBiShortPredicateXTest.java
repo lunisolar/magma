@@ -191,7 +191,7 @@ public class LBiShortPredicateXTest<X extends ParseException> {
         });
 
         // when
-        LBiShortPredicateX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LBiShortPredicateX<X> wrapped = sutThrowing.handleBiSPredX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -215,7 +215,7 @@ public class LBiShortPredicateXTest<X extends ParseException> {
         });
 
         // when
-        LBiShortPredicateX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LBiShortPredicateX<X> wrapped = sutThrowing.handleBiSPredX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -239,7 +239,7 @@ public class LBiShortPredicateXTest<X extends ParseException> {
         });
 
         // when
-        LBiShortPredicateX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LBiShortPredicateX<X> wrapped = sutThrowing.handleBiSPredX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -264,7 +264,7 @@ public class LBiShortPredicateXTest<X extends ParseException> {
         });
 
         // when
-        LBiShortPredicateX<X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
+        LBiShortPredicateX<X> wrapped = sutThrowing.handleBiSPredX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -279,7 +279,7 @@ public class LBiShortPredicateXTest<X extends ParseException> {
     }
 
     @Test
-    public void testNegate() throws X {
+    public void testnegate() throws X {
         assertThat(sut.negate().doTest((short)100,(short)100))
             .isEqualTo(!testValue);
     }
@@ -336,7 +336,7 @@ public class LBiShortPredicateXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromShort() throws X {
+    public void testbiSPredFromShort() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -361,7 +361,7 @@ public class LBiShortPredicateXTest<X extends ParseException> {
         };
 
         //when
-        LBiShortPredicateX<X> function = sutO.fromShort(before1,before2);
+        LBiShortPredicateX<X> function = sutO.biSPredFromShort(before1,before2);
         function.doTest((short)80,(short)81);
 
         //then - finals
@@ -371,7 +371,7 @@ public class LBiShortPredicateXTest<X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws X {
+    public void testbiSPredFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -396,7 +396,7 @@ public class LBiShortPredicateXTest<X extends ParseException> {
         };
 
         //when
-        LBiPredicateX<Integer ,Integer ,X> function = sutO.from(before1,before2);
+        LBiPredicateX<Integer ,Integer ,X> function = sutO.biSPredFrom(before1,before2);
         function.doTest((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
@@ -433,7 +433,7 @@ public class LBiShortPredicateXTest<X extends ParseException> {
         };
 
         //when
-        LShortBiFunctionX<Integer ,X> function = sutO.then(thenFunction);
+        LShortBiFunctionX<Integer ,X> function = sutO.boolToShortBiFunction(thenFunction);
         Integer  finalValue = function.doApply((short)80,(short)81);
 
         //then - finals
@@ -449,25 +449,25 @@ public class LBiShortPredicateXTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingBiSPred())
             .isInstanceOf(LBiShortPredicate.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingBiSPred())
             .isInstanceOf(LBiShortPredicate.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingBiSPredX())
             .isInstanceOf(LBiShortPredicateX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingBiSPredX())
             .isInstanceOf(LBiShortPredicateX.class);
     }
 
@@ -480,11 +480,11 @@ public class LBiShortPredicateXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doTest((short)100,(short)100);
+        sutThrowing.shovingBiSPred().doTest((short)100,(short)100);
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleBiSPred() throws X {
 
         // given
         LBiShortPredicateX<X> sutThrowing = LBiShortPredicateX.lX((short s1,short s2) -> {
@@ -492,7 +492,7 @@ public class LBiShortPredicateXTest<X extends ParseException> {
         });
 
         // when
-        LBiShortPredicateX<X> wrapped = sutThrowing.handleX(h -> {
+        LBiShortPredicateX<X> wrapped = sutThrowing.handleBiSPredX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -529,3 +529,5 @@ public class LBiShortPredicateXTest<X extends ParseException> {
 
 
 }
+
+

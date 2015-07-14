@@ -84,7 +84,7 @@ public interface LShortToFloatFunction extends LShortToFloatFunctionX<RuntimeExc
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LFloatSupplier capture(short s) {
+	default LFloatSupplier captureSToFFunc(short s) {
 		return () -> this.doApplyAsFloat(s);
 	}
 
@@ -112,19 +112,19 @@ public interface LShortToFloatFunction extends LShortToFloatFunctionX<RuntimeExc
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LShortToFloatFunction fromShort(@Nonnull final LShortUnaryOperator before1) {
+	default LShortToFloatFunction sToFFuncFromShort(@Nonnull final LShortUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsFloat(before1.doApplyAsShort(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToFloatFunction<V1> from(@Nonnull final LToShortFunction<? super V1> before1) {
+	default <V1> LToFloatFunction<V1> sToFFuncFrom(@Nonnull final LToShortFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsFloat(before1.doApplyAsShort(v1));
 	}
@@ -201,23 +201,23 @@ public interface LShortToFloatFunction extends LShortToFloatFunctionX<RuntimeExc
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LShortToFloatFunction nest() {
+	default LShortToFloatFunction nestingSToFFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LShortToFloatFunctionX<RuntimeException> nestX() {
+	default LShortToFloatFunctionX<RuntimeException> nestingSToFFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortToFloatFunction shove() {
+	default LShortToFloatFunction shovingSToFFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortToFloatFunctionX<RuntimeException> shoveX() {
+	default LShortToFloatFunctionX<RuntimeException> shovingSToFFuncX() {
 		return this;
 	}
 

@@ -182,7 +182,7 @@ public class LFloatBiConsumerTest<X extends ParseException> {
         });
 
         // when
-        LFloatBiConsumer wrapped = sutThrowing.handle(handler -> handler
+        LFloatBiConsumer wrapped = sutThrowing.handleFBiCons(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -206,7 +206,7 @@ public class LFloatBiConsumerTest<X extends ParseException> {
         });
 
         // when
-        LFloatBiConsumer wrapped = sutThrowing.handle(handler -> handler
+        LFloatBiConsumer wrapped = sutThrowing.handleFBiCons(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -230,7 +230,7 @@ public class LFloatBiConsumerTest<X extends ParseException> {
         });
 
         // when
-        LFloatBiConsumer wrapped = sutThrowing.handle(handler -> handler
+        LFloatBiConsumer wrapped = sutThrowing.handleFBiCons(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -255,7 +255,7 @@ public class LFloatBiConsumerTest<X extends ParseException> {
         });
 
         // when
-        LFloatBiConsumer wrapped = sutThrowing.handle(h -> Function4U.doNothing());
+        LFloatBiConsumer wrapped = sutThrowing.handleFBiCons(h -> Function4U.doNothing());
 
         // then
         try {
@@ -274,7 +274,7 @@ public class LFloatBiConsumerTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromFloat() throws X {
+    public void testfBiConsFromFloat() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -298,7 +298,7 @@ public class LFloatBiConsumerTest<X extends ParseException> {
         };
 
         //when
-        LFloatBiConsumer function = sutO.fromFloat(before1,before2);
+        LFloatBiConsumer function = sutO.fBiConsFromFloat(before1,before2);
         function.doAccept((float)80,(float)81);
 
         //then - finals
@@ -308,7 +308,7 @@ public class LFloatBiConsumerTest<X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws X {
+    public void testfBiConsFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -332,7 +332,7 @@ public class LFloatBiConsumerTest<X extends ParseException> {
         };
 
         //when
-        LBiConsumer<Integer ,Integer > function = sutO.from(before1,before2);
+        LBiConsumer<Integer ,Integer > function = sutO.fBiConsFrom(before1,before2);
         function.doAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
@@ -373,28 +373,28 @@ public class LFloatBiConsumerTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingFBiCons())
             .isSameAs(sut)
             .isInstanceOf(LFloatBiConsumer.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingFBiCons())
             .isSameAs(sut)
             .isInstanceOf(LFloatBiConsumer.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingFBiConsX())
             .isSameAs(sut)
             .isInstanceOf(LFloatBiConsumerX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingFBiConsX())
             .isSameAs(sut)
             .isInstanceOf(LFloatBiConsumerX.class);
     }
@@ -408,11 +408,11 @@ public class LFloatBiConsumerTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doAccept((float)100,(float)100);
+        sutThrowing.shovingFBiCons().doAccept((float)100,(float)100);
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleFBiCons() throws X {
 
         // given
         LFloatBiConsumer sutThrowing = LFloatBiConsumer.l((float f1,float f2) -> {
@@ -420,7 +420,7 @@ public class LFloatBiConsumerTest<X extends ParseException> {
         });
 
         // when
-        LFloatBiConsumer wrapped = sutThrowing.handle(h -> {
+        LFloatBiConsumer wrapped = sutThrowing.handleFBiCons(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -457,3 +457,5 @@ public class LFloatBiConsumerTest<X extends ParseException> {
 
 
 }
+
+

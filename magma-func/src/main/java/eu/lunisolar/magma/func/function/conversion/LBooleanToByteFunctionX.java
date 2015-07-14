@@ -99,7 +99,7 @@ public interface LBooleanToByteFunctionX<X extends Throwable> extends MetaFuncti
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LByteSupplierX<X> capture(boolean b) {
+	default LByteSupplierX<X> captureBoolToBFunc(boolean b) {
 		return () -> this.doApplyAsByte(b);
 	}
 
@@ -134,21 +134,21 @@ public interface LBooleanToByteFunctionX<X extends Throwable> extends MetaFuncti
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LBooleanToByteFunctionX<X> fromBoolean(@Nonnull final LBooleanUnaryOperatorX<X> before1) {
+	default LBooleanToByteFunctionX<X> boolToBFuncFromBoolean(@Nonnull final LLogicalOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsByte(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doApplyAsByte(before1.doApply(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToByteFunctionX<V1, X> from(@Nonnull final LPredicateX<? super V1, X> before1) {
+	default <V1> LToByteFunctionX<V1, X> boolToBFuncFrom(@Nonnull final LPredicateX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsByte(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doApplyAsByte(before1.doTest(v1));
 	}
 
 	// </editor-fold>
@@ -213,7 +213,7 @@ public interface LBooleanToByteFunctionX<X extends Throwable> extends MetaFuncti
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LBooleanUnaryOperatorX<X> thenToBoolean(@Nonnull LBytePredicateX<X> after) {
+	default LLogicalOperatorX<X> thenToBoolean(@Nonnull LBytePredicateX<X> after) {
 		Null.nonNullArg(after, "after");
 		return b -> after.doTest(this.doApplyAsByte(b));
 	}
@@ -223,23 +223,23 @@ public interface LBooleanToByteFunctionX<X extends Throwable> extends MetaFuncti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanToByteFunction nest() {
+	default LBooleanToByteFunction nestingBoolToBFunc() {
 		return this::nestingDoApplyAsByte;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanToByteFunctionX<RuntimeException> nestX() {
+	default LBooleanToByteFunctionX<RuntimeException> nestingBoolToBFuncX() {
 		return this::nestingDoApplyAsByte;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanToByteFunction shove() {
+	default LBooleanToByteFunction shovingBoolToBFunc() {
 		return this::shovingDoApplyAsByte;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanToByteFunctionX<RuntimeException> shoveX() {
+	default LBooleanToByteFunctionX<RuntimeException> shovingBoolToBFuncX() {
 		return this::shovingDoApplyAsByte;
 	}
 
@@ -248,12 +248,12 @@ public interface LBooleanToByteFunctionX<X extends Throwable> extends MetaFuncti
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LBooleanToByteFunction handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LBooleanToByteFunction handleBoolToBFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return b -> this.handlingDoApplyAsByte(b, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LBooleanToByteFunctionX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LBooleanToByteFunctionX<Y> handleBoolToBFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return b -> this.handlingDoApplyAsByte(b, handling);
 	}
 

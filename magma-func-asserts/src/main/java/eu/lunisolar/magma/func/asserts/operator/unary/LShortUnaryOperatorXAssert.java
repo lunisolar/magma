@@ -26,7 +26,16 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.unary.*;
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
@@ -35,10 +44,10 @@ import static org.assertj.core.api.Fail.fail;
 public interface LShortUnaryOperatorXAssert<S extends LShortUnaryOperatorXAssert<S, A, RS, X>, A extends LShortUnaryOperatorX<X>, RS extends AbstractShortAssert<RS>, X extends Throwable>
 		extends
 			Assert<S, A>,
-			FullFunctionalAssert<S, A, RS, Short, Exception> {
+			FullFunctionalAssert<S, LShortConsumerX<Exception>, A, RS, Short, Exception> {
 
 	@Nonnull
-	Evaluation<S, A, RS, Short, Exception> doesApplyAsShort(short s);
+	Evaluation<S, LShortConsumerX<Exception>, A, RS, Short, Exception> doesApplyAsShort(short s);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends LShortUnaryOperatorX<X>, RS extends AbstractShortAssert<RS>, X extends Throwable> extends Base<Impl<A, RS, X>, A, RS, X> {
@@ -49,7 +58,7 @@ public interface LShortUnaryOperatorXAssert<S extends LShortUnaryOperatorXAssert
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, X>, A extends LShortUnaryOperatorX<X>, RS extends AbstractShortAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, A, RS, Short, Exception>
+	public static class Base<S extends Base<S, A, RS, X>, A extends LShortUnaryOperatorX<X>, RS extends AbstractShortAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, LShortConsumerX<Exception>, A, RS, Short, Exception>
 			implements
 				LShortUnaryOperatorXAssert<S, A, RS, X> {
 
@@ -61,8 +70,15 @@ public interface LShortUnaryOperatorXAssert<S extends LShortUnaryOperatorXAssert
 		}
 
 		@Nonnull
-		public Evaluation<S, A, RS, Short, Exception> doesApplyAsShort(short s) {
-			return evaluation(() -> assertFactory.apply((Short) actual.doApplyAsShort(s)));
+		public Evaluation<S, LShortConsumerX<Exception>, A, RS, Short, Exception> doesApplyAsShort(short s) {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doAccept(s);
+				}
+				return assertFactory.apply((Short) actual.doApplyAsShort(s));
+			});
+
 		}
 
 	}

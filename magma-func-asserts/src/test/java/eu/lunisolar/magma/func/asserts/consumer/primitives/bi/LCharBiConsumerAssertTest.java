@@ -129,3 +129,5 @@ public class LCharBiConsumerAssertTest<X extends Throwable> {
     }
 
 }
+
+

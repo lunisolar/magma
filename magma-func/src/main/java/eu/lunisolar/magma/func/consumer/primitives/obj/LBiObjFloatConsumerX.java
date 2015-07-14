@@ -95,7 +95,7 @@ public interface LBiObjFloatConsumerX<T1, T2, X extends Throwable> extends MetaC
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LActionX<X> capture(T1 t1, T2 t2, float f) {
+	default LActionX<X> captureBiObjFCons(T1 t1, T2 t2, float f) {
 		return () -> this.doAccept(t1, t2, f);
 	}
 
@@ -126,10 +126,10 @@ public interface LBiObjFloatConsumerX<T1, T2, X extends Throwable> extends MetaC
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiObjFloatConsumerX<V1, V2, X> fromFloat(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LFloatUnaryOperatorX<X> before3) {
+	default <V1, V2> LBiObjFloatConsumerX<V1, V2, X> biObjFConsFromFloat(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LFloatUnaryOperatorX<X> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
@@ -137,10 +137,10 @@ public interface LBiObjFloatConsumerX<T1, T2, X extends Throwable> extends MetaC
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2, V3> LTriConsumerX<V1, V2, V3, X> from(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LToFloatFunctionX<? super V3, X> before3) {
+	default <V1, V2, V3> LTriConsumerX<V1, V2, V3, X> biObjFConsFrom(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LToFloatFunctionX<? super V3, X> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
@@ -165,23 +165,23 @@ public interface LBiObjFloatConsumerX<T1, T2, X extends Throwable> extends MetaC
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiObjFloatConsumer<T1, T2> nest() {
+	default LBiObjFloatConsumer<T1, T2> nestingBiObjFCons() {
 		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiObjFloatConsumerX<T1, T2, RuntimeException> nestX() {
+	default LBiObjFloatConsumerX<T1, T2, RuntimeException> nestingBiObjFConsX() {
 		return this::nestingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjFloatConsumer<T1, T2> shove() {
+	default LBiObjFloatConsumer<T1, T2> shovingBiObjFCons() {
 		return this::shovingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjFloatConsumerX<T1, T2, RuntimeException> shoveX() {
+	default LBiObjFloatConsumerX<T1, T2, RuntimeException> shovingBiObjFConsX() {
 		return this::shovingDoAccept;
 	}
 
@@ -190,12 +190,12 @@ public interface LBiObjFloatConsumerX<T1, T2, X extends Throwable> extends MetaC
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LBiObjFloatConsumer<T1, T2> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LBiObjFloatConsumer<T1, T2> handleBiObjFCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T1 t1, T2 t2, float f) -> this.handlingDoAccept(t1, t2, f, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LBiObjFloatConsumerX<T1, T2, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LBiObjFloatConsumerX<T1, T2, Y> handleBiObjFConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T1 t1, T2 t2, float f) -> this.handlingDoAccept(t1, t2, f, handling);
 	}
 

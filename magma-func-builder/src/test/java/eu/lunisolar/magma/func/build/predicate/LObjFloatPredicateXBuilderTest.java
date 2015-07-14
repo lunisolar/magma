@@ -124,12 +124,14 @@ public class LObjFloatPredicateXBuilderTest<T,X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesTest(Integer.valueOf(0),(float)0).to(a -> a.isEqualTo(false))
-            .doesTest(Integer.valueOf(5),(float)5).to(a -> a.isEqualTo(true))
-            .doesTest(Integer.valueOf(15),(float)15).to(a -> a.isEqualTo(true))
-            .doesTest(Integer.valueOf(10),(float)10).to(a -> a.isEqualTo(true))
+            .doesTest(Integer.valueOf(0),(float)0).when(null).to(a -> a.isEqualTo(false))
+            .doesTest(Integer.valueOf(5),(float)5).when(null).to(a -> a.isEqualTo(true))
+            .doesTest(Integer.valueOf(15),(float)15).when(null).to(a -> a.isEqualTo(true))
+            .doesTest(Integer.valueOf(10),(float)10).when(null).to(a -> a.isEqualTo(true))
         ;
 
     }
 
 }
+
+

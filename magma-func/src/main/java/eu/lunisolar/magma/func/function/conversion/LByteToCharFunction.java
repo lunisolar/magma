@@ -84,7 +84,7 @@ public interface LByteToCharFunction extends LByteToCharFunctionX<RuntimeExcepti
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LCharSupplier capture(byte b) {
+	default LCharSupplier captureBToCFunc(byte b) {
 		return () -> this.doApplyAsChar(b);
 	}
 
@@ -112,19 +112,19 @@ public interface LByteToCharFunction extends LByteToCharFunctionX<RuntimeExcepti
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LByteToCharFunction fromByte(@Nonnull final LByteUnaryOperator before1) {
+	default LByteToCharFunction bToCFuncFromByte(@Nonnull final LByteUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsChar(before1.doApplyAsByte(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToCharFunction<V1> from(@Nonnull final LToByteFunction<? super V1> before1) {
+	default <V1> LToCharFunction<V1> bToCFuncFrom(@Nonnull final LToByteFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsChar(before1.doApplyAsByte(v1));
 	}
@@ -201,23 +201,23 @@ public interface LByteToCharFunction extends LByteToCharFunctionX<RuntimeExcepti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LByteToCharFunction nest() {
+	default LByteToCharFunction nestingBToCFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LByteToCharFunctionX<RuntimeException> nestX() {
+	default LByteToCharFunctionX<RuntimeException> nestingBToCFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteToCharFunction shove() {
+	default LByteToCharFunction shovingBToCFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteToCharFunctionX<RuntimeException> shoveX() {
+	default LByteToCharFunctionX<RuntimeException> shovingBToCFuncX() {
 		return this;
 	}
 

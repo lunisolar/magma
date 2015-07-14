@@ -80,7 +80,7 @@ public interface LCharConsumer extends LCharConsumerX<RuntimeException>, MetaCon
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LAction capture(char c) {
+	default LAction captureCCons(char c) {
 		return () -> this.doAccept(c);
 	}
 
@@ -104,19 +104,19 @@ public interface LCharConsumer extends LCharConsumerX<RuntimeException>, MetaCon
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LCharConsumer fromChar(@Nonnull final LCharUnaryOperator before1) {
+	default LCharConsumer cConsFromChar(@Nonnull final LCharUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doApplyAsChar(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LConsumer<V1> from(@Nonnull final LToCharFunction<? super V1> before1) {
+	default <V1> LConsumer<V1> cConsFrom(@Nonnull final LToCharFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doApplyAsChar(v1));
 	}
@@ -139,23 +139,23 @@ public interface LCharConsumer extends LCharConsumerX<RuntimeException>, MetaCon
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LCharConsumer nest() {
+	default LCharConsumer nestingCCons() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LCharConsumerX<RuntimeException> nestX() {
+	default LCharConsumerX<RuntimeException> nestingCConsX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharConsumer shove() {
+	default LCharConsumer shovingCCons() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharConsumerX<RuntimeException> shoveX() {
+	default LCharConsumerX<RuntimeException> shovingCConsX() {
 		return this;
 	}
 

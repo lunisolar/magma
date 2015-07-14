@@ -128,3 +128,5 @@ public class LFloatToShortFunctionAssertTest<X extends Throwable> {
     }
 
 }
+
+

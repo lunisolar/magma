@@ -84,7 +84,7 @@ public interface LToCharBiFunction<T1, T2> extends LToCharBiFunctionX<T1, T2, Ru
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LCharSupplier capture(T1 t1, T2 t2) {
+	default LCharSupplier captureToCBiFunc(T1 t1, T2 t2) {
 		return () -> this.doApplyAsChar(t1, t2);
 	}
 
@@ -112,10 +112,10 @@ public interface LToCharBiFunction<T1, T2> extends LToCharBiFunctionX<T1, T2, Ru
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LToCharBiFunction<V1, V2> from(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2) {
+	default <V1, V2> LToCharBiFunction<V1, V2> toCBiFuncFrom(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final V2 v2) -> this.doApplyAsChar(before1.doApply(v1), before2.doApply(v2));
@@ -137,23 +137,23 @@ public interface LToCharBiFunction<T1, T2> extends LToCharBiFunctionX<T1, T2, Ru
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToCharBiFunction<T1, T2> nest() {
+	default LToCharBiFunction<T1, T2> nestingToCBiFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToCharBiFunctionX<T1, T2, RuntimeException> nestX() {
+	default LToCharBiFunctionX<T1, T2, RuntimeException> nestingToCBiFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToCharBiFunction<T1, T2> shove() {
+	default LToCharBiFunction<T1, T2> shovingToCBiFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToCharBiFunctionX<T1, T2, RuntimeException> shoveX() {
+	default LToCharBiFunctionX<T1, T2, RuntimeException> shovingToCBiFuncX() {
 		return this;
 	}
 

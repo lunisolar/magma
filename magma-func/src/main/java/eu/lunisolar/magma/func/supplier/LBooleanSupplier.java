@@ -121,65 +121,65 @@ public interface LBooleanSupplier extends LBooleanSupplierX<RuntimeException>, M
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default <V> LSupplier<V> then(@Nonnull LBooleanFunction<? extends V> after) {
+	default <V> LSupplier<V> toSupplier(@Nonnull LBooleanFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApply(this.doGetAsBoolean());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LByteSupplier thenToByte(@Nonnull LBooleanToByteFunction after) {
+	default LByteSupplier toByteSupplier(@Nonnull LBooleanToByteFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsByte(this.doGetAsBoolean());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LShortSupplier thenToShort(@Nonnull LBooleanToShortFunction after) {
+	default LShortSupplier toShortSupplier(@Nonnull LBooleanToShortFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsShort(this.doGetAsBoolean());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LIntSupplier thenToInt(@Nonnull LBooleanToIntFunction after) {
+	default LIntSupplier toIntSupplier(@Nonnull LBooleanToIntFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsInt(this.doGetAsBoolean());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LLongSupplier thenToLong(@Nonnull LBooleanToLongFunction after) {
+	default LLongSupplier toLongSupplier(@Nonnull LBooleanToLongFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsLong(this.doGetAsBoolean());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LFloatSupplier thenToFloat(@Nonnull LBooleanToFloatFunction after) {
+	default LFloatSupplier toFloatSupplier(@Nonnull LBooleanToFloatFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsFloat(this.doGetAsBoolean());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LDoubleSupplier thenToDouble(@Nonnull LBooleanToDoubleFunction after) {
+	default LDoubleSupplier toDoubleSupplier(@Nonnull LBooleanToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsDouble(this.doGetAsBoolean());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LCharSupplier thenToChar(@Nonnull LBooleanToCharFunction after) {
+	default LCharSupplier toCharSupplier(@Nonnull LBooleanToCharFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsChar(this.doGetAsBoolean());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LBooleanSupplier thenToBoolean(@Nonnull LBooleanUnaryOperator after) {
+	default LBooleanSupplier toBooleanSupplier(@Nonnull LLogicalOperator after) {
 		Null.nonNullArg(after, "after");
-		return () -> after.doApplyAsBoolean(this.doGetAsBoolean());
+		return () -> after.doApply(this.doGetAsBoolean());
 	}
 
 	// </editor-fold>
@@ -187,23 +187,23 @@ public interface LBooleanSupplier extends LBooleanSupplierX<RuntimeException>, M
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanSupplier nest() {
+	default LBooleanSupplier nestingBoolSup() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanSupplierX<RuntimeException> nestX() {
+	default LBooleanSupplierX<RuntimeException> nestingBoolSupX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanSupplier shove() {
+	default LBooleanSupplier shovingBoolSup() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanSupplierX<RuntimeException> shoveX() {
+	default LBooleanSupplierX<RuntimeException> shovingBoolSupX() {
 		return this;
 	}
 

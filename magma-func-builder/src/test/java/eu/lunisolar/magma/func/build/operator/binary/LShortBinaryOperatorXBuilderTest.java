@@ -124,12 +124,14 @@ public class LShortBinaryOperatorXBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsShort((short)0,(short)0).to(a -> a.isEqualTo((short)0))
-            .doesApplyAsShort((short)5,(short)5).to(a -> a.isEqualTo((short)1))
-            .doesApplyAsShort((short)15,(short)15).to(a -> a.isEqualTo((short)2))
-            .doesApplyAsShort((short)10,(short)10).to(a -> a.isEqualTo((short)99))
+            .doesApplyAsShort((short)0,(short)0).when(null).to(a -> a.isEqualTo((short)0))
+            .doesApplyAsShort((short)5,(short)5).when(null).to(a -> a.isEqualTo((short)1))
+            .doesApplyAsShort((short)15,(short)15).when(null).to(a -> a.isEqualTo((short)2))
+            .doesApplyAsShort((short)10,(short)10).when(null).to(a -> a.isEqualTo((short)99))
         ;
 
     }
 
 }
+
+

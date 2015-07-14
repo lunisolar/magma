@@ -88,7 +88,7 @@ public interface LObjDoubleFunction<T, R> extends LObjDoubleFunctionX<T, R, Runt
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> capture(T t, double d) {
+	default LSupplier<R> captureObjDFunc(T t, double d) {
 		return () -> this.doApply(t, d);
 	}
 
@@ -116,20 +116,20 @@ public interface LObjDoubleFunction<T, R> extends LObjDoubleFunctionX<T, R, Runt
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LObjDoubleFunction<V1, R> fromDouble(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LDoubleUnaryOperator before2) {
+	default <V1> LObjDoubleFunction<V1, R> objDFuncFromDouble(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LDoubleUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final double v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsDouble(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiFunction<V1, V2, R> from(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToDoubleFunction<? super V2> before2) {
+	default <V1, V2> LBiFunction<V1, V2, R> objDFuncFrom(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToDoubleFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsDouble(v2));
@@ -158,30 +158,30 @@ public interface LObjDoubleFunction<T, R> extends LObjDoubleFunctionX<T, R, Runt
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjDoubleFunction<T, R> nest() {
+	default LObjDoubleFunction<T, R> nestingObjDFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjDoubleFunctionX<T, R, RuntimeException> nestX() {
+	default LObjDoubleFunctionX<T, R, RuntimeException> nestingObjDFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjDoubleFunction<T, R> shove() {
+	default LObjDoubleFunction<T, R> shovingObjDFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjDoubleFunctionX<T, R, RuntimeException> shoveX() {
+	default LObjDoubleFunctionX<T, R, RuntimeException> shovingObjDFuncX() {
 		return this;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LObjDoubleFunction<T, R> nonNullable() {
+	default LObjDoubleFunction<T, R> nonNullObjDFunc() {
 		return this::nonNullDoApply;
 	}
 

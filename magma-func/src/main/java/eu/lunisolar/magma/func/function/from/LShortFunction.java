@@ -88,7 +88,7 @@ public interface LShortFunction<R> extends LShortFunctionX<R, RuntimeException>,
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> capture(short s) {
+	default LSupplier<R> captureSFunc(short s) {
 		return () -> this.doApply(s);
 	}
 
@@ -116,19 +116,19 @@ public interface LShortFunction<R> extends LShortFunctionX<R, RuntimeException>,
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LShortFunction<R> fromShort(@Nonnull final LShortUnaryOperator before1) {
+	default LShortFunction<R> sFuncFromShort(@Nonnull final LShortUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doApplyAsShort(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LFunction<V1, R> from(@Nonnull final LToShortFunction<? super V1> before1) {
+	default <V1> LFunction<V1, R> sFuncFrom(@Nonnull final LToShortFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doApplyAsShort(v1));
 	}
@@ -212,30 +212,30 @@ public interface LShortFunction<R> extends LShortFunctionX<R, RuntimeException>,
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LShortFunction<R> nest() {
+	default LShortFunction<R> nestingSFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LShortFunctionX<R, RuntimeException> nestX() {
+	default LShortFunctionX<R, RuntimeException> nestingSFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortFunction<R> shove() {
+	default LShortFunction<R> shovingSFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortFunctionX<R, RuntimeException> shoveX() {
+	default LShortFunctionX<R, RuntimeException> shovingSFuncX() {
 		return this;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LShortFunction<R> nonNullable() {
+	default LShortFunction<R> nonNullSFunc() {
 		return this::nonNullDoApply;
 	}
 

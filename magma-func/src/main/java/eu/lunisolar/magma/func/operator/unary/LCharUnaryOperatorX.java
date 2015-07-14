@@ -99,7 +99,7 @@ public interface LCharUnaryOperatorX<X extends Throwable> extends MetaOperator, 
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LCharSupplierX<X> capture(char c) {
+	default LCharSupplierX<X> captureCUnaryOp(char c) {
 		return () -> this.doApplyAsChar(c);
 	}
 
@@ -134,19 +134,19 @@ public interface LCharUnaryOperatorX<X extends Throwable> extends MetaOperator, 
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LCharUnaryOperatorX<X> fromChar(@Nonnull final LCharUnaryOperatorX<X> before1) {
+	default LCharUnaryOperatorX<X> cUnaryOpFromChar(@Nonnull final LCharUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsChar(before1.doApplyAsChar(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToCharFunctionX<V1, X> from(@Nonnull final LToCharFunctionX<? super V1, X> before1) {
+	default <V1> LToCharFunctionX<V1, X> cUnaryOpFrom(@Nonnull final LToCharFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsChar(before1.doApplyAsChar(v1));
 	}
@@ -229,23 +229,23 @@ public interface LCharUnaryOperatorX<X extends Throwable> extends MetaOperator, 
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LCharUnaryOperator nest() {
+	default LCharUnaryOperator nestingCUnaryOp() {
 		return this::nestingDoApplyAsChar;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LCharUnaryOperatorX<RuntimeException> nestX() {
+	default LCharUnaryOperatorX<RuntimeException> nestingCUnaryOpX() {
 		return this::nestingDoApplyAsChar;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharUnaryOperator shove() {
+	default LCharUnaryOperator shovingCUnaryOp() {
 		return this::shovingDoApplyAsChar;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharUnaryOperatorX<RuntimeException> shoveX() {
+	default LCharUnaryOperatorX<RuntimeException> shovingCUnaryOpX() {
 		return this::shovingDoApplyAsChar;
 	}
 
@@ -254,12 +254,12 @@ public interface LCharUnaryOperatorX<X extends Throwable> extends MetaOperator, 
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LCharUnaryOperator handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LCharUnaryOperator handleCUnaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return c -> this.handlingDoApplyAsChar(c, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LCharUnaryOperatorX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LCharUnaryOperatorX<Y> handleCUnaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return c -> this.handlingDoApplyAsChar(c, handling);
 	}
 

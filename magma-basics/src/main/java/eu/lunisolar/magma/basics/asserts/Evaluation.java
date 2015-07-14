@@ -31,19 +31,19 @@ import javax.annotation.concurrent.ThreadSafe;
 @Immutable
 @ThreadSafe
 @SuppressWarnings("unchecked")
-public final class Evaluation<CTX extends FullFunctionalAssert<CTX, A, RS, R, X>, A, RS extends Assert<RS, R>, R, X extends Exception>
-        extends AbstractEvaluation<Evaluation<CTX, A, RS, R, X>, CTX, RS, X> {
+public final class Evaluation<CTX extends FullFunctionalAssert<CTX, PC, A, RS, R, X>, PC, A, RS extends Assert<RS, R>, R, X extends Exception>
+        extends AbstractEvaluation<Evaluation<CTX, PC, A, RS, R, X>, CTX, PC, RS, X> {
 
     public Evaluation(
             @Nonnull CTX context,
-            @Nullable java.util.function.Consumer<RS> assertPreConsumer,
-            @Nonnull AssertionSupplier<RS> assertSupplier) {
-        super(context, assertPreConsumer, assertSupplier);
+            @Nonnull AssertionFunction<PC, RS> assertFunction,
+            @Nullable java.util.function.Consumer<RS> assertPreConsumer) {
+        super(context, assertFunction, assertPreConsumer);
     }
 
     /** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
     public CTX to(@Nonnull java.util.function.Consumer<RS> assertions) {
-        normalCheck(assertSupplier, assertPreConsumer, assertions);
+        normalCheck(preconditioner, assertFunction, assertPreConsumer, assertions);
         return context.self();
     }
 

@@ -102,7 +102,7 @@ public interface LBiConsumerX<T1, T2, X extends Throwable> extends java.util.fun
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LActionX<X> capture(T1 t1, T2 t2) {
+	default LActionX<X> captureBiCons(T1 t1, T2 t2) {
 		return () -> this.doAccept(t1, t2);
 	}
 
@@ -139,10 +139,10 @@ public interface LBiConsumerX<T1, T2, X extends Throwable> extends java.util.fun
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiConsumerX<V1, V2, X> from(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
+	default <V1, V2> LBiConsumerX<V1, V2, X> biConsFrom(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final V2 v2) -> this.doAccept(before1.doApply(v1), before2.doApply(v2));
@@ -166,23 +166,23 @@ public interface LBiConsumerX<T1, T2, X extends Throwable> extends java.util.fun
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiConsumer<T1, T2> nest() {
+	default LBiConsumer<T1, T2> nestingBiCons() {
 		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiConsumerX<T1, T2, RuntimeException> nestX() {
+	default LBiConsumerX<T1, T2, RuntimeException> nestingBiConsX() {
 		return this::nestingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiConsumer<T1, T2> shove() {
+	default LBiConsumer<T1, T2> shovingBiCons() {
 		return this::shovingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiConsumerX<T1, T2, RuntimeException> shoveX() {
+	default LBiConsumerX<T1, T2, RuntimeException> shovingBiConsX() {
 		return this::shovingDoAccept;
 	}
 
@@ -191,12 +191,12 @@ public interface LBiConsumerX<T1, T2, X extends Throwable> extends java.util.fun
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LBiConsumer<T1, T2> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LBiConsumer<T1, T2> handleBiCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T1 t1, T2 t2) -> this.handlingDoAccept(t1, t2, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LBiConsumerX<T1, T2, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LBiConsumerX<T1, T2, Y> handleBiConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T1 t1, T2 t2) -> this.handlingDoAccept(t1, t2, handling);
 	}
 

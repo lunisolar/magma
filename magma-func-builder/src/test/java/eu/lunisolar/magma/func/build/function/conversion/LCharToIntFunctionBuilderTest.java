@@ -124,12 +124,14 @@ public class LCharToIntFunctionBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsInt((char)0).to(a -> a.isEqualTo((int)0))
-            .doesApplyAsInt((char)5).to(a -> a.isEqualTo((int)1))
-            .doesApplyAsInt((char)15).to(a -> a.isEqualTo((int)2))
-            .doesApplyAsInt((char)10).to(a -> a.isEqualTo((int)99))
+            .doesApplyAsInt((char)0).when(null).to(a -> a.isEqualTo((int)0))
+            .doesApplyAsInt((char)5).when(null).to(a -> a.isEqualTo((int)1))
+            .doesApplyAsInt((char)15).when(null).to(a -> a.isEqualTo((int)2))
+            .doesApplyAsInt((char)10).when(null).to(a -> a.isEqualTo((int)99))
         ;
 
     }
 
 }
+
+

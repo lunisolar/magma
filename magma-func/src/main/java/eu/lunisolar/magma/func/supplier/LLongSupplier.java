@@ -121,63 +121,63 @@ public interface LLongSupplier extends LLongSupplierX<RuntimeException>, MetaSup
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default <V> LSupplier<V> then(@Nonnull LLongFunction<? extends V> after) {
+	default <V> LSupplier<V> toSupplier(@Nonnull LLongFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApply(this.doGetAsLong());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LByteSupplier thenToByte(@Nonnull LLongToByteFunction after) {
+	default LByteSupplier toByteSupplier(@Nonnull LLongToByteFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsByte(this.doGetAsLong());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LShortSupplier thenToShort(@Nonnull LLongToShortFunction after) {
+	default LShortSupplier toShortSupplier(@Nonnull LLongToShortFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsShort(this.doGetAsLong());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LIntSupplier thenToInt(@Nonnull LLongToIntFunction after) {
+	default LIntSupplier toIntSupplier(@Nonnull LLongToIntFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsInt(this.doGetAsLong());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LLongSupplier thenToLong(@Nonnull LLongUnaryOperator after) {
+	default LLongSupplier toLongSupplier(@Nonnull LLongUnaryOperator after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsLong(this.doGetAsLong());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LFloatSupplier thenToFloat(@Nonnull LLongToFloatFunction after) {
+	default LFloatSupplier toFloatSupplier(@Nonnull LLongToFloatFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsFloat(this.doGetAsLong());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LDoubleSupplier thenToDouble(@Nonnull LLongToDoubleFunction after) {
+	default LDoubleSupplier toDoubleSupplier(@Nonnull LLongToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsDouble(this.doGetAsLong());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LCharSupplier thenToChar(@Nonnull LLongToCharFunction after) {
+	default LCharSupplier toCharSupplier(@Nonnull LLongToCharFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsChar(this.doGetAsLong());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LBooleanSupplier thenToBoolean(@Nonnull LLongPredicate after) {
+	default LBooleanSupplier toBooleanSupplier(@Nonnull LLongPredicate after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doTest(this.doGetAsLong());
 	}
@@ -187,23 +187,23 @@ public interface LLongSupplier extends LLongSupplierX<RuntimeException>, MetaSup
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LLongSupplier nest() {
+	default LLongSupplier nestingLongSup() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LLongSupplierX<RuntimeException> nestX() {
+	default LLongSupplierX<RuntimeException> nestingLongSupX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LLongSupplier shove() {
+	default LLongSupplier shovingLongSup() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LLongSupplierX<RuntimeException> shoveX() {
+	default LLongSupplierX<RuntimeException> shovingLongSupX() {
 		return this;
 	}
 

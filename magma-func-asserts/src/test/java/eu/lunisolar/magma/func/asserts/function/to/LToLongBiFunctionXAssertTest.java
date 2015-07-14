@@ -128,3 +128,5 @@ public class LToLongBiFunctionXAssertTest<T1,T2,X extends Throwable> {
     }
 
 }
+
+

@@ -95,7 +95,7 @@ public interface LBooleanTriConsumerX<X extends Throwable> extends MetaConsumer,
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LActionX<X> capture(boolean b1, boolean b2, boolean b3) {
+	default LActionX<X> captureBoolTriCons(boolean b1, boolean b2, boolean b3) {
 		return () -> this.doAccept(b1, b2, b3);
 	}
 
@@ -126,25 +126,25 @@ public interface LBooleanTriConsumerX<X extends Throwable> extends MetaConsumer,
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LBooleanTriConsumerX<X> fromBoolean(@Nonnull final LBooleanUnaryOperatorX<X> before1, @Nonnull final LBooleanUnaryOperatorX<X> before2, @Nonnull final LBooleanUnaryOperatorX<X> before3) {
+	default LBooleanTriConsumerX<X> boolTriConsFromBoolean(@Nonnull final LLogicalOperatorX<X> before1, @Nonnull final LLogicalOperatorX<X> before2, @Nonnull final LLogicalOperatorX<X> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (final boolean v1, final boolean v2, final boolean v3) -> this.doAccept(before1.doApplyAsBoolean(v1), before2.doApplyAsBoolean(v2), before3.doApplyAsBoolean(v3));
+		return (final boolean v1, final boolean v2, final boolean v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApply(v3));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2, V3> LTriConsumerX<V1, V2, V3, X> from(@Nonnull final LPredicateX<? super V1, X> before1, @Nonnull final LPredicateX<? super V2, X> before2, @Nonnull final LPredicateX<? super V3, X> before3) {
+	default <V1, V2, V3> LTriConsumerX<V1, V2, V3, X> boolTriConsFrom(@Nonnull final LPredicateX<? super V1, X> before1, @Nonnull final LPredicateX<? super V2, X> before2, @Nonnull final LPredicateX<? super V3, X> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
-		return (V1 v1, V2 v2, V3 v3) -> this.doAccept(before1.doApplyAsBoolean(v1), before2.doApplyAsBoolean(v2), before3.doApplyAsBoolean(v3));
+		return (V1 v1, V2 v2, V3 v3) -> this.doAccept(before1.doTest(v1), before2.doTest(v2), before3.doTest(v3));
 	}
 
 	// </editor-fold>
@@ -165,23 +165,23 @@ public interface LBooleanTriConsumerX<X extends Throwable> extends MetaConsumer,
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanTriConsumer nest() {
+	default LBooleanTriConsumer nestingBoolTriCons() {
 		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanTriConsumerX<RuntimeException> nestX() {
+	default LBooleanTriConsumerX<RuntimeException> nestingBoolTriConsX() {
 		return this::nestingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanTriConsumer shove() {
+	default LBooleanTriConsumer shovingBoolTriCons() {
 		return this::shovingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanTriConsumerX<RuntimeException> shoveX() {
+	default LBooleanTriConsumerX<RuntimeException> shovingBoolTriConsX() {
 		return this::shovingDoAccept;
 	}
 
@@ -190,12 +190,12 @@ public interface LBooleanTriConsumerX<X extends Throwable> extends MetaConsumer,
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LBooleanTriConsumer handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LBooleanTriConsumer handleBoolTriCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (boolean b1, boolean b2, boolean b3) -> this.handlingDoAccept(b1, b2, b3, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LBooleanTriConsumerX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LBooleanTriConsumerX<Y> handleBoolTriConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (boolean b1, boolean b2, boolean b3) -> this.handlingDoAccept(b1, b2, b3, handling);
 	}
 

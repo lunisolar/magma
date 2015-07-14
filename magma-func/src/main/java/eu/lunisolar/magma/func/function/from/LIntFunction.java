@@ -95,7 +95,7 @@ public interface LIntFunction<R> extends LIntFunctionX<R, RuntimeException>, Met
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> capture(int i) {
+	default LSupplier<R> captureIFunc(int i) {
 		return () -> this.doApply(i);
 	}
 
@@ -129,19 +129,19 @@ public interface LIntFunction<R> extends LIntFunctionX<R, RuntimeException>, Met
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LIntFunction<R> fromInt(@Nonnull final LIntUnaryOperator before1) {
+	default LIntFunction<R> iFuncFromInt(@Nonnull final LIntUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doApplyAsInt(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LFunction<V1, R> from(@Nonnull final LToIntFunction<? super V1> before1) {
+	default <V1> LFunction<V1, R> iFuncFrom(@Nonnull final LToIntFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doApplyAsInt(v1));
 	}
@@ -225,30 +225,30 @@ public interface LIntFunction<R> extends LIntFunctionX<R, RuntimeException>, Met
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntFunction<R> nest() {
+	default LIntFunction<R> nestingIFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntFunctionX<R, RuntimeException> nestX() {
+	default LIntFunctionX<R, RuntimeException> nestingIFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntFunction<R> shove() {
+	default LIntFunction<R> shovingIFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntFunctionX<R, RuntimeException> shoveX() {
+	default LIntFunctionX<R, RuntimeException> shovingIFuncX() {
 		return this;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LIntFunction<R> nonNullable() {
+	default LIntFunction<R> nonNullIFunc() {
 		return this::nonNullDoApply;
 	}
 

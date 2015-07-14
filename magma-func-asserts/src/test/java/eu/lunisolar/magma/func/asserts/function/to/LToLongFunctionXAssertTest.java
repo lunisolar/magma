@@ -128,3 +128,5 @@ public class LToLongFunctionXAssertTest<T,X extends Throwable> {
     }
 
 }
+
+

@@ -195,7 +195,7 @@ public class LFloatToCharFunctionTest<X extends ParseException> {
         });
 
         // when
-        LFloatToCharFunction wrapped = sutThrowing.handle(handler -> handler
+        LFloatToCharFunction wrapped = sutThrowing.handleFToCFunc(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -219,7 +219,7 @@ public class LFloatToCharFunctionTest<X extends ParseException> {
         });
 
         // when
-        LFloatToCharFunction wrapped = sutThrowing.handle(handler -> handler
+        LFloatToCharFunction wrapped = sutThrowing.handleFToCFunc(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -243,7 +243,7 @@ public class LFloatToCharFunctionTest<X extends ParseException> {
         });
 
         // when
-        LFloatToCharFunction wrapped = sutThrowing.handle(handler -> handler
+        LFloatToCharFunction wrapped = sutThrowing.handleFToCFunc(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -268,7 +268,7 @@ public class LFloatToCharFunctionTest<X extends ParseException> {
         });
 
         // when
-        LFloatToCharFunction wrapped = sutThrowing.handle(h -> Function4U.doNothing());
+        LFloatToCharFunction wrapped = sutThrowing.handleFToCFunc(h -> Function4U.doNothing());
 
         // then
         try {
@@ -287,7 +287,7 @@ public class LFloatToCharFunctionTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromFloat() throws X {
+    public void testfToCFuncFromFloat() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -306,7 +306,7 @@ public class LFloatToCharFunctionTest<X extends ParseException> {
         };
 
         //when
-        LFloatToCharFunction function = sutO.fromFloat(before1);
+        LFloatToCharFunction function = sutO.fToCFuncFromFloat(before1);
         function.doApplyAsChar((float)80);
 
         //then - finals
@@ -316,7 +316,7 @@ public class LFloatToCharFunctionTest<X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws X {
+    public void testfToCFuncFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -335,7 +335,7 @@ public class LFloatToCharFunctionTest<X extends ParseException> {
         };
 
         //when
-        LToCharFunction<Integer > function = sutO.from(before1);
+        LToCharFunction<Integer > function = sutO.fToCFuncFrom(before1);
         function.doApplyAsChar((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -667,28 +667,28 @@ public class LFloatToCharFunctionTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingFToCFunc())
             .isSameAs(sut)
             .isInstanceOf(LFloatToCharFunction.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingFToCFunc())
             .isSameAs(sut)
             .isInstanceOf(LFloatToCharFunction.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingFToCFuncX())
             .isSameAs(sut)
             .isInstanceOf(LFloatToCharFunctionX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingFToCFuncX())
             .isSameAs(sut)
             .isInstanceOf(LFloatToCharFunctionX.class);
     }
@@ -702,11 +702,11 @@ public class LFloatToCharFunctionTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doApplyAsChar((float)100);
+        sutThrowing.shovingFToCFunc().doApplyAsChar((float)100);
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleFToCFunc() throws X {
 
         // given
         LFloatToCharFunction sutThrowing = LFloatToCharFunction.l(f -> {
@@ -714,7 +714,7 @@ public class LFloatToCharFunctionTest<X extends ParseException> {
         });
 
         // when
-        LFloatToCharFunction wrapped = sutThrowing.handle(h -> {
+        LFloatToCharFunction wrapped = sutThrowing.handleFToCFunc(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -751,3 +751,5 @@ public class LFloatToCharFunctionTest<X extends ParseException> {
 
 
 }
+
+

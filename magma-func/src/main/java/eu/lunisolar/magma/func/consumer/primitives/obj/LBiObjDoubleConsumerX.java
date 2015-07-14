@@ -95,7 +95,7 @@ public interface LBiObjDoubleConsumerX<T1, T2, X extends Throwable> extends Meta
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LActionX<X> capture(T1 t1, T2 t2, double d) {
+	default LActionX<X> captureBiObjDCons(T1 t1, T2 t2, double d) {
 		return () -> this.doAccept(t1, t2, d);
 	}
 
@@ -126,10 +126,10 @@ public interface LBiObjDoubleConsumerX<T1, T2, X extends Throwable> extends Meta
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiObjDoubleConsumerX<V1, V2, X> fromDouble(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LDoubleUnaryOperatorX<X> before3) {
+	default <V1, V2> LBiObjDoubleConsumerX<V1, V2, X> biObjDConsFromDouble(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LDoubleUnaryOperatorX<X> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
@@ -137,10 +137,10 @@ public interface LBiObjDoubleConsumerX<T1, T2, X extends Throwable> extends Meta
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2, V3> LTriConsumerX<V1, V2, V3, X> from(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LToDoubleFunctionX<? super V3, X> before3) {
+	default <V1, V2, V3> LTriConsumerX<V1, V2, V3, X> biObjDConsFrom(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LToDoubleFunctionX<? super V3, X> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
@@ -165,23 +165,23 @@ public interface LBiObjDoubleConsumerX<T1, T2, X extends Throwable> extends Meta
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiObjDoubleConsumer<T1, T2> nest() {
+	default LBiObjDoubleConsumer<T1, T2> nestingBiObjDCons() {
 		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiObjDoubleConsumerX<T1, T2, RuntimeException> nestX() {
+	default LBiObjDoubleConsumerX<T1, T2, RuntimeException> nestingBiObjDConsX() {
 		return this::nestingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjDoubleConsumer<T1, T2> shove() {
+	default LBiObjDoubleConsumer<T1, T2> shovingBiObjDCons() {
 		return this::shovingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjDoubleConsumerX<T1, T2, RuntimeException> shoveX() {
+	default LBiObjDoubleConsumerX<T1, T2, RuntimeException> shovingBiObjDConsX() {
 		return this::shovingDoAccept;
 	}
 
@@ -190,12 +190,12 @@ public interface LBiObjDoubleConsumerX<T1, T2, X extends Throwable> extends Meta
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LBiObjDoubleConsumer<T1, T2> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LBiObjDoubleConsumer<T1, T2> handleBiObjDCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T1 t1, T2 t2, double d) -> this.handlingDoAccept(t1, t2, d, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LBiObjDoubleConsumerX<T1, T2, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LBiObjDoubleConsumerX<T1, T2, Y> handleBiObjDConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T1 t1, T2 t2, double d) -> this.handlingDoAccept(t1, t2, d, handling);
 	}
 

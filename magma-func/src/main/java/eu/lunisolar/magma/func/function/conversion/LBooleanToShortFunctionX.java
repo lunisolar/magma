@@ -99,7 +99,7 @@ public interface LBooleanToShortFunctionX<X extends Throwable> extends MetaFunct
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LShortSupplierX<X> capture(boolean b) {
+	default LShortSupplierX<X> captureBoolToSFunc(boolean b) {
 		return () -> this.doApplyAsShort(b);
 	}
 
@@ -134,21 +134,21 @@ public interface LBooleanToShortFunctionX<X extends Throwable> extends MetaFunct
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LBooleanToShortFunctionX<X> fromBoolean(@Nonnull final LBooleanUnaryOperatorX<X> before1) {
+	default LBooleanToShortFunctionX<X> boolToSFuncFromBoolean(@Nonnull final LLogicalOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsShort(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doApplyAsShort(before1.doApply(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToShortFunctionX<V1, X> from(@Nonnull final LPredicateX<? super V1, X> before1) {
+	default <V1> LToShortFunctionX<V1, X> boolToSFuncFrom(@Nonnull final LPredicateX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsShort(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doApplyAsShort(before1.doTest(v1));
 	}
 
 	// </editor-fold>
@@ -213,7 +213,7 @@ public interface LBooleanToShortFunctionX<X extends Throwable> extends MetaFunct
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LBooleanUnaryOperatorX<X> thenToBoolean(@Nonnull LShortPredicateX<X> after) {
+	default LLogicalOperatorX<X> thenToBoolean(@Nonnull LShortPredicateX<X> after) {
 		Null.nonNullArg(after, "after");
 		return b -> after.doTest(this.doApplyAsShort(b));
 	}
@@ -223,23 +223,23 @@ public interface LBooleanToShortFunctionX<X extends Throwable> extends MetaFunct
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanToShortFunction nest() {
+	default LBooleanToShortFunction nestingBoolToSFunc() {
 		return this::nestingDoApplyAsShort;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanToShortFunctionX<RuntimeException> nestX() {
+	default LBooleanToShortFunctionX<RuntimeException> nestingBoolToSFuncX() {
 		return this::nestingDoApplyAsShort;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanToShortFunction shove() {
+	default LBooleanToShortFunction shovingBoolToSFunc() {
 		return this::shovingDoApplyAsShort;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanToShortFunctionX<RuntimeException> shoveX() {
+	default LBooleanToShortFunctionX<RuntimeException> shovingBoolToSFuncX() {
 		return this::shovingDoApplyAsShort;
 	}
 
@@ -248,12 +248,12 @@ public interface LBooleanToShortFunctionX<X extends Throwable> extends MetaFunct
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LBooleanToShortFunction handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LBooleanToShortFunction handleBoolToSFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return b -> this.handlingDoApplyAsShort(b, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LBooleanToShortFunctionX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LBooleanToShortFunctionX<Y> handleBoolToSFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return b -> this.handlingDoApplyAsShort(b, handling);
 	}
 

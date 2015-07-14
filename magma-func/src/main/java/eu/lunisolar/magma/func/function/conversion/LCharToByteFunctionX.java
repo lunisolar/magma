@@ -99,7 +99,7 @@ public interface LCharToByteFunctionX<X extends Throwable> extends MetaFunction,
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LByteSupplierX<X> capture(char c) {
+	default LByteSupplierX<X> captureCToBFunc(char c) {
 		return () -> this.doApplyAsByte(c);
 	}
 
@@ -134,19 +134,19 @@ public interface LCharToByteFunctionX<X extends Throwable> extends MetaFunction,
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LCharToByteFunctionX<X> fromChar(@Nonnull final LCharUnaryOperatorX<X> before1) {
+	default LCharToByteFunctionX<X> cToBFuncFromChar(@Nonnull final LCharUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsByte(before1.doApplyAsChar(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToByteFunctionX<V1, X> from(@Nonnull final LToCharFunctionX<? super V1, X> before1) {
+	default <V1> LToByteFunctionX<V1, X> cToBFuncFrom(@Nonnull final LToCharFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsByte(before1.doApplyAsChar(v1));
 	}
@@ -223,23 +223,23 @@ public interface LCharToByteFunctionX<X extends Throwable> extends MetaFunction,
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LCharToByteFunction nest() {
+	default LCharToByteFunction nestingCToBFunc() {
 		return this::nestingDoApplyAsByte;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LCharToByteFunctionX<RuntimeException> nestX() {
+	default LCharToByteFunctionX<RuntimeException> nestingCToBFuncX() {
 		return this::nestingDoApplyAsByte;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharToByteFunction shove() {
+	default LCharToByteFunction shovingCToBFunc() {
 		return this::shovingDoApplyAsByte;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharToByteFunctionX<RuntimeException> shoveX() {
+	default LCharToByteFunctionX<RuntimeException> shovingCToBFuncX() {
 		return this::shovingDoApplyAsByte;
 	}
 
@@ -248,12 +248,12 @@ public interface LCharToByteFunctionX<X extends Throwable> extends MetaFunction,
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LCharToByteFunction handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LCharToByteFunction handleCToBFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return c -> this.handlingDoApplyAsByte(c, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LCharToByteFunctionX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LCharToByteFunctionX<Y> handleCToBFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return c -> this.handlingDoApplyAsByte(c, handling);
 	}
 

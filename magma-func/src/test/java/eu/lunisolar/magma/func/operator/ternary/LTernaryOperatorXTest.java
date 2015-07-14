@@ -195,7 +195,7 @@ public class LTernaryOperatorXTest<T,X extends ParseException> {
         });
 
         // when
-        LTernaryOperatorX<T,X> wrapped = sutThrowing.handleX(handler -> handler
+        LTernaryOperatorX<T,X> wrapped = sutThrowing.handleTernaryOpX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -219,7 +219,7 @@ public class LTernaryOperatorXTest<T,X extends ParseException> {
         });
 
         // when
-        LTernaryOperatorX<T,X> wrapped = sutThrowing.handleX(handler -> handler
+        LTernaryOperatorX<T,X> wrapped = sutThrowing.handleTernaryOpX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -243,7 +243,7 @@ public class LTernaryOperatorXTest<T,X extends ParseException> {
         });
 
         // when
-        LTernaryOperatorX<T,X> wrapped = sutThrowing.handleX(handler -> handler
+        LTernaryOperatorX<T,X> wrapped = sutThrowing.handleTernaryOpX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -268,7 +268,7 @@ public class LTernaryOperatorXTest<T,X extends ParseException> {
         });
 
         // when
-        LTernaryOperatorX<T,X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
+        LTernaryOperatorX<T,X> wrapped = sutThrowing.handleTernaryOpX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -327,25 +327,25 @@ public class LTernaryOperatorXTest<T,X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingTernaryOp())
             .isInstanceOf(LTernaryOperator.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingTernaryOp())
             .isInstanceOf(LTernaryOperator.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingTernaryOpX())
             .isInstanceOf(LTernaryOperatorX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingTernaryOpX())
             .isInstanceOf(LTernaryOperatorX.class);
     }
 
@@ -358,11 +358,11 @@ public class LTernaryOperatorXTest<T,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doApply((T)Integer.valueOf(100),(T)Integer.valueOf(100),(T)Integer.valueOf(100));
+        sutThrowing.shovingTernaryOp().doApply((T)Integer.valueOf(100),(T)Integer.valueOf(100),(T)Integer.valueOf(100));
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleTernaryOp() throws X {
 
         // given
         LTernaryOperatorX<T,X> sutThrowing = LTernaryOperatorX.lX((T t1,T t2,T t3) -> {
@@ -370,7 +370,7 @@ public class LTernaryOperatorXTest<T,X extends ParseException> {
         });
 
         // when
-        LTernaryOperatorX<T,X> wrapped = sutThrowing.handleX(h -> {
+        LTernaryOperatorX<T,X> wrapped = sutThrowing.handleTernaryOpX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -407,3 +407,5 @@ public class LTernaryOperatorXTest<T,X extends ParseException> {
 
 
 }
+
+

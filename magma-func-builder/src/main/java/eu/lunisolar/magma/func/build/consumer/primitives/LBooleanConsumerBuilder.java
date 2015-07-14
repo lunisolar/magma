@@ -48,7 +48,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for LBooleanConsumer. */
-public final class LBooleanConsumerBuilder extends PerCaseBuilder.Base<LBooleanConsumerBuilder, LBooleanUnaryOperator, LBooleanConsumer> {
+public final class LBooleanConsumerBuilder extends PerCaseBuilder.Base<LBooleanConsumerBuilder, LLogicalOperator, LBooleanConsumer> {
 
 	private Consumer<LBooleanConsumer> consumer;
 
@@ -107,11 +107,11 @@ public final class LBooleanConsumerBuilder extends PerCaseBuilder.Base<LBooleanC
 
 		LBooleanConsumer retval;
 
-		final Case<LBooleanUnaryOperator, LBooleanConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
+		final Case<LLogicalOperator, LBooleanConsumer>[] casesArray = cases.toArray(new Case[cases.size()]);
 		retval = LBooleanConsumer.l(b -> {
 			try {
-				for (Case<LBooleanUnaryOperator, LBooleanConsumer> aCase : casesArray) {
-					if (aCase.casePredicate().doApplyAsBoolean(b)) {
+				for (Case<LLogicalOperator, LBooleanConsumer> aCase : casesArray) {
+					if (aCase.casePredicate().doApply(b)) {
 						aCase.caseFunction().doAccept(b);
 						return;
 					}

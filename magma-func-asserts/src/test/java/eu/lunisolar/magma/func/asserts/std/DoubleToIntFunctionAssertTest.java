@@ -127,3 +127,5 @@ public class DoubleToIntFunctionAssertTest<X extends Throwable> {
     }
 
 }
+
+

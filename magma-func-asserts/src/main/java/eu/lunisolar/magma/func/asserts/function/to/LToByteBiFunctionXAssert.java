@@ -26,7 +26,16 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
 import eu.lunisolar.magma.func.function.to.*;
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
@@ -35,10 +44,10 @@ import static org.assertj.core.api.Fail.fail;
 public interface LToByteBiFunctionXAssert<S extends LToByteBiFunctionXAssert<S, A, RS, T1, T2, X>, A extends LToByteBiFunctionX<T1, T2, X>, RS extends AbstractByteAssert<RS>, T1, T2, X extends Throwable>
 		extends
 			Assert<S, A>,
-			FullFunctionalAssert<S, A, RS, Byte, Exception> {
+			FullFunctionalAssert<S, LBiConsumerX<T1, T2, Exception>, A, RS, Byte, Exception> {
 
 	@Nonnull
-	Evaluation<S, A, RS, Byte, Exception> doesApplyAsByte(T1 t1, T2 t2);
+	Evaluation<S, LBiConsumerX<T1, T2, Exception>, A, RS, Byte, Exception> doesApplyAsByte(T1 t1, T2 t2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends LToByteBiFunctionX<T1, T2, X>, RS extends AbstractByteAssert<RS>, T1, T2, X extends Throwable> extends Base<Impl<A, RS, T1, T2, X>, A, RS, T1, T2, X> {
@@ -49,9 +58,9 @@ public interface LToByteBiFunctionXAssert<S extends LToByteBiFunctionXAssert<S, 
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, T1, T2, X>, A extends LToByteBiFunctionX<T1, T2, X>, RS extends AbstractByteAssert<RS>, T1, T2, X extends Throwable> extends FullFunctionalAssert.Base<S, A, RS, Byte, Exception>
-			implements
-				LToByteBiFunctionXAssert<S, A, RS, T1, T2, X> {
+	public static class Base<S extends Base<S, A, RS, T1, T2, X>, A extends LToByteBiFunctionX<T1, T2, X>, RS extends AbstractByteAssert<RS>, T1, T2, X extends Throwable>
+			extends
+				FullFunctionalAssert.Base<S, LBiConsumerX<T1, T2, Exception>, A, RS, Byte, Exception> implements LToByteBiFunctionXAssert<S, A, RS, T1, T2, X> {
 
 		protected final java.util.function.Function<Byte, RS> assertFactory;
 
@@ -61,8 +70,15 @@ public interface LToByteBiFunctionXAssert<S extends LToByteBiFunctionXAssert<S, 
 		}
 
 		@Nonnull
-		public Evaluation<S, A, RS, Byte, Exception> doesApplyAsByte(T1 t1, T2 t2) {
-			return evaluation(() -> assertFactory.apply((Byte) actual.doApplyAsByte(t1, t2)));
+		public Evaluation<S, LBiConsumerX<T1, T2, Exception>, A, RS, Byte, Exception> doesApplyAsByte(T1 t1, T2 t2) {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doAccept(t1, t2);
+				}
+				return assertFactory.apply((Byte) actual.doApplyAsByte(t1, t2));
+			});
+
 		}
 
 	}

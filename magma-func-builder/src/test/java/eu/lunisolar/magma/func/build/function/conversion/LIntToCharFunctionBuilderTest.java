@@ -124,12 +124,14 @@ public class LIntToCharFunctionBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsChar((int)0).to(a -> a.isEqualTo((char)0))
-            .doesApplyAsChar((int)5).to(a -> a.isEqualTo((char)1))
-            .doesApplyAsChar((int)15).to(a -> a.isEqualTo((char)2))
-            .doesApplyAsChar((int)10).to(a -> a.isEqualTo((char)99))
+            .doesApplyAsChar((int)0).when(null).to(a -> a.isEqualTo((char)0))
+            .doesApplyAsChar((int)5).when(null).to(a -> a.isEqualTo((char)1))
+            .doesApplyAsChar((int)15).when(null).to(a -> a.isEqualTo((char)2))
+            .doesApplyAsChar((int)10).when(null).to(a -> a.isEqualTo((char)99))
         ;
 
     }
 
 }
+
+

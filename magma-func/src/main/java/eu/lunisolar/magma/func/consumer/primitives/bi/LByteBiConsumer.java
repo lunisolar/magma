@@ -80,7 +80,7 @@ public interface LByteBiConsumer extends LByteBiConsumerX<RuntimeException>, Met
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LAction capture(byte b1, byte b2) {
+	default LAction captureBBiCons(byte b1, byte b2) {
 		return () -> this.doAccept(b1, b2);
 	}
 
@@ -104,20 +104,20 @@ public interface LByteBiConsumer extends LByteBiConsumerX<RuntimeException>, Met
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LByteBiConsumer fromByte(@Nonnull final LByteUnaryOperator before1, @Nonnull final LByteUnaryOperator before2) {
+	default LByteBiConsumer bBiConsFromByte(@Nonnull final LByteUnaryOperator before1, @Nonnull final LByteUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final byte v1, final byte v2) -> this.doAccept(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiConsumer<V1, V2> from(@Nonnull final LToByteFunction<? super V1> before1, @Nonnull final LToByteFunction<? super V2> before2) {
+	default <V1, V2> LBiConsumer<V1, V2> bBiConsFrom(@Nonnull final LToByteFunction<? super V1> before1, @Nonnull final LToByteFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doAccept(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
@@ -141,23 +141,23 @@ public interface LByteBiConsumer extends LByteBiConsumerX<RuntimeException>, Met
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LByteBiConsumer nest() {
+	default LByteBiConsumer nestingBBiCons() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LByteBiConsumerX<RuntimeException> nestX() {
+	default LByteBiConsumerX<RuntimeException> nestingBBiConsX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteBiConsumer shove() {
+	default LByteBiConsumer shovingBBiCons() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteBiConsumerX<RuntimeException> shoveX() {
+	default LByteBiConsumerX<RuntimeException> shovingBBiConsX() {
 		return this;
 	}
 

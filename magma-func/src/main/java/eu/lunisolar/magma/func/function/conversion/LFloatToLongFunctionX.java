@@ -99,7 +99,7 @@ public interface LFloatToLongFunctionX<X extends Throwable> extends MetaFunction
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LLongSupplierX<X> capture(float f) {
+	default LLongSupplierX<X> captureFToLongFunc(float f) {
 		return () -> this.doApplyAsLong(f);
 	}
 
@@ -134,19 +134,19 @@ public interface LFloatToLongFunctionX<X extends Throwable> extends MetaFunction
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LFloatToLongFunctionX<X> fromFloat(@Nonnull final LFloatUnaryOperatorX<X> before1) {
+	default LFloatToLongFunctionX<X> fToLongFuncFromFloat(@Nonnull final LFloatUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsLong(before1.doApplyAsFloat(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToLongFunctionX<V1, X> from(@Nonnull final LToFloatFunctionX<? super V1, X> before1) {
+	default <V1> LToLongFunctionX<V1, X> fToLongFuncFrom(@Nonnull final LToFloatFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsLong(before1.doApplyAsFloat(v1));
 	}
@@ -223,23 +223,23 @@ public interface LFloatToLongFunctionX<X extends Throwable> extends MetaFunction
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LFloatToLongFunction nest() {
+	default LFloatToLongFunction nestingFToLongFunc() {
 		return this::nestingDoApplyAsLong;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LFloatToLongFunctionX<RuntimeException> nestX() {
+	default LFloatToLongFunctionX<RuntimeException> nestingFToLongFuncX() {
 		return this::nestingDoApplyAsLong;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatToLongFunction shove() {
+	default LFloatToLongFunction shovingFToLongFunc() {
 		return this::shovingDoApplyAsLong;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatToLongFunctionX<RuntimeException> shoveX() {
+	default LFloatToLongFunctionX<RuntimeException> shovingFToLongFuncX() {
 		return this::shovingDoApplyAsLong;
 	}
 
@@ -248,12 +248,12 @@ public interface LFloatToLongFunctionX<X extends Throwable> extends MetaFunction
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LFloatToLongFunction handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LFloatToLongFunction handleFToLongFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return f -> this.handlingDoApplyAsLong(f, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LFloatToLongFunctionX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LFloatToLongFunctionX<Y> handleFToLongFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return f -> this.handlingDoApplyAsLong(f, handling);
 	}
 

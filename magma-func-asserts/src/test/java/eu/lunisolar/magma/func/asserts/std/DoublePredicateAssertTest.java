@@ -127,3 +127,5 @@ public class DoublePredicateAssertTest<X extends Throwable> {
     }
 
 }
+
+

@@ -124,12 +124,14 @@ public class LIntToLongFunctionBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsLong((int)0).to(a -> a.isEqualTo((long)0))
-            .doesApplyAsLong((int)5).to(a -> a.isEqualTo((long)1))
-            .doesApplyAsLong((int)15).to(a -> a.isEqualTo((long)2))
-            .doesApplyAsLong((int)10).to(a -> a.isEqualTo((long)99))
+            .doesApplyAsLong((int)0).when(null).to(a -> a.isEqualTo((long)0))
+            .doesApplyAsLong((int)5).when(null).to(a -> a.isEqualTo((long)1))
+            .doesApplyAsLong((int)15).when(null).to(a -> a.isEqualTo((long)2))
+            .doesApplyAsLong((int)10).when(null).to(a -> a.isEqualTo((long)99))
         ;
 
     }
 
 }
+
+

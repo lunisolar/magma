@@ -128,3 +128,5 @@ public class LFloatToCharFunctionXAssertTest<X extends Throwable> {
     }
 
 }
+
+

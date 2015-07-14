@@ -105,7 +105,7 @@ public interface LBiShortPredicateX<X extends Throwable> extends MetaPredicate, 
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> capture(short s1, short s2) {
+	default LBooleanSupplierX<X> captureBiSPred(short s1, short s2) {
 		return () -> this.doTest(s1, s2);
 	}
 
@@ -186,20 +186,20 @@ public interface LBiShortPredicateX<X extends Throwable> extends MetaPredicate, 
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LBiShortPredicateX<X> fromShort(@Nonnull final LShortUnaryOperatorX<X> before1, @Nonnull final LShortUnaryOperatorX<X> before2) {
+	default LBiShortPredicateX<X> biSPredFromShort(@Nonnull final LShortUnaryOperatorX<X> before1, @Nonnull final LShortUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final short v1, final short v2) -> this.doTest(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiPredicateX<V1, V2, X> from(@Nonnull final LToShortFunctionX<? super V1, X> before1, @Nonnull final LToShortFunctionX<? super V2, X> before2) {
+	default <V1, V2> LBiPredicateX<V1, V2, X> biSPredFrom(@Nonnull final LToShortFunctionX<? super V1, X> before1, @Nonnull final LToShortFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doTest(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
@@ -211,7 +211,7 @@ public interface LBiShortPredicateX<X extends Throwable> extends MetaPredicate, 
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LShortBiFunctionX<V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LShortBiFunctionX<V, X> boolToShortBiFunction(@Nonnull LBooleanFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (short s1, short s2) -> after.doApply(this.doTest(s1, s2));
 	}
@@ -221,23 +221,23 @@ public interface LBiShortPredicateX<X extends Throwable> extends MetaPredicate, 
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiShortPredicate nest() {
+	default LBiShortPredicate nestingBiSPred() {
 		return this::nestingDoTest;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiShortPredicateX<RuntimeException> nestX() {
+	default LBiShortPredicateX<RuntimeException> nestingBiSPredX() {
 		return this::nestingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiShortPredicate shove() {
+	default LBiShortPredicate shovingBiSPred() {
 		return this::shovingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiShortPredicateX<RuntimeException> shoveX() {
+	default LBiShortPredicateX<RuntimeException> shovingBiSPredX() {
 		return this::shovingDoTest;
 	}
 
@@ -246,12 +246,12 @@ public interface LBiShortPredicateX<X extends Throwable> extends MetaPredicate, 
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LBiShortPredicate handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LBiShortPredicate handleBiSPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (short s1, short s2) -> this.handlingDoTest(s1, s2, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LBiShortPredicateX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LBiShortPredicateX<Y> handleBiSPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (short s1, short s2) -> this.handlingDoTest(s1, s2, handling);
 	}
 

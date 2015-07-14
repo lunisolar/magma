@@ -206,7 +206,7 @@ public class LCharFunctionTest<R,X extends ParseException> {
         });
 
         // when
-        LCharFunction<R> wrapped = sutThrowing.handle(handler -> handler
+        LCharFunction<R> wrapped = sutThrowing.handleCFunc(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -230,7 +230,7 @@ public class LCharFunctionTest<R,X extends ParseException> {
         });
 
         // when
-        LCharFunction<R> wrapped = sutThrowing.handle(handler -> handler
+        LCharFunction<R> wrapped = sutThrowing.handleCFunc(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -254,7 +254,7 @@ public class LCharFunctionTest<R,X extends ParseException> {
         });
 
         // when
-        LCharFunction<R> wrapped = sutThrowing.handle(handler -> handler
+        LCharFunction<R> wrapped = sutThrowing.handleCFunc(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -279,7 +279,7 @@ public class LCharFunctionTest<R,X extends ParseException> {
         });
 
         // when
-        LCharFunction<R> wrapped = sutThrowing.handle(h -> Function4U.doNothing());
+        LCharFunction<R> wrapped = sutThrowing.handleCFunc(h -> Function4U.doNothing());
 
         // then
         try {
@@ -298,7 +298,7 @@ public class LCharFunctionTest<R,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromChar() throws X {
+    public void testcFuncFromChar() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -317,7 +317,7 @@ public class LCharFunctionTest<R,X extends ParseException> {
         };
 
         //when
-        LCharFunction<Integer > function = sutO.fromChar(before1);
+        LCharFunction<Integer > function = sutO.cFuncFromChar(before1);
         function.doApply((char)80);
 
         //then - finals
@@ -327,7 +327,7 @@ public class LCharFunctionTest<R,X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws X {
+    public void testcFuncFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -346,7 +346,7 @@ public class LCharFunctionTest<R,X extends ParseException> {
         };
 
         //when
-        LFunction<Integer ,Integer > function = sutO.from(before1);
+        LFunction<Integer ,Integer > function = sutO.cFuncFrom(before1);
         function.doApply((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -710,28 +710,28 @@ public class LCharFunctionTest<R,X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingCFunc())
             .isSameAs(sut)
             .isInstanceOf(LCharFunction.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingCFunc())
             .isSameAs(sut)
             .isInstanceOf(LCharFunction.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingCFuncX())
             .isSameAs(sut)
             .isInstanceOf(LCharFunctionX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingCFuncX())
             .isSameAs(sut)
             .isInstanceOf(LCharFunctionX.class);
     }
@@ -745,11 +745,11 @@ public class LCharFunctionTest<R,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doApply((char)100);
+        sutThrowing.shovingCFunc().doApply((char)100);
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleCFunc() throws X {
 
         // given
         LCharFunction<R> sutThrowing = LCharFunction.l(c -> {
@@ -757,7 +757,7 @@ public class LCharFunctionTest<R,X extends ParseException> {
         });
 
         // when
-        LCharFunction<R> wrapped = sutThrowing.handle(h -> {
+        LCharFunction<R> wrapped = sutThrowing.handleCFunc(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -794,3 +794,5 @@ public class LCharFunctionTest<R,X extends ParseException> {
 
 
 }
+
+

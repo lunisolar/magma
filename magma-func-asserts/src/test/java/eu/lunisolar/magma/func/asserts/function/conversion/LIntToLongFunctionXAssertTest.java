@@ -128,3 +128,5 @@ public class LIntToLongFunctionXAssertTest<X extends Throwable> {
     }
 
 }
+
+

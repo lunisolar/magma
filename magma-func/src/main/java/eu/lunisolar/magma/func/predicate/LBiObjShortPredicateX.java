@@ -105,7 +105,7 @@ public interface LBiObjShortPredicateX<T1, T2, X extends Throwable> extends Meta
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> capture(T1 t1, T2 t2, short s) {
+	default LBooleanSupplierX<X> captureBiObjSPred(T1 t1, T2 t2, short s) {
 		return () -> this.doTest(t1, t2, s);
 	}
 
@@ -186,10 +186,10 @@ public interface LBiObjShortPredicateX<T1, T2, X extends Throwable> extends Meta
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiObjShortPredicateX<V1, V2, X> fromShort(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LShortUnaryOperatorX<X> before3) {
+	default <V1, V2> LBiObjShortPredicateX<V1, V2, X> biObjSPredFromShort(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LShortUnaryOperatorX<X> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
@@ -197,10 +197,10 @@ public interface LBiObjShortPredicateX<T1, T2, X extends Throwable> extends Meta
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2, V3> LTriPredicateX<V1, V2, V3, X> from(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LToShortFunctionX<? super V3, X> before3) {
+	default <V1, V2, V3> LTriPredicateX<V1, V2, V3, X> biObjSPredFrom(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LToShortFunctionX<? super V3, X> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
@@ -213,7 +213,7 @@ public interface LBiObjShortPredicateX<T1, T2, X extends Throwable> extends Meta
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LBiObjShortFunctionX<T1, T2, V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LBiObjShortFunctionX<T1, T2, V, X> boolToBiObjShortFunction(@Nonnull LBooleanFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (T1 t1, T2 t2, short s) -> after.doApply(this.doTest(t1, t2, s));
 	}
@@ -223,23 +223,23 @@ public interface LBiObjShortPredicateX<T1, T2, X extends Throwable> extends Meta
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiObjShortPredicate<T1, T2> nest() {
+	default LBiObjShortPredicate<T1, T2> nestingBiObjSPred() {
 		return this::nestingDoTest;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiObjShortPredicateX<T1, T2, RuntimeException> nestX() {
+	default LBiObjShortPredicateX<T1, T2, RuntimeException> nestingBiObjSPredX() {
 		return this::nestingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjShortPredicate<T1, T2> shove() {
+	default LBiObjShortPredicate<T1, T2> shovingBiObjSPred() {
 		return this::shovingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjShortPredicateX<T1, T2, RuntimeException> shoveX() {
+	default LBiObjShortPredicateX<T1, T2, RuntimeException> shovingBiObjSPredX() {
 		return this::shovingDoTest;
 	}
 
@@ -248,12 +248,12 @@ public interface LBiObjShortPredicateX<T1, T2, X extends Throwable> extends Meta
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LBiObjShortPredicate<T1, T2> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LBiObjShortPredicate<T1, T2> handleBiObjSPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T1 t1, T2 t2, short s) -> this.handlingDoTest(t1, t2, s, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LBiObjShortPredicateX<T1, T2, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LBiObjShortPredicateX<T1, T2, Y> handleBiObjSPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T1 t1, T2 t2, short s) -> this.handlingDoTest(t1, t2, s, handling);
 	}
 

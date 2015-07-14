@@ -124,12 +124,14 @@ public class LDoubleToIntFunctionXBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsInt((double)0).to(a -> a.isEqualTo((int)0))
-            .doesApplyAsInt((double)5).to(a -> a.isEqualTo((int)1))
-            .doesApplyAsInt((double)15).to(a -> a.isEqualTo((int)2))
-            .doesApplyAsInt((double)10).to(a -> a.isEqualTo((int)99))
+            .doesApplyAsInt((double)0).when(null).to(a -> a.isEqualTo((int)0))
+            .doesApplyAsInt((double)5).when(null).to(a -> a.isEqualTo((int)1))
+            .doesApplyAsInt((double)15).when(null).to(a -> a.isEqualTo((int)2))
+            .doesApplyAsInt((double)10).when(null).to(a -> a.isEqualTo((int)99))
         ;
 
     }
 
 }
+
+

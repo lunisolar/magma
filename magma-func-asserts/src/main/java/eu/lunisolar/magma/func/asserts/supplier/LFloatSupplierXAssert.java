@@ -26,19 +26,28 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
 import eu.lunisolar.magma.func.supplier.*;
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LFloatSupplierX. */
-public interface LFloatSupplierXAssert<S extends LFloatSupplierXAssert<S, A, RS, X>, A extends LFloatSupplierX<X>, RS extends AbstractFloatAssert<RS>, X extends Throwable> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, Float, Exception> {
+public interface LFloatSupplierXAssert<S extends LFloatSupplierXAssert<S, A, RS, X>, A extends LFloatSupplierX<X>, RS extends AbstractFloatAssert<RS>, X extends Throwable>
+		extends
+			Assert<S, A>,
+			FullFunctionalAssert<S, LActionX<Exception>, A, RS, Float, Exception> {
 
 	@Nonnull
-	Evaluation<S, A, RS, Float, Exception> doesGetAsFloat();
-
-	@Nonnull
-	Evaluation<S, A, RS, Float, Exception> doesGetAsFloat(LAction before);
+	Evaluation<S, LActionX<Exception>, A, RS, Float, Exception> doesGetAsFloat();
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends LFloatSupplierX<X>, RS extends AbstractFloatAssert<RS>, X extends Throwable> extends Base<Impl<A, RS, X>, A, RS, X> {
@@ -49,7 +58,9 @@ public interface LFloatSupplierXAssert<S extends LFloatSupplierXAssert<S, A, RS,
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, X>, A extends LFloatSupplierX<X>, RS extends AbstractFloatAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, A, RS, Float, Exception> implements LFloatSupplierXAssert<S, A, RS, X> {
+	public static class Base<S extends Base<S, A, RS, X>, A extends LFloatSupplierX<X>, RS extends AbstractFloatAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, LActionX<Exception>, A, RS, Float, Exception>
+			implements
+				LFloatSupplierXAssert<S, A, RS, X> {
 
 		protected final java.util.function.Function<Float, RS> assertFactory;
 
@@ -59,8 +70,15 @@ public interface LFloatSupplierXAssert<S extends LFloatSupplierXAssert<S, A, RS,
 		}
 
 		@Nonnull
-		public Evaluation<S, A, RS, Float, Exception> doesGetAsFloat() {
-			return evaluation(() -> assertFactory.apply((Float) actual.doGetAsFloat()));
+		public Evaluation<S, LActionX<Exception>, A, RS, Float, Exception> doesGetAsFloat() {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doExecute();
+				}
+				return assertFactory.apply((Float) actual.doGetAsFloat());
+			});
+
 		}
 
 		@Nonnull
@@ -69,11 +87,6 @@ public interface LFloatSupplierXAssert<S extends LFloatSupplierXAssert<S, A, RS,
 			return self();
 		}
 
-		@Nonnull
-		public Evaluation<S, A, RS, Float, Exception> doesGetAsFloat(LAction before) {
-			before.doExecute();
-			return doesGetAsFloat();
-		}
 	}
 
 }

@@ -123,10 +123,12 @@ public class LBooleanToCharFunctionBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsChar(false).to(a -> a.isEqualTo((char)0))
-            .doesApplyAsChar(true).to(a -> a.isEqualTo((char)1))
+            .doesApplyAsChar(false).when(null).to(a -> a.isEqualTo((char)0))
+            .doesApplyAsChar(true).when(null).to(a -> a.isEqualTo((char)1))
         ;
 
     }
 
 }
+
+

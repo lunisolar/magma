@@ -190,7 +190,7 @@ public class LIntConsumerTest<X extends ParseException> {
         });
 
         // when
-        LIntConsumer wrapped = sutThrowing.handle(handler -> handler
+        LIntConsumer wrapped = sutThrowing.handleICons(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -214,7 +214,7 @@ public class LIntConsumerTest<X extends ParseException> {
         });
 
         // when
-        LIntConsumer wrapped = sutThrowing.handle(handler -> handler
+        LIntConsumer wrapped = sutThrowing.handleICons(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -238,7 +238,7 @@ public class LIntConsumerTest<X extends ParseException> {
         });
 
         // when
-        LIntConsumer wrapped = sutThrowing.handle(handler -> handler
+        LIntConsumer wrapped = sutThrowing.handleICons(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -263,7 +263,7 @@ public class LIntConsumerTest<X extends ParseException> {
         });
 
         // when
-        LIntConsumer wrapped = sutThrowing.handle(h -> Function4U.doNothing());
+        LIntConsumer wrapped = sutThrowing.handleICons(h -> Function4U.doNothing());
 
         // then
         try {
@@ -282,7 +282,7 @@ public class LIntConsumerTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromInt() throws X {
+    public void testiConsFromInt() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -300,7 +300,7 @@ public class LIntConsumerTest<X extends ParseException> {
         };
 
         //when
-        LIntConsumer function = sutO.fromInt(before1);
+        LIntConsumer function = sutO.iConsFromInt(before1);
         function.doAccept((int)80);
 
         //then - finals
@@ -310,7 +310,7 @@ public class LIntConsumerTest<X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws X {
+    public void testiConsFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -328,7 +328,7 @@ public class LIntConsumerTest<X extends ParseException> {
         };
 
         //when
-        LConsumer<Integer > function = sutO.from(before1);
+        LConsumer<Integer > function = sutO.iConsFrom(before1);
         function.doAccept((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -367,28 +367,28 @@ public class LIntConsumerTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingICons())
             .isSameAs(sut)
             .isInstanceOf(LIntConsumer.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingICons())
             .isSameAs(sut)
             .isInstanceOf(LIntConsumer.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingIConsX())
             .isSameAs(sut)
             .isInstanceOf(LIntConsumerX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingIConsX())
             .isSameAs(sut)
             .isInstanceOf(LIntConsumerX.class);
     }
@@ -402,11 +402,11 @@ public class LIntConsumerTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doAccept((int)100);
+        sutThrowing.shovingICons().doAccept((int)100);
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleICons() throws X {
 
         // given
         LIntConsumer sutThrowing = LIntConsumer.l(i -> {
@@ -414,7 +414,7 @@ public class LIntConsumerTest<X extends ParseException> {
         });
 
         // when
-        LIntConsumer wrapped = sutThrowing.handle(h -> {
+        LIntConsumer wrapped = sutThrowing.handleICons(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -451,3 +451,5 @@ public class LIntConsumerTest<X extends ParseException> {
 
 
 }
+
+

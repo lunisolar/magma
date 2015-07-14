@@ -124,12 +124,14 @@ public class LShortToDoubleFunctionBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsDouble((short)0).to(a -> a.isEqualTo((double)0))
-            .doesApplyAsDouble((short)5).to(a -> a.isEqualTo((double)1))
-            .doesApplyAsDouble((short)15).to(a -> a.isEqualTo((double)2))
-            .doesApplyAsDouble((short)10).to(a -> a.isEqualTo((double)99))
+            .doesApplyAsDouble((short)0).when(null).to(a -> a.isEqualTo((double)0))
+            .doesApplyAsDouble((short)5).when(null).to(a -> a.isEqualTo((double)1))
+            .doesApplyAsDouble((short)15).when(null).to(a -> a.isEqualTo((double)2))
+            .doesApplyAsDouble((short)10).when(null).to(a -> a.isEqualTo((double)99))
         ;
 
     }
 
 }
+
+

@@ -88,7 +88,7 @@ public interface LObjIntFunction<T, R> extends LObjIntFunctionX<T, R, RuntimeExc
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> capture(T t, int i) {
+	default LSupplier<R> captureObjIFunc(T t, int i) {
 		return () -> this.doApply(t, i);
 	}
 
@@ -116,20 +116,20 @@ public interface LObjIntFunction<T, R> extends LObjIntFunctionX<T, R, RuntimeExc
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LObjIntFunction<V1, R> fromInt(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LIntUnaryOperator before2) {
+	default <V1> LObjIntFunction<V1, R> objIFuncFromInt(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LIntUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final int v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsInt(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiFunction<V1, V2, R> from(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToIntFunction<? super V2> before2) {
+	default <V1, V2> LBiFunction<V1, V2, R> objIFuncFrom(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToIntFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsInt(v2));
@@ -158,30 +158,30 @@ public interface LObjIntFunction<T, R> extends LObjIntFunctionX<T, R, RuntimeExc
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjIntFunction<T, R> nest() {
+	default LObjIntFunction<T, R> nestingObjIFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjIntFunctionX<T, R, RuntimeException> nestX() {
+	default LObjIntFunctionX<T, R, RuntimeException> nestingObjIFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjIntFunction<T, R> shove() {
+	default LObjIntFunction<T, R> shovingObjIFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjIntFunctionX<T, R, RuntimeException> shoveX() {
+	default LObjIntFunctionX<T, R, RuntimeException> shovingObjIFuncX() {
 		return this;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LObjIntFunction<T, R> nonNullable() {
+	default LObjIntFunction<T, R> nonNullObjIFunc() {
 		return this::nonNullDoApply;
 	}
 

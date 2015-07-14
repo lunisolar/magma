@@ -95,7 +95,7 @@ public interface LDoubleBiConsumerX<X extends Throwable> extends MetaConsumer, M
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LActionX<X> capture(double d1, double d2) {
+	default LActionX<X> captureDBiCons(double d1, double d2) {
 		return () -> this.doAccept(d1, d2);
 	}
 
@@ -126,20 +126,20 @@ public interface LDoubleBiConsumerX<X extends Throwable> extends MetaConsumer, M
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LDoubleBiConsumerX<X> fromDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1, @Nonnull final LDoubleUnaryOperatorX<X> before2) {
+	default LDoubleBiConsumerX<X> dBiConsFromDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1, @Nonnull final LDoubleUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final double v1, final double v2) -> this.doAccept(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiConsumerX<V1, V2, X> from(@Nonnull final LToDoubleFunctionX<? super V1, X> before1, @Nonnull final LToDoubleFunctionX<? super V2, X> before2) {
+	default <V1, V2> LBiConsumerX<V1, V2, X> dBiConsFrom(@Nonnull final LToDoubleFunctionX<? super V1, X> before1, @Nonnull final LToDoubleFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doAccept(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
@@ -163,23 +163,23 @@ public interface LDoubleBiConsumerX<X extends Throwable> extends MetaConsumer, M
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoubleBiConsumer nest() {
+	default LDoubleBiConsumer nestingDBiCons() {
 		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoubleBiConsumerX<RuntimeException> nestX() {
+	default LDoubleBiConsumerX<RuntimeException> nestingDBiConsX() {
 		return this::nestingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleBiConsumer shove() {
+	default LDoubleBiConsumer shovingDBiCons() {
 		return this::shovingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleBiConsumerX<RuntimeException> shoveX() {
+	default LDoubleBiConsumerX<RuntimeException> shovingDBiConsX() {
 		return this::shovingDoAccept;
 	}
 
@@ -188,12 +188,12 @@ public interface LDoubleBiConsumerX<X extends Throwable> extends MetaConsumer, M
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LDoubleBiConsumer handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LDoubleBiConsumer handleDBiCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (double d1, double d2) -> this.handlingDoAccept(d1, d2, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LDoubleBiConsumerX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LDoubleBiConsumerX<Y> handleDBiConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (double d1, double d2) -> this.handlingDoAccept(d1, d2, handling);
 	}
 

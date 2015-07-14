@@ -195,7 +195,7 @@ public class LShortUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LShortUnaryOperator wrapped = sutThrowing.handle(handler -> handler
+        LShortUnaryOperator wrapped = sutThrowing.handleSUnaryOp(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -219,7 +219,7 @@ public class LShortUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LShortUnaryOperator wrapped = sutThrowing.handle(handler -> handler
+        LShortUnaryOperator wrapped = sutThrowing.handleSUnaryOp(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -243,7 +243,7 @@ public class LShortUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LShortUnaryOperator wrapped = sutThrowing.handle(handler -> handler
+        LShortUnaryOperator wrapped = sutThrowing.handleSUnaryOp(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -268,7 +268,7 @@ public class LShortUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LShortUnaryOperator wrapped = sutThrowing.handle(h -> Function4U.doNothing());
+        LShortUnaryOperator wrapped = sutThrowing.handleSUnaryOp(h -> Function4U.doNothing());
 
         // then
         try {
@@ -287,7 +287,7 @@ public class LShortUnaryOperatorTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromShort() throws X {
+    public void testsUnaryOpFromShort() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -306,7 +306,7 @@ public class LShortUnaryOperatorTest<X extends ParseException> {
         };
 
         //when
-        LShortUnaryOperator function = sutO.fromShort(before1);
+        LShortUnaryOperator function = sutO.sUnaryOpFromShort(before1);
         function.doApplyAsShort((short)80);
 
         //then - finals
@@ -316,7 +316,7 @@ public class LShortUnaryOperatorTest<X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws X {
+    public void testsUnaryOpFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -335,7 +335,7 @@ public class LShortUnaryOperatorTest<X extends ParseException> {
         };
 
         //when
-        LToShortFunction<Integer > function = sutO.from(before1);
+        LToShortFunction<Integer > function = sutO.sUnaryOpFrom(before1);
         function.doApplyAsShort((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -674,28 +674,28 @@ public class LShortUnaryOperatorTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingSUnaryOp())
             .isSameAs(sut)
             .isInstanceOf(LShortUnaryOperator.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingSUnaryOp())
             .isSameAs(sut)
             .isInstanceOf(LShortUnaryOperator.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingSUnaryOpX())
             .isSameAs(sut)
             .isInstanceOf(LShortUnaryOperatorX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingSUnaryOpX())
             .isSameAs(sut)
             .isInstanceOf(LShortUnaryOperatorX.class);
     }
@@ -709,11 +709,11 @@ public class LShortUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doApplyAsShort((short)100);
+        sutThrowing.shovingSUnaryOp().doApplyAsShort((short)100);
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleSUnaryOp() throws X {
 
         // given
         LShortUnaryOperator sutThrowing = LShortUnaryOperator.l(s -> {
@@ -721,7 +721,7 @@ public class LShortUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LShortUnaryOperator wrapped = sutThrowing.handle(h -> {
+        LShortUnaryOperator wrapped = sutThrowing.handleSUnaryOp(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -758,3 +758,5 @@ public class LShortUnaryOperatorTest<X extends ParseException> {
 
 
 }
+
+

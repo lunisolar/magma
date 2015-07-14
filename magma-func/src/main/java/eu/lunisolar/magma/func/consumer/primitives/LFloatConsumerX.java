@@ -95,7 +95,7 @@ public interface LFloatConsumerX<X extends Throwable> extends MetaConsumer, Meta
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LActionX<X> capture(float f) {
+	default LActionX<X> captureFCons(float f) {
 		return () -> this.doAccept(f);
 	}
 
@@ -126,19 +126,19 @@ public interface LFloatConsumerX<X extends Throwable> extends MetaConsumer, Meta
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LFloatConsumerX<X> fromFloat(@Nonnull final LFloatUnaryOperatorX<X> before1) {
+	default LFloatConsumerX<X> fConsFromFloat(@Nonnull final LFloatUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doApplyAsFloat(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LConsumerX<V1, X> from(@Nonnull final LToFloatFunctionX<? super V1, X> before1) {
+	default <V1> LConsumerX<V1, X> fConsFrom(@Nonnull final LToFloatFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doApplyAsFloat(v1));
 	}
@@ -161,23 +161,23 @@ public interface LFloatConsumerX<X extends Throwable> extends MetaConsumer, Meta
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LFloatConsumer nest() {
+	default LFloatConsumer nestingFCons() {
 		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LFloatConsumerX<RuntimeException> nestX() {
+	default LFloatConsumerX<RuntimeException> nestingFConsX() {
 		return this::nestingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatConsumer shove() {
+	default LFloatConsumer shovingFCons() {
 		return this::shovingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatConsumerX<RuntimeException> shoveX() {
+	default LFloatConsumerX<RuntimeException> shovingFConsX() {
 		return this::shovingDoAccept;
 	}
 
@@ -186,12 +186,12 @@ public interface LFloatConsumerX<X extends Throwable> extends MetaConsumer, Meta
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LFloatConsumer handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LFloatConsumer handleFCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return f -> this.handlingDoAccept(f, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LFloatConsumerX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LFloatConsumerX<Y> handleFConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return f -> this.handlingDoAccept(f, handling);
 	}
 

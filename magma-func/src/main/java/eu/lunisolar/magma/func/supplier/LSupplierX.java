@@ -147,70 +147,70 @@ public interface LSupplierX<R, X extends Throwable> extends java.util.function.S
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default <V> LSupplierX<V, X> then(@Nonnull LFunctionX<? super R, ? extends V, X> after) {
+	default <V> LSupplierX<V, X> toSupplier(@Nonnull LFunctionX<? super R, ? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApply(this.doGet());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LActionX<X> then(@Nonnull LConsumerX<? super R, X> after) {
+	default LActionX<X> toAction(@Nonnull LConsumerX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doAccept(this.doGet());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LByteSupplierX<X> thenToByte(@Nonnull LToByteFunctionX<? super R, X> after) {
+	default LByteSupplierX<X> toByteSupplier(@Nonnull LToByteFunctionX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsByte(this.doGet());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LShortSupplierX<X> thenToShort(@Nonnull LToShortFunctionX<? super R, X> after) {
+	default LShortSupplierX<X> toShortSupplier(@Nonnull LToShortFunctionX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsShort(this.doGet());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LIntSupplierX<X> thenToInt(@Nonnull LToIntFunctionX<? super R, X> after) {
+	default LIntSupplierX<X> toIntSupplier(@Nonnull LToIntFunctionX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsInt(this.doGet());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LLongSupplierX<X> thenToLong(@Nonnull LToLongFunctionX<? super R, X> after) {
+	default LLongSupplierX<X> toLongSupplier(@Nonnull LToLongFunctionX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsLong(this.doGet());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LFloatSupplierX<X> thenToFloat(@Nonnull LToFloatFunctionX<? super R, X> after) {
+	default LFloatSupplierX<X> toFloatSupplier(@Nonnull LToFloatFunctionX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsFloat(this.doGet());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LDoubleSupplierX<X> thenToDouble(@Nonnull LToDoubleFunctionX<? super R, X> after) {
+	default LDoubleSupplierX<X> toDoubleSupplier(@Nonnull LToDoubleFunctionX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsDouble(this.doGet());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LCharSupplierX<X> thenToChar(@Nonnull LToCharFunctionX<? super R, X> after) {
+	default LCharSupplierX<X> toCharSupplier(@Nonnull LToCharFunctionX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsChar(this.doGet());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LBooleanSupplierX<X> thenToBoolean(@Nonnull LPredicateX<? super R, X> after) {
+	default LBooleanSupplierX<X> toBooleanSupplier(@Nonnull LPredicateX<? super R, X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doTest(this.doGet());
 	}
@@ -220,42 +220,42 @@ public interface LSupplierX<R, X extends Throwable> extends java.util.function.S
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LSupplier<R> nest() {
+	default LSupplier<R> nestingSup() {
 		return this::nestingDoGet;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LSupplierX<R, RuntimeException> nestX() {
+	default LSupplierX<R, RuntimeException> nestingSupX() {
 		return this::nestingDoGet;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LSupplier<R> shove() {
+	default LSupplier<R> shovingSup() {
 		return this::shovingDoGet;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LSupplierX<R, RuntimeException> shoveX() {
+	default LSupplierX<R, RuntimeException> shovingSupX() {
 		return this::shovingDoGet;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LSupplierX<R, X> nonNullableX() {
+	default LSupplierX<R, X> nonNullSup() {
 		return this::nonNullDoGet;
 	}
 
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LSupplier<R> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LSupplier<R> handleSup(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return () -> this.handlingDoGet(handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LSupplierX<R, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LSupplierX<R, Y> handleSupX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return () -> this.handlingDoGet(handling);
 	}
 

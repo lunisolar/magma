@@ -84,7 +84,7 @@ public interface LLongToByteFunction extends LLongToByteFunctionX<RuntimeExcepti
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LByteSupplier capture(long l) {
+	default LByteSupplier captureLongToBFunc(long l) {
 		return () -> this.doApplyAsByte(l);
 	}
 
@@ -112,19 +112,19 @@ public interface LLongToByteFunction extends LLongToByteFunctionX<RuntimeExcepti
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LLongToByteFunction fromLong(@Nonnull final LLongUnaryOperator before1) {
+	default LLongToByteFunction longToBFuncFromLong(@Nonnull final LLongUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsByte(before1.doApplyAsLong(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToByteFunction<V1> from(@Nonnull final LToLongFunction<? super V1> before1) {
+	default <V1> LToByteFunction<V1> longToBFuncFrom(@Nonnull final LToLongFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsByte(before1.doApplyAsLong(v1));
 	}
@@ -201,23 +201,23 @@ public interface LLongToByteFunction extends LLongToByteFunctionX<RuntimeExcepti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LLongToByteFunction nest() {
+	default LLongToByteFunction nestingLongToBFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LLongToByteFunctionX<RuntimeException> nestX() {
+	default LLongToByteFunctionX<RuntimeException> nestingLongToBFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LLongToByteFunction shove() {
+	default LLongToByteFunction shovingLongToBFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LLongToByteFunctionX<RuntimeException> shoveX() {
+	default LLongToByteFunctionX<RuntimeException> shovingLongToBFuncX() {
 		return this;
 	}
 

@@ -95,7 +95,7 @@ public interface LFunction<T, R> extends LFunctionX<T, R, RuntimeException>, Met
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> capture(T t) {
+	default LSupplier<R> captureFunc(T t) {
 		return () -> this.doApply(t);
 	}
 
@@ -129,10 +129,10 @@ public interface LFunction<T, R> extends LFunctionX<T, R, RuntimeException>, Met
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LFunction<V1, R> from(@Nonnull final LFunction<? super V1, ? extends T> before1) {
+	default <V1> LFunction<V1, R> funcFrom(@Nonnull final LFunction<? super V1, ? extends T> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doApply(v1));
 	}
@@ -222,30 +222,30 @@ public interface LFunction<T, R> extends LFunctionX<T, R, RuntimeException>, Met
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LFunction<T, R> nest() {
+	default LFunction<T, R> nestingFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LFunctionX<T, R, RuntimeException> nestX() {
+	default LFunctionX<T, R, RuntimeException> nestingFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFunction<T, R> shove() {
+	default LFunction<T, R> shovingFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFunctionX<T, R, RuntimeException> shoveX() {
+	default LFunctionX<T, R, RuntimeException> shovingFuncX() {
 		return this;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LFunction<T, R> nonNullable() {
+	default LFunction<T, R> nonNullFunc() {
 		return this::nonNullDoApply;
 	}
 

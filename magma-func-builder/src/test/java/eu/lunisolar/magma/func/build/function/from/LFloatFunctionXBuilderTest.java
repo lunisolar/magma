@@ -124,12 +124,14 @@ public class LFloatFunctionXBuilderTest<R,X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApply((float)0).to(a -> a.isEqualTo(Integer.valueOf(0)))
-            .doesApply((float)5).to(a -> a.isEqualTo(Integer.valueOf(1)))
-            .doesApply((float)15).to(a -> a.isEqualTo(Integer.valueOf(2)))
-            .doesApply((float)10).to(a -> a.isEqualTo(Integer.valueOf(99)))
+            .doesApply((float)0).when(null).to(a -> a.isEqualTo(Integer.valueOf(0)))
+            .doesApply((float)5).when(null).to(a -> a.isEqualTo(Integer.valueOf(1)))
+            .doesApply((float)15).when(null).to(a -> a.isEqualTo(Integer.valueOf(2)))
+            .doesApply((float)10).when(null).to(a -> a.isEqualTo(Integer.valueOf(99)))
         ;
 
     }
 
 }
+
+

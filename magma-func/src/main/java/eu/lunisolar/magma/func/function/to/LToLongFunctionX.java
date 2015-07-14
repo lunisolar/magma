@@ -106,7 +106,7 @@ public interface LToLongFunctionX<T, X extends Throwable> extends java.util.func
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LLongSupplierX<X> capture(T t) {
+	default LLongSupplierX<X> captureToLongFunc(T t) {
 		return () -> this.doApplyAsLong(t);
 	}
 
@@ -147,10 +147,10 @@ public interface LToLongFunctionX<T, X extends Throwable> extends java.util.func
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToLongFunctionX<V1, X> from(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1) {
+	default <V1> LToLongFunctionX<V1, X> toLongFuncFrom(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsLong(before1.doApply(v1));
 	}
@@ -227,23 +227,23 @@ public interface LToLongFunctionX<T, X extends Throwable> extends java.util.func
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToLongFunction<T> nest() {
+	default LToLongFunction<T> nestingToLongFunc() {
 		return this::nestingDoApplyAsLong;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToLongFunctionX<T, RuntimeException> nestX() {
+	default LToLongFunctionX<T, RuntimeException> nestingToLongFuncX() {
 		return this::nestingDoApplyAsLong;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToLongFunction<T> shove() {
+	default LToLongFunction<T> shovingToLongFunc() {
 		return this::shovingDoApplyAsLong;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToLongFunctionX<T, RuntimeException> shoveX() {
+	default LToLongFunctionX<T, RuntimeException> shovingToLongFuncX() {
 		return this::shovingDoApplyAsLong;
 	}
 
@@ -252,12 +252,12 @@ public interface LToLongFunctionX<T, X extends Throwable> extends java.util.func
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LToLongFunction<T> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LToLongFunction<T> handleToLongFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return t -> this.handlingDoApplyAsLong(t, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LToLongFunctionX<T, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LToLongFunctionX<T, Y> handleToLongFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return t -> this.handlingDoApplyAsLong(t, handling);
 	}
 

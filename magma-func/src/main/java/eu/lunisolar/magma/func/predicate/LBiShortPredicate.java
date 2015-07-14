@@ -90,7 +90,7 @@ public interface LBiShortPredicate extends LBiShortPredicateX<RuntimeException>,
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier capture(short s1, short s2) {
+	default LBooleanSupplier captureBiSPred(short s1, short s2) {
 		return () -> this.doTest(s1, s2);
 	}
 
@@ -164,20 +164,20 @@ public interface LBiShortPredicate extends LBiShortPredicateX<RuntimeException>,
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LBiShortPredicate fromShort(@Nonnull final LShortUnaryOperator before1, @Nonnull final LShortUnaryOperator before2) {
+	default LBiShortPredicate biSPredFromShort(@Nonnull final LShortUnaryOperator before1, @Nonnull final LShortUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final short v1, final short v2) -> this.doTest(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiPredicate<V1, V2> from(@Nonnull final LToShortFunction<? super V1> before1, @Nonnull final LToShortFunction<? super V2> before2) {
+	default <V1, V2> LBiPredicate<V1, V2> biSPredFrom(@Nonnull final LToShortFunction<? super V1> before1, @Nonnull final LToShortFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doTest(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
@@ -189,7 +189,7 @@ public interface LBiShortPredicate extends LBiShortPredicateX<RuntimeException>,
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LShortBiFunction<V> then(@Nonnull LBooleanFunction<? extends V> after) {
+	default <V> LShortBiFunction<V> boolToShortBiFunction(@Nonnull LBooleanFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (short s1, short s2) -> after.doApply(this.doTest(s1, s2));
 	}
@@ -199,23 +199,23 @@ public interface LBiShortPredicate extends LBiShortPredicateX<RuntimeException>,
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiShortPredicate nest() {
+	default LBiShortPredicate nestingBiSPred() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiShortPredicateX<RuntimeException> nestX() {
+	default LBiShortPredicateX<RuntimeException> nestingBiSPredX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiShortPredicate shove() {
+	default LBiShortPredicate shovingBiSPred() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiShortPredicateX<RuntimeException> shoveX() {
+	default LBiShortPredicateX<RuntimeException> shovingBiSPredX() {
 		return this;
 	}
 

@@ -128,3 +128,5 @@ public class LBooleanToShortFunctionAssertTest<X extends Throwable> {
     }
 
 }
+
+

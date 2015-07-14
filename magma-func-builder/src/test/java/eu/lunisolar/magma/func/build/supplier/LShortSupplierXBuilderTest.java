@@ -125,12 +125,14 @@ public class LShortSupplierXBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesGetAsShort(()->externalInfluence.set(0)).to(a -> a.isEqualTo((short)0))
-            .doesGetAsShort(()->externalInfluence.set(5)).to(a -> a.isEqualTo((short)1))
-            .doesGetAsShort(()->externalInfluence.set(15)).to(a -> a.isEqualTo((short)2))
-            .doesGetAsShort(()->externalInfluence.set(10)).to(a -> a.isEqualTo((short)99))
+            .doesGetAsShort().when(()->externalInfluence.set(0)).to(a -> a.isEqualTo((short)0))
+            .doesGetAsShort().when(()->externalInfluence.set(5)).to(a -> a.isEqualTo((short)1))
+            .doesGetAsShort().when(()->externalInfluence.set(15)).to(a -> a.isEqualTo((short)2))
+            .doesGetAsShort().when(()->externalInfluence.set(10)).to(a -> a.isEqualTo((short)99))
         ;
 
     }
 
 }
+
+

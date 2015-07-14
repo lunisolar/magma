@@ -103,7 +103,7 @@ public interface LDoubleBiFunctionX<R, X extends Throwable> extends MetaFunction
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplierX<R, X> capture(double d1, double d2) {
+	default LSupplierX<R, X> captureDBiFunc(double d1, double d2) {
 		return () -> this.doApply(d1, d2);
 	}
 
@@ -138,20 +138,20 @@ public interface LDoubleBiFunctionX<R, X extends Throwable> extends MetaFunction
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LDoubleBiFunctionX<R, X> fromDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1, @Nonnull final LDoubleUnaryOperatorX<X> before2) {
+	default LDoubleBiFunctionX<R, X> dBiFuncFromDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1, @Nonnull final LDoubleUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final double v1, final double v2) -> this.doApply(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiFunctionX<V1, V2, R, X> from(@Nonnull final LToDoubleFunctionX<? super V1, X> before1, @Nonnull final LToDoubleFunctionX<? super V2, X> before2) {
+	default <V1, V2> LBiFunctionX<V1, V2, R, X> dBiFuncFrom(@Nonnull final LToDoubleFunctionX<? super V1, X> before1, @Nonnull final LToDoubleFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApply(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
@@ -180,42 +180,42 @@ public interface LDoubleBiFunctionX<R, X extends Throwable> extends MetaFunction
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoubleBiFunction<R> nest() {
+	default LDoubleBiFunction<R> nestingDBiFunc() {
 		return this::nestingDoApply;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoubleBiFunctionX<R, RuntimeException> nestX() {
+	default LDoubleBiFunctionX<R, RuntimeException> nestingDBiFuncX() {
 		return this::nestingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleBiFunction<R> shove() {
+	default LDoubleBiFunction<R> shovingDBiFunc() {
 		return this::shovingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleBiFunctionX<R, RuntimeException> shoveX() {
+	default LDoubleBiFunctionX<R, RuntimeException> shovingDBiFuncX() {
 		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LDoubleBiFunctionX<R, X> nonNullableX() {
+	default LDoubleBiFunctionX<R, X> nonNullDBiFunc() {
 		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LDoubleBiFunction<R> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LDoubleBiFunction<R> handleDBiFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (double d1, double d2) -> this.handlingDoApply(d1, d2, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LDoubleBiFunctionX<R, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LDoubleBiFunctionX<R, Y> handleDBiFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (double d1, double d2) -> this.handlingDoApply(d1, d2, handling);
 	}
 

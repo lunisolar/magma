@@ -88,6 +88,7 @@ public class FileProcessor {
     private void rootContext(String line) throws IOException {
         if (JAVA_DOC_BEGIN.matcher(line).matches()) {
             enterContext(this::javaDocComment);
+            print("");
             return;
         }
 
@@ -133,6 +134,7 @@ public class FileProcessor {
     private void javaDocComment(String line) throws IOException {
         if (JAVA_DOC_END.matcher(line).matches()) {
             exit();
+            print("");
             return;
         }
 

@@ -124,12 +124,14 @@ public class LByteToShortFunctionBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsShort((byte)0).to(a -> a.isEqualTo((short)0))
-            .doesApplyAsShort((byte)5).to(a -> a.isEqualTo((short)1))
-            .doesApplyAsShort((byte)15).to(a -> a.isEqualTo((short)2))
-            .doesApplyAsShort((byte)10).to(a -> a.isEqualTo((short)99))
+            .doesApplyAsShort((byte)0).when(null).to(a -> a.isEqualTo((short)0))
+            .doesApplyAsShort((byte)5).when(null).to(a -> a.isEqualTo((short)1))
+            .doesApplyAsShort((byte)15).when(null).to(a -> a.isEqualTo((short)2))
+            .doesApplyAsShort((byte)10).when(null).to(a -> a.isEqualTo((short)99))
         ;
 
     }
 
 }
+
+

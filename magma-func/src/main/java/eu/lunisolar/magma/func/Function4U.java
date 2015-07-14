@@ -394,6 +394,7 @@ public final class Function4U {
 	// </editor-fold>
 
 	// <editor-fold desc="wrapper for lambda- JRE">
+
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods axceptiong different interfaces). */
 	public static <T> java.util.function.UnaryOperator l(final java.util.function.UnaryOperator<T> lambda) {
 		return lambda;

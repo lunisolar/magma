@@ -91,7 +91,7 @@ public interface LToDoubleFunction<T> extends LToDoubleFunctionX<T, RuntimeExcep
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LDoubleSupplier capture(T t) {
+	default LDoubleSupplier captureToDFunc(T t) {
 		return () -> this.doApplyAsDouble(t);
 	}
 
@@ -125,10 +125,10 @@ public interface LToDoubleFunction<T> extends LToDoubleFunctionX<T, RuntimeExcep
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToDoubleFunction<V1> from(@Nonnull final LFunction<? super V1, ? extends T> before1) {
+	default <V1> LToDoubleFunction<V1> toDFuncFrom(@Nonnull final LFunction<? super V1, ? extends T> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsDouble(before1.doApply(v1));
 	}
@@ -205,23 +205,23 @@ public interface LToDoubleFunction<T> extends LToDoubleFunctionX<T, RuntimeExcep
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToDoubleFunction<T> nest() {
+	default LToDoubleFunction<T> nestingToDFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToDoubleFunctionX<T, RuntimeException> nestX() {
+	default LToDoubleFunctionX<T, RuntimeException> nestingToDFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToDoubleFunction<T> shove() {
+	default LToDoubleFunction<T> shovingToDFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToDoubleFunctionX<T, RuntimeException> shoveX() {
+	default LToDoubleFunctionX<T, RuntimeException> shovingToDFuncX() {
 		return this;
 	}
 

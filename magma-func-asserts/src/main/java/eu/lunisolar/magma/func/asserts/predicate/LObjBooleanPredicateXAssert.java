@@ -26,7 +26,16 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
 import eu.lunisolar.magma.func.predicate.*;
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
@@ -35,10 +44,10 @@ import static org.assertj.core.api.Fail.fail;
 public interface LObjBooleanPredicateXAssert<S extends LObjBooleanPredicateXAssert<S, A, RS, T, X>, A extends LObjBooleanPredicateX<T, X>, RS extends AbstractBooleanAssert<RS>, T, X extends Throwable>
 		extends
 			Assert<S, A>,
-			FullFunctionalAssert<S, A, RS, Boolean, Exception> {
+			FullFunctionalAssert<S, LObjBooleanConsumerX<T, Exception>, A, RS, Boolean, Exception> {
 
 	@Nonnull
-	Evaluation<S, A, RS, Boolean, Exception> doesTest(T t, boolean b);
+	Evaluation<S, LObjBooleanConsumerX<T, Exception>, A, RS, Boolean, Exception> doesTest(T t, boolean b);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends LObjBooleanPredicateX<T, X>, RS extends AbstractBooleanAssert<RS>, T, X extends Throwable> extends Base<Impl<A, RS, T, X>, A, RS, T, X> {
@@ -49,9 +58,9 @@ public interface LObjBooleanPredicateXAssert<S extends LObjBooleanPredicateXAsse
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, T, X>, A extends LObjBooleanPredicateX<T, X>, RS extends AbstractBooleanAssert<RS>, T, X extends Throwable> extends FullFunctionalAssert.Base<S, A, RS, Boolean, Exception>
-			implements
-				LObjBooleanPredicateXAssert<S, A, RS, T, X> {
+	public static class Base<S extends Base<S, A, RS, T, X>, A extends LObjBooleanPredicateX<T, X>, RS extends AbstractBooleanAssert<RS>, T, X extends Throwable>
+			extends
+				FullFunctionalAssert.Base<S, LObjBooleanConsumerX<T, Exception>, A, RS, Boolean, Exception> implements LObjBooleanPredicateXAssert<S, A, RS, T, X> {
 
 		protected final java.util.function.Function<Boolean, RS> assertFactory;
 
@@ -61,8 +70,15 @@ public interface LObjBooleanPredicateXAssert<S extends LObjBooleanPredicateXAsse
 		}
 
 		@Nonnull
-		public Evaluation<S, A, RS, Boolean, Exception> doesTest(T t, boolean b) {
-			return evaluation(() -> assertFactory.apply((Boolean) actual.doTest(t, b)));
+		public Evaluation<S, LObjBooleanConsumerX<T, Exception>, A, RS, Boolean, Exception> doesTest(T t, boolean b) {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doAccept(t, b);
+				}
+				return assertFactory.apply((Boolean) actual.doTest(t, b));
+			});
+
 		}
 
 	}

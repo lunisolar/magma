@@ -108,63 +108,63 @@ public interface LFloatSupplier extends LFloatSupplierX<RuntimeException>, MetaS
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default <V> LSupplier<V> then(@Nonnull LFloatFunction<? extends V> after) {
+	default <V> LSupplier<V> toSupplier(@Nonnull LFloatFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApply(this.doGetAsFloat());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LByteSupplier thenToByte(@Nonnull LFloatToByteFunction after) {
+	default LByteSupplier toByteSupplier(@Nonnull LFloatToByteFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsByte(this.doGetAsFloat());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LShortSupplier thenToShort(@Nonnull LFloatToShortFunction after) {
+	default LShortSupplier toShortSupplier(@Nonnull LFloatToShortFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsShort(this.doGetAsFloat());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LIntSupplier thenToInt(@Nonnull LFloatToIntFunction after) {
+	default LIntSupplier toIntSupplier(@Nonnull LFloatToIntFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsInt(this.doGetAsFloat());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LLongSupplier thenToLong(@Nonnull LFloatToLongFunction after) {
+	default LLongSupplier toLongSupplier(@Nonnull LFloatToLongFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsLong(this.doGetAsFloat());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LFloatSupplier thenToFloat(@Nonnull LFloatUnaryOperator after) {
+	default LFloatSupplier toFloatSupplier(@Nonnull LFloatUnaryOperator after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsFloat(this.doGetAsFloat());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LDoubleSupplier thenToDouble(@Nonnull LFloatToDoubleFunction after) {
+	default LDoubleSupplier toDoubleSupplier(@Nonnull LFloatToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsDouble(this.doGetAsFloat());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LCharSupplier thenToChar(@Nonnull LFloatToCharFunction after) {
+	default LCharSupplier toCharSupplier(@Nonnull LFloatToCharFunction after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsChar(this.doGetAsFloat());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LBooleanSupplier thenToBoolean(@Nonnull LFloatPredicate after) {
+	default LBooleanSupplier toBooleanSupplier(@Nonnull LFloatPredicate after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doTest(this.doGetAsFloat());
 	}
@@ -174,23 +174,23 @@ public interface LFloatSupplier extends LFloatSupplierX<RuntimeException>, MetaS
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LFloatSupplier nest() {
+	default LFloatSupplier nestingFSup() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LFloatSupplierX<RuntimeException> nestX() {
+	default LFloatSupplierX<RuntimeException> nestingFSupX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatSupplier shove() {
+	default LFloatSupplier shovingFSup() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatSupplierX<RuntimeException> shoveX() {
+	default LFloatSupplierX<RuntimeException> shovingFSupX() {
 		return this;
 	}
 

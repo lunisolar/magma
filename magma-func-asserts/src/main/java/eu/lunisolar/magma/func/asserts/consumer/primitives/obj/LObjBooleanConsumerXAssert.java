@@ -26,16 +26,25 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
 import eu.lunisolar.magma.func.consumer.primitives.obj.*;
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LObjBooleanConsumerX. */
-public interface LObjBooleanConsumerXAssert<S extends LObjBooleanConsumerXAssert<S, A, T, X>, A extends LObjBooleanConsumerX<T, X>, T, X extends Throwable> extends Assert<S, A>, FunctionalAssert.Simple<S, A, Exception> {
+public interface LObjBooleanConsumerXAssert<S extends LObjBooleanConsumerXAssert<S, A, T, X>, A extends LObjBooleanConsumerX<T, X>, T, X extends Throwable> extends Assert<S, A>, FunctionalAssert.Simple<S, LObjBooleanConsumerX<T, Exception>, A, Exception> {
 
 	@Nonnull
-	SemiEvaluation<S, A, Exception> doesAccept(T t, boolean b);
+	SemiEvaluation<S, LObjBooleanConsumerX<T, Exception>, A, Exception> doesAccept(T t, boolean b);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends LObjBooleanConsumerX<T, X>, T, X extends Throwable> extends Base<Impl<A, T, X>, A, T, X> {
@@ -46,15 +55,25 @@ public interface LObjBooleanConsumerXAssert<S extends LObjBooleanConsumerXAssert
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, T, X>, A extends LObjBooleanConsumerX<T, X>, T, X extends Throwable> extends FunctionalAssert.Simple.Base<S, A, Exception> implements LObjBooleanConsumerXAssert<S, A, T, X> {
+	public static class Base<S extends Base<S, A, T, X>, A extends LObjBooleanConsumerX<T, X>, T, X extends Throwable> extends FunctionalAssert.Simple.Base<S, LObjBooleanConsumerX<T, Exception>, A, Exception>
+			implements
+				LObjBooleanConsumerXAssert<S, A, T, X> {
 
 		public Base(A actual, Class<?> selfType) {
 			super(actual, selfType);
 		}
 
 		@Nonnull
-		public SemiEvaluation<S, A, Exception> doesAccept(T t, boolean b) {
-			return evaluation(() -> actual.doAccept(t, b));
+		public SemiEvaluation<S, LObjBooleanConsumerX<T, Exception>, A, Exception> doesAccept(T t, boolean b) {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doAccept(t, b);
+				}
+				actual.doAccept(t, b);
+				return null;
+			});
+
 		}
 
 	}

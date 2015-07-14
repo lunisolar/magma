@@ -26,16 +26,28 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
 import eu.lunisolar.magma.func.function.to.*;
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LObjIntToIntFunction. */
-public interface LObjIntToIntFunctionAssert<S extends LObjIntToIntFunctionAssert<S, A, RS, T>, A extends LObjIntToIntFunction<T>, RS extends AbstractIntegerAssert<RS>, T> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, Integer, Exception> {
+public interface LObjIntToIntFunctionAssert<S extends LObjIntToIntFunctionAssert<S, A, RS, T>, A extends LObjIntToIntFunction<T>, RS extends AbstractIntegerAssert<RS>, T>
+		extends
+			Assert<S, A>,
+			FullFunctionalAssert<S, LObjIntConsumerX<T, Exception>, A, RS, Integer, Exception> {
 
 	@Nonnull
-	Evaluation<S, A, RS, Integer, Exception> doesApplyAsInt(T t, int i);
+	Evaluation<S, LObjIntConsumerX<T, Exception>, A, RS, Integer, Exception> doesApplyAsInt(T t, int i);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends LObjIntToIntFunction<T>, RS extends AbstractIntegerAssert<RS>, T> extends Base<Impl<A, RS, T>, A, RS, T> {
@@ -46,7 +58,9 @@ public interface LObjIntToIntFunctionAssert<S extends LObjIntToIntFunctionAssert
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, T>, A extends LObjIntToIntFunction<T>, RS extends AbstractIntegerAssert<RS>, T> extends FullFunctionalAssert.Base<S, A, RS, Integer, Exception> implements LObjIntToIntFunctionAssert<S, A, RS, T> {
+	public static class Base<S extends Base<S, A, RS, T>, A extends LObjIntToIntFunction<T>, RS extends AbstractIntegerAssert<RS>, T> extends FullFunctionalAssert.Base<S, LObjIntConsumerX<T, Exception>, A, RS, Integer, Exception>
+			implements
+				LObjIntToIntFunctionAssert<S, A, RS, T> {
 
 		protected final java.util.function.Function<Integer, RS> assertFactory;
 
@@ -56,8 +70,15 @@ public interface LObjIntToIntFunctionAssert<S extends LObjIntToIntFunctionAssert
 		}
 
 		@Nonnull
-		public Evaluation<S, A, RS, Integer, Exception> doesApplyAsInt(T t, int i) {
-			return evaluation(() -> assertFactory.apply((Integer) actual.doApplyAsInt(t, i)));
+		public Evaluation<S, LObjIntConsumerX<T, Exception>, A, RS, Integer, Exception> doesApplyAsInt(T t, int i) {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doAccept(t, i);
+				}
+				return assertFactory.apply((Integer) actual.doApplyAsInt(t, i));
+			});
+
 		}
 
 	}

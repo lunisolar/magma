@@ -191,7 +191,7 @@ public class LObjBooleanPredicateXTest<T,X extends ParseException> {
         });
 
         // when
-        LObjBooleanPredicateX<T,X> wrapped = sutThrowing.handleX(handler -> handler
+        LObjBooleanPredicateX<T,X> wrapped = sutThrowing.handleObjBoolPredX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -215,7 +215,7 @@ public class LObjBooleanPredicateXTest<T,X extends ParseException> {
         });
 
         // when
-        LObjBooleanPredicateX<T,X> wrapped = sutThrowing.handleX(handler -> handler
+        LObjBooleanPredicateX<T,X> wrapped = sutThrowing.handleObjBoolPredX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -239,7 +239,7 @@ public class LObjBooleanPredicateXTest<T,X extends ParseException> {
         });
 
         // when
-        LObjBooleanPredicateX<T,X> wrapped = sutThrowing.handleX(handler -> handler
+        LObjBooleanPredicateX<T,X> wrapped = sutThrowing.handleObjBoolPredX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -264,7 +264,7 @@ public class LObjBooleanPredicateXTest<T,X extends ParseException> {
         });
 
         // when
-        LObjBooleanPredicateX<T,X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
+        LObjBooleanPredicateX<T,X> wrapped = sutThrowing.handleObjBoolPredX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -279,7 +279,7 @@ public class LObjBooleanPredicateXTest<T,X extends ParseException> {
     }
 
     @Test
-    public void testNegate() throws X {
+    public void testnegate() throws X {
         assertThat(sut.negate().doTest((T)Integer.valueOf(100),true))
             .isEqualTo(!testValue);
     }
@@ -336,7 +336,7 @@ public class LObjBooleanPredicateXTest<T,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromBoolean() throws X {
+    public void testobjBoolPredFromBoolean() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -354,14 +354,14 @@ public class LObjBooleanPredicateXTest<T,X extends ParseException> {
             beforeCalls.incrementAndGet();
             return 90;
         };
-        LBooleanUnaryOperatorX<X> before2 = p1 -> {
+        LLogicalOperatorX<X> before2 = p1 -> {
             assertThat(p1).isEqualTo(true);
             beforeCalls.incrementAndGet();
             return true;
         };
 
         //when
-        LObjBooleanPredicateX<Integer ,X> function = sutO.fromBoolean(before1,before2);
+        LObjBooleanPredicateX<Integer ,X> function = sutO.objBoolPredFromBoolean(before1,before2);
         function.doTest((Integer )Integer.valueOf(80),true);
 
         //then - finals
@@ -371,7 +371,7 @@ public class LObjBooleanPredicateXTest<T,X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws X {
+    public void testobjBoolPredFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -396,7 +396,7 @@ public class LObjBooleanPredicateXTest<T,X extends ParseException> {
         };
 
         //when
-        LBiPredicateX<Integer ,Integer ,X> function = sutO.from(before1,before2);
+        LBiPredicateX<Integer ,Integer ,X> function = sutO.objBoolPredFrom(before1,before2);
         function.doTest((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
@@ -433,7 +433,7 @@ public class LObjBooleanPredicateXTest<T,X extends ParseException> {
         };
 
         //when
-        LObjBooleanFunctionX<Integer ,Integer ,X> function = sutO.then(thenFunction);
+        LObjBooleanFunctionX<Integer ,Integer ,X> function = sutO.boolToObjBooleanFunction(thenFunction);
         Integer  finalValue = function.doApply((Integer )Integer.valueOf(80),true);
 
         //then - finals
@@ -449,25 +449,25 @@ public class LObjBooleanPredicateXTest<T,X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingObjBoolPred())
             .isInstanceOf(LObjBooleanPredicate.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingObjBoolPred())
             .isInstanceOf(LObjBooleanPredicate.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingObjBoolPredX())
             .isInstanceOf(LObjBooleanPredicateX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingObjBoolPredX())
             .isInstanceOf(LObjBooleanPredicateX.class);
     }
 
@@ -480,11 +480,11 @@ public class LObjBooleanPredicateXTest<T,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doTest((T)Integer.valueOf(100),true);
+        sutThrowing.shovingObjBoolPred().doTest((T)Integer.valueOf(100),true);
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleObjBoolPred() throws X {
 
         // given
         LObjBooleanPredicateX<T,X> sutThrowing = LObjBooleanPredicateX.lX((T t, boolean b) -> {
@@ -492,7 +492,7 @@ public class LObjBooleanPredicateXTest<T,X extends ParseException> {
         });
 
         // when
-        LObjBooleanPredicateX<T,X> wrapped = sutThrowing.handleX(h -> {
+        LObjBooleanPredicateX<T,X> wrapped = sutThrowing.handleObjBoolPredX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -529,3 +529,5 @@ public class LObjBooleanPredicateXTest<T,X extends ParseException> {
 
 
 }
+
+

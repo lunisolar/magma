@@ -80,7 +80,7 @@ public interface LBooleanBiConsumer extends LBooleanBiConsumerX<RuntimeException
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LAction capture(boolean b1, boolean b2) {
+	default LAction captureBoolBiCons(boolean b1, boolean b2) {
 		return () -> this.doAccept(b1, b2);
 	}
 
@@ -104,23 +104,23 @@ public interface LBooleanBiConsumer extends LBooleanBiConsumerX<RuntimeException
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LBooleanBiConsumer fromBoolean(@Nonnull final LBooleanUnaryOperator before1, @Nonnull final LBooleanUnaryOperator before2) {
+	default LBooleanBiConsumer boolBiConsFromBoolean(@Nonnull final LLogicalOperator before1, @Nonnull final LLogicalOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (final boolean v1, final boolean v2) -> this.doAccept(before1.doApplyAsBoolean(v1), before2.doApplyAsBoolean(v2));
+		return (final boolean v1, final boolean v2) -> this.doAccept(before1.doApply(v1), before2.doApply(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiConsumer<V1, V2> from(@Nonnull final LPredicate<? super V1> before1, @Nonnull final LPredicate<? super V2> before2) {
+	default <V1, V2> LBiConsumer<V1, V2> boolBiConsFrom(@Nonnull final LPredicate<? super V1> before1, @Nonnull final LPredicate<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
-		return (V1 v1, V2 v2) -> this.doAccept(before1.doApplyAsBoolean(v1), before2.doApplyAsBoolean(v2));
+		return (V1 v1, V2 v2) -> this.doAccept(before1.doTest(v1), before2.doTest(v2));
 	}
 
 	// </editor-fold>
@@ -141,23 +141,23 @@ public interface LBooleanBiConsumer extends LBooleanBiConsumerX<RuntimeException
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanBiConsumer nest() {
+	default LBooleanBiConsumer nestingBoolBiCons() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanBiConsumerX<RuntimeException> nestX() {
+	default LBooleanBiConsumerX<RuntimeException> nestingBoolBiConsX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanBiConsumer shove() {
+	default LBooleanBiConsumer shovingBoolBiCons() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanBiConsumerX<RuntimeException> shoveX() {
+	default LBooleanBiConsumerX<RuntimeException> shovingBoolBiConsX() {
 		return this;
 	}
 

@@ -124,12 +124,14 @@ public class LCharBiFunctionBuilderTest<R,X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApply((char)0,(char)0).to(a -> a.isEqualTo(Integer.valueOf(0)))
-            .doesApply((char)5,(char)5).to(a -> a.isEqualTo(Integer.valueOf(1)))
-            .doesApply((char)15,(char)15).to(a -> a.isEqualTo(Integer.valueOf(2)))
-            .doesApply((char)10,(char)10).to(a -> a.isEqualTo(Integer.valueOf(99)))
+            .doesApply((char)0,(char)0).when(null).to(a -> a.isEqualTo(Integer.valueOf(0)))
+            .doesApply((char)5,(char)5).when(null).to(a -> a.isEqualTo(Integer.valueOf(1)))
+            .doesApply((char)15,(char)15).when(null).to(a -> a.isEqualTo(Integer.valueOf(2)))
+            .doesApply((char)10,(char)10).when(null).to(a -> a.isEqualTo(Integer.valueOf(99)))
         ;
 
     }
 
 }
+
+

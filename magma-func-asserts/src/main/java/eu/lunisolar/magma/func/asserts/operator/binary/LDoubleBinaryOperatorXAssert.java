@@ -26,7 +26,16 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.binary.*;
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
@@ -35,10 +44,10 @@ import static org.assertj.core.api.Fail.fail;
 public interface LDoubleBinaryOperatorXAssert<S extends LDoubleBinaryOperatorXAssert<S, A, RS, X>, A extends LDoubleBinaryOperatorX<X>, RS extends AbstractDoubleAssert<RS>, X extends Throwable>
 		extends
 			Assert<S, A>,
-			FullFunctionalAssert<S, A, RS, Double, Exception> {
+			FullFunctionalAssert<S, LDoubleBiConsumerX<Exception>, A, RS, Double, Exception> {
 
 	@Nonnull
-	Evaluation<S, A, RS, Double, Exception> doesApplyAsDouble(double d1, double d2);
+	Evaluation<S, LDoubleBiConsumerX<Exception>, A, RS, Double, Exception> doesApplyAsDouble(double d1, double d2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends LDoubleBinaryOperatorX<X>, RS extends AbstractDoubleAssert<RS>, X extends Throwable> extends Base<Impl<A, RS, X>, A, RS, X> {
@@ -49,7 +58,7 @@ public interface LDoubleBinaryOperatorXAssert<S extends LDoubleBinaryOperatorXAs
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, X>, A extends LDoubleBinaryOperatorX<X>, RS extends AbstractDoubleAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, A, RS, Double, Exception>
+	public static class Base<S extends Base<S, A, RS, X>, A extends LDoubleBinaryOperatorX<X>, RS extends AbstractDoubleAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, LDoubleBiConsumerX<Exception>, A, RS, Double, Exception>
 			implements
 				LDoubleBinaryOperatorXAssert<S, A, RS, X> {
 
@@ -61,8 +70,15 @@ public interface LDoubleBinaryOperatorXAssert<S extends LDoubleBinaryOperatorXAs
 		}
 
 		@Nonnull
-		public Evaluation<S, A, RS, Double, Exception> doesApplyAsDouble(double d1, double d2) {
-			return evaluation(() -> assertFactory.apply((Double) actual.doApplyAsDouble(d1, d2)));
+		public Evaluation<S, LDoubleBiConsumerX<Exception>, A, RS, Double, Exception> doesApplyAsDouble(double d1, double d2) {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doAccept(d1, d2);
+				}
+				return assertFactory.apply((Double) actual.doApplyAsDouble(d1, d2));
+			});
+
 		}
 
 	}

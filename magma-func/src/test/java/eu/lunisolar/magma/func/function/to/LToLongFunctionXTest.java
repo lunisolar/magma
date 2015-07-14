@@ -192,7 +192,7 @@ public class LToLongFunctionXTest<T,X extends ParseException> {
         });
 
         // when
-        LToLongFunctionX<T,X> wrapped = sutThrowing.handleX(handler -> handler
+        LToLongFunctionX<T,X> wrapped = sutThrowing.handleToLongFuncX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -216,7 +216,7 @@ public class LToLongFunctionXTest<T,X extends ParseException> {
         });
 
         // when
-        LToLongFunctionX<T,X> wrapped = sutThrowing.handleX(handler -> handler
+        LToLongFunctionX<T,X> wrapped = sutThrowing.handleToLongFuncX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -240,7 +240,7 @@ public class LToLongFunctionXTest<T,X extends ParseException> {
         });
 
         // when
-        LToLongFunctionX<T,X> wrapped = sutThrowing.handleX(handler -> handler
+        LToLongFunctionX<T,X> wrapped = sutThrowing.handleToLongFuncX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -265,7 +265,7 @@ public class LToLongFunctionXTest<T,X extends ParseException> {
         });
 
         // when
-        LToLongFunctionX<T,X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
+        LToLongFunctionX<T,X> wrapped = sutThrowing.handleToLongFuncX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -284,7 +284,7 @@ public class LToLongFunctionXTest<T,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfrom() throws X {
+    public void testtoLongFuncFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -303,7 +303,7 @@ public class LToLongFunctionXTest<T,X extends ParseException> {
         };
 
         //when
-        LToLongFunctionX<Integer ,X> function = sutO.from(before1);
+        LToLongFunctionX<Integer ,X> function = sutO.toLongFuncFrom(before1);
         function.doApplyAsLong((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -635,25 +635,25 @@ public class LToLongFunctionXTest<T,X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingToLongFunc())
             .isInstanceOf(LToLongFunction.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingToLongFunc())
             .isInstanceOf(LToLongFunction.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingToLongFuncX())
             .isInstanceOf(LToLongFunctionX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingToLongFuncX())
             .isInstanceOf(LToLongFunctionX.class);
     }
 
@@ -666,11 +666,11 @@ public class LToLongFunctionXTest<T,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doApplyAsLong((T)Integer.valueOf(100));
+        sutThrowing.shovingToLongFunc().doApplyAsLong((T)Integer.valueOf(100));
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleToLongFunc() throws X {
 
         // given
         LToLongFunctionX<T,X> sutThrowing = LToLongFunctionX.lX(t -> {
@@ -678,7 +678,7 @@ public class LToLongFunctionXTest<T,X extends ParseException> {
         });
 
         // when
-        LToLongFunctionX<T,X> wrapped = sutThrowing.handleX(h -> {
+        LToLongFunctionX<T,X> wrapped = sutThrowing.handleToLongFuncX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -715,3 +715,5 @@ public class LToLongFunctionXTest<T,X extends ParseException> {
 
 
 }
+
+

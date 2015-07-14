@@ -124,12 +124,14 @@ public class LShortToIntFunctionBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsInt((short)0).to(a -> a.isEqualTo((int)0))
-            .doesApplyAsInt((short)5).to(a -> a.isEqualTo((int)1))
-            .doesApplyAsInt((short)15).to(a -> a.isEqualTo((int)2))
-            .doesApplyAsInt((short)10).to(a -> a.isEqualTo((int)99))
+            .doesApplyAsInt((short)0).when(null).to(a -> a.isEqualTo((int)0))
+            .doesApplyAsInt((short)5).when(null).to(a -> a.isEqualTo((int)1))
+            .doesApplyAsInt((short)15).when(null).to(a -> a.isEqualTo((int)2))
+            .doesApplyAsInt((short)10).when(null).to(a -> a.isEqualTo((int)99))
         ;
 
     }
 
 }
+
+

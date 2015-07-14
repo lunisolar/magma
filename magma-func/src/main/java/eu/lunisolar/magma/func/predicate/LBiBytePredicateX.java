@@ -105,7 +105,7 @@ public interface LBiBytePredicateX<X extends Throwable> extends MetaPredicate, P
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> capture(byte b1, byte b2) {
+	default LBooleanSupplierX<X> captureBiBPred(byte b1, byte b2) {
 		return () -> this.doTest(b1, b2);
 	}
 
@@ -186,20 +186,20 @@ public interface LBiBytePredicateX<X extends Throwable> extends MetaPredicate, P
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LBiBytePredicateX<X> fromByte(@Nonnull final LByteUnaryOperatorX<X> before1, @Nonnull final LByteUnaryOperatorX<X> before2) {
+	default LBiBytePredicateX<X> biBPredFromByte(@Nonnull final LByteUnaryOperatorX<X> before1, @Nonnull final LByteUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final byte v1, final byte v2) -> this.doTest(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiPredicateX<V1, V2, X> from(@Nonnull final LToByteFunctionX<? super V1, X> before1, @Nonnull final LToByteFunctionX<? super V2, X> before2) {
+	default <V1, V2> LBiPredicateX<V1, V2, X> biBPredFrom(@Nonnull final LToByteFunctionX<? super V1, X> before1, @Nonnull final LToByteFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doTest(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
@@ -211,7 +211,7 @@ public interface LBiBytePredicateX<X extends Throwable> extends MetaPredicate, P
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LByteBiFunctionX<V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LByteBiFunctionX<V, X> boolToByteBiFunction(@Nonnull LBooleanFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (byte b1, byte b2) -> after.doApply(this.doTest(b1, b2));
 	}
@@ -221,23 +221,23 @@ public interface LBiBytePredicateX<X extends Throwable> extends MetaPredicate, P
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiBytePredicate nest() {
+	default LBiBytePredicate nestingBiBPred() {
 		return this::nestingDoTest;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiBytePredicateX<RuntimeException> nestX() {
+	default LBiBytePredicateX<RuntimeException> nestingBiBPredX() {
 		return this::nestingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiBytePredicate shove() {
+	default LBiBytePredicate shovingBiBPred() {
 		return this::shovingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiBytePredicateX<RuntimeException> shoveX() {
+	default LBiBytePredicateX<RuntimeException> shovingBiBPredX() {
 		return this::shovingDoTest;
 	}
 
@@ -246,12 +246,12 @@ public interface LBiBytePredicateX<X extends Throwable> extends MetaPredicate, P
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LBiBytePredicate handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LBiBytePredicate handleBiBPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (byte b1, byte b2) -> this.handlingDoTest(b1, b2, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LBiBytePredicateX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LBiBytePredicateX<Y> handleBiBPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (byte b1, byte b2) -> this.handlingDoTest(b1, b2, handling);
 	}
 

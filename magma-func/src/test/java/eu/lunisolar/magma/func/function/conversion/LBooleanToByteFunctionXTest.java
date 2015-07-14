@@ -184,7 +184,7 @@ public class LBooleanToByteFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LBooleanToByteFunctionX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LBooleanToByteFunctionX<X> wrapped = sutThrowing.handleBoolToBFuncX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -208,7 +208,7 @@ public class LBooleanToByteFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LBooleanToByteFunctionX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LBooleanToByteFunctionX<X> wrapped = sutThrowing.handleBoolToBFuncX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -232,7 +232,7 @@ public class LBooleanToByteFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LBooleanToByteFunctionX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LBooleanToByteFunctionX<X> wrapped = sutThrowing.handleBoolToBFuncX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -257,7 +257,7 @@ public class LBooleanToByteFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LBooleanToByteFunctionX<X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
+        LBooleanToByteFunctionX<X> wrapped = sutThrowing.handleBoolToBFuncX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -276,7 +276,7 @@ public class LBooleanToByteFunctionXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromBoolean() throws X {
+    public void testboolToBFuncFromBoolean() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -288,14 +288,14 @@ public class LBooleanToByteFunctionXTest<X extends ParseException> {
                 return (byte)100;
         };
 
-        LBooleanUnaryOperatorX<X> before1 = p0 -> {
+        LLogicalOperatorX<X> before1 = p0 -> {
             assertThat(p0).isEqualTo(true);
             beforeCalls.incrementAndGet();
             return true;
         };
 
         //when
-        LBooleanToByteFunctionX<X> function = sutO.fromBoolean(before1);
+        LBooleanToByteFunctionX<X> function = sutO.boolToBFuncFromBoolean(before1);
         function.doApplyAsByte(true);
 
         //then - finals
@@ -305,7 +305,7 @@ public class LBooleanToByteFunctionXTest<X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws X {
+    public void testboolToBFuncFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -324,7 +324,7 @@ public class LBooleanToByteFunctionXTest<X extends ParseException> {
         };
 
         //when
-        LToByteFunctionX<Integer ,X> function = sutO.from(before1);
+        LToByteFunctionX<Integer ,X> function = sutO.boolToBFuncFrom(before1);
         function.doApplyAsByte((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -640,8 +640,8 @@ public class LBooleanToByteFunctionXTest<X extends ParseException> {
         };
 
         //when
-        LBooleanUnaryOperatorX<X> function = sutO.thenToBoolean(thenFunction);
-        boolean finalValue = function.doApplyAsBoolean(true);
+        LLogicalOperatorX<X> function = sutO.thenToBoolean(thenFunction);
+        boolean finalValue = function.doApply(true);
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);
@@ -656,25 +656,25 @@ public class LBooleanToByteFunctionXTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingBoolToBFunc())
             .isInstanceOf(LBooleanToByteFunction.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingBoolToBFunc())
             .isInstanceOf(LBooleanToByteFunction.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingBoolToBFuncX())
             .isInstanceOf(LBooleanToByteFunctionX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingBoolToBFuncX())
             .isInstanceOf(LBooleanToByteFunctionX.class);
     }
 
@@ -687,11 +687,11 @@ public class LBooleanToByteFunctionXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doApplyAsByte(true);
+        sutThrowing.shovingBoolToBFunc().doApplyAsByte(true);
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleBoolToBFunc() throws X {
 
         // given
         LBooleanToByteFunctionX<X> sutThrowing = LBooleanToByteFunctionX.lX(b -> {
@@ -699,7 +699,7 @@ public class LBooleanToByteFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LBooleanToByteFunctionX<X> wrapped = sutThrowing.handleX(h -> {
+        LBooleanToByteFunctionX<X> wrapped = sutThrowing.handleBoolToBFuncX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -736,3 +736,5 @@ public class LBooleanToByteFunctionXTest<X extends ParseException> {
 
 
 }
+
+

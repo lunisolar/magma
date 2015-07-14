@@ -91,7 +91,7 @@ public interface LToIntFunction<T> extends LToIntFunctionX<T, RuntimeException>,
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LIntSupplier capture(T t) {
+	default LIntSupplier captureToIFunc(T t) {
 		return () -> this.doApplyAsInt(t);
 	}
 
@@ -125,10 +125,10 @@ public interface LToIntFunction<T> extends LToIntFunctionX<T, RuntimeException>,
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToIntFunction<V1> from(@Nonnull final LFunction<? super V1, ? extends T> before1) {
+	default <V1> LToIntFunction<V1> toIFuncFrom(@Nonnull final LFunction<? super V1, ? extends T> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsInt(before1.doApply(v1));
 	}
@@ -205,23 +205,23 @@ public interface LToIntFunction<T> extends LToIntFunctionX<T, RuntimeException>,
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToIntFunction<T> nest() {
+	default LToIntFunction<T> nestingToIFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToIntFunctionX<T, RuntimeException> nestX() {
+	default LToIntFunctionX<T, RuntimeException> nestingToIFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToIntFunction<T> shove() {
+	default LToIntFunction<T> shovingToIFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToIntFunctionX<T, RuntimeException> shoveX() {
+	default LToIntFunctionX<T, RuntimeException> shovingToIFuncX() {
 		return this;
 	}
 

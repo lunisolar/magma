@@ -127,3 +127,5 @@ public class DoubleUnaryOperatorAssertTest<X extends Throwable> {
     }
 
 }
+
+

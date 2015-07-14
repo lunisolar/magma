@@ -192,7 +192,7 @@ public class LDoubleBinaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        LDoubleBinaryOperatorX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LDoubleBinaryOperatorX<X> wrapped = sutThrowing.handleDBinaryOpX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -216,7 +216,7 @@ public class LDoubleBinaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        LDoubleBinaryOperatorX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LDoubleBinaryOperatorX<X> wrapped = sutThrowing.handleDBinaryOpX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -240,7 +240,7 @@ public class LDoubleBinaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        LDoubleBinaryOperatorX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LDoubleBinaryOperatorX<X> wrapped = sutThrowing.handleDBinaryOpX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -265,7 +265,7 @@ public class LDoubleBinaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        LDoubleBinaryOperatorX<X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
+        LDoubleBinaryOperatorX<X> wrapped = sutThrowing.handleDBinaryOpX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -318,7 +318,7 @@ public class LDoubleBinaryOperatorXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromDouble() throws X {
+    public void testdBinaryOpFromDouble() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -343,7 +343,7 @@ public class LDoubleBinaryOperatorXTest<X extends ParseException> {
         };
 
         //when
-        LDoubleBinaryOperatorX<X> function = sutO.fromDouble(before1,before2);
+        LDoubleBinaryOperatorX<X> function = sutO.dBinaryOpFromDouble(before1,before2);
         function.doApplyAsDouble((double)80,(double)81);
 
         //then - finals
@@ -353,7 +353,7 @@ public class LDoubleBinaryOperatorXTest<X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws X {
+    public void testdBinaryOpFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -378,7 +378,7 @@ public class LDoubleBinaryOperatorXTest<X extends ParseException> {
         };
 
         //when
-        LToDoubleBiFunctionX<Integer ,Integer ,X> function = sutO.from(before1,before2);
+        LToDoubleBiFunctionX<Integer ,Integer ,X> function = sutO.dBinaryOpFrom(before1,before2);
         function.doApplyAsDouble((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
@@ -431,25 +431,25 @@ public class LDoubleBinaryOperatorXTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingDBinaryOp())
             .isInstanceOf(LDoubleBinaryOperator.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingDBinaryOp())
             .isInstanceOf(LDoubleBinaryOperator.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingDBinaryOpX())
             .isInstanceOf(LDoubleBinaryOperatorX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingDBinaryOpX())
             .isInstanceOf(LDoubleBinaryOperatorX.class);
     }
 
@@ -462,11 +462,11 @@ public class LDoubleBinaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doApplyAsDouble((double)100,(double)100);
+        sutThrowing.shovingDBinaryOp().doApplyAsDouble((double)100,(double)100);
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleDBinaryOp() throws X {
 
         // given
         LDoubleBinaryOperatorX<X> sutThrowing = LDoubleBinaryOperatorX.lX((double d1,double d2) -> {
@@ -474,7 +474,7 @@ public class LDoubleBinaryOperatorXTest<X extends ParseException> {
         });
 
         // when
-        LDoubleBinaryOperatorX<X> wrapped = sutThrowing.handleX(h -> {
+        LDoubleBinaryOperatorX<X> wrapped = sutThrowing.handleDBinaryOpX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -511,3 +511,5 @@ public class LDoubleBinaryOperatorXTest<X extends ParseException> {
 
 
 }
+
+

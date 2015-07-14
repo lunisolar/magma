@@ -26,19 +26,25 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
 import eu.lunisolar.magma.func.supplier.*;
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LShortSupplier. */
-public interface LShortSupplierAssert<S extends LShortSupplierAssert<S, A, RS>, A extends LShortSupplier, RS extends AbstractShortAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, Short, Exception> {
+public interface LShortSupplierAssert<S extends LShortSupplierAssert<S, A, RS>, A extends LShortSupplier, RS extends AbstractShortAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LActionX<Exception>, A, RS, Short, Exception> {
 
 	@Nonnull
-	Evaluation<S, A, RS, Short, Exception> doesGetAsShort();
-
-	@Nonnull
-	Evaluation<S, A, RS, Short, Exception> doesGetAsShort(LAction before);
+	Evaluation<S, LActionX<Exception>, A, RS, Short, Exception> doesGetAsShort();
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends LShortSupplier, RS extends AbstractShortAssert<RS>> extends Base<Impl<A, RS>, A, RS> {
@@ -49,7 +55,7 @@ public interface LShortSupplierAssert<S extends LShortSupplierAssert<S, A, RS>, 
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS>, A extends LShortSupplier, RS extends AbstractShortAssert<RS>> extends FullFunctionalAssert.Base<S, A, RS, Short, Exception> implements LShortSupplierAssert<S, A, RS> {
+	public static class Base<S extends Base<S, A, RS>, A extends LShortSupplier, RS extends AbstractShortAssert<RS>> extends FullFunctionalAssert.Base<S, LActionX<Exception>, A, RS, Short, Exception> implements LShortSupplierAssert<S, A, RS> {
 
 		protected final java.util.function.Function<Short, RS> assertFactory;
 
@@ -59,8 +65,15 @@ public interface LShortSupplierAssert<S extends LShortSupplierAssert<S, A, RS>, 
 		}
 
 		@Nonnull
-		public Evaluation<S, A, RS, Short, Exception> doesGetAsShort() {
-			return evaluation(() -> assertFactory.apply((Short) actual.doGetAsShort()));
+		public Evaluation<S, LActionX<Exception>, A, RS, Short, Exception> doesGetAsShort() {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doExecute();
+				}
+				return assertFactory.apply((Short) actual.doGetAsShort());
+			});
+
 		}
 
 		@Nonnull
@@ -69,11 +82,6 @@ public interface LShortSupplierAssert<S extends LShortSupplierAssert<S, A, RS>, 
 			return self();
 		}
 
-		@Nonnull
-		public Evaluation<S, A, RS, Short, Exception> doesGetAsShort(LAction before) {
-			before.doExecute();
-			return doesGetAsShort();
-		}
 	}
 
 }

@@ -184,7 +184,7 @@ public class LDoubleToShortFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LDoubleToShortFunctionX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LDoubleToShortFunctionX<X> wrapped = sutThrowing.handleDToSFuncX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -208,7 +208,7 @@ public class LDoubleToShortFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LDoubleToShortFunctionX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LDoubleToShortFunctionX<X> wrapped = sutThrowing.handleDToSFuncX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -232,7 +232,7 @@ public class LDoubleToShortFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LDoubleToShortFunctionX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LDoubleToShortFunctionX<X> wrapped = sutThrowing.handleDToSFuncX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -257,7 +257,7 @@ public class LDoubleToShortFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LDoubleToShortFunctionX<X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
+        LDoubleToShortFunctionX<X> wrapped = sutThrowing.handleDToSFuncX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -276,7 +276,7 @@ public class LDoubleToShortFunctionXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromDouble() throws X {
+    public void testdToSFuncFromDouble() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -295,7 +295,7 @@ public class LDoubleToShortFunctionXTest<X extends ParseException> {
         };
 
         //when
-        LDoubleToShortFunctionX<X> function = sutO.fromDouble(before1);
+        LDoubleToShortFunctionX<X> function = sutO.dToSFuncFromDouble(before1);
         function.doApplyAsShort((double)80);
 
         //then - finals
@@ -305,7 +305,7 @@ public class LDoubleToShortFunctionXTest<X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws X {
+    public void testdToSFuncFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -324,7 +324,7 @@ public class LDoubleToShortFunctionXTest<X extends ParseException> {
         };
 
         //when
-        LToShortFunctionX<Integer ,X> function = sutO.from(before1);
+        LToShortFunctionX<Integer ,X> function = sutO.dToSFuncFrom(before1);
         function.doApplyAsShort((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -656,25 +656,25 @@ public class LDoubleToShortFunctionXTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingDToSFunc())
             .isInstanceOf(LDoubleToShortFunction.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingDToSFunc())
             .isInstanceOf(LDoubleToShortFunction.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingDToSFuncX())
             .isInstanceOf(LDoubleToShortFunctionX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingDToSFuncX())
             .isInstanceOf(LDoubleToShortFunctionX.class);
     }
 
@@ -687,11 +687,11 @@ public class LDoubleToShortFunctionXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doApplyAsShort((double)100);
+        sutThrowing.shovingDToSFunc().doApplyAsShort((double)100);
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleDToSFunc() throws X {
 
         // given
         LDoubleToShortFunctionX<X> sutThrowing = LDoubleToShortFunctionX.lX(d -> {
@@ -699,7 +699,7 @@ public class LDoubleToShortFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LDoubleToShortFunctionX<X> wrapped = sutThrowing.handleX(h -> {
+        LDoubleToShortFunctionX<X> wrapped = sutThrowing.handleDToSFuncX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -736,3 +736,5 @@ public class LDoubleToShortFunctionXTest<X extends ParseException> {
 
 
 }
+
+

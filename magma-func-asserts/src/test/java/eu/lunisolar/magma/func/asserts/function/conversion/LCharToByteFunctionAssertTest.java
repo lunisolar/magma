@@ -128,3 +128,5 @@ public class LCharToByteFunctionAssertTest<X extends Throwable> {
     }
 
 }
+
+

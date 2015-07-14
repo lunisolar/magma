@@ -124,12 +124,14 @@ public class LLongBiFunctionBuilderTest<R,X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApply((long)0,(long)0).to(a -> a.isEqualTo(Integer.valueOf(0)))
-            .doesApply((long)5,(long)5).to(a -> a.isEqualTo(Integer.valueOf(1)))
-            .doesApply((long)15,(long)15).to(a -> a.isEqualTo(Integer.valueOf(2)))
-            .doesApply((long)10,(long)10).to(a -> a.isEqualTo(Integer.valueOf(99)))
+            .doesApply((long)0,(long)0).when(null).to(a -> a.isEqualTo(Integer.valueOf(0)))
+            .doesApply((long)5,(long)5).when(null).to(a -> a.isEqualTo(Integer.valueOf(1)))
+            .doesApply((long)15,(long)15).when(null).to(a -> a.isEqualTo(Integer.valueOf(2)))
+            .doesApply((long)10,(long)10).when(null).to(a -> a.isEqualTo(Integer.valueOf(99)))
         ;
 
     }
 
 }
+
+

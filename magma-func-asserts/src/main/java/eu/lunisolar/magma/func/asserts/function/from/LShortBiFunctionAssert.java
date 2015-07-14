@@ -26,16 +26,25 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
 import eu.lunisolar.magma.func.function.from.*;
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LShortBiFunction. */
-public interface LShortBiFunctionAssert<S extends LShortBiFunctionAssert<S, A, RS, R>, A extends LShortBiFunction<R>, RS extends Assert<RS, R>, R> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, R, Exception> {
+public interface LShortBiFunctionAssert<S extends LShortBiFunctionAssert<S, A, RS, R>, A extends LShortBiFunction<R>, RS extends Assert<RS, R>, R> extends Assert<S, A>, FullFunctionalAssert<S, LShortBiConsumerX<Exception>, A, RS, R, Exception> {
 
 	@Nonnull
-	Evaluation<S, A, RS, R, Exception> doesApply(short s1, short s2);
+	Evaluation<S, LShortBiConsumerX<Exception>, A, RS, R, Exception> doesApply(short s1, short s2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends LShortBiFunction<R>, RS extends Assert<RS, R>, R> extends Base<Impl<A, RS, R>, A, RS, R> {
@@ -46,7 +55,7 @@ public interface LShortBiFunctionAssert<S extends LShortBiFunctionAssert<S, A, R
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, R>, A extends LShortBiFunction<R>, RS extends Assert<RS, R>, R> extends FullFunctionalAssert.Base<S, A, RS, R, Exception> implements LShortBiFunctionAssert<S, A, RS, R> {
+	public static class Base<S extends Base<S, A, RS, R>, A extends LShortBiFunction<R>, RS extends Assert<RS, R>, R> extends FullFunctionalAssert.Base<S, LShortBiConsumerX<Exception>, A, RS, R, Exception> implements LShortBiFunctionAssert<S, A, RS, R> {
 
 		protected final java.util.function.Function<R, RS> assertFactory;
 
@@ -56,8 +65,15 @@ public interface LShortBiFunctionAssert<S extends LShortBiFunctionAssert<S, A, R
 		}
 
 		@Nonnull
-		public Evaluation<S, A, RS, R, Exception> doesApply(short s1, short s2) {
-			return evaluation(() -> assertFactory.apply((R) actual.doApply(s1, s2)));
+		public Evaluation<S, LShortBiConsumerX<Exception>, A, RS, R, Exception> doesApply(short s1, short s2) {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doAccept(s1, s2);
+				}
+				return assertFactory.apply((R) actual.doApply(s1, s2));
+			});
+
 		}
 
 	}

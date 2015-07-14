@@ -26,19 +26,25 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
 import eu.lunisolar.magma.func.supplier.*;
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LBooleanSupplier. */
-public interface LBooleanSupplierAssert<S extends LBooleanSupplierAssert<S, A, RS>, A extends LBooleanSupplier, RS extends AbstractBooleanAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, Boolean, Exception> {
+public interface LBooleanSupplierAssert<S extends LBooleanSupplierAssert<S, A, RS>, A extends LBooleanSupplier, RS extends AbstractBooleanAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LActionX<Exception>, A, RS, Boolean, Exception> {
 
 	@Nonnull
-	Evaluation<S, A, RS, Boolean, Exception> doesGetAsBoolean();
-
-	@Nonnull
-	Evaluation<S, A, RS, Boolean, Exception> doesGetAsBoolean(LAction before);
+	Evaluation<S, LActionX<Exception>, A, RS, Boolean, Exception> doesGetAsBoolean();
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends LBooleanSupplier, RS extends AbstractBooleanAssert<RS>> extends Base<Impl<A, RS>, A, RS> {
@@ -49,7 +55,7 @@ public interface LBooleanSupplierAssert<S extends LBooleanSupplierAssert<S, A, R
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS>, A extends LBooleanSupplier, RS extends AbstractBooleanAssert<RS>> extends FullFunctionalAssert.Base<S, A, RS, Boolean, Exception> implements LBooleanSupplierAssert<S, A, RS> {
+	public static class Base<S extends Base<S, A, RS>, A extends LBooleanSupplier, RS extends AbstractBooleanAssert<RS>> extends FullFunctionalAssert.Base<S, LActionX<Exception>, A, RS, Boolean, Exception> implements LBooleanSupplierAssert<S, A, RS> {
 
 		protected final java.util.function.Function<Boolean, RS> assertFactory;
 
@@ -59,8 +65,15 @@ public interface LBooleanSupplierAssert<S extends LBooleanSupplierAssert<S, A, R
 		}
 
 		@Nonnull
-		public Evaluation<S, A, RS, Boolean, Exception> doesGetAsBoolean() {
-			return evaluation(() -> assertFactory.apply((Boolean) actual.doGetAsBoolean()));
+		public Evaluation<S, LActionX<Exception>, A, RS, Boolean, Exception> doesGetAsBoolean() {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doExecute();
+				}
+				return assertFactory.apply((Boolean) actual.doGetAsBoolean());
+			});
+
 		}
 
 		@Nonnull
@@ -69,11 +82,6 @@ public interface LBooleanSupplierAssert<S extends LBooleanSupplierAssert<S, A, R
 			return self();
 		}
 
-		@Nonnull
-		public Evaluation<S, A, RS, Boolean, Exception> doesGetAsBoolean(LAction before) {
-			before.doExecute();
-			return doesGetAsBoolean();
-		}
 	}
 
 }

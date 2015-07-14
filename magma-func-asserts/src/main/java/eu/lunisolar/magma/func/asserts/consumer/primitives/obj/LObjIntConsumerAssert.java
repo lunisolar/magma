@@ -26,16 +26,25 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
 import eu.lunisolar.magma.func.consumer.primitives.obj.*;
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LObjIntConsumer. */
-public interface LObjIntConsumerAssert<S extends LObjIntConsumerAssert<S, A, T>, A extends LObjIntConsumer<T>, T> extends Assert<S, A>, FunctionalAssert.Simple<S, A, Exception> {
+public interface LObjIntConsumerAssert<S extends LObjIntConsumerAssert<S, A, T>, A extends LObjIntConsumer<T>, T> extends Assert<S, A>, FunctionalAssert.Simple<S, LObjIntConsumerX<T, Exception>, A, Exception> {
 
 	@Nonnull
-	SemiEvaluation<S, A, Exception> doesAccept(T t, int i);
+	SemiEvaluation<S, LObjIntConsumerX<T, Exception>, A, Exception> doesAccept(T t, int i);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends LObjIntConsumer<T>, T> extends Base<Impl<A, T>, A, T> {
@@ -46,15 +55,23 @@ public interface LObjIntConsumerAssert<S extends LObjIntConsumerAssert<S, A, T>,
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, T>, A extends LObjIntConsumer<T>, T> extends FunctionalAssert.Simple.Base<S, A, Exception> implements LObjIntConsumerAssert<S, A, T> {
+	public static class Base<S extends Base<S, A, T>, A extends LObjIntConsumer<T>, T> extends FunctionalAssert.Simple.Base<S, LObjIntConsumerX<T, Exception>, A, Exception> implements LObjIntConsumerAssert<S, A, T> {
 
 		public Base(A actual, Class<?> selfType) {
 			super(actual, selfType);
 		}
 
 		@Nonnull
-		public SemiEvaluation<S, A, Exception> doesAccept(T t, int i) {
-			return evaluation(() -> actual.doAccept(t, i));
+		public SemiEvaluation<S, LObjIntConsumerX<T, Exception>, A, Exception> doesAccept(T t, int i) {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doAccept(t, i);
+				}
+				actual.doAccept(t, i);
+				return null;
+			});
+
 		}
 
 	}

@@ -80,7 +80,7 @@ public interface LLongBiConsumer extends LLongBiConsumerX<RuntimeException>, Met
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LAction capture(long l1, long l2) {
+	default LAction captureLongBiCons(long l1, long l2) {
 		return () -> this.doAccept(l1, l2);
 	}
 
@@ -104,20 +104,20 @@ public interface LLongBiConsumer extends LLongBiConsumerX<RuntimeException>, Met
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LLongBiConsumer fromLong(@Nonnull final LLongUnaryOperator before1, @Nonnull final LLongUnaryOperator before2) {
+	default LLongBiConsumer longBiConsFromLong(@Nonnull final LLongUnaryOperator before1, @Nonnull final LLongUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final long v1, final long v2) -> this.doAccept(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiConsumer<V1, V2> from(@Nonnull final LToLongFunction<? super V1> before1, @Nonnull final LToLongFunction<? super V2> before2) {
+	default <V1, V2> LBiConsumer<V1, V2> longBiConsFrom(@Nonnull final LToLongFunction<? super V1> before1, @Nonnull final LToLongFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doAccept(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
@@ -141,23 +141,23 @@ public interface LLongBiConsumer extends LLongBiConsumerX<RuntimeException>, Met
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LLongBiConsumer nest() {
+	default LLongBiConsumer nestingLongBiCons() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LLongBiConsumerX<RuntimeException> nestX() {
+	default LLongBiConsumerX<RuntimeException> nestingLongBiConsX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LLongBiConsumer shove() {
+	default LLongBiConsumer shovingLongBiCons() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LLongBiConsumerX<RuntimeException> shoveX() {
+	default LLongBiConsumerX<RuntimeException> shovingLongBiConsX() {
 		return this;
 	}
 

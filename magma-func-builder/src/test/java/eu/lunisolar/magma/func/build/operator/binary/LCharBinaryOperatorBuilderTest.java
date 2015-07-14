@@ -124,12 +124,14 @@ public class LCharBinaryOperatorBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsChar((char)0,(char)0).to(a -> a.isEqualTo((char)0))
-            .doesApplyAsChar((char)5,(char)5).to(a -> a.isEqualTo((char)1))
-            .doesApplyAsChar((char)15,(char)15).to(a -> a.isEqualTo((char)2))
-            .doesApplyAsChar((char)10,(char)10).to(a -> a.isEqualTo((char)99))
+            .doesApplyAsChar((char)0,(char)0).when(null).to(a -> a.isEqualTo((char)0))
+            .doesApplyAsChar((char)5,(char)5).when(null).to(a -> a.isEqualTo((char)1))
+            .doesApplyAsChar((char)15,(char)15).when(null).to(a -> a.isEqualTo((char)2))
+            .doesApplyAsChar((char)10,(char)10).when(null).to(a -> a.isEqualTo((char)99))
         ;
 
     }
 
 }
+
+

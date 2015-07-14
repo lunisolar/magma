@@ -95,7 +95,7 @@ public interface LTriConsumerX<T1, T2, T3, X extends Throwable> extends MetaCons
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LActionX<X> capture(T1 t1, T2 t2, T3 t3) {
+	default LActionX<X> captureTriCons(T1 t1, T2 t2, T3 t3) {
 		return () -> this.doAccept(t1, t2, t3);
 	}
 
@@ -126,10 +126,11 @@ public interface LTriConsumerX<T1, T2, T3, X extends Throwable> extends MetaCons
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2, V3> LTriConsumerX<V1, V2, V3, X> from(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LFunctionX<? super V3, ? extends T3, X> before3) {
+	default <V1, V2, V3> LTriConsumerX<V1, V2, V3, X> triConsFrom(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2,
+			@Nonnull final LFunctionX<? super V3, ? extends T3, X> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
@@ -154,23 +155,23 @@ public interface LTriConsumerX<T1, T2, T3, X extends Throwable> extends MetaCons
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LTriConsumer<T1, T2, T3> nest() {
+	default LTriConsumer<T1, T2, T3> nestingTriCons() {
 		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LTriConsumerX<T1, T2, T3, RuntimeException> nestX() {
+	default LTriConsumerX<T1, T2, T3, RuntimeException> nestingTriConsX() {
 		return this::nestingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LTriConsumer<T1, T2, T3> shove() {
+	default LTriConsumer<T1, T2, T3> shovingTriCons() {
 		return this::shovingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LTriConsumerX<T1, T2, T3, RuntimeException> shoveX() {
+	default LTriConsumerX<T1, T2, T3, RuntimeException> shovingTriConsX() {
 		return this::shovingDoAccept;
 	}
 
@@ -179,12 +180,12 @@ public interface LTriConsumerX<T1, T2, T3, X extends Throwable> extends MetaCons
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LTriConsumer<T1, T2, T3> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LTriConsumer<T1, T2, T3> handleTriCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T1 t1, T2 t2, T3 t3) -> this.handlingDoAccept(t1, t2, t3, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LTriConsumerX<T1, T2, T3, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LTriConsumerX<T1, T2, T3, Y> handleTriConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T1 t1, T2 t2, T3 t3) -> this.handlingDoAccept(t1, t2, t3, handling);
 	}
 

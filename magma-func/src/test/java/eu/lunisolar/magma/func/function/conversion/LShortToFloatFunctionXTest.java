@@ -184,7 +184,7 @@ public class LShortToFloatFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LShortToFloatFunctionX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LShortToFloatFunctionX<X> wrapped = sutThrowing.handleSToFFuncX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -208,7 +208,7 @@ public class LShortToFloatFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LShortToFloatFunctionX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LShortToFloatFunctionX<X> wrapped = sutThrowing.handleSToFFuncX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -232,7 +232,7 @@ public class LShortToFloatFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LShortToFloatFunctionX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LShortToFloatFunctionX<X> wrapped = sutThrowing.handleSToFFuncX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -257,7 +257,7 @@ public class LShortToFloatFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LShortToFloatFunctionX<X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
+        LShortToFloatFunctionX<X> wrapped = sutThrowing.handleSToFFuncX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -276,7 +276,7 @@ public class LShortToFloatFunctionXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromShort() throws X {
+    public void testsToFFuncFromShort() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -295,7 +295,7 @@ public class LShortToFloatFunctionXTest<X extends ParseException> {
         };
 
         //when
-        LShortToFloatFunctionX<X> function = sutO.fromShort(before1);
+        LShortToFloatFunctionX<X> function = sutO.sToFFuncFromShort(before1);
         function.doApplyAsFloat((short)80);
 
         //then - finals
@@ -305,7 +305,7 @@ public class LShortToFloatFunctionXTest<X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws X {
+    public void testsToFFuncFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -324,7 +324,7 @@ public class LShortToFloatFunctionXTest<X extends ParseException> {
         };
 
         //when
-        LToFloatFunctionX<Integer ,X> function = sutO.from(before1);
+        LToFloatFunctionX<Integer ,X> function = sutO.sToFFuncFrom(before1);
         function.doApplyAsFloat((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -656,25 +656,25 @@ public class LShortToFloatFunctionXTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingSToFFunc())
             .isInstanceOf(LShortToFloatFunction.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingSToFFunc())
             .isInstanceOf(LShortToFloatFunction.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingSToFFuncX())
             .isInstanceOf(LShortToFloatFunctionX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingSToFFuncX())
             .isInstanceOf(LShortToFloatFunctionX.class);
     }
 
@@ -687,11 +687,11 @@ public class LShortToFloatFunctionXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doApplyAsFloat((short)100);
+        sutThrowing.shovingSToFFunc().doApplyAsFloat((short)100);
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleSToFFunc() throws X {
 
         // given
         LShortToFloatFunctionX<X> sutThrowing = LShortToFloatFunctionX.lX(s -> {
@@ -699,7 +699,7 @@ public class LShortToFloatFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LShortToFloatFunctionX<X> wrapped = sutThrowing.handleX(h -> {
+        LShortToFloatFunctionX<X> wrapped = sutThrowing.handleSToFFuncX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -736,3 +736,5 @@ public class LShortToFloatFunctionXTest<X extends ParseException> {
 
 
 }
+
+

@@ -106,7 +106,7 @@ public interface LLongToDoubleFunctionX<X extends Throwable> extends java.util.f
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LDoubleSupplierX<X> capture(long l) {
+	default LDoubleSupplierX<X> captureLongToDFunc(long l) {
 		return () -> this.doApplyAsDouble(l);
 	}
 
@@ -147,19 +147,19 @@ public interface LLongToDoubleFunctionX<X extends Throwable> extends java.util.f
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LLongToDoubleFunctionX<X> fromLong(@Nonnull final LLongUnaryOperatorX<X> before1) {
+	default LLongToDoubleFunctionX<X> longToDFuncFromLong(@Nonnull final LLongUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsDouble(before1.doApplyAsLong(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToDoubleFunctionX<V1, X> from(@Nonnull final LToLongFunctionX<? super V1, X> before1) {
+	default <V1> LToDoubleFunctionX<V1, X> longToDFuncFrom(@Nonnull final LToLongFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsDouble(before1.doApplyAsLong(v1));
 	}
@@ -236,23 +236,23 @@ public interface LLongToDoubleFunctionX<X extends Throwable> extends java.util.f
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LLongToDoubleFunction nest() {
+	default LLongToDoubleFunction nestingLongToDFunc() {
 		return this::nestingDoApplyAsDouble;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LLongToDoubleFunctionX<RuntimeException> nestX() {
+	default LLongToDoubleFunctionX<RuntimeException> nestingLongToDFuncX() {
 		return this::nestingDoApplyAsDouble;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LLongToDoubleFunction shove() {
+	default LLongToDoubleFunction shovingLongToDFunc() {
 		return this::shovingDoApplyAsDouble;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LLongToDoubleFunctionX<RuntimeException> shoveX() {
+	default LLongToDoubleFunctionX<RuntimeException> shovingLongToDFuncX() {
 		return this::shovingDoApplyAsDouble;
 	}
 
@@ -261,12 +261,12 @@ public interface LLongToDoubleFunctionX<X extends Throwable> extends java.util.f
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LLongToDoubleFunction handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LLongToDoubleFunction handleLongToDFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return l -> this.handlingDoApplyAsDouble(l, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LLongToDoubleFunctionX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LLongToDoubleFunctionX<Y> handleLongToDFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return l -> this.handlingDoApplyAsDouble(l, handling);
 	}
 

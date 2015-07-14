@@ -110,7 +110,7 @@ public interface LFunctionX<T, R, X extends Throwable> extends java.util.functio
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplierX<R, X> capture(T t) {
+	default LSupplierX<R, X> captureFunc(T t) {
 		return () -> this.doApply(t);
 	}
 
@@ -151,10 +151,10 @@ public interface LFunctionX<T, R, X extends Throwable> extends java.util.functio
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LFunctionX<V1, R, X> from(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1) {
+	default <V1> LFunctionX<V1, R, X> funcFrom(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doApply(v1));
 	}
@@ -244,42 +244,42 @@ public interface LFunctionX<T, R, X extends Throwable> extends java.util.functio
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LFunction<T, R> nest() {
+	default LFunction<T, R> nestingFunc() {
 		return this::nestingDoApply;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LFunctionX<T, R, RuntimeException> nestX() {
+	default LFunctionX<T, R, RuntimeException> nestingFuncX() {
 		return this::nestingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFunction<T, R> shove() {
+	default LFunction<T, R> shovingFunc() {
 		return this::shovingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFunctionX<T, R, RuntimeException> shoveX() {
+	default LFunctionX<T, R, RuntimeException> shovingFuncX() {
 		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LFunctionX<T, R, X> nonNullableX() {
+	default LFunctionX<T, R, X> nonNullFunc() {
 		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LFunction<T, R> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LFunction<T, R> handleFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return t -> this.handlingDoApply(t, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LFunctionX<T, R, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LFunctionX<T, R, Y> handleFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return t -> this.handlingDoApply(t, handling);
 	}
 

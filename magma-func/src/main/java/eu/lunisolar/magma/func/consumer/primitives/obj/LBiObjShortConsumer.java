@@ -80,7 +80,7 @@ public interface LBiObjShortConsumer<T1, T2> extends LBiObjShortConsumerX<T1, T2
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LAction capture(T1 t1, T2 t2, short s) {
+	default LAction captureBiObjSCons(T1 t1, T2 t2, short s) {
 		return () -> this.doAccept(t1, t2, s);
 	}
 
@@ -104,10 +104,10 @@ public interface LBiObjShortConsumer<T1, T2> extends LBiObjShortConsumerX<T1, T2
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiObjShortConsumer<V1, V2> fromShort(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LShortUnaryOperator before3) {
+	default <V1, V2> LBiObjShortConsumer<V1, V2> biObjSConsFromShort(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LShortUnaryOperator before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
@@ -115,10 +115,10 @@ public interface LBiObjShortConsumer<T1, T2> extends LBiObjShortConsumerX<T1, T2
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2, V3> LTriConsumer<V1, V2, V3> from(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LToShortFunction<? super V3> before3) {
+	default <V1, V2, V3> LTriConsumer<V1, V2, V3> biObjSConsFrom(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LToShortFunction<? super V3> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
@@ -143,23 +143,23 @@ public interface LBiObjShortConsumer<T1, T2> extends LBiObjShortConsumerX<T1, T2
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiObjShortConsumer<T1, T2> nest() {
+	default LBiObjShortConsumer<T1, T2> nestingBiObjSCons() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiObjShortConsumerX<T1, T2, RuntimeException> nestX() {
+	default LBiObjShortConsumerX<T1, T2, RuntimeException> nestingBiObjSConsX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjShortConsumer<T1, T2> shove() {
+	default LBiObjShortConsumer<T1, T2> shovingBiObjSCons() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjShortConsumerX<T1, T2, RuntimeException> shoveX() {
+	default LBiObjShortConsumerX<T1, T2, RuntimeException> shovingBiObjSConsX() {
 		return this;
 	}
 

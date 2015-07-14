@@ -99,7 +99,7 @@ public interface LByteBinaryOperatorX<X extends Throwable> extends MetaOperator,
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LByteSupplierX<X> capture(byte b1, byte b2) {
+	default LByteSupplierX<X> captureBBinaryOp(byte b1, byte b2) {
 		return () -> this.doApplyAsByte(b1, b2);
 	}
 
@@ -153,20 +153,20 @@ public interface LByteBinaryOperatorX<X extends Throwable> extends MetaOperator,
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LByteBinaryOperatorX<X> fromByte(@Nonnull final LByteUnaryOperatorX<X> before1, @Nonnull final LByteUnaryOperatorX<X> before2) {
+	default LByteBinaryOperatorX<X> bBinaryOpFromByte(@Nonnull final LByteUnaryOperatorX<X> before1, @Nonnull final LByteUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final byte v1, final byte v2) -> this.doApplyAsByte(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LToByteBiFunctionX<V1, V2, X> from(@Nonnull final LToByteFunctionX<? super V1, X> before1, @Nonnull final LToByteFunctionX<? super V2, X> before2) {
+	default <V1, V2> LToByteBiFunctionX<V1, V2, X> bBinaryOpFrom(@Nonnull final LToByteFunctionX<? super V1, X> before1, @Nonnull final LToByteFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApplyAsByte(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
@@ -188,23 +188,23 @@ public interface LByteBinaryOperatorX<X extends Throwable> extends MetaOperator,
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LByteBinaryOperator nest() {
+	default LByteBinaryOperator nestingBBinaryOp() {
 		return this::nestingDoApplyAsByte;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LByteBinaryOperatorX<RuntimeException> nestX() {
+	default LByteBinaryOperatorX<RuntimeException> nestingBBinaryOpX() {
 		return this::nestingDoApplyAsByte;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteBinaryOperator shove() {
+	default LByteBinaryOperator shovingBBinaryOp() {
 		return this::shovingDoApplyAsByte;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteBinaryOperatorX<RuntimeException> shoveX() {
+	default LByteBinaryOperatorX<RuntimeException> shovingBBinaryOpX() {
 		return this::shovingDoApplyAsByte;
 	}
 
@@ -213,12 +213,12 @@ public interface LByteBinaryOperatorX<X extends Throwable> extends MetaOperator,
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LByteBinaryOperator handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LByteBinaryOperator handleBBinaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (byte b1, byte b2) -> this.handlingDoApplyAsByte(b1, b2, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LByteBinaryOperatorX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LByteBinaryOperatorX<Y> handleBBinaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (byte b1, byte b2) -> this.handlingDoApplyAsByte(b1, b2, handling);
 	}
 

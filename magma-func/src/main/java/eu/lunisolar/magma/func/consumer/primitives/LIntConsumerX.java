@@ -102,7 +102,7 @@ public interface LIntConsumerX<X extends Throwable> extends java.util.function.I
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LActionX<X> capture(int i) {
+	default LActionX<X> captureICons(int i) {
 		return () -> this.doAccept(i);
 	}
 
@@ -139,19 +139,19 @@ public interface LIntConsumerX<X extends Throwable> extends java.util.function.I
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LIntConsumerX<X> fromInt(@Nonnull final LIntUnaryOperatorX<X> before1) {
+	default LIntConsumerX<X> iConsFromInt(@Nonnull final LIntUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doApplyAsInt(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LConsumerX<V1, X> from(@Nonnull final LToIntFunctionX<? super V1, X> before1) {
+	default <V1> LConsumerX<V1, X> iConsFrom(@Nonnull final LToIntFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doApplyAsInt(v1));
 	}
@@ -174,23 +174,23 @@ public interface LIntConsumerX<X extends Throwable> extends java.util.function.I
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntConsumer nest() {
+	default LIntConsumer nestingICons() {
 		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntConsumerX<RuntimeException> nestX() {
+	default LIntConsumerX<RuntimeException> nestingIConsX() {
 		return this::nestingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntConsumer shove() {
+	default LIntConsumer shovingICons() {
 		return this::shovingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntConsumerX<RuntimeException> shoveX() {
+	default LIntConsumerX<RuntimeException> shovingIConsX() {
 		return this::shovingDoAccept;
 	}
 
@@ -199,12 +199,12 @@ public interface LIntConsumerX<X extends Throwable> extends java.util.function.I
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LIntConsumer handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LIntConsumer handleICons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return i -> this.handlingDoAccept(i, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LIntConsumerX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LIntConsumerX<Y> handleIConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return i -> this.handlingDoAccept(i, handling);
 	}
 

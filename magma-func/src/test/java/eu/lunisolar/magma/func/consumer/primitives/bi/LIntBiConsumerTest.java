@@ -182,7 +182,7 @@ public class LIntBiConsumerTest<X extends ParseException> {
         });
 
         // when
-        LIntBiConsumer wrapped = sutThrowing.handle(handler -> handler
+        LIntBiConsumer wrapped = sutThrowing.handleIBiCons(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -206,7 +206,7 @@ public class LIntBiConsumerTest<X extends ParseException> {
         });
 
         // when
-        LIntBiConsumer wrapped = sutThrowing.handle(handler -> handler
+        LIntBiConsumer wrapped = sutThrowing.handleIBiCons(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -230,7 +230,7 @@ public class LIntBiConsumerTest<X extends ParseException> {
         });
 
         // when
-        LIntBiConsumer wrapped = sutThrowing.handle(handler -> handler
+        LIntBiConsumer wrapped = sutThrowing.handleIBiCons(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -255,7 +255,7 @@ public class LIntBiConsumerTest<X extends ParseException> {
         });
 
         // when
-        LIntBiConsumer wrapped = sutThrowing.handle(h -> Function4U.doNothing());
+        LIntBiConsumer wrapped = sutThrowing.handleIBiCons(h -> Function4U.doNothing());
 
         // then
         try {
@@ -274,7 +274,7 @@ public class LIntBiConsumerTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromInt() throws X {
+    public void testiBiConsFromInt() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -298,7 +298,7 @@ public class LIntBiConsumerTest<X extends ParseException> {
         };
 
         //when
-        LIntBiConsumer function = sutO.fromInt(before1,before2);
+        LIntBiConsumer function = sutO.iBiConsFromInt(before1,before2);
         function.doAccept((int)80,(int)81);
 
         //then - finals
@@ -308,7 +308,7 @@ public class LIntBiConsumerTest<X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws X {
+    public void testiBiConsFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -332,7 +332,7 @@ public class LIntBiConsumerTest<X extends ParseException> {
         };
 
         //when
-        LBiConsumer<Integer ,Integer > function = sutO.from(before1,before2);
+        LBiConsumer<Integer ,Integer > function = sutO.iBiConsFrom(before1,before2);
         function.doAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
@@ -373,28 +373,28 @@ public class LIntBiConsumerTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingIBiCons())
             .isSameAs(sut)
             .isInstanceOf(LIntBiConsumer.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingIBiCons())
             .isSameAs(sut)
             .isInstanceOf(LIntBiConsumer.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingIBiConsX())
             .isSameAs(sut)
             .isInstanceOf(LIntBiConsumerX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingIBiConsX())
             .isSameAs(sut)
             .isInstanceOf(LIntBiConsumerX.class);
     }
@@ -408,11 +408,11 @@ public class LIntBiConsumerTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doAccept((int)100,(int)100);
+        sutThrowing.shovingIBiCons().doAccept((int)100,(int)100);
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleIBiCons() throws X {
 
         // given
         LIntBiConsumer sutThrowing = LIntBiConsumer.l((int i1,int i2) -> {
@@ -420,7 +420,7 @@ public class LIntBiConsumerTest<X extends ParseException> {
         });
 
         // when
-        LIntBiConsumer wrapped = sutThrowing.handle(h -> {
+        LIntBiConsumer wrapped = sutThrowing.handleIBiCons(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -457,3 +457,5 @@ public class LIntBiConsumerTest<X extends ParseException> {
 
 
 }
+
+

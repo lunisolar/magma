@@ -48,7 +48,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for LBooleanToIntFunction. */
-public final class LBooleanToIntFunctionBuilder extends PerCaseBuilderWithIntProduct.Base<LBooleanToIntFunctionBuilder, LBooleanUnaryOperator, LBooleanToIntFunction> {
+public final class LBooleanToIntFunctionBuilder extends PerCaseBuilderWithIntProduct.Base<LBooleanToIntFunctionBuilder, LLogicalOperator, LBooleanToIntFunction> {
 
 	private Consumer<LBooleanToIntFunction> consumer;
 
@@ -107,11 +107,11 @@ public final class LBooleanToIntFunctionBuilder extends PerCaseBuilderWithIntPro
 
 		LBooleanToIntFunction retval;
 
-		final Case<LBooleanUnaryOperator, LBooleanToIntFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
+		final Case<LLogicalOperator, LBooleanToIntFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 		retval = LBooleanToIntFunction.l(b -> {
 			try {
-				for (Case<LBooleanUnaryOperator, LBooleanToIntFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doApplyAsBoolean(b)) {
+				for (Case<LLogicalOperator, LBooleanToIntFunction> aCase : casesArray) {
+					if (aCase.casePredicate().doApply(b)) {
 						return aCase.caseFunction().doApplyAsInt(b);
 					}
 				}

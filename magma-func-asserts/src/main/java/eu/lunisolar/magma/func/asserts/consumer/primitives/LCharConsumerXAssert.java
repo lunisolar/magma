@@ -26,16 +26,25 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
 import eu.lunisolar.magma.func.consumer.primitives.*;
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LCharConsumerX. */
-public interface LCharConsumerXAssert<S extends LCharConsumerXAssert<S, A, X>, A extends LCharConsumerX<X>, X extends Throwable> extends Assert<S, A>, FunctionalAssert.Simple<S, A, Exception> {
+public interface LCharConsumerXAssert<S extends LCharConsumerXAssert<S, A, X>, A extends LCharConsumerX<X>, X extends Throwable> extends Assert<S, A>, FunctionalAssert.Simple<S, LCharConsumerX<Exception>, A, Exception> {
 
 	@Nonnull
-	SemiEvaluation<S, A, Exception> doesAccept(char c);
+	SemiEvaluation<S, LCharConsumerX<Exception>, A, Exception> doesAccept(char c);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends LCharConsumerX<X>, X extends Throwable> extends Base<Impl<A, X>, A, X> {
@@ -46,15 +55,23 @@ public interface LCharConsumerXAssert<S extends LCharConsumerXAssert<S, A, X>, A
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, X>, A extends LCharConsumerX<X>, X extends Throwable> extends FunctionalAssert.Simple.Base<S, A, Exception> implements LCharConsumerXAssert<S, A, X> {
+	public static class Base<S extends Base<S, A, X>, A extends LCharConsumerX<X>, X extends Throwable> extends FunctionalAssert.Simple.Base<S, LCharConsumerX<Exception>, A, Exception> implements LCharConsumerXAssert<S, A, X> {
 
 		public Base(A actual, Class<?> selfType) {
 			super(actual, selfType);
 		}
 
 		@Nonnull
-		public SemiEvaluation<S, A, Exception> doesAccept(char c) {
-			return evaluation(() -> actual.doAccept(c));
+		public SemiEvaluation<S, LCharConsumerX<Exception>, A, Exception> doesAccept(char c) {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doAccept(c);
+				}
+				actual.doAccept(c);
+				return null;
+			});
+
 		}
 
 	}

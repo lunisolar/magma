@@ -203,7 +203,7 @@ public class LDoubleUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LDoubleUnaryOperator wrapped = sutThrowing.handle(handler -> handler
+        LDoubleUnaryOperator wrapped = sutThrowing.handleDUnaryOp(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -227,7 +227,7 @@ public class LDoubleUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LDoubleUnaryOperator wrapped = sutThrowing.handle(handler -> handler
+        LDoubleUnaryOperator wrapped = sutThrowing.handleDUnaryOp(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -251,7 +251,7 @@ public class LDoubleUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LDoubleUnaryOperator wrapped = sutThrowing.handle(handler -> handler
+        LDoubleUnaryOperator wrapped = sutThrowing.handleDUnaryOp(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -276,7 +276,7 @@ public class LDoubleUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LDoubleUnaryOperator wrapped = sutThrowing.handle(h -> Function4U.doNothing());
+        LDoubleUnaryOperator wrapped = sutThrowing.handleDUnaryOp(h -> Function4U.doNothing());
 
         // then
         try {
@@ -295,7 +295,7 @@ public class LDoubleUnaryOperatorTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromDouble() throws X {
+    public void testdUnaryOpFromDouble() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -314,7 +314,7 @@ public class LDoubleUnaryOperatorTest<X extends ParseException> {
         };
 
         //when
-        LDoubleUnaryOperator function = sutO.fromDouble(before1);
+        LDoubleUnaryOperator function = sutO.dUnaryOpFromDouble(before1);
         function.doApplyAsDouble((double)80);
 
         //then - finals
@@ -324,7 +324,7 @@ public class LDoubleUnaryOperatorTest<X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws X {
+    public void testdUnaryOpFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -343,7 +343,7 @@ public class LDoubleUnaryOperatorTest<X extends ParseException> {
         };
 
         //when
-        LToDoubleFunction<Integer > function = sutO.from(before1);
+        LToDoubleFunction<Integer > function = sutO.dUnaryOpFrom(before1);
         function.doApplyAsDouble((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -682,28 +682,28 @@ public class LDoubleUnaryOperatorTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingDUnaryOp())
             .isSameAs(sut)
             .isInstanceOf(LDoubleUnaryOperator.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingDUnaryOp())
             .isSameAs(sut)
             .isInstanceOf(LDoubleUnaryOperator.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingDUnaryOpX())
             .isSameAs(sut)
             .isInstanceOf(LDoubleUnaryOperatorX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingDUnaryOpX())
             .isSameAs(sut)
             .isInstanceOf(LDoubleUnaryOperatorX.class);
     }
@@ -717,11 +717,11 @@ public class LDoubleUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doApplyAsDouble((double)100);
+        sutThrowing.shovingDUnaryOp().doApplyAsDouble((double)100);
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleDUnaryOp() throws X {
 
         // given
         LDoubleUnaryOperator sutThrowing = LDoubleUnaryOperator.l(d -> {
@@ -729,7 +729,7 @@ public class LDoubleUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LDoubleUnaryOperator wrapped = sutThrowing.handle(h -> {
+        LDoubleUnaryOperator wrapped = sutThrowing.handleDUnaryOp(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -766,3 +766,5 @@ public class LDoubleUnaryOperatorTest<X extends ParseException> {
 
 
 }
+
+

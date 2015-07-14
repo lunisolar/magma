@@ -88,7 +88,7 @@ public interface LBiObjDoubleFunction<T1, T2, R> extends LBiObjDoubleFunctionX<T
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> capture(T1 t1, T2 t2, double d) {
+	default LSupplier<R> captureBiObjDFunc(T1 t1, T2 t2, double d) {
 		return () -> this.doApply(t1, t2, d);
 	}
 
@@ -116,10 +116,10 @@ public interface LBiObjDoubleFunction<T1, T2, R> extends LBiObjDoubleFunctionX<T
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiObjDoubleFunction<V1, V2, R> fromDouble(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LDoubleUnaryOperator before3) {
+	default <V1, V2> LBiObjDoubleFunction<V1, V2, R> biObjDFuncFromDouble(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LDoubleUnaryOperator before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
@@ -127,10 +127,10 @@ public interface LBiObjDoubleFunction<T1, T2, R> extends LBiObjDoubleFunctionX<T
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2, V3> LTriFunction<V1, V2, V3, R> from(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LToDoubleFunction<? super V3> before3) {
+	default <V1, V2, V3> LTriFunction<V1, V2, V3, R> biObjDFuncFrom(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LToDoubleFunction<? super V3> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
@@ -160,30 +160,30 @@ public interface LBiObjDoubleFunction<T1, T2, R> extends LBiObjDoubleFunctionX<T
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiObjDoubleFunction<T1, T2, R> nest() {
+	default LBiObjDoubleFunction<T1, T2, R> nestingBiObjDFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiObjDoubleFunctionX<T1, T2, R, RuntimeException> nestX() {
+	default LBiObjDoubleFunctionX<T1, T2, R, RuntimeException> nestingBiObjDFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjDoubleFunction<T1, T2, R> shove() {
+	default LBiObjDoubleFunction<T1, T2, R> shovingBiObjDFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjDoubleFunctionX<T1, T2, R, RuntimeException> shoveX() {
+	default LBiObjDoubleFunctionX<T1, T2, R, RuntimeException> shovingBiObjDFuncX() {
 		return this;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LBiObjDoubleFunction<T1, T2, R> nonNullable() {
+	default LBiObjDoubleFunction<T1, T2, R> nonNullBiObjDFunc() {
 		return this::nonNullDoApply;
 	}
 

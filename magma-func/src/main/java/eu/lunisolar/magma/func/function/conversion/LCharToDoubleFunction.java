@@ -84,7 +84,7 @@ public interface LCharToDoubleFunction extends LCharToDoubleFunctionX<RuntimeExc
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LDoubleSupplier capture(char c) {
+	default LDoubleSupplier captureCToDFunc(char c) {
 		return () -> this.doApplyAsDouble(c);
 	}
 
@@ -112,19 +112,19 @@ public interface LCharToDoubleFunction extends LCharToDoubleFunctionX<RuntimeExc
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LCharToDoubleFunction fromChar(@Nonnull final LCharUnaryOperator before1) {
+	default LCharToDoubleFunction cToDFuncFromChar(@Nonnull final LCharUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsDouble(before1.doApplyAsChar(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToDoubleFunction<V1> from(@Nonnull final LToCharFunction<? super V1> before1) {
+	default <V1> LToDoubleFunction<V1> cToDFuncFrom(@Nonnull final LToCharFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsDouble(before1.doApplyAsChar(v1));
 	}
@@ -201,23 +201,23 @@ public interface LCharToDoubleFunction extends LCharToDoubleFunctionX<RuntimeExc
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LCharToDoubleFunction nest() {
+	default LCharToDoubleFunction nestingCToDFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LCharToDoubleFunctionX<RuntimeException> nestX() {
+	default LCharToDoubleFunctionX<RuntimeException> nestingCToDFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharToDoubleFunction shove() {
+	default LCharToDoubleFunction shovingCToDFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharToDoubleFunctionX<RuntimeException> shoveX() {
+	default LCharToDoubleFunctionX<RuntimeException> shovingCToDFuncX() {
 		return this;
 	}
 

@@ -184,7 +184,7 @@ public class LByteToIntFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LByteToIntFunctionX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LByteToIntFunctionX<X> wrapped = sutThrowing.handleBToIFuncX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -208,7 +208,7 @@ public class LByteToIntFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LByteToIntFunctionX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LByteToIntFunctionX<X> wrapped = sutThrowing.handleBToIFuncX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -232,7 +232,7 @@ public class LByteToIntFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LByteToIntFunctionX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LByteToIntFunctionX<X> wrapped = sutThrowing.handleBToIFuncX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -257,7 +257,7 @@ public class LByteToIntFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LByteToIntFunctionX<X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
+        LByteToIntFunctionX<X> wrapped = sutThrowing.handleBToIFuncX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -276,7 +276,7 @@ public class LByteToIntFunctionXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromByte() throws X {
+    public void testbToIFuncFromByte() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -295,7 +295,7 @@ public class LByteToIntFunctionXTest<X extends ParseException> {
         };
 
         //when
-        LByteToIntFunctionX<X> function = sutO.fromByte(before1);
+        LByteToIntFunctionX<X> function = sutO.bToIFuncFromByte(before1);
         function.doApplyAsInt((byte)80);
 
         //then - finals
@@ -305,7 +305,7 @@ public class LByteToIntFunctionXTest<X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws X {
+    public void testbToIFuncFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -324,7 +324,7 @@ public class LByteToIntFunctionXTest<X extends ParseException> {
         };
 
         //when
-        LToIntFunctionX<Integer ,X> function = sutO.from(before1);
+        LToIntFunctionX<Integer ,X> function = sutO.bToIFuncFrom(before1);
         function.doApplyAsInt((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -656,25 +656,25 @@ public class LByteToIntFunctionXTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingBToIFunc())
             .isInstanceOf(LByteToIntFunction.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingBToIFunc())
             .isInstanceOf(LByteToIntFunction.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingBToIFuncX())
             .isInstanceOf(LByteToIntFunctionX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingBToIFuncX())
             .isInstanceOf(LByteToIntFunctionX.class);
     }
 
@@ -687,11 +687,11 @@ public class LByteToIntFunctionXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doApplyAsInt((byte)100);
+        sutThrowing.shovingBToIFunc().doApplyAsInt((byte)100);
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleBToIFunc() throws X {
 
         // given
         LByteToIntFunctionX<X> sutThrowing = LByteToIntFunctionX.lX(b -> {
@@ -699,7 +699,7 @@ public class LByteToIntFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LByteToIntFunctionX<X> wrapped = sutThrowing.handleX(h -> {
+        LByteToIntFunctionX<X> wrapped = sutThrowing.handleBToIFuncX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -736,3 +736,5 @@ public class LByteToIntFunctionXTest<X extends ParseException> {
 
 
 }
+
+

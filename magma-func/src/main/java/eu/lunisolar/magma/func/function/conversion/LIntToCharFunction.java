@@ -84,7 +84,7 @@ public interface LIntToCharFunction extends LIntToCharFunctionX<RuntimeException
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LCharSupplier capture(int i) {
+	default LCharSupplier captureIToCFunc(int i) {
 		return () -> this.doApplyAsChar(i);
 	}
 
@@ -112,19 +112,19 @@ public interface LIntToCharFunction extends LIntToCharFunctionX<RuntimeException
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LIntToCharFunction fromInt(@Nonnull final LIntUnaryOperator before1) {
+	default LIntToCharFunction iToCFuncFromInt(@Nonnull final LIntUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsChar(before1.doApplyAsInt(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToCharFunction<V1> from(@Nonnull final LToIntFunction<? super V1> before1) {
+	default <V1> LToCharFunction<V1> iToCFuncFrom(@Nonnull final LToIntFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsChar(before1.doApplyAsInt(v1));
 	}
@@ -201,23 +201,23 @@ public interface LIntToCharFunction extends LIntToCharFunctionX<RuntimeException
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntToCharFunction nest() {
+	default LIntToCharFunction nestingIToCFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntToCharFunctionX<RuntimeException> nestX() {
+	default LIntToCharFunctionX<RuntimeException> nestingIToCFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntToCharFunction shove() {
+	default LIntToCharFunction shovingIToCFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntToCharFunctionX<RuntimeException> shoveX() {
+	default LIntToCharFunctionX<RuntimeException> shovingIToCFuncX() {
 		return this;
 	}
 

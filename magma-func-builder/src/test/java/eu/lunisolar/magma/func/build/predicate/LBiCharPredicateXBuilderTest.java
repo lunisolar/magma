@@ -124,12 +124,14 @@ public class LBiCharPredicateXBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesTest((char)0,(char)0).to(a -> a.isEqualTo(false))
-            .doesTest((char)5,(char)5).to(a -> a.isEqualTo(true))
-            .doesTest((char)15,(char)15).to(a -> a.isEqualTo(true))
-            .doesTest((char)10,(char)10).to(a -> a.isEqualTo(true))
+            .doesTest((char)0,(char)0).when(null).to(a -> a.isEqualTo(false))
+            .doesTest((char)5,(char)5).when(null).to(a -> a.isEqualTo(true))
+            .doesTest((char)15,(char)15).when(null).to(a -> a.isEqualTo(true))
+            .doesTest((char)10,(char)10).when(null).to(a -> a.isEqualTo(true))
         ;
 
     }
 
 }
+
+

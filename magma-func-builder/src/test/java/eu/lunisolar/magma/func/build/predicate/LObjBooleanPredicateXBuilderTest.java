@@ -124,10 +124,12 @@ public class LObjBooleanPredicateXBuilderTest<T,X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesTest(Integer.valueOf(0),false).to(a -> a.isEqualTo(false))
-            .doesTest(Integer.valueOf(5),true).to(a -> a.isEqualTo(true))
+            .doesTest(Integer.valueOf(0),false).when(null).to(a -> a.isEqualTo(false))
+            .doesTest(Integer.valueOf(5),true).when(null).to(a -> a.isEqualTo(true))
         ;
 
     }
 
 }
+
+

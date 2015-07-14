@@ -128,3 +128,5 @@ public class LIntBiFunctionXAssertTest<R,X extends Throwable> {
     }
 
 }
+
+

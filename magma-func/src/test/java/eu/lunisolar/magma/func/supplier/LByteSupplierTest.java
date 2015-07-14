@@ -195,7 +195,7 @@ public class LByteSupplierTest<X extends ParseException> {
         });
 
         // when
-        LByteSupplier wrapped = sutThrowing.handle(handler -> handler
+        LByteSupplier wrapped = sutThrowing.handleBSup(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -219,7 +219,7 @@ public class LByteSupplierTest<X extends ParseException> {
         });
 
         // when
-        LByteSupplier wrapped = sutThrowing.handle(handler -> handler
+        LByteSupplier wrapped = sutThrowing.handleBSup(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -243,7 +243,7 @@ public class LByteSupplierTest<X extends ParseException> {
         });
 
         // when
-        LByteSupplier wrapped = sutThrowing.handle(handler -> handler
+        LByteSupplier wrapped = sutThrowing.handleBSup(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -268,7 +268,7 @@ public class LByteSupplierTest<X extends ParseException> {
         });
 
         // when
-        LByteSupplier wrapped = sutThrowing.handle(h -> Function4U.doNothing());
+        LByteSupplier wrapped = sutThrowing.handleBSup(h -> Function4U.doNothing());
 
         // then
         try {
@@ -308,7 +308,7 @@ public class LByteSupplierTest<X extends ParseException> {
         };
 
         //when
-        LSupplier<Integer > function = sutO.then(thenFunction);
+        LSupplier<Integer > function = sutO.toSupplier(thenFunction);
         Integer  finalValue = function.doGet();
 
         //then - finals
@@ -342,7 +342,7 @@ public class LByteSupplierTest<X extends ParseException> {
         };
 
         //when
-        LByteSupplier function = sutO.thenToByte(thenFunction);
+        LByteSupplier function = sutO.toByteSupplier(thenFunction);
         byte finalValue = function.doGetAsByte();
 
         //then - finals
@@ -376,7 +376,7 @@ public class LByteSupplierTest<X extends ParseException> {
         };
 
         //when
-        LShortSupplier function = sutO.thenToShort(thenFunction);
+        LShortSupplier function = sutO.toShortSupplier(thenFunction);
         short finalValue = function.doGetAsShort();
 
         //then - finals
@@ -410,7 +410,7 @@ public class LByteSupplierTest<X extends ParseException> {
         };
 
         //when
-        LIntSupplier function = sutO.thenToInt(thenFunction);
+        LIntSupplier function = sutO.toIntSupplier(thenFunction);
         int finalValue = function.doGetAsInt();
 
         //then - finals
@@ -444,7 +444,7 @@ public class LByteSupplierTest<X extends ParseException> {
         };
 
         //when
-        LLongSupplier function = sutO.thenToLong(thenFunction);
+        LLongSupplier function = sutO.toLongSupplier(thenFunction);
         long finalValue = function.doGetAsLong();
 
         //then - finals
@@ -478,7 +478,7 @@ public class LByteSupplierTest<X extends ParseException> {
         };
 
         //when
-        LFloatSupplier function = sutO.thenToFloat(thenFunction);
+        LFloatSupplier function = sutO.toFloatSupplier(thenFunction);
         float finalValue = function.doGetAsFloat();
 
         //then - finals
@@ -512,7 +512,7 @@ public class LByteSupplierTest<X extends ParseException> {
         };
 
         //when
-        LDoubleSupplier function = sutO.thenToDouble(thenFunction);
+        LDoubleSupplier function = sutO.toDoubleSupplier(thenFunction);
         double finalValue = function.doGetAsDouble();
 
         //then - finals
@@ -546,7 +546,7 @@ public class LByteSupplierTest<X extends ParseException> {
         };
 
         //when
-        LCharSupplier function = sutO.thenToChar(thenFunction);
+        LCharSupplier function = sutO.toCharSupplier(thenFunction);
         char finalValue = function.doGetAsChar();
 
         //then - finals
@@ -580,7 +580,7 @@ public class LByteSupplierTest<X extends ParseException> {
         };
 
         //when
-        LBooleanSupplier function = sutO.thenToBoolean(thenFunction);
+        LBooleanSupplier function = sutO.toBooleanSupplier(thenFunction);
         boolean finalValue = function.doGetAsBoolean();
 
         //then - finals
@@ -596,28 +596,28 @@ public class LByteSupplierTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingBSup())
             .isSameAs(sut)
             .isInstanceOf(LByteSupplier.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingBSup())
             .isSameAs(sut)
             .isInstanceOf(LByteSupplier.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingBSupX())
             .isSameAs(sut)
             .isInstanceOf(LByteSupplierX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingBSupX())
             .isSameAs(sut)
             .isInstanceOf(LByteSupplierX.class);
     }
@@ -631,11 +631,11 @@ public class LByteSupplierTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doGetAsByte();
+        sutThrowing.shovingBSup().doGetAsByte();
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleBSup() throws X {
 
         // given
         LByteSupplier sutThrowing = LByteSupplier.l(() -> {
@@ -643,7 +643,7 @@ public class LByteSupplierTest<X extends ParseException> {
         });
 
         // when
-        LByteSupplier wrapped = sutThrowing.handle(h -> {
+        LByteSupplier wrapped = sutThrowing.handleBSup(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -680,3 +680,5 @@ public class LByteSupplierTest<X extends ParseException> {
 
 
 }
+
+

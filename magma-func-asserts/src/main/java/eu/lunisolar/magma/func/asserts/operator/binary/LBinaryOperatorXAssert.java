@@ -26,16 +26,28 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
 import eu.lunisolar.magma.func.operator.binary.*;
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LBinaryOperatorX. */
-public interface LBinaryOperatorXAssert<S extends LBinaryOperatorXAssert<S, A, RS, T, X>, A extends LBinaryOperatorX<T, X>, RS extends Assert<RS, T>, T, X extends Throwable> extends Assert<S, A>, FullFunctionalAssert<S, A, RS, T, Exception> {
+public interface LBinaryOperatorXAssert<S extends LBinaryOperatorXAssert<S, A, RS, T, X>, A extends LBinaryOperatorX<T, X>, RS extends Assert<RS, T>, T, X extends Throwable>
+		extends
+			Assert<S, A>,
+			FullFunctionalAssert<S, LBiConsumerX<T, T, Exception>, A, RS, T, Exception> {
 
 	@Nonnull
-	Evaluation<S, A, RS, T, Exception> doesApply(T t1, T t2);
+	Evaluation<S, LBiConsumerX<T, T, Exception>, A, RS, T, Exception> doesApply(T t1, T t2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends LBinaryOperatorX<T, X>, RS extends Assert<RS, T>, T, X extends Throwable> extends Base<Impl<A, RS, T, X>, A, RS, T, X> {
@@ -46,7 +58,9 @@ public interface LBinaryOperatorXAssert<S extends LBinaryOperatorXAssert<S, A, R
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, T, X>, A extends LBinaryOperatorX<T, X>, RS extends Assert<RS, T>, T, X extends Throwable> extends FullFunctionalAssert.Base<S, A, RS, T, Exception> implements LBinaryOperatorXAssert<S, A, RS, T, X> {
+	public static class Base<S extends Base<S, A, RS, T, X>, A extends LBinaryOperatorX<T, X>, RS extends Assert<RS, T>, T, X extends Throwable> extends FullFunctionalAssert.Base<S, LBiConsumerX<T, T, Exception>, A, RS, T, Exception>
+			implements
+				LBinaryOperatorXAssert<S, A, RS, T, X> {
 
 		protected final java.util.function.Function<T, RS> assertFactory;
 
@@ -56,8 +70,15 @@ public interface LBinaryOperatorXAssert<S extends LBinaryOperatorXAssert<S, A, R
 		}
 
 		@Nonnull
-		public Evaluation<S, A, RS, T, Exception> doesApply(T t1, T t2) {
-			return evaluation(() -> assertFactory.apply((T) actual.doApply(t1, t2)));
+		public Evaluation<S, LBiConsumerX<T, T, Exception>, A, RS, T, Exception> doesApply(T t1, T t2) {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doAccept(t1, t2);
+				}
+				return assertFactory.apply((T) actual.doApply(t1, t2));
+			});
+
 		}
 
 	}

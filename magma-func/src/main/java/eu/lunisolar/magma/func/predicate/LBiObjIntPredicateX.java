@@ -105,7 +105,7 @@ public interface LBiObjIntPredicateX<T1, T2, X extends Throwable> extends MetaPr
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> capture(T1 t1, T2 t2, int i) {
+	default LBooleanSupplierX<X> captureBiObjIPred(T1 t1, T2 t2, int i) {
 		return () -> this.doTest(t1, t2, i);
 	}
 
@@ -186,10 +186,10 @@ public interface LBiObjIntPredicateX<T1, T2, X extends Throwable> extends MetaPr
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiObjIntPredicateX<V1, V2, X> fromInt(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LIntUnaryOperatorX<X> before3) {
+	default <V1, V2> LBiObjIntPredicateX<V1, V2, X> biObjIPredFromInt(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LIntUnaryOperatorX<X> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
@@ -197,10 +197,10 @@ public interface LBiObjIntPredicateX<T1, T2, X extends Throwable> extends MetaPr
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2, V3> LTriPredicateX<V1, V2, V3, X> from(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LToIntFunctionX<? super V3, X> before3) {
+	default <V1, V2, V3> LTriPredicateX<V1, V2, V3, X> biObjIPredFrom(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LToIntFunctionX<? super V3, X> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
@@ -213,7 +213,7 @@ public interface LBiObjIntPredicateX<T1, T2, X extends Throwable> extends MetaPr
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LBiObjIntFunctionX<T1, T2, V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LBiObjIntFunctionX<T1, T2, V, X> boolToBiObjIntFunction(@Nonnull LBooleanFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (T1 t1, T2 t2, int i) -> after.doApply(this.doTest(t1, t2, i));
 	}
@@ -223,23 +223,23 @@ public interface LBiObjIntPredicateX<T1, T2, X extends Throwable> extends MetaPr
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiObjIntPredicate<T1, T2> nest() {
+	default LBiObjIntPredicate<T1, T2> nestingBiObjIPred() {
 		return this::nestingDoTest;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiObjIntPredicateX<T1, T2, RuntimeException> nestX() {
+	default LBiObjIntPredicateX<T1, T2, RuntimeException> nestingBiObjIPredX() {
 		return this::nestingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjIntPredicate<T1, T2> shove() {
+	default LBiObjIntPredicate<T1, T2> shovingBiObjIPred() {
 		return this::shovingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjIntPredicateX<T1, T2, RuntimeException> shoveX() {
+	default LBiObjIntPredicateX<T1, T2, RuntimeException> shovingBiObjIPredX() {
 		return this::shovingDoTest;
 	}
 
@@ -248,12 +248,12 @@ public interface LBiObjIntPredicateX<T1, T2, X extends Throwable> extends MetaPr
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LBiObjIntPredicate<T1, T2> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LBiObjIntPredicate<T1, T2> handleBiObjIPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T1 t1, T2 t2, int i) -> this.handlingDoTest(t1, t2, i, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LBiObjIntPredicateX<T1, T2, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LBiObjIntPredicateX<T1, T2, Y> handleBiObjIPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T1 t1, T2 t2, int i) -> this.handlingDoTest(t1, t2, i, handling);
 	}
 

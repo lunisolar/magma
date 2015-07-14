@@ -84,7 +84,7 @@ public interface LCharBinaryOperator extends LCharBinaryOperatorX<RuntimeExcepti
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LCharSupplier capture(char c1, char c2) {
+	default LCharSupplier captureCBinaryOp(char c1, char c2) {
 		return () -> this.doApplyAsChar(c1, c2);
 	}
 
@@ -131,20 +131,20 @@ public interface LCharBinaryOperator extends LCharBinaryOperatorX<RuntimeExcepti
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LCharBinaryOperator fromChar(@Nonnull final LCharUnaryOperator before1, @Nonnull final LCharUnaryOperator before2) {
+	default LCharBinaryOperator cBinaryOpFromChar(@Nonnull final LCharUnaryOperator before1, @Nonnull final LCharUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final char v1, final char v2) -> this.doApplyAsChar(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LToCharBiFunction<V1, V2> from(@Nonnull final LToCharFunction<? super V1> before1, @Nonnull final LToCharFunction<? super V2> before2) {
+	default <V1, V2> LToCharBiFunction<V1, V2> cBinaryOpFrom(@Nonnull final LToCharFunction<? super V1> before1, @Nonnull final LToCharFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApplyAsChar(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
@@ -166,23 +166,23 @@ public interface LCharBinaryOperator extends LCharBinaryOperatorX<RuntimeExcepti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LCharBinaryOperator nest() {
+	default LCharBinaryOperator nestingCBinaryOp() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LCharBinaryOperatorX<RuntimeException> nestX() {
+	default LCharBinaryOperatorX<RuntimeException> nestingCBinaryOpX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharBinaryOperator shove() {
+	default LCharBinaryOperator shovingCBinaryOp() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharBinaryOperatorX<RuntimeException> shoveX() {
+	default LCharBinaryOperatorX<RuntimeException> shovingCBinaryOpX() {
 		return this;
 	}
 

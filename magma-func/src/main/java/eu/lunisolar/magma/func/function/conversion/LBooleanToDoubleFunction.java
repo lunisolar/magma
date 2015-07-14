@@ -84,7 +84,7 @@ public interface LBooleanToDoubleFunction extends LBooleanToDoubleFunctionX<Runt
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LDoubleSupplier capture(boolean b) {
+	default LDoubleSupplier captureBoolToDFunc(boolean b) {
 		return () -> this.doApplyAsDouble(b);
 	}
 
@@ -112,21 +112,21 @@ public interface LBooleanToDoubleFunction extends LBooleanToDoubleFunctionX<Runt
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LBooleanToDoubleFunction fromBoolean(@Nonnull final LBooleanUnaryOperator before1) {
+	default LBooleanToDoubleFunction boolToDFuncFromBoolean(@Nonnull final LLogicalOperator before1) {
 		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsDouble(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doApplyAsDouble(before1.doApply(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToDoubleFunction<V1> from(@Nonnull final LPredicate<? super V1> before1) {
+	default <V1> LToDoubleFunction<V1> boolToDFuncFrom(@Nonnull final LPredicate<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsDouble(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doApplyAsDouble(before1.doTest(v1));
 	}
 
 	// </editor-fold>
@@ -191,7 +191,7 @@ public interface LBooleanToDoubleFunction extends LBooleanToDoubleFunctionX<Runt
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LBooleanUnaryOperator thenToBoolean(@Nonnull LDoublePredicate after) {
+	default LLogicalOperator thenToBoolean(@Nonnull LDoublePredicate after) {
 		Null.nonNullArg(after, "after");
 		return b -> after.doTest(this.doApplyAsDouble(b));
 	}
@@ -201,23 +201,23 @@ public interface LBooleanToDoubleFunction extends LBooleanToDoubleFunctionX<Runt
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanToDoubleFunction nest() {
+	default LBooleanToDoubleFunction nestingBoolToDFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanToDoubleFunctionX<RuntimeException> nestX() {
+	default LBooleanToDoubleFunctionX<RuntimeException> nestingBoolToDFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanToDoubleFunction shove() {
+	default LBooleanToDoubleFunction shovingBoolToDFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanToDoubleFunctionX<RuntimeException> shoveX() {
+	default LBooleanToDoubleFunctionX<RuntimeException> shovingBoolToDFuncX() {
 		return this;
 	}
 

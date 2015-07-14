@@ -48,7 +48,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for LBooleanToShortFunction. */
-public final class LBooleanToShortFunctionBuilder extends PerCaseBuilderWithShortProduct.Base<LBooleanToShortFunctionBuilder, LBooleanUnaryOperator, LBooleanToShortFunction> {
+public final class LBooleanToShortFunctionBuilder extends PerCaseBuilderWithShortProduct.Base<LBooleanToShortFunctionBuilder, LLogicalOperator, LBooleanToShortFunction> {
 
 	private Consumer<LBooleanToShortFunction> consumer;
 
@@ -107,11 +107,11 @@ public final class LBooleanToShortFunctionBuilder extends PerCaseBuilderWithShor
 
 		LBooleanToShortFunction retval;
 
-		final Case<LBooleanUnaryOperator, LBooleanToShortFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
+		final Case<LLogicalOperator, LBooleanToShortFunction>[] casesArray = cases.toArray(new Case[cases.size()]);
 		retval = LBooleanToShortFunction.l(b -> {
 			try {
-				for (Case<LBooleanUnaryOperator, LBooleanToShortFunction> aCase : casesArray) {
-					if (aCase.casePredicate().doApplyAsBoolean(b)) {
+				for (Case<LLogicalOperator, LBooleanToShortFunction> aCase : casesArray) {
+					if (aCase.casePredicate().doApply(b)) {
 						return aCase.caseFunction().doApplyAsShort(b);
 					}
 				}

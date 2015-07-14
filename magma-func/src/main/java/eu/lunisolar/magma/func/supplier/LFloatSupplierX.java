@@ -130,63 +130,63 @@ public interface LFloatSupplierX<X extends Throwable> extends MetaSupplier, Prim
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default <V> LSupplierX<V, X> then(@Nonnull LFloatFunctionX<? extends V, X> after) {
+	default <V> LSupplierX<V, X> toSupplier(@Nonnull LFloatFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApply(this.doGetAsFloat());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LByteSupplierX<X> thenToByte(@Nonnull LFloatToByteFunctionX<X> after) {
+	default LByteSupplierX<X> toByteSupplier(@Nonnull LFloatToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsByte(this.doGetAsFloat());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LShortSupplierX<X> thenToShort(@Nonnull LFloatToShortFunctionX<X> after) {
+	default LShortSupplierX<X> toShortSupplier(@Nonnull LFloatToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsShort(this.doGetAsFloat());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LIntSupplierX<X> thenToInt(@Nonnull LFloatToIntFunctionX<X> after) {
+	default LIntSupplierX<X> toIntSupplier(@Nonnull LFloatToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsInt(this.doGetAsFloat());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LLongSupplierX<X> thenToLong(@Nonnull LFloatToLongFunctionX<X> after) {
+	default LLongSupplierX<X> toLongSupplier(@Nonnull LFloatToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsLong(this.doGetAsFloat());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LFloatSupplierX<X> thenToFloat(@Nonnull LFloatUnaryOperatorX<X> after) {
+	default LFloatSupplierX<X> toFloatSupplier(@Nonnull LFloatUnaryOperatorX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsFloat(this.doGetAsFloat());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LDoubleSupplierX<X> thenToDouble(@Nonnull LFloatToDoubleFunctionX<X> after) {
+	default LDoubleSupplierX<X> toDoubleSupplier(@Nonnull LFloatToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsDouble(this.doGetAsFloat());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LCharSupplierX<X> thenToChar(@Nonnull LFloatToCharFunctionX<X> after) {
+	default LCharSupplierX<X> toCharSupplier(@Nonnull LFloatToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doApplyAsChar(this.doGetAsFloat());
 	}
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LBooleanSupplierX<X> thenToBoolean(@Nonnull LFloatPredicateX<X> after) {
+	default LBooleanSupplierX<X> toBooleanSupplier(@Nonnull LFloatPredicateX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doTest(this.doGetAsFloat());
 	}
@@ -196,23 +196,23 @@ public interface LFloatSupplierX<X extends Throwable> extends MetaSupplier, Prim
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LFloatSupplier nest() {
+	default LFloatSupplier nestingFSup() {
 		return this::nestingDoGetAsFloat;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LFloatSupplierX<RuntimeException> nestX() {
+	default LFloatSupplierX<RuntimeException> nestingFSupX() {
 		return this::nestingDoGetAsFloat;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatSupplier shove() {
+	default LFloatSupplier shovingFSup() {
 		return this::shovingDoGetAsFloat;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatSupplierX<RuntimeException> shoveX() {
+	default LFloatSupplierX<RuntimeException> shovingFSupX() {
 		return this::shovingDoGetAsFloat;
 	}
 
@@ -221,12 +221,12 @@ public interface LFloatSupplierX<X extends Throwable> extends MetaSupplier, Prim
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LFloatSupplier handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LFloatSupplier handleFSup(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return () -> this.handlingDoGetAsFloat(handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LFloatSupplierX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LFloatSupplierX<Y> handleFSupX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return () -> this.handlingDoGetAsFloat(handling);
 	}
 

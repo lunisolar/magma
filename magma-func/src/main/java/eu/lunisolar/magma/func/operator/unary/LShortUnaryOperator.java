@@ -84,7 +84,7 @@ public interface LShortUnaryOperator extends LShortUnaryOperatorX<RuntimeExcepti
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LShortSupplier capture(short s) {
+	default LShortSupplier captureSUnaryOp(short s) {
 		return () -> this.doApplyAsShort(s);
 	}
 
@@ -112,19 +112,19 @@ public interface LShortUnaryOperator extends LShortUnaryOperatorX<RuntimeExcepti
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LShortUnaryOperator fromShort(@Nonnull final LShortUnaryOperator before1) {
+	default LShortUnaryOperator sUnaryOpFromShort(@Nonnull final LShortUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsShort(before1.doApplyAsShort(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToShortFunction<V1> from(@Nonnull final LToShortFunction<? super V1> before1) {
+	default <V1> LToShortFunction<V1> sUnaryOpFrom(@Nonnull final LToShortFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsShort(before1.doApplyAsShort(v1));
 	}
@@ -207,23 +207,23 @@ public interface LShortUnaryOperator extends LShortUnaryOperatorX<RuntimeExcepti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LShortUnaryOperator nest() {
+	default LShortUnaryOperator nestingSUnaryOp() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LShortUnaryOperatorX<RuntimeException> nestX() {
+	default LShortUnaryOperatorX<RuntimeException> nestingSUnaryOpX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortUnaryOperator shove() {
+	default LShortUnaryOperator shovingSUnaryOp() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortUnaryOperatorX<RuntimeException> shoveX() {
+	default LShortUnaryOperatorX<RuntimeException> shovingSUnaryOpX() {
 		return this;
 	}
 

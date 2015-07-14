@@ -105,7 +105,7 @@ public interface LObjCharPredicateX<T, X extends Throwable> extends MetaPredicat
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> capture(T t, char c) {
+	default LBooleanSupplierX<X> captureObjCPred(T t, char c) {
 		return () -> this.doTest(t, c);
 	}
 
@@ -186,20 +186,20 @@ public interface LObjCharPredicateX<T, X extends Throwable> extends MetaPredicat
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LObjCharPredicateX<V1, X> fromChar(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LCharUnaryOperatorX<X> before2) {
+	default <V1> LObjCharPredicateX<V1, X> objCPredFromChar(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LCharUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final char v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsChar(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiPredicateX<V1, V2, X> from(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToCharFunctionX<? super V2, X> before2) {
+	default <V1, V2> LBiPredicateX<V1, V2, X> objCPredFrom(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToCharFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsChar(v2));
@@ -211,7 +211,7 @@ public interface LObjCharPredicateX<T, X extends Throwable> extends MetaPredicat
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LObjCharFunctionX<T, V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LObjCharFunctionX<T, V, X> boolToObjCharFunction(@Nonnull LBooleanFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (T t, char c) -> after.doApply(this.doTest(t, c));
 	}
@@ -221,23 +221,23 @@ public interface LObjCharPredicateX<T, X extends Throwable> extends MetaPredicat
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjCharPredicate<T> nest() {
+	default LObjCharPredicate<T> nestingObjCPred() {
 		return this::nestingDoTest;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjCharPredicateX<T, RuntimeException> nestX() {
+	default LObjCharPredicateX<T, RuntimeException> nestingObjCPredX() {
 		return this::nestingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjCharPredicate<T> shove() {
+	default LObjCharPredicate<T> shovingObjCPred() {
 		return this::shovingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjCharPredicateX<T, RuntimeException> shoveX() {
+	default LObjCharPredicateX<T, RuntimeException> shovingObjCPredX() {
 		return this::shovingDoTest;
 	}
 
@@ -246,12 +246,12 @@ public interface LObjCharPredicateX<T, X extends Throwable> extends MetaPredicat
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LObjCharPredicate<T> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LObjCharPredicate<T> handleObjCPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T t, char c) -> this.handlingDoTest(t, c, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LObjCharPredicateX<T, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LObjCharPredicateX<T, Y> handleObjCPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T t, char c) -> this.handlingDoTest(t, c, handling);
 	}
 

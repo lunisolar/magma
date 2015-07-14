@@ -124,12 +124,14 @@ public class LFloatToCharFunctionXBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsChar((float)0).to(a -> a.isEqualTo((char)0))
-            .doesApplyAsChar((float)5).to(a -> a.isEqualTo((char)1))
-            .doesApplyAsChar((float)15).to(a -> a.isEqualTo((char)2))
-            .doesApplyAsChar((float)10).to(a -> a.isEqualTo((char)99))
+            .doesApplyAsChar((float)0).when(null).to(a -> a.isEqualTo((char)0))
+            .doesApplyAsChar((float)5).when(null).to(a -> a.isEqualTo((char)1))
+            .doesApplyAsChar((float)15).when(null).to(a -> a.isEqualTo((char)2))
+            .doesApplyAsChar((float)10).when(null).to(a -> a.isEqualTo((char)99))
         ;
 
     }
 
 }
+
+

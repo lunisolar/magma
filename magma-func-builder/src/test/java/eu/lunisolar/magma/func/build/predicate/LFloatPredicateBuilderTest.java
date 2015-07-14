@@ -124,12 +124,14 @@ public class LFloatPredicateBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesTest((float)0).to(a -> a.isEqualTo(false))
-            .doesTest((float)5).to(a -> a.isEqualTo(true))
-            .doesTest((float)15).to(a -> a.isEqualTo(true))
-            .doesTest((float)10).to(a -> a.isEqualTo(true))
+            .doesTest((float)0).when(null).to(a -> a.isEqualTo(false))
+            .doesTest((float)5).when(null).to(a -> a.isEqualTo(true))
+            .doesTest((float)15).when(null).to(a -> a.isEqualTo(true))
+            .doesTest((float)10).when(null).to(a -> a.isEqualTo(true))
         ;
 
     }
 
 }
+
+

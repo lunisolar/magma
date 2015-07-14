@@ -171,7 +171,7 @@ public class LBooleanBiConsumerXTest<X extends ParseException> {
         });
 
         // when
-        LBooleanBiConsumerX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LBooleanBiConsumerX<X> wrapped = sutThrowing.handleBoolBiConsX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -195,7 +195,7 @@ public class LBooleanBiConsumerXTest<X extends ParseException> {
         });
 
         // when
-        LBooleanBiConsumerX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LBooleanBiConsumerX<X> wrapped = sutThrowing.handleBoolBiConsX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -219,7 +219,7 @@ public class LBooleanBiConsumerXTest<X extends ParseException> {
         });
 
         // when
-        LBooleanBiConsumerX<X> wrapped = sutThrowing.handleX(handler -> handler
+        LBooleanBiConsumerX<X> wrapped = sutThrowing.handleBoolBiConsX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -244,7 +244,7 @@ public class LBooleanBiConsumerXTest<X extends ParseException> {
         });
 
         // when
-        LBooleanBiConsumerX<X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
+        LBooleanBiConsumerX<X> wrapped = sutThrowing.handleBoolBiConsX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -263,7 +263,7 @@ public class LBooleanBiConsumerXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfromBoolean() throws X {
+    public void testboolBiConsFromBoolean() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -275,19 +275,19 @@ public class LBooleanBiConsumerXTest<X extends ParseException> {
                 assertThat(b2).isEqualTo(true);
         };
 
-        LBooleanUnaryOperatorX<X> before1 = p0 -> {
+        LLogicalOperatorX<X> before1 = p0 -> {
             assertThat(p0).isEqualTo(true);
             beforeCalls.incrementAndGet();
             return true;
         };
-        LBooleanUnaryOperatorX<X> before2 = p1 -> {
+        LLogicalOperatorX<X> before2 = p1 -> {
             assertThat(p1).isEqualTo(true);
             beforeCalls.incrementAndGet();
             return true;
         };
 
         //when
-        LBooleanBiConsumerX<X> function = sutO.fromBoolean(before1,before2);
+        LBooleanBiConsumerX<X> function = sutO.boolBiConsFromBoolean(before1,before2);
         function.doAccept(true,true);
 
         //then - finals
@@ -297,7 +297,7 @@ public class LBooleanBiConsumerXTest<X extends ParseException> {
 
 
     @Test
-    public void testfrom() throws X {
+    public void testboolBiConsFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -321,7 +321,7 @@ public class LBooleanBiConsumerXTest<X extends ParseException> {
         };
 
         //when
-        LBiConsumerX<Integer ,Integer ,X> function = sutO.from(before1,before2);
+        LBiConsumerX<Integer ,Integer ,X> function = sutO.boolBiConsFrom(before1,before2);
         function.doAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
@@ -362,25 +362,25 @@ public class LBooleanBiConsumerXTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingBoolBiCons())
             .isInstanceOf(LBooleanBiConsumer.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingBoolBiCons())
             .isInstanceOf(LBooleanBiConsumer.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingBoolBiConsX())
             .isInstanceOf(LBooleanBiConsumerX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingBoolBiConsX())
             .isInstanceOf(LBooleanBiConsumerX.class);
     }
 
@@ -393,11 +393,11 @@ public class LBooleanBiConsumerXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doAccept(true,true);
+        sutThrowing.shovingBoolBiCons().doAccept(true,true);
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleBoolBiCons() throws X {
 
         // given
         LBooleanBiConsumerX<X> sutThrowing = LBooleanBiConsumerX.lX((boolean b1,boolean b2) -> {
@@ -405,7 +405,7 @@ public class LBooleanBiConsumerXTest<X extends ParseException> {
         });
 
         // when
-        LBooleanBiConsumerX<X> wrapped = sutThrowing.handleX(h -> {
+        LBooleanBiConsumerX<X> wrapped = sutThrowing.handleBoolBiConsX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -442,3 +442,5 @@ public class LBooleanBiConsumerXTest<X extends ParseException> {
 
 
 }
+
+

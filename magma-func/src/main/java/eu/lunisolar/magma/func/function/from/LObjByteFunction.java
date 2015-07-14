@@ -88,7 +88,7 @@ public interface LObjByteFunction<T, R> extends LObjByteFunctionX<T, R, RuntimeE
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> capture(T t, byte i) {
+	default LSupplier<R> captureObjBFunc(T t, byte i) {
 		return () -> this.doApply(t, i);
 	}
 
@@ -116,20 +116,20 @@ public interface LObjByteFunction<T, R> extends LObjByteFunctionX<T, R, RuntimeE
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LObjByteFunction<V1, R> fromByte(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LByteUnaryOperator before2) {
+	default <V1> LObjByteFunction<V1, R> objBFuncFromByte(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LByteUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final byte v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsByte(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiFunction<V1, V2, R> from(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToByteFunction<? super V2> before2) {
+	default <V1, V2> LBiFunction<V1, V2, R> objBFuncFrom(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToByteFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsByte(v2));
@@ -158,30 +158,30 @@ public interface LObjByteFunction<T, R> extends LObjByteFunctionX<T, R, RuntimeE
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjByteFunction<T, R> nest() {
+	default LObjByteFunction<T, R> nestingObjBFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjByteFunctionX<T, R, RuntimeException> nestX() {
+	default LObjByteFunctionX<T, R, RuntimeException> nestingObjBFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjByteFunction<T, R> shove() {
+	default LObjByteFunction<T, R> shovingObjBFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjByteFunctionX<T, R, RuntimeException> shoveX() {
+	default LObjByteFunctionX<T, R, RuntimeException> shovingObjBFuncX() {
 		return this;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LObjByteFunction<T, R> nonNullable() {
+	default LObjByteFunction<T, R> nonNullObjBFunc() {
 		return this::nonNullDoApply;
 	}
 

@@ -128,3 +128,5 @@ public class LCharBinaryOperatorXAssertTest<X extends Throwable> {
     }
 
 }
+
+

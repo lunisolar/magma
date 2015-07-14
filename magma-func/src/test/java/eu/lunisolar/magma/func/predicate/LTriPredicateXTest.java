@@ -191,7 +191,7 @@ public class LTriPredicateXTest<T1,T2,T3,X extends ParseException> {
         });
 
         // when
-        LTriPredicateX<T1,T2,T3,X> wrapped = sutThrowing.handleX(handler -> handler
+        LTriPredicateX<T1,T2,T3,X> wrapped = sutThrowing.handleTriPredX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -215,7 +215,7 @@ public class LTriPredicateXTest<T1,T2,T3,X extends ParseException> {
         });
 
         // when
-        LTriPredicateX<T1,T2,T3,X> wrapped = sutThrowing.handleX(handler -> handler
+        LTriPredicateX<T1,T2,T3,X> wrapped = sutThrowing.handleTriPredX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -239,7 +239,7 @@ public class LTriPredicateXTest<T1,T2,T3,X extends ParseException> {
         });
 
         // when
-        LTriPredicateX<T1,T2,T3,X> wrapped = sutThrowing.handleX(handler -> handler
+        LTriPredicateX<T1,T2,T3,X> wrapped = sutThrowing.handleTriPredX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -264,7 +264,7 @@ public class LTriPredicateXTest<T1,T2,T3,X extends ParseException> {
         });
 
         // when
-        LTriPredicateX<T1,T2,T3,X> wrapped = sutThrowing.handleX(h -> Function4U.doNothing());
+        LTriPredicateX<T1,T2,T3,X> wrapped = sutThrowing.handleTriPredX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -279,7 +279,7 @@ public class LTriPredicateXTest<T1,T2,T3,X extends ParseException> {
     }
 
     @Test
-    public void testNegate() throws X {
+    public void testnegate() throws X {
         assertThat(sut.negate().doTest((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100)))
             .isEqualTo(!testValue);
     }
@@ -336,7 +336,7 @@ public class LTriPredicateXTest<T1,T2,T3,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfrom() throws X {
+    public void testtriPredFrom() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -367,7 +367,7 @@ public class LTriPredicateXTest<T1,T2,T3,X extends ParseException> {
         };
 
         //when
-        LTriPredicateX<Integer ,Integer ,Integer ,X> function = sutO.from(before1,before2,before3);
+        LTriPredicateX<Integer ,Integer ,Integer ,X> function = sutO.triPredFrom(before1,before2,before3);
         function.doTest((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(Integer )Integer.valueOf(82));
 
         //then - finals
@@ -405,7 +405,7 @@ public class LTriPredicateXTest<T1,T2,T3,X extends ParseException> {
         };
 
         //when
-        LTriFunctionX<Integer ,Integer ,Integer ,Integer ,X> function = sutO.then(thenFunction);
+        LTriFunctionX<Integer ,Integer ,Integer ,Integer ,X> function = sutO.boolToTriFunction(thenFunction);
         Integer  finalValue = function.doApply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(Integer )Integer.valueOf(82));
 
         //then - finals
@@ -421,25 +421,25 @@ public class LTriPredicateXTest<T1,T2,T3,X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nest())
+        assertThat(sut.nestingTriPred())
             .isInstanceOf(LTriPredicate.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shove())
+        assertThat(sut.shovingTriPred())
             .isInstanceOf(LTriPredicate.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestX())
+        assertThat(sut.nestingTriPredX())
             .isInstanceOf(LTriPredicateX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shoveX())
+        assertThat(sut.shovingTriPredX())
             .isInstanceOf(LTriPredicateX.class);
     }
 
@@ -452,11 +452,11 @@ public class LTriPredicateXTest<T1,T2,T3,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shove().doTest((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100));
+        sutThrowing.shovingTriPred().doTest((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(T3)Integer.valueOf(100));
     }
 
     @Test
-    public void testHandle() throws X {
+    public void testHandleTriPred() throws X {
 
         // given
         LTriPredicateX<T1,T2,T3,X> sutThrowing = LTriPredicateX.lX((T1 t1,T2 t2,T3 t3) -> {
@@ -464,7 +464,7 @@ public class LTriPredicateXTest<T1,T2,T3,X extends ParseException> {
         });
 
         // when
-        LTriPredicateX<T1,T2,T3,X> wrapped = sutThrowing.handleX(h -> {
+        LTriPredicateX<T1,T2,T3,X> wrapped = sutThrowing.handleTriPredX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 
@@ -501,3 +501,5 @@ public class LTriPredicateXTest<T1,T2,T3,X extends ParseException> {
 
 
 }
+
+

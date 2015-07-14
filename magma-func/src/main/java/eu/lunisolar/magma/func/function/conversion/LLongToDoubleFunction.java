@@ -91,7 +91,7 @@ public interface LLongToDoubleFunction extends LLongToDoubleFunctionX<RuntimeExc
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LDoubleSupplier capture(long l) {
+	default LDoubleSupplier captureLongToDFunc(long l) {
 		return () -> this.doApplyAsDouble(l);
 	}
 
@@ -125,19 +125,19 @@ public interface LLongToDoubleFunction extends LLongToDoubleFunctionX<RuntimeExc
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LLongToDoubleFunction fromLong(@Nonnull final LLongUnaryOperator before1) {
+	default LLongToDoubleFunction longToDFuncFromLong(@Nonnull final LLongUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsDouble(before1.doApplyAsLong(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToDoubleFunction<V1> from(@Nonnull final LToLongFunction<? super V1> before1) {
+	default <V1> LToDoubleFunction<V1> longToDFuncFrom(@Nonnull final LToLongFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsDouble(before1.doApplyAsLong(v1));
 	}
@@ -214,23 +214,23 @@ public interface LLongToDoubleFunction extends LLongToDoubleFunctionX<RuntimeExc
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LLongToDoubleFunction nest() {
+	default LLongToDoubleFunction nestingLongToDFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LLongToDoubleFunctionX<RuntimeException> nestX() {
+	default LLongToDoubleFunctionX<RuntimeException> nestingLongToDFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LLongToDoubleFunction shove() {
+	default LLongToDoubleFunction shovingLongToDFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LLongToDoubleFunctionX<RuntimeException> shoveX() {
+	default LLongToDoubleFunctionX<RuntimeException> shovingLongToDFuncX() {
 		return this;
 	}
 

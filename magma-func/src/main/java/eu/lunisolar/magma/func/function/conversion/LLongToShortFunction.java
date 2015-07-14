@@ -84,7 +84,7 @@ public interface LLongToShortFunction extends LLongToShortFunctionX<RuntimeExcep
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LShortSupplier capture(long l) {
+	default LShortSupplier captureLongToSFunc(long l) {
 		return () -> this.doApplyAsShort(l);
 	}
 
@@ -112,19 +112,19 @@ public interface LLongToShortFunction extends LLongToShortFunctionX<RuntimeExcep
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LLongToShortFunction fromLong(@Nonnull final LLongUnaryOperator before1) {
+	default LLongToShortFunction longToSFuncFromLong(@Nonnull final LLongUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsShort(before1.doApplyAsLong(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToShortFunction<V1> from(@Nonnull final LToLongFunction<? super V1> before1) {
+	default <V1> LToShortFunction<V1> longToSFuncFrom(@Nonnull final LToLongFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsShort(before1.doApplyAsLong(v1));
 	}
@@ -201,23 +201,23 @@ public interface LLongToShortFunction extends LLongToShortFunctionX<RuntimeExcep
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LLongToShortFunction nest() {
+	default LLongToShortFunction nestingLongToSFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LLongToShortFunctionX<RuntimeException> nestX() {
+	default LLongToShortFunctionX<RuntimeException> nestingLongToSFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LLongToShortFunction shove() {
+	default LLongToShortFunction shovingLongToSFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LLongToShortFunctionX<RuntimeException> shoveX() {
+	default LLongToShortFunctionX<RuntimeException> shovingLongToSFuncX() {
 		return this;
 	}
 

@@ -128,3 +128,5 @@ public class LBooleanToByteFunctionXAssertTest<X extends Throwable> {
     }
 
 }
+
+

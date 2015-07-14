@@ -84,7 +84,7 @@ public interface LCharToIntFunction extends LCharToIntFunctionX<RuntimeException
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LIntSupplier capture(char c) {
+	default LIntSupplier captureCToIFunc(char c) {
 		return () -> this.doApplyAsInt(c);
 	}
 
@@ -112,19 +112,19 @@ public interface LCharToIntFunction extends LCharToIntFunctionX<RuntimeException
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LCharToIntFunction fromChar(@Nonnull final LCharUnaryOperator before1) {
+	default LCharToIntFunction cToIFuncFromChar(@Nonnull final LCharUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsInt(before1.doApplyAsChar(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToIntFunction<V1> from(@Nonnull final LToCharFunction<? super V1> before1) {
+	default <V1> LToIntFunction<V1> cToIFuncFrom(@Nonnull final LToCharFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsInt(before1.doApplyAsChar(v1));
 	}
@@ -201,23 +201,23 @@ public interface LCharToIntFunction extends LCharToIntFunctionX<RuntimeException
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LCharToIntFunction nest() {
+	default LCharToIntFunction nestingCToIFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LCharToIntFunctionX<RuntimeException> nestX() {
+	default LCharToIntFunctionX<RuntimeException> nestingCToIFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharToIntFunction shove() {
+	default LCharToIntFunction shovingCToIFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharToIntFunctionX<RuntimeException> shoveX() {
+	default LCharToIntFunctionX<RuntimeException> shovingCToIFuncX() {
 		return this;
 	}
 

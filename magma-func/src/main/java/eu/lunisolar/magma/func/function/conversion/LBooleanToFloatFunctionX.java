@@ -99,7 +99,7 @@ public interface LBooleanToFloatFunctionX<X extends Throwable> extends MetaFunct
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LFloatSupplierX<X> capture(boolean b) {
+	default LFloatSupplierX<X> captureBoolToFFunc(boolean b) {
 		return () -> this.doApplyAsFloat(b);
 	}
 
@@ -134,21 +134,21 @@ public interface LBooleanToFloatFunctionX<X extends Throwable> extends MetaFunct
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LBooleanToFloatFunctionX<X> fromBoolean(@Nonnull final LBooleanUnaryOperatorX<X> before1) {
+	default LBooleanToFloatFunctionX<X> boolToFFuncFromBoolean(@Nonnull final LLogicalOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsFloat(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doApplyAsFloat(before1.doApply(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToFloatFunctionX<V1, X> from(@Nonnull final LPredicateX<? super V1, X> before1) {
+	default <V1> LToFloatFunctionX<V1, X> boolToFFuncFrom(@Nonnull final LPredicateX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
-		return v1 -> this.doApplyAsFloat(before1.doApplyAsBoolean(v1));
+		return v1 -> this.doApplyAsFloat(before1.doTest(v1));
 	}
 
 	// </editor-fold>
@@ -213,7 +213,7 @@ public interface LBooleanToFloatFunctionX<X extends Throwable> extends MetaFunct
 
 	/** Combines two functions together in a order. */
 	@Nonnull
-	default LBooleanUnaryOperatorX<X> thenToBoolean(@Nonnull LFloatPredicateX<X> after) {
+	default LLogicalOperatorX<X> thenToBoolean(@Nonnull LFloatPredicateX<X> after) {
 		Null.nonNullArg(after, "after");
 		return b -> after.doTest(this.doApplyAsFloat(b));
 	}
@@ -223,23 +223,23 @@ public interface LBooleanToFloatFunctionX<X extends Throwable> extends MetaFunct
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanToFloatFunction nest() {
+	default LBooleanToFloatFunction nestingBoolToFFunc() {
 		return this::nestingDoApplyAsFloat;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanToFloatFunctionX<RuntimeException> nestX() {
+	default LBooleanToFloatFunctionX<RuntimeException> nestingBoolToFFuncX() {
 		return this::nestingDoApplyAsFloat;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanToFloatFunction shove() {
+	default LBooleanToFloatFunction shovingBoolToFFunc() {
 		return this::shovingDoApplyAsFloat;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanToFloatFunctionX<RuntimeException> shoveX() {
+	default LBooleanToFloatFunctionX<RuntimeException> shovingBoolToFFuncX() {
 		return this::shovingDoApplyAsFloat;
 	}
 
@@ -248,12 +248,12 @@ public interface LBooleanToFloatFunctionX<X extends Throwable> extends MetaFunct
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LBooleanToFloatFunction handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LBooleanToFloatFunction handleBoolToFFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return b -> this.handlingDoApplyAsFloat(b, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LBooleanToFloatFunctionX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LBooleanToFloatFunctionX<Y> handleBoolToFFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return b -> this.handlingDoApplyAsFloat(b, handling);
 	}
 

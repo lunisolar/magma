@@ -124,12 +124,14 @@ public class LBinaryOperatorXBuilderTest<T,X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApply(Integer.valueOf(0),Integer.valueOf(0)).to(a -> a.isEqualTo(Integer.valueOf(0)))
-            .doesApply(Integer.valueOf(5),Integer.valueOf(5)).to(a -> a.isEqualTo(Integer.valueOf(1)))
-            .doesApply(Integer.valueOf(15),Integer.valueOf(15)).to(a -> a.isEqualTo(Integer.valueOf(2)))
-            .doesApply(Integer.valueOf(10),Integer.valueOf(10)).to(a -> a.isEqualTo(Integer.valueOf(99)))
+            .doesApply(Integer.valueOf(0),Integer.valueOf(0)).when(null).to(a -> a.isEqualTo(Integer.valueOf(0)))
+            .doesApply(Integer.valueOf(5),Integer.valueOf(5)).when(null).to(a -> a.isEqualTo(Integer.valueOf(1)))
+            .doesApply(Integer.valueOf(15),Integer.valueOf(15)).when(null).to(a -> a.isEqualTo(Integer.valueOf(2)))
+            .doesApply(Integer.valueOf(10),Integer.valueOf(10)).when(null).to(a -> a.isEqualTo(Integer.valueOf(99)))
         ;
 
     }
 
 }
+
+

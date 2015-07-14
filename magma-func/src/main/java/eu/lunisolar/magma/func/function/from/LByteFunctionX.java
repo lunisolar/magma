@@ -103,7 +103,7 @@ public interface LByteFunctionX<R, X extends Throwable> extends MetaFunction, Me
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplierX<R, X> capture(byte b) {
+	default LSupplierX<R, X> captureBFunc(byte b) {
 		return () -> this.doApply(b);
 	}
 
@@ -138,19 +138,19 @@ public interface LByteFunctionX<R, X extends Throwable> extends MetaFunction, Me
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LByteFunctionX<R, X> fromByte(@Nonnull final LByteUnaryOperatorX<X> before1) {
+	default LByteFunctionX<R, X> bFuncFromByte(@Nonnull final LByteUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doApplyAsByte(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LFunctionX<V1, R, X> from(@Nonnull final LToByteFunctionX<? super V1, X> before1) {
+	default <V1> LFunctionX<V1, R, X> bFuncFrom(@Nonnull final LToByteFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doApplyAsByte(v1));
 	}
@@ -234,42 +234,42 @@ public interface LByteFunctionX<R, X extends Throwable> extends MetaFunction, Me
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LByteFunction<R> nest() {
+	default LByteFunction<R> nestingBFunc() {
 		return this::nestingDoApply;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LByteFunctionX<R, RuntimeException> nestX() {
+	default LByteFunctionX<R, RuntimeException> nestingBFuncX() {
 		return this::nestingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteFunction<R> shove() {
+	default LByteFunction<R> shovingBFunc() {
 		return this::shovingDoApply;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteFunctionX<R, RuntimeException> shoveX() {
+	default LByteFunctionX<R, RuntimeException> shovingBFuncX() {
 		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
 	@Nonnull
-	default LByteFunctionX<R, X> nonNullableX() {
+	default LByteFunctionX<R, X> nonNullBFunc() {
 		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LByteFunction<R> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LByteFunction<R> handleBFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return b -> this.handlingDoApply(b, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LByteFunctionX<R, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LByteFunctionX<R, Y> handleBFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return b -> this.handlingDoApply(b, handling);
 	}
 

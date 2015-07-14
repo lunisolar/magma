@@ -128,3 +128,5 @@ public class LLongBiFunctionAssertTest<R,X extends Throwable> {
     }
 
 }
+
+

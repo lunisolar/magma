@@ -26,7 +26,16 @@ import eu.lunisolar.magma.basics.meta.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.type.*; // NOSONAR
 import eu.lunisolar.magma.basics.meta.functional.domain.*; // NOSONAR
+import eu.lunisolar.magma.func.action.*; // NOSONAR
+
 import eu.lunisolar.magma.func.function.conversion.*;
+//includings...
+import eu.lunisolar.magma.func.consumer.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.bi.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.tri.*; // NOSONAR; // NOSONAR
+import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR; // NOSONAR
+//includings END
 import eu.lunisolar.magma.func.action.LAction;
 
 import static org.assertj.core.api.Fail.fail;
@@ -35,10 +44,10 @@ import static org.assertj.core.api.Fail.fail;
 public interface LCharToFloatFunctionXAssert<S extends LCharToFloatFunctionXAssert<S, A, RS, X>, A extends LCharToFloatFunctionX<X>, RS extends AbstractFloatAssert<RS>, X extends Throwable>
 		extends
 			Assert<S, A>,
-			FullFunctionalAssert<S, A, RS, Float, Exception> {
+			FullFunctionalAssert<S, LCharConsumerX<Exception>, A, RS, Float, Exception> {
 
 	@Nonnull
-	Evaluation<S, A, RS, Float, Exception> doesApplyAsFloat(char c);
+	Evaluation<S, LCharConsumerX<Exception>, A, RS, Float, Exception> doesApplyAsFloat(char c);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class Impl<A extends LCharToFloatFunctionX<X>, RS extends AbstractFloatAssert<RS>, X extends Throwable> extends Base<Impl<A, RS, X>, A, RS, X> {
@@ -49,7 +58,7 @@ public interface LCharToFloatFunctionXAssert<S extends LCharToFloatFunctionXAsse
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, X>, A extends LCharToFloatFunctionX<X>, RS extends AbstractFloatAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, A, RS, Float, Exception>
+	public static class Base<S extends Base<S, A, RS, X>, A extends LCharToFloatFunctionX<X>, RS extends AbstractFloatAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, LCharConsumerX<Exception>, A, RS, Float, Exception>
 			implements
 				LCharToFloatFunctionXAssert<S, A, RS, X> {
 
@@ -61,8 +70,15 @@ public interface LCharToFloatFunctionXAssert<S extends LCharToFloatFunctionXAsse
 		}
 
 		@Nonnull
-		public Evaluation<S, A, RS, Float, Exception> doesApplyAsFloat(char c) {
-			return evaluation(() -> assertFactory.apply((Float) actual.doApplyAsFloat(c)));
+		public Evaluation<S, LCharConsumerX<Exception>, A, RS, Float, Exception> doesApplyAsFloat(char c) {
+
+			return evaluation((pc) -> {
+				if (pc != null) {
+					pc.doAccept(c);
+				}
+				return assertFactory.apply((Float) actual.doApplyAsFloat(c));
+			});
+
 		}
 
 	}

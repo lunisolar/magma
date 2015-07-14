@@ -95,7 +95,7 @@ public interface LFloatBiConsumerX<X extends Throwable> extends MetaConsumer, Me
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LActionX<X> capture(float f1, float f2) {
+	default LActionX<X> captureFBiCons(float f1, float f2) {
 		return () -> this.doAccept(f1, f2);
 	}
 
@@ -126,20 +126,20 @@ public interface LFloatBiConsumerX<X extends Throwable> extends MetaConsumer, Me
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LFloatBiConsumerX<X> fromFloat(@Nonnull final LFloatUnaryOperatorX<X> before1, @Nonnull final LFloatUnaryOperatorX<X> before2) {
+	default LFloatBiConsumerX<X> fBiConsFromFloat(@Nonnull final LFloatUnaryOperatorX<X> before1, @Nonnull final LFloatUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final float v1, final float v2) -> this.doAccept(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiConsumerX<V1, V2, X> from(@Nonnull final LToFloatFunctionX<? super V1, X> before1, @Nonnull final LToFloatFunctionX<? super V2, X> before2) {
+	default <V1, V2> LBiConsumerX<V1, V2, X> fBiConsFrom(@Nonnull final LToFloatFunctionX<? super V1, X> before1, @Nonnull final LToFloatFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doAccept(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
@@ -163,23 +163,23 @@ public interface LFloatBiConsumerX<X extends Throwable> extends MetaConsumer, Me
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LFloatBiConsumer nest() {
+	default LFloatBiConsumer nestingFBiCons() {
 		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LFloatBiConsumerX<RuntimeException> nestX() {
+	default LFloatBiConsumerX<RuntimeException> nestingFBiConsX() {
 		return this::nestingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatBiConsumer shove() {
+	default LFloatBiConsumer shovingFBiCons() {
 		return this::shovingDoAccept;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatBiConsumerX<RuntimeException> shoveX() {
+	default LFloatBiConsumerX<RuntimeException> shovingFBiConsX() {
 		return this::shovingDoAccept;
 	}
 
@@ -188,12 +188,12 @@ public interface LFloatBiConsumerX<X extends Throwable> extends MetaConsumer, Me
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LFloatBiConsumer handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LFloatBiConsumer handleFBiCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (float f1, float f2) -> this.handlingDoAccept(f1, f2, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LFloatBiConsumerX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LFloatBiConsumerX<Y> handleFBiConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (float f1, float f2) -> this.handlingDoAccept(f1, f2, handling);
 	}
 

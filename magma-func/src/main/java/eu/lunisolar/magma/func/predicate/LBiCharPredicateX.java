@@ -105,7 +105,7 @@ public interface LBiCharPredicateX<X extends Throwable> extends MetaPredicate, P
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> capture(char c1, char c2) {
+	default LBooleanSupplierX<X> captureBiCPred(char c1, char c2) {
 		return () -> this.doTest(c1, c2);
 	}
 
@@ -186,20 +186,20 @@ public interface LBiCharPredicateX<X extends Throwable> extends MetaPredicate, P
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LBiCharPredicateX<X> fromChar(@Nonnull final LCharUnaryOperatorX<X> before1, @Nonnull final LCharUnaryOperatorX<X> before2) {
+	default LBiCharPredicateX<X> biCPredFromChar(@Nonnull final LCharUnaryOperatorX<X> before1, @Nonnull final LCharUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final char v1, final char v2) -> this.doTest(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LBiPredicateX<V1, V2, X> from(@Nonnull final LToCharFunctionX<? super V1, X> before1, @Nonnull final LToCharFunctionX<? super V2, X> before2) {
+	default <V1, V2> LBiPredicateX<V1, V2, X> biCPredFrom(@Nonnull final LToCharFunctionX<? super V1, X> before1, @Nonnull final LToCharFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doTest(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
@@ -211,7 +211,7 @@ public interface LBiCharPredicateX<X extends Throwable> extends MetaPredicate, P
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LCharBiFunctionX<V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LCharBiFunctionX<V, X> boolToCharBiFunction(@Nonnull LBooleanFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (char c1, char c2) -> after.doApply(this.doTest(c1, c2));
 	}
@@ -221,23 +221,23 @@ public interface LBiCharPredicateX<X extends Throwable> extends MetaPredicate, P
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiCharPredicate nest() {
+	default LBiCharPredicate nestingBiCPred() {
 		return this::nestingDoTest;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiCharPredicateX<RuntimeException> nestX() {
+	default LBiCharPredicateX<RuntimeException> nestingBiCPredX() {
 		return this::nestingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiCharPredicate shove() {
+	default LBiCharPredicate shovingBiCPred() {
 		return this::shovingDoTest;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiCharPredicateX<RuntimeException> shoveX() {
+	default LBiCharPredicateX<RuntimeException> shovingBiCPredX() {
 		return this::shovingDoTest;
 	}
 
@@ -246,12 +246,12 @@ public interface LBiCharPredicateX<X extends Throwable> extends MetaPredicate, P
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LBiCharPredicate handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LBiCharPredicate handleBiCPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (char c1, char c2) -> this.handlingDoTest(c1, c2, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LBiCharPredicateX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LBiCharPredicateX<Y> handleBiCPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (char c1, char c2) -> this.handlingDoTest(c1, c2, handling);
 	}
 

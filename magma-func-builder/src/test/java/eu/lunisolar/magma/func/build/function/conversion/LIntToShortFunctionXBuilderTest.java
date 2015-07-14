@@ -124,12 +124,14 @@ public class LIntToShortFunctionXBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsShort((int)0).to(a -> a.isEqualTo((short)0))
-            .doesApplyAsShort((int)5).to(a -> a.isEqualTo((short)1))
-            .doesApplyAsShort((int)15).to(a -> a.isEqualTo((short)2))
-            .doesApplyAsShort((int)10).to(a -> a.isEqualTo((short)99))
+            .doesApplyAsShort((int)0).when(null).to(a -> a.isEqualTo((short)0))
+            .doesApplyAsShort((int)5).when(null).to(a -> a.isEqualTo((short)1))
+            .doesApplyAsShort((int)15).when(null).to(a -> a.isEqualTo((short)2))
+            .doesApplyAsShort((int)10).when(null).to(a -> a.isEqualTo((short)99))
         ;
 
     }
 
 }
+
+

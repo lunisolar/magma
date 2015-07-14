@@ -84,7 +84,7 @@ public interface LToShortFunction<T> extends LToShortFunctionX<T, RuntimeExcepti
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LShortSupplier capture(T t) {
+	default LShortSupplier captureToSFunc(T t) {
 		return () -> this.doApplyAsShort(t);
 	}
 
@@ -112,10 +112,10 @@ public interface LToShortFunction<T> extends LToShortFunctionX<T, RuntimeExcepti
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToShortFunction<V1> from(@Nonnull final LFunction<? super V1, ? extends T> before1) {
+	default <V1> LToShortFunction<V1> toSFuncFrom(@Nonnull final LFunction<? super V1, ? extends T> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsShort(before1.doApply(v1));
 	}
@@ -192,23 +192,23 @@ public interface LToShortFunction<T> extends LToShortFunctionX<T, RuntimeExcepti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToShortFunction<T> nest() {
+	default LToShortFunction<T> nestingToSFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToShortFunctionX<T, RuntimeException> nestX() {
+	default LToShortFunctionX<T, RuntimeException> nestingToSFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToShortFunction<T> shove() {
+	default LToShortFunction<T> shovingToSFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToShortFunctionX<T, RuntimeException> shoveX() {
+	default LToShortFunctionX<T, RuntimeException> shovingToSFuncX() {
 		return this;
 	}
 

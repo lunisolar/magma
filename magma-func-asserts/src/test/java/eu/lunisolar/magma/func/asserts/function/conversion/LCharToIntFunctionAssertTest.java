@@ -128,3 +128,5 @@ public class LCharToIntFunctionAssertTest<X extends Throwable> {
     }
 
 }
+
+

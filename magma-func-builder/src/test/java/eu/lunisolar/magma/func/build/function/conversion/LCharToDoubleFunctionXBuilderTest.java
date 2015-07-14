@@ -124,12 +124,14 @@ public class LCharToDoubleFunctionXBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsDouble((char)0).to(a -> a.isEqualTo((double)0))
-            .doesApplyAsDouble((char)5).to(a -> a.isEqualTo((double)1))
-            .doesApplyAsDouble((char)15).to(a -> a.isEqualTo((double)2))
-            .doesApplyAsDouble((char)10).to(a -> a.isEqualTo((double)99))
+            .doesApplyAsDouble((char)0).when(null).to(a -> a.isEqualTo((double)0))
+            .doesApplyAsDouble((char)5).when(null).to(a -> a.isEqualTo((double)1))
+            .doesApplyAsDouble((char)15).when(null).to(a -> a.isEqualTo((double)2))
+            .doesApplyAsDouble((char)10).when(null).to(a -> a.isEqualTo((double)99))
         ;
 
     }
 
 }
+
+

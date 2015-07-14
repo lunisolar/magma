@@ -124,12 +124,14 @@ public class LDoubleBinaryOperatorBuilderTest<X extends Throwable>{
 
 
         A.assertThat(function)
-            .doesApplyAsDouble((double)0,(double)0).to(a -> a.isEqualTo((double)0))
-            .doesApplyAsDouble((double)5,(double)5).to(a -> a.isEqualTo((double)1))
-            .doesApplyAsDouble((double)15,(double)15).to(a -> a.isEqualTo((double)2))
-            .doesApplyAsDouble((double)10,(double)10).to(a -> a.isEqualTo((double)99))
+            .doesApplyAsDouble((double)0,(double)0).when(null).to(a -> a.isEqualTo((double)0))
+            .doesApplyAsDouble((double)5,(double)5).when(null).to(a -> a.isEqualTo((double)1))
+            .doesApplyAsDouble((double)15,(double)15).when(null).to(a -> a.isEqualTo((double)2))
+            .doesApplyAsDouble((double)10,(double)10).when(null).to(a -> a.isEqualTo((double)99))
         ;
 
     }
 
 }
+
+

@@ -84,7 +84,7 @@ public interface LDoubleToFloatFunction extends LDoubleToFloatFunctionX<RuntimeE
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LFloatSupplier capture(double d) {
+	default LFloatSupplier captureDToFFunc(double d) {
 		return () -> this.doApplyAsFloat(d);
 	}
 
@@ -112,19 +112,19 @@ public interface LDoubleToFloatFunction extends LDoubleToFloatFunctionX<RuntimeE
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LDoubleToFloatFunction fromDouble(@Nonnull final LDoubleUnaryOperator before1) {
+	default LDoubleToFloatFunction dToFFuncFromDouble(@Nonnull final LDoubleUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsFloat(before1.doApplyAsDouble(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToFloatFunction<V1> from(@Nonnull final LToDoubleFunction<? super V1> before1) {
+	default <V1> LToFloatFunction<V1> dToFFuncFrom(@Nonnull final LToDoubleFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsFloat(before1.doApplyAsDouble(v1));
 	}
@@ -201,23 +201,23 @@ public interface LDoubleToFloatFunction extends LDoubleToFloatFunctionX<RuntimeE
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoubleToFloatFunction nest() {
+	default LDoubleToFloatFunction nestingDToFFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoubleToFloatFunctionX<RuntimeException> nestX() {
+	default LDoubleToFloatFunctionX<RuntimeException> nestingDToFFuncX() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleToFloatFunction shove() {
+	default LDoubleToFloatFunction shovingDToFFunc() {
 		return this;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleToFloatFunctionX<RuntimeException> shoveX() {
+	default LDoubleToFloatFunctionX<RuntimeException> shovingDToFFuncX() {
 		return this;
 	}
 

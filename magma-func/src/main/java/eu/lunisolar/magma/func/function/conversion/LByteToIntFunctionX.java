@@ -99,7 +99,7 @@ public interface LByteToIntFunctionX<X extends Throwable> extends MetaFunction, 
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LIntSupplierX<X> capture(byte b) {
+	default LIntSupplierX<X> captureBToIFunc(byte b) {
 		return () -> this.doApplyAsInt(b);
 	}
 
@@ -134,19 +134,19 @@ public interface LByteToIntFunctionX<X extends Throwable> extends MetaFunction, 
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default LByteToIntFunctionX<X> fromByte(@Nonnull final LByteUnaryOperatorX<X> before1) {
+	default LByteToIntFunctionX<X> bToIFuncFromByte(@Nonnull final LByteUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsInt(before1.doApplyAsByte(v1));
 	}
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1> LToIntFunctionX<V1, X> from(@Nonnull final LToByteFunctionX<? super V1, X> before1) {
+	default <V1> LToIntFunctionX<V1, X> bToIFuncFrom(@Nonnull final LToByteFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsInt(before1.doApplyAsByte(v1));
 	}
@@ -223,23 +223,23 @@ public interface LByteToIntFunctionX<X extends Throwable> extends MetaFunction, 
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LByteToIntFunction nest() {
+	default LByteToIntFunction nestingBToIFunc() {
 		return this::nestingDoApplyAsInt;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LByteToIntFunctionX<RuntimeException> nestX() {
+	default LByteToIntFunctionX<RuntimeException> nestingBToIFuncX() {
 		return this::nestingDoApplyAsInt;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteToIntFunction shove() {
+	default LByteToIntFunction shovingBToIFunc() {
 		return this::shovingDoApplyAsInt;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteToIntFunctionX<RuntimeException> shoveX() {
+	default LByteToIntFunctionX<RuntimeException> shovingBToIFuncX() {
 		return this::shovingDoApplyAsInt;
 	}
 
@@ -248,12 +248,12 @@ public interface LByteToIntFunctionX<X extends Throwable> extends MetaFunction, 
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LByteToIntFunction handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LByteToIntFunction handleBToIFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return b -> this.handlingDoApplyAsInt(b, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LByteToIntFunctionX<Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LByteToIntFunctionX<Y> handleBToIFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return b -> this.handlingDoApplyAsInt(b, handling);
 	}
 

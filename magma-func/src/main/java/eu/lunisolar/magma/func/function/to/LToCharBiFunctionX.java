@@ -99,7 +99,7 @@ public interface LToCharBiFunctionX<T1, T2, X extends Throwable> extends MetaFun
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LCharSupplierX<X> capture(T1 t1, T2 t2) {
+	default LCharSupplierX<X> captureToCBiFunc(T1 t1, T2 t2) {
 		return () -> this.doApplyAsChar(t1, t2);
 	}
 
@@ -134,10 +134,10 @@ public interface LToCharBiFunctionX<T1, T2, X extends Throwable> extends MetaFun
 	// <editor-fold desc="compose (functional)">
 
 	/**
-	 * Allows to manipulate the domain of the functyion.
+	 * Allows to manipulate the domain of the function.
 	 */
 	@Nonnull
-	default <V1, V2> LToCharBiFunctionX<V1, V2, X> from(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
+	default <V1, V2> LToCharBiFunctionX<V1, V2, X> toCBiFuncFrom(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final V2 v2) -> this.doApplyAsChar(before1.doApply(v1), before2.doApply(v2));
@@ -159,23 +159,23 @@ public interface LToCharBiFunctionX<T1, T2, X extends Throwable> extends MetaFun
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToCharBiFunction<T1, T2> nest() {
+	default LToCharBiFunction<T1, T2> nestingToCBiFunc() {
 		return this::nestingDoApplyAsChar;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToCharBiFunctionX<T1, T2, RuntimeException> nestX() {
+	default LToCharBiFunctionX<T1, T2, RuntimeException> nestingToCBiFuncX() {
 		return this::nestingDoApplyAsChar;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToCharBiFunction<T1, T2> shove() {
+	default LToCharBiFunction<T1, T2> shovingToCBiFunc() {
 		return this::shovingDoApplyAsChar;
 	}
 
 	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToCharBiFunctionX<T1, T2, RuntimeException> shoveX() {
+	default LToCharBiFunctionX<T1, T2, RuntimeException> shovingToCBiFuncX() {
 		return this::shovingDoApplyAsChar;
 	}
 
@@ -184,12 +184,12 @@ public interface LToCharBiFunctionX<T1, T2, X extends Throwable> extends MetaFun
 	// <editor-fold desc="exception handling">
 
 	@Nonnull
-	default LToCharBiFunction<T1, T2> handle(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LToCharBiFunction<T1, T2> handleToCBiFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T1 t1, T2 t2) -> this.handlingDoApplyAsChar(t1, t2, handling);
 	}
 
 	@Nonnull
-	default <Y extends Throwable> LToCharBiFunctionX<T1, T2, Y> handleX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LToCharBiFunctionX<T1, T2, Y> handleToCBiFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T1 t1, T2 t2) -> this.handlingDoApplyAsChar(t1, t2, handling);
 	}
 
