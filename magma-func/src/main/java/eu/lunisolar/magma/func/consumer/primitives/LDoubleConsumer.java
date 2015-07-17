@@ -63,9 +63,12 @@ public interface LDoubleConsumer extends LDoubleConsumerX<RuntimeException>, Met
 
 	static final String DESCRIPTION = "LDoubleConsumer: void doAccept(double d)";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LDoubleConsumer interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LDoubleConsumer interface should be discouraged.
 	default void accept(double d) {
 		this.nestingDoAccept(d);
 	}

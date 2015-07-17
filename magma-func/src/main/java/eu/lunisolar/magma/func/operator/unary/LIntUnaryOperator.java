@@ -62,9 +62,12 @@ public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>,
 
 	static final String DESCRIPTION = "LIntUnaryOperator: int doApplyAsInt(int i)";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LIntUnaryOperator interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LIntUnaryOperator interface should be discouraged.
 	default int applyAsInt(int i) {
 		return this.nestingDoApplyAsInt(i);
 	}

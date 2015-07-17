@@ -62,9 +62,12 @@ public interface LBiPredicate<T1, T2> extends LBiPredicateX<T1, T2, RuntimeExcep
 
 	static final String DESCRIPTION = "LBiPredicate: boolean doTest(T1 t1,T2 t2)";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LBiPredicate interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LBiPredicate interface should be discouraged.
 	default boolean test(T1 t1, T2 t2) {
 		return this.nestingDoTest(t1, t2);
 	}

@@ -62,9 +62,12 @@ public interface LToIntFunctionX<T, X extends Throwable> extends java.util.funct
 
 	static final String DESCRIPTION = "LToIntFunctionX: int doApplyAsInt(T t) throws X";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LToIntFunctionX interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LToIntFunctionX interface should be discouraged.
 	default int applyAsInt(T t) {
 		return this.nestingDoApplyAsInt(t);
 	}

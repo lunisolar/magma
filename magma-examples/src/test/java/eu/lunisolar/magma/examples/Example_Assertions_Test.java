@@ -19,38 +19,18 @@
 package eu.lunisolar.magma.examples;
 
 import eu.lunisolar.magma.examples.support.CheckedException;
-import eu.lunisolar.magma.func.Function4U;
 import eu.lunisolar.magma.func.action.LAction;
 import eu.lunisolar.magma.func.asserts.DefaultFunctionalAssertions;
 import eu.lunisolar.magma.func.build.action.LActionBuilder;
-import eu.lunisolar.magma.func.build.function.LFunctionBuilder;
-import eu.lunisolar.magma.func.build.function.from.LShortFunctionBuilder;
-import eu.lunisolar.magma.func.build.supplier.LIntSupplierBuilder;
-import eu.lunisolar.magma.func.build.supplier.LSupplierBuilder;
-import eu.lunisolar.magma.func.consumer.LConsumer;
-import eu.lunisolar.magma.func.consumer.primitives.LIntConsumer;
 import eu.lunisolar.magma.func.function.LFunction;
 import eu.lunisolar.magma.func.function.LFunctionX;
-import eu.lunisolar.magma.func.function.from.LIntFunction;
 import eu.lunisolar.magma.func.function.from.LShortFunction;
-import eu.lunisolar.magma.func.operator.unary.LIntUnaryOperator;
-import eu.lunisolar.magma.func.operator.unary.LUnaryOperator;
-import eu.lunisolar.magma.func.predicate.LIntPredicate;
-import eu.lunisolar.magma.func.predicate.LPredicate;
-import eu.lunisolar.magma.func.supplier.LIntSupplier;
-import eu.lunisolar.magma.func.supplier.LSupplier;
-import eu.lunisolar.magma.func.supplier.LSupplierX;
 import org.assertj.core.api.AbstractIntegerAssert;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ObjectAssert;
 import org.testng.annotations.Test;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.swing.*;
-import java.text.*;
 import java.util.concurrent.atomic.*;
-import java.util.function.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -115,25 +95,25 @@ public class Example_Assertions_Test {
     private LShortFunction<Integer>                        shortFunction = i -> (int) i;
     //>example<
 
-    public static final AtomicInteger externalInfluence = new AtomicInteger(0);
+    public static final AtomicInteger extInfluence = new AtomicInteger(0);
 //
 //    private LIntSupplier intSupplier = LIntSupplierBuilder.intSupplier() //
-//            .inCase(() -> externalInfluence.get() > 0).evaluate(() -> externalInfluence.get())
+//            .inCase(() -> extInfluence.get() > 0).evaluate(() -> extInfluence.get())
 //            .inCase(() -> false).produce(22)
 //            .eventuallyProduce(33)
 //            .build();
 
-    public static final AtomicInteger externalEffect = new AtomicInteger(0);
+    public static final AtomicInteger extEffect = new AtomicInteger(0);
 
 //    private LSupplier<Integer> supplier = LSupplierBuilder.<Integer>supplier()  // a compilation test
-//            .inCase(() -> externalInfluence.get() > 0).evaluate(() -> externalInfluence.get())
+//            .inCase(() -> extInfluence.get() > 0).evaluate(() -> extInfluence.get())
 //            .inCase(() -> false).produce(22)
 //            .eventuallyProduce(33)
 //            .build();
 
     private LAction action = LActionBuilder.action()  // a compilation test
-            .inCase(() -> externalInfluence.get() > 0).evaluate(() -> externalEffect.set(externalInfluence.get()))
-            .eventually(() -> externalEffect.set(-1))
+            .inCase(() -> extInfluence.get() > 0).evaluate(() -> extEffect.set(extInfluence.get()))
+            .eventually(() -> extEffect.set(-1))
             .build();
 
     /**
@@ -152,7 +132,7 @@ public class Example_Assertions_Test {
                     .isExactlyInstanceOf(UnsupportedOperationException.class)
                     .hasMessage("Some message"));
 
-        }).hasMessageContaining("Should evaluate with exception");   //TODO fix message, it should include arguments and be more friendly.
+        }).hasMessageContaining("Should evaluate with exception");
     }
     //>example<
 
@@ -207,6 +187,7 @@ public class Example_Assertions_Test {
 
     @Test(expectedExceptions = AssertionError.class)
     public void compilationCheck() {
+
         then.withinIntegerCodomain().assertThat(shortFunction)
             .inAllFollowingCases(a -> a.isInstanceOf(Integer.class))
             .doesApply((short) 80).to(a -> a.isGreaterThan(0))
@@ -216,25 +197,22 @@ public class Example_Assertions_Test {
                 .hasMessage("Some message"));
     }
 
-    //TODO
-//    /**
-//     * ### What if function do not have an input or output?
-//     *
-//     * In most cases it means that the real _effect_ or _influence_ is external. If you can access that external effect and cause then following example
-//     * might be usefull. Lets consider extreme case - Action.
-//     */
-//    //>example<
-//    @Test(expectedExceptions = AssertionError.class, expectedExceptionsMessageRegExp = "Expecting:\n <3>\nto be equal to:\n <4000>\nbut was not")
-//    public void testRecurringAssertsNegative() throws ParseException {
-//
-//        then.assertThat(action)
-//            .doesExecute().when(() -> externalInfluence.set(-99)).soThat(() -> assertThat(externalEffect.get()).isEqualTo(-1))
-//            .doesExecute().when(() -> externalInfluence.set(0)).soThat(() -> assertThat(externalEffect.get()).isEqualTo(-1))
-//            .doesExecute().when(() -> externalInfluence.set(1)).soThat(() -> assertThat(externalEffect.get()).isEqualTo(1))
-//            .doesExecute().when(() -> externalInfluence.set(3)).soThat(() -> assertThat(externalEffect.get()).isEqualTo(4000))
-//        ;
-//
-//    }
-//    //>example<
+    /**
+     * ### What if function do not have an input or output?
+     *
+     * In most cases it means that the real _effect_ or _influence_ is external. If you can access that external effect and cause then following example
+     * might be useful. Lets consider extreme case - Action.
+     */
+    //>example<
+    @Test(expectedExceptions = AssertionError.class)
+    public void testRecurringAssertsNegative() {
+
+        then.assertThat(action)
+            .doesExecute().when(() -> extInfluence.set(-99)).soThat(() -> assertThat(extEffect.get()).isEqualTo(-1))
+            .doesExecute().when(() -> extInfluence.set(0)).soThat(() -> assertThat(extEffect.get()).isEqualTo(-1))
+            .doesExecute().when(() -> extInfluence.set(1)).soThat(() -> assertThat(extEffect.get()).isEqualTo(1))
+            .doesExecute().when(() -> extInfluence.set(3)).soThat(() -> assertThat(extEffect.get()).isEqualTo(4000));
+    }
+    //>example<
 
 }

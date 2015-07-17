@@ -62,9 +62,12 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 
 	static final String DESCRIPTION = "LIntPredicate: boolean doTest(int i)";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LIntPredicate interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LIntPredicate interface should be discouraged.
 	default boolean test(int i) {
 		return this.nestingDoTest(i);
 	}

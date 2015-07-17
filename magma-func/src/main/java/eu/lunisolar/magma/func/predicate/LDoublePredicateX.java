@@ -62,9 +62,12 @@ public interface LDoublePredicateX<X extends Throwable> extends java.util.functi
 
 	static final String DESCRIPTION = "LDoublePredicateX: boolean doTest(double d) throws X";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LDoublePredicateX interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LDoublePredicateX interface should be discouraged.
 	default boolean test(double d) {
 		return this.nestingDoTest(d);
 	}

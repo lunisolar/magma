@@ -62,9 +62,12 @@ public interface LToLongBiFunction<T1, T2> extends LToLongBiFunctionX<T1, T2, Ru
 
 	static final String DESCRIPTION = "LToLongBiFunction: long doApplyAsLong(T1 t1,T2 t2)";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LToLongBiFunction interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LToLongBiFunction interface should be discouraged.
 	default long applyAsLong(T1 t1, T2 t2) {
 		return this.nestingDoApplyAsLong(t1, t2);
 	}

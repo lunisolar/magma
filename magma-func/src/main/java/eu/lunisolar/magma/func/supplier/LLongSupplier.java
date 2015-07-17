@@ -62,9 +62,12 @@ public interface LLongSupplier extends LLongSupplierX<RuntimeException>, MetaSup
 
 	static final String DESCRIPTION = "LLongSupplier: long doGetAsLong()";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LLongSupplier interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LLongSupplier interface should be discouraged.
 	default long getAsLong() {
 		return this.nestingDoGetAsLong();
 	}

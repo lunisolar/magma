@@ -62,9 +62,12 @@ public interface LIntUnaryOperatorX<X extends Throwable> extends java.util.funct
 
 	static final String DESCRIPTION = "LIntUnaryOperatorX: int doApplyAsInt(int i) throws X";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LIntUnaryOperatorX interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LIntUnaryOperatorX interface should be discouraged.
 	default int applyAsInt(int i) {
 		return this.nestingDoApplyAsInt(i);
 	}

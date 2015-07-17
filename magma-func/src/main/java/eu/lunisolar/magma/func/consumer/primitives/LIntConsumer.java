@@ -63,9 +63,12 @@ public interface LIntConsumer extends LIntConsumerX<RuntimeException>, MetaConsu
 
 	static final String DESCRIPTION = "LIntConsumer: void doAccept(int i)";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LIntConsumer interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LIntConsumer interface should be discouraged.
 	default void accept(int i) {
 		this.nestingDoAccept(i);
 	}

@@ -62,9 +62,12 @@ public interface LLongToIntFunctionX<X extends Throwable> extends java.util.func
 
 	static final String DESCRIPTION = "LLongToIntFunctionX: int doApplyAsInt(long l) throws X";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LLongToIntFunctionX interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LLongToIntFunctionX interface should be discouraged.
 	default int applyAsInt(long l) {
 		return this.nestingDoApplyAsInt(l);
 	}

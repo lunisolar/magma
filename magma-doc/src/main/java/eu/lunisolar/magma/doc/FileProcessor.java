@@ -73,9 +73,9 @@ public class FileProcessor {
         out.close();
 
         if (bout.size() > 0) {
-            FileOutputStream newFile = new FileOutputStream(new File(outPath.toString()));
-            newFile.write(bout.toByteArray());
-            newFile.close();
+            try (FileOutputStream newFile = new FileOutputStream(new File(outPath.toString()))) {
+                newFile.write(bout.toByteArray());
+            }
         }
     }
 

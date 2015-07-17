@@ -62,9 +62,12 @@ public interface LLongBinaryOperator extends LLongBinaryOperatorX<RuntimeExcepti
 
 	static final String DESCRIPTION = "LLongBinaryOperator: long doApplyAsLong(long l1,long l2)";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LLongBinaryOperator interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LLongBinaryOperator interface should be discouraged.
 	default long applyAsLong(long l1, long l2) {
 		return this.nestingDoApplyAsLong(l1, l2);
 	}

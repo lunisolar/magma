@@ -62,9 +62,12 @@ public interface LDoubleToLongFunctionX<X extends Throwable> extends java.util.f
 
 	static final String DESCRIPTION = "LDoubleToLongFunctionX: long doApplyAsLong(double d) throws X";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LDoubleToLongFunctionX interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LDoubleToLongFunctionX interface should be discouraged.
 	default long applyAsLong(double d) {
 		return this.nestingDoApplyAsLong(d);
 	}

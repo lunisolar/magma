@@ -62,9 +62,12 @@ public interface LFunction<T, R> extends LFunctionX<T, R, RuntimeException>, Met
 
 	static final String DESCRIPTION = "LFunction: R doApply(T t)";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LFunction interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LFunction interface should be discouraged.
 	default R apply(T t) {
 		return this.nestingDoApply(t);
 	}

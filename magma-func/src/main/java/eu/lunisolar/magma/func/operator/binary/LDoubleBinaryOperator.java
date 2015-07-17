@@ -62,9 +62,12 @@ public interface LDoubleBinaryOperator extends LDoubleBinaryOperatorX<RuntimeExc
 
 	static final String DESCRIPTION = "LDoubleBinaryOperator: double doApplyAsDouble(double d1,double d2)";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LDoubleBinaryOperator interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LDoubleBinaryOperator interface should be discouraged.
 	default double applyAsDouble(double d1, double d2) {
 		return this.nestingDoApplyAsDouble(d1, d2);
 	}

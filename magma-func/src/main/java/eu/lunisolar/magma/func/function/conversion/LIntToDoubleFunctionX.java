@@ -62,9 +62,12 @@ public interface LIntToDoubleFunctionX<X extends Throwable> extends java.util.fu
 
 	static final String DESCRIPTION = "LIntToDoubleFunctionX: double doApplyAsDouble(int i) throws X";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LIntToDoubleFunctionX interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LIntToDoubleFunctionX interface should be discouraged.
 	default double applyAsDouble(int i) {
 		return this.nestingDoApplyAsDouble(i);
 	}

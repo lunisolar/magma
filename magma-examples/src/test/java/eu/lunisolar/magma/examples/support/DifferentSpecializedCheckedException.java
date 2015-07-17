@@ -22,22 +22,22 @@ package eu.lunisolar.magma.examples.support;
  * @author Jakub Wach
  */
 public class DifferentSpecializedCheckedException extends DifferentCheckedException {
-	public DifferentSpecializedCheckedException() {
-	}
+    public DifferentSpecializedCheckedException() {
+    }
 
-	public DifferentSpecializedCheckedException(String message) {
-		super(message);
-	}
+    public DifferentSpecializedCheckedException(String message) {
+        super(message);
+    }
 
-	public DifferentSpecializedCheckedException(String message, Throwable cause) {
-		super(message, cause);
-	}
+    public DifferentSpecializedCheckedException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
-	public DifferentSpecializedCheckedException(Throwable cause) {
-		super(cause);
-	}
+    public DifferentSpecializedCheckedException(Throwable cause) {
+        super(cause);
+    }
 
-	public DifferentSpecializedCheckedException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-		super(message, cause, enableSuppression, writableStackTrace);
-	}
+    public DifferentSpecializedCheckedException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
+    }
 }

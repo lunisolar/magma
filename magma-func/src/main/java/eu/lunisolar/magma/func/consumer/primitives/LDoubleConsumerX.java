@@ -63,9 +63,12 @@ public interface LDoubleConsumerX<X extends Throwable> extends java.util.functio
 
 	static final String DESCRIPTION = "LDoubleConsumerX: void doAccept(double d) throws X";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LDoubleConsumerX interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LDoubleConsumerX interface should be discouraged.
 	default void accept(double d) {
 		this.nestingDoAccept(d);
 	}

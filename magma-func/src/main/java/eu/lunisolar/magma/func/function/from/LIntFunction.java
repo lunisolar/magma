@@ -62,9 +62,12 @@ public interface LIntFunction<R> extends LIntFunctionX<R, RuntimeException>, Met
 
 	static final String DESCRIPTION = "LIntFunction: R doApply(int i)";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LIntFunction interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LIntFunction interface should be discouraged.
 	default R apply(int i) {
 		return this.nestingDoApply(i);
 	}

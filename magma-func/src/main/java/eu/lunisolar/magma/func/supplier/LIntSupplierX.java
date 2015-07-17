@@ -62,9 +62,12 @@ public interface LIntSupplierX<X extends Throwable> extends java.util.function.I
 
 	static final String DESCRIPTION = "LIntSupplierX: int doGetAsInt() throws X";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LIntSupplierX interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LIntSupplierX interface should be discouraged.
 	default int getAsInt() {
 		return this.nestingDoGetAsInt();
 	}

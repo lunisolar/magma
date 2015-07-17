@@ -62,9 +62,12 @@ public interface LDoubleSupplierX<X extends Throwable> extends java.util.functio
 
 	static final String DESCRIPTION = "LDoubleSupplierX: double doGetAsDouble() throws X";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LDoubleSupplierX interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LDoubleSupplierX interface should be discouraged.
 	default double getAsDouble() {
 		return this.nestingDoGetAsDouble();
 	}

@@ -62,9 +62,12 @@ public interface LLongToIntFunction extends LLongToIntFunctionX<RuntimeException
 
 	static final String DESCRIPTION = "LLongToIntFunction: int doApplyAsInt(long l)";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LLongToIntFunction interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LLongToIntFunction interface should be discouraged.
 	default int applyAsInt(long l) {
 		return this.nestingDoApplyAsInt(l);
 	}

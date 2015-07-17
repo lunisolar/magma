@@ -62,9 +62,12 @@ public interface LIntBinaryOperatorX<X extends Throwable> extends java.util.func
 
 	static final String DESCRIPTION = "LIntBinaryOperatorX: int doApplyAsInt(int i1,int i2) throws X";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LIntBinaryOperatorX interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LIntBinaryOperatorX interface should be discouraged.
 	default int applyAsInt(int i1, int i2) {
 		return this.nestingDoApplyAsInt(i1, i2);
 	}

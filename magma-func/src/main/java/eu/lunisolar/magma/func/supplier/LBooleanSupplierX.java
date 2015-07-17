@@ -62,9 +62,12 @@ public interface LBooleanSupplierX<X extends Throwable> extends java.util.functi
 
 	static final String DESCRIPTION = "LBooleanSupplierX: boolean doGetAsBoolean() throws X";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LBooleanSupplierX interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LBooleanSupplierX interface should be discouraged.
 	default boolean getAsBoolean() {
 		return this.nestingDoGetAsBoolean();
 	}

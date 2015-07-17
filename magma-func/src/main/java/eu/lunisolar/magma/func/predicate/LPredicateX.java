@@ -62,9 +62,12 @@ public interface LPredicateX<T, X extends Throwable> extends java.util.function.
 
 	static final String DESCRIPTION = "LPredicateX: boolean doTest(T t) throws X";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LPredicateX interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LPredicateX interface should be discouraged.
 	default boolean test(T t) {
 		return this.nestingDoTest(t);
 	}

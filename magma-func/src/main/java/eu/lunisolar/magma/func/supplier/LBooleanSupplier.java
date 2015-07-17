@@ -62,9 +62,12 @@ public interface LBooleanSupplier extends LBooleanSupplierX<RuntimeException>, M
 
 	static final String DESCRIPTION = "LBooleanSupplier: boolean doGetAsBoolean()";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LBooleanSupplier interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LBooleanSupplier interface should be discouraged.
 	default boolean getAsBoolean() {
 		return this.nestingDoGetAsBoolean();
 	}

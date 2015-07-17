@@ -62,9 +62,12 @@ public interface LDoubleSupplier extends LDoubleSupplierX<RuntimeException>, Met
 
 	static final String DESCRIPTION = "LDoubleSupplier: double doGetAsDouble()";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LDoubleSupplier interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LDoubleSupplier interface should be discouraged.
 	default double getAsDouble() {
 		return this.nestingDoGetAsDouble();
 	}

@@ -62,9 +62,12 @@ public interface LLongPredicateX<X extends Throwable> extends java.util.function
 
 	static final String DESCRIPTION = "LLongPredicateX: boolean doTest(long l) throws X";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LLongPredicateX interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LLongPredicateX interface should be discouraged.
 	default boolean test(long l) {
 		return this.nestingDoTest(l);
 	}

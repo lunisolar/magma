@@ -62,9 +62,12 @@ public interface LSupplierX<R, X extends Throwable> extends java.util.function.S
 
 	static final String DESCRIPTION = "LSupplierX: R doGet() throws X";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LSupplierX interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LSupplierX interface should be discouraged.
 	default R get() {
 		return this.nestingDoGet();
 	}

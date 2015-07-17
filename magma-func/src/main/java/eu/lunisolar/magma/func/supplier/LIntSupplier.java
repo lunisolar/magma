@@ -62,9 +62,12 @@ public interface LIntSupplier extends LIntSupplierX<RuntimeException>, MetaSuppl
 
 	static final String DESCRIPTION = "LIntSupplier: int doGetAsInt()";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LIntSupplier interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LIntSupplier interface should be discouraged.
 	default int getAsInt() {
 		return this.nestingDoGetAsInt();
 	}

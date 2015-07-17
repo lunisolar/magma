@@ -62,9 +62,12 @@ public interface LSupplier<R> extends LSupplierX<R, RuntimeException>, MetaSuppl
 
 	static final String DESCRIPTION = "LSupplier: R doGet()";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LSupplier interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LSupplier interface should be discouraged.
 	default R get() {
 		return this.nestingDoGet();
 	}

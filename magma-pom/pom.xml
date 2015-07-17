@@ -30,7 +30,7 @@
         <jsr305-version>3.0.0</jsr305-version>
 
         <!-- test -->
-        <testNg-version>[6.8.3,7.0)</testNg-version>
+        <testNg-version>[6.9.6,7.0)</testNg-version>
         <jmockit.version>[1.14, 2.0)</jmockit.version>
         <assertj-core.version>[3.0.0,]</assertj-core.version>
 

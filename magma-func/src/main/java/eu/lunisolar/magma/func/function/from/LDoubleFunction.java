@@ -62,9 +62,12 @@ public interface LDoubleFunction<R> extends LDoubleFunctionX<R, RuntimeException
 
 	static final String DESCRIPTION = "LDoubleFunction: R doApply(double d)";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LDoubleFunction interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LDoubleFunction interface should be discouraged.
 	default R apply(double d) {
 		return this.nestingDoApply(d);
 	}

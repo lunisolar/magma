@@ -9,8 +9,8 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>${project.groupId}:${project.artifactId}</name>
-    <description>A library of functional interfaces (lambda interfaces) for Java 8, supplemented with assertions and builders.</description>
+    <name>Lunisolar Magma</name>
+    <description>Library of throwing and non-throwing functional interfaces (lambda interfaces) for Java 8</description>
     <url>http://lunisolar.eu/magma</url>
 
     <licenses>

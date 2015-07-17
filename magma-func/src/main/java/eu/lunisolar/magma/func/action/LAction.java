@@ -56,9 +56,12 @@ public interface LAction extends LActionX<RuntimeException>, MetaAction, MetaInt
 
 	static final String DESCRIPTION = "LAction: void doExecute()";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LAction interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LAction interface should be discouraged.
 	default void run() {
 		this.nestingDoExecute();
 	}

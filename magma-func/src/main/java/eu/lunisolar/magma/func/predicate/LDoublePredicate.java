@@ -62,9 +62,12 @@ public interface LDoublePredicate extends LDoublePredicateX<RuntimeException>, M
 
 	static final String DESCRIPTION = "LDoublePredicate: boolean doTest(double d)";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LDoublePredicate interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LDoublePredicate interface should be discouraged.
 	default boolean test(double d) {
 		return this.nestingDoTest(d);
 	}

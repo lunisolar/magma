@@ -62,9 +62,12 @@ public interface LLongUnaryOperator extends LLongUnaryOperatorX<RuntimeException
 
 	static final String DESCRIPTION = "LLongUnaryOperator: long doApplyAsLong(long l)";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LLongUnaryOperator interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LLongUnaryOperator interface should be discouraged.
 	default long applyAsLong(long l) {
 		return this.nestingDoApplyAsLong(l);
 	}

@@ -63,9 +63,12 @@ public interface LObjIntConsumerX<T, X extends Throwable> extends java.util.func
 
 	static final String DESCRIPTION = "LObjIntConsumerX: void doAccept(T t, int i) throws X";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LObjIntConsumerX interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LObjIntConsumerX interface should be discouraged.
 	default void accept(T t, int i) {
 		this.nestingDoAccept(t, i);
 	}

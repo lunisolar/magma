@@ -62,9 +62,12 @@ public interface LDoubleFunctionX<R, X extends Throwable> extends java.util.func
 
 	static final String DESCRIPTION = "LDoubleFunctionX: R doApply(double d) throws X";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LDoubleFunctionX interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LDoubleFunctionX interface should be discouraged.
 	default R apply(double d) {
 		return this.nestingDoApply(d);
 	}

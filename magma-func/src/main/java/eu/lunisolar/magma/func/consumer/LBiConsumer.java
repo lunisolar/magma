@@ -63,9 +63,12 @@ public interface LBiConsumer<T1, T2> extends LBiConsumerX<T1, T2, RuntimeExcepti
 
 	static final String DESCRIPTION = "LBiConsumer: void doAccept(T1 t1,T2 t2)";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LBiConsumer interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LBiConsumer interface should be discouraged.
 	default void accept(T1 t1, T2 t2) {
 		this.nestingDoAccept(t1, t2);
 	}

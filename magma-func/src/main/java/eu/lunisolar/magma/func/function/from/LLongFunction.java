@@ -62,9 +62,12 @@ public interface LLongFunction<R> extends LLongFunctionX<R, RuntimeException>, M
 
 	static final String DESCRIPTION = "LLongFunction: R doApply(long l)";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LLongFunction interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LLongFunction interface should be discouraged.
 	default R apply(long l) {
 		return this.nestingDoApply(l);
 	}

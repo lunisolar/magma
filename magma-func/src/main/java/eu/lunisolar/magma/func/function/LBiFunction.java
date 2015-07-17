@@ -62,9 +62,12 @@ public interface LBiFunction<T1, T2, R> extends LBiFunctionX<T1, T2, R, RuntimeE
 
 	static final String DESCRIPTION = "LBiFunction: R doApply(T1 t1,T2 t2)";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LBiFunction interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LBiFunction interface should be discouraged.
 	default R apply(T1 t1, T2 t2) {
 		return this.nestingDoApply(t1, t2);
 	}

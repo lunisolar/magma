@@ -63,9 +63,12 @@ public interface LLongConsumerX<X extends Throwable> extends java.util.function.
 
 	static final String DESCRIPTION = "LLongConsumerX: void doAccept(long l) throws X";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LLongConsumerX interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LLongConsumerX interface should be discouraged.
 	default void accept(long l) {
 		this.nestingDoAccept(l);
 	}

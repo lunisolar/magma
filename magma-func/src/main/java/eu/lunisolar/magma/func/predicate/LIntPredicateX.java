@@ -62,9 +62,12 @@ public interface LIntPredicateX<X extends Throwable> extends java.util.function.
 
 	static final String DESCRIPTION = "LIntPredicateX: boolean doTest(int i) throws X";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LIntPredicateX interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LIntPredicateX interface should be discouraged.
 	default boolean test(int i) {
 		return this.nestingDoTest(i);
 	}

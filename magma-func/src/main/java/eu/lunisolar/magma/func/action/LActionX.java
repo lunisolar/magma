@@ -56,9 +56,12 @@ public interface LActionX<X extends Throwable> extends Runnable, MetaAction, Met
 
 	static final String DESCRIPTION = "LActionX: void doExecute() throws X";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LActionX interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LActionX interface should be discouraged.
 	default void run() {
 		this.nestingDoExecute();
 	}

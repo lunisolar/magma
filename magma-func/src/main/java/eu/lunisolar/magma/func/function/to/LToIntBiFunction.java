@@ -62,9 +62,12 @@ public interface LToIntBiFunction<T1, T2> extends LToIntBiFunctionX<T1, T2, Runt
 
 	static final String DESCRIPTION = "LToIntBiFunction: int doApplyAsInt(T1 t1,T2 t2)";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LToIntBiFunction interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LToIntBiFunction interface should be discouraged.
 	default int applyAsInt(T1 t1, T2 t2) {
 		return this.nestingDoApplyAsInt(t1, t2);
 	}

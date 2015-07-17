@@ -62,9 +62,12 @@ public interface LDoubleToIntFunction extends LDoubleToIntFunctionX<RuntimeExcep
 
 	static final String DESCRIPTION = "LDoubleToIntFunction: int doApplyAsInt(double d)";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LDoubleToIntFunction interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LDoubleToIntFunction interface should be discouraged.
 	default int applyAsInt(double d) {
 		return this.nestingDoApplyAsInt(d);
 	}

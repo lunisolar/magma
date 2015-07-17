@@ -62,9 +62,12 @@ public interface LToDoubleFunction<T> extends LToDoubleFunctionX<T, RuntimeExcep
 
 	static final String DESCRIPTION = "LToDoubleFunction: double doApplyAsDouble(T t)";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LToDoubleFunction interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LToDoubleFunction interface should be discouraged.
 	default double applyAsDouble(T t) {
 		return this.nestingDoApplyAsDouble(t);
 	}

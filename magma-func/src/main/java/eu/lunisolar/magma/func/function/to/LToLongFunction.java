@@ -62,9 +62,12 @@ public interface LToLongFunction<T> extends LToLongFunctionX<T, RuntimeException
 
 	static final String DESCRIPTION = "LToLongFunction: long doApplyAsLong(T t)";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LToLongFunction interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LToLongFunction interface should be discouraged.
 	default long applyAsLong(T t) {
 		return this.nestingDoApplyAsLong(t);
 	}

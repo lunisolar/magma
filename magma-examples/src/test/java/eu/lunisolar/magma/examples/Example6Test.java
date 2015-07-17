@@ -21,6 +21,8 @@ package eu.lunisolar.magma.examples;
 import eu.lunisolar.magma.examples.support.CheckedException;
 import eu.lunisolar.magma.func.asserts.DefaultFunctionalAssertions;
 import eu.lunisolar.magma.func.function.LFunctionX;
+import eu.lunisolar.magma.func.function.from.LByteFunctionX;
+import eu.lunisolar.magma.func.function.to.LToByteFunctionX;
 import org.assertj.core.api.ObjectAssert;
 import org.testng.annotations.Test;
 
@@ -31,28 +33,36 @@ public class Example6Test {
     public static final DefaultFunctionalAssertions<ObjectAssert> then = new DefaultFunctionalAssertions() {
     };
 
-    public static final LFunctionX<Integer, Integer, CheckedException> throwingAlways = LFunctionX.lX(Example6Test::throwingAlways);
+    public static final LFunctionX<Integer, Integer, CheckedException> potentiallyThrowing = LFunctionX.lX(Example6Test::potentiallyThrowing);
 
     public static Integer potentiallyThrowing(Integer i) throws CheckedException {
         return i;
     }
 
-    public static Integer throwingAlways(Integer i) throws CheckedException {
-        throw new CheckedException("Something went wrong");
-    }
-
-    public Function<Integer, Integer> cc() {
-        return throwingAlways::apply;
-    }
-
     @Test
-    public void example1() {
+    public void example1() throws CheckedException {
 
-        Function<Integer, Integer> f1 = throwingAlways.nestingFunc();
-        Function<Integer, Integer> f2 = throwingAlways.nestingFunc();
+        LToByteFunctionX<Integer, CheckedException> func = potentiallyThrowing
+                .then(i -> -i)
+                .thenToDouble(i -> i)
+                .thenToFloat(d -> (float) d + 1)
+                .thenToLong(f -> (long) f + 1)
+                .thenToInt(l -> (int) l + 1)
+                .thenToShort(i -> (short) (i + 1))
+                .thenToByte(s -> (byte) (s + 1));
 
-//       then.assertThat(f1)
-//           .isSameAs(f2);
+        then.assertThat(func)
+            .doesApplyAsByte(1).toEqualTo((byte) 4)
+            .doesApplyAsByte(10).toEqualTo((byte) -5)
+            .doesApplyAsByte(3000).toEqualTo((byte) 77);
+
+        LFunctionX<Integer,String, CheckedException> func2 = func.then(Byte::toString);
+
+        then.assertThat(func2)
+            .doesApply(1).toEqualTo("4")
+            .doesApply(10).toEqualTo("-5")
+            .doesApply(3000).toEqualTo("77");
+
     }
 
 }

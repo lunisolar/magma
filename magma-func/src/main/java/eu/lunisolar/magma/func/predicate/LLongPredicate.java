@@ -62,9 +62,12 @@ public interface LLongPredicate extends LLongPredicateX<RuntimeException>, MetaP
 
 	static final String DESCRIPTION = "LLongPredicate: boolean doTest(long l)";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LLongPredicate interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LLongPredicate interface should be discouraged.
 	default boolean test(long l) {
 		return this.nestingDoTest(l);
 	}

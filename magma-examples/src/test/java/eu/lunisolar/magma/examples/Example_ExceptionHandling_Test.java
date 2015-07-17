@@ -44,6 +44,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Exception Handling
  * ==============================
+ *
+ * ### Abstract
+ *
+ * Basic explanations (by example) how exception handling work with functional interfaces from this library.
  */
 public class Example_ExceptionHandling_Test {
 
@@ -55,6 +59,8 @@ public class Example_ExceptionHandling_Test {
     }
 
     /**
+     * ### Handling
+     *
      * Each functional interface has the ability to customise exception handling. There are two methods that do exactly that:
      *
      * - *handleX* - the result function is of a _throwing_ type.

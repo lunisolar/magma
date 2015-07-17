@@ -62,9 +62,12 @@ public interface LToIntBiFunctionX<T1, T2, X extends Throwable> extends java.uti
 
 	static final String DESCRIPTION = "LToIntBiFunctionX: int doApplyAsInt(T1 t1,T2 t2) throws X";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LToIntBiFunctionX interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LToIntBiFunctionX interface should be discouraged.
 	default int applyAsInt(T1 t1, T2 t2) {
 		return this.nestingDoApplyAsInt(t1, t2);
 	}

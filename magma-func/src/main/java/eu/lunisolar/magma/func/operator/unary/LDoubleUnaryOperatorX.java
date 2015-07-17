@@ -62,9 +62,12 @@ public interface LDoubleUnaryOperatorX<X extends Throwable> extends java.util.fu
 
 	static final String DESCRIPTION = "LDoubleUnaryOperatorX: double doApplyAsDouble(double d) throws X";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LDoubleUnaryOperatorX interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LDoubleUnaryOperatorX interface should be discouraged.
 	default double applyAsDouble(double d) {
 		return this.nestingDoApplyAsDouble(d);
 	}

@@ -62,9 +62,12 @@ public interface LLongToDoubleFunction extends LLongToDoubleFunctionX<RuntimeExc
 
 	static final String DESCRIPTION = "LLongToDoubleFunction: double doApplyAsDouble(long l)";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LLongToDoubleFunction interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LLongToDoubleFunction interface should be discouraged.
 	default double applyAsDouble(long l) {
 		return this.nestingDoApplyAsDouble(l);
 	}

@@ -63,9 +63,12 @@ public interface LObjDoubleConsumer<T> extends LObjDoubleConsumerX<T, RuntimeExc
 
 	static final String DESCRIPTION = "LObjDoubleConsumer: void doAccept(T t, double d)";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LObjDoubleConsumer interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LObjDoubleConsumer interface should be discouraged.
 	default void accept(T t, double d) {
 		this.nestingDoAccept(t, d);
 	}

@@ -63,9 +63,12 @@ public interface LConsumer<T> extends LConsumerX<T, RuntimeException>, MetaConsu
 
 	static final String DESCRIPTION = "LConsumer: void doAccept(T t)";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LConsumer interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LConsumer interface should be discouraged.
 	default void accept(T t) {
 		this.nestingDoAccept(t);
 	}

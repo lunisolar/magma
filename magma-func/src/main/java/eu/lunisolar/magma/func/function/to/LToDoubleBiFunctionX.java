@@ -62,9 +62,12 @@ public interface LToDoubleBiFunctionX<T1, T2, X extends Throwable> extends java.
 
 	static final String DESCRIPTION = "LToDoubleBiFunctionX: double doApplyAsDouble(T1 t1,T2 t2) throws X";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LToDoubleBiFunctionX interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LToDoubleBiFunctionX interface should be discouraged.
 	default double applyAsDouble(T1 t1, T2 t2) {
 		return this.nestingDoApplyAsDouble(t1, t2);
 	}

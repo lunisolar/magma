@@ -62,9 +62,12 @@ public interface LPredicate<T> extends LPredicateX<T, RuntimeException>, MetaPre
 
 	static final String DESCRIPTION = "LPredicate: boolean doTest(T t)";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LPredicate interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LPredicate interface should be discouraged.
 	default boolean test(T t) {
 		return this.nestingDoTest(t);
 	}

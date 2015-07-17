@@ -63,9 +63,12 @@ public interface LLongConsumer extends LLongConsumerX<RuntimeException>, MetaCon
 
 	static final String DESCRIPTION = "LLongConsumer: void doAccept(long l)";
 
+	/**
+	 * Default implementation for JRE method that calls exception nesting method.
+	 * @deprecated Calling this method via LLongConsumer interface should be discouraged.
+	 */
 	@Override
 	@Deprecated
-	// calling this method via LLongConsumer interface should be discouraged.
 	default void accept(long l) {
 		this.nestingDoAccept(l);
 	}
