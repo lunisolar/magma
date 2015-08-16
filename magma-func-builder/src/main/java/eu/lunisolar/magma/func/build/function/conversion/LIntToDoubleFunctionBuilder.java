@@ -66,7 +66,7 @@ public final class LIntToDoubleFunctionBuilder extends PerCaseBuilderWithDoubleP
 		});
 
 	public LIntToDoubleFunctionBuilder(@Nullable Consumer<LIntToDoubleFunction> consumer) {
-		super(EVENTUALLY_THROW, LIntToDoubleFunction::constant);
+		super(EVENTUALLY_THROW, LIntToDoubleFunction::constant, () -> new LIntToDoubleFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LIntToDoubleFunctionBuilder extends PerCaseBuilderWithDoubleP
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final LIntToDoubleFunctionBuilder intToDoubleFunction() {
+	public static LIntToDoubleFunctionBuilder intToDoubleFunction() {
 		return new LIntToDoubleFunctionBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final LIntToDoubleFunctionBuilder intToDoubleFunction(Consumer<LIntToDoubleFunction> consumer) {
+	public static LIntToDoubleFunctionBuilder intToDoubleFunction(Consumer<LIntToDoubleFunction> consumer) {
 		return new LIntToDoubleFunctionBuilder(consumer);
 	}
 

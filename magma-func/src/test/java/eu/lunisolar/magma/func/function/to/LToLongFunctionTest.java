@@ -295,7 +295,7 @@ public class LToLongFunctionTest<T,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testtoLongFuncFrom() throws X {
+    public void testtoLongFuncCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -314,7 +314,7 @@ public class LToLongFunctionTest<T,X extends ParseException> {
         };
 
         //when
-        LToLongFunction<Integer > function = sutO.toLongFuncFrom(before1);
+        LToLongFunction<Integer > function = sutO.toLongFuncCompose(before1);
         function.doApplyAsLong((Integer )Integer.valueOf(80));
 
         //then - finals

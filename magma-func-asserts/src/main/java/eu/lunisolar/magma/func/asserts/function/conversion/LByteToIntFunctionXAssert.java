@@ -50,10 +50,10 @@ public interface LByteToIntFunctionXAssert<S extends LByteToIntFunctionXAssert<S
 	Evaluation<S, LByteConsumerX<Exception>, A, RS, Integer, Exception> doesApplyAsInt(byte b);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LByteToIntFunctionX<X>, RS extends AbstractIntegerAssert<RS>, X extends Throwable> extends Base<Impl<A, RS, X>, A, RS, X> {
+	public final static class The<A extends LByteToIntFunctionX<X>, RS extends AbstractIntegerAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
 
-		public Impl(A actual, java.util.function.Function<Integer, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Integer, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
@@ -72,7 +72,7 @@ public interface LByteToIntFunctionXAssert<S extends LByteToIntFunctionXAssert<S
 		@Nonnull
 		public Evaluation<S, LByteConsumerX<Exception>, A, RS, Integer, Exception> doesApplyAsInt(byte b) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(b);
 				}

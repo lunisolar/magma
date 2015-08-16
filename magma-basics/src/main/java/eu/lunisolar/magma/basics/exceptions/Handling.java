@@ -33,7 +33,7 @@ public class Handling implements Serializable {
 
     public static final String UNKNOWN_PROBLEM = "UNKNOWN PROBLEM!";
 
-    private static final Thrower<Throwable> THROWER = Handling::throwIt;
+    private static final Thrower<Throwable> THROWER = Handling::throwThe;
 
     public static final Predicate GENERIC_WRAP_CONDITION = (x) -> x instanceof RuntimeException;
 
@@ -102,7 +102,7 @@ public class Handling implements Serializable {
             @Nonnull ExceptionWrapWithMessageFactory<Y> factory,
             @Nonnull String newMessage, @Nullable Object... messageParams) throws Y {
 
-        throw throwIt(Handling.wrap(throwable, factory, newMessage, messageParams));
+        throw Handling.wrap(throwable, factory, newMessage, messageParams);
     }
 
     // </editor-fold>
@@ -116,7 +116,7 @@ public class Handling implements Serializable {
             @Nullable Object... messageParams) throws Y {
 
         if (conditionMeet) {
-            throw throwIt(Handling.create(factory, newMessage, messageParams));
+            throw Handling.create(factory, newMessage, messageParams);
         }
     }
 
@@ -126,7 +126,7 @@ public class Handling implements Serializable {
             @Nonnull ExceptionWrapFactory<Y> factory) throws Y {
 
         if (conditionMeet) {
-            throw throwIt(Handling.wrap(throwable, factory));
+            throw Handling.wrap(throwable, factory);
         }
     }
 
@@ -137,7 +137,7 @@ public class Handling implements Serializable {
             @Nonnull String newMessage, @Nullable Object... messageParams) throws Y {
 
         if (conditionMeet) {
-            throw throwIt(Handling.wrap(throwable, factory, newMessage, messageParams));
+            throw Handling.wrap(throwable, factory, newMessage, messageParams);
         }
     }
 
@@ -199,7 +199,8 @@ public class Handling implements Serializable {
 
     // </editor-fold>
 
-    public static <X extends Throwable> RuntimeException throwIt(X e) throws X {
+    /** Throws exception (convenience method for lambda expressions). Pretends that there might be a product - but it will never be returned. */
+    public static <T, X extends Throwable> T throwThe(X e) throws X {
         if (e == null) {
             throw new ExceptionNotHandled("Cannot throw null exception.");
         }
@@ -209,13 +210,13 @@ public class Handling implements Serializable {
 
     public static <X extends Throwable> RuntimeException shoveIt(Throwable e) {
         Thrower<RuntimeException> thrower = (Thrower) THROWER;
-        thrower.throwIt(e);
+        thrower.throwThe(e);
         throw shouldNeverBeenHere();
     }
 
     @FunctionalInterface
     private interface Thrower<X extends Throwable> {
-        void throwIt(Throwable e) throws X;
+        void throwThe(Throwable e) throws X;
     }
 
     // <editor-fold desc="no-instance constructor">

@@ -64,10 +64,12 @@ public interface LLogicalBinaryOperator extends LLogicalBinaryOperatorX<RuntimeE
 
 	boolean doApply(boolean b1, boolean b2);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default boolean nestingDoApply(boolean b1, boolean b2) {
 		return this.doApply(b1, b2);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default boolean shovingDoApply(boolean b1, boolean b2) {
 		return this.doApply(b1, b2);
 	}
@@ -77,12 +79,12 @@ public interface LLogicalBinaryOperator extends LLogicalBinaryOperatorX<RuntimeE
 		return doApply(b1, b2);
 	}
 
-	/** For convinience boolean operator is also special case of predicate. */
+	/** For convenience, boolean operator is also special case of predicate. */
 	default boolean doTest(boolean b1, boolean b2) {
 		return doApply(b1, b2);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LLogicalBinaryOperator.DESCRIPTION;
@@ -93,8 +95,21 @@ public interface LLogicalBinaryOperator extends LLogicalBinaryOperatorX<RuntimeE
 		return () -> this.doApply(b1, b2);
 	}
 
+	/** Creates function that always returns the same value. */
 	static LLogicalBinaryOperator constant(boolean r) {
 		return (b1, b2) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static LLogicalBinaryOperator apply1st(@Nonnull LLogicalOperator func) {
+		return (b1, b2) -> func.doApply(b1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static LLogicalBinaryOperator apply2nd(@Nonnull LLogicalOperator func) {
+		return (b1, b2) -> func.doApply(b2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -106,7 +121,7 @@ public interface LLogicalBinaryOperator extends LLogicalBinaryOperatorX<RuntimeE
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LLogicalBinaryOperator wrap(final @Nonnull LLogicalBinaryOperatorX<X> other) {
 		return other::nestingDoApply;
@@ -116,7 +131,9 @@ public interface LLogicalBinaryOperator extends LLogicalBinaryOperatorX<RuntimeE
 	// <editor-fold desc="predicate">
 
 	/**
-	 *  @see {@link java.util.function.Predicate#negate()}
+	 * Returns a predicate that represents the logical negation of this predicate.
+	 *
+	 * @see {@link java.util.function.Predicate#negate}
 	 */
 	@Nonnull
 	default LLogicalBinaryOperator negate() {
@@ -124,7 +141,8 @@ public interface LLogicalBinaryOperator extends LLogicalBinaryOperatorX<RuntimeE
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#and()}
+	 * Returns a predicate that represents the logical AND of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#and()}
 	 */
 	@Nonnull
 	default LLogicalBinaryOperator and(@Nonnull LLogicalBinaryOperator other) {
@@ -133,7 +151,8 @@ public interface LLogicalBinaryOperator extends LLogicalBinaryOperatorX<RuntimeE
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LLogicalBinaryOperator or(@Nonnull LLogicalBinaryOperator other) {
@@ -142,7 +161,8 @@ public interface LLogicalBinaryOperator extends LLogicalBinaryOperatorX<RuntimeE
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical XOR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LLogicalBinaryOperator xor(@Nonnull LLogicalBinaryOperator other) {
@@ -151,7 +171,8 @@ public interface LLogicalBinaryOperator extends LLogicalBinaryOperatorX<RuntimeE
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#isEqual()}
+	 * Creates predicate that evaluates if an object is equal with the argument one.
+	 * @see {@link java.util.function.Predicate#isEqual()
 	 */
 	@Nonnull
 	static LLogicalBinaryOperator isEqual(final boolean v1, final boolean v2) {
@@ -159,10 +180,9 @@ public interface LLogicalBinaryOperator extends LLogicalBinaryOperatorX<RuntimeE
 	}
 
 	// </editor-fold>
-	// <editor-fold desc="minmax/logical">
 
 	/**
-	 *
+	 * Returns function that applies logical AND operator.
 	 */
 	@Nonnull
 	static LLogicalBinaryOperator and() {
@@ -170,40 +190,34 @@ public interface LLogicalBinaryOperator extends LLogicalBinaryOperatorX<RuntimeE
 	}
 
 	/**
-	 * @see {@link java.util.function.BinaryOperator#minBy()}
-	 */
-	@Nonnull
-	static LLogicalBinaryOperator xor() {
-		return Boolean::logicalXor;
-	}
-
-	/**
-	 * @see {@link java.util.function.BinaryOperator#maxBy()}
+	 * Returns function that applies logical OR operator.
 	 */
 	@Nonnull
 	static LLogicalBinaryOperator or() {
 		return Boolean::logicalOr;
 	}
 
-	// </editor-fold>
+	/**
+	 * Returns function that applies logical XOR operator.
+	 */
+	@Nonnull
+	static LLogicalBinaryOperator xor() {
+		return Boolean::logicalXor;
+	}
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LLogicalBinaryOperator logicalBinaryOpFromBoolean(@Nonnull final LLogicalOperator before1, @Nonnull final LLogicalOperator before2) {
+	default LLogicalBinaryOperator logicalBinaryOpComposeBoolean(@Nonnull final LLogicalOperator before1, @Nonnull final LLogicalOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final boolean v1, final boolean v2) -> this.doApply(before1.doApply(v1), before2.doApply(v2));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiPredicate<V1, V2> logicalBinaryOpFrom(@Nonnull final LPredicate<? super V1> before1, @Nonnull final LPredicate<? super V2> before2) {
+	default <V1, V2> LBiPredicate<V1, V2> logicalBinaryOpCompose(@Nonnull final LPredicate<? super V1> before1, @Nonnull final LPredicate<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApply(before1.doTest(v1), before2.doTest(v2));
@@ -215,7 +229,7 @@ public interface LLogicalBinaryOperator extends LLogicalBinaryOperatorX<RuntimeE
 
 	/** Combines two operators together in a order. */
 	@Nonnull
-	default <V> LBooleanBiFunction<V> then(@Nonnull LBooleanFunction<? extends V> after) {
+	default <V> LBiBooleanFunction<V> then(@Nonnull LBooleanFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (boolean b1, boolean b2) -> after.doApply(this.doApply(b1, b2));
 	}
@@ -235,12 +249,12 @@ public interface LLogicalBinaryOperator extends LLogicalBinaryOperatorX<RuntimeE
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLogicalBinaryOperator shovingLogicalBinaryOp() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLogicalBinaryOperatorX<RuntimeException> shovingLogicalBinaryOpX() {
 		return this;
 	}

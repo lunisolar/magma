@@ -64,6 +64,7 @@ public interface LToByteFunctionX<T, X extends Throwable> extends MetaFunction, 
 
 	byte doApplyAsByte(T t) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default byte nestingDoApplyAsByte(T t) {
 		try {
 			return this.doApplyAsByte(t);
@@ -74,10 +75,12 @@ public interface LToByteFunctionX<T, X extends Throwable> extends MetaFunction, 
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default byte shovingDoApplyAsByte(T t) {
 		return ((LToByteFunctionX<T, RuntimeException>) this).doApplyAsByte(t);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> byte handlingDoApplyAsByte(T t, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -92,17 +95,18 @@ public interface LToByteFunctionX<T, X extends Throwable> extends MetaFunction, 
 		return doApplyAsByte(t);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LToByteFunctionX.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LByteSupplierX<X> captureToBFunc(T t) {
+	default LByteSupplierX<X> captureToByteFunc(T t) {
 		return () -> this.doApplyAsByte(t);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T, X extends Throwable> LToByteFunctionX<T, X> constant(byte r) {
 		return t -> r;
 	}
@@ -123,7 +127,7 @@ public interface LToByteFunctionX<T, X extends Throwable> extends MetaFunction, 
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T, X extends Throwable> LToByteFunctionX<T, X> wrapX(final @Nonnull LToByteFunction<T> other) {
 		return (LToByteFunctionX) other;
@@ -133,11 +137,9 @@ public interface LToByteFunctionX<T, X extends Throwable> extends MetaFunction, 
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToByteFunctionX<V1, X> toBFuncFrom(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1) {
+	default <V1> LToByteFunctionX<V1, X> toByteFuncCompose(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsByte(before1.doApply(v1));
 	}
@@ -214,23 +216,23 @@ public interface LToByteFunctionX<T, X extends Throwable> extends MetaFunction, 
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToByteFunction<T> nestingToBFunc() {
+	default LToByteFunction<T> nestingToByteFunc() {
 		return this::nestingDoApplyAsByte;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToByteFunctionX<T, RuntimeException> nestingToBFuncX() {
+	default LToByteFunctionX<T, RuntimeException> nestingToByteFuncX() {
 		return this::nestingDoApplyAsByte;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToByteFunction<T> shovingToBFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToByteFunction<T> shovingToByteFunc() {
 		return this::shovingDoApplyAsByte;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToByteFunctionX<T, RuntimeException> shovingToBFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToByteFunctionX<T, RuntimeException> shovingToByteFuncX() {
 		return this::shovingDoApplyAsByte;
 	}
 
@@ -238,13 +240,15 @@ public interface LToByteFunctionX<T, X extends Throwable> extends MetaFunction, 
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LToByteFunction<T> handleToBFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LToByteFunction<T> handleToByteFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return t -> this.handlingDoApplyAsByte(t, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LToByteFunctionX<T, Y> handleToBFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LToByteFunctionX<T, Y> handleToByteFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return t -> this.handlingDoApplyAsByte(t, handling);
 	}
 

@@ -66,7 +66,7 @@ public final class LShortToLongFunctionBuilder extends PerCaseBuilderWithLongPro
 		});
 
 	public LShortToLongFunctionBuilder(@Nullable Consumer<LShortToLongFunction> consumer) {
-		super(EVENTUALLY_THROW, LShortToLongFunction::constant);
+		super(EVENTUALLY_THROW, LShortToLongFunction::constant, () -> new LShortToLongFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LShortToLongFunctionBuilder extends PerCaseBuilderWithLongPro
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final LShortToLongFunctionBuilder shortToLongFunction() {
+	public static LShortToLongFunctionBuilder shortToLongFunction() {
 		return new LShortToLongFunctionBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final LShortToLongFunctionBuilder shortToLongFunction(Consumer<LShortToLongFunction> consumer) {
+	public static LShortToLongFunctionBuilder shortToLongFunction(Consumer<LShortToLongFunction> consumer) {
 		return new LShortToLongFunctionBuilder(consumer);
 	}
 

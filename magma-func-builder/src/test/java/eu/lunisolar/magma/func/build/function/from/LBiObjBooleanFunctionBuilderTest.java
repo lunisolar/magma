@@ -115,7 +115,7 @@ public class LBiObjBooleanFunctionBuilderTest<T1,T2,R,X extends Throwable>{
     public void testBuild() throws X {
 
         LBiObjBooleanFunction<Integer ,Integer ,Integer > function = biObjBooleanFunction((LBiObjBooleanFunction<Integer ,Integer ,Integer > f)-> doNothing())
-            .addCase(ce -> ce.of((t1,t2, b) -> t1 == Integer.valueOf(0))
+            .aCase(ce -> ce.of((t1,t2, b) -> t1 == Integer.valueOf(0))
                              .evaluate((t1,t2, b) -> Integer.valueOf(0)))
             .inCase((t1,t2, b) -> t1 > 0 && t1 < 10).evaluate((t1,t2, b) -> Integer.valueOf(1))
             .inCase((t1,t2, b) -> t1 > 10 && t1 < 20).evaluate((t1,t2, b) -> Integer.valueOf(2))

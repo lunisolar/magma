@@ -50,10 +50,10 @@ public interface LShortUnaryOperatorXAssert<S extends LShortUnaryOperatorXAssert
 	Evaluation<S, LShortConsumerX<Exception>, A, RS, Short, Exception> doesApplyAsShort(short s);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LShortUnaryOperatorX<X>, RS extends AbstractShortAssert<RS>, X extends Throwable> extends Base<Impl<A, RS, X>, A, RS, X> {
+	public final static class The<A extends LShortUnaryOperatorX<X>, RS extends AbstractShortAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
 
-		public Impl(A actual, java.util.function.Function<Short, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Short, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
@@ -72,7 +72,7 @@ public interface LShortUnaryOperatorXAssert<S extends LShortUnaryOperatorXAssert
 		@Nonnull
 		public Evaluation<S, LShortConsumerX<Exception>, A, RS, Short, Exception> doesApplyAsShort(short s) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(s);
 				}

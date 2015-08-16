@@ -64,10 +64,12 @@ public interface LObjBytePredicate<T> extends LObjBytePredicateX<T, RuntimeExcep
 
 	boolean doTest(T t, byte b);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default boolean nestingDoTest(T t, byte b) {
 		return this.doTest(t, b);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default boolean shovingDoTest(T t, byte b) {
 		return this.doTest(t, b);
 	}
@@ -77,25 +79,38 @@ public interface LObjBytePredicate<T> extends LObjBytePredicateX<T, RuntimeExcep
 		return doTest(t, b);
 	}
 
-	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
+	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
 	default boolean doApplyAsBoolean(T t, byte b) {
 		return doTest(t, b);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LObjBytePredicate.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier captureObjBPred(T t, byte b) {
+	default LBooleanSupplier captureObjBytePred(T t, byte b) {
 		return () -> this.doTest(t, b);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T> LObjBytePredicate<T> constant(boolean r) {
 		return (t, b) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T> LObjBytePredicate<T> test1st(@Nonnull LPredicate<T> func) {
+		return (t, b) -> func.doTest(t);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T> LObjBytePredicate<T> test2nd(@Nonnull LBytePredicate func) {
+		return (t, b) -> func.doTest(b);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -107,7 +122,7 @@ public interface LObjBytePredicate<T> extends LObjBytePredicateX<T, RuntimeExcep
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T, X extends Throwable> LObjBytePredicate<T> wrap(final @Nonnull LObjBytePredicateX<T, X> other) {
 		return other::nestingDoTest;
@@ -117,7 +132,9 @@ public interface LObjBytePredicate<T> extends LObjBytePredicateX<T, RuntimeExcep
 	// <editor-fold desc="predicate">
 
 	/**
-	 *  @see {@link java.util.function.Predicate#negate()}
+	 * Returns a predicate that represents the logical negation of this predicate.
+	 *
+	 * @see {@link java.util.function.Predicate#negate}
 	 */
 	@Nonnull
 	default LObjBytePredicate<T> negate() {
@@ -125,7 +142,8 @@ public interface LObjBytePredicate<T> extends LObjBytePredicateX<T, RuntimeExcep
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#and()}
+	 * Returns a predicate that represents the logical AND of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#and()}
 	 */
 	@Nonnull
 	default LObjBytePredicate<T> and(@Nonnull LObjBytePredicate<? super T> other) {
@@ -134,7 +152,8 @@ public interface LObjBytePredicate<T> extends LObjBytePredicateX<T, RuntimeExcep
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LObjBytePredicate<T> or(@Nonnull LObjBytePredicate<? super T> other) {
@@ -143,7 +162,8 @@ public interface LObjBytePredicate<T> extends LObjBytePredicateX<T, RuntimeExcep
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical XOR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LObjBytePredicate<T> xor(@Nonnull LObjBytePredicate<? super T> other) {
@@ -152,7 +172,8 @@ public interface LObjBytePredicate<T> extends LObjBytePredicateX<T, RuntimeExcep
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#isEqual()}
+	 * Creates predicate that evaluates if an object is equal with the argument one.
+	 * @see {@link java.util.function.Predicate#isEqual()
 	 */
 	@Nonnull
 	static <T1> LObjBytePredicate<T1> isEqual(final T1 v1, final byte v2) {
@@ -163,21 +184,17 @@ public interface LObjBytePredicate<T> extends LObjBytePredicateX<T, RuntimeExcep
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LObjBytePredicate<V1> objBPredFromByte(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LByteUnaryOperator before2) {
+	default <V1> LObjBytePredicate<V1> objBytePredComposeByte(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LByteUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final byte v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsByte(v2));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiPredicate<V1, V2> objBPredFrom(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToByteFunction<? super V2> before2) {
+	default <V1, V2> LBiPredicate<V1, V2> objBytePredCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToByteFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsByte(v2));
@@ -199,23 +216,23 @@ public interface LObjBytePredicate<T> extends LObjBytePredicateX<T, RuntimeExcep
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjBytePredicate<T> nestingObjBPred() {
+	default LObjBytePredicate<T> nestingObjBytePred() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjBytePredicateX<T, RuntimeException> nestingObjBPredX() {
+	default LObjBytePredicateX<T, RuntimeException> nestingObjBytePredX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjBytePredicate<T> shovingObjBPred() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LObjBytePredicate<T> shovingObjBytePred() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjBytePredicateX<T, RuntimeException> shovingObjBPredX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LObjBytePredicateX<T, RuntimeException> shovingObjBytePredX() {
 		return this;
 	}
 

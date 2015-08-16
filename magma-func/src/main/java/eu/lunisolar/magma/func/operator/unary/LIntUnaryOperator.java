@@ -74,10 +74,12 @@ public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>,
 
 	int doApplyAsInt(int i);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default int nestingDoApplyAsInt(int i) {
 		return this.doApplyAsInt(i);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default int shovingDoApplyAsInt(int i) {
 		return this.doApplyAsInt(i);
 	}
@@ -87,17 +89,18 @@ public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>,
 		return doApplyAsInt(i);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LIntUnaryOperator.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LIntSupplier captureIUnaryOp(int i) {
+	default LIntSupplier captureIntUnaryOp(int i) {
 		return () -> this.doApplyAsInt(i);
 	}
 
+	/** Creates function that always returns the same value. */
 	static LIntUnaryOperator constant(int r) {
 		return i -> r;
 	}
@@ -117,7 +120,7 @@ public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>,
 		return other::applyAsInt;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LIntUnaryOperator wrap(final @Nonnull LIntUnaryOperatorX<X> other) {
 		return other::nestingDoApplyAsInt;
@@ -127,20 +130,16 @@ public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>,
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LIntUnaryOperator iUnaryOpFromInt(@Nonnull final LIntUnaryOperator before1) {
+	default LIntUnaryOperator intUnaryOpComposeInt(@Nonnull final LIntUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsInt(before1.doApplyAsInt(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToIntFunction<V1> iUnaryOpFrom(@Nonnull final LToIntFunction<? super V1> before1) {
+	default <V1> LToIntFunction<V1> intUnaryOpCompose(@Nonnull final LToIntFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsInt(before1.doApplyAsInt(v1));
 	}
@@ -223,23 +222,23 @@ public interface LIntUnaryOperator extends LIntUnaryOperatorX<RuntimeException>,
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntUnaryOperator nestingIUnaryOp() {
+	default LIntUnaryOperator nestingIntUnaryOp() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntUnaryOperatorX<RuntimeException> nestingIUnaryOpX() {
+	default LIntUnaryOperatorX<RuntimeException> nestingIntUnaryOpX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntUnaryOperator shovingIUnaryOp() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntUnaryOperator shovingIntUnaryOp() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntUnaryOperatorX<RuntimeException> shovingIUnaryOpX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntUnaryOperatorX<RuntimeException> shovingIntUnaryOpX() {
 		return this;
 	}
 

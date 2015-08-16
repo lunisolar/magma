@@ -66,7 +66,7 @@ public final class LObjFloatConsumerBuilder<T> extends PerCaseBuilder.Base<LObjF
 		});
 
 	public LObjFloatConsumerBuilder(@Nullable Consumer<LObjFloatConsumer<T>> consumer) {
-		super(EVENTUALLY_THROW);
+		super(EVENTUALLY_THROW, () -> new LObjFloatConsumerBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LObjFloatConsumerBuilder<T> extends PerCaseBuilder.Base<LObjF
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <T> LObjFloatConsumerBuilder<T> objFloatConsumer() {
+	public static <T> LObjFloatConsumerBuilder<T> objFloatConsumer() {
 		return new LObjFloatConsumerBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <T> LObjFloatConsumerBuilder<T> objFloatConsumer(Consumer<LObjFloatConsumer<T>> consumer) {
+	public static <T> LObjFloatConsumerBuilder<T> objFloatConsumer(Consumer<LObjFloatConsumer<T>> consumer) {
 		return new LObjFloatConsumerBuilder(consumer);
 	}
 
@@ -96,6 +96,24 @@ public final class LObjFloatConsumerBuilder<T> extends PerCaseBuilder.Base<LObjF
 			throw new UnsupportedOperationException("Handling is already set for this builder.");
 		}
 		this.handling = handling;
+		return self();
+	}
+
+	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
+	@Nonnull
+	public <E1 extends T> LObjFloatConsumerBuilder<T> casesOf(Class<E1> argC1, Consumer<LObjFloatConsumerBuilder<E1>> pcpConsumer) {
+		PartialCase.The pc = partialCaseFactoryMethod((T t, float f) -> (argC1 == null || argC1.isInstance(t)));
+
+		pc.specifySubCases((Consumer) pcpConsumer);
+		return self();
+	}
+
+	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
+	@Nonnull
+	public <E1 extends T> LObjFloatConsumerBuilder<T> aCase(Class<E1> argC1, LObjFloatConsumer<E1> function) {
+		PartialCase.The pc = partialCaseFactoryMethod((T t, float f) -> (argC1 == null || argC1.isInstance(t)));
+
+		pc.evaluate(function);
 		return self();
 	}
 

@@ -184,7 +184,7 @@ public class LFloatSupplierXTest<X extends ParseException> {
         });
 
         // when
-        LFloatSupplierX<X> wrapped = sutThrowing.handleFSupX(handler -> handler
+        LFloatSupplierX<X> wrapped = sutThrowing.handleFloatSupX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -208,7 +208,7 @@ public class LFloatSupplierXTest<X extends ParseException> {
         });
 
         // when
-        LFloatSupplierX<X> wrapped = sutThrowing.handleFSupX(handler -> handler
+        LFloatSupplierX<X> wrapped = sutThrowing.handleFloatSupX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -232,7 +232,7 @@ public class LFloatSupplierXTest<X extends ParseException> {
         });
 
         // when
-        LFloatSupplierX<X> wrapped = sutThrowing.handleFSupX(handler -> handler
+        LFloatSupplierX<X> wrapped = sutThrowing.handleFloatSupX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -257,7 +257,7 @@ public class LFloatSupplierXTest<X extends ParseException> {
         });
 
         // when
-        LFloatSupplierX<X> wrapped = sutThrowing.handleFSupX(h -> Function4U.doNothing());
+        LFloatSupplierX<X> wrapped = sutThrowing.handleFloatSupX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -585,25 +585,25 @@ public class LFloatSupplierXTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nestingFSup())
+        assertThat(sut.nestingFloatSup())
             .isInstanceOf(LFloatSupplier.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shovingFSup())
+        assertThat(sut.shovingFloatSup())
             .isInstanceOf(LFloatSupplier.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestingFSupX())
+        assertThat(sut.nestingFloatSupX())
             .isInstanceOf(LFloatSupplierX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shovingFSupX())
+        assertThat(sut.shovingFloatSupX())
             .isInstanceOf(LFloatSupplierX.class);
     }
 
@@ -616,11 +616,11 @@ public class LFloatSupplierXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shovingFSup().doGetAsFloat();
+        sutThrowing.shovingFloatSup().doGetAsFloat();
     }
 
     @Test
-    public void testHandleFSup() throws X {
+    public void testHandleFloatSup() throws X {
 
         // given
         LFloatSupplierX<X> sutThrowing = LFloatSupplierX.lX(() -> {
@@ -628,7 +628,7 @@ public class LFloatSupplierXTest<X extends ParseException> {
         });
 
         // when
-        LFloatSupplierX<X> wrapped = sutThrowing.handleFSupX(h -> {
+        LFloatSupplierX<X> wrapped = sutThrowing.handleFloatSupX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 

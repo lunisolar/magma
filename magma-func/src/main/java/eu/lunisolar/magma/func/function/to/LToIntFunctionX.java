@@ -74,6 +74,7 @@ public interface LToIntFunctionX<T, X extends Throwable> extends java.util.funct
 
 	int doApplyAsInt(T t) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default int nestingDoApplyAsInt(T t) {
 		try {
 			return this.doApplyAsInt(t);
@@ -84,10 +85,12 @@ public interface LToIntFunctionX<T, X extends Throwable> extends java.util.funct
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default int shovingDoApplyAsInt(T t) {
 		return ((LToIntFunctionX<T, RuntimeException>) this).doApplyAsInt(t);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> int handlingDoApplyAsInt(T t, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -102,17 +105,18 @@ public interface LToIntFunctionX<T, X extends Throwable> extends java.util.funct
 		return doApplyAsInt(t);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LToIntFunctionX.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LIntSupplierX<X> captureToIFunc(T t) {
+	default LIntSupplierX<X> captureToIntFunc(T t) {
 		return () -> this.doApplyAsInt(t);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T, X extends Throwable> LToIntFunctionX<T, X> constant(int r) {
 		return t -> r;
 	}
@@ -139,7 +143,7 @@ public interface LToIntFunctionX<T, X extends Throwable> extends java.util.funct
 		return other::applyAsInt;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T, X extends Throwable> LToIntFunctionX<T, X> wrapX(final @Nonnull LToIntFunction<T> other) {
 		return (LToIntFunctionX) other;
@@ -149,11 +153,9 @@ public interface LToIntFunctionX<T, X extends Throwable> extends java.util.funct
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToIntFunctionX<V1, X> toIFuncFrom(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1) {
+	default <V1> LToIntFunctionX<V1, X> toIntFuncCompose(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsInt(before1.doApply(v1));
 	}
@@ -230,23 +232,23 @@ public interface LToIntFunctionX<T, X extends Throwable> extends java.util.funct
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToIntFunction<T> nestingToIFunc() {
+	default LToIntFunction<T> nestingToIntFunc() {
 		return this::nestingDoApplyAsInt;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToIntFunctionX<T, RuntimeException> nestingToIFuncX() {
+	default LToIntFunctionX<T, RuntimeException> nestingToIntFuncX() {
 		return this::nestingDoApplyAsInt;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToIntFunction<T> shovingToIFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToIntFunction<T> shovingToIntFunc() {
 		return this::shovingDoApplyAsInt;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToIntFunctionX<T, RuntimeException> shovingToIFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToIntFunctionX<T, RuntimeException> shovingToIntFuncX() {
 		return this::shovingDoApplyAsInt;
 	}
 
@@ -254,13 +256,15 @@ public interface LToIntFunctionX<T, X extends Throwable> extends java.util.funct
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LToIntFunction<T> handleToIFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LToIntFunction<T> handleToIntFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return t -> this.handlingDoApplyAsInt(t, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LToIntFunctionX<T, Y> handleToIFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LToIntFunctionX<T, Y> handleToIntFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return t -> this.handlingDoApplyAsInt(t, handling);
 	}
 

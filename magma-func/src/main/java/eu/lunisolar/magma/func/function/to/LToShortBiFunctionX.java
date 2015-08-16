@@ -64,6 +64,7 @@ public interface LToShortBiFunctionX<T1, T2, X extends Throwable> extends MetaFu
 
 	short doApplyAsShort(T1 t1, T2 t2) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default short nestingDoApplyAsShort(T1 t1, T2 t2) {
 		try {
 			return this.doApplyAsShort(t1, t2);
@@ -74,10 +75,12 @@ public interface LToShortBiFunctionX<T1, T2, X extends Throwable> extends MetaFu
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default short shovingDoApplyAsShort(T1 t1, T2 t2) {
 		return ((LToShortBiFunctionX<T1, T2, RuntimeException>) this).doApplyAsShort(t1, t2);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> short handlingDoApplyAsShort(T1 t1, T2 t2, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -92,19 +95,32 @@ public interface LToShortBiFunctionX<T1, T2, X extends Throwable> extends MetaFu
 		return doApplyAsShort(t1, t2);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LToShortBiFunctionX.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LShortSupplierX<X> captureToSBiFunc(T1 t1, T2 t2) {
+	default LShortSupplierX<X> captureToShortBiFunc(T1 t1, T2 t2) {
 		return () -> this.doApplyAsShort(t1, t2);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T1, T2, X extends Throwable> LToShortBiFunctionX<T1, T2, X> constant(short r) {
 		return (t1, t2) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T1, T2, X extends Throwable> LToShortBiFunctionX<T1, T2, X> apply1stAsShort(@Nonnull LToShortFunctionX<T1, X> func) {
+		return (t1, t2) -> func.doApplyAsShort(t1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T1, T2, X extends Throwable> LToShortBiFunctionX<T1, T2, X> apply2ndAsShort(@Nonnull LToShortFunctionX<T2, X> func) {
+		return (t1, t2) -> func.doApplyAsShort(t2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -123,7 +139,7 @@ public interface LToShortBiFunctionX<T1, T2, X extends Throwable> extends MetaFu
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T1, T2, X extends Throwable> LToShortBiFunctionX<T1, T2, X> wrapX(final @Nonnull LToShortBiFunction<T1, T2> other) {
 		return (LToShortBiFunctionX) other;
@@ -133,11 +149,9 @@ public interface LToShortBiFunctionX<T1, T2, X extends Throwable> extends MetaFu
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LToShortBiFunctionX<V1, V2, X> toSBiFuncFrom(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
+	default <V1, V2> LToShortBiFunctionX<V1, V2, X> toShortBiFuncCompose(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final V2 v2) -> this.doApplyAsShort(before1.doApply(v1), before2.doApply(v2));
@@ -159,23 +173,23 @@ public interface LToShortBiFunctionX<T1, T2, X extends Throwable> extends MetaFu
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToShortBiFunction<T1, T2> nestingToSBiFunc() {
+	default LToShortBiFunction<T1, T2> nestingToShortBiFunc() {
 		return this::nestingDoApplyAsShort;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToShortBiFunctionX<T1, T2, RuntimeException> nestingToSBiFuncX() {
+	default LToShortBiFunctionX<T1, T2, RuntimeException> nestingToShortBiFuncX() {
 		return this::nestingDoApplyAsShort;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToShortBiFunction<T1, T2> shovingToSBiFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToShortBiFunction<T1, T2> shovingToShortBiFunc() {
 		return this::shovingDoApplyAsShort;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToShortBiFunctionX<T1, T2, RuntimeException> shovingToSBiFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToShortBiFunctionX<T1, T2, RuntimeException> shovingToShortBiFuncX() {
 		return this::shovingDoApplyAsShort;
 	}
 
@@ -183,13 +197,15 @@ public interface LToShortBiFunctionX<T1, T2, X extends Throwable> extends MetaFu
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LToShortBiFunction<T1, T2> handleToSBiFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LToShortBiFunction<T1, T2> handleToShortBiFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T1 t1, T2 t2) -> this.handlingDoApplyAsShort(t1, t2, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LToShortBiFunctionX<T1, T2, Y> handleToSBiFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LToShortBiFunctionX<T1, T2, Y> handleToShortBiFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T1 t1, T2 t2) -> this.handlingDoApplyAsShort(t1, t2, handling);
 	}
 

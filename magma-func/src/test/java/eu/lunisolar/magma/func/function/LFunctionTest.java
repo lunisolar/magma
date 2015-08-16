@@ -306,7 +306,7 @@ public class LFunctionTest<T,R,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfuncFrom() throws X {
+    public void testfuncCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -325,7 +325,7 @@ public class LFunctionTest<T,R,X extends ParseException> {
         };
 
         //when
-        LFunction<Integer ,Integer > function = sutO.funcFrom(before1);
+        LFunction<Integer ,Integer > function = sutO.funcCompose(before1);
         function.doApply((Integer )Integer.valueOf(80));
 
         //then - finals

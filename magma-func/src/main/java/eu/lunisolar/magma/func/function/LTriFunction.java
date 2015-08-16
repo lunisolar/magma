@@ -65,23 +65,25 @@ public interface LTriFunction<T1, T2, T3, R> extends LTriFunctionX<T1, T2, T3, R
 	@Nullable
 	R doApply(T1 t1, T2 t2, T3 t3);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default R nestingDoApply(T1 t1, T2 t2, T3 t3) {
 		return this.doApply(t1, t2, t3);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default R shovingDoApply(T1 t1, T2 t2, T3 t3) {
 		return this.doApply(t1, t2, t3);
 	}
 
 	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
-	/** Ensures the result is not null */
+	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullDoApply(T1 t1, T2 t2, T3 t3) {
 		return Null.requireNonNull(doApply(t1, t2, t3), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LTriFunction.DESCRIPTION;
@@ -92,8 +94,27 @@ public interface LTriFunction<T1, T2, T3, R> extends LTriFunctionX<T1, T2, T3, R
 		return () -> this.doApply(t1, t2, t3);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T1, T2, T3, R> LTriFunction<T1, T2, T3, R> constant(R r) {
 		return (t1, t2, t3) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T1, T2, T3, R> LTriFunction<T1, T2, T3, R> apply1st(@Nonnull LFunction<T1, R> func) {
+		return (t1, t2, t3) -> func.doApply(t1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T1, T2, T3, R> LTriFunction<T1, T2, T3, R> apply2nd(@Nonnull LFunction<T2, R> func) {
+		return (t1, t2, t3) -> func.doApply(t2);
+	}
+
+	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
+	@Nonnull
+	static <T1, T2, T3, R> LTriFunction<T1, T2, T3, R> apply3rd(@Nonnull LFunction<T3, R> func) {
+		return (t1, t2, t3) -> func.doApply(t3);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -105,7 +126,7 @@ public interface LTriFunction<T1, T2, T3, R> extends LTriFunctionX<T1, T2, T3, R
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T1, T2, T3, R, X extends Throwable> LTriFunction<T1, T2, T3, R> wrap(final @Nonnull LTriFunctionX<T1, T2, T3, R, X> other) {
 		return other::nestingDoApply;
@@ -115,11 +136,9 @@ public interface LTriFunction<T1, T2, T3, R> extends LTriFunctionX<T1, T2, T3, R
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2, V3> LTriFunction<V1, V2, V3, R> triFuncFrom(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LFunction<? super V3, ? extends T3> before3) {
+	default <V1, V2, V3> LTriFunction<V1, V2, V3, R> triFuncCompose(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LFunction<? super V3, ? extends T3> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
@@ -159,18 +178,19 @@ public interface LTriFunction<T1, T2, T3, R> extends LTriFunctionX<T1, T2, T3, R
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LTriFunction<T1, T2, T3, R> shovingTriFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LTriFunctionX<T1, T2, T3, R, RuntimeException> shovingTriFuncX() {
 		return this;
 	}
 
 	// </editor-fold>
 
+	/** Converts to function that makes sure that the result is not null. */
 	@Nonnull
 	default LTriFunction<T1, T2, T3, R> nonNullTriFunc() {
 		return this::nonNullDoApply;

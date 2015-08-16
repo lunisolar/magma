@@ -115,7 +115,7 @@ public class LIntToByteFunctionXBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LIntToByteFunctionX<ParseException> function = intToByteFunctionX((LIntToByteFunctionX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of(i -> i == (int)0)
+            .aCase(ce -> ce.of(i -> i == (int)0)
                              .evaluate(i -> (byte)0))
             .inCase(i -> i > 0 && i < 10).evaluate(i -> (byte)1)
             .inCase(i -> i > 10 && i < 20).evaluate(i -> (byte)2)

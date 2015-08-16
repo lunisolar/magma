@@ -74,6 +74,7 @@ public interface LDoubleSupplierX<X extends Throwable> extends java.util.functio
 
 	double doGetAsDouble() throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default double nestingDoGetAsDouble() {
 		try {
 			return this.doGetAsDouble();
@@ -84,10 +85,12 @@ public interface LDoubleSupplierX<X extends Throwable> extends java.util.functio
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default double shovingDoGetAsDouble() {
 		return ((LDoubleSupplierX<RuntimeException>) this).doGetAsDouble();
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> double handlingDoGetAsDouble(HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -102,12 +105,13 @@ public interface LDoubleSupplierX<X extends Throwable> extends java.util.functio
 		return doGetAsDouble();
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LDoubleSupplierX.DESCRIPTION;
 	}
 
+	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LDoubleSupplierX<X> of(double r) {
 		return () -> r;
 	}
@@ -134,7 +138,7 @@ public interface LDoubleSupplierX<X extends Throwable> extends java.util.functio
 		return other::getAsDouble;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LDoubleSupplierX<X> wrapX(final @Nonnull LDoubleSupplier other) {
 		return (LDoubleSupplierX) other;
@@ -212,23 +216,23 @@ public interface LDoubleSupplierX<X extends Throwable> extends java.util.functio
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoubleSupplier nestingDSup() {
+	default LDoubleSupplier nestingDoubleSup() {
 		return this::nestingDoGetAsDouble;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoubleSupplierX<RuntimeException> nestingDSupX() {
+	default LDoubleSupplierX<RuntimeException> nestingDoubleSupX() {
 		return this::nestingDoGetAsDouble;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleSupplier shovingDSup() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoubleSupplier shovingDoubleSup() {
 		return this::shovingDoGetAsDouble;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleSupplierX<RuntimeException> shovingDSupX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoubleSupplierX<RuntimeException> shovingDoubleSupX() {
 		return this::shovingDoGetAsDouble;
 	}
 
@@ -236,13 +240,15 @@ public interface LDoubleSupplierX<X extends Throwable> extends java.util.functio
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LDoubleSupplier handleDSup(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LDoubleSupplier handleDoubleSup(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return () -> this.handlingDoGetAsDouble(handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LDoubleSupplierX<Y> handleDSupX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LDoubleSupplierX<Y> handleDoubleSupX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return () -> this.handlingDoGetAsDouble(handling);
 	}
 

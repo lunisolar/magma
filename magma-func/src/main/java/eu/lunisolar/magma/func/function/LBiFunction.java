@@ -75,23 +75,25 @@ public interface LBiFunction<T1, T2, R> extends LBiFunctionX<T1, T2, R, RuntimeE
 	@Nullable
 	R doApply(T1 t1, T2 t2);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default R nestingDoApply(T1 t1, T2 t2) {
 		return this.doApply(t1, t2);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default R shovingDoApply(T1 t1, T2 t2) {
 		return this.doApply(t1, t2);
 	}
 
 	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
-	/** Ensures the result is not null */
+	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullDoApply(T1 t1, T2 t2) {
 		return Null.requireNonNull(doApply(t1, t2), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LBiFunction.DESCRIPTION;
@@ -102,8 +104,21 @@ public interface LBiFunction<T1, T2, R> extends LBiFunctionX<T1, T2, R, RuntimeE
 		return () -> this.doApply(t1, t2);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T1, T2, R> LBiFunction<T1, T2, R> constant(R r) {
 		return (t1, t2) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T1, T2, R> LBiFunction<T1, T2, R> apply1st(@Nonnull LFunction<T1, R> func) {
+		return (t1, t2) -> func.doApply(t1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T1, T2, R> LBiFunction<T1, T2, R> apply2nd(@Nonnull LFunction<T2, R> func) {
+		return (t1, t2) -> func.doApply(t2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -121,7 +136,7 @@ public interface LBiFunction<T1, T2, R> extends LBiFunctionX<T1, T2, R, RuntimeE
 		return other::apply;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T1, T2, R, X extends Throwable> LBiFunction<T1, T2, R> wrap(final @Nonnull LBiFunctionX<T1, T2, R, X> other) {
 		return other::nestingDoApply;
@@ -131,11 +146,9 @@ public interface LBiFunction<T1, T2, R> extends LBiFunctionX<T1, T2, R, RuntimeE
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiFunction<V1, V2, R> biFuncFrom(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2) {
+	default <V1, V2> LBiFunction<V1, V2, R> biFuncCompose(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final V2 v2) -> this.doApply(before1.doApply(v1), before2.doApply(v2));
@@ -174,18 +187,19 @@ public interface LBiFunction<T1, T2, R> extends LBiFunctionX<T1, T2, R, RuntimeE
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBiFunction<T1, T2, R> shovingBiFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBiFunctionX<T1, T2, R, RuntimeException> shovingBiFuncX() {
 		return this;
 	}
 
 	// </editor-fold>
 
+	/** Converts to function that makes sure that the result is not null. */
 	@Nonnull
 	default LBiFunction<T1, T2, R> nonNullBiFunc() {
 		return this::nonNullDoApply;

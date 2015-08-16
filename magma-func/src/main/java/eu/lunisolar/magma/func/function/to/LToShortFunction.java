@@ -64,10 +64,12 @@ public interface LToShortFunction<T> extends LToShortFunctionX<T, RuntimeExcepti
 
 	short doApplyAsShort(T t);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default short nestingDoApplyAsShort(T t) {
 		return this.doApplyAsShort(t);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default short shovingDoApplyAsShort(T t) {
 		return this.doApplyAsShort(t);
 	}
@@ -77,17 +79,18 @@ public interface LToShortFunction<T> extends LToShortFunctionX<T, RuntimeExcepti
 		return doApplyAsShort(t);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LToShortFunction.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LShortSupplier captureToSFunc(T t) {
+	default LShortSupplier captureToShortFunc(T t) {
 		return () -> this.doApplyAsShort(t);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T> LToShortFunction<T> constant(short r) {
 		return t -> r;
 	}
@@ -101,7 +104,7 @@ public interface LToShortFunction<T> extends LToShortFunctionX<T, RuntimeExcepti
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T, X extends Throwable> LToShortFunction<T> wrap(final @Nonnull LToShortFunctionX<T, X> other) {
 		return other::nestingDoApplyAsShort;
@@ -111,11 +114,9 @@ public interface LToShortFunction<T> extends LToShortFunctionX<T, RuntimeExcepti
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToShortFunction<V1> toSFuncFrom(@Nonnull final LFunction<? super V1, ? extends T> before1) {
+	default <V1> LToShortFunction<V1> toShortFuncCompose(@Nonnull final LFunction<? super V1, ? extends T> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsShort(before1.doApply(v1));
 	}
@@ -192,23 +193,23 @@ public interface LToShortFunction<T> extends LToShortFunctionX<T, RuntimeExcepti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToShortFunction<T> nestingToSFunc() {
+	default LToShortFunction<T> nestingToShortFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToShortFunctionX<T, RuntimeException> nestingToSFuncX() {
+	default LToShortFunctionX<T, RuntimeException> nestingToShortFuncX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToShortFunction<T> shovingToSFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToShortFunction<T> shovingToShortFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToShortFunctionX<T, RuntimeException> shovingToSFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToShortFunctionX<T, RuntimeException> shovingToShortFuncX() {
 		return this;
 	}
 

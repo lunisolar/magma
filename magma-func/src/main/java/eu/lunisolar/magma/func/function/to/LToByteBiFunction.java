@@ -64,10 +64,12 @@ public interface LToByteBiFunction<T1, T2> extends LToByteBiFunctionX<T1, T2, Ru
 
 	byte doApplyAsByte(T1 t1, T2 t2);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default byte nestingDoApplyAsByte(T1 t1, T2 t2) {
 		return this.doApplyAsByte(t1, t2);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default byte shovingDoApplyAsByte(T1 t1, T2 t2) {
 		return this.doApplyAsByte(t1, t2);
 	}
@@ -77,19 +79,32 @@ public interface LToByteBiFunction<T1, T2> extends LToByteBiFunctionX<T1, T2, Ru
 		return doApplyAsByte(t1, t2);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LToByteBiFunction.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LByteSupplier captureToBBiFunc(T1 t1, T2 t2) {
+	default LByteSupplier captureToByteBiFunc(T1 t1, T2 t2) {
 		return () -> this.doApplyAsByte(t1, t2);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T1, T2> LToByteBiFunction<T1, T2> constant(byte r) {
 		return (t1, t2) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T1, T2> LToByteBiFunction<T1, T2> apply1stAsByte(@Nonnull LToByteFunction<T1> func) {
+		return (t1, t2) -> func.doApplyAsByte(t1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T1, T2> LToByteBiFunction<T1, T2> apply2ndAsByte(@Nonnull LToByteFunction<T2> func) {
+		return (t1, t2) -> func.doApplyAsByte(t2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -101,7 +116,7 @@ public interface LToByteBiFunction<T1, T2> extends LToByteBiFunctionX<T1, T2, Ru
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T1, T2, X extends Throwable> LToByteBiFunction<T1, T2> wrap(final @Nonnull LToByteBiFunctionX<T1, T2, X> other) {
 		return other::nestingDoApplyAsByte;
@@ -111,11 +126,9 @@ public interface LToByteBiFunction<T1, T2> extends LToByteBiFunctionX<T1, T2, Ru
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LToByteBiFunction<V1, V2> toBBiFuncFrom(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2) {
+	default <V1, V2> LToByteBiFunction<V1, V2> toByteBiFuncCompose(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final V2 v2) -> this.doApplyAsByte(before1.doApply(v1), before2.doApply(v2));
@@ -137,23 +150,23 @@ public interface LToByteBiFunction<T1, T2> extends LToByteBiFunctionX<T1, T2, Ru
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToByteBiFunction<T1, T2> nestingToBBiFunc() {
+	default LToByteBiFunction<T1, T2> nestingToByteBiFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToByteBiFunctionX<T1, T2, RuntimeException> nestingToBBiFuncX() {
+	default LToByteBiFunctionX<T1, T2, RuntimeException> nestingToByteBiFuncX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToByteBiFunction<T1, T2> shovingToBBiFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToByteBiFunction<T1, T2> shovingToByteBiFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToByteBiFunctionX<T1, T2, RuntimeException> shovingToBBiFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToByteBiFunctionX<T1, T2, RuntimeException> shovingToByteBiFuncX() {
 		return this;
 	}
 

@@ -66,7 +66,7 @@ public final class LBiCharPredicateXBuilder<X extends Throwable> extends PerCase
 		});
 
 	public LBiCharPredicateXBuilder(@Nullable Consumer<LBiCharPredicateX<X>> consumer) {
-		super(EVENTUALLY_THROW, LBiCharPredicateX::constant);
+		super(EVENTUALLY_THROW, LBiCharPredicateX::constant, () -> new LBiCharPredicateXBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LBiCharPredicateXBuilder<X extends Throwable> extends PerCase
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <X extends Throwable> LBiCharPredicateXBuilder<X> biCharPredicateX() {
+	public static <X extends Throwable> LBiCharPredicateXBuilder<X> biCharPredicateX() {
 		return new LBiCharPredicateXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <X extends Throwable> LBiCharPredicateXBuilder<X> biCharPredicateX(Consumer<LBiCharPredicateX<X>> consumer) {
+	public static <X extends Throwable> LBiCharPredicateXBuilder<X> biCharPredicateX(Consumer<LBiCharPredicateX<X>> consumer) {
 		return new LBiCharPredicateXBuilder(consumer);
 	}
 

@@ -21,7 +21,7 @@ package eu.lunisolar.magma.basics.probing;
 import javax.annotation.Nullable;
 import java.util.function.*;
 
-import static eu.lunisolar.magma.basics.probing.Private.getRootCause;
+import static eu.lunisolar.magma.basics.probing.Internal.getRootCause;
 
 /**
  *
@@ -31,22 +31,6 @@ public interface ThrowableProbe<X extends Throwable> extends ObjectProbe<X> {
     static <T extends Throwable> ThrowableProbe<T> of(T t) {
         return new ThrowableProbe.The(t);
     }
-
-//    default <A> boolean checkMessageIfExists(String argument,  BiPredicate<String, A> predicate) {
-//        checkOnlyWhen(x-> x!=null && x.getMessage()!=null,argument, predicate);
-//
-//        if ( getTarget() != null && getTarget().getMessage()!=null) {
-//            return predicate.test(getTarget().getMessage(), argument);
-//        }
-//        return false;
-//    }
-//
-//    default <A> boolean checkCauseIfExists(A argument,  BiPredicate<Throwable, A> predicate) {
-//        if ( getTarget() != null && getTarget().getCause()!=null) {
-//            return predicate.test(getTarget().getCause(), argument);
-//        }
-//        return false;
-//    }
 
     default boolean isRuntime() {
         return isInstanceOf(RuntimeException.class);
@@ -77,14 +61,14 @@ public interface ThrowableProbe<X extends Throwable> extends ObjectProbe<X> {
     }
 
     default boolean hasCauseThat(Predicate<ThrowableProbe> cause) {
-        return checkWhenTargetNotNull((t) -> cause.test(ThrowableProbe.of(t.getCause())));
+        return checkWhenTargetNotNull(t -> cause.test(ThrowableProbe.of(t.getCause())));
     }
 
     default boolean hasRootCauseThat(Predicate<ThrowableProbe> cause) {
-        return checkWhenTargetNotNull((t) -> cause.test(ThrowableProbe.of(getRootCause(t))));
+        return checkWhenTargetNotNull(t -> cause.test(ThrowableProbe.of(getRootCause(t))));
     }
 
-    class The<T extends Throwable> implements ThrowableProbe<T> {
+    final class The<T extends Throwable> implements ThrowableProbe<T> {
 
         private final T target;
 

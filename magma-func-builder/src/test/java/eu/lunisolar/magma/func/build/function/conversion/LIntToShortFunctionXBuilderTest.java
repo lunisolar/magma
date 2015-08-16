@@ -115,7 +115,7 @@ public class LIntToShortFunctionXBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LIntToShortFunctionX<ParseException> function = intToShortFunctionX((LIntToShortFunctionX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of(i -> i == (int)0)
+            .aCase(ce -> ce.of(i -> i == (int)0)
                              .evaluate(i -> (short)0))
             .inCase(i -> i > 0 && i < 10).evaluate(i -> (short)1)
             .inCase(i -> i > 10 && i < 20).evaluate(i -> (short)2)

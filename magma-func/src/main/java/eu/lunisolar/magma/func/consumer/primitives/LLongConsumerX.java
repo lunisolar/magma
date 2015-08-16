@@ -75,6 +75,7 @@ public interface LLongConsumerX<X extends Throwable> extends java.util.function.
 
 	void doAccept(long l) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default void nestingDoAccept(long l) {
 		try {
 			this.doAccept(l);
@@ -85,10 +86,12 @@ public interface LLongConsumerX<X extends Throwable> extends java.util.function.
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default void shovingDoAccept(long l) {
 		((LLongConsumerX<RuntimeException>) this).doAccept(l);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> void handlingDoAccept(long l, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -98,7 +101,7 @@ public interface LLongConsumerX<X extends Throwable> extends java.util.function.
 		}
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LLongConsumerX.DESCRIPTION;
@@ -131,7 +134,7 @@ public interface LLongConsumerX<X extends Throwable> extends java.util.function.
 		return other::accept;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LLongConsumerX<X> wrapX(final @Nonnull LLongConsumer other) {
 		return (LLongConsumerX) other;
@@ -141,20 +144,16 @@ public interface LLongConsumerX<X extends Throwable> extends java.util.function.
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LLongConsumerX<X> longConsFromLong(@Nonnull final LLongUnaryOperatorX<X> before1) {
+	default LLongConsumerX<X> longConsComposeLong(@Nonnull final LLongUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doApplyAsLong(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LConsumerX<V1, X> longConsFrom(@Nonnull final LToLongFunctionX<? super V1, X> before1) {
+	default <V1> LConsumerX<V1, X> longConsCompose(@Nonnull final LToLongFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doApplyAsLong(v1));
 	}
@@ -187,12 +186,12 @@ public interface LLongConsumerX<X extends Throwable> extends java.util.function.
 		return this::nestingDoAccept;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLongConsumer shovingLongCons() {
 		return this::shovingDoAccept;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLongConsumerX<RuntimeException> shovingLongConsX() {
 		return this::shovingDoAccept;
 	}
@@ -201,11 +200,13 @@ public interface LLongConsumerX<X extends Throwable> extends java.util.function.
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LLongConsumer handleLongCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return l -> this.handlingDoAccept(l, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LLongConsumerX<Y> handleLongConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return l -> this.handlingDoAccept(l, handling);

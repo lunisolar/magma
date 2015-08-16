@@ -115,7 +115,7 @@ public class LIntToFloatFunctionXBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LIntToFloatFunctionX<ParseException> function = intToFloatFunctionX((LIntToFloatFunctionX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of(i -> i == (int)0)
+            .aCase(ce -> ce.of(i -> i == (int)0)
                              .evaluate(i -> (float)0))
             .inCase(i -> i > 0 && i < 10).evaluate(i -> (float)1)
             .inCase(i -> i > 10 && i < 20).evaluate(i -> (float)2)

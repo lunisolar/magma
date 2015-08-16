@@ -66,7 +66,7 @@ public final class LIntToShortFunctionBuilder extends PerCaseBuilderWithShortPro
 		});
 
 	public LIntToShortFunctionBuilder(@Nullable Consumer<LIntToShortFunction> consumer) {
-		super(EVENTUALLY_THROW, LIntToShortFunction::constant);
+		super(EVENTUALLY_THROW, LIntToShortFunction::constant, () -> new LIntToShortFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LIntToShortFunctionBuilder extends PerCaseBuilderWithShortPro
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final LIntToShortFunctionBuilder intToShortFunction() {
+	public static LIntToShortFunctionBuilder intToShortFunction() {
 		return new LIntToShortFunctionBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final LIntToShortFunctionBuilder intToShortFunction(Consumer<LIntToShortFunction> consumer) {
+	public static LIntToShortFunctionBuilder intToShortFunction(Consumer<LIntToShortFunction> consumer) {
 		return new LIntToShortFunctionBuilder(consumer);
 	}
 

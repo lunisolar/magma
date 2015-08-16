@@ -65,22 +65,24 @@ public interface LByteConsumer extends LByteConsumerX<RuntimeException>, MetaCon
 
 	void doAccept(byte b);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default void nestingDoAccept(byte b) {
 		this.doAccept(b);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default void shovingDoAccept(byte b) {
 		this.doAccept(b);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LByteConsumer.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LAction captureBCons(byte b) {
+	default LAction captureByteCons(byte b) {
 		return () -> this.doAccept(b);
 	}
 
@@ -93,7 +95,7 @@ public interface LByteConsumer extends LByteConsumerX<RuntimeException>, MetaCon
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LByteConsumer wrap(final @Nonnull LByteConsumerX<X> other) {
 		return other::nestingDoAccept;
@@ -103,20 +105,16 @@ public interface LByteConsumer extends LByteConsumerX<RuntimeException>, MetaCon
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LByteConsumer bConsFromByte(@Nonnull final LByteUnaryOperator before1) {
+	default LByteConsumer byteConsComposeByte(@Nonnull final LByteUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doApplyAsByte(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LConsumer<V1> bConsFrom(@Nonnull final LToByteFunction<? super V1> before1) {
+	default <V1> LConsumer<V1> byteConsCompose(@Nonnull final LToByteFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doApplyAsByte(v1));
 	}
@@ -139,23 +137,23 @@ public interface LByteConsumer extends LByteConsumerX<RuntimeException>, MetaCon
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LByteConsumer nestingBCons() {
+	default LByteConsumer nestingByteCons() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LByteConsumerX<RuntimeException> nestingBConsX() {
+	default LByteConsumerX<RuntimeException> nestingByteConsX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteConsumer shovingBCons() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LByteConsumer shovingByteCons() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteConsumerX<RuntimeException> shovingBConsX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LByteConsumerX<RuntimeException> shovingByteConsX() {
 		return this;
 	}
 

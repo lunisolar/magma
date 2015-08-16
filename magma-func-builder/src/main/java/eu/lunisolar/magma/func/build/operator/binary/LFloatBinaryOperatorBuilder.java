@@ -66,7 +66,7 @@ public final class LFloatBinaryOperatorBuilder extends PerCaseBuilderWithFloatPr
 		});
 
 	public LFloatBinaryOperatorBuilder(@Nullable Consumer<LFloatBinaryOperator> consumer) {
-		super(EVENTUALLY_THROW, LFloatBinaryOperator::constant);
+		super(EVENTUALLY_THROW, LFloatBinaryOperator::constant, () -> new LFloatBinaryOperatorBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LFloatBinaryOperatorBuilder extends PerCaseBuilderWithFloatPr
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final LFloatBinaryOperatorBuilder floatBinaryOperator() {
+	public static LFloatBinaryOperatorBuilder floatBinaryOperator() {
 		return new LFloatBinaryOperatorBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final LFloatBinaryOperatorBuilder floatBinaryOperator(Consumer<LFloatBinaryOperator> consumer) {
+	public static LFloatBinaryOperatorBuilder floatBinaryOperator(Consumer<LFloatBinaryOperator> consumer) {
 		return new LFloatBinaryOperatorBuilder(consumer);
 	}
 

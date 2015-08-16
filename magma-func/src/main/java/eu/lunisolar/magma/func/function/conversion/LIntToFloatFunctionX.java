@@ -64,6 +64,7 @@ public interface LIntToFloatFunctionX<X extends Throwable> extends MetaFunction,
 
 	float doApplyAsFloat(int i) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default float nestingDoApplyAsFloat(int i) {
 		try {
 			return this.doApplyAsFloat(i);
@@ -74,10 +75,12 @@ public interface LIntToFloatFunctionX<X extends Throwable> extends MetaFunction,
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default float shovingDoApplyAsFloat(int i) {
 		return ((LIntToFloatFunctionX<RuntimeException>) this).doApplyAsFloat(i);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> float handlingDoApplyAsFloat(int i, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -92,17 +95,18 @@ public interface LIntToFloatFunctionX<X extends Throwable> extends MetaFunction,
 		return doApplyAsFloat(i);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LIntToFloatFunctionX.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LFloatSupplierX<X> captureIToFFunc(int i) {
+	default LFloatSupplierX<X> captureIntToFloatFunc(int i) {
 		return () -> this.doApplyAsFloat(i);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LIntToFloatFunctionX<X> constant(float r) {
 		return i -> r;
 	}
@@ -123,7 +127,7 @@ public interface LIntToFloatFunctionX<X extends Throwable> extends MetaFunction,
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LIntToFloatFunctionX<X> wrapX(final @Nonnull LIntToFloatFunction other) {
 		return (LIntToFloatFunctionX) other;
@@ -133,20 +137,16 @@ public interface LIntToFloatFunctionX<X extends Throwable> extends MetaFunction,
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LIntToFloatFunctionX<X> iToFFuncFromInt(@Nonnull final LIntUnaryOperatorX<X> before1) {
+	default LIntToFloatFunctionX<X> intToFloatFuncComposeInt(@Nonnull final LIntUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsFloat(before1.doApplyAsInt(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToFloatFunctionX<V1, X> iToFFuncFrom(@Nonnull final LToIntFunctionX<? super V1, X> before1) {
+	default <V1> LToFloatFunctionX<V1, X> intToFloatFuncCompose(@Nonnull final LToIntFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsFloat(before1.doApplyAsInt(v1));
 	}
@@ -223,23 +223,23 @@ public interface LIntToFloatFunctionX<X extends Throwable> extends MetaFunction,
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntToFloatFunction nestingIToFFunc() {
+	default LIntToFloatFunction nestingIntToFloatFunc() {
 		return this::nestingDoApplyAsFloat;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntToFloatFunctionX<RuntimeException> nestingIToFFuncX() {
+	default LIntToFloatFunctionX<RuntimeException> nestingIntToFloatFuncX() {
 		return this::nestingDoApplyAsFloat;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntToFloatFunction shovingIToFFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntToFloatFunction shovingIntToFloatFunc() {
 		return this::shovingDoApplyAsFloat;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntToFloatFunctionX<RuntimeException> shovingIToFFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntToFloatFunctionX<RuntimeException> shovingIntToFloatFuncX() {
 		return this::shovingDoApplyAsFloat;
 	}
 
@@ -247,13 +247,15 @@ public interface LIntToFloatFunctionX<X extends Throwable> extends MetaFunction,
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LIntToFloatFunction handleIToFFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LIntToFloatFunction handleIntToFloatFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return i -> this.handlingDoApplyAsFloat(i, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LIntToFloatFunctionX<Y> handleIToFFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LIntToFloatFunctionX<Y> handleIntToFloatFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return i -> this.handlingDoApplyAsFloat(i, handling);
 	}
 

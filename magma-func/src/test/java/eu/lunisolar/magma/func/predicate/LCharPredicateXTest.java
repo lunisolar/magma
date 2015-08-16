@@ -191,7 +191,7 @@ public class LCharPredicateXTest<X extends ParseException> {
         });
 
         // when
-        LCharPredicateX<X> wrapped = sutThrowing.handleCPredX(handler -> handler
+        LCharPredicateX<X> wrapped = sutThrowing.handleCharPredX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -215,7 +215,7 @@ public class LCharPredicateXTest<X extends ParseException> {
         });
 
         // when
-        LCharPredicateX<X> wrapped = sutThrowing.handleCPredX(handler -> handler
+        LCharPredicateX<X> wrapped = sutThrowing.handleCharPredX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -239,7 +239,7 @@ public class LCharPredicateXTest<X extends ParseException> {
         });
 
         // when
-        LCharPredicateX<X> wrapped = sutThrowing.handleCPredX(handler -> handler
+        LCharPredicateX<X> wrapped = sutThrowing.handleCharPredX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -264,7 +264,7 @@ public class LCharPredicateXTest<X extends ParseException> {
         });
 
         // when
-        LCharPredicateX<X> wrapped = sutThrowing.handleCPredX(h -> Function4U.doNothing());
+        LCharPredicateX<X> wrapped = sutThrowing.handleCharPredX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -336,7 +336,7 @@ public class LCharPredicateXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testcPredFromChar() throws X {
+    public void testcharPredComposeChar() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -355,7 +355,7 @@ public class LCharPredicateXTest<X extends ParseException> {
         };
 
         //when
-        LCharPredicateX<X> function = sutO.cPredFromChar(before1);
+        LCharPredicateX<X> function = sutO.charPredComposeChar(before1);
         function.doTest((char)80);
 
         //then - finals
@@ -365,7 +365,7 @@ public class LCharPredicateXTest<X extends ParseException> {
 
 
     @Test
-    public void testcPredFrom() throws X {
+    public void testcharPredCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -384,7 +384,7 @@ public class LCharPredicateXTest<X extends ParseException> {
         };
 
         //when
-        LPredicateX<Integer ,X> function = sutO.cPredFrom(before1);
+        LPredicateX<Integer ,X> function = sutO.charPredCompose(before1);
         function.doTest((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -716,25 +716,25 @@ public class LCharPredicateXTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nestingCPred())
+        assertThat(sut.nestingCharPred())
             .isInstanceOf(LCharPredicate.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shovingCPred())
+        assertThat(sut.shovingCharPred())
             .isInstanceOf(LCharPredicate.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestingCPredX())
+        assertThat(sut.nestingCharPredX())
             .isInstanceOf(LCharPredicateX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shovingCPredX())
+        assertThat(sut.shovingCharPredX())
             .isInstanceOf(LCharPredicateX.class);
     }
 
@@ -747,11 +747,11 @@ public class LCharPredicateXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shovingCPred().doTest((char)100);
+        sutThrowing.shovingCharPred().doTest((char)100);
     }
 
     @Test
-    public void testHandleCPred() throws X {
+    public void testHandleCharPred() throws X {
 
         // given
         LCharPredicateX<X> sutThrowing = LCharPredicateX.lX(c -> {
@@ -759,7 +759,7 @@ public class LCharPredicateXTest<X extends ParseException> {
         });
 
         // when
-        LCharPredicateX<X> wrapped = sutThrowing.handleCPredX(h -> {
+        LCharPredicateX<X> wrapped = sutThrowing.handleCharPredX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 

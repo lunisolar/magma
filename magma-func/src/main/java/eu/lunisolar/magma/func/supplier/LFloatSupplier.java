@@ -64,10 +64,12 @@ public interface LFloatSupplier extends LFloatSupplierX<RuntimeException>, MetaS
 
 	float doGetAsFloat();
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default float nestingDoGetAsFloat() {
 		return this.doGetAsFloat();
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default float shovingDoGetAsFloat() {
 		return this.doGetAsFloat();
 	}
@@ -77,12 +79,13 @@ public interface LFloatSupplier extends LFloatSupplierX<RuntimeException>, MetaS
 		return doGetAsFloat();
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LFloatSupplier.DESCRIPTION;
 	}
 
+	/** Creates function that always returns the same value. */
 	static LFloatSupplier of(float r) {
 		return () -> r;
 	}
@@ -96,7 +99,7 @@ public interface LFloatSupplier extends LFloatSupplierX<RuntimeException>, MetaS
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LFloatSupplier wrap(final @Nonnull LFloatSupplierX<X> other) {
 		return other::nestingDoGetAsFloat;
@@ -174,23 +177,23 @@ public interface LFloatSupplier extends LFloatSupplierX<RuntimeException>, MetaS
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LFloatSupplier nestingFSup() {
+	default LFloatSupplier nestingFloatSup() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LFloatSupplierX<RuntimeException> nestingFSupX() {
+	default LFloatSupplierX<RuntimeException> nestingFloatSupX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatSupplier shovingFSup() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LFloatSupplier shovingFloatSup() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatSupplierX<RuntimeException> shovingFSupX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LFloatSupplierX<RuntimeException> shovingFloatSupX() {
 		return this;
 	}
 

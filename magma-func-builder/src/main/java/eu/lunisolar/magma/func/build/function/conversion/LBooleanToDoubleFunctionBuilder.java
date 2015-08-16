@@ -66,7 +66,7 @@ public final class LBooleanToDoubleFunctionBuilder extends PerCaseBuilderWithDou
 		});
 
 	public LBooleanToDoubleFunctionBuilder(@Nullable Consumer<LBooleanToDoubleFunction> consumer) {
-		super(EVENTUALLY_THROW, LBooleanToDoubleFunction::constant);
+		super(EVENTUALLY_THROW, LBooleanToDoubleFunction::constant, () -> new LBooleanToDoubleFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LBooleanToDoubleFunctionBuilder extends PerCaseBuilderWithDou
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final LBooleanToDoubleFunctionBuilder booleanToDoubleFunction() {
+	public static LBooleanToDoubleFunctionBuilder booleanToDoubleFunction() {
 		return new LBooleanToDoubleFunctionBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final LBooleanToDoubleFunctionBuilder booleanToDoubleFunction(Consumer<LBooleanToDoubleFunction> consumer) {
+	public static LBooleanToDoubleFunctionBuilder booleanToDoubleFunction(Consumer<LBooleanToDoubleFunction> consumer) {
 		return new LBooleanToDoubleFunctionBuilder(consumer);
 	}
 

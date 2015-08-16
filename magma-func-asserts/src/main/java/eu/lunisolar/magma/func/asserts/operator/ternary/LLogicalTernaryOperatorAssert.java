@@ -44,21 +44,21 @@ import static org.assertj.core.api.Fail.fail;
 public interface LLogicalTernaryOperatorAssert<S extends LLogicalTernaryOperatorAssert<S, A, RS>, A extends LLogicalTernaryOperator, RS extends AbstractBooleanAssert<RS>>
 		extends
 			Assert<S, A>,
-			FullFunctionalAssert<S, LBooleanTriConsumerX<Exception>, A, RS, Boolean, Exception> {
+			FullFunctionalAssert<S, LTriBooleanConsumerX<Exception>, A, RS, Boolean, Exception> {
 
 	@Nonnull
-	Evaluation<S, LBooleanTriConsumerX<Exception>, A, RS, Boolean, Exception> doesApply(boolean b1, boolean b2, boolean b3);
+	Evaluation<S, LTriBooleanConsumerX<Exception>, A, RS, Boolean, Exception> doesApply(boolean b1, boolean b2, boolean b3);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LLogicalTernaryOperator, RS extends AbstractBooleanAssert<RS>> extends Base<Impl<A, RS>, A, RS> {
+	public final static class The<A extends LLogicalTernaryOperator, RS extends AbstractBooleanAssert<RS>> extends Base<The<A, RS>, A, RS> {
 
-		public Impl(A actual, java.util.function.Function<Boolean, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Boolean, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS>, A extends LLogicalTernaryOperator, RS extends AbstractBooleanAssert<RS>> extends FullFunctionalAssert.Base<S, LBooleanTriConsumerX<Exception>, A, RS, Boolean, Exception>
+	public static class Base<S extends Base<S, A, RS>, A extends LLogicalTernaryOperator, RS extends AbstractBooleanAssert<RS>> extends FullFunctionalAssert.Base<S, LTriBooleanConsumerX<Exception>, A, RS, Boolean, Exception>
 			implements
 				LLogicalTernaryOperatorAssert<S, A, RS> {
 
@@ -70,9 +70,9 @@ public interface LLogicalTernaryOperatorAssert<S extends LLogicalTernaryOperator
 		}
 
 		@Nonnull
-		public Evaluation<S, LBooleanTriConsumerX<Exception>, A, RS, Boolean, Exception> doesApply(boolean b1, boolean b2, boolean b3) {
+		public Evaluation<S, LTriBooleanConsumerX<Exception>, A, RS, Boolean, Exception> doesApply(boolean b1, boolean b2, boolean b3) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(b1, b2, b3);
 				}

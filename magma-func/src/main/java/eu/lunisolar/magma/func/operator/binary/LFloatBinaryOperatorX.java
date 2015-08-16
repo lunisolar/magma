@@ -64,6 +64,7 @@ public interface LFloatBinaryOperatorX<X extends Throwable> extends MetaOperator
 
 	float doApplyAsFloat(float f1, float f2) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default float nestingDoApplyAsFloat(float f1, float f2) {
 		try {
 			return this.doApplyAsFloat(f1, f2);
@@ -74,10 +75,12 @@ public interface LFloatBinaryOperatorX<X extends Throwable> extends MetaOperator
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default float shovingDoApplyAsFloat(float f1, float f2) {
 		return ((LFloatBinaryOperatorX<RuntimeException>) this).doApplyAsFloat(f1, f2);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> float handlingDoApplyAsFloat(float f1, float f2, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -92,19 +95,32 @@ public interface LFloatBinaryOperatorX<X extends Throwable> extends MetaOperator
 		return doApplyAsFloat(f1, f2);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LFloatBinaryOperatorX.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LFloatSupplierX<X> captureFBinaryOp(float f1, float f2) {
+	default LFloatSupplierX<X> captureFloatBinaryOp(float f1, float f2) {
 		return () -> this.doApplyAsFloat(f1, f2);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LFloatBinaryOperatorX<X> constant(float r) {
 		return (f1, f2) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <X extends Throwable> LFloatBinaryOperatorX<X> apply1stAsFloat(@Nonnull LFloatUnaryOperatorX<X> func) {
+		return (f1, f2) -> func.doApplyAsFloat(f1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <X extends Throwable> LFloatBinaryOperatorX<X> apply2ndAsFloat(@Nonnull LFloatUnaryOperatorX<X> func) {
+		return (f1, f2) -> func.doApplyAsFloat(f2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -123,17 +139,37 @@ public interface LFloatBinaryOperatorX<X extends Throwable> extends MetaOperator
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LFloatBinaryOperatorX<X> wrapX(final @Nonnull LFloatBinaryOperator other) {
 		return (LFloatBinaryOperatorX) other;
 	}
 
 	// </editor-fold>
-	// <editor-fold desc="minmax/logical">
 
 	/**
-	 * @see {@link java.util.function.BinaryOperator#minBy()}
+	 * Creates function that returns the lesser value according to the comparator.
+	 * @see {@link java.util.function.BinaryOperator#minBy}
+	 */
+	@Nonnull
+	static <X extends Throwable> LFloatBinaryOperatorX<X> minBy(@Nonnull Comparator<Float> comparator) {
+		Null.nonNullArg(comparator, "comparator");
+		return (a, b) -> comparator.compare(a, b) <= 0 ? a : b;
+	}
+
+	/**
+	 * Creates function that returns the lesser value according to the comparator.
+	 * @see {@link java.util.function.BinaryOperator#maxBy}
+	 */
+	@Nonnull
+	static <X extends Throwable> LFloatBinaryOperatorX<X> maxBy(@Nonnull Comparator<Float> comparator) {
+		Null.nonNullArg(comparator, "comparator");
+		return (a, b) -> comparator.compare(a, b) >= 0 ? a : b;
+	}
+
+	/**
+	 * Returns function that returns the lower value.
+	 * @see {@link java.util.function.BinaryOperator#minBy}
 	 */
 	@Nonnull
 	static <X extends Throwable> LFloatBinaryOperatorX<X> min() {
@@ -141,32 +177,27 @@ public interface LFloatBinaryOperatorX<X extends Throwable> extends MetaOperator
 	}
 
 	/**
-	 * @see {@link java.util.function.BinaryOperator#maxBy()}
+	 * Returns function that returns the higher value.
+	 * @see {@link java.util.function.BinaryOperator#maxBy}
 	 */
 	@Nonnull
 	static <X extends Throwable> LFloatBinaryOperatorX<X> max() {
 		return Float::max;
 	}
 
-	// </editor-fold>
-
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LFloatBinaryOperatorX<X> fBinaryOpFromFloat(@Nonnull final LFloatUnaryOperatorX<X> before1, @Nonnull final LFloatUnaryOperatorX<X> before2) {
+	default LFloatBinaryOperatorX<X> floatBinaryOpComposeFloat(@Nonnull final LFloatUnaryOperatorX<X> before1, @Nonnull final LFloatUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final float v1, final float v2) -> this.doApplyAsFloat(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LToFloatBiFunctionX<V1, V2, X> fBinaryOpFrom(@Nonnull final LToFloatFunctionX<? super V1, X> before1, @Nonnull final LToFloatFunctionX<? super V2, X> before2) {
+	default <V1, V2> LToFloatBiFunctionX<V1, V2, X> floatBinaryOpCompose(@Nonnull final LToFloatFunctionX<? super V1, X> before1, @Nonnull final LToFloatFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApplyAsFloat(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
@@ -178,7 +209,7 @@ public interface LFloatBinaryOperatorX<X extends Throwable> extends MetaOperator
 
 	/** Combines two operators together in a order. */
 	@Nonnull
-	default <V> LFloatBiFunctionX<V, X> then(@Nonnull LFloatFunctionX<? extends V, X> after) {
+	default <V> LBiFloatFunctionX<V, X> then(@Nonnull LFloatFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (float f1, float f2) -> after.doApply(this.doApplyAsFloat(f1, f2));
 	}
@@ -188,23 +219,23 @@ public interface LFloatBinaryOperatorX<X extends Throwable> extends MetaOperator
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LFloatBinaryOperator nestingFBinaryOp() {
+	default LFloatBinaryOperator nestingFloatBinaryOp() {
 		return this::nestingDoApplyAsFloat;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LFloatBinaryOperatorX<RuntimeException> nestingFBinaryOpX() {
+	default LFloatBinaryOperatorX<RuntimeException> nestingFloatBinaryOpX() {
 		return this::nestingDoApplyAsFloat;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatBinaryOperator shovingFBinaryOp() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LFloatBinaryOperator shovingFloatBinaryOp() {
 		return this::shovingDoApplyAsFloat;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatBinaryOperatorX<RuntimeException> shovingFBinaryOpX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LFloatBinaryOperatorX<RuntimeException> shovingFloatBinaryOpX() {
 		return this::shovingDoApplyAsFloat;
 	}
 
@@ -212,13 +243,15 @@ public interface LFloatBinaryOperatorX<X extends Throwable> extends MetaOperator
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LFloatBinaryOperator handleFBinaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LFloatBinaryOperator handleFloatBinaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (float f1, float f2) -> this.handlingDoApplyAsFloat(f1, f2, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LFloatBinaryOperatorX<Y> handleFBinaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LFloatBinaryOperatorX<Y> handleFloatBinaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (float f1, float f2) -> this.handlingDoApplyAsFloat(f1, f2, handling);
 	}
 

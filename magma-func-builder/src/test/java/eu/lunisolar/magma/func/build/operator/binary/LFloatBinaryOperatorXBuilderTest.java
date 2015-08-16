@@ -115,7 +115,7 @@ public class LFloatBinaryOperatorXBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LFloatBinaryOperatorX<ParseException> function = floatBinaryOperatorX((LFloatBinaryOperatorX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((f1,f2) -> f1 == (float)0)
+            .aCase(ce -> ce.of((f1,f2) -> f1 == (float)0)
                              .evaluate((f1,f2) -> (float)0))
             .inCase((f1,f2) -> f1 > 0 && f1 < 10).evaluate((f1,f2) -> (float)1)
             .inCase((f1,f2) -> f1 > 10 && f1 < 20).evaluate((f1,f2) -> (float)2)

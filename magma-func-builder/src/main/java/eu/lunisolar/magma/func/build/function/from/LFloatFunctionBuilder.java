@@ -66,7 +66,7 @@ public final class LFloatFunctionBuilder<R> extends PerCaseBuilderWithProduct.Ba
 		});
 
 	public LFloatFunctionBuilder(@Nullable Consumer<LFloatFunction<R>> consumer) {
-		super(EVENTUALLY_THROW, LFloatFunction::constant);
+		super(EVENTUALLY_THROW, LFloatFunction::constant, () -> new LFloatFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LFloatFunctionBuilder<R> extends PerCaseBuilderWithProduct.Ba
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <R> LFloatFunctionBuilder<R> floatFunction() {
+	public static <R> LFloatFunctionBuilder<R> floatFunction() {
 		return new LFloatFunctionBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <R> LFloatFunctionBuilder<R> floatFunction(Consumer<LFloatFunction<R>> consumer) {
+	public static <R> LFloatFunctionBuilder<R> floatFunction(Consumer<LFloatFunction<R>> consumer) {
 		return new LFloatFunctionBuilder(consumer);
 	}
 

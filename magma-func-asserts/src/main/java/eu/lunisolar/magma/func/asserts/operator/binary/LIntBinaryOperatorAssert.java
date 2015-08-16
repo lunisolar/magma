@@ -44,21 +44,21 @@ import static org.assertj.core.api.Fail.fail;
 public interface LIntBinaryOperatorAssert<S extends LIntBinaryOperatorAssert<S, A, RS>, A extends LIntBinaryOperator, RS extends AbstractIntegerAssert<RS>>
 		extends
 			Assert<S, A>,
-			FullFunctionalAssert<S, LIntBiConsumerX<Exception>, A, RS, Integer, Exception> {
+			FullFunctionalAssert<S, LBiIntConsumerX<Exception>, A, RS, Integer, Exception> {
 
 	@Nonnull
-	Evaluation<S, LIntBiConsumerX<Exception>, A, RS, Integer, Exception> doesApplyAsInt(int i1, int i2);
+	Evaluation<S, LBiIntConsumerX<Exception>, A, RS, Integer, Exception> doesApplyAsInt(int i1, int i2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LIntBinaryOperator, RS extends AbstractIntegerAssert<RS>> extends Base<Impl<A, RS>, A, RS> {
+	public final static class The<A extends LIntBinaryOperator, RS extends AbstractIntegerAssert<RS>> extends Base<The<A, RS>, A, RS> {
 
-		public Impl(A actual, java.util.function.Function<Integer, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Integer, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS>, A extends LIntBinaryOperator, RS extends AbstractIntegerAssert<RS>> extends FullFunctionalAssert.Base<S, LIntBiConsumerX<Exception>, A, RS, Integer, Exception>
+	public static class Base<S extends Base<S, A, RS>, A extends LIntBinaryOperator, RS extends AbstractIntegerAssert<RS>> extends FullFunctionalAssert.Base<S, LBiIntConsumerX<Exception>, A, RS, Integer, Exception>
 			implements
 				LIntBinaryOperatorAssert<S, A, RS> {
 
@@ -70,9 +70,9 @@ public interface LIntBinaryOperatorAssert<S extends LIntBinaryOperatorAssert<S, 
 		}
 
 		@Nonnull
-		public Evaluation<S, LIntBiConsumerX<Exception>, A, RS, Integer, Exception> doesApplyAsInt(int i1, int i2) {
+		public Evaluation<S, LBiIntConsumerX<Exception>, A, RS, Integer, Exception> doesApplyAsInt(int i1, int i2) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(i1, i2);
 				}

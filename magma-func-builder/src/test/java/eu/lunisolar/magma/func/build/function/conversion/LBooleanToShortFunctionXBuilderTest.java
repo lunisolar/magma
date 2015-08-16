@@ -115,7 +115,7 @@ public class LBooleanToShortFunctionXBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LBooleanToShortFunctionX<ParseException> function = booleanToShortFunctionX((LBooleanToShortFunctionX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of(b -> b == false)
+            .aCase(ce -> ce.of(b -> b == false)
                              .evaluate(b -> (short)0))
             .inCase(b -> b == true ).evaluate(b -> (short)1)
             .eventually(b -> (short)99)

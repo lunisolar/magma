@@ -75,6 +75,7 @@ public interface LIntConsumerX<X extends Throwable> extends java.util.function.I
 
 	void doAccept(int i) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default void nestingDoAccept(int i) {
 		try {
 			this.doAccept(i);
@@ -85,10 +86,12 @@ public interface LIntConsumerX<X extends Throwable> extends java.util.function.I
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default void shovingDoAccept(int i) {
 		((LIntConsumerX<RuntimeException>) this).doAccept(i);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> void handlingDoAccept(int i, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -98,14 +101,14 @@ public interface LIntConsumerX<X extends Throwable> extends java.util.function.I
 		}
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LIntConsumerX.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LActionX<X> captureICons(int i) {
+	default LActionX<X> captureIntCons(int i) {
 		return () -> this.doAccept(i);
 	}
 
@@ -131,7 +134,7 @@ public interface LIntConsumerX<X extends Throwable> extends java.util.function.I
 		return other::accept;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LIntConsumerX<X> wrapX(final @Nonnull LIntConsumer other) {
 		return (LIntConsumerX) other;
@@ -141,20 +144,16 @@ public interface LIntConsumerX<X extends Throwable> extends java.util.function.I
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LIntConsumerX<X> iConsFromInt(@Nonnull final LIntUnaryOperatorX<X> before1) {
+	default LIntConsumerX<X> intConsComposeInt(@Nonnull final LIntUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doApplyAsInt(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LConsumerX<V1, X> iConsFrom(@Nonnull final LToIntFunctionX<? super V1, X> before1) {
+	default <V1> LConsumerX<V1, X> intConsCompose(@Nonnull final LToIntFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doApplyAsInt(v1));
 	}
@@ -177,23 +176,23 @@ public interface LIntConsumerX<X extends Throwable> extends java.util.function.I
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntConsumer nestingICons() {
+	default LIntConsumer nestingIntCons() {
 		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntConsumerX<RuntimeException> nestingIConsX() {
+	default LIntConsumerX<RuntimeException> nestingIntConsX() {
 		return this::nestingDoAccept;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntConsumer shovingICons() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntConsumer shovingIntCons() {
 		return this::shovingDoAccept;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntConsumerX<RuntimeException> shovingIConsX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntConsumerX<RuntimeException> shovingIntConsX() {
 		return this::shovingDoAccept;
 	}
 
@@ -201,13 +200,15 @@ public interface LIntConsumerX<X extends Throwable> extends java.util.function.I
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LIntConsumer handleICons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LIntConsumer handleIntCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return i -> this.handlingDoAccept(i, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LIntConsumerX<Y> handleIConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LIntConsumerX<Y> handleIntConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return i -> this.handlingDoAccept(i, handling);
 	}
 

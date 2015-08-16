@@ -75,23 +75,25 @@ public interface LFunction<T, R> extends LFunctionX<T, R, RuntimeException>, Met
 	@Nullable
 	R doApply(T t);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default R nestingDoApply(T t) {
 		return this.doApply(t);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default R shovingDoApply(T t) {
 		return this.doApply(t);
 	}
 
 	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
-	/** Ensures the result is not null */
+	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullDoApply(T t) {
 		return Null.requireNonNull(doApply(t), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LFunction.DESCRIPTION;
@@ -102,6 +104,7 @@ public interface LFunction<T, R> extends LFunctionX<T, R, RuntimeException>, Met
 		return () -> this.doApply(t);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T, R> LFunction<T, R> constant(R r) {
 		return t -> r;
 	}
@@ -121,7 +124,7 @@ public interface LFunction<T, R> extends LFunctionX<T, R, RuntimeException>, Met
 		return other::apply;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T, R, X extends Throwable> LFunction<T, R> wrap(final @Nonnull LFunctionX<T, R, X> other) {
 		return other::nestingDoApply;
@@ -131,11 +134,9 @@ public interface LFunction<T, R> extends LFunctionX<T, R, RuntimeException>, Met
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LFunction<V1, R> funcFrom(@Nonnull final LFunction<? super V1, ? extends T> before1) {
+	default <V1> LFunction<V1, R> funcCompose(@Nonnull final LFunction<? super V1, ? extends T> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doApply(v1));
 	}
@@ -235,18 +236,19 @@ public interface LFunction<T, R> extends LFunctionX<T, R, RuntimeException>, Met
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LFunction<T, R> shovingFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LFunctionX<T, R, RuntimeException> shovingFuncX() {
 		return this;
 	}
 
 	// </editor-fold>
 
+	/** Converts to function that makes sure that the result is not null. */
 	@Nonnull
 	default LFunction<T, R> nonNullFunc() {
 		return this::nonNullDoApply;

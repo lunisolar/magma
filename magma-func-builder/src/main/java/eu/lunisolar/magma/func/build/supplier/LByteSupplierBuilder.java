@@ -66,7 +66,7 @@ public final class LByteSupplierBuilder extends PerCaseBuilderWithByteProduct.Ba
 		});
 
 	public LByteSupplierBuilder(@Nullable Consumer<LByteSupplier> consumer) {
-		super(EVENTUALLY_THROW, LByteSupplier::of);
+		super(EVENTUALLY_THROW, LByteSupplier::of, () -> new LByteSupplierBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LByteSupplierBuilder extends PerCaseBuilderWithByteProduct.Ba
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final LByteSupplierBuilder byteSupplier() {
+	public static LByteSupplierBuilder byteSupplier() {
 		return new LByteSupplierBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final LByteSupplierBuilder byteSupplier(Consumer<LByteSupplier> consumer) {
+	public static LByteSupplierBuilder byteSupplier(Consumer<LByteSupplier> consumer) {
 		return new LByteSupplierBuilder(consumer);
 	}
 

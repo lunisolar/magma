@@ -44,21 +44,21 @@ import static org.assertj.core.api.Fail.fail;
 public interface LFloatBinaryOperatorXAssert<S extends LFloatBinaryOperatorXAssert<S, A, RS, X>, A extends LFloatBinaryOperatorX<X>, RS extends AbstractFloatAssert<RS>, X extends Throwable>
 		extends
 			Assert<S, A>,
-			FullFunctionalAssert<S, LFloatBiConsumerX<Exception>, A, RS, Float, Exception> {
+			FullFunctionalAssert<S, LBiFloatConsumerX<Exception>, A, RS, Float, Exception> {
 
 	@Nonnull
-	Evaluation<S, LFloatBiConsumerX<Exception>, A, RS, Float, Exception> doesApplyAsFloat(float f1, float f2);
+	Evaluation<S, LBiFloatConsumerX<Exception>, A, RS, Float, Exception> doesApplyAsFloat(float f1, float f2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LFloatBinaryOperatorX<X>, RS extends AbstractFloatAssert<RS>, X extends Throwable> extends Base<Impl<A, RS, X>, A, RS, X> {
+	public final static class The<A extends LFloatBinaryOperatorX<X>, RS extends AbstractFloatAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
 
-		public Impl(A actual, java.util.function.Function<Float, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Float, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, X>, A extends LFloatBinaryOperatorX<X>, RS extends AbstractFloatAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, LFloatBiConsumerX<Exception>, A, RS, Float, Exception>
+	public static class Base<S extends Base<S, A, RS, X>, A extends LFloatBinaryOperatorX<X>, RS extends AbstractFloatAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, LBiFloatConsumerX<Exception>, A, RS, Float, Exception>
 			implements
 				LFloatBinaryOperatorXAssert<S, A, RS, X> {
 
@@ -70,9 +70,9 @@ public interface LFloatBinaryOperatorXAssert<S extends LFloatBinaryOperatorXAsse
 		}
 
 		@Nonnull
-		public Evaluation<S, LFloatBiConsumerX<Exception>, A, RS, Float, Exception> doesApplyAsFloat(float f1, float f2) {
+		public Evaluation<S, LBiFloatConsumerX<Exception>, A, RS, Float, Exception> doesApplyAsFloat(float f1, float f2) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(f1, f2);
 				}

@@ -66,7 +66,7 @@ public final class LLogicalOperatorXBuilder<X extends Throwable> extends PerCase
 		});
 
 	public LLogicalOperatorXBuilder(@Nullable Consumer<LLogicalOperatorX<X>> consumer) {
-		super(EVENTUALLY_THROW, LLogicalOperatorX::constant);
+		super(EVENTUALLY_THROW, LLogicalOperatorX::constant, () -> new LLogicalOperatorXBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LLogicalOperatorXBuilder<X extends Throwable> extends PerCase
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <X extends Throwable> LLogicalOperatorXBuilder<X> logicalOperatorX() {
+	public static <X extends Throwable> LLogicalOperatorXBuilder<X> logicalOperatorX() {
 		return new LLogicalOperatorXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <X extends Throwable> LLogicalOperatorXBuilder<X> logicalOperatorX(Consumer<LLogicalOperatorX<X>> consumer) {
+	public static <X extends Throwable> LLogicalOperatorXBuilder<X> logicalOperatorX(Consumer<LLogicalOperatorX<X>> consumer) {
 		return new LLogicalOperatorXBuilder(consumer);
 	}
 

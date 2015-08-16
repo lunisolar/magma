@@ -64,10 +64,12 @@ public interface LFloatUnaryOperator extends LFloatUnaryOperatorX<RuntimeExcepti
 
 	float doApplyAsFloat(float f);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default float nestingDoApplyAsFloat(float f) {
 		return this.doApplyAsFloat(f);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default float shovingDoApplyAsFloat(float f) {
 		return this.doApplyAsFloat(f);
 	}
@@ -77,17 +79,18 @@ public interface LFloatUnaryOperator extends LFloatUnaryOperatorX<RuntimeExcepti
 		return doApplyAsFloat(f);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LFloatUnaryOperator.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LFloatSupplier captureFUnaryOp(float f) {
+	default LFloatSupplier captureFloatUnaryOp(float f) {
 		return () -> this.doApplyAsFloat(f);
 	}
 
+	/** Creates function that always returns the same value. */
 	static LFloatUnaryOperator constant(float r) {
 		return f -> r;
 	}
@@ -101,7 +104,7 @@ public interface LFloatUnaryOperator extends LFloatUnaryOperatorX<RuntimeExcepti
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LFloatUnaryOperator wrap(final @Nonnull LFloatUnaryOperatorX<X> other) {
 		return other::nestingDoApplyAsFloat;
@@ -111,20 +114,16 @@ public interface LFloatUnaryOperator extends LFloatUnaryOperatorX<RuntimeExcepti
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LFloatUnaryOperator fUnaryOpFromFloat(@Nonnull final LFloatUnaryOperator before1) {
+	default LFloatUnaryOperator floatUnaryOpComposeFloat(@Nonnull final LFloatUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsFloat(before1.doApplyAsFloat(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToFloatFunction<V1> fUnaryOpFrom(@Nonnull final LToFloatFunction<? super V1> before1) {
+	default <V1> LToFloatFunction<V1> floatUnaryOpCompose(@Nonnull final LToFloatFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsFloat(before1.doApplyAsFloat(v1));
 	}
@@ -207,23 +206,23 @@ public interface LFloatUnaryOperator extends LFloatUnaryOperatorX<RuntimeExcepti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LFloatUnaryOperator nestingFUnaryOp() {
+	default LFloatUnaryOperator nestingFloatUnaryOp() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LFloatUnaryOperatorX<RuntimeException> nestingFUnaryOpX() {
+	default LFloatUnaryOperatorX<RuntimeException> nestingFloatUnaryOpX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatUnaryOperator shovingFUnaryOp() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LFloatUnaryOperator shovingFloatUnaryOp() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatUnaryOperatorX<RuntimeException> shovingFUnaryOpX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LFloatUnaryOperatorX<RuntimeException> shovingFloatUnaryOpX() {
 		return this;
 	}
 

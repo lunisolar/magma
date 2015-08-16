@@ -74,10 +74,12 @@ public interface LLongSupplier extends LLongSupplierX<RuntimeException>, MetaSup
 
 	long doGetAsLong();
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default long nestingDoGetAsLong() {
 		return this.doGetAsLong();
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default long shovingDoGetAsLong() {
 		return this.doGetAsLong();
 	}
@@ -87,12 +89,13 @@ public interface LLongSupplier extends LLongSupplierX<RuntimeException>, MetaSup
 		return doGetAsLong();
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LLongSupplier.DESCRIPTION;
 	}
 
+	/** Creates function that always returns the same value. */
 	static LLongSupplier of(long r) {
 		return () -> r;
 	}
@@ -112,7 +115,7 @@ public interface LLongSupplier extends LLongSupplierX<RuntimeException>, MetaSup
 		return other::getAsLong;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LLongSupplier wrap(final @Nonnull LLongSupplierX<X> other) {
 		return other::nestingDoGetAsLong;
@@ -200,12 +203,12 @@ public interface LLongSupplier extends LLongSupplierX<RuntimeException>, MetaSup
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLongSupplier shovingLongSup() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLongSupplierX<RuntimeException> shovingLongSupX() {
 		return this;
 	}

@@ -75,6 +75,7 @@ public interface LBiConsumerX<T1, T2, X extends Throwable> extends java.util.fun
 
 	void doAccept(T1 t1, T2 t2) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default void nestingDoAccept(T1 t1, T2 t2) {
 		try {
 			this.doAccept(t1, t2);
@@ -85,10 +86,12 @@ public interface LBiConsumerX<T1, T2, X extends Throwable> extends java.util.fun
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default void shovingDoAccept(T1 t1, T2 t2) {
 		((LBiConsumerX<T1, T2, RuntimeException>) this).doAccept(t1, t2);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> void handlingDoAccept(T1 t1, T2 t2, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -98,7 +101,7 @@ public interface LBiConsumerX<T1, T2, X extends Throwable> extends java.util.fun
 		}
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LBiConsumerX.DESCRIPTION;
@@ -107,6 +110,18 @@ public interface LBiConsumerX<T1, T2, X extends Throwable> extends java.util.fun
 	/** Captures arguments but delays the evaluation. */
 	default LActionX<X> captureBiCons(T1 t1, T2 t2) {
 		return () -> this.doAccept(t1, t2);
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T1, T2, X extends Throwable> LBiConsumerX<T1, T2, X> accept1st(@Nonnull LConsumerX<T1, X> func) {
+		return (t1, t2) -> func.doAccept(t1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T1, T2, X extends Throwable> LBiConsumerX<T1, T2, X> accept2nd(@Nonnull LConsumerX<T2, X> func) {
+		return (t1, t2) -> func.doAccept(t2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -131,7 +146,7 @@ public interface LBiConsumerX<T1, T2, X extends Throwable> extends java.util.fun
 		return other::accept;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T1, T2, X extends Throwable> LBiConsumerX<T1, T2, X> wrapX(final @Nonnull LBiConsumer<T1, T2> other) {
 		return (LBiConsumerX) other;
@@ -141,11 +156,9 @@ public interface LBiConsumerX<T1, T2, X extends Throwable> extends java.util.fun
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiConsumerX<V1, V2, X> biConsFrom(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
+	default <V1, V2> LBiConsumerX<V1, V2, X> biConsCompose(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final V2 v2) -> this.doAccept(before1.doApply(v1), before2.doApply(v2));
@@ -179,12 +192,12 @@ public interface LBiConsumerX<T1, T2, X extends Throwable> extends java.util.fun
 		return this::nestingDoAccept;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBiConsumer<T1, T2> shovingBiCons() {
 		return this::shovingDoAccept;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBiConsumerX<T1, T2, RuntimeException> shovingBiConsX() {
 		return this::shovingDoAccept;
 	}
@@ -193,11 +206,13 @@ public interface LBiConsumerX<T1, T2, X extends Throwable> extends java.util.fun
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LBiConsumer<T1, T2> handleBiCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T1 t1, T2 t2) -> this.handlingDoAccept(t1, t2, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LBiConsumerX<T1, T2, Y> handleBiConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T1 t1, T2 t2) -> this.handlingDoAccept(t1, t2, handling);

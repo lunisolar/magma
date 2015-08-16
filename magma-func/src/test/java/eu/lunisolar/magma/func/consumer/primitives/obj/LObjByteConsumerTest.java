@@ -182,7 +182,7 @@ public class LObjByteConsumerTest<T,X extends ParseException> {
         });
 
         // when
-        LObjByteConsumer<T> wrapped = sutThrowing.handleObjBCons(handler -> handler
+        LObjByteConsumer<T> wrapped = sutThrowing.handleObjByteCons(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -206,7 +206,7 @@ public class LObjByteConsumerTest<T,X extends ParseException> {
         });
 
         // when
-        LObjByteConsumer<T> wrapped = sutThrowing.handleObjBCons(handler -> handler
+        LObjByteConsumer<T> wrapped = sutThrowing.handleObjByteCons(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -230,7 +230,7 @@ public class LObjByteConsumerTest<T,X extends ParseException> {
         });
 
         // when
-        LObjByteConsumer<T> wrapped = sutThrowing.handleObjBCons(handler -> handler
+        LObjByteConsumer<T> wrapped = sutThrowing.handleObjByteCons(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -255,7 +255,7 @@ public class LObjByteConsumerTest<T,X extends ParseException> {
         });
 
         // when
-        LObjByteConsumer<T> wrapped = sutThrowing.handleObjBCons(h -> Function4U.doNothing());
+        LObjByteConsumer<T> wrapped = sutThrowing.handleObjByteCons(h -> Function4U.doNothing());
 
         // then
         try {
@@ -274,7 +274,7 @@ public class LObjByteConsumerTest<T,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testobjBConsFromByte() throws X {
+    public void testobjByteConsComposeByte() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -298,7 +298,7 @@ public class LObjByteConsumerTest<T,X extends ParseException> {
         };
 
         //when
-        LObjByteConsumer<Integer > function = sutO.objBConsFromByte(before1,before2);
+        LObjByteConsumer<Integer > function = sutO.objByteConsComposeByte(before1,before2);
         function.doAccept((Integer )Integer.valueOf(80),(byte)81);
 
         //then - finals
@@ -308,7 +308,7 @@ public class LObjByteConsumerTest<T,X extends ParseException> {
 
 
     @Test
-    public void testobjBConsFrom() throws X {
+    public void testobjByteConsCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -332,7 +332,7 @@ public class LObjByteConsumerTest<T,X extends ParseException> {
         };
 
         //when
-        LBiConsumer<Integer ,Integer > function = sutO.objBConsFrom(before1,before2);
+        LBiConsumer<Integer ,Integer > function = sutO.objByteConsCompose(before1,before2);
         function.doAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
@@ -373,28 +373,28 @@ public class LObjByteConsumerTest<T,X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nestingObjBCons())
+        assertThat(sut.nestingObjByteCons())
             .isSameAs(sut)
             .isInstanceOf(LObjByteConsumer.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shovingObjBCons())
+        assertThat(sut.shovingObjByteCons())
             .isSameAs(sut)
             .isInstanceOf(LObjByteConsumer.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestingObjBConsX())
+        assertThat(sut.nestingObjByteConsX())
             .isSameAs(sut)
             .isInstanceOf(LObjByteConsumerX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shovingObjBConsX())
+        assertThat(sut.shovingObjByteConsX())
             .isSameAs(sut)
             .isInstanceOf(LObjByteConsumerX.class);
     }
@@ -408,11 +408,11 @@ public class LObjByteConsumerTest<T,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shovingObjBCons().doAccept((T)Integer.valueOf(100),(byte)100);
+        sutThrowing.shovingObjByteCons().doAccept((T)Integer.valueOf(100),(byte)100);
     }
 
     @Test
-    public void testHandleObjBCons() throws X {
+    public void testHandleObjByteCons() throws X {
 
         // given
         LObjByteConsumer<T> sutThrowing = LObjByteConsumer.l((T t, byte b) -> {
@@ -420,7 +420,7 @@ public class LObjByteConsumerTest<T,X extends ParseException> {
         });
 
         // when
-        LObjByteConsumer<T> wrapped = sutThrowing.handleObjBCons(h -> {
+        LObjByteConsumer<T> wrapped = sutThrowing.handleObjByteCons(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 

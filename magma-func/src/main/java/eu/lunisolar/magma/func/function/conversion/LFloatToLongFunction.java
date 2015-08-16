@@ -64,10 +64,12 @@ public interface LFloatToLongFunction extends LFloatToLongFunctionX<RuntimeExcep
 
 	long doApplyAsLong(float f);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default long nestingDoApplyAsLong(float f) {
 		return this.doApplyAsLong(f);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default long shovingDoApplyAsLong(float f) {
 		return this.doApplyAsLong(f);
 	}
@@ -77,17 +79,18 @@ public interface LFloatToLongFunction extends LFloatToLongFunctionX<RuntimeExcep
 		return doApplyAsLong(f);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LFloatToLongFunction.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LLongSupplier captureFToLongFunc(float f) {
+	default LLongSupplier captureFloatToLongFunc(float f) {
 		return () -> this.doApplyAsLong(f);
 	}
 
+	/** Creates function that always returns the same value. */
 	static LFloatToLongFunction constant(long r) {
 		return f -> r;
 	}
@@ -101,7 +104,7 @@ public interface LFloatToLongFunction extends LFloatToLongFunctionX<RuntimeExcep
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LFloatToLongFunction wrap(final @Nonnull LFloatToLongFunctionX<X> other) {
 		return other::nestingDoApplyAsLong;
@@ -111,20 +114,16 @@ public interface LFloatToLongFunction extends LFloatToLongFunctionX<RuntimeExcep
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LFloatToLongFunction fToLongFuncFromFloat(@Nonnull final LFloatUnaryOperator before1) {
+	default LFloatToLongFunction floatToLongFuncComposeFloat(@Nonnull final LFloatUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsLong(before1.doApplyAsFloat(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToLongFunction<V1> fToLongFuncFrom(@Nonnull final LToFloatFunction<? super V1> before1) {
+	default <V1> LToLongFunction<V1> floatToLongFuncCompose(@Nonnull final LToFloatFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsLong(before1.doApplyAsFloat(v1));
 	}
@@ -201,23 +200,23 @@ public interface LFloatToLongFunction extends LFloatToLongFunctionX<RuntimeExcep
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LFloatToLongFunction nestingFToLongFunc() {
+	default LFloatToLongFunction nestingFloatToLongFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LFloatToLongFunctionX<RuntimeException> nestingFToLongFuncX() {
+	default LFloatToLongFunctionX<RuntimeException> nestingFloatToLongFuncX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatToLongFunction shovingFToLongFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LFloatToLongFunction shovingFloatToLongFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatToLongFunctionX<RuntimeException> shovingFToLongFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LFloatToLongFunctionX<RuntimeException> shovingFloatToLongFuncX() {
 		return this;
 	}
 

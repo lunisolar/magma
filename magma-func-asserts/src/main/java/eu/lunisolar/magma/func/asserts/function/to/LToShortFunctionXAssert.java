@@ -50,10 +50,10 @@ public interface LToShortFunctionXAssert<S extends LToShortFunctionXAssert<S, A,
 	Evaluation<S, LConsumerX<T, Exception>, A, RS, Short, Exception> doesApplyAsShort(T t);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LToShortFunctionX<T, X>, RS extends AbstractShortAssert<RS>, T, X extends Throwable> extends Base<Impl<A, RS, T, X>, A, RS, T, X> {
+	public final static class The<A extends LToShortFunctionX<T, X>, RS extends AbstractShortAssert<RS>, T, X extends Throwable> extends Base<The<A, RS, T, X>, A, RS, T, X> {
 
-		public Impl(A actual, java.util.function.Function<Short, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Short, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
@@ -72,7 +72,7 @@ public interface LToShortFunctionXAssert<S extends LToShortFunctionXAssert<S, A,
 		@Nonnull
 		public Evaluation<S, LConsumerX<T, Exception>, A, RS, Short, Exception> doesApplyAsShort(T t) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(t);
 				}

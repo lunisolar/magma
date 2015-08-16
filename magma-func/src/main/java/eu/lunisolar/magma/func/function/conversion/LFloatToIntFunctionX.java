@@ -64,6 +64,7 @@ public interface LFloatToIntFunctionX<X extends Throwable> extends MetaFunction,
 
 	int doApplyAsInt(float f) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default int nestingDoApplyAsInt(float f) {
 		try {
 			return this.doApplyAsInt(f);
@@ -74,10 +75,12 @@ public interface LFloatToIntFunctionX<X extends Throwable> extends MetaFunction,
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default int shovingDoApplyAsInt(float f) {
 		return ((LFloatToIntFunctionX<RuntimeException>) this).doApplyAsInt(f);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> int handlingDoApplyAsInt(float f, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -92,17 +95,18 @@ public interface LFloatToIntFunctionX<X extends Throwable> extends MetaFunction,
 		return doApplyAsInt(f);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LFloatToIntFunctionX.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LIntSupplierX<X> captureFToIFunc(float f) {
+	default LIntSupplierX<X> captureFloatToIntFunc(float f) {
 		return () -> this.doApplyAsInt(f);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LFloatToIntFunctionX<X> constant(int r) {
 		return f -> r;
 	}
@@ -123,7 +127,7 @@ public interface LFloatToIntFunctionX<X extends Throwable> extends MetaFunction,
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LFloatToIntFunctionX<X> wrapX(final @Nonnull LFloatToIntFunction other) {
 		return (LFloatToIntFunctionX) other;
@@ -133,20 +137,16 @@ public interface LFloatToIntFunctionX<X extends Throwable> extends MetaFunction,
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LFloatToIntFunctionX<X> fToIFuncFromFloat(@Nonnull final LFloatUnaryOperatorX<X> before1) {
+	default LFloatToIntFunctionX<X> floatToIntFuncComposeFloat(@Nonnull final LFloatUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsInt(before1.doApplyAsFloat(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToIntFunctionX<V1, X> fToIFuncFrom(@Nonnull final LToFloatFunctionX<? super V1, X> before1) {
+	default <V1> LToIntFunctionX<V1, X> floatToIntFuncCompose(@Nonnull final LToFloatFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsInt(before1.doApplyAsFloat(v1));
 	}
@@ -223,23 +223,23 @@ public interface LFloatToIntFunctionX<X extends Throwable> extends MetaFunction,
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LFloatToIntFunction nestingFToIFunc() {
+	default LFloatToIntFunction nestingFloatToIntFunc() {
 		return this::nestingDoApplyAsInt;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LFloatToIntFunctionX<RuntimeException> nestingFToIFuncX() {
+	default LFloatToIntFunctionX<RuntimeException> nestingFloatToIntFuncX() {
 		return this::nestingDoApplyAsInt;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatToIntFunction shovingFToIFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LFloatToIntFunction shovingFloatToIntFunc() {
 		return this::shovingDoApplyAsInt;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatToIntFunctionX<RuntimeException> shovingFToIFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LFloatToIntFunctionX<RuntimeException> shovingFloatToIntFuncX() {
 		return this::shovingDoApplyAsInt;
 	}
 
@@ -247,13 +247,15 @@ public interface LFloatToIntFunctionX<X extends Throwable> extends MetaFunction,
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LFloatToIntFunction handleFToIFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LFloatToIntFunction handleFloatToIntFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return f -> this.handlingDoApplyAsInt(f, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LFloatToIntFunctionX<Y> handleFToIFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LFloatToIntFunctionX<Y> handleFloatToIntFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return f -> this.handlingDoApplyAsInt(f, handling);
 	}
 

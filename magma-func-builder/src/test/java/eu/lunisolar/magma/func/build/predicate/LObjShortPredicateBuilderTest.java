@@ -115,7 +115,7 @@ public class LObjShortPredicateBuilderTest<T,X extends Throwable>{
     public void testBuild() throws X {
 
         LObjShortPredicate<Integer > function = objShortPredicate((LObjShortPredicate<Integer > f)-> doNothing())
-            .addCase(ce -> ce.of((t, s) -> t == Integer.valueOf(0))
+            .aCase(ce -> ce.of((t, s) -> t == Integer.valueOf(0))
                              .evaluate((t, s) -> false))
             .inCase((t, s) -> t > 0 && t < 10).evaluate((t, s) -> true)
             .inCase((t, s) -> t > 10 && t < 20).evaluate((t, s) -> true)

@@ -64,10 +64,12 @@ public interface LCharUnaryOperator extends LCharUnaryOperatorX<RuntimeException
 
 	char doApplyAsChar(char c);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default char nestingDoApplyAsChar(char c) {
 		return this.doApplyAsChar(c);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default char shovingDoApplyAsChar(char c) {
 		return this.doApplyAsChar(c);
 	}
@@ -77,17 +79,18 @@ public interface LCharUnaryOperator extends LCharUnaryOperatorX<RuntimeException
 		return doApplyAsChar(c);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LCharUnaryOperator.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LCharSupplier captureCUnaryOp(char c) {
+	default LCharSupplier captureCharUnaryOp(char c) {
 		return () -> this.doApplyAsChar(c);
 	}
 
+	/** Creates function that always returns the same value. */
 	static LCharUnaryOperator constant(char r) {
 		return c -> r;
 	}
@@ -101,7 +104,7 @@ public interface LCharUnaryOperator extends LCharUnaryOperatorX<RuntimeException
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LCharUnaryOperator wrap(final @Nonnull LCharUnaryOperatorX<X> other) {
 		return other::nestingDoApplyAsChar;
@@ -111,20 +114,16 @@ public interface LCharUnaryOperator extends LCharUnaryOperatorX<RuntimeException
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LCharUnaryOperator cUnaryOpFromChar(@Nonnull final LCharUnaryOperator before1) {
+	default LCharUnaryOperator charUnaryOpComposeChar(@Nonnull final LCharUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsChar(before1.doApplyAsChar(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToCharFunction<V1> cUnaryOpFrom(@Nonnull final LToCharFunction<? super V1> before1) {
+	default <V1> LToCharFunction<V1> charUnaryOpCompose(@Nonnull final LToCharFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsChar(before1.doApplyAsChar(v1));
 	}
@@ -207,23 +206,23 @@ public interface LCharUnaryOperator extends LCharUnaryOperatorX<RuntimeException
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LCharUnaryOperator nestingCUnaryOp() {
+	default LCharUnaryOperator nestingCharUnaryOp() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LCharUnaryOperatorX<RuntimeException> nestingCUnaryOpX() {
+	default LCharUnaryOperatorX<RuntimeException> nestingCharUnaryOpX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharUnaryOperator shovingCUnaryOp() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LCharUnaryOperator shovingCharUnaryOp() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharUnaryOperatorX<RuntimeException> shovingCUnaryOpX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LCharUnaryOperatorX<RuntimeException> shovingCharUnaryOpX() {
 		return this;
 	}
 

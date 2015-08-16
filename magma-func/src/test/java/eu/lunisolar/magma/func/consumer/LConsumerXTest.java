@@ -271,7 +271,7 @@ public class LConsumerXTest<T,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testconsFrom() throws X {
+    public void testconsCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -289,7 +289,7 @@ public class LConsumerXTest<T,X extends ParseException> {
         };
 
         //when
-        LConsumerX<Integer ,X> function = sutO.consFrom(before1);
+        LConsumerX<Integer ,X> function = sutO.consCompose(before1);
         function.doAccept((Integer )Integer.valueOf(80));
 
         //then - finals

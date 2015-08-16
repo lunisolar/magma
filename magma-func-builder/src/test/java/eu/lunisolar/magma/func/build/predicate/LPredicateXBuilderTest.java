@@ -115,7 +115,7 @@ public class LPredicateXBuilderTest<T,X extends Throwable>{
     public void testBuild() throws X {
 
         LPredicateX<Integer ,ParseException> function = predicateX((LPredicateX<Integer ,ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of(t -> t == Integer.valueOf(0))
+            .aCase(ce -> ce.of(t -> t == Integer.valueOf(0))
                              .evaluate(t -> false))
             .inCase(t -> t > 0 && t < 10).evaluate(t -> true)
             .inCase(t -> t > 10 && t < 20).evaluate(t -> true)

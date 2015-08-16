@@ -195,7 +195,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
         });
 
         // when
-        LToCharFunction<T> wrapped = sutThrowing.handleToCFunc(handler -> handler
+        LToCharFunction<T> wrapped = sutThrowing.handleToCharFunc(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -219,7 +219,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
         });
 
         // when
-        LToCharFunction<T> wrapped = sutThrowing.handleToCFunc(handler -> handler
+        LToCharFunction<T> wrapped = sutThrowing.handleToCharFunc(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -243,7 +243,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
         });
 
         // when
-        LToCharFunction<T> wrapped = sutThrowing.handleToCFunc(handler -> handler
+        LToCharFunction<T> wrapped = sutThrowing.handleToCharFunc(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -268,7 +268,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
         });
 
         // when
-        LToCharFunction<T> wrapped = sutThrowing.handleToCFunc(h -> Function4U.doNothing());
+        LToCharFunction<T> wrapped = sutThrowing.handleToCharFunc(h -> Function4U.doNothing());
 
         // then
         try {
@@ -287,7 +287,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testtoCFuncFrom() throws X {
+    public void testtoCharFuncCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -306,7 +306,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
         };
 
         //when
-        LToCharFunction<Integer > function = sutO.toCFuncFrom(before1);
+        LToCharFunction<Integer > function = sutO.toCharFuncCompose(before1);
         function.doApplyAsChar((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -638,28 +638,28 @@ public class LToCharFunctionTest<T,X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nestingToCFunc())
+        assertThat(sut.nestingToCharFunc())
             .isSameAs(sut)
             .isInstanceOf(LToCharFunction.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shovingToCFunc())
+        assertThat(sut.shovingToCharFunc())
             .isSameAs(sut)
             .isInstanceOf(LToCharFunction.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestingToCFuncX())
+        assertThat(sut.nestingToCharFuncX())
             .isSameAs(sut)
             .isInstanceOf(LToCharFunctionX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shovingToCFuncX())
+        assertThat(sut.shovingToCharFuncX())
             .isSameAs(sut)
             .isInstanceOf(LToCharFunctionX.class);
     }
@@ -673,11 +673,11 @@ public class LToCharFunctionTest<T,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shovingToCFunc().doApplyAsChar((T)Integer.valueOf(100));
+        sutThrowing.shovingToCharFunc().doApplyAsChar((T)Integer.valueOf(100));
     }
 
     @Test
-    public void testHandleToCFunc() throws X {
+    public void testHandleToCharFunc() throws X {
 
         // given
         LToCharFunction<T> sutThrowing = LToCharFunction.l(t -> {
@@ -685,7 +685,7 @@ public class LToCharFunctionTest<T,X extends ParseException> {
         });
 
         // when
-        LToCharFunction<T> wrapped = sutThrowing.handleToCFunc(h -> {
+        LToCharFunction<T> wrapped = sutThrowing.handleToCharFunc(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 

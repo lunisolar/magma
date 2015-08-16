@@ -74,10 +74,12 @@ public interface LToIntFunction<T> extends LToIntFunctionX<T, RuntimeException>,
 
 	int doApplyAsInt(T t);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default int nestingDoApplyAsInt(T t) {
 		return this.doApplyAsInt(t);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default int shovingDoApplyAsInt(T t) {
 		return this.doApplyAsInt(t);
 	}
@@ -87,17 +89,18 @@ public interface LToIntFunction<T> extends LToIntFunctionX<T, RuntimeException>,
 		return doApplyAsInt(t);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LToIntFunction.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LIntSupplier captureToIFunc(T t) {
+	default LIntSupplier captureToIntFunc(T t) {
 		return () -> this.doApplyAsInt(t);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T> LToIntFunction<T> constant(int r) {
 		return t -> r;
 	}
@@ -117,7 +120,7 @@ public interface LToIntFunction<T> extends LToIntFunctionX<T, RuntimeException>,
 		return other::applyAsInt;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T, X extends Throwable> LToIntFunction<T> wrap(final @Nonnull LToIntFunctionX<T, X> other) {
 		return other::nestingDoApplyAsInt;
@@ -127,11 +130,9 @@ public interface LToIntFunction<T> extends LToIntFunctionX<T, RuntimeException>,
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToIntFunction<V1> toIFuncFrom(@Nonnull final LFunction<? super V1, ? extends T> before1) {
+	default <V1> LToIntFunction<V1> toIntFuncCompose(@Nonnull final LFunction<? super V1, ? extends T> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsInt(before1.doApply(v1));
 	}
@@ -208,23 +209,23 @@ public interface LToIntFunction<T> extends LToIntFunctionX<T, RuntimeException>,
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToIntFunction<T> nestingToIFunc() {
+	default LToIntFunction<T> nestingToIntFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToIntFunctionX<T, RuntimeException> nestingToIFuncX() {
+	default LToIntFunctionX<T, RuntimeException> nestingToIntFuncX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToIntFunction<T> shovingToIFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToIntFunction<T> shovingToIntFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToIntFunctionX<T, RuntimeException> shovingToIFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToIntFunctionX<T, RuntimeException> shovingToIntFuncX() {
 		return this;
 	}
 

@@ -66,7 +66,7 @@ public final class LLongSupplierBuilder extends PerCaseBuilderWithLongProduct.Ba
 		});
 
 	public LLongSupplierBuilder(@Nullable Consumer<LLongSupplier> consumer) {
-		super(EVENTUALLY_THROW, LLongSupplier::of);
+		super(EVENTUALLY_THROW, LLongSupplier::of, () -> new LLongSupplierBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LLongSupplierBuilder extends PerCaseBuilderWithLongProduct.Ba
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final LLongSupplierBuilder longSupplier() {
+	public static LLongSupplierBuilder longSupplier() {
 		return new LLongSupplierBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final LLongSupplierBuilder longSupplier(Consumer<LLongSupplier> consumer) {
+	public static LLongSupplierBuilder longSupplier(Consumer<LLongSupplier> consumer) {
 		return new LLongSupplierBuilder(consumer);
 	}
 

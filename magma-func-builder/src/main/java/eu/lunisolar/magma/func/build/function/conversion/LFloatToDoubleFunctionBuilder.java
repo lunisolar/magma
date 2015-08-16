@@ -66,7 +66,7 @@ public final class LFloatToDoubleFunctionBuilder extends PerCaseBuilderWithDoubl
 		});
 
 	public LFloatToDoubleFunctionBuilder(@Nullable Consumer<LFloatToDoubleFunction> consumer) {
-		super(EVENTUALLY_THROW, LFloatToDoubleFunction::constant);
+		super(EVENTUALLY_THROW, LFloatToDoubleFunction::constant, () -> new LFloatToDoubleFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LFloatToDoubleFunctionBuilder extends PerCaseBuilderWithDoubl
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final LFloatToDoubleFunctionBuilder floatToDoubleFunction() {
+	public static LFloatToDoubleFunctionBuilder floatToDoubleFunction() {
 		return new LFloatToDoubleFunctionBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final LFloatToDoubleFunctionBuilder floatToDoubleFunction(Consumer<LFloatToDoubleFunction> consumer) {
+	public static LFloatToDoubleFunctionBuilder floatToDoubleFunction(Consumer<LFloatToDoubleFunction> consumer) {
 		return new LFloatToDoubleFunctionBuilder(consumer);
 	}
 

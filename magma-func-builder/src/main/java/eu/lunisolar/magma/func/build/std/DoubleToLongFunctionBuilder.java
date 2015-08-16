@@ -65,7 +65,7 @@ public final class DoubleToLongFunctionBuilder extends PerCaseBuilderWithLongPro
 		});
 
 	public DoubleToLongFunctionBuilder(@Nullable Consumer<java.util.function.DoubleToLongFunction> consumer) {
-		super(EVENTUALLY_THROW, LDoubleToLongFunction::constant);
+		super(EVENTUALLY_THROW, LDoubleToLongFunction::constant, () -> new DoubleToLongFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -77,13 +77,13 @@ public final class DoubleToLongFunctionBuilder extends PerCaseBuilderWithLongPro
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final DoubleToLongFunctionBuilder doubleToLongFunction() {
+	public static DoubleToLongFunctionBuilder doubleToLongFunction() {
 		return new DoubleToLongFunctionBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final DoubleToLongFunctionBuilder doubleToLongFunction(Consumer<java.util.function.DoubleToLongFunction> consumer) {
+	public static DoubleToLongFunctionBuilder doubleToLongFunction(Consumer<java.util.function.DoubleToLongFunction> consumer) {
 		return new DoubleToLongFunctionBuilder(consumer);
 	}
 

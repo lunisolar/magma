@@ -75,22 +75,24 @@ public interface LIntConsumer extends LIntConsumerX<RuntimeException>, MetaConsu
 
 	void doAccept(int i);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default void nestingDoAccept(int i) {
 		this.doAccept(i);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default void shovingDoAccept(int i) {
 		this.doAccept(i);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LIntConsumer.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LAction captureICons(int i) {
+	default LAction captureIntCons(int i) {
 		return () -> this.doAccept(i);
 	}
 
@@ -109,7 +111,7 @@ public interface LIntConsumer extends LIntConsumerX<RuntimeException>, MetaConsu
 		return other::accept;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LIntConsumer wrap(final @Nonnull LIntConsumerX<X> other) {
 		return other::nestingDoAccept;
@@ -119,20 +121,16 @@ public interface LIntConsumer extends LIntConsumerX<RuntimeException>, MetaConsu
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LIntConsumer iConsFromInt(@Nonnull final LIntUnaryOperator before1) {
+	default LIntConsumer intConsComposeInt(@Nonnull final LIntUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doApplyAsInt(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LConsumer<V1> iConsFrom(@Nonnull final LToIntFunction<? super V1> before1) {
+	default <V1> LConsumer<V1> intConsCompose(@Nonnull final LToIntFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doApplyAsInt(v1));
 	}
@@ -155,23 +153,23 @@ public interface LIntConsumer extends LIntConsumerX<RuntimeException>, MetaConsu
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntConsumer nestingICons() {
+	default LIntConsumer nestingIntCons() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntConsumerX<RuntimeException> nestingIConsX() {
+	default LIntConsumerX<RuntimeException> nestingIntConsX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntConsumer shovingICons() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntConsumer shovingIntCons() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntConsumerX<RuntimeException> shovingIConsX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntConsumerX<RuntimeException> shovingIntConsX() {
 		return this;
 	}
 

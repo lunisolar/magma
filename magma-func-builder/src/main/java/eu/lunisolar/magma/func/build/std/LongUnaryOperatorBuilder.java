@@ -65,7 +65,7 @@ public final class LongUnaryOperatorBuilder extends PerCaseBuilderWithLongProduc
 		});
 
 	public LongUnaryOperatorBuilder(@Nullable Consumer<java.util.function.LongUnaryOperator> consumer) {
-		super(EVENTUALLY_THROW, LLongUnaryOperator::constant);
+		super(EVENTUALLY_THROW, LLongUnaryOperator::constant, () -> new LongUnaryOperatorBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -77,13 +77,13 @@ public final class LongUnaryOperatorBuilder extends PerCaseBuilderWithLongProduc
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final LongUnaryOperatorBuilder longUnaryOperator() {
+	public static LongUnaryOperatorBuilder longUnaryOperator() {
 		return new LongUnaryOperatorBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final LongUnaryOperatorBuilder longUnaryOperator(Consumer<java.util.function.LongUnaryOperator> consumer) {
+	public static LongUnaryOperatorBuilder longUnaryOperator(Consumer<java.util.function.LongUnaryOperator> consumer) {
 		return new LongUnaryOperatorBuilder(consumer);
 	}
 

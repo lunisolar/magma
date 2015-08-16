@@ -64,10 +64,12 @@ public interface LIntToByteFunction extends LIntToByteFunctionX<RuntimeException
 
 	byte doApplyAsByte(int i);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default byte nestingDoApplyAsByte(int i) {
 		return this.doApplyAsByte(i);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default byte shovingDoApplyAsByte(int i) {
 		return this.doApplyAsByte(i);
 	}
@@ -77,17 +79,18 @@ public interface LIntToByteFunction extends LIntToByteFunctionX<RuntimeException
 		return doApplyAsByte(i);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LIntToByteFunction.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LByteSupplier captureIToBFunc(int i) {
+	default LByteSupplier captureIntToByteFunc(int i) {
 		return () -> this.doApplyAsByte(i);
 	}
 
+	/** Creates function that always returns the same value. */
 	static LIntToByteFunction constant(byte r) {
 		return i -> r;
 	}
@@ -101,7 +104,7 @@ public interface LIntToByteFunction extends LIntToByteFunctionX<RuntimeException
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LIntToByteFunction wrap(final @Nonnull LIntToByteFunctionX<X> other) {
 		return other::nestingDoApplyAsByte;
@@ -111,20 +114,16 @@ public interface LIntToByteFunction extends LIntToByteFunctionX<RuntimeException
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LIntToByteFunction iToBFuncFromInt(@Nonnull final LIntUnaryOperator before1) {
+	default LIntToByteFunction intToByteFuncComposeInt(@Nonnull final LIntUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsByte(before1.doApplyAsInt(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToByteFunction<V1> iToBFuncFrom(@Nonnull final LToIntFunction<? super V1> before1) {
+	default <V1> LToByteFunction<V1> intToByteFuncCompose(@Nonnull final LToIntFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsByte(before1.doApplyAsInt(v1));
 	}
@@ -201,23 +200,23 @@ public interface LIntToByteFunction extends LIntToByteFunctionX<RuntimeException
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntToByteFunction nestingIToBFunc() {
+	default LIntToByteFunction nestingIntToByteFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntToByteFunctionX<RuntimeException> nestingIToBFuncX() {
+	default LIntToByteFunctionX<RuntimeException> nestingIntToByteFuncX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntToByteFunction shovingIToBFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntToByteFunction shovingIntToByteFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntToByteFunctionX<RuntimeException> shovingIToBFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntToByteFunctionX<RuntimeException> shovingIntToByteFuncX() {
 		return this;
 	}
 

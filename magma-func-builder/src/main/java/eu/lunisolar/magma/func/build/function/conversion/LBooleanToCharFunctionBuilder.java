@@ -66,7 +66,7 @@ public final class LBooleanToCharFunctionBuilder extends PerCaseBuilderWithCharP
 		});
 
 	public LBooleanToCharFunctionBuilder(@Nullable Consumer<LBooleanToCharFunction> consumer) {
-		super(EVENTUALLY_THROW, LBooleanToCharFunction::constant);
+		super(EVENTUALLY_THROW, LBooleanToCharFunction::constant, () -> new LBooleanToCharFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LBooleanToCharFunctionBuilder extends PerCaseBuilderWithCharP
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final LBooleanToCharFunctionBuilder booleanToCharFunction() {
+	public static LBooleanToCharFunctionBuilder booleanToCharFunction() {
 		return new LBooleanToCharFunctionBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final LBooleanToCharFunctionBuilder booleanToCharFunction(Consumer<LBooleanToCharFunction> consumer) {
+	public static LBooleanToCharFunctionBuilder booleanToCharFunction(Consumer<LBooleanToCharFunction> consumer) {
 		return new LBooleanToCharFunctionBuilder(consumer);
 	}
 

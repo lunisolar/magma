@@ -47,10 +47,10 @@ public interface LCharSupplierAssert<S extends LCharSupplierAssert<S, A, RS>, A 
 	Evaluation<S, LActionX<Exception>, A, RS, Character, Exception> doesGetAsChar();
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LCharSupplier, RS extends AbstractCharacterAssert<RS>> extends Base<Impl<A, RS>, A, RS> {
+	public final static class The<A extends LCharSupplier, RS extends AbstractCharacterAssert<RS>> extends Base<The<A, RS>, A, RS> {
 
-		public Impl(A actual, java.util.function.Function<Character, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Character, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
@@ -67,7 +67,7 @@ public interface LCharSupplierAssert<S extends LCharSupplierAssert<S, A, RS>, A 
 		@Nonnull
 		public Evaluation<S, LActionX<Exception>, A, RS, Character, Exception> doesGetAsChar() {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doExecute();
 				}

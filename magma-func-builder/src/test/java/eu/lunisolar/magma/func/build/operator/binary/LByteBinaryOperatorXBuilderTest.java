@@ -115,7 +115,7 @@ public class LByteBinaryOperatorXBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LByteBinaryOperatorX<ParseException> function = byteBinaryOperatorX((LByteBinaryOperatorX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((b1,b2) -> b1 == (byte)0)
+            .aCase(ce -> ce.of((b1,b2) -> b1 == (byte)0)
                              .evaluate((b1,b2) -> (byte)0))
             .inCase((b1,b2) -> b1 > 0 && b1 < 10).evaluate((b1,b2) -> (byte)1)
             .inCase((b1,b2) -> b1 > 10 && b1 < 20).evaluate((b1,b2) -> (byte)2)

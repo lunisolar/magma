@@ -64,10 +64,12 @@ public interface LDoubleToCharFunction extends LDoubleToCharFunctionX<RuntimeExc
 
 	char doApplyAsChar(double d);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default char nestingDoApplyAsChar(double d) {
 		return this.doApplyAsChar(d);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default char shovingDoApplyAsChar(double d) {
 		return this.doApplyAsChar(d);
 	}
@@ -77,17 +79,18 @@ public interface LDoubleToCharFunction extends LDoubleToCharFunctionX<RuntimeExc
 		return doApplyAsChar(d);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LDoubleToCharFunction.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LCharSupplier captureDToCFunc(double d) {
+	default LCharSupplier captureDoubleToCharFunc(double d) {
 		return () -> this.doApplyAsChar(d);
 	}
 
+	/** Creates function that always returns the same value. */
 	static LDoubleToCharFunction constant(char r) {
 		return d -> r;
 	}
@@ -101,7 +104,7 @@ public interface LDoubleToCharFunction extends LDoubleToCharFunctionX<RuntimeExc
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LDoubleToCharFunction wrap(final @Nonnull LDoubleToCharFunctionX<X> other) {
 		return other::nestingDoApplyAsChar;
@@ -111,20 +114,16 @@ public interface LDoubleToCharFunction extends LDoubleToCharFunctionX<RuntimeExc
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LDoubleToCharFunction dToCFuncFromDouble(@Nonnull final LDoubleUnaryOperator before1) {
+	default LDoubleToCharFunction doubleToCharFuncComposeDouble(@Nonnull final LDoubleUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsChar(before1.doApplyAsDouble(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToCharFunction<V1> dToCFuncFrom(@Nonnull final LToDoubleFunction<? super V1> before1) {
+	default <V1> LToCharFunction<V1> doubleToCharFuncCompose(@Nonnull final LToDoubleFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsChar(before1.doApplyAsDouble(v1));
 	}
@@ -201,23 +200,23 @@ public interface LDoubleToCharFunction extends LDoubleToCharFunctionX<RuntimeExc
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoubleToCharFunction nestingDToCFunc() {
+	default LDoubleToCharFunction nestingDoubleToCharFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoubleToCharFunctionX<RuntimeException> nestingDToCFuncX() {
+	default LDoubleToCharFunctionX<RuntimeException> nestingDoubleToCharFuncX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleToCharFunction shovingDToCFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoubleToCharFunction shovingDoubleToCharFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleToCharFunctionX<RuntimeException> shovingDToCFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoubleToCharFunctionX<RuntimeException> shovingDoubleToCharFuncX() {
 		return this;
 	}
 

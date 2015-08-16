@@ -50,10 +50,10 @@ public interface LToShortBiFunctionXAssert<S extends LToShortBiFunctionXAssert<S
 	Evaluation<S, LBiConsumerX<T1, T2, Exception>, A, RS, Short, Exception> doesApplyAsShort(T1 t1, T2 t2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LToShortBiFunctionX<T1, T2, X>, RS extends AbstractShortAssert<RS>, T1, T2, X extends Throwable> extends Base<Impl<A, RS, T1, T2, X>, A, RS, T1, T2, X> {
+	public final static class The<A extends LToShortBiFunctionX<T1, T2, X>, RS extends AbstractShortAssert<RS>, T1, T2, X extends Throwable> extends Base<The<A, RS, T1, T2, X>, A, RS, T1, T2, X> {
 
-		public Impl(A actual, java.util.function.Function<Short, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Short, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
@@ -72,7 +72,7 @@ public interface LToShortBiFunctionXAssert<S extends LToShortBiFunctionXAssert<S
 		@Nonnull
 		public Evaluation<S, LBiConsumerX<T1, T2, Exception>, A, RS, Short, Exception> doesApplyAsShort(T1 t1, T2 t2) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(t1, t2);
 				}

@@ -66,7 +66,7 @@ public final class LCharConsumerBuilder extends PerCaseBuilder.Base<LCharConsume
 		});
 
 	public LCharConsumerBuilder(@Nullable Consumer<LCharConsumer> consumer) {
-		super(EVENTUALLY_THROW);
+		super(EVENTUALLY_THROW, () -> new LCharConsumerBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LCharConsumerBuilder extends PerCaseBuilder.Base<LCharConsume
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final LCharConsumerBuilder charConsumer() {
+	public static LCharConsumerBuilder charConsumer() {
 		return new LCharConsumerBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final LCharConsumerBuilder charConsumer(Consumer<LCharConsumer> consumer) {
+	public static LCharConsumerBuilder charConsumer(Consumer<LCharConsumer> consumer) {
 		return new LCharConsumerBuilder(consumer);
 	}
 

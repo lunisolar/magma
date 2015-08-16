@@ -75,15 +75,17 @@ public interface LBiConsumer<T1, T2> extends LBiConsumerX<T1, T2, RuntimeExcepti
 
 	void doAccept(T1 t1, T2 t2);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default void nestingDoAccept(T1 t1, T2 t2) {
 		this.doAccept(t1, t2);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default void shovingDoAccept(T1 t1, T2 t2) {
 		this.doAccept(t1, t2);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LBiConsumer.DESCRIPTION;
@@ -92,6 +94,18 @@ public interface LBiConsumer<T1, T2> extends LBiConsumerX<T1, T2, RuntimeExcepti
 	/** Captures arguments but delays the evaluation. */
 	default LAction captureBiCons(T1 t1, T2 t2) {
 		return () -> this.doAccept(t1, t2);
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T1, T2> LBiConsumer<T1, T2> accept1st(@Nonnull LConsumer<T1> func) {
+		return (t1, t2) -> func.doAccept(t1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T1, T2> LBiConsumer<T1, T2> accept2nd(@Nonnull LConsumer<T2> func) {
+		return (t1, t2) -> func.doAccept(t2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -109,7 +123,7 @@ public interface LBiConsumer<T1, T2> extends LBiConsumerX<T1, T2, RuntimeExcepti
 		return other::accept;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T1, T2, X extends Throwable> LBiConsumer<T1, T2> wrap(final @Nonnull LBiConsumerX<T1, T2, X> other) {
 		return other::nestingDoAccept;
@@ -119,11 +133,9 @@ public interface LBiConsumer<T1, T2> extends LBiConsumerX<T1, T2, RuntimeExcepti
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiConsumer<V1, V2> biConsFrom(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2) {
+	default <V1, V2> LBiConsumer<V1, V2> biConsCompose(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final V2 v2) -> this.doAccept(before1.doApply(v1), before2.doApply(v2));
@@ -157,12 +169,12 @@ public interface LBiConsumer<T1, T2> extends LBiConsumerX<T1, T2, RuntimeExcepti
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBiConsumer<T1, T2> shovingBiCons() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBiConsumerX<T1, T2, RuntimeException> shovingBiConsX() {
 		return this;
 	}

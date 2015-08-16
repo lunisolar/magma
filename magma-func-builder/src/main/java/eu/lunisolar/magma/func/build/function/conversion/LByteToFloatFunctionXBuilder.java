@@ -66,7 +66,7 @@ public final class LByteToFloatFunctionXBuilder<X extends Throwable> extends Per
 		});
 
 	public LByteToFloatFunctionXBuilder(@Nullable Consumer<LByteToFloatFunctionX<X>> consumer) {
-		super(EVENTUALLY_THROW, LByteToFloatFunctionX::constant);
+		super(EVENTUALLY_THROW, LByteToFloatFunctionX::constant, () -> new LByteToFloatFunctionXBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LByteToFloatFunctionXBuilder<X extends Throwable> extends Per
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <X extends Throwable> LByteToFloatFunctionXBuilder<X> byteToFloatFunctionX() {
+	public static <X extends Throwable> LByteToFloatFunctionXBuilder<X> byteToFloatFunctionX() {
 		return new LByteToFloatFunctionXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <X extends Throwable> LByteToFloatFunctionXBuilder<X> byteToFloatFunctionX(Consumer<LByteToFloatFunctionX<X>> consumer) {
+	public static <X extends Throwable> LByteToFloatFunctionXBuilder<X> byteToFloatFunctionX(Consumer<LByteToFloatFunctionX<X>> consumer) {
 		return new LByteToFloatFunctionXBuilder(consumer);
 	}
 

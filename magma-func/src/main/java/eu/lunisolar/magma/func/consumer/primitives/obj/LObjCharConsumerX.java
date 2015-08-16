@@ -65,6 +65,7 @@ public interface LObjCharConsumerX<T, X extends Throwable> extends MetaConsumer,
 
 	void doAccept(T t, char c) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default void nestingDoAccept(T t, char c) {
 		try {
 			this.doAccept(t, c);
@@ -75,10 +76,12 @@ public interface LObjCharConsumerX<T, X extends Throwable> extends MetaConsumer,
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default void shovingDoAccept(T t, char c) {
 		((LObjCharConsumerX<T, RuntimeException>) this).doAccept(t, c);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> void handlingDoAccept(T t, char c, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -88,15 +91,27 @@ public interface LObjCharConsumerX<T, X extends Throwable> extends MetaConsumer,
 		}
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LObjCharConsumerX.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LActionX<X> captureObjCCons(T t, char c) {
+	default LActionX<X> captureObjCharCons(T t, char c) {
 		return () -> this.doAccept(t, c);
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T, X extends Throwable> LObjCharConsumerX<T, X> accept1st(@Nonnull LConsumerX<T, X> func) {
+		return (t, c) -> func.doAccept(t);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T, X extends Throwable> LObjCharConsumerX<T, X> accept2nd(@Nonnull LCharConsumerX<X> func) {
+		return (t, c) -> func.doAccept(c);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -115,7 +130,7 @@ public interface LObjCharConsumerX<T, X extends Throwable> extends MetaConsumer,
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T, X extends Throwable> LObjCharConsumerX<T, X> wrapX(final @Nonnull LObjCharConsumer<T> other) {
 		return (LObjCharConsumerX) other;
@@ -125,21 +140,17 @@ public interface LObjCharConsumerX<T, X extends Throwable> extends MetaConsumer,
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LObjCharConsumerX<V1, X> objCConsFromChar(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LCharUnaryOperatorX<X> before2) {
+	default <V1> LObjCharConsumerX<V1, X> objCharConsComposeChar(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LCharUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final char v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsChar(v2));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiConsumerX<V1, V2, X> objCConsFrom(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToCharFunctionX<? super V2, X> before2) {
+	default <V1, V2> LBiConsumerX<V1, V2, X> objCharConsCompose(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToCharFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsChar(v2));
@@ -163,23 +174,23 @@ public interface LObjCharConsumerX<T, X extends Throwable> extends MetaConsumer,
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjCharConsumer<T> nestingObjCCons() {
+	default LObjCharConsumer<T> nestingObjCharCons() {
 		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjCharConsumerX<T, RuntimeException> nestingObjCConsX() {
+	default LObjCharConsumerX<T, RuntimeException> nestingObjCharConsX() {
 		return this::nestingDoAccept;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjCharConsumer<T> shovingObjCCons() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LObjCharConsumer<T> shovingObjCharCons() {
 		return this::shovingDoAccept;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjCharConsumerX<T, RuntimeException> shovingObjCConsX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LObjCharConsumerX<T, RuntimeException> shovingObjCharConsX() {
 		return this::shovingDoAccept;
 	}
 
@@ -187,13 +198,15 @@ public interface LObjCharConsumerX<T, X extends Throwable> extends MetaConsumer,
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LObjCharConsumer<T> handleObjCCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LObjCharConsumer<T> handleObjCharCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T t, char c) -> this.handlingDoAccept(t, c, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LObjCharConsumerX<T, Y> handleObjCConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LObjCharConsumerX<T, Y> handleObjCharConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T t, char c) -> this.handlingDoAccept(t, c, handling);
 	}
 

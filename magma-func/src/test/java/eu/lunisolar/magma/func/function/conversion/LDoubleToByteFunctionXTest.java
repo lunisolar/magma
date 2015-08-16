@@ -184,7 +184,7 @@ public class LDoubleToByteFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LDoubleToByteFunctionX<X> wrapped = sutThrowing.handleDToBFuncX(handler -> handler
+        LDoubleToByteFunctionX<X> wrapped = sutThrowing.handleDoubleToByteFuncX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -208,7 +208,7 @@ public class LDoubleToByteFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LDoubleToByteFunctionX<X> wrapped = sutThrowing.handleDToBFuncX(handler -> handler
+        LDoubleToByteFunctionX<X> wrapped = sutThrowing.handleDoubleToByteFuncX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -232,7 +232,7 @@ public class LDoubleToByteFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LDoubleToByteFunctionX<X> wrapped = sutThrowing.handleDToBFuncX(handler -> handler
+        LDoubleToByteFunctionX<X> wrapped = sutThrowing.handleDoubleToByteFuncX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -257,7 +257,7 @@ public class LDoubleToByteFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LDoubleToByteFunctionX<X> wrapped = sutThrowing.handleDToBFuncX(h -> Function4U.doNothing());
+        LDoubleToByteFunctionX<X> wrapped = sutThrowing.handleDoubleToByteFuncX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -276,7 +276,7 @@ public class LDoubleToByteFunctionXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testdToBFuncFromDouble() throws X {
+    public void testdoubleToByteFuncComposeDouble() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -295,7 +295,7 @@ public class LDoubleToByteFunctionXTest<X extends ParseException> {
         };
 
         //when
-        LDoubleToByteFunctionX<X> function = sutO.dToBFuncFromDouble(before1);
+        LDoubleToByteFunctionX<X> function = sutO.doubleToByteFuncComposeDouble(before1);
         function.doApplyAsByte((double)80);
 
         //then - finals
@@ -305,7 +305,7 @@ public class LDoubleToByteFunctionXTest<X extends ParseException> {
 
 
     @Test
-    public void testdToBFuncFrom() throws X {
+    public void testdoubleToByteFuncCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -324,7 +324,7 @@ public class LDoubleToByteFunctionXTest<X extends ParseException> {
         };
 
         //when
-        LToByteFunctionX<Integer ,X> function = sutO.dToBFuncFrom(before1);
+        LToByteFunctionX<Integer ,X> function = sutO.doubleToByteFuncCompose(before1);
         function.doApplyAsByte((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -656,25 +656,25 @@ public class LDoubleToByteFunctionXTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nestingDToBFunc())
+        assertThat(sut.nestingDoubleToByteFunc())
             .isInstanceOf(LDoubleToByteFunction.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shovingDToBFunc())
+        assertThat(sut.shovingDoubleToByteFunc())
             .isInstanceOf(LDoubleToByteFunction.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestingDToBFuncX())
+        assertThat(sut.nestingDoubleToByteFuncX())
             .isInstanceOf(LDoubleToByteFunctionX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shovingDToBFuncX())
+        assertThat(sut.shovingDoubleToByteFuncX())
             .isInstanceOf(LDoubleToByteFunctionX.class);
     }
 
@@ -687,11 +687,11 @@ public class LDoubleToByteFunctionXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shovingDToBFunc().doApplyAsByte((double)100);
+        sutThrowing.shovingDoubleToByteFunc().doApplyAsByte((double)100);
     }
 
     @Test
-    public void testHandleDToBFunc() throws X {
+    public void testHandleDoubleToByteFunc() throws X {
 
         // given
         LDoubleToByteFunctionX<X> sutThrowing = LDoubleToByteFunctionX.lX(d -> {
@@ -699,7 +699,7 @@ public class LDoubleToByteFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LDoubleToByteFunctionX<X> wrapped = sutThrowing.handleDToBFuncX(h -> {
+        LDoubleToByteFunctionX<X> wrapped = sutThrowing.handleDoubleToByteFuncX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 

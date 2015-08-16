@@ -115,7 +115,7 @@ public class LShortFunctionBuilderTest<R,X extends Throwable>{
     public void testBuild() throws X {
 
         LShortFunction<Integer > function = shortFunction((LShortFunction<Integer > f)-> doNothing())
-            .addCase(ce -> ce.of(s -> s == (short)0)
+            .aCase(ce -> ce.of(s -> s == (short)0)
                              .evaluate(s -> Integer.valueOf(0)))
             .inCase(s -> s > 0 && s < 10).evaluate(s -> Integer.valueOf(1))
             .inCase(s -> s > 10 && s < 20).evaluate(s -> Integer.valueOf(2))

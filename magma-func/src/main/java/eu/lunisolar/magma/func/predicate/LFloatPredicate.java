@@ -64,10 +64,12 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 
 	boolean doTest(float f);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default boolean nestingDoTest(float f) {
 		return this.doTest(f);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default boolean shovingDoTest(float f) {
 		return this.doTest(f);
 	}
@@ -77,23 +79,24 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 		return doTest(f);
 	}
 
-	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
+	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
 	default boolean doApplyAsBoolean(float f) {
 		return doTest(f);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LFloatPredicate.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier captureFPred(float f) {
+	default LBooleanSupplier captureFloatPred(float f) {
 		return () -> this.doTest(f);
 	}
 
+	/** Creates function that always returns the same value. */
 	static LFloatPredicate constant(boolean r) {
 		return f -> r;
 	}
@@ -107,7 +110,7 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LFloatPredicate wrap(final @Nonnull LFloatPredicateX<X> other) {
 		return other::nestingDoTest;
@@ -117,7 +120,9 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 	// <editor-fold desc="predicate">
 
 	/**
-	 *  @see {@link java.util.function.Predicate#negate()}
+	 * Returns a predicate that represents the logical negation of this predicate.
+	 *
+	 * @see {@link java.util.function.Predicate#negate}
 	 */
 	@Nonnull
 	default LFloatPredicate negate() {
@@ -125,7 +130,8 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#and()}
+	 * Returns a predicate that represents the logical AND of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#and()}
 	 */
 	@Nonnull
 	default LFloatPredicate and(@Nonnull LFloatPredicate other) {
@@ -134,7 +140,8 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LFloatPredicate or(@Nonnull LFloatPredicate other) {
@@ -143,7 +150,8 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical XOR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LFloatPredicate xor(@Nonnull LFloatPredicate other) {
@@ -151,6 +159,10 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 		return f -> doTest(f) ^ other.doTest(f);
 	}
 
+	/**
+	 * Creates predicate that evaluates if an object is equal with the argument one.
+	 * @see {@link java.util.function.Predicate#isEqual()
+	 */
 	@Nonnull
 	static LFloatPredicate isEqual(float target) {
 		return f -> f == target;
@@ -160,20 +172,16 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LFloatPredicate fPredFromFloat(@Nonnull final LFloatUnaryOperator before1) {
+	default LFloatPredicate floatPredComposeFloat(@Nonnull final LFloatUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doTest(before1.doApplyAsFloat(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LPredicate<V1> fPredFrom(@Nonnull final LToFloatFunction<? super V1> before1) {
+	default <V1> LPredicate<V1> floatPredCompose(@Nonnull final LToFloatFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doTest(before1.doApplyAsFloat(v1));
 	}
@@ -250,23 +258,23 @@ public interface LFloatPredicate extends LFloatPredicateX<RuntimeException>, Met
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LFloatPredicate nestingFPred() {
+	default LFloatPredicate nestingFloatPred() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LFloatPredicateX<RuntimeException> nestingFPredX() {
+	default LFloatPredicateX<RuntimeException> nestingFloatPredX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatPredicate shovingFPred() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LFloatPredicate shovingFloatPred() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatPredicateX<RuntimeException> shovingFPredX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LFloatPredicateX<RuntimeException> shovingFloatPredX() {
 		return this;
 	}
 

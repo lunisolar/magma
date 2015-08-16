@@ -61,7 +61,7 @@ public abstract class AbstractEvaluation<SELF extends AbstractEvaluation<SELF, C
 
     protected AbstractEvaluation(
             @Nonnull CTX context, @Nullable AssertionsCheck assertPreConsumer, AssertionFunction<PC, A> assertFunction) {
-        this(context, assertFunction, assertPreConsumer == null ? null : (a) -> assertPreConsumer.assertionsCheck());
+        this(context, assertFunction, assertPreConsumer == null ? null : a -> assertPreConsumer.assertionsCheck());
     }
 
     public SELF when(PC preconditioner) {
@@ -71,7 +71,7 @@ public abstract class AbstractEvaluation<SELF extends AbstractEvaluation<SELF, C
 
     /** Assertion for the result. Depending on the CTX either "as" or "to" will have more sense. */
     public CTX soThat(@Nonnull AssertionsCheck assertions) {
-        normalCheck(preconditioner, assertFunction, assertPreConsumer, (a) -> assertions.assertionsCheck());
+        normalCheck(preconditioner, assertFunction, assertPreConsumer, a -> assertions.assertionsCheck());
         return context.self();
     }
 

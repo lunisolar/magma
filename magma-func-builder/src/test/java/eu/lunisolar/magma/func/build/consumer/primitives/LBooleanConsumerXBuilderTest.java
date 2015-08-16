@@ -116,7 +116,7 @@ public class LBooleanConsumerXBuilderTest<X extends Throwable>{
         final AtomicInteger externalEffect = new AtomicInteger(0);
 
         LBooleanConsumerX<ParseException> function = booleanConsumerX((LBooleanConsumerX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of(b -> b == false)
+            .aCase(ce -> ce.of(b -> b == false)
                              .evaluate(b -> externalEffect.set(0)))
             .inCase(b -> b == true ).evaluate(b -> externalEffect.set(1))
             .eventually(b -> externalEffect.set(99))

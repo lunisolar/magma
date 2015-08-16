@@ -66,7 +66,7 @@ public final class LBiLongPredicateBuilder extends PerCaseBuilderWithBooleanProd
 		});
 
 	public LBiLongPredicateBuilder(@Nullable Consumer<LBiLongPredicate> consumer) {
-		super(EVENTUALLY_THROW, LBiLongPredicate::constant);
+		super(EVENTUALLY_THROW, LBiLongPredicate::constant, () -> new LBiLongPredicateBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LBiLongPredicateBuilder extends PerCaseBuilderWithBooleanProd
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final LBiLongPredicateBuilder biLongPredicate() {
+	public static LBiLongPredicateBuilder biLongPredicate() {
 		return new LBiLongPredicateBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final LBiLongPredicateBuilder biLongPredicate(Consumer<LBiLongPredicate> consumer) {
+	public static LBiLongPredicateBuilder biLongPredicate(Consumer<LBiLongPredicate> consumer) {
 		return new LBiLongPredicateBuilder(consumer);
 	}
 

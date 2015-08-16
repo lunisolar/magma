@@ -74,10 +74,12 @@ public interface LIntSupplier extends LIntSupplierX<RuntimeException>, MetaSuppl
 
 	int doGetAsInt();
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default int nestingDoGetAsInt() {
 		return this.doGetAsInt();
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default int shovingDoGetAsInt() {
 		return this.doGetAsInt();
 	}
@@ -87,12 +89,13 @@ public interface LIntSupplier extends LIntSupplierX<RuntimeException>, MetaSuppl
 		return doGetAsInt();
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LIntSupplier.DESCRIPTION;
 	}
 
+	/** Creates function that always returns the same value. */
 	static LIntSupplier of(int r) {
 		return () -> r;
 	}
@@ -112,7 +115,7 @@ public interface LIntSupplier extends LIntSupplierX<RuntimeException>, MetaSuppl
 		return other::getAsInt;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LIntSupplier wrap(final @Nonnull LIntSupplierX<X> other) {
 		return other::nestingDoGetAsInt;
@@ -190,23 +193,23 @@ public interface LIntSupplier extends LIntSupplierX<RuntimeException>, MetaSuppl
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntSupplier nestingISup() {
+	default LIntSupplier nestingIntSup() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntSupplierX<RuntimeException> nestingISupX() {
+	default LIntSupplierX<RuntimeException> nestingIntSupX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntSupplier shovingISup() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntSupplier shovingIntSup() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntSupplierX<RuntimeException> shovingISupX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntSupplierX<RuntimeException> shovingIntSupX() {
 		return this;
 	}
 

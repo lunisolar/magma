@@ -115,7 +115,7 @@ public class LLongBinaryOperatorXBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LLongBinaryOperatorX<ParseException> function = longBinaryOperatorX((LLongBinaryOperatorX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((l1,l2) -> l1 == (long)0)
+            .aCase(ce -> ce.of((l1,l2) -> l1 == (long)0)
                              .evaluate((l1,l2) -> (long)0))
             .inCase((l1,l2) -> l1 > 0 && l1 < 10).evaluate((l1,l2) -> (long)1)
             .inCase((l1,l2) -> l1 > 10 && l1 < 20).evaluate((l1,l2) -> (long)2)

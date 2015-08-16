@@ -116,7 +116,7 @@ public class LFloatConsumerXBuilderTest<X extends Throwable>{
         final AtomicInteger externalEffect = new AtomicInteger(0);
 
         LFloatConsumerX<ParseException> function = floatConsumerX((LFloatConsumerX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of(f -> f == (float)0)
+            .aCase(ce -> ce.of(f -> f == (float)0)
                              .evaluate(f -> externalEffect.set(0)))
             .inCase(f -> f > 0 && f < 10).evaluate(f -> externalEffect.set(1))
             .inCase(f -> f > 10 && f < 20).evaluate(f -> externalEffect.set(2))

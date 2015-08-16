@@ -347,7 +347,7 @@ public class LBiLongPredicateTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testbiLongPredFromLong() throws X {
+    public void testbiLongPredComposeLong() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -372,7 +372,7 @@ public class LBiLongPredicateTest<X extends ParseException> {
         };
 
         //when
-        LBiLongPredicate function = sutO.biLongPredFromLong(before1,before2);
+        LBiLongPredicate function = sutO.biLongPredComposeLong(before1,before2);
         function.doTest((long)80,(long)81);
 
         //then - finals
@@ -382,7 +382,7 @@ public class LBiLongPredicateTest<X extends ParseException> {
 
 
     @Test
-    public void testbiLongPredFrom() throws X {
+    public void testbiLongPredCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -407,7 +407,7 @@ public class LBiLongPredicateTest<X extends ParseException> {
         };
 
         //when
-        LBiPredicate<Integer ,Integer > function = sutO.biLongPredFrom(before1,before2);
+        LBiPredicate<Integer ,Integer > function = sutO.biLongPredCompose(before1,before2);
         function.doTest((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
@@ -444,7 +444,7 @@ public class LBiLongPredicateTest<X extends ParseException> {
         };
 
         //when
-        LLongBiFunction<Integer > function = sutO.boolToLongBiFunction(thenFunction);
+        LBiLongFunction<Integer > function = sutO.boolToBiLongFunction(thenFunction);
         Integer  finalValue = function.doApply((long)80,(long)81);
 
         //then - finals

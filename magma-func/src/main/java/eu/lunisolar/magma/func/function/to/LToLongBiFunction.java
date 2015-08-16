@@ -74,10 +74,12 @@ public interface LToLongBiFunction<T1, T2> extends LToLongBiFunctionX<T1, T2, Ru
 
 	long doApplyAsLong(T1 t1, T2 t2);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default long nestingDoApplyAsLong(T1 t1, T2 t2) {
 		return this.doApplyAsLong(t1, t2);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default long shovingDoApplyAsLong(T1 t1, T2 t2) {
 		return this.doApplyAsLong(t1, t2);
 	}
@@ -87,7 +89,7 @@ public interface LToLongBiFunction<T1, T2> extends LToLongBiFunctionX<T1, T2, Ru
 		return doApplyAsLong(t1, t2);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LToLongBiFunction.DESCRIPTION;
@@ -98,8 +100,21 @@ public interface LToLongBiFunction<T1, T2> extends LToLongBiFunctionX<T1, T2, Ru
 		return () -> this.doApplyAsLong(t1, t2);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T1, T2> LToLongBiFunction<T1, T2> constant(long r) {
 		return (t1, t2) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T1, T2> LToLongBiFunction<T1, T2> apply1stAsLong(@Nonnull LToLongFunction<T1> func) {
+		return (t1, t2) -> func.doApplyAsLong(t1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T1, T2> LToLongBiFunction<T1, T2> apply2ndAsLong(@Nonnull LToLongFunction<T2> func) {
+		return (t1, t2) -> func.doApplyAsLong(t2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -117,7 +132,7 @@ public interface LToLongBiFunction<T1, T2> extends LToLongBiFunctionX<T1, T2, Ru
 		return other::applyAsLong;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T1, T2, X extends Throwable> LToLongBiFunction<T1, T2> wrap(final @Nonnull LToLongBiFunctionX<T1, T2, X> other) {
 		return other::nestingDoApplyAsLong;
@@ -127,11 +142,9 @@ public interface LToLongBiFunction<T1, T2> extends LToLongBiFunctionX<T1, T2, Ru
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LToLongBiFunction<V1, V2> toLongBiFuncFrom(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2) {
+	default <V1, V2> LToLongBiFunction<V1, V2> toLongBiFuncCompose(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final V2 v2) -> this.doApplyAsLong(before1.doApply(v1), before2.doApply(v2));
@@ -163,12 +176,12 @@ public interface LToLongBiFunction<T1, T2> extends LToLongBiFunctionX<T1, T2, Ru
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LToLongBiFunction<T1, T2> shovingToLongBiFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LToLongBiFunctionX<T1, T2, RuntimeException> shovingToLongBiFuncX() {
 		return this;
 	}

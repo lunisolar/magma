@@ -66,7 +66,7 @@ public final class LByteToCharFunctionBuilder extends PerCaseBuilderWithCharProd
 		});
 
 	public LByteToCharFunctionBuilder(@Nullable Consumer<LByteToCharFunction> consumer) {
-		super(EVENTUALLY_THROW, LByteToCharFunction::constant);
+		super(EVENTUALLY_THROW, LByteToCharFunction::constant, () -> new LByteToCharFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LByteToCharFunctionBuilder extends PerCaseBuilderWithCharProd
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final LByteToCharFunctionBuilder byteToCharFunction() {
+	public static LByteToCharFunctionBuilder byteToCharFunction() {
 		return new LByteToCharFunctionBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final LByteToCharFunctionBuilder byteToCharFunction(Consumer<LByteToCharFunction> consumer) {
+	public static LByteToCharFunctionBuilder byteToCharFunction(Consumer<LByteToCharFunction> consumer) {
 		return new LByteToCharFunctionBuilder(consumer);
 	}
 

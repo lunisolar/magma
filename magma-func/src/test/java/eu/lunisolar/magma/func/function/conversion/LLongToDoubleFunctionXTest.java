@@ -192,7 +192,7 @@ public class LLongToDoubleFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LLongToDoubleFunctionX<X> wrapped = sutThrowing.handleLongToDFuncX(handler -> handler
+        LLongToDoubleFunctionX<X> wrapped = sutThrowing.handleLongToDoubleFuncX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -216,7 +216,7 @@ public class LLongToDoubleFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LLongToDoubleFunctionX<X> wrapped = sutThrowing.handleLongToDFuncX(handler -> handler
+        LLongToDoubleFunctionX<X> wrapped = sutThrowing.handleLongToDoubleFuncX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -240,7 +240,7 @@ public class LLongToDoubleFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LLongToDoubleFunctionX<X> wrapped = sutThrowing.handleLongToDFuncX(handler -> handler
+        LLongToDoubleFunctionX<X> wrapped = sutThrowing.handleLongToDoubleFuncX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -265,7 +265,7 @@ public class LLongToDoubleFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LLongToDoubleFunctionX<X> wrapped = sutThrowing.handleLongToDFuncX(h -> Function4U.doNothing());
+        LLongToDoubleFunctionX<X> wrapped = sutThrowing.handleLongToDoubleFuncX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -284,7 +284,7 @@ public class LLongToDoubleFunctionXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testlongToDFuncFromLong() throws X {
+    public void testlongToDoubleFuncComposeLong() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -303,7 +303,7 @@ public class LLongToDoubleFunctionXTest<X extends ParseException> {
         };
 
         //when
-        LLongToDoubleFunctionX<X> function = sutO.longToDFuncFromLong(before1);
+        LLongToDoubleFunctionX<X> function = sutO.longToDoubleFuncComposeLong(before1);
         function.doApplyAsDouble((long)80);
 
         //then - finals
@@ -313,7 +313,7 @@ public class LLongToDoubleFunctionXTest<X extends ParseException> {
 
 
     @Test
-    public void testlongToDFuncFrom() throws X {
+    public void testlongToDoubleFuncCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -332,7 +332,7 @@ public class LLongToDoubleFunctionXTest<X extends ParseException> {
         };
 
         //when
-        LToDoubleFunctionX<Integer ,X> function = sutO.longToDFuncFrom(before1);
+        LToDoubleFunctionX<Integer ,X> function = sutO.longToDoubleFuncCompose(before1);
         function.doApplyAsDouble((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -664,25 +664,25 @@ public class LLongToDoubleFunctionXTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nestingLongToDFunc())
+        assertThat(sut.nestingLongToDoubleFunc())
             .isInstanceOf(LLongToDoubleFunction.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shovingLongToDFunc())
+        assertThat(sut.shovingLongToDoubleFunc())
             .isInstanceOf(LLongToDoubleFunction.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestingLongToDFuncX())
+        assertThat(sut.nestingLongToDoubleFuncX())
             .isInstanceOf(LLongToDoubleFunctionX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shovingLongToDFuncX())
+        assertThat(sut.shovingLongToDoubleFuncX())
             .isInstanceOf(LLongToDoubleFunctionX.class);
     }
 
@@ -695,11 +695,11 @@ public class LLongToDoubleFunctionXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shovingLongToDFunc().doApplyAsDouble((long)100);
+        sutThrowing.shovingLongToDoubleFunc().doApplyAsDouble((long)100);
     }
 
     @Test
-    public void testHandleLongToDFunc() throws X {
+    public void testHandleLongToDoubleFunc() throws X {
 
         // given
         LLongToDoubleFunctionX<X> sutThrowing = LLongToDoubleFunctionX.lX(l -> {
@@ -707,7 +707,7 @@ public class LLongToDoubleFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LLongToDoubleFunctionX<X> wrapped = sutThrowing.handleLongToDFuncX(h -> {
+        LLongToDoubleFunctionX<X> wrapped = sutThrowing.handleLongToDoubleFuncX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 

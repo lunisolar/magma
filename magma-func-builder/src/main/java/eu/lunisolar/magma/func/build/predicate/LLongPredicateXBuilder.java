@@ -66,7 +66,7 @@ public final class LLongPredicateXBuilder<X extends Throwable> extends PerCaseBu
 		});
 
 	public LLongPredicateXBuilder(@Nullable Consumer<LLongPredicateX<X>> consumer) {
-		super(EVENTUALLY_THROW, LLongPredicateX::constant);
+		super(EVENTUALLY_THROW, LLongPredicateX::constant, () -> new LLongPredicateXBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LLongPredicateXBuilder<X extends Throwable> extends PerCaseBu
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <X extends Throwable> LLongPredicateXBuilder<X> longPredicateX() {
+	public static <X extends Throwable> LLongPredicateXBuilder<X> longPredicateX() {
 		return new LLongPredicateXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <X extends Throwable> LLongPredicateXBuilder<X> longPredicateX(Consumer<LLongPredicateX<X>> consumer) {
+	public static <X extends Throwable> LLongPredicateXBuilder<X> longPredicateX(Consumer<LLongPredicateX<X>> consumer) {
 		return new LLongPredicateXBuilder(consumer);
 	}
 

@@ -195,7 +195,7 @@ public class LCharSupplierTest<X extends ParseException> {
         });
 
         // when
-        LCharSupplier wrapped = sutThrowing.handleCSup(handler -> handler
+        LCharSupplier wrapped = sutThrowing.handleCharSup(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -219,7 +219,7 @@ public class LCharSupplierTest<X extends ParseException> {
         });
 
         // when
-        LCharSupplier wrapped = sutThrowing.handleCSup(handler -> handler
+        LCharSupplier wrapped = sutThrowing.handleCharSup(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -243,7 +243,7 @@ public class LCharSupplierTest<X extends ParseException> {
         });
 
         // when
-        LCharSupplier wrapped = sutThrowing.handleCSup(handler -> handler
+        LCharSupplier wrapped = sutThrowing.handleCharSup(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -268,7 +268,7 @@ public class LCharSupplierTest<X extends ParseException> {
         });
 
         // when
-        LCharSupplier wrapped = sutThrowing.handleCSup(h -> Function4U.doNothing());
+        LCharSupplier wrapped = sutThrowing.handleCharSup(h -> Function4U.doNothing());
 
         // then
         try {
@@ -596,28 +596,28 @@ public class LCharSupplierTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nestingCSup())
+        assertThat(sut.nestingCharSup())
             .isSameAs(sut)
             .isInstanceOf(LCharSupplier.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shovingCSup())
+        assertThat(sut.shovingCharSup())
             .isSameAs(sut)
             .isInstanceOf(LCharSupplier.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestingCSupX())
+        assertThat(sut.nestingCharSupX())
             .isSameAs(sut)
             .isInstanceOf(LCharSupplierX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shovingCSupX())
+        assertThat(sut.shovingCharSupX())
             .isSameAs(sut)
             .isInstanceOf(LCharSupplierX.class);
     }
@@ -631,11 +631,11 @@ public class LCharSupplierTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shovingCSup().doGetAsChar();
+        sutThrowing.shovingCharSup().doGetAsChar();
     }
 
     @Test
-    public void testHandleCSup() throws X {
+    public void testHandleCharSup() throws X {
 
         // given
         LCharSupplier sutThrowing = LCharSupplier.l(() -> {
@@ -643,7 +643,7 @@ public class LCharSupplierTest<X extends ParseException> {
         });
 
         // when
-        LCharSupplier wrapped = sutThrowing.handleCSup(h -> {
+        LCharSupplier wrapped = sutThrowing.handleCharSup(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 

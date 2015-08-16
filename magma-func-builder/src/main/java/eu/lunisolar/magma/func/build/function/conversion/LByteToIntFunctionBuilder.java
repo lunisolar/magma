@@ -66,7 +66,7 @@ public final class LByteToIntFunctionBuilder extends PerCaseBuilderWithIntProduc
 		});
 
 	public LByteToIntFunctionBuilder(@Nullable Consumer<LByteToIntFunction> consumer) {
-		super(EVENTUALLY_THROW, LByteToIntFunction::constant);
+		super(EVENTUALLY_THROW, LByteToIntFunction::constant, () -> new LByteToIntFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LByteToIntFunctionBuilder extends PerCaseBuilderWithIntProduc
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final LByteToIntFunctionBuilder byteToIntFunction() {
+	public static LByteToIntFunctionBuilder byteToIntFunction() {
 		return new LByteToIntFunctionBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final LByteToIntFunctionBuilder byteToIntFunction(Consumer<LByteToIntFunction> consumer) {
+	public static LByteToIntFunctionBuilder byteToIntFunction(Consumer<LByteToIntFunction> consumer) {
 		return new LByteToIntFunctionBuilder(consumer);
 	}
 

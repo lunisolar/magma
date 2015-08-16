@@ -43,21 +43,21 @@ import static org.assertj.core.api.Fail.fail;
 public interface LongBinaryOperatorAssert<S extends LongBinaryOperatorAssert<S, A, RS>, A extends java.util.function.LongBinaryOperator, RS extends AbstractLongAssert<RS>>
 		extends
 			Assert<S, A>,
-			FullFunctionalAssert<S, LLongBiConsumerX<Exception>, A, RS, Long, Exception> {
+			FullFunctionalAssert<S, LBiLongConsumerX<Exception>, A, RS, Long, Exception> {
 
 	@Nonnull
-	Evaluation<S, LLongBiConsumerX<Exception>, A, RS, Long, Exception> doesApplyAsLong(long l1, long l2);
+	Evaluation<S, LBiLongConsumerX<Exception>, A, RS, Long, Exception> doesApplyAsLong(long l1, long l2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends java.util.function.LongBinaryOperator, RS extends AbstractLongAssert<RS>> extends Base<Impl<A, RS>, A, RS> {
+	public final static class The<A extends java.util.function.LongBinaryOperator, RS extends AbstractLongAssert<RS>> extends Base<The<A, RS>, A, RS> {
 
-		public Impl(A actual, java.util.function.Function<Long, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Long, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS>, A extends java.util.function.LongBinaryOperator, RS extends AbstractLongAssert<RS>> extends FullFunctionalAssert.Base<S, LLongBiConsumerX<Exception>, A, RS, Long, Exception>
+	public static class Base<S extends Base<S, A, RS>, A extends java.util.function.LongBinaryOperator, RS extends AbstractLongAssert<RS>> extends FullFunctionalAssert.Base<S, LBiLongConsumerX<Exception>, A, RS, Long, Exception>
 			implements
 				LongBinaryOperatorAssert<S, A, RS> {
 
@@ -69,9 +69,9 @@ public interface LongBinaryOperatorAssert<S extends LongBinaryOperatorAssert<S, 
 		}
 
 		@Nonnull
-		public Evaluation<S, LLongBiConsumerX<Exception>, A, RS, Long, Exception> doesApplyAsLong(long l1, long l2) {
+		public Evaluation<S, LBiLongConsumerX<Exception>, A, RS, Long, Exception> doesApplyAsLong(long l1, long l2) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(l1, l2);
 				}

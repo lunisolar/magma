@@ -75,6 +75,7 @@ public interface LConsumerX<T, X extends Throwable> extends java.util.function.C
 
 	void doAccept(T t) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default void nestingDoAccept(T t) {
 		try {
 			this.doAccept(t);
@@ -85,10 +86,12 @@ public interface LConsumerX<T, X extends Throwable> extends java.util.function.C
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default void shovingDoAccept(T t) {
 		((LConsumerX<T, RuntimeException>) this).doAccept(t);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> void handlingDoAccept(T t, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -98,7 +101,7 @@ public interface LConsumerX<T, X extends Throwable> extends java.util.function.C
 		}
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LConsumerX.DESCRIPTION;
@@ -131,7 +134,7 @@ public interface LConsumerX<T, X extends Throwable> extends java.util.function.C
 		return other::accept;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T, X extends Throwable> LConsumerX<T, X> wrapX(final @Nonnull LConsumer<T> other) {
 		return (LConsumerX) other;
@@ -141,11 +144,9 @@ public interface LConsumerX<T, X extends Throwable> extends java.util.function.C
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LConsumerX<V1, X> consFrom(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1) {
+	default <V1> LConsumerX<V1, X> consCompose(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doApply(v1));
 	}
@@ -178,12 +179,12 @@ public interface LConsumerX<T, X extends Throwable> extends java.util.function.C
 		return this::nestingDoAccept;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LConsumer<T> shovingCons() {
 		return this::shovingDoAccept;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LConsumerX<T, RuntimeException> shovingConsX() {
 		return this::shovingDoAccept;
 	}
@@ -192,11 +193,13 @@ public interface LConsumerX<T, X extends Throwable> extends java.util.function.C
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LConsumer<T> handleCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return t -> this.handlingDoAccept(t, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LConsumerX<T, Y> handleConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return t -> this.handlingDoAccept(t, handling);

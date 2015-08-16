@@ -115,7 +115,7 @@ public class LShortToLongFunctionBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LShortToLongFunction function = shortToLongFunction((LShortToLongFunction f)-> doNothing())
-            .addCase(ce -> ce.of(s -> s == (short)0)
+            .aCase(ce -> ce.of(s -> s == (short)0)
                              .evaluate(s -> (long)0))
             .inCase(s -> s > 0 && s < 10).evaluate(s -> (long)1)
             .inCase(s -> s > 10 && s < 20).evaluate(s -> (long)2)

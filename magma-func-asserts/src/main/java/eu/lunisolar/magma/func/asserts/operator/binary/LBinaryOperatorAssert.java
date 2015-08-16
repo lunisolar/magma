@@ -47,10 +47,10 @@ public interface LBinaryOperatorAssert<S extends LBinaryOperatorAssert<S, A, RS,
 	Evaluation<S, LBiConsumerX<T, T, Exception>, A, RS, T, Exception> doesApply(T t1, T t2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LBinaryOperator<T>, RS extends Assert<RS, T>, T> extends Base<Impl<A, RS, T>, A, RS, T> {
+	public final static class The<A extends LBinaryOperator<T>, RS extends Assert<RS, T>, T> extends Base<The<A, RS, T>, A, RS, T> {
 
-		public Impl(A actual, java.util.function.Function<T, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<T, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
@@ -67,7 +67,7 @@ public interface LBinaryOperatorAssert<S extends LBinaryOperatorAssert<S, A, RS,
 		@Nonnull
 		public Evaluation<S, LBiConsumerX<T, T, Exception>, A, RS, T, Exception> doesApply(T t1, T t2) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(t1, t2);
 				}

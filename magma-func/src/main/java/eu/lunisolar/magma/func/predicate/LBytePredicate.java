@@ -64,10 +64,12 @@ public interface LBytePredicate extends LBytePredicateX<RuntimeException>, MetaP
 
 	boolean doTest(byte b);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default boolean nestingDoTest(byte b) {
 		return this.doTest(b);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default boolean shovingDoTest(byte b) {
 		return this.doTest(b);
 	}
@@ -77,23 +79,24 @@ public interface LBytePredicate extends LBytePredicateX<RuntimeException>, MetaP
 		return doTest(b);
 	}
 
-	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
+	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
 	default boolean doApplyAsBoolean(byte b) {
 		return doTest(b);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LBytePredicate.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier captureBPred(byte b) {
+	default LBooleanSupplier captureBytePred(byte b) {
 		return () -> this.doTest(b);
 	}
 
+	/** Creates function that always returns the same value. */
 	static LBytePredicate constant(boolean r) {
 		return b -> r;
 	}
@@ -107,7 +110,7 @@ public interface LBytePredicate extends LBytePredicateX<RuntimeException>, MetaP
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LBytePredicate wrap(final @Nonnull LBytePredicateX<X> other) {
 		return other::nestingDoTest;
@@ -117,7 +120,9 @@ public interface LBytePredicate extends LBytePredicateX<RuntimeException>, MetaP
 	// <editor-fold desc="predicate">
 
 	/**
-	 *  @see {@link java.util.function.Predicate#negate()}
+	 * Returns a predicate that represents the logical negation of this predicate.
+	 *
+	 * @see {@link java.util.function.Predicate#negate}
 	 */
 	@Nonnull
 	default LBytePredicate negate() {
@@ -125,7 +130,8 @@ public interface LBytePredicate extends LBytePredicateX<RuntimeException>, MetaP
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#and()}
+	 * Returns a predicate that represents the logical AND of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#and()}
 	 */
 	@Nonnull
 	default LBytePredicate and(@Nonnull LBytePredicate other) {
@@ -134,7 +140,8 @@ public interface LBytePredicate extends LBytePredicateX<RuntimeException>, MetaP
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LBytePredicate or(@Nonnull LBytePredicate other) {
@@ -143,7 +150,8 @@ public interface LBytePredicate extends LBytePredicateX<RuntimeException>, MetaP
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical XOR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LBytePredicate xor(@Nonnull LBytePredicate other) {
@@ -151,6 +159,10 @@ public interface LBytePredicate extends LBytePredicateX<RuntimeException>, MetaP
 		return b -> doTest(b) ^ other.doTest(b);
 	}
 
+	/**
+	 * Creates predicate that evaluates if an object is equal with the argument one.
+	 * @see {@link java.util.function.Predicate#isEqual()
+	 */
 	@Nonnull
 	static LBytePredicate isEqual(byte target) {
 		return b -> b == target;
@@ -160,20 +172,16 @@ public interface LBytePredicate extends LBytePredicateX<RuntimeException>, MetaP
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LBytePredicate bPredFromByte(@Nonnull final LByteUnaryOperator before1) {
+	default LBytePredicate bytePredComposeByte(@Nonnull final LByteUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doTest(before1.doApplyAsByte(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LPredicate<V1> bPredFrom(@Nonnull final LToByteFunction<? super V1> before1) {
+	default <V1> LPredicate<V1> bytePredCompose(@Nonnull final LToByteFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doTest(before1.doApplyAsByte(v1));
 	}
@@ -250,23 +258,23 @@ public interface LBytePredicate extends LBytePredicateX<RuntimeException>, MetaP
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBytePredicate nestingBPred() {
+	default LBytePredicate nestingBytePred() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBytePredicateX<RuntimeException> nestingBPredX() {
+	default LBytePredicateX<RuntimeException> nestingBytePredX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBytePredicate shovingBPred() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBytePredicate shovingBytePred() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBytePredicateX<RuntimeException> shovingBPredX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBytePredicateX<RuntimeException> shovingBytePredX() {
 		return this;
 	}
 

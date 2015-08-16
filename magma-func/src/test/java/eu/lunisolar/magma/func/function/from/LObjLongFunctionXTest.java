@@ -287,7 +287,7 @@ public class LObjLongFunctionXTest<T,R,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testobjLongFuncFromLong() throws X {
+    public void testobjLongFuncComposeLong() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -312,7 +312,7 @@ public class LObjLongFunctionXTest<T,R,X extends ParseException> {
         };
 
         //when
-        LObjLongFunctionX<Integer ,Integer ,X> function = sutO.objLongFuncFromLong(before1,before2);
+        LObjLongFunctionX<Integer ,Integer ,X> function = sutO.objLongFuncComposeLong(before1,before2);
         function.doApply((Integer )Integer.valueOf(80),(long)81);
 
         //then - finals
@@ -322,7 +322,7 @@ public class LObjLongFunctionXTest<T,R,X extends ParseException> {
 
 
     @Test
-    public void testobjLongFuncFrom() throws X {
+    public void testobjLongFuncCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -347,7 +347,7 @@ public class LObjLongFunctionXTest<T,R,X extends ParseException> {
         };
 
         //when
-        LBiFunctionX<Integer ,Integer ,Integer ,X> function = sutO.objLongFuncFrom(before1,before2);
+        LBiFunctionX<Integer ,Integer ,Integer ,X> function = sutO.objLongFuncCompose(before1,before2);
         function.doApply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals

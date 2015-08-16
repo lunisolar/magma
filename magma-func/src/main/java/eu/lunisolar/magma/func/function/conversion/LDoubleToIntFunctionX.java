@@ -74,6 +74,7 @@ public interface LDoubleToIntFunctionX<X extends Throwable> extends java.util.fu
 
 	int doApplyAsInt(double d) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default int nestingDoApplyAsInt(double d) {
 		try {
 			return this.doApplyAsInt(d);
@@ -84,10 +85,12 @@ public interface LDoubleToIntFunctionX<X extends Throwable> extends java.util.fu
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default int shovingDoApplyAsInt(double d) {
 		return ((LDoubleToIntFunctionX<RuntimeException>) this).doApplyAsInt(d);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> int handlingDoApplyAsInt(double d, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -102,17 +105,18 @@ public interface LDoubleToIntFunctionX<X extends Throwable> extends java.util.fu
 		return doApplyAsInt(d);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LDoubleToIntFunctionX.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LIntSupplierX<X> captureDToIFunc(double d) {
+	default LIntSupplierX<X> captureDoubleToIntFunc(double d) {
 		return () -> this.doApplyAsInt(d);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LDoubleToIntFunctionX<X> constant(int r) {
 		return d -> r;
 	}
@@ -139,7 +143,7 @@ public interface LDoubleToIntFunctionX<X extends Throwable> extends java.util.fu
 		return other::applyAsInt;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LDoubleToIntFunctionX<X> wrapX(final @Nonnull LDoubleToIntFunction other) {
 		return (LDoubleToIntFunctionX) other;
@@ -149,20 +153,16 @@ public interface LDoubleToIntFunctionX<X extends Throwable> extends java.util.fu
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LDoubleToIntFunctionX<X> dToIFuncFromDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1) {
+	default LDoubleToIntFunctionX<X> doubleToIntFuncComposeDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsInt(before1.doApplyAsDouble(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToIntFunctionX<V1, X> dToIFuncFrom(@Nonnull final LToDoubleFunctionX<? super V1, X> before1) {
+	default <V1> LToIntFunctionX<V1, X> doubleToIntFuncCompose(@Nonnull final LToDoubleFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsInt(before1.doApplyAsDouble(v1));
 	}
@@ -239,23 +239,23 @@ public interface LDoubleToIntFunctionX<X extends Throwable> extends java.util.fu
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoubleToIntFunction nestingDToIFunc() {
+	default LDoubleToIntFunction nestingDoubleToIntFunc() {
 		return this::nestingDoApplyAsInt;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoubleToIntFunctionX<RuntimeException> nestingDToIFuncX() {
+	default LDoubleToIntFunctionX<RuntimeException> nestingDoubleToIntFuncX() {
 		return this::nestingDoApplyAsInt;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleToIntFunction shovingDToIFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoubleToIntFunction shovingDoubleToIntFunc() {
 		return this::shovingDoApplyAsInt;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleToIntFunctionX<RuntimeException> shovingDToIFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoubleToIntFunctionX<RuntimeException> shovingDoubleToIntFuncX() {
 		return this::shovingDoApplyAsInt;
 	}
 
@@ -263,13 +263,15 @@ public interface LDoubleToIntFunctionX<X extends Throwable> extends java.util.fu
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LDoubleToIntFunction handleDToIFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LDoubleToIntFunction handleDoubleToIntFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return d -> this.handlingDoApplyAsInt(d, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LDoubleToIntFunctionX<Y> handleDToIFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LDoubleToIntFunctionX<Y> handleDoubleToIntFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return d -> this.handlingDoApplyAsInt(d, handling);
 	}
 

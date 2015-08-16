@@ -115,7 +115,7 @@ public class LObjDoubleFunctionXBuilderTest<T,R,X extends Throwable>{
     public void testBuild() throws X {
 
         LObjDoubleFunctionX<Integer ,Integer ,ParseException> function = objDoubleFunctionX((LObjDoubleFunctionX<Integer ,Integer ,ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((t, d) -> t == Integer.valueOf(0))
+            .aCase(ce -> ce.of((t, d) -> t == Integer.valueOf(0))
                              .evaluate((t, d) -> Integer.valueOf(0)))
             .inCase((t, d) -> t > 0 && t < 10).evaluate((t, d) -> Integer.valueOf(1))
             .inCase((t, d) -> t > 10 && t < 20).evaluate((t, d) -> Integer.valueOf(2))

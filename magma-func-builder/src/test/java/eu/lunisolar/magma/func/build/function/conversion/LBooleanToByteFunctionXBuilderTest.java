@@ -115,7 +115,7 @@ public class LBooleanToByteFunctionXBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LBooleanToByteFunctionX<ParseException> function = booleanToByteFunctionX((LBooleanToByteFunctionX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of(b -> b == false)
+            .aCase(ce -> ce.of(b -> b == false)
                              .evaluate(b -> (byte)0))
             .inCase(b -> b == true ).evaluate(b -> (byte)1)
             .eventually(b -> (byte)99)

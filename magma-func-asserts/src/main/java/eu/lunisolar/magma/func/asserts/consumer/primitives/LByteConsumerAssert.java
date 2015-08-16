@@ -47,10 +47,10 @@ public interface LByteConsumerAssert<S extends LByteConsumerAssert<S, A>, A exte
 	SemiEvaluation<S, LByteConsumerX<Exception>, A, Exception> doesAccept(byte b);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LByteConsumer> extends Base<Impl<A>, A> {
+	public final static class The<A extends LByteConsumer> extends Base<The<A>, A> {
 
-		public Impl(A actual) {
-			super(actual, Impl.class);
+		public The(A actual) {
+			super(actual, The.class);
 		}
 	}
 
@@ -64,7 +64,7 @@ public interface LByteConsumerAssert<S extends LByteConsumerAssert<S, A>, A exte
 		@Nonnull
 		public SemiEvaluation<S, LByteConsumerX<Exception>, A, Exception> doesAccept(byte b) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(b);
 				}

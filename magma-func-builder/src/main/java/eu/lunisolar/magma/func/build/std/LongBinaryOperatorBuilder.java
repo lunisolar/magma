@@ -65,7 +65,7 @@ public final class LongBinaryOperatorBuilder extends PerCaseBuilderWithLongProdu
 		});
 
 	public LongBinaryOperatorBuilder(@Nullable Consumer<java.util.function.LongBinaryOperator> consumer) {
-		super(EVENTUALLY_THROW, LLongBinaryOperator::constant);
+		super(EVENTUALLY_THROW, LLongBinaryOperator::constant, () -> new LongBinaryOperatorBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -77,13 +77,13 @@ public final class LongBinaryOperatorBuilder extends PerCaseBuilderWithLongProdu
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final LongBinaryOperatorBuilder longBinaryOperator() {
+	public static LongBinaryOperatorBuilder longBinaryOperator() {
 		return new LongBinaryOperatorBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final LongBinaryOperatorBuilder longBinaryOperator(Consumer<java.util.function.LongBinaryOperator> consumer) {
+	public static LongBinaryOperatorBuilder longBinaryOperator(Consumer<java.util.function.LongBinaryOperator> consumer) {
 		return new LongBinaryOperatorBuilder(consumer);
 	}
 

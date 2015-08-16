@@ -184,7 +184,7 @@ public class LCharToFloatFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LCharToFloatFunctionX<X> wrapped = sutThrowing.handleCToFFuncX(handler -> handler
+        LCharToFloatFunctionX<X> wrapped = sutThrowing.handleCharToFloatFuncX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -208,7 +208,7 @@ public class LCharToFloatFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LCharToFloatFunctionX<X> wrapped = sutThrowing.handleCToFFuncX(handler -> handler
+        LCharToFloatFunctionX<X> wrapped = sutThrowing.handleCharToFloatFuncX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -232,7 +232,7 @@ public class LCharToFloatFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LCharToFloatFunctionX<X> wrapped = sutThrowing.handleCToFFuncX(handler -> handler
+        LCharToFloatFunctionX<X> wrapped = sutThrowing.handleCharToFloatFuncX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -257,7 +257,7 @@ public class LCharToFloatFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LCharToFloatFunctionX<X> wrapped = sutThrowing.handleCToFFuncX(h -> Function4U.doNothing());
+        LCharToFloatFunctionX<X> wrapped = sutThrowing.handleCharToFloatFuncX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -276,7 +276,7 @@ public class LCharToFloatFunctionXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testcToFFuncFromChar() throws X {
+    public void testcharToFloatFuncComposeChar() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -295,7 +295,7 @@ public class LCharToFloatFunctionXTest<X extends ParseException> {
         };
 
         //when
-        LCharToFloatFunctionX<X> function = sutO.cToFFuncFromChar(before1);
+        LCharToFloatFunctionX<X> function = sutO.charToFloatFuncComposeChar(before1);
         function.doApplyAsFloat((char)80);
 
         //then - finals
@@ -305,7 +305,7 @@ public class LCharToFloatFunctionXTest<X extends ParseException> {
 
 
     @Test
-    public void testcToFFuncFrom() throws X {
+    public void testcharToFloatFuncCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -324,7 +324,7 @@ public class LCharToFloatFunctionXTest<X extends ParseException> {
         };
 
         //when
-        LToFloatFunctionX<Integer ,X> function = sutO.cToFFuncFrom(before1);
+        LToFloatFunctionX<Integer ,X> function = sutO.charToFloatFuncCompose(before1);
         function.doApplyAsFloat((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -656,25 +656,25 @@ public class LCharToFloatFunctionXTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nestingCToFFunc())
+        assertThat(sut.nestingCharToFloatFunc())
             .isInstanceOf(LCharToFloatFunction.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shovingCToFFunc())
+        assertThat(sut.shovingCharToFloatFunc())
             .isInstanceOf(LCharToFloatFunction.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestingCToFFuncX())
+        assertThat(sut.nestingCharToFloatFuncX())
             .isInstanceOf(LCharToFloatFunctionX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shovingCToFFuncX())
+        assertThat(sut.shovingCharToFloatFuncX())
             .isInstanceOf(LCharToFloatFunctionX.class);
     }
 
@@ -687,11 +687,11 @@ public class LCharToFloatFunctionXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shovingCToFFunc().doApplyAsFloat((char)100);
+        sutThrowing.shovingCharToFloatFunc().doApplyAsFloat((char)100);
     }
 
     @Test
-    public void testHandleCToFFunc() throws X {
+    public void testHandleCharToFloatFunc() throws X {
 
         // given
         LCharToFloatFunctionX<X> sutThrowing = LCharToFloatFunctionX.lX(c -> {
@@ -699,7 +699,7 @@ public class LCharToFloatFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LCharToFloatFunctionX<X> wrapped = sutThrowing.handleCToFFuncX(h -> {
+        LCharToFloatFunctionX<X> wrapped = sutThrowing.handleCharToFloatFuncX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 

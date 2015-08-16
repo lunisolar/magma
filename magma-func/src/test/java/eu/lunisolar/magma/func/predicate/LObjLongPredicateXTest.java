@@ -336,7 +336,7 @@ public class LObjLongPredicateXTest<T,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testobjLongPredFromLong() throws X {
+    public void testobjLongPredComposeLong() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -361,7 +361,7 @@ public class LObjLongPredicateXTest<T,X extends ParseException> {
         };
 
         //when
-        LObjLongPredicateX<Integer ,X> function = sutO.objLongPredFromLong(before1,before2);
+        LObjLongPredicateX<Integer ,X> function = sutO.objLongPredComposeLong(before1,before2);
         function.doTest((Integer )Integer.valueOf(80),(long)81);
 
         //then - finals
@@ -371,7 +371,7 @@ public class LObjLongPredicateXTest<T,X extends ParseException> {
 
 
     @Test
-    public void testobjLongPredFrom() throws X {
+    public void testobjLongPredCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -396,7 +396,7 @@ public class LObjLongPredicateXTest<T,X extends ParseException> {
         };
 
         //when
-        LBiPredicateX<Integer ,Integer ,X> function = sutO.objLongPredFrom(before1,before2);
+        LBiPredicateX<Integer ,Integer ,X> function = sutO.objLongPredCompose(before1,before2);
         function.doTest((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals

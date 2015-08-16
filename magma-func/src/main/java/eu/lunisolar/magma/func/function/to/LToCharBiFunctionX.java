@@ -64,6 +64,7 @@ public interface LToCharBiFunctionX<T1, T2, X extends Throwable> extends MetaFun
 
 	char doApplyAsChar(T1 t1, T2 t2) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default char nestingDoApplyAsChar(T1 t1, T2 t2) {
 		try {
 			return this.doApplyAsChar(t1, t2);
@@ -74,10 +75,12 @@ public interface LToCharBiFunctionX<T1, T2, X extends Throwable> extends MetaFun
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default char shovingDoApplyAsChar(T1 t1, T2 t2) {
 		return ((LToCharBiFunctionX<T1, T2, RuntimeException>) this).doApplyAsChar(t1, t2);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> char handlingDoApplyAsChar(T1 t1, T2 t2, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -92,19 +95,32 @@ public interface LToCharBiFunctionX<T1, T2, X extends Throwable> extends MetaFun
 		return doApplyAsChar(t1, t2);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LToCharBiFunctionX.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LCharSupplierX<X> captureToCBiFunc(T1 t1, T2 t2) {
+	default LCharSupplierX<X> captureToCharBiFunc(T1 t1, T2 t2) {
 		return () -> this.doApplyAsChar(t1, t2);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T1, T2, X extends Throwable> LToCharBiFunctionX<T1, T2, X> constant(char r) {
 		return (t1, t2) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T1, T2, X extends Throwable> LToCharBiFunctionX<T1, T2, X> apply1stAsChar(@Nonnull LToCharFunctionX<T1, X> func) {
+		return (t1, t2) -> func.doApplyAsChar(t1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T1, T2, X extends Throwable> LToCharBiFunctionX<T1, T2, X> apply2ndAsChar(@Nonnull LToCharFunctionX<T2, X> func) {
+		return (t1, t2) -> func.doApplyAsChar(t2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -123,7 +139,7 @@ public interface LToCharBiFunctionX<T1, T2, X extends Throwable> extends MetaFun
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T1, T2, X extends Throwable> LToCharBiFunctionX<T1, T2, X> wrapX(final @Nonnull LToCharBiFunction<T1, T2> other) {
 		return (LToCharBiFunctionX) other;
@@ -133,11 +149,9 @@ public interface LToCharBiFunctionX<T1, T2, X extends Throwable> extends MetaFun
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LToCharBiFunctionX<V1, V2, X> toCBiFuncFrom(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
+	default <V1, V2> LToCharBiFunctionX<V1, V2, X> toCharBiFuncCompose(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final V2 v2) -> this.doApplyAsChar(before1.doApply(v1), before2.doApply(v2));
@@ -159,23 +173,23 @@ public interface LToCharBiFunctionX<T1, T2, X extends Throwable> extends MetaFun
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToCharBiFunction<T1, T2> nestingToCBiFunc() {
+	default LToCharBiFunction<T1, T2> nestingToCharBiFunc() {
 		return this::nestingDoApplyAsChar;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToCharBiFunctionX<T1, T2, RuntimeException> nestingToCBiFuncX() {
+	default LToCharBiFunctionX<T1, T2, RuntimeException> nestingToCharBiFuncX() {
 		return this::nestingDoApplyAsChar;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToCharBiFunction<T1, T2> shovingToCBiFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToCharBiFunction<T1, T2> shovingToCharBiFunc() {
 		return this::shovingDoApplyAsChar;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToCharBiFunctionX<T1, T2, RuntimeException> shovingToCBiFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToCharBiFunctionX<T1, T2, RuntimeException> shovingToCharBiFuncX() {
 		return this::shovingDoApplyAsChar;
 	}
 
@@ -183,13 +197,15 @@ public interface LToCharBiFunctionX<T1, T2, X extends Throwable> extends MetaFun
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LToCharBiFunction<T1, T2> handleToCBiFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LToCharBiFunction<T1, T2> handleToCharBiFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T1 t1, T2 t2) -> this.handlingDoApplyAsChar(t1, t2, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LToCharBiFunctionX<T1, T2, Y> handleToCBiFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LToCharBiFunctionX<T1, T2, Y> handleToCharBiFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T1 t1, T2 t2) -> this.handlingDoApplyAsChar(t1, t2, handling);
 	}
 

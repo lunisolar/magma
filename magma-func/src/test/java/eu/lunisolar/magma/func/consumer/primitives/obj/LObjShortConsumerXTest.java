@@ -171,7 +171,7 @@ public class LObjShortConsumerXTest<T,X extends ParseException> {
         });
 
         // when
-        LObjShortConsumerX<T,X> wrapped = sutThrowing.handleObjSConsX(handler -> handler
+        LObjShortConsumerX<T,X> wrapped = sutThrowing.handleObjShortConsX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -195,7 +195,7 @@ public class LObjShortConsumerXTest<T,X extends ParseException> {
         });
 
         // when
-        LObjShortConsumerX<T,X> wrapped = sutThrowing.handleObjSConsX(handler -> handler
+        LObjShortConsumerX<T,X> wrapped = sutThrowing.handleObjShortConsX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -219,7 +219,7 @@ public class LObjShortConsumerXTest<T,X extends ParseException> {
         });
 
         // when
-        LObjShortConsumerX<T,X> wrapped = sutThrowing.handleObjSConsX(handler -> handler
+        LObjShortConsumerX<T,X> wrapped = sutThrowing.handleObjShortConsX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -244,7 +244,7 @@ public class LObjShortConsumerXTest<T,X extends ParseException> {
         });
 
         // when
-        LObjShortConsumerX<T,X> wrapped = sutThrowing.handleObjSConsX(h -> Function4U.doNothing());
+        LObjShortConsumerX<T,X> wrapped = sutThrowing.handleObjShortConsX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -263,7 +263,7 @@ public class LObjShortConsumerXTest<T,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testobjSConsFromShort() throws X {
+    public void testobjShortConsComposeShort() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -287,7 +287,7 @@ public class LObjShortConsumerXTest<T,X extends ParseException> {
         };
 
         //when
-        LObjShortConsumerX<Integer ,X> function = sutO.objSConsFromShort(before1,before2);
+        LObjShortConsumerX<Integer ,X> function = sutO.objShortConsComposeShort(before1,before2);
         function.doAccept((Integer )Integer.valueOf(80),(short)81);
 
         //then - finals
@@ -297,7 +297,7 @@ public class LObjShortConsumerXTest<T,X extends ParseException> {
 
 
     @Test
-    public void testobjSConsFrom() throws X {
+    public void testobjShortConsCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -321,7 +321,7 @@ public class LObjShortConsumerXTest<T,X extends ParseException> {
         };
 
         //when
-        LBiConsumerX<Integer ,Integer ,X> function = sutO.objSConsFrom(before1,before2);
+        LBiConsumerX<Integer ,Integer ,X> function = sutO.objShortConsCompose(before1,before2);
         function.doAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
@@ -362,25 +362,25 @@ public class LObjShortConsumerXTest<T,X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nestingObjSCons())
+        assertThat(sut.nestingObjShortCons())
             .isInstanceOf(LObjShortConsumer.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shovingObjSCons())
+        assertThat(sut.shovingObjShortCons())
             .isInstanceOf(LObjShortConsumer.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestingObjSConsX())
+        assertThat(sut.nestingObjShortConsX())
             .isInstanceOf(LObjShortConsumerX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shovingObjSConsX())
+        assertThat(sut.shovingObjShortConsX())
             .isInstanceOf(LObjShortConsumerX.class);
     }
 
@@ -393,11 +393,11 @@ public class LObjShortConsumerXTest<T,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shovingObjSCons().doAccept((T)Integer.valueOf(100),(short)100);
+        sutThrowing.shovingObjShortCons().doAccept((T)Integer.valueOf(100),(short)100);
     }
 
     @Test
-    public void testHandleObjSCons() throws X {
+    public void testHandleObjShortCons() throws X {
 
         // given
         LObjShortConsumerX<T,X> sutThrowing = LObjShortConsumerX.lX((T t, short s) -> {
@@ -405,7 +405,7 @@ public class LObjShortConsumerXTest<T,X extends ParseException> {
         });
 
         // when
-        LObjShortConsumerX<T,X> wrapped = sutThrowing.handleObjSConsX(h -> {
+        LObjShortConsumerX<T,X> wrapped = sutThrowing.handleObjShortConsX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 

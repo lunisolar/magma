@@ -65,15 +65,17 @@ public interface LObjBooleanConsumer<T> extends LObjBooleanConsumerX<T, RuntimeE
 
 	void doAccept(T t, boolean b);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default void nestingDoAccept(T t, boolean b) {
 		this.doAccept(t, b);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default void shovingDoAccept(T t, boolean b) {
 		this.doAccept(t, b);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LObjBooleanConsumer.DESCRIPTION;
@@ -82,6 +84,18 @@ public interface LObjBooleanConsumer<T> extends LObjBooleanConsumerX<T, RuntimeE
 	/** Captures arguments but delays the evaluation. */
 	default LAction captureObjBoolCons(T t, boolean b) {
 		return () -> this.doAccept(t, b);
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T> LObjBooleanConsumer<T> accept1st(@Nonnull LConsumer<T> func) {
+		return (t, b) -> func.doAccept(t);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T> LObjBooleanConsumer<T> accept2nd(@Nonnull LBooleanConsumer func) {
+		return (t, b) -> func.doAccept(b);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -93,7 +107,7 @@ public interface LObjBooleanConsumer<T> extends LObjBooleanConsumerX<T, RuntimeE
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T, X extends Throwable> LObjBooleanConsumer<T> wrap(final @Nonnull LObjBooleanConsumerX<T, X> other) {
 		return other::nestingDoAccept;
@@ -103,21 +117,17 @@ public interface LObjBooleanConsumer<T> extends LObjBooleanConsumerX<T, RuntimeE
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LObjBooleanConsumer<V1> objBoolConsFromBoolean(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LLogicalOperator before2) {
+	default <V1> LObjBooleanConsumer<V1> objBoolConsComposeBoolean(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LLogicalOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final boolean v2) -> this.doAccept(before1.doApply(v1), before2.doApply(v2));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiConsumer<V1, V2> objBoolConsFrom(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LPredicate<? super V2> before2) {
+	default <V1, V2> LBiConsumer<V1, V2> objBoolConsCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LPredicate<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doAccept(before1.doApply(v1), before2.doTest(v2));
@@ -151,12 +161,12 @@ public interface LObjBooleanConsumer<T> extends LObjBooleanConsumerX<T, RuntimeE
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjBooleanConsumer<T> shovingObjBoolCons() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjBooleanConsumerX<T, RuntimeException> shovingObjBoolConsX() {
 		return this;
 	}

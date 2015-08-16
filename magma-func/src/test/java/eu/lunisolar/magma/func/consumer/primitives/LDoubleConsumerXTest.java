@@ -179,7 +179,7 @@ public class LDoubleConsumerXTest<X extends ParseException> {
         });
 
         // when
-        LDoubleConsumerX<X> wrapped = sutThrowing.handleDConsX(handler -> handler
+        LDoubleConsumerX<X> wrapped = sutThrowing.handleDoubleConsX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -203,7 +203,7 @@ public class LDoubleConsumerXTest<X extends ParseException> {
         });
 
         // when
-        LDoubleConsumerX<X> wrapped = sutThrowing.handleDConsX(handler -> handler
+        LDoubleConsumerX<X> wrapped = sutThrowing.handleDoubleConsX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -227,7 +227,7 @@ public class LDoubleConsumerXTest<X extends ParseException> {
         });
 
         // when
-        LDoubleConsumerX<X> wrapped = sutThrowing.handleDConsX(handler -> handler
+        LDoubleConsumerX<X> wrapped = sutThrowing.handleDoubleConsX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -252,7 +252,7 @@ public class LDoubleConsumerXTest<X extends ParseException> {
         });
 
         // when
-        LDoubleConsumerX<X> wrapped = sutThrowing.handleDConsX(h -> Function4U.doNothing());
+        LDoubleConsumerX<X> wrapped = sutThrowing.handleDoubleConsX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -271,7 +271,7 @@ public class LDoubleConsumerXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testdConsFromDouble() throws X {
+    public void testdoubleConsComposeDouble() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -289,7 +289,7 @@ public class LDoubleConsumerXTest<X extends ParseException> {
         };
 
         //when
-        LDoubleConsumerX<X> function = sutO.dConsFromDouble(before1);
+        LDoubleConsumerX<X> function = sutO.doubleConsComposeDouble(before1);
         function.doAccept((double)80);
 
         //then - finals
@@ -299,7 +299,7 @@ public class LDoubleConsumerXTest<X extends ParseException> {
 
 
     @Test
-    public void testdConsFrom() throws X {
+    public void testdoubleConsCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -317,7 +317,7 @@ public class LDoubleConsumerXTest<X extends ParseException> {
         };
 
         //when
-        LConsumerX<Integer ,X> function = sutO.dConsFrom(before1);
+        LConsumerX<Integer ,X> function = sutO.doubleConsCompose(before1);
         function.doAccept((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -356,25 +356,25 @@ public class LDoubleConsumerXTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nestingDCons())
+        assertThat(sut.nestingDoubleCons())
             .isInstanceOf(LDoubleConsumer.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shovingDCons())
+        assertThat(sut.shovingDoubleCons())
             .isInstanceOf(LDoubleConsumer.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestingDConsX())
+        assertThat(sut.nestingDoubleConsX())
             .isInstanceOf(LDoubleConsumerX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shovingDConsX())
+        assertThat(sut.shovingDoubleConsX())
             .isInstanceOf(LDoubleConsumerX.class);
     }
 
@@ -387,11 +387,11 @@ public class LDoubleConsumerXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shovingDCons().doAccept((double)100);
+        sutThrowing.shovingDoubleCons().doAccept((double)100);
     }
 
     @Test
-    public void testHandleDCons() throws X {
+    public void testHandleDoubleCons() throws X {
 
         // given
         LDoubleConsumerX<X> sutThrowing = LDoubleConsumerX.lX(d -> {
@@ -399,7 +399,7 @@ public class LDoubleConsumerXTest<X extends ParseException> {
         });
 
         // when
-        LDoubleConsumerX<X> wrapped = sutThrowing.handleDConsX(h -> {
+        LDoubleConsumerX<X> wrapped = sutThrowing.handleDoubleConsX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 

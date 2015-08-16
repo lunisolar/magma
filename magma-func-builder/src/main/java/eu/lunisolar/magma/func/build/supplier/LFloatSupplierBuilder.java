@@ -66,7 +66,7 @@ public final class LFloatSupplierBuilder extends PerCaseBuilderWithFloatProduct.
 		});
 
 	public LFloatSupplierBuilder(@Nullable Consumer<LFloatSupplier> consumer) {
-		super(EVENTUALLY_THROW, LFloatSupplier::of);
+		super(EVENTUALLY_THROW, LFloatSupplier::of, () -> new LFloatSupplierBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LFloatSupplierBuilder extends PerCaseBuilderWithFloatProduct.
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final LFloatSupplierBuilder floatSupplier() {
+	public static LFloatSupplierBuilder floatSupplier() {
 		return new LFloatSupplierBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final LFloatSupplierBuilder floatSupplier(Consumer<LFloatSupplier> consumer) {
+	public static LFloatSupplierBuilder floatSupplier(Consumer<LFloatSupplier> consumer) {
 		return new LFloatSupplierBuilder(consumer);
 	}
 

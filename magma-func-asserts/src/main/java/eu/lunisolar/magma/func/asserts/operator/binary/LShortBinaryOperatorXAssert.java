@@ -44,21 +44,21 @@ import static org.assertj.core.api.Fail.fail;
 public interface LShortBinaryOperatorXAssert<S extends LShortBinaryOperatorXAssert<S, A, RS, X>, A extends LShortBinaryOperatorX<X>, RS extends AbstractShortAssert<RS>, X extends Throwable>
 		extends
 			Assert<S, A>,
-			FullFunctionalAssert<S, LShortBiConsumerX<Exception>, A, RS, Short, Exception> {
+			FullFunctionalAssert<S, LBiShortConsumerX<Exception>, A, RS, Short, Exception> {
 
 	@Nonnull
-	Evaluation<S, LShortBiConsumerX<Exception>, A, RS, Short, Exception> doesApplyAsShort(short s1, short s2);
+	Evaluation<S, LBiShortConsumerX<Exception>, A, RS, Short, Exception> doesApplyAsShort(short s1, short s2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LShortBinaryOperatorX<X>, RS extends AbstractShortAssert<RS>, X extends Throwable> extends Base<Impl<A, RS, X>, A, RS, X> {
+	public final static class The<A extends LShortBinaryOperatorX<X>, RS extends AbstractShortAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
 
-		public Impl(A actual, java.util.function.Function<Short, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Short, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, X>, A extends LShortBinaryOperatorX<X>, RS extends AbstractShortAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, LShortBiConsumerX<Exception>, A, RS, Short, Exception>
+	public static class Base<S extends Base<S, A, RS, X>, A extends LShortBinaryOperatorX<X>, RS extends AbstractShortAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, LBiShortConsumerX<Exception>, A, RS, Short, Exception>
 			implements
 				LShortBinaryOperatorXAssert<S, A, RS, X> {
 
@@ -70,9 +70,9 @@ public interface LShortBinaryOperatorXAssert<S extends LShortBinaryOperatorXAsse
 		}
 
 		@Nonnull
-		public Evaluation<S, LShortBiConsumerX<Exception>, A, RS, Short, Exception> doesApplyAsShort(short s1, short s2) {
+		public Evaluation<S, LBiShortConsumerX<Exception>, A, RS, Short, Exception> doesApplyAsShort(short s1, short s2) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(s1, s2);
 				}

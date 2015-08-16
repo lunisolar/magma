@@ -47,10 +47,10 @@ public interface LIntToFloatFunctionAssert<S extends LIntToFloatFunctionAssert<S
 	Evaluation<S, LIntConsumerX<Exception>, A, RS, Float, Exception> doesApplyAsFloat(int i);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LIntToFloatFunction, RS extends AbstractFloatAssert<RS>> extends Base<Impl<A, RS>, A, RS> {
+	public final static class The<A extends LIntToFloatFunction, RS extends AbstractFloatAssert<RS>> extends Base<The<A, RS>, A, RS> {
 
-		public Impl(A actual, java.util.function.Function<Float, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Float, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
@@ -69,7 +69,7 @@ public interface LIntToFloatFunctionAssert<S extends LIntToFloatFunctionAssert<S
 		@Nonnull
 		public Evaluation<S, LIntConsumerX<Exception>, A, RS, Float, Exception> doesApplyAsFloat(int i) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(i);
 				}

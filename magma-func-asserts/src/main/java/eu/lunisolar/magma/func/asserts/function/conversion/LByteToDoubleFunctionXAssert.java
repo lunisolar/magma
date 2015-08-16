@@ -50,10 +50,10 @@ public interface LByteToDoubleFunctionXAssert<S extends LByteToDoubleFunctionXAs
 	Evaluation<S, LByteConsumerX<Exception>, A, RS, Double, Exception> doesApplyAsDouble(byte b);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LByteToDoubleFunctionX<X>, RS extends AbstractDoubleAssert<RS>, X extends Throwable> extends Base<Impl<A, RS, X>, A, RS, X> {
+	public final static class The<A extends LByteToDoubleFunctionX<X>, RS extends AbstractDoubleAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
 
-		public Impl(A actual, java.util.function.Function<Double, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Double, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
@@ -72,7 +72,7 @@ public interface LByteToDoubleFunctionXAssert<S extends LByteToDoubleFunctionXAs
 		@Nonnull
 		public Evaluation<S, LByteConsumerX<Exception>, A, RS, Double, Exception> doesApplyAsDouble(byte b) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(b);
 				}

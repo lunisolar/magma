@@ -344,7 +344,7 @@ public class LBiPredicateXTest<T1,T2,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testbiPredFrom() throws X {
+    public void testbiPredCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -369,7 +369,7 @@ public class LBiPredicateXTest<T1,T2,X extends ParseException> {
         };
 
         //when
-        LBiPredicateX<Integer ,Integer ,X> function = sutO.biPredFrom(before1,before2);
+        LBiPredicateX<Integer ,Integer ,X> function = sutO.biPredCompose(before1,before2);
         function.doTest((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals

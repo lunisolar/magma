@@ -195,7 +195,7 @@ public class LByteSupplierTest<X extends ParseException> {
         });
 
         // when
-        LByteSupplier wrapped = sutThrowing.handleBSup(handler -> handler
+        LByteSupplier wrapped = sutThrowing.handleByteSup(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -219,7 +219,7 @@ public class LByteSupplierTest<X extends ParseException> {
         });
 
         // when
-        LByteSupplier wrapped = sutThrowing.handleBSup(handler -> handler
+        LByteSupplier wrapped = sutThrowing.handleByteSup(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -243,7 +243,7 @@ public class LByteSupplierTest<X extends ParseException> {
         });
 
         // when
-        LByteSupplier wrapped = sutThrowing.handleBSup(handler -> handler
+        LByteSupplier wrapped = sutThrowing.handleByteSup(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -268,7 +268,7 @@ public class LByteSupplierTest<X extends ParseException> {
         });
 
         // when
-        LByteSupplier wrapped = sutThrowing.handleBSup(h -> Function4U.doNothing());
+        LByteSupplier wrapped = sutThrowing.handleByteSup(h -> Function4U.doNothing());
 
         // then
         try {
@@ -596,28 +596,28 @@ public class LByteSupplierTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nestingBSup())
+        assertThat(sut.nestingByteSup())
             .isSameAs(sut)
             .isInstanceOf(LByteSupplier.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shovingBSup())
+        assertThat(sut.shovingByteSup())
             .isSameAs(sut)
             .isInstanceOf(LByteSupplier.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestingBSupX())
+        assertThat(sut.nestingByteSupX())
             .isSameAs(sut)
             .isInstanceOf(LByteSupplierX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shovingBSupX())
+        assertThat(sut.shovingByteSupX())
             .isSameAs(sut)
             .isInstanceOf(LByteSupplierX.class);
     }
@@ -631,11 +631,11 @@ public class LByteSupplierTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shovingBSup().doGetAsByte();
+        sutThrowing.shovingByteSup().doGetAsByte();
     }
 
     @Test
-    public void testHandleBSup() throws X {
+    public void testHandleByteSup() throws X {
 
         // given
         LByteSupplier sutThrowing = LByteSupplier.l(() -> {
@@ -643,7 +643,7 @@ public class LByteSupplierTest<X extends ParseException> {
         });
 
         // when
-        LByteSupplier wrapped = sutThrowing.handleBSup(h -> {
+        LByteSupplier wrapped = sutThrowing.handleByteSup(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 

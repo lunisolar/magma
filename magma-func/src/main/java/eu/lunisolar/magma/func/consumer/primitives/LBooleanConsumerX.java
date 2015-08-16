@@ -65,6 +65,7 @@ public interface LBooleanConsumerX<X extends Throwable> extends MetaConsumer, Me
 
 	void doAccept(boolean b) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default void nestingDoAccept(boolean b) {
 		try {
 			this.doAccept(b);
@@ -75,10 +76,12 @@ public interface LBooleanConsumerX<X extends Throwable> extends MetaConsumer, Me
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default void shovingDoAccept(boolean b) {
 		((LBooleanConsumerX<RuntimeException>) this).doAccept(b);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> void handlingDoAccept(boolean b, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -88,7 +91,7 @@ public interface LBooleanConsumerX<X extends Throwable> extends MetaConsumer, Me
 		}
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LBooleanConsumerX.DESCRIPTION;
@@ -115,7 +118,7 @@ public interface LBooleanConsumerX<X extends Throwable> extends MetaConsumer, Me
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LBooleanConsumerX<X> wrapX(final @Nonnull LBooleanConsumer other) {
 		return (LBooleanConsumerX) other;
@@ -125,20 +128,16 @@ public interface LBooleanConsumerX<X extends Throwable> extends MetaConsumer, Me
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LBooleanConsumerX<X> boolConsFromBoolean(@Nonnull final LLogicalOperatorX<X> before1) {
+	default LBooleanConsumerX<X> boolConsComposeBoolean(@Nonnull final LLogicalOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doApply(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LConsumerX<V1, X> boolConsFrom(@Nonnull final LPredicateX<? super V1, X> before1) {
+	default <V1> LConsumerX<V1, X> boolConsCompose(@Nonnull final LPredicateX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doTest(v1));
 	}
@@ -171,12 +170,12 @@ public interface LBooleanConsumerX<X extends Throwable> extends MetaConsumer, Me
 		return this::nestingDoAccept;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBooleanConsumer shovingBoolCons() {
 		return this::shovingDoAccept;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBooleanConsumerX<RuntimeException> shovingBoolConsX() {
 		return this::shovingDoAccept;
 	}
@@ -185,11 +184,13 @@ public interface LBooleanConsumerX<X extends Throwable> extends MetaConsumer, Me
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LBooleanConsumer handleBoolCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return b -> this.handlingDoAccept(b, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LBooleanConsumerX<Y> handleBoolConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return b -> this.handlingDoAccept(b, handling);

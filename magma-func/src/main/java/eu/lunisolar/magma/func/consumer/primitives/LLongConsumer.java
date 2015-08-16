@@ -75,15 +75,17 @@ public interface LLongConsumer extends LLongConsumerX<RuntimeException>, MetaCon
 
 	void doAccept(long l);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default void nestingDoAccept(long l) {
 		this.doAccept(l);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default void shovingDoAccept(long l) {
 		this.doAccept(l);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LLongConsumer.DESCRIPTION;
@@ -109,7 +111,7 @@ public interface LLongConsumer extends LLongConsumerX<RuntimeException>, MetaCon
 		return other::accept;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LLongConsumer wrap(final @Nonnull LLongConsumerX<X> other) {
 		return other::nestingDoAccept;
@@ -119,20 +121,16 @@ public interface LLongConsumer extends LLongConsumerX<RuntimeException>, MetaCon
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LLongConsumer longConsFromLong(@Nonnull final LLongUnaryOperator before1) {
+	default LLongConsumer longConsComposeLong(@Nonnull final LLongUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doApplyAsLong(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LConsumer<V1> longConsFrom(@Nonnull final LToLongFunction<? super V1> before1) {
+	default <V1> LConsumer<V1> longConsCompose(@Nonnull final LToLongFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doApplyAsLong(v1));
 	}
@@ -165,12 +163,12 @@ public interface LLongConsumer extends LLongConsumerX<RuntimeException>, MetaCon
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLongConsumer shovingLongCons() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLongConsumerX<RuntimeException> shovingLongConsX() {
 		return this;
 	}

@@ -66,7 +66,7 @@ public final class LByteToDoubleFunctionBuilder extends PerCaseBuilderWithDouble
 		});
 
 	public LByteToDoubleFunctionBuilder(@Nullable Consumer<LByteToDoubleFunction> consumer) {
-		super(EVENTUALLY_THROW, LByteToDoubleFunction::constant);
+		super(EVENTUALLY_THROW, LByteToDoubleFunction::constant, () -> new LByteToDoubleFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LByteToDoubleFunctionBuilder extends PerCaseBuilderWithDouble
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final LByteToDoubleFunctionBuilder byteToDoubleFunction() {
+	public static LByteToDoubleFunctionBuilder byteToDoubleFunction() {
 		return new LByteToDoubleFunctionBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final LByteToDoubleFunctionBuilder byteToDoubleFunction(Consumer<LByteToDoubleFunction> consumer) {
+	public static LByteToDoubleFunctionBuilder byteToDoubleFunction(Consumer<LByteToDoubleFunction> consumer) {
 		return new LByteToDoubleFunctionBuilder(consumer);
 	}
 

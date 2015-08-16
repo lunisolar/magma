@@ -115,7 +115,7 @@ public class LObjCharFunctionXBuilderTest<T,R,X extends Throwable>{
     public void testBuild() throws X {
 
         LObjCharFunctionX<Integer ,Integer ,ParseException> function = objCharFunctionX((LObjCharFunctionX<Integer ,Integer ,ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((t, c) -> t == Integer.valueOf(0))
+            .aCase(ce -> ce.of((t, c) -> t == Integer.valueOf(0))
                              .evaluate((t, c) -> Integer.valueOf(0)))
             .inCase((t, c) -> t > 0 && t < 10).evaluate((t, c) -> Integer.valueOf(1))
             .inCase((t, c) -> t > 10 && t < 20).evaluate((t, c) -> Integer.valueOf(2))

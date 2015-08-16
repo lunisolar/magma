@@ -66,7 +66,7 @@ public final class LByteUnaryOperatorXBuilder<X extends Throwable> extends PerCa
 		});
 
 	public LByteUnaryOperatorXBuilder(@Nullable Consumer<LByteUnaryOperatorX<X>> consumer) {
-		super(EVENTUALLY_THROW, LByteUnaryOperatorX::constant);
+		super(EVENTUALLY_THROW, LByteUnaryOperatorX::constant, () -> new LByteUnaryOperatorXBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LByteUnaryOperatorXBuilder<X extends Throwable> extends PerCa
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <X extends Throwable> LByteUnaryOperatorXBuilder<X> byteUnaryOperatorX() {
+	public static <X extends Throwable> LByteUnaryOperatorXBuilder<X> byteUnaryOperatorX() {
 		return new LByteUnaryOperatorXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <X extends Throwable> LByteUnaryOperatorXBuilder<X> byteUnaryOperatorX(Consumer<LByteUnaryOperatorX<X>> consumer) {
+	public static <X extends Throwable> LByteUnaryOperatorXBuilder<X> byteUnaryOperatorX(Consumer<LByteUnaryOperatorX<X>> consumer) {
 		return new LByteUnaryOperatorXBuilder(consumer);
 	}
 

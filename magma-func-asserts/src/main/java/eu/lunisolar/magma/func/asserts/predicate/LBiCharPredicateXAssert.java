@@ -44,21 +44,21 @@ import static org.assertj.core.api.Fail.fail;
 public interface LBiCharPredicateXAssert<S extends LBiCharPredicateXAssert<S, A, RS, X>, A extends LBiCharPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable>
 		extends
 			Assert<S, A>,
-			FullFunctionalAssert<S, LCharBiConsumerX<Exception>, A, RS, Boolean, Exception> {
+			FullFunctionalAssert<S, LBiCharConsumerX<Exception>, A, RS, Boolean, Exception> {
 
 	@Nonnull
-	Evaluation<S, LCharBiConsumerX<Exception>, A, RS, Boolean, Exception> doesTest(char c1, char c2);
+	Evaluation<S, LBiCharConsumerX<Exception>, A, RS, Boolean, Exception> doesTest(char c1, char c2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LBiCharPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> extends Base<Impl<A, RS, X>, A, RS, X> {
+	public final static class The<A extends LBiCharPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
 
-		public Impl(A actual, java.util.function.Function<Boolean, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Boolean, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, X>, A extends LBiCharPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, LCharBiConsumerX<Exception>, A, RS, Boolean, Exception>
+	public static class Base<S extends Base<S, A, RS, X>, A extends LBiCharPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, LBiCharConsumerX<Exception>, A, RS, Boolean, Exception>
 			implements
 				LBiCharPredicateXAssert<S, A, RS, X> {
 
@@ -70,9 +70,9 @@ public interface LBiCharPredicateXAssert<S extends LBiCharPredicateXAssert<S, A,
 		}
 
 		@Nonnull
-		public Evaluation<S, LCharBiConsumerX<Exception>, A, RS, Boolean, Exception> doesTest(char c1, char c2) {
+		public Evaluation<S, LBiCharConsumerX<Exception>, A, RS, Boolean, Exception> doesTest(char c1, char c2) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(c1, c2);
 				}

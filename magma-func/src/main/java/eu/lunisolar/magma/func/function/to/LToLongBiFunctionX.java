@@ -74,6 +74,7 @@ public interface LToLongBiFunctionX<T1, T2, X extends Throwable> extends java.ut
 
 	long doApplyAsLong(T1 t1, T2 t2) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default long nestingDoApplyAsLong(T1 t1, T2 t2) {
 		try {
 			return this.doApplyAsLong(t1, t2);
@@ -84,10 +85,12 @@ public interface LToLongBiFunctionX<T1, T2, X extends Throwable> extends java.ut
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default long shovingDoApplyAsLong(T1 t1, T2 t2) {
 		return ((LToLongBiFunctionX<T1, T2, RuntimeException>) this).doApplyAsLong(t1, t2);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> long handlingDoApplyAsLong(T1 t1, T2 t2, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -102,7 +105,7 @@ public interface LToLongBiFunctionX<T1, T2, X extends Throwable> extends java.ut
 		return doApplyAsLong(t1, t2);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LToLongBiFunctionX.DESCRIPTION;
@@ -113,8 +116,21 @@ public interface LToLongBiFunctionX<T1, T2, X extends Throwable> extends java.ut
 		return () -> this.doApplyAsLong(t1, t2);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T1, T2, X extends Throwable> LToLongBiFunctionX<T1, T2, X> constant(long r) {
 		return (t1, t2) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T1, T2, X extends Throwable> LToLongBiFunctionX<T1, T2, X> apply1stAsLong(@Nonnull LToLongFunctionX<T1, X> func) {
+		return (t1, t2) -> func.doApplyAsLong(t1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T1, T2, X extends Throwable> LToLongBiFunctionX<T1, T2, X> apply2ndAsLong(@Nonnull LToLongFunctionX<T2, X> func) {
+		return (t1, t2) -> func.doApplyAsLong(t2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -139,7 +155,7 @@ public interface LToLongBiFunctionX<T1, T2, X extends Throwable> extends java.ut
 		return other::applyAsLong;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T1, T2, X extends Throwable> LToLongBiFunctionX<T1, T2, X> wrapX(final @Nonnull LToLongBiFunction<T1, T2> other) {
 		return (LToLongBiFunctionX) other;
@@ -149,11 +165,9 @@ public interface LToLongBiFunctionX<T1, T2, X extends Throwable> extends java.ut
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LToLongBiFunctionX<V1, V2, X> toLongBiFuncFrom(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
+	default <V1, V2> LToLongBiFunctionX<V1, V2, X> toLongBiFuncCompose(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final V2 v2) -> this.doApplyAsLong(before1.doApply(v1), before2.doApply(v2));
@@ -185,12 +199,12 @@ public interface LToLongBiFunctionX<T1, T2, X extends Throwable> extends java.ut
 		return this::nestingDoApplyAsLong;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LToLongBiFunction<T1, T2> shovingToLongBiFunc() {
 		return this::shovingDoApplyAsLong;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LToLongBiFunctionX<T1, T2, RuntimeException> shovingToLongBiFuncX() {
 		return this::shovingDoApplyAsLong;
 	}
@@ -199,11 +213,13 @@ public interface LToLongBiFunctionX<T1, T2, X extends Throwable> extends java.ut
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LToLongBiFunction<T1, T2> handleToLongBiFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T1 t1, T2 t2) -> this.handlingDoApplyAsLong(t1, t2, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LToLongBiFunctionX<T1, T2, Y> handleToLongBiFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T1 t1, T2 t2) -> this.handlingDoApplyAsLong(t1, t2, handling);

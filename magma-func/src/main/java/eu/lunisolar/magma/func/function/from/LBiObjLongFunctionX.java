@@ -65,6 +65,7 @@ public interface LBiObjLongFunctionX<T1, T2, R, X extends Throwable> extends Met
 	@Nullable
 	R doApply(T1 t1, T2 t2, long l) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default R nestingDoApply(T1 t1, T2 t2, long l) {
 		try {
 			return this.doApply(t1, t2, l);
@@ -75,10 +76,12 @@ public interface LBiObjLongFunctionX<T1, T2, R, X extends Throwable> extends Met
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default R shovingDoApply(T1 t1, T2 t2, long l) {
 		return ((LBiObjLongFunctionX<T1, T2, R, RuntimeException>) this).doApply(t1, t2, l);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> R handlingDoApply(T1 t1, T2 t2, long l, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -90,13 +93,13 @@ public interface LBiObjLongFunctionX<T1, T2, R, X extends Throwable> extends Met
 
 	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
-	/** Ensures the result is not null */
+	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullDoApply(T1 t1, T2 t2, long l) throws X {
 		return Null.requireNonNull(doApply(t1, t2, l), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LBiObjLongFunctionX.DESCRIPTION;
@@ -107,8 +110,27 @@ public interface LBiObjLongFunctionX<T1, T2, R, X extends Throwable> extends Met
 		return () -> this.doApply(t1, t2, l);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T1, T2, R, X extends Throwable> LBiObjLongFunctionX<T1, T2, R, X> constant(R r) {
 		return (t1, t2, l) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T1, T2, R, X extends Throwable> LBiObjLongFunctionX<T1, T2, R, X> apply1st(@Nonnull LFunctionX<T1, R, X> func) {
+		return (t1, t2, l) -> func.doApply(t1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T1, T2, R, X extends Throwable> LBiObjLongFunctionX<T1, T2, R, X> apply2nd(@Nonnull LFunctionX<T2, R, X> func) {
+		return (t1, t2, l) -> func.doApply(t2);
+	}
+
+	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
+	@Nonnull
+	static <T1, T2, R, X extends Throwable> LBiObjLongFunctionX<T1, T2, R, X> apply3rd(@Nonnull LLongFunctionX<R, X> func) {
+		return (t1, t2, l) -> func.doApply(l);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -127,7 +149,7 @@ public interface LBiObjLongFunctionX<T1, T2, R, X extends Throwable> extends Met
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T1, T2, R, X extends Throwable> LBiObjLongFunctionX<T1, T2, R, X> wrapX(final @Nonnull LBiObjLongFunction<T1, T2, R> other) {
 		return (LBiObjLongFunctionX) other;
@@ -137,22 +159,18 @@ public interface LBiObjLongFunctionX<T1, T2, R, X extends Throwable> extends Met
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiObjLongFunctionX<V1, V2, R, X> biObjLongFuncFromLong(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LLongUnaryOperatorX<X> before3) {
+	default <V1, V2> LBiObjLongFunctionX<V1, V2, R, X> biObjLongFuncComposeLong(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LLongUnaryOperatorX<X> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
 		return (final V1 v1, final V2 v2, final long v3) -> this.doApply(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsLong(v3));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2, V3> LTriFunctionX<V1, V2, V3, R, X> biObjLongFuncFrom(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2,
+	default <V1, V2, V3> LTriFunctionX<V1, V2, V3, R, X> biObjLongFuncCompose(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2,
 			@Nonnull final LToLongFunctionX<? super V3, X> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
@@ -193,18 +211,19 @@ public interface LBiObjLongFunctionX<T1, T2, R, X extends Throwable> extends Met
 		return this::nestingDoApply;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBiObjLongFunction<T1, T2, R> shovingBiObjLongFunc() {
 		return this::shovingDoApply;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBiObjLongFunctionX<T1, T2, R, RuntimeException> shovingBiObjLongFuncX() {
 		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
+	/** Converts to function that makes sure that the result is not null. */
 	@Nonnull
 	default LBiObjLongFunctionX<T1, T2, R, X> nonNullBiObjLongFunc() {
 		return this::nonNullDoApply;
@@ -212,11 +231,13 @@ public interface LBiObjLongFunctionX<T1, T2, R, X extends Throwable> extends Met
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LBiObjLongFunction<T1, T2, R> handleBiObjLongFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T1 t1, T2 t2, long l) -> this.handlingDoApply(t1, t2, l, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LBiObjLongFunctionX<T1, T2, R, Y> handleBiObjLongFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T1 t1, T2 t2, long l) -> this.handlingDoApply(t1, t2, l, handling);

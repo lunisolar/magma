@@ -65,35 +65,50 @@ public interface LObjCharFunction<T, R> extends LObjCharFunctionX<T, R, RuntimeE
 	@Nullable
 	R doApply(T t, char c);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default R nestingDoApply(T t, char c) {
 		return this.doApply(t, c);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default R shovingDoApply(T t, char c) {
 		return this.doApply(t, c);
 	}
 
 	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
-	/** Ensures the result is not null */
+	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullDoApply(T t, char c) {
 		return Null.requireNonNull(doApply(t, c), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LObjCharFunction.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> captureObjCFunc(T t, char c) {
+	default LSupplier<R> captureObjCharFunc(T t, char c) {
 		return () -> this.doApply(t, c);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T, R> LObjCharFunction<T, R> constant(R r) {
 		return (t, c) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T, R> LObjCharFunction<T, R> apply1st(@Nonnull LFunction<T, R> func) {
+		return (t, c) -> func.doApply(t);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T, R> LObjCharFunction<T, R> apply2nd(@Nonnull LCharFunction<R> func) {
+		return (t, c) -> func.doApply(c);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -105,7 +120,7 @@ public interface LObjCharFunction<T, R> extends LObjCharFunctionX<T, R, RuntimeE
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T, R, X extends Throwable> LObjCharFunction<T, R> wrap(final @Nonnull LObjCharFunctionX<T, R, X> other) {
 		return other::nestingDoApply;
@@ -115,21 +130,17 @@ public interface LObjCharFunction<T, R> extends LObjCharFunctionX<T, R, RuntimeE
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LObjCharFunction<V1, R> objCFuncFromChar(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LCharUnaryOperator before2) {
+	default <V1> LObjCharFunction<V1, R> objCharFuncComposeChar(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LCharUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final char v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsChar(v2));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiFunction<V1, V2, R> objCFuncFrom(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToCharFunction<? super V2> before2) {
+	default <V1, V2> LBiFunction<V1, V2, R> objCharFuncCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToCharFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsChar(v2));
@@ -158,30 +169,31 @@ public interface LObjCharFunction<T, R> extends LObjCharFunctionX<T, R, RuntimeE
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjCharFunction<T, R> nestingObjCFunc() {
+	default LObjCharFunction<T, R> nestingObjCharFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjCharFunctionX<T, R, RuntimeException> nestingObjCFuncX() {
+	default LObjCharFunctionX<T, R, RuntimeException> nestingObjCharFuncX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjCharFunction<T, R> shovingObjCFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LObjCharFunction<T, R> shovingObjCharFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjCharFunctionX<T, R, RuntimeException> shovingObjCFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LObjCharFunctionX<T, R, RuntimeException> shovingObjCharFuncX() {
 		return this;
 	}
 
 	// </editor-fold>
 
+	/** Converts to function that makes sure that the result is not null. */
 	@Nonnull
-	default LObjCharFunction<T, R> nonNullObjCFunc() {
+	default LObjCharFunction<T, R> nonNullObjCharFunc() {
 		return this::nonNullDoApply;
 	}
 

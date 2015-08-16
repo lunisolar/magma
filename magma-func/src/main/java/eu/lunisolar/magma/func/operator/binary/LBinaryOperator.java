@@ -62,23 +62,25 @@ public interface LBinaryOperator<T> extends LBinaryOperatorX<T, RuntimeException
 
 	static final String DESCRIPTION = "LBinaryOperator: T doApply(T t1,T t2)";
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default T nestingDoApply(T t1, T t2) {
 		return this.doApply(t1, t2);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default T shovingDoApply(T t1, T t2) {
 		return this.doApply(t1, t2);
 	}
 
 	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
-	/** Ensures the result is not null */
+	/** Function call that ensures the result is not null */
 	@Nonnull
 	default T nonNullDoApply(T t1, T t2) {
 		return Null.requireNonNull(doApply(t1, t2), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LBinaryOperator.DESCRIPTION;
@@ -89,8 +91,21 @@ public interface LBinaryOperator<T> extends LBinaryOperatorX<T, RuntimeException
 		return () -> this.doApply(t1, t2);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T> LBinaryOperator<T> constant(T r) {
 		return (t1, t2) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T> LBinaryOperator<T> apply1st(@Nonnull LUnaryOperator<T> func) {
+		return (t1, t2) -> func.doApply(t1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T> LBinaryOperator<T> apply2nd(@Nonnull LUnaryOperator<T> func) {
+		return (t1, t2) -> func.doApply(t2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -108,15 +123,33 @@ public interface LBinaryOperator<T> extends LBinaryOperatorX<T, RuntimeException
 		return other::apply;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T, X extends Throwable> LBinaryOperator<T> wrap(final @Nonnull LBinaryOperatorX<T, X> other) {
 		return other::nestingDoApply;
 	}
 
 	// </editor-fold>
-	// <editor-fold desc="minmax/logical">
-	// </editor-fold>
+
+	/**
+	 * Creates function that returns the lesser value according to the comparator.
+	 * @see {@link java.util.function.BinaryOperator#minBy}
+	 */
+	@Nonnull
+	static <T> LBinaryOperator<T> minBy(@Nonnull Comparator<? super T> comparator) {
+		Null.nonNullArg(comparator, "comparator");
+		return (a, b) -> comparator.compare(a, b) <= 0 ? a : b;
+	}
+
+	/**
+	 * Creates function that returns the lesser value according to the comparator.
+	 * @see {@link java.util.function.BinaryOperator#maxBy}
+	 */
+	@Nonnull
+	static <T> LBinaryOperator<T> maxBy(@Nonnull Comparator<? super T> comparator) {
+		Null.nonNullArg(comparator, "comparator");
+		return (a, b) -> comparator.compare(a, b) >= 0 ? a : b;
+	}
 
 	// <editor-fold desc="then (functional)">
 
@@ -142,18 +175,19 @@ public interface LBinaryOperator<T> extends LBinaryOperatorX<T, RuntimeException
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBinaryOperator<T> shovingBinaryOp() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBinaryOperatorX<T, RuntimeException> shovingBinaryOpX() {
 		return this;
 	}
 
 	// </editor-fold>
 
+	/** Converts to function that makes sure that the result is not null. */
 	@Nonnull
 	default LBinaryOperator<T> nonNullBinaryOp() {
 		return this::nonNullDoApply;

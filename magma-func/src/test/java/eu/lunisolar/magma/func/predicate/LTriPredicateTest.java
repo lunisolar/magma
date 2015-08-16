@@ -347,7 +347,7 @@ public class LTriPredicateTest<T1,T2,T3,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testtriPredFrom() throws X {
+    public void testtriPredCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -378,7 +378,7 @@ public class LTriPredicateTest<T1,T2,T3,X extends ParseException> {
         };
 
         //when
-        LTriPredicate<Integer ,Integer ,Integer > function = sutO.triPredFrom(before1,before2,before3);
+        LTriPredicate<Integer ,Integer ,Integer > function = sutO.triPredCompose(before1,before2,before3);
         function.doTest((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(Integer )Integer.valueOf(82));
 
         //then - finals

@@ -66,7 +66,7 @@ public final class LCharToDoubleFunctionBuilder extends PerCaseBuilderWithDouble
 		});
 
 	public LCharToDoubleFunctionBuilder(@Nullable Consumer<LCharToDoubleFunction> consumer) {
-		super(EVENTUALLY_THROW, LCharToDoubleFunction::constant);
+		super(EVENTUALLY_THROW, LCharToDoubleFunction::constant, () -> new LCharToDoubleFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LCharToDoubleFunctionBuilder extends PerCaseBuilderWithDouble
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final LCharToDoubleFunctionBuilder charToDoubleFunction() {
+	public static LCharToDoubleFunctionBuilder charToDoubleFunction() {
 		return new LCharToDoubleFunctionBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final LCharToDoubleFunctionBuilder charToDoubleFunction(Consumer<LCharToDoubleFunction> consumer) {
+	public static LCharToDoubleFunctionBuilder charToDoubleFunction(Consumer<LCharToDoubleFunction> consumer) {
 		return new LCharToDoubleFunctionBuilder(consumer);
 	}
 

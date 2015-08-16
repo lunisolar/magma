@@ -75,23 +75,37 @@ public interface LObjDoubleConsumer<T> extends LObjDoubleConsumerX<T, RuntimeExc
 
 	void doAccept(T t, double d);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default void nestingDoAccept(T t, double d) {
 		this.doAccept(t, d);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default void shovingDoAccept(T t, double d) {
 		this.doAccept(t, d);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LObjDoubleConsumer.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LAction captureObjDCons(T t, double d) {
+	default LAction captureObjDoubleCons(T t, double d) {
 		return () -> this.doAccept(t, d);
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T> LObjDoubleConsumer<T> accept1st(@Nonnull LConsumer<T> func) {
+		return (t, d) -> func.doAccept(t);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T> LObjDoubleConsumer<T> accept2nd(@Nonnull LDoubleConsumer func) {
+		return (t, d) -> func.doAccept(d);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -109,7 +123,7 @@ public interface LObjDoubleConsumer<T> extends LObjDoubleConsumerX<T, RuntimeExc
 		return other::accept;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T, X extends Throwable> LObjDoubleConsumer<T> wrap(final @Nonnull LObjDoubleConsumerX<T, X> other) {
 		return other::nestingDoAccept;
@@ -119,21 +133,17 @@ public interface LObjDoubleConsumer<T> extends LObjDoubleConsumerX<T, RuntimeExc
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LObjDoubleConsumer<V1> objDConsFromDouble(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LDoubleUnaryOperator before2) {
+	default <V1> LObjDoubleConsumer<V1> objDoubleConsComposeDouble(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LDoubleUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final double v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsDouble(v2));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiConsumer<V1, V2> objDConsFrom(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToDoubleFunction<? super V2> before2) {
+	default <V1, V2> LBiConsumer<V1, V2> objDoubleConsCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToDoubleFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsDouble(v2));
@@ -157,23 +167,23 @@ public interface LObjDoubleConsumer<T> extends LObjDoubleConsumerX<T, RuntimeExc
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjDoubleConsumer<T> nestingObjDCons() {
+	default LObjDoubleConsumer<T> nestingObjDoubleCons() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjDoubleConsumerX<T, RuntimeException> nestingObjDConsX() {
+	default LObjDoubleConsumerX<T, RuntimeException> nestingObjDoubleConsX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjDoubleConsumer<T> shovingObjDCons() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LObjDoubleConsumer<T> shovingObjDoubleCons() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjDoubleConsumerX<T, RuntimeException> shovingObjDConsX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LObjDoubleConsumerX<T, RuntimeException> shovingObjDoubleConsX() {
 		return this;
 	}
 

@@ -46,10 +46,10 @@ public interface LongConsumerAssert<S extends LongConsumerAssert<S, A>, A extend
 	SemiEvaluation<S, LLongConsumerX<Exception>, A, Exception> doesAccept(long l);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends java.util.function.LongConsumer> extends Base<Impl<A>, A> {
+	public final static class The<A extends java.util.function.LongConsumer> extends Base<The<A>, A> {
 
-		public Impl(A actual) {
-			super(actual, Impl.class);
+		public The(A actual) {
+			super(actual, The.class);
 		}
 	}
 
@@ -63,7 +63,7 @@ public interface LongConsumerAssert<S extends LongConsumerAssert<S, A>, A extend
 		@Nonnull
 		public SemiEvaluation<S, LLongConsumerX<Exception>, A, Exception> doesAccept(long l) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(l);
 				}

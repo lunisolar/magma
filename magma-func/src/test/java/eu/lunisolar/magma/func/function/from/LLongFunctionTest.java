@@ -306,7 +306,7 @@ public class LLongFunctionTest<R,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testlongFuncFromLong() throws X {
+    public void testlongFuncComposeLong() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -325,7 +325,7 @@ public class LLongFunctionTest<R,X extends ParseException> {
         };
 
         //when
-        LLongFunction<Integer > function = sutO.longFuncFromLong(before1);
+        LLongFunction<Integer > function = sutO.longFuncComposeLong(before1);
         function.doApply((long)80);
 
         //then - finals
@@ -335,7 +335,7 @@ public class LLongFunctionTest<R,X extends ParseException> {
 
 
     @Test
-    public void testlongFuncFrom() throws X {
+    public void testlongFuncCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -354,7 +354,7 @@ public class LLongFunctionTest<R,X extends ParseException> {
         };
 
         //when
-        LFunction<Integer ,Integer > function = sutO.longFuncFrom(before1);
+        LFunction<Integer ,Integer > function = sutO.longFuncCompose(before1);
         function.doApply((Integer )Integer.valueOf(80));
 
         //then - finals

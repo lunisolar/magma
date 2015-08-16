@@ -68,6 +68,7 @@ public interface LActionX<X extends Throwable> extends Runnable, MetaAction, Met
 
 	void doExecute() throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default void nestingDoExecute() {
 		try {
 			this.doExecute();
@@ -78,10 +79,12 @@ public interface LActionX<X extends Throwable> extends Runnable, MetaAction, Met
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default void shovingDoExecute() {
 		((LActionX<RuntimeException>) this).doExecute();
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> void handlingDoExecute(HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -91,7 +94,7 @@ public interface LActionX<X extends Throwable> extends Runnable, MetaAction, Met
 		}
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LActionX.DESCRIPTION;
@@ -119,7 +122,7 @@ public interface LActionX<X extends Throwable> extends Runnable, MetaAction, Met
 		return other::run;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LActionX<X> wrapX(final @Nonnull LAction other) {
 		return (LActionX) other;
@@ -153,12 +156,12 @@ public interface LActionX<X extends Throwable> extends Runnable, MetaAction, Met
 		return this::nestingDoExecute;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LAction shovingAct() {
 		return this::shovingDoExecute;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LActionX<RuntimeException> shovingActX() {
 		return this::shovingDoExecute;
 	}
@@ -167,11 +170,13 @@ public interface LActionX<X extends Throwable> extends Runnable, MetaAction, Met
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LAction handleAct(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return () -> this.handlingDoExecute(handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LActionX<Y> handleActX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return () -> this.handlingDoExecute(handling);

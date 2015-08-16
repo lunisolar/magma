@@ -116,7 +116,7 @@ public class LLongConsumerBuilderTest<X extends Throwable>{
         final AtomicInteger externalEffect = new AtomicInteger(0);
 
         LLongConsumer function = longConsumer((LLongConsumer f)-> doNothing())
-            .addCase(ce -> ce.of(l -> l == (long)0)
+            .aCase(ce -> ce.of(l -> l == (long)0)
                              .evaluate(l -> externalEffect.set(0)))
             .inCase(l -> l > 0 && l < 10).evaluate(l -> externalEffect.set(1))
             .inCase(l -> l > 10 && l < 20).evaluate(l -> externalEffect.set(2))

@@ -66,7 +66,7 @@ public final class LToByteFunctionBuilder<T> extends PerCaseBuilderWithByteProdu
 		});
 
 	public LToByteFunctionBuilder(@Nullable Consumer<LToByteFunction<T>> consumer) {
-		super(EVENTUALLY_THROW, LToByteFunction::constant);
+		super(EVENTUALLY_THROW, LToByteFunction::constant, () -> new LToByteFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LToByteFunctionBuilder<T> extends PerCaseBuilderWithByteProdu
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <T> LToByteFunctionBuilder<T> toByteFunction() {
+	public static <T> LToByteFunctionBuilder<T> toByteFunction() {
 		return new LToByteFunctionBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <T> LToByteFunctionBuilder<T> toByteFunction(Consumer<LToByteFunction<T>> consumer) {
+	public static <T> LToByteFunctionBuilder<T> toByteFunction(Consumer<LToByteFunction<T>> consumer) {
 		return new LToByteFunctionBuilder(consumer);
 	}
 
@@ -96,6 +96,24 @@ public final class LToByteFunctionBuilder<T> extends PerCaseBuilderWithByteProdu
 			throw new UnsupportedOperationException("Handling is already set for this builder.");
 		}
 		this.handling = handling;
+		return self();
+	}
+
+	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
+	@Nonnull
+	public <E1 extends T> LToByteFunctionBuilder<T> casesOf(Class<E1> argC1, Consumer<LToByteFunctionBuilder<E1>> pcpConsumer) {
+		PartialCaseWithByteProduct.The pc = partialCaseFactoryMethod(t -> (argC1 == null || argC1.isInstance(t)));
+
+		pc.specifySubCases((Consumer) pcpConsumer);
+		return self();
+	}
+
+	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
+	@Nonnull
+	public <E1 extends T> LToByteFunctionBuilder<T> aCase(Class<E1> argC1, LToByteFunction<E1> function) {
+		PartialCaseWithByteProduct.The pc = partialCaseFactoryMethod(t -> (argC1 == null || argC1.isInstance(t)));
+
+		pc.evaluate(function);
 		return self();
 	}
 

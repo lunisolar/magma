@@ -64,10 +64,12 @@ public interface LCharSupplier extends LCharSupplierX<RuntimeException>, MetaSup
 
 	char doGetAsChar();
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default char nestingDoGetAsChar() {
 		return this.doGetAsChar();
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default char shovingDoGetAsChar() {
 		return this.doGetAsChar();
 	}
@@ -77,12 +79,13 @@ public interface LCharSupplier extends LCharSupplierX<RuntimeException>, MetaSup
 		return doGetAsChar();
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LCharSupplier.DESCRIPTION;
 	}
 
+	/** Creates function that always returns the same value. */
 	static LCharSupplier of(char r) {
 		return () -> r;
 	}
@@ -96,7 +99,7 @@ public interface LCharSupplier extends LCharSupplierX<RuntimeException>, MetaSup
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LCharSupplier wrap(final @Nonnull LCharSupplierX<X> other) {
 		return other::nestingDoGetAsChar;
@@ -174,23 +177,23 @@ public interface LCharSupplier extends LCharSupplierX<RuntimeException>, MetaSup
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LCharSupplier nestingCSup() {
+	default LCharSupplier nestingCharSup() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LCharSupplierX<RuntimeException> nestingCSupX() {
+	default LCharSupplierX<RuntimeException> nestingCharSupX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharSupplier shovingCSup() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LCharSupplier shovingCharSup() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharSupplierX<RuntimeException> shovingCSupX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LCharSupplierX<RuntimeException> shovingCharSupX() {
 		return this;
 	}
 

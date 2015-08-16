@@ -50,10 +50,10 @@ public interface LTernaryOperatorXAssert<S extends LTernaryOperatorXAssert<S, A,
 	Evaluation<S, LTriConsumerX<T, T, T, Exception>, A, RS, T, Exception> doesApply(T t1, T t2, T t3);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LTernaryOperatorX<T, X>, RS extends Assert<RS, T>, T, X extends Throwable> extends Base<Impl<A, RS, T, X>, A, RS, T, X> {
+	public final static class The<A extends LTernaryOperatorX<T, X>, RS extends Assert<RS, T>, T, X extends Throwable> extends Base<The<A, RS, T, X>, A, RS, T, X> {
 
-		public Impl(A actual, java.util.function.Function<T, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<T, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
@@ -72,7 +72,7 @@ public interface LTernaryOperatorXAssert<S extends LTernaryOperatorXAssert<S, A,
 		@Nonnull
 		public Evaluation<S, LTriConsumerX<T, T, T, Exception>, A, RS, T, Exception> doesApply(T t1, T t2, T t3) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(t1, t2, t3);
 				}

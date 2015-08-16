@@ -115,7 +115,7 @@ public class LLongToDoubleFunctionXBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LLongToDoubleFunctionX<ParseException> function = longToDoubleFunctionX((LLongToDoubleFunctionX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of(l -> l == (long)0)
+            .aCase(ce -> ce.of(l -> l == (long)0)
                              .evaluate(l -> (double)0))
             .inCase(l -> l > 0 && l < 10).evaluate(l -> (double)1)
             .inCase(l -> l > 10 && l < 20).evaluate(l -> (double)2)

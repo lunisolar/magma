@@ -75,33 +75,36 @@ public interface LDoubleFunction<R> extends LDoubleFunctionX<R, RuntimeException
 	@Nullable
 	R doApply(double d);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default R nestingDoApply(double d) {
 		return this.doApply(d);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default R shovingDoApply(double d) {
 		return this.doApply(d);
 	}
 
 	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
-	/** Ensures the result is not null */
+	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullDoApply(double d) {
 		return Null.requireNonNull(doApply(d), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LDoubleFunction.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> captureDFunc(double d) {
+	default LSupplier<R> captureDoubleFunc(double d) {
 		return () -> this.doApply(d);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <R> LDoubleFunction<R> constant(R r) {
 		return d -> r;
 	}
@@ -121,7 +124,7 @@ public interface LDoubleFunction<R> extends LDoubleFunctionX<R, RuntimeException
 		return other::apply;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <R, X extends Throwable> LDoubleFunction<R> wrap(final @Nonnull LDoubleFunctionX<R, X> other) {
 		return other::nestingDoApply;
@@ -131,20 +134,16 @@ public interface LDoubleFunction<R> extends LDoubleFunctionX<R, RuntimeException
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LDoubleFunction<R> dFuncFromDouble(@Nonnull final LDoubleUnaryOperator before1) {
+	default LDoubleFunction<R> doubleFuncComposeDouble(@Nonnull final LDoubleUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doApplyAsDouble(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LFunction<V1, R> dFuncFrom(@Nonnull final LToDoubleFunction<? super V1> before1) {
+	default <V1> LFunction<V1, R> doubleFuncCompose(@Nonnull final LToDoubleFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doApplyAsDouble(v1));
 	}
@@ -228,30 +227,31 @@ public interface LDoubleFunction<R> extends LDoubleFunctionX<R, RuntimeException
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoubleFunction<R> nestingDFunc() {
+	default LDoubleFunction<R> nestingDoubleFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoubleFunctionX<R, RuntimeException> nestingDFuncX() {
+	default LDoubleFunctionX<R, RuntimeException> nestingDoubleFuncX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleFunction<R> shovingDFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoubleFunction<R> shovingDoubleFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleFunctionX<R, RuntimeException> shovingDFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoubleFunctionX<R, RuntimeException> shovingDoubleFuncX() {
 		return this;
 	}
 
 	// </editor-fold>
 
+	/** Converts to function that makes sure that the result is not null. */
 	@Nonnull
-	default LDoubleFunction<R> nonNullDFunc() {
+	default LDoubleFunction<R> nonNullDoubleFunc() {
 		return this::nonNullDoApply;
 	}
 

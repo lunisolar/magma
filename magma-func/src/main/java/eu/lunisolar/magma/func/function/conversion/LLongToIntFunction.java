@@ -74,10 +74,12 @@ public interface LLongToIntFunction extends LLongToIntFunctionX<RuntimeException
 
 	int doApplyAsInt(long l);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default int nestingDoApplyAsInt(long l) {
 		return this.doApplyAsInt(l);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default int shovingDoApplyAsInt(long l) {
 		return this.doApplyAsInt(l);
 	}
@@ -87,17 +89,18 @@ public interface LLongToIntFunction extends LLongToIntFunctionX<RuntimeException
 		return doApplyAsInt(l);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LLongToIntFunction.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LIntSupplier captureLongToIFunc(long l) {
+	default LIntSupplier captureLongToIntFunc(long l) {
 		return () -> this.doApplyAsInt(l);
 	}
 
+	/** Creates function that always returns the same value. */
 	static LLongToIntFunction constant(int r) {
 		return l -> r;
 	}
@@ -117,7 +120,7 @@ public interface LLongToIntFunction extends LLongToIntFunctionX<RuntimeException
 		return other::applyAsInt;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LLongToIntFunction wrap(final @Nonnull LLongToIntFunctionX<X> other) {
 		return other::nestingDoApplyAsInt;
@@ -127,20 +130,16 @@ public interface LLongToIntFunction extends LLongToIntFunctionX<RuntimeException
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LLongToIntFunction longToIFuncFromLong(@Nonnull final LLongUnaryOperator before1) {
+	default LLongToIntFunction longToIntFuncComposeLong(@Nonnull final LLongUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsInt(before1.doApplyAsLong(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToIntFunction<V1> longToIFuncFrom(@Nonnull final LToLongFunction<? super V1> before1) {
+	default <V1> LToIntFunction<V1> longToIntFuncCompose(@Nonnull final LToLongFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsInt(before1.doApplyAsLong(v1));
 	}
@@ -217,23 +216,23 @@ public interface LLongToIntFunction extends LLongToIntFunctionX<RuntimeException
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LLongToIntFunction nestingLongToIFunc() {
+	default LLongToIntFunction nestingLongToIntFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LLongToIntFunctionX<RuntimeException> nestingLongToIFuncX() {
+	default LLongToIntFunctionX<RuntimeException> nestingLongToIntFuncX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LLongToIntFunction shovingLongToIFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LLongToIntFunction shovingLongToIntFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LLongToIntFunctionX<RuntimeException> shovingLongToIFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LLongToIntFunctionX<RuntimeException> shovingLongToIntFuncX() {
 		return this;
 	}
 

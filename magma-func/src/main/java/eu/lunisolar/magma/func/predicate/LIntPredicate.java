@@ -74,10 +74,12 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 
 	boolean doTest(int i);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default boolean nestingDoTest(int i) {
 		return this.doTest(i);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default boolean shovingDoTest(int i) {
 		return this.doTest(i);
 	}
@@ -87,23 +89,24 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 		return doTest(i);
 	}
 
-	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
+	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
 	default boolean doApplyAsBoolean(int i) {
 		return doTest(i);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LIntPredicate.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier captureIPred(int i) {
+	default LBooleanSupplier captureIntPred(int i) {
 		return () -> this.doTest(i);
 	}
 
+	/** Creates function that always returns the same value. */
 	static LIntPredicate constant(boolean r) {
 		return i -> r;
 	}
@@ -123,7 +126,7 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 		return other::test;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LIntPredicate wrap(final @Nonnull LIntPredicateX<X> other) {
 		return other::nestingDoTest;
@@ -133,7 +136,9 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 	// <editor-fold desc="predicate">
 
 	/**
-	 *  @see {@link java.util.function.Predicate#negate()}
+	 * Returns a predicate that represents the logical negation of this predicate.
+	 *
+	 * @see {@link java.util.function.Predicate#negate}
 	 */
 	@Nonnull
 	default LIntPredicate negate() {
@@ -141,7 +146,8 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#and()}
+	 * Returns a predicate that represents the logical AND of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#and()}
 	 */
 	@Nonnull
 	default LIntPredicate and(@Nonnull LIntPredicate other) {
@@ -150,7 +156,8 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LIntPredicate or(@Nonnull LIntPredicate other) {
@@ -159,7 +166,8 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical XOR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LIntPredicate xor(@Nonnull LIntPredicate other) {
@@ -167,6 +175,10 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 		return i -> doTest(i) ^ other.doTest(i);
 	}
 
+	/**
+	 * Creates predicate that evaluates if an object is equal with the argument one.
+	 * @see {@link java.util.function.Predicate#isEqual()
+	 */
 	@Nonnull
 	static LIntPredicate isEqual(int target) {
 		return i -> i == target;
@@ -176,20 +188,16 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LIntPredicate iPredFromInt(@Nonnull final LIntUnaryOperator before1) {
+	default LIntPredicate intPredComposeInt(@Nonnull final LIntUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doTest(before1.doApplyAsInt(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LPredicate<V1> iPredFrom(@Nonnull final LToIntFunction<? super V1> before1) {
+	default <V1> LPredicate<V1> intPredCompose(@Nonnull final LToIntFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doTest(before1.doApplyAsInt(v1));
 	}
@@ -266,23 +274,23 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntPredicate nestingIPred() {
+	default LIntPredicate nestingIntPred() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntPredicateX<RuntimeException> nestingIPredX() {
+	default LIntPredicateX<RuntimeException> nestingIntPredX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntPredicate shovingIPred() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntPredicate shovingIntPred() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntPredicateX<RuntimeException> shovingIPredX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntPredicateX<RuntimeException> shovingIntPredX() {
 		return this;
 	}
 

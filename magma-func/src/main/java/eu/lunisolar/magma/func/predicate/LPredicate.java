@@ -74,10 +74,12 @@ public interface LPredicate<T> extends LPredicateX<T, RuntimeException>, MetaPre
 
 	boolean doTest(T t);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default boolean nestingDoTest(T t) {
 		return this.doTest(t);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default boolean shovingDoTest(T t) {
 		return this.doTest(t);
 	}
@@ -87,13 +89,13 @@ public interface LPredicate<T> extends LPredicateX<T, RuntimeException>, MetaPre
 		return doTest(t);
 	}
 
-	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
+	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
 	default boolean doApplyAsBoolean(T t) {
 		return doTest(t);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LPredicate.DESCRIPTION;
@@ -104,6 +106,7 @@ public interface LPredicate<T> extends LPredicateX<T, RuntimeException>, MetaPre
 		return () -> this.doTest(t);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T> LPredicate<T> constant(boolean r) {
 		return t -> r;
 	}
@@ -123,7 +126,7 @@ public interface LPredicate<T> extends LPredicateX<T, RuntimeException>, MetaPre
 		return other::test;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T, X extends Throwable> LPredicate<T> wrap(final @Nonnull LPredicateX<T, X> other) {
 		return other::nestingDoTest;
@@ -133,7 +136,9 @@ public interface LPredicate<T> extends LPredicateX<T, RuntimeException>, MetaPre
 	// <editor-fold desc="predicate">
 
 	/**
-	 *  @see {@link java.util.function.Predicate#negate()}
+	 * Returns a predicate that represents the logical negation of this predicate.
+	 *
+	 * @see {@link java.util.function.Predicate#negate}
 	 */
 	@Nonnull
 	default LPredicate<T> negate() {
@@ -141,7 +146,8 @@ public interface LPredicate<T> extends LPredicateX<T, RuntimeException>, MetaPre
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#and()}
+	 * Returns a predicate that represents the logical AND of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#and()}
 	 */
 	@Nonnull
 	default LPredicate<T> and(@Nonnull LPredicate<? super T> other) {
@@ -150,7 +156,8 @@ public interface LPredicate<T> extends LPredicateX<T, RuntimeException>, MetaPre
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LPredicate<T> or(@Nonnull LPredicate<? super T> other) {
@@ -159,7 +166,8 @@ public interface LPredicate<T> extends LPredicateX<T, RuntimeException>, MetaPre
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical XOR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LPredicate<T> xor(@Nonnull LPredicate<? super T> other) {
@@ -167,6 +175,10 @@ public interface LPredicate<T> extends LPredicateX<T, RuntimeException>, MetaPre
 		return t -> doTest(t) ^ other.doTest(t);
 	}
 
+	/**
+	 * Creates predicate that evaluates if an object is equal with the argument one.
+	 * @see {@link java.util.function.Predicate#isEqual()
+	 */
 	@Nonnull
 	static <T> LPredicate<T> isEqual(T target) {
 		return (null == target) ? Objects::isNull : object -> object.equals(target);
@@ -176,11 +188,9 @@ public interface LPredicate<T> extends LPredicateX<T, RuntimeException>, MetaPre
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LPredicate<V1> predFrom(@Nonnull final LFunction<? super V1, ? extends T> before1) {
+	default <V1> LPredicate<V1> predCompose(@Nonnull final LFunction<? super V1, ? extends T> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doTest(before1.doApply(v1));
 	}
@@ -267,12 +277,12 @@ public interface LPredicate<T> extends LPredicateX<T, RuntimeException>, MetaPre
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LPredicate<T> shovingPred() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LPredicateX<T, RuntimeException> shovingPredX() {
 		return this;
 	}

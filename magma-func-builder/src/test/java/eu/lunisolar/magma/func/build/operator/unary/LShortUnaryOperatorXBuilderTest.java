@@ -115,7 +115,7 @@ public class LShortUnaryOperatorXBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LShortUnaryOperatorX<ParseException> function = shortUnaryOperatorX((LShortUnaryOperatorX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of(s -> s == (short)0)
+            .aCase(ce -> ce.of(s -> s == (short)0)
                              .evaluate(s -> (short)0))
             .inCase(s -> s > 0 && s < 10).evaluate(s -> (short)1)
             .inCase(s -> s > 10 && s < 20).evaluate(s -> (short)2)

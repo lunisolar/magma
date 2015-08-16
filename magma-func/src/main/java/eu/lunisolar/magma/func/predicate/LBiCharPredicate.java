@@ -64,10 +64,12 @@ public interface LBiCharPredicate extends LBiCharPredicateX<RuntimeException>, M
 
 	boolean doTest(char c1, char c2);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default boolean nestingDoTest(char c1, char c2) {
 		return this.doTest(c1, c2);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default boolean shovingDoTest(char c1, char c2) {
 		return this.doTest(c1, c2);
 	}
@@ -77,25 +79,38 @@ public interface LBiCharPredicate extends LBiCharPredicateX<RuntimeException>, M
 		return doTest(c1, c2);
 	}
 
-	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
+	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
 	default boolean doApplyAsBoolean(char c1, char c2) {
 		return doTest(c1, c2);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LBiCharPredicate.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier captureBiCPred(char c1, char c2) {
+	default LBooleanSupplier captureBiCharPred(char c1, char c2) {
 		return () -> this.doTest(c1, c2);
 	}
 
+	/** Creates function that always returns the same value. */
 	static LBiCharPredicate constant(boolean r) {
 		return (c1, c2) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static LBiCharPredicate test1st(@Nonnull LCharPredicate func) {
+		return (c1, c2) -> func.doTest(c1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static LBiCharPredicate test2nd(@Nonnull LCharPredicate func) {
+		return (c1, c2) -> func.doTest(c2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -107,7 +122,7 @@ public interface LBiCharPredicate extends LBiCharPredicateX<RuntimeException>, M
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LBiCharPredicate wrap(final @Nonnull LBiCharPredicateX<X> other) {
 		return other::nestingDoTest;
@@ -117,7 +132,9 @@ public interface LBiCharPredicate extends LBiCharPredicateX<RuntimeException>, M
 	// <editor-fold desc="predicate">
 
 	/**
-	 *  @see {@link java.util.function.Predicate#negate()}
+	 * Returns a predicate that represents the logical negation of this predicate.
+	 *
+	 * @see {@link java.util.function.Predicate#negate}
 	 */
 	@Nonnull
 	default LBiCharPredicate negate() {
@@ -125,7 +142,8 @@ public interface LBiCharPredicate extends LBiCharPredicateX<RuntimeException>, M
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#and()}
+	 * Returns a predicate that represents the logical AND of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#and()}
 	 */
 	@Nonnull
 	default LBiCharPredicate and(@Nonnull LBiCharPredicate other) {
@@ -134,7 +152,8 @@ public interface LBiCharPredicate extends LBiCharPredicateX<RuntimeException>, M
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LBiCharPredicate or(@Nonnull LBiCharPredicate other) {
@@ -143,7 +162,8 @@ public interface LBiCharPredicate extends LBiCharPredicateX<RuntimeException>, M
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical XOR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LBiCharPredicate xor(@Nonnull LBiCharPredicate other) {
@@ -152,7 +172,8 @@ public interface LBiCharPredicate extends LBiCharPredicateX<RuntimeException>, M
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#isEqual()}
+	 * Creates predicate that evaluates if an object is equal with the argument one.
+	 * @see {@link java.util.function.Predicate#isEqual()
 	 */
 	@Nonnull
 	static LBiCharPredicate isEqual(final char v1, final char v2) {
@@ -163,21 +184,17 @@ public interface LBiCharPredicate extends LBiCharPredicateX<RuntimeException>, M
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LBiCharPredicate biCPredFromChar(@Nonnull final LCharUnaryOperator before1, @Nonnull final LCharUnaryOperator before2) {
+	default LBiCharPredicate biCharPredComposeChar(@Nonnull final LCharUnaryOperator before1, @Nonnull final LCharUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final char v1, final char v2) -> this.doTest(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiPredicate<V1, V2> biCPredFrom(@Nonnull final LToCharFunction<? super V1> before1, @Nonnull final LToCharFunction<? super V2> before2) {
+	default <V1, V2> LBiPredicate<V1, V2> biCharPredCompose(@Nonnull final LToCharFunction<? super V1> before1, @Nonnull final LToCharFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doTest(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
@@ -189,7 +206,7 @@ public interface LBiCharPredicate extends LBiCharPredicateX<RuntimeException>, M
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LCharBiFunction<V> boolToCharBiFunction(@Nonnull LBooleanFunction<? extends V> after) {
+	default <V> LBiCharFunction<V> boolToBiCharFunction(@Nonnull LBooleanFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (char c1, char c2) -> after.doApply(this.doTest(c1, c2));
 	}
@@ -199,23 +216,23 @@ public interface LBiCharPredicate extends LBiCharPredicateX<RuntimeException>, M
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiCharPredicate nestingBiCPred() {
+	default LBiCharPredicate nestingBiCharPred() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiCharPredicateX<RuntimeException> nestingBiCPredX() {
+	default LBiCharPredicateX<RuntimeException> nestingBiCharPredX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiCharPredicate shovingBiCPred() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBiCharPredicate shovingBiCharPred() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiCharPredicateX<RuntimeException> shovingBiCPredX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBiCharPredicateX<RuntimeException> shovingBiCharPredX() {
 		return this;
 	}
 

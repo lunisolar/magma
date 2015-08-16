@@ -64,10 +64,12 @@ public interface LShortToCharFunction extends LShortToCharFunctionX<RuntimeExcep
 
 	char doApplyAsChar(short s);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default char nestingDoApplyAsChar(short s) {
 		return this.doApplyAsChar(s);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default char shovingDoApplyAsChar(short s) {
 		return this.doApplyAsChar(s);
 	}
@@ -77,17 +79,18 @@ public interface LShortToCharFunction extends LShortToCharFunctionX<RuntimeExcep
 		return doApplyAsChar(s);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LShortToCharFunction.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LCharSupplier captureSToCFunc(short s) {
+	default LCharSupplier captureShortToCharFunc(short s) {
 		return () -> this.doApplyAsChar(s);
 	}
 
+	/** Creates function that always returns the same value. */
 	static LShortToCharFunction constant(char r) {
 		return s -> r;
 	}
@@ -101,7 +104,7 @@ public interface LShortToCharFunction extends LShortToCharFunctionX<RuntimeExcep
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LShortToCharFunction wrap(final @Nonnull LShortToCharFunctionX<X> other) {
 		return other::nestingDoApplyAsChar;
@@ -111,20 +114,16 @@ public interface LShortToCharFunction extends LShortToCharFunctionX<RuntimeExcep
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LShortToCharFunction sToCFuncFromShort(@Nonnull final LShortUnaryOperator before1) {
+	default LShortToCharFunction shortToCharFuncComposeShort(@Nonnull final LShortUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsChar(before1.doApplyAsShort(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToCharFunction<V1> sToCFuncFrom(@Nonnull final LToShortFunction<? super V1> before1) {
+	default <V1> LToCharFunction<V1> shortToCharFuncCompose(@Nonnull final LToShortFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsChar(before1.doApplyAsShort(v1));
 	}
@@ -201,23 +200,23 @@ public interface LShortToCharFunction extends LShortToCharFunctionX<RuntimeExcep
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LShortToCharFunction nestingSToCFunc() {
+	default LShortToCharFunction nestingShortToCharFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LShortToCharFunctionX<RuntimeException> nestingSToCFuncX() {
+	default LShortToCharFunctionX<RuntimeException> nestingShortToCharFuncX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortToCharFunction shovingSToCFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LShortToCharFunction shovingShortToCharFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortToCharFunctionX<RuntimeException> shovingSToCFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LShortToCharFunctionX<RuntimeException> shovingShortToCharFuncX() {
 		return this;
 	}
 

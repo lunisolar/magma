@@ -74,6 +74,7 @@ public interface LDoubleToLongFunctionX<X extends Throwable> extends java.util.f
 
 	long doApplyAsLong(double d) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default long nestingDoApplyAsLong(double d) {
 		try {
 			return this.doApplyAsLong(d);
@@ -84,10 +85,12 @@ public interface LDoubleToLongFunctionX<X extends Throwable> extends java.util.f
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default long shovingDoApplyAsLong(double d) {
 		return ((LDoubleToLongFunctionX<RuntimeException>) this).doApplyAsLong(d);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> long handlingDoApplyAsLong(double d, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -102,17 +105,18 @@ public interface LDoubleToLongFunctionX<X extends Throwable> extends java.util.f
 		return doApplyAsLong(d);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LDoubleToLongFunctionX.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LLongSupplierX<X> captureDToLongFunc(double d) {
+	default LLongSupplierX<X> captureDoubleToLongFunc(double d) {
 		return () -> this.doApplyAsLong(d);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LDoubleToLongFunctionX<X> constant(long r) {
 		return d -> r;
 	}
@@ -139,7 +143,7 @@ public interface LDoubleToLongFunctionX<X extends Throwable> extends java.util.f
 		return other::applyAsLong;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LDoubleToLongFunctionX<X> wrapX(final @Nonnull LDoubleToLongFunction other) {
 		return (LDoubleToLongFunctionX) other;
@@ -149,20 +153,16 @@ public interface LDoubleToLongFunctionX<X extends Throwable> extends java.util.f
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LDoubleToLongFunctionX<X> dToLongFuncFromDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1) {
+	default LDoubleToLongFunctionX<X> doubleToLongFuncComposeDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsLong(before1.doApplyAsDouble(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToLongFunctionX<V1, X> dToLongFuncFrom(@Nonnull final LToDoubleFunctionX<? super V1, X> before1) {
+	default <V1> LToLongFunctionX<V1, X> doubleToLongFuncCompose(@Nonnull final LToDoubleFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsLong(before1.doApplyAsDouble(v1));
 	}
@@ -239,23 +239,23 @@ public interface LDoubleToLongFunctionX<X extends Throwable> extends java.util.f
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoubleToLongFunction nestingDToLongFunc() {
+	default LDoubleToLongFunction nestingDoubleToLongFunc() {
 		return this::nestingDoApplyAsLong;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoubleToLongFunctionX<RuntimeException> nestingDToLongFuncX() {
+	default LDoubleToLongFunctionX<RuntimeException> nestingDoubleToLongFuncX() {
 		return this::nestingDoApplyAsLong;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleToLongFunction shovingDToLongFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoubleToLongFunction shovingDoubleToLongFunc() {
 		return this::shovingDoApplyAsLong;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleToLongFunctionX<RuntimeException> shovingDToLongFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoubleToLongFunctionX<RuntimeException> shovingDoubleToLongFuncX() {
 		return this::shovingDoApplyAsLong;
 	}
 
@@ -263,13 +263,15 @@ public interface LDoubleToLongFunctionX<X extends Throwable> extends java.util.f
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LDoubleToLongFunction handleDToLongFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LDoubleToLongFunction handleDoubleToLongFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return d -> this.handlingDoApplyAsLong(d, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LDoubleToLongFunctionX<Y> handleDToLongFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LDoubleToLongFunctionX<Y> handleDoubleToLongFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return d -> this.handlingDoApplyAsLong(d, handling);
 	}
 

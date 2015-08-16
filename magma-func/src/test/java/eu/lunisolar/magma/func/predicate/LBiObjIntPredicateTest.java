@@ -202,7 +202,7 @@ public class LBiObjIntPredicateTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        LBiObjIntPredicate<T1,T2> wrapped = sutThrowing.handleBiObjIPred(handler -> handler
+        LBiObjIntPredicate<T1,T2> wrapped = sutThrowing.handleBiObjIntPred(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -226,7 +226,7 @@ public class LBiObjIntPredicateTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        LBiObjIntPredicate<T1,T2> wrapped = sutThrowing.handleBiObjIPred(handler -> handler
+        LBiObjIntPredicate<T1,T2> wrapped = sutThrowing.handleBiObjIntPred(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -250,7 +250,7 @@ public class LBiObjIntPredicateTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        LBiObjIntPredicate<T1,T2> wrapped = sutThrowing.handleBiObjIPred(handler -> handler
+        LBiObjIntPredicate<T1,T2> wrapped = sutThrowing.handleBiObjIntPred(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -275,7 +275,7 @@ public class LBiObjIntPredicateTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        LBiObjIntPredicate<T1,T2> wrapped = sutThrowing.handleBiObjIPred(h -> Function4U.doNothing());
+        LBiObjIntPredicate<T1,T2> wrapped = sutThrowing.handleBiObjIntPred(h -> Function4U.doNothing());
 
         // then
         try {
@@ -347,7 +347,7 @@ public class LBiObjIntPredicateTest<T1,T2,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testbiObjIPredFromInt() throws X {
+    public void testbiObjIntPredComposeInt() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -378,7 +378,7 @@ public class LBiObjIntPredicateTest<T1,T2,X extends ParseException> {
         };
 
         //when
-        LBiObjIntPredicate<Integer ,Integer > function = sutO.biObjIPredFromInt(before1,before2,before3);
+        LBiObjIntPredicate<Integer ,Integer > function = sutO.biObjIntPredComposeInt(before1,before2,before3);
         function.doTest((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(int)82);
 
         //then - finals
@@ -388,7 +388,7 @@ public class LBiObjIntPredicateTest<T1,T2,X extends ParseException> {
 
 
     @Test
-    public void testbiObjIPredFrom() throws X {
+    public void testbiObjIntPredCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -419,7 +419,7 @@ public class LBiObjIntPredicateTest<T1,T2,X extends ParseException> {
         };
 
         //when
-        LTriPredicate<Integer ,Integer ,Integer > function = sutO.biObjIPredFrom(before1,before2,before3);
+        LTriPredicate<Integer ,Integer ,Integer > function = sutO.biObjIntPredCompose(before1,before2,before3);
         function.doTest((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(Integer )Integer.valueOf(82));
 
         //then - finals
@@ -473,28 +473,28 @@ public class LBiObjIntPredicateTest<T1,T2,X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nestingBiObjIPred())
+        assertThat(sut.nestingBiObjIntPred())
             .isSameAs(sut)
             .isInstanceOf(LBiObjIntPredicate.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shovingBiObjIPred())
+        assertThat(sut.shovingBiObjIntPred())
             .isSameAs(sut)
             .isInstanceOf(LBiObjIntPredicate.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestingBiObjIPredX())
+        assertThat(sut.nestingBiObjIntPredX())
             .isSameAs(sut)
             .isInstanceOf(LBiObjIntPredicateX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shovingBiObjIPredX())
+        assertThat(sut.shovingBiObjIntPredX())
             .isSameAs(sut)
             .isInstanceOf(LBiObjIntPredicateX.class);
     }
@@ -508,11 +508,11 @@ public class LBiObjIntPredicateTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shovingBiObjIPred().doTest((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(int)100);
+        sutThrowing.shovingBiObjIntPred().doTest((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(int)100);
     }
 
     @Test
-    public void testHandleBiObjIPred() throws X {
+    public void testHandleBiObjIntPred() throws X {
 
         // given
         LBiObjIntPredicate<T1,T2> sutThrowing = LBiObjIntPredicate.l((T1 t1,T2 t2, int i) -> {
@@ -520,7 +520,7 @@ public class LBiObjIntPredicateTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        LBiObjIntPredicate<T1,T2> wrapped = sutThrowing.handleBiObjIPred(h -> {
+        LBiObjIntPredicate<T1,T2> wrapped = sutThrowing.handleBiObjIntPred(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 

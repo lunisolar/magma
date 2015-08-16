@@ -115,7 +115,7 @@ public class LBooleanToCharFunctionBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LBooleanToCharFunction function = booleanToCharFunction((LBooleanToCharFunction f)-> doNothing())
-            .addCase(ce -> ce.of(b -> b == false)
+            .aCase(ce -> ce.of(b -> b == false)
                              .evaluate(b -> (char)0))
             .inCase(b -> b == true ).evaluate(b -> (char)1)
             .eventually(b -> (char)99)

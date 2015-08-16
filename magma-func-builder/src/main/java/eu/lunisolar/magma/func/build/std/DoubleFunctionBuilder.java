@@ -65,7 +65,7 @@ public final class DoubleFunctionBuilder<R> extends PerCaseBuilderWithProduct.Ba
 		});
 
 	public DoubleFunctionBuilder(@Nullable Consumer<java.util.function.DoubleFunction<R>> consumer) {
-		super(EVENTUALLY_THROW, LDoubleFunction::constant);
+		super(EVENTUALLY_THROW, LDoubleFunction::constant, () -> new DoubleFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -77,13 +77,13 @@ public final class DoubleFunctionBuilder<R> extends PerCaseBuilderWithProduct.Ba
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <R> DoubleFunctionBuilder<R> doubleFunction() {
+	public static <R> DoubleFunctionBuilder<R> doubleFunction() {
 		return new DoubleFunctionBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <R> DoubleFunctionBuilder<R> doubleFunction(Consumer<java.util.function.DoubleFunction<R>> consumer) {
+	public static <R> DoubleFunctionBuilder<R> doubleFunction(Consumer<java.util.function.DoubleFunction<R>> consumer) {
 		return new DoubleFunctionBuilder(consumer);
 	}
 

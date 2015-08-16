@@ -64,6 +64,7 @@ public interface LShortSupplierX<X extends Throwable> extends MetaSupplier, Prim
 
 	short doGetAsShort() throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default short nestingDoGetAsShort() {
 		try {
 			return this.doGetAsShort();
@@ -74,10 +75,12 @@ public interface LShortSupplierX<X extends Throwable> extends MetaSupplier, Prim
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default short shovingDoGetAsShort() {
 		return ((LShortSupplierX<RuntimeException>) this).doGetAsShort();
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> short handlingDoGetAsShort(HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -92,12 +95,13 @@ public interface LShortSupplierX<X extends Throwable> extends MetaSupplier, Prim
 		return doGetAsShort();
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LShortSupplierX.DESCRIPTION;
 	}
 
+	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LShortSupplierX<X> of(short r) {
 		return () -> r;
 	}
@@ -118,7 +122,7 @@ public interface LShortSupplierX<X extends Throwable> extends MetaSupplier, Prim
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LShortSupplierX<X> wrapX(final @Nonnull LShortSupplier other) {
 		return (LShortSupplierX) other;
@@ -196,23 +200,23 @@ public interface LShortSupplierX<X extends Throwable> extends MetaSupplier, Prim
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LShortSupplier nestingSSup() {
+	default LShortSupplier nestingShortSup() {
 		return this::nestingDoGetAsShort;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LShortSupplierX<RuntimeException> nestingSSupX() {
+	default LShortSupplierX<RuntimeException> nestingShortSupX() {
 		return this::nestingDoGetAsShort;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortSupplier shovingSSup() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LShortSupplier shovingShortSup() {
 		return this::shovingDoGetAsShort;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortSupplierX<RuntimeException> shovingSSupX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LShortSupplierX<RuntimeException> shovingShortSupX() {
 		return this::shovingDoGetAsShort;
 	}
 
@@ -220,13 +224,15 @@ public interface LShortSupplierX<X extends Throwable> extends MetaSupplier, Prim
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LShortSupplier handleSSup(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LShortSupplier handleShortSup(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return () -> this.handlingDoGetAsShort(handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LShortSupplierX<Y> handleSSupX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LShortSupplierX<Y> handleShortSupX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return () -> this.handlingDoGetAsShort(handling);
 	}
 

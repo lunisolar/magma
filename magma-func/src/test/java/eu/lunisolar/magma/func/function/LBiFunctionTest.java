@@ -306,7 +306,7 @@ public class LBiFunctionTest<T1,T2,R,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testbiFuncFrom() throws X {
+    public void testbiFuncCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -331,7 +331,7 @@ public class LBiFunctionTest<T1,T2,R,X extends ParseException> {
         };
 
         //when
-        LBiFunction<Integer ,Integer ,Integer > function = sutO.biFuncFrom(before1,before2);
+        LBiFunction<Integer ,Integer ,Integer > function = sutO.biFuncCompose(before1,before2);
         function.doApply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals

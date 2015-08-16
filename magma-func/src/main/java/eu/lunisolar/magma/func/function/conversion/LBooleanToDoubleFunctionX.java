@@ -64,6 +64,7 @@ public interface LBooleanToDoubleFunctionX<X extends Throwable> extends MetaFunc
 
 	double doApplyAsDouble(boolean b) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default double nestingDoApplyAsDouble(boolean b) {
 		try {
 			return this.doApplyAsDouble(b);
@@ -74,10 +75,12 @@ public interface LBooleanToDoubleFunctionX<X extends Throwable> extends MetaFunc
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default double shovingDoApplyAsDouble(boolean b) {
 		return ((LBooleanToDoubleFunctionX<RuntimeException>) this).doApplyAsDouble(b);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> double handlingDoApplyAsDouble(boolean b, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -92,17 +95,18 @@ public interface LBooleanToDoubleFunctionX<X extends Throwable> extends MetaFunc
 		return doApplyAsDouble(b);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LBooleanToDoubleFunctionX.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LDoubleSupplierX<X> captureBoolToDFunc(boolean b) {
+	default LDoubleSupplierX<X> captureBoolToDoubleFunc(boolean b) {
 		return () -> this.doApplyAsDouble(b);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LBooleanToDoubleFunctionX<X> constant(double r) {
 		return b -> r;
 	}
@@ -123,7 +127,7 @@ public interface LBooleanToDoubleFunctionX<X extends Throwable> extends MetaFunc
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LBooleanToDoubleFunctionX<X> wrapX(final @Nonnull LBooleanToDoubleFunction other) {
 		return (LBooleanToDoubleFunctionX) other;
@@ -133,20 +137,16 @@ public interface LBooleanToDoubleFunctionX<X extends Throwable> extends MetaFunc
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LBooleanToDoubleFunctionX<X> boolToDFuncFromBoolean(@Nonnull final LLogicalOperatorX<X> before1) {
+	default LBooleanToDoubleFunctionX<X> boolToDoubleFuncComposeBoolean(@Nonnull final LLogicalOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsDouble(before1.doApply(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToDoubleFunctionX<V1, X> boolToDFuncFrom(@Nonnull final LPredicateX<? super V1, X> before1) {
+	default <V1> LToDoubleFunctionX<V1, X> boolToDoubleFuncCompose(@Nonnull final LPredicateX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsDouble(before1.doTest(v1));
 	}
@@ -223,23 +223,23 @@ public interface LBooleanToDoubleFunctionX<X extends Throwable> extends MetaFunc
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanToDoubleFunction nestingBoolToDFunc() {
+	default LBooleanToDoubleFunction nestingBoolToDoubleFunc() {
 		return this::nestingDoApplyAsDouble;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanToDoubleFunctionX<RuntimeException> nestingBoolToDFuncX() {
+	default LBooleanToDoubleFunctionX<RuntimeException> nestingBoolToDoubleFuncX() {
 		return this::nestingDoApplyAsDouble;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanToDoubleFunction shovingBoolToDFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBooleanToDoubleFunction shovingBoolToDoubleFunc() {
 		return this::shovingDoApplyAsDouble;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanToDoubleFunctionX<RuntimeException> shovingBoolToDFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBooleanToDoubleFunctionX<RuntimeException> shovingBoolToDoubleFuncX() {
 		return this::shovingDoApplyAsDouble;
 	}
 
@@ -247,13 +247,15 @@ public interface LBooleanToDoubleFunctionX<X extends Throwable> extends MetaFunc
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LBooleanToDoubleFunction handleBoolToDFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LBooleanToDoubleFunction handleBoolToDoubleFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return b -> this.handlingDoApplyAsDouble(b, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LBooleanToDoubleFunctionX<Y> handleBoolToDFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LBooleanToDoubleFunctionX<Y> handleBoolToDoubleFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return b -> this.handlingDoApplyAsDouble(b, handling);
 	}
 

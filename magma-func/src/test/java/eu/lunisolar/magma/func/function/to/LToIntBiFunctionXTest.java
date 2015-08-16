@@ -192,7 +192,7 @@ public class LToIntBiFunctionXTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        LToIntBiFunctionX<T1,T2,X> wrapped = sutThrowing.handleToIBiFuncX(handler -> handler
+        LToIntBiFunctionX<T1,T2,X> wrapped = sutThrowing.handleToIntBiFuncX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -216,7 +216,7 @@ public class LToIntBiFunctionXTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        LToIntBiFunctionX<T1,T2,X> wrapped = sutThrowing.handleToIBiFuncX(handler -> handler
+        LToIntBiFunctionX<T1,T2,X> wrapped = sutThrowing.handleToIntBiFuncX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -240,7 +240,7 @@ public class LToIntBiFunctionXTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        LToIntBiFunctionX<T1,T2,X> wrapped = sutThrowing.handleToIBiFuncX(handler -> handler
+        LToIntBiFunctionX<T1,T2,X> wrapped = sutThrowing.handleToIntBiFuncX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -265,7 +265,7 @@ public class LToIntBiFunctionXTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        LToIntBiFunctionX<T1,T2,X> wrapped = sutThrowing.handleToIBiFuncX(h -> Function4U.doNothing());
+        LToIntBiFunctionX<T1,T2,X> wrapped = sutThrowing.handleToIntBiFuncX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -284,7 +284,7 @@ public class LToIntBiFunctionXTest<T1,T2,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testtoIBiFuncFrom() throws X {
+    public void testtoIntBiFuncCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -309,7 +309,7 @@ public class LToIntBiFunctionXTest<T1,T2,X extends ParseException> {
         };
 
         //when
-        LToIntBiFunctionX<Integer ,Integer ,X> function = sutO.toIBiFuncFrom(before1,before2);
+        LToIntBiFunctionX<Integer ,Integer ,X> function = sutO.toIntBiFuncCompose(before1,before2);
         function.doApplyAsInt((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
@@ -362,25 +362,25 @@ public class LToIntBiFunctionXTest<T1,T2,X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nestingToIBiFunc())
+        assertThat(sut.nestingToIntBiFunc())
             .isInstanceOf(LToIntBiFunction.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shovingToIBiFunc())
+        assertThat(sut.shovingToIntBiFunc())
             .isInstanceOf(LToIntBiFunction.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestingToIBiFuncX())
+        assertThat(sut.nestingToIntBiFuncX())
             .isInstanceOf(LToIntBiFunctionX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shovingToIBiFuncX())
+        assertThat(sut.shovingToIntBiFuncX())
             .isInstanceOf(LToIntBiFunctionX.class);
     }
 
@@ -393,11 +393,11 @@ public class LToIntBiFunctionXTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shovingToIBiFunc().doApplyAsInt((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+        sutThrowing.shovingToIntBiFunc().doApplyAsInt((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
     }
 
     @Test
-    public void testHandleToIBiFunc() throws X {
+    public void testHandleToIntBiFunc() throws X {
 
         // given
         LToIntBiFunctionX<T1,T2,X> sutThrowing = LToIntBiFunctionX.lX((T1 t1,T2 t2) -> {
@@ -405,7 +405,7 @@ public class LToIntBiFunctionXTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        LToIntBiFunctionX<T1,T2,X> wrapped = sutThrowing.handleToIBiFuncX(h -> {
+        LToIntBiFunctionX<T1,T2,X> wrapped = sutThrowing.handleToIntBiFuncX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 

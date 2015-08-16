@@ -50,10 +50,10 @@ public interface LTriPredicateAssert<S extends LTriPredicateAssert<S, A, RS, T1,
 	Evaluation<S, LTriConsumerX<T1, T2, T3, Exception>, A, RS, Boolean, Exception> doesTest(T1 t1, T2 t2, T3 t3);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LTriPredicate<T1, T2, T3>, RS extends AbstractBooleanAssert<RS>, T1, T2, T3> extends Base<Impl<A, RS, T1, T2, T3>, A, RS, T1, T2, T3> {
+	public final static class The<A extends LTriPredicate<T1, T2, T3>, RS extends AbstractBooleanAssert<RS>, T1, T2, T3> extends Base<The<A, RS, T1, T2, T3>, A, RS, T1, T2, T3> {
 
-		public Impl(A actual, java.util.function.Function<Boolean, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Boolean, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
@@ -72,7 +72,7 @@ public interface LTriPredicateAssert<S extends LTriPredicateAssert<S, A, RS, T1,
 		@Nonnull
 		public Evaluation<S, LTriConsumerX<T1, T2, T3, Exception>, A, RS, Boolean, Exception> doesTest(T1 t1, T2 t2, T3 t3) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(t1, t2, t3);
 				}

@@ -50,10 +50,10 @@ public interface LDoubleToShortFunctionAssert<S extends LDoubleToShortFunctionAs
 	Evaluation<S, LDoubleConsumerX<Exception>, A, RS, Short, Exception> doesApplyAsShort(double d);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LDoubleToShortFunction, RS extends AbstractShortAssert<RS>> extends Base<Impl<A, RS>, A, RS> {
+	public final static class The<A extends LDoubleToShortFunction, RS extends AbstractShortAssert<RS>> extends Base<The<A, RS>, A, RS> {
 
-		public Impl(A actual, java.util.function.Function<Short, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Short, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
@@ -72,7 +72,7 @@ public interface LDoubleToShortFunctionAssert<S extends LDoubleToShortFunctionAs
 		@Nonnull
 		public Evaluation<S, LDoubleConsumerX<Exception>, A, RS, Short, Exception> doesApplyAsShort(double d) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(d);
 				}

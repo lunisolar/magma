@@ -115,7 +115,7 @@ public class LBiObjDoublePredicateBuilderTest<T1,T2,X extends Throwable>{
     public void testBuild() throws X {
 
         LBiObjDoublePredicate<Integer ,Integer > function = biObjDoublePredicate((LBiObjDoublePredicate<Integer ,Integer > f)-> doNothing())
-            .addCase(ce -> ce.of((t1,t2, d) -> t1 == Integer.valueOf(0))
+            .aCase(ce -> ce.of((t1,t2, d) -> t1 == Integer.valueOf(0))
                              .evaluate((t1,t2, d) -> false))
             .inCase((t1,t2, d) -> t1 > 0 && t1 < 10).evaluate((t1,t2, d) -> true)
             .inCase((t1,t2, d) -> t1 > 10 && t1 < 20).evaluate((t1,t2, d) -> true)

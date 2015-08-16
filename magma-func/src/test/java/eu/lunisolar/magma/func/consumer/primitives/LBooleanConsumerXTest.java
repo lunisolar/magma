@@ -263,7 +263,7 @@ public class LBooleanConsumerXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testboolConsFromBoolean() throws X {
+    public void testboolConsComposeBoolean() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -281,7 +281,7 @@ public class LBooleanConsumerXTest<X extends ParseException> {
         };
 
         //when
-        LBooleanConsumerX<X> function = sutO.boolConsFromBoolean(before1);
+        LBooleanConsumerX<X> function = sutO.boolConsComposeBoolean(before1);
         function.doAccept(true);
 
         //then - finals
@@ -291,7 +291,7 @@ public class LBooleanConsumerXTest<X extends ParseException> {
 
 
     @Test
-    public void testboolConsFrom() throws X {
+    public void testboolConsCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -309,7 +309,7 @@ public class LBooleanConsumerXTest<X extends ParseException> {
         };
 
         //when
-        LConsumerX<Integer ,X> function = sutO.boolConsFrom(before1);
+        LConsumerX<Integer ,X> function = sutO.boolConsCompose(before1);
         function.doAccept((Integer )Integer.valueOf(80));
 
         //then - finals

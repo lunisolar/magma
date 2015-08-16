@@ -116,7 +116,7 @@ public class LObjDoubleConsumerXBuilderTest<T,X extends Throwable>{
         final AtomicInteger externalEffect = new AtomicInteger(0);
 
         LObjDoubleConsumerX<Integer ,ParseException> function = objDoubleConsumerX((LObjDoubleConsumerX<Integer ,ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((t, d) -> t == Integer.valueOf(0))
+            .aCase(ce -> ce.of((t, d) -> t == Integer.valueOf(0))
                              .evaluate((t, d) -> externalEffect.set(0)))
             .inCase((t, d) -> t > 0 && t < 10).evaluate((t, d) -> externalEffect.set(1))
             .inCase((t, d) -> t > 10 && t < 20).evaluate((t, d) -> externalEffect.set(2))

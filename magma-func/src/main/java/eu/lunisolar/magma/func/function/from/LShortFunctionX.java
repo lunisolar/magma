@@ -65,6 +65,7 @@ public interface LShortFunctionX<R, X extends Throwable> extends MetaFunction, M
 	@Nullable
 	R doApply(short s) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default R nestingDoApply(short s) {
 		try {
 			return this.doApply(s);
@@ -75,10 +76,12 @@ public interface LShortFunctionX<R, X extends Throwable> extends MetaFunction, M
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default R shovingDoApply(short s) {
 		return ((LShortFunctionX<R, RuntimeException>) this).doApply(s);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> R handlingDoApply(short s, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -90,23 +93,24 @@ public interface LShortFunctionX<R, X extends Throwable> extends MetaFunction, M
 
 	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
-	/** Ensures the result is not null */
+	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullDoApply(short s) throws X {
 		return Null.requireNonNull(doApply(s), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LShortFunctionX.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplierX<R, X> captureSFunc(short s) {
+	default LSupplierX<R, X> captureShortFunc(short s) {
 		return () -> this.doApply(s);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <R, X extends Throwable> LShortFunctionX<R, X> constant(R r) {
 		return s -> r;
 	}
@@ -127,7 +131,7 @@ public interface LShortFunctionX<R, X extends Throwable> extends MetaFunction, M
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <R, X extends Throwable> LShortFunctionX<R, X> wrapX(final @Nonnull LShortFunction<R> other) {
 		return (LShortFunctionX) other;
@@ -137,20 +141,16 @@ public interface LShortFunctionX<R, X extends Throwable> extends MetaFunction, M
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LShortFunctionX<R, X> sFuncFromShort(@Nonnull final LShortUnaryOperatorX<X> before1) {
+	default LShortFunctionX<R, X> shortFuncComposeShort(@Nonnull final LShortUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doApplyAsShort(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LFunctionX<V1, R, X> sFuncFrom(@Nonnull final LToShortFunctionX<? super V1, X> before1) {
+	default <V1> LFunctionX<V1, R, X> shortFuncCompose(@Nonnull final LToShortFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doApplyAsShort(v1));
 	}
@@ -234,42 +234,45 @@ public interface LShortFunctionX<R, X extends Throwable> extends MetaFunction, M
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LShortFunction<R> nestingSFunc() {
+	default LShortFunction<R> nestingShortFunc() {
 		return this::nestingDoApply;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LShortFunctionX<R, RuntimeException> nestingSFuncX() {
+	default LShortFunctionX<R, RuntimeException> nestingShortFuncX() {
 		return this::nestingDoApply;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortFunction<R> shovingSFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LShortFunction<R> shovingShortFunc() {
 		return this::shovingDoApply;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortFunctionX<R, RuntimeException> shovingSFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LShortFunctionX<R, RuntimeException> shovingShortFuncX() {
 		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
+	/** Converts to function that makes sure that the result is not null. */
 	@Nonnull
-	default LShortFunctionX<R, X> nonNullSFunc() {
+	default LShortFunctionX<R, X> nonNullShortFunc() {
 		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LShortFunction<R> handleSFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LShortFunction<R> handleShortFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return s -> this.handlingDoApply(s, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LShortFunctionX<R, Y> handleSFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LShortFunctionX<R, Y> handleShortFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return s -> this.handlingDoApply(s, handling);
 	}
 

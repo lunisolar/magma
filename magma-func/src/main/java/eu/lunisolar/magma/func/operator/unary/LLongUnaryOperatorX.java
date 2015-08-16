@@ -74,6 +74,7 @@ public interface LLongUnaryOperatorX<X extends Throwable> extends java.util.func
 
 	long doApplyAsLong(long l) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default long nestingDoApplyAsLong(long l) {
 		try {
 			return this.doApplyAsLong(l);
@@ -84,10 +85,12 @@ public interface LLongUnaryOperatorX<X extends Throwable> extends java.util.func
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default long shovingDoApplyAsLong(long l) {
 		return ((LLongUnaryOperatorX<RuntimeException>) this).doApplyAsLong(l);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> long handlingDoApplyAsLong(long l, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -102,7 +105,7 @@ public interface LLongUnaryOperatorX<X extends Throwable> extends java.util.func
 		return doApplyAsLong(l);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LLongUnaryOperatorX.DESCRIPTION;
@@ -113,6 +116,7 @@ public interface LLongUnaryOperatorX<X extends Throwable> extends java.util.func
 		return () -> this.doApplyAsLong(l);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LLongUnaryOperatorX<X> constant(long r) {
 		return l -> r;
 	}
@@ -139,7 +143,7 @@ public interface LLongUnaryOperatorX<X extends Throwable> extends java.util.func
 		return other::applyAsLong;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LLongUnaryOperatorX<X> wrapX(final @Nonnull LLongUnaryOperator other) {
 		return (LLongUnaryOperatorX) other;
@@ -149,20 +153,16 @@ public interface LLongUnaryOperatorX<X extends Throwable> extends java.util.func
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LLongUnaryOperatorX<X> longUnaryOpFromLong(@Nonnull final LLongUnaryOperatorX<X> before1) {
+	default LLongUnaryOperatorX<X> longUnaryOpComposeLong(@Nonnull final LLongUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsLong(before1.doApplyAsLong(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToLongFunctionX<V1, X> longUnaryOpFrom(@Nonnull final LToLongFunctionX<? super V1, X> before1) {
+	default <V1> LToLongFunctionX<V1, X> longUnaryOpCompose(@Nonnull final LToLongFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsLong(before1.doApplyAsLong(v1));
 	}
@@ -255,12 +255,12 @@ public interface LLongUnaryOperatorX<X extends Throwable> extends java.util.func
 		return this::nestingDoApplyAsLong;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLongUnaryOperator shovingLongUnaryOp() {
 		return this::shovingDoApplyAsLong;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLongUnaryOperatorX<RuntimeException> shovingLongUnaryOpX() {
 		return this::shovingDoApplyAsLong;
 	}
@@ -269,11 +269,13 @@ public interface LLongUnaryOperatorX<X extends Throwable> extends java.util.func
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LLongUnaryOperator handleLongUnaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return l -> this.handlingDoApplyAsLong(l, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LLongUnaryOperatorX<Y> handleLongUnaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return l -> this.handlingDoApplyAsLong(l, handling);

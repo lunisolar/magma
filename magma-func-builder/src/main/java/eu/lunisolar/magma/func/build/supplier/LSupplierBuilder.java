@@ -66,7 +66,7 @@ public final class LSupplierBuilder<R> extends PerCaseBuilderWithProduct.Base<LS
 		});
 
 	public LSupplierBuilder(@Nullable Consumer<LSupplier<R>> consumer) {
-		super(EVENTUALLY_THROW, LSupplier::of);
+		super(EVENTUALLY_THROW, LSupplier::of, () -> new LSupplierBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LSupplierBuilder<R> extends PerCaseBuilderWithProduct.Base<LS
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <R> LSupplierBuilder<R> supplier() {
+	public static <R> LSupplierBuilder<R> supplier() {
 		return new LSupplierBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <R> LSupplierBuilder<R> supplier(Consumer<LSupplier<R>> consumer) {
+	public static <R> LSupplierBuilder<R> supplier(Consumer<LSupplier<R>> consumer) {
 		return new LSupplierBuilder(consumer);
 	}
 

@@ -66,7 +66,7 @@ public final class LLogicalOperatorBuilder extends PerCaseBuilderWithBooleanProd
 		});
 
 	public LLogicalOperatorBuilder(@Nullable Consumer<LLogicalOperator> consumer) {
-		super(EVENTUALLY_THROW, LLogicalOperator::constant);
+		super(EVENTUALLY_THROW, LLogicalOperator::constant, () -> new LLogicalOperatorBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LLogicalOperatorBuilder extends PerCaseBuilderWithBooleanProd
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final LLogicalOperatorBuilder logicalOperator() {
+	public static LLogicalOperatorBuilder logicalOperator() {
 		return new LLogicalOperatorBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final LLogicalOperatorBuilder logicalOperator(Consumer<LLogicalOperator> consumer) {
+	public static LLogicalOperatorBuilder logicalOperator(Consumer<LLogicalOperator> consumer) {
 		return new LLogicalOperatorBuilder(consumer);
 	}
 

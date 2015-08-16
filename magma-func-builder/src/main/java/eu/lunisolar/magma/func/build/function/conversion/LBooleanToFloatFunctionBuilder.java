@@ -66,7 +66,7 @@ public final class LBooleanToFloatFunctionBuilder extends PerCaseBuilderWithFloa
 		});
 
 	public LBooleanToFloatFunctionBuilder(@Nullable Consumer<LBooleanToFloatFunction> consumer) {
-		super(EVENTUALLY_THROW, LBooleanToFloatFunction::constant);
+		super(EVENTUALLY_THROW, LBooleanToFloatFunction::constant, () -> new LBooleanToFloatFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LBooleanToFloatFunctionBuilder extends PerCaseBuilderWithFloa
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final LBooleanToFloatFunctionBuilder booleanToFloatFunction() {
+	public static LBooleanToFloatFunctionBuilder booleanToFloatFunction() {
 		return new LBooleanToFloatFunctionBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final LBooleanToFloatFunctionBuilder booleanToFloatFunction(Consumer<LBooleanToFloatFunction> consumer) {
+	public static LBooleanToFloatFunctionBuilder booleanToFloatFunction(Consumer<LBooleanToFloatFunction> consumer) {
 		return new LBooleanToFloatFunctionBuilder(consumer);
 	}
 

@@ -295,7 +295,7 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testlongUnaryOpFromLong() throws X {
+    public void testlongUnaryOpComposeLong() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -314,7 +314,7 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
         };
 
         //when
-        LLongUnaryOperator function = sutO.longUnaryOpFromLong(before1);
+        LLongUnaryOperator function = sutO.longUnaryOpComposeLong(before1);
         function.doApplyAsLong((long)80);
 
         //then - finals
@@ -324,7 +324,7 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
 
 
     @Test
-    public void testlongUnaryOpFrom() throws X {
+    public void testlongUnaryOpCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -343,7 +343,7 @@ public class LLongUnaryOperatorTest<X extends ParseException> {
         };
 
         //when
-        LToLongFunction<Integer > function = sutO.longUnaryOpFrom(before1);
+        LToLongFunction<Integer > function = sutO.longUnaryOpCompose(before1);
         function.doApplyAsLong((Integer )Integer.valueOf(80));
 
         //then - finals

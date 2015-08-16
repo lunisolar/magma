@@ -271,7 +271,7 @@ public class LLongConsumerXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testlongConsFromLong() throws X {
+    public void testlongConsComposeLong() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -289,7 +289,7 @@ public class LLongConsumerXTest<X extends ParseException> {
         };
 
         //when
-        LLongConsumerX<X> function = sutO.longConsFromLong(before1);
+        LLongConsumerX<X> function = sutO.longConsComposeLong(before1);
         function.doAccept((long)80);
 
         //then - finals
@@ -299,7 +299,7 @@ public class LLongConsumerXTest<X extends ParseException> {
 
 
     @Test
-    public void testlongConsFrom() throws X {
+    public void testlongConsCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -317,7 +317,7 @@ public class LLongConsumerXTest<X extends ParseException> {
         };
 
         //when
-        LConsumerX<Integer ,X> function = sutO.longConsFrom(before1);
+        LConsumerX<Integer ,X> function = sutO.longConsCompose(before1);
         function.doAccept((Integer )Integer.valueOf(80));
 
         //then - finals

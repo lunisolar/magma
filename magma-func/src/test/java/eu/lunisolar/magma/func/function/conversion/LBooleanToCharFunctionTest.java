@@ -195,7 +195,7 @@ public class LBooleanToCharFunctionTest<X extends ParseException> {
         });
 
         // when
-        LBooleanToCharFunction wrapped = sutThrowing.handleBoolToCFunc(handler -> handler
+        LBooleanToCharFunction wrapped = sutThrowing.handleBoolToCharFunc(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -219,7 +219,7 @@ public class LBooleanToCharFunctionTest<X extends ParseException> {
         });
 
         // when
-        LBooleanToCharFunction wrapped = sutThrowing.handleBoolToCFunc(handler -> handler
+        LBooleanToCharFunction wrapped = sutThrowing.handleBoolToCharFunc(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -243,7 +243,7 @@ public class LBooleanToCharFunctionTest<X extends ParseException> {
         });
 
         // when
-        LBooleanToCharFunction wrapped = sutThrowing.handleBoolToCFunc(handler -> handler
+        LBooleanToCharFunction wrapped = sutThrowing.handleBoolToCharFunc(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -268,7 +268,7 @@ public class LBooleanToCharFunctionTest<X extends ParseException> {
         });
 
         // when
-        LBooleanToCharFunction wrapped = sutThrowing.handleBoolToCFunc(h -> Function4U.doNothing());
+        LBooleanToCharFunction wrapped = sutThrowing.handleBoolToCharFunc(h -> Function4U.doNothing());
 
         // then
         try {
@@ -287,7 +287,7 @@ public class LBooleanToCharFunctionTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testboolToCFuncFromBoolean() throws X {
+    public void testboolToCharFuncComposeBoolean() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -306,7 +306,7 @@ public class LBooleanToCharFunctionTest<X extends ParseException> {
         };
 
         //when
-        LBooleanToCharFunction function = sutO.boolToCFuncFromBoolean(before1);
+        LBooleanToCharFunction function = sutO.boolToCharFuncComposeBoolean(before1);
         function.doApplyAsChar(true);
 
         //then - finals
@@ -316,7 +316,7 @@ public class LBooleanToCharFunctionTest<X extends ParseException> {
 
 
     @Test
-    public void testboolToCFuncFrom() throws X {
+    public void testboolToCharFuncCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -335,7 +335,7 @@ public class LBooleanToCharFunctionTest<X extends ParseException> {
         };
 
         //when
-        LToCharFunction<Integer > function = sutO.boolToCFuncFrom(before1);
+        LToCharFunction<Integer > function = sutO.boolToCharFuncCompose(before1);
         function.doApplyAsChar((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -667,28 +667,28 @@ public class LBooleanToCharFunctionTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nestingBoolToCFunc())
+        assertThat(sut.nestingBoolToCharFunc())
             .isSameAs(sut)
             .isInstanceOf(LBooleanToCharFunction.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shovingBoolToCFunc())
+        assertThat(sut.shovingBoolToCharFunc())
             .isSameAs(sut)
             .isInstanceOf(LBooleanToCharFunction.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestingBoolToCFuncX())
+        assertThat(sut.nestingBoolToCharFuncX())
             .isSameAs(sut)
             .isInstanceOf(LBooleanToCharFunctionX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shovingBoolToCFuncX())
+        assertThat(sut.shovingBoolToCharFuncX())
             .isSameAs(sut)
             .isInstanceOf(LBooleanToCharFunctionX.class);
     }
@@ -702,11 +702,11 @@ public class LBooleanToCharFunctionTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shovingBoolToCFunc().doApplyAsChar(true);
+        sutThrowing.shovingBoolToCharFunc().doApplyAsChar(true);
     }
 
     @Test
-    public void testHandleBoolToCFunc() throws X {
+    public void testHandleBoolToCharFunc() throws X {
 
         // given
         LBooleanToCharFunction sutThrowing = LBooleanToCharFunction.l(b -> {
@@ -714,7 +714,7 @@ public class LBooleanToCharFunctionTest<X extends ParseException> {
         });
 
         // when
-        LBooleanToCharFunction wrapped = sutThrowing.handleBoolToCFunc(h -> {
+        LBooleanToCharFunction wrapped = sutThrowing.handleBoolToCharFunc(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 

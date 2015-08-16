@@ -65,7 +65,7 @@ public final class IntPredicateBuilder extends PerCaseBuilderWithBooleanProduct.
 		});
 
 	public IntPredicateBuilder(@Nullable Consumer<java.util.function.IntPredicate> consumer) {
-		super(EVENTUALLY_THROW, LIntPredicate::constant);
+		super(EVENTUALLY_THROW, LIntPredicate::constant, () -> new IntPredicateBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -77,13 +77,13 @@ public final class IntPredicateBuilder extends PerCaseBuilderWithBooleanProduct.
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final IntPredicateBuilder intPredicate() {
+	public static IntPredicateBuilder intPredicate() {
 		return new IntPredicateBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final IntPredicateBuilder intPredicate(Consumer<java.util.function.IntPredicate> consumer) {
+	public static IntPredicateBuilder intPredicate(Consumer<java.util.function.IntPredicate> consumer) {
 		return new IntPredicateBuilder(consumer);
 	}
 

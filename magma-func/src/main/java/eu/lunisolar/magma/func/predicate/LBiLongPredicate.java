@@ -64,10 +64,12 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 
 	boolean doTest(long l1, long l2);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default boolean nestingDoTest(long l1, long l2) {
 		return this.doTest(l1, l2);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default boolean shovingDoTest(long l1, long l2) {
 		return this.doTest(l1, l2);
 	}
@@ -77,13 +79,13 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 		return doTest(l1, l2);
 	}
 
-	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
+	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
 	default boolean doApplyAsBoolean(long l1, long l2) {
 		return doTest(l1, l2);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LBiLongPredicate.DESCRIPTION;
@@ -94,8 +96,21 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 		return () -> this.doTest(l1, l2);
 	}
 
+	/** Creates function that always returns the same value. */
 	static LBiLongPredicate constant(boolean r) {
 		return (l1, l2) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static LBiLongPredicate test1st(@Nonnull LLongPredicate func) {
+		return (l1, l2) -> func.doTest(l1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static LBiLongPredicate test2nd(@Nonnull LLongPredicate func) {
+		return (l1, l2) -> func.doTest(l2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -107,7 +122,7 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LBiLongPredicate wrap(final @Nonnull LBiLongPredicateX<X> other) {
 		return other::nestingDoTest;
@@ -117,7 +132,9 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 	// <editor-fold desc="predicate">
 
 	/**
-	 *  @see {@link java.util.function.Predicate#negate()}
+	 * Returns a predicate that represents the logical negation of this predicate.
+	 *
+	 * @see {@link java.util.function.Predicate#negate}
 	 */
 	@Nonnull
 	default LBiLongPredicate negate() {
@@ -125,7 +142,8 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#and()}
+	 * Returns a predicate that represents the logical AND of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#and()}
 	 */
 	@Nonnull
 	default LBiLongPredicate and(@Nonnull LBiLongPredicate other) {
@@ -134,7 +152,8 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LBiLongPredicate or(@Nonnull LBiLongPredicate other) {
@@ -143,7 +162,8 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical XOR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LBiLongPredicate xor(@Nonnull LBiLongPredicate other) {
@@ -152,7 +172,8 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#isEqual()}
+	 * Creates predicate that evaluates if an object is equal with the argument one.
+	 * @see {@link java.util.function.Predicate#isEqual()
 	 */
 	@Nonnull
 	static LBiLongPredicate isEqual(final long v1, final long v2) {
@@ -163,21 +184,17 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LBiLongPredicate biLongPredFromLong(@Nonnull final LLongUnaryOperator before1, @Nonnull final LLongUnaryOperator before2) {
+	default LBiLongPredicate biLongPredComposeLong(@Nonnull final LLongUnaryOperator before1, @Nonnull final LLongUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final long v1, final long v2) -> this.doTest(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiPredicate<V1, V2> biLongPredFrom(@Nonnull final LToLongFunction<? super V1> before1, @Nonnull final LToLongFunction<? super V2> before2) {
+	default <V1, V2> LBiPredicate<V1, V2> biLongPredCompose(@Nonnull final LToLongFunction<? super V1> before1, @Nonnull final LToLongFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doTest(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
@@ -189,7 +206,7 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LLongBiFunction<V> boolToLongBiFunction(@Nonnull LBooleanFunction<? extends V> after) {
+	default <V> LBiLongFunction<V> boolToBiLongFunction(@Nonnull LBooleanFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (long l1, long l2) -> after.doApply(this.doTest(l1, l2));
 	}
@@ -209,12 +226,12 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBiLongPredicate shovingBiLongPred() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBiLongPredicateX<RuntimeException> shovingBiLongPredX() {
 		return this;
 	}

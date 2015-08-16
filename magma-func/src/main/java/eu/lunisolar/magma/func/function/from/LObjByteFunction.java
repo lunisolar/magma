@@ -65,35 +65,50 @@ public interface LObjByteFunction<T, R> extends LObjByteFunctionX<T, R, RuntimeE
 	@Nullable
 	R doApply(T t, byte i);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default R nestingDoApply(T t, byte i) {
 		return this.doApply(t, i);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default R shovingDoApply(T t, byte i) {
 		return this.doApply(t, i);
 	}
 
 	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
-	/** Ensures the result is not null */
+	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullDoApply(T t, byte i) {
 		return Null.requireNonNull(doApply(t, i), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LObjByteFunction.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> captureObjBFunc(T t, byte i) {
+	default LSupplier<R> captureObjByteFunc(T t, byte i) {
 		return () -> this.doApply(t, i);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T, R> LObjByteFunction<T, R> constant(R r) {
 		return (t, i) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T, R> LObjByteFunction<T, R> apply1st(@Nonnull LFunction<T, R> func) {
+		return (t, i) -> func.doApply(t);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T, R> LObjByteFunction<T, R> apply2nd(@Nonnull LByteFunction<R> func) {
+		return (t, i) -> func.doApply(i);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -105,7 +120,7 @@ public interface LObjByteFunction<T, R> extends LObjByteFunctionX<T, R, RuntimeE
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T, R, X extends Throwable> LObjByteFunction<T, R> wrap(final @Nonnull LObjByteFunctionX<T, R, X> other) {
 		return other::nestingDoApply;
@@ -115,21 +130,17 @@ public interface LObjByteFunction<T, R> extends LObjByteFunctionX<T, R, RuntimeE
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LObjByteFunction<V1, R> objBFuncFromByte(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LByteUnaryOperator before2) {
+	default <V1> LObjByteFunction<V1, R> objByteFuncComposeByte(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LByteUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final byte v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsByte(v2));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiFunction<V1, V2, R> objBFuncFrom(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToByteFunction<? super V2> before2) {
+	default <V1, V2> LBiFunction<V1, V2, R> objByteFuncCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToByteFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsByte(v2));
@@ -158,30 +169,31 @@ public interface LObjByteFunction<T, R> extends LObjByteFunctionX<T, R, RuntimeE
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjByteFunction<T, R> nestingObjBFunc() {
+	default LObjByteFunction<T, R> nestingObjByteFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjByteFunctionX<T, R, RuntimeException> nestingObjBFuncX() {
+	default LObjByteFunctionX<T, R, RuntimeException> nestingObjByteFuncX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjByteFunction<T, R> shovingObjBFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LObjByteFunction<T, R> shovingObjByteFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjByteFunctionX<T, R, RuntimeException> shovingObjBFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LObjByteFunctionX<T, R, RuntimeException> shovingObjByteFuncX() {
 		return this;
 	}
 
 	// </editor-fold>
 
+	/** Converts to function that makes sure that the result is not null. */
 	@Nonnull
-	default LObjByteFunction<T, R> nonNullObjBFunc() {
+	default LObjByteFunction<T, R> nonNullObjByteFunc() {
 		return this::nonNullDoApply;
 	}
 

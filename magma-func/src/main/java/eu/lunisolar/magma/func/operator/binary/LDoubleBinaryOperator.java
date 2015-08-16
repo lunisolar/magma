@@ -74,10 +74,12 @@ public interface LDoubleBinaryOperator extends LDoubleBinaryOperatorX<RuntimeExc
 
 	double doApplyAsDouble(double d1, double d2);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default double nestingDoApplyAsDouble(double d1, double d2) {
 		return this.doApplyAsDouble(d1, d2);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default double shovingDoApplyAsDouble(double d1, double d2) {
 		return this.doApplyAsDouble(d1, d2);
 	}
@@ -87,19 +89,32 @@ public interface LDoubleBinaryOperator extends LDoubleBinaryOperatorX<RuntimeExc
 		return doApplyAsDouble(d1, d2);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LDoubleBinaryOperator.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LDoubleSupplier captureDBinaryOp(double d1, double d2) {
+	default LDoubleSupplier captureDoubleBinaryOp(double d1, double d2) {
 		return () -> this.doApplyAsDouble(d1, d2);
 	}
 
+	/** Creates function that always returns the same value. */
 	static LDoubleBinaryOperator constant(double r) {
 		return (d1, d2) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static LDoubleBinaryOperator apply1stAsDouble(@Nonnull LDoubleUnaryOperator func) {
+		return (d1, d2) -> func.doApplyAsDouble(d1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static LDoubleBinaryOperator apply2ndAsDouble(@Nonnull LDoubleUnaryOperator func) {
+		return (d1, d2) -> func.doApplyAsDouble(d2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -117,17 +132,37 @@ public interface LDoubleBinaryOperator extends LDoubleBinaryOperatorX<RuntimeExc
 		return other::applyAsDouble;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LDoubleBinaryOperator wrap(final @Nonnull LDoubleBinaryOperatorX<X> other) {
 		return other::nestingDoApplyAsDouble;
 	}
 
 	// </editor-fold>
-	// <editor-fold desc="minmax/logical">
 
 	/**
-	 * @see {@link java.util.function.BinaryOperator#minBy()}
+	 * Creates function that returns the lesser value according to the comparator.
+	 * @see {@link java.util.function.BinaryOperator#minBy}
+	 */
+	@Nonnull
+	static LDoubleBinaryOperator minBy(@Nonnull Comparator<Double> comparator) {
+		Null.nonNullArg(comparator, "comparator");
+		return (a, b) -> comparator.compare(a, b) <= 0 ? a : b;
+	}
+
+	/**
+	 * Creates function that returns the lesser value according to the comparator.
+	 * @see {@link java.util.function.BinaryOperator#maxBy}
+	 */
+	@Nonnull
+	static LDoubleBinaryOperator maxBy(@Nonnull Comparator<Double> comparator) {
+		Null.nonNullArg(comparator, "comparator");
+		return (a, b) -> comparator.compare(a, b) >= 0 ? a : b;
+	}
+
+	/**
+	 * Returns function that returns the lower value.
+	 * @see {@link java.util.function.BinaryOperator#minBy}
 	 */
 	@Nonnull
 	static LDoubleBinaryOperator min() {
@@ -135,32 +170,27 @@ public interface LDoubleBinaryOperator extends LDoubleBinaryOperatorX<RuntimeExc
 	}
 
 	/**
-	 * @see {@link java.util.function.BinaryOperator#maxBy()}
+	 * Returns function that returns the higher value.
+	 * @see {@link java.util.function.BinaryOperator#maxBy}
 	 */
 	@Nonnull
 	static LDoubleBinaryOperator max() {
 		return Double::max;
 	}
 
-	// </editor-fold>
-
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LDoubleBinaryOperator dBinaryOpFromDouble(@Nonnull final LDoubleUnaryOperator before1, @Nonnull final LDoubleUnaryOperator before2) {
+	default LDoubleBinaryOperator doubleBinaryOpComposeDouble(@Nonnull final LDoubleUnaryOperator before1, @Nonnull final LDoubleUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final double v1, final double v2) -> this.doApplyAsDouble(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LToDoubleBiFunction<V1, V2> dBinaryOpFrom(@Nonnull final LToDoubleFunction<? super V1> before1, @Nonnull final LToDoubleFunction<? super V2> before2) {
+	default <V1, V2> LToDoubleBiFunction<V1, V2> doubleBinaryOpCompose(@Nonnull final LToDoubleFunction<? super V1> before1, @Nonnull final LToDoubleFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApplyAsDouble(before1.doApplyAsDouble(v1), before2.doApplyAsDouble(v2));
@@ -172,7 +202,7 @@ public interface LDoubleBinaryOperator extends LDoubleBinaryOperatorX<RuntimeExc
 
 	/** Combines two operators together in a order. */
 	@Nonnull
-	default <V> LDoubleBiFunction<V> then(@Nonnull LDoubleFunction<? extends V> after) {
+	default <V> LBiDoubleFunction<V> then(@Nonnull LDoubleFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (double d1, double d2) -> after.doApply(this.doApplyAsDouble(d1, d2));
 	}
@@ -182,23 +212,23 @@ public interface LDoubleBinaryOperator extends LDoubleBinaryOperatorX<RuntimeExc
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoubleBinaryOperator nestingDBinaryOp() {
+	default LDoubleBinaryOperator nestingDoubleBinaryOp() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoubleBinaryOperatorX<RuntimeException> nestingDBinaryOpX() {
+	default LDoubleBinaryOperatorX<RuntimeException> nestingDoubleBinaryOpX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleBinaryOperator shovingDBinaryOp() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoubleBinaryOperator shovingDoubleBinaryOp() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleBinaryOperatorX<RuntimeException> shovingDBinaryOpX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoubleBinaryOperatorX<RuntimeException> shovingDoubleBinaryOpX() {
 		return this;
 	}
 

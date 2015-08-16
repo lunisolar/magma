@@ -65,6 +65,7 @@ public interface LFloatFunctionX<R, X extends Throwable> extends MetaFunction, M
 	@Nullable
 	R doApply(float f) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default R nestingDoApply(float f) {
 		try {
 			return this.doApply(f);
@@ -75,10 +76,12 @@ public interface LFloatFunctionX<R, X extends Throwable> extends MetaFunction, M
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default R shovingDoApply(float f) {
 		return ((LFloatFunctionX<R, RuntimeException>) this).doApply(f);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> R handlingDoApply(float f, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -90,23 +93,24 @@ public interface LFloatFunctionX<R, X extends Throwable> extends MetaFunction, M
 
 	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
-	/** Ensures the result is not null */
+	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullDoApply(float f) throws X {
 		return Null.requireNonNull(doApply(f), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LFloatFunctionX.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplierX<R, X> captureFFunc(float f) {
+	default LSupplierX<R, X> captureFloatFunc(float f) {
 		return () -> this.doApply(f);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <R, X extends Throwable> LFloatFunctionX<R, X> constant(R r) {
 		return f -> r;
 	}
@@ -127,7 +131,7 @@ public interface LFloatFunctionX<R, X extends Throwable> extends MetaFunction, M
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <R, X extends Throwable> LFloatFunctionX<R, X> wrapX(final @Nonnull LFloatFunction<R> other) {
 		return (LFloatFunctionX) other;
@@ -137,20 +141,16 @@ public interface LFloatFunctionX<R, X extends Throwable> extends MetaFunction, M
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LFloatFunctionX<R, X> fFuncFromFloat(@Nonnull final LFloatUnaryOperatorX<X> before1) {
+	default LFloatFunctionX<R, X> floatFuncComposeFloat(@Nonnull final LFloatUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doApplyAsFloat(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LFunctionX<V1, R, X> fFuncFrom(@Nonnull final LToFloatFunctionX<? super V1, X> before1) {
+	default <V1> LFunctionX<V1, R, X> floatFuncCompose(@Nonnull final LToFloatFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doApplyAsFloat(v1));
 	}
@@ -234,42 +234,45 @@ public interface LFloatFunctionX<R, X extends Throwable> extends MetaFunction, M
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LFloatFunction<R> nestingFFunc() {
+	default LFloatFunction<R> nestingFloatFunc() {
 		return this::nestingDoApply;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LFloatFunctionX<R, RuntimeException> nestingFFuncX() {
+	default LFloatFunctionX<R, RuntimeException> nestingFloatFuncX() {
 		return this::nestingDoApply;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatFunction<R> shovingFFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LFloatFunction<R> shovingFloatFunc() {
 		return this::shovingDoApply;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatFunctionX<R, RuntimeException> shovingFFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LFloatFunctionX<R, RuntimeException> shovingFloatFuncX() {
 		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
+	/** Converts to function that makes sure that the result is not null. */
 	@Nonnull
-	default LFloatFunctionX<R, X> nonNullFFunc() {
+	default LFloatFunctionX<R, X> nonNullFloatFunc() {
 		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LFloatFunction<R> handleFFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LFloatFunction<R> handleFloatFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return f -> this.handlingDoApply(f, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LFloatFunctionX<R, Y> handleFFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LFloatFunctionX<R, Y> handleFloatFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return f -> this.handlingDoApply(f, handling);
 	}
 

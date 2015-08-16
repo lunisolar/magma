@@ -64,6 +64,7 @@ public interface LToByteBiFunctionX<T1, T2, X extends Throwable> extends MetaFun
 
 	byte doApplyAsByte(T1 t1, T2 t2) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default byte nestingDoApplyAsByte(T1 t1, T2 t2) {
 		try {
 			return this.doApplyAsByte(t1, t2);
@@ -74,10 +75,12 @@ public interface LToByteBiFunctionX<T1, T2, X extends Throwable> extends MetaFun
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default byte shovingDoApplyAsByte(T1 t1, T2 t2) {
 		return ((LToByteBiFunctionX<T1, T2, RuntimeException>) this).doApplyAsByte(t1, t2);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> byte handlingDoApplyAsByte(T1 t1, T2 t2, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -92,19 +95,32 @@ public interface LToByteBiFunctionX<T1, T2, X extends Throwable> extends MetaFun
 		return doApplyAsByte(t1, t2);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LToByteBiFunctionX.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LByteSupplierX<X> captureToBBiFunc(T1 t1, T2 t2) {
+	default LByteSupplierX<X> captureToByteBiFunc(T1 t1, T2 t2) {
 		return () -> this.doApplyAsByte(t1, t2);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T1, T2, X extends Throwable> LToByteBiFunctionX<T1, T2, X> constant(byte r) {
 		return (t1, t2) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T1, T2, X extends Throwable> LToByteBiFunctionX<T1, T2, X> apply1stAsByte(@Nonnull LToByteFunctionX<T1, X> func) {
+		return (t1, t2) -> func.doApplyAsByte(t1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T1, T2, X extends Throwable> LToByteBiFunctionX<T1, T2, X> apply2ndAsByte(@Nonnull LToByteFunctionX<T2, X> func) {
+		return (t1, t2) -> func.doApplyAsByte(t2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -123,7 +139,7 @@ public interface LToByteBiFunctionX<T1, T2, X extends Throwable> extends MetaFun
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T1, T2, X extends Throwable> LToByteBiFunctionX<T1, T2, X> wrapX(final @Nonnull LToByteBiFunction<T1, T2> other) {
 		return (LToByteBiFunctionX) other;
@@ -133,11 +149,9 @@ public interface LToByteBiFunctionX<T1, T2, X extends Throwable> extends MetaFun
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LToByteBiFunctionX<V1, V2, X> toBBiFuncFrom(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
+	default <V1, V2> LToByteBiFunctionX<V1, V2, X> toByteBiFuncCompose(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final V2 v2) -> this.doApplyAsByte(before1.doApply(v1), before2.doApply(v2));
@@ -159,23 +173,23 @@ public interface LToByteBiFunctionX<T1, T2, X extends Throwable> extends MetaFun
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToByteBiFunction<T1, T2> nestingToBBiFunc() {
+	default LToByteBiFunction<T1, T2> nestingToByteBiFunc() {
 		return this::nestingDoApplyAsByte;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToByteBiFunctionX<T1, T2, RuntimeException> nestingToBBiFuncX() {
+	default LToByteBiFunctionX<T1, T2, RuntimeException> nestingToByteBiFuncX() {
 		return this::nestingDoApplyAsByte;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToByteBiFunction<T1, T2> shovingToBBiFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToByteBiFunction<T1, T2> shovingToByteBiFunc() {
 		return this::shovingDoApplyAsByte;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToByteBiFunctionX<T1, T2, RuntimeException> shovingToBBiFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToByteBiFunctionX<T1, T2, RuntimeException> shovingToByteBiFuncX() {
 		return this::shovingDoApplyAsByte;
 	}
 
@@ -183,13 +197,15 @@ public interface LToByteBiFunctionX<T1, T2, X extends Throwable> extends MetaFun
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LToByteBiFunction<T1, T2> handleToBBiFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LToByteBiFunction<T1, T2> handleToByteBiFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T1 t1, T2 t2) -> this.handlingDoApplyAsByte(t1, t2, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LToByteBiFunctionX<T1, T2, Y> handleToBBiFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LToByteBiFunctionX<T1, T2, Y> handleToByteBiFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T1 t1, T2 t2) -> this.handlingDoApplyAsByte(t1, t2, handling);
 	}
 

@@ -65,35 +65,50 @@ public interface LObjFloatFunction<T, R> extends LObjFloatFunctionX<T, R, Runtim
 	@Nullable
 	R doApply(T t, float f);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default R nestingDoApply(T t, float f) {
 		return this.doApply(t, f);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default R shovingDoApply(T t, float f) {
 		return this.doApply(t, f);
 	}
 
 	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
-	/** Ensures the result is not null */
+	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullDoApply(T t, float f) {
 		return Null.requireNonNull(doApply(t, f), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LObjFloatFunction.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> captureObjFFunc(T t, float f) {
+	default LSupplier<R> captureObjFloatFunc(T t, float f) {
 		return () -> this.doApply(t, f);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T, R> LObjFloatFunction<T, R> constant(R r) {
 		return (t, f) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T, R> LObjFloatFunction<T, R> apply1st(@Nonnull LFunction<T, R> func) {
+		return (t, f) -> func.doApply(t);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T, R> LObjFloatFunction<T, R> apply2nd(@Nonnull LFloatFunction<R> func) {
+		return (t, f) -> func.doApply(f);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -105,7 +120,7 @@ public interface LObjFloatFunction<T, R> extends LObjFloatFunctionX<T, R, Runtim
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T, R, X extends Throwable> LObjFloatFunction<T, R> wrap(final @Nonnull LObjFloatFunctionX<T, R, X> other) {
 		return other::nestingDoApply;
@@ -115,21 +130,17 @@ public interface LObjFloatFunction<T, R> extends LObjFloatFunctionX<T, R, Runtim
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LObjFloatFunction<V1, R> objFFuncFromFloat(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LFloatUnaryOperator before2) {
+	default <V1> LObjFloatFunction<V1, R> objFloatFuncComposeFloat(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LFloatUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final float v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsFloat(v2));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiFunction<V1, V2, R> objFFuncFrom(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToFloatFunction<? super V2> before2) {
+	default <V1, V2> LBiFunction<V1, V2, R> objFloatFuncCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToFloatFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsFloat(v2));
@@ -158,30 +169,31 @@ public interface LObjFloatFunction<T, R> extends LObjFloatFunctionX<T, R, Runtim
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjFloatFunction<T, R> nestingObjFFunc() {
+	default LObjFloatFunction<T, R> nestingObjFloatFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjFloatFunctionX<T, R, RuntimeException> nestingObjFFuncX() {
+	default LObjFloatFunctionX<T, R, RuntimeException> nestingObjFloatFuncX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjFloatFunction<T, R> shovingObjFFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LObjFloatFunction<T, R> shovingObjFloatFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjFloatFunctionX<T, R, RuntimeException> shovingObjFFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LObjFloatFunctionX<T, R, RuntimeException> shovingObjFloatFuncX() {
 		return this;
 	}
 
 	// </editor-fold>
 
+	/** Converts to function that makes sure that the result is not null. */
 	@Nonnull
-	default LObjFloatFunction<T, R> nonNullObjFFunc() {
+	default LObjFloatFunction<T, R> nonNullObjFloatFunc() {
 		return this::nonNullDoApply;
 	}
 

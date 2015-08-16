@@ -64,10 +64,12 @@ public interface LBooleanToFloatFunction extends LBooleanToFloatFunctionX<Runtim
 
 	float doApplyAsFloat(boolean b);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default float nestingDoApplyAsFloat(boolean b) {
 		return this.doApplyAsFloat(b);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default float shovingDoApplyAsFloat(boolean b) {
 		return this.doApplyAsFloat(b);
 	}
@@ -77,17 +79,18 @@ public interface LBooleanToFloatFunction extends LBooleanToFloatFunctionX<Runtim
 		return doApplyAsFloat(b);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LBooleanToFloatFunction.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LFloatSupplier captureBoolToFFunc(boolean b) {
+	default LFloatSupplier captureBoolToFloatFunc(boolean b) {
 		return () -> this.doApplyAsFloat(b);
 	}
 
+	/** Creates function that always returns the same value. */
 	static LBooleanToFloatFunction constant(float r) {
 		return b -> r;
 	}
@@ -101,7 +104,7 @@ public interface LBooleanToFloatFunction extends LBooleanToFloatFunctionX<Runtim
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LBooleanToFloatFunction wrap(final @Nonnull LBooleanToFloatFunctionX<X> other) {
 		return other::nestingDoApplyAsFloat;
@@ -111,20 +114,16 @@ public interface LBooleanToFloatFunction extends LBooleanToFloatFunctionX<Runtim
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LBooleanToFloatFunction boolToFFuncFromBoolean(@Nonnull final LLogicalOperator before1) {
+	default LBooleanToFloatFunction boolToFloatFuncComposeBoolean(@Nonnull final LLogicalOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsFloat(before1.doApply(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToFloatFunction<V1> boolToFFuncFrom(@Nonnull final LPredicate<? super V1> before1) {
+	default <V1> LToFloatFunction<V1> boolToFloatFuncCompose(@Nonnull final LPredicate<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsFloat(before1.doTest(v1));
 	}
@@ -201,23 +200,23 @@ public interface LBooleanToFloatFunction extends LBooleanToFloatFunctionX<Runtim
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanToFloatFunction nestingBoolToFFunc() {
+	default LBooleanToFloatFunction nestingBoolToFloatFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanToFloatFunctionX<RuntimeException> nestingBoolToFFuncX() {
+	default LBooleanToFloatFunctionX<RuntimeException> nestingBoolToFloatFuncX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanToFloatFunction shovingBoolToFFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBooleanToFloatFunction shovingBoolToFloatFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanToFloatFunctionX<RuntimeException> shovingBoolToFFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBooleanToFloatFunctionX<RuntimeException> shovingBoolToFloatFuncX() {
 		return this;
 	}
 

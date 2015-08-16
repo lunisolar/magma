@@ -66,7 +66,7 @@ public final class LShortToFloatFunctionXBuilder<X extends Throwable> extends Pe
 		});
 
 	public LShortToFloatFunctionXBuilder(@Nullable Consumer<LShortToFloatFunctionX<X>> consumer) {
-		super(EVENTUALLY_THROW, LShortToFloatFunctionX::constant);
+		super(EVENTUALLY_THROW, LShortToFloatFunctionX::constant, () -> new LShortToFloatFunctionXBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LShortToFloatFunctionXBuilder<X extends Throwable> extends Pe
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <X extends Throwable> LShortToFloatFunctionXBuilder<X> shortToFloatFunctionX() {
+	public static <X extends Throwable> LShortToFloatFunctionXBuilder<X> shortToFloatFunctionX() {
 		return new LShortToFloatFunctionXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <X extends Throwable> LShortToFloatFunctionXBuilder<X> shortToFloatFunctionX(Consumer<LShortToFloatFunctionX<X>> consumer) {
+	public static <X extends Throwable> LShortToFloatFunctionXBuilder<X> shortToFloatFunctionX(Consumer<LShortToFloatFunctionX<X>> consumer) {
 		return new LShortToFloatFunctionXBuilder(consumer);
 	}
 

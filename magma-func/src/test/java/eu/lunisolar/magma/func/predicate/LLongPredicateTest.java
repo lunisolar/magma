@@ -355,7 +355,7 @@ public class LLongPredicateTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testlongPredFromLong() throws X {
+    public void testlongPredComposeLong() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -374,7 +374,7 @@ public class LLongPredicateTest<X extends ParseException> {
         };
 
         //when
-        LLongPredicate function = sutO.longPredFromLong(before1);
+        LLongPredicate function = sutO.longPredComposeLong(before1);
         function.doTest((long)80);
 
         //then - finals
@@ -384,7 +384,7 @@ public class LLongPredicateTest<X extends ParseException> {
 
 
     @Test
-    public void testlongPredFrom() throws X {
+    public void testlongPredCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -403,7 +403,7 @@ public class LLongPredicateTest<X extends ParseException> {
         };
 
         //when
-        LPredicate<Integer > function = sutO.longPredFrom(before1);
+        LPredicate<Integer > function = sutO.longPredCompose(before1);
         function.doTest((Integer )Integer.valueOf(80));
 
         //then - finals

@@ -65,7 +65,7 @@ public final class DoublePredicateBuilder extends PerCaseBuilderWithBooleanProdu
 		});
 
 	public DoublePredicateBuilder(@Nullable Consumer<java.util.function.DoublePredicate> consumer) {
-		super(EVENTUALLY_THROW, LDoublePredicate::constant);
+		super(EVENTUALLY_THROW, LDoublePredicate::constant, () -> new DoublePredicateBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -77,13 +77,13 @@ public final class DoublePredicateBuilder extends PerCaseBuilderWithBooleanProdu
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final DoublePredicateBuilder doublePredicate() {
+	public static DoublePredicateBuilder doublePredicate() {
 		return new DoublePredicateBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final DoublePredicateBuilder doublePredicate(Consumer<java.util.function.DoublePredicate> consumer) {
+	public static DoublePredicateBuilder doublePredicate(Consumer<java.util.function.DoublePredicate> consumer) {
 		return new DoublePredicateBuilder(consumer);
 	}
 

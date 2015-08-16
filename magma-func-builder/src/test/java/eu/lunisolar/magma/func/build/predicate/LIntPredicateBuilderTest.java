@@ -115,7 +115,7 @@ public class LIntPredicateBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LIntPredicate function = intPredicate((LIntPredicate f)-> doNothing())
-            .addCase(ce -> ce.of(i -> i == (int)0)
+            .aCase(ce -> ce.of(i -> i == (int)0)
                              .evaluate(i -> false))
             .inCase(i -> i > 0 && i < 10).evaluate(i -> true)
             .inCase(i -> i > 10 && i < 20).evaluate(i -> true)

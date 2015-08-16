@@ -116,7 +116,7 @@ public class LBiObjCharConsumerXBuilderTest<T1,T2,X extends Throwable>{
         final AtomicInteger externalEffect = new AtomicInteger(0);
 
         LBiObjCharConsumerX<Integer ,Integer ,ParseException> function = biObjCharConsumerX((LBiObjCharConsumerX<Integer ,Integer ,ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((t1,t2, c) -> t1 == Integer.valueOf(0))
+            .aCase(ce -> ce.of((t1,t2, c) -> t1 == Integer.valueOf(0))
                              .evaluate((t1,t2, c) -> externalEffect.set(0)))
             .inCase((t1,t2, c) -> t1 > 0 && t1 < 10).evaluate((t1,t2, c) -> externalEffect.set(1))
             .inCase((t1,t2, c) -> t1 > 10 && t1 < 20).evaluate((t1,t2, c) -> externalEffect.set(2))

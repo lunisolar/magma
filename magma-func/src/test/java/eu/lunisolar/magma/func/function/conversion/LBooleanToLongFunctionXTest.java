@@ -276,7 +276,7 @@ public class LBooleanToLongFunctionXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testboolToLongFuncFromBoolean() throws X {
+    public void testboolToLongFuncComposeBoolean() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -295,7 +295,7 @@ public class LBooleanToLongFunctionXTest<X extends ParseException> {
         };
 
         //when
-        LBooleanToLongFunctionX<X> function = sutO.boolToLongFuncFromBoolean(before1);
+        LBooleanToLongFunctionX<X> function = sutO.boolToLongFuncComposeBoolean(before1);
         function.doApplyAsLong(true);
 
         //then - finals
@@ -305,7 +305,7 @@ public class LBooleanToLongFunctionXTest<X extends ParseException> {
 
 
     @Test
-    public void testboolToLongFuncFrom() throws X {
+    public void testboolToLongFuncCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -324,7 +324,7 @@ public class LBooleanToLongFunctionXTest<X extends ParseException> {
         };
 
         //when
-        LToLongFunctionX<Integer ,X> function = sutO.boolToLongFuncFrom(before1);
+        LToLongFunctionX<Integer ,X> function = sutO.boolToLongFuncCompose(before1);
         function.doApplyAsLong((Integer )Integer.valueOf(80));
 
         //then - finals

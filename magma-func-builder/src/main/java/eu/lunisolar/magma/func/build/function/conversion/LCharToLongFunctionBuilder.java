@@ -66,7 +66,7 @@ public final class LCharToLongFunctionBuilder extends PerCaseBuilderWithLongProd
 		});
 
 	public LCharToLongFunctionBuilder(@Nullable Consumer<LCharToLongFunction> consumer) {
-		super(EVENTUALLY_THROW, LCharToLongFunction::constant);
+		super(EVENTUALLY_THROW, LCharToLongFunction::constant, () -> new LCharToLongFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LCharToLongFunctionBuilder extends PerCaseBuilderWithLongProd
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final LCharToLongFunctionBuilder charToLongFunction() {
+	public static LCharToLongFunctionBuilder charToLongFunction() {
 		return new LCharToLongFunctionBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final LCharToLongFunctionBuilder charToLongFunction(Consumer<LCharToLongFunction> consumer) {
+	public static LCharToLongFunctionBuilder charToLongFunction(Consumer<LCharToLongFunction> consumer) {
 		return new LCharToLongFunctionBuilder(consumer);
 	}
 

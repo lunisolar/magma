@@ -65,23 +65,25 @@ public interface LObjBooleanFunction<T, R> extends LObjBooleanFunctionX<T, R, Ru
 	@Nullable
 	R doApply(T t, boolean b);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default R nestingDoApply(T t, boolean b) {
 		return this.doApply(t, b);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default R shovingDoApply(T t, boolean b) {
 		return this.doApply(t, b);
 	}
 
 	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
-	/** Ensures the result is not null */
+	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullDoApply(T t, boolean b) {
 		return Null.requireNonNull(doApply(t, b), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LObjBooleanFunction.DESCRIPTION;
@@ -92,8 +94,21 @@ public interface LObjBooleanFunction<T, R> extends LObjBooleanFunctionX<T, R, Ru
 		return () -> this.doApply(t, b);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T, R> LObjBooleanFunction<T, R> constant(R r) {
 		return (t, b) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T, R> LObjBooleanFunction<T, R> apply1st(@Nonnull LFunction<T, R> func) {
+		return (t, b) -> func.doApply(t);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T, R> LObjBooleanFunction<T, R> apply2nd(@Nonnull LBooleanFunction<R> func) {
+		return (t, b) -> func.doApply(b);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -105,7 +120,7 @@ public interface LObjBooleanFunction<T, R> extends LObjBooleanFunctionX<T, R, Ru
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T, R, X extends Throwable> LObjBooleanFunction<T, R> wrap(final @Nonnull LObjBooleanFunctionX<T, R, X> other) {
 		return other::nestingDoApply;
@@ -115,21 +130,17 @@ public interface LObjBooleanFunction<T, R> extends LObjBooleanFunctionX<T, R, Ru
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LObjBooleanFunction<V1, R> objBoolFuncFromBoolean(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LLogicalOperator before2) {
+	default <V1> LObjBooleanFunction<V1, R> objBoolFuncComposeBoolean(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LLogicalOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final boolean v2) -> this.doApply(before1.doApply(v1), before2.doApply(v2));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiFunction<V1, V2, R> objBoolFuncFrom(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LPredicate<? super V2> before2) {
+	default <V1, V2> LBiFunction<V1, V2, R> objBoolFuncCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LPredicate<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApply(before1.doApply(v1), before2.doTest(v2));
@@ -168,18 +179,19 @@ public interface LObjBooleanFunction<T, R> extends LObjBooleanFunctionX<T, R, Ru
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjBooleanFunction<T, R> shovingObjBoolFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjBooleanFunctionX<T, R, RuntimeException> shovingObjBoolFuncX() {
 		return this;
 	}
 
 	// </editor-fold>
 
+	/** Converts to function that makes sure that the result is not null. */
 	@Nonnull
 	default LObjBooleanFunction<T, R> nonNullObjBoolFunc() {
 		return this::nonNullDoApply;

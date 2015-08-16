@@ -64,10 +64,12 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 
 	boolean doTest(short s);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default boolean nestingDoTest(short s) {
 		return this.doTest(s);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default boolean shovingDoTest(short s) {
 		return this.doTest(s);
 	}
@@ -77,23 +79,24 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 		return doTest(s);
 	}
 
-	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
+	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
 	default boolean doApplyAsBoolean(short s) {
 		return doTest(s);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LShortPredicate.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier captureSPred(short s) {
+	default LBooleanSupplier captureShortPred(short s) {
 		return () -> this.doTest(s);
 	}
 
+	/** Creates function that always returns the same value. */
 	static LShortPredicate constant(boolean r) {
 		return s -> r;
 	}
@@ -107,7 +110,7 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LShortPredicate wrap(final @Nonnull LShortPredicateX<X> other) {
 		return other::nestingDoTest;
@@ -117,7 +120,9 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 	// <editor-fold desc="predicate">
 
 	/**
-	 *  @see {@link java.util.function.Predicate#negate()}
+	 * Returns a predicate that represents the logical negation of this predicate.
+	 *
+	 * @see {@link java.util.function.Predicate#negate}
 	 */
 	@Nonnull
 	default LShortPredicate negate() {
@@ -125,7 +130,8 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#and()}
+	 * Returns a predicate that represents the logical AND of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#and()}
 	 */
 	@Nonnull
 	default LShortPredicate and(@Nonnull LShortPredicate other) {
@@ -134,7 +140,8 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LShortPredicate or(@Nonnull LShortPredicate other) {
@@ -143,7 +150,8 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical XOR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LShortPredicate xor(@Nonnull LShortPredicate other) {
@@ -151,6 +159,10 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 		return s -> doTest(s) ^ other.doTest(s);
 	}
 
+	/**
+	 * Creates predicate that evaluates if an object is equal with the argument one.
+	 * @see {@link java.util.function.Predicate#isEqual()
+	 */
 	@Nonnull
 	static LShortPredicate isEqual(short target) {
 		return s -> s == target;
@@ -160,20 +172,16 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LShortPredicate sPredFromShort(@Nonnull final LShortUnaryOperator before1) {
+	default LShortPredicate shortPredComposeShort(@Nonnull final LShortUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doTest(before1.doApplyAsShort(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LPredicate<V1> sPredFrom(@Nonnull final LToShortFunction<? super V1> before1) {
+	default <V1> LPredicate<V1> shortPredCompose(@Nonnull final LToShortFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doTest(before1.doApplyAsShort(v1));
 	}
@@ -250,23 +258,23 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LShortPredicate nestingSPred() {
+	default LShortPredicate nestingShortPred() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LShortPredicateX<RuntimeException> nestingSPredX() {
+	default LShortPredicateX<RuntimeException> nestingShortPredX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortPredicate shovingSPred() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LShortPredicate shovingShortPred() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortPredicateX<RuntimeException> shovingSPredX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LShortPredicateX<RuntimeException> shovingShortPredX() {
 		return this;
 	}
 

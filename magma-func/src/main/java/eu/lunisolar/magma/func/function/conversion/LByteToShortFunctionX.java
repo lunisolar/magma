@@ -64,6 +64,7 @@ public interface LByteToShortFunctionX<X extends Throwable> extends MetaFunction
 
 	short doApplyAsShort(byte b) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default short nestingDoApplyAsShort(byte b) {
 		try {
 			return this.doApplyAsShort(b);
@@ -74,10 +75,12 @@ public interface LByteToShortFunctionX<X extends Throwable> extends MetaFunction
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default short shovingDoApplyAsShort(byte b) {
 		return ((LByteToShortFunctionX<RuntimeException>) this).doApplyAsShort(b);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> short handlingDoApplyAsShort(byte b, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -92,17 +95,18 @@ public interface LByteToShortFunctionX<X extends Throwable> extends MetaFunction
 		return doApplyAsShort(b);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LByteToShortFunctionX.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LShortSupplierX<X> captureBToSFunc(byte b) {
+	default LShortSupplierX<X> captureByteToShortFunc(byte b) {
 		return () -> this.doApplyAsShort(b);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LByteToShortFunctionX<X> constant(short r) {
 		return b -> r;
 	}
@@ -123,7 +127,7 @@ public interface LByteToShortFunctionX<X extends Throwable> extends MetaFunction
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LByteToShortFunctionX<X> wrapX(final @Nonnull LByteToShortFunction other) {
 		return (LByteToShortFunctionX) other;
@@ -133,20 +137,16 @@ public interface LByteToShortFunctionX<X extends Throwable> extends MetaFunction
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LByteToShortFunctionX<X> bToSFuncFromByte(@Nonnull final LByteUnaryOperatorX<X> before1) {
+	default LByteToShortFunctionX<X> byteToShortFuncComposeByte(@Nonnull final LByteUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsShort(before1.doApplyAsByte(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToShortFunctionX<V1, X> bToSFuncFrom(@Nonnull final LToByteFunctionX<? super V1, X> before1) {
+	default <V1> LToShortFunctionX<V1, X> byteToShortFuncCompose(@Nonnull final LToByteFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsShort(before1.doApplyAsByte(v1));
 	}
@@ -223,23 +223,23 @@ public interface LByteToShortFunctionX<X extends Throwable> extends MetaFunction
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LByteToShortFunction nestingBToSFunc() {
+	default LByteToShortFunction nestingByteToShortFunc() {
 		return this::nestingDoApplyAsShort;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LByteToShortFunctionX<RuntimeException> nestingBToSFuncX() {
+	default LByteToShortFunctionX<RuntimeException> nestingByteToShortFuncX() {
 		return this::nestingDoApplyAsShort;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteToShortFunction shovingBToSFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LByteToShortFunction shovingByteToShortFunc() {
 		return this::shovingDoApplyAsShort;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteToShortFunctionX<RuntimeException> shovingBToSFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LByteToShortFunctionX<RuntimeException> shovingByteToShortFuncX() {
 		return this::shovingDoApplyAsShort;
 	}
 
@@ -247,13 +247,15 @@ public interface LByteToShortFunctionX<X extends Throwable> extends MetaFunction
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LByteToShortFunction handleBToSFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LByteToShortFunction handleByteToShortFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return b -> this.handlingDoApplyAsShort(b, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LByteToShortFunctionX<Y> handleBToSFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LByteToShortFunctionX<Y> handleByteToShortFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return b -> this.handlingDoApplyAsShort(b, handling);
 	}
 

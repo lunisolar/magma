@@ -44,21 +44,21 @@ import static org.assertj.core.api.Fail.fail;
 public interface LBiDoublePredicateXAssert<S extends LBiDoublePredicateXAssert<S, A, RS, X>, A extends LBiDoublePredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable>
 		extends
 			Assert<S, A>,
-			FullFunctionalAssert<S, LDoubleBiConsumerX<Exception>, A, RS, Boolean, Exception> {
+			FullFunctionalAssert<S, LBiDoubleConsumerX<Exception>, A, RS, Boolean, Exception> {
 
 	@Nonnull
-	Evaluation<S, LDoubleBiConsumerX<Exception>, A, RS, Boolean, Exception> doesTest(double d1, double d2);
+	Evaluation<S, LBiDoubleConsumerX<Exception>, A, RS, Boolean, Exception> doesTest(double d1, double d2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LBiDoublePredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> extends Base<Impl<A, RS, X>, A, RS, X> {
+	public final static class The<A extends LBiDoublePredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
 
-		public Impl(A actual, java.util.function.Function<Boolean, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Boolean, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, X>, A extends LBiDoublePredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, LDoubleBiConsumerX<Exception>, A, RS, Boolean, Exception>
+	public static class Base<S extends Base<S, A, RS, X>, A extends LBiDoublePredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, LBiDoubleConsumerX<Exception>, A, RS, Boolean, Exception>
 			implements
 				LBiDoublePredicateXAssert<S, A, RS, X> {
 
@@ -70,9 +70,9 @@ public interface LBiDoublePredicateXAssert<S extends LBiDoublePredicateXAssert<S
 		}
 
 		@Nonnull
-		public Evaluation<S, LDoubleBiConsumerX<Exception>, A, RS, Boolean, Exception> doesTest(double d1, double d2) {
+		public Evaluation<S, LBiDoubleConsumerX<Exception>, A, RS, Boolean, Exception> doesTest(double d1, double d2) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(d1, d2);
 				}

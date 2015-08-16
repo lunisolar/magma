@@ -105,61 +105,61 @@
  * |                                                                                   |                                          |            |
 
 
- * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LByteBiConsumer}           | byte b1,byte b2                          |            |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBiByteConsumer}           | byte b1,byte b2                          |            |
 
 
- * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LByteBiConsumerX}          | byte b1,byte b2                          |            |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBiByteConsumerX}          | byte b1,byte b2                          |            |
 
 
- * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LShortBiConsumer}          | short s1,short s2                        |            |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBiShortConsumer}          | short s1,short s2                        |            |
 
 
- * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LShortBiConsumerX}         | short s1,short s2                        |            |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBiShortConsumerX}         | short s1,short s2                        |            |
 
 
- * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LIntBiConsumer}            | int i1,int i2                            |            |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBiIntConsumer}            | int i1,int i2                            |            |
 
 
- * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LIntBiConsumerX}           | int i1,int i2                            |            |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBiIntConsumerX}           | int i1,int i2                            |            |
 
 
- * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LLongBiConsumer}           | long l1,long l2                          |            |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBiLongConsumer}           | long l1,long l2                          |            |
 
 
- * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LLongBiConsumerX}          | long l1,long l2                          |            |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBiLongConsumerX}          | long l1,long l2                          |            |
 
 
- * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LFloatBiConsumer}          | float f1,float f2                        |            |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBiFloatConsumer}          | float f1,float f2                        |            |
 
 
- * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LFloatBiConsumerX}         | float f1,float f2                        |            |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBiFloatConsumerX}         | float f1,float f2                        |            |
 
 
- * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LDoubleBiConsumer}         | double d1,double d2                      |            |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBiDoubleConsumer}         | double d1,double d2                      |            |
 
 
- * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LDoubleBiConsumerX}        | double d1,double d2                      |            |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBiDoubleConsumerX}        | double d1,double d2                      |            |
 
 
- * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LCharBiConsumer}           | char c1,char c2                          |            |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBiCharConsumer}           | char c1,char c2                          |            |
 
 
- * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LCharBiConsumerX}          | char c1,char c2                          |            |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBiCharConsumerX}          | char c1,char c2                          |            |
 
 
- * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBooleanBiConsumer}        | boolean b1,boolean b2                    |            |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBiBooleanConsumer}        | boolean b1,boolean b2                    |            |
 
 
- * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBooleanBiConsumerX}       | boolean b1,boolean b2                    |            |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBiBooleanConsumerX}       | boolean b1,boolean b2                    |            |
 
 
  * |                                                                                   |                                          |            |
 
 
- * | {@link eu.lunisolar.magma.func.consumer.primitives.tri.LBooleanTriConsumer}      | boolean b1,boolean b2,boolean b3         |            |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.tri.LTriBooleanConsumer}      | boolean b1,boolean b2,boolean b3         |            |
 
 
- * | {@link eu.lunisolar.magma.func.consumer.primitives.tri.LBooleanTriConsumerX}     | boolean b1,boolean b2,boolean b3         |            |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.tri.LTriBooleanConsumerX}     | boolean b1,boolean b2,boolean b3         |            |
 
 
  * |                                                                                   |                                          |            |
@@ -262,6 +262,12 @@
 
 
  * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LBiObjBooleanConsumerX}   | T1 t1,T2 t2, boolean b                   |            |
+
+
+ * |                                                                                   |                                          |            |
+
+
+ * |                                                                                   |                                          |            |
 
 
  * |                                                                                   |                                          |            |
@@ -471,61 +477,61 @@
  * |                                                                                   |                                          |            |
 
 
- * | {@link eu.lunisolar.magma.func.function.from.LByteBiFunction}                    | byte b1,byte b2                          | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LBiByteFunction}                    | byte b1,byte b2                          | R          |
 
 
- * | {@link eu.lunisolar.magma.func.function.from.LByteBiFunctionX}                   | byte b1,byte b2                          | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LBiByteFunctionX}                   | byte b1,byte b2                          | R          |
 
 
- * | {@link eu.lunisolar.magma.func.function.from.LShortBiFunction}                   | short s1,short s2                        | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LBiShortFunction}                   | short s1,short s2                        | R          |
 
 
- * | {@link eu.lunisolar.magma.func.function.from.LShortBiFunctionX}                  | short s1,short s2                        | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LBiShortFunctionX}                  | short s1,short s2                        | R          |
 
 
- * | {@link eu.lunisolar.magma.func.function.from.LIntBiFunction}                     | int i1,int i2                            | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LBiIntFunction}                     | int i1,int i2                            | R          |
 
 
- * | {@link eu.lunisolar.magma.func.function.from.LIntBiFunctionX}                    | int i1,int i2                            | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LBiIntFunctionX}                    | int i1,int i2                            | R          |
 
 
- * | {@link eu.lunisolar.magma.func.function.from.LLongBiFunction}                    | long l1,long l2                          | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LBiLongFunction}                    | long l1,long l2                          | R          |
 
 
- * | {@link eu.lunisolar.magma.func.function.from.LLongBiFunctionX}                   | long l1,long l2                          | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LBiLongFunctionX}                   | long l1,long l2                          | R          |
 
 
- * | {@link eu.lunisolar.magma.func.function.from.LFloatBiFunction}                   | float f1,float f2                        | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LBiFloatFunction}                   | float f1,float f2                        | R          |
 
 
- * | {@link eu.lunisolar.magma.func.function.from.LFloatBiFunctionX}                  | float f1,float f2                        | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LBiFloatFunctionX}                  | float f1,float f2                        | R          |
 
 
- * | {@link eu.lunisolar.magma.func.function.from.LDoubleBiFunction}                  | double d1,double d2                      | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LBiDoubleFunction}                  | double d1,double d2                      | R          |
 
 
- * | {@link eu.lunisolar.magma.func.function.from.LDoubleBiFunctionX}                 | double d1,double d2                      | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LBiDoubleFunctionX}                 | double d1,double d2                      | R          |
 
 
- * | {@link eu.lunisolar.magma.func.function.from.LCharBiFunction}                    | char c1,char c2                          | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LBiCharFunction}                    | char c1,char c2                          | R          |
 
 
- * | {@link eu.lunisolar.magma.func.function.from.LCharBiFunctionX}                   | char c1,char c2                          | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LBiCharFunctionX}                   | char c1,char c2                          | R          |
 
 
- * | {@link eu.lunisolar.magma.func.function.from.LBooleanBiFunction}                 | boolean b1,boolean b2                    | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LBiBooleanFunction}                 | boolean b1,boolean b2                    | R          |
 
 
- * | {@link eu.lunisolar.magma.func.function.from.LBooleanBiFunctionX}                | boolean b1,boolean b2                    | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LBiBooleanFunctionX}                | boolean b1,boolean b2                    | R          |
 
 
  * |                                                                                   |                                          |            |
 
 
- * | {@link eu.lunisolar.magma.func.function.from.LBooleanTriFunction}                | boolean b1,boolean b2,boolean b3         | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LTriBooleanFunction}                | boolean b1,boolean b2,boolean b3         | R          |
 
 
- * | {@link eu.lunisolar.magma.func.function.from.LBooleanTriFunctionX}               | boolean b1,boolean b2,boolean b3         | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LTriBooleanFunctionX}               | boolean b1,boolean b2,boolean b3         | R          |
 
 
  * |                                                                                   |                                          |            |
@@ -628,6 +634,12 @@
 
 
  * | {@link eu.lunisolar.magma.func.function.from.LBiObjBooleanFunctionX}             | T1 t1,T2 t2, boolean b                   | R          |
+
+
+ * |                                                                                   |                                          |            |
+
+
+ * |                                                                                   |                                          |            |
 
 
  * |                                                                                   |                                          |            |
@@ -1261,6 +1273,12 @@
 
 
  * | {@link eu.lunisolar.magma.func.predicate.LBiObjBooleanPredicateX}                | T1 t1,T2 t2, boolean b                   | boolean    |
+
+
+ * |                                                                                   |                                          |            |
+
+
+ * |                                                                                   |                                          |            |
 
 
  * |                                                                                   |                                          |            |

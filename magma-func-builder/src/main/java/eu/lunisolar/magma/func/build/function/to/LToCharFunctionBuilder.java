@@ -66,7 +66,7 @@ public final class LToCharFunctionBuilder<T> extends PerCaseBuilderWithCharProdu
 		});
 
 	public LToCharFunctionBuilder(@Nullable Consumer<LToCharFunction<T>> consumer) {
-		super(EVENTUALLY_THROW, LToCharFunction::constant);
+		super(EVENTUALLY_THROW, LToCharFunction::constant, () -> new LToCharFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LToCharFunctionBuilder<T> extends PerCaseBuilderWithCharProdu
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <T> LToCharFunctionBuilder<T> toCharFunction() {
+	public static <T> LToCharFunctionBuilder<T> toCharFunction() {
 		return new LToCharFunctionBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <T> LToCharFunctionBuilder<T> toCharFunction(Consumer<LToCharFunction<T>> consumer) {
+	public static <T> LToCharFunctionBuilder<T> toCharFunction(Consumer<LToCharFunction<T>> consumer) {
 		return new LToCharFunctionBuilder(consumer);
 	}
 
@@ -96,6 +96,24 @@ public final class LToCharFunctionBuilder<T> extends PerCaseBuilderWithCharProdu
 			throw new UnsupportedOperationException("Handling is already set for this builder.");
 		}
 		this.handling = handling;
+		return self();
+	}
+
+	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
+	@Nonnull
+	public <E1 extends T> LToCharFunctionBuilder<T> casesOf(Class<E1> argC1, Consumer<LToCharFunctionBuilder<E1>> pcpConsumer) {
+		PartialCaseWithCharProduct.The pc = partialCaseFactoryMethod(t -> (argC1 == null || argC1.isInstance(t)));
+
+		pc.specifySubCases((Consumer) pcpConsumer);
+		return self();
+	}
+
+	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
+	@Nonnull
+	public <E1 extends T> LToCharFunctionBuilder<T> aCase(Class<E1> argC1, LToCharFunction<E1> function) {
+		PartialCaseWithCharProduct.The pc = partialCaseFactoryMethod(t -> (argC1 == null || argC1.isInstance(t)));
+
+		pc.evaluate(function);
 		return self();
 	}
 

@@ -115,7 +115,7 @@ public class LBiShortPredicateXBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LBiShortPredicateX<ParseException> function = biShortPredicateX((LBiShortPredicateX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((s1,s2) -> s1 == (short)0)
+            .aCase(ce -> ce.of((s1,s2) -> s1 == (short)0)
                              .evaluate((s1,s2) -> false))
             .inCase((s1,s2) -> s1 > 0 && s1 < 10).evaluate((s1,s2) -> true)
             .inCase((s1,s2) -> s1 > 10 && s1 < 20).evaluate((s1,s2) -> true)

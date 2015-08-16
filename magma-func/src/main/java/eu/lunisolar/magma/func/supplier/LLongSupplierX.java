@@ -74,6 +74,7 @@ public interface LLongSupplierX<X extends Throwable> extends java.util.function.
 
 	long doGetAsLong() throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default long nestingDoGetAsLong() {
 		try {
 			return this.doGetAsLong();
@@ -84,10 +85,12 @@ public interface LLongSupplierX<X extends Throwable> extends java.util.function.
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default long shovingDoGetAsLong() {
 		return ((LLongSupplierX<RuntimeException>) this).doGetAsLong();
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> long handlingDoGetAsLong(HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -102,12 +105,13 @@ public interface LLongSupplierX<X extends Throwable> extends java.util.function.
 		return doGetAsLong();
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LLongSupplierX.DESCRIPTION;
 	}
 
+	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LLongSupplierX<X> of(long r) {
 		return () -> r;
 	}
@@ -134,7 +138,7 @@ public interface LLongSupplierX<X extends Throwable> extends java.util.function.
 		return other::getAsLong;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LLongSupplierX<X> wrapX(final @Nonnull LLongSupplier other) {
 		return (LLongSupplierX) other;
@@ -222,12 +226,12 @@ public interface LLongSupplierX<X extends Throwable> extends java.util.function.
 		return this::nestingDoGetAsLong;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLongSupplier shovingLongSup() {
 		return this::shovingDoGetAsLong;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLongSupplierX<RuntimeException> shovingLongSupX() {
 		return this::shovingDoGetAsLong;
 	}
@@ -236,11 +240,13 @@ public interface LLongSupplierX<X extends Throwable> extends java.util.function.
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LLongSupplier handleLongSup(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return () -> this.handlingDoGetAsLong(handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LLongSupplierX<Y> handleLongSupX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return () -> this.handlingDoGetAsLong(handling);

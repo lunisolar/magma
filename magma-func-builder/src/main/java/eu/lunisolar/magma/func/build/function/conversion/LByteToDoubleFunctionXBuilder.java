@@ -66,7 +66,7 @@ public final class LByteToDoubleFunctionXBuilder<X extends Throwable> extends Pe
 		});
 
 	public LByteToDoubleFunctionXBuilder(@Nullable Consumer<LByteToDoubleFunctionX<X>> consumer) {
-		super(EVENTUALLY_THROW, LByteToDoubleFunctionX::constant);
+		super(EVENTUALLY_THROW, LByteToDoubleFunctionX::constant, () -> new LByteToDoubleFunctionXBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LByteToDoubleFunctionXBuilder<X extends Throwable> extends Pe
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <X extends Throwable> LByteToDoubleFunctionXBuilder<X> byteToDoubleFunctionX() {
+	public static <X extends Throwable> LByteToDoubleFunctionXBuilder<X> byteToDoubleFunctionX() {
 		return new LByteToDoubleFunctionXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <X extends Throwable> LByteToDoubleFunctionXBuilder<X> byteToDoubleFunctionX(Consumer<LByteToDoubleFunctionX<X>> consumer) {
+	public static <X extends Throwable> LByteToDoubleFunctionXBuilder<X> byteToDoubleFunctionX(Consumer<LByteToDoubleFunctionX<X>> consumer) {
 		return new LByteToDoubleFunctionXBuilder(consumer);
 	}
 

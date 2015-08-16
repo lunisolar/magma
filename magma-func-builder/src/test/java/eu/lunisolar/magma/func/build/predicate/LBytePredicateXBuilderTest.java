@@ -115,7 +115,7 @@ public class LBytePredicateXBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LBytePredicateX<ParseException> function = bytePredicateX((LBytePredicateX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of(b -> b == (byte)0)
+            .aCase(ce -> ce.of(b -> b == (byte)0)
                              .evaluate(b -> false))
             .inCase(b -> b > 0 && b < 10).evaluate(b -> true)
             .inCase(b -> b > 10 && b < 20).evaluate(b -> true)

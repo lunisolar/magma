@@ -50,10 +50,10 @@ public interface LCharToFloatFunctionAssert<S extends LCharToFloatFunctionAssert
 	Evaluation<S, LCharConsumerX<Exception>, A, RS, Float, Exception> doesApplyAsFloat(char c);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LCharToFloatFunction, RS extends AbstractFloatAssert<RS>> extends Base<Impl<A, RS>, A, RS> {
+	public final static class The<A extends LCharToFloatFunction, RS extends AbstractFloatAssert<RS>> extends Base<The<A, RS>, A, RS> {
 
-		public Impl(A actual, java.util.function.Function<Float, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Float, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
@@ -72,7 +72,7 @@ public interface LCharToFloatFunctionAssert<S extends LCharToFloatFunctionAssert
 		@Nonnull
 		public Evaluation<S, LCharConsumerX<Exception>, A, RS, Float, Exception> doesApplyAsFloat(char c) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(c);
 				}

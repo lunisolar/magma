@@ -25,6 +25,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.ThreadSafe;
 import java.util.*;
+import java.util.function.*;
 
 import eu.lunisolar.magma.basics.builder.*;
 
@@ -48,8 +49,8 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
 @ThreadSafe
 public class PartialCaseWithByteProduct<SELF extends PartialCaseWithByteProduct<SELF, PCB, P, F>, PCB extends PerCaseBuilderWithByteProduct<PCB, P, F, SELF>, P, F> extends PartialCase<SELF, PCB, P, F> {
 
-	public PartialCaseWithByteProduct(@Nonnull PCB superContext, @Nonnull P casePredicate) {
-		super(superContext, casePredicate);
+	public PartialCaseWithByteProduct(@Nonnull PCB superContext, @Nonnull P casePredicate, @Nonnull Supplier<PCB> subCasesFactory) {
+		super(superContext, casePredicate, subCasesFactory);
 	}
 
 	/** Finalize the case build by providing second required value for the Case. */
@@ -58,8 +59,8 @@ public class PartialCaseWithByteProduct<SELF extends PartialCaseWithByteProduct<
 	}
 
 	public static final class The<PCB extends PerCaseBuilderWithByteProduct<PCB, P, F, The<PCB, P, F>>, P, F> extends PartialCaseWithByteProduct<The<PCB, P, F>, PCB, P, F> {
-		public The(@Nonnull PCB superContext, @Nonnull P casePredicate) {
-			super(superContext, casePredicate);
+		public The(@Nonnull PCB superContext, @Nonnull P casePredicate, @Nonnull Supplier<PCB> subCasesFactory) {
+			super(superContext, casePredicate, subCasesFactory);
 		}
 	}
 }

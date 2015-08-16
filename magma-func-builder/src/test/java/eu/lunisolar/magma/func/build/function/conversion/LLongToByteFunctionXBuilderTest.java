@@ -115,7 +115,7 @@ public class LLongToByteFunctionXBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LLongToByteFunctionX<ParseException> function = longToByteFunctionX((LLongToByteFunctionX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of(l -> l == (long)0)
+            .aCase(ce -> ce.of(l -> l == (long)0)
                              .evaluate(l -> (byte)0))
             .inCase(l -> l > 0 && l < 10).evaluate(l -> (byte)1)
             .inCase(l -> l > 10 && l < 20).evaluate(l -> (byte)2)

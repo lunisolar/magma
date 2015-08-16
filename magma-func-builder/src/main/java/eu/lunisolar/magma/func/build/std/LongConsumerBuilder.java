@@ -65,7 +65,7 @@ public final class LongConsumerBuilder extends PerCaseBuilder.Base<LongConsumerB
 		});
 
 	public LongConsumerBuilder(@Nullable Consumer<java.util.function.LongConsumer> consumer) {
-		super(EVENTUALLY_THROW);
+		super(EVENTUALLY_THROW, () -> new LongConsumerBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -77,13 +77,13 @@ public final class LongConsumerBuilder extends PerCaseBuilder.Base<LongConsumerB
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final LongConsumerBuilder longConsumer() {
+	public static LongConsumerBuilder longConsumer() {
 		return new LongConsumerBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final LongConsumerBuilder longConsumer(Consumer<java.util.function.LongConsumer> consumer) {
+	public static LongConsumerBuilder longConsumer(Consumer<java.util.function.LongConsumer> consumer) {
 		return new LongConsumerBuilder(consumer);
 	}
 

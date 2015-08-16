@@ -44,21 +44,21 @@ import static org.assertj.core.api.Fail.fail;
 public interface LDoubleBinaryOperatorAssert<S extends LDoubleBinaryOperatorAssert<S, A, RS>, A extends LDoubleBinaryOperator, RS extends AbstractDoubleAssert<RS>>
 		extends
 			Assert<S, A>,
-			FullFunctionalAssert<S, LDoubleBiConsumerX<Exception>, A, RS, Double, Exception> {
+			FullFunctionalAssert<S, LBiDoubleConsumerX<Exception>, A, RS, Double, Exception> {
 
 	@Nonnull
-	Evaluation<S, LDoubleBiConsumerX<Exception>, A, RS, Double, Exception> doesApplyAsDouble(double d1, double d2);
+	Evaluation<S, LBiDoubleConsumerX<Exception>, A, RS, Double, Exception> doesApplyAsDouble(double d1, double d2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LDoubleBinaryOperator, RS extends AbstractDoubleAssert<RS>> extends Base<Impl<A, RS>, A, RS> {
+	public final static class The<A extends LDoubleBinaryOperator, RS extends AbstractDoubleAssert<RS>> extends Base<The<A, RS>, A, RS> {
 
-		public Impl(A actual, java.util.function.Function<Double, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Double, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS>, A extends LDoubleBinaryOperator, RS extends AbstractDoubleAssert<RS>> extends FullFunctionalAssert.Base<S, LDoubleBiConsumerX<Exception>, A, RS, Double, Exception>
+	public static class Base<S extends Base<S, A, RS>, A extends LDoubleBinaryOperator, RS extends AbstractDoubleAssert<RS>> extends FullFunctionalAssert.Base<S, LBiDoubleConsumerX<Exception>, A, RS, Double, Exception>
 			implements
 				LDoubleBinaryOperatorAssert<S, A, RS> {
 
@@ -70,9 +70,9 @@ public interface LDoubleBinaryOperatorAssert<S extends LDoubleBinaryOperatorAsse
 		}
 
 		@Nonnull
-		public Evaluation<S, LDoubleBiConsumerX<Exception>, A, RS, Double, Exception> doesApplyAsDouble(double d1, double d2) {
+		public Evaluation<S, LBiDoubleConsumerX<Exception>, A, RS, Double, Exception> doesApplyAsDouble(double d1, double d2) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(d1, d2);
 				}

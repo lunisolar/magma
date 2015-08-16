@@ -115,7 +115,7 @@ public class LShortToIntFunctionBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LShortToIntFunction function = shortToIntFunction((LShortToIntFunction f)-> doNothing())
-            .addCase(ce -> ce.of(s -> s == (short)0)
+            .aCase(ce -> ce.of(s -> s == (short)0)
                              .evaluate(s -> (int)0))
             .inCase(s -> s > 0 && s < 10).evaluate(s -> (int)1)
             .inCase(s -> s > 10 && s < 20).evaluate(s -> (int)2)

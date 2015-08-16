@@ -47,10 +47,10 @@ public interface LFloatConsumerAssert<S extends LFloatConsumerAssert<S, A>, A ex
 	SemiEvaluation<S, LFloatConsumerX<Exception>, A, Exception> doesAccept(float f);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LFloatConsumer> extends Base<Impl<A>, A> {
+	public final static class The<A extends LFloatConsumer> extends Base<The<A>, A> {
 
-		public Impl(A actual) {
-			super(actual, Impl.class);
+		public The(A actual) {
+			super(actual, The.class);
 		}
 	}
 
@@ -64,7 +64,7 @@ public interface LFloatConsumerAssert<S extends LFloatConsumerAssert<S, A>, A ex
 		@Nonnull
 		public SemiEvaluation<S, LFloatConsumerX<Exception>, A, Exception> doesAccept(float f) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(f);
 				}

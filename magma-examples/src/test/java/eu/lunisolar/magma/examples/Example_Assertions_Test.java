@@ -36,7 +36,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 //>transform-to-MD<
 /**
- * Basic explanations (by example) how Assertions work with functional interfaces.
+ * Basic introduction (by example) to how Assertions work with functional interfaces.
  */
 //>inject<:readmore
 
@@ -46,7 +46,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * ### Abstract
  *
- * Basic explanations (by example) how Assertions work with functional interfaces.
+ * Basic introduction (by example) to how Assertions work with functional interfaces.
  *
  * In case there is any value in testing specific function implementations, a fluent assertions might come handy.
  */

@@ -74,10 +74,12 @@ public interface LToIntBiFunction<T1, T2> extends LToIntBiFunctionX<T1, T2, Runt
 
 	int doApplyAsInt(T1 t1, T2 t2);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default int nestingDoApplyAsInt(T1 t1, T2 t2) {
 		return this.doApplyAsInt(t1, t2);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default int shovingDoApplyAsInt(T1 t1, T2 t2) {
 		return this.doApplyAsInt(t1, t2);
 	}
@@ -87,19 +89,32 @@ public interface LToIntBiFunction<T1, T2> extends LToIntBiFunctionX<T1, T2, Runt
 		return doApplyAsInt(t1, t2);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LToIntBiFunction.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LIntSupplier captureToIBiFunc(T1 t1, T2 t2) {
+	default LIntSupplier captureToIntBiFunc(T1 t1, T2 t2) {
 		return () -> this.doApplyAsInt(t1, t2);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T1, T2> LToIntBiFunction<T1, T2> constant(int r) {
 		return (t1, t2) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T1, T2> LToIntBiFunction<T1, T2> apply1stAsInt(@Nonnull LToIntFunction<T1> func) {
+		return (t1, t2) -> func.doApplyAsInt(t1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T1, T2> LToIntBiFunction<T1, T2> apply2ndAsInt(@Nonnull LToIntFunction<T2> func) {
+		return (t1, t2) -> func.doApplyAsInt(t2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -117,7 +132,7 @@ public interface LToIntBiFunction<T1, T2> extends LToIntBiFunctionX<T1, T2, Runt
 		return other::applyAsInt;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T1, T2, X extends Throwable> LToIntBiFunction<T1, T2> wrap(final @Nonnull LToIntBiFunctionX<T1, T2, X> other) {
 		return other::nestingDoApplyAsInt;
@@ -127,11 +142,9 @@ public interface LToIntBiFunction<T1, T2> extends LToIntBiFunctionX<T1, T2, Runt
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LToIntBiFunction<V1, V2> toIBiFuncFrom(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2) {
+	default <V1, V2> LToIntBiFunction<V1, V2> toIntBiFuncCompose(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final V2 v2) -> this.doApplyAsInt(before1.doApply(v1), before2.doApply(v2));
@@ -153,23 +166,23 @@ public interface LToIntBiFunction<T1, T2> extends LToIntBiFunctionX<T1, T2, Runt
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToIntBiFunction<T1, T2> nestingToIBiFunc() {
+	default LToIntBiFunction<T1, T2> nestingToIntBiFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToIntBiFunctionX<T1, T2, RuntimeException> nestingToIBiFuncX() {
+	default LToIntBiFunctionX<T1, T2, RuntimeException> nestingToIntBiFuncX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToIntBiFunction<T1, T2> shovingToIBiFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToIntBiFunction<T1, T2> shovingToIntBiFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToIntBiFunctionX<T1, T2, RuntimeException> shovingToIBiFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToIntBiFunctionX<T1, T2, RuntimeException> shovingToIntBiFuncX() {
 		return this;
 	}
 

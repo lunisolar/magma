@@ -115,7 +115,7 @@ public class LIntToCharFunctionXBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LIntToCharFunctionX<ParseException> function = intToCharFunctionX((LIntToCharFunctionX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of(i -> i == (int)0)
+            .aCase(ce -> ce.of(i -> i == (int)0)
                              .evaluate(i -> (char)0))
             .inCase(i -> i > 0 && i < 10).evaluate(i -> (char)1)
             .inCase(i -> i > 10 && i < 20).evaluate(i -> (char)2)

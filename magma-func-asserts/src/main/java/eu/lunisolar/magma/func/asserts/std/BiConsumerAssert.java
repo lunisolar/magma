@@ -46,10 +46,10 @@ public interface BiConsumerAssert<S extends BiConsumerAssert<S, A, T1, T2>, A ex
 	SemiEvaluation<S, LBiConsumerX<T1, T2, Exception>, A, Exception> doesAccept(T1 t1, T2 t2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends java.util.function.BiConsumer<T1, T2>, T1, T2> extends Base<Impl<A, T1, T2>, A, T1, T2> {
+	public final static class The<A extends java.util.function.BiConsumer<T1, T2>, T1, T2> extends Base<The<A, T1, T2>, A, T1, T2> {
 
-		public Impl(A actual) {
-			super(actual, Impl.class);
+		public The(A actual) {
+			super(actual, The.class);
 		}
 	}
 
@@ -63,7 +63,7 @@ public interface BiConsumerAssert<S extends BiConsumerAssert<S, A, T1, T2>, A ex
 		@Nonnull
 		public SemiEvaluation<S, LBiConsumerX<T1, T2, Exception>, A, Exception> doesAccept(T1 t1, T2 t2) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(t1, t2);
 				}

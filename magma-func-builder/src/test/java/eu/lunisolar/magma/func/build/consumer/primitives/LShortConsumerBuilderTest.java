@@ -116,7 +116,7 @@ public class LShortConsumerBuilderTest<X extends Throwable>{
         final AtomicInteger externalEffect = new AtomicInteger(0);
 
         LShortConsumer function = shortConsumer((LShortConsumer f)-> doNothing())
-            .addCase(ce -> ce.of(s -> s == (short)0)
+            .aCase(ce -> ce.of(s -> s == (short)0)
                              .evaluate(s -> externalEffect.set(0)))
             .inCase(s -> s > 0 && s < 10).evaluate(s -> externalEffect.set(1))
             .inCase(s -> s > 10 && s < 20).evaluate(s -> externalEffect.set(2))

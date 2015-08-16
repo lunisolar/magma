@@ -66,7 +66,7 @@ public final class LObjIntPredicateXBuilder<T, X extends Throwable> extends PerC
 		});
 
 	public LObjIntPredicateXBuilder(@Nullable Consumer<LObjIntPredicateX<T, X>> consumer) {
-		super(EVENTUALLY_THROW, LObjIntPredicateX::constant);
+		super(EVENTUALLY_THROW, LObjIntPredicateX::constant, () -> new LObjIntPredicateXBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LObjIntPredicateXBuilder<T, X extends Throwable> extends PerC
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <T, X extends Throwable> LObjIntPredicateXBuilder<T, X> objIntPredicateX() {
+	public static <T, X extends Throwable> LObjIntPredicateXBuilder<T, X> objIntPredicateX() {
 		return new LObjIntPredicateXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <T, X extends Throwable> LObjIntPredicateXBuilder<T, X> objIntPredicateX(Consumer<LObjIntPredicateX<T, X>> consumer) {
+	public static <T, X extends Throwable> LObjIntPredicateXBuilder<T, X> objIntPredicateX(Consumer<LObjIntPredicateX<T, X>> consumer) {
 		return new LObjIntPredicateXBuilder(consumer);
 	}
 
@@ -96,6 +96,24 @@ public final class LObjIntPredicateXBuilder<T, X extends Throwable> extends PerC
 			throw new UnsupportedOperationException("Handling is already set for this builder.");
 		}
 		this.handling = handling;
+		return self();
+	}
+
+	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
+	@Nonnull
+	public <E1 extends T> LObjIntPredicateXBuilder<T, X> casesOf(Class<E1> argC1, Consumer<LObjIntPredicateXBuilder<E1, X>> pcpConsumer) {
+		PartialCaseWithBooleanProduct.The pc = partialCaseFactoryMethod((T t, int i) -> (argC1 == null || argC1.isInstance(t)));
+
+		pc.specifySubCases((Consumer) pcpConsumer);
+		return self();
+	}
+
+	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
+	@Nonnull
+	public <E1 extends T> LObjIntPredicateXBuilder<T, X> aCase(Class<E1> argC1, LObjIntPredicateX<E1, X> function) {
+		PartialCaseWithBooleanProduct.The pc = partialCaseFactoryMethod((T t, int i) -> (argC1 == null || argC1.isInstance(t)));
+
+		pc.evaluate(function);
 		return self();
 	}
 

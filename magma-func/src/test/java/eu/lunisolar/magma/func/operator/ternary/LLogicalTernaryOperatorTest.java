@@ -340,7 +340,7 @@ public class LLogicalTernaryOperatorTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testlogicalTernaryOpFromBoolean() throws X {
+    public void testlogicalTernaryOpComposeBoolean() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -371,7 +371,7 @@ public class LLogicalTernaryOperatorTest<X extends ParseException> {
         };
 
         //when
-        LLogicalTernaryOperator function = sutO.logicalTernaryOpFromBoolean(before1,before2,before3);
+        LLogicalTernaryOperator function = sutO.logicalTernaryOpComposeBoolean(before1,before2,before3);
         function.doApply(true,true,true);
 
         //then - finals
@@ -381,7 +381,7 @@ public class LLogicalTernaryOperatorTest<X extends ParseException> {
 
 
     @Test
-    public void testlogicalTernaryOpFrom() throws X {
+    public void testlogicalTernaryOpCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -412,7 +412,7 @@ public class LLogicalTernaryOperatorTest<X extends ParseException> {
         };
 
         //when
-        LTriPredicate<Integer ,Integer ,Integer > function = sutO.logicalTernaryOpFrom(before1,before2,before3);
+        LTriPredicate<Integer ,Integer ,Integer > function = sutO.logicalTernaryOpCompose(before1,before2,before3);
         function.doTest((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(Integer )Integer.valueOf(82));
 
         //then - finals
@@ -450,7 +450,7 @@ public class LLogicalTernaryOperatorTest<X extends ParseException> {
         };
 
         //when
-        LBooleanTriFunction<Integer > function = sutO.then(thenFunction);
+        LTriBooleanFunction<Integer > function = sutO.then(thenFunction);
         Integer  finalValue = function.doApply(true,true,true);
 
         //then - finals

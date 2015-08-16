@@ -74,6 +74,7 @@ public interface LToIntBiFunctionX<T1, T2, X extends Throwable> extends java.uti
 
 	int doApplyAsInt(T1 t1, T2 t2) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default int nestingDoApplyAsInt(T1 t1, T2 t2) {
 		try {
 			return this.doApplyAsInt(t1, t2);
@@ -84,10 +85,12 @@ public interface LToIntBiFunctionX<T1, T2, X extends Throwable> extends java.uti
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default int shovingDoApplyAsInt(T1 t1, T2 t2) {
 		return ((LToIntBiFunctionX<T1, T2, RuntimeException>) this).doApplyAsInt(t1, t2);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> int handlingDoApplyAsInt(T1 t1, T2 t2, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -102,19 +105,32 @@ public interface LToIntBiFunctionX<T1, T2, X extends Throwable> extends java.uti
 		return doApplyAsInt(t1, t2);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LToIntBiFunctionX.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LIntSupplierX<X> captureToIBiFunc(T1 t1, T2 t2) {
+	default LIntSupplierX<X> captureToIntBiFunc(T1 t1, T2 t2) {
 		return () -> this.doApplyAsInt(t1, t2);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T1, T2, X extends Throwable> LToIntBiFunctionX<T1, T2, X> constant(int r) {
 		return (t1, t2) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T1, T2, X extends Throwable> LToIntBiFunctionX<T1, T2, X> apply1stAsInt(@Nonnull LToIntFunctionX<T1, X> func) {
+		return (t1, t2) -> func.doApplyAsInt(t1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T1, T2, X extends Throwable> LToIntBiFunctionX<T1, T2, X> apply2ndAsInt(@Nonnull LToIntFunctionX<T2, X> func) {
+		return (t1, t2) -> func.doApplyAsInt(t2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -139,7 +155,7 @@ public interface LToIntBiFunctionX<T1, T2, X extends Throwable> extends java.uti
 		return other::applyAsInt;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T1, T2, X extends Throwable> LToIntBiFunctionX<T1, T2, X> wrapX(final @Nonnull LToIntBiFunction<T1, T2> other) {
 		return (LToIntBiFunctionX) other;
@@ -149,11 +165,9 @@ public interface LToIntBiFunctionX<T1, T2, X extends Throwable> extends java.uti
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LToIntBiFunctionX<V1, V2, X> toIBiFuncFrom(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
+	default <V1, V2> LToIntBiFunctionX<V1, V2, X> toIntBiFuncCompose(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final V2 v2) -> this.doApplyAsInt(before1.doApply(v1), before2.doApply(v2));
@@ -175,23 +189,23 @@ public interface LToIntBiFunctionX<T1, T2, X extends Throwable> extends java.uti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToIntBiFunction<T1, T2> nestingToIBiFunc() {
+	default LToIntBiFunction<T1, T2> nestingToIntBiFunc() {
 		return this::nestingDoApplyAsInt;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToIntBiFunctionX<T1, T2, RuntimeException> nestingToIBiFuncX() {
+	default LToIntBiFunctionX<T1, T2, RuntimeException> nestingToIntBiFuncX() {
 		return this::nestingDoApplyAsInt;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToIntBiFunction<T1, T2> shovingToIBiFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToIntBiFunction<T1, T2> shovingToIntBiFunc() {
 		return this::shovingDoApplyAsInt;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToIntBiFunctionX<T1, T2, RuntimeException> shovingToIBiFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToIntBiFunctionX<T1, T2, RuntimeException> shovingToIntBiFuncX() {
 		return this::shovingDoApplyAsInt;
 	}
 
@@ -199,13 +213,15 @@ public interface LToIntBiFunctionX<T1, T2, X extends Throwable> extends java.uti
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LToIntBiFunction<T1, T2> handleToIBiFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LToIntBiFunction<T1, T2> handleToIntBiFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T1 t1, T2 t2) -> this.handlingDoApplyAsInt(t1, t2, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LToIntBiFunctionX<T1, T2, Y> handleToIBiFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LToIntBiFunctionX<T1, T2, Y> handleToIntBiFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T1 t1, T2 t2) -> this.handlingDoApplyAsInt(t1, t2, handling);
 	}
 

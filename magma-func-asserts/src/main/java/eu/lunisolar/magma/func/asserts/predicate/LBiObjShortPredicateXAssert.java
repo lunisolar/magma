@@ -50,10 +50,10 @@ public interface LBiObjShortPredicateXAssert<S extends LBiObjShortPredicateXAsse
 	Evaluation<S, LBiObjShortConsumerX<T1, T2, Exception>, A, RS, Boolean, Exception> doesTest(T1 t1, T2 t2, short s);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LBiObjShortPredicateX<T1, T2, X>, RS extends AbstractBooleanAssert<RS>, T1, T2, X extends Throwable> extends Base<Impl<A, RS, T1, T2, X>, A, RS, T1, T2, X> {
+	public final static class The<A extends LBiObjShortPredicateX<T1, T2, X>, RS extends AbstractBooleanAssert<RS>, T1, T2, X extends Throwable> extends Base<The<A, RS, T1, T2, X>, A, RS, T1, T2, X> {
 
-		public Impl(A actual, java.util.function.Function<Boolean, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Boolean, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
@@ -72,7 +72,7 @@ public interface LBiObjShortPredicateXAssert<S extends LBiObjShortPredicateXAsse
 		@Nonnull
 		public Evaluation<S, LBiObjShortConsumerX<T1, T2, Exception>, A, RS, Boolean, Exception> doesTest(T1 t1, T2 t2, short s) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(t1, t2, s);
 				}

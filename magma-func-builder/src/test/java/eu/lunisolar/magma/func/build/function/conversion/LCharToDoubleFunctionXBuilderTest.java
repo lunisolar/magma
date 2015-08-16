@@ -115,7 +115,7 @@ public class LCharToDoubleFunctionXBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LCharToDoubleFunctionX<ParseException> function = charToDoubleFunctionX((LCharToDoubleFunctionX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of(c -> c == (char)0)
+            .aCase(ce -> ce.of(c -> c == (char)0)
                              .evaluate(c -> (double)0))
             .inCase(c -> c > 0 && c < 10).evaluate(c -> (double)1)
             .inCase(c -> c > 10 && c < 20).evaluate(c -> (double)2)

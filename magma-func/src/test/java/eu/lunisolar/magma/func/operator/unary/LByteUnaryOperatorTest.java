@@ -195,7 +195,7 @@ public class LByteUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LByteUnaryOperator wrapped = sutThrowing.handleBUnaryOp(handler -> handler
+        LByteUnaryOperator wrapped = sutThrowing.handleByteUnaryOp(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -219,7 +219,7 @@ public class LByteUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LByteUnaryOperator wrapped = sutThrowing.handleBUnaryOp(handler -> handler
+        LByteUnaryOperator wrapped = sutThrowing.handleByteUnaryOp(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -243,7 +243,7 @@ public class LByteUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LByteUnaryOperator wrapped = sutThrowing.handleBUnaryOp(handler -> handler
+        LByteUnaryOperator wrapped = sutThrowing.handleByteUnaryOp(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -268,7 +268,7 @@ public class LByteUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LByteUnaryOperator wrapped = sutThrowing.handleBUnaryOp(h -> Function4U.doNothing());
+        LByteUnaryOperator wrapped = sutThrowing.handleByteUnaryOp(h -> Function4U.doNothing());
 
         // then
         try {
@@ -287,7 +287,7 @@ public class LByteUnaryOperatorTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testbUnaryOpFromByte() throws X {
+    public void testbyteUnaryOpComposeByte() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -306,7 +306,7 @@ public class LByteUnaryOperatorTest<X extends ParseException> {
         };
 
         //when
-        LByteUnaryOperator function = sutO.bUnaryOpFromByte(before1);
+        LByteUnaryOperator function = sutO.byteUnaryOpComposeByte(before1);
         function.doApplyAsByte((byte)80);
 
         //then - finals
@@ -316,7 +316,7 @@ public class LByteUnaryOperatorTest<X extends ParseException> {
 
 
     @Test
-    public void testbUnaryOpFrom() throws X {
+    public void testbyteUnaryOpCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -335,7 +335,7 @@ public class LByteUnaryOperatorTest<X extends ParseException> {
         };
 
         //when
-        LToByteFunction<Integer > function = sutO.bUnaryOpFrom(before1);
+        LToByteFunction<Integer > function = sutO.byteUnaryOpCompose(before1);
         function.doApplyAsByte((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -674,28 +674,28 @@ public class LByteUnaryOperatorTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nestingBUnaryOp())
+        assertThat(sut.nestingByteUnaryOp())
             .isSameAs(sut)
             .isInstanceOf(LByteUnaryOperator.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shovingBUnaryOp())
+        assertThat(sut.shovingByteUnaryOp())
             .isSameAs(sut)
             .isInstanceOf(LByteUnaryOperator.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestingBUnaryOpX())
+        assertThat(sut.nestingByteUnaryOpX())
             .isSameAs(sut)
             .isInstanceOf(LByteUnaryOperatorX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shovingBUnaryOpX())
+        assertThat(sut.shovingByteUnaryOpX())
             .isSameAs(sut)
             .isInstanceOf(LByteUnaryOperatorX.class);
     }
@@ -709,11 +709,11 @@ public class LByteUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shovingBUnaryOp().doApplyAsByte((byte)100);
+        sutThrowing.shovingByteUnaryOp().doApplyAsByte((byte)100);
     }
 
     @Test
-    public void testHandleBUnaryOp() throws X {
+    public void testHandleByteUnaryOp() throws X {
 
         // given
         LByteUnaryOperator sutThrowing = LByteUnaryOperator.l(b -> {
@@ -721,7 +721,7 @@ public class LByteUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LByteUnaryOperator wrapped = sutThrowing.handleBUnaryOp(h -> {
+        LByteUnaryOperator wrapped = sutThrowing.handleByteUnaryOp(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 

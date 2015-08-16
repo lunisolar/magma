@@ -64,6 +64,7 @@ public interface LFloatSupplierX<X extends Throwable> extends MetaSupplier, Prim
 
 	float doGetAsFloat() throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default float nestingDoGetAsFloat() {
 		try {
 			return this.doGetAsFloat();
@@ -74,10 +75,12 @@ public interface LFloatSupplierX<X extends Throwable> extends MetaSupplier, Prim
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default float shovingDoGetAsFloat() {
 		return ((LFloatSupplierX<RuntimeException>) this).doGetAsFloat();
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> float handlingDoGetAsFloat(HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -92,12 +95,13 @@ public interface LFloatSupplierX<X extends Throwable> extends MetaSupplier, Prim
 		return doGetAsFloat();
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LFloatSupplierX.DESCRIPTION;
 	}
 
+	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LFloatSupplierX<X> of(float r) {
 		return () -> r;
 	}
@@ -118,7 +122,7 @@ public interface LFloatSupplierX<X extends Throwable> extends MetaSupplier, Prim
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LFloatSupplierX<X> wrapX(final @Nonnull LFloatSupplier other) {
 		return (LFloatSupplierX) other;
@@ -196,23 +200,23 @@ public interface LFloatSupplierX<X extends Throwable> extends MetaSupplier, Prim
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LFloatSupplier nestingFSup() {
+	default LFloatSupplier nestingFloatSup() {
 		return this::nestingDoGetAsFloat;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LFloatSupplierX<RuntimeException> nestingFSupX() {
+	default LFloatSupplierX<RuntimeException> nestingFloatSupX() {
 		return this::nestingDoGetAsFloat;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatSupplier shovingFSup() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LFloatSupplier shovingFloatSup() {
 		return this::shovingDoGetAsFloat;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatSupplierX<RuntimeException> shovingFSupX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LFloatSupplierX<RuntimeException> shovingFloatSupX() {
 		return this::shovingDoGetAsFloat;
 	}
 
@@ -220,13 +224,15 @@ public interface LFloatSupplierX<X extends Throwable> extends MetaSupplier, Prim
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LFloatSupplier handleFSup(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LFloatSupplier handleFloatSup(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return () -> this.handlingDoGetAsFloat(handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LFloatSupplierX<Y> handleFSupX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LFloatSupplierX<Y> handleFloatSupX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return () -> this.handlingDoGetAsFloat(handling);
 	}
 

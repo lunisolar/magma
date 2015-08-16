@@ -74,6 +74,7 @@ public interface LToLongFunctionX<T, X extends Throwable> extends java.util.func
 
 	long doApplyAsLong(T t) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default long nestingDoApplyAsLong(T t) {
 		try {
 			return this.doApplyAsLong(t);
@@ -84,10 +85,12 @@ public interface LToLongFunctionX<T, X extends Throwable> extends java.util.func
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default long shovingDoApplyAsLong(T t) {
 		return ((LToLongFunctionX<T, RuntimeException>) this).doApplyAsLong(t);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> long handlingDoApplyAsLong(T t, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -102,7 +105,7 @@ public interface LToLongFunctionX<T, X extends Throwable> extends java.util.func
 		return doApplyAsLong(t);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LToLongFunctionX.DESCRIPTION;
@@ -113,6 +116,7 @@ public interface LToLongFunctionX<T, X extends Throwable> extends java.util.func
 		return () -> this.doApplyAsLong(t);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T, X extends Throwable> LToLongFunctionX<T, X> constant(long r) {
 		return t -> r;
 	}
@@ -139,7 +143,7 @@ public interface LToLongFunctionX<T, X extends Throwable> extends java.util.func
 		return other::applyAsLong;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T, X extends Throwable> LToLongFunctionX<T, X> wrapX(final @Nonnull LToLongFunction<T> other) {
 		return (LToLongFunctionX) other;
@@ -149,11 +153,9 @@ public interface LToLongFunctionX<T, X extends Throwable> extends java.util.func
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToLongFunctionX<V1, X> toLongFuncFrom(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1) {
+	default <V1> LToLongFunctionX<V1, X> toLongFuncCompose(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsLong(before1.doApply(v1));
 	}
@@ -240,12 +242,12 @@ public interface LToLongFunctionX<T, X extends Throwable> extends java.util.func
 		return this::nestingDoApplyAsLong;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LToLongFunction<T> shovingToLongFunc() {
 		return this::shovingDoApplyAsLong;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LToLongFunctionX<T, RuntimeException> shovingToLongFuncX() {
 		return this::shovingDoApplyAsLong;
 	}
@@ -254,11 +256,13 @@ public interface LToLongFunctionX<T, X extends Throwable> extends java.util.func
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LToLongFunction<T> handleToLongFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return t -> this.handlingDoApplyAsLong(t, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LToLongFunctionX<T, Y> handleToLongFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return t -> this.handlingDoApplyAsLong(t, handling);

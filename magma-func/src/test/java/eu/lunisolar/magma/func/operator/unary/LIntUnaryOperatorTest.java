@@ -203,7 +203,7 @@ public class LIntUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LIntUnaryOperator wrapped = sutThrowing.handleIUnaryOp(handler -> handler
+        LIntUnaryOperator wrapped = sutThrowing.handleIntUnaryOp(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -227,7 +227,7 @@ public class LIntUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LIntUnaryOperator wrapped = sutThrowing.handleIUnaryOp(handler -> handler
+        LIntUnaryOperator wrapped = sutThrowing.handleIntUnaryOp(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -251,7 +251,7 @@ public class LIntUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LIntUnaryOperator wrapped = sutThrowing.handleIUnaryOp(handler -> handler
+        LIntUnaryOperator wrapped = sutThrowing.handleIntUnaryOp(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -276,7 +276,7 @@ public class LIntUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LIntUnaryOperator wrapped = sutThrowing.handleIUnaryOp(h -> Function4U.doNothing());
+        LIntUnaryOperator wrapped = sutThrowing.handleIntUnaryOp(h -> Function4U.doNothing());
 
         // then
         try {
@@ -295,7 +295,7 @@ public class LIntUnaryOperatorTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testiUnaryOpFromInt() throws X {
+    public void testintUnaryOpComposeInt() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -314,7 +314,7 @@ public class LIntUnaryOperatorTest<X extends ParseException> {
         };
 
         //when
-        LIntUnaryOperator function = sutO.iUnaryOpFromInt(before1);
+        LIntUnaryOperator function = sutO.intUnaryOpComposeInt(before1);
         function.doApplyAsInt((int)80);
 
         //then - finals
@@ -324,7 +324,7 @@ public class LIntUnaryOperatorTest<X extends ParseException> {
 
 
     @Test
-    public void testiUnaryOpFrom() throws X {
+    public void testintUnaryOpCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -343,7 +343,7 @@ public class LIntUnaryOperatorTest<X extends ParseException> {
         };
 
         //when
-        LToIntFunction<Integer > function = sutO.iUnaryOpFrom(before1);
+        LToIntFunction<Integer > function = sutO.intUnaryOpCompose(before1);
         function.doApplyAsInt((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -682,28 +682,28 @@ public class LIntUnaryOperatorTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nestingIUnaryOp())
+        assertThat(sut.nestingIntUnaryOp())
             .isSameAs(sut)
             .isInstanceOf(LIntUnaryOperator.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shovingIUnaryOp())
+        assertThat(sut.shovingIntUnaryOp())
             .isSameAs(sut)
             .isInstanceOf(LIntUnaryOperator.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestingIUnaryOpX())
+        assertThat(sut.nestingIntUnaryOpX())
             .isSameAs(sut)
             .isInstanceOf(LIntUnaryOperatorX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shovingIUnaryOpX())
+        assertThat(sut.shovingIntUnaryOpX())
             .isSameAs(sut)
             .isInstanceOf(LIntUnaryOperatorX.class);
     }
@@ -717,11 +717,11 @@ public class LIntUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shovingIUnaryOp().doApplyAsInt((int)100);
+        sutThrowing.shovingIntUnaryOp().doApplyAsInt((int)100);
     }
 
     @Test
-    public void testHandleIUnaryOp() throws X {
+    public void testHandleIntUnaryOp() throws X {
 
         // given
         LIntUnaryOperator sutThrowing = LIntUnaryOperator.l(i -> {
@@ -729,7 +729,7 @@ public class LIntUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LIntUnaryOperator wrapped = sutThrowing.handleIUnaryOp(h -> {
+        LIntUnaryOperator wrapped = sutThrowing.handleIntUnaryOp(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 

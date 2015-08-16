@@ -64,6 +64,7 @@ public interface LByteSupplierX<X extends Throwable> extends MetaSupplier, Primi
 
 	byte doGetAsByte() throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default byte nestingDoGetAsByte() {
 		try {
 			return this.doGetAsByte();
@@ -74,10 +75,12 @@ public interface LByteSupplierX<X extends Throwable> extends MetaSupplier, Primi
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default byte shovingDoGetAsByte() {
 		return ((LByteSupplierX<RuntimeException>) this).doGetAsByte();
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> byte handlingDoGetAsByte(HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -92,12 +95,13 @@ public interface LByteSupplierX<X extends Throwable> extends MetaSupplier, Primi
 		return doGetAsByte();
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LByteSupplierX.DESCRIPTION;
 	}
 
+	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LByteSupplierX<X> of(byte r) {
 		return () -> r;
 	}
@@ -118,7 +122,7 @@ public interface LByteSupplierX<X extends Throwable> extends MetaSupplier, Primi
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LByteSupplierX<X> wrapX(final @Nonnull LByteSupplier other) {
 		return (LByteSupplierX) other;
@@ -196,23 +200,23 @@ public interface LByteSupplierX<X extends Throwable> extends MetaSupplier, Primi
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LByteSupplier nestingBSup() {
+	default LByteSupplier nestingByteSup() {
 		return this::nestingDoGetAsByte;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LByteSupplierX<RuntimeException> nestingBSupX() {
+	default LByteSupplierX<RuntimeException> nestingByteSupX() {
 		return this::nestingDoGetAsByte;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteSupplier shovingBSup() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LByteSupplier shovingByteSup() {
 		return this::shovingDoGetAsByte;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteSupplierX<RuntimeException> shovingBSupX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LByteSupplierX<RuntimeException> shovingByteSupX() {
 		return this::shovingDoGetAsByte;
 	}
 
@@ -220,13 +224,15 @@ public interface LByteSupplierX<X extends Throwable> extends MetaSupplier, Primi
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LByteSupplier handleBSup(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LByteSupplier handleByteSup(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return () -> this.handlingDoGetAsByte(handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LByteSupplierX<Y> handleBSupX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LByteSupplierX<Y> handleByteSupX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return () -> this.handlingDoGetAsByte(handling);
 	}
 

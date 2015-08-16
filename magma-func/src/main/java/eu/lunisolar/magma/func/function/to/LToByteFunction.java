@@ -64,10 +64,12 @@ public interface LToByteFunction<T> extends LToByteFunctionX<T, RuntimeException
 
 	byte doApplyAsByte(T t);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default byte nestingDoApplyAsByte(T t) {
 		return this.doApplyAsByte(t);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default byte shovingDoApplyAsByte(T t) {
 		return this.doApplyAsByte(t);
 	}
@@ -77,17 +79,18 @@ public interface LToByteFunction<T> extends LToByteFunctionX<T, RuntimeException
 		return doApplyAsByte(t);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LToByteFunction.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LByteSupplier captureToBFunc(T t) {
+	default LByteSupplier captureToByteFunc(T t) {
 		return () -> this.doApplyAsByte(t);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T> LToByteFunction<T> constant(byte r) {
 		return t -> r;
 	}
@@ -101,7 +104,7 @@ public interface LToByteFunction<T> extends LToByteFunctionX<T, RuntimeException
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T, X extends Throwable> LToByteFunction<T> wrap(final @Nonnull LToByteFunctionX<T, X> other) {
 		return other::nestingDoApplyAsByte;
@@ -111,11 +114,9 @@ public interface LToByteFunction<T> extends LToByteFunctionX<T, RuntimeException
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToByteFunction<V1> toBFuncFrom(@Nonnull final LFunction<? super V1, ? extends T> before1) {
+	default <V1> LToByteFunction<V1> toByteFuncCompose(@Nonnull final LFunction<? super V1, ? extends T> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsByte(before1.doApply(v1));
 	}
@@ -192,23 +193,23 @@ public interface LToByteFunction<T> extends LToByteFunctionX<T, RuntimeException
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToByteFunction<T> nestingToBFunc() {
+	default LToByteFunction<T> nestingToByteFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToByteFunctionX<T, RuntimeException> nestingToBFuncX() {
+	default LToByteFunctionX<T, RuntimeException> nestingToByteFuncX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToByteFunction<T> shovingToBFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToByteFunction<T> shovingToByteFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToByteFunctionX<T, RuntimeException> shovingToBFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToByteFunctionX<T, RuntimeException> shovingToByteFuncX() {
 		return this;
 	}
 

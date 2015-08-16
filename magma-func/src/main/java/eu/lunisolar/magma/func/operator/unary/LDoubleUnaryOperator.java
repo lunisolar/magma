@@ -74,10 +74,12 @@ public interface LDoubleUnaryOperator extends LDoubleUnaryOperatorX<RuntimeExcep
 
 	double doApplyAsDouble(double d);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default double nestingDoApplyAsDouble(double d) {
 		return this.doApplyAsDouble(d);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default double shovingDoApplyAsDouble(double d) {
 		return this.doApplyAsDouble(d);
 	}
@@ -87,17 +89,18 @@ public interface LDoubleUnaryOperator extends LDoubleUnaryOperatorX<RuntimeExcep
 		return doApplyAsDouble(d);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LDoubleUnaryOperator.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LDoubleSupplier captureDUnaryOp(double d) {
+	default LDoubleSupplier captureDoubleUnaryOp(double d) {
 		return () -> this.doApplyAsDouble(d);
 	}
 
+	/** Creates function that always returns the same value. */
 	static LDoubleUnaryOperator constant(double r) {
 		return d -> r;
 	}
@@ -117,7 +120,7 @@ public interface LDoubleUnaryOperator extends LDoubleUnaryOperatorX<RuntimeExcep
 		return other::applyAsDouble;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LDoubleUnaryOperator wrap(final @Nonnull LDoubleUnaryOperatorX<X> other) {
 		return other::nestingDoApplyAsDouble;
@@ -127,20 +130,16 @@ public interface LDoubleUnaryOperator extends LDoubleUnaryOperatorX<RuntimeExcep
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LDoubleUnaryOperator dUnaryOpFromDouble(@Nonnull final LDoubleUnaryOperator before1) {
+	default LDoubleUnaryOperator doubleUnaryOpComposeDouble(@Nonnull final LDoubleUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsDouble(before1.doApplyAsDouble(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToDoubleFunction<V1> dUnaryOpFrom(@Nonnull final LToDoubleFunction<? super V1> before1) {
+	default <V1> LToDoubleFunction<V1> doubleUnaryOpCompose(@Nonnull final LToDoubleFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsDouble(before1.doApplyAsDouble(v1));
 	}
@@ -223,23 +222,23 @@ public interface LDoubleUnaryOperator extends LDoubleUnaryOperatorX<RuntimeExcep
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoubleUnaryOperator nestingDUnaryOp() {
+	default LDoubleUnaryOperator nestingDoubleUnaryOp() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoubleUnaryOperatorX<RuntimeException> nestingDUnaryOpX() {
+	default LDoubleUnaryOperatorX<RuntimeException> nestingDoubleUnaryOpX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleUnaryOperator shovingDUnaryOp() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoubleUnaryOperator shovingDoubleUnaryOp() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleUnaryOperatorX<RuntimeException> shovingDUnaryOpX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoubleUnaryOperatorX<RuntimeException> shovingDoubleUnaryOpX() {
 		return this;
 	}
 

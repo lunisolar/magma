@@ -64,10 +64,12 @@ public interface LFloatToDoubleFunction extends LFloatToDoubleFunctionX<RuntimeE
 
 	double doApplyAsDouble(float f);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default double nestingDoApplyAsDouble(float f) {
 		return this.doApplyAsDouble(f);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default double shovingDoApplyAsDouble(float f) {
 		return this.doApplyAsDouble(f);
 	}
@@ -77,17 +79,18 @@ public interface LFloatToDoubleFunction extends LFloatToDoubleFunctionX<RuntimeE
 		return doApplyAsDouble(f);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LFloatToDoubleFunction.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LDoubleSupplier captureFToDFunc(float f) {
+	default LDoubleSupplier captureFloatToDoubleFunc(float f) {
 		return () -> this.doApplyAsDouble(f);
 	}
 
+	/** Creates function that always returns the same value. */
 	static LFloatToDoubleFunction constant(double r) {
 		return f -> r;
 	}
@@ -101,7 +104,7 @@ public interface LFloatToDoubleFunction extends LFloatToDoubleFunctionX<RuntimeE
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LFloatToDoubleFunction wrap(final @Nonnull LFloatToDoubleFunctionX<X> other) {
 		return other::nestingDoApplyAsDouble;
@@ -111,20 +114,16 @@ public interface LFloatToDoubleFunction extends LFloatToDoubleFunctionX<RuntimeE
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LFloatToDoubleFunction fToDFuncFromFloat(@Nonnull final LFloatUnaryOperator before1) {
+	default LFloatToDoubleFunction floatToDoubleFuncComposeFloat(@Nonnull final LFloatUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsDouble(before1.doApplyAsFloat(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToDoubleFunction<V1> fToDFuncFrom(@Nonnull final LToFloatFunction<? super V1> before1) {
+	default <V1> LToDoubleFunction<V1> floatToDoubleFuncCompose(@Nonnull final LToFloatFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsDouble(before1.doApplyAsFloat(v1));
 	}
@@ -201,23 +200,23 @@ public interface LFloatToDoubleFunction extends LFloatToDoubleFunctionX<RuntimeE
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LFloatToDoubleFunction nestingFToDFunc() {
+	default LFloatToDoubleFunction nestingFloatToDoubleFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LFloatToDoubleFunctionX<RuntimeException> nestingFToDFuncX() {
+	default LFloatToDoubleFunctionX<RuntimeException> nestingFloatToDoubleFuncX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatToDoubleFunction shovingFToDFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LFloatToDoubleFunction shovingFloatToDoubleFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatToDoubleFunctionX<RuntimeException> shovingFToDFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LFloatToDoubleFunctionX<RuntimeException> shovingFloatToDoubleFuncX() {
 		return this;
 	}
 

@@ -64,10 +64,12 @@ public interface LCharToIntFunction extends LCharToIntFunctionX<RuntimeException
 
 	int doApplyAsInt(char c);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default int nestingDoApplyAsInt(char c) {
 		return this.doApplyAsInt(c);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default int shovingDoApplyAsInt(char c) {
 		return this.doApplyAsInt(c);
 	}
@@ -77,17 +79,18 @@ public interface LCharToIntFunction extends LCharToIntFunctionX<RuntimeException
 		return doApplyAsInt(c);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LCharToIntFunction.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LIntSupplier captureCToIFunc(char c) {
+	default LIntSupplier captureCharToIntFunc(char c) {
 		return () -> this.doApplyAsInt(c);
 	}
 
+	/** Creates function that always returns the same value. */
 	static LCharToIntFunction constant(int r) {
 		return c -> r;
 	}
@@ -101,7 +104,7 @@ public interface LCharToIntFunction extends LCharToIntFunctionX<RuntimeException
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LCharToIntFunction wrap(final @Nonnull LCharToIntFunctionX<X> other) {
 		return other::nestingDoApplyAsInt;
@@ -111,20 +114,16 @@ public interface LCharToIntFunction extends LCharToIntFunctionX<RuntimeException
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LCharToIntFunction cToIFuncFromChar(@Nonnull final LCharUnaryOperator before1) {
+	default LCharToIntFunction charToIntFuncComposeChar(@Nonnull final LCharUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsInt(before1.doApplyAsChar(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToIntFunction<V1> cToIFuncFrom(@Nonnull final LToCharFunction<? super V1> before1) {
+	default <V1> LToIntFunction<V1> charToIntFuncCompose(@Nonnull final LToCharFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsInt(before1.doApplyAsChar(v1));
 	}
@@ -201,23 +200,23 @@ public interface LCharToIntFunction extends LCharToIntFunctionX<RuntimeException
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LCharToIntFunction nestingCToIFunc() {
+	default LCharToIntFunction nestingCharToIntFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LCharToIntFunctionX<RuntimeException> nestingCToIFuncX() {
+	default LCharToIntFunctionX<RuntimeException> nestingCharToIntFuncX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharToIntFunction shovingCToIFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LCharToIntFunction shovingCharToIntFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharToIntFunctionX<RuntimeException> shovingCToIFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LCharToIntFunctionX<RuntimeException> shovingCharToIntFuncX() {
 		return this;
 	}
 

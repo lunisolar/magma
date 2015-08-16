@@ -66,7 +66,7 @@ public final class LToLongBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithLo
 		});
 
 	public LToLongBiFunctionBuilder(@Nullable Consumer<LToLongBiFunction<T1, T2>> consumer) {
-		super(EVENTUALLY_THROW, LToLongBiFunction::constant);
+		super(EVENTUALLY_THROW, LToLongBiFunction::constant, () -> new LToLongBiFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LToLongBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithLo
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <T1, T2> LToLongBiFunctionBuilder<T1, T2> toLongBiFunction() {
+	public static <T1, T2> LToLongBiFunctionBuilder<T1, T2> toLongBiFunction() {
 		return new LToLongBiFunctionBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <T1, T2> LToLongBiFunctionBuilder<T1, T2> toLongBiFunction(Consumer<LToLongBiFunction<T1, T2>> consumer) {
+	public static <T1, T2> LToLongBiFunctionBuilder<T1, T2> toLongBiFunction(Consumer<LToLongBiFunction<T1, T2>> consumer) {
 		return new LToLongBiFunctionBuilder(consumer);
 	}
 
@@ -96,6 +96,24 @@ public final class LToLongBiFunctionBuilder<T1, T2> extends PerCaseBuilderWithLo
 			throw new UnsupportedOperationException("Handling is already set for this builder.");
 		}
 		this.handling = handling;
+		return self();
+	}
+
+	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
+	@Nonnull
+	public <E1 extends T1, E2 extends T2> LToLongBiFunctionBuilder<T1, T2> casesOf(Class<E1> argC1, Class<E2> argC2, Consumer<LToLongBiFunctionBuilder<E1, E2>> pcpConsumer) {
+		PartialCaseWithLongProduct.The pc = partialCaseFactoryMethod((T1 t1, T2 t2) -> (argC1 == null || argC1.isInstance(t1)) && (argC2 == null || argC2.isInstance(t2)));
+
+		pc.specifySubCases((Consumer) pcpConsumer);
+		return self();
+	}
+
+	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
+	@Nonnull
+	public <E1 extends T1, E2 extends T2> LToLongBiFunctionBuilder<T1, T2> aCase(Class<E1> argC1, Class<E2> argC2, LToLongBiFunction<E1, E2> function) {
+		PartialCaseWithLongProduct.The pc = partialCaseFactoryMethod((T1 t1, T2 t2) -> (argC1 == null || argC1.isInstance(t1)) && (argC2 == null || argC2.isInstance(t2)));
+
+		pc.evaluate(function);
 		return self();
 	}
 

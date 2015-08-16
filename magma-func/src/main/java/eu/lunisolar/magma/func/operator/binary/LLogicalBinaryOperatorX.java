@@ -64,6 +64,7 @@ public interface LLogicalBinaryOperatorX<X extends Throwable> extends MetaOperat
 
 	boolean doApply(boolean b1, boolean b2) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default boolean nestingDoApply(boolean b1, boolean b2) {
 		try {
 			return this.doApply(b1, b2);
@@ -74,10 +75,12 @@ public interface LLogicalBinaryOperatorX<X extends Throwable> extends MetaOperat
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default boolean shovingDoApply(boolean b1, boolean b2) {
 		return ((LLogicalBinaryOperatorX<RuntimeException>) this).doApply(b1, b2);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> boolean handlingDoApply(boolean b1, boolean b2, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -92,12 +95,12 @@ public interface LLogicalBinaryOperatorX<X extends Throwable> extends MetaOperat
 		return doApply(b1, b2);
 	}
 
-	/** For convinience boolean operator is also special case of predicate. */
+	/** For convenience, boolean operator is also special case of predicate. */
 	default boolean doTest(boolean b1, boolean b2) throws X {
 		return doApply(b1, b2);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LLogicalBinaryOperatorX.DESCRIPTION;
@@ -108,8 +111,21 @@ public interface LLogicalBinaryOperatorX<X extends Throwable> extends MetaOperat
 		return () -> this.doApply(b1, b2);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LLogicalBinaryOperatorX<X> constant(boolean r) {
 		return (b1, b2) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <X extends Throwable> LLogicalBinaryOperatorX<X> apply1st(@Nonnull LLogicalOperatorX<X> func) {
+		return (b1, b2) -> func.doApply(b1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <X extends Throwable> LLogicalBinaryOperatorX<X> apply2nd(@Nonnull LLogicalOperatorX<X> func) {
+		return (b1, b2) -> func.doApply(b2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -128,7 +144,7 @@ public interface LLogicalBinaryOperatorX<X extends Throwable> extends MetaOperat
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LLogicalBinaryOperatorX<X> wrapX(final @Nonnull LLogicalBinaryOperator other) {
 		return (LLogicalBinaryOperatorX) other;
@@ -138,7 +154,9 @@ public interface LLogicalBinaryOperatorX<X extends Throwable> extends MetaOperat
 	// <editor-fold desc="predicate">
 
 	/**
-	 *  @see {@link java.util.function.Predicate#negate()}
+	 * Returns a predicate that represents the logical negation of this predicate.
+	 *
+	 * @see {@link java.util.function.Predicate#negate}
 	 */
 	@Nonnull
 	default LLogicalBinaryOperatorX<X> negate() {
@@ -146,7 +164,8 @@ public interface LLogicalBinaryOperatorX<X extends Throwable> extends MetaOperat
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#and()}
+	 * Returns a predicate that represents the logical AND of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#and()}
 	 */
 	@Nonnull
 	default LLogicalBinaryOperatorX<X> and(@Nonnull LLogicalBinaryOperatorX<X> other) {
@@ -155,7 +174,8 @@ public interface LLogicalBinaryOperatorX<X extends Throwable> extends MetaOperat
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LLogicalBinaryOperatorX<X> or(@Nonnull LLogicalBinaryOperatorX<X> other) {
@@ -164,7 +184,8 @@ public interface LLogicalBinaryOperatorX<X extends Throwable> extends MetaOperat
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical XOR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LLogicalBinaryOperatorX<X> xor(@Nonnull LLogicalBinaryOperatorX<X> other) {
@@ -173,7 +194,8 @@ public interface LLogicalBinaryOperatorX<X extends Throwable> extends MetaOperat
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#isEqual()}
+	 * Creates predicate that evaluates if an object is equal with the argument one.
+	 * @see {@link java.util.function.Predicate#isEqual()
 	 */
 	@Nonnull
 	static <X extends Throwable> LLogicalBinaryOperatorX<X> isEqual(final boolean v1, final boolean v2) {
@@ -181,10 +203,9 @@ public interface LLogicalBinaryOperatorX<X extends Throwable> extends MetaOperat
 	}
 
 	// </editor-fold>
-	// <editor-fold desc="minmax/logical">
 
 	/**
-	 *
+	 * Returns function that applies logical AND operator.
 	 */
 	@Nonnull
 	static <X extends Throwable> LLogicalBinaryOperatorX<X> and() {
@@ -192,40 +213,34 @@ public interface LLogicalBinaryOperatorX<X extends Throwable> extends MetaOperat
 	}
 
 	/**
-	 * @see {@link java.util.function.BinaryOperator#minBy()}
-	 */
-	@Nonnull
-	static <X extends Throwable> LLogicalBinaryOperatorX<X> xor() {
-		return Boolean::logicalXor;
-	}
-
-	/**
-	 * @see {@link java.util.function.BinaryOperator#maxBy()}
+	 * Returns function that applies logical OR operator.
 	 */
 	@Nonnull
 	static <X extends Throwable> LLogicalBinaryOperatorX<X> or() {
 		return Boolean::logicalOr;
 	}
 
-	// </editor-fold>
+	/**
+	 * Returns function that applies logical XOR operator.
+	 */
+	@Nonnull
+	static <X extends Throwable> LLogicalBinaryOperatorX<X> xor() {
+		return Boolean::logicalXor;
+	}
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LLogicalBinaryOperatorX<X> logicalBinaryOpFromBoolean(@Nonnull final LLogicalOperatorX<X> before1, @Nonnull final LLogicalOperatorX<X> before2) {
+	default LLogicalBinaryOperatorX<X> logicalBinaryOpComposeBoolean(@Nonnull final LLogicalOperatorX<X> before1, @Nonnull final LLogicalOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final boolean v1, final boolean v2) -> this.doApply(before1.doApply(v1), before2.doApply(v2));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiPredicateX<V1, V2, X> logicalBinaryOpFrom(@Nonnull final LPredicateX<? super V1, X> before1, @Nonnull final LPredicateX<? super V2, X> before2) {
+	default <V1, V2> LBiPredicateX<V1, V2, X> logicalBinaryOpCompose(@Nonnull final LPredicateX<? super V1, X> before1, @Nonnull final LPredicateX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApply(before1.doTest(v1), before2.doTest(v2));
@@ -237,7 +252,7 @@ public interface LLogicalBinaryOperatorX<X extends Throwable> extends MetaOperat
 
 	/** Combines two operators together in a order. */
 	@Nonnull
-	default <V> LBooleanBiFunctionX<V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LBiBooleanFunctionX<V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (boolean b1, boolean b2) -> after.doApply(this.doApply(b1, b2));
 	}
@@ -257,12 +272,12 @@ public interface LLogicalBinaryOperatorX<X extends Throwable> extends MetaOperat
 		return this::nestingDoApply;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLogicalBinaryOperator shovingLogicalBinaryOp() {
 		return this::shovingDoApply;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLogicalBinaryOperatorX<RuntimeException> shovingLogicalBinaryOpX() {
 		return this::shovingDoApply;
 	}
@@ -271,11 +286,13 @@ public interface LLogicalBinaryOperatorX<X extends Throwable> extends MetaOperat
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LLogicalBinaryOperator handleLogicalBinaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (boolean b1, boolean b2) -> this.handlingDoApply(b1, b2, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LLogicalBinaryOperatorX<Y> handleLogicalBinaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (boolean b1, boolean b2) -> this.handlingDoApply(b1, b2, handling);

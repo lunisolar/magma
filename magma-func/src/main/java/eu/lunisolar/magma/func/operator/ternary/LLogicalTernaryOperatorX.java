@@ -64,6 +64,7 @@ public interface LLogicalTernaryOperatorX<X extends Throwable> extends MetaOpera
 
 	boolean doApply(boolean b1, boolean b2, boolean b3) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default boolean nestingDoApply(boolean b1, boolean b2, boolean b3) {
 		try {
 			return this.doApply(b1, b2, b3);
@@ -74,10 +75,12 @@ public interface LLogicalTernaryOperatorX<X extends Throwable> extends MetaOpera
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default boolean shovingDoApply(boolean b1, boolean b2, boolean b3) {
 		return ((LLogicalTernaryOperatorX<RuntimeException>) this).doApply(b1, b2, b3);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> boolean handlingDoApply(boolean b1, boolean b2, boolean b3, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -92,12 +95,12 @@ public interface LLogicalTernaryOperatorX<X extends Throwable> extends MetaOpera
 		return doApply(b1, b2, b3);
 	}
 
-	/** For convinience boolean operator is also special case of predicate. */
+	/** For convenience, boolean operator is also special case of predicate. */
 	default boolean doTest(boolean b1, boolean b2, boolean b3) throws X {
 		return doApply(b1, b2, b3);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LLogicalTernaryOperatorX.DESCRIPTION;
@@ -108,8 +111,27 @@ public interface LLogicalTernaryOperatorX<X extends Throwable> extends MetaOpera
 		return () -> this.doApply(b1, b2, b3);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LLogicalTernaryOperatorX<X> constant(boolean r) {
 		return (b1, b2, b3) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <X extends Throwable> LLogicalTernaryOperatorX<X> apply1st(@Nonnull LLogicalOperatorX<X> func) {
+		return (b1, b2, b3) -> func.doApply(b1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <X extends Throwable> LLogicalTernaryOperatorX<X> apply2nd(@Nonnull LLogicalOperatorX<X> func) {
+		return (b1, b2, b3) -> func.doApply(b2);
+	}
+
+	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
+	@Nonnull
+	static <X extends Throwable> LLogicalTernaryOperatorX<X> apply3rd(@Nonnull LLogicalOperatorX<X> func) {
+		return (b1, b2, b3) -> func.doApply(b3);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -128,7 +150,7 @@ public interface LLogicalTernaryOperatorX<X extends Throwable> extends MetaOpera
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LLogicalTernaryOperatorX<X> wrapX(final @Nonnull LLogicalTernaryOperator other) {
 		return (LLogicalTernaryOperatorX) other;
@@ -138,7 +160,9 @@ public interface LLogicalTernaryOperatorX<X extends Throwable> extends MetaOpera
 	// <editor-fold desc="predicate">
 
 	/**
-	 *  @see {@link java.util.function.Predicate#negate()}
+	 * Returns a predicate that represents the logical negation of this predicate.
+	 *
+	 * @see {@link java.util.function.Predicate#negate}
 	 */
 	@Nonnull
 	default LLogicalTernaryOperatorX<X> negate() {
@@ -146,7 +170,8 @@ public interface LLogicalTernaryOperatorX<X extends Throwable> extends MetaOpera
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#and()}
+	 * Returns a predicate that represents the logical AND of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#and()}
 	 */
 	@Nonnull
 	default LLogicalTernaryOperatorX<X> and(@Nonnull LLogicalTernaryOperatorX<X> other) {
@@ -155,7 +180,8 @@ public interface LLogicalTernaryOperatorX<X extends Throwable> extends MetaOpera
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LLogicalTernaryOperatorX<X> or(@Nonnull LLogicalTernaryOperatorX<X> other) {
@@ -164,7 +190,8 @@ public interface LLogicalTernaryOperatorX<X extends Throwable> extends MetaOpera
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical XOR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LLogicalTernaryOperatorX<X> xor(@Nonnull LLogicalTernaryOperatorX<X> other) {
@@ -173,7 +200,8 @@ public interface LLogicalTernaryOperatorX<X extends Throwable> extends MetaOpera
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#isEqual()}
+	 * Creates predicate that evaluates if an object is equal with the argument one.
+	 * @see {@link java.util.function.Predicate#isEqual()
 	 */
 	@Nonnull
 	static <X extends Throwable> LLogicalTernaryOperatorX<X> isEqual(final boolean v1, final boolean v2, final boolean v3) {
@@ -182,24 +210,44 @@ public interface LLogicalTernaryOperatorX<X extends Throwable> extends MetaOpera
 
 	// </editor-fold>
 
-	// <editor-fold desc="compose (functional)">
-
 	/**
-	 * Allows to manipulate the domain of the function.
+	 * Returns function that applies logical AND operator.
 	 */
 	@Nonnull
-	default LLogicalTernaryOperatorX<X> logicalTernaryOpFromBoolean(@Nonnull final LLogicalOperatorX<X> before1, @Nonnull final LLogicalOperatorX<X> before2, @Nonnull final LLogicalOperatorX<X> before3) {
+	static <X extends Throwable> LLogicalTernaryOperatorX<X> and() {
+		return (b1, b2, b3) -> b1 && b2 && b3;
+	}
+
+	/**
+	 * Returns function that applies logical OR operator.
+	 */
+	@Nonnull
+	static <X extends Throwable> LLogicalTernaryOperatorX<X> or() {
+		return (b1, b2, b3) -> b1 || b2 || b3;
+	}
+
+	/**
+	 * Returns function that applies logical XOR operator.
+	 */
+	@Nonnull
+	static <X extends Throwable> LLogicalTernaryOperatorX<X> xor() {
+		return (b1, b2, b3) -> b1 ^ b2 ^ b3;
+	}
+
+	// <editor-fold desc="compose (functional)">
+
+	/** Allows to manipulate the domain of the function. */
+	@Nonnull
+	default LLogicalTernaryOperatorX<X> logicalTernaryOpComposeBoolean(@Nonnull final LLogicalOperatorX<X> before1, @Nonnull final LLogicalOperatorX<X> before2, @Nonnull final LLogicalOperatorX<X> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
 		return (final boolean v1, final boolean v2, final boolean v3) -> this.doApply(before1.doApply(v1), before2.doApply(v2), before3.doApply(v3));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2, V3> LTriPredicateX<V1, V2, V3, X> logicalTernaryOpFrom(@Nonnull final LPredicateX<? super V1, X> before1, @Nonnull final LPredicateX<? super V2, X> before2, @Nonnull final LPredicateX<? super V3, X> before3) {
+	default <V1, V2, V3> LTriPredicateX<V1, V2, V3, X> logicalTernaryOpCompose(@Nonnull final LPredicateX<? super V1, X> before1, @Nonnull final LPredicateX<? super V2, X> before2, @Nonnull final LPredicateX<? super V3, X> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
@@ -212,7 +260,7 @@ public interface LLogicalTernaryOperatorX<X extends Throwable> extends MetaOpera
 
 	/** Combines two operators together in a order. */
 	@Nonnull
-	default <V> LBooleanTriFunctionX<V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LTriBooleanFunctionX<V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (boolean b1, boolean b2, boolean b3) -> after.doApply(this.doApply(b1, b2, b3));
 	}
@@ -232,12 +280,12 @@ public interface LLogicalTernaryOperatorX<X extends Throwable> extends MetaOpera
 		return this::nestingDoApply;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLogicalTernaryOperator shovingLogicalTernaryOp() {
 		return this::shovingDoApply;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLogicalTernaryOperatorX<RuntimeException> shovingLogicalTernaryOpX() {
 		return this::shovingDoApply;
 	}
@@ -246,11 +294,13 @@ public interface LLogicalTernaryOperatorX<X extends Throwable> extends MetaOpera
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LLogicalTernaryOperator handleLogicalTernaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (boolean b1, boolean b2, boolean b3) -> this.handlingDoApply(b1, b2, b3, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LLogicalTernaryOperatorX<Y> handleLogicalTernaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (boolean b1, boolean b2, boolean b3) -> this.handlingDoApply(b1, b2, b3, handling);

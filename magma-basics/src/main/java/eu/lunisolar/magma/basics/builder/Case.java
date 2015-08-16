@@ -39,7 +39,7 @@ public final class Case<P, F> {
     }
 
     @Nonnull
-    public static final <P, F> Case<P, F> of(@Nonnull P casePredicate, @Nonnull F caseFunction) {
+    public static <P, F> Case<P, F> of(@Nonnull P casePredicate, @Nonnull F caseFunction) {
         return new Case<>(casePredicate, caseFunction);
     }
 

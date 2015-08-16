@@ -47,10 +47,10 @@ public interface LCharConsumerAssert<S extends LCharConsumerAssert<S, A>, A exte
 	SemiEvaluation<S, LCharConsumerX<Exception>, A, Exception> doesAccept(char c);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LCharConsumer> extends Base<Impl<A>, A> {
+	public final static class The<A extends LCharConsumer> extends Base<The<A>, A> {
 
-		public Impl(A actual) {
-			super(actual, Impl.class);
+		public The(A actual) {
+			super(actual, The.class);
 		}
 	}
 
@@ -64,7 +64,7 @@ public interface LCharConsumerAssert<S extends LCharConsumerAssert<S, A>, A exte
 		@Nonnull
 		public SemiEvaluation<S, LCharConsumerX<Exception>, A, Exception> doesAccept(char c) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(c);
 				}

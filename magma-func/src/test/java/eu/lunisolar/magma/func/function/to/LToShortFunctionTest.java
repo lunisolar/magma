@@ -195,7 +195,7 @@ public class LToShortFunctionTest<T,X extends ParseException> {
         });
 
         // when
-        LToShortFunction<T> wrapped = sutThrowing.handleToSFunc(handler -> handler
+        LToShortFunction<T> wrapped = sutThrowing.handleToShortFunc(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -219,7 +219,7 @@ public class LToShortFunctionTest<T,X extends ParseException> {
         });
 
         // when
-        LToShortFunction<T> wrapped = sutThrowing.handleToSFunc(handler -> handler
+        LToShortFunction<T> wrapped = sutThrowing.handleToShortFunc(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -243,7 +243,7 @@ public class LToShortFunctionTest<T,X extends ParseException> {
         });
 
         // when
-        LToShortFunction<T> wrapped = sutThrowing.handleToSFunc(handler -> handler
+        LToShortFunction<T> wrapped = sutThrowing.handleToShortFunc(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -268,7 +268,7 @@ public class LToShortFunctionTest<T,X extends ParseException> {
         });
 
         // when
-        LToShortFunction<T> wrapped = sutThrowing.handleToSFunc(h -> Function4U.doNothing());
+        LToShortFunction<T> wrapped = sutThrowing.handleToShortFunc(h -> Function4U.doNothing());
 
         // then
         try {
@@ -287,7 +287,7 @@ public class LToShortFunctionTest<T,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testtoSFuncFrom() throws X {
+    public void testtoShortFuncCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -306,7 +306,7 @@ public class LToShortFunctionTest<T,X extends ParseException> {
         };
 
         //when
-        LToShortFunction<Integer > function = sutO.toSFuncFrom(before1);
+        LToShortFunction<Integer > function = sutO.toShortFuncCompose(before1);
         function.doApplyAsShort((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -638,28 +638,28 @@ public class LToShortFunctionTest<T,X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nestingToSFunc())
+        assertThat(sut.nestingToShortFunc())
             .isSameAs(sut)
             .isInstanceOf(LToShortFunction.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shovingToSFunc())
+        assertThat(sut.shovingToShortFunc())
             .isSameAs(sut)
             .isInstanceOf(LToShortFunction.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestingToSFuncX())
+        assertThat(sut.nestingToShortFuncX())
             .isSameAs(sut)
             .isInstanceOf(LToShortFunctionX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shovingToSFuncX())
+        assertThat(sut.shovingToShortFuncX())
             .isSameAs(sut)
             .isInstanceOf(LToShortFunctionX.class);
     }
@@ -673,11 +673,11 @@ public class LToShortFunctionTest<T,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shovingToSFunc().doApplyAsShort((T)Integer.valueOf(100));
+        sutThrowing.shovingToShortFunc().doApplyAsShort((T)Integer.valueOf(100));
     }
 
     @Test
-    public void testHandleToSFunc() throws X {
+    public void testHandleToShortFunc() throws X {
 
         // given
         LToShortFunction<T> sutThrowing = LToShortFunction.l(t -> {
@@ -685,7 +685,7 @@ public class LToShortFunctionTest<T,X extends ParseException> {
         });
 
         // when
-        LToShortFunction<T> wrapped = sutThrowing.handleToSFunc(h -> {
+        LToShortFunction<T> wrapped = sutThrowing.handleToShortFunc(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 

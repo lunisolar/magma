@@ -66,7 +66,7 @@ public final class LIntUnaryOperatorXBuilder<X extends Throwable> extends PerCas
 		});
 
 	public LIntUnaryOperatorXBuilder(@Nullable Consumer<LIntUnaryOperatorX<X>> consumer) {
-		super(EVENTUALLY_THROW, LIntUnaryOperatorX::constant);
+		super(EVENTUALLY_THROW, LIntUnaryOperatorX::constant, () -> new LIntUnaryOperatorXBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LIntUnaryOperatorXBuilder<X extends Throwable> extends PerCas
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <X extends Throwable> LIntUnaryOperatorXBuilder<X> intUnaryOperatorX() {
+	public static <X extends Throwable> LIntUnaryOperatorXBuilder<X> intUnaryOperatorX() {
 		return new LIntUnaryOperatorXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <X extends Throwable> LIntUnaryOperatorXBuilder<X> intUnaryOperatorX(Consumer<LIntUnaryOperatorX<X>> consumer) {
+	public static <X extends Throwable> LIntUnaryOperatorXBuilder<X> intUnaryOperatorX(Consumer<LIntUnaryOperatorX<X>> consumer) {
 		return new LIntUnaryOperatorXBuilder(consumer);
 	}
 

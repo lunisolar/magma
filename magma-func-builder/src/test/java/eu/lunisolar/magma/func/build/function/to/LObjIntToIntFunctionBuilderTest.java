@@ -115,7 +115,7 @@ public class LObjIntToIntFunctionBuilderTest<T,X extends Throwable>{
     public void testBuild() throws X {
 
         LObjIntToIntFunction<Integer > function = objIntToIntFunction((LObjIntToIntFunction<Integer > f)-> doNothing())
-            .addCase(ce -> ce.of((t, i) -> t == Integer.valueOf(0))
+            .aCase(ce -> ce.of((t, i) -> t == Integer.valueOf(0))
                              .evaluate((t, i) -> (int)0))
             .inCase((t, i) -> t > 0 && t < 10).evaluate((t, i) -> (int)1)
             .inCase((t, i) -> t > 10 && t < 20).evaluate((t, i) -> (int)2)

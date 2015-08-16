@@ -66,7 +66,7 @@ public final class LCharToFloatFunctionBuilder extends PerCaseBuilderWithFloatPr
 		});
 
 	public LCharToFloatFunctionBuilder(@Nullable Consumer<LCharToFloatFunction> consumer) {
-		super(EVENTUALLY_THROW, LCharToFloatFunction::constant);
+		super(EVENTUALLY_THROW, LCharToFloatFunction::constant, () -> new LCharToFloatFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LCharToFloatFunctionBuilder extends PerCaseBuilderWithFloatPr
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final LCharToFloatFunctionBuilder charToFloatFunction() {
+	public static LCharToFloatFunctionBuilder charToFloatFunction() {
 		return new LCharToFloatFunctionBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final LCharToFloatFunctionBuilder charToFloatFunction(Consumer<LCharToFloatFunction> consumer) {
+	public static LCharToFloatFunctionBuilder charToFloatFunction(Consumer<LCharToFloatFunction> consumer) {
 		return new LCharToFloatFunctionBuilder(consumer);
 	}
 

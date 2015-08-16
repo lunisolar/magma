@@ -50,10 +50,10 @@ public interface LShortToByteFunctionAssert<S extends LShortToByteFunctionAssert
 	Evaluation<S, LShortConsumerX<Exception>, A, RS, Byte, Exception> doesApplyAsByte(short s);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LShortToByteFunction, RS extends AbstractByteAssert<RS>> extends Base<Impl<A, RS>, A, RS> {
+	public final static class The<A extends LShortToByteFunction, RS extends AbstractByteAssert<RS>> extends Base<The<A, RS>, A, RS> {
 
-		public Impl(A actual, java.util.function.Function<Byte, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Byte, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
@@ -72,7 +72,7 @@ public interface LShortToByteFunctionAssert<S extends LShortToByteFunctionAssert
 		@Nonnull
 		public Evaluation<S, LShortConsumerX<Exception>, A, RS, Byte, Exception> doesApplyAsByte(short s) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(s);
 				}

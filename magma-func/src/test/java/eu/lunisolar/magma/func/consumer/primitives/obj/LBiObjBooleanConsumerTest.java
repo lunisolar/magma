@@ -274,7 +274,7 @@ public class LBiObjBooleanConsumerTest<T1,T2,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testbiObjBoolConsFromBoolean() throws X {
+    public void testbiObjBoolConsComposeBoolean() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -304,7 +304,7 @@ public class LBiObjBooleanConsumerTest<T1,T2,X extends ParseException> {
         };
 
         //when
-        LBiObjBooleanConsumer<Integer ,Integer > function = sutO.biObjBoolConsFromBoolean(before1,before2,before3);
+        LBiObjBooleanConsumer<Integer ,Integer > function = sutO.biObjBoolConsComposeBoolean(before1,before2,before3);
         function.doAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),true);
 
         //then - finals
@@ -314,7 +314,7 @@ public class LBiObjBooleanConsumerTest<T1,T2,X extends ParseException> {
 
 
     @Test
-    public void testbiObjBoolConsFrom() throws X {
+    public void testbiObjBoolConsCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -344,7 +344,7 @@ public class LBiObjBooleanConsumerTest<T1,T2,X extends ParseException> {
         };
 
         //when
-        LTriConsumer<Integer ,Integer ,Integer > function = sutO.biObjBoolConsFrom(before1,before2,before3);
+        LTriConsumer<Integer ,Integer ,Integer > function = sutO.biObjBoolConsCompose(before1,before2,before3);
         function.doAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(Integer )Integer.valueOf(82));
 
         //then - finals

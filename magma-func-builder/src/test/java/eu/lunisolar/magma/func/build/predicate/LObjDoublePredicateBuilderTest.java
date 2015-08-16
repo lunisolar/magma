@@ -115,7 +115,7 @@ public class LObjDoublePredicateBuilderTest<T,X extends Throwable>{
     public void testBuild() throws X {
 
         LObjDoublePredicate<Integer > function = objDoublePredicate((LObjDoublePredicate<Integer > f)-> doNothing())
-            .addCase(ce -> ce.of((t, d) -> t == Integer.valueOf(0))
+            .aCase(ce -> ce.of((t, d) -> t == Integer.valueOf(0))
                              .evaluate((t, d) -> false))
             .inCase((t, d) -> t > 0 && t < 10).evaluate((t, d) -> true)
             .inCase((t, d) -> t > 10 && t < 20).evaluate((t, d) -> true)

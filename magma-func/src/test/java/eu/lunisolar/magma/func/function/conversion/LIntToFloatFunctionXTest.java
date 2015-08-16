@@ -184,7 +184,7 @@ public class LIntToFloatFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LIntToFloatFunctionX<X> wrapped = sutThrowing.handleIToFFuncX(handler -> handler
+        LIntToFloatFunctionX<X> wrapped = sutThrowing.handleIntToFloatFuncX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -208,7 +208,7 @@ public class LIntToFloatFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LIntToFloatFunctionX<X> wrapped = sutThrowing.handleIToFFuncX(handler -> handler
+        LIntToFloatFunctionX<X> wrapped = sutThrowing.handleIntToFloatFuncX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -232,7 +232,7 @@ public class LIntToFloatFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LIntToFloatFunctionX<X> wrapped = sutThrowing.handleIToFFuncX(handler -> handler
+        LIntToFloatFunctionX<X> wrapped = sutThrowing.handleIntToFloatFuncX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -257,7 +257,7 @@ public class LIntToFloatFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LIntToFloatFunctionX<X> wrapped = sutThrowing.handleIToFFuncX(h -> Function4U.doNothing());
+        LIntToFloatFunctionX<X> wrapped = sutThrowing.handleIntToFloatFuncX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -276,7 +276,7 @@ public class LIntToFloatFunctionXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testiToFFuncFromInt() throws X {
+    public void testintToFloatFuncComposeInt() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -295,7 +295,7 @@ public class LIntToFloatFunctionXTest<X extends ParseException> {
         };
 
         //when
-        LIntToFloatFunctionX<X> function = sutO.iToFFuncFromInt(before1);
+        LIntToFloatFunctionX<X> function = sutO.intToFloatFuncComposeInt(before1);
         function.doApplyAsFloat((int)80);
 
         //then - finals
@@ -305,7 +305,7 @@ public class LIntToFloatFunctionXTest<X extends ParseException> {
 
 
     @Test
-    public void testiToFFuncFrom() throws X {
+    public void testintToFloatFuncCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -324,7 +324,7 @@ public class LIntToFloatFunctionXTest<X extends ParseException> {
         };
 
         //when
-        LToFloatFunctionX<Integer ,X> function = sutO.iToFFuncFrom(before1);
+        LToFloatFunctionX<Integer ,X> function = sutO.intToFloatFuncCompose(before1);
         function.doApplyAsFloat((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -656,25 +656,25 @@ public class LIntToFloatFunctionXTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nestingIToFFunc())
+        assertThat(sut.nestingIntToFloatFunc())
             .isInstanceOf(LIntToFloatFunction.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shovingIToFFunc())
+        assertThat(sut.shovingIntToFloatFunc())
             .isInstanceOf(LIntToFloatFunction.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestingIToFFuncX())
+        assertThat(sut.nestingIntToFloatFuncX())
             .isInstanceOf(LIntToFloatFunctionX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shovingIToFFuncX())
+        assertThat(sut.shovingIntToFloatFuncX())
             .isInstanceOf(LIntToFloatFunctionX.class);
     }
 
@@ -687,11 +687,11 @@ public class LIntToFloatFunctionXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shovingIToFFunc().doApplyAsFloat((int)100);
+        sutThrowing.shovingIntToFloatFunc().doApplyAsFloat((int)100);
     }
 
     @Test
-    public void testHandleIToFFunc() throws X {
+    public void testHandleIntToFloatFunc() throws X {
 
         // given
         LIntToFloatFunctionX<X> sutThrowing = LIntToFloatFunctionX.lX(i -> {
@@ -699,7 +699,7 @@ public class LIntToFloatFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LIntToFloatFunctionX<X> wrapped = sutThrowing.handleIToFFuncX(h -> {
+        LIntToFloatFunctionX<X> wrapped = sutThrowing.handleIntToFloatFuncX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 

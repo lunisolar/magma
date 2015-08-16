@@ -66,7 +66,7 @@ public final class LCharToShortFunctionXBuilder<X extends Throwable> extends Per
 		});
 
 	public LCharToShortFunctionXBuilder(@Nullable Consumer<LCharToShortFunctionX<X>> consumer) {
-		super(EVENTUALLY_THROW, LCharToShortFunctionX::constant);
+		super(EVENTUALLY_THROW, LCharToShortFunctionX::constant, () -> new LCharToShortFunctionXBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LCharToShortFunctionXBuilder<X extends Throwable> extends Per
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <X extends Throwable> LCharToShortFunctionXBuilder<X> charToShortFunctionX() {
+	public static <X extends Throwable> LCharToShortFunctionXBuilder<X> charToShortFunctionX() {
 		return new LCharToShortFunctionXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <X extends Throwable> LCharToShortFunctionXBuilder<X> charToShortFunctionX(Consumer<LCharToShortFunctionX<X>> consumer) {
+	public static <X extends Throwable> LCharToShortFunctionXBuilder<X> charToShortFunctionX(Consumer<LCharToShortFunctionX<X>> consumer) {
 		return new LCharToShortFunctionXBuilder(consumer);
 	}
 

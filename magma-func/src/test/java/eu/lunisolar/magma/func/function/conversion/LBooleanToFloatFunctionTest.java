@@ -195,7 +195,7 @@ public class LBooleanToFloatFunctionTest<X extends ParseException> {
         });
 
         // when
-        LBooleanToFloatFunction wrapped = sutThrowing.handleBoolToFFunc(handler -> handler
+        LBooleanToFloatFunction wrapped = sutThrowing.handleBoolToFloatFunc(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -219,7 +219,7 @@ public class LBooleanToFloatFunctionTest<X extends ParseException> {
         });
 
         // when
-        LBooleanToFloatFunction wrapped = sutThrowing.handleBoolToFFunc(handler -> handler
+        LBooleanToFloatFunction wrapped = sutThrowing.handleBoolToFloatFunc(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -243,7 +243,7 @@ public class LBooleanToFloatFunctionTest<X extends ParseException> {
         });
 
         // when
-        LBooleanToFloatFunction wrapped = sutThrowing.handleBoolToFFunc(handler -> handler
+        LBooleanToFloatFunction wrapped = sutThrowing.handleBoolToFloatFunc(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -268,7 +268,7 @@ public class LBooleanToFloatFunctionTest<X extends ParseException> {
         });
 
         // when
-        LBooleanToFloatFunction wrapped = sutThrowing.handleBoolToFFunc(h -> Function4U.doNothing());
+        LBooleanToFloatFunction wrapped = sutThrowing.handleBoolToFloatFunc(h -> Function4U.doNothing());
 
         // then
         try {
@@ -287,7 +287,7 @@ public class LBooleanToFloatFunctionTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testboolToFFuncFromBoolean() throws X {
+    public void testboolToFloatFuncComposeBoolean() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -306,7 +306,7 @@ public class LBooleanToFloatFunctionTest<X extends ParseException> {
         };
 
         //when
-        LBooleanToFloatFunction function = sutO.boolToFFuncFromBoolean(before1);
+        LBooleanToFloatFunction function = sutO.boolToFloatFuncComposeBoolean(before1);
         function.doApplyAsFloat(true);
 
         //then - finals
@@ -316,7 +316,7 @@ public class LBooleanToFloatFunctionTest<X extends ParseException> {
 
 
     @Test
-    public void testboolToFFuncFrom() throws X {
+    public void testboolToFloatFuncCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -335,7 +335,7 @@ public class LBooleanToFloatFunctionTest<X extends ParseException> {
         };
 
         //when
-        LToFloatFunction<Integer > function = sutO.boolToFFuncFrom(before1);
+        LToFloatFunction<Integer > function = sutO.boolToFloatFuncCompose(before1);
         function.doApplyAsFloat((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -667,28 +667,28 @@ public class LBooleanToFloatFunctionTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nestingBoolToFFunc())
+        assertThat(sut.nestingBoolToFloatFunc())
             .isSameAs(sut)
             .isInstanceOf(LBooleanToFloatFunction.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shovingBoolToFFunc())
+        assertThat(sut.shovingBoolToFloatFunc())
             .isSameAs(sut)
             .isInstanceOf(LBooleanToFloatFunction.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestingBoolToFFuncX())
+        assertThat(sut.nestingBoolToFloatFuncX())
             .isSameAs(sut)
             .isInstanceOf(LBooleanToFloatFunctionX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shovingBoolToFFuncX())
+        assertThat(sut.shovingBoolToFloatFuncX())
             .isSameAs(sut)
             .isInstanceOf(LBooleanToFloatFunctionX.class);
     }
@@ -702,11 +702,11 @@ public class LBooleanToFloatFunctionTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shovingBoolToFFunc().doApplyAsFloat(true);
+        sutThrowing.shovingBoolToFloatFunc().doApplyAsFloat(true);
     }
 
     @Test
-    public void testHandleBoolToFFunc() throws X {
+    public void testHandleBoolToFloatFunc() throws X {
 
         // given
         LBooleanToFloatFunction sutThrowing = LBooleanToFloatFunction.l(b -> {
@@ -714,7 +714,7 @@ public class LBooleanToFloatFunctionTest<X extends ParseException> {
         });
 
         // when
-        LBooleanToFloatFunction wrapped = sutThrowing.handleBoolToFFunc(h -> {
+        LBooleanToFloatFunction wrapped = sutThrowing.handleBoolToFloatFunc(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 

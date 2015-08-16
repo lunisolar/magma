@@ -75,15 +75,17 @@ public interface LObjLongConsumer<T> extends LObjLongConsumerX<T, RuntimeExcepti
 
 	void doAccept(T t, long l);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default void nestingDoAccept(T t, long l) {
 		this.doAccept(t, l);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default void shovingDoAccept(T t, long l) {
 		this.doAccept(t, l);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LObjLongConsumer.DESCRIPTION;
@@ -92,6 +94,18 @@ public interface LObjLongConsumer<T> extends LObjLongConsumerX<T, RuntimeExcepti
 	/** Captures arguments but delays the evaluation. */
 	default LAction captureObjLongCons(T t, long l) {
 		return () -> this.doAccept(t, l);
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T> LObjLongConsumer<T> accept1st(@Nonnull LConsumer<T> func) {
+		return (t, l) -> func.doAccept(t);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T> LObjLongConsumer<T> accept2nd(@Nonnull LLongConsumer func) {
+		return (t, l) -> func.doAccept(l);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -109,7 +123,7 @@ public interface LObjLongConsumer<T> extends LObjLongConsumerX<T, RuntimeExcepti
 		return other::accept;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T, X extends Throwable> LObjLongConsumer<T> wrap(final @Nonnull LObjLongConsumerX<T, X> other) {
 		return other::nestingDoAccept;
@@ -119,21 +133,17 @@ public interface LObjLongConsumer<T> extends LObjLongConsumerX<T, RuntimeExcepti
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LObjLongConsumer<V1> objLongConsFromLong(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LLongUnaryOperator before2) {
+	default <V1> LObjLongConsumer<V1> objLongConsComposeLong(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LLongUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final long v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsLong(v2));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiConsumer<V1, V2> objLongConsFrom(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToLongFunction<? super V2> before2) {
+	default <V1, V2> LBiConsumer<V1, V2> objLongConsCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToLongFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsLong(v2));
@@ -167,12 +177,12 @@ public interface LObjLongConsumer<T> extends LObjLongConsumerX<T, RuntimeExcepti
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjLongConsumer<T> shovingObjLongCons() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjLongConsumerX<T, RuntimeException> shovingObjLongConsX() {
 		return this;
 	}

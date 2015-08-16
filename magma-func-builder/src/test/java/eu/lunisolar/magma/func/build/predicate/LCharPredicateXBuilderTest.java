@@ -115,7 +115,7 @@ public class LCharPredicateXBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LCharPredicateX<ParseException> function = charPredicateX((LCharPredicateX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of(c -> c == (char)0)
+            .aCase(ce -> ce.of(c -> c == (char)0)
                              .evaluate(c -> false))
             .inCase(c -> c > 0 && c < 10).evaluate(c -> true)
             .inCase(c -> c > 10 && c < 20).evaluate(c -> true)

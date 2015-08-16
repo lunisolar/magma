@@ -340,7 +340,7 @@ public class LLogicalOperatorTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testlogicalOpFromBoolean() throws X {
+    public void testlogicalOpComposeBoolean() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -359,7 +359,7 @@ public class LLogicalOperatorTest<X extends ParseException> {
         };
 
         //when
-        LLogicalOperator function = sutO.logicalOpFromBoolean(before1);
+        LLogicalOperator function = sutO.logicalOpComposeBoolean(before1);
         function.doApply(true);
 
         //then - finals
@@ -369,7 +369,7 @@ public class LLogicalOperatorTest<X extends ParseException> {
 
 
     @Test
-    public void testlogicalOpFrom() throws X {
+    public void testlogicalOpCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -388,7 +388,7 @@ public class LLogicalOperatorTest<X extends ParseException> {
         };
 
         //when
-        LPredicate<Integer > function = sutO.logicalOpFrom(before1);
+        LPredicate<Integer > function = sutO.logicalOpCompose(before1);
         function.doTest((Integer )Integer.valueOf(80));
 
         //then - finals

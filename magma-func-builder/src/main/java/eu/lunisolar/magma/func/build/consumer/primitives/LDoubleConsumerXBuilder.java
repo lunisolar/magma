@@ -66,7 +66,7 @@ public final class LDoubleConsumerXBuilder<X extends Throwable> extends PerCaseB
 		});
 
 	public LDoubleConsumerXBuilder(@Nullable Consumer<LDoubleConsumerX<X>> consumer) {
-		super(EVENTUALLY_THROW);
+		super(EVENTUALLY_THROW, () -> new LDoubleConsumerXBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LDoubleConsumerXBuilder<X extends Throwable> extends PerCaseB
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <X extends Throwable> LDoubleConsumerXBuilder<X> doubleConsumerX() {
+	public static <X extends Throwable> LDoubleConsumerXBuilder<X> doubleConsumerX() {
 		return new LDoubleConsumerXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <X extends Throwable> LDoubleConsumerXBuilder<X> doubleConsumerX(Consumer<LDoubleConsumerX<X>> consumer) {
+	public static <X extends Throwable> LDoubleConsumerXBuilder<X> doubleConsumerX(Consumer<LDoubleConsumerX<X>> consumer) {
 		return new LDoubleConsumerXBuilder(consumer);
 	}
 

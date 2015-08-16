@@ -66,7 +66,7 @@ public final class LLongToFloatFunctionBuilder extends PerCaseBuilderWithFloatPr
 		});
 
 	public LLongToFloatFunctionBuilder(@Nullable Consumer<LLongToFloatFunction> consumer) {
-		super(EVENTUALLY_THROW, LLongToFloatFunction::constant);
+		super(EVENTUALLY_THROW, LLongToFloatFunction::constant, () -> new LLongToFloatFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LLongToFloatFunctionBuilder extends PerCaseBuilderWithFloatPr
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final LLongToFloatFunctionBuilder longToFloatFunction() {
+	public static LLongToFloatFunctionBuilder longToFloatFunction() {
 		return new LLongToFloatFunctionBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final LLongToFloatFunctionBuilder longToFloatFunction(Consumer<LLongToFloatFunction> consumer) {
+	public static LLongToFloatFunctionBuilder longToFloatFunction(Consumer<LLongToFloatFunction> consumer) {
 		return new LLongToFloatFunctionBuilder(consumer);
 	}
 

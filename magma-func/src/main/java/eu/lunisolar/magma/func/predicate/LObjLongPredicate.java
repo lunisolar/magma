@@ -64,10 +64,12 @@ public interface LObjLongPredicate<T> extends LObjLongPredicateX<T, RuntimeExcep
 
 	boolean doTest(T t, long l);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default boolean nestingDoTest(T t, long l) {
 		return this.doTest(t, l);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default boolean shovingDoTest(T t, long l) {
 		return this.doTest(t, l);
 	}
@@ -77,13 +79,13 @@ public interface LObjLongPredicate<T> extends LObjLongPredicateX<T, RuntimeExcep
 		return doTest(t, l);
 	}
 
-	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
+	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
 	default boolean doApplyAsBoolean(T t, long l) {
 		return doTest(t, l);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LObjLongPredicate.DESCRIPTION;
@@ -94,8 +96,21 @@ public interface LObjLongPredicate<T> extends LObjLongPredicateX<T, RuntimeExcep
 		return () -> this.doTest(t, l);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T> LObjLongPredicate<T> constant(boolean r) {
 		return (t, l) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T> LObjLongPredicate<T> test1st(@Nonnull LPredicate<T> func) {
+		return (t, l) -> func.doTest(t);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T> LObjLongPredicate<T> test2nd(@Nonnull LLongPredicate func) {
+		return (t, l) -> func.doTest(l);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -107,7 +122,7 @@ public interface LObjLongPredicate<T> extends LObjLongPredicateX<T, RuntimeExcep
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T, X extends Throwable> LObjLongPredicate<T> wrap(final @Nonnull LObjLongPredicateX<T, X> other) {
 		return other::nestingDoTest;
@@ -117,7 +132,9 @@ public interface LObjLongPredicate<T> extends LObjLongPredicateX<T, RuntimeExcep
 	// <editor-fold desc="predicate">
 
 	/**
-	 *  @see {@link java.util.function.Predicate#negate()}
+	 * Returns a predicate that represents the logical negation of this predicate.
+	 *
+	 * @see {@link java.util.function.Predicate#negate}
 	 */
 	@Nonnull
 	default LObjLongPredicate<T> negate() {
@@ -125,7 +142,8 @@ public interface LObjLongPredicate<T> extends LObjLongPredicateX<T, RuntimeExcep
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#and()}
+	 * Returns a predicate that represents the logical AND of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#and()}
 	 */
 	@Nonnull
 	default LObjLongPredicate<T> and(@Nonnull LObjLongPredicate<? super T> other) {
@@ -134,7 +152,8 @@ public interface LObjLongPredicate<T> extends LObjLongPredicateX<T, RuntimeExcep
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LObjLongPredicate<T> or(@Nonnull LObjLongPredicate<? super T> other) {
@@ -143,7 +162,8 @@ public interface LObjLongPredicate<T> extends LObjLongPredicateX<T, RuntimeExcep
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical XOR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LObjLongPredicate<T> xor(@Nonnull LObjLongPredicate<? super T> other) {
@@ -152,7 +172,8 @@ public interface LObjLongPredicate<T> extends LObjLongPredicateX<T, RuntimeExcep
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#isEqual()}
+	 * Creates predicate that evaluates if an object is equal with the argument one.
+	 * @see {@link java.util.function.Predicate#isEqual()
 	 */
 	@Nonnull
 	static <T1> LObjLongPredicate<T1> isEqual(final T1 v1, final long v2) {
@@ -163,21 +184,17 @@ public interface LObjLongPredicate<T> extends LObjLongPredicateX<T, RuntimeExcep
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LObjLongPredicate<V1> objLongPredFromLong(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LLongUnaryOperator before2) {
+	default <V1> LObjLongPredicate<V1> objLongPredComposeLong(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LLongUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final long v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsLong(v2));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiPredicate<V1, V2> objLongPredFrom(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToLongFunction<? super V2> before2) {
+	default <V1, V2> LBiPredicate<V1, V2> objLongPredCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToLongFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsLong(v2));
@@ -209,12 +226,12 @@ public interface LObjLongPredicate<T> extends LObjLongPredicateX<T, RuntimeExcep
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjLongPredicate<T> shovingObjLongPred() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjLongPredicateX<T, RuntimeException> shovingObjLongPredX() {
 		return this;
 	}

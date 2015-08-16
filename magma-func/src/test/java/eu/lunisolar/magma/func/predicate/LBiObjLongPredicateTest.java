@@ -347,7 +347,7 @@ public class LBiObjLongPredicateTest<T1,T2,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testbiObjLongPredFromLong() throws X {
+    public void testbiObjLongPredComposeLong() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -378,7 +378,7 @@ public class LBiObjLongPredicateTest<T1,T2,X extends ParseException> {
         };
 
         //when
-        LBiObjLongPredicate<Integer ,Integer > function = sutO.biObjLongPredFromLong(before1,before2,before3);
+        LBiObjLongPredicate<Integer ,Integer > function = sutO.biObjLongPredComposeLong(before1,before2,before3);
         function.doTest((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(long)82);
 
         //then - finals
@@ -388,7 +388,7 @@ public class LBiObjLongPredicateTest<T1,T2,X extends ParseException> {
 
 
     @Test
-    public void testbiObjLongPredFrom() throws X {
+    public void testbiObjLongPredCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -419,7 +419,7 @@ public class LBiObjLongPredicateTest<T1,T2,X extends ParseException> {
         };
 
         //when
-        LTriPredicate<Integer ,Integer ,Integer > function = sutO.biObjLongPredFrom(before1,before2,before3);
+        LTriPredicate<Integer ,Integer ,Integer > function = sutO.biObjLongPredCompose(before1,before2,before3);
         function.doTest((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(Integer )Integer.valueOf(82));
 
         //then - finals

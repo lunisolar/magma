@@ -115,7 +115,7 @@ public class LLongToCharFunctionXBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LLongToCharFunctionX<ParseException> function = longToCharFunctionX((LLongToCharFunctionX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of(l -> l == (long)0)
+            .aCase(ce -> ce.of(l -> l == (long)0)
                              .evaluate(l -> (char)0))
             .inCase(l -> l > 0 && l < 10).evaluate(l -> (char)1)
             .inCase(l -> l > 10 && l < 20).evaluate(l -> (char)2)

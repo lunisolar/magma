@@ -65,7 +65,7 @@ public final class DoubleBinaryOperatorBuilder extends PerCaseBuilderWithDoubleP
 		});
 
 	public DoubleBinaryOperatorBuilder(@Nullable Consumer<java.util.function.DoubleBinaryOperator> consumer) {
-		super(EVENTUALLY_THROW, LDoubleBinaryOperator::constant);
+		super(EVENTUALLY_THROW, LDoubleBinaryOperator::constant, () -> new DoubleBinaryOperatorBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -77,13 +77,13 @@ public final class DoubleBinaryOperatorBuilder extends PerCaseBuilderWithDoubleP
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final DoubleBinaryOperatorBuilder doubleBinaryOperator() {
+	public static DoubleBinaryOperatorBuilder doubleBinaryOperator() {
 		return new DoubleBinaryOperatorBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final DoubleBinaryOperatorBuilder doubleBinaryOperator(Consumer<java.util.function.DoubleBinaryOperator> consumer) {
+	public static DoubleBinaryOperatorBuilder doubleBinaryOperator(Consumer<java.util.function.DoubleBinaryOperator> consumer) {
 		return new DoubleBinaryOperatorBuilder(consumer);
 	}
 

@@ -64,10 +64,12 @@ public interface LBooleanToLongFunction extends LBooleanToLongFunctionX<RuntimeE
 
 	long doApplyAsLong(boolean b);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default long nestingDoApplyAsLong(boolean b) {
 		return this.doApplyAsLong(b);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default long shovingDoApplyAsLong(boolean b) {
 		return this.doApplyAsLong(b);
 	}
@@ -77,7 +79,7 @@ public interface LBooleanToLongFunction extends LBooleanToLongFunctionX<RuntimeE
 		return doApplyAsLong(b);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LBooleanToLongFunction.DESCRIPTION;
@@ -88,6 +90,7 @@ public interface LBooleanToLongFunction extends LBooleanToLongFunctionX<RuntimeE
 		return () -> this.doApplyAsLong(b);
 	}
 
+	/** Creates function that always returns the same value. */
 	static LBooleanToLongFunction constant(long r) {
 		return b -> r;
 	}
@@ -101,7 +104,7 @@ public interface LBooleanToLongFunction extends LBooleanToLongFunctionX<RuntimeE
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LBooleanToLongFunction wrap(final @Nonnull LBooleanToLongFunctionX<X> other) {
 		return other::nestingDoApplyAsLong;
@@ -111,20 +114,16 @@ public interface LBooleanToLongFunction extends LBooleanToLongFunctionX<RuntimeE
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LBooleanToLongFunction boolToLongFuncFromBoolean(@Nonnull final LLogicalOperator before1) {
+	default LBooleanToLongFunction boolToLongFuncComposeBoolean(@Nonnull final LLogicalOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsLong(before1.doApply(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToLongFunction<V1> boolToLongFuncFrom(@Nonnull final LPredicate<? super V1> before1) {
+	default <V1> LToLongFunction<V1> boolToLongFuncCompose(@Nonnull final LPredicate<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsLong(before1.doTest(v1));
 	}
@@ -211,12 +210,12 @@ public interface LBooleanToLongFunction extends LBooleanToLongFunctionX<RuntimeE
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBooleanToLongFunction shovingBoolToLongFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBooleanToLongFunctionX<RuntimeException> shovingBoolToLongFuncX() {
 		return this;
 	}

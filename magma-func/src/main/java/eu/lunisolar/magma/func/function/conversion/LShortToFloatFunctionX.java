@@ -64,6 +64,7 @@ public interface LShortToFloatFunctionX<X extends Throwable> extends MetaFunctio
 
 	float doApplyAsFloat(short s) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default float nestingDoApplyAsFloat(short s) {
 		try {
 			return this.doApplyAsFloat(s);
@@ -74,10 +75,12 @@ public interface LShortToFloatFunctionX<X extends Throwable> extends MetaFunctio
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default float shovingDoApplyAsFloat(short s) {
 		return ((LShortToFloatFunctionX<RuntimeException>) this).doApplyAsFloat(s);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> float handlingDoApplyAsFloat(short s, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -92,17 +95,18 @@ public interface LShortToFloatFunctionX<X extends Throwable> extends MetaFunctio
 		return doApplyAsFloat(s);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LShortToFloatFunctionX.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LFloatSupplierX<X> captureSToFFunc(short s) {
+	default LFloatSupplierX<X> captureShortToFloatFunc(short s) {
 		return () -> this.doApplyAsFloat(s);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LShortToFloatFunctionX<X> constant(float r) {
 		return s -> r;
 	}
@@ -123,7 +127,7 @@ public interface LShortToFloatFunctionX<X extends Throwable> extends MetaFunctio
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LShortToFloatFunctionX<X> wrapX(final @Nonnull LShortToFloatFunction other) {
 		return (LShortToFloatFunctionX) other;
@@ -133,20 +137,16 @@ public interface LShortToFloatFunctionX<X extends Throwable> extends MetaFunctio
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LShortToFloatFunctionX<X> sToFFuncFromShort(@Nonnull final LShortUnaryOperatorX<X> before1) {
+	default LShortToFloatFunctionX<X> shortToFloatFuncComposeShort(@Nonnull final LShortUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsFloat(before1.doApplyAsShort(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToFloatFunctionX<V1, X> sToFFuncFrom(@Nonnull final LToShortFunctionX<? super V1, X> before1) {
+	default <V1> LToFloatFunctionX<V1, X> shortToFloatFuncCompose(@Nonnull final LToShortFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsFloat(before1.doApplyAsShort(v1));
 	}
@@ -223,23 +223,23 @@ public interface LShortToFloatFunctionX<X extends Throwable> extends MetaFunctio
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LShortToFloatFunction nestingSToFFunc() {
+	default LShortToFloatFunction nestingShortToFloatFunc() {
 		return this::nestingDoApplyAsFloat;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LShortToFloatFunctionX<RuntimeException> nestingSToFFuncX() {
+	default LShortToFloatFunctionX<RuntimeException> nestingShortToFloatFuncX() {
 		return this::nestingDoApplyAsFloat;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortToFloatFunction shovingSToFFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LShortToFloatFunction shovingShortToFloatFunc() {
 		return this::shovingDoApplyAsFloat;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortToFloatFunctionX<RuntimeException> shovingSToFFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LShortToFloatFunctionX<RuntimeException> shovingShortToFloatFuncX() {
 		return this::shovingDoApplyAsFloat;
 	}
 
@@ -247,13 +247,15 @@ public interface LShortToFloatFunctionX<X extends Throwable> extends MetaFunctio
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LShortToFloatFunction handleSToFFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LShortToFloatFunction handleShortToFloatFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return s -> this.handlingDoApplyAsFloat(s, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LShortToFloatFunctionX<Y> handleSToFFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LShortToFloatFunctionX<Y> handleShortToFloatFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return s -> this.handlingDoApplyAsFloat(s, handling);
 	}
 

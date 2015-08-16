@@ -115,7 +115,7 @@ public class LBooleanToDoubleFunctionXBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LBooleanToDoubleFunctionX<ParseException> function = booleanToDoubleFunctionX((LBooleanToDoubleFunctionX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of(b -> b == false)
+            .aCase(ce -> ce.of(b -> b == false)
                              .evaluate(b -> (double)0))
             .inCase(b -> b == true ).evaluate(b -> (double)1)
             .eventually(b -> (double)99)

@@ -115,7 +115,7 @@ public class LDoubleToIntFunctionXBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LDoubleToIntFunctionX<ParseException> function = doubleToIntFunctionX((LDoubleToIntFunctionX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of(d -> d == (double)0)
+            .aCase(ce -> ce.of(d -> d == (double)0)
                              .evaluate(d -> (int)0))
             .inCase(d -> d > 0 && d < 10).evaluate(d -> (int)1)
             .inCase(d -> d > 10 && d < 20).evaluate(d -> (int)2)

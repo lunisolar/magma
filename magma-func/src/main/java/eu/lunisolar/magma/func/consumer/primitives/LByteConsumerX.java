@@ -65,6 +65,7 @@ public interface LByteConsumerX<X extends Throwable> extends MetaConsumer, MetaI
 
 	void doAccept(byte b) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default void nestingDoAccept(byte b) {
 		try {
 			this.doAccept(b);
@@ -75,10 +76,12 @@ public interface LByteConsumerX<X extends Throwable> extends MetaConsumer, MetaI
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default void shovingDoAccept(byte b) {
 		((LByteConsumerX<RuntimeException>) this).doAccept(b);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> void handlingDoAccept(byte b, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -88,14 +91,14 @@ public interface LByteConsumerX<X extends Throwable> extends MetaConsumer, MetaI
 		}
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LByteConsumerX.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LActionX<X> captureBCons(byte b) {
+	default LActionX<X> captureByteCons(byte b) {
 		return () -> this.doAccept(b);
 	}
 
@@ -115,7 +118,7 @@ public interface LByteConsumerX<X extends Throwable> extends MetaConsumer, MetaI
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LByteConsumerX<X> wrapX(final @Nonnull LByteConsumer other) {
 		return (LByteConsumerX) other;
@@ -125,20 +128,16 @@ public interface LByteConsumerX<X extends Throwable> extends MetaConsumer, MetaI
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LByteConsumerX<X> bConsFromByte(@Nonnull final LByteUnaryOperatorX<X> before1) {
+	default LByteConsumerX<X> byteConsComposeByte(@Nonnull final LByteUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doApplyAsByte(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LConsumerX<V1, X> bConsFrom(@Nonnull final LToByteFunctionX<? super V1, X> before1) {
+	default <V1> LConsumerX<V1, X> byteConsCompose(@Nonnull final LToByteFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doApplyAsByte(v1));
 	}
@@ -161,23 +160,23 @@ public interface LByteConsumerX<X extends Throwable> extends MetaConsumer, MetaI
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LByteConsumer nestingBCons() {
+	default LByteConsumer nestingByteCons() {
 		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LByteConsumerX<RuntimeException> nestingBConsX() {
+	default LByteConsumerX<RuntimeException> nestingByteConsX() {
 		return this::nestingDoAccept;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteConsumer shovingBCons() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LByteConsumer shovingByteCons() {
 		return this::shovingDoAccept;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteConsumerX<RuntimeException> shovingBConsX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LByteConsumerX<RuntimeException> shovingByteConsX() {
 		return this::shovingDoAccept;
 	}
 
@@ -185,13 +184,15 @@ public interface LByteConsumerX<X extends Throwable> extends MetaConsumer, MetaI
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LByteConsumer handleBCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LByteConsumer handleByteCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return b -> this.handlingDoAccept(b, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LByteConsumerX<Y> handleBConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LByteConsumerX<Y> handleByteConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return b -> this.handlingDoAccept(b, handling);
 	}
 

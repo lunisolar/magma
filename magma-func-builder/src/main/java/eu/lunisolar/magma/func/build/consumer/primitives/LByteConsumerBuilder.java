@@ -66,7 +66,7 @@ public final class LByteConsumerBuilder extends PerCaseBuilder.Base<LByteConsume
 		});
 
 	public LByteConsumerBuilder(@Nullable Consumer<LByteConsumer> consumer) {
-		super(EVENTUALLY_THROW);
+		super(EVENTUALLY_THROW, () -> new LByteConsumerBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LByteConsumerBuilder extends PerCaseBuilder.Base<LByteConsume
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final LByteConsumerBuilder byteConsumer() {
+	public static LByteConsumerBuilder byteConsumer() {
 		return new LByteConsumerBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final LByteConsumerBuilder byteConsumer(Consumer<LByteConsumer> consumer) {
+	public static LByteConsumerBuilder byteConsumer(Consumer<LByteConsumer> consumer) {
 		return new LByteConsumerBuilder(consumer);
 	}
 

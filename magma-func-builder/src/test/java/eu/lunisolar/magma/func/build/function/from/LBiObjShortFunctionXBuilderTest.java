@@ -115,7 +115,7 @@ public class LBiObjShortFunctionXBuilderTest<T1,T2,R,X extends Throwable>{
     public void testBuild() throws X {
 
         LBiObjShortFunctionX<Integer ,Integer ,Integer ,ParseException> function = biObjShortFunctionX((LBiObjShortFunctionX<Integer ,Integer ,Integer ,ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((t1,t2, s) -> t1 == Integer.valueOf(0))
+            .aCase(ce -> ce.of((t1,t2, s) -> t1 == Integer.valueOf(0))
                              .evaluate((t1,t2, s) -> Integer.valueOf(0)))
             .inCase((t1,t2, s) -> t1 > 0 && t1 < 10).evaluate((t1,t2, s) -> Integer.valueOf(1))
             .inCase((t1,t2, s) -> t1 > 10 && t1 < 20).evaluate((t1,t2, s) -> Integer.valueOf(2))

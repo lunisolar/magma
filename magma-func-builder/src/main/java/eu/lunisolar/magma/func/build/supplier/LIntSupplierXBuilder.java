@@ -66,7 +66,7 @@ public final class LIntSupplierXBuilder<X extends Throwable> extends PerCaseBuil
 		});
 
 	public LIntSupplierXBuilder(@Nullable Consumer<LIntSupplierX<X>> consumer) {
-		super(EVENTUALLY_THROW, LIntSupplierX::of);
+		super(EVENTUALLY_THROW, LIntSupplierX::of, () -> new LIntSupplierXBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LIntSupplierXBuilder<X extends Throwable> extends PerCaseBuil
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <X extends Throwable> LIntSupplierXBuilder<X> intSupplierX() {
+	public static <X extends Throwable> LIntSupplierXBuilder<X> intSupplierX() {
 		return new LIntSupplierXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <X extends Throwable> LIntSupplierXBuilder<X> intSupplierX(Consumer<LIntSupplierX<X>> consumer) {
+	public static <X extends Throwable> LIntSupplierXBuilder<X> intSupplierX(Consumer<LIntSupplierX<X>> consumer) {
 		return new LIntSupplierXBuilder(consumer);
 	}
 

@@ -284,7 +284,7 @@ public class LToLongBiFunctionXTest<T1,T2,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testtoLongBiFuncFrom() throws X {
+    public void testtoLongBiFuncCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -309,7 +309,7 @@ public class LToLongBiFunctionXTest<T1,T2,X extends ParseException> {
         };
 
         //when
-        LToLongBiFunctionX<Integer ,Integer ,X> function = sutO.toLongBiFuncFrom(before1,before2);
+        LToLongBiFunctionX<Integer ,Integer ,X> function = sutO.toLongBiFuncCompose(before1,before2);
         function.doApplyAsLong((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals

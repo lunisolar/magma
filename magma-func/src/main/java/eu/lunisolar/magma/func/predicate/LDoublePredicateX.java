@@ -74,6 +74,7 @@ public interface LDoublePredicateX<X extends Throwable> extends java.util.functi
 
 	boolean doTest(double d) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default boolean nestingDoTest(double d) {
 		try {
 			return this.doTest(d);
@@ -84,10 +85,12 @@ public interface LDoublePredicateX<X extends Throwable> extends java.util.functi
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default boolean shovingDoTest(double d) {
 		return ((LDoublePredicateX<RuntimeException>) this).doTest(d);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> boolean handlingDoTest(double d, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -102,23 +105,24 @@ public interface LDoublePredicateX<X extends Throwable> extends java.util.functi
 		return doTest(d);
 	}
 
-	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
+	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
 	default boolean doApplyAsBoolean(double d) throws X {
 		return doTest(d);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LDoublePredicateX.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> captureDPred(double d) {
+	default LBooleanSupplierX<X> captureDoublePred(double d) {
 		return () -> this.doTest(d);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LDoublePredicateX<X> constant(boolean r) {
 		return d -> r;
 	}
@@ -145,7 +149,7 @@ public interface LDoublePredicateX<X extends Throwable> extends java.util.functi
 		return other::test;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LDoublePredicateX<X> wrapX(final @Nonnull LDoublePredicate other) {
 		return (LDoublePredicateX) other;
@@ -155,7 +159,9 @@ public interface LDoublePredicateX<X extends Throwable> extends java.util.functi
 	// <editor-fold desc="predicate">
 
 	/**
-	 *  @see {@link java.util.function.Predicate#negate()}
+	 * Returns a predicate that represents the logical negation of this predicate.
+	 *
+	 * @see {@link java.util.function.Predicate#negate}
 	 */
 	@Nonnull
 	default LDoublePredicateX<X> negate() {
@@ -163,7 +169,8 @@ public interface LDoublePredicateX<X extends Throwable> extends java.util.functi
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#and()}
+	 * Returns a predicate that represents the logical AND of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#and()}
 	 */
 	@Nonnull
 	default LDoublePredicateX<X> and(@Nonnull LDoublePredicateX<X> other) {
@@ -172,7 +179,8 @@ public interface LDoublePredicateX<X extends Throwable> extends java.util.functi
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LDoublePredicateX<X> or(@Nonnull LDoublePredicateX<X> other) {
@@ -181,7 +189,8 @@ public interface LDoublePredicateX<X extends Throwable> extends java.util.functi
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical XOR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LDoublePredicateX<X> xor(@Nonnull LDoublePredicateX<X> other) {
@@ -189,6 +198,10 @@ public interface LDoublePredicateX<X extends Throwable> extends java.util.functi
 		return d -> doTest(d) ^ other.doTest(d);
 	}
 
+	/**
+	 * Creates predicate that evaluates if an object is equal with the argument one.
+	 * @see {@link java.util.function.Predicate#isEqual()
+	 */
 	@Nonnull
 	static <X extends Throwable> LDoublePredicateX<X> isEqual(double target) {
 		return d -> d == target;
@@ -198,20 +211,16 @@ public interface LDoublePredicateX<X extends Throwable> extends java.util.functi
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LDoublePredicateX<X> dPredFromDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1) {
+	default LDoublePredicateX<X> doublePredComposeDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doTest(before1.doApplyAsDouble(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LPredicateX<V1, X> dPredFrom(@Nonnull final LToDoubleFunctionX<? super V1, X> before1) {
+	default <V1> LPredicateX<V1, X> doublePredCompose(@Nonnull final LToDoubleFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doTest(before1.doApplyAsDouble(v1));
 	}
@@ -288,23 +297,23 @@ public interface LDoublePredicateX<X extends Throwable> extends java.util.functi
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoublePredicate nestingDPred() {
+	default LDoublePredicate nestingDoublePred() {
 		return this::nestingDoTest;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoublePredicateX<RuntimeException> nestingDPredX() {
+	default LDoublePredicateX<RuntimeException> nestingDoublePredX() {
 		return this::nestingDoTest;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoublePredicate shovingDPred() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoublePredicate shovingDoublePred() {
 		return this::shovingDoTest;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoublePredicateX<RuntimeException> shovingDPredX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoublePredicateX<RuntimeException> shovingDoublePredX() {
 		return this::shovingDoTest;
 	}
 
@@ -312,13 +321,15 @@ public interface LDoublePredicateX<X extends Throwable> extends java.util.functi
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LDoublePredicate handleDPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LDoublePredicate handleDoublePred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return d -> this.handlingDoTest(d, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LDoublePredicateX<Y> handleDPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LDoublePredicateX<Y> handleDoublePredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return d -> this.handlingDoTest(d, handling);
 	}
 

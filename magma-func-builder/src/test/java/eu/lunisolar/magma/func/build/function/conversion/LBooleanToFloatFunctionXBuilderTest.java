@@ -115,7 +115,7 @@ public class LBooleanToFloatFunctionXBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LBooleanToFloatFunctionX<ParseException> function = booleanToFloatFunctionX((LBooleanToFloatFunctionX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of(b -> b == false)
+            .aCase(ce -> ce.of(b -> b == false)
                              .evaluate(b -> (float)0))
             .inCase(b -> b == true ).evaluate(b -> (float)1)
             .eventually(b -> (float)99)

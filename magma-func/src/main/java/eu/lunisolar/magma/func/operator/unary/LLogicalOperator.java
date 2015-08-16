@@ -64,10 +64,12 @@ public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, M
 
 	boolean doApply(boolean b);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default boolean nestingDoApply(boolean b) {
 		return this.doApply(b);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default boolean shovingDoApply(boolean b) {
 		return this.doApply(b);
 	}
@@ -77,12 +79,12 @@ public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, M
 		return doApply(b);
 	}
 
-	/** For convinience boolean operator is also special case of predicate. */
+	/** For convenience, boolean operator is also special case of predicate. */
 	default boolean doTest(boolean b) {
 		return doApply(b);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LLogicalOperator.DESCRIPTION;
@@ -93,6 +95,7 @@ public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, M
 		return () -> this.doApply(b);
 	}
 
+	/** Creates function that always returns the same value. */
 	static LLogicalOperator constant(boolean r) {
 		return b -> r;
 	}
@@ -106,7 +109,7 @@ public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, M
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LLogicalOperator wrap(final @Nonnull LLogicalOperatorX<X> other) {
 		return other::nestingDoApply;
@@ -116,7 +119,9 @@ public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, M
 	// <editor-fold desc="predicate">
 
 	/**
-	 *  @see {@link java.util.function.Predicate#negate()}
+	 * Returns a predicate that represents the logical negation of this predicate.
+	 *
+	 * @see {@link java.util.function.Predicate#negate}
 	 */
 	@Nonnull
 	default LLogicalOperator negate() {
@@ -124,7 +129,8 @@ public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, M
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#and()}
+	 * Returns a predicate that represents the logical AND of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#and()}
 	 */
 	@Nonnull
 	default LLogicalOperator and(@Nonnull LLogicalOperator other) {
@@ -133,7 +139,8 @@ public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, M
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LLogicalOperator or(@Nonnull LLogicalOperator other) {
@@ -142,7 +149,8 @@ public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, M
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical XOR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LLogicalOperator xor(@Nonnull LLogicalOperator other) {
@@ -150,6 +158,10 @@ public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, M
 		return b -> doApply(b) ^ other.doApply(b);
 	}
 
+	/**
+	 * Creates predicate that evaluates if an object is equal with the argument one.
+	 * @see {@link java.util.function.Predicate#isEqual()
+	 */
 	@Nonnull
 	static LLogicalOperator isEqual(boolean target) {
 		return b -> b == target;
@@ -159,20 +171,16 @@ public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, M
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LLogicalOperator logicalOpFromBoolean(@Nonnull final LLogicalOperator before1) {
+	default LLogicalOperator logicalOpComposeBoolean(@Nonnull final LLogicalOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doApply(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LPredicate<V1> logicalOpFrom(@Nonnull final LPredicate<? super V1> before1) {
+	default <V1> LPredicate<V1> logicalOpCompose(@Nonnull final LPredicate<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doTest(v1));
 	}
@@ -259,12 +267,12 @@ public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, M
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLogicalOperator shovingLogicalOp() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLogicalOperatorX<RuntimeException> shovingLogicalOpX() {
 		return this;
 	}

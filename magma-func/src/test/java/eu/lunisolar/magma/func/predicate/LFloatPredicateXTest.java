@@ -191,7 +191,7 @@ public class LFloatPredicateXTest<X extends ParseException> {
         });
 
         // when
-        LFloatPredicateX<X> wrapped = sutThrowing.handleFPredX(handler -> handler
+        LFloatPredicateX<X> wrapped = sutThrowing.handleFloatPredX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -215,7 +215,7 @@ public class LFloatPredicateXTest<X extends ParseException> {
         });
 
         // when
-        LFloatPredicateX<X> wrapped = sutThrowing.handleFPredX(handler -> handler
+        LFloatPredicateX<X> wrapped = sutThrowing.handleFloatPredX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -239,7 +239,7 @@ public class LFloatPredicateXTest<X extends ParseException> {
         });
 
         // when
-        LFloatPredicateX<X> wrapped = sutThrowing.handleFPredX(handler -> handler
+        LFloatPredicateX<X> wrapped = sutThrowing.handleFloatPredX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -264,7 +264,7 @@ public class LFloatPredicateXTest<X extends ParseException> {
         });
 
         // when
-        LFloatPredicateX<X> wrapped = sutThrowing.handleFPredX(h -> Function4U.doNothing());
+        LFloatPredicateX<X> wrapped = sutThrowing.handleFloatPredX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -336,7 +336,7 @@ public class LFloatPredicateXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfPredFromFloat() throws X {
+    public void testfloatPredComposeFloat() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -355,7 +355,7 @@ public class LFloatPredicateXTest<X extends ParseException> {
         };
 
         //when
-        LFloatPredicateX<X> function = sutO.fPredFromFloat(before1);
+        LFloatPredicateX<X> function = sutO.floatPredComposeFloat(before1);
         function.doTest((float)80);
 
         //then - finals
@@ -365,7 +365,7 @@ public class LFloatPredicateXTest<X extends ParseException> {
 
 
     @Test
-    public void testfPredFrom() throws X {
+    public void testfloatPredCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -384,7 +384,7 @@ public class LFloatPredicateXTest<X extends ParseException> {
         };
 
         //when
-        LPredicateX<Integer ,X> function = sutO.fPredFrom(before1);
+        LPredicateX<Integer ,X> function = sutO.floatPredCompose(before1);
         function.doTest((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -716,25 +716,25 @@ public class LFloatPredicateXTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nestingFPred())
+        assertThat(sut.nestingFloatPred())
             .isInstanceOf(LFloatPredicate.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shovingFPred())
+        assertThat(sut.shovingFloatPred())
             .isInstanceOf(LFloatPredicate.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestingFPredX())
+        assertThat(sut.nestingFloatPredX())
             .isInstanceOf(LFloatPredicateX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shovingFPredX())
+        assertThat(sut.shovingFloatPredX())
             .isInstanceOf(LFloatPredicateX.class);
     }
 
@@ -747,11 +747,11 @@ public class LFloatPredicateXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shovingFPred().doTest((float)100);
+        sutThrowing.shovingFloatPred().doTest((float)100);
     }
 
     @Test
-    public void testHandleFPred() throws X {
+    public void testHandleFloatPred() throws X {
 
         // given
         LFloatPredicateX<X> sutThrowing = LFloatPredicateX.lX(f -> {
@@ -759,7 +759,7 @@ public class LFloatPredicateXTest<X extends ParseException> {
         });
 
         // when
-        LFloatPredicateX<X> wrapped = sutThrowing.handleFPredX(h -> {
+        LFloatPredicateX<X> wrapped = sutThrowing.handleFloatPredX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 

@@ -66,7 +66,7 @@ public final class LPredicateBuilder<T> extends PerCaseBuilderWithBooleanProduct
 		});
 
 	public LPredicateBuilder(@Nullable Consumer<LPredicate<T>> consumer) {
-		super(EVENTUALLY_THROW, LPredicate::constant);
+		super(EVENTUALLY_THROW, LPredicate::constant, () -> new LPredicateBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LPredicateBuilder<T> extends PerCaseBuilderWithBooleanProduct
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <T> LPredicateBuilder<T> predicate() {
+	public static <T> LPredicateBuilder<T> predicate() {
 		return new LPredicateBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <T> LPredicateBuilder<T> predicate(Consumer<LPredicate<T>> consumer) {
+	public static <T> LPredicateBuilder<T> predicate(Consumer<LPredicate<T>> consumer) {
 		return new LPredicateBuilder(consumer);
 	}
 
@@ -96,6 +96,24 @@ public final class LPredicateBuilder<T> extends PerCaseBuilderWithBooleanProduct
 			throw new UnsupportedOperationException("Handling is already set for this builder.");
 		}
 		this.handling = handling;
+		return self();
+	}
+
+	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
+	@Nonnull
+	public <E1 extends T> LPredicateBuilder<T> casesOf(Class<E1> argC1, Consumer<LPredicateBuilder<E1>> pcpConsumer) {
+		PartialCaseWithBooleanProduct.The pc = partialCaseFactoryMethod(t -> (argC1 == null || argC1.isInstance(t)));
+
+		pc.specifySubCases((Consumer) pcpConsumer);
+		return self();
+	}
+
+	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
+	@Nonnull
+	public <E1 extends T> LPredicateBuilder<T> aCase(Class<E1> argC1, LPredicate<E1> function) {
+		PartialCaseWithBooleanProduct.The pc = partialCaseFactoryMethod(t -> (argC1 == null || argC1.isInstance(t)));
+
+		pc.evaluate(function);
 		return self();
 	}
 

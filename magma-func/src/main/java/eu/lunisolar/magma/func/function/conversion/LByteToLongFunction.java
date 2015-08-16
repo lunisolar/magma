@@ -64,10 +64,12 @@ public interface LByteToLongFunction extends LByteToLongFunctionX<RuntimeExcepti
 
 	long doApplyAsLong(byte b);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default long nestingDoApplyAsLong(byte b) {
 		return this.doApplyAsLong(b);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default long shovingDoApplyAsLong(byte b) {
 		return this.doApplyAsLong(b);
 	}
@@ -77,17 +79,18 @@ public interface LByteToLongFunction extends LByteToLongFunctionX<RuntimeExcepti
 		return doApplyAsLong(b);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LByteToLongFunction.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LLongSupplier captureBToLongFunc(byte b) {
+	default LLongSupplier captureByteToLongFunc(byte b) {
 		return () -> this.doApplyAsLong(b);
 	}
 
+	/** Creates function that always returns the same value. */
 	static LByteToLongFunction constant(long r) {
 		return b -> r;
 	}
@@ -101,7 +104,7 @@ public interface LByteToLongFunction extends LByteToLongFunctionX<RuntimeExcepti
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LByteToLongFunction wrap(final @Nonnull LByteToLongFunctionX<X> other) {
 		return other::nestingDoApplyAsLong;
@@ -111,20 +114,16 @@ public interface LByteToLongFunction extends LByteToLongFunctionX<RuntimeExcepti
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LByteToLongFunction bToLongFuncFromByte(@Nonnull final LByteUnaryOperator before1) {
+	default LByteToLongFunction byteToLongFuncComposeByte(@Nonnull final LByteUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsLong(before1.doApplyAsByte(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToLongFunction<V1> bToLongFuncFrom(@Nonnull final LToByteFunction<? super V1> before1) {
+	default <V1> LToLongFunction<V1> byteToLongFuncCompose(@Nonnull final LToByteFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsLong(before1.doApplyAsByte(v1));
 	}
@@ -201,23 +200,23 @@ public interface LByteToLongFunction extends LByteToLongFunctionX<RuntimeExcepti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LByteToLongFunction nestingBToLongFunc() {
+	default LByteToLongFunction nestingByteToLongFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LByteToLongFunctionX<RuntimeException> nestingBToLongFuncX() {
+	default LByteToLongFunctionX<RuntimeException> nestingByteToLongFuncX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteToLongFunction shovingBToLongFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LByteToLongFunction shovingByteToLongFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteToLongFunctionX<RuntimeException> shovingBToLongFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LByteToLongFunctionX<RuntimeException> shovingByteToLongFuncX() {
 		return this;
 	}
 

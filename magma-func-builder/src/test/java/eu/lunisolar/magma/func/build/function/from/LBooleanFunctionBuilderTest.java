@@ -115,7 +115,7 @@ public class LBooleanFunctionBuilderTest<R,X extends Throwable>{
     public void testBuild() throws X {
 
         LBooleanFunction<Integer > function = booleanFunction((LBooleanFunction<Integer > f)-> doNothing())
-            .addCase(ce -> ce.of(b -> b == false)
+            .aCase(ce -> ce.of(b -> b == false)
                              .evaluate(b -> Integer.valueOf(0)))
             .inCase(b -> b == true ).evaluate(b -> Integer.valueOf(1))
             .eventually(b -> Integer.valueOf(99))

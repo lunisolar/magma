@@ -115,7 +115,7 @@ public class LBiFunctionXBuilderTest<T1,T2,R,X extends Throwable>{
     public void testBuild() throws X {
 
         LBiFunctionX<Integer ,Integer ,Integer ,ParseException> function = biFunctionX((LBiFunctionX<Integer ,Integer ,Integer ,ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((t1,t2) -> t1 == Integer.valueOf(0))
+            .aCase(ce -> ce.of((t1,t2) -> t1 == Integer.valueOf(0))
                              .evaluate((t1,t2) -> Integer.valueOf(0)))
             .inCase((t1,t2) -> t1 > 0 && t1 < 10).evaluate((t1,t2) -> Integer.valueOf(1))
             .inCase((t1,t2) -> t1 > 10 && t1 < 20).evaluate((t1,t2) -> Integer.valueOf(2))

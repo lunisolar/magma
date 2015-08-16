@@ -65,7 +65,7 @@ public final class ConsumerBuilder<T> extends PerCaseBuilder.Base<ConsumerBuilde
 		});
 
 	public ConsumerBuilder(@Nullable Consumer<java.util.function.Consumer<T>> consumer) {
-		super(EVENTUALLY_THROW);
+		super(EVENTUALLY_THROW, () -> new ConsumerBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -77,13 +77,13 @@ public final class ConsumerBuilder<T> extends PerCaseBuilder.Base<ConsumerBuilde
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <T> ConsumerBuilder<T> consumer() {
+	public static <T> ConsumerBuilder<T> consumer() {
 		return new ConsumerBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <T> ConsumerBuilder<T> consumer(Consumer<java.util.function.Consumer<T>> consumer) {
+	public static <T> ConsumerBuilder<T> consumer(Consumer<java.util.function.Consumer<T>> consumer) {
 		return new ConsumerBuilder(consumer);
 	}
 
@@ -95,6 +95,24 @@ public final class ConsumerBuilder<T> extends PerCaseBuilder.Base<ConsumerBuilde
 			throw new UnsupportedOperationException("Handling is already set for this builder.");
 		}
 		this.handling = handling;
+		return self();
+	}
+
+	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
+	@Nonnull
+	public <E1 extends T> ConsumerBuilder<T> casesOf(Class<E1> argC1, Consumer<ConsumerBuilder<E1>> pcpConsumer) {
+		PartialCase.The pc = partialCaseFactoryMethod(t -> (argC1 == null || argC1.isInstance(t)));
+
+		pc.specifySubCases((Consumer) pcpConsumer);
+		return self();
+	}
+
+	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
+	@Nonnull
+	public <E1 extends T> ConsumerBuilder<T> aCase(Class<E1> argC1, java.util.function.Consumer<E1> function) {
+		PartialCase.The pc = partialCaseFactoryMethod(t -> (argC1 == null || argC1.isInstance(t)));
+
+		pc.evaluate(function);
 		return self();
 	}
 

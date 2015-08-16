@@ -74,10 +74,12 @@ public interface LLongBinaryOperator extends LLongBinaryOperatorX<RuntimeExcepti
 
 	long doApplyAsLong(long l1, long l2);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default long nestingDoApplyAsLong(long l1, long l2) {
 		return this.doApplyAsLong(l1, l2);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default long shovingDoApplyAsLong(long l1, long l2) {
 		return this.doApplyAsLong(l1, l2);
 	}
@@ -87,7 +89,7 @@ public interface LLongBinaryOperator extends LLongBinaryOperatorX<RuntimeExcepti
 		return doApplyAsLong(l1, l2);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LLongBinaryOperator.DESCRIPTION;
@@ -98,8 +100,21 @@ public interface LLongBinaryOperator extends LLongBinaryOperatorX<RuntimeExcepti
 		return () -> this.doApplyAsLong(l1, l2);
 	}
 
+	/** Creates function that always returns the same value. */
 	static LLongBinaryOperator constant(long r) {
 		return (l1, l2) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static LLongBinaryOperator apply1stAsLong(@Nonnull LLongUnaryOperator func) {
+		return (l1, l2) -> func.doApplyAsLong(l1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static LLongBinaryOperator apply2ndAsLong(@Nonnull LLongUnaryOperator func) {
+		return (l1, l2) -> func.doApplyAsLong(l2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -117,17 +132,37 @@ public interface LLongBinaryOperator extends LLongBinaryOperatorX<RuntimeExcepti
 		return other::applyAsLong;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LLongBinaryOperator wrap(final @Nonnull LLongBinaryOperatorX<X> other) {
 		return other::nestingDoApplyAsLong;
 	}
 
 	// </editor-fold>
-	// <editor-fold desc="minmax/logical">
 
 	/**
-	 * @see {@link java.util.function.BinaryOperator#minBy()}
+	 * Creates function that returns the lesser value according to the comparator.
+	 * @see {@link java.util.function.BinaryOperator#minBy}
+	 */
+	@Nonnull
+	static LLongBinaryOperator minBy(@Nonnull Comparator<Long> comparator) {
+		Null.nonNullArg(comparator, "comparator");
+		return (a, b) -> comparator.compare(a, b) <= 0 ? a : b;
+	}
+
+	/**
+	 * Creates function that returns the lesser value according to the comparator.
+	 * @see {@link java.util.function.BinaryOperator#maxBy}
+	 */
+	@Nonnull
+	static LLongBinaryOperator maxBy(@Nonnull Comparator<Long> comparator) {
+		Null.nonNullArg(comparator, "comparator");
+		return (a, b) -> comparator.compare(a, b) >= 0 ? a : b;
+	}
+
+	/**
+	 * Returns function that returns the lower value.
+	 * @see {@link java.util.function.BinaryOperator#minBy}
 	 */
 	@Nonnull
 	static LLongBinaryOperator min() {
@@ -135,32 +170,27 @@ public interface LLongBinaryOperator extends LLongBinaryOperatorX<RuntimeExcepti
 	}
 
 	/**
-	 * @see {@link java.util.function.BinaryOperator#maxBy()}
+	 * Returns function that returns the higher value.
+	 * @see {@link java.util.function.BinaryOperator#maxBy}
 	 */
 	@Nonnull
 	static LLongBinaryOperator max() {
 		return Long::max;
 	}
 
-	// </editor-fold>
-
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LLongBinaryOperator longBinaryOpFromLong(@Nonnull final LLongUnaryOperator before1, @Nonnull final LLongUnaryOperator before2) {
+	default LLongBinaryOperator longBinaryOpComposeLong(@Nonnull final LLongUnaryOperator before1, @Nonnull final LLongUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final long v1, final long v2) -> this.doApplyAsLong(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LToLongBiFunction<V1, V2> longBinaryOpFrom(@Nonnull final LToLongFunction<? super V1> before1, @Nonnull final LToLongFunction<? super V2> before2) {
+	default <V1, V2> LToLongBiFunction<V1, V2> longBinaryOpCompose(@Nonnull final LToLongFunction<? super V1> before1, @Nonnull final LToLongFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApplyAsLong(before1.doApplyAsLong(v1), before2.doApplyAsLong(v2));
@@ -172,7 +202,7 @@ public interface LLongBinaryOperator extends LLongBinaryOperatorX<RuntimeExcepti
 
 	/** Combines two operators together in a order. */
 	@Nonnull
-	default <V> LLongBiFunction<V> then(@Nonnull LLongFunction<? extends V> after) {
+	default <V> LBiLongFunction<V> then(@Nonnull LLongFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (long l1, long l2) -> after.doApply(this.doApplyAsLong(l1, l2));
 	}
@@ -192,12 +222,12 @@ public interface LLongBinaryOperator extends LLongBinaryOperatorX<RuntimeExcepti
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLongBinaryOperator shovingLongBinaryOp() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLongBinaryOperatorX<RuntimeException> shovingLongBinaryOpX() {
 		return this;
 	}

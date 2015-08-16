@@ -47,10 +47,10 @@ public interface LDoubleConsumerAssert<S extends LDoubleConsumerAssert<S, A>, A 
 	SemiEvaluation<S, LDoubleConsumerX<Exception>, A, Exception> doesAccept(double d);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LDoubleConsumer> extends Base<Impl<A>, A> {
+	public final static class The<A extends LDoubleConsumer> extends Base<The<A>, A> {
 
-		public Impl(A actual) {
-			super(actual, Impl.class);
+		public The(A actual) {
+			super(actual, The.class);
 		}
 	}
 
@@ -64,7 +64,7 @@ public interface LDoubleConsumerAssert<S extends LDoubleConsumerAssert<S, A>, A 
 		@Nonnull
 		public SemiEvaluation<S, LDoubleConsumerX<Exception>, A, Exception> doesAccept(double d) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(d);
 				}

@@ -64,6 +64,7 @@ public interface LToFloatBiFunctionX<T1, T2, X extends Throwable> extends MetaFu
 
 	float doApplyAsFloat(T1 t1, T2 t2) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default float nestingDoApplyAsFloat(T1 t1, T2 t2) {
 		try {
 			return this.doApplyAsFloat(t1, t2);
@@ -74,10 +75,12 @@ public interface LToFloatBiFunctionX<T1, T2, X extends Throwable> extends MetaFu
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default float shovingDoApplyAsFloat(T1 t1, T2 t2) {
 		return ((LToFloatBiFunctionX<T1, T2, RuntimeException>) this).doApplyAsFloat(t1, t2);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> float handlingDoApplyAsFloat(T1 t1, T2 t2, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -92,19 +95,32 @@ public interface LToFloatBiFunctionX<T1, T2, X extends Throwable> extends MetaFu
 		return doApplyAsFloat(t1, t2);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LToFloatBiFunctionX.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LFloatSupplierX<X> captureToFBiFunc(T1 t1, T2 t2) {
+	default LFloatSupplierX<X> captureToFloatBiFunc(T1 t1, T2 t2) {
 		return () -> this.doApplyAsFloat(t1, t2);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T1, T2, X extends Throwable> LToFloatBiFunctionX<T1, T2, X> constant(float r) {
 		return (t1, t2) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T1, T2, X extends Throwable> LToFloatBiFunctionX<T1, T2, X> apply1stAsFloat(@Nonnull LToFloatFunctionX<T1, X> func) {
+		return (t1, t2) -> func.doApplyAsFloat(t1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T1, T2, X extends Throwable> LToFloatBiFunctionX<T1, T2, X> apply2ndAsFloat(@Nonnull LToFloatFunctionX<T2, X> func) {
+		return (t1, t2) -> func.doApplyAsFloat(t2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -123,7 +139,7 @@ public interface LToFloatBiFunctionX<T1, T2, X extends Throwable> extends MetaFu
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T1, T2, X extends Throwable> LToFloatBiFunctionX<T1, T2, X> wrapX(final @Nonnull LToFloatBiFunction<T1, T2> other) {
 		return (LToFloatBiFunctionX) other;
@@ -133,11 +149,9 @@ public interface LToFloatBiFunctionX<T1, T2, X extends Throwable> extends MetaFu
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LToFloatBiFunctionX<V1, V2, X> toFBiFuncFrom(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
+	default <V1, V2> LToFloatBiFunctionX<V1, V2, X> toFloatBiFuncCompose(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final V2 v2) -> this.doApplyAsFloat(before1.doApply(v1), before2.doApply(v2));
@@ -159,23 +173,23 @@ public interface LToFloatBiFunctionX<T1, T2, X extends Throwable> extends MetaFu
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToFloatBiFunction<T1, T2> nestingToFBiFunc() {
+	default LToFloatBiFunction<T1, T2> nestingToFloatBiFunc() {
 		return this::nestingDoApplyAsFloat;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToFloatBiFunctionX<T1, T2, RuntimeException> nestingToFBiFuncX() {
+	default LToFloatBiFunctionX<T1, T2, RuntimeException> nestingToFloatBiFuncX() {
 		return this::nestingDoApplyAsFloat;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToFloatBiFunction<T1, T2> shovingToFBiFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToFloatBiFunction<T1, T2> shovingToFloatBiFunc() {
 		return this::shovingDoApplyAsFloat;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToFloatBiFunctionX<T1, T2, RuntimeException> shovingToFBiFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToFloatBiFunctionX<T1, T2, RuntimeException> shovingToFloatBiFuncX() {
 		return this::shovingDoApplyAsFloat;
 	}
 
@@ -183,13 +197,15 @@ public interface LToFloatBiFunctionX<T1, T2, X extends Throwable> extends MetaFu
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LToFloatBiFunction<T1, T2> handleToFBiFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LToFloatBiFunction<T1, T2> handleToFloatBiFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T1 t1, T2 t2) -> this.handlingDoApplyAsFloat(t1, t2, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LToFloatBiFunctionX<T1, T2, Y> handleToFBiFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LToFloatBiFunctionX<T1, T2, Y> handleToFloatBiFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T1 t1, T2 t2) -> this.handlingDoApplyAsFloat(t1, t2, handling);
 	}
 

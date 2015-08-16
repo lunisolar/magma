@@ -50,10 +50,10 @@ public interface LTriFunctionAssert<S extends LTriFunctionAssert<S, A, RS, T1, T
 	Evaluation<S, LTriConsumerX<T1, T2, T3, Exception>, A, RS, R, Exception> doesApply(T1 t1, T2 t2, T3 t3);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LTriFunction<T1, T2, T3, R>, RS extends Assert<RS, R>, T1, T2, T3, R> extends Base<Impl<A, RS, T1, T2, T3, R>, A, RS, T1, T2, T3, R> {
+	public final static class The<A extends LTriFunction<T1, T2, T3, R>, RS extends Assert<RS, R>, T1, T2, T3, R> extends Base<The<A, RS, T1, T2, T3, R>, A, RS, T1, T2, T3, R> {
 
-		public Impl(A actual, java.util.function.Function<R, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<R, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
@@ -72,7 +72,7 @@ public interface LTriFunctionAssert<S extends LTriFunctionAssert<S, A, RS, T1, T
 		@Nonnull
 		public Evaluation<S, LTriConsumerX<T1, T2, T3, Exception>, A, RS, R, Exception> doesApply(T1 t1, T2 t2, T3 t3) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(t1, t2, t3);
 				}

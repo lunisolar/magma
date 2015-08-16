@@ -64,10 +64,12 @@ public interface LShortBinaryOperator extends LShortBinaryOperatorX<RuntimeExcep
 
 	short doApplyAsShort(short s1, short s2);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default short nestingDoApplyAsShort(short s1, short s2) {
 		return this.doApplyAsShort(s1, s2);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default short shovingDoApplyAsShort(short s1, short s2) {
 		return this.doApplyAsShort(s1, s2);
 	}
@@ -77,19 +79,32 @@ public interface LShortBinaryOperator extends LShortBinaryOperatorX<RuntimeExcep
 		return doApplyAsShort(s1, s2);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LShortBinaryOperator.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LShortSupplier captureSBinaryOp(short s1, short s2) {
+	default LShortSupplier captureShortBinaryOp(short s1, short s2) {
 		return () -> this.doApplyAsShort(s1, s2);
 	}
 
+	/** Creates function that always returns the same value. */
 	static LShortBinaryOperator constant(short r) {
 		return (s1, s2) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static LShortBinaryOperator apply1stAsShort(@Nonnull LShortUnaryOperator func) {
+		return (s1, s2) -> func.doApplyAsShort(s1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static LShortBinaryOperator apply2ndAsShort(@Nonnull LShortUnaryOperator func) {
+		return (s1, s2) -> func.doApplyAsShort(s2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -101,17 +116,37 @@ public interface LShortBinaryOperator extends LShortBinaryOperatorX<RuntimeExcep
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LShortBinaryOperator wrap(final @Nonnull LShortBinaryOperatorX<X> other) {
 		return other::nestingDoApplyAsShort;
 	}
 
 	// </editor-fold>
-	// <editor-fold desc="minmax/logical">
 
 	/**
-	 * @see {@link java.util.function.BinaryOperator#minBy()}
+	 * Creates function that returns the lesser value according to the comparator.
+	 * @see {@link java.util.function.BinaryOperator#minBy}
+	 */
+	@Nonnull
+	static LShortBinaryOperator minBy(@Nonnull Comparator<Short> comparator) {
+		Null.nonNullArg(comparator, "comparator");
+		return (a, b) -> comparator.compare(a, b) <= 0 ? a : b;
+	}
+
+	/**
+	 * Creates function that returns the lesser value according to the comparator.
+	 * @see {@link java.util.function.BinaryOperator#maxBy}
+	 */
+	@Nonnull
+	static LShortBinaryOperator maxBy(@Nonnull Comparator<Short> comparator) {
+		Null.nonNullArg(comparator, "comparator");
+		return (a, b) -> comparator.compare(a, b) >= 0 ? a : b;
+	}
+
+	/**
+	 * Returns function that returns the lower value.
+	 * @see {@link java.util.function.BinaryOperator#minBy}
 	 */
 	@Nonnull
 	static LShortBinaryOperator min() {
@@ -119,32 +154,27 @@ public interface LShortBinaryOperator extends LShortBinaryOperatorX<RuntimeExcep
 	}
 
 	/**
-	 * @see {@link java.util.function.BinaryOperator#maxBy()}
+	 * Returns function that returns the higher value.
+	 * @see {@link java.util.function.BinaryOperator#maxBy}
 	 */
 	@Nonnull
 	static LShortBinaryOperator max() {
 		return (a, b) -> (a >= b) ? a : b;
 	}
 
-	// </editor-fold>
-
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LShortBinaryOperator sBinaryOpFromShort(@Nonnull final LShortUnaryOperator before1, @Nonnull final LShortUnaryOperator before2) {
+	default LShortBinaryOperator shortBinaryOpComposeShort(@Nonnull final LShortUnaryOperator before1, @Nonnull final LShortUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final short v1, final short v2) -> this.doApplyAsShort(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LToShortBiFunction<V1, V2> sBinaryOpFrom(@Nonnull final LToShortFunction<? super V1> before1, @Nonnull final LToShortFunction<? super V2> before2) {
+	default <V1, V2> LToShortBiFunction<V1, V2> shortBinaryOpCompose(@Nonnull final LToShortFunction<? super V1> before1, @Nonnull final LToShortFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApplyAsShort(before1.doApplyAsShort(v1), before2.doApplyAsShort(v2));
@@ -156,7 +186,7 @@ public interface LShortBinaryOperator extends LShortBinaryOperatorX<RuntimeExcep
 
 	/** Combines two operators together in a order. */
 	@Nonnull
-	default <V> LShortBiFunction<V> then(@Nonnull LShortFunction<? extends V> after) {
+	default <V> LBiShortFunction<V> then(@Nonnull LShortFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (short s1, short s2) -> after.doApply(this.doApplyAsShort(s1, s2));
 	}
@@ -166,23 +196,23 @@ public interface LShortBinaryOperator extends LShortBinaryOperatorX<RuntimeExcep
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LShortBinaryOperator nestingSBinaryOp() {
+	default LShortBinaryOperator nestingShortBinaryOp() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LShortBinaryOperatorX<RuntimeException> nestingSBinaryOpX() {
+	default LShortBinaryOperatorX<RuntimeException> nestingShortBinaryOpX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortBinaryOperator shovingSBinaryOp() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LShortBinaryOperator shovingShortBinaryOp() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortBinaryOperatorX<RuntimeException> shovingSBinaryOpX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LShortBinaryOperatorX<RuntimeException> shovingShortBinaryOpX() {
 		return this;
 	}
 

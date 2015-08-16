@@ -64,10 +64,12 @@ public interface LBooleanToDoubleFunction extends LBooleanToDoubleFunctionX<Runt
 
 	double doApplyAsDouble(boolean b);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default double nestingDoApplyAsDouble(boolean b) {
 		return this.doApplyAsDouble(b);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default double shovingDoApplyAsDouble(boolean b) {
 		return this.doApplyAsDouble(b);
 	}
@@ -77,17 +79,18 @@ public interface LBooleanToDoubleFunction extends LBooleanToDoubleFunctionX<Runt
 		return doApplyAsDouble(b);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LBooleanToDoubleFunction.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LDoubleSupplier captureBoolToDFunc(boolean b) {
+	default LDoubleSupplier captureBoolToDoubleFunc(boolean b) {
 		return () -> this.doApplyAsDouble(b);
 	}
 
+	/** Creates function that always returns the same value. */
 	static LBooleanToDoubleFunction constant(double r) {
 		return b -> r;
 	}
@@ -101,7 +104,7 @@ public interface LBooleanToDoubleFunction extends LBooleanToDoubleFunctionX<Runt
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LBooleanToDoubleFunction wrap(final @Nonnull LBooleanToDoubleFunctionX<X> other) {
 		return other::nestingDoApplyAsDouble;
@@ -111,20 +114,16 @@ public interface LBooleanToDoubleFunction extends LBooleanToDoubleFunctionX<Runt
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LBooleanToDoubleFunction boolToDFuncFromBoolean(@Nonnull final LLogicalOperator before1) {
+	default LBooleanToDoubleFunction boolToDoubleFuncComposeBoolean(@Nonnull final LLogicalOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsDouble(before1.doApply(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToDoubleFunction<V1> boolToDFuncFrom(@Nonnull final LPredicate<? super V1> before1) {
+	default <V1> LToDoubleFunction<V1> boolToDoubleFuncCompose(@Nonnull final LPredicate<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsDouble(before1.doTest(v1));
 	}
@@ -201,23 +200,23 @@ public interface LBooleanToDoubleFunction extends LBooleanToDoubleFunctionX<Runt
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanToDoubleFunction nestingBoolToDFunc() {
+	default LBooleanToDoubleFunction nestingBoolToDoubleFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanToDoubleFunctionX<RuntimeException> nestingBoolToDFuncX() {
+	default LBooleanToDoubleFunctionX<RuntimeException> nestingBoolToDoubleFuncX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanToDoubleFunction shovingBoolToDFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBooleanToDoubleFunction shovingBoolToDoubleFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanToDoubleFunctionX<RuntimeException> shovingBoolToDFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBooleanToDoubleFunctionX<RuntimeException> shovingBoolToDoubleFuncX() {
 		return this;
 	}
 

@@ -66,7 +66,7 @@ public final class LIntUnaryOperatorBuilder extends PerCaseBuilderWithIntProduct
 		});
 
 	public LIntUnaryOperatorBuilder(@Nullable Consumer<LIntUnaryOperator> consumer) {
-		super(EVENTUALLY_THROW, LIntUnaryOperator::constant);
+		super(EVENTUALLY_THROW, LIntUnaryOperator::constant, () -> new LIntUnaryOperatorBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LIntUnaryOperatorBuilder extends PerCaseBuilderWithIntProduct
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final LIntUnaryOperatorBuilder intUnaryOperator() {
+	public static LIntUnaryOperatorBuilder intUnaryOperator() {
 		return new LIntUnaryOperatorBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final LIntUnaryOperatorBuilder intUnaryOperator(Consumer<LIntUnaryOperator> consumer) {
+	public static LIntUnaryOperatorBuilder intUnaryOperator(Consumer<LIntUnaryOperator> consumer) {
 		return new LIntUnaryOperatorBuilder(consumer);
 	}
 

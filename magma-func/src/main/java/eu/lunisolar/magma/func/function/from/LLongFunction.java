@@ -75,23 +75,25 @@ public interface LLongFunction<R> extends LLongFunctionX<R, RuntimeException>, M
 	@Nullable
 	R doApply(long l);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default R nestingDoApply(long l) {
 		return this.doApply(l);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default R shovingDoApply(long l) {
 		return this.doApply(l);
 	}
 
 	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
-	/** Ensures the result is not null */
+	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullDoApply(long l) {
 		return Null.requireNonNull(doApply(l), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LLongFunction.DESCRIPTION;
@@ -102,6 +104,7 @@ public interface LLongFunction<R> extends LLongFunctionX<R, RuntimeException>, M
 		return () -> this.doApply(l);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <R> LLongFunction<R> constant(R r) {
 		return l -> r;
 	}
@@ -121,7 +124,7 @@ public interface LLongFunction<R> extends LLongFunctionX<R, RuntimeException>, M
 		return other::apply;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <R, X extends Throwable> LLongFunction<R> wrap(final @Nonnull LLongFunctionX<R, X> other) {
 		return other::nestingDoApply;
@@ -131,20 +134,16 @@ public interface LLongFunction<R> extends LLongFunctionX<R, RuntimeException>, M
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LLongFunction<R> longFuncFromLong(@Nonnull final LLongUnaryOperator before1) {
+	default LLongFunction<R> longFuncComposeLong(@Nonnull final LLongUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doApplyAsLong(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LFunction<V1, R> longFuncFrom(@Nonnull final LToLongFunction<? super V1> before1) {
+	default <V1> LFunction<V1, R> longFuncCompose(@Nonnull final LToLongFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doApplyAsLong(v1));
 	}
@@ -238,18 +237,19 @@ public interface LLongFunction<R> extends LLongFunctionX<R, RuntimeException>, M
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLongFunction<R> shovingLongFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLongFunctionX<R, RuntimeException> shovingLongFuncX() {
 		return this;
 	}
 
 	// </editor-fold>
 
+	/** Converts to function that makes sure that the result is not null. */
 	@Nonnull
 	default LLongFunction<R> nonNullLongFunc() {
 		return this::nonNullDoApply;

@@ -66,7 +66,7 @@ public final class LDoubleBinaryOperatorBuilder extends PerCaseBuilderWithDouble
 		});
 
 	public LDoubleBinaryOperatorBuilder(@Nullable Consumer<LDoubleBinaryOperator> consumer) {
-		super(EVENTUALLY_THROW, LDoubleBinaryOperator::constant);
+		super(EVENTUALLY_THROW, LDoubleBinaryOperator::constant, () -> new LDoubleBinaryOperatorBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LDoubleBinaryOperatorBuilder extends PerCaseBuilderWithDouble
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final LDoubleBinaryOperatorBuilder doubleBinaryOperator() {
+	public static LDoubleBinaryOperatorBuilder doubleBinaryOperator() {
 		return new LDoubleBinaryOperatorBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final LDoubleBinaryOperatorBuilder doubleBinaryOperator(Consumer<LDoubleBinaryOperator> consumer) {
+	public static LDoubleBinaryOperatorBuilder doubleBinaryOperator(Consumer<LDoubleBinaryOperator> consumer) {
 		return new LDoubleBinaryOperatorBuilder(consumer);
 	}
 

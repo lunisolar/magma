@@ -115,7 +115,7 @@ public class LLongFunctionBuilderTest<R,X extends Throwable>{
     public void testBuild() throws X {
 
         LLongFunction<Integer > function = longFunction((LLongFunction<Integer > f)-> doNothing())
-            .addCase(ce -> ce.of(l -> l == (long)0)
+            .aCase(ce -> ce.of(l -> l == (long)0)
                              .evaluate(l -> Integer.valueOf(0)))
             .inCase(l -> l > 0 && l < 10).evaluate(l -> Integer.valueOf(1))
             .inCase(l -> l > 10 && l < 20).evaluate(l -> Integer.valueOf(2))

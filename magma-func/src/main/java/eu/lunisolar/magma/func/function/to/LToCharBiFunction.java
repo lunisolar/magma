@@ -64,10 +64,12 @@ public interface LToCharBiFunction<T1, T2> extends LToCharBiFunctionX<T1, T2, Ru
 
 	char doApplyAsChar(T1 t1, T2 t2);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default char nestingDoApplyAsChar(T1 t1, T2 t2) {
 		return this.doApplyAsChar(t1, t2);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default char shovingDoApplyAsChar(T1 t1, T2 t2) {
 		return this.doApplyAsChar(t1, t2);
 	}
@@ -77,19 +79,32 @@ public interface LToCharBiFunction<T1, T2> extends LToCharBiFunctionX<T1, T2, Ru
 		return doApplyAsChar(t1, t2);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LToCharBiFunction.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LCharSupplier captureToCBiFunc(T1 t1, T2 t2) {
+	default LCharSupplier captureToCharBiFunc(T1 t1, T2 t2) {
 		return () -> this.doApplyAsChar(t1, t2);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T1, T2> LToCharBiFunction<T1, T2> constant(char r) {
 		return (t1, t2) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T1, T2> LToCharBiFunction<T1, T2> apply1stAsChar(@Nonnull LToCharFunction<T1> func) {
+		return (t1, t2) -> func.doApplyAsChar(t1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T1, T2> LToCharBiFunction<T1, T2> apply2ndAsChar(@Nonnull LToCharFunction<T2> func) {
+		return (t1, t2) -> func.doApplyAsChar(t2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -101,7 +116,7 @@ public interface LToCharBiFunction<T1, T2> extends LToCharBiFunctionX<T1, T2, Ru
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T1, T2, X extends Throwable> LToCharBiFunction<T1, T2> wrap(final @Nonnull LToCharBiFunctionX<T1, T2, X> other) {
 		return other::nestingDoApplyAsChar;
@@ -111,11 +126,9 @@ public interface LToCharBiFunction<T1, T2> extends LToCharBiFunctionX<T1, T2, Ru
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LToCharBiFunction<V1, V2> toCBiFuncFrom(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2) {
+	default <V1, V2> LToCharBiFunction<V1, V2> toCharBiFuncCompose(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final V2 v2) -> this.doApplyAsChar(before1.doApply(v1), before2.doApply(v2));
@@ -137,23 +150,23 @@ public interface LToCharBiFunction<T1, T2> extends LToCharBiFunctionX<T1, T2, Ru
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToCharBiFunction<T1, T2> nestingToCBiFunc() {
+	default LToCharBiFunction<T1, T2> nestingToCharBiFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToCharBiFunctionX<T1, T2, RuntimeException> nestingToCBiFuncX() {
+	default LToCharBiFunctionX<T1, T2, RuntimeException> nestingToCharBiFuncX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToCharBiFunction<T1, T2> shovingToCBiFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToCharBiFunction<T1, T2> shovingToCharBiFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToCharBiFunctionX<T1, T2, RuntimeException> shovingToCBiFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToCharBiFunctionX<T1, T2, RuntimeException> shovingToCharBiFuncX() {
 		return this;
 	}
 

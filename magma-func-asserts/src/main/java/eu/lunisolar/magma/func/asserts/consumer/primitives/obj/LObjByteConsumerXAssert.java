@@ -47,10 +47,10 @@ public interface LObjByteConsumerXAssert<S extends LObjByteConsumerXAssert<S, A,
 	SemiEvaluation<S, LObjByteConsumerX<T, Exception>, A, Exception> doesAccept(T t, byte b);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LObjByteConsumerX<T, X>, T, X extends Throwable> extends Base<Impl<A, T, X>, A, T, X> {
+	public final static class The<A extends LObjByteConsumerX<T, X>, T, X extends Throwable> extends Base<The<A, T, X>, A, T, X> {
 
-		public Impl(A actual) {
-			super(actual, Impl.class);
+		public The(A actual) {
+			super(actual, The.class);
 		}
 	}
 
@@ -64,7 +64,7 @@ public interface LObjByteConsumerXAssert<S extends LObjByteConsumerXAssert<S, A,
 		@Nonnull
 		public SemiEvaluation<S, LObjByteConsumerX<T, Exception>, A, Exception> doesAccept(T t, byte b) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(t, b);
 				}

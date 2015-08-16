@@ -65,23 +65,25 @@ public interface LBooleanFunction<R> extends LBooleanFunctionX<R, RuntimeExcepti
 	@Nullable
 	R doApply(boolean b);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default R nestingDoApply(boolean b) {
 		return this.doApply(b);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default R shovingDoApply(boolean b) {
 		return this.doApply(b);
 	}
 
 	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
-	/** Ensures the result is not null */
+	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullDoApply(boolean b) {
 		return Null.requireNonNull(doApply(b), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LBooleanFunction.DESCRIPTION;
@@ -92,6 +94,7 @@ public interface LBooleanFunction<R> extends LBooleanFunctionX<R, RuntimeExcepti
 		return () -> this.doApply(b);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <R> LBooleanFunction<R> constant(R r) {
 		return b -> r;
 	}
@@ -105,7 +108,7 @@ public interface LBooleanFunction<R> extends LBooleanFunctionX<R, RuntimeExcepti
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <R, X extends Throwable> LBooleanFunction<R> wrap(final @Nonnull LBooleanFunctionX<R, X> other) {
 		return other::nestingDoApply;
@@ -115,20 +118,16 @@ public interface LBooleanFunction<R> extends LBooleanFunctionX<R, RuntimeExcepti
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LBooleanFunction<R> boolFuncFromBoolean(@Nonnull final LLogicalOperator before1) {
+	default LBooleanFunction<R> boolFuncComposeBoolean(@Nonnull final LLogicalOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doApply(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LFunction<V1, R> boolFuncFrom(@Nonnull final LPredicate<? super V1> before1) {
+	default <V1> LFunction<V1, R> boolFuncCompose(@Nonnull final LPredicate<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doTest(v1));
 	}
@@ -222,18 +221,19 @@ public interface LBooleanFunction<R> extends LBooleanFunctionX<R, RuntimeExcepti
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBooleanFunction<R> shovingBoolFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBooleanFunctionX<R, RuntimeException> shovingBoolFuncX() {
 		return this;
 	}
 
 	// </editor-fold>
 
+	/** Converts to function that makes sure that the result is not null. */
 	@Nonnull
 	default LBooleanFunction<R> nonNullBoolFunc() {
 		return this::nonNullDoApply;

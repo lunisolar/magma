@@ -74,6 +74,7 @@ public interface LToDoubleBiFunctionX<T1, T2, X extends Throwable> extends java.
 
 	double doApplyAsDouble(T1 t1, T2 t2) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default double nestingDoApplyAsDouble(T1 t1, T2 t2) {
 		try {
 			return this.doApplyAsDouble(t1, t2);
@@ -84,10 +85,12 @@ public interface LToDoubleBiFunctionX<T1, T2, X extends Throwable> extends java.
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default double shovingDoApplyAsDouble(T1 t1, T2 t2) {
 		return ((LToDoubleBiFunctionX<T1, T2, RuntimeException>) this).doApplyAsDouble(t1, t2);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> double handlingDoApplyAsDouble(T1 t1, T2 t2, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -102,19 +105,32 @@ public interface LToDoubleBiFunctionX<T1, T2, X extends Throwable> extends java.
 		return doApplyAsDouble(t1, t2);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LToDoubleBiFunctionX.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LDoubleSupplierX<X> captureToDBiFunc(T1 t1, T2 t2) {
+	default LDoubleSupplierX<X> captureToDoubleBiFunc(T1 t1, T2 t2) {
 		return () -> this.doApplyAsDouble(t1, t2);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T1, T2, X extends Throwable> LToDoubleBiFunctionX<T1, T2, X> constant(double r) {
 		return (t1, t2) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T1, T2, X extends Throwable> LToDoubleBiFunctionX<T1, T2, X> apply1stAsDouble(@Nonnull LToDoubleFunctionX<T1, X> func) {
+		return (t1, t2) -> func.doApplyAsDouble(t1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T1, T2, X extends Throwable> LToDoubleBiFunctionX<T1, T2, X> apply2ndAsDouble(@Nonnull LToDoubleFunctionX<T2, X> func) {
+		return (t1, t2) -> func.doApplyAsDouble(t2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -139,7 +155,7 @@ public interface LToDoubleBiFunctionX<T1, T2, X extends Throwable> extends java.
 		return other::applyAsDouble;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T1, T2, X extends Throwable> LToDoubleBiFunctionX<T1, T2, X> wrapX(final @Nonnull LToDoubleBiFunction<T1, T2> other) {
 		return (LToDoubleBiFunctionX) other;
@@ -149,11 +165,9 @@ public interface LToDoubleBiFunctionX<T1, T2, X extends Throwable> extends java.
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LToDoubleBiFunctionX<V1, V2, X> toDBiFuncFrom(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
+	default <V1, V2> LToDoubleBiFunctionX<V1, V2, X> toDoubleBiFuncCompose(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final V2 v2) -> this.doApplyAsDouble(before1.doApply(v1), before2.doApply(v2));
@@ -175,23 +189,23 @@ public interface LToDoubleBiFunctionX<T1, T2, X extends Throwable> extends java.
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToDoubleBiFunction<T1, T2> nestingToDBiFunc() {
+	default LToDoubleBiFunction<T1, T2> nestingToDoubleBiFunc() {
 		return this::nestingDoApplyAsDouble;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToDoubleBiFunctionX<T1, T2, RuntimeException> nestingToDBiFuncX() {
+	default LToDoubleBiFunctionX<T1, T2, RuntimeException> nestingToDoubleBiFuncX() {
 		return this::nestingDoApplyAsDouble;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToDoubleBiFunction<T1, T2> shovingToDBiFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToDoubleBiFunction<T1, T2> shovingToDoubleBiFunc() {
 		return this::shovingDoApplyAsDouble;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToDoubleBiFunctionX<T1, T2, RuntimeException> shovingToDBiFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToDoubleBiFunctionX<T1, T2, RuntimeException> shovingToDoubleBiFuncX() {
 		return this::shovingDoApplyAsDouble;
 	}
 
@@ -199,13 +213,15 @@ public interface LToDoubleBiFunctionX<T1, T2, X extends Throwable> extends java.
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LToDoubleBiFunction<T1, T2> handleToDBiFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LToDoubleBiFunction<T1, T2> handleToDoubleBiFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T1 t1, T2 t2) -> this.handlingDoApplyAsDouble(t1, t2, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LToDoubleBiFunctionX<T1, T2, Y> handleToDBiFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LToDoubleBiFunctionX<T1, T2, Y> handleToDoubleBiFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T1 t1, T2 t2) -> this.handlingDoApplyAsDouble(t1, t2, handling);
 	}
 

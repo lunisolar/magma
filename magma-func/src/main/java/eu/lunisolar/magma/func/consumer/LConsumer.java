@@ -75,15 +75,17 @@ public interface LConsumer<T> extends LConsumerX<T, RuntimeException>, MetaConsu
 
 	void doAccept(T t);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default void nestingDoAccept(T t) {
 		this.doAccept(t);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default void shovingDoAccept(T t) {
 		this.doAccept(t);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LConsumer.DESCRIPTION;
@@ -109,7 +111,7 @@ public interface LConsumer<T> extends LConsumerX<T, RuntimeException>, MetaConsu
 		return other::accept;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T, X extends Throwable> LConsumer<T> wrap(final @Nonnull LConsumerX<T, X> other) {
 		return other::nestingDoAccept;
@@ -119,11 +121,9 @@ public interface LConsumer<T> extends LConsumerX<T, RuntimeException>, MetaConsu
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LConsumer<V1> consFrom(@Nonnull final LFunction<? super V1, ? extends T> before1) {
+	default <V1> LConsumer<V1> consCompose(@Nonnull final LFunction<? super V1, ? extends T> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doApply(v1));
 	}
@@ -156,12 +156,12 @@ public interface LConsumer<T> extends LConsumerX<T, RuntimeException>, MetaConsu
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LConsumer<T> shovingCons() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LConsumerX<T, RuntimeException> shovingConsX() {
 		return this;
 	}

@@ -115,7 +115,7 @@ public class LShortBinaryOperatorBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LShortBinaryOperator function = shortBinaryOperator((LShortBinaryOperator f)-> doNothing())
-            .addCase(ce -> ce.of((s1,s2) -> s1 == (short)0)
+            .aCase(ce -> ce.of((s1,s2) -> s1 == (short)0)
                              .evaluate((s1,s2) -> (short)0))
             .inCase((s1,s2) -> s1 > 0 && s1 < 10).evaluate((s1,s2) -> (short)1)
             .inCase((s1,s2) -> s1 > 10 && s1 < 20).evaluate((s1,s2) -> (short)2)

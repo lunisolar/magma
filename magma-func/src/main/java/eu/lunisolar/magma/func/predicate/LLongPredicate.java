@@ -74,10 +74,12 @@ public interface LLongPredicate extends LLongPredicateX<RuntimeException>, MetaP
 
 	boolean doTest(long l);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default boolean nestingDoTest(long l) {
 		return this.doTest(l);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default boolean shovingDoTest(long l) {
 		return this.doTest(l);
 	}
@@ -87,13 +89,13 @@ public interface LLongPredicate extends LLongPredicateX<RuntimeException>, MetaP
 		return doTest(l);
 	}
 
-	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
+	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
 	default boolean doApplyAsBoolean(long l) {
 		return doTest(l);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LLongPredicate.DESCRIPTION;
@@ -104,6 +106,7 @@ public interface LLongPredicate extends LLongPredicateX<RuntimeException>, MetaP
 		return () -> this.doTest(l);
 	}
 
+	/** Creates function that always returns the same value. */
 	static LLongPredicate constant(boolean r) {
 		return l -> r;
 	}
@@ -123,7 +126,7 @@ public interface LLongPredicate extends LLongPredicateX<RuntimeException>, MetaP
 		return other::test;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LLongPredicate wrap(final @Nonnull LLongPredicateX<X> other) {
 		return other::nestingDoTest;
@@ -133,7 +136,9 @@ public interface LLongPredicate extends LLongPredicateX<RuntimeException>, MetaP
 	// <editor-fold desc="predicate">
 
 	/**
-	 *  @see {@link java.util.function.Predicate#negate()}
+	 * Returns a predicate that represents the logical negation of this predicate.
+	 *
+	 * @see {@link java.util.function.Predicate#negate}
 	 */
 	@Nonnull
 	default LLongPredicate negate() {
@@ -141,7 +146,8 @@ public interface LLongPredicate extends LLongPredicateX<RuntimeException>, MetaP
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#and()}
+	 * Returns a predicate that represents the logical AND of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#and()}
 	 */
 	@Nonnull
 	default LLongPredicate and(@Nonnull LLongPredicate other) {
@@ -150,7 +156,8 @@ public interface LLongPredicate extends LLongPredicateX<RuntimeException>, MetaP
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LLongPredicate or(@Nonnull LLongPredicate other) {
@@ -159,7 +166,8 @@ public interface LLongPredicate extends LLongPredicateX<RuntimeException>, MetaP
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical XOR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LLongPredicate xor(@Nonnull LLongPredicate other) {
@@ -167,6 +175,10 @@ public interface LLongPredicate extends LLongPredicateX<RuntimeException>, MetaP
 		return l -> doTest(l) ^ other.doTest(l);
 	}
 
+	/**
+	 * Creates predicate that evaluates if an object is equal with the argument one.
+	 * @see {@link java.util.function.Predicate#isEqual()
+	 */
 	@Nonnull
 	static LLongPredicate isEqual(long target) {
 		return l -> l == target;
@@ -176,20 +188,16 @@ public interface LLongPredicate extends LLongPredicateX<RuntimeException>, MetaP
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LLongPredicate longPredFromLong(@Nonnull final LLongUnaryOperator before1) {
+	default LLongPredicate longPredComposeLong(@Nonnull final LLongUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doTest(before1.doApplyAsLong(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LPredicate<V1> longPredFrom(@Nonnull final LToLongFunction<? super V1> before1) {
+	default <V1> LPredicate<V1> longPredCompose(@Nonnull final LToLongFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doTest(before1.doApplyAsLong(v1));
 	}
@@ -276,12 +284,12 @@ public interface LLongPredicate extends LLongPredicateX<RuntimeException>, MetaP
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLongPredicate shovingLongPred() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLongPredicateX<RuntimeException> shovingLongPredX() {
 		return this;
 	}

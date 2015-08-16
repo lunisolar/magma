@@ -47,10 +47,10 @@ public interface LTriConsumerAssert<S extends LTriConsumerAssert<S, A, T1, T2, T
 	SemiEvaluation<S, LTriConsumerX<T1, T2, T3, Exception>, A, Exception> doesAccept(T1 t1, T2 t2, T3 t3);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LTriConsumer<T1, T2, T3>, T1, T2, T3> extends Base<Impl<A, T1, T2, T3>, A, T1, T2, T3> {
+	public final static class The<A extends LTriConsumer<T1, T2, T3>, T1, T2, T3> extends Base<The<A, T1, T2, T3>, A, T1, T2, T3> {
 
-		public Impl(A actual) {
-			super(actual, Impl.class);
+		public The(A actual) {
+			super(actual, The.class);
 		}
 	}
 
@@ -64,7 +64,7 @@ public interface LTriConsumerAssert<S extends LTriConsumerAssert<S, A, T1, T2, T
 		@Nonnull
 		public SemiEvaluation<S, LTriConsumerX<T1, T2, T3, Exception>, A, Exception> doesAccept(T1 t1, T2 t2, T3 t3) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(t1, t2, t3);
 				}

@@ -50,10 +50,10 @@ public interface LToCharFunctionAssert<S extends LToCharFunctionAssert<S, A, RS,
 	Evaluation<S, LConsumerX<T, Exception>, A, RS, Character, Exception> doesApplyAsChar(T t);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LToCharFunction<T>, RS extends AbstractCharacterAssert<RS>, T> extends Base<Impl<A, RS, T>, A, RS, T> {
+	public final static class The<A extends LToCharFunction<T>, RS extends AbstractCharacterAssert<RS>, T> extends Base<The<A, RS, T>, A, RS, T> {
 
-		public Impl(A actual, java.util.function.Function<Character, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Character, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
@@ -72,7 +72,7 @@ public interface LToCharFunctionAssert<S extends LToCharFunctionAssert<S, A, RS,
 		@Nonnull
 		public Evaluation<S, LConsumerX<T, Exception>, A, RS, Character, Exception> doesApplyAsChar(T t) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(t);
 				}

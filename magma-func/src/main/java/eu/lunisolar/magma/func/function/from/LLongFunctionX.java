@@ -75,6 +75,7 @@ public interface LLongFunctionX<R, X extends Throwable> extends java.util.functi
 	@Nullable
 	R doApply(long l) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default R nestingDoApply(long l) {
 		try {
 			return this.doApply(l);
@@ -85,10 +86,12 @@ public interface LLongFunctionX<R, X extends Throwable> extends java.util.functi
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default R shovingDoApply(long l) {
 		return ((LLongFunctionX<R, RuntimeException>) this).doApply(l);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> R handlingDoApply(long l, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -100,13 +103,13 @@ public interface LLongFunctionX<R, X extends Throwable> extends java.util.functi
 
 	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
-	/** Ensures the result is not null */
+	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullDoApply(long l) throws X {
 		return Null.requireNonNull(doApply(l), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LLongFunctionX.DESCRIPTION;
@@ -117,6 +120,7 @@ public interface LLongFunctionX<R, X extends Throwable> extends java.util.functi
 		return () -> this.doApply(l);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <R, X extends Throwable> LLongFunctionX<R, X> constant(R r) {
 		return l -> r;
 	}
@@ -143,7 +147,7 @@ public interface LLongFunctionX<R, X extends Throwable> extends java.util.functi
 		return other::apply;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <R, X extends Throwable> LLongFunctionX<R, X> wrapX(final @Nonnull LLongFunction<R> other) {
 		return (LLongFunctionX) other;
@@ -153,20 +157,16 @@ public interface LLongFunctionX<R, X extends Throwable> extends java.util.functi
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LLongFunctionX<R, X> longFuncFromLong(@Nonnull final LLongUnaryOperatorX<X> before1) {
+	default LLongFunctionX<R, X> longFuncComposeLong(@Nonnull final LLongUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doApplyAsLong(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LFunctionX<V1, R, X> longFuncFrom(@Nonnull final LToLongFunctionX<? super V1, X> before1) {
+	default <V1> LFunctionX<V1, R, X> longFuncCompose(@Nonnull final LToLongFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doApplyAsLong(v1));
 	}
@@ -260,18 +260,19 @@ public interface LLongFunctionX<R, X extends Throwable> extends java.util.functi
 		return this::nestingDoApply;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLongFunction<R> shovingLongFunc() {
 		return this::shovingDoApply;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLongFunctionX<R, RuntimeException> shovingLongFuncX() {
 		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
+	/** Converts to function that makes sure that the result is not null. */
 	@Nonnull
 	default LLongFunctionX<R, X> nonNullLongFunc() {
 		return this::nonNullDoApply;
@@ -279,11 +280,13 @@ public interface LLongFunctionX<R, X extends Throwable> extends java.util.functi
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LLongFunction<R> handleLongFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return l -> this.handlingDoApply(l, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LLongFunctionX<R, Y> handleLongFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return l -> this.handlingDoApply(l, handling);

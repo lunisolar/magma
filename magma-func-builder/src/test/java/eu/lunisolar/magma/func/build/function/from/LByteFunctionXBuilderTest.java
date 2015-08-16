@@ -115,7 +115,7 @@ public class LByteFunctionXBuilderTest<R,X extends Throwable>{
     public void testBuild() throws X {
 
         LByteFunctionX<Integer ,ParseException> function = byteFunctionX((LByteFunctionX<Integer ,ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of(b -> b == (byte)0)
+            .aCase(ce -> ce.of(b -> b == (byte)0)
                              .evaluate(b -> Integer.valueOf(0)))
             .inCase(b -> b > 0 && b < 10).evaluate(b -> Integer.valueOf(1))
             .inCase(b -> b > 10 && b < 20).evaluate(b -> Integer.valueOf(2))

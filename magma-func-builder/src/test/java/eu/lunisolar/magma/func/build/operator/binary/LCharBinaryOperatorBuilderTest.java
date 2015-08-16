@@ -115,7 +115,7 @@ public class LCharBinaryOperatorBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LCharBinaryOperator function = charBinaryOperator((LCharBinaryOperator f)-> doNothing())
-            .addCase(ce -> ce.of((c1,c2) -> c1 == (char)0)
+            .aCase(ce -> ce.of((c1,c2) -> c1 == (char)0)
                              .evaluate((c1,c2) -> (char)0))
             .inCase((c1,c2) -> c1 > 0 && c1 < 10).evaluate((c1,c2) -> (char)1)
             .inCase((c1,c2) -> c1 > 10 && c1 < 20).evaluate((c1,c2) -> (char)2)

@@ -115,7 +115,7 @@ public class LShortToByteFunctionBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LShortToByteFunction function = shortToByteFunction((LShortToByteFunction f)-> doNothing())
-            .addCase(ce -> ce.of(s -> s == (short)0)
+            .aCase(ce -> ce.of(s -> s == (short)0)
                              .evaluate(s -> (byte)0))
             .inCase(s -> s > 0 && s < 10).evaluate(s -> (byte)1)
             .inCase(s -> s > 10 && s < 20).evaluate(s -> (byte)2)

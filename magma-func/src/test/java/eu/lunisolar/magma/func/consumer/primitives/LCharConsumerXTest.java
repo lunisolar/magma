@@ -171,7 +171,7 @@ public class LCharConsumerXTest<X extends ParseException> {
         });
 
         // when
-        LCharConsumerX<X> wrapped = sutThrowing.handleCConsX(handler -> handler
+        LCharConsumerX<X> wrapped = sutThrowing.handleCharConsX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -195,7 +195,7 @@ public class LCharConsumerXTest<X extends ParseException> {
         });
 
         // when
-        LCharConsumerX<X> wrapped = sutThrowing.handleCConsX(handler -> handler
+        LCharConsumerX<X> wrapped = sutThrowing.handleCharConsX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -219,7 +219,7 @@ public class LCharConsumerXTest<X extends ParseException> {
         });
 
         // when
-        LCharConsumerX<X> wrapped = sutThrowing.handleCConsX(handler -> handler
+        LCharConsumerX<X> wrapped = sutThrowing.handleCharConsX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -244,7 +244,7 @@ public class LCharConsumerXTest<X extends ParseException> {
         });
 
         // when
-        LCharConsumerX<X> wrapped = sutThrowing.handleCConsX(h -> Function4U.doNothing());
+        LCharConsumerX<X> wrapped = sutThrowing.handleCharConsX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -263,7 +263,7 @@ public class LCharConsumerXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testcConsFromChar() throws X {
+    public void testcharConsComposeChar() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -281,7 +281,7 @@ public class LCharConsumerXTest<X extends ParseException> {
         };
 
         //when
-        LCharConsumerX<X> function = sutO.cConsFromChar(before1);
+        LCharConsumerX<X> function = sutO.charConsComposeChar(before1);
         function.doAccept((char)80);
 
         //then - finals
@@ -291,7 +291,7 @@ public class LCharConsumerXTest<X extends ParseException> {
 
 
     @Test
-    public void testcConsFrom() throws X {
+    public void testcharConsCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -309,7 +309,7 @@ public class LCharConsumerXTest<X extends ParseException> {
         };
 
         //when
-        LConsumerX<Integer ,X> function = sutO.cConsFrom(before1);
+        LConsumerX<Integer ,X> function = sutO.charConsCompose(before1);
         function.doAccept((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -348,25 +348,25 @@ public class LCharConsumerXTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nestingCCons())
+        assertThat(sut.nestingCharCons())
             .isInstanceOf(LCharConsumer.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shovingCCons())
+        assertThat(sut.shovingCharCons())
             .isInstanceOf(LCharConsumer.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestingCConsX())
+        assertThat(sut.nestingCharConsX())
             .isInstanceOf(LCharConsumerX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shovingCConsX())
+        assertThat(sut.shovingCharConsX())
             .isInstanceOf(LCharConsumerX.class);
     }
 
@@ -379,11 +379,11 @@ public class LCharConsumerXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shovingCCons().doAccept((char)100);
+        sutThrowing.shovingCharCons().doAccept((char)100);
     }
 
     @Test
-    public void testHandleCCons() throws X {
+    public void testHandleCharCons() throws X {
 
         // given
         LCharConsumerX<X> sutThrowing = LCharConsumerX.lX(c -> {
@@ -391,7 +391,7 @@ public class LCharConsumerXTest<X extends ParseException> {
         });
 
         // when
-        LCharConsumerX<X> wrapped = sutThrowing.handleCConsX(h -> {
+        LCharConsumerX<X> wrapped = sutThrowing.handleCharConsX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 

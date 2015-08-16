@@ -66,7 +66,7 @@ public final class LLogicalTernaryOperatorXBuilder<X extends Throwable> extends 
 		});
 
 	public LLogicalTernaryOperatorXBuilder(@Nullable Consumer<LLogicalTernaryOperatorX<X>> consumer) {
-		super(EVENTUALLY_THROW, LLogicalTernaryOperatorX::constant);
+		super(EVENTUALLY_THROW, LLogicalTernaryOperatorX::constant, () -> new LLogicalTernaryOperatorXBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LLogicalTernaryOperatorXBuilder<X extends Throwable> extends 
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <X extends Throwable> LLogicalTernaryOperatorXBuilder<X> logicalTernaryOperatorX() {
+	public static <X extends Throwable> LLogicalTernaryOperatorXBuilder<X> logicalTernaryOperatorX() {
 		return new LLogicalTernaryOperatorXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <X extends Throwable> LLogicalTernaryOperatorXBuilder<X> logicalTernaryOperatorX(Consumer<LLogicalTernaryOperatorX<X>> consumer) {
+	public static <X extends Throwable> LLogicalTernaryOperatorXBuilder<X> logicalTernaryOperatorX(Consumer<LLogicalTernaryOperatorX<X>> consumer) {
 		return new LLogicalTernaryOperatorXBuilder(consumer);
 	}
 

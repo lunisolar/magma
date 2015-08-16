@@ -65,23 +65,25 @@ public interface LObjLongFunction<T, R> extends LObjLongFunctionX<T, R, RuntimeE
 	@Nullable
 	R doApply(T t, long l);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default R nestingDoApply(T t, long l) {
 		return this.doApply(t, l);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default R shovingDoApply(T t, long l) {
 		return this.doApply(t, l);
 	}
 
 	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
-	/** Ensures the result is not null */
+	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullDoApply(T t, long l) {
 		return Null.requireNonNull(doApply(t, l), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LObjLongFunction.DESCRIPTION;
@@ -92,8 +94,21 @@ public interface LObjLongFunction<T, R> extends LObjLongFunctionX<T, R, RuntimeE
 		return () -> this.doApply(t, l);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T, R> LObjLongFunction<T, R> constant(R r) {
 		return (t, l) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T, R> LObjLongFunction<T, R> apply1st(@Nonnull LFunction<T, R> func) {
+		return (t, l) -> func.doApply(t);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T, R> LObjLongFunction<T, R> apply2nd(@Nonnull LLongFunction<R> func) {
+		return (t, l) -> func.doApply(l);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -105,7 +120,7 @@ public interface LObjLongFunction<T, R> extends LObjLongFunctionX<T, R, RuntimeE
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T, R, X extends Throwable> LObjLongFunction<T, R> wrap(final @Nonnull LObjLongFunctionX<T, R, X> other) {
 		return other::nestingDoApply;
@@ -115,21 +130,17 @@ public interface LObjLongFunction<T, R> extends LObjLongFunctionX<T, R, RuntimeE
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LObjLongFunction<V1, R> objLongFuncFromLong(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LLongUnaryOperator before2) {
+	default <V1> LObjLongFunction<V1, R> objLongFuncComposeLong(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LLongUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final long v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsLong(v2));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiFunction<V1, V2, R> objLongFuncFrom(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToLongFunction<? super V2> before2) {
+	default <V1, V2> LBiFunction<V1, V2, R> objLongFuncCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToLongFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsLong(v2));
@@ -168,18 +179,19 @@ public interface LObjLongFunction<T, R> extends LObjLongFunctionX<T, R, RuntimeE
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjLongFunction<T, R> shovingObjLongFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjLongFunctionX<T, R, RuntimeException> shovingObjLongFuncX() {
 		return this;
 	}
 
 	// </editor-fold>
 
+	/** Converts to function that makes sure that the result is not null. */
 	@Nonnull
 	default LObjLongFunction<T, R> nonNullObjLongFunc() {
 		return this::nonNullDoApply;

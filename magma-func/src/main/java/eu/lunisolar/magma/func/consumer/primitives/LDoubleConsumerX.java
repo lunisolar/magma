@@ -75,6 +75,7 @@ public interface LDoubleConsumerX<X extends Throwable> extends java.util.functio
 
 	void doAccept(double d) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default void nestingDoAccept(double d) {
 		try {
 			this.doAccept(d);
@@ -85,10 +86,12 @@ public interface LDoubleConsumerX<X extends Throwable> extends java.util.functio
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default void shovingDoAccept(double d) {
 		((LDoubleConsumerX<RuntimeException>) this).doAccept(d);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> void handlingDoAccept(double d, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -98,14 +101,14 @@ public interface LDoubleConsumerX<X extends Throwable> extends java.util.functio
 		}
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LDoubleConsumerX.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LActionX<X> captureDCons(double d) {
+	default LActionX<X> captureDoubleCons(double d) {
 		return () -> this.doAccept(d);
 	}
 
@@ -131,7 +134,7 @@ public interface LDoubleConsumerX<X extends Throwable> extends java.util.functio
 		return other::accept;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LDoubleConsumerX<X> wrapX(final @Nonnull LDoubleConsumer other) {
 		return (LDoubleConsumerX) other;
@@ -141,20 +144,16 @@ public interface LDoubleConsumerX<X extends Throwable> extends java.util.functio
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LDoubleConsumerX<X> dConsFromDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1) {
+	default LDoubleConsumerX<X> doubleConsComposeDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doApplyAsDouble(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LConsumerX<V1, X> dConsFrom(@Nonnull final LToDoubleFunctionX<? super V1, X> before1) {
+	default <V1> LConsumerX<V1, X> doubleConsCompose(@Nonnull final LToDoubleFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doApplyAsDouble(v1));
 	}
@@ -177,23 +176,23 @@ public interface LDoubleConsumerX<X extends Throwable> extends java.util.functio
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoubleConsumer nestingDCons() {
+	default LDoubleConsumer nestingDoubleCons() {
 		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoubleConsumerX<RuntimeException> nestingDConsX() {
+	default LDoubleConsumerX<RuntimeException> nestingDoubleConsX() {
 		return this::nestingDoAccept;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleConsumer shovingDCons() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoubleConsumer shovingDoubleCons() {
 		return this::shovingDoAccept;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleConsumerX<RuntimeException> shovingDConsX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoubleConsumerX<RuntimeException> shovingDoubleConsX() {
 		return this::shovingDoAccept;
 	}
 
@@ -201,13 +200,15 @@ public interface LDoubleConsumerX<X extends Throwable> extends java.util.functio
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LDoubleConsumer handleDCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LDoubleConsumer handleDoubleCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return d -> this.handlingDoAccept(d, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LDoubleConsumerX<Y> handleDConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LDoubleConsumerX<Y> handleDoubleConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return d -> this.handlingDoAccept(d, handling);
 	}
 

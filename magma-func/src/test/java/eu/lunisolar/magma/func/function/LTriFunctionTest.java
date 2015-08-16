@@ -298,7 +298,7 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testtriFuncFrom() throws X {
+    public void testtriFuncCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -329,7 +329,7 @@ public class LTriFunctionTest<T1,T2,T3,R,X extends ParseException> {
         };
 
         //when
-        LTriFunction<Integer ,Integer ,Integer ,Integer > function = sutO.triFuncFrom(before1,before2,before3);
+        LTriFunction<Integer ,Integer ,Integer ,Integer > function = sutO.triFuncCompose(before1,before2,before3);
         function.doApply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(Integer )Integer.valueOf(82));
 
         //then - finals

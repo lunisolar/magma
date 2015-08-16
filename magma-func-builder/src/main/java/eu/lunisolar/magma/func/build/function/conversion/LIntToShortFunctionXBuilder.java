@@ -66,7 +66,7 @@ public final class LIntToShortFunctionXBuilder<X extends Throwable> extends PerC
 		});
 
 	public LIntToShortFunctionXBuilder(@Nullable Consumer<LIntToShortFunctionX<X>> consumer) {
-		super(EVENTUALLY_THROW, LIntToShortFunctionX::constant);
+		super(EVENTUALLY_THROW, LIntToShortFunctionX::constant, () -> new LIntToShortFunctionXBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LIntToShortFunctionXBuilder<X extends Throwable> extends PerC
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <X extends Throwable> LIntToShortFunctionXBuilder<X> intToShortFunctionX() {
+	public static <X extends Throwable> LIntToShortFunctionXBuilder<X> intToShortFunctionX() {
 		return new LIntToShortFunctionXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <X extends Throwable> LIntToShortFunctionXBuilder<X> intToShortFunctionX(Consumer<LIntToShortFunctionX<X>> consumer) {
+	public static <X extends Throwable> LIntToShortFunctionXBuilder<X> intToShortFunctionX(Consumer<LIntToShortFunctionX<X>> consumer) {
 		return new LIntToShortFunctionXBuilder(consumer);
 	}
 

@@ -64,10 +64,12 @@ public interface LCharToLongFunction extends LCharToLongFunctionX<RuntimeExcepti
 
 	long doApplyAsLong(char c);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default long nestingDoApplyAsLong(char c) {
 		return this.doApplyAsLong(c);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default long shovingDoApplyAsLong(char c) {
 		return this.doApplyAsLong(c);
 	}
@@ -77,17 +79,18 @@ public interface LCharToLongFunction extends LCharToLongFunctionX<RuntimeExcepti
 		return doApplyAsLong(c);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LCharToLongFunction.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LLongSupplier captureCToLongFunc(char c) {
+	default LLongSupplier captureCharToLongFunc(char c) {
 		return () -> this.doApplyAsLong(c);
 	}
 
+	/** Creates function that always returns the same value. */
 	static LCharToLongFunction constant(long r) {
 		return c -> r;
 	}
@@ -101,7 +104,7 @@ public interface LCharToLongFunction extends LCharToLongFunctionX<RuntimeExcepti
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LCharToLongFunction wrap(final @Nonnull LCharToLongFunctionX<X> other) {
 		return other::nestingDoApplyAsLong;
@@ -111,20 +114,16 @@ public interface LCharToLongFunction extends LCharToLongFunctionX<RuntimeExcepti
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LCharToLongFunction cToLongFuncFromChar(@Nonnull final LCharUnaryOperator before1) {
+	default LCharToLongFunction charToLongFuncComposeChar(@Nonnull final LCharUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsLong(before1.doApplyAsChar(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToLongFunction<V1> cToLongFuncFrom(@Nonnull final LToCharFunction<? super V1> before1) {
+	default <V1> LToLongFunction<V1> charToLongFuncCompose(@Nonnull final LToCharFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsLong(before1.doApplyAsChar(v1));
 	}
@@ -201,23 +200,23 @@ public interface LCharToLongFunction extends LCharToLongFunctionX<RuntimeExcepti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LCharToLongFunction nestingCToLongFunc() {
+	default LCharToLongFunction nestingCharToLongFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LCharToLongFunctionX<RuntimeException> nestingCToLongFuncX() {
+	default LCharToLongFunctionX<RuntimeException> nestingCharToLongFuncX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharToLongFunction shovingCToLongFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LCharToLongFunction shovingCharToLongFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharToLongFunctionX<RuntimeException> shovingCToLongFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LCharToLongFunctionX<RuntimeException> shovingCharToLongFuncX() {
 		return this;
 	}
 

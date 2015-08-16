@@ -65,6 +65,7 @@ public interface LBiObjIntFunctionX<T1, T2, R, X extends Throwable> extends Meta
 	@Nullable
 	R doApply(T1 t1, T2 t2, int i) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default R nestingDoApply(T1 t1, T2 t2, int i) {
 		try {
 			return this.doApply(t1, t2, i);
@@ -75,10 +76,12 @@ public interface LBiObjIntFunctionX<T1, T2, R, X extends Throwable> extends Meta
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default R shovingDoApply(T1 t1, T2 t2, int i) {
 		return ((LBiObjIntFunctionX<T1, T2, R, RuntimeException>) this).doApply(t1, t2, i);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> R handlingDoApply(T1 t1, T2 t2, int i, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -90,25 +93,44 @@ public interface LBiObjIntFunctionX<T1, T2, R, X extends Throwable> extends Meta
 
 	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
-	/** Ensures the result is not null */
+	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullDoApply(T1 t1, T2 t2, int i) throws X {
 		return Null.requireNonNull(doApply(t1, t2, i), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LBiObjIntFunctionX.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplierX<R, X> captureBiObjIFunc(T1 t1, T2 t2, int i) {
+	default LSupplierX<R, X> captureBiObjIntFunc(T1 t1, T2 t2, int i) {
 		return () -> this.doApply(t1, t2, i);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T1, T2, R, X extends Throwable> LBiObjIntFunctionX<T1, T2, R, X> constant(R r) {
 		return (t1, t2, i) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T1, T2, R, X extends Throwable> LBiObjIntFunctionX<T1, T2, R, X> apply1st(@Nonnull LFunctionX<T1, R, X> func) {
+		return (t1, t2, i) -> func.doApply(t1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T1, T2, R, X extends Throwable> LBiObjIntFunctionX<T1, T2, R, X> apply2nd(@Nonnull LFunctionX<T2, R, X> func) {
+		return (t1, t2, i) -> func.doApply(t2);
+	}
+
+	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
+	@Nonnull
+	static <T1, T2, R, X extends Throwable> LBiObjIntFunctionX<T1, T2, R, X> apply3rd(@Nonnull LIntFunctionX<R, X> func) {
+		return (t1, t2, i) -> func.doApply(i);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -127,7 +149,7 @@ public interface LBiObjIntFunctionX<T1, T2, R, X extends Throwable> extends Meta
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T1, T2, R, X extends Throwable> LBiObjIntFunctionX<T1, T2, R, X> wrapX(final @Nonnull LBiObjIntFunction<T1, T2, R> other) {
 		return (LBiObjIntFunctionX) other;
@@ -137,22 +159,19 @@ public interface LBiObjIntFunctionX<T1, T2, R, X extends Throwable> extends Meta
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiObjIntFunctionX<V1, V2, R, X> biObjIFuncFromInt(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LIntUnaryOperatorX<X> before3) {
+	default <V1, V2> LBiObjIntFunctionX<V1, V2, R, X> biObjIntFuncComposeInt(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LIntUnaryOperatorX<X> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
 		return (final V1 v1, final V2 v2, final int v3) -> this.doApply(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsInt(v3));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2, V3> LTriFunctionX<V1, V2, V3, R, X> biObjIFuncFrom(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LToIntFunctionX<? super V3, X> before3) {
+	default <V1, V2, V3> LTriFunctionX<V1, V2, V3, R, X> biObjIntFuncCompose(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2,
+			@Nonnull final LToIntFunctionX<? super V3, X> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
@@ -182,42 +201,45 @@ public interface LBiObjIntFunctionX<T1, T2, R, X extends Throwable> extends Meta
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiObjIntFunction<T1, T2, R> nestingBiObjIFunc() {
+	default LBiObjIntFunction<T1, T2, R> nestingBiObjIntFunc() {
 		return this::nestingDoApply;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiObjIntFunctionX<T1, T2, R, RuntimeException> nestingBiObjIFuncX() {
+	default LBiObjIntFunctionX<T1, T2, R, RuntimeException> nestingBiObjIntFuncX() {
 		return this::nestingDoApply;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjIntFunction<T1, T2, R> shovingBiObjIFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBiObjIntFunction<T1, T2, R> shovingBiObjIntFunc() {
 		return this::shovingDoApply;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjIntFunctionX<T1, T2, R, RuntimeException> shovingBiObjIFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBiObjIntFunctionX<T1, T2, R, RuntimeException> shovingBiObjIntFuncX() {
 		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
+	/** Converts to function that makes sure that the result is not null. */
 	@Nonnull
-	default LBiObjIntFunctionX<T1, T2, R, X> nonNullBiObjIFunc() {
+	default LBiObjIntFunctionX<T1, T2, R, X> nonNullBiObjIntFunc() {
 		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LBiObjIntFunction<T1, T2, R> handleBiObjIFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LBiObjIntFunction<T1, T2, R> handleBiObjIntFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T1 t1, T2 t2, int i) -> this.handlingDoApply(t1, t2, i, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LBiObjIntFunctionX<T1, T2, R, Y> handleBiObjIFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LBiObjIntFunctionX<T1, T2, R, Y> handleBiObjIntFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T1 t1, T2 t2, int i) -> this.handlingDoApply(t1, t2, i, handling);
 	}
 

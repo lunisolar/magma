@@ -116,7 +116,7 @@ public class LByteSupplierXBuilderTest<X extends Throwable>{
         final AtomicInteger externalInfluence = new AtomicInteger(0);
 
         LByteSupplierX<ParseException> function = byteSupplierX((LByteSupplierX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of(() -> externalInfluence.get() == Integer.valueOf(0))
+            .aCase(ce -> ce.of(() -> externalInfluence.get() == Integer.valueOf(0))
                              .evaluate(() -> (byte)0))
             .inCase(() -> externalInfluence.get() > 0 && externalInfluence.get() < 10).evaluate(() -> (byte)1)
             .inCase(() -> externalInfluence.get() > 10 && externalInfluence.get() < 20).evaluate(() -> (byte)2)

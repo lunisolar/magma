@@ -184,7 +184,7 @@ public class LShortSupplierXTest<X extends ParseException> {
         });
 
         // when
-        LShortSupplierX<X> wrapped = sutThrowing.handleSSupX(handler -> handler
+        LShortSupplierX<X> wrapped = sutThrowing.handleShortSupX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -208,7 +208,7 @@ public class LShortSupplierXTest<X extends ParseException> {
         });
 
         // when
-        LShortSupplierX<X> wrapped = sutThrowing.handleSSupX(handler -> handler
+        LShortSupplierX<X> wrapped = sutThrowing.handleShortSupX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -232,7 +232,7 @@ public class LShortSupplierXTest<X extends ParseException> {
         });
 
         // when
-        LShortSupplierX<X> wrapped = sutThrowing.handleSSupX(handler -> handler
+        LShortSupplierX<X> wrapped = sutThrowing.handleShortSupX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -257,7 +257,7 @@ public class LShortSupplierXTest<X extends ParseException> {
         });
 
         // when
-        LShortSupplierX<X> wrapped = sutThrowing.handleSSupX(h -> Function4U.doNothing());
+        LShortSupplierX<X> wrapped = sutThrowing.handleShortSupX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -585,25 +585,25 @@ public class LShortSupplierXTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nestingSSup())
+        assertThat(sut.nestingShortSup())
             .isInstanceOf(LShortSupplier.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shovingSSup())
+        assertThat(sut.shovingShortSup())
             .isInstanceOf(LShortSupplier.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestingSSupX())
+        assertThat(sut.nestingShortSupX())
             .isInstanceOf(LShortSupplierX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shovingSSupX())
+        assertThat(sut.shovingShortSupX())
             .isInstanceOf(LShortSupplierX.class);
     }
 
@@ -616,11 +616,11 @@ public class LShortSupplierXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shovingSSup().doGetAsShort();
+        sutThrowing.shovingShortSup().doGetAsShort();
     }
 
     @Test
-    public void testHandleSSup() throws X {
+    public void testHandleShortSup() throws X {
 
         // given
         LShortSupplierX<X> sutThrowing = LShortSupplierX.lX(() -> {
@@ -628,7 +628,7 @@ public class LShortSupplierXTest<X extends ParseException> {
         });
 
         // when
-        LShortSupplierX<X> wrapped = sutThrowing.handleSSupX(h -> {
+        LShortSupplierX<X> wrapped = sutThrowing.handleShortSupX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 

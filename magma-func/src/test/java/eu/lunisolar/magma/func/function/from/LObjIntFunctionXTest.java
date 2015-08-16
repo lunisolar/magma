@@ -195,7 +195,7 @@ public class LObjIntFunctionXTest<T,R,X extends ParseException> {
         });
 
         // when
-        LObjIntFunctionX<T,R,X> wrapped = sutThrowing.handleObjIFuncX(handler -> handler
+        LObjIntFunctionX<T,R,X> wrapped = sutThrowing.handleObjIntFuncX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -219,7 +219,7 @@ public class LObjIntFunctionXTest<T,R,X extends ParseException> {
         });
 
         // when
-        LObjIntFunctionX<T,R,X> wrapped = sutThrowing.handleObjIFuncX(handler -> handler
+        LObjIntFunctionX<T,R,X> wrapped = sutThrowing.handleObjIntFuncX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -243,7 +243,7 @@ public class LObjIntFunctionXTest<T,R,X extends ParseException> {
         });
 
         // when
-        LObjIntFunctionX<T,R,X> wrapped = sutThrowing.handleObjIFuncX(handler -> handler
+        LObjIntFunctionX<T,R,X> wrapped = sutThrowing.handleObjIntFuncX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -268,7 +268,7 @@ public class LObjIntFunctionXTest<T,R,X extends ParseException> {
         });
 
         // when
-        LObjIntFunctionX<T,R,X> wrapped = sutThrowing.handleObjIFuncX(h -> Function4U.doNothing());
+        LObjIntFunctionX<T,R,X> wrapped = sutThrowing.handleObjIntFuncX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -287,7 +287,7 @@ public class LObjIntFunctionXTest<T,R,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testobjIFuncFromInt() throws X {
+    public void testobjIntFuncComposeInt() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -312,7 +312,7 @@ public class LObjIntFunctionXTest<T,R,X extends ParseException> {
         };
 
         //when
-        LObjIntFunctionX<Integer ,Integer ,X> function = sutO.objIFuncFromInt(before1,before2);
+        LObjIntFunctionX<Integer ,Integer ,X> function = sutO.objIntFuncComposeInt(before1,before2);
         function.doApply((Integer )Integer.valueOf(80),(int)81);
 
         //then - finals
@@ -322,7 +322,7 @@ public class LObjIntFunctionXTest<T,R,X extends ParseException> {
 
 
     @Test
-    public void testobjIFuncFrom() throws X {
+    public void testobjIntFuncCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -347,7 +347,7 @@ public class LObjIntFunctionXTest<T,R,X extends ParseException> {
         };
 
         //when
-        LBiFunctionX<Integer ,Integer ,Integer ,X> function = sutO.objIFuncFrom(before1,before2);
+        LBiFunctionX<Integer ,Integer ,Integer ,X> function = sutO.objIntFuncCompose(before1,before2);
         function.doApply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
@@ -433,25 +433,25 @@ public class LObjIntFunctionXTest<T,R,X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nestingObjIFunc())
+        assertThat(sut.nestingObjIntFunc())
             .isInstanceOf(LObjIntFunction.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shovingObjIFunc())
+        assertThat(sut.shovingObjIntFunc())
             .isInstanceOf(LObjIntFunction.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestingObjIFuncX())
+        assertThat(sut.nestingObjIntFuncX())
             .isInstanceOf(LObjIntFunctionX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shovingObjIFuncX())
+        assertThat(sut.shovingObjIntFuncX())
             .isInstanceOf(LObjIntFunctionX.class);
     }
 
@@ -464,11 +464,11 @@ public class LObjIntFunctionXTest<T,R,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shovingObjIFunc().doApply((T)Integer.valueOf(100),(int)100);
+        sutThrowing.shovingObjIntFunc().doApply((T)Integer.valueOf(100),(int)100);
     }
 
     @Test
-    public void testHandleObjIFunc() throws X {
+    public void testHandleObjIntFunc() throws X {
 
         // given
         LObjIntFunctionX<T,R,X> sutThrowing = LObjIntFunctionX.lX((T t, int i) -> {
@@ -476,7 +476,7 @@ public class LObjIntFunctionXTest<T,R,X extends ParseException> {
         });
 
         // when
-        LObjIntFunctionX<T,R,X> wrapped = sutThrowing.handleObjIFuncX(h -> {
+        LObjIntFunctionX<T,R,X> wrapped = sutThrowing.handleObjIntFuncX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 

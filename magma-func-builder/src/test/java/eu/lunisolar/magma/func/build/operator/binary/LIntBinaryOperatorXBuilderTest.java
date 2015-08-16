@@ -115,7 +115,7 @@ public class LIntBinaryOperatorXBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LIntBinaryOperatorX<ParseException> function = intBinaryOperatorX((LIntBinaryOperatorX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((i1,i2) -> i1 == (int)0)
+            .aCase(ce -> ce.of((i1,i2) -> i1 == (int)0)
                              .evaluate((i1,i2) -> (int)0))
             .inCase((i1,i2) -> i1 > 0 && i1 < 10).evaluate((i1,i2) -> (int)1)
             .inCase((i1,i2) -> i1 > 10 && i1 < 20).evaluate((i1,i2) -> (int)2)

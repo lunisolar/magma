@@ -49,10 +49,10 @@ public interface LongToIntFunctionAssert<S extends LongToIntFunctionAssert<S, A,
 	Evaluation<S, LLongConsumerX<Exception>, A, RS, Integer, Exception> doesApplyAsInt(long l);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends java.util.function.LongToIntFunction, RS extends AbstractIntegerAssert<RS>> extends Base<Impl<A, RS>, A, RS> {
+	public final static class The<A extends java.util.function.LongToIntFunction, RS extends AbstractIntegerAssert<RS>> extends Base<The<A, RS>, A, RS> {
 
-		public Impl(A actual, java.util.function.Function<Integer, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Integer, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
@@ -71,7 +71,7 @@ public interface LongToIntFunctionAssert<S extends LongToIntFunctionAssert<S, A,
 		@Nonnull
 		public Evaluation<S, LLongConsumerX<Exception>, A, RS, Integer, Exception> doesApplyAsInt(long l) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(l);
 				}

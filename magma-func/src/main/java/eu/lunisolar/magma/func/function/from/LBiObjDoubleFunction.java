@@ -65,35 +65,56 @@ public interface LBiObjDoubleFunction<T1, T2, R> extends LBiObjDoubleFunctionX<T
 	@Nullable
 	R doApply(T1 t1, T2 t2, double d);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default R nestingDoApply(T1 t1, T2 t2, double d) {
 		return this.doApply(t1, t2, d);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default R shovingDoApply(T1 t1, T2 t2, double d) {
 		return this.doApply(t1, t2, d);
 	}
 
 	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
-	/** Ensures the result is not null */
+	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullDoApply(T1 t1, T2 t2, double d) {
 		return Null.requireNonNull(doApply(t1, t2, d), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LBiObjDoubleFunction.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> captureBiObjDFunc(T1 t1, T2 t2, double d) {
+	default LSupplier<R> captureBiObjDoubleFunc(T1 t1, T2 t2, double d) {
 		return () -> this.doApply(t1, t2, d);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T1, T2, R> LBiObjDoubleFunction<T1, T2, R> constant(R r) {
 		return (t1, t2, d) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T1, T2, R> LBiObjDoubleFunction<T1, T2, R> apply1st(@Nonnull LFunction<T1, R> func) {
+		return (t1, t2, d) -> func.doApply(t1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T1, T2, R> LBiObjDoubleFunction<T1, T2, R> apply2nd(@Nonnull LFunction<T2, R> func) {
+		return (t1, t2, d) -> func.doApply(t2);
+	}
+
+	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
+	@Nonnull
+	static <T1, T2, R> LBiObjDoubleFunction<T1, T2, R> apply3rd(@Nonnull LDoubleFunction<R> func) {
+		return (t1, t2, d) -> func.doApply(d);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -105,7 +126,7 @@ public interface LBiObjDoubleFunction<T1, T2, R> extends LBiObjDoubleFunctionX<T
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T1, T2, R, X extends Throwable> LBiObjDoubleFunction<T1, T2, R> wrap(final @Nonnull LBiObjDoubleFunctionX<T1, T2, R, X> other) {
 		return other::nestingDoApply;
@@ -115,22 +136,18 @@ public interface LBiObjDoubleFunction<T1, T2, R> extends LBiObjDoubleFunctionX<T
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiObjDoubleFunction<V1, V2, R> biObjDFuncFromDouble(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LDoubleUnaryOperator before3) {
+	default <V1, V2> LBiObjDoubleFunction<V1, V2, R> biObjDoubleFuncComposeDouble(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LDoubleUnaryOperator before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
 		return (final V1 v1, final V2 v2, final double v3) -> this.doApply(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsDouble(v3));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2, V3> LTriFunction<V1, V2, V3, R> biObjDFuncFrom(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LToDoubleFunction<? super V3> before3) {
+	default <V1, V2, V3> LTriFunction<V1, V2, V3, R> biObjDoubleFuncCompose(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LToDoubleFunction<? super V3> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
@@ -160,30 +177,31 @@ public interface LBiObjDoubleFunction<T1, T2, R> extends LBiObjDoubleFunctionX<T
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiObjDoubleFunction<T1, T2, R> nestingBiObjDFunc() {
+	default LBiObjDoubleFunction<T1, T2, R> nestingBiObjDoubleFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiObjDoubleFunctionX<T1, T2, R, RuntimeException> nestingBiObjDFuncX() {
+	default LBiObjDoubleFunctionX<T1, T2, R, RuntimeException> nestingBiObjDoubleFuncX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjDoubleFunction<T1, T2, R> shovingBiObjDFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBiObjDoubleFunction<T1, T2, R> shovingBiObjDoubleFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjDoubleFunctionX<T1, T2, R, RuntimeException> shovingBiObjDFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBiObjDoubleFunctionX<T1, T2, R, RuntimeException> shovingBiObjDoubleFuncX() {
 		return this;
 	}
 
 	// </editor-fold>
 
+	/** Converts to function that makes sure that the result is not null. */
 	@Nonnull
-	default LBiObjDoubleFunction<T1, T2, R> nonNullBiObjDFunc() {
+	default LBiObjDoubleFunction<T1, T2, R> nonNullBiObjDoubleFunc() {
 		return this::nonNullDoApply;
 	}
 

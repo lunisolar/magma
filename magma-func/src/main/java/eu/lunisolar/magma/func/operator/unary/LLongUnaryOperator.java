@@ -74,10 +74,12 @@ public interface LLongUnaryOperator extends LLongUnaryOperatorX<RuntimeException
 
 	long doApplyAsLong(long l);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default long nestingDoApplyAsLong(long l) {
 		return this.doApplyAsLong(l);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default long shovingDoApplyAsLong(long l) {
 		return this.doApplyAsLong(l);
 	}
@@ -87,7 +89,7 @@ public interface LLongUnaryOperator extends LLongUnaryOperatorX<RuntimeException
 		return doApplyAsLong(l);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LLongUnaryOperator.DESCRIPTION;
@@ -98,6 +100,7 @@ public interface LLongUnaryOperator extends LLongUnaryOperatorX<RuntimeException
 		return () -> this.doApplyAsLong(l);
 	}
 
+	/** Creates function that always returns the same value. */
 	static LLongUnaryOperator constant(long r) {
 		return l -> r;
 	}
@@ -117,7 +120,7 @@ public interface LLongUnaryOperator extends LLongUnaryOperatorX<RuntimeException
 		return other::applyAsLong;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LLongUnaryOperator wrap(final @Nonnull LLongUnaryOperatorX<X> other) {
 		return other::nestingDoApplyAsLong;
@@ -127,20 +130,16 @@ public interface LLongUnaryOperator extends LLongUnaryOperatorX<RuntimeException
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LLongUnaryOperator longUnaryOpFromLong(@Nonnull final LLongUnaryOperator before1) {
+	default LLongUnaryOperator longUnaryOpComposeLong(@Nonnull final LLongUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsLong(before1.doApplyAsLong(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToLongFunction<V1> longUnaryOpFrom(@Nonnull final LToLongFunction<? super V1> before1) {
+	default <V1> LToLongFunction<V1> longUnaryOpCompose(@Nonnull final LToLongFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsLong(before1.doApplyAsLong(v1));
 	}
@@ -233,12 +232,12 @@ public interface LLongUnaryOperator extends LLongUnaryOperatorX<RuntimeException
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLongUnaryOperator shovingLongUnaryOp() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLongUnaryOperatorX<RuntimeException> shovingLongUnaryOpX() {
 		return this;
 	}

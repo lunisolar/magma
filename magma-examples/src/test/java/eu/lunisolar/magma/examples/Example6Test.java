@@ -21,12 +21,9 @@ package eu.lunisolar.magma.examples;
 import eu.lunisolar.magma.examples.support.CheckedException;
 import eu.lunisolar.magma.func.asserts.DefaultFunctionalAssertions;
 import eu.lunisolar.magma.func.function.LFunctionX;
-import eu.lunisolar.magma.func.function.from.LByteFunctionX;
 import eu.lunisolar.magma.func.function.to.LToByteFunctionX;
 import org.assertj.core.api.ObjectAssert;
 import org.testng.annotations.Test;
-
-import java.util.function.*;
 
 public class Example6Test {
 

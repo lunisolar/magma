@@ -115,7 +115,7 @@ public class LShortPredicateBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LShortPredicate function = shortPredicate((LShortPredicate f)-> doNothing())
-            .addCase(ce -> ce.of(s -> s == (short)0)
+            .aCase(ce -> ce.of(s -> s == (short)0)
                              .evaluate(s -> false))
             .inCase(s -> s > 0 && s < 10).evaluate(s -> true)
             .inCase(s -> s > 10 && s < 20).evaluate(s -> true)

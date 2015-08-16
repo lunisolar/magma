@@ -47,10 +47,10 @@ public interface LShortConsumerXAssert<S extends LShortConsumerXAssert<S, A, X>,
 	SemiEvaluation<S, LShortConsumerX<Exception>, A, Exception> doesAccept(short s);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LShortConsumerX<X>, X extends Throwable> extends Base<Impl<A, X>, A, X> {
+	public final static class The<A extends LShortConsumerX<X>, X extends Throwable> extends Base<The<A, X>, A, X> {
 
-		public Impl(A actual) {
-			super(actual, Impl.class);
+		public The(A actual) {
+			super(actual, The.class);
 		}
 	}
 
@@ -64,7 +64,7 @@ public interface LShortConsumerXAssert<S extends LShortConsumerXAssert<S, A, X>,
 		@Nonnull
 		public SemiEvaluation<S, LShortConsumerX<Exception>, A, Exception> doesAccept(short s) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(s);
 				}

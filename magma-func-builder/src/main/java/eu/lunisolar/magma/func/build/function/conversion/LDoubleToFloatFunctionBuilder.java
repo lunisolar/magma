@@ -66,7 +66,7 @@ public final class LDoubleToFloatFunctionBuilder extends PerCaseBuilderWithFloat
 		});
 
 	public LDoubleToFloatFunctionBuilder(@Nullable Consumer<LDoubleToFloatFunction> consumer) {
-		super(EVENTUALLY_THROW, LDoubleToFloatFunction::constant);
+		super(EVENTUALLY_THROW, LDoubleToFloatFunction::constant, () -> new LDoubleToFloatFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LDoubleToFloatFunctionBuilder extends PerCaseBuilderWithFloat
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final LDoubleToFloatFunctionBuilder doubleToFloatFunction() {
+	public static LDoubleToFloatFunctionBuilder doubleToFloatFunction() {
 		return new LDoubleToFloatFunctionBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final LDoubleToFloatFunctionBuilder doubleToFloatFunction(Consumer<LDoubleToFloatFunction> consumer) {
+	public static LDoubleToFloatFunctionBuilder doubleToFloatFunction(Consumer<LDoubleToFloatFunction> consumer) {
 		return new LDoubleToFloatFunctionBuilder(consumer);
 	}
 

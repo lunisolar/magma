@@ -65,6 +65,7 @@ public interface LBooleanFunctionX<R, X extends Throwable> extends MetaFunction,
 	@Nullable
 	R doApply(boolean b) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default R nestingDoApply(boolean b) {
 		try {
 			return this.doApply(b);
@@ -75,10 +76,12 @@ public interface LBooleanFunctionX<R, X extends Throwable> extends MetaFunction,
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default R shovingDoApply(boolean b) {
 		return ((LBooleanFunctionX<R, RuntimeException>) this).doApply(b);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> R handlingDoApply(boolean b, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -90,13 +93,13 @@ public interface LBooleanFunctionX<R, X extends Throwable> extends MetaFunction,
 
 	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
-	/** Ensures the result is not null */
+	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullDoApply(boolean b) throws X {
 		return Null.requireNonNull(doApply(b), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LBooleanFunctionX.DESCRIPTION;
@@ -107,6 +110,7 @@ public interface LBooleanFunctionX<R, X extends Throwable> extends MetaFunction,
 		return () -> this.doApply(b);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <R, X extends Throwable> LBooleanFunctionX<R, X> constant(R r) {
 		return b -> r;
 	}
@@ -127,7 +131,7 @@ public interface LBooleanFunctionX<R, X extends Throwable> extends MetaFunction,
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <R, X extends Throwable> LBooleanFunctionX<R, X> wrapX(final @Nonnull LBooleanFunction<R> other) {
 		return (LBooleanFunctionX) other;
@@ -137,20 +141,16 @@ public interface LBooleanFunctionX<R, X extends Throwable> extends MetaFunction,
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LBooleanFunctionX<R, X> boolFuncFromBoolean(@Nonnull final LLogicalOperatorX<X> before1) {
+	default LBooleanFunctionX<R, X> boolFuncComposeBoolean(@Nonnull final LLogicalOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doApply(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LFunctionX<V1, R, X> boolFuncFrom(@Nonnull final LPredicateX<? super V1, X> before1) {
+	default <V1> LFunctionX<V1, R, X> boolFuncCompose(@Nonnull final LPredicateX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doTest(v1));
 	}
@@ -244,18 +244,19 @@ public interface LBooleanFunctionX<R, X extends Throwable> extends MetaFunction,
 		return this::nestingDoApply;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBooleanFunction<R> shovingBoolFunc() {
 		return this::shovingDoApply;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBooleanFunctionX<R, RuntimeException> shovingBoolFuncX() {
 		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
+	/** Converts to function that makes sure that the result is not null. */
 	@Nonnull
 	default LBooleanFunctionX<R, X> nonNullBoolFunc() {
 		return this::nonNullDoApply;
@@ -263,11 +264,13 @@ public interface LBooleanFunctionX<R, X extends Throwable> extends MetaFunction,
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LBooleanFunction<R> handleBoolFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return b -> this.handlingDoApply(b, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LBooleanFunctionX<R, Y> handleBoolFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return b -> this.handlingDoApply(b, handling);

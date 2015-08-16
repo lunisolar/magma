@@ -64,6 +64,7 @@ public interface LBiFloatPredicateX<X extends Throwable> extends MetaPredicate, 
 
 	boolean doTest(float f1, float f2) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default boolean nestingDoTest(float f1, float f2) {
 		try {
 			return this.doTest(f1, f2);
@@ -74,10 +75,12 @@ public interface LBiFloatPredicateX<X extends Throwable> extends MetaPredicate, 
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default boolean shovingDoTest(float f1, float f2) {
 		return ((LBiFloatPredicateX<RuntimeException>) this).doTest(f1, f2);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> boolean handlingDoTest(float f1, float f2, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -92,25 +95,38 @@ public interface LBiFloatPredicateX<X extends Throwable> extends MetaPredicate, 
 		return doTest(f1, f2);
 	}
 
-	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
+	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
 	default boolean doApplyAsBoolean(float f1, float f2) throws X {
 		return doTest(f1, f2);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LBiFloatPredicateX.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> captureBiFPred(float f1, float f2) {
+	default LBooleanSupplierX<X> captureBiFloatPred(float f1, float f2) {
 		return () -> this.doTest(f1, f2);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LBiFloatPredicateX<X> constant(boolean r) {
 		return (f1, f2) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <X extends Throwable> LBiFloatPredicateX<X> test1st(@Nonnull LFloatPredicateX<X> func) {
+		return (f1, f2) -> func.doTest(f1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <X extends Throwable> LBiFloatPredicateX<X> test2nd(@Nonnull LFloatPredicateX<X> func) {
+		return (f1, f2) -> func.doTest(f2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -129,7 +145,7 @@ public interface LBiFloatPredicateX<X extends Throwable> extends MetaPredicate, 
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LBiFloatPredicateX<X> wrapX(final @Nonnull LBiFloatPredicate other) {
 		return (LBiFloatPredicateX) other;
@@ -139,7 +155,9 @@ public interface LBiFloatPredicateX<X extends Throwable> extends MetaPredicate, 
 	// <editor-fold desc="predicate">
 
 	/**
-	 *  @see {@link java.util.function.Predicate#negate()}
+	 * Returns a predicate that represents the logical negation of this predicate.
+	 *
+	 * @see {@link java.util.function.Predicate#negate}
 	 */
 	@Nonnull
 	default LBiFloatPredicateX<X> negate() {
@@ -147,7 +165,8 @@ public interface LBiFloatPredicateX<X extends Throwable> extends MetaPredicate, 
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#and()}
+	 * Returns a predicate that represents the logical AND of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#and()}
 	 */
 	@Nonnull
 	default LBiFloatPredicateX<X> and(@Nonnull LBiFloatPredicateX<X> other) {
@@ -156,7 +175,8 @@ public interface LBiFloatPredicateX<X extends Throwable> extends MetaPredicate, 
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LBiFloatPredicateX<X> or(@Nonnull LBiFloatPredicateX<X> other) {
@@ -165,7 +185,8 @@ public interface LBiFloatPredicateX<X extends Throwable> extends MetaPredicate, 
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical XOR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LBiFloatPredicateX<X> xor(@Nonnull LBiFloatPredicateX<X> other) {
@@ -174,7 +195,8 @@ public interface LBiFloatPredicateX<X extends Throwable> extends MetaPredicate, 
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#isEqual()}
+	 * Creates predicate that evaluates if an object is equal with the argument one.
+	 * @see {@link java.util.function.Predicate#isEqual()
 	 */
 	@Nonnull
 	static <X extends Throwable> LBiFloatPredicateX<X> isEqual(final float v1, final float v2) {
@@ -185,21 +207,17 @@ public interface LBiFloatPredicateX<X extends Throwable> extends MetaPredicate, 
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LBiFloatPredicateX<X> biFPredFromFloat(@Nonnull final LFloatUnaryOperatorX<X> before1, @Nonnull final LFloatUnaryOperatorX<X> before2) {
+	default LBiFloatPredicateX<X> biFloatPredComposeFloat(@Nonnull final LFloatUnaryOperatorX<X> before1, @Nonnull final LFloatUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final float v1, final float v2) -> this.doTest(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiPredicateX<V1, V2, X> biFPredFrom(@Nonnull final LToFloatFunctionX<? super V1, X> before1, @Nonnull final LToFloatFunctionX<? super V2, X> before2) {
+	default <V1, V2> LBiPredicateX<V1, V2, X> biFloatPredCompose(@Nonnull final LToFloatFunctionX<? super V1, X> before1, @Nonnull final LToFloatFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doTest(before1.doApplyAsFloat(v1), before2.doApplyAsFloat(v2));
@@ -211,7 +229,7 @@ public interface LBiFloatPredicateX<X extends Throwable> extends MetaPredicate, 
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LFloatBiFunctionX<V, X> boolToFloatBiFunction(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LBiFloatFunctionX<V, X> boolToBiFloatFunction(@Nonnull LBooleanFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (float f1, float f2) -> after.doApply(this.doTest(f1, f2));
 	}
@@ -221,23 +239,23 @@ public interface LBiFloatPredicateX<X extends Throwable> extends MetaPredicate, 
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiFloatPredicate nestingBiFPred() {
+	default LBiFloatPredicate nestingBiFloatPred() {
 		return this::nestingDoTest;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiFloatPredicateX<RuntimeException> nestingBiFPredX() {
+	default LBiFloatPredicateX<RuntimeException> nestingBiFloatPredX() {
 		return this::nestingDoTest;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiFloatPredicate shovingBiFPred() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBiFloatPredicate shovingBiFloatPred() {
 		return this::shovingDoTest;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiFloatPredicateX<RuntimeException> shovingBiFPredX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBiFloatPredicateX<RuntimeException> shovingBiFloatPredX() {
 		return this::shovingDoTest;
 	}
 
@@ -245,13 +263,15 @@ public interface LBiFloatPredicateX<X extends Throwable> extends MetaPredicate, 
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LBiFloatPredicate handleBiFPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LBiFloatPredicate handleBiFloatPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (float f1, float f2) -> this.handlingDoTest(f1, f2, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LBiFloatPredicateX<Y> handleBiFPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LBiFloatPredicateX<Y> handleBiFloatPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (float f1, float f2) -> this.handlingDoTest(f1, f2, handling);
 	}
 

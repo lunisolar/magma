@@ -65,6 +65,7 @@ public interface LBiObjFloatConsumerX<T1, T2, X extends Throwable> extends MetaC
 
 	void doAccept(T1 t1, T2 t2, float f) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default void nestingDoAccept(T1 t1, T2 t2, float f) {
 		try {
 			this.doAccept(t1, t2, f);
@@ -75,10 +76,12 @@ public interface LBiObjFloatConsumerX<T1, T2, X extends Throwable> extends MetaC
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default void shovingDoAccept(T1 t1, T2 t2, float f) {
 		((LBiObjFloatConsumerX<T1, T2, RuntimeException>) this).doAccept(t1, t2, f);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> void handlingDoAccept(T1 t1, T2 t2, float f, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -88,15 +91,33 @@ public interface LBiObjFloatConsumerX<T1, T2, X extends Throwable> extends MetaC
 		}
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LBiObjFloatConsumerX.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LActionX<X> captureBiObjFCons(T1 t1, T2 t2, float f) {
+	default LActionX<X> captureBiObjFloatCons(T1 t1, T2 t2, float f) {
 		return () -> this.doAccept(t1, t2, f);
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T1, T2, X extends Throwable> LBiObjFloatConsumerX<T1, T2, X> accept1st(@Nonnull LConsumerX<T1, X> func) {
+		return (t1, t2, f) -> func.doAccept(t1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T1, T2, X extends Throwable> LBiObjFloatConsumerX<T1, T2, X> accept2nd(@Nonnull LConsumerX<T2, X> func) {
+		return (t1, t2, f) -> func.doAccept(t2);
+	}
+
+	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
+	@Nonnull
+	static <T1, T2, X extends Throwable> LBiObjFloatConsumerX<T1, T2, X> accept3rd(@Nonnull LFloatConsumerX<X> func) {
+		return (t1, t2, f) -> func.doAccept(f);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -115,7 +136,7 @@ public interface LBiObjFloatConsumerX<T1, T2, X extends Throwable> extends MetaC
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T1, T2, X extends Throwable> LBiObjFloatConsumerX<T1, T2, X> wrapX(final @Nonnull LBiObjFloatConsumer<T1, T2> other) {
 		return (LBiObjFloatConsumerX) other;
@@ -125,22 +146,19 @@ public interface LBiObjFloatConsumerX<T1, T2, X extends Throwable> extends MetaC
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiObjFloatConsumerX<V1, V2, X> biObjFConsFromFloat(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LFloatUnaryOperatorX<X> before3) {
+	default <V1, V2> LBiObjFloatConsumerX<V1, V2, X> biObjFloatConsComposeFloat(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LFloatUnaryOperatorX<X> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
 		return (final V1 v1, final V2 v2, final float v3) -> this.doAccept(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsFloat(v3));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2, V3> LTriConsumerX<V1, V2, V3, X> biObjFConsFrom(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LToFloatFunctionX<? super V3, X> before3) {
+	default <V1, V2, V3> LTriConsumerX<V1, V2, V3, X> biObjFloatConsCompose(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2,
+			@Nonnull final LToFloatFunctionX<? super V3, X> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
@@ -165,23 +183,23 @@ public interface LBiObjFloatConsumerX<T1, T2, X extends Throwable> extends MetaC
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiObjFloatConsumer<T1, T2> nestingBiObjFCons() {
+	default LBiObjFloatConsumer<T1, T2> nestingBiObjFloatCons() {
 		return this::nestingDoAccept;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiObjFloatConsumerX<T1, T2, RuntimeException> nestingBiObjFConsX() {
+	default LBiObjFloatConsumerX<T1, T2, RuntimeException> nestingBiObjFloatConsX() {
 		return this::nestingDoAccept;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjFloatConsumer<T1, T2> shovingBiObjFCons() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBiObjFloatConsumer<T1, T2> shovingBiObjFloatCons() {
 		return this::shovingDoAccept;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjFloatConsumerX<T1, T2, RuntimeException> shovingBiObjFConsX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBiObjFloatConsumerX<T1, T2, RuntimeException> shovingBiObjFloatConsX() {
 		return this::shovingDoAccept;
 	}
 
@@ -189,13 +207,15 @@ public interface LBiObjFloatConsumerX<T1, T2, X extends Throwable> extends MetaC
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LBiObjFloatConsumer<T1, T2> handleBiObjFCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LBiObjFloatConsumer<T1, T2> handleBiObjFloatCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T1 t1, T2 t2, float f) -> this.handlingDoAccept(t1, t2, f, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LBiObjFloatConsumerX<T1, T2, Y> handleBiObjFConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LBiObjFloatConsumerX<T1, T2, Y> handleBiObjFloatConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T1 t1, T2 t2, float f) -> this.handlingDoAccept(t1, t2, f, handling);
 	}
 

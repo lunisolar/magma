@@ -74,10 +74,12 @@ public interface LToDoubleBiFunction<T1, T2> extends LToDoubleBiFunctionX<T1, T2
 
 	double doApplyAsDouble(T1 t1, T2 t2);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default double nestingDoApplyAsDouble(T1 t1, T2 t2) {
 		return this.doApplyAsDouble(t1, t2);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default double shovingDoApplyAsDouble(T1 t1, T2 t2) {
 		return this.doApplyAsDouble(t1, t2);
 	}
@@ -87,19 +89,32 @@ public interface LToDoubleBiFunction<T1, T2> extends LToDoubleBiFunctionX<T1, T2
 		return doApplyAsDouble(t1, t2);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LToDoubleBiFunction.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LDoubleSupplier captureToDBiFunc(T1 t1, T2 t2) {
+	default LDoubleSupplier captureToDoubleBiFunc(T1 t1, T2 t2) {
 		return () -> this.doApplyAsDouble(t1, t2);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T1, T2> LToDoubleBiFunction<T1, T2> constant(double r) {
 		return (t1, t2) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T1, T2> LToDoubleBiFunction<T1, T2> apply1stAsDouble(@Nonnull LToDoubleFunction<T1> func) {
+		return (t1, t2) -> func.doApplyAsDouble(t1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T1, T2> LToDoubleBiFunction<T1, T2> apply2ndAsDouble(@Nonnull LToDoubleFunction<T2> func) {
+		return (t1, t2) -> func.doApplyAsDouble(t2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -117,7 +132,7 @@ public interface LToDoubleBiFunction<T1, T2> extends LToDoubleBiFunctionX<T1, T2
 		return other::applyAsDouble;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T1, T2, X extends Throwable> LToDoubleBiFunction<T1, T2> wrap(final @Nonnull LToDoubleBiFunctionX<T1, T2, X> other) {
 		return other::nestingDoApplyAsDouble;
@@ -127,11 +142,9 @@ public interface LToDoubleBiFunction<T1, T2> extends LToDoubleBiFunctionX<T1, T2
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LToDoubleBiFunction<V1, V2> toDBiFuncFrom(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2) {
+	default <V1, V2> LToDoubleBiFunction<V1, V2> toDoubleBiFuncCompose(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final V2 v2) -> this.doApplyAsDouble(before1.doApply(v1), before2.doApply(v2));
@@ -153,23 +166,23 @@ public interface LToDoubleBiFunction<T1, T2> extends LToDoubleBiFunctionX<T1, T2
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToDoubleBiFunction<T1, T2> nestingToDBiFunc() {
+	default LToDoubleBiFunction<T1, T2> nestingToDoubleBiFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToDoubleBiFunctionX<T1, T2, RuntimeException> nestingToDBiFuncX() {
+	default LToDoubleBiFunctionX<T1, T2, RuntimeException> nestingToDoubleBiFuncX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToDoubleBiFunction<T1, T2> shovingToDBiFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToDoubleBiFunction<T1, T2> shovingToDoubleBiFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToDoubleBiFunctionX<T1, T2, RuntimeException> shovingToDBiFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToDoubleBiFunctionX<T1, T2, RuntimeException> shovingToDoubleBiFuncX() {
 		return this;
 	}
 

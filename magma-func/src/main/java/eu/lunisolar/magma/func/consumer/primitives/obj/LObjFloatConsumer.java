@@ -65,23 +65,37 @@ public interface LObjFloatConsumer<T> extends LObjFloatConsumerX<T, RuntimeExcep
 
 	void doAccept(T t, float f);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default void nestingDoAccept(T t, float f) {
 		this.doAccept(t, f);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default void shovingDoAccept(T t, float f) {
 		this.doAccept(t, f);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LObjFloatConsumer.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LAction captureObjFCons(T t, float f) {
+	default LAction captureObjFloatCons(T t, float f) {
 		return () -> this.doAccept(t, f);
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T> LObjFloatConsumer<T> accept1st(@Nonnull LConsumer<T> func) {
+		return (t, f) -> func.doAccept(t);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T> LObjFloatConsumer<T> accept2nd(@Nonnull LFloatConsumer func) {
+		return (t, f) -> func.doAccept(f);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -93,7 +107,7 @@ public interface LObjFloatConsumer<T> extends LObjFloatConsumerX<T, RuntimeExcep
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T, X extends Throwable> LObjFloatConsumer<T> wrap(final @Nonnull LObjFloatConsumerX<T, X> other) {
 		return other::nestingDoAccept;
@@ -103,21 +117,17 @@ public interface LObjFloatConsumer<T> extends LObjFloatConsumerX<T, RuntimeExcep
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LObjFloatConsumer<V1> objFConsFromFloat(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LFloatUnaryOperator before2) {
+	default <V1> LObjFloatConsumer<V1> objFloatConsComposeFloat(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LFloatUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final float v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsFloat(v2));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiConsumer<V1, V2> objFConsFrom(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToFloatFunction<? super V2> before2) {
+	default <V1, V2> LBiConsumer<V1, V2> objFloatConsCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToFloatFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsFloat(v2));
@@ -141,23 +151,23 @@ public interface LObjFloatConsumer<T> extends LObjFloatConsumerX<T, RuntimeExcep
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjFloatConsumer<T> nestingObjFCons() {
+	default LObjFloatConsumer<T> nestingObjFloatCons() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjFloatConsumerX<T, RuntimeException> nestingObjFConsX() {
+	default LObjFloatConsumerX<T, RuntimeException> nestingObjFloatConsX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjFloatConsumer<T> shovingObjFCons() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LObjFloatConsumer<T> shovingObjFloatCons() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjFloatConsumerX<T, RuntimeException> shovingObjFConsX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LObjFloatConsumerX<T, RuntimeException> shovingObjFloatConsX() {
 		return this;
 	}
 

@@ -66,7 +66,7 @@ public final class LToShortBiFunctionXBuilder<T1, T2, X extends Throwable> exten
 		});
 
 	public LToShortBiFunctionXBuilder(@Nullable Consumer<LToShortBiFunctionX<T1, T2, X>> consumer) {
-		super(EVENTUALLY_THROW, LToShortBiFunctionX::constant);
+		super(EVENTUALLY_THROW, LToShortBiFunctionX::constant, () -> new LToShortBiFunctionXBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LToShortBiFunctionXBuilder<T1, T2, X extends Throwable> exten
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <T1, T2, X extends Throwable> LToShortBiFunctionXBuilder<T1, T2, X> toShortBiFunctionX() {
+	public static <T1, T2, X extends Throwable> LToShortBiFunctionXBuilder<T1, T2, X> toShortBiFunctionX() {
 		return new LToShortBiFunctionXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <T1, T2, X extends Throwable> LToShortBiFunctionXBuilder<T1, T2, X> toShortBiFunctionX(Consumer<LToShortBiFunctionX<T1, T2, X>> consumer) {
+	public static <T1, T2, X extends Throwable> LToShortBiFunctionXBuilder<T1, T2, X> toShortBiFunctionX(Consumer<LToShortBiFunctionX<T1, T2, X>> consumer) {
 		return new LToShortBiFunctionXBuilder(consumer);
 	}
 
@@ -96,6 +96,24 @@ public final class LToShortBiFunctionXBuilder<T1, T2, X extends Throwable> exten
 			throw new UnsupportedOperationException("Handling is already set for this builder.");
 		}
 		this.handling = handling;
+		return self();
+	}
+
+	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
+	@Nonnull
+	public <E1 extends T1, E2 extends T2> LToShortBiFunctionXBuilder<T1, T2, X> casesOf(Class<E1> argC1, Class<E2> argC2, Consumer<LToShortBiFunctionXBuilder<E1, E2, X>> pcpConsumer) {
+		PartialCaseWithShortProduct.The pc = partialCaseFactoryMethod((T1 t1, T2 t2) -> (argC1 == null || argC1.isInstance(t1)) && (argC2 == null || argC2.isInstance(t2)));
+
+		pc.specifySubCases((Consumer) pcpConsumer);
+		return self();
+	}
+
+	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
+	@Nonnull
+	public <E1 extends T1, E2 extends T2> LToShortBiFunctionXBuilder<T1, T2, X> aCase(Class<E1> argC1, Class<E2> argC2, LToShortBiFunctionX<E1, E2, X> function) {
+		PartialCaseWithShortProduct.The pc = partialCaseFactoryMethod((T1 t1, T2 t2) -> (argC1 == null || argC1.isInstance(t1)) && (argC2 == null || argC2.isInstance(t2)));
+
+		pc.evaluate(function);
 		return self();
 	}
 

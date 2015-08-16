@@ -51,7 +51,7 @@ public interface ObjectProbe<T> extends Probe<T> {
     }
 
     default boolean isIn(@Nullable Object... values) {
-        return check(values, (x, v) -> Private.isItemInArray(getTarget(), v));
+        return check(values, (x, v) -> Internal.isItemInArray(getTarget(), v));
     }
 
     default boolean isNotIn(@Nullable Object... values) {
@@ -104,7 +104,7 @@ public interface ObjectProbe<T> extends Probe<T> {
         return !isExactlyInstanceOf(type);
     }
 
-    class The<T> implements ObjectProbe<T> {
+    final class The<T> implements ObjectProbe<T> {
 
         private final T target;
 

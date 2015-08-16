@@ -66,7 +66,7 @@ public final class LTernaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.
 		});
 
 	public LTernaryOperatorBuilder(@Nullable Consumer<LTernaryOperator<T>> consumer) {
-		super(EVENTUALLY_THROW, LTernaryOperator::constant);
+		super(EVENTUALLY_THROW, LTernaryOperator::constant, () -> new LTernaryOperatorBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LTernaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <T> LTernaryOperatorBuilder<T> ternaryOperator() {
+	public static <T> LTernaryOperatorBuilder<T> ternaryOperator() {
 		return new LTernaryOperatorBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <T> LTernaryOperatorBuilder<T> ternaryOperator(Consumer<LTernaryOperator<T>> consumer) {
+	public static <T> LTernaryOperatorBuilder<T> ternaryOperator(Consumer<LTernaryOperator<T>> consumer) {
 		return new LTernaryOperatorBuilder(consumer);
 	}
 

@@ -65,6 +65,7 @@ public interface LObjBooleanConsumerX<T, X extends Throwable> extends MetaConsum
 
 	void doAccept(T t, boolean b) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default void nestingDoAccept(T t, boolean b) {
 		try {
 			this.doAccept(t, b);
@@ -75,10 +76,12 @@ public interface LObjBooleanConsumerX<T, X extends Throwable> extends MetaConsum
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default void shovingDoAccept(T t, boolean b) {
 		((LObjBooleanConsumerX<T, RuntimeException>) this).doAccept(t, b);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> void handlingDoAccept(T t, boolean b, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -88,7 +91,7 @@ public interface LObjBooleanConsumerX<T, X extends Throwable> extends MetaConsum
 		}
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LObjBooleanConsumerX.DESCRIPTION;
@@ -97,6 +100,18 @@ public interface LObjBooleanConsumerX<T, X extends Throwable> extends MetaConsum
 	/** Captures arguments but delays the evaluation. */
 	default LActionX<X> captureObjBoolCons(T t, boolean b) {
 		return () -> this.doAccept(t, b);
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T, X extends Throwable> LObjBooleanConsumerX<T, X> accept1st(@Nonnull LConsumerX<T, X> func) {
+		return (t, b) -> func.doAccept(t);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T, X extends Throwable> LObjBooleanConsumerX<T, X> accept2nd(@Nonnull LBooleanConsumerX<X> func) {
+		return (t, b) -> func.doAccept(b);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -115,7 +130,7 @@ public interface LObjBooleanConsumerX<T, X extends Throwable> extends MetaConsum
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T, X extends Throwable> LObjBooleanConsumerX<T, X> wrapX(final @Nonnull LObjBooleanConsumer<T> other) {
 		return (LObjBooleanConsumerX) other;
@@ -125,21 +140,17 @@ public interface LObjBooleanConsumerX<T, X extends Throwable> extends MetaConsum
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LObjBooleanConsumerX<V1, X> objBoolConsFromBoolean(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LLogicalOperatorX<X> before2) {
+	default <V1> LObjBooleanConsumerX<V1, X> objBoolConsComposeBoolean(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LLogicalOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final boolean v2) -> this.doAccept(before1.doApply(v1), before2.doApply(v2));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiConsumerX<V1, V2, X> objBoolConsFrom(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LPredicateX<? super V2, X> before2) {
+	default <V1, V2> LBiConsumerX<V1, V2, X> objBoolConsCompose(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LPredicateX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doAccept(before1.doApply(v1), before2.doTest(v2));
@@ -173,12 +184,12 @@ public interface LObjBooleanConsumerX<T, X extends Throwable> extends MetaConsum
 		return this::nestingDoAccept;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjBooleanConsumer<T> shovingObjBoolCons() {
 		return this::shovingDoAccept;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjBooleanConsumerX<T, RuntimeException> shovingObjBoolConsX() {
 		return this::shovingDoAccept;
 	}
@@ -187,11 +198,13 @@ public interface LObjBooleanConsumerX<T, X extends Throwable> extends MetaConsum
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LObjBooleanConsumer<T> handleObjBoolCons(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T t, boolean b) -> this.handlingDoAccept(t, b, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LObjBooleanConsumerX<T, Y> handleObjBoolConsX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T t, boolean b) -> this.handlingDoAccept(t, b, handling);

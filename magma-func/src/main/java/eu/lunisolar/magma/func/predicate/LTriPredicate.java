@@ -64,10 +64,12 @@ public interface LTriPredicate<T1, T2, T3> extends LTriPredicateX<T1, T2, T3, Ru
 
 	boolean doTest(T1 t1, T2 t2, T3 t3);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default boolean nestingDoTest(T1 t1, T2 t2, T3 t3) {
 		return this.doTest(t1, t2, t3);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default boolean shovingDoTest(T1 t1, T2 t2, T3 t3) {
 		return this.doTest(t1, t2, t3);
 	}
@@ -77,13 +79,13 @@ public interface LTriPredicate<T1, T2, T3> extends LTriPredicateX<T1, T2, T3, Ru
 		return doTest(t1, t2, t3);
 	}
 
-	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
+	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
 	default boolean doApplyAsBoolean(T1 t1, T2 t2, T3 t3) {
 		return doTest(t1, t2, t3);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LTriPredicate.DESCRIPTION;
@@ -94,8 +96,27 @@ public interface LTriPredicate<T1, T2, T3> extends LTriPredicateX<T1, T2, T3, Ru
 		return () -> this.doTest(t1, t2, t3);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T1, T2, T3> LTriPredicate<T1, T2, T3> constant(boolean r) {
 		return (t1, t2, t3) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T1, T2, T3> LTriPredicate<T1, T2, T3> test1st(@Nonnull LPredicate<T1> func) {
+		return (t1, t2, t3) -> func.doTest(t1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T1, T2, T3> LTriPredicate<T1, T2, T3> test2nd(@Nonnull LPredicate<T2> func) {
+		return (t1, t2, t3) -> func.doTest(t2);
+	}
+
+	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
+	@Nonnull
+	static <T1, T2, T3> LTriPredicate<T1, T2, T3> test3rd(@Nonnull LPredicate<T3> func) {
+		return (t1, t2, t3) -> func.doTest(t3);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -107,7 +128,7 @@ public interface LTriPredicate<T1, T2, T3> extends LTriPredicateX<T1, T2, T3, Ru
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T1, T2, T3, X extends Throwable> LTriPredicate<T1, T2, T3> wrap(final @Nonnull LTriPredicateX<T1, T2, T3, X> other) {
 		return other::nestingDoTest;
@@ -117,7 +138,9 @@ public interface LTriPredicate<T1, T2, T3> extends LTriPredicateX<T1, T2, T3, Ru
 	// <editor-fold desc="predicate">
 
 	/**
-	 *  @see {@link java.util.function.Predicate#negate()}
+	 * Returns a predicate that represents the logical negation of this predicate.
+	 *
+	 * @see {@link java.util.function.Predicate#negate}
 	 */
 	@Nonnull
 	default LTriPredicate<T1, T2, T3> negate() {
@@ -125,7 +148,8 @@ public interface LTriPredicate<T1, T2, T3> extends LTriPredicateX<T1, T2, T3, Ru
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#and()}
+	 * Returns a predicate that represents the logical AND of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#and()}
 	 */
 	@Nonnull
 	default LTriPredicate<T1, T2, T3> and(@Nonnull LTriPredicate<? super T1, ? super T2, ? super T3> other) {
@@ -134,7 +158,8 @@ public interface LTriPredicate<T1, T2, T3> extends LTriPredicateX<T1, T2, T3, Ru
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LTriPredicate<T1, T2, T3> or(@Nonnull LTriPredicate<? super T1, ? super T2, ? super T3> other) {
@@ -143,7 +168,8 @@ public interface LTriPredicate<T1, T2, T3> extends LTriPredicateX<T1, T2, T3, Ru
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical XOR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LTriPredicate<T1, T2, T3> xor(@Nonnull LTriPredicate<? super T1, ? super T2, ? super T3> other) {
@@ -152,7 +178,8 @@ public interface LTriPredicate<T1, T2, T3> extends LTriPredicateX<T1, T2, T3, Ru
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#isEqual()}
+	 * Creates predicate that evaluates if an object is equal with the argument one.
+	 * @see {@link java.util.function.Predicate#isEqual()
 	 */
 	@Nonnull
 	static <T1, T2, T3> LTriPredicate<T1, T2, T3> isEqual(final T1 v1, final T2 v2, final T3 v3) {
@@ -163,11 +190,9 @@ public interface LTriPredicate<T1, T2, T3> extends LTriPredicateX<T1, T2, T3, Ru
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2, V3> LTriPredicate<V1, V2, V3> triPredFrom(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LFunction<? super V3, ? extends T3> before3) {
+	default <V1, V2, V3> LTriPredicate<V1, V2, V3> triPredCompose(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LFunction<? super V3, ? extends T3> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
@@ -200,12 +225,12 @@ public interface LTriPredicate<T1, T2, T3> extends LTriPredicateX<T1, T2, T3, Ru
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LTriPredicate<T1, T2, T3> shovingTriPred() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LTriPredicateX<T1, T2, T3, RuntimeException> shovingTriPredX() {
 		return this;
 	}

@@ -115,7 +115,7 @@ public class LFloatToDoubleFunctionBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LFloatToDoubleFunction function = floatToDoubleFunction((LFloatToDoubleFunction f)-> doNothing())
-            .addCase(ce -> ce.of(f -> f == (float)0)
+            .aCase(ce -> ce.of(f -> f == (float)0)
                              .evaluate(f -> (double)0))
             .inCase(f -> f > 0 && f < 10).evaluate(f -> (double)1)
             .inCase(f -> f > 10 && f < 20).evaluate(f -> (double)2)

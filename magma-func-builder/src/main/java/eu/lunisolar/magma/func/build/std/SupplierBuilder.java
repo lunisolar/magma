@@ -65,7 +65,7 @@ public final class SupplierBuilder<R> extends PerCaseBuilderWithProduct.Base<Sup
 		});
 
 	public SupplierBuilder(@Nullable Consumer<java.util.function.Supplier<R>> consumer) {
-		super(EVENTUALLY_THROW, LSupplier::of);
+		super(EVENTUALLY_THROW, LSupplier::of, () -> new SupplierBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -77,13 +77,13 @@ public final class SupplierBuilder<R> extends PerCaseBuilderWithProduct.Base<Sup
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <R> SupplierBuilder<R> supplier() {
+	public static <R> SupplierBuilder<R> supplier() {
 		return new SupplierBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <R> SupplierBuilder<R> supplier(Consumer<java.util.function.Supplier<R>> consumer) {
+	public static <R> SupplierBuilder<R> supplier(Consumer<java.util.function.Supplier<R>> consumer) {
 		return new SupplierBuilder(consumer);
 	}
 

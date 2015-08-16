@@ -66,7 +66,7 @@ public final class LBooleanFunctionXBuilder<R, X extends Throwable> extends PerC
 		});
 
 	public LBooleanFunctionXBuilder(@Nullable Consumer<LBooleanFunctionX<R, X>> consumer) {
-		super(EVENTUALLY_THROW, LBooleanFunctionX::constant);
+		super(EVENTUALLY_THROW, LBooleanFunctionX::constant, () -> new LBooleanFunctionXBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LBooleanFunctionXBuilder<R, X extends Throwable> extends PerC
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <R, X extends Throwable> LBooleanFunctionXBuilder<R, X> booleanFunctionX() {
+	public static <R, X extends Throwable> LBooleanFunctionXBuilder<R, X> booleanFunctionX() {
 		return new LBooleanFunctionXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <R, X extends Throwable> LBooleanFunctionXBuilder<R, X> booleanFunctionX(Consumer<LBooleanFunctionX<R, X>> consumer) {
+	public static <R, X extends Throwable> LBooleanFunctionXBuilder<R, X> booleanFunctionX(Consumer<LBooleanFunctionX<R, X>> consumer) {
 		return new LBooleanFunctionXBuilder(consumer);
 	}
 

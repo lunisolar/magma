@@ -29,15 +29,15 @@ import java.util.function.*;
  *
  * Cases are evaluated in a order one by one. First condition that returns **true** will decide what function will be called. Eventually if no condition is
  * evaluating to **true** a last resort function _eventually_ is called. By default _eventually_ will throw an exception that there is no case that will cover
- * the input data. This default _evantually_ behavior can be overridden.
+ * the input data. This default _eventually_ behavior can be overridden.
  */
 @SuppressWarnings("unchecked")
 public abstract class PerCaseBuilderWithProduct<PCB extends PerCaseBuilderWithProduct<PCB, P, F, R, PC>, P, F, R, PC extends PartialCaseWithProduct<PC, PCB, P, F, R>> extends PerCaseBuilder<PCB, P, F, PC> {
 
     protected @Nonnull final Function<R, F> directToFunction;
 
-    protected PerCaseBuilderWithProduct(@Nonnull F eventually, @Nonnull Function<R, F> directToFunction) {
-        super(eventually);
+    protected PerCaseBuilderWithProduct(@Nonnull F eventually, @Nonnull Function<R, F> directToFunction, @Nonnull Supplier<PCB> subCasesFactory) {
+        super(eventually, subCasesFactory);
         this.directToFunction = directToFunction;
     }
 
@@ -52,17 +52,17 @@ public abstract class PerCaseBuilderWithProduct<PCB extends PerCaseBuilderWithPr
     // </editor-fold>
 
     protected PC partialCaseFactoryMethod(P casePredicate) {
-        return (PC) new PartialCaseWithProduct(PerCaseBuilderWithProduct.this, casePredicate);
+        return (PC) new PartialCaseWithProduct(PerCaseBuilderWithProduct.this, casePredicate, subCasesFactory);
     }
 
-    public static class Base<SELF extends Base<SELF, P, F, R>, P, F, R> extends PerCaseBuilderWithProduct<SELF, P, F, R, PartialCaseWithProduct.The<SELF, P, F, R>> {
-        protected Base(@Nonnull F eventually, @Nonnull Function<R, F> directToFunction) {
-            super(eventually, directToFunction);
+    public static abstract class Base<SELF extends Base<SELF, P, F, R>, P, F, R> extends PerCaseBuilderWithProduct<SELF, P, F, R, PartialCaseWithProduct.The<SELF, P, F, R>> {
+        protected Base(@Nonnull F eventually, @Nonnull Function<R, F> directToFunction, @Nonnull Supplier<SELF> subCasesFactory) {
+            super(eventually, directToFunction, subCasesFactory);
         }
 
         @Override
         protected PartialCaseWithProduct.The<SELF, P, F, R> partialCaseFactoryMethod(P casePredicate) {
-            return new PartialCaseWithProduct.The(self(), casePredicate);
+            return new PartialCaseWithProduct.The(self(), casePredicate, subCasesFactory);
         }
     }
 

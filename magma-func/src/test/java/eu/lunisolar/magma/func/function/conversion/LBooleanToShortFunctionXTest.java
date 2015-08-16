@@ -184,7 +184,7 @@ public class LBooleanToShortFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LBooleanToShortFunctionX<X> wrapped = sutThrowing.handleBoolToSFuncX(handler -> handler
+        LBooleanToShortFunctionX<X> wrapped = sutThrowing.handleBoolToShortFuncX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -208,7 +208,7 @@ public class LBooleanToShortFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LBooleanToShortFunctionX<X> wrapped = sutThrowing.handleBoolToSFuncX(handler -> handler
+        LBooleanToShortFunctionX<X> wrapped = sutThrowing.handleBoolToShortFuncX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -232,7 +232,7 @@ public class LBooleanToShortFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LBooleanToShortFunctionX<X> wrapped = sutThrowing.handleBoolToSFuncX(handler -> handler
+        LBooleanToShortFunctionX<X> wrapped = sutThrowing.handleBoolToShortFuncX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -257,7 +257,7 @@ public class LBooleanToShortFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LBooleanToShortFunctionX<X> wrapped = sutThrowing.handleBoolToSFuncX(h -> Function4U.doNothing());
+        LBooleanToShortFunctionX<X> wrapped = sutThrowing.handleBoolToShortFuncX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -276,7 +276,7 @@ public class LBooleanToShortFunctionXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testboolToSFuncFromBoolean() throws X {
+    public void testboolToShortFuncComposeBoolean() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -295,7 +295,7 @@ public class LBooleanToShortFunctionXTest<X extends ParseException> {
         };
 
         //when
-        LBooleanToShortFunctionX<X> function = sutO.boolToSFuncFromBoolean(before1);
+        LBooleanToShortFunctionX<X> function = sutO.boolToShortFuncComposeBoolean(before1);
         function.doApplyAsShort(true);
 
         //then - finals
@@ -305,7 +305,7 @@ public class LBooleanToShortFunctionXTest<X extends ParseException> {
 
 
     @Test
-    public void testboolToSFuncFrom() throws X {
+    public void testboolToShortFuncCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -324,7 +324,7 @@ public class LBooleanToShortFunctionXTest<X extends ParseException> {
         };
 
         //when
-        LToShortFunctionX<Integer ,X> function = sutO.boolToSFuncFrom(before1);
+        LToShortFunctionX<Integer ,X> function = sutO.boolToShortFuncCompose(before1);
         function.doApplyAsShort((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -656,25 +656,25 @@ public class LBooleanToShortFunctionXTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nestingBoolToSFunc())
+        assertThat(sut.nestingBoolToShortFunc())
             .isInstanceOf(LBooleanToShortFunction.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shovingBoolToSFunc())
+        assertThat(sut.shovingBoolToShortFunc())
             .isInstanceOf(LBooleanToShortFunction.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestingBoolToSFuncX())
+        assertThat(sut.nestingBoolToShortFuncX())
             .isInstanceOf(LBooleanToShortFunctionX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shovingBoolToSFuncX())
+        assertThat(sut.shovingBoolToShortFuncX())
             .isInstanceOf(LBooleanToShortFunctionX.class);
     }
 
@@ -687,11 +687,11 @@ public class LBooleanToShortFunctionXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shovingBoolToSFunc().doApplyAsShort(true);
+        sutThrowing.shovingBoolToShortFunc().doApplyAsShort(true);
     }
 
     @Test
-    public void testHandleBoolToSFunc() throws X {
+    public void testHandleBoolToShortFunc() throws X {
 
         // given
         LBooleanToShortFunctionX<X> sutThrowing = LBooleanToShortFunctionX.lX(b -> {
@@ -699,7 +699,7 @@ public class LBooleanToShortFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LBooleanToShortFunctionX<X> wrapped = sutThrowing.handleBoolToSFuncX(h -> {
+        LBooleanToShortFunctionX<X> wrapped = sutThrowing.handleBoolToShortFuncX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 

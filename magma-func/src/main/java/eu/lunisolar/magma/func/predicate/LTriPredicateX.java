@@ -64,6 +64,7 @@ public interface LTriPredicateX<T1, T2, T3, X extends Throwable> extends MetaPre
 
 	boolean doTest(T1 t1, T2 t2, T3 t3) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default boolean nestingDoTest(T1 t1, T2 t2, T3 t3) {
 		try {
 			return this.doTest(t1, t2, t3);
@@ -74,10 +75,12 @@ public interface LTriPredicateX<T1, T2, T3, X extends Throwable> extends MetaPre
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default boolean shovingDoTest(T1 t1, T2 t2, T3 t3) {
 		return ((LTriPredicateX<T1, T2, T3, RuntimeException>) this).doTest(t1, t2, t3);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> boolean handlingDoTest(T1 t1, T2 t2, T3 t3, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -92,13 +95,13 @@ public interface LTriPredicateX<T1, T2, T3, X extends Throwable> extends MetaPre
 		return doTest(t1, t2, t3);
 	}
 
-	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
+	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
 	default boolean doApplyAsBoolean(T1 t1, T2 t2, T3 t3) throws X {
 		return doTest(t1, t2, t3);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LTriPredicateX.DESCRIPTION;
@@ -109,8 +112,27 @@ public interface LTriPredicateX<T1, T2, T3, X extends Throwable> extends MetaPre
 		return () -> this.doTest(t1, t2, t3);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T1, T2, T3, X extends Throwable> LTriPredicateX<T1, T2, T3, X> constant(boolean r) {
 		return (t1, t2, t3) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T1, T2, T3, X extends Throwable> LTriPredicateX<T1, T2, T3, X> test1st(@Nonnull LPredicateX<T1, X> func) {
+		return (t1, t2, t3) -> func.doTest(t1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T1, T2, T3, X extends Throwable> LTriPredicateX<T1, T2, T3, X> test2nd(@Nonnull LPredicateX<T2, X> func) {
+		return (t1, t2, t3) -> func.doTest(t2);
+	}
+
+	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
+	@Nonnull
+	static <T1, T2, T3, X extends Throwable> LTriPredicateX<T1, T2, T3, X> test3rd(@Nonnull LPredicateX<T3, X> func) {
+		return (t1, t2, t3) -> func.doTest(t3);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -129,7 +151,7 @@ public interface LTriPredicateX<T1, T2, T3, X extends Throwable> extends MetaPre
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T1, T2, T3, X extends Throwable> LTriPredicateX<T1, T2, T3, X> wrapX(final @Nonnull LTriPredicate<T1, T2, T3> other) {
 		return (LTriPredicateX) other;
@@ -139,7 +161,9 @@ public interface LTriPredicateX<T1, T2, T3, X extends Throwable> extends MetaPre
 	// <editor-fold desc="predicate">
 
 	/**
-	 *  @see {@link java.util.function.Predicate#negate()}
+	 * Returns a predicate that represents the logical negation of this predicate.
+	 *
+	 * @see {@link java.util.function.Predicate#negate}
 	 */
 	@Nonnull
 	default LTriPredicateX<T1, T2, T3, X> negate() {
@@ -147,7 +171,8 @@ public interface LTriPredicateX<T1, T2, T3, X extends Throwable> extends MetaPre
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#and()}
+	 * Returns a predicate that represents the logical AND of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#and()}
 	 */
 	@Nonnull
 	default LTriPredicateX<T1, T2, T3, X> and(@Nonnull LTriPredicateX<? super T1, ? super T2, ? super T3, X> other) {
@@ -156,7 +181,8 @@ public interface LTriPredicateX<T1, T2, T3, X extends Throwable> extends MetaPre
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LTriPredicateX<T1, T2, T3, X> or(@Nonnull LTriPredicateX<? super T1, ? super T2, ? super T3, X> other) {
@@ -165,7 +191,8 @@ public interface LTriPredicateX<T1, T2, T3, X extends Throwable> extends MetaPre
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical XOR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LTriPredicateX<T1, T2, T3, X> xor(@Nonnull LTriPredicateX<? super T1, ? super T2, ? super T3, X> other) {
@@ -174,7 +201,8 @@ public interface LTriPredicateX<T1, T2, T3, X extends Throwable> extends MetaPre
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#isEqual()}
+	 * Creates predicate that evaluates if an object is equal with the argument one.
+	 * @see {@link java.util.function.Predicate#isEqual()
 	 */
 	@Nonnull
 	static <T1, T2, T3, X extends Throwable> LTriPredicateX<T1, T2, T3, X> isEqual(final T1 v1, final T2 v2, final T3 v3) {
@@ -185,11 +213,9 @@ public interface LTriPredicateX<T1, T2, T3, X extends Throwable> extends MetaPre
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2, V3> LTriPredicateX<V1, V2, V3, X> triPredFrom(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2,
+	default <V1, V2, V3> LTriPredicateX<V1, V2, V3, X> triPredCompose(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2,
 			@Nonnull final LFunctionX<? super V3, ? extends T3, X> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
@@ -223,12 +249,12 @@ public interface LTriPredicateX<T1, T2, T3, X extends Throwable> extends MetaPre
 		return this::nestingDoTest;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LTriPredicate<T1, T2, T3> shovingTriPred() {
 		return this::shovingDoTest;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LTriPredicateX<T1, T2, T3, RuntimeException> shovingTriPredX() {
 		return this::shovingDoTest;
 	}
@@ -237,11 +263,13 @@ public interface LTriPredicateX<T1, T2, T3, X extends Throwable> extends MetaPre
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LTriPredicate<T1, T2, T3> handleTriPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T1 t1, T2 t2, T3 t3) -> this.handlingDoTest(t1, t2, t3, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LTriPredicateX<T1, T2, T3, Y> handleTriPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T1 t1, T2 t2, T3 t3) -> this.handlingDoTest(t1, t2, t3, handling);

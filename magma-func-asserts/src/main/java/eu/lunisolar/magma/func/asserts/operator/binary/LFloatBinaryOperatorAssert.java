@@ -44,21 +44,21 @@ import static org.assertj.core.api.Fail.fail;
 public interface LFloatBinaryOperatorAssert<S extends LFloatBinaryOperatorAssert<S, A, RS>, A extends LFloatBinaryOperator, RS extends AbstractFloatAssert<RS>>
 		extends
 			Assert<S, A>,
-			FullFunctionalAssert<S, LFloatBiConsumerX<Exception>, A, RS, Float, Exception> {
+			FullFunctionalAssert<S, LBiFloatConsumerX<Exception>, A, RS, Float, Exception> {
 
 	@Nonnull
-	Evaluation<S, LFloatBiConsumerX<Exception>, A, RS, Float, Exception> doesApplyAsFloat(float f1, float f2);
+	Evaluation<S, LBiFloatConsumerX<Exception>, A, RS, Float, Exception> doesApplyAsFloat(float f1, float f2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LFloatBinaryOperator, RS extends AbstractFloatAssert<RS>> extends Base<Impl<A, RS>, A, RS> {
+	public final static class The<A extends LFloatBinaryOperator, RS extends AbstractFloatAssert<RS>> extends Base<The<A, RS>, A, RS> {
 
-		public Impl(A actual, java.util.function.Function<Float, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Float, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS>, A extends LFloatBinaryOperator, RS extends AbstractFloatAssert<RS>> extends FullFunctionalAssert.Base<S, LFloatBiConsumerX<Exception>, A, RS, Float, Exception>
+	public static class Base<S extends Base<S, A, RS>, A extends LFloatBinaryOperator, RS extends AbstractFloatAssert<RS>> extends FullFunctionalAssert.Base<S, LBiFloatConsumerX<Exception>, A, RS, Float, Exception>
 			implements
 				LFloatBinaryOperatorAssert<S, A, RS> {
 
@@ -70,9 +70,9 @@ public interface LFloatBinaryOperatorAssert<S extends LFloatBinaryOperatorAssert
 		}
 
 		@Nonnull
-		public Evaluation<S, LFloatBiConsumerX<Exception>, A, RS, Float, Exception> doesApplyAsFloat(float f1, float f2) {
+		public Evaluation<S, LBiFloatConsumerX<Exception>, A, RS, Float, Exception> doesApplyAsFloat(float f1, float f2) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(f1, f2);
 				}

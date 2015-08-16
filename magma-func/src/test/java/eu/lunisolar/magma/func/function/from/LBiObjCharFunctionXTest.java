@@ -195,7 +195,7 @@ public class LBiObjCharFunctionXTest<T1,T2,R,X extends ParseException> {
         });
 
         // when
-        LBiObjCharFunctionX<T1,T2,R,X> wrapped = sutThrowing.handleBiObjCFuncX(handler -> handler
+        LBiObjCharFunctionX<T1,T2,R,X> wrapped = sutThrowing.handleBiObjCharFuncX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -219,7 +219,7 @@ public class LBiObjCharFunctionXTest<T1,T2,R,X extends ParseException> {
         });
 
         // when
-        LBiObjCharFunctionX<T1,T2,R,X> wrapped = sutThrowing.handleBiObjCFuncX(handler -> handler
+        LBiObjCharFunctionX<T1,T2,R,X> wrapped = sutThrowing.handleBiObjCharFuncX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -243,7 +243,7 @@ public class LBiObjCharFunctionXTest<T1,T2,R,X extends ParseException> {
         });
 
         // when
-        LBiObjCharFunctionX<T1,T2,R,X> wrapped = sutThrowing.handleBiObjCFuncX(handler -> handler
+        LBiObjCharFunctionX<T1,T2,R,X> wrapped = sutThrowing.handleBiObjCharFuncX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -268,7 +268,7 @@ public class LBiObjCharFunctionXTest<T1,T2,R,X extends ParseException> {
         });
 
         // when
-        LBiObjCharFunctionX<T1,T2,R,X> wrapped = sutThrowing.handleBiObjCFuncX(h -> Function4U.doNothing());
+        LBiObjCharFunctionX<T1,T2,R,X> wrapped = sutThrowing.handleBiObjCharFuncX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -287,7 +287,7 @@ public class LBiObjCharFunctionXTest<T1,T2,R,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testbiObjCFuncFromChar() throws X {
+    public void testbiObjCharFuncComposeChar() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -318,7 +318,7 @@ public class LBiObjCharFunctionXTest<T1,T2,R,X extends ParseException> {
         };
 
         //when
-        LBiObjCharFunctionX<Integer ,Integer ,Integer ,X> function = sutO.biObjCFuncFromChar(before1,before2,before3);
+        LBiObjCharFunctionX<Integer ,Integer ,Integer ,X> function = sutO.biObjCharFuncComposeChar(before1,before2,before3);
         function.doApply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(char)82);
 
         //then - finals
@@ -328,7 +328,7 @@ public class LBiObjCharFunctionXTest<T1,T2,R,X extends ParseException> {
 
 
     @Test
-    public void testbiObjCFuncFrom() throws X {
+    public void testbiObjCharFuncCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -359,7 +359,7 @@ public class LBiObjCharFunctionXTest<T1,T2,R,X extends ParseException> {
         };
 
         //when
-        LTriFunctionX<Integer ,Integer ,Integer ,Integer ,X> function = sutO.biObjCFuncFrom(before1,before2,before3);
+        LTriFunctionX<Integer ,Integer ,Integer ,Integer ,X> function = sutO.biObjCharFuncCompose(before1,before2,before3);
         function.doApply((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81),(Integer )Integer.valueOf(82));
 
         //then - finals
@@ -447,25 +447,25 @@ public class LBiObjCharFunctionXTest<T1,T2,R,X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nestingBiObjCFunc())
+        assertThat(sut.nestingBiObjCharFunc())
             .isInstanceOf(LBiObjCharFunction.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shovingBiObjCFunc())
+        assertThat(sut.shovingBiObjCharFunc())
             .isInstanceOf(LBiObjCharFunction.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestingBiObjCFuncX())
+        assertThat(sut.nestingBiObjCharFuncX())
             .isInstanceOf(LBiObjCharFunctionX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shovingBiObjCFuncX())
+        assertThat(sut.shovingBiObjCharFuncX())
             .isInstanceOf(LBiObjCharFunctionX.class);
     }
 
@@ -478,11 +478,11 @@ public class LBiObjCharFunctionXTest<T1,T2,R,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shovingBiObjCFunc().doApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(char)100);
+        sutThrowing.shovingBiObjCharFunc().doApply((T1)Integer.valueOf(100),(T2)Integer.valueOf(100),(char)100);
     }
 
     @Test
-    public void testHandleBiObjCFunc() throws X {
+    public void testHandleBiObjCharFunc() throws X {
 
         // given
         LBiObjCharFunctionX<T1,T2,R,X> sutThrowing = LBiObjCharFunctionX.lX((T1 t1,T2 t2, char c) -> {
@@ -490,7 +490,7 @@ public class LBiObjCharFunctionXTest<T1,T2,R,X extends ParseException> {
         });
 
         // when
-        LBiObjCharFunctionX<T1,T2,R,X> wrapped = sutThrowing.handleBiObjCFuncX(h -> {
+        LBiObjCharFunctionX<T1,T2,R,X> wrapped = sutThrowing.handleBiObjCharFuncX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 

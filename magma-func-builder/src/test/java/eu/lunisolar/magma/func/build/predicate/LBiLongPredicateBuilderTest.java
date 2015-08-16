@@ -115,7 +115,7 @@ public class LBiLongPredicateBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LBiLongPredicate function = biLongPredicate((LBiLongPredicate f)-> doNothing())
-            .addCase(ce -> ce.of((l1,l2) -> l1 == (long)0)
+            .aCase(ce -> ce.of((l1,l2) -> l1 == (long)0)
                              .evaluate((l1,l2) -> false))
             .inCase((l1,l2) -> l1 > 0 && l1 < 10).evaluate((l1,l2) -> true)
             .inCase((l1,l2) -> l1 > 10 && l1 < 20).evaluate((l1,l2) -> true)

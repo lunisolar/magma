@@ -74,10 +74,12 @@ public interface LBooleanSupplier extends LBooleanSupplierX<RuntimeException>, M
 
 	boolean doGetAsBoolean();
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default boolean nestingDoGetAsBoolean() {
 		return this.doGetAsBoolean();
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default boolean shovingDoGetAsBoolean() {
 		return this.doGetAsBoolean();
 	}
@@ -87,12 +89,13 @@ public interface LBooleanSupplier extends LBooleanSupplierX<RuntimeException>, M
 		return doGetAsBoolean();
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LBooleanSupplier.DESCRIPTION;
 	}
 
+	/** Creates function that always returns the same value. */
 	static LBooleanSupplier of(boolean r) {
 		return () -> r;
 	}
@@ -112,7 +115,7 @@ public interface LBooleanSupplier extends LBooleanSupplierX<RuntimeException>, M
 		return other::getAsBoolean;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LBooleanSupplier wrap(final @Nonnull LBooleanSupplierX<X> other) {
 		return other::nestingDoGetAsBoolean;
@@ -200,12 +203,12 @@ public interface LBooleanSupplier extends LBooleanSupplierX<RuntimeException>, M
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBooleanSupplier shovingBoolSup() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBooleanSupplierX<RuntimeException> shovingBoolSupX() {
 		return this;
 	}

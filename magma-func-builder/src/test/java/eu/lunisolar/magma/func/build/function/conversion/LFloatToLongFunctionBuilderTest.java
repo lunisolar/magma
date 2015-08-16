@@ -115,7 +115,7 @@ public class LFloatToLongFunctionBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LFloatToLongFunction function = floatToLongFunction((LFloatToLongFunction f)-> doNothing())
-            .addCase(ce -> ce.of(f -> f == (float)0)
+            .aCase(ce -> ce.of(f -> f == (float)0)
                              .evaluate(f -> (long)0))
             .inCase(f -> f > 0 && f < 10).evaluate(f -> (long)1)
             .inCase(f -> f > 10 && f < 20).evaluate(f -> (long)2)

@@ -64,6 +64,7 @@ public interface LShortUnaryOperatorX<X extends Throwable> extends MetaOperator,
 
 	short doApplyAsShort(short s) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default short nestingDoApplyAsShort(short s) {
 		try {
 			return this.doApplyAsShort(s);
@@ -74,10 +75,12 @@ public interface LShortUnaryOperatorX<X extends Throwable> extends MetaOperator,
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default short shovingDoApplyAsShort(short s) {
 		return ((LShortUnaryOperatorX<RuntimeException>) this).doApplyAsShort(s);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> short handlingDoApplyAsShort(short s, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -92,17 +95,18 @@ public interface LShortUnaryOperatorX<X extends Throwable> extends MetaOperator,
 		return doApplyAsShort(s);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LShortUnaryOperatorX.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LShortSupplierX<X> captureSUnaryOp(short s) {
+	default LShortSupplierX<X> captureShortUnaryOp(short s) {
 		return () -> this.doApplyAsShort(s);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LShortUnaryOperatorX<X> constant(short r) {
 		return s -> r;
 	}
@@ -123,7 +127,7 @@ public interface LShortUnaryOperatorX<X extends Throwable> extends MetaOperator,
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LShortUnaryOperatorX<X> wrapX(final @Nonnull LShortUnaryOperator other) {
 		return (LShortUnaryOperatorX) other;
@@ -133,20 +137,16 @@ public interface LShortUnaryOperatorX<X extends Throwable> extends MetaOperator,
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LShortUnaryOperatorX<X> sUnaryOpFromShort(@Nonnull final LShortUnaryOperatorX<X> before1) {
+	default LShortUnaryOperatorX<X> shortUnaryOpComposeShort(@Nonnull final LShortUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsShort(before1.doApplyAsShort(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToShortFunctionX<V1, X> sUnaryOpFrom(@Nonnull final LToShortFunctionX<? super V1, X> before1) {
+	default <V1> LToShortFunctionX<V1, X> shortUnaryOpCompose(@Nonnull final LToShortFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsShort(before1.doApplyAsShort(v1));
 	}
@@ -229,23 +229,23 @@ public interface LShortUnaryOperatorX<X extends Throwable> extends MetaOperator,
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LShortUnaryOperator nestingSUnaryOp() {
+	default LShortUnaryOperator nestingShortUnaryOp() {
 		return this::nestingDoApplyAsShort;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LShortUnaryOperatorX<RuntimeException> nestingSUnaryOpX() {
+	default LShortUnaryOperatorX<RuntimeException> nestingShortUnaryOpX() {
 		return this::nestingDoApplyAsShort;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortUnaryOperator shovingSUnaryOp() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LShortUnaryOperator shovingShortUnaryOp() {
 		return this::shovingDoApplyAsShort;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortUnaryOperatorX<RuntimeException> shovingSUnaryOpX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LShortUnaryOperatorX<RuntimeException> shovingShortUnaryOpX() {
 		return this::shovingDoApplyAsShort;
 	}
 
@@ -253,13 +253,15 @@ public interface LShortUnaryOperatorX<X extends Throwable> extends MetaOperator,
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LShortUnaryOperator handleSUnaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LShortUnaryOperator handleShortUnaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return s -> this.handlingDoApplyAsShort(s, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LShortUnaryOperatorX<Y> handleSUnaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LShortUnaryOperatorX<Y> handleShortUnaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return s -> this.handlingDoApplyAsShort(s, handling);
 	}
 

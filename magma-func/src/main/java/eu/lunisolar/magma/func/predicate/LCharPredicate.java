@@ -64,10 +64,12 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 
 	boolean doTest(char c);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default boolean nestingDoTest(char c) {
 		return this.doTest(c);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default boolean shovingDoTest(char c) {
 		return this.doTest(c);
 	}
@@ -77,23 +79,24 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 		return doTest(c);
 	}
 
-	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
+	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
 	default boolean doApplyAsBoolean(char c) {
 		return doTest(c);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LCharPredicate.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier captureCPred(char c) {
+	default LBooleanSupplier captureCharPred(char c) {
 		return () -> this.doTest(c);
 	}
 
+	/** Creates function that always returns the same value. */
 	static LCharPredicate constant(boolean r) {
 		return c -> r;
 	}
@@ -107,7 +110,7 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LCharPredicate wrap(final @Nonnull LCharPredicateX<X> other) {
 		return other::nestingDoTest;
@@ -117,7 +120,9 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 	// <editor-fold desc="predicate">
 
 	/**
-	 *  @see {@link java.util.function.Predicate#negate()}
+	 * Returns a predicate that represents the logical negation of this predicate.
+	 *
+	 * @see {@link java.util.function.Predicate#negate}
 	 */
 	@Nonnull
 	default LCharPredicate negate() {
@@ -125,7 +130,8 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#and()}
+	 * Returns a predicate that represents the logical AND of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#and()}
 	 */
 	@Nonnull
 	default LCharPredicate and(@Nonnull LCharPredicate other) {
@@ -134,7 +140,8 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LCharPredicate or(@Nonnull LCharPredicate other) {
@@ -143,7 +150,8 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical XOR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LCharPredicate xor(@Nonnull LCharPredicate other) {
@@ -151,6 +159,10 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 		return c -> doTest(c) ^ other.doTest(c);
 	}
 
+	/**
+	 * Creates predicate that evaluates if an object is equal with the argument one.
+	 * @see {@link java.util.function.Predicate#isEqual()
+	 */
 	@Nonnull
 	static LCharPredicate isEqual(char target) {
 		return c -> c == target;
@@ -160,20 +172,16 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LCharPredicate cPredFromChar(@Nonnull final LCharUnaryOperator before1) {
+	default LCharPredicate charPredComposeChar(@Nonnull final LCharUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doTest(before1.doApplyAsChar(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LPredicate<V1> cPredFrom(@Nonnull final LToCharFunction<? super V1> before1) {
+	default <V1> LPredicate<V1> charPredCompose(@Nonnull final LToCharFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doTest(before1.doApplyAsChar(v1));
 	}
@@ -250,23 +258,23 @@ public interface LCharPredicate extends LCharPredicateX<RuntimeException>, MetaP
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LCharPredicate nestingCPred() {
+	default LCharPredicate nestingCharPred() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LCharPredicateX<RuntimeException> nestingCPredX() {
+	default LCharPredicateX<RuntimeException> nestingCharPredX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharPredicate shovingCPred() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LCharPredicate shovingCharPred() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharPredicateX<RuntimeException> shovingCPredX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LCharPredicateX<RuntimeException> shovingCharPredX() {
 		return this;
 	}
 

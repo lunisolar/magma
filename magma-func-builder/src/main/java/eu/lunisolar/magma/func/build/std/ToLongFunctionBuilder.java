@@ -65,7 +65,7 @@ public final class ToLongFunctionBuilder<T> extends PerCaseBuilderWithLongProduc
 		});
 
 	public ToLongFunctionBuilder(@Nullable Consumer<java.util.function.ToLongFunction<T>> consumer) {
-		super(EVENTUALLY_THROW, LToLongFunction::constant);
+		super(EVENTUALLY_THROW, LToLongFunction::constant, () -> new ToLongFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -77,13 +77,13 @@ public final class ToLongFunctionBuilder<T> extends PerCaseBuilderWithLongProduc
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <T> ToLongFunctionBuilder<T> toLongFunction() {
+	public static <T> ToLongFunctionBuilder<T> toLongFunction() {
 		return new ToLongFunctionBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <T> ToLongFunctionBuilder<T> toLongFunction(Consumer<java.util.function.ToLongFunction<T>> consumer) {
+	public static <T> ToLongFunctionBuilder<T> toLongFunction(Consumer<java.util.function.ToLongFunction<T>> consumer) {
 		return new ToLongFunctionBuilder(consumer);
 	}
 
@@ -95,6 +95,24 @@ public final class ToLongFunctionBuilder<T> extends PerCaseBuilderWithLongProduc
 			throw new UnsupportedOperationException("Handling is already set for this builder.");
 		}
 		this.handling = handling;
+		return self();
+	}
+
+	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
+	@Nonnull
+	public <E1 extends T> ToLongFunctionBuilder<T> casesOf(Class<E1> argC1, Consumer<ToLongFunctionBuilder<E1>> pcpConsumer) {
+		PartialCaseWithLongProduct.The pc = partialCaseFactoryMethod(t -> (argC1 == null || argC1.isInstance(t)));
+
+		pc.specifySubCases((Consumer) pcpConsumer);
+		return self();
+	}
+
+	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
+	@Nonnull
+	public <E1 extends T> ToLongFunctionBuilder<T> aCase(Class<E1> argC1, java.util.function.ToLongFunction<E1> function) {
+		PartialCaseWithLongProduct.The pc = partialCaseFactoryMethod(t -> (argC1 == null || argC1.isInstance(t)));
+
+		pc.evaluate(function);
 		return self();
 	}
 

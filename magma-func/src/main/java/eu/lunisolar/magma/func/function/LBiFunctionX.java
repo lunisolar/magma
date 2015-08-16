@@ -75,6 +75,7 @@ public interface LBiFunctionX<T1, T2, R, X extends Throwable> extends java.util.
 	@Nullable
 	R doApply(T1 t1, T2 t2) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default R nestingDoApply(T1 t1, T2 t2) {
 		try {
 			return this.doApply(t1, t2);
@@ -85,10 +86,12 @@ public interface LBiFunctionX<T1, T2, R, X extends Throwable> extends java.util.
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default R shovingDoApply(T1 t1, T2 t2) {
 		return ((LBiFunctionX<T1, T2, R, RuntimeException>) this).doApply(t1, t2);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> R handlingDoApply(T1 t1, T2 t2, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -100,13 +103,13 @@ public interface LBiFunctionX<T1, T2, R, X extends Throwable> extends java.util.
 
 	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
-	/** Ensures the result is not null */
+	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullDoApply(T1 t1, T2 t2) throws X {
 		return Null.requireNonNull(doApply(t1, t2), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LBiFunctionX.DESCRIPTION;
@@ -117,8 +120,21 @@ public interface LBiFunctionX<T1, T2, R, X extends Throwable> extends java.util.
 		return () -> this.doApply(t1, t2);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T1, T2, R, X extends Throwable> LBiFunctionX<T1, T2, R, X> constant(R r) {
 		return (t1, t2) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T1, T2, R, X extends Throwable> LBiFunctionX<T1, T2, R, X> apply1st(@Nonnull LFunctionX<T1, R, X> func) {
+		return (t1, t2) -> func.doApply(t1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T1, T2, R, X extends Throwable> LBiFunctionX<T1, T2, R, X> apply2nd(@Nonnull LFunctionX<T2, R, X> func) {
+		return (t1, t2) -> func.doApply(t2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -143,7 +159,7 @@ public interface LBiFunctionX<T1, T2, R, X extends Throwable> extends java.util.
 		return other::apply;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T1, T2, R, X extends Throwable> LBiFunctionX<T1, T2, R, X> wrapX(final @Nonnull LBiFunction<T1, T2, R> other) {
 		return (LBiFunctionX) other;
@@ -153,11 +169,9 @@ public interface LBiFunctionX<T1, T2, R, X extends Throwable> extends java.util.
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiFunctionX<V1, V2, R, X> biFuncFrom(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
+	default <V1, V2> LBiFunctionX<V1, V2, R, X> biFuncCompose(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final V2 v2) -> this.doApply(before1.doApply(v1), before2.doApply(v2));
@@ -196,18 +210,19 @@ public interface LBiFunctionX<T1, T2, R, X extends Throwable> extends java.util.
 		return this::nestingDoApply;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBiFunction<T1, T2, R> shovingBiFunc() {
 		return this::shovingDoApply;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBiFunctionX<T1, T2, R, RuntimeException> shovingBiFuncX() {
 		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
+	/** Converts to function that makes sure that the result is not null. */
 	@Nonnull
 	default LBiFunctionX<T1, T2, R, X> nonNullBiFunc() {
 		return this::nonNullDoApply;
@@ -215,11 +230,13 @@ public interface LBiFunctionX<T1, T2, R, X extends Throwable> extends java.util.
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LBiFunction<T1, T2, R> handleBiFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T1 t1, T2 t2) -> this.handlingDoApply(t1, t2, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LBiFunctionX<T1, T2, R, Y> handleBiFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T1 t1, T2 t2) -> this.handlingDoApply(t1, t2, handling);

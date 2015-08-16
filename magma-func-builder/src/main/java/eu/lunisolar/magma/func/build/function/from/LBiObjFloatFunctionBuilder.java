@@ -66,7 +66,7 @@ public final class LBiObjFloatFunctionBuilder<T1, T2, R> extends PerCaseBuilderW
 		});
 
 	public LBiObjFloatFunctionBuilder(@Nullable Consumer<LBiObjFloatFunction<T1, T2, R>> consumer) {
-		super(EVENTUALLY_THROW, LBiObjFloatFunction::constant);
+		super(EVENTUALLY_THROW, LBiObjFloatFunction::constant, () -> new LBiObjFloatFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LBiObjFloatFunctionBuilder<T1, T2, R> extends PerCaseBuilderW
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <T1, T2, R> LBiObjFloatFunctionBuilder<T1, T2, R> biObjFloatFunction() {
+	public static <T1, T2, R> LBiObjFloatFunctionBuilder<T1, T2, R> biObjFloatFunction() {
 		return new LBiObjFloatFunctionBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <T1, T2, R> LBiObjFloatFunctionBuilder<T1, T2, R> biObjFloatFunction(Consumer<LBiObjFloatFunction<T1, T2, R>> consumer) {
+	public static <T1, T2, R> LBiObjFloatFunctionBuilder<T1, T2, R> biObjFloatFunction(Consumer<LBiObjFloatFunction<T1, T2, R>> consumer) {
 		return new LBiObjFloatFunctionBuilder(consumer);
 	}
 
@@ -96,6 +96,24 @@ public final class LBiObjFloatFunctionBuilder<T1, T2, R> extends PerCaseBuilderW
 			throw new UnsupportedOperationException("Handling is already set for this builder.");
 		}
 		this.handling = handling;
+		return self();
+	}
+
+	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
+	@Nonnull
+	public <E1 extends T1, E2 extends T2> LBiObjFloatFunctionBuilder<T1, T2, R> casesOf(Class<E1> argC1, Class<E2> argC2, Consumer<LBiObjFloatFunctionBuilder<E1, E2, R>> pcpConsumer) {
+		PartialCaseWithProduct.The pc = partialCaseFactoryMethod((T1 t1, T2 t2, float f) -> (argC1 == null || argC1.isInstance(t1)) && (argC2 == null || argC2.isInstance(t2)));
+
+		pc.specifySubCases((Consumer) pcpConsumer);
+		return self();
+	}
+
+	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
+	@Nonnull
+	public <E1 extends T1, E2 extends T2> LBiObjFloatFunctionBuilder<T1, T2, R> aCase(Class<E1> argC1, Class<E2> argC2, LBiObjFloatFunction<E1, E2, R> function) {
+		PartialCaseWithProduct.The pc = partialCaseFactoryMethod((T1 t1, T2 t2, float f) -> (argC1 == null || argC1.isInstance(t1)) && (argC2 == null || argC2.isInstance(t2)));
+
+		pc.evaluate(function);
 		return self();
 	}
 

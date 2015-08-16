@@ -64,10 +64,12 @@ public interface LBooleanToIntFunction extends LBooleanToIntFunctionX<RuntimeExc
 
 	int doApplyAsInt(boolean b);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default int nestingDoApplyAsInt(boolean b) {
 		return this.doApplyAsInt(b);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default int shovingDoApplyAsInt(boolean b) {
 		return this.doApplyAsInt(b);
 	}
@@ -77,17 +79,18 @@ public interface LBooleanToIntFunction extends LBooleanToIntFunctionX<RuntimeExc
 		return doApplyAsInt(b);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LBooleanToIntFunction.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LIntSupplier captureBoolToIFunc(boolean b) {
+	default LIntSupplier captureBoolToIntFunc(boolean b) {
 		return () -> this.doApplyAsInt(b);
 	}
 
+	/** Creates function that always returns the same value. */
 	static LBooleanToIntFunction constant(int r) {
 		return b -> r;
 	}
@@ -101,7 +104,7 @@ public interface LBooleanToIntFunction extends LBooleanToIntFunctionX<RuntimeExc
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LBooleanToIntFunction wrap(final @Nonnull LBooleanToIntFunctionX<X> other) {
 		return other::nestingDoApplyAsInt;
@@ -111,20 +114,16 @@ public interface LBooleanToIntFunction extends LBooleanToIntFunctionX<RuntimeExc
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LBooleanToIntFunction boolToIFuncFromBoolean(@Nonnull final LLogicalOperator before1) {
+	default LBooleanToIntFunction boolToIntFuncComposeBoolean(@Nonnull final LLogicalOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsInt(before1.doApply(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToIntFunction<V1> boolToIFuncFrom(@Nonnull final LPredicate<? super V1> before1) {
+	default <V1> LToIntFunction<V1> boolToIntFuncCompose(@Nonnull final LPredicate<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsInt(before1.doTest(v1));
 	}
@@ -201,23 +200,23 @@ public interface LBooleanToIntFunction extends LBooleanToIntFunctionX<RuntimeExc
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanToIntFunction nestingBoolToIFunc() {
+	default LBooleanToIntFunction nestingBoolToIntFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanToIntFunctionX<RuntimeException> nestingBoolToIFuncX() {
+	default LBooleanToIntFunctionX<RuntimeException> nestingBoolToIntFuncX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanToIntFunction shovingBoolToIFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBooleanToIntFunction shovingBoolToIntFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanToIntFunctionX<RuntimeException> shovingBoolToIFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBooleanToIntFunctionX<RuntimeException> shovingBoolToIntFuncX() {
 		return this;
 	}
 

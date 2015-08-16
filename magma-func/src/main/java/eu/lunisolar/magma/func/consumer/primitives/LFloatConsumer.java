@@ -65,22 +65,24 @@ public interface LFloatConsumer extends LFloatConsumerX<RuntimeException>, MetaC
 
 	void doAccept(float f);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default void nestingDoAccept(float f) {
 		this.doAccept(f);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default void shovingDoAccept(float f) {
 		this.doAccept(f);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LFloatConsumer.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LAction captureFCons(float f) {
+	default LAction captureFloatCons(float f) {
 		return () -> this.doAccept(f);
 	}
 
@@ -93,7 +95,7 @@ public interface LFloatConsumer extends LFloatConsumerX<RuntimeException>, MetaC
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LFloatConsumer wrap(final @Nonnull LFloatConsumerX<X> other) {
 		return other::nestingDoAccept;
@@ -103,20 +105,16 @@ public interface LFloatConsumer extends LFloatConsumerX<RuntimeException>, MetaC
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LFloatConsumer fConsFromFloat(@Nonnull final LFloatUnaryOperator before1) {
+	default LFloatConsumer floatConsComposeFloat(@Nonnull final LFloatUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doApplyAsFloat(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LConsumer<V1> fConsFrom(@Nonnull final LToFloatFunction<? super V1> before1) {
+	default <V1> LConsumer<V1> floatConsCompose(@Nonnull final LToFloatFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doApplyAsFloat(v1));
 	}
@@ -139,23 +137,23 @@ public interface LFloatConsumer extends LFloatConsumerX<RuntimeException>, MetaC
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LFloatConsumer nestingFCons() {
+	default LFloatConsumer nestingFloatCons() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LFloatConsumerX<RuntimeException> nestingFConsX() {
+	default LFloatConsumerX<RuntimeException> nestingFloatConsX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatConsumer shovingFCons() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LFloatConsumer shovingFloatCons() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatConsumerX<RuntimeException> shovingFConsX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LFloatConsumerX<RuntimeException> shovingFloatConsX() {
 		return this;
 	}
 

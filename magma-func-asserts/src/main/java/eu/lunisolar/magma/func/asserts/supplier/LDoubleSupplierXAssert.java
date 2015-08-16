@@ -50,10 +50,10 @@ public interface LDoubleSupplierXAssert<S extends LDoubleSupplierXAssert<S, A, R
 	Evaluation<S, LActionX<Exception>, A, RS, Double, Exception> doesGetAsDouble();
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LDoubleSupplierX<X>, RS extends AbstractDoubleAssert<RS>, X extends Throwable> extends Base<Impl<A, RS, X>, A, RS, X> {
+	public final static class The<A extends LDoubleSupplierX<X>, RS extends AbstractDoubleAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
 
-		public Impl(A actual, java.util.function.Function<Double, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Double, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
@@ -72,7 +72,7 @@ public interface LDoubleSupplierXAssert<S extends LDoubleSupplierXAssert<S, A, R
 		@Nonnull
 		public Evaluation<S, LActionX<Exception>, A, RS, Double, Exception> doesGetAsDouble() {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doExecute();
 				}

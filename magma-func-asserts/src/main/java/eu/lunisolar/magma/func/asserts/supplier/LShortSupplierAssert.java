@@ -47,10 +47,10 @@ public interface LShortSupplierAssert<S extends LShortSupplierAssert<S, A, RS>, 
 	Evaluation<S, LActionX<Exception>, A, RS, Short, Exception> doesGetAsShort();
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LShortSupplier, RS extends AbstractShortAssert<RS>> extends Base<Impl<A, RS>, A, RS> {
+	public final static class The<A extends LShortSupplier, RS extends AbstractShortAssert<RS>> extends Base<The<A, RS>, A, RS> {
 
-		public Impl(A actual, java.util.function.Function<Short, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Short, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
@@ -67,7 +67,7 @@ public interface LShortSupplierAssert<S extends LShortSupplierAssert<S, A, RS>, 
 		@Nonnull
 		public Evaluation<S, LActionX<Exception>, A, RS, Short, Exception> doesGetAsShort() {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doExecute();
 				}

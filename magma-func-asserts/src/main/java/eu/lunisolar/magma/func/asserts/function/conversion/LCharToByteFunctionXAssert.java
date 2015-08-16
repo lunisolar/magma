@@ -50,10 +50,10 @@ public interface LCharToByteFunctionXAssert<S extends LCharToByteFunctionXAssert
 	Evaluation<S, LCharConsumerX<Exception>, A, RS, Byte, Exception> doesApplyAsByte(char c);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LCharToByteFunctionX<X>, RS extends AbstractByteAssert<RS>, X extends Throwable> extends Base<Impl<A, RS, X>, A, RS, X> {
+	public final static class The<A extends LCharToByteFunctionX<X>, RS extends AbstractByteAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
 
-		public Impl(A actual, java.util.function.Function<Byte, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Byte, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
@@ -72,7 +72,7 @@ public interface LCharToByteFunctionXAssert<S extends LCharToByteFunctionXAssert
 		@Nonnull
 		public Evaluation<S, LCharConsumerX<Exception>, A, RS, Byte, Exception> doesApplyAsByte(char c) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(c);
 				}

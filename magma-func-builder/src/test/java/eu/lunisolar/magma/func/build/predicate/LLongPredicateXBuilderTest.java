@@ -115,7 +115,7 @@ public class LLongPredicateXBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LLongPredicateX<ParseException> function = longPredicateX((LLongPredicateX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of(l -> l == (long)0)
+            .aCase(ce -> ce.of(l -> l == (long)0)
                              .evaluate(l -> false))
             .inCase(l -> l > 0 && l < 10).evaluate(l -> true)
             .inCase(l -> l > 10 && l < 20).evaluate(l -> true)

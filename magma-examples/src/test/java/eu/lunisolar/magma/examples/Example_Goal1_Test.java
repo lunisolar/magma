@@ -31,7 +31,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 //>transform-to-MD<
 /**
- * Basic explanations (by example) how first of main goals where realised -
+ * Basic introduction (by example) to how first of main goals was implemented -
  * **Throwing lambda expressions and functional interfaces that declare and throw checked exceptions**.
  */
 //>inject<:readmore
@@ -42,7 +42,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * ### Abstract
  *
- * This article covers basic explanations (by example) how first of main goals where realised -
+ * Basic introduction (by example) to how first of main goals was implemented -
  * **Throwing lambda expressions and functional interfaces that declare and throw checked exceptions**.
  */
 public class Example_Goal1_Test {

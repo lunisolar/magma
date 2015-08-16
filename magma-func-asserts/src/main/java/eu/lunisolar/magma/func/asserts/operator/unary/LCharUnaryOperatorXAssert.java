@@ -50,10 +50,10 @@ public interface LCharUnaryOperatorXAssert<S extends LCharUnaryOperatorXAssert<S
 	Evaluation<S, LCharConsumerX<Exception>, A, RS, Character, Exception> doesApplyAsChar(char c);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LCharUnaryOperatorX<X>, RS extends AbstractCharacterAssert<RS>, X extends Throwable> extends Base<Impl<A, RS, X>, A, RS, X> {
+	public final static class The<A extends LCharUnaryOperatorX<X>, RS extends AbstractCharacterAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
 
-		public Impl(A actual, java.util.function.Function<Character, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Character, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
@@ -72,7 +72,7 @@ public interface LCharUnaryOperatorXAssert<S extends LCharUnaryOperatorXAssert<S
 		@Nonnull
 		public Evaluation<S, LCharConsumerX<Exception>, A, RS, Character, Exception> doesApplyAsChar(char c) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(c);
 				}

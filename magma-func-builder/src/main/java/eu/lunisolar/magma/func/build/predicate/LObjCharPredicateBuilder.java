@@ -66,7 +66,7 @@ public final class LObjCharPredicateBuilder<T> extends PerCaseBuilderWithBoolean
 		});
 
 	public LObjCharPredicateBuilder(@Nullable Consumer<LObjCharPredicate<T>> consumer) {
-		super(EVENTUALLY_THROW, LObjCharPredicate::constant);
+		super(EVENTUALLY_THROW, LObjCharPredicate::constant, () -> new LObjCharPredicateBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LObjCharPredicateBuilder<T> extends PerCaseBuilderWithBoolean
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <T> LObjCharPredicateBuilder<T> objCharPredicate() {
+	public static <T> LObjCharPredicateBuilder<T> objCharPredicate() {
 		return new LObjCharPredicateBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <T> LObjCharPredicateBuilder<T> objCharPredicate(Consumer<LObjCharPredicate<T>> consumer) {
+	public static <T> LObjCharPredicateBuilder<T> objCharPredicate(Consumer<LObjCharPredicate<T>> consumer) {
 		return new LObjCharPredicateBuilder(consumer);
 	}
 
@@ -96,6 +96,24 @@ public final class LObjCharPredicateBuilder<T> extends PerCaseBuilderWithBoolean
 			throw new UnsupportedOperationException("Handling is already set for this builder.");
 		}
 		this.handling = handling;
+		return self();
+	}
+
+	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
+	@Nonnull
+	public <E1 extends T> LObjCharPredicateBuilder<T> casesOf(Class<E1> argC1, Consumer<LObjCharPredicateBuilder<E1>> pcpConsumer) {
+		PartialCaseWithBooleanProduct.The pc = partialCaseFactoryMethod((T t, char c) -> (argC1 == null || argC1.isInstance(t)));
+
+		pc.specifySubCases((Consumer) pcpConsumer);
+		return self();
+	}
+
+	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
+	@Nonnull
+	public <E1 extends T> LObjCharPredicateBuilder<T> aCase(Class<E1> argC1, LObjCharPredicate<E1> function) {
+		PartialCaseWithBooleanProduct.The pc = partialCaseFactoryMethod((T t, char c) -> (argC1 == null || argC1.isInstance(t)));
+
+		pc.evaluate(function);
 		return self();
 	}
 

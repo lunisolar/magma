@@ -64,6 +64,7 @@ public interface LLogicalOperatorX<X extends Throwable> extends MetaOperator, Pr
 
 	boolean doApply(boolean b) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default boolean nestingDoApply(boolean b) {
 		try {
 			return this.doApply(b);
@@ -74,10 +75,12 @@ public interface LLogicalOperatorX<X extends Throwable> extends MetaOperator, Pr
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default boolean shovingDoApply(boolean b) {
 		return ((LLogicalOperatorX<RuntimeException>) this).doApply(b);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> boolean handlingDoApply(boolean b, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -92,12 +95,12 @@ public interface LLogicalOperatorX<X extends Throwable> extends MetaOperator, Pr
 		return doApply(b);
 	}
 
-	/** For convinience boolean operator is also special case of predicate. */
+	/** For convenience, boolean operator is also special case of predicate. */
 	default boolean doTest(boolean b) throws X {
 		return doApply(b);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LLogicalOperatorX.DESCRIPTION;
@@ -108,6 +111,7 @@ public interface LLogicalOperatorX<X extends Throwable> extends MetaOperator, Pr
 		return () -> this.doApply(b);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LLogicalOperatorX<X> constant(boolean r) {
 		return b -> r;
 	}
@@ -128,7 +132,7 @@ public interface LLogicalOperatorX<X extends Throwable> extends MetaOperator, Pr
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LLogicalOperatorX<X> wrapX(final @Nonnull LLogicalOperator other) {
 		return (LLogicalOperatorX) other;
@@ -138,7 +142,9 @@ public interface LLogicalOperatorX<X extends Throwable> extends MetaOperator, Pr
 	// <editor-fold desc="predicate">
 
 	/**
-	 *  @see {@link java.util.function.Predicate#negate()}
+	 * Returns a predicate that represents the logical negation of this predicate.
+	 *
+	 * @see {@link java.util.function.Predicate#negate}
 	 */
 	@Nonnull
 	default LLogicalOperatorX<X> negate() {
@@ -146,7 +152,8 @@ public interface LLogicalOperatorX<X extends Throwable> extends MetaOperator, Pr
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#and()}
+	 * Returns a predicate that represents the logical AND of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#and()}
 	 */
 	@Nonnull
 	default LLogicalOperatorX<X> and(@Nonnull LLogicalOperatorX<X> other) {
@@ -155,7 +162,8 @@ public interface LLogicalOperatorX<X extends Throwable> extends MetaOperator, Pr
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LLogicalOperatorX<X> or(@Nonnull LLogicalOperatorX<X> other) {
@@ -164,7 +172,8 @@ public interface LLogicalOperatorX<X extends Throwable> extends MetaOperator, Pr
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical XOR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LLogicalOperatorX<X> xor(@Nonnull LLogicalOperatorX<X> other) {
@@ -172,6 +181,10 @@ public interface LLogicalOperatorX<X extends Throwable> extends MetaOperator, Pr
 		return b -> doApply(b) ^ other.doApply(b);
 	}
 
+	/**
+	 * Creates predicate that evaluates if an object is equal with the argument one.
+	 * @see {@link java.util.function.Predicate#isEqual()
+	 */
 	@Nonnull
 	static <X extends Throwable> LLogicalOperatorX<X> isEqual(boolean target) {
 		return b -> b == target;
@@ -181,20 +194,16 @@ public interface LLogicalOperatorX<X extends Throwable> extends MetaOperator, Pr
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LLogicalOperatorX<X> logicalOpFromBoolean(@Nonnull final LLogicalOperatorX<X> before1) {
+	default LLogicalOperatorX<X> logicalOpComposeBoolean(@Nonnull final LLogicalOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doApply(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LPredicateX<V1, X> logicalOpFrom(@Nonnull final LPredicateX<? super V1, X> before1) {
+	default <V1> LPredicateX<V1, X> logicalOpCompose(@Nonnull final LPredicateX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doTest(v1));
 	}
@@ -281,12 +290,12 @@ public interface LLogicalOperatorX<X extends Throwable> extends MetaOperator, Pr
 		return this::nestingDoApply;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLogicalOperator shovingLogicalOp() {
 		return this::shovingDoApply;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LLogicalOperatorX<RuntimeException> shovingLogicalOpX() {
 		return this::shovingDoApply;
 	}
@@ -295,11 +304,13 @@ public interface LLogicalOperatorX<X extends Throwable> extends MetaOperator, Pr
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LLogicalOperator handleLogicalOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return b -> this.handlingDoApply(b, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LLogicalOperatorX<Y> handleLogicalOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return b -> this.handlingDoApply(b, handling);

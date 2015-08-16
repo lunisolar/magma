@@ -65,7 +65,7 @@ public final class BinaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Ba
 		});
 
 	public BinaryOperatorBuilder(@Nullable Consumer<java.util.function.BinaryOperator<T>> consumer) {
-		super(EVENTUALLY_THROW, LBinaryOperator::constant);
+		super(EVENTUALLY_THROW, LBinaryOperator::constant, () -> new BinaryOperatorBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -77,13 +77,13 @@ public final class BinaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Ba
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <T> BinaryOperatorBuilder<T> binaryOperator() {
+	public static <T> BinaryOperatorBuilder<T> binaryOperator() {
 		return new BinaryOperatorBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <T> BinaryOperatorBuilder<T> binaryOperator(Consumer<java.util.function.BinaryOperator<T>> consumer) {
+	public static <T> BinaryOperatorBuilder<T> binaryOperator(Consumer<java.util.function.BinaryOperator<T>> consumer) {
 		return new BinaryOperatorBuilder(consumer);
 	}
 

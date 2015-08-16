@@ -66,7 +66,7 @@ public final class LCharToByteFunctionBuilder extends PerCaseBuilderWithByteProd
 		});
 
 	public LCharToByteFunctionBuilder(@Nullable Consumer<LCharToByteFunction> consumer) {
-		super(EVENTUALLY_THROW, LCharToByteFunction::constant);
+		super(EVENTUALLY_THROW, LCharToByteFunction::constant, () -> new LCharToByteFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LCharToByteFunctionBuilder extends PerCaseBuilderWithByteProd
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final LCharToByteFunctionBuilder charToByteFunction() {
+	public static LCharToByteFunctionBuilder charToByteFunction() {
 		return new LCharToByteFunctionBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final LCharToByteFunctionBuilder charToByteFunction(Consumer<LCharToByteFunction> consumer) {
+	public static LCharToByteFunctionBuilder charToByteFunction(Consumer<LCharToByteFunction> consumer) {
 		return new LCharToByteFunctionBuilder(consumer);
 	}
 

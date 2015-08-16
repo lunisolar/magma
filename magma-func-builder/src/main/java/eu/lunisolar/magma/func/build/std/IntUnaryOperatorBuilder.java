@@ -65,7 +65,7 @@ public final class IntUnaryOperatorBuilder extends PerCaseBuilderWithIntProduct.
 		});
 
 	public IntUnaryOperatorBuilder(@Nullable Consumer<java.util.function.IntUnaryOperator> consumer) {
-		super(EVENTUALLY_THROW, LIntUnaryOperator::constant);
+		super(EVENTUALLY_THROW, LIntUnaryOperator::constant, () -> new IntUnaryOperatorBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -77,13 +77,13 @@ public final class IntUnaryOperatorBuilder extends PerCaseBuilderWithIntProduct.
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final IntUnaryOperatorBuilder intUnaryOperator() {
+	public static IntUnaryOperatorBuilder intUnaryOperator() {
 		return new IntUnaryOperatorBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final IntUnaryOperatorBuilder intUnaryOperator(Consumer<java.util.function.IntUnaryOperator> consumer) {
+	public static IntUnaryOperatorBuilder intUnaryOperator(Consumer<java.util.function.IntUnaryOperator> consumer) {
 		return new IntUnaryOperatorBuilder(consumer);
 	}
 

@@ -64,10 +64,12 @@ public interface LObjBooleanPredicate<T> extends LObjBooleanPredicateX<T, Runtim
 
 	boolean doTest(T t, boolean b);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default boolean nestingDoTest(T t, boolean b) {
 		return this.doTest(t, b);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default boolean shovingDoTest(T t, boolean b) {
 		return this.doTest(t, b);
 	}
@@ -77,13 +79,13 @@ public interface LObjBooleanPredicate<T> extends LObjBooleanPredicateX<T, Runtim
 		return doTest(t, b);
 	}
 
-	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
+	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
 	default boolean doApplyAsBoolean(T t, boolean b) {
 		return doTest(t, b);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LObjBooleanPredicate.DESCRIPTION;
@@ -94,8 +96,21 @@ public interface LObjBooleanPredicate<T> extends LObjBooleanPredicateX<T, Runtim
 		return () -> this.doTest(t, b);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T> LObjBooleanPredicate<T> constant(boolean r) {
 		return (t, b) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T> LObjBooleanPredicate<T> test1st(@Nonnull LPredicate<T> func) {
+		return (t, b) -> func.doTest(t);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T> LObjBooleanPredicate<T> test2nd(@Nonnull LLogicalOperator func) {
+		return (t, b) -> func.doApply(b);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -107,7 +122,7 @@ public interface LObjBooleanPredicate<T> extends LObjBooleanPredicateX<T, Runtim
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T, X extends Throwable> LObjBooleanPredicate<T> wrap(final @Nonnull LObjBooleanPredicateX<T, X> other) {
 		return other::nestingDoTest;
@@ -117,7 +132,9 @@ public interface LObjBooleanPredicate<T> extends LObjBooleanPredicateX<T, Runtim
 	// <editor-fold desc="predicate">
 
 	/**
-	 *  @see {@link java.util.function.Predicate#negate()}
+	 * Returns a predicate that represents the logical negation of this predicate.
+	 *
+	 * @see {@link java.util.function.Predicate#negate}
 	 */
 	@Nonnull
 	default LObjBooleanPredicate<T> negate() {
@@ -125,7 +142,8 @@ public interface LObjBooleanPredicate<T> extends LObjBooleanPredicateX<T, Runtim
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#and()}
+	 * Returns a predicate that represents the logical AND of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#and()}
 	 */
 	@Nonnull
 	default LObjBooleanPredicate<T> and(@Nonnull LObjBooleanPredicate<? super T> other) {
@@ -134,7 +152,8 @@ public interface LObjBooleanPredicate<T> extends LObjBooleanPredicateX<T, Runtim
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LObjBooleanPredicate<T> or(@Nonnull LObjBooleanPredicate<? super T> other) {
@@ -143,7 +162,8 @@ public interface LObjBooleanPredicate<T> extends LObjBooleanPredicateX<T, Runtim
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical XOR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LObjBooleanPredicate<T> xor(@Nonnull LObjBooleanPredicate<? super T> other) {
@@ -152,7 +172,8 @@ public interface LObjBooleanPredicate<T> extends LObjBooleanPredicateX<T, Runtim
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#isEqual()}
+	 * Creates predicate that evaluates if an object is equal with the argument one.
+	 * @see {@link java.util.function.Predicate#isEqual()
 	 */
 	@Nonnull
 	static <T1> LObjBooleanPredicate<T1> isEqual(final T1 v1, final boolean v2) {
@@ -163,21 +184,17 @@ public interface LObjBooleanPredicate<T> extends LObjBooleanPredicateX<T, Runtim
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LObjBooleanPredicate<V1> objBoolPredFromBoolean(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LLogicalOperator before2) {
+	default <V1> LObjBooleanPredicate<V1> objBoolPredComposeBoolean(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LLogicalOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final boolean v2) -> this.doTest(before1.doApply(v1), before2.doApply(v2));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiPredicate<V1, V2> objBoolPredFrom(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LPredicate<? super V2> before2) {
+	default <V1, V2> LBiPredicate<V1, V2> objBoolPredCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LPredicate<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doTest(before1.doApply(v1), before2.doTest(v2));
@@ -209,12 +226,12 @@ public interface LObjBooleanPredicate<T> extends LObjBooleanPredicateX<T, Runtim
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjBooleanPredicate<T> shovingObjBoolPred() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjBooleanPredicateX<T, RuntimeException> shovingObjBoolPredX() {
 		return this;
 	}

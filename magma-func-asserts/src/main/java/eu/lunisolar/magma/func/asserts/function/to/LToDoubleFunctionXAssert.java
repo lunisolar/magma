@@ -50,10 +50,10 @@ public interface LToDoubleFunctionXAssert<S extends LToDoubleFunctionXAssert<S, 
 	Evaluation<S, LConsumerX<T, Exception>, A, RS, Double, Exception> doesApplyAsDouble(T t);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LToDoubleFunctionX<T, X>, RS extends AbstractDoubleAssert<RS>, T, X extends Throwable> extends Base<Impl<A, RS, T, X>, A, RS, T, X> {
+	public final static class The<A extends LToDoubleFunctionX<T, X>, RS extends AbstractDoubleAssert<RS>, T, X extends Throwable> extends Base<The<A, RS, T, X>, A, RS, T, X> {
 
-		public Impl(A actual, java.util.function.Function<Double, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Double, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
@@ -72,7 +72,7 @@ public interface LToDoubleFunctionXAssert<S extends LToDoubleFunctionXAssert<S, 
 		@Nonnull
 		public Evaluation<S, LConsumerX<T, Exception>, A, RS, Double, Exception> doesApplyAsDouble(T t) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(t);
 				}

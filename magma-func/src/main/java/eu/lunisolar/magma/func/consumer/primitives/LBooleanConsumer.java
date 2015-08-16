@@ -65,15 +65,17 @@ public interface LBooleanConsumer extends LBooleanConsumerX<RuntimeException>, M
 
 	void doAccept(boolean b);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default void nestingDoAccept(boolean b) {
 		this.doAccept(b);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default void shovingDoAccept(boolean b) {
 		this.doAccept(b);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LBooleanConsumer.DESCRIPTION;
@@ -93,7 +95,7 @@ public interface LBooleanConsumer extends LBooleanConsumerX<RuntimeException>, M
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LBooleanConsumer wrap(final @Nonnull LBooleanConsumerX<X> other) {
 		return other::nestingDoAccept;
@@ -103,20 +105,16 @@ public interface LBooleanConsumer extends LBooleanConsumerX<RuntimeException>, M
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LBooleanConsumer boolConsFromBoolean(@Nonnull final LLogicalOperator before1) {
+	default LBooleanConsumer boolConsComposeBoolean(@Nonnull final LLogicalOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doApply(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LConsumer<V1> boolConsFrom(@Nonnull final LPredicate<? super V1> before1) {
+	default <V1> LConsumer<V1> boolConsCompose(@Nonnull final LPredicate<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doTest(v1));
 	}
@@ -149,12 +147,12 @@ public interface LBooleanConsumer extends LBooleanConsumerX<RuntimeException>, M
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBooleanConsumer shovingBoolCons() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBooleanConsumerX<RuntimeException> shovingBoolConsX() {
 		return this;
 	}

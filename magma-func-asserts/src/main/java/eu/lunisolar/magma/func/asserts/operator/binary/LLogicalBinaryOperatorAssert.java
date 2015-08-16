@@ -44,21 +44,21 @@ import static org.assertj.core.api.Fail.fail;
 public interface LLogicalBinaryOperatorAssert<S extends LLogicalBinaryOperatorAssert<S, A, RS>, A extends LLogicalBinaryOperator, RS extends AbstractBooleanAssert<RS>>
 		extends
 			Assert<S, A>,
-			FullFunctionalAssert<S, LBooleanBiConsumerX<Exception>, A, RS, Boolean, Exception> {
+			FullFunctionalAssert<S, LBiBooleanConsumerX<Exception>, A, RS, Boolean, Exception> {
 
 	@Nonnull
-	Evaluation<S, LBooleanBiConsumerX<Exception>, A, RS, Boolean, Exception> doesApply(boolean b1, boolean b2);
+	Evaluation<S, LBiBooleanConsumerX<Exception>, A, RS, Boolean, Exception> doesApply(boolean b1, boolean b2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LLogicalBinaryOperator, RS extends AbstractBooleanAssert<RS>> extends Base<Impl<A, RS>, A, RS> {
+	public final static class The<A extends LLogicalBinaryOperator, RS extends AbstractBooleanAssert<RS>> extends Base<The<A, RS>, A, RS> {
 
-		public Impl(A actual, java.util.function.Function<Boolean, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Boolean, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS>, A extends LLogicalBinaryOperator, RS extends AbstractBooleanAssert<RS>> extends FullFunctionalAssert.Base<S, LBooleanBiConsumerX<Exception>, A, RS, Boolean, Exception>
+	public static class Base<S extends Base<S, A, RS>, A extends LLogicalBinaryOperator, RS extends AbstractBooleanAssert<RS>> extends FullFunctionalAssert.Base<S, LBiBooleanConsumerX<Exception>, A, RS, Boolean, Exception>
 			implements
 				LLogicalBinaryOperatorAssert<S, A, RS> {
 
@@ -70,9 +70,9 @@ public interface LLogicalBinaryOperatorAssert<S extends LLogicalBinaryOperatorAs
 		}
 
 		@Nonnull
-		public Evaluation<S, LBooleanBiConsumerX<Exception>, A, RS, Boolean, Exception> doesApply(boolean b1, boolean b2) {
+		public Evaluation<S, LBiBooleanConsumerX<Exception>, A, RS, Boolean, Exception> doesApply(boolean b1, boolean b2) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(b1, b2);
 				}

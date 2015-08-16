@@ -62,23 +62,25 @@ public interface LTernaryOperator<T> extends LTernaryOperatorX<T, RuntimeExcepti
 
 	static final String DESCRIPTION = "LTernaryOperator: T doApply(T t1,T t2,T t3)";
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default T nestingDoApply(T t1, T t2, T t3) {
 		return this.doApply(t1, t2, t3);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default T shovingDoApply(T t1, T t2, T t3) {
 		return this.doApply(t1, t2, t3);
 	}
 
 	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
-	/** Ensures the result is not null */
+	/** Function call that ensures the result is not null */
 	@Nonnull
 	default T nonNullDoApply(T t1, T t2, T t3) {
 		return Null.requireNonNull(doApply(t1, t2, t3), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LTernaryOperator.DESCRIPTION;
@@ -89,8 +91,27 @@ public interface LTernaryOperator<T> extends LTernaryOperatorX<T, RuntimeExcepti
 		return () -> this.doApply(t1, t2, t3);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T> LTernaryOperator<T> constant(T r) {
 		return (t1, t2, t3) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T> LTernaryOperator<T> apply1st(@Nonnull LUnaryOperator<T> func) {
+		return (t1, t2, t3) -> func.doApply(t1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T> LTernaryOperator<T> apply2nd(@Nonnull LUnaryOperator<T> func) {
+		return (t1, t2, t3) -> func.doApply(t2);
+	}
+
+	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
+	@Nonnull
+	static <T> LTernaryOperator<T> apply3rd(@Nonnull LUnaryOperator<T> func) {
+		return (t1, t2, t3) -> func.doApply(t3);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -102,7 +123,7 @@ public interface LTernaryOperator<T> extends LTernaryOperatorX<T, RuntimeExcepti
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T, X extends Throwable> LTernaryOperator<T> wrap(final @Nonnull LTernaryOperatorX<T, X> other) {
 		return other::nestingDoApply;
@@ -134,18 +155,19 @@ public interface LTernaryOperator<T> extends LTernaryOperatorX<T, RuntimeExcepti
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LTernaryOperator<T> shovingTernaryOp() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LTernaryOperatorX<T, RuntimeException> shovingTernaryOpX() {
 		return this;
 	}
 
 	// </editor-fold>
 
+	/** Converts to function that makes sure that the result is not null. */
 	@Nonnull
 	default LTernaryOperator<T> nonNullTernaryOp() {
 		return this::nonNullDoApply;

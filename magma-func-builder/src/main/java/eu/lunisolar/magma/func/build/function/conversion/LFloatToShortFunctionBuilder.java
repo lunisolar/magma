@@ -66,7 +66,7 @@ public final class LFloatToShortFunctionBuilder extends PerCaseBuilderWithShortP
 		});
 
 	public LFloatToShortFunctionBuilder(@Nullable Consumer<LFloatToShortFunction> consumer) {
-		super(EVENTUALLY_THROW, LFloatToShortFunction::constant);
+		super(EVENTUALLY_THROW, LFloatToShortFunction::constant, () -> new LFloatToShortFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LFloatToShortFunctionBuilder extends PerCaseBuilderWithShortP
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final LFloatToShortFunctionBuilder floatToShortFunction() {
+	public static LFloatToShortFunctionBuilder floatToShortFunction() {
 		return new LFloatToShortFunctionBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final LFloatToShortFunctionBuilder floatToShortFunction(Consumer<LFloatToShortFunction> consumer) {
+	public static LFloatToShortFunctionBuilder floatToShortFunction(Consumer<LFloatToShortFunction> consumer) {
 		return new LFloatToShortFunctionBuilder(consumer);
 	}
 

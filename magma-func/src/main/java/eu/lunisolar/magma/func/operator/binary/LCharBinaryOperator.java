@@ -64,10 +64,12 @@ public interface LCharBinaryOperator extends LCharBinaryOperatorX<RuntimeExcepti
 
 	char doApplyAsChar(char c1, char c2);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default char nestingDoApplyAsChar(char c1, char c2) {
 		return this.doApplyAsChar(c1, c2);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default char shovingDoApplyAsChar(char c1, char c2) {
 		return this.doApplyAsChar(c1, c2);
 	}
@@ -77,19 +79,32 @@ public interface LCharBinaryOperator extends LCharBinaryOperatorX<RuntimeExcepti
 		return doApplyAsChar(c1, c2);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LCharBinaryOperator.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LCharSupplier captureCBinaryOp(char c1, char c2) {
+	default LCharSupplier captureCharBinaryOp(char c1, char c2) {
 		return () -> this.doApplyAsChar(c1, c2);
 	}
 
+	/** Creates function that always returns the same value. */
 	static LCharBinaryOperator constant(char r) {
 		return (c1, c2) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static LCharBinaryOperator apply1stAsChar(@Nonnull LCharUnaryOperator func) {
+		return (c1, c2) -> func.doApplyAsChar(c1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static LCharBinaryOperator apply2ndAsChar(@Nonnull LCharUnaryOperator func) {
+		return (c1, c2) -> func.doApplyAsChar(c2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -101,17 +116,37 @@ public interface LCharBinaryOperator extends LCharBinaryOperatorX<RuntimeExcepti
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LCharBinaryOperator wrap(final @Nonnull LCharBinaryOperatorX<X> other) {
 		return other::nestingDoApplyAsChar;
 	}
 
 	// </editor-fold>
-	// <editor-fold desc="minmax/logical">
 
 	/**
-	 * @see {@link java.util.function.BinaryOperator#minBy()}
+	 * Creates function that returns the lesser value according to the comparator.
+	 * @see {@link java.util.function.BinaryOperator#minBy}
+	 */
+	@Nonnull
+	static LCharBinaryOperator minBy(@Nonnull Comparator<Character> comparator) {
+		Null.nonNullArg(comparator, "comparator");
+		return (a, b) -> comparator.compare(a, b) <= 0 ? a : b;
+	}
+
+	/**
+	 * Creates function that returns the lesser value according to the comparator.
+	 * @see {@link java.util.function.BinaryOperator#maxBy}
+	 */
+	@Nonnull
+	static LCharBinaryOperator maxBy(@Nonnull Comparator<Character> comparator) {
+		Null.nonNullArg(comparator, "comparator");
+		return (a, b) -> comparator.compare(a, b) >= 0 ? a : b;
+	}
+
+	/**
+	 * Returns function that returns the lower value.
+	 * @see {@link java.util.function.BinaryOperator#minBy}
 	 */
 	@Nonnull
 	static LCharBinaryOperator min() {
@@ -119,32 +154,27 @@ public interface LCharBinaryOperator extends LCharBinaryOperatorX<RuntimeExcepti
 	}
 
 	/**
-	 * @see {@link java.util.function.BinaryOperator#maxBy()}
+	 * Returns function that returns the higher value.
+	 * @see {@link java.util.function.BinaryOperator#maxBy}
 	 */
 	@Nonnull
 	static LCharBinaryOperator max() {
 		return (a, b) -> (a >= b) ? a : b;
 	}
 
-	// </editor-fold>
-
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LCharBinaryOperator cBinaryOpFromChar(@Nonnull final LCharUnaryOperator before1, @Nonnull final LCharUnaryOperator before2) {
+	default LCharBinaryOperator charBinaryOpComposeChar(@Nonnull final LCharUnaryOperator before1, @Nonnull final LCharUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final char v1, final char v2) -> this.doApplyAsChar(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LToCharBiFunction<V1, V2> cBinaryOpFrom(@Nonnull final LToCharFunction<? super V1> before1, @Nonnull final LToCharFunction<? super V2> before2) {
+	default <V1, V2> LToCharBiFunction<V1, V2> charBinaryOpCompose(@Nonnull final LToCharFunction<? super V1> before1, @Nonnull final LToCharFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApplyAsChar(before1.doApplyAsChar(v1), before2.doApplyAsChar(v2));
@@ -156,7 +186,7 @@ public interface LCharBinaryOperator extends LCharBinaryOperatorX<RuntimeExcepti
 
 	/** Combines two operators together in a order. */
 	@Nonnull
-	default <V> LCharBiFunction<V> then(@Nonnull LCharFunction<? extends V> after) {
+	default <V> LBiCharFunction<V> then(@Nonnull LCharFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (char c1, char c2) -> after.doApply(this.doApplyAsChar(c1, c2));
 	}
@@ -166,23 +196,23 @@ public interface LCharBinaryOperator extends LCharBinaryOperatorX<RuntimeExcepti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LCharBinaryOperator nestingCBinaryOp() {
+	default LCharBinaryOperator nestingCharBinaryOp() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LCharBinaryOperatorX<RuntimeException> nestingCBinaryOpX() {
+	default LCharBinaryOperatorX<RuntimeException> nestingCharBinaryOpX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharBinaryOperator shovingCBinaryOp() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LCharBinaryOperator shovingCharBinaryOp() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharBinaryOperatorX<RuntimeException> shovingCBinaryOpX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LCharBinaryOperatorX<RuntimeException> shovingCharBinaryOpX() {
 		return this;
 	}
 

@@ -66,7 +66,7 @@ public final class LFloatConsumerXBuilder<X extends Throwable> extends PerCaseBu
 		});
 
 	public LFloatConsumerXBuilder(@Nullable Consumer<LFloatConsumerX<X>> consumer) {
-		super(EVENTUALLY_THROW);
+		super(EVENTUALLY_THROW, () -> new LFloatConsumerXBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LFloatConsumerXBuilder<X extends Throwable> extends PerCaseBu
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <X extends Throwable> LFloatConsumerXBuilder<X> floatConsumerX() {
+	public static <X extends Throwable> LFloatConsumerXBuilder<X> floatConsumerX() {
 		return new LFloatConsumerXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <X extends Throwable> LFloatConsumerXBuilder<X> floatConsumerX(Consumer<LFloatConsumerX<X>> consumer) {
+	public static <X extends Throwable> LFloatConsumerXBuilder<X> floatConsumerX(Consumer<LFloatConsumerX<X>> consumer) {
 		return new LFloatConsumerXBuilder(consumer);
 	}
 

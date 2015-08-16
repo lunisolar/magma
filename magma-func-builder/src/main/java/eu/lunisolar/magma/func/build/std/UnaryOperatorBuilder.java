@@ -65,7 +65,7 @@ public final class UnaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Bas
 		});
 
 	public UnaryOperatorBuilder(@Nullable Consumer<java.util.function.UnaryOperator<T>> consumer) {
-		super(EVENTUALLY_THROW, LUnaryOperator::constant);
+		super(EVENTUALLY_THROW, LUnaryOperator::constant, () -> new UnaryOperatorBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -77,13 +77,13 @@ public final class UnaryOperatorBuilder<T> extends PerCaseBuilderWithProduct.Bas
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <T> UnaryOperatorBuilder<T> unaryOperator() {
+	public static <T> UnaryOperatorBuilder<T> unaryOperator() {
 		return new UnaryOperatorBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <T> UnaryOperatorBuilder<T> unaryOperator(Consumer<java.util.function.UnaryOperator<T>> consumer) {
+	public static <T> UnaryOperatorBuilder<T> unaryOperator(Consumer<java.util.function.UnaryOperator<T>> consumer) {
 		return new UnaryOperatorBuilder(consumer);
 	}
 

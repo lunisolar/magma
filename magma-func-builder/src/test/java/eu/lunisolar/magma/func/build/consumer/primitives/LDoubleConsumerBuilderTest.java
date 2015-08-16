@@ -116,7 +116,7 @@ public class LDoubleConsumerBuilderTest<X extends Throwable>{
         final AtomicInteger externalEffect = new AtomicInteger(0);
 
         LDoubleConsumer function = doubleConsumer((LDoubleConsumer f)-> doNothing())
-            .addCase(ce -> ce.of(d -> d == (double)0)
+            .aCase(ce -> ce.of(d -> d == (double)0)
                              .evaluate(d -> externalEffect.set(0)))
             .inCase(d -> d > 0 && d < 10).evaluate(d -> externalEffect.set(1))
             .inCase(d -> d > 10 && d < 20).evaluate(d -> externalEffect.set(2))

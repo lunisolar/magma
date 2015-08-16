@@ -75,6 +75,7 @@ public interface LSupplierX<R, X extends Throwable> extends java.util.function.S
 	@Nullable
 	R doGet() throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default R nestingDoGet() {
 		try {
 			return this.doGet();
@@ -85,10 +86,12 @@ public interface LSupplierX<R, X extends Throwable> extends java.util.function.S
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default R shovingDoGet() {
 		return ((LSupplierX<R, RuntimeException>) this).doGet();
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> R handlingDoGet(HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -100,18 +103,19 @@ public interface LSupplierX<R, X extends Throwable> extends java.util.function.S
 
 	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoGet() method cannot be null (" + DESCRIPTION + ").";
 
-	/** Ensures the result is not null */
+	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullDoGet() throws X {
 		return Null.requireNonNull(doGet(), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LSupplierX.DESCRIPTION;
 	}
 
+	/** Creates function that always returns the same value. */
 	static <R, X extends Throwable> LSupplierX<R, X> of(R r) {
 		return () -> r;
 	}
@@ -138,7 +142,7 @@ public interface LSupplierX<R, X extends Throwable> extends java.util.function.S
 		return other::get;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <R, X extends Throwable> LSupplierX<R, X> wrapX(final @Nonnull LSupplier<R> other) {
 		return (LSupplierX) other;
@@ -233,18 +237,19 @@ public interface LSupplierX<R, X extends Throwable> extends java.util.function.S
 		return this::nestingDoGet;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LSupplier<R> shovingSup() {
 		return this::shovingDoGet;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LSupplierX<R, RuntimeException> shovingSupX() {
 		return this::shovingDoGet;
 	}
 
 	// </editor-fold>
 
+	/** Converts to function that makes sure that the result is not null. */
 	@Nonnull
 	default LSupplierX<R, X> nonNullSup() {
 		return this::nonNullDoGet;
@@ -252,11 +257,13 @@ public interface LSupplierX<R, X extends Throwable> extends java.util.function.S
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LSupplier<R> handleSup(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return () -> this.handlingDoGet(handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LSupplierX<R, Y> handleSupX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return () -> this.handlingDoGet(handling);

@@ -75,22 +75,24 @@ public interface LDoubleConsumer extends LDoubleConsumerX<RuntimeException>, Met
 
 	void doAccept(double d);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default void nestingDoAccept(double d) {
 		this.doAccept(d);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default void shovingDoAccept(double d) {
 		this.doAccept(d);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LDoubleConsumer.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LAction captureDCons(double d) {
+	default LAction captureDoubleCons(double d) {
 		return () -> this.doAccept(d);
 	}
 
@@ -109,7 +111,7 @@ public interface LDoubleConsumer extends LDoubleConsumerX<RuntimeException>, Met
 		return other::accept;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LDoubleConsumer wrap(final @Nonnull LDoubleConsumerX<X> other) {
 		return other::nestingDoAccept;
@@ -119,20 +121,16 @@ public interface LDoubleConsumer extends LDoubleConsumerX<RuntimeException>, Met
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LDoubleConsumer dConsFromDouble(@Nonnull final LDoubleUnaryOperator before1) {
+	default LDoubleConsumer doubleConsComposeDouble(@Nonnull final LDoubleUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doApplyAsDouble(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LConsumer<V1> dConsFrom(@Nonnull final LToDoubleFunction<? super V1> before1) {
+	default <V1> LConsumer<V1> doubleConsCompose(@Nonnull final LToDoubleFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doApplyAsDouble(v1));
 	}
@@ -155,23 +153,23 @@ public interface LDoubleConsumer extends LDoubleConsumerX<RuntimeException>, Met
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoubleConsumer nestingDCons() {
+	default LDoubleConsumer nestingDoubleCons() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoubleConsumerX<RuntimeException> nestingDConsX() {
+	default LDoubleConsumerX<RuntimeException> nestingDoubleConsX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleConsumer shovingDCons() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoubleConsumer shovingDoubleCons() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleConsumerX<RuntimeException> shovingDConsX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoubleConsumerX<RuntimeException> shovingDoubleConsX() {
 		return this;
 	}
 

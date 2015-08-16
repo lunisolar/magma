@@ -74,6 +74,7 @@ public interface LBooleanSupplierX<X extends Throwable> extends java.util.functi
 
 	boolean doGetAsBoolean() throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default boolean nestingDoGetAsBoolean() {
 		try {
 			return this.doGetAsBoolean();
@@ -84,10 +85,12 @@ public interface LBooleanSupplierX<X extends Throwable> extends java.util.functi
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default boolean shovingDoGetAsBoolean() {
 		return ((LBooleanSupplierX<RuntimeException>) this).doGetAsBoolean();
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> boolean handlingDoGetAsBoolean(HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -102,12 +105,13 @@ public interface LBooleanSupplierX<X extends Throwable> extends java.util.functi
 		return doGetAsBoolean();
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LBooleanSupplierX.DESCRIPTION;
 	}
 
+	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LBooleanSupplierX<X> of(boolean r) {
 		return () -> r;
 	}
@@ -134,7 +138,7 @@ public interface LBooleanSupplierX<X extends Throwable> extends java.util.functi
 		return other::getAsBoolean;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LBooleanSupplierX<X> wrapX(final @Nonnull LBooleanSupplier other) {
 		return (LBooleanSupplierX) other;
@@ -222,12 +226,12 @@ public interface LBooleanSupplierX<X extends Throwable> extends java.util.functi
 		return this::nestingDoGetAsBoolean;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBooleanSupplier shovingBoolSup() {
 		return this::shovingDoGetAsBoolean;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBooleanSupplierX<RuntimeException> shovingBoolSupX() {
 		return this::shovingDoGetAsBoolean;
 	}
@@ -236,11 +240,13 @@ public interface LBooleanSupplierX<X extends Throwable> extends java.util.functi
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LBooleanSupplier handleBoolSup(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return () -> this.handlingDoGetAsBoolean(handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LBooleanSupplierX<Y> handleBoolSupX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return () -> this.handlingDoGetAsBoolean(handling);

@@ -50,10 +50,10 @@ public interface LDoubleToIntFunctionXAssert<S extends LDoubleToIntFunctionXAsse
 	Evaluation<S, LDoubleConsumerX<Exception>, A, RS, Integer, Exception> doesApplyAsInt(double d);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LDoubleToIntFunctionX<X>, RS extends AbstractIntegerAssert<RS>, X extends Throwable> extends Base<Impl<A, RS, X>, A, RS, X> {
+	public final static class The<A extends LDoubleToIntFunctionX<X>, RS extends AbstractIntegerAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
 
-		public Impl(A actual, java.util.function.Function<Integer, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Integer, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
@@ -72,7 +72,7 @@ public interface LDoubleToIntFunctionXAssert<S extends LDoubleToIntFunctionXAsse
 		@Nonnull
 		public Evaluation<S, LDoubleConsumerX<Exception>, A, RS, Integer, Exception> doesApplyAsInt(double d) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(d);
 				}

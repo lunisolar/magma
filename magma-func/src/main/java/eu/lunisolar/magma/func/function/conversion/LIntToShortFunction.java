@@ -64,10 +64,12 @@ public interface LIntToShortFunction extends LIntToShortFunctionX<RuntimeExcepti
 
 	short doApplyAsShort(int i);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default short nestingDoApplyAsShort(int i) {
 		return this.doApplyAsShort(i);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default short shovingDoApplyAsShort(int i) {
 		return this.doApplyAsShort(i);
 	}
@@ -77,17 +79,18 @@ public interface LIntToShortFunction extends LIntToShortFunctionX<RuntimeExcepti
 		return doApplyAsShort(i);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LIntToShortFunction.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LShortSupplier captureIToSFunc(int i) {
+	default LShortSupplier captureIntToShortFunc(int i) {
 		return () -> this.doApplyAsShort(i);
 	}
 
+	/** Creates function that always returns the same value. */
 	static LIntToShortFunction constant(short r) {
 		return i -> r;
 	}
@@ -101,7 +104,7 @@ public interface LIntToShortFunction extends LIntToShortFunctionX<RuntimeExcepti
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LIntToShortFunction wrap(final @Nonnull LIntToShortFunctionX<X> other) {
 		return other::nestingDoApplyAsShort;
@@ -111,20 +114,16 @@ public interface LIntToShortFunction extends LIntToShortFunctionX<RuntimeExcepti
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LIntToShortFunction iToSFuncFromInt(@Nonnull final LIntUnaryOperator before1) {
+	default LIntToShortFunction intToShortFuncComposeInt(@Nonnull final LIntUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsShort(before1.doApplyAsInt(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToShortFunction<V1> iToSFuncFrom(@Nonnull final LToIntFunction<? super V1> before1) {
+	default <V1> LToShortFunction<V1> intToShortFuncCompose(@Nonnull final LToIntFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsShort(before1.doApplyAsInt(v1));
 	}
@@ -201,23 +200,23 @@ public interface LIntToShortFunction extends LIntToShortFunctionX<RuntimeExcepti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntToShortFunction nestingIToSFunc() {
+	default LIntToShortFunction nestingIntToShortFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntToShortFunctionX<RuntimeException> nestingIToSFuncX() {
+	default LIntToShortFunctionX<RuntimeException> nestingIntToShortFuncX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntToShortFunction shovingIToSFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntToShortFunction shovingIntToShortFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntToShortFunctionX<RuntimeException> shovingIToSFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntToShortFunctionX<RuntimeException> shovingIntToShortFuncX() {
 		return this;
 	}
 

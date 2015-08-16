@@ -64,6 +64,7 @@ public interface LObjDoublePredicateX<T, X extends Throwable> extends MetaPredic
 
 	boolean doTest(T t, double d) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default boolean nestingDoTest(T t, double d) {
 		try {
 			return this.doTest(t, d);
@@ -74,10 +75,12 @@ public interface LObjDoublePredicateX<T, X extends Throwable> extends MetaPredic
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default boolean shovingDoTest(T t, double d) {
 		return ((LObjDoublePredicateX<T, RuntimeException>) this).doTest(t, d);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> boolean handlingDoTest(T t, double d, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -92,25 +95,38 @@ public interface LObjDoublePredicateX<T, X extends Throwable> extends MetaPredic
 		return doTest(t, d);
 	}
 
-	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
+	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
 	default boolean doApplyAsBoolean(T t, double d) throws X {
 		return doTest(t, d);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LObjDoublePredicateX.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> captureObjDPred(T t, double d) {
+	default LBooleanSupplierX<X> captureObjDoublePred(T t, double d) {
 		return () -> this.doTest(t, d);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T, X extends Throwable> LObjDoublePredicateX<T, X> constant(boolean r) {
 		return (t, d) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T, X extends Throwable> LObjDoublePredicateX<T, X> test1st(@Nonnull LPredicateX<T, X> func) {
+		return (t, d) -> func.doTest(t);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T, X extends Throwable> LObjDoublePredicateX<T, X> test2nd(@Nonnull LDoublePredicateX<X> func) {
+		return (t, d) -> func.doTest(d);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -129,7 +145,7 @@ public interface LObjDoublePredicateX<T, X extends Throwable> extends MetaPredic
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T, X extends Throwable> LObjDoublePredicateX<T, X> wrapX(final @Nonnull LObjDoublePredicate<T> other) {
 		return (LObjDoublePredicateX) other;
@@ -139,7 +155,9 @@ public interface LObjDoublePredicateX<T, X extends Throwable> extends MetaPredic
 	// <editor-fold desc="predicate">
 
 	/**
-	 *  @see {@link java.util.function.Predicate#negate()}
+	 * Returns a predicate that represents the logical negation of this predicate.
+	 *
+	 * @see {@link java.util.function.Predicate#negate}
 	 */
 	@Nonnull
 	default LObjDoublePredicateX<T, X> negate() {
@@ -147,7 +165,8 @@ public interface LObjDoublePredicateX<T, X extends Throwable> extends MetaPredic
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#and()}
+	 * Returns a predicate that represents the logical AND of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#and()}
 	 */
 	@Nonnull
 	default LObjDoublePredicateX<T, X> and(@Nonnull LObjDoublePredicateX<? super T, X> other) {
@@ -156,7 +175,8 @@ public interface LObjDoublePredicateX<T, X extends Throwable> extends MetaPredic
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LObjDoublePredicateX<T, X> or(@Nonnull LObjDoublePredicateX<? super T, X> other) {
@@ -165,7 +185,8 @@ public interface LObjDoublePredicateX<T, X extends Throwable> extends MetaPredic
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical XOR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LObjDoublePredicateX<T, X> xor(@Nonnull LObjDoublePredicateX<? super T, X> other) {
@@ -174,7 +195,8 @@ public interface LObjDoublePredicateX<T, X extends Throwable> extends MetaPredic
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#isEqual()}
+	 * Creates predicate that evaluates if an object is equal with the argument one.
+	 * @see {@link java.util.function.Predicate#isEqual()
 	 */
 	@Nonnull
 	static <T1, X extends Throwable> LObjDoublePredicateX<T1, X> isEqual(final T1 v1, final double v2) {
@@ -185,21 +207,17 @@ public interface LObjDoublePredicateX<T, X extends Throwable> extends MetaPredic
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LObjDoublePredicateX<V1, X> objDPredFromDouble(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LDoubleUnaryOperatorX<X> before2) {
+	default <V1> LObjDoublePredicateX<V1, X> objDoublePredComposeDouble(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LDoubleUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final double v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsDouble(v2));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiPredicateX<V1, V2, X> objDPredFrom(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToDoubleFunctionX<? super V2, X> before2) {
+	default <V1, V2> LBiPredicateX<V1, V2, X> objDoublePredCompose(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToDoubleFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsDouble(v2));
@@ -221,23 +239,23 @@ public interface LObjDoublePredicateX<T, X extends Throwable> extends MetaPredic
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjDoublePredicate<T> nestingObjDPred() {
+	default LObjDoublePredicate<T> nestingObjDoublePred() {
 		return this::nestingDoTest;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjDoublePredicateX<T, RuntimeException> nestingObjDPredX() {
+	default LObjDoublePredicateX<T, RuntimeException> nestingObjDoublePredX() {
 		return this::nestingDoTest;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjDoublePredicate<T> shovingObjDPred() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LObjDoublePredicate<T> shovingObjDoublePred() {
 		return this::shovingDoTest;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjDoublePredicateX<T, RuntimeException> shovingObjDPredX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LObjDoublePredicateX<T, RuntimeException> shovingObjDoublePredX() {
 		return this::shovingDoTest;
 	}
 
@@ -245,13 +263,15 @@ public interface LObjDoublePredicateX<T, X extends Throwable> extends MetaPredic
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LObjDoublePredicate<T> handleObjDPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LObjDoublePredicate<T> handleObjDoublePred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T t, double d) -> this.handlingDoTest(t, d, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LObjDoublePredicateX<T, Y> handleObjDPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LObjDoublePredicateX<T, Y> handleObjDoublePredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T t, double d) -> this.handlingDoTest(t, d, handling);
 	}
 

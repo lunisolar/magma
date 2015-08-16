@@ -37,7 +37,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 //>transform-to-MD<
 
 /**
- * Example and instruction how to use exception handling functionality for functional interfaces.
+ * Basic introduction (by example) to how to use exception handling functionality for functional interfaces.
  */
 //>inject<:readmore
 
@@ -47,7 +47,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * ### Abstract
  *
- * Basic explanations (by example) how exception handling work with functional interfaces from this library.
+ * Basic introduction (by example) to how exception handling work with functional interfaces from this library.
  */
 public class Example_ExceptionHandling_Test {
 

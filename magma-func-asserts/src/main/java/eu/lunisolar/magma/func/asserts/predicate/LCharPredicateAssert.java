@@ -47,10 +47,10 @@ public interface LCharPredicateAssert<S extends LCharPredicateAssert<S, A, RS>, 
 	Evaluation<S, LCharConsumerX<Exception>, A, RS, Boolean, Exception> doesTest(char c);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LCharPredicate, RS extends AbstractBooleanAssert<RS>> extends Base<Impl<A, RS>, A, RS> {
+	public final static class The<A extends LCharPredicate, RS extends AbstractBooleanAssert<RS>> extends Base<The<A, RS>, A, RS> {
 
-		public Impl(A actual, java.util.function.Function<Boolean, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Boolean, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
@@ -67,7 +67,7 @@ public interface LCharPredicateAssert<S extends LCharPredicateAssert<S, A, RS>, 
 		@Nonnull
 		public Evaluation<S, LCharConsumerX<Exception>, A, RS, Boolean, Exception> doesTest(char c) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(c);
 				}

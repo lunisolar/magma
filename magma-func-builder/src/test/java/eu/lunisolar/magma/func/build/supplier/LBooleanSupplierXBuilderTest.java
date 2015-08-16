@@ -116,7 +116,7 @@ public class LBooleanSupplierXBuilderTest<X extends Throwable>{
         final AtomicInteger externalInfluence = new AtomicInteger(0);
 
         LBooleanSupplierX<ParseException> function = booleanSupplierX((LBooleanSupplierX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of(() -> externalInfluence.get() == Integer.valueOf(0))
+            .aCase(ce -> ce.of(() -> externalInfluence.get() == Integer.valueOf(0))
                              .evaluate(() -> false))
             .inCase(() -> externalInfluence.get() > 0 && externalInfluence.get() < 10).evaluate(() -> true)
             .inCase(() -> externalInfluence.get() > 10 && externalInfluence.get() < 20).evaluate(() -> true)

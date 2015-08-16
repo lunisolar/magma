@@ -64,10 +64,12 @@ public interface LShortToByteFunction extends LShortToByteFunctionX<RuntimeExcep
 
 	byte doApplyAsByte(short s);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default byte nestingDoApplyAsByte(short s) {
 		return this.doApplyAsByte(s);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default byte shovingDoApplyAsByte(short s) {
 		return this.doApplyAsByte(s);
 	}
@@ -77,17 +79,18 @@ public interface LShortToByteFunction extends LShortToByteFunctionX<RuntimeExcep
 		return doApplyAsByte(s);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LShortToByteFunction.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LByteSupplier captureSToBFunc(short s) {
+	default LByteSupplier captureShortToByteFunc(short s) {
 		return () -> this.doApplyAsByte(s);
 	}
 
+	/** Creates function that always returns the same value. */
 	static LShortToByteFunction constant(byte r) {
 		return s -> r;
 	}
@@ -101,7 +104,7 @@ public interface LShortToByteFunction extends LShortToByteFunctionX<RuntimeExcep
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LShortToByteFunction wrap(final @Nonnull LShortToByteFunctionX<X> other) {
 		return other::nestingDoApplyAsByte;
@@ -111,20 +114,16 @@ public interface LShortToByteFunction extends LShortToByteFunctionX<RuntimeExcep
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LShortToByteFunction sToBFuncFromShort(@Nonnull final LShortUnaryOperator before1) {
+	default LShortToByteFunction shortToByteFuncComposeShort(@Nonnull final LShortUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsByte(before1.doApplyAsShort(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToByteFunction<V1> sToBFuncFrom(@Nonnull final LToShortFunction<? super V1> before1) {
+	default <V1> LToByteFunction<V1> shortToByteFuncCompose(@Nonnull final LToShortFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsByte(before1.doApplyAsShort(v1));
 	}
@@ -201,23 +200,23 @@ public interface LShortToByteFunction extends LShortToByteFunctionX<RuntimeExcep
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LShortToByteFunction nestingSToBFunc() {
+	default LShortToByteFunction nestingShortToByteFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LShortToByteFunctionX<RuntimeException> nestingSToBFuncX() {
+	default LShortToByteFunctionX<RuntimeException> nestingShortToByteFuncX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortToByteFunction shovingSToBFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LShortToByteFunction shovingShortToByteFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortToByteFunctionX<RuntimeException> shovingSToBFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LShortToByteFunctionX<RuntimeException> shovingShortToByteFuncX() {
 		return this;
 	}
 

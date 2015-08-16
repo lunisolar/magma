@@ -403,2655 +403,2655 @@ public interface DefaultFunctionalAssertions<OS extends Assert> extends BasicAss
 	}
 
 	@Nonnull
-	default <A extends LAction> LActionAssert.Impl<A> assertThat(LAction functionalInterface) {
-		return new LActionAssert.Impl(functionalInterface);
+	default <A extends LAction> LActionAssert.The<A> assertThat(LAction functionalInterface) {
+		return new LActionAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LActionX<X>, X extends Throwable> LActionXAssert.Impl<A, X> assertThat(LActionX<X> functionalInterface) {
-		return new LActionXAssert.Impl(functionalInterface);
+	default <A extends LActionX<X>, X extends Throwable> LActionXAssert.The<A, X> assertThat(LActionX<X> functionalInterface) {
+		return new LActionXAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LConsumer<T>, T> LConsumerAssert.Impl<A, T> assertThat(LConsumer<T> functionalInterface) {
-		return new LConsumerAssert.Impl(functionalInterface);
+	default <A extends LConsumer<T>, T> LConsumerAssert.The<A, T> assertThat(LConsumer<T> functionalInterface) {
+		return new LConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LConsumerX<T, X>, T, X extends Throwable> LConsumerXAssert.Impl<A, T, X> assertThat(LConsumerX<T, X> functionalInterface) {
-		return new LConsumerXAssert.Impl(functionalInterface);
+	default <A extends LConsumerX<T, X>, T, X extends Throwable> LConsumerXAssert.The<A, T, X> assertThat(LConsumerX<T, X> functionalInterface) {
+		return new LConsumerXAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LBiConsumer<T1, T2>, T1, T2> LBiConsumerAssert.Impl<A, T1, T2> assertThat(LBiConsumer<T1, T2> functionalInterface) {
-		return new LBiConsumerAssert.Impl(functionalInterface);
+	default <A extends LBiConsumer<T1, T2>, T1, T2> LBiConsumerAssert.The<A, T1, T2> assertThat(LBiConsumer<T1, T2> functionalInterface) {
+		return new LBiConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LBiConsumerX<T1, T2, X>, T1, T2, X extends Throwable> LBiConsumerXAssert.Impl<A, T1, T2, X> assertThat(LBiConsumerX<T1, T2, X> functionalInterface) {
-		return new LBiConsumerXAssert.Impl(functionalInterface);
+	default <A extends LBiConsumerX<T1, T2, X>, T1, T2, X extends Throwable> LBiConsumerXAssert.The<A, T1, T2, X> assertThat(LBiConsumerX<T1, T2, X> functionalInterface) {
+		return new LBiConsumerXAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LTriConsumer<T1, T2, T3>, T1, T2, T3> LTriConsumerAssert.Impl<A, T1, T2, T3> assertThat(LTriConsumer<T1, T2, T3> functionalInterface) {
-		return new LTriConsumerAssert.Impl(functionalInterface);
+	default <A extends LTriConsumer<T1, T2, T3>, T1, T2, T3> LTriConsumerAssert.The<A, T1, T2, T3> assertThat(LTriConsumer<T1, T2, T3> functionalInterface) {
+		return new LTriConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LTriConsumerX<T1, T2, T3, X>, T1, T2, T3, X extends Throwable> LTriConsumerXAssert.Impl<A, T1, T2, T3, X> assertThat(LTriConsumerX<T1, T2, T3, X> functionalInterface) {
-		return new LTriConsumerXAssert.Impl(functionalInterface);
+	default <A extends LTriConsumerX<T1, T2, T3, X>, T1, T2, T3, X extends Throwable> LTriConsumerXAssert.The<A, T1, T2, T3, X> assertThat(LTriConsumerX<T1, T2, T3, X> functionalInterface) {
+		return new LTriConsumerXAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LByteConsumer> LByteConsumerAssert.Impl<A> assertThat(LByteConsumer functionalInterface) {
-		return new LByteConsumerAssert.Impl(functionalInterface);
+	default <A extends LByteConsumer> LByteConsumerAssert.The<A> assertThat(LByteConsumer functionalInterface) {
+		return new LByteConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LByteConsumerX<X>, X extends Throwable> LByteConsumerXAssert.Impl<A, X> assertThat(LByteConsumerX<X> functionalInterface) {
-		return new LByteConsumerXAssert.Impl(functionalInterface);
+	default <A extends LByteConsumerX<X>, X extends Throwable> LByteConsumerXAssert.The<A, X> assertThat(LByteConsumerX<X> functionalInterface) {
+		return new LByteConsumerXAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LShortConsumer> LShortConsumerAssert.Impl<A> assertThat(LShortConsumer functionalInterface) {
-		return new LShortConsumerAssert.Impl(functionalInterface);
+	default <A extends LShortConsumer> LShortConsumerAssert.The<A> assertThat(LShortConsumer functionalInterface) {
+		return new LShortConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LShortConsumerX<X>, X extends Throwable> LShortConsumerXAssert.Impl<A, X> assertThat(LShortConsumerX<X> functionalInterface) {
-		return new LShortConsumerXAssert.Impl(functionalInterface);
+	default <A extends LShortConsumerX<X>, X extends Throwable> LShortConsumerXAssert.The<A, X> assertThat(LShortConsumerX<X> functionalInterface) {
+		return new LShortConsumerXAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LIntConsumer> LIntConsumerAssert.Impl<A> assertThat(LIntConsumer functionalInterface) {
-		return new LIntConsumerAssert.Impl(functionalInterface);
+	default <A extends LIntConsumer> LIntConsumerAssert.The<A> assertThat(LIntConsumer functionalInterface) {
+		return new LIntConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LIntConsumerX<X>, X extends Throwable> LIntConsumerXAssert.Impl<A, X> assertThat(LIntConsumerX<X> functionalInterface) {
-		return new LIntConsumerXAssert.Impl(functionalInterface);
+	default <A extends LIntConsumerX<X>, X extends Throwable> LIntConsumerXAssert.The<A, X> assertThat(LIntConsumerX<X> functionalInterface) {
+		return new LIntConsumerXAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LLongConsumer> LLongConsumerAssert.Impl<A> assertThat(LLongConsumer functionalInterface) {
-		return new LLongConsumerAssert.Impl(functionalInterface);
+	default <A extends LLongConsumer> LLongConsumerAssert.The<A> assertThat(LLongConsumer functionalInterface) {
+		return new LLongConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LLongConsumerX<X>, X extends Throwable> LLongConsumerXAssert.Impl<A, X> assertThat(LLongConsumerX<X> functionalInterface) {
-		return new LLongConsumerXAssert.Impl(functionalInterface);
+	default <A extends LLongConsumerX<X>, X extends Throwable> LLongConsumerXAssert.The<A, X> assertThat(LLongConsumerX<X> functionalInterface) {
+		return new LLongConsumerXAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LFloatConsumer> LFloatConsumerAssert.Impl<A> assertThat(LFloatConsumer functionalInterface) {
-		return new LFloatConsumerAssert.Impl(functionalInterface);
+	default <A extends LFloatConsumer> LFloatConsumerAssert.The<A> assertThat(LFloatConsumer functionalInterface) {
+		return new LFloatConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LFloatConsumerX<X>, X extends Throwable> LFloatConsumerXAssert.Impl<A, X> assertThat(LFloatConsumerX<X> functionalInterface) {
-		return new LFloatConsumerXAssert.Impl(functionalInterface);
+	default <A extends LFloatConsumerX<X>, X extends Throwable> LFloatConsumerXAssert.The<A, X> assertThat(LFloatConsumerX<X> functionalInterface) {
+		return new LFloatConsumerXAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LDoubleConsumer> LDoubleConsumerAssert.Impl<A> assertThat(LDoubleConsumer functionalInterface) {
-		return new LDoubleConsumerAssert.Impl(functionalInterface);
+	default <A extends LDoubleConsumer> LDoubleConsumerAssert.The<A> assertThat(LDoubleConsumer functionalInterface) {
+		return new LDoubleConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LDoubleConsumerX<X>, X extends Throwable> LDoubleConsumerXAssert.Impl<A, X> assertThat(LDoubleConsumerX<X> functionalInterface) {
-		return new LDoubleConsumerXAssert.Impl(functionalInterface);
+	default <A extends LDoubleConsumerX<X>, X extends Throwable> LDoubleConsumerXAssert.The<A, X> assertThat(LDoubleConsumerX<X> functionalInterface) {
+		return new LDoubleConsumerXAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LCharConsumer> LCharConsumerAssert.Impl<A> assertThat(LCharConsumer functionalInterface) {
-		return new LCharConsumerAssert.Impl(functionalInterface);
+	default <A extends LCharConsumer> LCharConsumerAssert.The<A> assertThat(LCharConsumer functionalInterface) {
+		return new LCharConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LCharConsumerX<X>, X extends Throwable> LCharConsumerXAssert.Impl<A, X> assertThat(LCharConsumerX<X> functionalInterface) {
-		return new LCharConsumerXAssert.Impl(functionalInterface);
+	default <A extends LCharConsumerX<X>, X extends Throwable> LCharConsumerXAssert.The<A, X> assertThat(LCharConsumerX<X> functionalInterface) {
+		return new LCharConsumerXAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LBooleanConsumer> LBooleanConsumerAssert.Impl<A> assertThat(LBooleanConsumer functionalInterface) {
-		return new LBooleanConsumerAssert.Impl(functionalInterface);
+	default <A extends LBooleanConsumer> LBooleanConsumerAssert.The<A> assertThat(LBooleanConsumer functionalInterface) {
+		return new LBooleanConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LBooleanConsumerX<X>, X extends Throwable> LBooleanConsumerXAssert.Impl<A, X> assertThat(LBooleanConsumerX<X> functionalInterface) {
-		return new LBooleanConsumerXAssert.Impl(functionalInterface);
+	default <A extends LBooleanConsumerX<X>, X extends Throwable> LBooleanConsumerXAssert.The<A, X> assertThat(LBooleanConsumerX<X> functionalInterface) {
+		return new LBooleanConsumerXAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LByteBiConsumer> LByteBiConsumerAssert.Impl<A> assertThat(LByteBiConsumer functionalInterface) {
-		return new LByteBiConsumerAssert.Impl(functionalInterface);
+	default <A extends LBiByteConsumer> LBiByteConsumerAssert.The<A> assertThat(LBiByteConsumer functionalInterface) {
+		return new LBiByteConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LByteBiConsumerX<X>, X extends Throwable> LByteBiConsumerXAssert.Impl<A, X> assertThat(LByteBiConsumerX<X> functionalInterface) {
-		return new LByteBiConsumerXAssert.Impl(functionalInterface);
+	default <A extends LBiByteConsumerX<X>, X extends Throwable> LBiByteConsumerXAssert.The<A, X> assertThat(LBiByteConsumerX<X> functionalInterface) {
+		return new LBiByteConsumerXAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LShortBiConsumer> LShortBiConsumerAssert.Impl<A> assertThat(LShortBiConsumer functionalInterface) {
-		return new LShortBiConsumerAssert.Impl(functionalInterface);
+	default <A extends LBiShortConsumer> LBiShortConsumerAssert.The<A> assertThat(LBiShortConsumer functionalInterface) {
+		return new LBiShortConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LShortBiConsumerX<X>, X extends Throwable> LShortBiConsumerXAssert.Impl<A, X> assertThat(LShortBiConsumerX<X> functionalInterface) {
-		return new LShortBiConsumerXAssert.Impl(functionalInterface);
+	default <A extends LBiShortConsumerX<X>, X extends Throwable> LBiShortConsumerXAssert.The<A, X> assertThat(LBiShortConsumerX<X> functionalInterface) {
+		return new LBiShortConsumerXAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LIntBiConsumer> LIntBiConsumerAssert.Impl<A> assertThat(LIntBiConsumer functionalInterface) {
-		return new LIntBiConsumerAssert.Impl(functionalInterface);
+	default <A extends LBiIntConsumer> LBiIntConsumerAssert.The<A> assertThat(LBiIntConsumer functionalInterface) {
+		return new LBiIntConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LIntBiConsumerX<X>, X extends Throwable> LIntBiConsumerXAssert.Impl<A, X> assertThat(LIntBiConsumerX<X> functionalInterface) {
-		return new LIntBiConsumerXAssert.Impl(functionalInterface);
+	default <A extends LBiIntConsumerX<X>, X extends Throwable> LBiIntConsumerXAssert.The<A, X> assertThat(LBiIntConsumerX<X> functionalInterface) {
+		return new LBiIntConsumerXAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LLongBiConsumer> LLongBiConsumerAssert.Impl<A> assertThat(LLongBiConsumer functionalInterface) {
-		return new LLongBiConsumerAssert.Impl(functionalInterface);
+	default <A extends LBiLongConsumer> LBiLongConsumerAssert.The<A> assertThat(LBiLongConsumer functionalInterface) {
+		return new LBiLongConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LLongBiConsumerX<X>, X extends Throwable> LLongBiConsumerXAssert.Impl<A, X> assertThat(LLongBiConsumerX<X> functionalInterface) {
-		return new LLongBiConsumerXAssert.Impl(functionalInterface);
+	default <A extends LBiLongConsumerX<X>, X extends Throwable> LBiLongConsumerXAssert.The<A, X> assertThat(LBiLongConsumerX<X> functionalInterface) {
+		return new LBiLongConsumerXAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LFloatBiConsumer> LFloatBiConsumerAssert.Impl<A> assertThat(LFloatBiConsumer functionalInterface) {
-		return new LFloatBiConsumerAssert.Impl(functionalInterface);
+	default <A extends LBiFloatConsumer> LBiFloatConsumerAssert.The<A> assertThat(LBiFloatConsumer functionalInterface) {
+		return new LBiFloatConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LFloatBiConsumerX<X>, X extends Throwable> LFloatBiConsumerXAssert.Impl<A, X> assertThat(LFloatBiConsumerX<X> functionalInterface) {
-		return new LFloatBiConsumerXAssert.Impl(functionalInterface);
+	default <A extends LBiFloatConsumerX<X>, X extends Throwable> LBiFloatConsumerXAssert.The<A, X> assertThat(LBiFloatConsumerX<X> functionalInterface) {
+		return new LBiFloatConsumerXAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LDoubleBiConsumer> LDoubleBiConsumerAssert.Impl<A> assertThat(LDoubleBiConsumer functionalInterface) {
-		return new LDoubleBiConsumerAssert.Impl(functionalInterface);
+	default <A extends LBiDoubleConsumer> LBiDoubleConsumerAssert.The<A> assertThat(LBiDoubleConsumer functionalInterface) {
+		return new LBiDoubleConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LDoubleBiConsumerX<X>, X extends Throwable> LDoubleBiConsumerXAssert.Impl<A, X> assertThat(LDoubleBiConsumerX<X> functionalInterface) {
-		return new LDoubleBiConsumerXAssert.Impl(functionalInterface);
+	default <A extends LBiDoubleConsumerX<X>, X extends Throwable> LBiDoubleConsumerXAssert.The<A, X> assertThat(LBiDoubleConsumerX<X> functionalInterface) {
+		return new LBiDoubleConsumerXAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LCharBiConsumer> LCharBiConsumerAssert.Impl<A> assertThat(LCharBiConsumer functionalInterface) {
-		return new LCharBiConsumerAssert.Impl(functionalInterface);
+	default <A extends LBiCharConsumer> LBiCharConsumerAssert.The<A> assertThat(LBiCharConsumer functionalInterface) {
+		return new LBiCharConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LCharBiConsumerX<X>, X extends Throwable> LCharBiConsumerXAssert.Impl<A, X> assertThat(LCharBiConsumerX<X> functionalInterface) {
-		return new LCharBiConsumerXAssert.Impl(functionalInterface);
+	default <A extends LBiCharConsumerX<X>, X extends Throwable> LBiCharConsumerXAssert.The<A, X> assertThat(LBiCharConsumerX<X> functionalInterface) {
+		return new LBiCharConsumerXAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LBooleanBiConsumer> LBooleanBiConsumerAssert.Impl<A> assertThat(LBooleanBiConsumer functionalInterface) {
-		return new LBooleanBiConsumerAssert.Impl(functionalInterface);
+	default <A extends LBiBooleanConsumer> LBiBooleanConsumerAssert.The<A> assertThat(LBiBooleanConsumer functionalInterface) {
+		return new LBiBooleanConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LBooleanBiConsumerX<X>, X extends Throwable> LBooleanBiConsumerXAssert.Impl<A, X> assertThat(LBooleanBiConsumerX<X> functionalInterface) {
-		return new LBooleanBiConsumerXAssert.Impl(functionalInterface);
+	default <A extends LBiBooleanConsumerX<X>, X extends Throwable> LBiBooleanConsumerXAssert.The<A, X> assertThat(LBiBooleanConsumerX<X> functionalInterface) {
+		return new LBiBooleanConsumerXAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LBooleanTriConsumer> LBooleanTriConsumerAssert.Impl<A> assertThat(LBooleanTriConsumer functionalInterface) {
-		return new LBooleanTriConsumerAssert.Impl(functionalInterface);
+	default <A extends LTriBooleanConsumer> LTriBooleanConsumerAssert.The<A> assertThat(LTriBooleanConsumer functionalInterface) {
+		return new LTriBooleanConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LBooleanTriConsumerX<X>, X extends Throwable> LBooleanTriConsumerXAssert.Impl<A, X> assertThat(LBooleanTriConsumerX<X> functionalInterface) {
-		return new LBooleanTriConsumerXAssert.Impl(functionalInterface);
+	default <A extends LTriBooleanConsumerX<X>, X extends Throwable> LTriBooleanConsumerXAssert.The<A, X> assertThat(LTriBooleanConsumerX<X> functionalInterface) {
+		return new LTriBooleanConsumerXAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LObjByteConsumer<T>, T> LObjByteConsumerAssert.Impl<A, T> assertThat(LObjByteConsumer<T> functionalInterface) {
-		return new LObjByteConsumerAssert.Impl(functionalInterface);
+	default <A extends LObjByteConsumer<T>, T> LObjByteConsumerAssert.The<A, T> assertThat(LObjByteConsumer<T> functionalInterface) {
+		return new LObjByteConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LObjByteConsumerX<T, X>, T, X extends Throwable> LObjByteConsumerXAssert.Impl<A, T, X> assertThat(LObjByteConsumerX<T, X> functionalInterface) {
-		return new LObjByteConsumerXAssert.Impl(functionalInterface);
+	default <A extends LObjByteConsumerX<T, X>, T, X extends Throwable> LObjByteConsumerXAssert.The<A, T, X> assertThat(LObjByteConsumerX<T, X> functionalInterface) {
+		return new LObjByteConsumerXAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LObjShortConsumer<T>, T> LObjShortConsumerAssert.Impl<A, T> assertThat(LObjShortConsumer<T> functionalInterface) {
-		return new LObjShortConsumerAssert.Impl(functionalInterface);
+	default <A extends LObjShortConsumer<T>, T> LObjShortConsumerAssert.The<A, T> assertThat(LObjShortConsumer<T> functionalInterface) {
+		return new LObjShortConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LObjShortConsumerX<T, X>, T, X extends Throwable> LObjShortConsumerXAssert.Impl<A, T, X> assertThat(LObjShortConsumerX<T, X> functionalInterface) {
-		return new LObjShortConsumerXAssert.Impl(functionalInterface);
+	default <A extends LObjShortConsumerX<T, X>, T, X extends Throwable> LObjShortConsumerXAssert.The<A, T, X> assertThat(LObjShortConsumerX<T, X> functionalInterface) {
+		return new LObjShortConsumerXAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LObjIntConsumer<T>, T> LObjIntConsumerAssert.Impl<A, T> assertThat(LObjIntConsumer<T> functionalInterface) {
-		return new LObjIntConsumerAssert.Impl(functionalInterface);
+	default <A extends LObjIntConsumer<T>, T> LObjIntConsumerAssert.The<A, T> assertThat(LObjIntConsumer<T> functionalInterface) {
+		return new LObjIntConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LObjIntConsumerX<T, X>, T, X extends Throwable> LObjIntConsumerXAssert.Impl<A, T, X> assertThat(LObjIntConsumerX<T, X> functionalInterface) {
-		return new LObjIntConsumerXAssert.Impl(functionalInterface);
+	default <A extends LObjIntConsumerX<T, X>, T, X extends Throwable> LObjIntConsumerXAssert.The<A, T, X> assertThat(LObjIntConsumerX<T, X> functionalInterface) {
+		return new LObjIntConsumerXAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LObjLongConsumer<T>, T> LObjLongConsumerAssert.Impl<A, T> assertThat(LObjLongConsumer<T> functionalInterface) {
-		return new LObjLongConsumerAssert.Impl(functionalInterface);
+	default <A extends LObjLongConsumer<T>, T> LObjLongConsumerAssert.The<A, T> assertThat(LObjLongConsumer<T> functionalInterface) {
+		return new LObjLongConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LObjLongConsumerX<T, X>, T, X extends Throwable> LObjLongConsumerXAssert.Impl<A, T, X> assertThat(LObjLongConsumerX<T, X> functionalInterface) {
-		return new LObjLongConsumerXAssert.Impl(functionalInterface);
+	default <A extends LObjLongConsumerX<T, X>, T, X extends Throwable> LObjLongConsumerXAssert.The<A, T, X> assertThat(LObjLongConsumerX<T, X> functionalInterface) {
+		return new LObjLongConsumerXAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LObjFloatConsumer<T>, T> LObjFloatConsumerAssert.Impl<A, T> assertThat(LObjFloatConsumer<T> functionalInterface) {
-		return new LObjFloatConsumerAssert.Impl(functionalInterface);
+	default <A extends LObjFloatConsumer<T>, T> LObjFloatConsumerAssert.The<A, T> assertThat(LObjFloatConsumer<T> functionalInterface) {
+		return new LObjFloatConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LObjFloatConsumerX<T, X>, T, X extends Throwable> LObjFloatConsumerXAssert.Impl<A, T, X> assertThat(LObjFloatConsumerX<T, X> functionalInterface) {
-		return new LObjFloatConsumerXAssert.Impl(functionalInterface);
+	default <A extends LObjFloatConsumerX<T, X>, T, X extends Throwable> LObjFloatConsumerXAssert.The<A, T, X> assertThat(LObjFloatConsumerX<T, X> functionalInterface) {
+		return new LObjFloatConsumerXAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LObjDoubleConsumer<T>, T> LObjDoubleConsumerAssert.Impl<A, T> assertThat(LObjDoubleConsumer<T> functionalInterface) {
-		return new LObjDoubleConsumerAssert.Impl(functionalInterface);
+	default <A extends LObjDoubleConsumer<T>, T> LObjDoubleConsumerAssert.The<A, T> assertThat(LObjDoubleConsumer<T> functionalInterface) {
+		return new LObjDoubleConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LObjDoubleConsumerX<T, X>, T, X extends Throwable> LObjDoubleConsumerXAssert.Impl<A, T, X> assertThat(LObjDoubleConsumerX<T, X> functionalInterface) {
-		return new LObjDoubleConsumerXAssert.Impl(functionalInterface);
+	default <A extends LObjDoubleConsumerX<T, X>, T, X extends Throwable> LObjDoubleConsumerXAssert.The<A, T, X> assertThat(LObjDoubleConsumerX<T, X> functionalInterface) {
+		return new LObjDoubleConsumerXAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LObjCharConsumer<T>, T> LObjCharConsumerAssert.Impl<A, T> assertThat(LObjCharConsumer<T> functionalInterface) {
-		return new LObjCharConsumerAssert.Impl(functionalInterface);
+	default <A extends LObjCharConsumer<T>, T> LObjCharConsumerAssert.The<A, T> assertThat(LObjCharConsumer<T> functionalInterface) {
+		return new LObjCharConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LObjCharConsumerX<T, X>, T, X extends Throwable> LObjCharConsumerXAssert.Impl<A, T, X> assertThat(LObjCharConsumerX<T, X> functionalInterface) {
-		return new LObjCharConsumerXAssert.Impl(functionalInterface);
+	default <A extends LObjCharConsumerX<T, X>, T, X extends Throwable> LObjCharConsumerXAssert.The<A, T, X> assertThat(LObjCharConsumerX<T, X> functionalInterface) {
+		return new LObjCharConsumerXAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LObjBooleanConsumer<T>, T> LObjBooleanConsumerAssert.Impl<A, T> assertThat(LObjBooleanConsumer<T> functionalInterface) {
-		return new LObjBooleanConsumerAssert.Impl(functionalInterface);
+	default <A extends LObjBooleanConsumer<T>, T> LObjBooleanConsumerAssert.The<A, T> assertThat(LObjBooleanConsumer<T> functionalInterface) {
+		return new LObjBooleanConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LObjBooleanConsumerX<T, X>, T, X extends Throwable> LObjBooleanConsumerXAssert.Impl<A, T, X> assertThat(LObjBooleanConsumerX<T, X> functionalInterface) {
-		return new LObjBooleanConsumerXAssert.Impl(functionalInterface);
+	default <A extends LObjBooleanConsumerX<T, X>, T, X extends Throwable> LObjBooleanConsumerXAssert.The<A, T, X> assertThat(LObjBooleanConsumerX<T, X> functionalInterface) {
+		return new LObjBooleanConsumerXAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LBiObjByteConsumer<T1, T2>, T1, T2> LBiObjByteConsumerAssert.Impl<A, T1, T2> assertThat(LBiObjByteConsumer<T1, T2> functionalInterface) {
-		return new LBiObjByteConsumerAssert.Impl(functionalInterface);
+	default <A extends LBiObjByteConsumer<T1, T2>, T1, T2> LBiObjByteConsumerAssert.The<A, T1, T2> assertThat(LBiObjByteConsumer<T1, T2> functionalInterface) {
+		return new LBiObjByteConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LBiObjByteConsumerX<T1, T2, X>, T1, T2, X extends Throwable> LBiObjByteConsumerXAssert.Impl<A, T1, T2, X> assertThat(LBiObjByteConsumerX<T1, T2, X> functionalInterface) {
-		return new LBiObjByteConsumerXAssert.Impl(functionalInterface);
+	default <A extends LBiObjByteConsumerX<T1, T2, X>, T1, T2, X extends Throwable> LBiObjByteConsumerXAssert.The<A, T1, T2, X> assertThat(LBiObjByteConsumerX<T1, T2, X> functionalInterface) {
+		return new LBiObjByteConsumerXAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LBiObjShortConsumer<T1, T2>, T1, T2> LBiObjShortConsumerAssert.Impl<A, T1, T2> assertThat(LBiObjShortConsumer<T1, T2> functionalInterface) {
-		return new LBiObjShortConsumerAssert.Impl(functionalInterface);
+	default <A extends LBiObjShortConsumer<T1, T2>, T1, T2> LBiObjShortConsumerAssert.The<A, T1, T2> assertThat(LBiObjShortConsumer<T1, T2> functionalInterface) {
+		return new LBiObjShortConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LBiObjShortConsumerX<T1, T2, X>, T1, T2, X extends Throwable> LBiObjShortConsumerXAssert.Impl<A, T1, T2, X> assertThat(LBiObjShortConsumerX<T1, T2, X> functionalInterface) {
-		return new LBiObjShortConsumerXAssert.Impl(functionalInterface);
+	default <A extends LBiObjShortConsumerX<T1, T2, X>, T1, T2, X extends Throwable> LBiObjShortConsumerXAssert.The<A, T1, T2, X> assertThat(LBiObjShortConsumerX<T1, T2, X> functionalInterface) {
+		return new LBiObjShortConsumerXAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LBiObjIntConsumer<T1, T2>, T1, T2> LBiObjIntConsumerAssert.Impl<A, T1, T2> assertThat(LBiObjIntConsumer<T1, T2> functionalInterface) {
-		return new LBiObjIntConsumerAssert.Impl(functionalInterface);
+	default <A extends LBiObjIntConsumer<T1, T2>, T1, T2> LBiObjIntConsumerAssert.The<A, T1, T2> assertThat(LBiObjIntConsumer<T1, T2> functionalInterface) {
+		return new LBiObjIntConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LBiObjIntConsumerX<T1, T2, X>, T1, T2, X extends Throwable> LBiObjIntConsumerXAssert.Impl<A, T1, T2, X> assertThat(LBiObjIntConsumerX<T1, T2, X> functionalInterface) {
-		return new LBiObjIntConsumerXAssert.Impl(functionalInterface);
+	default <A extends LBiObjIntConsumerX<T1, T2, X>, T1, T2, X extends Throwable> LBiObjIntConsumerXAssert.The<A, T1, T2, X> assertThat(LBiObjIntConsumerX<T1, T2, X> functionalInterface) {
+		return new LBiObjIntConsumerXAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LBiObjLongConsumer<T1, T2>, T1, T2> LBiObjLongConsumerAssert.Impl<A, T1, T2> assertThat(LBiObjLongConsumer<T1, T2> functionalInterface) {
-		return new LBiObjLongConsumerAssert.Impl(functionalInterface);
+	default <A extends LBiObjLongConsumer<T1, T2>, T1, T2> LBiObjLongConsumerAssert.The<A, T1, T2> assertThat(LBiObjLongConsumer<T1, T2> functionalInterface) {
+		return new LBiObjLongConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LBiObjLongConsumerX<T1, T2, X>, T1, T2, X extends Throwable> LBiObjLongConsumerXAssert.Impl<A, T1, T2, X> assertThat(LBiObjLongConsumerX<T1, T2, X> functionalInterface) {
-		return new LBiObjLongConsumerXAssert.Impl(functionalInterface);
+	default <A extends LBiObjLongConsumerX<T1, T2, X>, T1, T2, X extends Throwable> LBiObjLongConsumerXAssert.The<A, T1, T2, X> assertThat(LBiObjLongConsumerX<T1, T2, X> functionalInterface) {
+		return new LBiObjLongConsumerXAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LBiObjFloatConsumer<T1, T2>, T1, T2> LBiObjFloatConsumerAssert.Impl<A, T1, T2> assertThat(LBiObjFloatConsumer<T1, T2> functionalInterface) {
-		return new LBiObjFloatConsumerAssert.Impl(functionalInterface);
+	default <A extends LBiObjFloatConsumer<T1, T2>, T1, T2> LBiObjFloatConsumerAssert.The<A, T1, T2> assertThat(LBiObjFloatConsumer<T1, T2> functionalInterface) {
+		return new LBiObjFloatConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LBiObjFloatConsumerX<T1, T2, X>, T1, T2, X extends Throwable> LBiObjFloatConsumerXAssert.Impl<A, T1, T2, X> assertThat(LBiObjFloatConsumerX<T1, T2, X> functionalInterface) {
-		return new LBiObjFloatConsumerXAssert.Impl(functionalInterface);
+	default <A extends LBiObjFloatConsumerX<T1, T2, X>, T1, T2, X extends Throwable> LBiObjFloatConsumerXAssert.The<A, T1, T2, X> assertThat(LBiObjFloatConsumerX<T1, T2, X> functionalInterface) {
+		return new LBiObjFloatConsumerXAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LBiObjDoubleConsumer<T1, T2>, T1, T2> LBiObjDoubleConsumerAssert.Impl<A, T1, T2> assertThat(LBiObjDoubleConsumer<T1, T2> functionalInterface) {
-		return new LBiObjDoubleConsumerAssert.Impl(functionalInterface);
+	default <A extends LBiObjDoubleConsumer<T1, T2>, T1, T2> LBiObjDoubleConsumerAssert.The<A, T1, T2> assertThat(LBiObjDoubleConsumer<T1, T2> functionalInterface) {
+		return new LBiObjDoubleConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LBiObjDoubleConsumerX<T1, T2, X>, T1, T2, X extends Throwable> LBiObjDoubleConsumerXAssert.Impl<A, T1, T2, X> assertThat(LBiObjDoubleConsumerX<T1, T2, X> functionalInterface) {
-		return new LBiObjDoubleConsumerXAssert.Impl(functionalInterface);
+	default <A extends LBiObjDoubleConsumerX<T1, T2, X>, T1, T2, X extends Throwable> LBiObjDoubleConsumerXAssert.The<A, T1, T2, X> assertThat(LBiObjDoubleConsumerX<T1, T2, X> functionalInterface) {
+		return new LBiObjDoubleConsumerXAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LBiObjCharConsumer<T1, T2>, T1, T2> LBiObjCharConsumerAssert.Impl<A, T1, T2> assertThat(LBiObjCharConsumer<T1, T2> functionalInterface) {
-		return new LBiObjCharConsumerAssert.Impl(functionalInterface);
+	default <A extends LBiObjCharConsumer<T1, T2>, T1, T2> LBiObjCharConsumerAssert.The<A, T1, T2> assertThat(LBiObjCharConsumer<T1, T2> functionalInterface) {
+		return new LBiObjCharConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LBiObjCharConsumerX<T1, T2, X>, T1, T2, X extends Throwable> LBiObjCharConsumerXAssert.Impl<A, T1, T2, X> assertThat(LBiObjCharConsumerX<T1, T2, X> functionalInterface) {
-		return new LBiObjCharConsumerXAssert.Impl(functionalInterface);
+	default <A extends LBiObjCharConsumerX<T1, T2, X>, T1, T2, X extends Throwable> LBiObjCharConsumerXAssert.The<A, T1, T2, X> assertThat(LBiObjCharConsumerX<T1, T2, X> functionalInterface) {
+		return new LBiObjCharConsumerXAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LBiObjBooleanConsumer<T1, T2>, T1, T2> LBiObjBooleanConsumerAssert.Impl<A, T1, T2> assertThat(LBiObjBooleanConsumer<T1, T2> functionalInterface) {
-		return new LBiObjBooleanConsumerAssert.Impl(functionalInterface);
+	default <A extends LBiObjBooleanConsumer<T1, T2>, T1, T2> LBiObjBooleanConsumerAssert.The<A, T1, T2> assertThat(LBiObjBooleanConsumer<T1, T2> functionalInterface) {
+		return new LBiObjBooleanConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LBiObjBooleanConsumerX<T1, T2, X>, T1, T2, X extends Throwable> LBiObjBooleanConsumerXAssert.Impl<A, T1, T2, X> assertThat(LBiObjBooleanConsumerX<T1, T2, X> functionalInterface) {
-		return new LBiObjBooleanConsumerXAssert.Impl(functionalInterface);
+	default <A extends LBiObjBooleanConsumerX<T1, T2, X>, T1, T2, X extends Throwable> LBiObjBooleanConsumerXAssert.The<A, T1, T2, X> assertThat(LBiObjBooleanConsumerX<T1, T2, X> functionalInterface) {
+		return new LBiObjBooleanConsumerXAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends LUnaryOperator<T>, T> LUnaryOperatorAssert.Impl<A, ? extends OS, T> assertThat(LUnaryOperator<T> functionalInterface) { // NOSONAR
+	default <A extends LUnaryOperator<T>, T> LUnaryOperatorAssert.The<A, ? extends OS, T> assertThat(LUnaryOperator<T> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LUnaryOperatorAssert.Impl(functionalInterface, assertFunc);
+		return new LUnaryOperatorAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LUnaryOperatorX<T, X>, T, X extends Throwable> LUnaryOperatorXAssert.Impl<A, ? extends OS, T, X> assertThat(LUnaryOperatorX<T, X> functionalInterface) { // NOSONAR
+	default <A extends LUnaryOperatorX<T, X>, T, X extends Throwable> LUnaryOperatorXAssert.The<A, ? extends OS, T, X> assertThat(LUnaryOperatorX<T, X> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LUnaryOperatorXAssert.Impl(functionalInterface, assertFunc);
+		return new LUnaryOperatorXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBinaryOperator<T>, T> LBinaryOperatorAssert.Impl<A, ? extends OS, T> assertThat(LBinaryOperator<T> functionalInterface) { // NOSONAR
+	default <A extends LBinaryOperator<T>, T> LBinaryOperatorAssert.The<A, ? extends OS, T> assertThat(LBinaryOperator<T> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LBinaryOperatorAssert.Impl(functionalInterface, assertFunc);
+		return new LBinaryOperatorAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBinaryOperatorX<T, X>, T, X extends Throwable> LBinaryOperatorXAssert.Impl<A, ? extends OS, T, X> assertThat(LBinaryOperatorX<T, X> functionalInterface) { // NOSONAR
+	default <A extends LBinaryOperatorX<T, X>, T, X extends Throwable> LBinaryOperatorXAssert.The<A, ? extends OS, T, X> assertThat(LBinaryOperatorX<T, X> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LBinaryOperatorXAssert.Impl(functionalInterface, assertFunc);
+		return new LBinaryOperatorXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LTernaryOperator<T>, T> LTernaryOperatorAssert.Impl<A, ? extends OS, T> assertThat(LTernaryOperator<T> functionalInterface) { // NOSONAR
+	default <A extends LTernaryOperator<T>, T> LTernaryOperatorAssert.The<A, ? extends OS, T> assertThat(LTernaryOperator<T> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LTernaryOperatorAssert.Impl(functionalInterface, assertFunc);
+		return new LTernaryOperatorAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LTernaryOperatorX<T, X>, T, X extends Throwable> LTernaryOperatorXAssert.Impl<A, ? extends OS, T, X> assertThat(LTernaryOperatorX<T, X> functionalInterface) { // NOSONAR
+	default <A extends LTernaryOperatorX<T, X>, T, X extends Throwable> LTernaryOperatorXAssert.The<A, ? extends OS, T, X> assertThat(LTernaryOperatorX<T, X> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LTernaryOperatorXAssert.Impl(functionalInterface, assertFunc);
+		return new LTernaryOperatorXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LByteUnaryOperator> LByteUnaryOperatorAssert.Impl<A, ? extends AbstractByteAssert> assertThat(LByteUnaryOperator functionalInterface) {
+	default <A extends LByteUnaryOperator> LByteUnaryOperatorAssert.The<A, ? extends AbstractByteAssert> assertThat(LByteUnaryOperator functionalInterface) {
 		Function<Byte, AbstractByteAssert> assertFunc = this::assertThatByte;
-		return new LByteUnaryOperatorAssert.Impl(functionalInterface, assertFunc);
+		return new LByteUnaryOperatorAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LByteUnaryOperatorX<X>, X extends Throwable> LByteUnaryOperatorXAssert.Impl<A, ? extends AbstractByteAssert, X> assertThat(LByteUnaryOperatorX<X> functionalInterface) {
+	default <A extends LByteUnaryOperatorX<X>, X extends Throwable> LByteUnaryOperatorXAssert.The<A, ? extends AbstractByteAssert, X> assertThat(LByteUnaryOperatorX<X> functionalInterface) {
 		Function<Byte, AbstractByteAssert> assertFunc = this::assertThatByte;
-		return new LByteUnaryOperatorXAssert.Impl(functionalInterface, assertFunc);
+		return new LByteUnaryOperatorXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LShortUnaryOperator> LShortUnaryOperatorAssert.Impl<A, ? extends AbstractShortAssert> assertThat(LShortUnaryOperator functionalInterface) {
+	default <A extends LShortUnaryOperator> LShortUnaryOperatorAssert.The<A, ? extends AbstractShortAssert> assertThat(LShortUnaryOperator functionalInterface) {
 		Function<Short, AbstractShortAssert> assertFunc = this::assertThatShort;
-		return new LShortUnaryOperatorAssert.Impl(functionalInterface, assertFunc);
+		return new LShortUnaryOperatorAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LShortUnaryOperatorX<X>, X extends Throwable> LShortUnaryOperatorXAssert.Impl<A, ? extends AbstractShortAssert, X> assertThat(LShortUnaryOperatorX<X> functionalInterface) {
+	default <A extends LShortUnaryOperatorX<X>, X extends Throwable> LShortUnaryOperatorXAssert.The<A, ? extends AbstractShortAssert, X> assertThat(LShortUnaryOperatorX<X> functionalInterface) {
 		Function<Short, AbstractShortAssert> assertFunc = this::assertThatShort;
-		return new LShortUnaryOperatorXAssert.Impl(functionalInterface, assertFunc);
+		return new LShortUnaryOperatorXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LIntUnaryOperator> LIntUnaryOperatorAssert.Impl<A, ? extends AbstractIntegerAssert> assertThat(LIntUnaryOperator functionalInterface) {
+	default <A extends LIntUnaryOperator> LIntUnaryOperatorAssert.The<A, ? extends AbstractIntegerAssert> assertThat(LIntUnaryOperator functionalInterface) {
 		Function<Integer, AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new LIntUnaryOperatorAssert.Impl(functionalInterface, assertFunc);
+		return new LIntUnaryOperatorAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LIntUnaryOperatorX<X>, X extends Throwable> LIntUnaryOperatorXAssert.Impl<A, ? extends AbstractIntegerAssert, X> assertThat(LIntUnaryOperatorX<X> functionalInterface) {
+	default <A extends LIntUnaryOperatorX<X>, X extends Throwable> LIntUnaryOperatorXAssert.The<A, ? extends AbstractIntegerAssert, X> assertThat(LIntUnaryOperatorX<X> functionalInterface) {
 		Function<Integer, AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new LIntUnaryOperatorXAssert.Impl(functionalInterface, assertFunc);
+		return new LIntUnaryOperatorXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LLongUnaryOperator> LLongUnaryOperatorAssert.Impl<A, ? extends AbstractLongAssert> assertThat(LLongUnaryOperator functionalInterface) {
+	default <A extends LLongUnaryOperator> LLongUnaryOperatorAssert.The<A, ? extends AbstractLongAssert> assertThat(LLongUnaryOperator functionalInterface) {
 		Function<Long, AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new LLongUnaryOperatorAssert.Impl(functionalInterface, assertFunc);
+		return new LLongUnaryOperatorAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LLongUnaryOperatorX<X>, X extends Throwable> LLongUnaryOperatorXAssert.Impl<A, ? extends AbstractLongAssert, X> assertThat(LLongUnaryOperatorX<X> functionalInterface) {
+	default <A extends LLongUnaryOperatorX<X>, X extends Throwable> LLongUnaryOperatorXAssert.The<A, ? extends AbstractLongAssert, X> assertThat(LLongUnaryOperatorX<X> functionalInterface) {
 		Function<Long, AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new LLongUnaryOperatorXAssert.Impl(functionalInterface, assertFunc);
+		return new LLongUnaryOperatorXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LFloatUnaryOperator> LFloatUnaryOperatorAssert.Impl<A, ? extends AbstractFloatAssert> assertThat(LFloatUnaryOperator functionalInterface) {
+	default <A extends LFloatUnaryOperator> LFloatUnaryOperatorAssert.The<A, ? extends AbstractFloatAssert> assertThat(LFloatUnaryOperator functionalInterface) {
 		Function<Float, AbstractFloatAssert> assertFunc = this::assertThatFloat;
-		return new LFloatUnaryOperatorAssert.Impl(functionalInterface, assertFunc);
+		return new LFloatUnaryOperatorAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LFloatUnaryOperatorX<X>, X extends Throwable> LFloatUnaryOperatorXAssert.Impl<A, ? extends AbstractFloatAssert, X> assertThat(LFloatUnaryOperatorX<X> functionalInterface) {
+	default <A extends LFloatUnaryOperatorX<X>, X extends Throwable> LFloatUnaryOperatorXAssert.The<A, ? extends AbstractFloatAssert, X> assertThat(LFloatUnaryOperatorX<X> functionalInterface) {
 		Function<Float, AbstractFloatAssert> assertFunc = this::assertThatFloat;
-		return new LFloatUnaryOperatorXAssert.Impl(functionalInterface, assertFunc);
+		return new LFloatUnaryOperatorXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LDoubleUnaryOperator> LDoubleUnaryOperatorAssert.Impl<A, ? extends AbstractDoubleAssert> assertThat(LDoubleUnaryOperator functionalInterface) {
+	default <A extends LDoubleUnaryOperator> LDoubleUnaryOperatorAssert.The<A, ? extends AbstractDoubleAssert> assertThat(LDoubleUnaryOperator functionalInterface) {
 		Function<Double, AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new LDoubleUnaryOperatorAssert.Impl(functionalInterface, assertFunc);
+		return new LDoubleUnaryOperatorAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LDoubleUnaryOperatorX<X>, X extends Throwable> LDoubleUnaryOperatorXAssert.Impl<A, ? extends AbstractDoubleAssert, X> assertThat(LDoubleUnaryOperatorX<X> functionalInterface) {
+	default <A extends LDoubleUnaryOperatorX<X>, X extends Throwable> LDoubleUnaryOperatorXAssert.The<A, ? extends AbstractDoubleAssert, X> assertThat(LDoubleUnaryOperatorX<X> functionalInterface) {
 		Function<Double, AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new LDoubleUnaryOperatorXAssert.Impl(functionalInterface, assertFunc);
+		return new LDoubleUnaryOperatorXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LCharUnaryOperator> LCharUnaryOperatorAssert.Impl<A, ? extends AbstractCharacterAssert> assertThat(LCharUnaryOperator functionalInterface) {
+	default <A extends LCharUnaryOperator> LCharUnaryOperatorAssert.The<A, ? extends AbstractCharacterAssert> assertThat(LCharUnaryOperator functionalInterface) {
 		Function<Character, AbstractCharacterAssert> assertFunc = this::assertThatChar;
-		return new LCharUnaryOperatorAssert.Impl(functionalInterface, assertFunc);
+		return new LCharUnaryOperatorAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LCharUnaryOperatorX<X>, X extends Throwable> LCharUnaryOperatorXAssert.Impl<A, ? extends AbstractCharacterAssert, X> assertThat(LCharUnaryOperatorX<X> functionalInterface) {
+	default <A extends LCharUnaryOperatorX<X>, X extends Throwable> LCharUnaryOperatorXAssert.The<A, ? extends AbstractCharacterAssert, X> assertThat(LCharUnaryOperatorX<X> functionalInterface) {
 		Function<Character, AbstractCharacterAssert> assertFunc = this::assertThatChar;
-		return new LCharUnaryOperatorXAssert.Impl(functionalInterface, assertFunc);
+		return new LCharUnaryOperatorXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LLogicalOperator> LLogicalOperatorAssert.Impl<A, ? extends AbstractBooleanAssert> assertThat(LLogicalOperator functionalInterface) {
+	default <A extends LLogicalOperator> LLogicalOperatorAssert.The<A, ? extends AbstractBooleanAssert> assertThat(LLogicalOperator functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LLogicalOperatorAssert.Impl(functionalInterface, assertFunc);
+		return new LLogicalOperatorAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LLogicalOperatorX<X>, X extends Throwable> LLogicalOperatorXAssert.Impl<A, ? extends AbstractBooleanAssert, X> assertThat(LLogicalOperatorX<X> functionalInterface) {
+	default <A extends LLogicalOperatorX<X>, X extends Throwable> LLogicalOperatorXAssert.The<A, ? extends AbstractBooleanAssert, X> assertThat(LLogicalOperatorX<X> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LLogicalOperatorXAssert.Impl(functionalInterface, assertFunc);
+		return new LLogicalOperatorXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LByteBinaryOperator> LByteBinaryOperatorAssert.Impl<A, ? extends AbstractByteAssert> assertThat(LByteBinaryOperator functionalInterface) {
+	default <A extends LByteBinaryOperator> LByteBinaryOperatorAssert.The<A, ? extends AbstractByteAssert> assertThat(LByteBinaryOperator functionalInterface) {
 		Function<Byte, AbstractByteAssert> assertFunc = this::assertThatByte;
-		return new LByteBinaryOperatorAssert.Impl(functionalInterface, assertFunc);
+		return new LByteBinaryOperatorAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LByteBinaryOperatorX<X>, X extends Throwable> LByteBinaryOperatorXAssert.Impl<A, ? extends AbstractByteAssert, X> assertThat(LByteBinaryOperatorX<X> functionalInterface) {
+	default <A extends LByteBinaryOperatorX<X>, X extends Throwable> LByteBinaryOperatorXAssert.The<A, ? extends AbstractByteAssert, X> assertThat(LByteBinaryOperatorX<X> functionalInterface) {
 		Function<Byte, AbstractByteAssert> assertFunc = this::assertThatByte;
-		return new LByteBinaryOperatorXAssert.Impl(functionalInterface, assertFunc);
+		return new LByteBinaryOperatorXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LShortBinaryOperator> LShortBinaryOperatorAssert.Impl<A, ? extends AbstractShortAssert> assertThat(LShortBinaryOperator functionalInterface) {
+	default <A extends LShortBinaryOperator> LShortBinaryOperatorAssert.The<A, ? extends AbstractShortAssert> assertThat(LShortBinaryOperator functionalInterface) {
 		Function<Short, AbstractShortAssert> assertFunc = this::assertThatShort;
-		return new LShortBinaryOperatorAssert.Impl(functionalInterface, assertFunc);
+		return new LShortBinaryOperatorAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LShortBinaryOperatorX<X>, X extends Throwable> LShortBinaryOperatorXAssert.Impl<A, ? extends AbstractShortAssert, X> assertThat(LShortBinaryOperatorX<X> functionalInterface) {
+	default <A extends LShortBinaryOperatorX<X>, X extends Throwable> LShortBinaryOperatorXAssert.The<A, ? extends AbstractShortAssert, X> assertThat(LShortBinaryOperatorX<X> functionalInterface) {
 		Function<Short, AbstractShortAssert> assertFunc = this::assertThatShort;
-		return new LShortBinaryOperatorXAssert.Impl(functionalInterface, assertFunc);
+		return new LShortBinaryOperatorXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LIntBinaryOperator> LIntBinaryOperatorAssert.Impl<A, ? extends AbstractIntegerAssert> assertThat(LIntBinaryOperator functionalInterface) {
+	default <A extends LIntBinaryOperator> LIntBinaryOperatorAssert.The<A, ? extends AbstractIntegerAssert> assertThat(LIntBinaryOperator functionalInterface) {
 		Function<Integer, AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new LIntBinaryOperatorAssert.Impl(functionalInterface, assertFunc);
+		return new LIntBinaryOperatorAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LIntBinaryOperatorX<X>, X extends Throwable> LIntBinaryOperatorXAssert.Impl<A, ? extends AbstractIntegerAssert, X> assertThat(LIntBinaryOperatorX<X> functionalInterface) {
+	default <A extends LIntBinaryOperatorX<X>, X extends Throwable> LIntBinaryOperatorXAssert.The<A, ? extends AbstractIntegerAssert, X> assertThat(LIntBinaryOperatorX<X> functionalInterface) {
 		Function<Integer, AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new LIntBinaryOperatorXAssert.Impl(functionalInterface, assertFunc);
+		return new LIntBinaryOperatorXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LLongBinaryOperator> LLongBinaryOperatorAssert.Impl<A, ? extends AbstractLongAssert> assertThat(LLongBinaryOperator functionalInterface) {
+	default <A extends LLongBinaryOperator> LLongBinaryOperatorAssert.The<A, ? extends AbstractLongAssert> assertThat(LLongBinaryOperator functionalInterface) {
 		Function<Long, AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new LLongBinaryOperatorAssert.Impl(functionalInterface, assertFunc);
+		return new LLongBinaryOperatorAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LLongBinaryOperatorX<X>, X extends Throwable> LLongBinaryOperatorXAssert.Impl<A, ? extends AbstractLongAssert, X> assertThat(LLongBinaryOperatorX<X> functionalInterface) {
+	default <A extends LLongBinaryOperatorX<X>, X extends Throwable> LLongBinaryOperatorXAssert.The<A, ? extends AbstractLongAssert, X> assertThat(LLongBinaryOperatorX<X> functionalInterface) {
 		Function<Long, AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new LLongBinaryOperatorXAssert.Impl(functionalInterface, assertFunc);
+		return new LLongBinaryOperatorXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LFloatBinaryOperator> LFloatBinaryOperatorAssert.Impl<A, ? extends AbstractFloatAssert> assertThat(LFloatBinaryOperator functionalInterface) {
+	default <A extends LFloatBinaryOperator> LFloatBinaryOperatorAssert.The<A, ? extends AbstractFloatAssert> assertThat(LFloatBinaryOperator functionalInterface) {
 		Function<Float, AbstractFloatAssert> assertFunc = this::assertThatFloat;
-		return new LFloatBinaryOperatorAssert.Impl(functionalInterface, assertFunc);
+		return new LFloatBinaryOperatorAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LFloatBinaryOperatorX<X>, X extends Throwable> LFloatBinaryOperatorXAssert.Impl<A, ? extends AbstractFloatAssert, X> assertThat(LFloatBinaryOperatorX<X> functionalInterface) {
+	default <A extends LFloatBinaryOperatorX<X>, X extends Throwable> LFloatBinaryOperatorXAssert.The<A, ? extends AbstractFloatAssert, X> assertThat(LFloatBinaryOperatorX<X> functionalInterface) {
 		Function<Float, AbstractFloatAssert> assertFunc = this::assertThatFloat;
-		return new LFloatBinaryOperatorXAssert.Impl(functionalInterface, assertFunc);
+		return new LFloatBinaryOperatorXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LDoubleBinaryOperator> LDoubleBinaryOperatorAssert.Impl<A, ? extends AbstractDoubleAssert> assertThat(LDoubleBinaryOperator functionalInterface) {
+	default <A extends LDoubleBinaryOperator> LDoubleBinaryOperatorAssert.The<A, ? extends AbstractDoubleAssert> assertThat(LDoubleBinaryOperator functionalInterface) {
 		Function<Double, AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new LDoubleBinaryOperatorAssert.Impl(functionalInterface, assertFunc);
+		return new LDoubleBinaryOperatorAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LDoubleBinaryOperatorX<X>, X extends Throwable> LDoubleBinaryOperatorXAssert.Impl<A, ? extends AbstractDoubleAssert, X> assertThat(LDoubleBinaryOperatorX<X> functionalInterface) {
+	default <A extends LDoubleBinaryOperatorX<X>, X extends Throwable> LDoubleBinaryOperatorXAssert.The<A, ? extends AbstractDoubleAssert, X> assertThat(LDoubleBinaryOperatorX<X> functionalInterface) {
 		Function<Double, AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new LDoubleBinaryOperatorXAssert.Impl(functionalInterface, assertFunc);
+		return new LDoubleBinaryOperatorXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LCharBinaryOperator> LCharBinaryOperatorAssert.Impl<A, ? extends AbstractCharacterAssert> assertThat(LCharBinaryOperator functionalInterface) {
+	default <A extends LCharBinaryOperator> LCharBinaryOperatorAssert.The<A, ? extends AbstractCharacterAssert> assertThat(LCharBinaryOperator functionalInterface) {
 		Function<Character, AbstractCharacterAssert> assertFunc = this::assertThatChar;
-		return new LCharBinaryOperatorAssert.Impl(functionalInterface, assertFunc);
+		return new LCharBinaryOperatorAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LCharBinaryOperatorX<X>, X extends Throwable> LCharBinaryOperatorXAssert.Impl<A, ? extends AbstractCharacterAssert, X> assertThat(LCharBinaryOperatorX<X> functionalInterface) {
+	default <A extends LCharBinaryOperatorX<X>, X extends Throwable> LCharBinaryOperatorXAssert.The<A, ? extends AbstractCharacterAssert, X> assertThat(LCharBinaryOperatorX<X> functionalInterface) {
 		Function<Character, AbstractCharacterAssert> assertFunc = this::assertThatChar;
-		return new LCharBinaryOperatorXAssert.Impl(functionalInterface, assertFunc);
+		return new LCharBinaryOperatorXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LLogicalBinaryOperator> LLogicalBinaryOperatorAssert.Impl<A, ? extends AbstractBooleanAssert> assertThat(LLogicalBinaryOperator functionalInterface) {
+	default <A extends LLogicalBinaryOperator> LLogicalBinaryOperatorAssert.The<A, ? extends AbstractBooleanAssert> assertThat(LLogicalBinaryOperator functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LLogicalBinaryOperatorAssert.Impl(functionalInterface, assertFunc);
+		return new LLogicalBinaryOperatorAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LLogicalBinaryOperatorX<X>, X extends Throwable> LLogicalBinaryOperatorXAssert.Impl<A, ? extends AbstractBooleanAssert, X> assertThat(LLogicalBinaryOperatorX<X> functionalInterface) {
+	default <A extends LLogicalBinaryOperatorX<X>, X extends Throwable> LLogicalBinaryOperatorXAssert.The<A, ? extends AbstractBooleanAssert, X> assertThat(LLogicalBinaryOperatorX<X> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LLogicalBinaryOperatorXAssert.Impl(functionalInterface, assertFunc);
+		return new LLogicalBinaryOperatorXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LLogicalTernaryOperator> LLogicalTernaryOperatorAssert.Impl<A, ? extends AbstractBooleanAssert> assertThat(LLogicalTernaryOperator functionalInterface) {
+	default <A extends LLogicalTernaryOperator> LLogicalTernaryOperatorAssert.The<A, ? extends AbstractBooleanAssert> assertThat(LLogicalTernaryOperator functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LLogicalTernaryOperatorAssert.Impl(functionalInterface, assertFunc);
+		return new LLogicalTernaryOperatorAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LLogicalTernaryOperatorX<X>, X extends Throwable> LLogicalTernaryOperatorXAssert.Impl<A, ? extends AbstractBooleanAssert, X> assertThat(LLogicalTernaryOperatorX<X> functionalInterface) {
+	default <A extends LLogicalTernaryOperatorX<X>, X extends Throwable> LLogicalTernaryOperatorXAssert.The<A, ? extends AbstractBooleanAssert, X> assertThat(LLogicalTernaryOperatorX<X> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LLogicalTernaryOperatorXAssert.Impl(functionalInterface, assertFunc);
+		return new LLogicalTernaryOperatorXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LFunction<T, R>, T, R> LFunctionAssert.Impl<A, ? extends OS, T, R> assertThat(LFunction<T, R> functionalInterface) { // NOSONAR
+	default <A extends LFunction<T, R>, T, R> LFunctionAssert.The<A, ? extends OS, T, R> assertThat(LFunction<T, R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LFunctionX<T, R, X>, T, R, X extends Throwable> LFunctionXAssert.Impl<A, ? extends OS, T, R, X> assertThat(LFunctionX<T, R, X> functionalInterface) { // NOSONAR
+	default <A extends LFunctionX<T, R, X>, T, R, X extends Throwable> LFunctionXAssert.The<A, ? extends OS, T, R, X> assertThat(LFunctionX<T, R, X> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiFunction<T1, T2, R>, T1, T2, R> LBiFunctionAssert.Impl<A, ? extends OS, T1, T2, R> assertThat(LBiFunction<T1, T2, R> functionalInterface) { // NOSONAR
+	default <A extends LBiFunction<T1, T2, R>, T1, T2, R> LBiFunctionAssert.The<A, ? extends OS, T1, T2, R> assertThat(LBiFunction<T1, T2, R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LBiFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LBiFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiFunctionX<T1, T2, R, X>, T1, T2, R, X extends Throwable> LBiFunctionXAssert.Impl<A, ? extends OS, T1, T2, R, X> assertThat(LBiFunctionX<T1, T2, R, X> functionalInterface) { // NOSONAR
+	default <A extends LBiFunctionX<T1, T2, R, X>, T1, T2, R, X extends Throwable> LBiFunctionXAssert.The<A, ? extends OS, T1, T2, R, X> assertThat(LBiFunctionX<T1, T2, R, X> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LBiFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LBiFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LTriFunction<T1, T2, T3, R>, T1, T2, T3, R> LTriFunctionAssert.Impl<A, ? extends OS, T1, T2, T3, R> assertThat(LTriFunction<T1, T2, T3, R> functionalInterface) { // NOSONAR
+	default <A extends LTriFunction<T1, T2, T3, R>, T1, T2, T3, R> LTriFunctionAssert.The<A, ? extends OS, T1, T2, T3, R> assertThat(LTriFunction<T1, T2, T3, R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LTriFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LTriFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LTriFunctionX<T1, T2, T3, R, X>, T1, T2, T3, R, X extends Throwable> LTriFunctionXAssert.Impl<A, ? extends OS, T1, T2, T3, R, X> assertThat(LTriFunctionX<T1, T2, T3, R, X> functionalInterface) { // NOSONAR
+	default <A extends LTriFunctionX<T1, T2, T3, R, X>, T1, T2, T3, R, X extends Throwable> LTriFunctionXAssert.The<A, ? extends OS, T1, T2, T3, R, X> assertThat(LTriFunctionX<T1, T2, T3, R, X> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LTriFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LTriFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LByteFunction<R>, R> LByteFunctionAssert.Impl<A, ? extends OS, R> assertThat(LByteFunction<R> functionalInterface) { // NOSONAR
+	default <A extends LByteFunction<R>, R> LByteFunctionAssert.The<A, ? extends OS, R> assertThat(LByteFunction<R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LByteFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LByteFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LByteFunctionX<R, X>, R, X extends Throwable> LByteFunctionXAssert.Impl<A, ? extends OS, R, X> assertThat(LByteFunctionX<R, X> functionalInterface) { // NOSONAR
+	default <A extends LByteFunctionX<R, X>, R, X extends Throwable> LByteFunctionXAssert.The<A, ? extends OS, R, X> assertThat(LByteFunctionX<R, X> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LByteFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LByteFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LShortFunction<R>, R> LShortFunctionAssert.Impl<A, ? extends OS, R> assertThat(LShortFunction<R> functionalInterface) { // NOSONAR
+	default <A extends LShortFunction<R>, R> LShortFunctionAssert.The<A, ? extends OS, R> assertThat(LShortFunction<R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LShortFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LShortFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LShortFunctionX<R, X>, R, X extends Throwable> LShortFunctionXAssert.Impl<A, ? extends OS, R, X> assertThat(LShortFunctionX<R, X> functionalInterface) { // NOSONAR
+	default <A extends LShortFunctionX<R, X>, R, X extends Throwable> LShortFunctionXAssert.The<A, ? extends OS, R, X> assertThat(LShortFunctionX<R, X> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LShortFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LShortFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LIntFunction<R>, R> LIntFunctionAssert.Impl<A, ? extends OS, R> assertThat(LIntFunction<R> functionalInterface) { // NOSONAR
+	default <A extends LIntFunction<R>, R> LIntFunctionAssert.The<A, ? extends OS, R> assertThat(LIntFunction<R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LIntFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LIntFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LIntFunctionX<R, X>, R, X extends Throwable> LIntFunctionXAssert.Impl<A, ? extends OS, R, X> assertThat(LIntFunctionX<R, X> functionalInterface) { // NOSONAR
+	default <A extends LIntFunctionX<R, X>, R, X extends Throwable> LIntFunctionXAssert.The<A, ? extends OS, R, X> assertThat(LIntFunctionX<R, X> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LIntFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LIntFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LLongFunction<R>, R> LLongFunctionAssert.Impl<A, ? extends OS, R> assertThat(LLongFunction<R> functionalInterface) { // NOSONAR
+	default <A extends LLongFunction<R>, R> LLongFunctionAssert.The<A, ? extends OS, R> assertThat(LLongFunction<R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LLongFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LLongFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LLongFunctionX<R, X>, R, X extends Throwable> LLongFunctionXAssert.Impl<A, ? extends OS, R, X> assertThat(LLongFunctionX<R, X> functionalInterface) { // NOSONAR
+	default <A extends LLongFunctionX<R, X>, R, X extends Throwable> LLongFunctionXAssert.The<A, ? extends OS, R, X> assertThat(LLongFunctionX<R, X> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LLongFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LLongFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LFloatFunction<R>, R> LFloatFunctionAssert.Impl<A, ? extends OS, R> assertThat(LFloatFunction<R> functionalInterface) { // NOSONAR
+	default <A extends LFloatFunction<R>, R> LFloatFunctionAssert.The<A, ? extends OS, R> assertThat(LFloatFunction<R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LFloatFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LFloatFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LFloatFunctionX<R, X>, R, X extends Throwable> LFloatFunctionXAssert.Impl<A, ? extends OS, R, X> assertThat(LFloatFunctionX<R, X> functionalInterface) { // NOSONAR
+	default <A extends LFloatFunctionX<R, X>, R, X extends Throwable> LFloatFunctionXAssert.The<A, ? extends OS, R, X> assertThat(LFloatFunctionX<R, X> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LFloatFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LFloatFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LDoubleFunction<R>, R> LDoubleFunctionAssert.Impl<A, ? extends OS, R> assertThat(LDoubleFunction<R> functionalInterface) { // NOSONAR
+	default <A extends LDoubleFunction<R>, R> LDoubleFunctionAssert.The<A, ? extends OS, R> assertThat(LDoubleFunction<R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LDoubleFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LDoubleFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LDoubleFunctionX<R, X>, R, X extends Throwable> LDoubleFunctionXAssert.Impl<A, ? extends OS, R, X> assertThat(LDoubleFunctionX<R, X> functionalInterface) { // NOSONAR
+	default <A extends LDoubleFunctionX<R, X>, R, X extends Throwable> LDoubleFunctionXAssert.The<A, ? extends OS, R, X> assertThat(LDoubleFunctionX<R, X> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LDoubleFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LDoubleFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LCharFunction<R>, R> LCharFunctionAssert.Impl<A, ? extends OS, R> assertThat(LCharFunction<R> functionalInterface) { // NOSONAR
+	default <A extends LCharFunction<R>, R> LCharFunctionAssert.The<A, ? extends OS, R> assertThat(LCharFunction<R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LCharFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LCharFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LCharFunctionX<R, X>, R, X extends Throwable> LCharFunctionXAssert.Impl<A, ? extends OS, R, X> assertThat(LCharFunctionX<R, X> functionalInterface) { // NOSONAR
+	default <A extends LCharFunctionX<R, X>, R, X extends Throwable> LCharFunctionXAssert.The<A, ? extends OS, R, X> assertThat(LCharFunctionX<R, X> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LCharFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LCharFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBooleanFunction<R>, R> LBooleanFunctionAssert.Impl<A, ? extends OS, R> assertThat(LBooleanFunction<R> functionalInterface) { // NOSONAR
+	default <A extends LBooleanFunction<R>, R> LBooleanFunctionAssert.The<A, ? extends OS, R> assertThat(LBooleanFunction<R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LBooleanFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LBooleanFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBooleanFunctionX<R, X>, R, X extends Throwable> LBooleanFunctionXAssert.Impl<A, ? extends OS, R, X> assertThat(LBooleanFunctionX<R, X> functionalInterface) { // NOSONAR
+	default <A extends LBooleanFunctionX<R, X>, R, X extends Throwable> LBooleanFunctionXAssert.The<A, ? extends OS, R, X> assertThat(LBooleanFunctionX<R, X> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LBooleanFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LBooleanFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LByteBiFunction<R>, R> LByteBiFunctionAssert.Impl<A, ? extends OS, R> assertThat(LByteBiFunction<R> functionalInterface) { // NOSONAR
+	default <A extends LBiByteFunction<R>, R> LBiByteFunctionAssert.The<A, ? extends OS, R> assertThat(LBiByteFunction<R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LByteBiFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LBiByteFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LByteBiFunctionX<R, X>, R, X extends Throwable> LByteBiFunctionXAssert.Impl<A, ? extends OS, R, X> assertThat(LByteBiFunctionX<R, X> functionalInterface) { // NOSONAR
+	default <A extends LBiByteFunctionX<R, X>, R, X extends Throwable> LBiByteFunctionXAssert.The<A, ? extends OS, R, X> assertThat(LBiByteFunctionX<R, X> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LByteBiFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LBiByteFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LShortBiFunction<R>, R> LShortBiFunctionAssert.Impl<A, ? extends OS, R> assertThat(LShortBiFunction<R> functionalInterface) { // NOSONAR
+	default <A extends LBiShortFunction<R>, R> LBiShortFunctionAssert.The<A, ? extends OS, R> assertThat(LBiShortFunction<R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LShortBiFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LBiShortFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LShortBiFunctionX<R, X>, R, X extends Throwable> LShortBiFunctionXAssert.Impl<A, ? extends OS, R, X> assertThat(LShortBiFunctionX<R, X> functionalInterface) { // NOSONAR
+	default <A extends LBiShortFunctionX<R, X>, R, X extends Throwable> LBiShortFunctionXAssert.The<A, ? extends OS, R, X> assertThat(LBiShortFunctionX<R, X> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LShortBiFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LBiShortFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LIntBiFunction<R>, R> LIntBiFunctionAssert.Impl<A, ? extends OS, R> assertThat(LIntBiFunction<R> functionalInterface) { // NOSONAR
+	default <A extends LBiIntFunction<R>, R> LBiIntFunctionAssert.The<A, ? extends OS, R> assertThat(LBiIntFunction<R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LIntBiFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LBiIntFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LIntBiFunctionX<R, X>, R, X extends Throwable> LIntBiFunctionXAssert.Impl<A, ? extends OS, R, X> assertThat(LIntBiFunctionX<R, X> functionalInterface) { // NOSONAR
+	default <A extends LBiIntFunctionX<R, X>, R, X extends Throwable> LBiIntFunctionXAssert.The<A, ? extends OS, R, X> assertThat(LBiIntFunctionX<R, X> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LIntBiFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LBiIntFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LLongBiFunction<R>, R> LLongBiFunctionAssert.Impl<A, ? extends OS, R> assertThat(LLongBiFunction<R> functionalInterface) { // NOSONAR
+	default <A extends LBiLongFunction<R>, R> LBiLongFunctionAssert.The<A, ? extends OS, R> assertThat(LBiLongFunction<R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LLongBiFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LBiLongFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LLongBiFunctionX<R, X>, R, X extends Throwable> LLongBiFunctionXAssert.Impl<A, ? extends OS, R, X> assertThat(LLongBiFunctionX<R, X> functionalInterface) { // NOSONAR
+	default <A extends LBiLongFunctionX<R, X>, R, X extends Throwable> LBiLongFunctionXAssert.The<A, ? extends OS, R, X> assertThat(LBiLongFunctionX<R, X> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LLongBiFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LBiLongFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LFloatBiFunction<R>, R> LFloatBiFunctionAssert.Impl<A, ? extends OS, R> assertThat(LFloatBiFunction<R> functionalInterface) { // NOSONAR
+	default <A extends LBiFloatFunction<R>, R> LBiFloatFunctionAssert.The<A, ? extends OS, R> assertThat(LBiFloatFunction<R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LFloatBiFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LBiFloatFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LFloatBiFunctionX<R, X>, R, X extends Throwable> LFloatBiFunctionXAssert.Impl<A, ? extends OS, R, X> assertThat(LFloatBiFunctionX<R, X> functionalInterface) { // NOSONAR
+	default <A extends LBiFloatFunctionX<R, X>, R, X extends Throwable> LBiFloatFunctionXAssert.The<A, ? extends OS, R, X> assertThat(LBiFloatFunctionX<R, X> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LFloatBiFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LBiFloatFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LDoubleBiFunction<R>, R> LDoubleBiFunctionAssert.Impl<A, ? extends OS, R> assertThat(LDoubleBiFunction<R> functionalInterface) { // NOSONAR
+	default <A extends LBiDoubleFunction<R>, R> LBiDoubleFunctionAssert.The<A, ? extends OS, R> assertThat(LBiDoubleFunction<R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LDoubleBiFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LBiDoubleFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LDoubleBiFunctionX<R, X>, R, X extends Throwable> LDoubleBiFunctionXAssert.Impl<A, ? extends OS, R, X> assertThat(LDoubleBiFunctionX<R, X> functionalInterface) { // NOSONAR
+	default <A extends LBiDoubleFunctionX<R, X>, R, X extends Throwable> LBiDoubleFunctionXAssert.The<A, ? extends OS, R, X> assertThat(LBiDoubleFunctionX<R, X> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LDoubleBiFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LBiDoubleFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LCharBiFunction<R>, R> LCharBiFunctionAssert.Impl<A, ? extends OS, R> assertThat(LCharBiFunction<R> functionalInterface) { // NOSONAR
+	default <A extends LBiCharFunction<R>, R> LBiCharFunctionAssert.The<A, ? extends OS, R> assertThat(LBiCharFunction<R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LCharBiFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LBiCharFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LCharBiFunctionX<R, X>, R, X extends Throwable> LCharBiFunctionXAssert.Impl<A, ? extends OS, R, X> assertThat(LCharBiFunctionX<R, X> functionalInterface) { // NOSONAR
+	default <A extends LBiCharFunctionX<R, X>, R, X extends Throwable> LBiCharFunctionXAssert.The<A, ? extends OS, R, X> assertThat(LBiCharFunctionX<R, X> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LCharBiFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LBiCharFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBooleanBiFunction<R>, R> LBooleanBiFunctionAssert.Impl<A, ? extends OS, R> assertThat(LBooleanBiFunction<R> functionalInterface) { // NOSONAR
+	default <A extends LBiBooleanFunction<R>, R> LBiBooleanFunctionAssert.The<A, ? extends OS, R> assertThat(LBiBooleanFunction<R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LBooleanBiFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LBiBooleanFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBooleanBiFunctionX<R, X>, R, X extends Throwable> LBooleanBiFunctionXAssert.Impl<A, ? extends OS, R, X> assertThat(LBooleanBiFunctionX<R, X> functionalInterface) { // NOSONAR
+	default <A extends LBiBooleanFunctionX<R, X>, R, X extends Throwable> LBiBooleanFunctionXAssert.The<A, ? extends OS, R, X> assertThat(LBiBooleanFunctionX<R, X> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LBooleanBiFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LBiBooleanFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBooleanTriFunction<R>, R> LBooleanTriFunctionAssert.Impl<A, ? extends OS, R> assertThat(LBooleanTriFunction<R> functionalInterface) { // NOSONAR
+	default <A extends LTriBooleanFunction<R>, R> LTriBooleanFunctionAssert.The<A, ? extends OS, R> assertThat(LTriBooleanFunction<R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LBooleanTriFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LTriBooleanFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBooleanTriFunctionX<R, X>, R, X extends Throwable> LBooleanTriFunctionXAssert.Impl<A, ? extends OS, R, X> assertThat(LBooleanTriFunctionX<R, X> functionalInterface) { // NOSONAR
+	default <A extends LTriBooleanFunctionX<R, X>, R, X extends Throwable> LTriBooleanFunctionXAssert.The<A, ? extends OS, R, X> assertThat(LTriBooleanFunctionX<R, X> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LBooleanTriFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LTriBooleanFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LObjByteFunction<T, R>, T, R> LObjByteFunctionAssert.Impl<A, ? extends OS, T, R> assertThat(LObjByteFunction<T, R> functionalInterface) { // NOSONAR
+	default <A extends LObjByteFunction<T, R>, T, R> LObjByteFunctionAssert.The<A, ? extends OS, T, R> assertThat(LObjByteFunction<T, R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LObjByteFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LObjByteFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LObjByteFunctionX<T, R, X>, T, R, X extends Throwable> LObjByteFunctionXAssert.Impl<A, ? extends OS, T, R, X> assertThat(LObjByteFunctionX<T, R, X> functionalInterface) { // NOSONAR
+	default <A extends LObjByteFunctionX<T, R, X>, T, R, X extends Throwable> LObjByteFunctionXAssert.The<A, ? extends OS, T, R, X> assertThat(LObjByteFunctionX<T, R, X> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LObjByteFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LObjByteFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LObjShortFunction<T, R>, T, R> LObjShortFunctionAssert.Impl<A, ? extends OS, T, R> assertThat(LObjShortFunction<T, R> functionalInterface) { // NOSONAR
+	default <A extends LObjShortFunction<T, R>, T, R> LObjShortFunctionAssert.The<A, ? extends OS, T, R> assertThat(LObjShortFunction<T, R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LObjShortFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LObjShortFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LObjShortFunctionX<T, R, X>, T, R, X extends Throwable> LObjShortFunctionXAssert.Impl<A, ? extends OS, T, R, X> assertThat(LObjShortFunctionX<T, R, X> functionalInterface) { // NOSONAR
+	default <A extends LObjShortFunctionX<T, R, X>, T, R, X extends Throwable> LObjShortFunctionXAssert.The<A, ? extends OS, T, R, X> assertThat(LObjShortFunctionX<T, R, X> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LObjShortFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LObjShortFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LObjIntFunction<T, R>, T, R> LObjIntFunctionAssert.Impl<A, ? extends OS, T, R> assertThat(LObjIntFunction<T, R> functionalInterface) { // NOSONAR
+	default <A extends LObjIntFunction<T, R>, T, R> LObjIntFunctionAssert.The<A, ? extends OS, T, R> assertThat(LObjIntFunction<T, R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LObjIntFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LObjIntFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LObjIntFunctionX<T, R, X>, T, R, X extends Throwable> LObjIntFunctionXAssert.Impl<A, ? extends OS, T, R, X> assertThat(LObjIntFunctionX<T, R, X> functionalInterface) { // NOSONAR
+	default <A extends LObjIntFunctionX<T, R, X>, T, R, X extends Throwable> LObjIntFunctionXAssert.The<A, ? extends OS, T, R, X> assertThat(LObjIntFunctionX<T, R, X> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LObjIntFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LObjIntFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LObjLongFunction<T, R>, T, R> LObjLongFunctionAssert.Impl<A, ? extends OS, T, R> assertThat(LObjLongFunction<T, R> functionalInterface) { // NOSONAR
+	default <A extends LObjLongFunction<T, R>, T, R> LObjLongFunctionAssert.The<A, ? extends OS, T, R> assertThat(LObjLongFunction<T, R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LObjLongFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LObjLongFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LObjLongFunctionX<T, R, X>, T, R, X extends Throwable> LObjLongFunctionXAssert.Impl<A, ? extends OS, T, R, X> assertThat(LObjLongFunctionX<T, R, X> functionalInterface) { // NOSONAR
+	default <A extends LObjLongFunctionX<T, R, X>, T, R, X extends Throwable> LObjLongFunctionXAssert.The<A, ? extends OS, T, R, X> assertThat(LObjLongFunctionX<T, R, X> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LObjLongFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LObjLongFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LObjFloatFunction<T, R>, T, R> LObjFloatFunctionAssert.Impl<A, ? extends OS, T, R> assertThat(LObjFloatFunction<T, R> functionalInterface) { // NOSONAR
+	default <A extends LObjFloatFunction<T, R>, T, R> LObjFloatFunctionAssert.The<A, ? extends OS, T, R> assertThat(LObjFloatFunction<T, R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LObjFloatFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LObjFloatFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LObjFloatFunctionX<T, R, X>, T, R, X extends Throwable> LObjFloatFunctionXAssert.Impl<A, ? extends OS, T, R, X> assertThat(LObjFloatFunctionX<T, R, X> functionalInterface) { // NOSONAR
+	default <A extends LObjFloatFunctionX<T, R, X>, T, R, X extends Throwable> LObjFloatFunctionXAssert.The<A, ? extends OS, T, R, X> assertThat(LObjFloatFunctionX<T, R, X> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LObjFloatFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LObjFloatFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LObjDoubleFunction<T, R>, T, R> LObjDoubleFunctionAssert.Impl<A, ? extends OS, T, R> assertThat(LObjDoubleFunction<T, R> functionalInterface) { // NOSONAR
+	default <A extends LObjDoubleFunction<T, R>, T, R> LObjDoubleFunctionAssert.The<A, ? extends OS, T, R> assertThat(LObjDoubleFunction<T, R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LObjDoubleFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LObjDoubleFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LObjDoubleFunctionX<T, R, X>, T, R, X extends Throwable> LObjDoubleFunctionXAssert.Impl<A, ? extends OS, T, R, X> assertThat(LObjDoubleFunctionX<T, R, X> functionalInterface) { // NOSONAR
+	default <A extends LObjDoubleFunctionX<T, R, X>, T, R, X extends Throwable> LObjDoubleFunctionXAssert.The<A, ? extends OS, T, R, X> assertThat(LObjDoubleFunctionX<T, R, X> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LObjDoubleFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LObjDoubleFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LObjCharFunction<T, R>, T, R> LObjCharFunctionAssert.Impl<A, ? extends OS, T, R> assertThat(LObjCharFunction<T, R> functionalInterface) { // NOSONAR
+	default <A extends LObjCharFunction<T, R>, T, R> LObjCharFunctionAssert.The<A, ? extends OS, T, R> assertThat(LObjCharFunction<T, R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LObjCharFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LObjCharFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LObjCharFunctionX<T, R, X>, T, R, X extends Throwable> LObjCharFunctionXAssert.Impl<A, ? extends OS, T, R, X> assertThat(LObjCharFunctionX<T, R, X> functionalInterface) { // NOSONAR
+	default <A extends LObjCharFunctionX<T, R, X>, T, R, X extends Throwable> LObjCharFunctionXAssert.The<A, ? extends OS, T, R, X> assertThat(LObjCharFunctionX<T, R, X> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LObjCharFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LObjCharFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LObjBooleanFunction<T, R>, T, R> LObjBooleanFunctionAssert.Impl<A, ? extends OS, T, R> assertThat(LObjBooleanFunction<T, R> functionalInterface) { // NOSONAR
+	default <A extends LObjBooleanFunction<T, R>, T, R> LObjBooleanFunctionAssert.The<A, ? extends OS, T, R> assertThat(LObjBooleanFunction<T, R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LObjBooleanFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LObjBooleanFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LObjBooleanFunctionX<T, R, X>, T, R, X extends Throwable> LObjBooleanFunctionXAssert.Impl<A, ? extends OS, T, R, X> assertThat(LObjBooleanFunctionX<T, R, X> functionalInterface) { // NOSONAR
+	default <A extends LObjBooleanFunctionX<T, R, X>, T, R, X extends Throwable> LObjBooleanFunctionXAssert.The<A, ? extends OS, T, R, X> assertThat(LObjBooleanFunctionX<T, R, X> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LObjBooleanFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LObjBooleanFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiObjByteFunction<T1, T2, R>, T1, T2, R> LBiObjByteFunctionAssert.Impl<A, ? extends OS, T1, T2, R> assertThat(LBiObjByteFunction<T1, T2, R> functionalInterface) { // NOSONAR
+	default <A extends LBiObjByteFunction<T1, T2, R>, T1, T2, R> LBiObjByteFunctionAssert.The<A, ? extends OS, T1, T2, R> assertThat(LBiObjByteFunction<T1, T2, R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LBiObjByteFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LBiObjByteFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiObjByteFunctionX<T1, T2, R, X>, T1, T2, R, X extends Throwable> LBiObjByteFunctionXAssert.Impl<A, ? extends OS, T1, T2, R, X> assertThat(LBiObjByteFunctionX<T1, T2, R, X> functionalInterface) { // NOSONAR
+	default <A extends LBiObjByteFunctionX<T1, T2, R, X>, T1, T2, R, X extends Throwable> LBiObjByteFunctionXAssert.The<A, ? extends OS, T1, T2, R, X> assertThat(LBiObjByteFunctionX<T1, T2, R, X> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LBiObjByteFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LBiObjByteFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiObjShortFunction<T1, T2, R>, T1, T2, R> LBiObjShortFunctionAssert.Impl<A, ? extends OS, T1, T2, R> assertThat(LBiObjShortFunction<T1, T2, R> functionalInterface) { // NOSONAR
+	default <A extends LBiObjShortFunction<T1, T2, R>, T1, T2, R> LBiObjShortFunctionAssert.The<A, ? extends OS, T1, T2, R> assertThat(LBiObjShortFunction<T1, T2, R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LBiObjShortFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LBiObjShortFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiObjShortFunctionX<T1, T2, R, X>, T1, T2, R, X extends Throwable> LBiObjShortFunctionXAssert.Impl<A, ? extends OS, T1, T2, R, X> assertThat(LBiObjShortFunctionX<T1, T2, R, X> functionalInterface) { // NOSONAR
+	default <A extends LBiObjShortFunctionX<T1, T2, R, X>, T1, T2, R, X extends Throwable> LBiObjShortFunctionXAssert.The<A, ? extends OS, T1, T2, R, X> assertThat(LBiObjShortFunctionX<T1, T2, R, X> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LBiObjShortFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LBiObjShortFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiObjIntFunction<T1, T2, R>, T1, T2, R> LBiObjIntFunctionAssert.Impl<A, ? extends OS, T1, T2, R> assertThat(LBiObjIntFunction<T1, T2, R> functionalInterface) { // NOSONAR
+	default <A extends LBiObjIntFunction<T1, T2, R>, T1, T2, R> LBiObjIntFunctionAssert.The<A, ? extends OS, T1, T2, R> assertThat(LBiObjIntFunction<T1, T2, R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LBiObjIntFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LBiObjIntFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiObjIntFunctionX<T1, T2, R, X>, T1, T2, R, X extends Throwable> LBiObjIntFunctionXAssert.Impl<A, ? extends OS, T1, T2, R, X> assertThat(LBiObjIntFunctionX<T1, T2, R, X> functionalInterface) { // NOSONAR
+	default <A extends LBiObjIntFunctionX<T1, T2, R, X>, T1, T2, R, X extends Throwable> LBiObjIntFunctionXAssert.The<A, ? extends OS, T1, T2, R, X> assertThat(LBiObjIntFunctionX<T1, T2, R, X> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LBiObjIntFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LBiObjIntFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiObjLongFunction<T1, T2, R>, T1, T2, R> LBiObjLongFunctionAssert.Impl<A, ? extends OS, T1, T2, R> assertThat(LBiObjLongFunction<T1, T2, R> functionalInterface) { // NOSONAR
+	default <A extends LBiObjLongFunction<T1, T2, R>, T1, T2, R> LBiObjLongFunctionAssert.The<A, ? extends OS, T1, T2, R> assertThat(LBiObjLongFunction<T1, T2, R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LBiObjLongFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LBiObjLongFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiObjLongFunctionX<T1, T2, R, X>, T1, T2, R, X extends Throwable> LBiObjLongFunctionXAssert.Impl<A, ? extends OS, T1, T2, R, X> assertThat(LBiObjLongFunctionX<T1, T2, R, X> functionalInterface) { // NOSONAR
+	default <A extends LBiObjLongFunctionX<T1, T2, R, X>, T1, T2, R, X extends Throwable> LBiObjLongFunctionXAssert.The<A, ? extends OS, T1, T2, R, X> assertThat(LBiObjLongFunctionX<T1, T2, R, X> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LBiObjLongFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LBiObjLongFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiObjFloatFunction<T1, T2, R>, T1, T2, R> LBiObjFloatFunctionAssert.Impl<A, ? extends OS, T1, T2, R> assertThat(LBiObjFloatFunction<T1, T2, R> functionalInterface) { // NOSONAR
+	default <A extends LBiObjFloatFunction<T1, T2, R>, T1, T2, R> LBiObjFloatFunctionAssert.The<A, ? extends OS, T1, T2, R> assertThat(LBiObjFloatFunction<T1, T2, R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LBiObjFloatFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LBiObjFloatFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiObjFloatFunctionX<T1, T2, R, X>, T1, T2, R, X extends Throwable> LBiObjFloatFunctionXAssert.Impl<A, ? extends OS, T1, T2, R, X> assertThat(LBiObjFloatFunctionX<T1, T2, R, X> functionalInterface) { // NOSONAR
+	default <A extends LBiObjFloatFunctionX<T1, T2, R, X>, T1, T2, R, X extends Throwable> LBiObjFloatFunctionXAssert.The<A, ? extends OS, T1, T2, R, X> assertThat(LBiObjFloatFunctionX<T1, T2, R, X> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LBiObjFloatFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LBiObjFloatFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiObjDoubleFunction<T1, T2, R>, T1, T2, R> LBiObjDoubleFunctionAssert.Impl<A, ? extends OS, T1, T2, R> assertThat(LBiObjDoubleFunction<T1, T2, R> functionalInterface) { // NOSONAR
+	default <A extends LBiObjDoubleFunction<T1, T2, R>, T1, T2, R> LBiObjDoubleFunctionAssert.The<A, ? extends OS, T1, T2, R> assertThat(LBiObjDoubleFunction<T1, T2, R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LBiObjDoubleFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LBiObjDoubleFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiObjDoubleFunctionX<T1, T2, R, X>, T1, T2, R, X extends Throwable> LBiObjDoubleFunctionXAssert.Impl<A, ? extends OS, T1, T2, R, X> assertThat(LBiObjDoubleFunctionX<T1, T2, R, X> functionalInterface) { // NOSONAR
+	default <A extends LBiObjDoubleFunctionX<T1, T2, R, X>, T1, T2, R, X extends Throwable> LBiObjDoubleFunctionXAssert.The<A, ? extends OS, T1, T2, R, X> assertThat(LBiObjDoubleFunctionX<T1, T2, R, X> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LBiObjDoubleFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LBiObjDoubleFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiObjCharFunction<T1, T2, R>, T1, T2, R> LBiObjCharFunctionAssert.Impl<A, ? extends OS, T1, T2, R> assertThat(LBiObjCharFunction<T1, T2, R> functionalInterface) { // NOSONAR
+	default <A extends LBiObjCharFunction<T1, T2, R>, T1, T2, R> LBiObjCharFunctionAssert.The<A, ? extends OS, T1, T2, R> assertThat(LBiObjCharFunction<T1, T2, R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LBiObjCharFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LBiObjCharFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiObjCharFunctionX<T1, T2, R, X>, T1, T2, R, X extends Throwable> LBiObjCharFunctionXAssert.Impl<A, ? extends OS, T1, T2, R, X> assertThat(LBiObjCharFunctionX<T1, T2, R, X> functionalInterface) { // NOSONAR
+	default <A extends LBiObjCharFunctionX<T1, T2, R, X>, T1, T2, R, X extends Throwable> LBiObjCharFunctionXAssert.The<A, ? extends OS, T1, T2, R, X> assertThat(LBiObjCharFunctionX<T1, T2, R, X> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LBiObjCharFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LBiObjCharFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiObjBooleanFunction<T1, T2, R>, T1, T2, R> LBiObjBooleanFunctionAssert.Impl<A, ? extends OS, T1, T2, R> assertThat(LBiObjBooleanFunction<T1, T2, R> functionalInterface) { // NOSONAR
+	default <A extends LBiObjBooleanFunction<T1, T2, R>, T1, T2, R> LBiObjBooleanFunctionAssert.The<A, ? extends OS, T1, T2, R> assertThat(LBiObjBooleanFunction<T1, T2, R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LBiObjBooleanFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LBiObjBooleanFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiObjBooleanFunctionX<T1, T2, R, X>, T1, T2, R, X extends Throwable> LBiObjBooleanFunctionXAssert.Impl<A, ? extends OS, T1, T2, R, X> assertThat(LBiObjBooleanFunctionX<T1, T2, R, X> functionalInterface) { // NOSONAR
+	default <A extends LBiObjBooleanFunctionX<T1, T2, R, X>, T1, T2, R, X extends Throwable> LBiObjBooleanFunctionXAssert.The<A, ? extends OS, T1, T2, R, X> assertThat(LBiObjBooleanFunctionX<T1, T2, R, X> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LBiObjBooleanFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LBiObjBooleanFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LToByteFunction<T>, T> LToByteFunctionAssert.Impl<A, ? extends AbstractByteAssert, T> assertThat(LToByteFunction<T> functionalInterface) {
+	default <A extends LToByteFunction<T>, T> LToByteFunctionAssert.The<A, ? extends AbstractByteAssert, T> assertThat(LToByteFunction<T> functionalInterface) {
 		Function<Byte, AbstractByteAssert> assertFunc = this::assertThatByte;
-		return new LToByteFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LToByteFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LToByteFunctionX<T, X>, T, X extends Throwable> LToByteFunctionXAssert.Impl<A, ? extends AbstractByteAssert, T, X> assertThat(LToByteFunctionX<T, X> functionalInterface) {
+	default <A extends LToByteFunctionX<T, X>, T, X extends Throwable> LToByteFunctionXAssert.The<A, ? extends AbstractByteAssert, T, X> assertThat(LToByteFunctionX<T, X> functionalInterface) {
 		Function<Byte, AbstractByteAssert> assertFunc = this::assertThatByte;
-		return new LToByteFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LToByteFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LToShortFunction<T>, T> LToShortFunctionAssert.Impl<A, ? extends AbstractShortAssert, T> assertThat(LToShortFunction<T> functionalInterface) {
+	default <A extends LToShortFunction<T>, T> LToShortFunctionAssert.The<A, ? extends AbstractShortAssert, T> assertThat(LToShortFunction<T> functionalInterface) {
 		Function<Short, AbstractShortAssert> assertFunc = this::assertThatShort;
-		return new LToShortFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LToShortFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LToShortFunctionX<T, X>, T, X extends Throwable> LToShortFunctionXAssert.Impl<A, ? extends AbstractShortAssert, T, X> assertThat(LToShortFunctionX<T, X> functionalInterface) {
+	default <A extends LToShortFunctionX<T, X>, T, X extends Throwable> LToShortFunctionXAssert.The<A, ? extends AbstractShortAssert, T, X> assertThat(LToShortFunctionX<T, X> functionalInterface) {
 		Function<Short, AbstractShortAssert> assertFunc = this::assertThatShort;
-		return new LToShortFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LToShortFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LToIntFunction<T>, T> LToIntFunctionAssert.Impl<A, ? extends AbstractIntegerAssert, T> assertThat(LToIntFunction<T> functionalInterface) {
+	default <A extends LToIntFunction<T>, T> LToIntFunctionAssert.The<A, ? extends AbstractIntegerAssert, T> assertThat(LToIntFunction<T> functionalInterface) {
 		Function<Integer, AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new LToIntFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LToIntFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LToIntFunctionX<T, X>, T, X extends Throwable> LToIntFunctionXAssert.Impl<A, ? extends AbstractIntegerAssert, T, X> assertThat(LToIntFunctionX<T, X> functionalInterface) {
+	default <A extends LToIntFunctionX<T, X>, T, X extends Throwable> LToIntFunctionXAssert.The<A, ? extends AbstractIntegerAssert, T, X> assertThat(LToIntFunctionX<T, X> functionalInterface) {
 		Function<Integer, AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new LToIntFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LToIntFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LToLongFunction<T>, T> LToLongFunctionAssert.Impl<A, ? extends AbstractLongAssert, T> assertThat(LToLongFunction<T> functionalInterface) {
+	default <A extends LToLongFunction<T>, T> LToLongFunctionAssert.The<A, ? extends AbstractLongAssert, T> assertThat(LToLongFunction<T> functionalInterface) {
 		Function<Long, AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new LToLongFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LToLongFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LToLongFunctionX<T, X>, T, X extends Throwable> LToLongFunctionXAssert.Impl<A, ? extends AbstractLongAssert, T, X> assertThat(LToLongFunctionX<T, X> functionalInterface) {
+	default <A extends LToLongFunctionX<T, X>, T, X extends Throwable> LToLongFunctionXAssert.The<A, ? extends AbstractLongAssert, T, X> assertThat(LToLongFunctionX<T, X> functionalInterface) {
 		Function<Long, AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new LToLongFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LToLongFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LToFloatFunction<T>, T> LToFloatFunctionAssert.Impl<A, ? extends AbstractFloatAssert, T> assertThat(LToFloatFunction<T> functionalInterface) {
+	default <A extends LToFloatFunction<T>, T> LToFloatFunctionAssert.The<A, ? extends AbstractFloatAssert, T> assertThat(LToFloatFunction<T> functionalInterface) {
 		Function<Float, AbstractFloatAssert> assertFunc = this::assertThatFloat;
-		return new LToFloatFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LToFloatFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LToFloatFunctionX<T, X>, T, X extends Throwable> LToFloatFunctionXAssert.Impl<A, ? extends AbstractFloatAssert, T, X> assertThat(LToFloatFunctionX<T, X> functionalInterface) {
+	default <A extends LToFloatFunctionX<T, X>, T, X extends Throwable> LToFloatFunctionXAssert.The<A, ? extends AbstractFloatAssert, T, X> assertThat(LToFloatFunctionX<T, X> functionalInterface) {
 		Function<Float, AbstractFloatAssert> assertFunc = this::assertThatFloat;
-		return new LToFloatFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LToFloatFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LToDoubleFunction<T>, T> LToDoubleFunctionAssert.Impl<A, ? extends AbstractDoubleAssert, T> assertThat(LToDoubleFunction<T> functionalInterface) {
+	default <A extends LToDoubleFunction<T>, T> LToDoubleFunctionAssert.The<A, ? extends AbstractDoubleAssert, T> assertThat(LToDoubleFunction<T> functionalInterface) {
 		Function<Double, AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new LToDoubleFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LToDoubleFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LToDoubleFunctionX<T, X>, T, X extends Throwable> LToDoubleFunctionXAssert.Impl<A, ? extends AbstractDoubleAssert, T, X> assertThat(LToDoubleFunctionX<T, X> functionalInterface) {
+	default <A extends LToDoubleFunctionX<T, X>, T, X extends Throwable> LToDoubleFunctionXAssert.The<A, ? extends AbstractDoubleAssert, T, X> assertThat(LToDoubleFunctionX<T, X> functionalInterface) {
 		Function<Double, AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new LToDoubleFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LToDoubleFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LToCharFunction<T>, T> LToCharFunctionAssert.Impl<A, ? extends AbstractCharacterAssert, T> assertThat(LToCharFunction<T> functionalInterface) {
+	default <A extends LToCharFunction<T>, T> LToCharFunctionAssert.The<A, ? extends AbstractCharacterAssert, T> assertThat(LToCharFunction<T> functionalInterface) {
 		Function<Character, AbstractCharacterAssert> assertFunc = this::assertThatChar;
-		return new LToCharFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LToCharFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LToCharFunctionX<T, X>, T, X extends Throwable> LToCharFunctionXAssert.Impl<A, ? extends AbstractCharacterAssert, T, X> assertThat(LToCharFunctionX<T, X> functionalInterface) {
+	default <A extends LToCharFunctionX<T, X>, T, X extends Throwable> LToCharFunctionXAssert.The<A, ? extends AbstractCharacterAssert, T, X> assertThat(LToCharFunctionX<T, X> functionalInterface) {
 		Function<Character, AbstractCharacterAssert> assertFunc = this::assertThatChar;
-		return new LToCharFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LToCharFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LToByteBiFunction<T1, T2>, T1, T2> LToByteBiFunctionAssert.Impl<A, ? extends AbstractByteAssert, T1, T2> assertThat(LToByteBiFunction<T1, T2> functionalInterface) {
+	default <A extends LToByteBiFunction<T1, T2>, T1, T2> LToByteBiFunctionAssert.The<A, ? extends AbstractByteAssert, T1, T2> assertThat(LToByteBiFunction<T1, T2> functionalInterface) {
 		Function<Byte, AbstractByteAssert> assertFunc = this::assertThatByte;
-		return new LToByteBiFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LToByteBiFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LToByteBiFunctionX<T1, T2, X>, T1, T2, X extends Throwable> LToByteBiFunctionXAssert.Impl<A, ? extends AbstractByteAssert, T1, T2, X> assertThat(LToByteBiFunctionX<T1, T2, X> functionalInterface) {
+	default <A extends LToByteBiFunctionX<T1, T2, X>, T1, T2, X extends Throwable> LToByteBiFunctionXAssert.The<A, ? extends AbstractByteAssert, T1, T2, X> assertThat(LToByteBiFunctionX<T1, T2, X> functionalInterface) {
 		Function<Byte, AbstractByteAssert> assertFunc = this::assertThatByte;
-		return new LToByteBiFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LToByteBiFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LToShortBiFunction<T1, T2>, T1, T2> LToShortBiFunctionAssert.Impl<A, ? extends AbstractShortAssert, T1, T2> assertThat(LToShortBiFunction<T1, T2> functionalInterface) {
+	default <A extends LToShortBiFunction<T1, T2>, T1, T2> LToShortBiFunctionAssert.The<A, ? extends AbstractShortAssert, T1, T2> assertThat(LToShortBiFunction<T1, T2> functionalInterface) {
 		Function<Short, AbstractShortAssert> assertFunc = this::assertThatShort;
-		return new LToShortBiFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LToShortBiFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LToShortBiFunctionX<T1, T2, X>, T1, T2, X extends Throwable> LToShortBiFunctionXAssert.Impl<A, ? extends AbstractShortAssert, T1, T2, X> assertThat(LToShortBiFunctionX<T1, T2, X> functionalInterface) {
+	default <A extends LToShortBiFunctionX<T1, T2, X>, T1, T2, X extends Throwable> LToShortBiFunctionXAssert.The<A, ? extends AbstractShortAssert, T1, T2, X> assertThat(LToShortBiFunctionX<T1, T2, X> functionalInterface) {
 		Function<Short, AbstractShortAssert> assertFunc = this::assertThatShort;
-		return new LToShortBiFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LToShortBiFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LToIntBiFunction<T1, T2>, T1, T2> LToIntBiFunctionAssert.Impl<A, ? extends AbstractIntegerAssert, T1, T2> assertThat(LToIntBiFunction<T1, T2> functionalInterface) {
+	default <A extends LToIntBiFunction<T1, T2>, T1, T2> LToIntBiFunctionAssert.The<A, ? extends AbstractIntegerAssert, T1, T2> assertThat(LToIntBiFunction<T1, T2> functionalInterface) {
 		Function<Integer, AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new LToIntBiFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LToIntBiFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LToIntBiFunctionX<T1, T2, X>, T1, T2, X extends Throwable> LToIntBiFunctionXAssert.Impl<A, ? extends AbstractIntegerAssert, T1, T2, X> assertThat(LToIntBiFunctionX<T1, T2, X> functionalInterface) {
+	default <A extends LToIntBiFunctionX<T1, T2, X>, T1, T2, X extends Throwable> LToIntBiFunctionXAssert.The<A, ? extends AbstractIntegerAssert, T1, T2, X> assertThat(LToIntBiFunctionX<T1, T2, X> functionalInterface) {
 		Function<Integer, AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new LToIntBiFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LToIntBiFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LToLongBiFunction<T1, T2>, T1, T2> LToLongBiFunctionAssert.Impl<A, ? extends AbstractLongAssert, T1, T2> assertThat(LToLongBiFunction<T1, T2> functionalInterface) {
+	default <A extends LToLongBiFunction<T1, T2>, T1, T2> LToLongBiFunctionAssert.The<A, ? extends AbstractLongAssert, T1, T2> assertThat(LToLongBiFunction<T1, T2> functionalInterface) {
 		Function<Long, AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new LToLongBiFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LToLongBiFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LToLongBiFunctionX<T1, T2, X>, T1, T2, X extends Throwable> LToLongBiFunctionXAssert.Impl<A, ? extends AbstractLongAssert, T1, T2, X> assertThat(LToLongBiFunctionX<T1, T2, X> functionalInterface) {
+	default <A extends LToLongBiFunctionX<T1, T2, X>, T1, T2, X extends Throwable> LToLongBiFunctionXAssert.The<A, ? extends AbstractLongAssert, T1, T2, X> assertThat(LToLongBiFunctionX<T1, T2, X> functionalInterface) {
 		Function<Long, AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new LToLongBiFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LToLongBiFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LToFloatBiFunction<T1, T2>, T1, T2> LToFloatBiFunctionAssert.Impl<A, ? extends AbstractFloatAssert, T1, T2> assertThat(LToFloatBiFunction<T1, T2> functionalInterface) {
+	default <A extends LToFloatBiFunction<T1, T2>, T1, T2> LToFloatBiFunctionAssert.The<A, ? extends AbstractFloatAssert, T1, T2> assertThat(LToFloatBiFunction<T1, T2> functionalInterface) {
 		Function<Float, AbstractFloatAssert> assertFunc = this::assertThatFloat;
-		return new LToFloatBiFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LToFloatBiFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LToFloatBiFunctionX<T1, T2, X>, T1, T2, X extends Throwable> LToFloatBiFunctionXAssert.Impl<A, ? extends AbstractFloatAssert, T1, T2, X> assertThat(LToFloatBiFunctionX<T1, T2, X> functionalInterface) {
+	default <A extends LToFloatBiFunctionX<T1, T2, X>, T1, T2, X extends Throwable> LToFloatBiFunctionXAssert.The<A, ? extends AbstractFloatAssert, T1, T2, X> assertThat(LToFloatBiFunctionX<T1, T2, X> functionalInterface) {
 		Function<Float, AbstractFloatAssert> assertFunc = this::assertThatFloat;
-		return new LToFloatBiFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LToFloatBiFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LToDoubleBiFunction<T1, T2>, T1, T2> LToDoubleBiFunctionAssert.Impl<A, ? extends AbstractDoubleAssert, T1, T2> assertThat(LToDoubleBiFunction<T1, T2> functionalInterface) {
+	default <A extends LToDoubleBiFunction<T1, T2>, T1, T2> LToDoubleBiFunctionAssert.The<A, ? extends AbstractDoubleAssert, T1, T2> assertThat(LToDoubleBiFunction<T1, T2> functionalInterface) {
 		Function<Double, AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new LToDoubleBiFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LToDoubleBiFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LToDoubleBiFunctionX<T1, T2, X>, T1, T2, X extends Throwable> LToDoubleBiFunctionXAssert.Impl<A, ? extends AbstractDoubleAssert, T1, T2, X> assertThat(LToDoubleBiFunctionX<T1, T2, X> functionalInterface) {
+	default <A extends LToDoubleBiFunctionX<T1, T2, X>, T1, T2, X extends Throwable> LToDoubleBiFunctionXAssert.The<A, ? extends AbstractDoubleAssert, T1, T2, X> assertThat(LToDoubleBiFunctionX<T1, T2, X> functionalInterface) {
 		Function<Double, AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new LToDoubleBiFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LToDoubleBiFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LToCharBiFunction<T1, T2>, T1, T2> LToCharBiFunctionAssert.Impl<A, ? extends AbstractCharacterAssert, T1, T2> assertThat(LToCharBiFunction<T1, T2> functionalInterface) {
+	default <A extends LToCharBiFunction<T1, T2>, T1, T2> LToCharBiFunctionAssert.The<A, ? extends AbstractCharacterAssert, T1, T2> assertThat(LToCharBiFunction<T1, T2> functionalInterface) {
 		Function<Character, AbstractCharacterAssert> assertFunc = this::assertThatChar;
-		return new LToCharBiFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LToCharBiFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LToCharBiFunctionX<T1, T2, X>, T1, T2, X extends Throwable> LToCharBiFunctionXAssert.Impl<A, ? extends AbstractCharacterAssert, T1, T2, X> assertThat(LToCharBiFunctionX<T1, T2, X> functionalInterface) {
+	default <A extends LToCharBiFunctionX<T1, T2, X>, T1, T2, X extends Throwable> LToCharBiFunctionXAssert.The<A, ? extends AbstractCharacterAssert, T1, T2, X> assertThat(LToCharBiFunctionX<T1, T2, X> functionalInterface) {
 		Function<Character, AbstractCharacterAssert> assertFunc = this::assertThatChar;
-		return new LToCharBiFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LToCharBiFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LObjIntToIntFunction<T>, T> LObjIntToIntFunctionAssert.Impl<A, ? extends AbstractIntegerAssert, T> assertThat(LObjIntToIntFunction<T> functionalInterface) {
+	default <A extends LObjIntToIntFunction<T>, T> LObjIntToIntFunctionAssert.The<A, ? extends AbstractIntegerAssert, T> assertThat(LObjIntToIntFunction<T> functionalInterface) {
 		Function<Integer, AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new LObjIntToIntFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LObjIntToIntFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LObjIntToIntFunctionX<T, X>, T, X extends Throwable> LObjIntToIntFunctionXAssert.Impl<A, ? extends AbstractIntegerAssert, T, X> assertThat(LObjIntToIntFunctionX<T, X> functionalInterface) {
+	default <A extends LObjIntToIntFunctionX<T, X>, T, X extends Throwable> LObjIntToIntFunctionXAssert.The<A, ? extends AbstractIntegerAssert, T, X> assertThat(LObjIntToIntFunctionX<T, X> functionalInterface) {
 		Function<Integer, AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new LObjIntToIntFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LObjIntToIntFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LByteToShortFunction> LByteToShortFunctionAssert.Impl<A, ? extends AbstractShortAssert> assertThat(LByteToShortFunction functionalInterface) {
+	default <A extends LByteToShortFunction> LByteToShortFunctionAssert.The<A, ? extends AbstractShortAssert> assertThat(LByteToShortFunction functionalInterface) {
 		Function<Short, AbstractShortAssert> assertFunc = this::assertThatShort;
-		return new LByteToShortFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LByteToShortFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LByteToShortFunctionX<X>, X extends Throwable> LByteToShortFunctionXAssert.Impl<A, ? extends AbstractShortAssert, X> assertThat(LByteToShortFunctionX<X> functionalInterface) {
+	default <A extends LByteToShortFunctionX<X>, X extends Throwable> LByteToShortFunctionXAssert.The<A, ? extends AbstractShortAssert, X> assertThat(LByteToShortFunctionX<X> functionalInterface) {
 		Function<Short, AbstractShortAssert> assertFunc = this::assertThatShort;
-		return new LByteToShortFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LByteToShortFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LByteToIntFunction> LByteToIntFunctionAssert.Impl<A, ? extends AbstractIntegerAssert> assertThat(LByteToIntFunction functionalInterface) {
+	default <A extends LByteToIntFunction> LByteToIntFunctionAssert.The<A, ? extends AbstractIntegerAssert> assertThat(LByteToIntFunction functionalInterface) {
 		Function<Integer, AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new LByteToIntFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LByteToIntFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LByteToIntFunctionX<X>, X extends Throwable> LByteToIntFunctionXAssert.Impl<A, ? extends AbstractIntegerAssert, X> assertThat(LByteToIntFunctionX<X> functionalInterface) {
+	default <A extends LByteToIntFunctionX<X>, X extends Throwable> LByteToIntFunctionXAssert.The<A, ? extends AbstractIntegerAssert, X> assertThat(LByteToIntFunctionX<X> functionalInterface) {
 		Function<Integer, AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new LByteToIntFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LByteToIntFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LByteToLongFunction> LByteToLongFunctionAssert.Impl<A, ? extends AbstractLongAssert> assertThat(LByteToLongFunction functionalInterface) {
+	default <A extends LByteToLongFunction> LByteToLongFunctionAssert.The<A, ? extends AbstractLongAssert> assertThat(LByteToLongFunction functionalInterface) {
 		Function<Long, AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new LByteToLongFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LByteToLongFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LByteToLongFunctionX<X>, X extends Throwable> LByteToLongFunctionXAssert.Impl<A, ? extends AbstractLongAssert, X> assertThat(LByteToLongFunctionX<X> functionalInterface) {
+	default <A extends LByteToLongFunctionX<X>, X extends Throwable> LByteToLongFunctionXAssert.The<A, ? extends AbstractLongAssert, X> assertThat(LByteToLongFunctionX<X> functionalInterface) {
 		Function<Long, AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new LByteToLongFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LByteToLongFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LByteToFloatFunction> LByteToFloatFunctionAssert.Impl<A, ? extends AbstractFloatAssert> assertThat(LByteToFloatFunction functionalInterface) {
+	default <A extends LByteToFloatFunction> LByteToFloatFunctionAssert.The<A, ? extends AbstractFloatAssert> assertThat(LByteToFloatFunction functionalInterface) {
 		Function<Float, AbstractFloatAssert> assertFunc = this::assertThatFloat;
-		return new LByteToFloatFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LByteToFloatFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LByteToFloatFunctionX<X>, X extends Throwable> LByteToFloatFunctionXAssert.Impl<A, ? extends AbstractFloatAssert, X> assertThat(LByteToFloatFunctionX<X> functionalInterface) {
+	default <A extends LByteToFloatFunctionX<X>, X extends Throwable> LByteToFloatFunctionXAssert.The<A, ? extends AbstractFloatAssert, X> assertThat(LByteToFloatFunctionX<X> functionalInterface) {
 		Function<Float, AbstractFloatAssert> assertFunc = this::assertThatFloat;
-		return new LByteToFloatFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LByteToFloatFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LByteToDoubleFunction> LByteToDoubleFunctionAssert.Impl<A, ? extends AbstractDoubleAssert> assertThat(LByteToDoubleFunction functionalInterface) {
+	default <A extends LByteToDoubleFunction> LByteToDoubleFunctionAssert.The<A, ? extends AbstractDoubleAssert> assertThat(LByteToDoubleFunction functionalInterface) {
 		Function<Double, AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new LByteToDoubleFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LByteToDoubleFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LByteToDoubleFunctionX<X>, X extends Throwable> LByteToDoubleFunctionXAssert.Impl<A, ? extends AbstractDoubleAssert, X> assertThat(LByteToDoubleFunctionX<X> functionalInterface) {
+	default <A extends LByteToDoubleFunctionX<X>, X extends Throwable> LByteToDoubleFunctionXAssert.The<A, ? extends AbstractDoubleAssert, X> assertThat(LByteToDoubleFunctionX<X> functionalInterface) {
 		Function<Double, AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new LByteToDoubleFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LByteToDoubleFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LByteToCharFunction> LByteToCharFunctionAssert.Impl<A, ? extends AbstractCharacterAssert> assertThat(LByteToCharFunction functionalInterface) {
+	default <A extends LByteToCharFunction> LByteToCharFunctionAssert.The<A, ? extends AbstractCharacterAssert> assertThat(LByteToCharFunction functionalInterface) {
 		Function<Character, AbstractCharacterAssert> assertFunc = this::assertThatChar;
-		return new LByteToCharFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LByteToCharFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LByteToCharFunctionX<X>, X extends Throwable> LByteToCharFunctionXAssert.Impl<A, ? extends AbstractCharacterAssert, X> assertThat(LByteToCharFunctionX<X> functionalInterface) {
+	default <A extends LByteToCharFunctionX<X>, X extends Throwable> LByteToCharFunctionXAssert.The<A, ? extends AbstractCharacterAssert, X> assertThat(LByteToCharFunctionX<X> functionalInterface) {
 		Function<Character, AbstractCharacterAssert> assertFunc = this::assertThatChar;
-		return new LByteToCharFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LByteToCharFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LShortToByteFunction> LShortToByteFunctionAssert.Impl<A, ? extends AbstractByteAssert> assertThat(LShortToByteFunction functionalInterface) {
+	default <A extends LShortToByteFunction> LShortToByteFunctionAssert.The<A, ? extends AbstractByteAssert> assertThat(LShortToByteFunction functionalInterface) {
 		Function<Byte, AbstractByteAssert> assertFunc = this::assertThatByte;
-		return new LShortToByteFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LShortToByteFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LShortToByteFunctionX<X>, X extends Throwable> LShortToByteFunctionXAssert.Impl<A, ? extends AbstractByteAssert, X> assertThat(LShortToByteFunctionX<X> functionalInterface) {
+	default <A extends LShortToByteFunctionX<X>, X extends Throwable> LShortToByteFunctionXAssert.The<A, ? extends AbstractByteAssert, X> assertThat(LShortToByteFunctionX<X> functionalInterface) {
 		Function<Byte, AbstractByteAssert> assertFunc = this::assertThatByte;
-		return new LShortToByteFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LShortToByteFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LShortToIntFunction> LShortToIntFunctionAssert.Impl<A, ? extends AbstractIntegerAssert> assertThat(LShortToIntFunction functionalInterface) {
+	default <A extends LShortToIntFunction> LShortToIntFunctionAssert.The<A, ? extends AbstractIntegerAssert> assertThat(LShortToIntFunction functionalInterface) {
 		Function<Integer, AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new LShortToIntFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LShortToIntFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LShortToIntFunctionX<X>, X extends Throwable> LShortToIntFunctionXAssert.Impl<A, ? extends AbstractIntegerAssert, X> assertThat(LShortToIntFunctionX<X> functionalInterface) {
+	default <A extends LShortToIntFunctionX<X>, X extends Throwable> LShortToIntFunctionXAssert.The<A, ? extends AbstractIntegerAssert, X> assertThat(LShortToIntFunctionX<X> functionalInterface) {
 		Function<Integer, AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new LShortToIntFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LShortToIntFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LShortToLongFunction> LShortToLongFunctionAssert.Impl<A, ? extends AbstractLongAssert> assertThat(LShortToLongFunction functionalInterface) {
+	default <A extends LShortToLongFunction> LShortToLongFunctionAssert.The<A, ? extends AbstractLongAssert> assertThat(LShortToLongFunction functionalInterface) {
 		Function<Long, AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new LShortToLongFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LShortToLongFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LShortToLongFunctionX<X>, X extends Throwable> LShortToLongFunctionXAssert.Impl<A, ? extends AbstractLongAssert, X> assertThat(LShortToLongFunctionX<X> functionalInterface) {
+	default <A extends LShortToLongFunctionX<X>, X extends Throwable> LShortToLongFunctionXAssert.The<A, ? extends AbstractLongAssert, X> assertThat(LShortToLongFunctionX<X> functionalInterface) {
 		Function<Long, AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new LShortToLongFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LShortToLongFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LShortToFloatFunction> LShortToFloatFunctionAssert.Impl<A, ? extends AbstractFloatAssert> assertThat(LShortToFloatFunction functionalInterface) {
+	default <A extends LShortToFloatFunction> LShortToFloatFunctionAssert.The<A, ? extends AbstractFloatAssert> assertThat(LShortToFloatFunction functionalInterface) {
 		Function<Float, AbstractFloatAssert> assertFunc = this::assertThatFloat;
-		return new LShortToFloatFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LShortToFloatFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LShortToFloatFunctionX<X>, X extends Throwable> LShortToFloatFunctionXAssert.Impl<A, ? extends AbstractFloatAssert, X> assertThat(LShortToFloatFunctionX<X> functionalInterface) {
+	default <A extends LShortToFloatFunctionX<X>, X extends Throwable> LShortToFloatFunctionXAssert.The<A, ? extends AbstractFloatAssert, X> assertThat(LShortToFloatFunctionX<X> functionalInterface) {
 		Function<Float, AbstractFloatAssert> assertFunc = this::assertThatFloat;
-		return new LShortToFloatFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LShortToFloatFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LShortToDoubleFunction> LShortToDoubleFunctionAssert.Impl<A, ? extends AbstractDoubleAssert> assertThat(LShortToDoubleFunction functionalInterface) {
+	default <A extends LShortToDoubleFunction> LShortToDoubleFunctionAssert.The<A, ? extends AbstractDoubleAssert> assertThat(LShortToDoubleFunction functionalInterface) {
 		Function<Double, AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new LShortToDoubleFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LShortToDoubleFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LShortToDoubleFunctionX<X>, X extends Throwable> LShortToDoubleFunctionXAssert.Impl<A, ? extends AbstractDoubleAssert, X> assertThat(LShortToDoubleFunctionX<X> functionalInterface) {
+	default <A extends LShortToDoubleFunctionX<X>, X extends Throwable> LShortToDoubleFunctionXAssert.The<A, ? extends AbstractDoubleAssert, X> assertThat(LShortToDoubleFunctionX<X> functionalInterface) {
 		Function<Double, AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new LShortToDoubleFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LShortToDoubleFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LShortToCharFunction> LShortToCharFunctionAssert.Impl<A, ? extends AbstractCharacterAssert> assertThat(LShortToCharFunction functionalInterface) {
+	default <A extends LShortToCharFunction> LShortToCharFunctionAssert.The<A, ? extends AbstractCharacterAssert> assertThat(LShortToCharFunction functionalInterface) {
 		Function<Character, AbstractCharacterAssert> assertFunc = this::assertThatChar;
-		return new LShortToCharFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LShortToCharFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LShortToCharFunctionX<X>, X extends Throwable> LShortToCharFunctionXAssert.Impl<A, ? extends AbstractCharacterAssert, X> assertThat(LShortToCharFunctionX<X> functionalInterface) {
+	default <A extends LShortToCharFunctionX<X>, X extends Throwable> LShortToCharFunctionXAssert.The<A, ? extends AbstractCharacterAssert, X> assertThat(LShortToCharFunctionX<X> functionalInterface) {
 		Function<Character, AbstractCharacterAssert> assertFunc = this::assertThatChar;
-		return new LShortToCharFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LShortToCharFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LIntToByteFunction> LIntToByteFunctionAssert.Impl<A, ? extends AbstractByteAssert> assertThat(LIntToByteFunction functionalInterface) {
+	default <A extends LIntToByteFunction> LIntToByteFunctionAssert.The<A, ? extends AbstractByteAssert> assertThat(LIntToByteFunction functionalInterface) {
 		Function<Byte, AbstractByteAssert> assertFunc = this::assertThatByte;
-		return new LIntToByteFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LIntToByteFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LIntToByteFunctionX<X>, X extends Throwable> LIntToByteFunctionXAssert.Impl<A, ? extends AbstractByteAssert, X> assertThat(LIntToByteFunctionX<X> functionalInterface) {
+	default <A extends LIntToByteFunctionX<X>, X extends Throwable> LIntToByteFunctionXAssert.The<A, ? extends AbstractByteAssert, X> assertThat(LIntToByteFunctionX<X> functionalInterface) {
 		Function<Byte, AbstractByteAssert> assertFunc = this::assertThatByte;
-		return new LIntToByteFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LIntToByteFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LIntToShortFunction> LIntToShortFunctionAssert.Impl<A, ? extends AbstractShortAssert> assertThat(LIntToShortFunction functionalInterface) {
+	default <A extends LIntToShortFunction> LIntToShortFunctionAssert.The<A, ? extends AbstractShortAssert> assertThat(LIntToShortFunction functionalInterface) {
 		Function<Short, AbstractShortAssert> assertFunc = this::assertThatShort;
-		return new LIntToShortFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LIntToShortFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LIntToShortFunctionX<X>, X extends Throwable> LIntToShortFunctionXAssert.Impl<A, ? extends AbstractShortAssert, X> assertThat(LIntToShortFunctionX<X> functionalInterface) {
+	default <A extends LIntToShortFunctionX<X>, X extends Throwable> LIntToShortFunctionXAssert.The<A, ? extends AbstractShortAssert, X> assertThat(LIntToShortFunctionX<X> functionalInterface) {
 		Function<Short, AbstractShortAssert> assertFunc = this::assertThatShort;
-		return new LIntToShortFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LIntToShortFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LIntToLongFunction> LIntToLongFunctionAssert.Impl<A, ? extends AbstractLongAssert> assertThat(LIntToLongFunction functionalInterface) {
+	default <A extends LIntToLongFunction> LIntToLongFunctionAssert.The<A, ? extends AbstractLongAssert> assertThat(LIntToLongFunction functionalInterface) {
 		Function<Long, AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new LIntToLongFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LIntToLongFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LIntToLongFunctionX<X>, X extends Throwable> LIntToLongFunctionXAssert.Impl<A, ? extends AbstractLongAssert, X> assertThat(LIntToLongFunctionX<X> functionalInterface) {
+	default <A extends LIntToLongFunctionX<X>, X extends Throwable> LIntToLongFunctionXAssert.The<A, ? extends AbstractLongAssert, X> assertThat(LIntToLongFunctionX<X> functionalInterface) {
 		Function<Long, AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new LIntToLongFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LIntToLongFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LIntToFloatFunction> LIntToFloatFunctionAssert.Impl<A, ? extends AbstractFloatAssert> assertThat(LIntToFloatFunction functionalInterface) {
+	default <A extends LIntToFloatFunction> LIntToFloatFunctionAssert.The<A, ? extends AbstractFloatAssert> assertThat(LIntToFloatFunction functionalInterface) {
 		Function<Float, AbstractFloatAssert> assertFunc = this::assertThatFloat;
-		return new LIntToFloatFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LIntToFloatFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LIntToFloatFunctionX<X>, X extends Throwable> LIntToFloatFunctionXAssert.Impl<A, ? extends AbstractFloatAssert, X> assertThat(LIntToFloatFunctionX<X> functionalInterface) {
+	default <A extends LIntToFloatFunctionX<X>, X extends Throwable> LIntToFloatFunctionXAssert.The<A, ? extends AbstractFloatAssert, X> assertThat(LIntToFloatFunctionX<X> functionalInterface) {
 		Function<Float, AbstractFloatAssert> assertFunc = this::assertThatFloat;
-		return new LIntToFloatFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LIntToFloatFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LIntToDoubleFunction> LIntToDoubleFunctionAssert.Impl<A, ? extends AbstractDoubleAssert> assertThat(LIntToDoubleFunction functionalInterface) {
+	default <A extends LIntToDoubleFunction> LIntToDoubleFunctionAssert.The<A, ? extends AbstractDoubleAssert> assertThat(LIntToDoubleFunction functionalInterface) {
 		Function<Double, AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new LIntToDoubleFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LIntToDoubleFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LIntToDoubleFunctionX<X>, X extends Throwable> LIntToDoubleFunctionXAssert.Impl<A, ? extends AbstractDoubleAssert, X> assertThat(LIntToDoubleFunctionX<X> functionalInterface) {
+	default <A extends LIntToDoubleFunctionX<X>, X extends Throwable> LIntToDoubleFunctionXAssert.The<A, ? extends AbstractDoubleAssert, X> assertThat(LIntToDoubleFunctionX<X> functionalInterface) {
 		Function<Double, AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new LIntToDoubleFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LIntToDoubleFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LIntToCharFunction> LIntToCharFunctionAssert.Impl<A, ? extends AbstractCharacterAssert> assertThat(LIntToCharFunction functionalInterface) {
+	default <A extends LIntToCharFunction> LIntToCharFunctionAssert.The<A, ? extends AbstractCharacterAssert> assertThat(LIntToCharFunction functionalInterface) {
 		Function<Character, AbstractCharacterAssert> assertFunc = this::assertThatChar;
-		return new LIntToCharFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LIntToCharFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LIntToCharFunctionX<X>, X extends Throwable> LIntToCharFunctionXAssert.Impl<A, ? extends AbstractCharacterAssert, X> assertThat(LIntToCharFunctionX<X> functionalInterface) {
+	default <A extends LIntToCharFunctionX<X>, X extends Throwable> LIntToCharFunctionXAssert.The<A, ? extends AbstractCharacterAssert, X> assertThat(LIntToCharFunctionX<X> functionalInterface) {
 		Function<Character, AbstractCharacterAssert> assertFunc = this::assertThatChar;
-		return new LIntToCharFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LIntToCharFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LLongToByteFunction> LLongToByteFunctionAssert.Impl<A, ? extends AbstractByteAssert> assertThat(LLongToByteFunction functionalInterface) {
+	default <A extends LLongToByteFunction> LLongToByteFunctionAssert.The<A, ? extends AbstractByteAssert> assertThat(LLongToByteFunction functionalInterface) {
 		Function<Byte, AbstractByteAssert> assertFunc = this::assertThatByte;
-		return new LLongToByteFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LLongToByteFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LLongToByteFunctionX<X>, X extends Throwable> LLongToByteFunctionXAssert.Impl<A, ? extends AbstractByteAssert, X> assertThat(LLongToByteFunctionX<X> functionalInterface) {
+	default <A extends LLongToByteFunctionX<X>, X extends Throwable> LLongToByteFunctionXAssert.The<A, ? extends AbstractByteAssert, X> assertThat(LLongToByteFunctionX<X> functionalInterface) {
 		Function<Byte, AbstractByteAssert> assertFunc = this::assertThatByte;
-		return new LLongToByteFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LLongToByteFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LLongToShortFunction> LLongToShortFunctionAssert.Impl<A, ? extends AbstractShortAssert> assertThat(LLongToShortFunction functionalInterface) {
+	default <A extends LLongToShortFunction> LLongToShortFunctionAssert.The<A, ? extends AbstractShortAssert> assertThat(LLongToShortFunction functionalInterface) {
 		Function<Short, AbstractShortAssert> assertFunc = this::assertThatShort;
-		return new LLongToShortFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LLongToShortFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LLongToShortFunctionX<X>, X extends Throwable> LLongToShortFunctionXAssert.Impl<A, ? extends AbstractShortAssert, X> assertThat(LLongToShortFunctionX<X> functionalInterface) {
+	default <A extends LLongToShortFunctionX<X>, X extends Throwable> LLongToShortFunctionXAssert.The<A, ? extends AbstractShortAssert, X> assertThat(LLongToShortFunctionX<X> functionalInterface) {
 		Function<Short, AbstractShortAssert> assertFunc = this::assertThatShort;
-		return new LLongToShortFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LLongToShortFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LLongToIntFunction> LLongToIntFunctionAssert.Impl<A, ? extends AbstractIntegerAssert> assertThat(LLongToIntFunction functionalInterface) {
+	default <A extends LLongToIntFunction> LLongToIntFunctionAssert.The<A, ? extends AbstractIntegerAssert> assertThat(LLongToIntFunction functionalInterface) {
 		Function<Integer, AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new LLongToIntFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LLongToIntFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LLongToIntFunctionX<X>, X extends Throwable> LLongToIntFunctionXAssert.Impl<A, ? extends AbstractIntegerAssert, X> assertThat(LLongToIntFunctionX<X> functionalInterface) {
+	default <A extends LLongToIntFunctionX<X>, X extends Throwable> LLongToIntFunctionXAssert.The<A, ? extends AbstractIntegerAssert, X> assertThat(LLongToIntFunctionX<X> functionalInterface) {
 		Function<Integer, AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new LLongToIntFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LLongToIntFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LLongToFloatFunction> LLongToFloatFunctionAssert.Impl<A, ? extends AbstractFloatAssert> assertThat(LLongToFloatFunction functionalInterface) {
+	default <A extends LLongToFloatFunction> LLongToFloatFunctionAssert.The<A, ? extends AbstractFloatAssert> assertThat(LLongToFloatFunction functionalInterface) {
 		Function<Float, AbstractFloatAssert> assertFunc = this::assertThatFloat;
-		return new LLongToFloatFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LLongToFloatFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LLongToFloatFunctionX<X>, X extends Throwable> LLongToFloatFunctionXAssert.Impl<A, ? extends AbstractFloatAssert, X> assertThat(LLongToFloatFunctionX<X> functionalInterface) {
+	default <A extends LLongToFloatFunctionX<X>, X extends Throwable> LLongToFloatFunctionXAssert.The<A, ? extends AbstractFloatAssert, X> assertThat(LLongToFloatFunctionX<X> functionalInterface) {
 		Function<Float, AbstractFloatAssert> assertFunc = this::assertThatFloat;
-		return new LLongToFloatFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LLongToFloatFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LLongToDoubleFunction> LLongToDoubleFunctionAssert.Impl<A, ? extends AbstractDoubleAssert> assertThat(LLongToDoubleFunction functionalInterface) {
+	default <A extends LLongToDoubleFunction> LLongToDoubleFunctionAssert.The<A, ? extends AbstractDoubleAssert> assertThat(LLongToDoubleFunction functionalInterface) {
 		Function<Double, AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new LLongToDoubleFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LLongToDoubleFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LLongToDoubleFunctionX<X>, X extends Throwable> LLongToDoubleFunctionXAssert.Impl<A, ? extends AbstractDoubleAssert, X> assertThat(LLongToDoubleFunctionX<X> functionalInterface) {
+	default <A extends LLongToDoubleFunctionX<X>, X extends Throwable> LLongToDoubleFunctionXAssert.The<A, ? extends AbstractDoubleAssert, X> assertThat(LLongToDoubleFunctionX<X> functionalInterface) {
 		Function<Double, AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new LLongToDoubleFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LLongToDoubleFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LLongToCharFunction> LLongToCharFunctionAssert.Impl<A, ? extends AbstractCharacterAssert> assertThat(LLongToCharFunction functionalInterface) {
+	default <A extends LLongToCharFunction> LLongToCharFunctionAssert.The<A, ? extends AbstractCharacterAssert> assertThat(LLongToCharFunction functionalInterface) {
 		Function<Character, AbstractCharacterAssert> assertFunc = this::assertThatChar;
-		return new LLongToCharFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LLongToCharFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LLongToCharFunctionX<X>, X extends Throwable> LLongToCharFunctionXAssert.Impl<A, ? extends AbstractCharacterAssert, X> assertThat(LLongToCharFunctionX<X> functionalInterface) {
+	default <A extends LLongToCharFunctionX<X>, X extends Throwable> LLongToCharFunctionXAssert.The<A, ? extends AbstractCharacterAssert, X> assertThat(LLongToCharFunctionX<X> functionalInterface) {
 		Function<Character, AbstractCharacterAssert> assertFunc = this::assertThatChar;
-		return new LLongToCharFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LLongToCharFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LFloatToByteFunction> LFloatToByteFunctionAssert.Impl<A, ? extends AbstractByteAssert> assertThat(LFloatToByteFunction functionalInterface) {
+	default <A extends LFloatToByteFunction> LFloatToByteFunctionAssert.The<A, ? extends AbstractByteAssert> assertThat(LFloatToByteFunction functionalInterface) {
 		Function<Byte, AbstractByteAssert> assertFunc = this::assertThatByte;
-		return new LFloatToByteFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LFloatToByteFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LFloatToByteFunctionX<X>, X extends Throwable> LFloatToByteFunctionXAssert.Impl<A, ? extends AbstractByteAssert, X> assertThat(LFloatToByteFunctionX<X> functionalInterface) {
+	default <A extends LFloatToByteFunctionX<X>, X extends Throwable> LFloatToByteFunctionXAssert.The<A, ? extends AbstractByteAssert, X> assertThat(LFloatToByteFunctionX<X> functionalInterface) {
 		Function<Byte, AbstractByteAssert> assertFunc = this::assertThatByte;
-		return new LFloatToByteFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LFloatToByteFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LFloatToShortFunction> LFloatToShortFunctionAssert.Impl<A, ? extends AbstractShortAssert> assertThat(LFloatToShortFunction functionalInterface) {
+	default <A extends LFloatToShortFunction> LFloatToShortFunctionAssert.The<A, ? extends AbstractShortAssert> assertThat(LFloatToShortFunction functionalInterface) {
 		Function<Short, AbstractShortAssert> assertFunc = this::assertThatShort;
-		return new LFloatToShortFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LFloatToShortFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LFloatToShortFunctionX<X>, X extends Throwable> LFloatToShortFunctionXAssert.Impl<A, ? extends AbstractShortAssert, X> assertThat(LFloatToShortFunctionX<X> functionalInterface) {
+	default <A extends LFloatToShortFunctionX<X>, X extends Throwable> LFloatToShortFunctionXAssert.The<A, ? extends AbstractShortAssert, X> assertThat(LFloatToShortFunctionX<X> functionalInterface) {
 		Function<Short, AbstractShortAssert> assertFunc = this::assertThatShort;
-		return new LFloatToShortFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LFloatToShortFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LFloatToIntFunction> LFloatToIntFunctionAssert.Impl<A, ? extends AbstractIntegerAssert> assertThat(LFloatToIntFunction functionalInterface) {
+	default <A extends LFloatToIntFunction> LFloatToIntFunctionAssert.The<A, ? extends AbstractIntegerAssert> assertThat(LFloatToIntFunction functionalInterface) {
 		Function<Integer, AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new LFloatToIntFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LFloatToIntFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LFloatToIntFunctionX<X>, X extends Throwable> LFloatToIntFunctionXAssert.Impl<A, ? extends AbstractIntegerAssert, X> assertThat(LFloatToIntFunctionX<X> functionalInterface) {
+	default <A extends LFloatToIntFunctionX<X>, X extends Throwable> LFloatToIntFunctionXAssert.The<A, ? extends AbstractIntegerAssert, X> assertThat(LFloatToIntFunctionX<X> functionalInterface) {
 		Function<Integer, AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new LFloatToIntFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LFloatToIntFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LFloatToLongFunction> LFloatToLongFunctionAssert.Impl<A, ? extends AbstractLongAssert> assertThat(LFloatToLongFunction functionalInterface) {
+	default <A extends LFloatToLongFunction> LFloatToLongFunctionAssert.The<A, ? extends AbstractLongAssert> assertThat(LFloatToLongFunction functionalInterface) {
 		Function<Long, AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new LFloatToLongFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LFloatToLongFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LFloatToLongFunctionX<X>, X extends Throwable> LFloatToLongFunctionXAssert.Impl<A, ? extends AbstractLongAssert, X> assertThat(LFloatToLongFunctionX<X> functionalInterface) {
+	default <A extends LFloatToLongFunctionX<X>, X extends Throwable> LFloatToLongFunctionXAssert.The<A, ? extends AbstractLongAssert, X> assertThat(LFloatToLongFunctionX<X> functionalInterface) {
 		Function<Long, AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new LFloatToLongFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LFloatToLongFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LFloatToDoubleFunction> LFloatToDoubleFunctionAssert.Impl<A, ? extends AbstractDoubleAssert> assertThat(LFloatToDoubleFunction functionalInterface) {
+	default <A extends LFloatToDoubleFunction> LFloatToDoubleFunctionAssert.The<A, ? extends AbstractDoubleAssert> assertThat(LFloatToDoubleFunction functionalInterface) {
 		Function<Double, AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new LFloatToDoubleFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LFloatToDoubleFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LFloatToDoubleFunctionX<X>, X extends Throwable> LFloatToDoubleFunctionXAssert.Impl<A, ? extends AbstractDoubleAssert, X> assertThat(LFloatToDoubleFunctionX<X> functionalInterface) {
+	default <A extends LFloatToDoubleFunctionX<X>, X extends Throwable> LFloatToDoubleFunctionXAssert.The<A, ? extends AbstractDoubleAssert, X> assertThat(LFloatToDoubleFunctionX<X> functionalInterface) {
 		Function<Double, AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new LFloatToDoubleFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LFloatToDoubleFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LFloatToCharFunction> LFloatToCharFunctionAssert.Impl<A, ? extends AbstractCharacterAssert> assertThat(LFloatToCharFunction functionalInterface) {
+	default <A extends LFloatToCharFunction> LFloatToCharFunctionAssert.The<A, ? extends AbstractCharacterAssert> assertThat(LFloatToCharFunction functionalInterface) {
 		Function<Character, AbstractCharacterAssert> assertFunc = this::assertThatChar;
-		return new LFloatToCharFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LFloatToCharFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LFloatToCharFunctionX<X>, X extends Throwable> LFloatToCharFunctionXAssert.Impl<A, ? extends AbstractCharacterAssert, X> assertThat(LFloatToCharFunctionX<X> functionalInterface) {
+	default <A extends LFloatToCharFunctionX<X>, X extends Throwable> LFloatToCharFunctionXAssert.The<A, ? extends AbstractCharacterAssert, X> assertThat(LFloatToCharFunctionX<X> functionalInterface) {
 		Function<Character, AbstractCharacterAssert> assertFunc = this::assertThatChar;
-		return new LFloatToCharFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LFloatToCharFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LDoubleToByteFunction> LDoubleToByteFunctionAssert.Impl<A, ? extends AbstractByteAssert> assertThat(LDoubleToByteFunction functionalInterface) {
+	default <A extends LDoubleToByteFunction> LDoubleToByteFunctionAssert.The<A, ? extends AbstractByteAssert> assertThat(LDoubleToByteFunction functionalInterface) {
 		Function<Byte, AbstractByteAssert> assertFunc = this::assertThatByte;
-		return new LDoubleToByteFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LDoubleToByteFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LDoubleToByteFunctionX<X>, X extends Throwable> LDoubleToByteFunctionXAssert.Impl<A, ? extends AbstractByteAssert, X> assertThat(LDoubleToByteFunctionX<X> functionalInterface) {
+	default <A extends LDoubleToByteFunctionX<X>, X extends Throwable> LDoubleToByteFunctionXAssert.The<A, ? extends AbstractByteAssert, X> assertThat(LDoubleToByteFunctionX<X> functionalInterface) {
 		Function<Byte, AbstractByteAssert> assertFunc = this::assertThatByte;
-		return new LDoubleToByteFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LDoubleToByteFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LDoubleToShortFunction> LDoubleToShortFunctionAssert.Impl<A, ? extends AbstractShortAssert> assertThat(LDoubleToShortFunction functionalInterface) {
+	default <A extends LDoubleToShortFunction> LDoubleToShortFunctionAssert.The<A, ? extends AbstractShortAssert> assertThat(LDoubleToShortFunction functionalInterface) {
 		Function<Short, AbstractShortAssert> assertFunc = this::assertThatShort;
-		return new LDoubleToShortFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LDoubleToShortFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LDoubleToShortFunctionX<X>, X extends Throwable> LDoubleToShortFunctionXAssert.Impl<A, ? extends AbstractShortAssert, X> assertThat(LDoubleToShortFunctionX<X> functionalInterface) {
+	default <A extends LDoubleToShortFunctionX<X>, X extends Throwable> LDoubleToShortFunctionXAssert.The<A, ? extends AbstractShortAssert, X> assertThat(LDoubleToShortFunctionX<X> functionalInterface) {
 		Function<Short, AbstractShortAssert> assertFunc = this::assertThatShort;
-		return new LDoubleToShortFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LDoubleToShortFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LDoubleToIntFunction> LDoubleToIntFunctionAssert.Impl<A, ? extends AbstractIntegerAssert> assertThat(LDoubleToIntFunction functionalInterface) {
+	default <A extends LDoubleToIntFunction> LDoubleToIntFunctionAssert.The<A, ? extends AbstractIntegerAssert> assertThat(LDoubleToIntFunction functionalInterface) {
 		Function<Integer, AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new LDoubleToIntFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LDoubleToIntFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LDoubleToIntFunctionX<X>, X extends Throwable> LDoubleToIntFunctionXAssert.Impl<A, ? extends AbstractIntegerAssert, X> assertThat(LDoubleToIntFunctionX<X> functionalInterface) {
+	default <A extends LDoubleToIntFunctionX<X>, X extends Throwable> LDoubleToIntFunctionXAssert.The<A, ? extends AbstractIntegerAssert, X> assertThat(LDoubleToIntFunctionX<X> functionalInterface) {
 		Function<Integer, AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new LDoubleToIntFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LDoubleToIntFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LDoubleToLongFunction> LDoubleToLongFunctionAssert.Impl<A, ? extends AbstractLongAssert> assertThat(LDoubleToLongFunction functionalInterface) {
+	default <A extends LDoubleToLongFunction> LDoubleToLongFunctionAssert.The<A, ? extends AbstractLongAssert> assertThat(LDoubleToLongFunction functionalInterface) {
 		Function<Long, AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new LDoubleToLongFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LDoubleToLongFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LDoubleToLongFunctionX<X>, X extends Throwable> LDoubleToLongFunctionXAssert.Impl<A, ? extends AbstractLongAssert, X> assertThat(LDoubleToLongFunctionX<X> functionalInterface) {
+	default <A extends LDoubleToLongFunctionX<X>, X extends Throwable> LDoubleToLongFunctionXAssert.The<A, ? extends AbstractLongAssert, X> assertThat(LDoubleToLongFunctionX<X> functionalInterface) {
 		Function<Long, AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new LDoubleToLongFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LDoubleToLongFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LDoubleToFloatFunction> LDoubleToFloatFunctionAssert.Impl<A, ? extends AbstractFloatAssert> assertThat(LDoubleToFloatFunction functionalInterface) {
+	default <A extends LDoubleToFloatFunction> LDoubleToFloatFunctionAssert.The<A, ? extends AbstractFloatAssert> assertThat(LDoubleToFloatFunction functionalInterface) {
 		Function<Float, AbstractFloatAssert> assertFunc = this::assertThatFloat;
-		return new LDoubleToFloatFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LDoubleToFloatFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LDoubleToFloatFunctionX<X>, X extends Throwable> LDoubleToFloatFunctionXAssert.Impl<A, ? extends AbstractFloatAssert, X> assertThat(LDoubleToFloatFunctionX<X> functionalInterface) {
+	default <A extends LDoubleToFloatFunctionX<X>, X extends Throwable> LDoubleToFloatFunctionXAssert.The<A, ? extends AbstractFloatAssert, X> assertThat(LDoubleToFloatFunctionX<X> functionalInterface) {
 		Function<Float, AbstractFloatAssert> assertFunc = this::assertThatFloat;
-		return new LDoubleToFloatFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LDoubleToFloatFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LDoubleToCharFunction> LDoubleToCharFunctionAssert.Impl<A, ? extends AbstractCharacterAssert> assertThat(LDoubleToCharFunction functionalInterface) {
+	default <A extends LDoubleToCharFunction> LDoubleToCharFunctionAssert.The<A, ? extends AbstractCharacterAssert> assertThat(LDoubleToCharFunction functionalInterface) {
 		Function<Character, AbstractCharacterAssert> assertFunc = this::assertThatChar;
-		return new LDoubleToCharFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LDoubleToCharFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LDoubleToCharFunctionX<X>, X extends Throwable> LDoubleToCharFunctionXAssert.Impl<A, ? extends AbstractCharacterAssert, X> assertThat(LDoubleToCharFunctionX<X> functionalInterface) {
+	default <A extends LDoubleToCharFunctionX<X>, X extends Throwable> LDoubleToCharFunctionXAssert.The<A, ? extends AbstractCharacterAssert, X> assertThat(LDoubleToCharFunctionX<X> functionalInterface) {
 		Function<Character, AbstractCharacterAssert> assertFunc = this::assertThatChar;
-		return new LDoubleToCharFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LDoubleToCharFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LCharToByteFunction> LCharToByteFunctionAssert.Impl<A, ? extends AbstractByteAssert> assertThat(LCharToByteFunction functionalInterface) {
+	default <A extends LCharToByteFunction> LCharToByteFunctionAssert.The<A, ? extends AbstractByteAssert> assertThat(LCharToByteFunction functionalInterface) {
 		Function<Byte, AbstractByteAssert> assertFunc = this::assertThatByte;
-		return new LCharToByteFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LCharToByteFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LCharToByteFunctionX<X>, X extends Throwable> LCharToByteFunctionXAssert.Impl<A, ? extends AbstractByteAssert, X> assertThat(LCharToByteFunctionX<X> functionalInterface) {
+	default <A extends LCharToByteFunctionX<X>, X extends Throwable> LCharToByteFunctionXAssert.The<A, ? extends AbstractByteAssert, X> assertThat(LCharToByteFunctionX<X> functionalInterface) {
 		Function<Byte, AbstractByteAssert> assertFunc = this::assertThatByte;
-		return new LCharToByteFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LCharToByteFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LCharToShortFunction> LCharToShortFunctionAssert.Impl<A, ? extends AbstractShortAssert> assertThat(LCharToShortFunction functionalInterface) {
+	default <A extends LCharToShortFunction> LCharToShortFunctionAssert.The<A, ? extends AbstractShortAssert> assertThat(LCharToShortFunction functionalInterface) {
 		Function<Short, AbstractShortAssert> assertFunc = this::assertThatShort;
-		return new LCharToShortFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LCharToShortFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LCharToShortFunctionX<X>, X extends Throwable> LCharToShortFunctionXAssert.Impl<A, ? extends AbstractShortAssert, X> assertThat(LCharToShortFunctionX<X> functionalInterface) {
+	default <A extends LCharToShortFunctionX<X>, X extends Throwable> LCharToShortFunctionXAssert.The<A, ? extends AbstractShortAssert, X> assertThat(LCharToShortFunctionX<X> functionalInterface) {
 		Function<Short, AbstractShortAssert> assertFunc = this::assertThatShort;
-		return new LCharToShortFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LCharToShortFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LCharToIntFunction> LCharToIntFunctionAssert.Impl<A, ? extends AbstractIntegerAssert> assertThat(LCharToIntFunction functionalInterface) {
+	default <A extends LCharToIntFunction> LCharToIntFunctionAssert.The<A, ? extends AbstractIntegerAssert> assertThat(LCharToIntFunction functionalInterface) {
 		Function<Integer, AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new LCharToIntFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LCharToIntFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LCharToIntFunctionX<X>, X extends Throwable> LCharToIntFunctionXAssert.Impl<A, ? extends AbstractIntegerAssert, X> assertThat(LCharToIntFunctionX<X> functionalInterface) {
+	default <A extends LCharToIntFunctionX<X>, X extends Throwable> LCharToIntFunctionXAssert.The<A, ? extends AbstractIntegerAssert, X> assertThat(LCharToIntFunctionX<X> functionalInterface) {
 		Function<Integer, AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new LCharToIntFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LCharToIntFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LCharToLongFunction> LCharToLongFunctionAssert.Impl<A, ? extends AbstractLongAssert> assertThat(LCharToLongFunction functionalInterface) {
+	default <A extends LCharToLongFunction> LCharToLongFunctionAssert.The<A, ? extends AbstractLongAssert> assertThat(LCharToLongFunction functionalInterface) {
 		Function<Long, AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new LCharToLongFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LCharToLongFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LCharToLongFunctionX<X>, X extends Throwable> LCharToLongFunctionXAssert.Impl<A, ? extends AbstractLongAssert, X> assertThat(LCharToLongFunctionX<X> functionalInterface) {
+	default <A extends LCharToLongFunctionX<X>, X extends Throwable> LCharToLongFunctionXAssert.The<A, ? extends AbstractLongAssert, X> assertThat(LCharToLongFunctionX<X> functionalInterface) {
 		Function<Long, AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new LCharToLongFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LCharToLongFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LCharToFloatFunction> LCharToFloatFunctionAssert.Impl<A, ? extends AbstractFloatAssert> assertThat(LCharToFloatFunction functionalInterface) {
+	default <A extends LCharToFloatFunction> LCharToFloatFunctionAssert.The<A, ? extends AbstractFloatAssert> assertThat(LCharToFloatFunction functionalInterface) {
 		Function<Float, AbstractFloatAssert> assertFunc = this::assertThatFloat;
-		return new LCharToFloatFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LCharToFloatFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LCharToFloatFunctionX<X>, X extends Throwable> LCharToFloatFunctionXAssert.Impl<A, ? extends AbstractFloatAssert, X> assertThat(LCharToFloatFunctionX<X> functionalInterface) {
+	default <A extends LCharToFloatFunctionX<X>, X extends Throwable> LCharToFloatFunctionXAssert.The<A, ? extends AbstractFloatAssert, X> assertThat(LCharToFloatFunctionX<X> functionalInterface) {
 		Function<Float, AbstractFloatAssert> assertFunc = this::assertThatFloat;
-		return new LCharToFloatFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LCharToFloatFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LCharToDoubleFunction> LCharToDoubleFunctionAssert.Impl<A, ? extends AbstractDoubleAssert> assertThat(LCharToDoubleFunction functionalInterface) {
+	default <A extends LCharToDoubleFunction> LCharToDoubleFunctionAssert.The<A, ? extends AbstractDoubleAssert> assertThat(LCharToDoubleFunction functionalInterface) {
 		Function<Double, AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new LCharToDoubleFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LCharToDoubleFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LCharToDoubleFunctionX<X>, X extends Throwable> LCharToDoubleFunctionXAssert.Impl<A, ? extends AbstractDoubleAssert, X> assertThat(LCharToDoubleFunctionX<X> functionalInterface) {
+	default <A extends LCharToDoubleFunctionX<X>, X extends Throwable> LCharToDoubleFunctionXAssert.The<A, ? extends AbstractDoubleAssert, X> assertThat(LCharToDoubleFunctionX<X> functionalInterface) {
 		Function<Double, AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new LCharToDoubleFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LCharToDoubleFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBooleanToByteFunction> LBooleanToByteFunctionAssert.Impl<A, ? extends AbstractByteAssert> assertThat(LBooleanToByteFunction functionalInterface) {
+	default <A extends LBooleanToByteFunction> LBooleanToByteFunctionAssert.The<A, ? extends AbstractByteAssert> assertThat(LBooleanToByteFunction functionalInterface) {
 		Function<Byte, AbstractByteAssert> assertFunc = this::assertThatByte;
-		return new LBooleanToByteFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LBooleanToByteFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBooleanToByteFunctionX<X>, X extends Throwable> LBooleanToByteFunctionXAssert.Impl<A, ? extends AbstractByteAssert, X> assertThat(LBooleanToByteFunctionX<X> functionalInterface) {
+	default <A extends LBooleanToByteFunctionX<X>, X extends Throwable> LBooleanToByteFunctionXAssert.The<A, ? extends AbstractByteAssert, X> assertThat(LBooleanToByteFunctionX<X> functionalInterface) {
 		Function<Byte, AbstractByteAssert> assertFunc = this::assertThatByte;
-		return new LBooleanToByteFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LBooleanToByteFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBooleanToShortFunction> LBooleanToShortFunctionAssert.Impl<A, ? extends AbstractShortAssert> assertThat(LBooleanToShortFunction functionalInterface) {
+	default <A extends LBooleanToShortFunction> LBooleanToShortFunctionAssert.The<A, ? extends AbstractShortAssert> assertThat(LBooleanToShortFunction functionalInterface) {
 		Function<Short, AbstractShortAssert> assertFunc = this::assertThatShort;
-		return new LBooleanToShortFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LBooleanToShortFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBooleanToShortFunctionX<X>, X extends Throwable> LBooleanToShortFunctionXAssert.Impl<A, ? extends AbstractShortAssert, X> assertThat(LBooleanToShortFunctionX<X> functionalInterface) {
+	default <A extends LBooleanToShortFunctionX<X>, X extends Throwable> LBooleanToShortFunctionXAssert.The<A, ? extends AbstractShortAssert, X> assertThat(LBooleanToShortFunctionX<X> functionalInterface) {
 		Function<Short, AbstractShortAssert> assertFunc = this::assertThatShort;
-		return new LBooleanToShortFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LBooleanToShortFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBooleanToIntFunction> LBooleanToIntFunctionAssert.Impl<A, ? extends AbstractIntegerAssert> assertThat(LBooleanToIntFunction functionalInterface) {
+	default <A extends LBooleanToIntFunction> LBooleanToIntFunctionAssert.The<A, ? extends AbstractIntegerAssert> assertThat(LBooleanToIntFunction functionalInterface) {
 		Function<Integer, AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new LBooleanToIntFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LBooleanToIntFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBooleanToIntFunctionX<X>, X extends Throwable> LBooleanToIntFunctionXAssert.Impl<A, ? extends AbstractIntegerAssert, X> assertThat(LBooleanToIntFunctionX<X> functionalInterface) {
+	default <A extends LBooleanToIntFunctionX<X>, X extends Throwable> LBooleanToIntFunctionXAssert.The<A, ? extends AbstractIntegerAssert, X> assertThat(LBooleanToIntFunctionX<X> functionalInterface) {
 		Function<Integer, AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new LBooleanToIntFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LBooleanToIntFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBooleanToLongFunction> LBooleanToLongFunctionAssert.Impl<A, ? extends AbstractLongAssert> assertThat(LBooleanToLongFunction functionalInterface) {
+	default <A extends LBooleanToLongFunction> LBooleanToLongFunctionAssert.The<A, ? extends AbstractLongAssert> assertThat(LBooleanToLongFunction functionalInterface) {
 		Function<Long, AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new LBooleanToLongFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LBooleanToLongFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBooleanToLongFunctionX<X>, X extends Throwable> LBooleanToLongFunctionXAssert.Impl<A, ? extends AbstractLongAssert, X> assertThat(LBooleanToLongFunctionX<X> functionalInterface) {
+	default <A extends LBooleanToLongFunctionX<X>, X extends Throwable> LBooleanToLongFunctionXAssert.The<A, ? extends AbstractLongAssert, X> assertThat(LBooleanToLongFunctionX<X> functionalInterface) {
 		Function<Long, AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new LBooleanToLongFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LBooleanToLongFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBooleanToFloatFunction> LBooleanToFloatFunctionAssert.Impl<A, ? extends AbstractFloatAssert> assertThat(LBooleanToFloatFunction functionalInterface) {
+	default <A extends LBooleanToFloatFunction> LBooleanToFloatFunctionAssert.The<A, ? extends AbstractFloatAssert> assertThat(LBooleanToFloatFunction functionalInterface) {
 		Function<Float, AbstractFloatAssert> assertFunc = this::assertThatFloat;
-		return new LBooleanToFloatFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LBooleanToFloatFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBooleanToFloatFunctionX<X>, X extends Throwable> LBooleanToFloatFunctionXAssert.Impl<A, ? extends AbstractFloatAssert, X> assertThat(LBooleanToFloatFunctionX<X> functionalInterface) {
+	default <A extends LBooleanToFloatFunctionX<X>, X extends Throwable> LBooleanToFloatFunctionXAssert.The<A, ? extends AbstractFloatAssert, X> assertThat(LBooleanToFloatFunctionX<X> functionalInterface) {
 		Function<Float, AbstractFloatAssert> assertFunc = this::assertThatFloat;
-		return new LBooleanToFloatFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LBooleanToFloatFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBooleanToDoubleFunction> LBooleanToDoubleFunctionAssert.Impl<A, ? extends AbstractDoubleAssert> assertThat(LBooleanToDoubleFunction functionalInterface) {
+	default <A extends LBooleanToDoubleFunction> LBooleanToDoubleFunctionAssert.The<A, ? extends AbstractDoubleAssert> assertThat(LBooleanToDoubleFunction functionalInterface) {
 		Function<Double, AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new LBooleanToDoubleFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LBooleanToDoubleFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBooleanToDoubleFunctionX<X>, X extends Throwable> LBooleanToDoubleFunctionXAssert.Impl<A, ? extends AbstractDoubleAssert, X> assertThat(LBooleanToDoubleFunctionX<X> functionalInterface) {
+	default <A extends LBooleanToDoubleFunctionX<X>, X extends Throwable> LBooleanToDoubleFunctionXAssert.The<A, ? extends AbstractDoubleAssert, X> assertThat(LBooleanToDoubleFunctionX<X> functionalInterface) {
 		Function<Double, AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new LBooleanToDoubleFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LBooleanToDoubleFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBooleanToCharFunction> LBooleanToCharFunctionAssert.Impl<A, ? extends AbstractCharacterAssert> assertThat(LBooleanToCharFunction functionalInterface) {
+	default <A extends LBooleanToCharFunction> LBooleanToCharFunctionAssert.The<A, ? extends AbstractCharacterAssert> assertThat(LBooleanToCharFunction functionalInterface) {
 		Function<Character, AbstractCharacterAssert> assertFunc = this::assertThatChar;
-		return new LBooleanToCharFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LBooleanToCharFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBooleanToCharFunctionX<X>, X extends Throwable> LBooleanToCharFunctionXAssert.Impl<A, ? extends AbstractCharacterAssert, X> assertThat(LBooleanToCharFunctionX<X> functionalInterface) {
+	default <A extends LBooleanToCharFunctionX<X>, X extends Throwable> LBooleanToCharFunctionXAssert.The<A, ? extends AbstractCharacterAssert, X> assertThat(LBooleanToCharFunctionX<X> functionalInterface) {
 		Function<Character, AbstractCharacterAssert> assertFunc = this::assertThatChar;
-		return new LBooleanToCharFunctionXAssert.Impl(functionalInterface, assertFunc);
+		return new LBooleanToCharFunctionXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LPredicate<T>, T> LPredicateAssert.Impl<A, ? extends AbstractBooleanAssert, T> assertThat(LPredicate<T> functionalInterface) {
+	default <A extends LPredicate<T>, T> LPredicateAssert.The<A, ? extends AbstractBooleanAssert, T> assertThat(LPredicate<T> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LPredicateAssert.Impl(functionalInterface, assertFunc);
+		return new LPredicateAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LPredicateX<T, X>, T, X extends Throwable> LPredicateXAssert.Impl<A, ? extends AbstractBooleanAssert, T, X> assertThat(LPredicateX<T, X> functionalInterface) {
+	default <A extends LPredicateX<T, X>, T, X extends Throwable> LPredicateXAssert.The<A, ? extends AbstractBooleanAssert, T, X> assertThat(LPredicateX<T, X> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LPredicateXAssert.Impl(functionalInterface, assertFunc);
+		return new LPredicateXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiPredicate<T1, T2>, T1, T2> LBiPredicateAssert.Impl<A, ? extends AbstractBooleanAssert, T1, T2> assertThat(LBiPredicate<T1, T2> functionalInterface) {
+	default <A extends LBiPredicate<T1, T2>, T1, T2> LBiPredicateAssert.The<A, ? extends AbstractBooleanAssert, T1, T2> assertThat(LBiPredicate<T1, T2> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBiPredicateAssert.Impl(functionalInterface, assertFunc);
+		return new LBiPredicateAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiPredicateX<T1, T2, X>, T1, T2, X extends Throwable> LBiPredicateXAssert.Impl<A, ? extends AbstractBooleanAssert, T1, T2, X> assertThat(LBiPredicateX<T1, T2, X> functionalInterface) {
+	default <A extends LBiPredicateX<T1, T2, X>, T1, T2, X extends Throwable> LBiPredicateXAssert.The<A, ? extends AbstractBooleanAssert, T1, T2, X> assertThat(LBiPredicateX<T1, T2, X> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBiPredicateXAssert.Impl(functionalInterface, assertFunc);
+		return new LBiPredicateXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LTriPredicate<T1, T2, T3>, T1, T2, T3> LTriPredicateAssert.Impl<A, ? extends AbstractBooleanAssert, T1, T2, T3> assertThat(LTriPredicate<T1, T2, T3> functionalInterface) {
+	default <A extends LTriPredicate<T1, T2, T3>, T1, T2, T3> LTriPredicateAssert.The<A, ? extends AbstractBooleanAssert, T1, T2, T3> assertThat(LTriPredicate<T1, T2, T3> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LTriPredicateAssert.Impl(functionalInterface, assertFunc);
+		return new LTriPredicateAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LTriPredicateX<T1, T2, T3, X>, T1, T2, T3, X extends Throwable> LTriPredicateXAssert.Impl<A, ? extends AbstractBooleanAssert, T1, T2, T3, X> assertThat(LTriPredicateX<T1, T2, T3, X> functionalInterface) {
+	default <A extends LTriPredicateX<T1, T2, T3, X>, T1, T2, T3, X extends Throwable> LTriPredicateXAssert.The<A, ? extends AbstractBooleanAssert, T1, T2, T3, X> assertThat(LTriPredicateX<T1, T2, T3, X> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LTriPredicateXAssert.Impl(functionalInterface, assertFunc);
+		return new LTriPredicateXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBytePredicate> LBytePredicateAssert.Impl<A, ? extends AbstractBooleanAssert> assertThat(LBytePredicate functionalInterface) {
+	default <A extends LBytePredicate> LBytePredicateAssert.The<A, ? extends AbstractBooleanAssert> assertThat(LBytePredicate functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBytePredicateAssert.Impl(functionalInterface, assertFunc);
+		return new LBytePredicateAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBytePredicateX<X>, X extends Throwable> LBytePredicateXAssert.Impl<A, ? extends AbstractBooleanAssert, X> assertThat(LBytePredicateX<X> functionalInterface) {
+	default <A extends LBytePredicateX<X>, X extends Throwable> LBytePredicateXAssert.The<A, ? extends AbstractBooleanAssert, X> assertThat(LBytePredicateX<X> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBytePredicateXAssert.Impl(functionalInterface, assertFunc);
+		return new LBytePredicateXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LShortPredicate> LShortPredicateAssert.Impl<A, ? extends AbstractBooleanAssert> assertThat(LShortPredicate functionalInterface) {
+	default <A extends LShortPredicate> LShortPredicateAssert.The<A, ? extends AbstractBooleanAssert> assertThat(LShortPredicate functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LShortPredicateAssert.Impl(functionalInterface, assertFunc);
+		return new LShortPredicateAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LShortPredicateX<X>, X extends Throwable> LShortPredicateXAssert.Impl<A, ? extends AbstractBooleanAssert, X> assertThat(LShortPredicateX<X> functionalInterface) {
+	default <A extends LShortPredicateX<X>, X extends Throwable> LShortPredicateXAssert.The<A, ? extends AbstractBooleanAssert, X> assertThat(LShortPredicateX<X> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LShortPredicateXAssert.Impl(functionalInterface, assertFunc);
+		return new LShortPredicateXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LIntPredicate> LIntPredicateAssert.Impl<A, ? extends AbstractBooleanAssert> assertThat(LIntPredicate functionalInterface) {
+	default <A extends LIntPredicate> LIntPredicateAssert.The<A, ? extends AbstractBooleanAssert> assertThat(LIntPredicate functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LIntPredicateAssert.Impl(functionalInterface, assertFunc);
+		return new LIntPredicateAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LIntPredicateX<X>, X extends Throwable> LIntPredicateXAssert.Impl<A, ? extends AbstractBooleanAssert, X> assertThat(LIntPredicateX<X> functionalInterface) {
+	default <A extends LIntPredicateX<X>, X extends Throwable> LIntPredicateXAssert.The<A, ? extends AbstractBooleanAssert, X> assertThat(LIntPredicateX<X> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LIntPredicateXAssert.Impl(functionalInterface, assertFunc);
+		return new LIntPredicateXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LLongPredicate> LLongPredicateAssert.Impl<A, ? extends AbstractBooleanAssert> assertThat(LLongPredicate functionalInterface) {
+	default <A extends LLongPredicate> LLongPredicateAssert.The<A, ? extends AbstractBooleanAssert> assertThat(LLongPredicate functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LLongPredicateAssert.Impl(functionalInterface, assertFunc);
+		return new LLongPredicateAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LLongPredicateX<X>, X extends Throwable> LLongPredicateXAssert.Impl<A, ? extends AbstractBooleanAssert, X> assertThat(LLongPredicateX<X> functionalInterface) {
+	default <A extends LLongPredicateX<X>, X extends Throwable> LLongPredicateXAssert.The<A, ? extends AbstractBooleanAssert, X> assertThat(LLongPredicateX<X> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LLongPredicateXAssert.Impl(functionalInterface, assertFunc);
+		return new LLongPredicateXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LFloatPredicate> LFloatPredicateAssert.Impl<A, ? extends AbstractBooleanAssert> assertThat(LFloatPredicate functionalInterface) {
+	default <A extends LFloatPredicate> LFloatPredicateAssert.The<A, ? extends AbstractBooleanAssert> assertThat(LFloatPredicate functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LFloatPredicateAssert.Impl(functionalInterface, assertFunc);
+		return new LFloatPredicateAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LFloatPredicateX<X>, X extends Throwable> LFloatPredicateXAssert.Impl<A, ? extends AbstractBooleanAssert, X> assertThat(LFloatPredicateX<X> functionalInterface) {
+	default <A extends LFloatPredicateX<X>, X extends Throwable> LFloatPredicateXAssert.The<A, ? extends AbstractBooleanAssert, X> assertThat(LFloatPredicateX<X> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LFloatPredicateXAssert.Impl(functionalInterface, assertFunc);
+		return new LFloatPredicateXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LDoublePredicate> LDoublePredicateAssert.Impl<A, ? extends AbstractBooleanAssert> assertThat(LDoublePredicate functionalInterface) {
+	default <A extends LDoublePredicate> LDoublePredicateAssert.The<A, ? extends AbstractBooleanAssert> assertThat(LDoublePredicate functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LDoublePredicateAssert.Impl(functionalInterface, assertFunc);
+		return new LDoublePredicateAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LDoublePredicateX<X>, X extends Throwable> LDoublePredicateXAssert.Impl<A, ? extends AbstractBooleanAssert, X> assertThat(LDoublePredicateX<X> functionalInterface) {
+	default <A extends LDoublePredicateX<X>, X extends Throwable> LDoublePredicateXAssert.The<A, ? extends AbstractBooleanAssert, X> assertThat(LDoublePredicateX<X> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LDoublePredicateXAssert.Impl(functionalInterface, assertFunc);
+		return new LDoublePredicateXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LCharPredicate> LCharPredicateAssert.Impl<A, ? extends AbstractBooleanAssert> assertThat(LCharPredicate functionalInterface) {
+	default <A extends LCharPredicate> LCharPredicateAssert.The<A, ? extends AbstractBooleanAssert> assertThat(LCharPredicate functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LCharPredicateAssert.Impl(functionalInterface, assertFunc);
+		return new LCharPredicateAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LCharPredicateX<X>, X extends Throwable> LCharPredicateXAssert.Impl<A, ? extends AbstractBooleanAssert, X> assertThat(LCharPredicateX<X> functionalInterface) {
+	default <A extends LCharPredicateX<X>, X extends Throwable> LCharPredicateXAssert.The<A, ? extends AbstractBooleanAssert, X> assertThat(LCharPredicateX<X> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LCharPredicateXAssert.Impl(functionalInterface, assertFunc);
+		return new LCharPredicateXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiBytePredicate> LBiBytePredicateAssert.Impl<A, ? extends AbstractBooleanAssert> assertThat(LBiBytePredicate functionalInterface) {
+	default <A extends LBiBytePredicate> LBiBytePredicateAssert.The<A, ? extends AbstractBooleanAssert> assertThat(LBiBytePredicate functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBiBytePredicateAssert.Impl(functionalInterface, assertFunc);
+		return new LBiBytePredicateAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiBytePredicateX<X>, X extends Throwable> LBiBytePredicateXAssert.Impl<A, ? extends AbstractBooleanAssert, X> assertThat(LBiBytePredicateX<X> functionalInterface) {
+	default <A extends LBiBytePredicateX<X>, X extends Throwable> LBiBytePredicateXAssert.The<A, ? extends AbstractBooleanAssert, X> assertThat(LBiBytePredicateX<X> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBiBytePredicateXAssert.Impl(functionalInterface, assertFunc);
+		return new LBiBytePredicateXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiShortPredicate> LBiShortPredicateAssert.Impl<A, ? extends AbstractBooleanAssert> assertThat(LBiShortPredicate functionalInterface) {
+	default <A extends LBiShortPredicate> LBiShortPredicateAssert.The<A, ? extends AbstractBooleanAssert> assertThat(LBiShortPredicate functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBiShortPredicateAssert.Impl(functionalInterface, assertFunc);
+		return new LBiShortPredicateAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiShortPredicateX<X>, X extends Throwable> LBiShortPredicateXAssert.Impl<A, ? extends AbstractBooleanAssert, X> assertThat(LBiShortPredicateX<X> functionalInterface) {
+	default <A extends LBiShortPredicateX<X>, X extends Throwable> LBiShortPredicateXAssert.The<A, ? extends AbstractBooleanAssert, X> assertThat(LBiShortPredicateX<X> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBiShortPredicateXAssert.Impl(functionalInterface, assertFunc);
+		return new LBiShortPredicateXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiIntPredicate> LBiIntPredicateAssert.Impl<A, ? extends AbstractBooleanAssert> assertThat(LBiIntPredicate functionalInterface) {
+	default <A extends LBiIntPredicate> LBiIntPredicateAssert.The<A, ? extends AbstractBooleanAssert> assertThat(LBiIntPredicate functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBiIntPredicateAssert.Impl(functionalInterface, assertFunc);
+		return new LBiIntPredicateAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiIntPredicateX<X>, X extends Throwable> LBiIntPredicateXAssert.Impl<A, ? extends AbstractBooleanAssert, X> assertThat(LBiIntPredicateX<X> functionalInterface) {
+	default <A extends LBiIntPredicateX<X>, X extends Throwable> LBiIntPredicateXAssert.The<A, ? extends AbstractBooleanAssert, X> assertThat(LBiIntPredicateX<X> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBiIntPredicateXAssert.Impl(functionalInterface, assertFunc);
+		return new LBiIntPredicateXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiLongPredicate> LBiLongPredicateAssert.Impl<A, ? extends AbstractBooleanAssert> assertThat(LBiLongPredicate functionalInterface) {
+	default <A extends LBiLongPredicate> LBiLongPredicateAssert.The<A, ? extends AbstractBooleanAssert> assertThat(LBiLongPredicate functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBiLongPredicateAssert.Impl(functionalInterface, assertFunc);
+		return new LBiLongPredicateAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiLongPredicateX<X>, X extends Throwable> LBiLongPredicateXAssert.Impl<A, ? extends AbstractBooleanAssert, X> assertThat(LBiLongPredicateX<X> functionalInterface) {
+	default <A extends LBiLongPredicateX<X>, X extends Throwable> LBiLongPredicateXAssert.The<A, ? extends AbstractBooleanAssert, X> assertThat(LBiLongPredicateX<X> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBiLongPredicateXAssert.Impl(functionalInterface, assertFunc);
+		return new LBiLongPredicateXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiFloatPredicate> LBiFloatPredicateAssert.Impl<A, ? extends AbstractBooleanAssert> assertThat(LBiFloatPredicate functionalInterface) {
+	default <A extends LBiFloatPredicate> LBiFloatPredicateAssert.The<A, ? extends AbstractBooleanAssert> assertThat(LBiFloatPredicate functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBiFloatPredicateAssert.Impl(functionalInterface, assertFunc);
+		return new LBiFloatPredicateAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiFloatPredicateX<X>, X extends Throwable> LBiFloatPredicateXAssert.Impl<A, ? extends AbstractBooleanAssert, X> assertThat(LBiFloatPredicateX<X> functionalInterface) {
+	default <A extends LBiFloatPredicateX<X>, X extends Throwable> LBiFloatPredicateXAssert.The<A, ? extends AbstractBooleanAssert, X> assertThat(LBiFloatPredicateX<X> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBiFloatPredicateXAssert.Impl(functionalInterface, assertFunc);
+		return new LBiFloatPredicateXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiDoublePredicate> LBiDoublePredicateAssert.Impl<A, ? extends AbstractBooleanAssert> assertThat(LBiDoublePredicate functionalInterface) {
+	default <A extends LBiDoublePredicate> LBiDoublePredicateAssert.The<A, ? extends AbstractBooleanAssert> assertThat(LBiDoublePredicate functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBiDoublePredicateAssert.Impl(functionalInterface, assertFunc);
+		return new LBiDoublePredicateAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiDoublePredicateX<X>, X extends Throwable> LBiDoublePredicateXAssert.Impl<A, ? extends AbstractBooleanAssert, X> assertThat(LBiDoublePredicateX<X> functionalInterface) {
+	default <A extends LBiDoublePredicateX<X>, X extends Throwable> LBiDoublePredicateXAssert.The<A, ? extends AbstractBooleanAssert, X> assertThat(LBiDoublePredicateX<X> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBiDoublePredicateXAssert.Impl(functionalInterface, assertFunc);
+		return new LBiDoublePredicateXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiCharPredicate> LBiCharPredicateAssert.Impl<A, ? extends AbstractBooleanAssert> assertThat(LBiCharPredicate functionalInterface) {
+	default <A extends LBiCharPredicate> LBiCharPredicateAssert.The<A, ? extends AbstractBooleanAssert> assertThat(LBiCharPredicate functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBiCharPredicateAssert.Impl(functionalInterface, assertFunc);
+		return new LBiCharPredicateAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiCharPredicateX<X>, X extends Throwable> LBiCharPredicateXAssert.Impl<A, ? extends AbstractBooleanAssert, X> assertThat(LBiCharPredicateX<X> functionalInterface) {
+	default <A extends LBiCharPredicateX<X>, X extends Throwable> LBiCharPredicateXAssert.The<A, ? extends AbstractBooleanAssert, X> assertThat(LBiCharPredicateX<X> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBiCharPredicateXAssert.Impl(functionalInterface, assertFunc);
+		return new LBiCharPredicateXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LObjBytePredicate<T>, T> LObjBytePredicateAssert.Impl<A, ? extends AbstractBooleanAssert, T> assertThat(LObjBytePredicate<T> functionalInterface) {
+	default <A extends LObjBytePredicate<T>, T> LObjBytePredicateAssert.The<A, ? extends AbstractBooleanAssert, T> assertThat(LObjBytePredicate<T> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LObjBytePredicateAssert.Impl(functionalInterface, assertFunc);
+		return new LObjBytePredicateAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LObjBytePredicateX<T, X>, T, X extends Throwable> LObjBytePredicateXAssert.Impl<A, ? extends AbstractBooleanAssert, T, X> assertThat(LObjBytePredicateX<T, X> functionalInterface) {
+	default <A extends LObjBytePredicateX<T, X>, T, X extends Throwable> LObjBytePredicateXAssert.The<A, ? extends AbstractBooleanAssert, T, X> assertThat(LObjBytePredicateX<T, X> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LObjBytePredicateXAssert.Impl(functionalInterface, assertFunc);
+		return new LObjBytePredicateXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LObjShortPredicate<T>, T> LObjShortPredicateAssert.Impl<A, ? extends AbstractBooleanAssert, T> assertThat(LObjShortPredicate<T> functionalInterface) {
+	default <A extends LObjShortPredicate<T>, T> LObjShortPredicateAssert.The<A, ? extends AbstractBooleanAssert, T> assertThat(LObjShortPredicate<T> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LObjShortPredicateAssert.Impl(functionalInterface, assertFunc);
+		return new LObjShortPredicateAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LObjShortPredicateX<T, X>, T, X extends Throwable> LObjShortPredicateXAssert.Impl<A, ? extends AbstractBooleanAssert, T, X> assertThat(LObjShortPredicateX<T, X> functionalInterface) {
+	default <A extends LObjShortPredicateX<T, X>, T, X extends Throwable> LObjShortPredicateXAssert.The<A, ? extends AbstractBooleanAssert, T, X> assertThat(LObjShortPredicateX<T, X> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LObjShortPredicateXAssert.Impl(functionalInterface, assertFunc);
+		return new LObjShortPredicateXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LObjIntPredicate<T>, T> LObjIntPredicateAssert.Impl<A, ? extends AbstractBooleanAssert, T> assertThat(LObjIntPredicate<T> functionalInterface) {
+	default <A extends LObjIntPredicate<T>, T> LObjIntPredicateAssert.The<A, ? extends AbstractBooleanAssert, T> assertThat(LObjIntPredicate<T> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LObjIntPredicateAssert.Impl(functionalInterface, assertFunc);
+		return new LObjIntPredicateAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LObjIntPredicateX<T, X>, T, X extends Throwable> LObjIntPredicateXAssert.Impl<A, ? extends AbstractBooleanAssert, T, X> assertThat(LObjIntPredicateX<T, X> functionalInterface) {
+	default <A extends LObjIntPredicateX<T, X>, T, X extends Throwable> LObjIntPredicateXAssert.The<A, ? extends AbstractBooleanAssert, T, X> assertThat(LObjIntPredicateX<T, X> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LObjIntPredicateXAssert.Impl(functionalInterface, assertFunc);
+		return new LObjIntPredicateXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LObjLongPredicate<T>, T> LObjLongPredicateAssert.Impl<A, ? extends AbstractBooleanAssert, T> assertThat(LObjLongPredicate<T> functionalInterface) {
+	default <A extends LObjLongPredicate<T>, T> LObjLongPredicateAssert.The<A, ? extends AbstractBooleanAssert, T> assertThat(LObjLongPredicate<T> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LObjLongPredicateAssert.Impl(functionalInterface, assertFunc);
+		return new LObjLongPredicateAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LObjLongPredicateX<T, X>, T, X extends Throwable> LObjLongPredicateXAssert.Impl<A, ? extends AbstractBooleanAssert, T, X> assertThat(LObjLongPredicateX<T, X> functionalInterface) {
+	default <A extends LObjLongPredicateX<T, X>, T, X extends Throwable> LObjLongPredicateXAssert.The<A, ? extends AbstractBooleanAssert, T, X> assertThat(LObjLongPredicateX<T, X> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LObjLongPredicateXAssert.Impl(functionalInterface, assertFunc);
+		return new LObjLongPredicateXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LObjFloatPredicate<T>, T> LObjFloatPredicateAssert.Impl<A, ? extends AbstractBooleanAssert, T> assertThat(LObjFloatPredicate<T> functionalInterface) {
+	default <A extends LObjFloatPredicate<T>, T> LObjFloatPredicateAssert.The<A, ? extends AbstractBooleanAssert, T> assertThat(LObjFloatPredicate<T> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LObjFloatPredicateAssert.Impl(functionalInterface, assertFunc);
+		return new LObjFloatPredicateAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LObjFloatPredicateX<T, X>, T, X extends Throwable> LObjFloatPredicateXAssert.Impl<A, ? extends AbstractBooleanAssert, T, X> assertThat(LObjFloatPredicateX<T, X> functionalInterface) {
+	default <A extends LObjFloatPredicateX<T, X>, T, X extends Throwable> LObjFloatPredicateXAssert.The<A, ? extends AbstractBooleanAssert, T, X> assertThat(LObjFloatPredicateX<T, X> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LObjFloatPredicateXAssert.Impl(functionalInterface, assertFunc);
+		return new LObjFloatPredicateXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LObjDoublePredicate<T>, T> LObjDoublePredicateAssert.Impl<A, ? extends AbstractBooleanAssert, T> assertThat(LObjDoublePredicate<T> functionalInterface) {
+	default <A extends LObjDoublePredicate<T>, T> LObjDoublePredicateAssert.The<A, ? extends AbstractBooleanAssert, T> assertThat(LObjDoublePredicate<T> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LObjDoublePredicateAssert.Impl(functionalInterface, assertFunc);
+		return new LObjDoublePredicateAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LObjDoublePredicateX<T, X>, T, X extends Throwable> LObjDoublePredicateXAssert.Impl<A, ? extends AbstractBooleanAssert, T, X> assertThat(LObjDoublePredicateX<T, X> functionalInterface) {
+	default <A extends LObjDoublePredicateX<T, X>, T, X extends Throwable> LObjDoublePredicateXAssert.The<A, ? extends AbstractBooleanAssert, T, X> assertThat(LObjDoublePredicateX<T, X> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LObjDoublePredicateXAssert.Impl(functionalInterface, assertFunc);
+		return new LObjDoublePredicateXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LObjCharPredicate<T>, T> LObjCharPredicateAssert.Impl<A, ? extends AbstractBooleanAssert, T> assertThat(LObjCharPredicate<T> functionalInterface) {
+	default <A extends LObjCharPredicate<T>, T> LObjCharPredicateAssert.The<A, ? extends AbstractBooleanAssert, T> assertThat(LObjCharPredicate<T> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LObjCharPredicateAssert.Impl(functionalInterface, assertFunc);
+		return new LObjCharPredicateAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LObjCharPredicateX<T, X>, T, X extends Throwable> LObjCharPredicateXAssert.Impl<A, ? extends AbstractBooleanAssert, T, X> assertThat(LObjCharPredicateX<T, X> functionalInterface) {
+	default <A extends LObjCharPredicateX<T, X>, T, X extends Throwable> LObjCharPredicateXAssert.The<A, ? extends AbstractBooleanAssert, T, X> assertThat(LObjCharPredicateX<T, X> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LObjCharPredicateXAssert.Impl(functionalInterface, assertFunc);
+		return new LObjCharPredicateXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LObjBooleanPredicate<T>, T> LObjBooleanPredicateAssert.Impl<A, ? extends AbstractBooleanAssert, T> assertThat(LObjBooleanPredicate<T> functionalInterface) {
+	default <A extends LObjBooleanPredicate<T>, T> LObjBooleanPredicateAssert.The<A, ? extends AbstractBooleanAssert, T> assertThat(LObjBooleanPredicate<T> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LObjBooleanPredicateAssert.Impl(functionalInterface, assertFunc);
+		return new LObjBooleanPredicateAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LObjBooleanPredicateX<T, X>, T, X extends Throwable> LObjBooleanPredicateXAssert.Impl<A, ? extends AbstractBooleanAssert, T, X> assertThat(LObjBooleanPredicateX<T, X> functionalInterface) {
+	default <A extends LObjBooleanPredicateX<T, X>, T, X extends Throwable> LObjBooleanPredicateXAssert.The<A, ? extends AbstractBooleanAssert, T, X> assertThat(LObjBooleanPredicateX<T, X> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LObjBooleanPredicateXAssert.Impl(functionalInterface, assertFunc);
+		return new LObjBooleanPredicateXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiObjBytePredicate<T1, T2>, T1, T2> LBiObjBytePredicateAssert.Impl<A, ? extends AbstractBooleanAssert, T1, T2> assertThat(LBiObjBytePredicate<T1, T2> functionalInterface) {
+	default <A extends LBiObjBytePredicate<T1, T2>, T1, T2> LBiObjBytePredicateAssert.The<A, ? extends AbstractBooleanAssert, T1, T2> assertThat(LBiObjBytePredicate<T1, T2> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBiObjBytePredicateAssert.Impl(functionalInterface, assertFunc);
+		return new LBiObjBytePredicateAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiObjBytePredicateX<T1, T2, X>, T1, T2, X extends Throwable> LBiObjBytePredicateXAssert.Impl<A, ? extends AbstractBooleanAssert, T1, T2, X> assertThat(LBiObjBytePredicateX<T1, T2, X> functionalInterface) {
+	default <A extends LBiObjBytePredicateX<T1, T2, X>, T1, T2, X extends Throwable> LBiObjBytePredicateXAssert.The<A, ? extends AbstractBooleanAssert, T1, T2, X> assertThat(LBiObjBytePredicateX<T1, T2, X> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBiObjBytePredicateXAssert.Impl(functionalInterface, assertFunc);
+		return new LBiObjBytePredicateXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiObjShortPredicate<T1, T2>, T1, T2> LBiObjShortPredicateAssert.Impl<A, ? extends AbstractBooleanAssert, T1, T2> assertThat(LBiObjShortPredicate<T1, T2> functionalInterface) {
+	default <A extends LBiObjShortPredicate<T1, T2>, T1, T2> LBiObjShortPredicateAssert.The<A, ? extends AbstractBooleanAssert, T1, T2> assertThat(LBiObjShortPredicate<T1, T2> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBiObjShortPredicateAssert.Impl(functionalInterface, assertFunc);
+		return new LBiObjShortPredicateAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiObjShortPredicateX<T1, T2, X>, T1, T2, X extends Throwable> LBiObjShortPredicateXAssert.Impl<A, ? extends AbstractBooleanAssert, T1, T2, X> assertThat(LBiObjShortPredicateX<T1, T2, X> functionalInterface) {
+	default <A extends LBiObjShortPredicateX<T1, T2, X>, T1, T2, X extends Throwable> LBiObjShortPredicateXAssert.The<A, ? extends AbstractBooleanAssert, T1, T2, X> assertThat(LBiObjShortPredicateX<T1, T2, X> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBiObjShortPredicateXAssert.Impl(functionalInterface, assertFunc);
+		return new LBiObjShortPredicateXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiObjIntPredicate<T1, T2>, T1, T2> LBiObjIntPredicateAssert.Impl<A, ? extends AbstractBooleanAssert, T1, T2> assertThat(LBiObjIntPredicate<T1, T2> functionalInterface) {
+	default <A extends LBiObjIntPredicate<T1, T2>, T1, T2> LBiObjIntPredicateAssert.The<A, ? extends AbstractBooleanAssert, T1, T2> assertThat(LBiObjIntPredicate<T1, T2> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBiObjIntPredicateAssert.Impl(functionalInterface, assertFunc);
+		return new LBiObjIntPredicateAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiObjIntPredicateX<T1, T2, X>, T1, T2, X extends Throwable> LBiObjIntPredicateXAssert.Impl<A, ? extends AbstractBooleanAssert, T1, T2, X> assertThat(LBiObjIntPredicateX<T1, T2, X> functionalInterface) {
+	default <A extends LBiObjIntPredicateX<T1, T2, X>, T1, T2, X extends Throwable> LBiObjIntPredicateXAssert.The<A, ? extends AbstractBooleanAssert, T1, T2, X> assertThat(LBiObjIntPredicateX<T1, T2, X> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBiObjIntPredicateXAssert.Impl(functionalInterface, assertFunc);
+		return new LBiObjIntPredicateXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiObjLongPredicate<T1, T2>, T1, T2> LBiObjLongPredicateAssert.Impl<A, ? extends AbstractBooleanAssert, T1, T2> assertThat(LBiObjLongPredicate<T1, T2> functionalInterface) {
+	default <A extends LBiObjLongPredicate<T1, T2>, T1, T2> LBiObjLongPredicateAssert.The<A, ? extends AbstractBooleanAssert, T1, T2> assertThat(LBiObjLongPredicate<T1, T2> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBiObjLongPredicateAssert.Impl(functionalInterface, assertFunc);
+		return new LBiObjLongPredicateAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiObjLongPredicateX<T1, T2, X>, T1, T2, X extends Throwable> LBiObjLongPredicateXAssert.Impl<A, ? extends AbstractBooleanAssert, T1, T2, X> assertThat(LBiObjLongPredicateX<T1, T2, X> functionalInterface) {
+	default <A extends LBiObjLongPredicateX<T1, T2, X>, T1, T2, X extends Throwable> LBiObjLongPredicateXAssert.The<A, ? extends AbstractBooleanAssert, T1, T2, X> assertThat(LBiObjLongPredicateX<T1, T2, X> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBiObjLongPredicateXAssert.Impl(functionalInterface, assertFunc);
+		return new LBiObjLongPredicateXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiObjFloatPredicate<T1, T2>, T1, T2> LBiObjFloatPredicateAssert.Impl<A, ? extends AbstractBooleanAssert, T1, T2> assertThat(LBiObjFloatPredicate<T1, T2> functionalInterface) {
+	default <A extends LBiObjFloatPredicate<T1, T2>, T1, T2> LBiObjFloatPredicateAssert.The<A, ? extends AbstractBooleanAssert, T1, T2> assertThat(LBiObjFloatPredicate<T1, T2> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBiObjFloatPredicateAssert.Impl(functionalInterface, assertFunc);
+		return new LBiObjFloatPredicateAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiObjFloatPredicateX<T1, T2, X>, T1, T2, X extends Throwable> LBiObjFloatPredicateXAssert.Impl<A, ? extends AbstractBooleanAssert, T1, T2, X> assertThat(LBiObjFloatPredicateX<T1, T2, X> functionalInterface) {
+	default <A extends LBiObjFloatPredicateX<T1, T2, X>, T1, T2, X extends Throwable> LBiObjFloatPredicateXAssert.The<A, ? extends AbstractBooleanAssert, T1, T2, X> assertThat(LBiObjFloatPredicateX<T1, T2, X> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBiObjFloatPredicateXAssert.Impl(functionalInterface, assertFunc);
+		return new LBiObjFloatPredicateXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiObjDoublePredicate<T1, T2>, T1, T2> LBiObjDoublePredicateAssert.Impl<A, ? extends AbstractBooleanAssert, T1, T2> assertThat(LBiObjDoublePredicate<T1, T2> functionalInterface) {
+	default <A extends LBiObjDoublePredicate<T1, T2>, T1, T2> LBiObjDoublePredicateAssert.The<A, ? extends AbstractBooleanAssert, T1, T2> assertThat(LBiObjDoublePredicate<T1, T2> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBiObjDoublePredicateAssert.Impl(functionalInterface, assertFunc);
+		return new LBiObjDoublePredicateAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiObjDoublePredicateX<T1, T2, X>, T1, T2, X extends Throwable> LBiObjDoublePredicateXAssert.Impl<A, ? extends AbstractBooleanAssert, T1, T2, X> assertThat(LBiObjDoublePredicateX<T1, T2, X> functionalInterface) {
+	default <A extends LBiObjDoublePredicateX<T1, T2, X>, T1, T2, X extends Throwable> LBiObjDoublePredicateXAssert.The<A, ? extends AbstractBooleanAssert, T1, T2, X> assertThat(LBiObjDoublePredicateX<T1, T2, X> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBiObjDoublePredicateXAssert.Impl(functionalInterface, assertFunc);
+		return new LBiObjDoublePredicateXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiObjCharPredicate<T1, T2>, T1, T2> LBiObjCharPredicateAssert.Impl<A, ? extends AbstractBooleanAssert, T1, T2> assertThat(LBiObjCharPredicate<T1, T2> functionalInterface) {
+	default <A extends LBiObjCharPredicate<T1, T2>, T1, T2> LBiObjCharPredicateAssert.The<A, ? extends AbstractBooleanAssert, T1, T2> assertThat(LBiObjCharPredicate<T1, T2> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBiObjCharPredicateAssert.Impl(functionalInterface, assertFunc);
+		return new LBiObjCharPredicateAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiObjCharPredicateX<T1, T2, X>, T1, T2, X extends Throwable> LBiObjCharPredicateXAssert.Impl<A, ? extends AbstractBooleanAssert, T1, T2, X> assertThat(LBiObjCharPredicateX<T1, T2, X> functionalInterface) {
+	default <A extends LBiObjCharPredicateX<T1, T2, X>, T1, T2, X extends Throwable> LBiObjCharPredicateXAssert.The<A, ? extends AbstractBooleanAssert, T1, T2, X> assertThat(LBiObjCharPredicateX<T1, T2, X> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBiObjCharPredicateXAssert.Impl(functionalInterface, assertFunc);
+		return new LBiObjCharPredicateXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiObjBooleanPredicate<T1, T2>, T1, T2> LBiObjBooleanPredicateAssert.Impl<A, ? extends AbstractBooleanAssert, T1, T2> assertThat(LBiObjBooleanPredicate<T1, T2> functionalInterface) {
+	default <A extends LBiObjBooleanPredicate<T1, T2>, T1, T2> LBiObjBooleanPredicateAssert.The<A, ? extends AbstractBooleanAssert, T1, T2> assertThat(LBiObjBooleanPredicate<T1, T2> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBiObjBooleanPredicateAssert.Impl(functionalInterface, assertFunc);
+		return new LBiObjBooleanPredicateAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBiObjBooleanPredicateX<T1, T2, X>, T1, T2, X extends Throwable> LBiObjBooleanPredicateXAssert.Impl<A, ? extends AbstractBooleanAssert, T1, T2, X> assertThat(LBiObjBooleanPredicateX<T1, T2, X> functionalInterface) {
+	default <A extends LBiObjBooleanPredicateX<T1, T2, X>, T1, T2, X extends Throwable> LBiObjBooleanPredicateXAssert.The<A, ? extends AbstractBooleanAssert, T1, T2, X> assertThat(LBiObjBooleanPredicateX<T1, T2, X> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBiObjBooleanPredicateXAssert.Impl(functionalInterface, assertFunc);
+		return new LBiObjBooleanPredicateXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LSupplier<R>, R> LSupplierAssert.Impl<A, ? extends OS, R> assertThat(LSupplier<R> functionalInterface) { // NOSONAR
+	default <A extends LSupplier<R>, R> LSupplierAssert.The<A, ? extends OS, R> assertThat(LSupplier<R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LSupplierAssert.Impl(functionalInterface, assertFunc);
+		return new LSupplierAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LSupplierX<R, X>, R, X extends Throwable> LSupplierXAssert.Impl<A, ? extends OS, R, X> assertThat(LSupplierX<R, X> functionalInterface) { // NOSONAR
+	default <A extends LSupplierX<R, X>, R, X extends Throwable> LSupplierXAssert.The<A, ? extends OS, R, X> assertThat(LSupplierX<R, X> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LSupplierXAssert.Impl(functionalInterface, assertFunc);
+		return new LSupplierXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LByteSupplier> LByteSupplierAssert.Impl<A, ? extends AbstractByteAssert> assertThat(LByteSupplier functionalInterface) {
+	default <A extends LByteSupplier> LByteSupplierAssert.The<A, ? extends AbstractByteAssert> assertThat(LByteSupplier functionalInterface) {
 		Function<Byte, AbstractByteAssert> assertFunc = this::assertThatByte;
-		return new LByteSupplierAssert.Impl(functionalInterface, assertFunc);
+		return new LByteSupplierAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LByteSupplierX<X>, X extends Throwable> LByteSupplierXAssert.Impl<A, ? extends AbstractByteAssert, X> assertThat(LByteSupplierX<X> functionalInterface) {
+	default <A extends LByteSupplierX<X>, X extends Throwable> LByteSupplierXAssert.The<A, ? extends AbstractByteAssert, X> assertThat(LByteSupplierX<X> functionalInterface) {
 		Function<Byte, AbstractByteAssert> assertFunc = this::assertThatByte;
-		return new LByteSupplierXAssert.Impl(functionalInterface, assertFunc);
+		return new LByteSupplierXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LShortSupplier> LShortSupplierAssert.Impl<A, ? extends AbstractShortAssert> assertThat(LShortSupplier functionalInterface) {
+	default <A extends LShortSupplier> LShortSupplierAssert.The<A, ? extends AbstractShortAssert> assertThat(LShortSupplier functionalInterface) {
 		Function<Short, AbstractShortAssert> assertFunc = this::assertThatShort;
-		return new LShortSupplierAssert.Impl(functionalInterface, assertFunc);
+		return new LShortSupplierAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LShortSupplierX<X>, X extends Throwable> LShortSupplierXAssert.Impl<A, ? extends AbstractShortAssert, X> assertThat(LShortSupplierX<X> functionalInterface) {
+	default <A extends LShortSupplierX<X>, X extends Throwable> LShortSupplierXAssert.The<A, ? extends AbstractShortAssert, X> assertThat(LShortSupplierX<X> functionalInterface) {
 		Function<Short, AbstractShortAssert> assertFunc = this::assertThatShort;
-		return new LShortSupplierXAssert.Impl(functionalInterface, assertFunc);
+		return new LShortSupplierXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LIntSupplier> LIntSupplierAssert.Impl<A, ? extends AbstractIntegerAssert> assertThat(LIntSupplier functionalInterface) {
+	default <A extends LIntSupplier> LIntSupplierAssert.The<A, ? extends AbstractIntegerAssert> assertThat(LIntSupplier functionalInterface) {
 		Function<Integer, AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new LIntSupplierAssert.Impl(functionalInterface, assertFunc);
+		return new LIntSupplierAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LIntSupplierX<X>, X extends Throwable> LIntSupplierXAssert.Impl<A, ? extends AbstractIntegerAssert, X> assertThat(LIntSupplierX<X> functionalInterface) {
+	default <A extends LIntSupplierX<X>, X extends Throwable> LIntSupplierXAssert.The<A, ? extends AbstractIntegerAssert, X> assertThat(LIntSupplierX<X> functionalInterface) {
 		Function<Integer, AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new LIntSupplierXAssert.Impl(functionalInterface, assertFunc);
+		return new LIntSupplierXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LLongSupplier> LLongSupplierAssert.Impl<A, ? extends AbstractLongAssert> assertThat(LLongSupplier functionalInterface) {
+	default <A extends LLongSupplier> LLongSupplierAssert.The<A, ? extends AbstractLongAssert> assertThat(LLongSupplier functionalInterface) {
 		Function<Long, AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new LLongSupplierAssert.Impl(functionalInterface, assertFunc);
+		return new LLongSupplierAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LLongSupplierX<X>, X extends Throwable> LLongSupplierXAssert.Impl<A, ? extends AbstractLongAssert, X> assertThat(LLongSupplierX<X> functionalInterface) {
+	default <A extends LLongSupplierX<X>, X extends Throwable> LLongSupplierXAssert.The<A, ? extends AbstractLongAssert, X> assertThat(LLongSupplierX<X> functionalInterface) {
 		Function<Long, AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new LLongSupplierXAssert.Impl(functionalInterface, assertFunc);
+		return new LLongSupplierXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LFloatSupplier> LFloatSupplierAssert.Impl<A, ? extends AbstractFloatAssert> assertThat(LFloatSupplier functionalInterface) {
+	default <A extends LFloatSupplier> LFloatSupplierAssert.The<A, ? extends AbstractFloatAssert> assertThat(LFloatSupplier functionalInterface) {
 		Function<Float, AbstractFloatAssert> assertFunc = this::assertThatFloat;
-		return new LFloatSupplierAssert.Impl(functionalInterface, assertFunc);
+		return new LFloatSupplierAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LFloatSupplierX<X>, X extends Throwable> LFloatSupplierXAssert.Impl<A, ? extends AbstractFloatAssert, X> assertThat(LFloatSupplierX<X> functionalInterface) {
+	default <A extends LFloatSupplierX<X>, X extends Throwable> LFloatSupplierXAssert.The<A, ? extends AbstractFloatAssert, X> assertThat(LFloatSupplierX<X> functionalInterface) {
 		Function<Float, AbstractFloatAssert> assertFunc = this::assertThatFloat;
-		return new LFloatSupplierXAssert.Impl(functionalInterface, assertFunc);
+		return new LFloatSupplierXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LDoubleSupplier> LDoubleSupplierAssert.Impl<A, ? extends AbstractDoubleAssert> assertThat(LDoubleSupplier functionalInterface) {
+	default <A extends LDoubleSupplier> LDoubleSupplierAssert.The<A, ? extends AbstractDoubleAssert> assertThat(LDoubleSupplier functionalInterface) {
 		Function<Double, AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new LDoubleSupplierAssert.Impl(functionalInterface, assertFunc);
+		return new LDoubleSupplierAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LDoubleSupplierX<X>, X extends Throwable> LDoubleSupplierXAssert.Impl<A, ? extends AbstractDoubleAssert, X> assertThat(LDoubleSupplierX<X> functionalInterface) {
+	default <A extends LDoubleSupplierX<X>, X extends Throwable> LDoubleSupplierXAssert.The<A, ? extends AbstractDoubleAssert, X> assertThat(LDoubleSupplierX<X> functionalInterface) {
 		Function<Double, AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new LDoubleSupplierXAssert.Impl(functionalInterface, assertFunc);
+		return new LDoubleSupplierXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LCharSupplier> LCharSupplierAssert.Impl<A, ? extends AbstractCharacterAssert> assertThat(LCharSupplier functionalInterface) {
+	default <A extends LCharSupplier> LCharSupplierAssert.The<A, ? extends AbstractCharacterAssert> assertThat(LCharSupplier functionalInterface) {
 		Function<Character, AbstractCharacterAssert> assertFunc = this::assertThatChar;
-		return new LCharSupplierAssert.Impl(functionalInterface, assertFunc);
+		return new LCharSupplierAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LCharSupplierX<X>, X extends Throwable> LCharSupplierXAssert.Impl<A, ? extends AbstractCharacterAssert, X> assertThat(LCharSupplierX<X> functionalInterface) {
+	default <A extends LCharSupplierX<X>, X extends Throwable> LCharSupplierXAssert.The<A, ? extends AbstractCharacterAssert, X> assertThat(LCharSupplierX<X> functionalInterface) {
 		Function<Character, AbstractCharacterAssert> assertFunc = this::assertThatChar;
-		return new LCharSupplierXAssert.Impl(functionalInterface, assertFunc);
+		return new LCharSupplierXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBooleanSupplier> LBooleanSupplierAssert.Impl<A, ? extends AbstractBooleanAssert> assertThat(LBooleanSupplier functionalInterface) {
+	default <A extends LBooleanSupplier> LBooleanSupplierAssert.The<A, ? extends AbstractBooleanAssert> assertThat(LBooleanSupplier functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBooleanSupplierAssert.Impl(functionalInterface, assertFunc);
+		return new LBooleanSupplierAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends LBooleanSupplierX<X>, X extends Throwable> LBooleanSupplierXAssert.Impl<A, ? extends AbstractBooleanAssert, X> assertThat(LBooleanSupplierX<X> functionalInterface) {
+	default <A extends LBooleanSupplierX<X>, X extends Throwable> LBooleanSupplierXAssert.The<A, ? extends AbstractBooleanAssert, X> assertThat(LBooleanSupplierX<X> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LBooleanSupplierXAssert.Impl(functionalInterface, assertFunc);
+		return new LBooleanSupplierXAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.UnaryOperator<T>, T> UnaryOperatorAssert.Impl<A, ? extends OS, T> assertThat(java.util.function.UnaryOperator<T> functionalInterface) { // NOSONAR
+	default <A extends java.util.function.UnaryOperator<T>, T> UnaryOperatorAssert.The<A, ? extends OS, T> assertThat(java.util.function.UnaryOperator<T> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new UnaryOperatorAssert.Impl(functionalInterface, assertFunc);
+		return new UnaryOperatorAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.BinaryOperator<T>, T> BinaryOperatorAssert.Impl<A, ? extends OS, T> assertThat(java.util.function.BinaryOperator<T> functionalInterface) { // NOSONAR
+	default <A extends java.util.function.BinaryOperator<T>, T> BinaryOperatorAssert.The<A, ? extends OS, T> assertThat(java.util.function.BinaryOperator<T> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new BinaryOperatorAssert.Impl(functionalInterface, assertFunc);
+		return new BinaryOperatorAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.IntUnaryOperator> IntUnaryOperatorAssert.Impl<A, ? extends AbstractIntegerAssert> assertThat(java.util.function.IntUnaryOperator functionalInterface) {
+	default <A extends java.util.function.IntUnaryOperator> IntUnaryOperatorAssert.The<A, ? extends AbstractIntegerAssert> assertThat(java.util.function.IntUnaryOperator functionalInterface) {
 		Function<Integer, AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new IntUnaryOperatorAssert.Impl(functionalInterface, assertFunc);
+		return new IntUnaryOperatorAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.LongUnaryOperator> LongUnaryOperatorAssert.Impl<A, ? extends AbstractLongAssert> assertThat(java.util.function.LongUnaryOperator functionalInterface) {
+	default <A extends java.util.function.LongUnaryOperator> LongUnaryOperatorAssert.The<A, ? extends AbstractLongAssert> assertThat(java.util.function.LongUnaryOperator functionalInterface) {
 		Function<Long, AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new LongUnaryOperatorAssert.Impl(functionalInterface, assertFunc);
+		return new LongUnaryOperatorAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.DoubleUnaryOperator> DoubleUnaryOperatorAssert.Impl<A, ? extends AbstractDoubleAssert> assertThat(java.util.function.DoubleUnaryOperator functionalInterface) {
+	default <A extends java.util.function.DoubleUnaryOperator> DoubleUnaryOperatorAssert.The<A, ? extends AbstractDoubleAssert> assertThat(java.util.function.DoubleUnaryOperator functionalInterface) {
 		Function<Double, AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new DoubleUnaryOperatorAssert.Impl(functionalInterface, assertFunc);
+		return new DoubleUnaryOperatorAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.IntBinaryOperator> IntBinaryOperatorAssert.Impl<A, ? extends AbstractIntegerAssert> assertThat(java.util.function.IntBinaryOperator functionalInterface) {
+	default <A extends java.util.function.IntBinaryOperator> IntBinaryOperatorAssert.The<A, ? extends AbstractIntegerAssert> assertThat(java.util.function.IntBinaryOperator functionalInterface) {
 		Function<Integer, AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new IntBinaryOperatorAssert.Impl(functionalInterface, assertFunc);
+		return new IntBinaryOperatorAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.LongBinaryOperator> LongBinaryOperatorAssert.Impl<A, ? extends AbstractLongAssert> assertThat(java.util.function.LongBinaryOperator functionalInterface) {
+	default <A extends java.util.function.LongBinaryOperator> LongBinaryOperatorAssert.The<A, ? extends AbstractLongAssert> assertThat(java.util.function.LongBinaryOperator functionalInterface) {
 		Function<Long, AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new LongBinaryOperatorAssert.Impl(functionalInterface, assertFunc);
+		return new LongBinaryOperatorAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.DoubleBinaryOperator> DoubleBinaryOperatorAssert.Impl<A, ? extends AbstractDoubleAssert> assertThat(java.util.function.DoubleBinaryOperator functionalInterface) {
+	default <A extends java.util.function.DoubleBinaryOperator> DoubleBinaryOperatorAssert.The<A, ? extends AbstractDoubleAssert> assertThat(java.util.function.DoubleBinaryOperator functionalInterface) {
 		Function<Double, AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new DoubleBinaryOperatorAssert.Impl(functionalInterface, assertFunc);
+		return new DoubleBinaryOperatorAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.Function<T, R>, T, R> FunctionAssert.Impl<A, ? extends OS, T, R> assertThat(java.util.function.Function<T, R> functionalInterface) { // NOSONAR
+	default <A extends java.util.function.Function<T, R>, T, R> FunctionAssert.The<A, ? extends OS, T, R> assertThat(java.util.function.Function<T, R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new FunctionAssert.Impl(functionalInterface, assertFunc);
+		return new FunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.BiFunction<T1, T2, R>, T1, T2, R> BiFunctionAssert.Impl<A, ? extends OS, T1, T2, R> assertThat(java.util.function.BiFunction<T1, T2, R> functionalInterface) { // NOSONAR
+	default <A extends java.util.function.BiFunction<T1, T2, R>, T1, T2, R> BiFunctionAssert.The<A, ? extends OS, T1, T2, R> assertThat(java.util.function.BiFunction<T1, T2, R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new BiFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new BiFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.IntFunction<R>, R> IntFunctionAssert.Impl<A, ? extends OS, R> assertThat(java.util.function.IntFunction<R> functionalInterface) { // NOSONAR
+	default <A extends java.util.function.IntFunction<R>, R> IntFunctionAssert.The<A, ? extends OS, R> assertThat(java.util.function.IntFunction<R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new IntFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new IntFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.LongFunction<R>, R> LongFunctionAssert.Impl<A, ? extends OS, R> assertThat(java.util.function.LongFunction<R> functionalInterface) { // NOSONAR
+	default <A extends java.util.function.LongFunction<R>, R> LongFunctionAssert.The<A, ? extends OS, R> assertThat(java.util.function.LongFunction<R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new LongFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LongFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.DoubleFunction<R>, R> DoubleFunctionAssert.Impl<A, ? extends OS, R> assertThat(java.util.function.DoubleFunction<R> functionalInterface) { // NOSONAR
+	default <A extends java.util.function.DoubleFunction<R>, R> DoubleFunctionAssert.The<A, ? extends OS, R> assertThat(java.util.function.DoubleFunction<R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new DoubleFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new DoubleFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.ToIntFunction<T>, T> ToIntFunctionAssert.Impl<A, ? extends AbstractIntegerAssert, T> assertThat(java.util.function.ToIntFunction<T> functionalInterface) {
+	default <A extends java.util.function.ToIntFunction<T>, T> ToIntFunctionAssert.The<A, ? extends AbstractIntegerAssert, T> assertThat(java.util.function.ToIntFunction<T> functionalInterface) {
 		Function<Integer, AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new ToIntFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new ToIntFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.ToLongFunction<T>, T> ToLongFunctionAssert.Impl<A, ? extends AbstractLongAssert, T> assertThat(java.util.function.ToLongFunction<T> functionalInterface) {
+	default <A extends java.util.function.ToLongFunction<T>, T> ToLongFunctionAssert.The<A, ? extends AbstractLongAssert, T> assertThat(java.util.function.ToLongFunction<T> functionalInterface) {
 		Function<Long, AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new ToLongFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new ToLongFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.ToDoubleFunction<T>, T> ToDoubleFunctionAssert.Impl<A, ? extends AbstractDoubleAssert, T> assertThat(java.util.function.ToDoubleFunction<T> functionalInterface) {
+	default <A extends java.util.function.ToDoubleFunction<T>, T> ToDoubleFunctionAssert.The<A, ? extends AbstractDoubleAssert, T> assertThat(java.util.function.ToDoubleFunction<T> functionalInterface) {
 		Function<Double, AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new ToDoubleFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new ToDoubleFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.ToIntBiFunction<T1, T2>, T1, T2> ToIntBiFunctionAssert.Impl<A, ? extends AbstractIntegerAssert, T1, T2> assertThat(java.util.function.ToIntBiFunction<T1, T2> functionalInterface) {
+	default <A extends java.util.function.ToIntBiFunction<T1, T2>, T1, T2> ToIntBiFunctionAssert.The<A, ? extends AbstractIntegerAssert, T1, T2> assertThat(java.util.function.ToIntBiFunction<T1, T2> functionalInterface) {
 		Function<Integer, AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new ToIntBiFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new ToIntBiFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.ToLongBiFunction<T1, T2>, T1, T2> ToLongBiFunctionAssert.Impl<A, ? extends AbstractLongAssert, T1, T2> assertThat(java.util.function.ToLongBiFunction<T1, T2> functionalInterface) {
+	default <A extends java.util.function.ToLongBiFunction<T1, T2>, T1, T2> ToLongBiFunctionAssert.The<A, ? extends AbstractLongAssert, T1, T2> assertThat(java.util.function.ToLongBiFunction<T1, T2> functionalInterface) {
 		Function<Long, AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new ToLongBiFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new ToLongBiFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.ToDoubleBiFunction<T1, T2>, T1, T2> ToDoubleBiFunctionAssert.Impl<A, ? extends AbstractDoubleAssert, T1, T2> assertThat(java.util.function.ToDoubleBiFunction<T1, T2> functionalInterface) {
+	default <A extends java.util.function.ToDoubleBiFunction<T1, T2>, T1, T2> ToDoubleBiFunctionAssert.The<A, ? extends AbstractDoubleAssert, T1, T2> assertThat(java.util.function.ToDoubleBiFunction<T1, T2> functionalInterface) {
 		Function<Double, AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new ToDoubleBiFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new ToDoubleBiFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.IntToLongFunction> IntToLongFunctionAssert.Impl<A, ? extends AbstractLongAssert> assertThat(java.util.function.IntToLongFunction functionalInterface) {
+	default <A extends java.util.function.IntToLongFunction> IntToLongFunctionAssert.The<A, ? extends AbstractLongAssert> assertThat(java.util.function.IntToLongFunction functionalInterface) {
 		Function<Long, AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new IntToLongFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new IntToLongFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.IntToDoubleFunction> IntToDoubleFunctionAssert.Impl<A, ? extends AbstractDoubleAssert> assertThat(java.util.function.IntToDoubleFunction functionalInterface) {
+	default <A extends java.util.function.IntToDoubleFunction> IntToDoubleFunctionAssert.The<A, ? extends AbstractDoubleAssert> assertThat(java.util.function.IntToDoubleFunction functionalInterface) {
 		Function<Double, AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new IntToDoubleFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new IntToDoubleFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.LongToIntFunction> LongToIntFunctionAssert.Impl<A, ? extends AbstractIntegerAssert> assertThat(java.util.function.LongToIntFunction functionalInterface) {
+	default <A extends java.util.function.LongToIntFunction> LongToIntFunctionAssert.The<A, ? extends AbstractIntegerAssert> assertThat(java.util.function.LongToIntFunction functionalInterface) {
 		Function<Integer, AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new LongToIntFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LongToIntFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.LongToDoubleFunction> LongToDoubleFunctionAssert.Impl<A, ? extends AbstractDoubleAssert> assertThat(java.util.function.LongToDoubleFunction functionalInterface) {
+	default <A extends java.util.function.LongToDoubleFunction> LongToDoubleFunctionAssert.The<A, ? extends AbstractDoubleAssert> assertThat(java.util.function.LongToDoubleFunction functionalInterface) {
 		Function<Double, AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new LongToDoubleFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new LongToDoubleFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.DoubleToIntFunction> DoubleToIntFunctionAssert.Impl<A, ? extends AbstractIntegerAssert> assertThat(java.util.function.DoubleToIntFunction functionalInterface) {
+	default <A extends java.util.function.DoubleToIntFunction> DoubleToIntFunctionAssert.The<A, ? extends AbstractIntegerAssert> assertThat(java.util.function.DoubleToIntFunction functionalInterface) {
 		Function<Integer, AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new DoubleToIntFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new DoubleToIntFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.DoubleToLongFunction> DoubleToLongFunctionAssert.Impl<A, ? extends AbstractLongAssert> assertThat(java.util.function.DoubleToLongFunction functionalInterface) {
+	default <A extends java.util.function.DoubleToLongFunction> DoubleToLongFunctionAssert.The<A, ? extends AbstractLongAssert> assertThat(java.util.function.DoubleToLongFunction functionalInterface) {
 		Function<Long, AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new DoubleToLongFunctionAssert.Impl(functionalInterface, assertFunc);
+		return new DoubleToLongFunctionAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.Predicate<T>, T> PredicateAssert.Impl<A, ? extends AbstractBooleanAssert, T> assertThat(java.util.function.Predicate<T> functionalInterface) {
+	default <A extends java.util.function.Predicate<T>, T> PredicateAssert.The<A, ? extends AbstractBooleanAssert, T> assertThat(java.util.function.Predicate<T> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new PredicateAssert.Impl(functionalInterface, assertFunc);
+		return new PredicateAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.BiPredicate<T1, T2>, T1, T2> BiPredicateAssert.Impl<A, ? extends AbstractBooleanAssert, T1, T2> assertThat(java.util.function.BiPredicate<T1, T2> functionalInterface) {
+	default <A extends java.util.function.BiPredicate<T1, T2>, T1, T2> BiPredicateAssert.The<A, ? extends AbstractBooleanAssert, T1, T2> assertThat(java.util.function.BiPredicate<T1, T2> functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new BiPredicateAssert.Impl(functionalInterface, assertFunc);
+		return new BiPredicateAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.IntPredicate> IntPredicateAssert.Impl<A, ? extends AbstractBooleanAssert> assertThat(java.util.function.IntPredicate functionalInterface) {
+	default <A extends java.util.function.IntPredicate> IntPredicateAssert.The<A, ? extends AbstractBooleanAssert> assertThat(java.util.function.IntPredicate functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new IntPredicateAssert.Impl(functionalInterface, assertFunc);
+		return new IntPredicateAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.LongPredicate> LongPredicateAssert.Impl<A, ? extends AbstractBooleanAssert> assertThat(java.util.function.LongPredicate functionalInterface) {
+	default <A extends java.util.function.LongPredicate> LongPredicateAssert.The<A, ? extends AbstractBooleanAssert> assertThat(java.util.function.LongPredicate functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new LongPredicateAssert.Impl(functionalInterface, assertFunc);
+		return new LongPredicateAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.DoublePredicate> DoublePredicateAssert.Impl<A, ? extends AbstractBooleanAssert> assertThat(java.util.function.DoublePredicate functionalInterface) {
+	default <A extends java.util.function.DoublePredicate> DoublePredicateAssert.The<A, ? extends AbstractBooleanAssert> assertThat(java.util.function.DoublePredicate functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new DoublePredicateAssert.Impl(functionalInterface, assertFunc);
+		return new DoublePredicateAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.Supplier<R>, R> SupplierAssert.Impl<A, ? extends OS, R> assertThat(java.util.function.Supplier<R> functionalInterface) { // NOSONAR
+	default <A extends java.util.function.Supplier<R>, R> SupplierAssert.The<A, ? extends OS, R> assertThat(java.util.function.Supplier<R> functionalInterface) { // NOSONAR
 		// ?: makes possible to merge captures OS & RS
 		Function<Object, OS> assertFunc = this::assertThatObj;
-		return new SupplierAssert.Impl(functionalInterface, assertFunc);
+		return new SupplierAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.IntSupplier> IntSupplierAssert.Impl<A, ? extends AbstractIntegerAssert> assertThat(java.util.function.IntSupplier functionalInterface) {
+	default <A extends java.util.function.IntSupplier> IntSupplierAssert.The<A, ? extends AbstractIntegerAssert> assertThat(java.util.function.IntSupplier functionalInterface) {
 		Function<Integer, AbstractIntegerAssert> assertFunc = this::assertThatInt;
-		return new IntSupplierAssert.Impl(functionalInterface, assertFunc);
+		return new IntSupplierAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.LongSupplier> LongSupplierAssert.Impl<A, ? extends AbstractLongAssert> assertThat(java.util.function.LongSupplier functionalInterface) {
+	default <A extends java.util.function.LongSupplier> LongSupplierAssert.The<A, ? extends AbstractLongAssert> assertThat(java.util.function.LongSupplier functionalInterface) {
 		Function<Long, AbstractLongAssert> assertFunc = this::assertThatLong;
-		return new LongSupplierAssert.Impl(functionalInterface, assertFunc);
+		return new LongSupplierAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.DoubleSupplier> DoubleSupplierAssert.Impl<A, ? extends AbstractDoubleAssert> assertThat(java.util.function.DoubleSupplier functionalInterface) {
+	default <A extends java.util.function.DoubleSupplier> DoubleSupplierAssert.The<A, ? extends AbstractDoubleAssert> assertThat(java.util.function.DoubleSupplier functionalInterface) {
 		Function<Double, AbstractDoubleAssert> assertFunc = this::assertThatDouble;
-		return new DoubleSupplierAssert.Impl(functionalInterface, assertFunc);
+		return new DoubleSupplierAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.BooleanSupplier> BooleanSupplierAssert.Impl<A, ? extends AbstractBooleanAssert> assertThat(java.util.function.BooleanSupplier functionalInterface) {
+	default <A extends java.util.function.BooleanSupplier> BooleanSupplierAssert.The<A, ? extends AbstractBooleanAssert> assertThat(java.util.function.BooleanSupplier functionalInterface) {
 		Function<Boolean, AbstractBooleanAssert> assertFunc = this::assertThatBoolean;
-		return new BooleanSupplierAssert.Impl(functionalInterface, assertFunc);
+		return new BooleanSupplierAssert.The(functionalInterface, assertFunc);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.Consumer<T>, T> ConsumerAssert.Impl<A, T> assertThat(java.util.function.Consumer<T> functionalInterface) {
-		return new ConsumerAssert.Impl(functionalInterface);
+	default <A extends java.util.function.Consumer<T>, T> ConsumerAssert.The<A, T> assertThat(java.util.function.Consumer<T> functionalInterface) {
+		return new ConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.BiConsumer<T1, T2>, T1, T2> BiConsumerAssert.Impl<A, T1, T2> assertThat(java.util.function.BiConsumer<T1, T2> functionalInterface) {
-		return new BiConsumerAssert.Impl(functionalInterface);
+	default <A extends java.util.function.BiConsumer<T1, T2>, T1, T2> BiConsumerAssert.The<A, T1, T2> assertThat(java.util.function.BiConsumer<T1, T2> functionalInterface) {
+		return new BiConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.IntConsumer> IntConsumerAssert.Impl<A> assertThat(java.util.function.IntConsumer functionalInterface) {
-		return new IntConsumerAssert.Impl(functionalInterface);
+	default <A extends java.util.function.IntConsumer> IntConsumerAssert.The<A> assertThat(java.util.function.IntConsumer functionalInterface) {
+		return new IntConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.LongConsumer> LongConsumerAssert.Impl<A> assertThat(java.util.function.LongConsumer functionalInterface) {
-		return new LongConsumerAssert.Impl(functionalInterface);
+	default <A extends java.util.function.LongConsumer> LongConsumerAssert.The<A> assertThat(java.util.function.LongConsumer functionalInterface) {
+		return new LongConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.DoubleConsumer> DoubleConsumerAssert.Impl<A> assertThat(java.util.function.DoubleConsumer functionalInterface) {
-		return new DoubleConsumerAssert.Impl(functionalInterface);
+	default <A extends java.util.function.DoubleConsumer> DoubleConsumerAssert.The<A> assertThat(java.util.function.DoubleConsumer functionalInterface) {
+		return new DoubleConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.ObjIntConsumer<T>, T> ObjIntConsumerAssert.Impl<A, T> assertThat(java.util.function.ObjIntConsumer<T> functionalInterface) {
-		return new ObjIntConsumerAssert.Impl(functionalInterface);
+	default <A extends java.util.function.ObjIntConsumer<T>, T> ObjIntConsumerAssert.The<A, T> assertThat(java.util.function.ObjIntConsumer<T> functionalInterface) {
+		return new ObjIntConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.ObjLongConsumer<T>, T> ObjLongConsumerAssert.Impl<A, T> assertThat(java.util.function.ObjLongConsumer<T> functionalInterface) {
-		return new ObjLongConsumerAssert.Impl(functionalInterface);
+	default <A extends java.util.function.ObjLongConsumer<T>, T> ObjLongConsumerAssert.The<A, T> assertThat(java.util.function.ObjLongConsumer<T> functionalInterface) {
+		return new ObjLongConsumerAssert.The(functionalInterface);
 	}
 
 	@Nonnull
-	default <A extends java.util.function.ObjDoubleConsumer<T>, T> ObjDoubleConsumerAssert.Impl<A, T> assertThat(java.util.function.ObjDoubleConsumer<T> functionalInterface) {
-		return new ObjDoubleConsumerAssert.Impl(functionalInterface);
+	default <A extends java.util.function.ObjDoubleConsumer<T>, T> ObjDoubleConsumerAssert.The<A, T> assertThat(java.util.function.ObjDoubleConsumer<T> functionalInterface) {
+		return new ObjDoubleConsumerAssert.The(functionalInterface);
 	}
 
 }

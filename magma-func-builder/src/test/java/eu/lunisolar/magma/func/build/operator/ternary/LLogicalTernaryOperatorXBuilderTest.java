@@ -115,7 +115,7 @@ public class LLogicalTernaryOperatorXBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LLogicalTernaryOperatorX<ParseException> function = logicalTernaryOperatorX((LLogicalTernaryOperatorX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((b1,b2,b3) -> b1 == false)
+            .aCase(ce -> ce.of((b1,b2,b3) -> b1 == false)
                              .evaluate((b1,b2,b3) -> false))
             .inCase((b1,b2,b3) -> b1 == true ).evaluate((b1,b2,b3) -> true)
             .eventually((b1,b2,b3) -> true)

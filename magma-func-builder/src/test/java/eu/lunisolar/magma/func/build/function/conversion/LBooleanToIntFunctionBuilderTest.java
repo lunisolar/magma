@@ -115,7 +115,7 @@ public class LBooleanToIntFunctionBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LBooleanToIntFunction function = booleanToIntFunction((LBooleanToIntFunction f)-> doNothing())
-            .addCase(ce -> ce.of(b -> b == false)
+            .aCase(ce -> ce.of(b -> b == false)
                              .evaluate(b -> (int)0))
             .inCase(b -> b == true ).evaluate(b -> (int)1)
             .eventually(b -> (int)99)

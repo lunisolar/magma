@@ -115,7 +115,7 @@ public class LCharToByteFunctionBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LCharToByteFunction function = charToByteFunction((LCharToByteFunction f)-> doNothing())
-            .addCase(ce -> ce.of(c -> c == (char)0)
+            .aCase(ce -> ce.of(c -> c == (char)0)
                              .evaluate(c -> (byte)0))
             .inCase(c -> c > 0 && c < 10).evaluate(c -> (byte)1)
             .inCase(c -> c > 10 && c < 20).evaluate(c -> (byte)2)

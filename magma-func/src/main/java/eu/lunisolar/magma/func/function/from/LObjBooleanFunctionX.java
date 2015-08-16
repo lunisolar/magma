@@ -65,6 +65,7 @@ public interface LObjBooleanFunctionX<T, R, X extends Throwable> extends MetaFun
 	@Nullable
 	R doApply(T t, boolean b) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default R nestingDoApply(T t, boolean b) {
 		try {
 			return this.doApply(t, b);
@@ -75,10 +76,12 @@ public interface LObjBooleanFunctionX<T, R, X extends Throwable> extends MetaFun
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default R shovingDoApply(T t, boolean b) {
 		return ((LObjBooleanFunctionX<T, R, RuntimeException>) this).doApply(t, b);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> R handlingDoApply(T t, boolean b, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -90,13 +93,13 @@ public interface LObjBooleanFunctionX<T, R, X extends Throwable> extends MetaFun
 
 	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
-	/** Ensures the result is not null */
+	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullDoApply(T t, boolean b) throws X {
 		return Null.requireNonNull(doApply(t, b), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LObjBooleanFunctionX.DESCRIPTION;
@@ -107,8 +110,21 @@ public interface LObjBooleanFunctionX<T, R, X extends Throwable> extends MetaFun
 		return () -> this.doApply(t, b);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T, R, X extends Throwable> LObjBooleanFunctionX<T, R, X> constant(R r) {
 		return (t, b) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T, R, X extends Throwable> LObjBooleanFunctionX<T, R, X> apply1st(@Nonnull LFunctionX<T, R, X> func) {
+		return (t, b) -> func.doApply(t);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T, R, X extends Throwable> LObjBooleanFunctionX<T, R, X> apply2nd(@Nonnull LBooleanFunctionX<R, X> func) {
+		return (t, b) -> func.doApply(b);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -127,7 +143,7 @@ public interface LObjBooleanFunctionX<T, R, X extends Throwable> extends MetaFun
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T, R, X extends Throwable> LObjBooleanFunctionX<T, R, X> wrapX(final @Nonnull LObjBooleanFunction<T, R> other) {
 		return (LObjBooleanFunctionX) other;
@@ -137,21 +153,17 @@ public interface LObjBooleanFunctionX<T, R, X extends Throwable> extends MetaFun
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LObjBooleanFunctionX<V1, R, X> objBoolFuncFromBoolean(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LLogicalOperatorX<X> before2) {
+	default <V1> LObjBooleanFunctionX<V1, R, X> objBoolFuncComposeBoolean(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LLogicalOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final boolean v2) -> this.doApply(before1.doApply(v1), before2.doApply(v2));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiFunctionX<V1, V2, R, X> objBoolFuncFrom(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LPredicateX<? super V2, X> before2) {
+	default <V1, V2> LBiFunctionX<V1, V2, R, X> objBoolFuncCompose(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LPredicateX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApply(before1.doApply(v1), before2.doTest(v2));
@@ -190,18 +202,19 @@ public interface LObjBooleanFunctionX<T, R, X extends Throwable> extends MetaFun
 		return this::nestingDoApply;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjBooleanFunction<T, R> shovingObjBoolFunc() {
 		return this::shovingDoApply;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjBooleanFunctionX<T, R, RuntimeException> shovingObjBoolFuncX() {
 		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
+	/** Converts to function that makes sure that the result is not null. */
 	@Nonnull
 	default LObjBooleanFunctionX<T, R, X> nonNullObjBoolFunc() {
 		return this::nonNullDoApply;
@@ -209,11 +222,13 @@ public interface LObjBooleanFunctionX<T, R, X extends Throwable> extends MetaFun
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LObjBooleanFunction<T, R> handleObjBoolFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T t, boolean b) -> this.handlingDoApply(t, b, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LObjBooleanFunctionX<T, R, Y> handleObjBoolFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T t, boolean b) -> this.handlingDoApply(t, b, handling);

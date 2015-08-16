@@ -66,7 +66,7 @@ public final class LActionXBuilder<X extends Throwable> extends PerCaseBuilder.B
 		});
 
 	public LActionXBuilder(@Nullable Consumer<LActionX<X>> consumer) {
-		super(EVENTUALLY_THROW);
+		super(EVENTUALLY_THROW, () -> new LActionXBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LActionXBuilder<X extends Throwable> extends PerCaseBuilder.B
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <X extends Throwable> LActionXBuilder<X> actionX() {
+	public static <X extends Throwable> LActionXBuilder<X> actionX() {
 		return new LActionXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <X extends Throwable> LActionXBuilder<X> actionX(Consumer<LActionX<X>> consumer) {
+	public static <X extends Throwable> LActionXBuilder<X> actionX(Consumer<LActionX<X>> consumer) {
 		return new LActionXBuilder(consumer);
 	}
 

@@ -271,7 +271,7 @@ public class LBiConsumerXTest<T1,T2,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testbiConsFrom() throws X {
+    public void testbiConsCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -295,7 +295,7 @@ public class LBiConsumerXTest<T1,T2,X extends ParseException> {
         };
 
         //when
-        LBiConsumerX<Integer ,Integer ,X> function = sutO.biConsFrom(before1,before2);
+        LBiConsumerX<Integer ,Integer ,X> function = sutO.biConsCompose(before1,before2);
         function.doAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals

@@ -191,7 +191,7 @@ public class LObjShortPredicateXTest<T,X extends ParseException> {
         });
 
         // when
-        LObjShortPredicateX<T,X> wrapped = sutThrowing.handleObjSPredX(handler -> handler
+        LObjShortPredicateX<T,X> wrapped = sutThrowing.handleObjShortPredX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -215,7 +215,7 @@ public class LObjShortPredicateXTest<T,X extends ParseException> {
         });
 
         // when
-        LObjShortPredicateX<T,X> wrapped = sutThrowing.handleObjSPredX(handler -> handler
+        LObjShortPredicateX<T,X> wrapped = sutThrowing.handleObjShortPredX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -239,7 +239,7 @@ public class LObjShortPredicateXTest<T,X extends ParseException> {
         });
 
         // when
-        LObjShortPredicateX<T,X> wrapped = sutThrowing.handleObjSPredX(handler -> handler
+        LObjShortPredicateX<T,X> wrapped = sutThrowing.handleObjShortPredX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -264,7 +264,7 @@ public class LObjShortPredicateXTest<T,X extends ParseException> {
         });
 
         // when
-        LObjShortPredicateX<T,X> wrapped = sutThrowing.handleObjSPredX(h -> Function4U.doNothing());
+        LObjShortPredicateX<T,X> wrapped = sutThrowing.handleObjShortPredX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -336,7 +336,7 @@ public class LObjShortPredicateXTest<T,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testobjSPredFromShort() throws X {
+    public void testobjShortPredComposeShort() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -361,7 +361,7 @@ public class LObjShortPredicateXTest<T,X extends ParseException> {
         };
 
         //when
-        LObjShortPredicateX<Integer ,X> function = sutO.objSPredFromShort(before1,before2);
+        LObjShortPredicateX<Integer ,X> function = sutO.objShortPredComposeShort(before1,before2);
         function.doTest((Integer )Integer.valueOf(80),(short)81);
 
         //then - finals
@@ -371,7 +371,7 @@ public class LObjShortPredicateXTest<T,X extends ParseException> {
 
 
     @Test
-    public void testobjSPredFrom() throws X {
+    public void testobjShortPredCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -396,7 +396,7 @@ public class LObjShortPredicateXTest<T,X extends ParseException> {
         };
 
         //when
-        LBiPredicateX<Integer ,Integer ,X> function = sutO.objSPredFrom(before1,before2);
+        LBiPredicateX<Integer ,Integer ,X> function = sutO.objShortPredCompose(before1,before2);
         function.doTest((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
@@ -449,25 +449,25 @@ public class LObjShortPredicateXTest<T,X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nestingObjSPred())
+        assertThat(sut.nestingObjShortPred())
             .isInstanceOf(LObjShortPredicate.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shovingObjSPred())
+        assertThat(sut.shovingObjShortPred())
             .isInstanceOf(LObjShortPredicate.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestingObjSPredX())
+        assertThat(sut.nestingObjShortPredX())
             .isInstanceOf(LObjShortPredicateX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shovingObjSPredX())
+        assertThat(sut.shovingObjShortPredX())
             .isInstanceOf(LObjShortPredicateX.class);
     }
 
@@ -480,11 +480,11 @@ public class LObjShortPredicateXTest<T,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shovingObjSPred().doTest((T)Integer.valueOf(100),(short)100);
+        sutThrowing.shovingObjShortPred().doTest((T)Integer.valueOf(100),(short)100);
     }
 
     @Test
-    public void testHandleObjSPred() throws X {
+    public void testHandleObjShortPred() throws X {
 
         // given
         LObjShortPredicateX<T,X> sutThrowing = LObjShortPredicateX.lX((T t, short s) -> {
@@ -492,7 +492,7 @@ public class LObjShortPredicateXTest<T,X extends ParseException> {
         });
 
         // when
-        LObjShortPredicateX<T,X> wrapped = sutThrowing.handleObjSPredX(h -> {
+        LObjShortPredicateX<T,X> wrapped = sutThrowing.handleObjShortPredX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 

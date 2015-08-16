@@ -64,10 +64,12 @@ public interface LShortToDoubleFunction extends LShortToDoubleFunctionX<RuntimeE
 
 	double doApplyAsDouble(short s);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default double nestingDoApplyAsDouble(short s) {
 		return this.doApplyAsDouble(s);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default double shovingDoApplyAsDouble(short s) {
 		return this.doApplyAsDouble(s);
 	}
@@ -77,17 +79,18 @@ public interface LShortToDoubleFunction extends LShortToDoubleFunctionX<RuntimeE
 		return doApplyAsDouble(s);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LShortToDoubleFunction.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LDoubleSupplier captureSToDFunc(short s) {
+	default LDoubleSupplier captureShortToDoubleFunc(short s) {
 		return () -> this.doApplyAsDouble(s);
 	}
 
+	/** Creates function that always returns the same value. */
 	static LShortToDoubleFunction constant(double r) {
 		return s -> r;
 	}
@@ -101,7 +104,7 @@ public interface LShortToDoubleFunction extends LShortToDoubleFunctionX<RuntimeE
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LShortToDoubleFunction wrap(final @Nonnull LShortToDoubleFunctionX<X> other) {
 		return other::nestingDoApplyAsDouble;
@@ -111,20 +114,16 @@ public interface LShortToDoubleFunction extends LShortToDoubleFunctionX<RuntimeE
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LShortToDoubleFunction sToDFuncFromShort(@Nonnull final LShortUnaryOperator before1) {
+	default LShortToDoubleFunction shortToDoubleFuncComposeShort(@Nonnull final LShortUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsDouble(before1.doApplyAsShort(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToDoubleFunction<V1> sToDFuncFrom(@Nonnull final LToShortFunction<? super V1> before1) {
+	default <V1> LToDoubleFunction<V1> shortToDoubleFuncCompose(@Nonnull final LToShortFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsDouble(before1.doApplyAsShort(v1));
 	}
@@ -201,23 +200,23 @@ public interface LShortToDoubleFunction extends LShortToDoubleFunctionX<RuntimeE
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LShortToDoubleFunction nestingSToDFunc() {
+	default LShortToDoubleFunction nestingShortToDoubleFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LShortToDoubleFunctionX<RuntimeException> nestingSToDFuncX() {
+	default LShortToDoubleFunctionX<RuntimeException> nestingShortToDoubleFuncX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortToDoubleFunction shovingSToDFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LShortToDoubleFunction shovingShortToDoubleFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LShortToDoubleFunctionX<RuntimeException> shovingSToDFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LShortToDoubleFunctionX<RuntimeException> shovingShortToDoubleFuncX() {
 		return this;
 	}
 

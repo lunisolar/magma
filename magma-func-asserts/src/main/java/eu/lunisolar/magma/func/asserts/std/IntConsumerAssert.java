@@ -46,10 +46,10 @@ public interface IntConsumerAssert<S extends IntConsumerAssert<S, A>, A extends 
 	SemiEvaluation<S, LIntConsumerX<Exception>, A, Exception> doesAccept(int i);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends java.util.function.IntConsumer> extends Base<Impl<A>, A> {
+	public final static class The<A extends java.util.function.IntConsumer> extends Base<The<A>, A> {
 
-		public Impl(A actual) {
-			super(actual, Impl.class);
+		public The(A actual) {
+			super(actual, The.class);
 		}
 	}
 
@@ -63,7 +63,7 @@ public interface IntConsumerAssert<S extends IntConsumerAssert<S, A>, A extends 
 		@Nonnull
 		public SemiEvaluation<S, LIntConsumerX<Exception>, A, Exception> doesAccept(int i) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(i);
 				}

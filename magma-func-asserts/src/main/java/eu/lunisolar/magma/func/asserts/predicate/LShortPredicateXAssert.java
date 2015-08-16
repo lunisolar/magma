@@ -50,10 +50,10 @@ public interface LShortPredicateXAssert<S extends LShortPredicateXAssert<S, A, R
 	Evaluation<S, LShortConsumerX<Exception>, A, RS, Boolean, Exception> doesTest(short s);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LShortPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> extends Base<Impl<A, RS, X>, A, RS, X> {
+	public final static class The<A extends LShortPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
 
-		public Impl(A actual, java.util.function.Function<Boolean, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Boolean, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
@@ -72,7 +72,7 @@ public interface LShortPredicateXAssert<S extends LShortPredicateXAssert<S, A, R
 		@Nonnull
 		public Evaluation<S, LShortConsumerX<Exception>, A, RS, Boolean, Exception> doesTest(short s) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(s);
 				}

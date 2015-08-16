@@ -50,10 +50,10 @@ public interface LBooleanToLongFunctionXAssert<S extends LBooleanToLongFunctionX
 	Evaluation<S, LBooleanConsumerX<Exception>, A, RS, Long, Exception> doesApplyAsLong(boolean b);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LBooleanToLongFunctionX<X>, RS extends AbstractLongAssert<RS>, X extends Throwable> extends Base<Impl<A, RS, X>, A, RS, X> {
+	public final static class The<A extends LBooleanToLongFunctionX<X>, RS extends AbstractLongAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
 
-		public Impl(A actual, java.util.function.Function<Long, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Long, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
@@ -72,7 +72,7 @@ public interface LBooleanToLongFunctionXAssert<S extends LBooleanToLongFunctionX
 		@Nonnull
 		public Evaluation<S, LBooleanConsumerX<Exception>, A, RS, Long, Exception> doesApplyAsLong(boolean b) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(b);
 				}

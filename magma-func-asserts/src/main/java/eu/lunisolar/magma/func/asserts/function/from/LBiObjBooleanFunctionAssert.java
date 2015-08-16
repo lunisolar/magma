@@ -50,10 +50,10 @@ public interface LBiObjBooleanFunctionAssert<S extends LBiObjBooleanFunctionAsse
 	Evaluation<S, LBiObjBooleanConsumerX<T1, T2, Exception>, A, RS, R, Exception> doesApply(T1 t1, T2 t2, boolean b);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LBiObjBooleanFunction<T1, T2, R>, RS extends Assert<RS, R>, T1, T2, R> extends Base<Impl<A, RS, T1, T2, R>, A, RS, T1, T2, R> {
+	public final static class The<A extends LBiObjBooleanFunction<T1, T2, R>, RS extends Assert<RS, R>, T1, T2, R> extends Base<The<A, RS, T1, T2, R>, A, RS, T1, T2, R> {
 
-		public Impl(A actual, java.util.function.Function<R, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<R, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
@@ -72,7 +72,7 @@ public interface LBiObjBooleanFunctionAssert<S extends LBiObjBooleanFunctionAsse
 		@Nonnull
 		public Evaluation<S, LBiObjBooleanConsumerX<T1, T2, Exception>, A, RS, R, Exception> doesApply(T1 t1, T2 t2, boolean b) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(t1, t2, b);
 				}

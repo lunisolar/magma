@@ -115,7 +115,7 @@ public class LObjCharPredicateXBuilderTest<T,X extends Throwable>{
     public void testBuild() throws X {
 
         LObjCharPredicateX<Integer ,ParseException> function = objCharPredicateX((LObjCharPredicateX<Integer ,ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((t, c) -> t == Integer.valueOf(0))
+            .aCase(ce -> ce.of((t, c) -> t == Integer.valueOf(0))
                              .evaluate((t, c) -> false))
             .inCase((t, c) -> t > 0 && t < 10).evaluate((t, c) -> true)
             .inCase((t, c) -> t > 10 && t < 20).evaluate((t, c) -> true)

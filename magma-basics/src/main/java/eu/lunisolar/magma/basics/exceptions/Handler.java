@@ -40,8 +40,6 @@ public interface Handler<SELF extends Handler<SELF, X, Y>, X extends Throwable, 
         return new The<>(throwable);
     }
 
-
-
     /**
      * Executes instructions, if none of them wil throw or rethrow exception this method will fail with exception that throwable was not handled.
      * Errors will be rethrow immediately.
@@ -87,12 +85,11 @@ public interface Handler<SELF extends Handler<SELF, X, Y>, X extends Throwable, 
 
         handleErrors(throwable);
 
-        if ( instructions!=null) {
+        if (instructions != null) {
             handleInstructions(throwable, instructions);
         }
 
-        shoveIt(throwable);
-        throw shouldNeverBeenHere();
+        throw shoveIt(throwable);
     }
 
     <Z extends Throwable> SELF throwIf(Class<Z> yClass) throws Z;
@@ -135,7 +132,7 @@ public interface Handler<SELF extends Handler<SELF, X, Y>, X extends Throwable, 
 
     void handleRest();
 
-    class The<X extends Throwable, Y extends Throwable> extends HandlerBase<The<X, Y>, X, Y> {
+    final class The<X extends Throwable, Y extends Throwable> extends HandlerBase<The<X, Y>, X, Y> {
         public The(@Nonnull X throwable) {
             super(throwable);
         }

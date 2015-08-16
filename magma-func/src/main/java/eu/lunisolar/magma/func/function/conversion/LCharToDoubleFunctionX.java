@@ -64,6 +64,7 @@ public interface LCharToDoubleFunctionX<X extends Throwable> extends MetaFunctio
 
 	double doApplyAsDouble(char c) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default double nestingDoApplyAsDouble(char c) {
 		try {
 			return this.doApplyAsDouble(c);
@@ -74,10 +75,12 @@ public interface LCharToDoubleFunctionX<X extends Throwable> extends MetaFunctio
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default double shovingDoApplyAsDouble(char c) {
 		return ((LCharToDoubleFunctionX<RuntimeException>) this).doApplyAsDouble(c);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> double handlingDoApplyAsDouble(char c, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -92,17 +95,18 @@ public interface LCharToDoubleFunctionX<X extends Throwable> extends MetaFunctio
 		return doApplyAsDouble(c);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LCharToDoubleFunctionX.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LDoubleSupplierX<X> captureCToDFunc(char c) {
+	default LDoubleSupplierX<X> captureCharToDoubleFunc(char c) {
 		return () -> this.doApplyAsDouble(c);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LCharToDoubleFunctionX<X> constant(double r) {
 		return c -> r;
 	}
@@ -123,7 +127,7 @@ public interface LCharToDoubleFunctionX<X extends Throwable> extends MetaFunctio
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LCharToDoubleFunctionX<X> wrapX(final @Nonnull LCharToDoubleFunction other) {
 		return (LCharToDoubleFunctionX) other;
@@ -133,20 +137,16 @@ public interface LCharToDoubleFunctionX<X extends Throwable> extends MetaFunctio
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LCharToDoubleFunctionX<X> cToDFuncFromChar(@Nonnull final LCharUnaryOperatorX<X> before1) {
+	default LCharToDoubleFunctionX<X> charToDoubleFuncComposeChar(@Nonnull final LCharUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsDouble(before1.doApplyAsChar(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToDoubleFunctionX<V1, X> cToDFuncFrom(@Nonnull final LToCharFunctionX<? super V1, X> before1) {
+	default <V1> LToDoubleFunctionX<V1, X> charToDoubleFuncCompose(@Nonnull final LToCharFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsDouble(before1.doApplyAsChar(v1));
 	}
@@ -223,23 +223,23 @@ public interface LCharToDoubleFunctionX<X extends Throwable> extends MetaFunctio
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LCharToDoubleFunction nestingCToDFunc() {
+	default LCharToDoubleFunction nestingCharToDoubleFunc() {
 		return this::nestingDoApplyAsDouble;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LCharToDoubleFunctionX<RuntimeException> nestingCToDFuncX() {
+	default LCharToDoubleFunctionX<RuntimeException> nestingCharToDoubleFuncX() {
 		return this::nestingDoApplyAsDouble;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharToDoubleFunction shovingCToDFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LCharToDoubleFunction shovingCharToDoubleFunc() {
 		return this::shovingDoApplyAsDouble;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharToDoubleFunctionX<RuntimeException> shovingCToDFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LCharToDoubleFunctionX<RuntimeException> shovingCharToDoubleFuncX() {
 		return this::shovingDoApplyAsDouble;
 	}
 
@@ -247,13 +247,15 @@ public interface LCharToDoubleFunctionX<X extends Throwable> extends MetaFunctio
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LCharToDoubleFunction handleCToDFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LCharToDoubleFunction handleCharToDoubleFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return c -> this.handlingDoApplyAsDouble(c, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LCharToDoubleFunctionX<Y> handleCToDFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LCharToDoubleFunctionX<Y> handleCharToDoubleFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return c -> this.handlingDoApplyAsDouble(c, handling);
 	}
 

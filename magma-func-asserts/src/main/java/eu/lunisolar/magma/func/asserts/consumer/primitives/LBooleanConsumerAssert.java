@@ -47,10 +47,10 @@ public interface LBooleanConsumerAssert<S extends LBooleanConsumerAssert<S, A>, 
 	SemiEvaluation<S, LBooleanConsumerX<Exception>, A, Exception> doesAccept(boolean b);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LBooleanConsumer> extends Base<Impl<A>, A> {
+	public final static class The<A extends LBooleanConsumer> extends Base<The<A>, A> {
 
-		public Impl(A actual) {
-			super(actual, Impl.class);
+		public The(A actual) {
+			super(actual, The.class);
 		}
 	}
 
@@ -64,7 +64,7 @@ public interface LBooleanConsumerAssert<S extends LBooleanConsumerAssert<S, A>, 
 		@Nonnull
 		public SemiEvaluation<S, LBooleanConsumerX<Exception>, A, Exception> doesAccept(boolean b) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(b);
 				}

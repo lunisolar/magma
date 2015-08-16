@@ -66,7 +66,7 @@ public final class LLongUnaryOperatorBuilder extends PerCaseBuilderWithLongProdu
 		});
 
 	public LLongUnaryOperatorBuilder(@Nullable Consumer<LLongUnaryOperator> consumer) {
-		super(EVENTUALLY_THROW, LLongUnaryOperator::constant);
+		super(EVENTUALLY_THROW, LLongUnaryOperator::constant, () -> new LLongUnaryOperatorBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LLongUnaryOperatorBuilder extends PerCaseBuilderWithLongProdu
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final LLongUnaryOperatorBuilder longUnaryOperator() {
+	public static LLongUnaryOperatorBuilder longUnaryOperator() {
 		return new LLongUnaryOperatorBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final LLongUnaryOperatorBuilder longUnaryOperator(Consumer<LLongUnaryOperator> consumer) {
+	public static LLongUnaryOperatorBuilder longUnaryOperator(Consumer<LLongUnaryOperator> consumer) {
 		return new LLongUnaryOperatorBuilder(consumer);
 	}
 

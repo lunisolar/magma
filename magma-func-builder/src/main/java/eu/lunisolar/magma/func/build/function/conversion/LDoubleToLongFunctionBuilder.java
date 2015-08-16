@@ -66,7 +66,7 @@ public final class LDoubleToLongFunctionBuilder extends PerCaseBuilderWithLongPr
 		});
 
 	public LDoubleToLongFunctionBuilder(@Nullable Consumer<LDoubleToLongFunction> consumer) {
-		super(EVENTUALLY_THROW, LDoubleToLongFunction::constant);
+		super(EVENTUALLY_THROW, LDoubleToLongFunction::constant, () -> new LDoubleToLongFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LDoubleToLongFunctionBuilder extends PerCaseBuilderWithLongPr
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final LDoubleToLongFunctionBuilder doubleToLongFunction() {
+	public static LDoubleToLongFunctionBuilder doubleToLongFunction() {
 		return new LDoubleToLongFunctionBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final LDoubleToLongFunctionBuilder doubleToLongFunction(Consumer<LDoubleToLongFunction> consumer) {
+	public static LDoubleToLongFunctionBuilder doubleToLongFunction(Consumer<LDoubleToLongFunction> consumer) {
 		return new LDoubleToLongFunctionBuilder(consumer);
 	}
 

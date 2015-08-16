@@ -21,13 +21,14 @@ package eu.lunisolar.magma.basics.builder;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.ThreadSafe;
+import java.util.function.*;
 
 @Immutable
 @ThreadSafe
 public class PartialCaseWithProduct<SELF extends PartialCaseWithProduct<SELF, PCB, P, F, R>, PCB extends PerCaseBuilderWithProduct<PCB, P, F, R, SELF>, P, F, R> extends PartialCase<SELF, PCB, P, F> {
 
-    public PartialCaseWithProduct(@Nonnull PCB superContext, @Nonnull P casePredicate) {
-        super(superContext, casePredicate);
+    public PartialCaseWithProduct(@Nonnull PCB superContext, @Nonnull P casePredicate, @Nonnull Supplier<PCB> subCasesFactory) {
+        super(superContext, casePredicate, subCasesFactory);
     }
 
     /** Finalize the case build by providing second required value for the Case. */
@@ -36,8 +37,8 @@ public class PartialCaseWithProduct<SELF extends PartialCaseWithProduct<SELF, PC
     }
 
     public static final class The<PCB extends PerCaseBuilderWithProduct.Base<PCB, P, F, R>, P, F, R> extends PartialCaseWithProduct<The<PCB, P, F, R>, PCB, P, F, R> {
-        public The(@Nonnull PCB superContext, @Nonnull P casePredicate) {
-            super(superContext, casePredicate);
+        public The(@Nonnull PCB superContext, @Nonnull P casePredicate, @Nonnull Supplier<PCB> subCasesFactory) {
+            super(superContext, casePredicate, subCasesFactory);
         }
     }
 }

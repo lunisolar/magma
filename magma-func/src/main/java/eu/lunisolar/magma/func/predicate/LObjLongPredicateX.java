@@ -64,6 +64,7 @@ public interface LObjLongPredicateX<T, X extends Throwable> extends MetaPredicat
 
 	boolean doTest(T t, long l) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default boolean nestingDoTest(T t, long l) {
 		try {
 			return this.doTest(t, l);
@@ -74,10 +75,12 @@ public interface LObjLongPredicateX<T, X extends Throwable> extends MetaPredicat
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default boolean shovingDoTest(T t, long l) {
 		return ((LObjLongPredicateX<T, RuntimeException>) this).doTest(t, l);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> boolean handlingDoTest(T t, long l, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -92,13 +95,13 @@ public interface LObjLongPredicateX<T, X extends Throwable> extends MetaPredicat
 		return doTest(t, l);
 	}
 
-	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
+	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
 	default boolean doApplyAsBoolean(T t, long l) throws X {
 		return doTest(t, l);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LObjLongPredicateX.DESCRIPTION;
@@ -109,8 +112,21 @@ public interface LObjLongPredicateX<T, X extends Throwable> extends MetaPredicat
 		return () -> this.doTest(t, l);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T, X extends Throwable> LObjLongPredicateX<T, X> constant(boolean r) {
 		return (t, l) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T, X extends Throwable> LObjLongPredicateX<T, X> test1st(@Nonnull LPredicateX<T, X> func) {
+		return (t, l) -> func.doTest(t);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T, X extends Throwable> LObjLongPredicateX<T, X> test2nd(@Nonnull LLongPredicateX<X> func) {
+		return (t, l) -> func.doTest(l);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -129,7 +145,7 @@ public interface LObjLongPredicateX<T, X extends Throwable> extends MetaPredicat
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T, X extends Throwable> LObjLongPredicateX<T, X> wrapX(final @Nonnull LObjLongPredicate<T> other) {
 		return (LObjLongPredicateX) other;
@@ -139,7 +155,9 @@ public interface LObjLongPredicateX<T, X extends Throwable> extends MetaPredicat
 	// <editor-fold desc="predicate">
 
 	/**
-	 *  @see {@link java.util.function.Predicate#negate()}
+	 * Returns a predicate that represents the logical negation of this predicate.
+	 *
+	 * @see {@link java.util.function.Predicate#negate}
 	 */
 	@Nonnull
 	default LObjLongPredicateX<T, X> negate() {
@@ -147,7 +165,8 @@ public interface LObjLongPredicateX<T, X extends Throwable> extends MetaPredicat
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#and()}
+	 * Returns a predicate that represents the logical AND of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#and()}
 	 */
 	@Nonnull
 	default LObjLongPredicateX<T, X> and(@Nonnull LObjLongPredicateX<? super T, X> other) {
@@ -156,7 +175,8 @@ public interface LObjLongPredicateX<T, X extends Throwable> extends MetaPredicat
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LObjLongPredicateX<T, X> or(@Nonnull LObjLongPredicateX<? super T, X> other) {
@@ -165,7 +185,8 @@ public interface LObjLongPredicateX<T, X extends Throwable> extends MetaPredicat
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical XOR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LObjLongPredicateX<T, X> xor(@Nonnull LObjLongPredicateX<? super T, X> other) {
@@ -174,7 +195,8 @@ public interface LObjLongPredicateX<T, X extends Throwable> extends MetaPredicat
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#isEqual()}
+	 * Creates predicate that evaluates if an object is equal with the argument one.
+	 * @see {@link java.util.function.Predicate#isEqual()
 	 */
 	@Nonnull
 	static <T1, X extends Throwable> LObjLongPredicateX<T1, X> isEqual(final T1 v1, final long v2) {
@@ -185,21 +207,17 @@ public interface LObjLongPredicateX<T, X extends Throwable> extends MetaPredicat
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LObjLongPredicateX<V1, X> objLongPredFromLong(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LLongUnaryOperatorX<X> before2) {
+	default <V1> LObjLongPredicateX<V1, X> objLongPredComposeLong(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LLongUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final long v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsLong(v2));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiPredicateX<V1, V2, X> objLongPredFrom(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToLongFunctionX<? super V2, X> before2) {
+	default <V1, V2> LBiPredicateX<V1, V2, X> objLongPredCompose(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToLongFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doTest(before1.doApply(v1), before2.doApplyAsLong(v2));
@@ -231,12 +249,12 @@ public interface LObjLongPredicateX<T, X extends Throwable> extends MetaPredicat
 		return this::nestingDoTest;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjLongPredicate<T> shovingObjLongPred() {
 		return this::shovingDoTest;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LObjLongPredicateX<T, RuntimeException> shovingObjLongPredX() {
 		return this::shovingDoTest;
 	}
@@ -245,11 +263,13 @@ public interface LObjLongPredicateX<T, X extends Throwable> extends MetaPredicat
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LObjLongPredicate<T> handleObjLongPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T t, long l) -> this.handlingDoTest(t, l, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LObjLongPredicateX<T, Y> handleObjLongPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T t, long l) -> this.handlingDoTest(t, l, handling);

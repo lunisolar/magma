@@ -65,7 +65,7 @@ public final class FunctionBuilder<T, R> extends PerCaseBuilderWithProduct.Base<
 		});
 
 	public FunctionBuilder(@Nullable Consumer<java.util.function.Function<T, R>> consumer) {
-		super(EVENTUALLY_THROW, LFunction::constant);
+		super(EVENTUALLY_THROW, LFunction::constant, () -> new FunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -77,13 +77,13 @@ public final class FunctionBuilder<T, R> extends PerCaseBuilderWithProduct.Base<
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <T, R> FunctionBuilder<T, R> function() {
+	public static <T, R> FunctionBuilder<T, R> function() {
 		return new FunctionBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <T, R> FunctionBuilder<T, R> function(Consumer<java.util.function.Function<T, R>> consumer) {
+	public static <T, R> FunctionBuilder<T, R> function(Consumer<java.util.function.Function<T, R>> consumer) {
 		return new FunctionBuilder(consumer);
 	}
 
@@ -95,6 +95,24 @@ public final class FunctionBuilder<T, R> extends PerCaseBuilderWithProduct.Base<
 			throw new UnsupportedOperationException("Handling is already set for this builder.");
 		}
 		this.handling = handling;
+		return self();
+	}
+
+	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
+	@Nonnull
+	public <E1 extends T> FunctionBuilder<T, R> casesOf(Class<E1> argC1, Consumer<FunctionBuilder<E1, R>> pcpConsumer) {
+		PartialCaseWithProduct.The pc = partialCaseFactoryMethod(t -> (argC1 == null || argC1.isInstance(t)));
+
+		pc.specifySubCases((Consumer) pcpConsumer);
+		return self();
+	}
+
+	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
+	@Nonnull
+	public <E1 extends T> FunctionBuilder<T, R> aCase(Class<E1> argC1, java.util.function.Function<E1, R> function) {
+		PartialCaseWithProduct.The pc = partialCaseFactoryMethod(t -> (argC1 == null || argC1.isInstance(t)));
+
+		pc.evaluate(function);
 		return self();
 	}
 

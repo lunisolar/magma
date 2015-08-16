@@ -47,10 +47,10 @@ public interface LObjFloatConsumerXAssert<S extends LObjFloatConsumerXAssert<S, 
 	SemiEvaluation<S, LObjFloatConsumerX<T, Exception>, A, Exception> doesAccept(T t, float f);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LObjFloatConsumerX<T, X>, T, X extends Throwable> extends Base<Impl<A, T, X>, A, T, X> {
+	public final static class The<A extends LObjFloatConsumerX<T, X>, T, X extends Throwable> extends Base<The<A, T, X>, A, T, X> {
 
-		public Impl(A actual) {
-			super(actual, Impl.class);
+		public The(A actual) {
+			super(actual, The.class);
 		}
 	}
 
@@ -64,7 +64,7 @@ public interface LObjFloatConsumerXAssert<S extends LObjFloatConsumerXAssert<S, 
 		@Nonnull
 		public SemiEvaluation<S, LObjFloatConsumerX<T, Exception>, A, Exception> doesAccept(T t, float f) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(t, f);
 				}

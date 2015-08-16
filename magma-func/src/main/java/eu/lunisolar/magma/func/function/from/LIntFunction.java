@@ -75,33 +75,36 @@ public interface LIntFunction<R> extends LIntFunctionX<R, RuntimeException>, Met
 	@Nullable
 	R doApply(int i);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default R nestingDoApply(int i) {
 		return this.doApply(i);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default R shovingDoApply(int i) {
 		return this.doApply(i);
 	}
 
 	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
-	/** Ensures the result is not null */
+	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullDoApply(int i) {
 		return Null.requireNonNull(doApply(i), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LIntFunction.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> captureIFunc(int i) {
+	default LSupplier<R> captureIntFunc(int i) {
 		return () -> this.doApply(i);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <R> LIntFunction<R> constant(R r) {
 		return i -> r;
 	}
@@ -121,7 +124,7 @@ public interface LIntFunction<R> extends LIntFunctionX<R, RuntimeException>, Met
 		return other::apply;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <R, X extends Throwable> LIntFunction<R> wrap(final @Nonnull LIntFunctionX<R, X> other) {
 		return other::nestingDoApply;
@@ -131,20 +134,16 @@ public interface LIntFunction<R> extends LIntFunctionX<R, RuntimeException>, Met
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LIntFunction<R> iFuncFromInt(@Nonnull final LIntUnaryOperator before1) {
+	default LIntFunction<R> intFuncComposeInt(@Nonnull final LIntUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doApplyAsInt(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LFunction<V1, R> iFuncFrom(@Nonnull final LToIntFunction<? super V1> before1) {
+	default <V1> LFunction<V1, R> intFuncCompose(@Nonnull final LToIntFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doApplyAsInt(v1));
 	}
@@ -228,30 +227,31 @@ public interface LIntFunction<R> extends LIntFunctionX<R, RuntimeException>, Met
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntFunction<R> nestingIFunc() {
+	default LIntFunction<R> nestingIntFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntFunctionX<R, RuntimeException> nestingIFuncX() {
+	default LIntFunctionX<R, RuntimeException> nestingIntFuncX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntFunction<R> shovingIFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntFunction<R> shovingIntFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntFunctionX<R, RuntimeException> shovingIFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntFunctionX<R, RuntimeException> shovingIntFuncX() {
 		return this;
 	}
 
 	// </editor-fold>
 
+	/** Converts to function that makes sure that the result is not null. */
 	@Nonnull
-	default LIntFunction<R> nonNullIFunc() {
+	default LIntFunction<R> nonNullIntFunc() {
 		return this::nonNullDoApply;
 	}
 

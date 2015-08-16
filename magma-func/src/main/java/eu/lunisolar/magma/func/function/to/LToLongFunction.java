@@ -74,10 +74,12 @@ public interface LToLongFunction<T> extends LToLongFunctionX<T, RuntimeException
 
 	long doApplyAsLong(T t);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default long nestingDoApplyAsLong(T t) {
 		return this.doApplyAsLong(t);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default long shovingDoApplyAsLong(T t) {
 		return this.doApplyAsLong(t);
 	}
@@ -87,7 +89,7 @@ public interface LToLongFunction<T> extends LToLongFunctionX<T, RuntimeException
 		return doApplyAsLong(t);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LToLongFunction.DESCRIPTION;
@@ -98,6 +100,7 @@ public interface LToLongFunction<T> extends LToLongFunctionX<T, RuntimeException
 		return () -> this.doApplyAsLong(t);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T> LToLongFunction<T> constant(long r) {
 		return t -> r;
 	}
@@ -117,7 +120,7 @@ public interface LToLongFunction<T> extends LToLongFunctionX<T, RuntimeException
 		return other::applyAsLong;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T, X extends Throwable> LToLongFunction<T> wrap(final @Nonnull LToLongFunctionX<T, X> other) {
 		return other::nestingDoApplyAsLong;
@@ -127,11 +130,9 @@ public interface LToLongFunction<T> extends LToLongFunctionX<T, RuntimeException
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToLongFunction<V1> toLongFuncFrom(@Nonnull final LFunction<? super V1, ? extends T> before1) {
+	default <V1> LToLongFunction<V1> toLongFuncCompose(@Nonnull final LFunction<? super V1, ? extends T> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsLong(before1.doApply(v1));
 	}
@@ -218,12 +219,12 @@ public interface LToLongFunction<T> extends LToLongFunctionX<T, RuntimeException
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LToLongFunction<T> shovingToLongFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LToLongFunctionX<T, RuntimeException> shovingToLongFuncX() {
 		return this;
 	}

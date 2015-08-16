@@ -115,7 +115,7 @@ public class LByteToShortFunctionBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LByteToShortFunction function = byteToShortFunction((LByteToShortFunction f)-> doNothing())
-            .addCase(ce -> ce.of(b -> b == (byte)0)
+            .aCase(ce -> ce.of(b -> b == (byte)0)
                              .evaluate(b -> (short)0))
             .inCase(b -> b > 0 && b < 10).evaluate(b -> (short)1)
             .inCase(b -> b > 10 && b < 20).evaluate(b -> (short)2)

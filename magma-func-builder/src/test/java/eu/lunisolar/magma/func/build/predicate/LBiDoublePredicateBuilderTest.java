@@ -115,7 +115,7 @@ public class LBiDoublePredicateBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LBiDoublePredicate function = biDoublePredicate((LBiDoublePredicate f)-> doNothing())
-            .addCase(ce -> ce.of((d1,d2) -> d1 == (double)0)
+            .aCase(ce -> ce.of((d1,d2) -> d1 == (double)0)
                              .evaluate((d1,d2) -> false))
             .inCase((d1,d2) -> d1 > 0 && d1 < 10).evaluate((d1,d2) -> true)
             .inCase((d1,d2) -> d1 > 10 && d1 < 20).evaluate((d1,d2) -> true)

@@ -64,10 +64,12 @@ public interface LByteToDoubleFunction extends LByteToDoubleFunctionX<RuntimeExc
 
 	double doApplyAsDouble(byte b);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default double nestingDoApplyAsDouble(byte b) {
 		return this.doApplyAsDouble(b);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default double shovingDoApplyAsDouble(byte b) {
 		return this.doApplyAsDouble(b);
 	}
@@ -77,17 +79,18 @@ public interface LByteToDoubleFunction extends LByteToDoubleFunctionX<RuntimeExc
 		return doApplyAsDouble(b);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LByteToDoubleFunction.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LDoubleSupplier captureBToDFunc(byte b) {
+	default LDoubleSupplier captureByteToDoubleFunc(byte b) {
 		return () -> this.doApplyAsDouble(b);
 	}
 
+	/** Creates function that always returns the same value. */
 	static LByteToDoubleFunction constant(double r) {
 		return b -> r;
 	}
@@ -101,7 +104,7 @@ public interface LByteToDoubleFunction extends LByteToDoubleFunctionX<RuntimeExc
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LByteToDoubleFunction wrap(final @Nonnull LByteToDoubleFunctionX<X> other) {
 		return other::nestingDoApplyAsDouble;
@@ -111,20 +114,16 @@ public interface LByteToDoubleFunction extends LByteToDoubleFunctionX<RuntimeExc
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LByteToDoubleFunction bToDFuncFromByte(@Nonnull final LByteUnaryOperator before1) {
+	default LByteToDoubleFunction byteToDoubleFuncComposeByte(@Nonnull final LByteUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsDouble(before1.doApplyAsByte(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToDoubleFunction<V1> bToDFuncFrom(@Nonnull final LToByteFunction<? super V1> before1) {
+	default <V1> LToDoubleFunction<V1> byteToDoubleFuncCompose(@Nonnull final LToByteFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsDouble(before1.doApplyAsByte(v1));
 	}
@@ -201,23 +200,23 @@ public interface LByteToDoubleFunction extends LByteToDoubleFunctionX<RuntimeExc
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LByteToDoubleFunction nestingBToDFunc() {
+	default LByteToDoubleFunction nestingByteToDoubleFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LByteToDoubleFunctionX<RuntimeException> nestingBToDFuncX() {
+	default LByteToDoubleFunctionX<RuntimeException> nestingByteToDoubleFuncX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteToDoubleFunction shovingBToDFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LByteToDoubleFunction shovingByteToDoubleFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteToDoubleFunctionX<RuntimeException> shovingBToDFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LByteToDoubleFunctionX<RuntimeException> shovingByteToDoubleFuncX() {
 		return this;
 	}
 

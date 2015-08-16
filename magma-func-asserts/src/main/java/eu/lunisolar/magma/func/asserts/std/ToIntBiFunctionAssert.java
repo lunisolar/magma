@@ -49,10 +49,10 @@ public interface ToIntBiFunctionAssert<S extends ToIntBiFunctionAssert<S, A, RS,
 	Evaluation<S, LBiConsumerX<T1, T2, Exception>, A, RS, Integer, Exception> doesApplyAsInt(T1 t1, T2 t2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends java.util.function.ToIntBiFunction<T1, T2>, RS extends AbstractIntegerAssert<RS>, T1, T2> extends Base<Impl<A, RS, T1, T2>, A, RS, T1, T2> {
+	public final static class The<A extends java.util.function.ToIntBiFunction<T1, T2>, RS extends AbstractIntegerAssert<RS>, T1, T2> extends Base<The<A, RS, T1, T2>, A, RS, T1, T2> {
 
-		public Impl(A actual, java.util.function.Function<Integer, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Integer, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
@@ -71,7 +71,7 @@ public interface ToIntBiFunctionAssert<S extends ToIntBiFunctionAssert<S, A, RS,
 		@Nonnull
 		public Evaluation<S, LBiConsumerX<T1, T2, Exception>, A, RS, Integer, Exception> doesApplyAsInt(T1 t1, T2 t2) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(t1, t2);
 				}

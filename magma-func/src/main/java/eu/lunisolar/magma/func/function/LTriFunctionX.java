@@ -65,6 +65,7 @@ public interface LTriFunctionX<T1, T2, T3, R, X extends Throwable> extends MetaF
 	@Nullable
 	R doApply(T1 t1, T2 t2, T3 t3) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default R nestingDoApply(T1 t1, T2 t2, T3 t3) {
 		try {
 			return this.doApply(t1, t2, t3);
@@ -75,10 +76,12 @@ public interface LTriFunctionX<T1, T2, T3, R, X extends Throwable> extends MetaF
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default R shovingDoApply(T1 t1, T2 t2, T3 t3) {
 		return ((LTriFunctionX<T1, T2, T3, R, RuntimeException>) this).doApply(t1, t2, t3);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> R handlingDoApply(T1 t1, T2 t2, T3 t3, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -90,13 +93,13 @@ public interface LTriFunctionX<T1, T2, T3, R, X extends Throwable> extends MetaF
 
 	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
-	/** Ensures the result is not null */
+	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullDoApply(T1 t1, T2 t2, T3 t3) throws X {
 		return Null.requireNonNull(doApply(t1, t2, t3), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LTriFunctionX.DESCRIPTION;
@@ -107,8 +110,27 @@ public interface LTriFunctionX<T1, T2, T3, R, X extends Throwable> extends MetaF
 		return () -> this.doApply(t1, t2, t3);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T1, T2, T3, R, X extends Throwable> LTriFunctionX<T1, T2, T3, R, X> constant(R r) {
 		return (t1, t2, t3) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T1, T2, T3, R, X extends Throwable> LTriFunctionX<T1, T2, T3, R, X> apply1st(@Nonnull LFunctionX<T1, R, X> func) {
+		return (t1, t2, t3) -> func.doApply(t1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T1, T2, T3, R, X extends Throwable> LTriFunctionX<T1, T2, T3, R, X> apply2nd(@Nonnull LFunctionX<T2, R, X> func) {
+		return (t1, t2, t3) -> func.doApply(t2);
+	}
+
+	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
+	@Nonnull
+	static <T1, T2, T3, R, X extends Throwable> LTriFunctionX<T1, T2, T3, R, X> apply3rd(@Nonnull LFunctionX<T3, R, X> func) {
+		return (t1, t2, t3) -> func.doApply(t3);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -127,7 +149,7 @@ public interface LTriFunctionX<T1, T2, T3, R, X extends Throwable> extends MetaF
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T1, T2, T3, R, X extends Throwable> LTriFunctionX<T1, T2, T3, R, X> wrapX(final @Nonnull LTriFunction<T1, T2, T3, R> other) {
 		return (LTriFunctionX) other;
@@ -137,11 +159,9 @@ public interface LTriFunctionX<T1, T2, T3, R, X extends Throwable> extends MetaF
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2, V3> LTriFunctionX<V1, V2, V3, R, X> triFuncFrom(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2,
+	default <V1, V2, V3> LTriFunctionX<V1, V2, V3, R, X> triFuncCompose(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2,
 			@Nonnull final LFunctionX<? super V3, ? extends T3, X> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
@@ -182,18 +202,19 @@ public interface LTriFunctionX<T1, T2, T3, R, X extends Throwable> extends MetaF
 		return this::nestingDoApply;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LTriFunction<T1, T2, T3, R> shovingTriFunc() {
 		return this::shovingDoApply;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LTriFunctionX<T1, T2, T3, R, RuntimeException> shovingTriFuncX() {
 		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
+	/** Converts to function that makes sure that the result is not null. */
 	@Nonnull
 	default LTriFunctionX<T1, T2, T3, R, X> nonNullTriFunc() {
 		return this::nonNullDoApply;
@@ -201,11 +222,13 @@ public interface LTriFunctionX<T1, T2, T3, R, X extends Throwable> extends MetaF
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LTriFunction<T1, T2, T3, R> handleTriFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T1 t1, T2 t2, T3 t3) -> this.handlingDoApply(t1, t2, t3, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LTriFunctionX<T1, T2, T3, R, Y> handleTriFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T1 t1, T2 t2, T3 t3) -> this.handlingDoApply(t1, t2, t3, handling);

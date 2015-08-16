@@ -25,6 +25,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.ThreadSafe;
 import java.util.*;
+import java.util.function.*;
 
 import eu.lunisolar.magma.basics.builder.*;
 
@@ -52,15 +53,15 @@ import eu.lunisolar.magma.func.action.*; // NOSONAR
  *
  * Cases are evaluated in a order one by one. First condition that returns **true** will decide what function will be called. Eventually if no condition is
  * evaluating to **true** a last resort function _eventually_ is called. By default _eventually_ will throw an exception that there is no case that will cover
- * the input data. This default _evantually_ behavior can be overridden.
+ * the input data. This default _eventually_ behavior can be overridden.
  */
 @SuppressWarnings("unchecked")
 public abstract class PerCaseBuilderWithShortProduct<PCB extends PerCaseBuilderWithShortProduct<PCB, P, F, PC>, P, F, PC extends PartialCaseWithShortProduct<PC, PCB, P, F>> extends PerCaseBuilder<PCB, P, F, PC> {
 
 	protected @Nonnull final LShortFunction<F> directToFunction;
 
-	protected PerCaseBuilderWithShortProduct(@Nonnull F eventually, @Nonnull LShortFunction<F> directToFunction) {
-		super(eventually);
+	protected PerCaseBuilderWithShortProduct(@Nonnull F eventually, @Nonnull LShortFunction<F> directToFunction, @Nonnull Supplier<PCB> subCasesFactory) {
+		super(eventually, subCasesFactory);
 		this.directToFunction = directToFunction;
 	}
 
@@ -75,17 +76,17 @@ public abstract class PerCaseBuilderWithShortProduct<PCB extends PerCaseBuilderW
 	// </editor-fold>
 
 	protected PC partialCaseFactoryMethod(P casePredicate) {
-		return (PC) new PartialCaseWithShortProduct(self(), casePredicate);
+		return (PC) new PartialCaseWithShortProduct(self(), casePredicate, subCasesFactory);
 	}
 
-	public static class Base<SELF extends Base<SELF, P, F>, P, F> extends PerCaseBuilderWithShortProduct<SELF, P, F, PartialCaseWithShortProduct.The<SELF, P, F>> {
-		protected Base(@Nonnull F eventually, @Nonnull LShortFunction<F> directToFunction) {
-			super(eventually, directToFunction);
+	public static abstract class Base<SELF extends Base<SELF, P, F>, P, F> extends PerCaseBuilderWithShortProduct<SELF, P, F, PartialCaseWithShortProduct.The<SELF, P, F>> {
+		protected Base(@Nonnull F eventually, @Nonnull LShortFunction<F> directToFunction, @Nonnull Supplier<SELF> subCasesFactory) {
+			super(eventually, directToFunction, subCasesFactory);
 		}
 
 		@Override
 		protected PartialCaseWithShortProduct.The<SELF, P, F> partialCaseFactoryMethod(P casePredicate) {
-			return new PartialCaseWithShortProduct.The(this, casePredicate);
+			return new PartialCaseWithShortProduct.The(this, casePredicate, subCasesFactory);
 		}
 	}
 

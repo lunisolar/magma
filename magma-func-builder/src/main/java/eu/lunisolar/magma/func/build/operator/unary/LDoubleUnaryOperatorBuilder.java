@@ -66,7 +66,7 @@ public final class LDoubleUnaryOperatorBuilder extends PerCaseBuilderWithDoubleP
 		});
 
 	public LDoubleUnaryOperatorBuilder(@Nullable Consumer<LDoubleUnaryOperator> consumer) {
-		super(EVENTUALLY_THROW, LDoubleUnaryOperator::constant);
+		super(EVENTUALLY_THROW, LDoubleUnaryOperator::constant, () -> new LDoubleUnaryOperatorBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LDoubleUnaryOperatorBuilder extends PerCaseBuilderWithDoubleP
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final LDoubleUnaryOperatorBuilder doubleUnaryOperator() {
+	public static LDoubleUnaryOperatorBuilder doubleUnaryOperator() {
 		return new LDoubleUnaryOperatorBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final LDoubleUnaryOperatorBuilder doubleUnaryOperator(Consumer<LDoubleUnaryOperator> consumer) {
+	public static LDoubleUnaryOperatorBuilder doubleUnaryOperator(Consumer<LDoubleUnaryOperator> consumer) {
 		return new LDoubleUnaryOperatorBuilder(consumer);
 	}
 

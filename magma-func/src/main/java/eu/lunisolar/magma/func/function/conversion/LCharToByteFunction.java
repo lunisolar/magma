@@ -64,10 +64,12 @@ public interface LCharToByteFunction extends LCharToByteFunctionX<RuntimeExcepti
 
 	byte doApplyAsByte(char c);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default byte nestingDoApplyAsByte(char c) {
 		return this.doApplyAsByte(c);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default byte shovingDoApplyAsByte(char c) {
 		return this.doApplyAsByte(c);
 	}
@@ -77,17 +79,18 @@ public interface LCharToByteFunction extends LCharToByteFunctionX<RuntimeExcepti
 		return doApplyAsByte(c);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LCharToByteFunction.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LByteSupplier captureCToBFunc(char c) {
+	default LByteSupplier captureCharToByteFunc(char c) {
 		return () -> this.doApplyAsByte(c);
 	}
 
+	/** Creates function that always returns the same value. */
 	static LCharToByteFunction constant(byte r) {
 		return c -> r;
 	}
@@ -101,7 +104,7 @@ public interface LCharToByteFunction extends LCharToByteFunctionX<RuntimeExcepti
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LCharToByteFunction wrap(final @Nonnull LCharToByteFunctionX<X> other) {
 		return other::nestingDoApplyAsByte;
@@ -111,20 +114,16 @@ public interface LCharToByteFunction extends LCharToByteFunctionX<RuntimeExcepti
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LCharToByteFunction cToBFuncFromChar(@Nonnull final LCharUnaryOperator before1) {
+	default LCharToByteFunction charToByteFuncComposeChar(@Nonnull final LCharUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsByte(before1.doApplyAsChar(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToByteFunction<V1> cToBFuncFrom(@Nonnull final LToCharFunction<? super V1> before1) {
+	default <V1> LToByteFunction<V1> charToByteFuncCompose(@Nonnull final LToCharFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsByte(before1.doApplyAsChar(v1));
 	}
@@ -201,23 +200,23 @@ public interface LCharToByteFunction extends LCharToByteFunctionX<RuntimeExcepti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LCharToByteFunction nestingCToBFunc() {
+	default LCharToByteFunction nestingCharToByteFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LCharToByteFunctionX<RuntimeException> nestingCToBFuncX() {
+	default LCharToByteFunctionX<RuntimeException> nestingCharToByteFuncX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharToByteFunction shovingCToBFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LCharToByteFunction shovingCharToByteFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharToByteFunctionX<RuntimeException> shovingCToBFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LCharToByteFunctionX<RuntimeException> shovingCharToByteFuncX() {
 		return this;
 	}
 

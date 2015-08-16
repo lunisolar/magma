@@ -75,28 +75,31 @@ public interface LSupplier<R> extends LSupplierX<R, RuntimeException>, MetaSuppl
 	@Nullable
 	R doGet();
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default R nestingDoGet() {
 		return this.doGet();
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default R shovingDoGet() {
 		return this.doGet();
 	}
 
 	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoGet() method cannot be null (" + DESCRIPTION + ").";
 
-	/** Ensures the result is not null */
+	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullDoGet() {
 		return Null.requireNonNull(doGet(), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LSupplier.DESCRIPTION;
 	}
 
+	/** Creates function that always returns the same value. */
 	static <R> LSupplier<R> of(R r) {
 		return () -> r;
 	}
@@ -116,7 +119,7 @@ public interface LSupplier<R> extends LSupplierX<R, RuntimeException>, MetaSuppl
 		return other::get;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <R, X extends Throwable> LSupplier<R> wrap(final @Nonnull LSupplierX<R, X> other) {
 		return other::nestingDoGet;
@@ -211,18 +214,19 @@ public interface LSupplier<R> extends LSupplierX<R, RuntimeException>, MetaSuppl
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LSupplier<R> shovingSup() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LSupplierX<R, RuntimeException> shovingSupX() {
 		return this;
 	}
 
 	// </editor-fold>
 
+	/** Converts to function that makes sure that the result is not null. */
 	@Nonnull
 	default LSupplier<R> nonNullSup() {
 		return this::nonNullDoGet;

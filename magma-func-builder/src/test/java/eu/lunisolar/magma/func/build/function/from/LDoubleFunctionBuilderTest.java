@@ -115,7 +115,7 @@ public class LDoubleFunctionBuilderTest<R,X extends Throwable>{
     public void testBuild() throws X {
 
         LDoubleFunction<Integer > function = doubleFunction((LDoubleFunction<Integer > f)-> doNothing())
-            .addCase(ce -> ce.of(d -> d == (double)0)
+            .aCase(ce -> ce.of(d -> d == (double)0)
                              .evaluate(d -> Integer.valueOf(0)))
             .inCase(d -> d > 0 && d < 10).evaluate(d -> Integer.valueOf(1))
             .inCase(d -> d > 10 && d < 20).evaluate(d -> Integer.valueOf(2))

@@ -66,7 +66,7 @@ public final class LObjBooleanFunctionXBuilder<T, R, X extends Throwable> extend
 		});
 
 	public LObjBooleanFunctionXBuilder(@Nullable Consumer<LObjBooleanFunctionX<T, R, X>> consumer) {
-		super(EVENTUALLY_THROW, LObjBooleanFunctionX::constant);
+		super(EVENTUALLY_THROW, LObjBooleanFunctionX::constant, () -> new LObjBooleanFunctionXBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LObjBooleanFunctionXBuilder<T, R, X extends Throwable> extend
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <T, R, X extends Throwable> LObjBooleanFunctionXBuilder<T, R, X> objBooleanFunctionX() {
+	public static <T, R, X extends Throwable> LObjBooleanFunctionXBuilder<T, R, X> objBooleanFunctionX() {
 		return new LObjBooleanFunctionXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <T, R, X extends Throwable> LObjBooleanFunctionXBuilder<T, R, X> objBooleanFunctionX(Consumer<LObjBooleanFunctionX<T, R, X>> consumer) {
+	public static <T, R, X extends Throwable> LObjBooleanFunctionXBuilder<T, R, X> objBooleanFunctionX(Consumer<LObjBooleanFunctionX<T, R, X>> consumer) {
 		return new LObjBooleanFunctionXBuilder(consumer);
 	}
 
@@ -96,6 +96,24 @@ public final class LObjBooleanFunctionXBuilder<T, R, X extends Throwable> extend
 			throw new UnsupportedOperationException("Handling is already set for this builder.");
 		}
 		this.handling = handling;
+		return self();
+	}
+
+	/** Allows to specify additional cases for a specific type of generic arguments (matched by instanceOf). Null classes can be provided in case of arguments that do not matter. */
+	@Nonnull
+	public <E1 extends T> LObjBooleanFunctionXBuilder<T, R, X> casesOf(Class<E1> argC1, Consumer<LObjBooleanFunctionXBuilder<E1, R, X>> pcpConsumer) {
+		PartialCaseWithProduct.The pc = partialCaseFactoryMethod((T t, boolean b) -> (argC1 == null || argC1.isInstance(t)));
+
+		pc.specifySubCases((Consumer) pcpConsumer);
+		return self();
+	}
+
+	/** Adds full new case for the argument that are of specific classes (matched by instanceOf, null is a wildcard). */
+	@Nonnull
+	public <E1 extends T> LObjBooleanFunctionXBuilder<T, R, X> aCase(Class<E1> argC1, LObjBooleanFunctionX<E1, R, X> function) {
+		PartialCaseWithProduct.The pc = partialCaseFactoryMethod((T t, boolean b) -> (argC1 == null || argC1.isInstance(t)));
+
+		pc.evaluate(function);
 		return self();
 	}
 

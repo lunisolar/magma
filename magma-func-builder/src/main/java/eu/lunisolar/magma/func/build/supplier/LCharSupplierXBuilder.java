@@ -66,7 +66,7 @@ public final class LCharSupplierXBuilder<X extends Throwable> extends PerCaseBui
 		});
 
 	public LCharSupplierXBuilder(@Nullable Consumer<LCharSupplierX<X>> consumer) {
-		super(EVENTUALLY_THROW, LCharSupplierX::of);
+		super(EVENTUALLY_THROW, LCharSupplierX::of, () -> new LCharSupplierXBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LCharSupplierXBuilder<X extends Throwable> extends PerCaseBui
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <X extends Throwable> LCharSupplierXBuilder<X> charSupplierX() {
+	public static <X extends Throwable> LCharSupplierXBuilder<X> charSupplierX() {
 		return new LCharSupplierXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <X extends Throwable> LCharSupplierXBuilder<X> charSupplierX(Consumer<LCharSupplierX<X>> consumer) {
+	public static <X extends Throwable> LCharSupplierXBuilder<X> charSupplierX(Consumer<LCharSupplierX<X>> consumer) {
 		return new LCharSupplierXBuilder(consumer);
 	}
 

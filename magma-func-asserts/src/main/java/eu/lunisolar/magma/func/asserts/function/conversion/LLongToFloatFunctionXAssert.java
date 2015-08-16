@@ -50,10 +50,10 @@ public interface LLongToFloatFunctionXAssert<S extends LLongToFloatFunctionXAsse
 	Evaluation<S, LLongConsumerX<Exception>, A, RS, Float, Exception> doesApplyAsFloat(long l);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LLongToFloatFunctionX<X>, RS extends AbstractFloatAssert<RS>, X extends Throwable> extends Base<Impl<A, RS, X>, A, RS, X> {
+	public final static class The<A extends LLongToFloatFunctionX<X>, RS extends AbstractFloatAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
 
-		public Impl(A actual, java.util.function.Function<Float, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Float, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
@@ -72,7 +72,7 @@ public interface LLongToFloatFunctionXAssert<S extends LLongToFloatFunctionXAsse
 		@Nonnull
 		public Evaluation<S, LLongConsumerX<Exception>, A, RS, Float, Exception> doesApplyAsFloat(long l) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(l);
 				}

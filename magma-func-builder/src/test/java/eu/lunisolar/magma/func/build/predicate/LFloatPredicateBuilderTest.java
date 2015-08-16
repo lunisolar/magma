@@ -115,7 +115,7 @@ public class LFloatPredicateBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LFloatPredicate function = floatPredicate((LFloatPredicate f)-> doNothing())
-            .addCase(ce -> ce.of(f -> f == (float)0)
+            .aCase(ce -> ce.of(f -> f == (float)0)
                              .evaluate(f -> false))
             .inCase(f -> f > 0 && f < 10).evaluate(f -> true)
             .inCase(f -> f > 10 && f < 20).evaluate(f -> true)

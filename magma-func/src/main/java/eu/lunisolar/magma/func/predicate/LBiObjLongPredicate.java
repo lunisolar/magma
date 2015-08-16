@@ -64,10 +64,12 @@ public interface LBiObjLongPredicate<T1, T2> extends LBiObjLongPredicateX<T1, T2
 
 	boolean doTest(T1 t1, T2 t2, long l);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default boolean nestingDoTest(T1 t1, T2 t2, long l) {
 		return this.doTest(t1, t2, l);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default boolean shovingDoTest(T1 t1, T2 t2, long l) {
 		return this.doTest(t1, t2, l);
 	}
@@ -77,13 +79,13 @@ public interface LBiObjLongPredicate<T1, T2> extends LBiObjLongPredicateX<T1, T2
 		return doTest(t1, t2, l);
 	}
 
-	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
+	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
 	default boolean doApplyAsBoolean(T1 t1, T2 t2, long l) {
 		return doTest(t1, t2, l);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LBiObjLongPredicate.DESCRIPTION;
@@ -94,8 +96,27 @@ public interface LBiObjLongPredicate<T1, T2> extends LBiObjLongPredicateX<T1, T2
 		return () -> this.doTest(t1, t2, l);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T1, T2> LBiObjLongPredicate<T1, T2> constant(boolean r) {
 		return (t1, t2, l) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T1, T2> LBiObjLongPredicate<T1, T2> test1st(@Nonnull LPredicate<T1> func) {
+		return (t1, t2, l) -> func.doTest(t1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T1, T2> LBiObjLongPredicate<T1, T2> test2nd(@Nonnull LPredicate<T2> func) {
+		return (t1, t2, l) -> func.doTest(t2);
+	}
+
+	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
+	@Nonnull
+	static <T1, T2> LBiObjLongPredicate<T1, T2> test3rd(@Nonnull LLongPredicate func) {
+		return (t1, t2, l) -> func.doTest(l);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -107,7 +128,7 @@ public interface LBiObjLongPredicate<T1, T2> extends LBiObjLongPredicateX<T1, T2
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T1, T2, X extends Throwable> LBiObjLongPredicate<T1, T2> wrap(final @Nonnull LBiObjLongPredicateX<T1, T2, X> other) {
 		return other::nestingDoTest;
@@ -117,7 +138,9 @@ public interface LBiObjLongPredicate<T1, T2> extends LBiObjLongPredicateX<T1, T2
 	// <editor-fold desc="predicate">
 
 	/**
-	 *  @see {@link java.util.function.Predicate#negate()}
+	 * Returns a predicate that represents the logical negation of this predicate.
+	 *
+	 * @see {@link java.util.function.Predicate#negate}
 	 */
 	@Nonnull
 	default LBiObjLongPredicate<T1, T2> negate() {
@@ -125,7 +148,8 @@ public interface LBiObjLongPredicate<T1, T2> extends LBiObjLongPredicateX<T1, T2
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#and()}
+	 * Returns a predicate that represents the logical AND of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#and()}
 	 */
 	@Nonnull
 	default LBiObjLongPredicate<T1, T2> and(@Nonnull LBiObjLongPredicate<? super T1, ? super T2> other) {
@@ -134,7 +158,8 @@ public interface LBiObjLongPredicate<T1, T2> extends LBiObjLongPredicateX<T1, T2
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LBiObjLongPredicate<T1, T2> or(@Nonnull LBiObjLongPredicate<? super T1, ? super T2> other) {
@@ -143,7 +168,8 @@ public interface LBiObjLongPredicate<T1, T2> extends LBiObjLongPredicateX<T1, T2
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical XOR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LBiObjLongPredicate<T1, T2> xor(@Nonnull LBiObjLongPredicate<? super T1, ? super T2> other) {
@@ -152,7 +178,8 @@ public interface LBiObjLongPredicate<T1, T2> extends LBiObjLongPredicateX<T1, T2
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#isEqual()}
+	 * Creates predicate that evaluates if an object is equal with the argument one.
+	 * @see {@link java.util.function.Predicate#isEqual()
 	 */
 	@Nonnull
 	static <T1, T2> LBiObjLongPredicate<T1, T2> isEqual(final T1 v1, final T2 v2, final long v3) {
@@ -163,22 +190,18 @@ public interface LBiObjLongPredicate<T1, T2> extends LBiObjLongPredicateX<T1, T2
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiObjLongPredicate<V1, V2> biObjLongPredFromLong(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LLongUnaryOperator before3) {
+	default <V1, V2> LBiObjLongPredicate<V1, V2> biObjLongPredComposeLong(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LLongUnaryOperator before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
 		return (final V1 v1, final V2 v2, final long v3) -> this.doTest(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsLong(v3));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2, V3> LTriPredicate<V1, V2, V3> biObjLongPredFrom(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LToLongFunction<? super V3> before3) {
+	default <V1, V2, V3> LTriPredicate<V1, V2, V3> biObjLongPredCompose(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LToLongFunction<? super V3> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
@@ -211,12 +234,12 @@ public interface LBiObjLongPredicate<T1, T2> extends LBiObjLongPredicateX<T1, T2
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBiObjLongPredicate<T1, T2> shovingBiObjLongPred() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LBiObjLongPredicateX<T1, T2, RuntimeException> shovingBiObjLongPredX() {
 		return this;
 	}

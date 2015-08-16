@@ -64,10 +64,12 @@ public interface LFloatToIntFunction extends LFloatToIntFunctionX<RuntimeExcepti
 
 	int doApplyAsInt(float f);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default int nestingDoApplyAsInt(float f) {
 		return this.doApplyAsInt(f);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default int shovingDoApplyAsInt(float f) {
 		return this.doApplyAsInt(f);
 	}
@@ -77,17 +79,18 @@ public interface LFloatToIntFunction extends LFloatToIntFunctionX<RuntimeExcepti
 		return doApplyAsInt(f);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LFloatToIntFunction.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LIntSupplier captureFToIFunc(float f) {
+	default LIntSupplier captureFloatToIntFunc(float f) {
 		return () -> this.doApplyAsInt(f);
 	}
 
+	/** Creates function that always returns the same value. */
 	static LFloatToIntFunction constant(int r) {
 		return f -> r;
 	}
@@ -101,7 +104,7 @@ public interface LFloatToIntFunction extends LFloatToIntFunctionX<RuntimeExcepti
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LFloatToIntFunction wrap(final @Nonnull LFloatToIntFunctionX<X> other) {
 		return other::nestingDoApplyAsInt;
@@ -111,20 +114,16 @@ public interface LFloatToIntFunction extends LFloatToIntFunctionX<RuntimeExcepti
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LFloatToIntFunction fToIFuncFromFloat(@Nonnull final LFloatUnaryOperator before1) {
+	default LFloatToIntFunction floatToIntFuncComposeFloat(@Nonnull final LFloatUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsInt(before1.doApplyAsFloat(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToIntFunction<V1> fToIFuncFrom(@Nonnull final LToFloatFunction<? super V1> before1) {
+	default <V1> LToIntFunction<V1> floatToIntFuncCompose(@Nonnull final LToFloatFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsInt(before1.doApplyAsFloat(v1));
 	}
@@ -201,23 +200,23 @@ public interface LFloatToIntFunction extends LFloatToIntFunctionX<RuntimeExcepti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LFloatToIntFunction nestingFToIFunc() {
+	default LFloatToIntFunction nestingFloatToIntFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LFloatToIntFunctionX<RuntimeException> nestingFToIFuncX() {
+	default LFloatToIntFunctionX<RuntimeException> nestingFloatToIntFuncX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatToIntFunction shovingFToIFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LFloatToIntFunction shovingFloatToIntFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatToIntFunctionX<RuntimeException> shovingFToIFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LFloatToIntFunctionX<RuntimeException> shovingFloatToIntFuncX() {
 		return this;
 	}
 

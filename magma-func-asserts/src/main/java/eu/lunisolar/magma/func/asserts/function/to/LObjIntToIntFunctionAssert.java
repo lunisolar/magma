@@ -50,10 +50,10 @@ public interface LObjIntToIntFunctionAssert<S extends LObjIntToIntFunctionAssert
 	Evaluation<S, LObjIntConsumerX<T, Exception>, A, RS, Integer, Exception> doesApplyAsInt(T t, int i);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LObjIntToIntFunction<T>, RS extends AbstractIntegerAssert<RS>, T> extends Base<Impl<A, RS, T>, A, RS, T> {
+	public final static class The<A extends LObjIntToIntFunction<T>, RS extends AbstractIntegerAssert<RS>, T> extends Base<The<A, RS, T>, A, RS, T> {
 
-		public Impl(A actual, java.util.function.Function<Integer, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Integer, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
@@ -72,7 +72,7 @@ public interface LObjIntToIntFunctionAssert<S extends LObjIntToIntFunctionAssert
 		@Nonnull
 		public Evaluation<S, LObjIntConsumerX<T, Exception>, A, RS, Integer, Exception> doesApplyAsInt(T t, int i) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(t, i);
 				}

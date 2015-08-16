@@ -50,10 +50,10 @@ public interface LLongPredicateXAssert<S extends LLongPredicateXAssert<S, A, RS,
 	Evaluation<S, LLongConsumerX<Exception>, A, RS, Boolean, Exception> doesTest(long l);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LLongPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> extends Base<Impl<A, RS, X>, A, RS, X> {
+	public final static class The<A extends LLongPredicateX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
 
-		public Impl(A actual, java.util.function.Function<Boolean, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Boolean, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
@@ -72,7 +72,7 @@ public interface LLongPredicateXAssert<S extends LLongPredicateXAssert<S, A, RS,
 		@Nonnull
 		public Evaluation<S, LLongConsumerX<Exception>, A, RS, Boolean, Exception> doesTest(long l) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(l);
 				}

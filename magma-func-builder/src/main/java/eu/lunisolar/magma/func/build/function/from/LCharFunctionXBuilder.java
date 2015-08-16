@@ -66,7 +66,7 @@ public final class LCharFunctionXBuilder<R, X extends Throwable> extends PerCase
 		});
 
 	public LCharFunctionXBuilder(@Nullable Consumer<LCharFunctionX<R, X>> consumer) {
-		super(EVENTUALLY_THROW, LCharFunctionX::constant);
+		super(EVENTUALLY_THROW, LCharFunctionX::constant, () -> new LCharFunctionXBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LCharFunctionXBuilder<R, X extends Throwable> extends PerCase
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <R, X extends Throwable> LCharFunctionXBuilder<R, X> charFunctionX() {
+	public static <R, X extends Throwable> LCharFunctionXBuilder<R, X> charFunctionX() {
 		return new LCharFunctionXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <R, X extends Throwable> LCharFunctionXBuilder<R, X> charFunctionX(Consumer<LCharFunctionX<R, X>> consumer) {
+	public static <R, X extends Throwable> LCharFunctionXBuilder<R, X> charFunctionX(Consumer<LCharFunctionX<R, X>> consumer) {
 		return new LCharFunctionXBuilder(consumer);
 	}
 

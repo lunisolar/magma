@@ -65,6 +65,7 @@ public interface LObjShortFunctionX<T, R, X extends Throwable> extends MetaFunct
 	@Nullable
 	R doApply(T t, short s) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default R nestingDoApply(T t, short s) {
 		try {
 			return this.doApply(t, s);
@@ -75,10 +76,12 @@ public interface LObjShortFunctionX<T, R, X extends Throwable> extends MetaFunct
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default R shovingDoApply(T t, short s) {
 		return ((LObjShortFunctionX<T, R, RuntimeException>) this).doApply(t, s);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> R handlingDoApply(T t, short s, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -90,25 +93,38 @@ public interface LObjShortFunctionX<T, R, X extends Throwable> extends MetaFunct
 
 	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
-	/** Ensures the result is not null */
+	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullDoApply(T t, short s) throws X {
 		return Null.requireNonNull(doApply(t, s), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LObjShortFunctionX.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplierX<R, X> captureObjSFunc(T t, short s) {
+	default LSupplierX<R, X> captureObjShortFunc(T t, short s) {
 		return () -> this.doApply(t, s);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T, R, X extends Throwable> LObjShortFunctionX<T, R, X> constant(R r) {
 		return (t, s) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T, R, X extends Throwable> LObjShortFunctionX<T, R, X> apply1st(@Nonnull LFunctionX<T, R, X> func) {
+		return (t, s) -> func.doApply(t);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T, R, X extends Throwable> LObjShortFunctionX<T, R, X> apply2nd(@Nonnull LShortFunctionX<R, X> func) {
+		return (t, s) -> func.doApply(s);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -127,7 +143,7 @@ public interface LObjShortFunctionX<T, R, X extends Throwable> extends MetaFunct
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T, R, X extends Throwable> LObjShortFunctionX<T, R, X> wrapX(final @Nonnull LObjShortFunction<T, R> other) {
 		return (LObjShortFunctionX) other;
@@ -137,21 +153,17 @@ public interface LObjShortFunctionX<T, R, X extends Throwable> extends MetaFunct
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LObjShortFunctionX<V1, R, X> objSFuncFromShort(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LShortUnaryOperatorX<X> before2) {
+	default <V1> LObjShortFunctionX<V1, R, X> objShortFuncComposeShort(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LShortUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final short v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsShort(v2));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiFunctionX<V1, V2, R, X> objSFuncFrom(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToShortFunctionX<? super V2, X> before2) {
+	default <V1, V2> LBiFunctionX<V1, V2, R, X> objShortFuncCompose(@Nonnull final LFunctionX<? super V1, ? extends T, X> before1, @Nonnull final LToShortFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsShort(v2));
@@ -180,42 +192,45 @@ public interface LObjShortFunctionX<T, R, X extends Throwable> extends MetaFunct
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjShortFunction<T, R> nestingObjSFunc() {
+	default LObjShortFunction<T, R> nestingObjShortFunc() {
 		return this::nestingDoApply;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjShortFunctionX<T, R, RuntimeException> nestingObjSFuncX() {
+	default LObjShortFunctionX<T, R, RuntimeException> nestingObjShortFuncX() {
 		return this::nestingDoApply;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjShortFunction<T, R> shovingObjSFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LObjShortFunction<T, R> shovingObjShortFunc() {
 		return this::shovingDoApply;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjShortFunctionX<T, R, RuntimeException> shovingObjSFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LObjShortFunctionX<T, R, RuntimeException> shovingObjShortFuncX() {
 		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
+	/** Converts to function that makes sure that the result is not null. */
 	@Nonnull
-	default LObjShortFunctionX<T, R, X> nonNullObjSFunc() {
+	default LObjShortFunctionX<T, R, X> nonNullObjShortFunc() {
 		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LObjShortFunction<T, R> handleObjSFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LObjShortFunction<T, R> handleObjShortFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T t, short s) -> this.handlingDoApply(t, s, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LObjShortFunctionX<T, R, Y> handleObjSFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LObjShortFunctionX<T, R, Y> handleObjShortFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T t, short s) -> this.handlingDoApply(t, s, handling);
 	}
 

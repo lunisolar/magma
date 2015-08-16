@@ -64,6 +64,7 @@ public interface LByteBinaryOperatorX<X extends Throwable> extends MetaOperator,
 
 	byte doApplyAsByte(byte b1, byte b2) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default byte nestingDoApplyAsByte(byte b1, byte b2) {
 		try {
 			return this.doApplyAsByte(b1, b2);
@@ -74,10 +75,12 @@ public interface LByteBinaryOperatorX<X extends Throwable> extends MetaOperator,
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default byte shovingDoApplyAsByte(byte b1, byte b2) {
 		return ((LByteBinaryOperatorX<RuntimeException>) this).doApplyAsByte(b1, b2);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> byte handlingDoApplyAsByte(byte b1, byte b2, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -92,19 +95,32 @@ public interface LByteBinaryOperatorX<X extends Throwable> extends MetaOperator,
 		return doApplyAsByte(b1, b2);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LByteBinaryOperatorX.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LByteSupplierX<X> captureBBinaryOp(byte b1, byte b2) {
+	default LByteSupplierX<X> captureByteBinaryOp(byte b1, byte b2) {
 		return () -> this.doApplyAsByte(b1, b2);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LByteBinaryOperatorX<X> constant(byte r) {
 		return (b1, b2) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <X extends Throwable> LByteBinaryOperatorX<X> apply1stAsByte(@Nonnull LByteUnaryOperatorX<X> func) {
+		return (b1, b2) -> func.doApplyAsByte(b1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <X extends Throwable> LByteBinaryOperatorX<X> apply2ndAsByte(@Nonnull LByteUnaryOperatorX<X> func) {
+		return (b1, b2) -> func.doApplyAsByte(b2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -123,17 +139,37 @@ public interface LByteBinaryOperatorX<X extends Throwable> extends MetaOperator,
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LByteBinaryOperatorX<X> wrapX(final @Nonnull LByteBinaryOperator other) {
 		return (LByteBinaryOperatorX) other;
 	}
 
 	// </editor-fold>
-	// <editor-fold desc="minmax/logical">
 
 	/**
-	 * @see {@link java.util.function.BinaryOperator#minBy()}
+	 * Creates function that returns the lesser value according to the comparator.
+	 * @see {@link java.util.function.BinaryOperator#minBy}
+	 */
+	@Nonnull
+	static <X extends Throwable> LByteBinaryOperatorX<X> minBy(@Nonnull Comparator<Byte> comparator) {
+		Null.nonNullArg(comparator, "comparator");
+		return (a, b) -> comparator.compare(a, b) <= 0 ? a : b;
+	}
+
+	/**
+	 * Creates function that returns the lesser value according to the comparator.
+	 * @see {@link java.util.function.BinaryOperator#maxBy}
+	 */
+	@Nonnull
+	static <X extends Throwable> LByteBinaryOperatorX<X> maxBy(@Nonnull Comparator<Byte> comparator) {
+		Null.nonNullArg(comparator, "comparator");
+		return (a, b) -> comparator.compare(a, b) >= 0 ? a : b;
+	}
+
+	/**
+	 * Returns function that returns the lower value.
+	 * @see {@link java.util.function.BinaryOperator#minBy}
 	 */
 	@Nonnull
 	static <X extends Throwable> LByteBinaryOperatorX<X> min() {
@@ -141,32 +177,27 @@ public interface LByteBinaryOperatorX<X extends Throwable> extends MetaOperator,
 	}
 
 	/**
-	 * @see {@link java.util.function.BinaryOperator#maxBy()}
+	 * Returns function that returns the higher value.
+	 * @see {@link java.util.function.BinaryOperator#maxBy}
 	 */
 	@Nonnull
 	static <X extends Throwable> LByteBinaryOperatorX<X> max() {
 		return (a, b) -> (a >= b) ? a : b;
 	}
 
-	// </editor-fold>
-
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LByteBinaryOperatorX<X> bBinaryOpFromByte(@Nonnull final LByteUnaryOperatorX<X> before1, @Nonnull final LByteUnaryOperatorX<X> before2) {
+	default LByteBinaryOperatorX<X> byteBinaryOpComposeByte(@Nonnull final LByteUnaryOperatorX<X> before1, @Nonnull final LByteUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final byte v1, final byte v2) -> this.doApplyAsByte(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LToByteBiFunctionX<V1, V2, X> bBinaryOpFrom(@Nonnull final LToByteFunctionX<? super V1, X> before1, @Nonnull final LToByteFunctionX<? super V2, X> before2) {
+	default <V1, V2> LToByteBiFunctionX<V1, V2, X> byteBinaryOpCompose(@Nonnull final LToByteFunctionX<? super V1, X> before1, @Nonnull final LToByteFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApplyAsByte(before1.doApplyAsByte(v1), before2.doApplyAsByte(v2));
@@ -178,7 +209,7 @@ public interface LByteBinaryOperatorX<X extends Throwable> extends MetaOperator,
 
 	/** Combines two operators together in a order. */
 	@Nonnull
-	default <V> LByteBiFunctionX<V, X> then(@Nonnull LByteFunctionX<? extends V, X> after) {
+	default <V> LBiByteFunctionX<V, X> then(@Nonnull LByteFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (byte b1, byte b2) -> after.doApply(this.doApplyAsByte(b1, b2));
 	}
@@ -188,23 +219,23 @@ public interface LByteBinaryOperatorX<X extends Throwable> extends MetaOperator,
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LByteBinaryOperator nestingBBinaryOp() {
+	default LByteBinaryOperator nestingByteBinaryOp() {
 		return this::nestingDoApplyAsByte;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LByteBinaryOperatorX<RuntimeException> nestingBBinaryOpX() {
+	default LByteBinaryOperatorX<RuntimeException> nestingByteBinaryOpX() {
 		return this::nestingDoApplyAsByte;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteBinaryOperator shovingBBinaryOp() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LByteBinaryOperator shovingByteBinaryOp() {
 		return this::shovingDoApplyAsByte;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteBinaryOperatorX<RuntimeException> shovingBBinaryOpX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LByteBinaryOperatorX<RuntimeException> shovingByteBinaryOpX() {
 		return this::shovingDoApplyAsByte;
 	}
 
@@ -212,13 +243,15 @@ public interface LByteBinaryOperatorX<X extends Throwable> extends MetaOperator,
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LByteBinaryOperator handleBBinaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LByteBinaryOperator handleByteBinaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (byte b1, byte b2) -> this.handlingDoApplyAsByte(b1, b2, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LByteBinaryOperatorX<Y> handleBBinaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LByteBinaryOperatorX<Y> handleByteBinaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (byte b1, byte b2) -> this.handlingDoApplyAsByte(b1, b2, handling);
 	}
 

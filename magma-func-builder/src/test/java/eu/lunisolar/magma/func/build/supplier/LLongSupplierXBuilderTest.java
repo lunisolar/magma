@@ -116,7 +116,7 @@ public class LLongSupplierXBuilderTest<X extends Throwable>{
         final AtomicInteger externalInfluence = new AtomicInteger(0);
 
         LLongSupplierX<ParseException> function = longSupplierX((LLongSupplierX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of(() -> externalInfluence.get() == Integer.valueOf(0))
+            .aCase(ce -> ce.of(() -> externalInfluence.get() == Integer.valueOf(0))
                              .evaluate(() -> (long)0))
             .inCase(() -> externalInfluence.get() > 0 && externalInfluence.get() < 10).evaluate(() -> (long)1)
             .inCase(() -> externalInfluence.get() > 10 && externalInfluence.get() < 20).evaluate(() -> (long)2)

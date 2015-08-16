@@ -116,7 +116,7 @@ public class LObjIntConsumerBuilderTest<T,X extends Throwable>{
         final AtomicInteger externalEffect = new AtomicInteger(0);
 
         LObjIntConsumer<Integer > function = objIntConsumer((LObjIntConsumer<Integer > f)-> doNothing())
-            .addCase(ce -> ce.of((t, i) -> t == Integer.valueOf(0))
+            .aCase(ce -> ce.of((t, i) -> t == Integer.valueOf(0))
                              .evaluate((t, i) -> externalEffect.set(0)))
             .inCase((t, i) -> t > 0 && t < 10).evaluate((t, i) -> externalEffect.set(1))
             .inCase((t, i) -> t > 10 && t < 20).evaluate((t, i) -> externalEffect.set(2))

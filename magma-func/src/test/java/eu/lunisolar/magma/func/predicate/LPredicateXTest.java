@@ -344,7 +344,7 @@ public class LPredicateXTest<T,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testpredFrom() throws X {
+    public void testpredCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -363,7 +363,7 @@ public class LPredicateXTest<T,X extends ParseException> {
         };
 
         //when
-        LPredicateX<Integer ,X> function = sutO.predFrom(before1);
+        LPredicateX<Integer ,X> function = sutO.predCompose(before1);
         function.doTest((Integer )Integer.valueOf(80));
 
         //then - finals

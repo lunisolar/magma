@@ -66,7 +66,7 @@ public final class LCharPredicateBuilder extends PerCaseBuilderWithBooleanProduc
 		});
 
 	public LCharPredicateBuilder(@Nullable Consumer<LCharPredicate> consumer) {
-		super(EVENTUALLY_THROW, LCharPredicate::constant);
+		super(EVENTUALLY_THROW, LCharPredicate::constant, () -> new LCharPredicateBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LCharPredicateBuilder extends PerCaseBuilderWithBooleanProduc
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final LCharPredicateBuilder charPredicate() {
+	public static LCharPredicateBuilder charPredicate() {
 		return new LCharPredicateBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final LCharPredicateBuilder charPredicate(Consumer<LCharPredicate> consumer) {
+	public static LCharPredicateBuilder charPredicate(Consumer<LCharPredicate> consumer) {
 		return new LCharPredicateBuilder(consumer);
 	}
 

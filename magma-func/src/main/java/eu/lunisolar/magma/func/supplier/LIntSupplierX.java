@@ -74,6 +74,7 @@ public interface LIntSupplierX<X extends Throwable> extends java.util.function.I
 
 	int doGetAsInt() throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default int nestingDoGetAsInt() {
 		try {
 			return this.doGetAsInt();
@@ -84,10 +85,12 @@ public interface LIntSupplierX<X extends Throwable> extends java.util.function.I
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default int shovingDoGetAsInt() {
 		return ((LIntSupplierX<RuntimeException>) this).doGetAsInt();
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> int handlingDoGetAsInt(HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -102,12 +105,13 @@ public interface LIntSupplierX<X extends Throwable> extends java.util.function.I
 		return doGetAsInt();
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LIntSupplierX.DESCRIPTION;
 	}
 
+	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LIntSupplierX<X> of(int r) {
 		return () -> r;
 	}
@@ -134,7 +138,7 @@ public interface LIntSupplierX<X extends Throwable> extends java.util.function.I
 		return other::getAsInt;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LIntSupplierX<X> wrapX(final @Nonnull LIntSupplier other) {
 		return (LIntSupplierX) other;
@@ -212,23 +216,23 @@ public interface LIntSupplierX<X extends Throwable> extends java.util.function.I
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntSupplier nestingISup() {
+	default LIntSupplier nestingIntSup() {
 		return this::nestingDoGetAsInt;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntSupplierX<RuntimeException> nestingISupX() {
+	default LIntSupplierX<RuntimeException> nestingIntSupX() {
 		return this::nestingDoGetAsInt;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntSupplier shovingISup() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntSupplier shovingIntSup() {
 		return this::shovingDoGetAsInt;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntSupplierX<RuntimeException> shovingISupX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntSupplierX<RuntimeException> shovingIntSupX() {
 		return this::shovingDoGetAsInt;
 	}
 
@@ -236,13 +240,15 @@ public interface LIntSupplierX<X extends Throwable> extends java.util.function.I
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LIntSupplier handleISup(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LIntSupplier handleIntSup(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return () -> this.handlingDoGetAsInt(handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LIntSupplierX<Y> handleISupX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LIntSupplierX<Y> handleIntSupX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return () -> this.handlingDoGetAsInt(handling);
 	}
 

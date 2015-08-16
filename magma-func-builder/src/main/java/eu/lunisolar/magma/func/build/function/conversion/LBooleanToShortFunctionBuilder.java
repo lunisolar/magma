@@ -66,7 +66,7 @@ public final class LBooleanToShortFunctionBuilder extends PerCaseBuilderWithShor
 		});
 
 	public LBooleanToShortFunctionBuilder(@Nullable Consumer<LBooleanToShortFunction> consumer) {
-		super(EVENTUALLY_THROW, LBooleanToShortFunction::constant);
+		super(EVENTUALLY_THROW, LBooleanToShortFunction::constant, () -> new LBooleanToShortFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LBooleanToShortFunctionBuilder extends PerCaseBuilderWithShor
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final LBooleanToShortFunctionBuilder booleanToShortFunction() {
+	public static LBooleanToShortFunctionBuilder booleanToShortFunction() {
 		return new LBooleanToShortFunctionBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final LBooleanToShortFunctionBuilder booleanToShortFunction(Consumer<LBooleanToShortFunction> consumer) {
+	public static LBooleanToShortFunctionBuilder booleanToShortFunction(Consumer<LBooleanToShortFunction> consumer) {
 		return new LBooleanToShortFunctionBuilder(consumer);
 	}
 

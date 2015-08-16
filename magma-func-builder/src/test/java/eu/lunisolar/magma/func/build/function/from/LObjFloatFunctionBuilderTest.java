@@ -115,7 +115,7 @@ public class LObjFloatFunctionBuilderTest<T,R,X extends Throwable>{
     public void testBuild() throws X {
 
         LObjFloatFunction<Integer ,Integer > function = objFloatFunction((LObjFloatFunction<Integer ,Integer > f)-> doNothing())
-            .addCase(ce -> ce.of((t, f) -> t == Integer.valueOf(0))
+            .aCase(ce -> ce.of((t, f) -> t == Integer.valueOf(0))
                              .evaluate((t, f) -> Integer.valueOf(0)))
             .inCase((t, f) -> t > 0 && t < 10).evaluate((t, f) -> Integer.valueOf(1))
             .inCase((t, f) -> t > 10 && t < 20).evaluate((t, f) -> Integer.valueOf(2))

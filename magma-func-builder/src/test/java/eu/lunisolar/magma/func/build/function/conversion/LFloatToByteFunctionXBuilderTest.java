@@ -115,7 +115,7 @@ public class LFloatToByteFunctionXBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LFloatToByteFunctionX<ParseException> function = floatToByteFunctionX((LFloatToByteFunctionX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of(f -> f == (float)0)
+            .aCase(ce -> ce.of(f -> f == (float)0)
                              .evaluate(f -> (byte)0))
             .inCase(f -> f > 0 && f < 10).evaluate(f -> (byte)1)
             .inCase(f -> f > 10 && f < 20).evaluate(f -> (byte)2)

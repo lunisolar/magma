@@ -74,10 +74,12 @@ public interface LIntToDoubleFunction extends LIntToDoubleFunctionX<RuntimeExcep
 
 	double doApplyAsDouble(int i);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default double nestingDoApplyAsDouble(int i) {
 		return this.doApplyAsDouble(i);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default double shovingDoApplyAsDouble(int i) {
 		return this.doApplyAsDouble(i);
 	}
@@ -87,17 +89,18 @@ public interface LIntToDoubleFunction extends LIntToDoubleFunctionX<RuntimeExcep
 		return doApplyAsDouble(i);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LIntToDoubleFunction.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LDoubleSupplier captureIToDFunc(int i) {
+	default LDoubleSupplier captureIntToDoubleFunc(int i) {
 		return () -> this.doApplyAsDouble(i);
 	}
 
+	/** Creates function that always returns the same value. */
 	static LIntToDoubleFunction constant(double r) {
 		return i -> r;
 	}
@@ -117,7 +120,7 @@ public interface LIntToDoubleFunction extends LIntToDoubleFunctionX<RuntimeExcep
 		return other::applyAsDouble;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LIntToDoubleFunction wrap(final @Nonnull LIntToDoubleFunctionX<X> other) {
 		return other::nestingDoApplyAsDouble;
@@ -127,20 +130,16 @@ public interface LIntToDoubleFunction extends LIntToDoubleFunctionX<RuntimeExcep
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LIntToDoubleFunction iToDFuncFromInt(@Nonnull final LIntUnaryOperator before1) {
+	default LIntToDoubleFunction intToDoubleFuncComposeInt(@Nonnull final LIntUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsDouble(before1.doApplyAsInt(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToDoubleFunction<V1> iToDFuncFrom(@Nonnull final LToIntFunction<? super V1> before1) {
+	default <V1> LToDoubleFunction<V1> intToDoubleFuncCompose(@Nonnull final LToIntFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsDouble(before1.doApplyAsInt(v1));
 	}
@@ -217,23 +216,23 @@ public interface LIntToDoubleFunction extends LIntToDoubleFunctionX<RuntimeExcep
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntToDoubleFunction nestingIToDFunc() {
+	default LIntToDoubleFunction nestingIntToDoubleFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntToDoubleFunctionX<RuntimeException> nestingIToDFuncX() {
+	default LIntToDoubleFunctionX<RuntimeException> nestingIntToDoubleFuncX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntToDoubleFunction shovingIToDFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntToDoubleFunction shovingIntToDoubleFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntToDoubleFunctionX<RuntimeException> shovingIToDFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntToDoubleFunctionX<RuntimeException> shovingIntToDoubleFuncX() {
 		return this;
 	}
 

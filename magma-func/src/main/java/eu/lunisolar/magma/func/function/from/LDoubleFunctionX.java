@@ -75,6 +75,7 @@ public interface LDoubleFunctionX<R, X extends Throwable> extends java.util.func
 	@Nullable
 	R doApply(double d) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default R nestingDoApply(double d) {
 		try {
 			return this.doApply(d);
@@ -85,10 +86,12 @@ public interface LDoubleFunctionX<R, X extends Throwable> extends java.util.func
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default R shovingDoApply(double d) {
 		return ((LDoubleFunctionX<R, RuntimeException>) this).doApply(d);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> R handlingDoApply(double d, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -100,23 +103,24 @@ public interface LDoubleFunctionX<R, X extends Throwable> extends java.util.func
 
 	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
-	/** Ensures the result is not null */
+	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullDoApply(double d) throws X {
 		return Null.requireNonNull(doApply(d), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LDoubleFunctionX.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplierX<R, X> captureDFunc(double d) {
+	default LSupplierX<R, X> captureDoubleFunc(double d) {
 		return () -> this.doApply(d);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <R, X extends Throwable> LDoubleFunctionX<R, X> constant(R r) {
 		return d -> r;
 	}
@@ -143,7 +147,7 @@ public interface LDoubleFunctionX<R, X extends Throwable> extends java.util.func
 		return other::apply;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <R, X extends Throwable> LDoubleFunctionX<R, X> wrapX(final @Nonnull LDoubleFunction<R> other) {
 		return (LDoubleFunctionX) other;
@@ -153,20 +157,16 @@ public interface LDoubleFunctionX<R, X extends Throwable> extends java.util.func
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LDoubleFunctionX<R, X> dFuncFromDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1) {
+	default LDoubleFunctionX<R, X> doubleFuncComposeDouble(@Nonnull final LDoubleUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doApplyAsDouble(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LFunctionX<V1, R, X> dFuncFrom(@Nonnull final LToDoubleFunctionX<? super V1, X> before1) {
+	default <V1> LFunctionX<V1, R, X> doubleFuncCompose(@Nonnull final LToDoubleFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doApplyAsDouble(v1));
 	}
@@ -250,42 +250,45 @@ public interface LDoubleFunctionX<R, X extends Throwable> extends java.util.func
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoubleFunction<R> nestingDFunc() {
+	default LDoubleFunction<R> nestingDoubleFunc() {
 		return this::nestingDoApply;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoubleFunctionX<R, RuntimeException> nestingDFuncX() {
+	default LDoubleFunctionX<R, RuntimeException> nestingDoubleFuncX() {
 		return this::nestingDoApply;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleFunction<R> shovingDFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoubleFunction<R> shovingDoubleFunc() {
 		return this::shovingDoApply;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleFunctionX<R, RuntimeException> shovingDFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoubleFunctionX<R, RuntimeException> shovingDoubleFuncX() {
 		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
+	/** Converts to function that makes sure that the result is not null. */
 	@Nonnull
-	default LDoubleFunctionX<R, X> nonNullDFunc() {
+	default LDoubleFunctionX<R, X> nonNullDoubleFunc() {
 		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LDoubleFunction<R> handleDFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LDoubleFunction<R> handleDoubleFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return d -> this.handlingDoApply(d, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LDoubleFunctionX<R, Y> handleDFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LDoubleFunctionX<R, Y> handleDoubleFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return d -> this.handlingDoApply(d, handling);
 	}
 

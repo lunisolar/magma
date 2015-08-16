@@ -65,7 +65,7 @@ public final class DoubleToIntFunctionBuilder extends PerCaseBuilderWithIntProdu
 		});
 
 	public DoubleToIntFunctionBuilder(@Nullable Consumer<java.util.function.DoubleToIntFunction> consumer) {
-		super(EVENTUALLY_THROW, LDoubleToIntFunction::constant);
+		super(EVENTUALLY_THROW, LDoubleToIntFunction::constant, () -> new DoubleToIntFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -77,13 +77,13 @@ public final class DoubleToIntFunctionBuilder extends PerCaseBuilderWithIntProdu
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final DoubleToIntFunctionBuilder doubleToIntFunction() {
+	public static DoubleToIntFunctionBuilder doubleToIntFunction() {
 		return new DoubleToIntFunctionBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final DoubleToIntFunctionBuilder doubleToIntFunction(Consumer<java.util.function.DoubleToIntFunction> consumer) {
+	public static DoubleToIntFunctionBuilder doubleToIntFunction(Consumer<java.util.function.DoubleToIntFunction> consumer) {
 		return new DoubleToIntFunctionBuilder(consumer);
 	}
 

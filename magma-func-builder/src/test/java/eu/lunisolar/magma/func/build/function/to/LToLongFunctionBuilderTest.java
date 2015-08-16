@@ -115,7 +115,7 @@ public class LToLongFunctionBuilderTest<T,X extends Throwable>{
     public void testBuild() throws X {
 
         LToLongFunction<Integer > function = toLongFunction((LToLongFunction<Integer > f)-> doNothing())
-            .addCase(ce -> ce.of(t -> t == Integer.valueOf(0))
+            .aCase(ce -> ce.of(t -> t == Integer.valueOf(0))
                              .evaluate(t -> (long)0))
             .inCase(t -> t > 0 && t < 10).evaluate(t -> (long)1)
             .inCase(t -> t > 10 && t < 20).evaluate(t -> (long)2)

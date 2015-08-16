@@ -195,7 +195,7 @@ public class LToFloatBiFunctionTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        LToFloatBiFunction<T1,T2> wrapped = sutThrowing.handleToFBiFunc(handler -> handler
+        LToFloatBiFunction<T1,T2> wrapped = sutThrowing.handleToFloatBiFunc(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -219,7 +219,7 @@ public class LToFloatBiFunctionTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        LToFloatBiFunction<T1,T2> wrapped = sutThrowing.handleToFBiFunc(handler -> handler
+        LToFloatBiFunction<T1,T2> wrapped = sutThrowing.handleToFloatBiFunc(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -243,7 +243,7 @@ public class LToFloatBiFunctionTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        LToFloatBiFunction<T1,T2> wrapped = sutThrowing.handleToFBiFunc(handler -> handler
+        LToFloatBiFunction<T1,T2> wrapped = sutThrowing.handleToFloatBiFunc(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -268,7 +268,7 @@ public class LToFloatBiFunctionTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        LToFloatBiFunction<T1,T2> wrapped = sutThrowing.handleToFBiFunc(h -> Function4U.doNothing());
+        LToFloatBiFunction<T1,T2> wrapped = sutThrowing.handleToFloatBiFunc(h -> Function4U.doNothing());
 
         // then
         try {
@@ -287,7 +287,7 @@ public class LToFloatBiFunctionTest<T1,T2,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testtoFBiFuncFrom() throws X {
+    public void testtoFloatBiFuncCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -312,7 +312,7 @@ public class LToFloatBiFunctionTest<T1,T2,X extends ParseException> {
         };
 
         //when
-        LToFloatBiFunction<Integer ,Integer > function = sutO.toFBiFuncFrom(before1,before2);
+        LToFloatBiFunction<Integer ,Integer > function = sutO.toFloatBiFuncCompose(before1,before2);
         function.doApplyAsFloat((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
@@ -365,28 +365,28 @@ public class LToFloatBiFunctionTest<T1,T2,X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nestingToFBiFunc())
+        assertThat(sut.nestingToFloatBiFunc())
             .isSameAs(sut)
             .isInstanceOf(LToFloatBiFunction.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shovingToFBiFunc())
+        assertThat(sut.shovingToFloatBiFunc())
             .isSameAs(sut)
             .isInstanceOf(LToFloatBiFunction.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestingToFBiFuncX())
+        assertThat(sut.nestingToFloatBiFuncX())
             .isSameAs(sut)
             .isInstanceOf(LToFloatBiFunctionX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shovingToFBiFuncX())
+        assertThat(sut.shovingToFloatBiFuncX())
             .isSameAs(sut)
             .isInstanceOf(LToFloatBiFunctionX.class);
     }
@@ -400,11 +400,11 @@ public class LToFloatBiFunctionTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shovingToFBiFunc().doApplyAsFloat((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
+        sutThrowing.shovingToFloatBiFunc().doApplyAsFloat((T1)Integer.valueOf(100),(T2)Integer.valueOf(100));
     }
 
     @Test
-    public void testHandleToFBiFunc() throws X {
+    public void testHandleToFloatBiFunc() throws X {
 
         // given
         LToFloatBiFunction<T1,T2> sutThrowing = LToFloatBiFunction.l((T1 t1,T2 t2) -> {
@@ -412,7 +412,7 @@ public class LToFloatBiFunctionTest<T1,T2,X extends ParseException> {
         });
 
         // when
-        LToFloatBiFunction<T1,T2> wrapped = sutThrowing.handleToFBiFunc(h -> {
+        LToFloatBiFunction<T1,T2> wrapped = sutThrowing.handleToFloatBiFunc(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 

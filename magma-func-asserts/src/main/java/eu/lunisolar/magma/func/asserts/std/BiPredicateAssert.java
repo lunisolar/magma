@@ -49,10 +49,10 @@ public interface BiPredicateAssert<S extends BiPredicateAssert<S, A, RS, T1, T2>
 	Evaluation<S, LBiConsumerX<T1, T2, Exception>, A, RS, Boolean, Exception> doesTest(T1 t1, T2 t2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends java.util.function.BiPredicate<T1, T2>, RS extends AbstractBooleanAssert<RS>, T1, T2> extends Base<Impl<A, RS, T1, T2>, A, RS, T1, T2> {
+	public final static class The<A extends java.util.function.BiPredicate<T1, T2>, RS extends AbstractBooleanAssert<RS>, T1, T2> extends Base<The<A, RS, T1, T2>, A, RS, T1, T2> {
 
-		public Impl(A actual, java.util.function.Function<Boolean, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Boolean, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
@@ -71,7 +71,7 @@ public interface BiPredicateAssert<S extends BiPredicateAssert<S, A, RS, T1, T2>
 		@Nonnull
 		public Evaluation<S, LBiConsumerX<T1, T2, Exception>, A, RS, Boolean, Exception> doesTest(T1 t1, T2 t2) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(t1, t2);
 				}

@@ -115,7 +115,7 @@ public class LBiFloatPredicateBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LBiFloatPredicate function = biFloatPredicate((LBiFloatPredicate f)-> doNothing())
-            .addCase(ce -> ce.of((f1,f2) -> f1 == (float)0)
+            .aCase(ce -> ce.of((f1,f2) -> f1 == (float)0)
                              .evaluate((f1,f2) -> false))
             .inCase((f1,f2) -> f1 > 0 && f1 < 10).evaluate((f1,f2) -> true)
             .inCase((f1,f2) -> f1 > 10 && f1 < 20).evaluate((f1,f2) -> true)

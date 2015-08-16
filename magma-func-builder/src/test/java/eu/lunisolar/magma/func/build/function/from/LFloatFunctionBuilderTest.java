@@ -115,7 +115,7 @@ public class LFloatFunctionBuilderTest<R,X extends Throwable>{
     public void testBuild() throws X {
 
         LFloatFunction<Integer > function = floatFunction((LFloatFunction<Integer > f)-> doNothing())
-            .addCase(ce -> ce.of(f -> f == (float)0)
+            .aCase(ce -> ce.of(f -> f == (float)0)
                              .evaluate(f -> Integer.valueOf(0)))
             .inCase(f -> f > 0 && f < 10).evaluate(f -> Integer.valueOf(1))
             .inCase(f -> f > 10 && f < 20).evaluate(f -> Integer.valueOf(2))

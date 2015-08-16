@@ -66,7 +66,7 @@ public final class LByteConsumerXBuilder<X extends Throwable> extends PerCaseBui
 		});
 
 	public LByteConsumerXBuilder(@Nullable Consumer<LByteConsumerX<X>> consumer) {
-		super(EVENTUALLY_THROW);
+		super(EVENTUALLY_THROW, () -> new LByteConsumerXBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LByteConsumerXBuilder<X extends Throwable> extends PerCaseBui
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <X extends Throwable> LByteConsumerXBuilder<X> byteConsumerX() {
+	public static <X extends Throwable> LByteConsumerXBuilder<X> byteConsumerX() {
 		return new LByteConsumerXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <X extends Throwable> LByteConsumerXBuilder<X> byteConsumerX(Consumer<LByteConsumerX<X>> consumer) {
+	public static <X extends Throwable> LByteConsumerXBuilder<X> byteConsumerX(Consumer<LByteConsumerX<X>> consumer) {
 		return new LByteConsumerXBuilder(consumer);
 	}
 

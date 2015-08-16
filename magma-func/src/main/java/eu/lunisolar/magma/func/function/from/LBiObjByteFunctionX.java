@@ -65,6 +65,7 @@ public interface LBiObjByteFunctionX<T1, T2, R, X extends Throwable> extends Met
 	@Nullable
 	R doApply(T1 t1, T2 t2, byte i) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default R nestingDoApply(T1 t1, T2 t2, byte i) {
 		try {
 			return this.doApply(t1, t2, i);
@@ -75,10 +76,12 @@ public interface LBiObjByteFunctionX<T1, T2, R, X extends Throwable> extends Met
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default R shovingDoApply(T1 t1, T2 t2, byte i) {
 		return ((LBiObjByteFunctionX<T1, T2, R, RuntimeException>) this).doApply(t1, t2, i);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> R handlingDoApply(T1 t1, T2 t2, byte i, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -90,25 +93,44 @@ public interface LBiObjByteFunctionX<T1, T2, R, X extends Throwable> extends Met
 
 	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
-	/** Ensures the result is not null */
+	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullDoApply(T1 t1, T2 t2, byte i) throws X {
 		return Null.requireNonNull(doApply(t1, t2, i), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LBiObjByteFunctionX.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplierX<R, X> captureBiObjBFunc(T1 t1, T2 t2, byte i) {
+	default LSupplierX<R, X> captureBiObjByteFunc(T1 t1, T2 t2, byte i) {
 		return () -> this.doApply(t1, t2, i);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T1, T2, R, X extends Throwable> LBiObjByteFunctionX<T1, T2, R, X> constant(R r) {
 		return (t1, t2, i) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T1, T2, R, X extends Throwable> LBiObjByteFunctionX<T1, T2, R, X> apply1st(@Nonnull LFunctionX<T1, R, X> func) {
+		return (t1, t2, i) -> func.doApply(t1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T1, T2, R, X extends Throwable> LBiObjByteFunctionX<T1, T2, R, X> apply2nd(@Nonnull LFunctionX<T2, R, X> func) {
+		return (t1, t2, i) -> func.doApply(t2);
+	}
+
+	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
+	@Nonnull
+	static <T1, T2, R, X extends Throwable> LBiObjByteFunctionX<T1, T2, R, X> apply3rd(@Nonnull LByteFunctionX<R, X> func) {
+		return (t1, t2, i) -> func.doApply(i);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -127,7 +149,7 @@ public interface LBiObjByteFunctionX<T1, T2, R, X extends Throwable> extends Met
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T1, T2, R, X extends Throwable> LBiObjByteFunctionX<T1, T2, R, X> wrapX(final @Nonnull LBiObjByteFunction<T1, T2, R> other) {
 		return (LBiObjByteFunctionX) other;
@@ -137,22 +159,19 @@ public interface LBiObjByteFunctionX<T1, T2, R, X extends Throwable> extends Met
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiObjByteFunctionX<V1, V2, R, X> biObjBFuncFromByte(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LByteUnaryOperatorX<X> before3) {
+	default <V1, V2> LBiObjByteFunctionX<V1, V2, R, X> biObjByteFuncComposeByte(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LByteUnaryOperatorX<X> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
 		return (final V1 v1, final V2 v2, final byte v3) -> this.doApply(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsByte(v3));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2, V3> LTriFunctionX<V1, V2, V3, R, X> biObjBFuncFrom(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LToByteFunctionX<? super V3, X> before3) {
+	default <V1, V2, V3> LTriFunctionX<V1, V2, V3, R, X> biObjByteFuncCompose(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2,
+			@Nonnull final LToByteFunctionX<? super V3, X> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
@@ -182,42 +201,45 @@ public interface LBiObjByteFunctionX<T1, T2, R, X extends Throwable> extends Met
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiObjByteFunction<T1, T2, R> nestingBiObjBFunc() {
+	default LBiObjByteFunction<T1, T2, R> nestingBiObjByteFunc() {
 		return this::nestingDoApply;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiObjByteFunctionX<T1, T2, R, RuntimeException> nestingBiObjBFuncX() {
+	default LBiObjByteFunctionX<T1, T2, R, RuntimeException> nestingBiObjByteFuncX() {
 		return this::nestingDoApply;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjByteFunction<T1, T2, R> shovingBiObjBFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBiObjByteFunction<T1, T2, R> shovingBiObjByteFunc() {
 		return this::shovingDoApply;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjByteFunctionX<T1, T2, R, RuntimeException> shovingBiObjBFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBiObjByteFunctionX<T1, T2, R, RuntimeException> shovingBiObjByteFuncX() {
 		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
+	/** Converts to function that makes sure that the result is not null. */
 	@Nonnull
-	default LBiObjByteFunctionX<T1, T2, R, X> nonNullBiObjBFunc() {
+	default LBiObjByteFunctionX<T1, T2, R, X> nonNullBiObjByteFunc() {
 		return this::nonNullDoApply;
 	}
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LBiObjByteFunction<T1, T2, R> handleBiObjBFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LBiObjByteFunction<T1, T2, R> handleBiObjByteFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T1 t1, T2 t2, byte i) -> this.handlingDoApply(t1, t2, i, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LBiObjByteFunctionX<T1, T2, R, Y> handleBiObjBFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LBiObjByteFunctionX<T1, T2, R, Y> handleBiObjByteFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T1 t1, T2 t2, byte i) -> this.handlingDoApply(t1, t2, i, handling);
 	}
 

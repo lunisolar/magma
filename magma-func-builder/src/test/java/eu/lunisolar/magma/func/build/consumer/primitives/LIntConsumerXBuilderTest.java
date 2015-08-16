@@ -116,7 +116,7 @@ public class LIntConsumerXBuilderTest<X extends Throwable>{
         final AtomicInteger externalEffect = new AtomicInteger(0);
 
         LIntConsumerX<ParseException> function = intConsumerX((LIntConsumerX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of(i -> i == (int)0)
+            .aCase(ce -> ce.of(i -> i == (int)0)
                              .evaluate(i -> externalEffect.set(0)))
             .inCase(i -> i > 0 && i < 10).evaluate(i -> externalEffect.set(1))
             .inCase(i -> i > 10 && i < 20).evaluate(i -> externalEffect.set(2))

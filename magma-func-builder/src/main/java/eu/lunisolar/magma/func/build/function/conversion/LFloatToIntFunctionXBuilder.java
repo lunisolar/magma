@@ -66,7 +66,7 @@ public final class LFloatToIntFunctionXBuilder<X extends Throwable> extends PerC
 		});
 
 	public LFloatToIntFunctionXBuilder(@Nullable Consumer<LFloatToIntFunctionX<X>> consumer) {
-		super(EVENTUALLY_THROW, LFloatToIntFunctionX::constant);
+		super(EVENTUALLY_THROW, LFloatToIntFunctionX::constant, () -> new LFloatToIntFunctionXBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LFloatToIntFunctionXBuilder<X extends Throwable> extends PerC
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <X extends Throwable> LFloatToIntFunctionXBuilder<X> floatToIntFunctionX() {
+	public static <X extends Throwable> LFloatToIntFunctionXBuilder<X> floatToIntFunctionX() {
 		return new LFloatToIntFunctionXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <X extends Throwable> LFloatToIntFunctionXBuilder<X> floatToIntFunctionX(Consumer<LFloatToIntFunctionX<X>> consumer) {
+	public static <X extends Throwable> LFloatToIntFunctionXBuilder<X> floatToIntFunctionX(Consumer<LFloatToIntFunctionX<X>> consumer) {
 		return new LFloatToIntFunctionXBuilder(consumer);
 	}
 

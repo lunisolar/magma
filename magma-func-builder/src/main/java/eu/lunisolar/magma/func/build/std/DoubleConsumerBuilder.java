@@ -65,7 +65,7 @@ public final class DoubleConsumerBuilder extends PerCaseBuilder.Base<DoubleConsu
 		});
 
 	public DoubleConsumerBuilder(@Nullable Consumer<java.util.function.DoubleConsumer> consumer) {
-		super(EVENTUALLY_THROW);
+		super(EVENTUALLY_THROW, () -> new DoubleConsumerBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -77,13 +77,13 @@ public final class DoubleConsumerBuilder extends PerCaseBuilder.Base<DoubleConsu
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final DoubleConsumerBuilder doubleConsumer() {
+	public static DoubleConsumerBuilder doubleConsumer() {
 		return new DoubleConsumerBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final DoubleConsumerBuilder doubleConsumer(Consumer<java.util.function.DoubleConsumer> consumer) {
+	public static DoubleConsumerBuilder doubleConsumer(Consumer<java.util.function.DoubleConsumer> consumer) {
 		return new DoubleConsumerBuilder(consumer);
 	}
 

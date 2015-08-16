@@ -64,10 +64,12 @@ public interface LByteToIntFunction extends LByteToIntFunctionX<RuntimeException
 
 	int doApplyAsInt(byte b);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default int nestingDoApplyAsInt(byte b) {
 		return this.doApplyAsInt(b);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default int shovingDoApplyAsInt(byte b) {
 		return this.doApplyAsInt(b);
 	}
@@ -77,17 +79,18 @@ public interface LByteToIntFunction extends LByteToIntFunctionX<RuntimeException
 		return doApplyAsInt(b);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LByteToIntFunction.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LIntSupplier captureBToIFunc(byte b) {
+	default LIntSupplier captureByteToIntFunc(byte b) {
 		return () -> this.doApplyAsInt(b);
 	}
 
+	/** Creates function that always returns the same value. */
 	static LByteToIntFunction constant(int r) {
 		return b -> r;
 	}
@@ -101,7 +104,7 @@ public interface LByteToIntFunction extends LByteToIntFunctionX<RuntimeException
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LByteToIntFunction wrap(final @Nonnull LByteToIntFunctionX<X> other) {
 		return other::nestingDoApplyAsInt;
@@ -111,20 +114,16 @@ public interface LByteToIntFunction extends LByteToIntFunctionX<RuntimeException
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LByteToIntFunction bToIFuncFromByte(@Nonnull final LByteUnaryOperator before1) {
+	default LByteToIntFunction byteToIntFuncComposeByte(@Nonnull final LByteUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsInt(before1.doApplyAsByte(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToIntFunction<V1> bToIFuncFrom(@Nonnull final LToByteFunction<? super V1> before1) {
+	default <V1> LToIntFunction<V1> byteToIntFuncCompose(@Nonnull final LToByteFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsInt(before1.doApplyAsByte(v1));
 	}
@@ -201,23 +200,23 @@ public interface LByteToIntFunction extends LByteToIntFunctionX<RuntimeException
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LByteToIntFunction nestingBToIFunc() {
+	default LByteToIntFunction nestingByteToIntFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LByteToIntFunctionX<RuntimeException> nestingBToIFuncX() {
+	default LByteToIntFunctionX<RuntimeException> nestingByteToIntFuncX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteToIntFunction shovingBToIFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LByteToIntFunction shovingByteToIntFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LByteToIntFunctionX<RuntimeException> shovingBToIFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LByteToIntFunctionX<RuntimeException> shovingByteToIntFuncX() {
 		return this;
 	}
 

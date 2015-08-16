@@ -64,6 +64,7 @@ public interface LCharToShortFunctionX<X extends Throwable> extends MetaFunction
 
 	short doApplyAsShort(char c) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default short nestingDoApplyAsShort(char c) {
 		try {
 			return this.doApplyAsShort(c);
@@ -74,10 +75,12 @@ public interface LCharToShortFunctionX<X extends Throwable> extends MetaFunction
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default short shovingDoApplyAsShort(char c) {
 		return ((LCharToShortFunctionX<RuntimeException>) this).doApplyAsShort(c);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> short handlingDoApplyAsShort(char c, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -92,17 +95,18 @@ public interface LCharToShortFunctionX<X extends Throwable> extends MetaFunction
 		return doApplyAsShort(c);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LCharToShortFunctionX.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LShortSupplierX<X> captureCToSFunc(char c) {
+	default LShortSupplierX<X> captureCharToShortFunc(char c) {
 		return () -> this.doApplyAsShort(c);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LCharToShortFunctionX<X> constant(short r) {
 		return c -> r;
 	}
@@ -123,7 +127,7 @@ public interface LCharToShortFunctionX<X extends Throwable> extends MetaFunction
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LCharToShortFunctionX<X> wrapX(final @Nonnull LCharToShortFunction other) {
 		return (LCharToShortFunctionX) other;
@@ -133,20 +137,16 @@ public interface LCharToShortFunctionX<X extends Throwable> extends MetaFunction
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LCharToShortFunctionX<X> cToSFuncFromChar(@Nonnull final LCharUnaryOperatorX<X> before1) {
+	default LCharToShortFunctionX<X> charToShortFuncComposeChar(@Nonnull final LCharUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsShort(before1.doApplyAsChar(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToShortFunctionX<V1, X> cToSFuncFrom(@Nonnull final LToCharFunctionX<? super V1, X> before1) {
+	default <V1> LToShortFunctionX<V1, X> charToShortFuncCompose(@Nonnull final LToCharFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsShort(before1.doApplyAsChar(v1));
 	}
@@ -223,23 +223,23 @@ public interface LCharToShortFunctionX<X extends Throwable> extends MetaFunction
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LCharToShortFunction nestingCToSFunc() {
+	default LCharToShortFunction nestingCharToShortFunc() {
 		return this::nestingDoApplyAsShort;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LCharToShortFunctionX<RuntimeException> nestingCToSFuncX() {
+	default LCharToShortFunctionX<RuntimeException> nestingCharToShortFuncX() {
 		return this::nestingDoApplyAsShort;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharToShortFunction shovingCToSFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LCharToShortFunction shovingCharToShortFunc() {
 		return this::shovingDoApplyAsShort;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharToShortFunctionX<RuntimeException> shovingCToSFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LCharToShortFunctionX<RuntimeException> shovingCharToShortFuncX() {
 		return this::shovingDoApplyAsShort;
 	}
 
@@ -247,13 +247,15 @@ public interface LCharToShortFunctionX<X extends Throwable> extends MetaFunction
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LCharToShortFunction handleCToSFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LCharToShortFunction handleCharToShortFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return c -> this.handlingDoApplyAsShort(c, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LCharToShortFunctionX<Y> handleCToSFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LCharToShortFunctionX<Y> handleCharToShortFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return c -> this.handlingDoApplyAsShort(c, handling);
 	}
 

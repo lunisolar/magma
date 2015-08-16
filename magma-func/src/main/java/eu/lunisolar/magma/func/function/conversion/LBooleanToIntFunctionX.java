@@ -64,6 +64,7 @@ public interface LBooleanToIntFunctionX<X extends Throwable> extends MetaFunctio
 
 	int doApplyAsInt(boolean b) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default int nestingDoApplyAsInt(boolean b) {
 		try {
 			return this.doApplyAsInt(b);
@@ -74,10 +75,12 @@ public interface LBooleanToIntFunctionX<X extends Throwable> extends MetaFunctio
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default int shovingDoApplyAsInt(boolean b) {
 		return ((LBooleanToIntFunctionX<RuntimeException>) this).doApplyAsInt(b);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> int handlingDoApplyAsInt(boolean b, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -92,17 +95,18 @@ public interface LBooleanToIntFunctionX<X extends Throwable> extends MetaFunctio
 		return doApplyAsInt(b);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LBooleanToIntFunctionX.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LIntSupplierX<X> captureBoolToIFunc(boolean b) {
+	default LIntSupplierX<X> captureBoolToIntFunc(boolean b) {
 		return () -> this.doApplyAsInt(b);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LBooleanToIntFunctionX<X> constant(int r) {
 		return b -> r;
 	}
@@ -123,7 +127,7 @@ public interface LBooleanToIntFunctionX<X extends Throwable> extends MetaFunctio
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LBooleanToIntFunctionX<X> wrapX(final @Nonnull LBooleanToIntFunction other) {
 		return (LBooleanToIntFunctionX) other;
@@ -133,20 +137,16 @@ public interface LBooleanToIntFunctionX<X extends Throwable> extends MetaFunctio
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LBooleanToIntFunctionX<X> boolToIFuncFromBoolean(@Nonnull final LLogicalOperatorX<X> before1) {
+	default LBooleanToIntFunctionX<X> boolToIntFuncComposeBoolean(@Nonnull final LLogicalOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsInt(before1.doApply(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToIntFunctionX<V1, X> boolToIFuncFrom(@Nonnull final LPredicateX<? super V1, X> before1) {
+	default <V1> LToIntFunctionX<V1, X> boolToIntFuncCompose(@Nonnull final LPredicateX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsInt(before1.doTest(v1));
 	}
@@ -223,23 +223,23 @@ public interface LBooleanToIntFunctionX<X extends Throwable> extends MetaFunctio
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBooleanToIntFunction nestingBoolToIFunc() {
+	default LBooleanToIntFunction nestingBoolToIntFunc() {
 		return this::nestingDoApplyAsInt;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBooleanToIntFunctionX<RuntimeException> nestingBoolToIFuncX() {
+	default LBooleanToIntFunctionX<RuntimeException> nestingBoolToIntFuncX() {
 		return this::nestingDoApplyAsInt;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanToIntFunction shovingBoolToIFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBooleanToIntFunction shovingBoolToIntFunc() {
 		return this::shovingDoApplyAsInt;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBooleanToIntFunctionX<RuntimeException> shovingBoolToIFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBooleanToIntFunctionX<RuntimeException> shovingBoolToIntFuncX() {
 		return this::shovingDoApplyAsInt;
 	}
 
@@ -247,13 +247,15 @@ public interface LBooleanToIntFunctionX<X extends Throwable> extends MetaFunctio
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LBooleanToIntFunction handleBoolToIFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LBooleanToIntFunction handleBoolToIntFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return b -> this.handlingDoApplyAsInt(b, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LBooleanToIntFunctionX<Y> handleBoolToIFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LBooleanToIntFunctionX<Y> handleBoolToIntFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return b -> this.handlingDoApplyAsInt(b, handling);
 	}
 

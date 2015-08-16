@@ -65,15 +65,17 @@ public interface LTriConsumer<T1, T2, T3> extends LTriConsumerX<T1, T2, T3, Runt
 
 	void doAccept(T1 t1, T2 t2, T3 t3);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default void nestingDoAccept(T1 t1, T2 t2, T3 t3) {
 		this.doAccept(t1, t2, t3);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default void shovingDoAccept(T1 t1, T2 t2, T3 t3) {
 		this.doAccept(t1, t2, t3);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LTriConsumer.DESCRIPTION;
@@ -82,6 +84,24 @@ public interface LTriConsumer<T1, T2, T3> extends LTriConsumerX<T1, T2, T3, Runt
 	/** Captures arguments but delays the evaluation. */
 	default LAction captureTriCons(T1 t1, T2 t2, T3 t3) {
 		return () -> this.doAccept(t1, t2, t3);
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T1, T2, T3> LTriConsumer<T1, T2, T3> accept1st(@Nonnull LConsumer<T1> func) {
+		return (t1, t2, t3) -> func.doAccept(t1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T1, T2, T3> LTriConsumer<T1, T2, T3> accept2nd(@Nonnull LConsumer<T2> func) {
+		return (t1, t2, t3) -> func.doAccept(t2);
+	}
+
+	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
+	@Nonnull
+	static <T1, T2, T3> LTriConsumer<T1, T2, T3> accept3rd(@Nonnull LConsumer<T3> func) {
+		return (t1, t2, t3) -> func.doAccept(t3);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -93,7 +113,7 @@ public interface LTriConsumer<T1, T2, T3> extends LTriConsumerX<T1, T2, T3, Runt
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T1, T2, T3, X extends Throwable> LTriConsumer<T1, T2, T3> wrap(final @Nonnull LTriConsumerX<T1, T2, T3, X> other) {
 		return other::nestingDoAccept;
@@ -103,11 +123,9 @@ public interface LTriConsumer<T1, T2, T3> extends LTriConsumerX<T1, T2, T3, Runt
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2, V3> LTriConsumer<V1, V2, V3> triConsFrom(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LFunction<? super V3, ? extends T3> before3) {
+	default <V1, V2, V3> LTriConsumer<V1, V2, V3> triConsCompose(@Nonnull final LFunction<? super V1, ? extends T1> before1, @Nonnull final LFunction<? super V2, ? extends T2> before2, @Nonnull final LFunction<? super V3, ? extends T3> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
@@ -142,12 +160,12 @@ public interface LTriConsumer<T1, T2, T3> extends LTriConsumerX<T1, T2, T3, Runt
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LTriConsumer<T1, T2, T3> shovingTriCons() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LTriConsumerX<T1, T2, T3, RuntimeException> shovingTriConsX() {
 		return this;
 	}

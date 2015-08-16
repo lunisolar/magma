@@ -74,6 +74,7 @@ public interface LIntBinaryOperatorX<X extends Throwable> extends java.util.func
 
 	int doApplyAsInt(int i1, int i2) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default int nestingDoApplyAsInt(int i1, int i2) {
 		try {
 			return this.doApplyAsInt(i1, i2);
@@ -84,10 +85,12 @@ public interface LIntBinaryOperatorX<X extends Throwable> extends java.util.func
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default int shovingDoApplyAsInt(int i1, int i2) {
 		return ((LIntBinaryOperatorX<RuntimeException>) this).doApplyAsInt(i1, i2);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> int handlingDoApplyAsInt(int i1, int i2, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -102,19 +105,32 @@ public interface LIntBinaryOperatorX<X extends Throwable> extends java.util.func
 		return doApplyAsInt(i1, i2);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LIntBinaryOperatorX.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LIntSupplierX<X> captureIBinaryOp(int i1, int i2) {
+	default LIntSupplierX<X> captureIntBinaryOp(int i1, int i2) {
 		return () -> this.doApplyAsInt(i1, i2);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LIntBinaryOperatorX<X> constant(int r) {
 		return (i1, i2) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <X extends Throwable> LIntBinaryOperatorX<X> apply1stAsInt(@Nonnull LIntUnaryOperatorX<X> func) {
+		return (i1, i2) -> func.doApplyAsInt(i1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <X extends Throwable> LIntBinaryOperatorX<X> apply2ndAsInt(@Nonnull LIntUnaryOperatorX<X> func) {
+		return (i1, i2) -> func.doApplyAsInt(i2);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -139,17 +155,37 @@ public interface LIntBinaryOperatorX<X extends Throwable> extends java.util.func
 		return other::applyAsInt;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LIntBinaryOperatorX<X> wrapX(final @Nonnull LIntBinaryOperator other) {
 		return (LIntBinaryOperatorX) other;
 	}
 
 	// </editor-fold>
-	// <editor-fold desc="minmax/logical">
 
 	/**
-	 * @see {@link java.util.function.BinaryOperator#minBy()}
+	 * Creates function that returns the lesser value according to the comparator.
+	 * @see {@link java.util.function.BinaryOperator#minBy}
+	 */
+	@Nonnull
+	static <X extends Throwable> LIntBinaryOperatorX<X> minBy(@Nonnull Comparator<Integer> comparator) {
+		Null.nonNullArg(comparator, "comparator");
+		return (a, b) -> comparator.compare(a, b) <= 0 ? a : b;
+	}
+
+	/**
+	 * Creates function that returns the lesser value according to the comparator.
+	 * @see {@link java.util.function.BinaryOperator#maxBy}
+	 */
+	@Nonnull
+	static <X extends Throwable> LIntBinaryOperatorX<X> maxBy(@Nonnull Comparator<Integer> comparator) {
+		Null.nonNullArg(comparator, "comparator");
+		return (a, b) -> comparator.compare(a, b) >= 0 ? a : b;
+	}
+
+	/**
+	 * Returns function that returns the lower value.
+	 * @see {@link java.util.function.BinaryOperator#minBy}
 	 */
 	@Nonnull
 	static <X extends Throwable> LIntBinaryOperatorX<X> min() {
@@ -157,32 +193,27 @@ public interface LIntBinaryOperatorX<X extends Throwable> extends java.util.func
 	}
 
 	/**
-	 * @see {@link java.util.function.BinaryOperator#maxBy()}
+	 * Returns function that returns the higher value.
+	 * @see {@link java.util.function.BinaryOperator#maxBy}
 	 */
 	@Nonnull
 	static <X extends Throwable> LIntBinaryOperatorX<X> max() {
 		return Integer::max;
 	}
 
-	// </editor-fold>
-
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LIntBinaryOperatorX<X> iBinaryOpFromInt(@Nonnull final LIntUnaryOperatorX<X> before1, @Nonnull final LIntUnaryOperatorX<X> before2) {
+	default LIntBinaryOperatorX<X> intBinaryOpComposeInt(@Nonnull final LIntUnaryOperatorX<X> before1, @Nonnull final LIntUnaryOperatorX<X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final int v1, final int v2) -> this.doApplyAsInt(before1.doApplyAsInt(v1), before2.doApplyAsInt(v2));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LToIntBiFunctionX<V1, V2, X> iBinaryOpFrom(@Nonnull final LToIntFunctionX<? super V1, X> before1, @Nonnull final LToIntFunctionX<? super V2, X> before2) {
+	default <V1, V2> LToIntBiFunctionX<V1, V2, X> intBinaryOpCompose(@Nonnull final LToIntFunctionX<? super V1, X> before1, @Nonnull final LToIntFunctionX<? super V2, X> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApplyAsInt(before1.doApplyAsInt(v1), before2.doApplyAsInt(v2));
@@ -194,7 +225,7 @@ public interface LIntBinaryOperatorX<X extends Throwable> extends java.util.func
 
 	/** Combines two operators together in a order. */
 	@Nonnull
-	default <V> LIntBiFunctionX<V, X> then(@Nonnull LIntFunctionX<? extends V, X> after) {
+	default <V> LBiIntFunctionX<V, X> then(@Nonnull LIntFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (int i1, int i2) -> after.doApply(this.doApplyAsInt(i1, i2));
 	}
@@ -204,23 +235,23 @@ public interface LIntBinaryOperatorX<X extends Throwable> extends java.util.func
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntBinaryOperator nestingIBinaryOp() {
+	default LIntBinaryOperator nestingIntBinaryOp() {
 		return this::nestingDoApplyAsInt;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntBinaryOperatorX<RuntimeException> nestingIBinaryOpX() {
+	default LIntBinaryOperatorX<RuntimeException> nestingIntBinaryOpX() {
 		return this::nestingDoApplyAsInt;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntBinaryOperator shovingIBinaryOp() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntBinaryOperator shovingIntBinaryOp() {
 		return this::shovingDoApplyAsInt;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntBinaryOperatorX<RuntimeException> shovingIBinaryOpX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntBinaryOperatorX<RuntimeException> shovingIntBinaryOpX() {
 		return this::shovingDoApplyAsInt;
 	}
 
@@ -228,13 +259,15 @@ public interface LIntBinaryOperatorX<X extends Throwable> extends java.util.func
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LIntBinaryOperator handleIBinaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LIntBinaryOperator handleIntBinaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (int i1, int i2) -> this.handlingDoApplyAsInt(i1, i2, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LIntBinaryOperatorX<Y> handleIBinaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LIntBinaryOperatorX<Y> handleIntBinaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (int i1, int i2) -> this.handlingDoApplyAsInt(i1, i2, handling);
 	}
 

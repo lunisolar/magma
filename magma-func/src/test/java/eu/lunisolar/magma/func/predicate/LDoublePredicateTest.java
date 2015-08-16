@@ -210,7 +210,7 @@ public class LDoublePredicateTest<X extends ParseException> {
         });
 
         // when
-        LDoublePredicate wrapped = sutThrowing.handleDPred(handler -> handler
+        LDoublePredicate wrapped = sutThrowing.handleDoublePred(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -234,7 +234,7 @@ public class LDoublePredicateTest<X extends ParseException> {
         });
 
         // when
-        LDoublePredicate wrapped = sutThrowing.handleDPred(handler -> handler
+        LDoublePredicate wrapped = sutThrowing.handleDoublePred(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -258,7 +258,7 @@ public class LDoublePredicateTest<X extends ParseException> {
         });
 
         // when
-        LDoublePredicate wrapped = sutThrowing.handleDPred(handler -> handler
+        LDoublePredicate wrapped = sutThrowing.handleDoublePred(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -283,7 +283,7 @@ public class LDoublePredicateTest<X extends ParseException> {
         });
 
         // when
-        LDoublePredicate wrapped = sutThrowing.handleDPred(h -> Function4U.doNothing());
+        LDoublePredicate wrapped = sutThrowing.handleDoublePred(h -> Function4U.doNothing());
 
         // then
         try {
@@ -355,7 +355,7 @@ public class LDoublePredicateTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testdPredFromDouble() throws X {
+    public void testdoublePredComposeDouble() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -374,7 +374,7 @@ public class LDoublePredicateTest<X extends ParseException> {
         };
 
         //when
-        LDoublePredicate function = sutO.dPredFromDouble(before1);
+        LDoublePredicate function = sutO.doublePredComposeDouble(before1);
         function.doTest((double)80);
 
         //then - finals
@@ -384,7 +384,7 @@ public class LDoublePredicateTest<X extends ParseException> {
 
 
     @Test
-    public void testdPredFrom() throws X {
+    public void testdoublePredCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -403,7 +403,7 @@ public class LDoublePredicateTest<X extends ParseException> {
         };
 
         //when
-        LPredicate<Integer > function = sutO.dPredFrom(before1);
+        LPredicate<Integer > function = sutO.doublePredCompose(before1);
         function.doTest((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -735,28 +735,28 @@ public class LDoublePredicateTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nestingDPred())
+        assertThat(sut.nestingDoublePred())
             .isSameAs(sut)
             .isInstanceOf(LDoublePredicate.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shovingDPred())
+        assertThat(sut.shovingDoublePred())
             .isSameAs(sut)
             .isInstanceOf(LDoublePredicate.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestingDPredX())
+        assertThat(sut.nestingDoublePredX())
             .isSameAs(sut)
             .isInstanceOf(LDoublePredicateX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shovingDPredX())
+        assertThat(sut.shovingDoublePredX())
             .isSameAs(sut)
             .isInstanceOf(LDoublePredicateX.class);
     }
@@ -770,11 +770,11 @@ public class LDoublePredicateTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shovingDPred().doTest((double)100);
+        sutThrowing.shovingDoublePred().doTest((double)100);
     }
 
     @Test
-    public void testHandleDPred() throws X {
+    public void testHandleDoublePred() throws X {
 
         // given
         LDoublePredicate sutThrowing = LDoublePredicate.l(d -> {
@@ -782,7 +782,7 @@ public class LDoublePredicateTest<X extends ParseException> {
         });
 
         // when
-        LDoublePredicate wrapped = sutThrowing.handleDPred(h -> {
+        LDoublePredicate wrapped = sutThrowing.handleDoublePred(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 

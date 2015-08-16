@@ -50,10 +50,10 @@ public interface LDoubleToLongFunctionXAssert<S extends LDoubleToLongFunctionXAs
 	Evaluation<S, LDoubleConsumerX<Exception>, A, RS, Long, Exception> doesApplyAsLong(double d);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LDoubleToLongFunctionX<X>, RS extends AbstractLongAssert<RS>, X extends Throwable> extends Base<Impl<A, RS, X>, A, RS, X> {
+	public final static class The<A extends LDoubleToLongFunctionX<X>, RS extends AbstractLongAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
 
-		public Impl(A actual, java.util.function.Function<Long, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Long, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
@@ -72,7 +72,7 @@ public interface LDoubleToLongFunctionXAssert<S extends LDoubleToLongFunctionXAs
 		@Nonnull
 		public Evaluation<S, LDoubleConsumerX<Exception>, A, RS, Long, Exception> doesApplyAsLong(double d) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(d);
 				}

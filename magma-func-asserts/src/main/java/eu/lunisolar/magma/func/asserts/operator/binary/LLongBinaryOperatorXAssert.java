@@ -44,21 +44,21 @@ import static org.assertj.core.api.Fail.fail;
 public interface LLongBinaryOperatorXAssert<S extends LLongBinaryOperatorXAssert<S, A, RS, X>, A extends LLongBinaryOperatorX<X>, RS extends AbstractLongAssert<RS>, X extends Throwable>
 		extends
 			Assert<S, A>,
-			FullFunctionalAssert<S, LLongBiConsumerX<Exception>, A, RS, Long, Exception> {
+			FullFunctionalAssert<S, LBiLongConsumerX<Exception>, A, RS, Long, Exception> {
 
 	@Nonnull
-	Evaluation<S, LLongBiConsumerX<Exception>, A, RS, Long, Exception> doesApplyAsLong(long l1, long l2);
+	Evaluation<S, LBiLongConsumerX<Exception>, A, RS, Long, Exception> doesApplyAsLong(long l1, long l2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LLongBinaryOperatorX<X>, RS extends AbstractLongAssert<RS>, X extends Throwable> extends Base<Impl<A, RS, X>, A, RS, X> {
+	public final static class The<A extends LLongBinaryOperatorX<X>, RS extends AbstractLongAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
 
-		public Impl(A actual, java.util.function.Function<Long, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Long, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, X>, A extends LLongBinaryOperatorX<X>, RS extends AbstractLongAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, LLongBiConsumerX<Exception>, A, RS, Long, Exception>
+	public static class Base<S extends Base<S, A, RS, X>, A extends LLongBinaryOperatorX<X>, RS extends AbstractLongAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, LBiLongConsumerX<Exception>, A, RS, Long, Exception>
 			implements
 				LLongBinaryOperatorXAssert<S, A, RS, X> {
 
@@ -70,9 +70,9 @@ public interface LLongBinaryOperatorXAssert<S extends LLongBinaryOperatorXAssert
 		}
 
 		@Nonnull
-		public Evaluation<S, LLongBiConsumerX<Exception>, A, RS, Long, Exception> doesApplyAsLong(long l1, long l2) {
+		public Evaluation<S, LBiLongConsumerX<Exception>, A, RS, Long, Exception> doesApplyAsLong(long l1, long l2) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(l1, l2);
 				}

@@ -115,7 +115,7 @@ public class LObjBooleanFunctionBuilderTest<T,R,X extends Throwable>{
     public void testBuild() throws X {
 
         LObjBooleanFunction<Integer ,Integer > function = objBooleanFunction((LObjBooleanFunction<Integer ,Integer > f)-> doNothing())
-            .addCase(ce -> ce.of((t, b) -> t == Integer.valueOf(0))
+            .aCase(ce -> ce.of((t, b) -> t == Integer.valueOf(0))
                              .evaluate((t, b) -> Integer.valueOf(0)))
             .inCase((t, b) -> t > 0 && t < 10).evaluate((t, b) -> Integer.valueOf(1))
             .inCase((t, b) -> t > 10 && t < 20).evaluate((t, b) -> Integer.valueOf(2))

@@ -358,7 +358,7 @@ public class LLogicalBinaryOperatorTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testlogicalBinaryOpFromBoolean() throws X {
+    public void testlogicalBinaryOpComposeBoolean() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -383,7 +383,7 @@ public class LLogicalBinaryOperatorTest<X extends ParseException> {
         };
 
         //when
-        LLogicalBinaryOperator function = sutO.logicalBinaryOpFromBoolean(before1,before2);
+        LLogicalBinaryOperator function = sutO.logicalBinaryOpComposeBoolean(before1,before2);
         function.doApply(true,true);
 
         //then - finals
@@ -393,7 +393,7 @@ public class LLogicalBinaryOperatorTest<X extends ParseException> {
 
 
     @Test
-    public void testlogicalBinaryOpFrom() throws X {
+    public void testlogicalBinaryOpCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -418,7 +418,7 @@ public class LLogicalBinaryOperatorTest<X extends ParseException> {
         };
 
         //when
-        LBiPredicate<Integer ,Integer > function = sutO.logicalBinaryOpFrom(before1,before2);
+        LBiPredicate<Integer ,Integer > function = sutO.logicalBinaryOpCompose(before1,before2);
         function.doTest((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
@@ -455,7 +455,7 @@ public class LLogicalBinaryOperatorTest<X extends ParseException> {
         };
 
         //when
-        LBooleanBiFunction<Integer > function = sutO.then(thenFunction);
+        LBiBooleanFunction<Integer > function = sutO.then(thenFunction);
         Integer  finalValue = function.doApply(true,true);
 
         //then - finals

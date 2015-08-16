@@ -66,7 +66,7 @@ public final class LShortPredicateBuilder extends PerCaseBuilderWithBooleanProdu
 		});
 
 	public LShortPredicateBuilder(@Nullable Consumer<LShortPredicate> consumer) {
-		super(EVENTUALLY_THROW, LShortPredicate::constant);
+		super(EVENTUALLY_THROW, LShortPredicate::constant, () -> new LShortPredicateBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LShortPredicateBuilder extends PerCaseBuilderWithBooleanProdu
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final LShortPredicateBuilder shortPredicate() {
+	public static LShortPredicateBuilder shortPredicate() {
 		return new LShortPredicateBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final LShortPredicateBuilder shortPredicate(Consumer<LShortPredicate> consumer) {
+	public static LShortPredicateBuilder shortPredicate(Consumer<LShortPredicate> consumer) {
 		return new LShortPredicateBuilder(consumer);
 	}
 

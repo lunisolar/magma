@@ -117,7 +117,7 @@ public class LActionXBuilderTest<X extends Throwable>{
         final AtomicInteger externalInfluence = new AtomicInteger(0);
 
         LActionX<ParseException> function = actionX((LActionX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of(() -> externalInfluence.get() == Integer.valueOf(0))
+            .aCase(ce -> ce.of(() -> externalInfluence.get() == Integer.valueOf(0))
                              .evaluate(() -> externalEffect.set(0)))
             .inCase(() -> externalInfluence.get() > 0 && externalInfluence.get() < 10).evaluate(() -> externalEffect.set(1))
             .inCase(() -> externalInfluence.get() > 10 && externalInfluence.get() < 20).evaluate(() -> externalEffect.set(2))

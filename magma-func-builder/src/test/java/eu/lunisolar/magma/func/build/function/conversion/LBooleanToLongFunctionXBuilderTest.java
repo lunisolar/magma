@@ -115,7 +115,7 @@ public class LBooleanToLongFunctionXBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LBooleanToLongFunctionX<ParseException> function = booleanToLongFunctionX((LBooleanToLongFunctionX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of(b -> b == false)
+            .aCase(ce -> ce.of(b -> b == false)
                              .evaluate(b -> (long)0))
             .inCase(b -> b == true ).evaluate(b -> (long)1)
             .eventually(b -> (long)99)

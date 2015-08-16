@@ -41,21 +41,21 @@ import eu.lunisolar.magma.func.action.LAction;
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LBiIntPredicate. */
-public interface LBiIntPredicateAssert<S extends LBiIntPredicateAssert<S, A, RS>, A extends LBiIntPredicate, RS extends AbstractBooleanAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LIntBiConsumerX<Exception>, A, RS, Boolean, Exception> {
+public interface LBiIntPredicateAssert<S extends LBiIntPredicateAssert<S, A, RS>, A extends LBiIntPredicate, RS extends AbstractBooleanAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LBiIntConsumerX<Exception>, A, RS, Boolean, Exception> {
 
 	@Nonnull
-	Evaluation<S, LIntBiConsumerX<Exception>, A, RS, Boolean, Exception> doesTest(int i1, int i2);
+	Evaluation<S, LBiIntConsumerX<Exception>, A, RS, Boolean, Exception> doesTest(int i1, int i2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LBiIntPredicate, RS extends AbstractBooleanAssert<RS>> extends Base<Impl<A, RS>, A, RS> {
+	public final static class The<A extends LBiIntPredicate, RS extends AbstractBooleanAssert<RS>> extends Base<The<A, RS>, A, RS> {
 
-		public Impl(A actual, java.util.function.Function<Boolean, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Boolean, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS>, A extends LBiIntPredicate, RS extends AbstractBooleanAssert<RS>> extends FullFunctionalAssert.Base<S, LIntBiConsumerX<Exception>, A, RS, Boolean, Exception> implements LBiIntPredicateAssert<S, A, RS> {
+	public static class Base<S extends Base<S, A, RS>, A extends LBiIntPredicate, RS extends AbstractBooleanAssert<RS>> extends FullFunctionalAssert.Base<S, LBiIntConsumerX<Exception>, A, RS, Boolean, Exception> implements LBiIntPredicateAssert<S, A, RS> {
 
 		protected final java.util.function.Function<Boolean, RS> assertFactory;
 
@@ -65,9 +65,9 @@ public interface LBiIntPredicateAssert<S extends LBiIntPredicateAssert<S, A, RS>
 		}
 
 		@Nonnull
-		public Evaluation<S, LIntBiConsumerX<Exception>, A, RS, Boolean, Exception> doesTest(int i1, int i2) {
+		public Evaluation<S, LBiIntConsumerX<Exception>, A, RS, Boolean, Exception> doesTest(int i1, int i2) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(i1, i2);
 				}

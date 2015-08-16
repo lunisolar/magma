@@ -66,7 +66,7 @@ public final class LShortBinaryOperatorBuilder extends PerCaseBuilderWithShortPr
 		});
 
 	public LShortBinaryOperatorBuilder(@Nullable Consumer<LShortBinaryOperator> consumer) {
-		super(EVENTUALLY_THROW, LShortBinaryOperator::constant);
+		super(EVENTUALLY_THROW, LShortBinaryOperator::constant, () -> new LShortBinaryOperatorBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LShortBinaryOperatorBuilder extends PerCaseBuilderWithShortPr
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final LShortBinaryOperatorBuilder shortBinaryOperator() {
+	public static LShortBinaryOperatorBuilder shortBinaryOperator() {
 		return new LShortBinaryOperatorBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final LShortBinaryOperatorBuilder shortBinaryOperator(Consumer<LShortBinaryOperator> consumer) {
+	public static LShortBinaryOperatorBuilder shortBinaryOperator(Consumer<LShortBinaryOperator> consumer) {
 		return new LShortBinaryOperatorBuilder(consumer);
 	}
 

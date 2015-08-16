@@ -47,10 +47,10 @@ public interface LIntUnaryOperatorAssert<S extends LIntUnaryOperatorAssert<S, A,
 	Evaluation<S, LIntConsumerX<Exception>, A, RS, Integer, Exception> doesApplyAsInt(int i);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LIntUnaryOperator, RS extends AbstractIntegerAssert<RS>> extends Base<Impl<A, RS>, A, RS> {
+	public final static class The<A extends LIntUnaryOperator, RS extends AbstractIntegerAssert<RS>> extends Base<The<A, RS>, A, RS> {
 
-		public Impl(A actual, java.util.function.Function<Integer, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Integer, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
@@ -69,7 +69,7 @@ public interface LIntUnaryOperatorAssert<S extends LIntUnaryOperatorAssert<S, A,
 		@Nonnull
 		public Evaluation<S, LIntConsumerX<Exception>, A, RS, Integer, Exception> doesApplyAsInt(int i) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(i);
 				}

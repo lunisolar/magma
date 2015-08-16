@@ -115,7 +115,7 @@ public class LBiIntPredicateBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LBiIntPredicate function = biIntPredicate((LBiIntPredicate f)-> doNothing())
-            .addCase(ce -> ce.of((i1,i2) -> i1 == (int)0)
+            .aCase(ce -> ce.of((i1,i2) -> i1 == (int)0)
                              .evaluate((i1,i2) -> false))
             .inCase((i1,i2) -> i1 > 0 && i1 < 10).evaluate((i1,i2) -> true)
             .inCase((i1,i2) -> i1 > 10 && i1 < 20).evaluate((i1,i2) -> true)

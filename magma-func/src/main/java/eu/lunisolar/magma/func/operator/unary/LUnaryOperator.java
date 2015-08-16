@@ -62,23 +62,25 @@ public interface LUnaryOperator<T> extends LUnaryOperatorX<T, RuntimeException>,
 
 	static final String DESCRIPTION = "LUnaryOperator: T doApply(T t)";
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default T nestingDoApply(T t) {
 		return this.doApply(t);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default T shovingDoApply(T t) {
 		return this.doApply(t);
 	}
 
 	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
-	/** Ensures the result is not null */
+	/** Function call that ensures the result is not null */
 	@Nonnull
 	default T nonNullDoApply(T t) {
 		return Null.requireNonNull(doApply(t), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LUnaryOperator.DESCRIPTION;
@@ -89,6 +91,7 @@ public interface LUnaryOperator<T> extends LUnaryOperatorX<T, RuntimeException>,
 		return () -> this.doApply(t);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T> LUnaryOperator<T> constant(T r) {
 		return t -> r;
 	}
@@ -108,7 +111,7 @@ public interface LUnaryOperator<T> extends LUnaryOperatorX<T, RuntimeException>,
 		return other::apply;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T, X extends Throwable> LUnaryOperator<T> wrap(final @Nonnull LUnaryOperatorX<T, X> other) {
 		return other::nestingDoApply;
@@ -202,18 +205,19 @@ public interface LUnaryOperator<T> extends LUnaryOperatorX<T, RuntimeException>,
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LUnaryOperator<T> shovingUnaryOp() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LUnaryOperatorX<T, RuntimeException> shovingUnaryOpX() {
 		return this;
 	}
 
 	// </editor-fold>
 
+	/** Converts to function that makes sure that the result is not null. */
 	@Nonnull
 	default LUnaryOperator<T> nonNullUnaryOp() {
 		return this::nonNullDoApply;

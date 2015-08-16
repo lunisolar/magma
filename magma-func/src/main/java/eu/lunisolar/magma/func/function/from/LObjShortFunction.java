@@ -65,35 +65,50 @@ public interface LObjShortFunction<T, R> extends LObjShortFunctionX<T, R, Runtim
 	@Nullable
 	R doApply(T t, short s);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default R nestingDoApply(T t, short s) {
 		return this.doApply(t, s);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default R shovingDoApply(T t, short s) {
 		return this.doApply(t, s);
 	}
 
 	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
-	/** Ensures the result is not null */
+	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullDoApply(T t, short s) {
 		return Null.requireNonNull(doApply(t, s), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LObjShortFunction.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> captureObjSFunc(T t, short s) {
+	default LSupplier<R> captureObjShortFunc(T t, short s) {
 		return () -> this.doApply(t, s);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T, R> LObjShortFunction<T, R> constant(R r) {
 		return (t, s) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T, R> LObjShortFunction<T, R> apply1st(@Nonnull LFunction<T, R> func) {
+		return (t, s) -> func.doApply(t);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T, R> LObjShortFunction<T, R> apply2nd(@Nonnull LShortFunction<R> func) {
+		return (t, s) -> func.doApply(s);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -105,7 +120,7 @@ public interface LObjShortFunction<T, R> extends LObjShortFunctionX<T, R, Runtim
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T, R, X extends Throwable> LObjShortFunction<T, R> wrap(final @Nonnull LObjShortFunctionX<T, R, X> other) {
 		return other::nestingDoApply;
@@ -115,21 +130,17 @@ public interface LObjShortFunction<T, R> extends LObjShortFunctionX<T, R, Runtim
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LObjShortFunction<V1, R> objSFuncFromShort(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LShortUnaryOperator before2) {
+	default <V1> LObjShortFunction<V1, R> objShortFuncComposeShort(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LShortUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final short v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsShort(v2));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiFunction<V1, V2, R> objSFuncFrom(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToShortFunction<? super V2> before2) {
+	default <V1, V2> LBiFunction<V1, V2, R> objShortFuncCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToShortFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doApply(before1.doApply(v1), before2.doApplyAsShort(v2));
@@ -158,30 +169,31 @@ public interface LObjShortFunction<T, R> extends LObjShortFunctionX<T, R, Runtim
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjShortFunction<T, R> nestingObjSFunc() {
+	default LObjShortFunction<T, R> nestingObjShortFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjShortFunctionX<T, R, RuntimeException> nestingObjSFuncX() {
+	default LObjShortFunctionX<T, R, RuntimeException> nestingObjShortFuncX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjShortFunction<T, R> shovingObjSFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LObjShortFunction<T, R> shovingObjShortFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjShortFunctionX<T, R, RuntimeException> shovingObjSFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LObjShortFunctionX<T, R, RuntimeException> shovingObjShortFuncX() {
 		return this;
 	}
 
 	// </editor-fold>
 
+	/** Converts to function that makes sure that the result is not null. */
 	@Nonnull
-	default LObjShortFunction<T, R> nonNullObjSFunc() {
+	default LObjShortFunction<T, R> nonNullObjShortFunc() {
 		return this::nonNullDoApply;
 	}
 

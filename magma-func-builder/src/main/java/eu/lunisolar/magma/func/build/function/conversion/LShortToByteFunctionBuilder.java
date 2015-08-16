@@ -66,7 +66,7 @@ public final class LShortToByteFunctionBuilder extends PerCaseBuilderWithBytePro
 		});
 
 	public LShortToByteFunctionBuilder(@Nullable Consumer<LShortToByteFunction> consumer) {
-		super(EVENTUALLY_THROW, LShortToByteFunction::constant);
+		super(EVENTUALLY_THROW, LShortToByteFunction::constant, () -> new LShortToByteFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LShortToByteFunctionBuilder extends PerCaseBuilderWithBytePro
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final LShortToByteFunctionBuilder shortToByteFunction() {
+	public static LShortToByteFunctionBuilder shortToByteFunction() {
 		return new LShortToByteFunctionBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final LShortToByteFunctionBuilder shortToByteFunction(Consumer<LShortToByteFunction> consumer) {
+	public static LShortToByteFunctionBuilder shortToByteFunction(Consumer<LShortToByteFunction> consumer) {
 		return new LShortToByteFunctionBuilder(consumer);
 	}
 

@@ -329,7 +329,7 @@ public class LLongBinaryOperatorTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testlongBinaryOpFromLong() throws X {
+    public void testlongBinaryOpComposeLong() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -354,7 +354,7 @@ public class LLongBinaryOperatorTest<X extends ParseException> {
         };
 
         //when
-        LLongBinaryOperator function = sutO.longBinaryOpFromLong(before1,before2);
+        LLongBinaryOperator function = sutO.longBinaryOpComposeLong(before1,before2);
         function.doApplyAsLong((long)80,(long)81);
 
         //then - finals
@@ -364,7 +364,7 @@ public class LLongBinaryOperatorTest<X extends ParseException> {
 
 
     @Test
-    public void testlongBinaryOpFrom() throws X {
+    public void testlongBinaryOpCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -389,7 +389,7 @@ public class LLongBinaryOperatorTest<X extends ParseException> {
         };
 
         //when
-        LToLongBiFunction<Integer ,Integer > function = sutO.longBinaryOpFrom(before1,before2);
+        LToLongBiFunction<Integer ,Integer > function = sutO.longBinaryOpCompose(before1,before2);
         function.doApplyAsLong((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals
@@ -426,7 +426,7 @@ public class LLongBinaryOperatorTest<X extends ParseException> {
         };
 
         //when
-        LLongBiFunction<Integer > function = sutO.then(thenFunction);
+        LBiLongFunction<Integer > function = sutO.then(thenFunction);
         Integer  finalValue = function.doApply((long)80,(long)81);
 
         //then - finals

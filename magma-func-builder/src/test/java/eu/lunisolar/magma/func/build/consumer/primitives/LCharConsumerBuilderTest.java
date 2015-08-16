@@ -116,7 +116,7 @@ public class LCharConsumerBuilderTest<X extends Throwable>{
         final AtomicInteger externalEffect = new AtomicInteger(0);
 
         LCharConsumer function = charConsumer((LCharConsumer f)-> doNothing())
-            .addCase(ce -> ce.of(c -> c == (char)0)
+            .aCase(ce -> ce.of(c -> c == (char)0)
                              .evaluate(c -> externalEffect.set(0)))
             .inCase(c -> c > 0 && c < 10).evaluate(c -> externalEffect.set(1))
             .inCase(c -> c > 10 && c < 20).evaluate(c -> externalEffect.set(2))

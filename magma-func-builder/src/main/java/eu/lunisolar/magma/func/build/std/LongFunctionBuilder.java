@@ -65,7 +65,7 @@ public final class LongFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base
 		});
 
 	public LongFunctionBuilder(@Nullable Consumer<java.util.function.LongFunction<R>> consumer) {
-		super(EVENTUALLY_THROW, LLongFunction::constant);
+		super(EVENTUALLY_THROW, LLongFunction::constant, () -> new LongFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -77,13 +77,13 @@ public final class LongFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <R> LongFunctionBuilder<R> longFunction() {
+	public static <R> LongFunctionBuilder<R> longFunction() {
 		return new LongFunctionBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <R> LongFunctionBuilder<R> longFunction(Consumer<java.util.function.LongFunction<R>> consumer) {
+	public static <R> LongFunctionBuilder<R> longFunction(Consumer<java.util.function.LongFunction<R>> consumer) {
 		return new LongFunctionBuilder(consumer);
 	}
 

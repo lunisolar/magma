@@ -47,10 +47,10 @@ public interface LObjShortConsumerAssert<S extends LObjShortConsumerAssert<S, A,
 	SemiEvaluation<S, LObjShortConsumerX<T, Exception>, A, Exception> doesAccept(T t, short s);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LObjShortConsumer<T>, T> extends Base<Impl<A, T>, A, T> {
+	public final static class The<A extends LObjShortConsumer<T>, T> extends Base<The<A, T>, A, T> {
 
-		public Impl(A actual) {
-			super(actual, Impl.class);
+		public The(A actual) {
+			super(actual, The.class);
 		}
 	}
 
@@ -64,7 +64,7 @@ public interface LObjShortConsumerAssert<S extends LObjShortConsumerAssert<S, A,
 		@Nonnull
 		public SemiEvaluation<S, LObjShortConsumerX<T, Exception>, A, Exception> doesAccept(T t, short s) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(t, s);
 				}

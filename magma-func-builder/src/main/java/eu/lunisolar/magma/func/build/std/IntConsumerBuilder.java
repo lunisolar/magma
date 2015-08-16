@@ -65,7 +65,7 @@ public final class IntConsumerBuilder extends PerCaseBuilder.Base<IntConsumerBui
 		});
 
 	public IntConsumerBuilder(@Nullable Consumer<java.util.function.IntConsumer> consumer) {
-		super(EVENTUALLY_THROW);
+		super(EVENTUALLY_THROW, () -> new IntConsumerBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -77,13 +77,13 @@ public final class IntConsumerBuilder extends PerCaseBuilder.Base<IntConsumerBui
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final IntConsumerBuilder intConsumer() {
+	public static IntConsumerBuilder intConsumer() {
 		return new IntConsumerBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final IntConsumerBuilder intConsumer(Consumer<java.util.function.IntConsumer> consumer) {
+	public static IntConsumerBuilder intConsumer(Consumer<java.util.function.IntConsumer> consumer) {
 		return new IntConsumerBuilder(consumer);
 	}
 

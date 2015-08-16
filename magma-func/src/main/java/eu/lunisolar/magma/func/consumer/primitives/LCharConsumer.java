@@ -65,22 +65,24 @@ public interface LCharConsumer extends LCharConsumerX<RuntimeException>, MetaCon
 
 	void doAccept(char c);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default void nestingDoAccept(char c) {
 		this.doAccept(c);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default void shovingDoAccept(char c) {
 		this.doAccept(c);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LCharConsumer.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LAction captureCCons(char c) {
+	default LAction captureCharCons(char c) {
 		return () -> this.doAccept(c);
 	}
 
@@ -93,7 +95,7 @@ public interface LCharConsumer extends LCharConsumerX<RuntimeException>, MetaCon
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LCharConsumer wrap(final @Nonnull LCharConsumerX<X> other) {
 		return other::nestingDoAccept;
@@ -103,20 +105,16 @@ public interface LCharConsumer extends LCharConsumerX<RuntimeException>, MetaCon
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LCharConsumer cConsFromChar(@Nonnull final LCharUnaryOperator before1) {
+	default LCharConsumer charConsComposeChar(@Nonnull final LCharUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doApplyAsChar(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LConsumer<V1> cConsFrom(@Nonnull final LToCharFunction<? super V1> before1) {
+	default <V1> LConsumer<V1> charConsCompose(@Nonnull final LToCharFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doAccept(before1.doApplyAsChar(v1));
 	}
@@ -139,23 +137,23 @@ public interface LCharConsumer extends LCharConsumerX<RuntimeException>, MetaCon
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LCharConsumer nestingCCons() {
+	default LCharConsumer nestingCharCons() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LCharConsumerX<RuntimeException> nestingCConsX() {
+	default LCharConsumerX<RuntimeException> nestingCharConsX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharConsumer shovingCCons() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LCharConsumer shovingCharCons() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharConsumerX<RuntimeException> shovingCConsX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LCharConsumerX<RuntimeException> shovingCharConsX() {
 		return this;
 	}
 

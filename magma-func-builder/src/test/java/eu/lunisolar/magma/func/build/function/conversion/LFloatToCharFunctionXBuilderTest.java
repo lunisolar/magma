@@ -115,7 +115,7 @@ public class LFloatToCharFunctionXBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LFloatToCharFunctionX<ParseException> function = floatToCharFunctionX((LFloatToCharFunctionX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of(f -> f == (float)0)
+            .aCase(ce -> ce.of(f -> f == (float)0)
                              .evaluate(f -> (char)0))
             .inCase(f -> f > 0 && f < 10).evaluate(f -> (char)1)
             .inCase(f -> f > 10 && f < 20).evaluate(f -> (char)2)

@@ -66,7 +66,7 @@ public final class LByteBinaryOperatorXBuilder<X extends Throwable> extends PerC
 		});
 
 	public LByteBinaryOperatorXBuilder(@Nullable Consumer<LByteBinaryOperatorX<X>> consumer) {
-		super(EVENTUALLY_THROW, LByteBinaryOperatorX::constant);
+		super(EVENTUALLY_THROW, LByteBinaryOperatorX::constant, () -> new LByteBinaryOperatorXBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LByteBinaryOperatorXBuilder<X extends Throwable> extends PerC
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <X extends Throwable> LByteBinaryOperatorXBuilder<X> byteBinaryOperatorX() {
+	public static <X extends Throwable> LByteBinaryOperatorXBuilder<X> byteBinaryOperatorX() {
 		return new LByteBinaryOperatorXBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <X extends Throwable> LByteBinaryOperatorXBuilder<X> byteBinaryOperatorX(Consumer<LByteBinaryOperatorX<X>> consumer) {
+	public static <X extends Throwable> LByteBinaryOperatorXBuilder<X> byteBinaryOperatorX(Consumer<LByteBinaryOperatorX<X>> consumer) {
 		return new LByteBinaryOperatorXBuilder(consumer);
 	}
 

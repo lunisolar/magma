@@ -115,7 +115,7 @@ public class LLogicalOperatorBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LLogicalOperator function = logicalOperator((LLogicalOperator f)-> doNothing())
-            .addCase(ce -> ce.of(b -> b == false)
+            .aCase(ce -> ce.of(b -> b == false)
                              .evaluate(b -> false))
             .inCase(b -> b == true ).evaluate(b -> true)
             .eventually(b -> true)

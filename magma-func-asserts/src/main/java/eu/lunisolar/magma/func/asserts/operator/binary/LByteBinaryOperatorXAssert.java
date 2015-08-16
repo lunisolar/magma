@@ -44,21 +44,21 @@ import static org.assertj.core.api.Fail.fail;
 public interface LByteBinaryOperatorXAssert<S extends LByteBinaryOperatorXAssert<S, A, RS, X>, A extends LByteBinaryOperatorX<X>, RS extends AbstractByteAssert<RS>, X extends Throwable>
 		extends
 			Assert<S, A>,
-			FullFunctionalAssert<S, LByteBiConsumerX<Exception>, A, RS, Byte, Exception> {
+			FullFunctionalAssert<S, LBiByteConsumerX<Exception>, A, RS, Byte, Exception> {
 
 	@Nonnull
-	Evaluation<S, LByteBiConsumerX<Exception>, A, RS, Byte, Exception> doesApplyAsByte(byte b1, byte b2);
+	Evaluation<S, LBiByteConsumerX<Exception>, A, RS, Byte, Exception> doesApplyAsByte(byte b1, byte b2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LByteBinaryOperatorX<X>, RS extends AbstractByteAssert<RS>, X extends Throwable> extends Base<Impl<A, RS, X>, A, RS, X> {
+	public final static class The<A extends LByteBinaryOperatorX<X>, RS extends AbstractByteAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
 
-		public Impl(A actual, java.util.function.Function<Byte, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Byte, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, X>, A extends LByteBinaryOperatorX<X>, RS extends AbstractByteAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, LByteBiConsumerX<Exception>, A, RS, Byte, Exception>
+	public static class Base<S extends Base<S, A, RS, X>, A extends LByteBinaryOperatorX<X>, RS extends AbstractByteAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, LBiByteConsumerX<Exception>, A, RS, Byte, Exception>
 			implements
 				LByteBinaryOperatorXAssert<S, A, RS, X> {
 
@@ -70,9 +70,9 @@ public interface LByteBinaryOperatorXAssert<S extends LByteBinaryOperatorXAssert
 		}
 
 		@Nonnull
-		public Evaluation<S, LByteBiConsumerX<Exception>, A, RS, Byte, Exception> doesApplyAsByte(byte b1, byte b2) {
+		public Evaluation<S, LBiByteConsumerX<Exception>, A, RS, Byte, Exception> doesApplyAsByte(byte b1, byte b2) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(b1, b2);
 				}

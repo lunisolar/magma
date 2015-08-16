@@ -50,10 +50,10 @@ public interface LBiObjLongFunctionXAssert<S extends LBiObjLongFunctionXAssert<S
 	Evaluation<S, LBiObjLongConsumerX<T1, T2, Exception>, A, RS, R, Exception> doesApply(T1 t1, T2 t2, long l);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LBiObjLongFunctionX<T1, T2, R, X>, RS extends Assert<RS, R>, T1, T2, R, X extends Throwable> extends Base<Impl<A, RS, T1, T2, R, X>, A, RS, T1, T2, R, X> {
+	public final static class The<A extends LBiObjLongFunctionX<T1, T2, R, X>, RS extends Assert<RS, R>, T1, T2, R, X extends Throwable> extends Base<The<A, RS, T1, T2, R, X>, A, RS, T1, T2, R, X> {
 
-		public Impl(A actual, java.util.function.Function<R, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<R, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
@@ -72,7 +72,7 @@ public interface LBiObjLongFunctionXAssert<S extends LBiObjLongFunctionXAssert<S
 		@Nonnull
 		public Evaluation<S, LBiObjLongConsumerX<T1, T2, Exception>, A, RS, R, Exception> doesApply(T1 t1, T2 t2, long l) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(t1, t2, l);
 				}

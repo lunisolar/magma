@@ -47,10 +47,10 @@ public interface LByteFunctionAssert<S extends LByteFunctionAssert<S, A, RS, R>,
 	Evaluation<S, LByteConsumerX<Exception>, A, RS, R, Exception> doesApply(byte b);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LByteFunction<R>, RS extends Assert<RS, R>, R> extends Base<Impl<A, RS, R>, A, RS, R> {
+	public final static class The<A extends LByteFunction<R>, RS extends Assert<RS, R>, R> extends Base<The<A, RS, R>, A, RS, R> {
 
-		public Impl(A actual, java.util.function.Function<R, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<R, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
@@ -67,7 +67,7 @@ public interface LByteFunctionAssert<S extends LByteFunctionAssert<S, A, RS, R>,
 		@Nonnull
 		public Evaluation<S, LByteConsumerX<Exception>, A, RS, R, Exception> doesApply(byte b) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(b);
 				}

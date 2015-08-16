@@ -64,6 +64,7 @@ public interface LBiObjFloatPredicateX<T1, T2, X extends Throwable> extends Meta
 
 	boolean doTest(T1 t1, T2 t2, float f) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default boolean nestingDoTest(T1 t1, T2 t2, float f) {
 		try {
 			return this.doTest(t1, t2, f);
@@ -74,10 +75,12 @@ public interface LBiObjFloatPredicateX<T1, T2, X extends Throwable> extends Meta
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default boolean shovingDoTest(T1 t1, T2 t2, float f) {
 		return ((LBiObjFloatPredicateX<T1, T2, RuntimeException>) this).doTest(t1, t2, f);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> boolean handlingDoTest(T1 t1, T2 t2, float f, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -92,25 +95,44 @@ public interface LBiObjFloatPredicateX<T1, T2, X extends Throwable> extends Meta
 		return doTest(t1, t2, f);
 	}
 
-	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
+	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
 	default boolean doApplyAsBoolean(T1 t1, T2 t2, float f) throws X {
 		return doTest(t1, t2, f);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LBiObjFloatPredicateX.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> captureBiObjFPred(T1 t1, T2 t2, float f) {
+	default LBooleanSupplierX<X> captureBiObjFloatPred(T1 t1, T2 t2, float f) {
 		return () -> this.doTest(t1, t2, f);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T1, T2, X extends Throwable> LBiObjFloatPredicateX<T1, T2, X> constant(boolean r) {
 		return (t1, t2, f) -> r;
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T1, T2, X extends Throwable> LBiObjFloatPredicateX<T1, T2, X> test1st(@Nonnull LPredicateX<T1, X> func) {
+		return (t1, t2, f) -> func.doTest(t1);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T1, T2, X extends Throwable> LBiObjFloatPredicateX<T1, T2, X> test2nd(@Nonnull LPredicateX<T2, X> func) {
+		return (t1, t2, f) -> func.doTest(t2);
+	}
+
+	/** Captures single parameter function into this interface where only 3rd parameter will be used. */
+	@Nonnull
+	static <T1, T2, X extends Throwable> LBiObjFloatPredicateX<T1, T2, X> test3rd(@Nonnull LFloatPredicateX<X> func) {
+		return (t1, t2, f) -> func.doTest(f);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -129,7 +151,7 @@ public interface LBiObjFloatPredicateX<T1, T2, X extends Throwable> extends Meta
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T1, T2, X extends Throwable> LBiObjFloatPredicateX<T1, T2, X> wrapX(final @Nonnull LBiObjFloatPredicate<T1, T2> other) {
 		return (LBiObjFloatPredicateX) other;
@@ -139,7 +161,9 @@ public interface LBiObjFloatPredicateX<T1, T2, X extends Throwable> extends Meta
 	// <editor-fold desc="predicate">
 
 	/**
-	 *  @see {@link java.util.function.Predicate#negate()}
+	 * Returns a predicate that represents the logical negation of this predicate.
+	 *
+	 * @see {@link java.util.function.Predicate#negate}
 	 */
 	@Nonnull
 	default LBiObjFloatPredicateX<T1, T2, X> negate() {
@@ -147,7 +171,8 @@ public interface LBiObjFloatPredicateX<T1, T2, X extends Throwable> extends Meta
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#and()}
+	 * Returns a predicate that represents the logical AND of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#and()}
 	 */
 	@Nonnull
 	default LBiObjFloatPredicateX<T1, T2, X> and(@Nonnull LBiObjFloatPredicateX<? super T1, ? super T2, X> other) {
@@ -156,7 +181,8 @@ public interface LBiObjFloatPredicateX<T1, T2, X extends Throwable> extends Meta
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LBiObjFloatPredicateX<T1, T2, X> or(@Nonnull LBiObjFloatPredicateX<? super T1, ? super T2, X> other) {
@@ -165,7 +191,8 @@ public interface LBiObjFloatPredicateX<T1, T2, X extends Throwable> extends Meta
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical XOR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LBiObjFloatPredicateX<T1, T2, X> xor(@Nonnull LBiObjFloatPredicateX<? super T1, ? super T2, X> other) {
@@ -174,7 +201,8 @@ public interface LBiObjFloatPredicateX<T1, T2, X extends Throwable> extends Meta
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#isEqual()}
+	 * Creates predicate that evaluates if an object is equal with the argument one.
+	 * @see {@link java.util.function.Predicate#isEqual()
 	 */
 	@Nonnull
 	static <T1, T2, X extends Throwable> LBiObjFloatPredicateX<T1, T2, X> isEqual(final T1 v1, final T2 v2, final float v3) {
@@ -185,22 +213,19 @@ public interface LBiObjFloatPredicateX<T1, T2, X extends Throwable> extends Meta
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiObjFloatPredicateX<V1, V2, X> biObjFPredFromFloat(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LFloatUnaryOperatorX<X> before3) {
+	default <V1, V2> LBiObjFloatPredicateX<V1, V2, X> biObjFloatPredComposeFloat(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LFloatUnaryOperatorX<X> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
 		return (final V1 v1, final V2 v2, final float v3) -> this.doTest(before1.doApply(v1), before2.doApply(v2), before3.doApplyAsFloat(v3));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2, V3> LTriPredicateX<V1, V2, V3, X> biObjFPredFrom(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2, @Nonnull final LToFloatFunctionX<? super V3, X> before3) {
+	default <V1, V2, V3> LTriPredicateX<V1, V2, V3, X> biObjFloatPredCompose(@Nonnull final LFunctionX<? super V1, ? extends T1, X> before1, @Nonnull final LFunctionX<? super V2, ? extends T2, X> before2,
+			@Nonnull final LToFloatFunctionX<? super V3, X> before3) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		Null.nonNullArg(before3, "before3");
@@ -223,23 +248,23 @@ public interface LBiObjFloatPredicateX<T1, T2, X extends Throwable> extends Meta
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LBiObjFloatPredicate<T1, T2> nestingBiObjFPred() {
+	default LBiObjFloatPredicate<T1, T2> nestingBiObjFloatPred() {
 		return this::nestingDoTest;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LBiObjFloatPredicateX<T1, T2, RuntimeException> nestingBiObjFPredX() {
+	default LBiObjFloatPredicateX<T1, T2, RuntimeException> nestingBiObjFloatPredX() {
 		return this::nestingDoTest;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjFloatPredicate<T1, T2> shovingBiObjFPred() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBiObjFloatPredicate<T1, T2> shovingBiObjFloatPred() {
 		return this::shovingDoTest;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LBiObjFloatPredicateX<T1, T2, RuntimeException> shovingBiObjFPredX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LBiObjFloatPredicateX<T1, T2, RuntimeException> shovingBiObjFloatPredX() {
 		return this::shovingDoTest;
 	}
 
@@ -247,13 +272,15 @@ public interface LBiObjFloatPredicateX<T1, T2, X extends Throwable> extends Meta
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LBiObjFloatPredicate<T1, T2> handleBiObjFPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LBiObjFloatPredicate<T1, T2> handleBiObjFloatPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return (T1 t1, T2 t2, float f) -> this.handlingDoTest(t1, t2, f, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LBiObjFloatPredicateX<T1, T2, Y> handleBiObjFPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LBiObjFloatPredicateX<T1, T2, Y> handleBiObjFloatPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return (T1 t1, T2 t2, float f) -> this.handlingDoTest(t1, t2, f, handling);
 	}
 

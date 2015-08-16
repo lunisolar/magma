@@ -68,15 +68,17 @@ public interface LAction extends LActionX<RuntimeException>, MetaAction, MetaInt
 
 	void doExecute();
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default void nestingDoExecute() {
 		this.doExecute();
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default void shovingDoExecute() {
 		this.doExecute();
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LAction.DESCRIPTION;
@@ -97,7 +99,7 @@ public interface LAction extends LActionX<RuntimeException>, MetaAction, MetaInt
 		return other::run;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LAction wrap(final @Nonnull LActionX<X> other) {
 		return other::nestingDoExecute;
@@ -131,12 +133,12 @@ public interface LAction extends LActionX<RuntimeException>, MetaAction, MetaInt
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LAction shovingAct() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LActionX<RuntimeException> shovingActX() {
 		return this;
 	}

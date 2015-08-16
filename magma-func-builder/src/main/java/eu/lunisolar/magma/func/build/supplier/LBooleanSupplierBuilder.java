@@ -66,7 +66,7 @@ public final class LBooleanSupplierBuilder extends PerCaseBuilderWithBooleanProd
 		});
 
 	public LBooleanSupplierBuilder(@Nullable Consumer<LBooleanSupplier> consumer) {
-		super(EVENTUALLY_THROW, LBooleanSupplier::of);
+		super(EVENTUALLY_THROW, LBooleanSupplier::of, () -> new LBooleanSupplierBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LBooleanSupplierBuilder extends PerCaseBuilderWithBooleanProd
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final LBooleanSupplierBuilder booleanSupplier() {
+	public static LBooleanSupplierBuilder booleanSupplier() {
 		return new LBooleanSupplierBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final LBooleanSupplierBuilder booleanSupplier(Consumer<LBooleanSupplier> consumer) {
+	public static LBooleanSupplierBuilder booleanSupplier(Consumer<LBooleanSupplier> consumer) {
 		return new LBooleanSupplierBuilder(consumer);
 	}
 

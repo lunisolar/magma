@@ -64,10 +64,12 @@ public interface LToFloatFunction<T> extends LToFloatFunctionX<T, RuntimeExcepti
 
 	float doApplyAsFloat(T t);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default float nestingDoApplyAsFloat(T t) {
 		return this.doApplyAsFloat(t);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default float shovingDoApplyAsFloat(T t) {
 		return this.doApplyAsFloat(t);
 	}
@@ -77,17 +79,18 @@ public interface LToFloatFunction<T> extends LToFloatFunctionX<T, RuntimeExcepti
 		return doApplyAsFloat(t);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LToFloatFunction.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LFloatSupplier captureToFFunc(T t) {
+	default LFloatSupplier captureToFloatFunc(T t) {
 		return () -> this.doApplyAsFloat(t);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T> LToFloatFunction<T> constant(float r) {
 		return t -> r;
 	}
@@ -101,7 +104,7 @@ public interface LToFloatFunction<T> extends LToFloatFunctionX<T, RuntimeExcepti
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T, X extends Throwable> LToFloatFunction<T> wrap(final @Nonnull LToFloatFunctionX<T, X> other) {
 		return other::nestingDoApplyAsFloat;
@@ -111,11 +114,9 @@ public interface LToFloatFunction<T> extends LToFloatFunctionX<T, RuntimeExcepti
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToFloatFunction<V1> toFFuncFrom(@Nonnull final LFunction<? super V1, ? extends T> before1) {
+	default <V1> LToFloatFunction<V1> toFloatFuncCompose(@Nonnull final LFunction<? super V1, ? extends T> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsFloat(before1.doApply(v1));
 	}
@@ -192,23 +193,23 @@ public interface LToFloatFunction<T> extends LToFloatFunctionX<T, RuntimeExcepti
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LToFloatFunction<T> nestingToFFunc() {
+	default LToFloatFunction<T> nestingToFloatFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LToFloatFunctionX<T, RuntimeException> nestingToFFuncX() {
+	default LToFloatFunctionX<T, RuntimeException> nestingToFloatFuncX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToFloatFunction<T> shovingToFFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToFloatFunction<T> shovingToFloatFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LToFloatFunctionX<T, RuntimeException> shovingToFFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LToFloatFunctionX<T, RuntimeException> shovingToFloatFuncX() {
 		return this;
 	}
 

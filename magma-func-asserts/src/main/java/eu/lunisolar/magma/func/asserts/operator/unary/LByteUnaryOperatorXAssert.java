@@ -50,10 +50,10 @@ public interface LByteUnaryOperatorXAssert<S extends LByteUnaryOperatorXAssert<S
 	Evaluation<S, LByteConsumerX<Exception>, A, RS, Byte, Exception> doesApplyAsByte(byte b);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LByteUnaryOperatorX<X>, RS extends AbstractByteAssert<RS>, X extends Throwable> extends Base<Impl<A, RS, X>, A, RS, X> {
+	public final static class The<A extends LByteUnaryOperatorX<X>, RS extends AbstractByteAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
 
-		public Impl(A actual, java.util.function.Function<Byte, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Byte, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
@@ -72,7 +72,7 @@ public interface LByteUnaryOperatorXAssert<S extends LByteUnaryOperatorXAssert<S
 		@Nonnull
 		public Evaluation<S, LByteConsumerX<Exception>, A, RS, Byte, Exception> doesApplyAsByte(byte b) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(b);
 				}

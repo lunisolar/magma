@@ -64,6 +64,7 @@ public interface LCharSupplierX<X extends Throwable> extends MetaSupplier, Primi
 
 	char doGetAsChar() throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default char nestingDoGetAsChar() {
 		try {
 			return this.doGetAsChar();
@@ -74,10 +75,12 @@ public interface LCharSupplierX<X extends Throwable> extends MetaSupplier, Primi
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default char shovingDoGetAsChar() {
 		return ((LCharSupplierX<RuntimeException>) this).doGetAsChar();
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> char handlingDoGetAsChar(HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -92,12 +95,13 @@ public interface LCharSupplierX<X extends Throwable> extends MetaSupplier, Primi
 		return doGetAsChar();
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LCharSupplierX.DESCRIPTION;
 	}
 
+	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LCharSupplierX<X> of(char r) {
 		return () -> r;
 	}
@@ -118,7 +122,7 @@ public interface LCharSupplierX<X extends Throwable> extends MetaSupplier, Primi
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LCharSupplierX<X> wrapX(final @Nonnull LCharSupplier other) {
 		return (LCharSupplierX) other;
@@ -196,23 +200,23 @@ public interface LCharSupplierX<X extends Throwable> extends MetaSupplier, Primi
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LCharSupplier nestingCSup() {
+	default LCharSupplier nestingCharSup() {
 		return this::nestingDoGetAsChar;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LCharSupplierX<RuntimeException> nestingCSupX() {
+	default LCharSupplierX<RuntimeException> nestingCharSupX() {
 		return this::nestingDoGetAsChar;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharSupplier shovingCSup() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LCharSupplier shovingCharSup() {
 		return this::shovingDoGetAsChar;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharSupplierX<RuntimeException> shovingCSupX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LCharSupplierX<RuntimeException> shovingCharSupX() {
 		return this::shovingDoGetAsChar;
 	}
 
@@ -220,13 +224,15 @@ public interface LCharSupplierX<X extends Throwable> extends MetaSupplier, Primi
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LCharSupplier handleCSup(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LCharSupplier handleCharSup(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return () -> this.handlingDoGetAsChar(handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LCharSupplierX<Y> handleCSupX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LCharSupplierX<Y> handleCharSupX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return () -> this.handlingDoGetAsChar(handling);
 	}
 

@@ -44,21 +44,21 @@ import static org.assertj.core.api.Fail.fail;
 public interface LBiFloatPredicateAssert<S extends LBiFloatPredicateAssert<S, A, RS>, A extends LBiFloatPredicate, RS extends AbstractBooleanAssert<RS>>
 		extends
 			Assert<S, A>,
-			FullFunctionalAssert<S, LFloatBiConsumerX<Exception>, A, RS, Boolean, Exception> {
+			FullFunctionalAssert<S, LBiFloatConsumerX<Exception>, A, RS, Boolean, Exception> {
 
 	@Nonnull
-	Evaluation<S, LFloatBiConsumerX<Exception>, A, RS, Boolean, Exception> doesTest(float f1, float f2);
+	Evaluation<S, LBiFloatConsumerX<Exception>, A, RS, Boolean, Exception> doesTest(float f1, float f2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LBiFloatPredicate, RS extends AbstractBooleanAssert<RS>> extends Base<Impl<A, RS>, A, RS> {
+	public final static class The<A extends LBiFloatPredicate, RS extends AbstractBooleanAssert<RS>> extends Base<The<A, RS>, A, RS> {
 
-		public Impl(A actual, java.util.function.Function<Boolean, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Boolean, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS>, A extends LBiFloatPredicate, RS extends AbstractBooleanAssert<RS>> extends FullFunctionalAssert.Base<S, LFloatBiConsumerX<Exception>, A, RS, Boolean, Exception>
+	public static class Base<S extends Base<S, A, RS>, A extends LBiFloatPredicate, RS extends AbstractBooleanAssert<RS>> extends FullFunctionalAssert.Base<S, LBiFloatConsumerX<Exception>, A, RS, Boolean, Exception>
 			implements
 				LBiFloatPredicateAssert<S, A, RS> {
 
@@ -70,9 +70,9 @@ public interface LBiFloatPredicateAssert<S extends LBiFloatPredicateAssert<S, A,
 		}
 
 		@Nonnull
-		public Evaluation<S, LFloatBiConsumerX<Exception>, A, RS, Boolean, Exception> doesTest(float f1, float f2) {
+		public Evaluation<S, LBiFloatConsumerX<Exception>, A, RS, Boolean, Exception> doesTest(float f1, float f2) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(f1, f2);
 				}

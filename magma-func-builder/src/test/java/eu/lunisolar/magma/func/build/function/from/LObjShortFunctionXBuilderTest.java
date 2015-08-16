@@ -115,7 +115,7 @@ public class LObjShortFunctionXBuilderTest<T,R,X extends Throwable>{
     public void testBuild() throws X {
 
         LObjShortFunctionX<Integer ,Integer ,ParseException> function = objShortFunctionX((LObjShortFunctionX<Integer ,Integer ,ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((t, s) -> t == Integer.valueOf(0))
+            .aCase(ce -> ce.of((t, s) -> t == Integer.valueOf(0))
                              .evaluate((t, s) -> Integer.valueOf(0)))
             .inCase((t, s) -> t > 0 && t < 10).evaluate((t, s) -> Integer.valueOf(1))
             .inCase((t, s) -> t > 10 && t < 20).evaluate((t, s) -> Integer.valueOf(2))

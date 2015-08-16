@@ -347,7 +347,7 @@ public class LObjBooleanPredicateTest<T,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testobjBoolPredFromBoolean() throws X {
+    public void testobjBoolPredComposeBoolean() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -372,7 +372,7 @@ public class LObjBooleanPredicateTest<T,X extends ParseException> {
         };
 
         //when
-        LObjBooleanPredicate<Integer > function = sutO.objBoolPredFromBoolean(before1,before2);
+        LObjBooleanPredicate<Integer > function = sutO.objBoolPredComposeBoolean(before1,before2);
         function.doTest((Integer )Integer.valueOf(80),true);
 
         //then - finals
@@ -382,7 +382,7 @@ public class LObjBooleanPredicateTest<T,X extends ParseException> {
 
 
     @Test
-    public void testobjBoolPredFrom() throws X {
+    public void testobjBoolPredCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -407,7 +407,7 @@ public class LObjBooleanPredicateTest<T,X extends ParseException> {
         };
 
         //when
-        LBiPredicate<Integer ,Integer > function = sutO.objBoolPredFrom(before1,before2);
+        LBiPredicate<Integer ,Integer > function = sutO.objBoolPredCompose(before1,before2);
         function.doTest((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals

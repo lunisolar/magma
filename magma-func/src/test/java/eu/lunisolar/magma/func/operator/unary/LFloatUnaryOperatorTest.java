@@ -195,7 +195,7 @@ public class LFloatUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LFloatUnaryOperator wrapped = sutThrowing.handleFUnaryOp(handler -> handler
+        LFloatUnaryOperator wrapped = sutThrowing.handleFloatUnaryOp(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -219,7 +219,7 @@ public class LFloatUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LFloatUnaryOperator wrapped = sutThrowing.handleFUnaryOp(handler -> handler
+        LFloatUnaryOperator wrapped = sutThrowing.handleFloatUnaryOp(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -243,7 +243,7 @@ public class LFloatUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LFloatUnaryOperator wrapped = sutThrowing.handleFUnaryOp(handler -> handler
+        LFloatUnaryOperator wrapped = sutThrowing.handleFloatUnaryOp(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -268,7 +268,7 @@ public class LFloatUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LFloatUnaryOperator wrapped = sutThrowing.handleFUnaryOp(h -> Function4U.doNothing());
+        LFloatUnaryOperator wrapped = sutThrowing.handleFloatUnaryOp(h -> Function4U.doNothing());
 
         // then
         try {
@@ -287,7 +287,7 @@ public class LFloatUnaryOperatorTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testfUnaryOpFromFloat() throws X {
+    public void testfloatUnaryOpComposeFloat() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -306,7 +306,7 @@ public class LFloatUnaryOperatorTest<X extends ParseException> {
         };
 
         //when
-        LFloatUnaryOperator function = sutO.fUnaryOpFromFloat(before1);
+        LFloatUnaryOperator function = sutO.floatUnaryOpComposeFloat(before1);
         function.doApplyAsFloat((float)80);
 
         //then - finals
@@ -316,7 +316,7 @@ public class LFloatUnaryOperatorTest<X extends ParseException> {
 
 
     @Test
-    public void testfUnaryOpFrom() throws X {
+    public void testfloatUnaryOpCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -335,7 +335,7 @@ public class LFloatUnaryOperatorTest<X extends ParseException> {
         };
 
         //when
-        LToFloatFunction<Integer > function = sutO.fUnaryOpFrom(before1);
+        LToFloatFunction<Integer > function = sutO.floatUnaryOpCompose(before1);
         function.doApplyAsFloat((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -674,28 +674,28 @@ public class LFloatUnaryOperatorTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nestingFUnaryOp())
+        assertThat(sut.nestingFloatUnaryOp())
             .isSameAs(sut)
             .isInstanceOf(LFloatUnaryOperator.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shovingFUnaryOp())
+        assertThat(sut.shovingFloatUnaryOp())
             .isSameAs(sut)
             .isInstanceOf(LFloatUnaryOperator.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestingFUnaryOpX())
+        assertThat(sut.nestingFloatUnaryOpX())
             .isSameAs(sut)
             .isInstanceOf(LFloatUnaryOperatorX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shovingFUnaryOpX())
+        assertThat(sut.shovingFloatUnaryOpX())
             .isSameAs(sut)
             .isInstanceOf(LFloatUnaryOperatorX.class);
     }
@@ -709,11 +709,11 @@ public class LFloatUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shovingFUnaryOp().doApplyAsFloat((float)100);
+        sutThrowing.shovingFloatUnaryOp().doApplyAsFloat((float)100);
     }
 
     @Test
-    public void testHandleFUnaryOp() throws X {
+    public void testHandleFloatUnaryOp() throws X {
 
         // given
         LFloatUnaryOperator sutThrowing = LFloatUnaryOperator.l(f -> {
@@ -721,7 +721,7 @@ public class LFloatUnaryOperatorTest<X extends ParseException> {
         });
 
         // when
-        LFloatUnaryOperator wrapped = sutThrowing.handleFUnaryOp(h -> {
+        LFloatUnaryOperator wrapped = sutThrowing.handleFloatUnaryOp(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 

@@ -274,7 +274,7 @@ public class LObjBooleanConsumerTest<T,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testobjBoolConsFromBoolean() throws X {
+    public void testobjBoolConsComposeBoolean() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -298,7 +298,7 @@ public class LObjBooleanConsumerTest<T,X extends ParseException> {
         };
 
         //when
-        LObjBooleanConsumer<Integer > function = sutO.objBoolConsFromBoolean(before1,before2);
+        LObjBooleanConsumer<Integer > function = sutO.objBoolConsComposeBoolean(before1,before2);
         function.doAccept((Integer )Integer.valueOf(80),true);
 
         //then - finals
@@ -308,7 +308,7 @@ public class LObjBooleanConsumerTest<T,X extends ParseException> {
 
 
     @Test
-    public void testobjBoolConsFrom() throws X {
+    public void testobjBoolConsCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -332,7 +332,7 @@ public class LObjBooleanConsumerTest<T,X extends ParseException> {
         };
 
         //when
-        LBiConsumer<Integer ,Integer > function = sutO.objBoolConsFrom(before1,before2);
+        LBiConsumer<Integer ,Integer > function = sutO.objBoolConsCompose(before1,before2);
         function.doAccept((Integer )Integer.valueOf(80),(Integer )Integer.valueOf(81));
 
         //then - finals

@@ -75,23 +75,37 @@ public interface LObjIntConsumer<T> extends LObjIntConsumerX<T, RuntimeException
 
 	void doAccept(T t, int i);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default void nestingDoAccept(T t, int i) {
 		this.doAccept(t, i);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default void shovingDoAccept(T t, int i) {
 		this.doAccept(t, i);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LObjIntConsumer.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LAction captureObjICons(T t, int i) {
+	default LAction captureObjIntCons(T t, int i) {
 		return () -> this.doAccept(t, i);
+	}
+
+	/** Captures single parameter function into this interface where only 1st parameter will be used. */
+	@Nonnull
+	static <T> LObjIntConsumer<T> accept1st(@Nonnull LConsumer<T> func) {
+		return (t, i) -> func.doAccept(t);
+	}
+
+	/** Captures single parameter function into this interface where only 2nd parameter will be used. */
+	@Nonnull
+	static <T> LObjIntConsumer<T> accept2nd(@Nonnull LIntConsumer func) {
+		return (t, i) -> func.doAccept(i);
 	}
 
 	/** Convenient method in case lambda expression is ambiguous for the compiler (that might happen for overloaded methods accepting different interfaces). */
@@ -109,7 +123,7 @@ public interface LObjIntConsumer<T> extends LObjIntConsumerX<T, RuntimeException
 		return other::accept;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T, X extends Throwable> LObjIntConsumer<T> wrap(final @Nonnull LObjIntConsumerX<T, X> other) {
 		return other::nestingDoAccept;
@@ -119,21 +133,17 @@ public interface LObjIntConsumer<T> extends LObjIntConsumerX<T, RuntimeException
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LObjIntConsumer<V1> objIConsFromInt(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LIntUnaryOperator before2) {
+	default <V1> LObjIntConsumer<V1> objIntConsComposeInt(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LIntUnaryOperator before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (final V1 v1, final int v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsInt(v2));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1, V2> LBiConsumer<V1, V2> objIConsFrom(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToIntFunction<? super V2> before2) {
+	default <V1, V2> LBiConsumer<V1, V2> objIntConsCompose(@Nonnull final LFunction<? super V1, ? extends T> before1, @Nonnull final LToIntFunction<? super V2> before2) {
 		Null.nonNullArg(before1, "before1");
 		Null.nonNullArg(before2, "before2");
 		return (V1 v1, V2 v2) -> this.doAccept(before1.doApply(v1), before2.doApplyAsInt(v2));
@@ -157,23 +167,23 @@ public interface LObjIntConsumer<T> extends LObjIntConsumerX<T, RuntimeException
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LObjIntConsumer<T> nestingObjICons() {
+	default LObjIntConsumer<T> nestingObjIntCons() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LObjIntConsumerX<T, RuntimeException> nestingObjIConsX() {
+	default LObjIntConsumerX<T, RuntimeException> nestingObjIntConsX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjIntConsumer<T> shovingObjICons() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LObjIntConsumer<T> shovingObjIntCons() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LObjIntConsumerX<T, RuntimeException> shovingObjIConsX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LObjIntConsumerX<T, RuntimeException> shovingObjIntConsX() {
 		return this;
 	}
 

@@ -50,10 +50,10 @@ public interface LObjLongFunctionAssert<S extends LObjLongFunctionAssert<S, A, R
 	Evaluation<S, LObjLongConsumerX<T, Exception>, A, RS, R, Exception> doesApply(T t, long l);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LObjLongFunction<T, R>, RS extends Assert<RS, R>, T, R> extends Base<Impl<A, RS, T, R>, A, RS, T, R> {
+	public final static class The<A extends LObjLongFunction<T, R>, RS extends Assert<RS, R>, T, R> extends Base<The<A, RS, T, R>, A, RS, T, R> {
 
-		public Impl(A actual, java.util.function.Function<R, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<R, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
@@ -72,7 +72,7 @@ public interface LObjLongFunctionAssert<S extends LObjLongFunctionAssert<S, A, R
 		@Nonnull
 		public Evaluation<S, LObjLongConsumerX<T, Exception>, A, RS, R, Exception> doesApply(T t, long l) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(t, l);
 				}

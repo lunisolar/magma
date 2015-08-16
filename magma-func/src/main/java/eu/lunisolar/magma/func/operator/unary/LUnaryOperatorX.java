@@ -62,6 +62,7 @@ public interface LUnaryOperatorX<T, X extends Throwable> extends java.util.funct
 
 	static final String DESCRIPTION = "LUnaryOperatorX: T doApply(T t) throws X";
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default T nestingDoApply(T t) {
 		try {
 			return this.doApply(t);
@@ -72,10 +73,12 @@ public interface LUnaryOperatorX<T, X extends Throwable> extends java.util.funct
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default T shovingDoApply(T t) {
 		return ((LUnaryOperatorX<T, RuntimeException>) this).doApply(t);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> T handlingDoApply(T t, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -87,13 +90,13 @@ public interface LUnaryOperatorX<T, X extends Throwable> extends java.util.funct
 
 	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
-	/** Ensures the result is not null */
+	/** Function call that ensures the result is not null */
 	@Nonnull
 	default T nonNullDoApply(T t) throws X {
 		return Null.requireNonNull(doApply(t), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LUnaryOperatorX.DESCRIPTION;
@@ -104,6 +107,7 @@ public interface LUnaryOperatorX<T, X extends Throwable> extends java.util.funct
 		return () -> this.doApply(t);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <T, X extends Throwable> LUnaryOperatorX<T, X> constant(T r) {
 		return t -> r;
 	}
@@ -130,7 +134,7 @@ public interface LUnaryOperatorX<T, X extends Throwable> extends java.util.funct
 		return other::apply;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <T, X extends Throwable> LUnaryOperatorX<T, X> wrapX(final @Nonnull LUnaryOperator<T> other) {
 		return (LUnaryOperatorX) other;
@@ -224,18 +228,19 @@ public interface LUnaryOperatorX<T, X extends Throwable> extends java.util.funct
 		return this::nestingDoApply;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LUnaryOperator<T> shovingUnaryOp() {
 		return this::shovingDoApply;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
 	default LUnaryOperatorX<T, RuntimeException> shovingUnaryOpX() {
 		return this::shovingDoApply;
 	}
 
 	// </editor-fold>
 
+	/** Converts to function that makes sure that the result is not null. */
 	@Nonnull
 	default LUnaryOperatorX<T, X> nonNullUnaryOp() {
 		return this::nonNullDoApply;
@@ -243,11 +248,13 @@ public interface LUnaryOperatorX<T, X extends Throwable> extends java.util.funct
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default LUnaryOperator<T> handleUnaryOp(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return t -> this.handlingDoApply(t, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
 	default <Y extends Throwable> LUnaryOperatorX<T, Y> handleUnaryOpX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return t -> this.handlingDoApply(t, handling);

@@ -41,21 +41,21 @@ import eu.lunisolar.magma.func.action.LAction;
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LByteBinaryOperator. */
-public interface LByteBinaryOperatorAssert<S extends LByteBinaryOperatorAssert<S, A, RS>, A extends LByteBinaryOperator, RS extends AbstractByteAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LByteBiConsumerX<Exception>, A, RS, Byte, Exception> {
+public interface LByteBinaryOperatorAssert<S extends LByteBinaryOperatorAssert<S, A, RS>, A extends LByteBinaryOperator, RS extends AbstractByteAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LBiByteConsumerX<Exception>, A, RS, Byte, Exception> {
 
 	@Nonnull
-	Evaluation<S, LByteBiConsumerX<Exception>, A, RS, Byte, Exception> doesApplyAsByte(byte b1, byte b2);
+	Evaluation<S, LBiByteConsumerX<Exception>, A, RS, Byte, Exception> doesApplyAsByte(byte b1, byte b2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LByteBinaryOperator, RS extends AbstractByteAssert<RS>> extends Base<Impl<A, RS>, A, RS> {
+	public final static class The<A extends LByteBinaryOperator, RS extends AbstractByteAssert<RS>> extends Base<The<A, RS>, A, RS> {
 
-		public Impl(A actual, java.util.function.Function<Byte, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Byte, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS>, A extends LByteBinaryOperator, RS extends AbstractByteAssert<RS>> extends FullFunctionalAssert.Base<S, LByteBiConsumerX<Exception>, A, RS, Byte, Exception>
+	public static class Base<S extends Base<S, A, RS>, A extends LByteBinaryOperator, RS extends AbstractByteAssert<RS>> extends FullFunctionalAssert.Base<S, LBiByteConsumerX<Exception>, A, RS, Byte, Exception>
 			implements
 				LByteBinaryOperatorAssert<S, A, RS> {
 
@@ -67,9 +67,9 @@ public interface LByteBinaryOperatorAssert<S extends LByteBinaryOperatorAssert<S
 		}
 
 		@Nonnull
-		public Evaluation<S, LByteBiConsumerX<Exception>, A, RS, Byte, Exception> doesApplyAsByte(byte b1, byte b2) {
+		public Evaluation<S, LBiByteConsumerX<Exception>, A, RS, Byte, Exception> doesApplyAsByte(byte b1, byte b2) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(b1, b2);
 				}

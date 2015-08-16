@@ -184,7 +184,7 @@ public class LDoubleToCharFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LDoubleToCharFunctionX<X> wrapped = sutThrowing.handleDToCFuncX(handler -> handler
+        LDoubleToCharFunctionX<X> wrapped = sutThrowing.handleDoubleToCharFuncX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -208,7 +208,7 @@ public class LDoubleToCharFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LDoubleToCharFunctionX<X> wrapped = sutThrowing.handleDToCFuncX(handler -> handler
+        LDoubleToCharFunctionX<X> wrapped = sutThrowing.handleDoubleToCharFuncX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -232,7 +232,7 @@ public class LDoubleToCharFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LDoubleToCharFunctionX<X> wrapped = sutThrowing.handleDToCFuncX(handler -> handler
+        LDoubleToCharFunctionX<X> wrapped = sutThrowing.handleDoubleToCharFuncX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -257,7 +257,7 @@ public class LDoubleToCharFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LDoubleToCharFunctionX<X> wrapped = sutThrowing.handleDToCFuncX(h -> Function4U.doNothing());
+        LDoubleToCharFunctionX<X> wrapped = sutThrowing.handleDoubleToCharFuncX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -276,7 +276,7 @@ public class LDoubleToCharFunctionXTest<X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testdToCFuncFromDouble() throws X {
+    public void testdoubleToCharFuncComposeDouble() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -295,7 +295,7 @@ public class LDoubleToCharFunctionXTest<X extends ParseException> {
         };
 
         //when
-        LDoubleToCharFunctionX<X> function = sutO.dToCFuncFromDouble(before1);
+        LDoubleToCharFunctionX<X> function = sutO.doubleToCharFuncComposeDouble(before1);
         function.doApplyAsChar((double)80);
 
         //then - finals
@@ -305,7 +305,7 @@ public class LDoubleToCharFunctionXTest<X extends ParseException> {
 
 
     @Test
-    public void testdToCFuncFrom() throws X {
+    public void testdoubleToCharFuncCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -324,7 +324,7 @@ public class LDoubleToCharFunctionXTest<X extends ParseException> {
         };
 
         //when
-        LToCharFunctionX<Integer ,X> function = sutO.dToCFuncFrom(before1);
+        LToCharFunctionX<Integer ,X> function = sutO.doubleToCharFuncCompose(before1);
         function.doApplyAsChar((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -656,25 +656,25 @@ public class LDoubleToCharFunctionXTest<X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nestingDToCFunc())
+        assertThat(sut.nestingDoubleToCharFunc())
             .isInstanceOf(LDoubleToCharFunction.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shovingDToCFunc())
+        assertThat(sut.shovingDoubleToCharFunc())
             .isInstanceOf(LDoubleToCharFunction.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestingDToCFuncX())
+        assertThat(sut.nestingDoubleToCharFuncX())
             .isInstanceOf(LDoubleToCharFunctionX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shovingDToCFuncX())
+        assertThat(sut.shovingDoubleToCharFuncX())
             .isInstanceOf(LDoubleToCharFunctionX.class);
     }
 
@@ -687,11 +687,11 @@ public class LDoubleToCharFunctionXTest<X extends ParseException> {
         });
 
         // when
-        sutThrowing.shovingDToCFunc().doApplyAsChar((double)100);
+        sutThrowing.shovingDoubleToCharFunc().doApplyAsChar((double)100);
     }
 
     @Test
-    public void testHandleDToCFunc() throws X {
+    public void testHandleDoubleToCharFunc() throws X {
 
         // given
         LDoubleToCharFunctionX<X> sutThrowing = LDoubleToCharFunctionX.lX(d -> {
@@ -699,7 +699,7 @@ public class LDoubleToCharFunctionXTest<X extends ParseException> {
         });
 
         // when
-        LDoubleToCharFunctionX<X> wrapped = sutThrowing.handleDToCFuncX(h -> {
+        LDoubleToCharFunctionX<X> wrapped = sutThrowing.handleDoubleToCharFuncX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 

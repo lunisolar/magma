@@ -50,10 +50,10 @@ public interface LBiObjBooleanConsumerXAssert<S extends LBiObjBooleanConsumerXAs
 	SemiEvaluation<S, LBiObjBooleanConsumerX<T1, T2, Exception>, A, Exception> doesAccept(T1 t1, T2 t2, boolean b);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LBiObjBooleanConsumerX<T1, T2, X>, T1, T2, X extends Throwable> extends Base<Impl<A, T1, T2, X>, A, T1, T2, X> {
+	public final static class The<A extends LBiObjBooleanConsumerX<T1, T2, X>, T1, T2, X extends Throwable> extends Base<The<A, T1, T2, X>, A, T1, T2, X> {
 
-		public Impl(A actual) {
-			super(actual, Impl.class);
+		public The(A actual) {
+			super(actual, The.class);
 		}
 	}
 
@@ -69,7 +69,7 @@ public interface LBiObjBooleanConsumerXAssert<S extends LBiObjBooleanConsumerXAs
 		@Nonnull
 		public SemiEvaluation<S, LBiObjBooleanConsumerX<T1, T2, Exception>, A, Exception> doesAccept(T1 t1, T2 t2, boolean b) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(t1, t2, b);
 				}

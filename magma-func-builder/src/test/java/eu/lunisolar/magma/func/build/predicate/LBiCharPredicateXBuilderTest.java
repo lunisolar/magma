@@ -115,7 +115,7 @@ public class LBiCharPredicateXBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LBiCharPredicateX<ParseException> function = biCharPredicateX((LBiCharPredicateX<ParseException> f)-> doNothing())
-            .addCase(ce -> ce.of((c1,c2) -> c1 == (char)0)
+            .aCase(ce -> ce.of((c1,c2) -> c1 == (char)0)
                              .evaluate((c1,c2) -> false))
             .inCase((c1,c2) -> c1 > 0 && c1 < 10).evaluate((c1,c2) -> true)
             .inCase((c1,c2) -> c1 > 10 && c1 < 20).evaluate((c1,c2) -> true)

@@ -115,7 +115,7 @@ public class LTriPredicateBuilderTest<T1,T2,T3,X extends Throwable>{
     public void testBuild() throws X {
 
         LTriPredicate<Integer ,Integer ,Integer > function = triPredicate((LTriPredicate<Integer ,Integer ,Integer > f)-> doNothing())
-            .addCase(ce -> ce.of((t1,t2,t3) -> t1 == Integer.valueOf(0))
+            .aCase(ce -> ce.of((t1,t2,t3) -> t1 == Integer.valueOf(0))
                              .evaluate((t1,t2,t3) -> false))
             .inCase((t1,t2,t3) -> t1 > 0 && t1 < 10).evaluate((t1,t2,t3) -> true)
             .inCase((t1,t2,t3) -> t1 > 10 && t1 < 20).evaluate((t1,t2,t3) -> true)

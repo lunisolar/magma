@@ -115,7 +115,7 @@ public class LShortToFloatFunctionBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LShortToFloatFunction function = shortToFloatFunction((LShortToFloatFunction f)-> doNothing())
-            .addCase(ce -> ce.of(s -> s == (short)0)
+            .aCase(ce -> ce.of(s -> s == (short)0)
                              .evaluate(s -> (float)0))
             .inCase(s -> s > 0 && s < 10).evaluate(s -> (float)1)
             .inCase(s -> s > 10 && s < 20).evaluate(s -> (float)2)

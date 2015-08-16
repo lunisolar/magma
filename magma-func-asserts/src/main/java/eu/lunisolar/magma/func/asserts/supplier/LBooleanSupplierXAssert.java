@@ -50,10 +50,10 @@ public interface LBooleanSupplierXAssert<S extends LBooleanSupplierXAssert<S, A,
 	Evaluation<S, LActionX<Exception>, A, RS, Boolean, Exception> doesGetAsBoolean();
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LBooleanSupplierX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> extends Base<Impl<A, RS, X>, A, RS, X> {
+	public final static class The<A extends LBooleanSupplierX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
 
-		public Impl(A actual, java.util.function.Function<Boolean, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Boolean, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
@@ -72,7 +72,7 @@ public interface LBooleanSupplierXAssert<S extends LBooleanSupplierXAssert<S, A,
 		@Nonnull
 		public Evaluation<S, LActionX<Exception>, A, RS, Boolean, Exception> doesGetAsBoolean() {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doExecute();
 				}

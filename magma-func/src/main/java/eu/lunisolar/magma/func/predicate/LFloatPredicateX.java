@@ -64,6 +64,7 @@ public interface LFloatPredicateX<X extends Throwable> extends MetaPredicate, Pr
 
 	boolean doTest(float f) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default boolean nestingDoTest(float f) {
 		try {
 			return this.doTest(f);
@@ -74,10 +75,12 @@ public interface LFloatPredicateX<X extends Throwable> extends MetaPredicate, Pr
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default boolean shovingDoTest(float f) {
 		return ((LFloatPredicateX<RuntimeException>) this).doTest(f);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> boolean handlingDoTest(float f, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -92,23 +95,24 @@ public interface LFloatPredicateX<X extends Throwable> extends MetaPredicate, Pr
 		return doTest(f);
 	}
 
-	/** For convinience where "test()" makes things more confusing than "applyAsBoolean()". */
+	/** For convenience, where "test()" makes things more confusing than "applyAsBoolean()". */
 
 	default boolean doApplyAsBoolean(float f) throws X {
 		return doTest(f);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LFloatPredicateX.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> captureFPred(float f) {
+	default LBooleanSupplierX<X> captureFloatPred(float f) {
 		return () -> this.doTest(f);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LFloatPredicateX<X> constant(boolean r) {
 		return f -> r;
 	}
@@ -129,7 +133,7 @@ public interface LFloatPredicateX<X extends Throwable> extends MetaPredicate, Pr
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LFloatPredicateX<X> wrapX(final @Nonnull LFloatPredicate other) {
 		return (LFloatPredicateX) other;
@@ -139,7 +143,9 @@ public interface LFloatPredicateX<X extends Throwable> extends MetaPredicate, Pr
 	// <editor-fold desc="predicate">
 
 	/**
-	 *  @see {@link java.util.function.Predicate#negate()}
+	 * Returns a predicate that represents the logical negation of this predicate.
+	 *
+	 * @see {@link java.util.function.Predicate#negate}
 	 */
 	@Nonnull
 	default LFloatPredicateX<X> negate() {
@@ -147,7 +153,8 @@ public interface LFloatPredicateX<X extends Throwable> extends MetaPredicate, Pr
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#and()}
+	 * Returns a predicate that represents the logical AND of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#and()}
 	 */
 	@Nonnull
 	default LFloatPredicateX<X> and(@Nonnull LFloatPredicateX<X> other) {
@@ -156,7 +163,8 @@ public interface LFloatPredicateX<X extends Throwable> extends MetaPredicate, Pr
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical OR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LFloatPredicateX<X> or(@Nonnull LFloatPredicateX<X> other) {
@@ -165,7 +173,8 @@ public interface LFloatPredicateX<X extends Throwable> extends MetaPredicate, Pr
 	}
 
 	/**
-	 *  @see {@link java.util.function.Predicate#or()}
+	 * Returns a predicate that represents the logical XOR of evaluation of this predicate and the argument one.
+	 * @see {@link java.util.function.Predicate#or}
 	 */
 	@Nonnull
 	default LFloatPredicateX<X> xor(@Nonnull LFloatPredicateX<X> other) {
@@ -173,6 +182,10 @@ public interface LFloatPredicateX<X extends Throwable> extends MetaPredicate, Pr
 		return f -> doTest(f) ^ other.doTest(f);
 	}
 
+	/**
+	 * Creates predicate that evaluates if an object is equal with the argument one.
+	 * @see {@link java.util.function.Predicate#isEqual()
+	 */
 	@Nonnull
 	static <X extends Throwable> LFloatPredicateX<X> isEqual(float target) {
 		return f -> f == target;
@@ -182,20 +195,16 @@ public interface LFloatPredicateX<X extends Throwable> extends MetaPredicate, Pr
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LFloatPredicateX<X> fPredFromFloat(@Nonnull final LFloatUnaryOperatorX<X> before1) {
+	default LFloatPredicateX<X> floatPredComposeFloat(@Nonnull final LFloatUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doTest(before1.doApplyAsFloat(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LPredicateX<V1, X> fPredFrom(@Nonnull final LToFloatFunctionX<? super V1, X> before1) {
+	default <V1> LPredicateX<V1, X> floatPredCompose(@Nonnull final LToFloatFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doTest(before1.doApplyAsFloat(v1));
 	}
@@ -272,23 +281,23 @@ public interface LFloatPredicateX<X extends Throwable> extends MetaPredicate, Pr
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LFloatPredicate nestingFPred() {
+	default LFloatPredicate nestingFloatPred() {
 		return this::nestingDoTest;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LFloatPredicateX<RuntimeException> nestingFPredX() {
+	default LFloatPredicateX<RuntimeException> nestingFloatPredX() {
 		return this::nestingDoTest;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatPredicate shovingFPred() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LFloatPredicate shovingFloatPred() {
 		return this::shovingDoTest;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatPredicateX<RuntimeException> shovingFPredX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LFloatPredicateX<RuntimeException> shovingFloatPredX() {
 		return this::shovingDoTest;
 	}
 
@@ -296,13 +305,15 @@ public interface LFloatPredicateX<X extends Throwable> extends MetaPredicate, Pr
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LFloatPredicate handleFPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LFloatPredicate handleFloatPred(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return f -> this.handlingDoTest(f, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LFloatPredicateX<Y> handleFPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LFloatPredicateX<Y> handleFloatPredX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return f -> this.handlingDoTest(f, handling);
 	}
 

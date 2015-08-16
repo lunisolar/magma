@@ -47,10 +47,10 @@ public interface LActionXAssert<S extends LActionXAssert<S, A, X>, A extends LAc
 	SemiEvaluation<S, LActionX<Exception>, A, Exception> doesExecute();
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LActionX<X>, X extends Throwable> extends Base<Impl<A, X>, A, X> {
+	public final static class The<A extends LActionX<X>, X extends Throwable> extends Base<The<A, X>, A, X> {
 
-		public Impl(A actual) {
-			super(actual, Impl.class);
+		public The(A actual) {
+			super(actual, The.class);
 		}
 	}
 
@@ -64,7 +64,7 @@ public interface LActionXAssert<S extends LActionXAssert<S, A, X>, A extends LAc
 		@Nonnull
 		public SemiEvaluation<S, LActionX<Exception>, A, Exception> doesExecute() {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doExecute();
 				}

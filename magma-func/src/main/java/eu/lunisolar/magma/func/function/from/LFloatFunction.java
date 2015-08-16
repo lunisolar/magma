@@ -65,33 +65,36 @@ public interface LFloatFunction<R> extends LFloatFunctionX<R, RuntimeException>,
 	@Nullable
 	R doApply(float f);
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default R nestingDoApply(float f) {
 		return this.doApply(f);
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default R shovingDoApply(float f) {
 		return this.doApply(f);
 	}
 
 	static final LSupplier<String> NULL_VALUE_MESSAGE_SUPPLIER = () -> "Evaluated value by nonNullDoApply() method cannot be null (" + DESCRIPTION + ").";
 
-	/** Ensures the result is not null */
+	/** Function call that ensures the result is not null */
 	@Nonnull
 	default R nonNullDoApply(float f) {
 		return Null.requireNonNull(doApply(f), NULL_VALUE_MESSAGE_SUPPLIER);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LFloatFunction.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LSupplier<R> captureFFunc(float f) {
+	default LSupplier<R> captureFloatFunc(float f) {
 		return () -> this.doApply(f);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <R> LFloatFunction<R> constant(R r) {
 		return f -> r;
 	}
@@ -105,7 +108,7 @@ public interface LFloatFunction<R> extends LFloatFunctionX<R, RuntimeException>,
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <R, X extends Throwable> LFloatFunction<R> wrap(final @Nonnull LFloatFunctionX<R, X> other) {
 		return other::nestingDoApply;
@@ -115,20 +118,16 @@ public interface LFloatFunction<R> extends LFloatFunctionX<R, RuntimeException>,
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LFloatFunction<R> fFuncFromFloat(@Nonnull final LFloatUnaryOperator before1) {
+	default LFloatFunction<R> floatFuncComposeFloat(@Nonnull final LFloatUnaryOperator before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doApplyAsFloat(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LFunction<V1, R> fFuncFrom(@Nonnull final LToFloatFunction<? super V1> before1) {
+	default <V1> LFunction<V1, R> floatFuncCompose(@Nonnull final LToFloatFunction<? super V1> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApply(before1.doApplyAsFloat(v1));
 	}
@@ -212,30 +211,31 @@ public interface LFloatFunction<R> extends LFloatFunctionX<R, RuntimeException>,
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LFloatFunction<R> nestingFFunc() {
+	default LFloatFunction<R> nestingFloatFunc() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LFloatFunctionX<R, RuntimeException> nestingFFuncX() {
+	default LFloatFunctionX<R, RuntimeException> nestingFloatFuncX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatFunction<R> shovingFFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LFloatFunction<R> shovingFloatFunc() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LFloatFunctionX<R, RuntimeException> shovingFFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LFloatFunctionX<R, RuntimeException> shovingFloatFuncX() {
 		return this;
 	}
 
 	// </editor-fold>
 
+	/** Converts to function that makes sure that the result is not null. */
 	@Nonnull
-	default LFloatFunction<R> nonNullFFunc() {
+	default LFloatFunction<R> nonNullFloatFunc() {
 		return this::nonNullDoApply;
 	}
 

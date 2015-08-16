@@ -74,6 +74,7 @@ public interface LIntToLongFunctionX<X extends Throwable> extends java.util.func
 
 	long doApplyAsLong(int i) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default long nestingDoApplyAsLong(int i) {
 		try {
 			return this.doApplyAsLong(i);
@@ -84,10 +85,12 @@ public interface LIntToLongFunctionX<X extends Throwable> extends java.util.func
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default long shovingDoApplyAsLong(int i) {
 		return ((LIntToLongFunctionX<RuntimeException>) this).doApplyAsLong(i);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> long handlingDoApplyAsLong(int i, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -102,17 +105,18 @@ public interface LIntToLongFunctionX<X extends Throwable> extends java.util.func
 		return doApplyAsLong(i);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LIntToLongFunctionX.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LLongSupplierX<X> captureIToLongFunc(int i) {
+	default LLongSupplierX<X> captureIntToLongFunc(int i) {
 		return () -> this.doApplyAsLong(i);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LIntToLongFunctionX<X> constant(long r) {
 		return i -> r;
 	}
@@ -139,7 +143,7 @@ public interface LIntToLongFunctionX<X extends Throwable> extends java.util.func
 		return other::applyAsLong;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LIntToLongFunctionX<X> wrapX(final @Nonnull LIntToLongFunction other) {
 		return (LIntToLongFunctionX) other;
@@ -149,20 +153,16 @@ public interface LIntToLongFunctionX<X extends Throwable> extends java.util.func
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LIntToLongFunctionX<X> iToLongFuncFromInt(@Nonnull final LIntUnaryOperatorX<X> before1) {
+	default LIntToLongFunctionX<X> intToLongFuncComposeInt(@Nonnull final LIntUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsLong(before1.doApplyAsInt(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToLongFunctionX<V1, X> iToLongFuncFrom(@Nonnull final LToIntFunctionX<? super V1, X> before1) {
+	default <V1> LToLongFunctionX<V1, X> intToLongFuncCompose(@Nonnull final LToIntFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsLong(before1.doApplyAsInt(v1));
 	}
@@ -239,23 +239,23 @@ public interface LIntToLongFunctionX<X extends Throwable> extends java.util.func
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LIntToLongFunction nestingIToLongFunc() {
+	default LIntToLongFunction nestingIntToLongFunc() {
 		return this::nestingDoApplyAsLong;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LIntToLongFunctionX<RuntimeException> nestingIToLongFuncX() {
+	default LIntToLongFunctionX<RuntimeException> nestingIntToLongFuncX() {
 		return this::nestingDoApplyAsLong;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntToLongFunction shovingIToLongFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntToLongFunction shovingIntToLongFunc() {
 		return this::shovingDoApplyAsLong;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LIntToLongFunctionX<RuntimeException> shovingIToLongFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LIntToLongFunctionX<RuntimeException> shovingIntToLongFuncX() {
 		return this::shovingDoApplyAsLong;
 	}
 
@@ -263,13 +263,15 @@ public interface LIntToLongFunctionX<X extends Throwable> extends java.util.func
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LIntToLongFunction handleIToLongFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LIntToLongFunction handleIntToLongFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return i -> this.handlingDoApplyAsLong(i, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LIntToLongFunctionX<Y> handleIToLongFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LIntToLongFunctionX<Y> handleIntToLongFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return i -> this.handlingDoApplyAsLong(i, handling);
 	}
 

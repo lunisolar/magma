@@ -47,10 +47,10 @@ public interface LFunctionAssert<S extends LFunctionAssert<S, A, RS, T, R>, A ex
 	Evaluation<S, LConsumerX<T, Exception>, A, RS, R, Exception> doesApply(T t);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LFunction<T, R>, RS extends Assert<RS, R>, T, R> extends Base<Impl<A, RS, T, R>, A, RS, T, R> {
+	public final static class The<A extends LFunction<T, R>, RS extends Assert<RS, R>, T, R> extends Base<The<A, RS, T, R>, A, RS, T, R> {
 
-		public Impl(A actual, java.util.function.Function<R, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<R, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
@@ -67,7 +67,7 @@ public interface LFunctionAssert<S extends LFunctionAssert<S, A, RS, T, R>, A ex
 		@Nonnull
 		public Evaluation<S, LConsumerX<T, Exception>, A, RS, R, Exception> doesApply(T t) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(t);
 				}

@@ -192,7 +192,7 @@ public class LToIntFunctionXTest<T,X extends ParseException> {
         });
 
         // when
-        LToIntFunctionX<T,X> wrapped = sutThrowing.handleToIFuncX(handler -> handler
+        LToIntFunctionX<T,X> wrapped = sutThrowing.handleToIntFuncX(handler -> handler
             .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED));
 
         // then
@@ -216,7 +216,7 @@ public class LToIntFunctionXTest<T,X extends ParseException> {
         });
 
         // when
-        LToIntFunctionX<T,X> wrapped = sutThrowing.handleToIFuncX(handler -> handler
+        LToIntFunctionX<T,X> wrapped = sutThrowing.handleToIntFuncX(handler -> handler
                 .wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -240,7 +240,7 @@ public class LToIntFunctionXTest<T,X extends ParseException> {
         });
 
         // when
-        LToIntFunctionX<T,X> wrapped = sutThrowing.handleToIFuncX(handler -> handler
+        LToIntFunctionX<T,X> wrapped = sutThrowing.handleToIntFuncX(handler -> handler
                 .wrapWhen(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED)
                 .throwIf(IndexOutOfBoundsException.class));
 
@@ -265,7 +265,7 @@ public class LToIntFunctionXTest<T,X extends ParseException> {
         });
 
         // when
-        LToIntFunctionX<T,X> wrapped = sutThrowing.handleToIFuncX(h -> Function4U.doNothing());
+        LToIntFunctionX<T,X> wrapped = sutThrowing.handleToIntFuncX(h -> Function4U.doNothing());
 
         // then
         try {
@@ -284,7 +284,7 @@ public class LToIntFunctionXTest<T,X extends ParseException> {
     // <editor-fold desc="compose (functional)">
 
     @Test
-    public void testtoIFuncFrom() throws X {
+    public void testtoIntFuncCompose() throws X {
 
         final ThreadLocal<Boolean> mainFunctionCalled = ThreadLocal.withInitial(()-> false);
         final AtomicInteger beforeCalls = new AtomicInteger(0);
@@ -303,7 +303,7 @@ public class LToIntFunctionXTest<T,X extends ParseException> {
         };
 
         //when
-        LToIntFunctionX<Integer ,X> function = sutO.toIFuncFrom(before1);
+        LToIntFunctionX<Integer ,X> function = sutO.toIntFuncCompose(before1);
         function.doApplyAsInt((Integer )Integer.valueOf(80));
 
         //then - finals
@@ -635,25 +635,25 @@ public class LToIntFunctionXTest<T,X extends ParseException> {
 
     @Test
     public void testNesting() {
-        assertThat(sut.nestingToIFunc())
+        assertThat(sut.nestingToIntFunc())
             .isInstanceOf(LToIntFunction.class);
     }
 
     @Test
     public void testShoving() {
-        assertThat(sut.shovingToIFunc())
+        assertThat(sut.shovingToIntFunc())
             .isInstanceOf(LToIntFunction.class);
     }
 
     @Test
     public void testNestingX() {
-        assertThat(sut.nestingToIFuncX())
+        assertThat(sut.nestingToIntFuncX())
             .isInstanceOf(LToIntFunctionX.class);
     }
 
     @Test
     public void testShovingX() {
-        assertThat(sut.shovingToIFuncX())
+        assertThat(sut.shovingToIntFuncX())
             .isInstanceOf(LToIntFunctionX.class);
     }
 
@@ -666,11 +666,11 @@ public class LToIntFunctionXTest<T,X extends ParseException> {
         });
 
         // when
-        sutThrowing.shovingToIFunc().doApplyAsInt((T)Integer.valueOf(100));
+        sutThrowing.shovingToIntFunc().doApplyAsInt((T)Integer.valueOf(100));
     }
 
     @Test
-    public void testHandleToIFunc() throws X {
+    public void testHandleToIntFunc() throws X {
 
         // given
         LToIntFunctionX<T,X> sutThrowing = LToIntFunctionX.lX(t -> {
@@ -678,7 +678,7 @@ public class LToIntFunctionXTest<T,X extends ParseException> {
         });
 
         // when
-        LToIntFunctionX<T,X> wrapped = sutThrowing.handleToIFuncX(h -> {
+        LToIntFunctionX<T,X> wrapped = sutThrowing.handleToIntFuncX(h -> {
             h.wrapIf(UnsupportedOperationException.class::isInstance,IllegalArgumentException::new,  EXCEPTION_WAS_WRAPPED);
         });
 

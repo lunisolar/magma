@@ -115,7 +115,7 @@ public class LBiBytePredicateBuilderTest<X extends Throwable>{
     public void testBuild() throws X {
 
         LBiBytePredicate function = biBytePredicate((LBiBytePredicate f)-> doNothing())
-            .addCase(ce -> ce.of((b1,b2) -> b1 == (byte)0)
+            .aCase(ce -> ce.of((b1,b2) -> b1 == (byte)0)
                              .evaluate((b1,b2) -> false))
             .inCase((b1,b2) -> b1 > 0 && b1 < 10).evaluate((b1,b2) -> true)
             .inCase((b1,b2) -> b1 > 10 && b1 < 20).evaluate((b1,b2) -> true)

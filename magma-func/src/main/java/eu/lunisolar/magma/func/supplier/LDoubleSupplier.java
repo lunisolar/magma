@@ -74,10 +74,12 @@ public interface LDoubleSupplier extends LDoubleSupplierX<RuntimeException>, Met
 
 	double doGetAsDouble();
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default double nestingDoGetAsDouble() {
 		return this.doGetAsDouble();
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default double shovingDoGetAsDouble() {
 		return this.doGetAsDouble();
 	}
@@ -87,12 +89,13 @@ public interface LDoubleSupplier extends LDoubleSupplierX<RuntimeException>, Met
 		return doGetAsDouble();
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LDoubleSupplier.DESCRIPTION;
 	}
 
+	/** Creates function that always returns the same value. */
 	static LDoubleSupplier of(double r) {
 		return () -> r;
 	}
@@ -112,7 +115,7 @@ public interface LDoubleSupplier extends LDoubleSupplierX<RuntimeException>, Met
 		return other::getAsDouble;
 	}
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LDoubleSupplier wrap(final @Nonnull LDoubleSupplierX<X> other) {
 		return other::nestingDoGetAsDouble;
@@ -190,23 +193,23 @@ public interface LDoubleSupplier extends LDoubleSupplierX<RuntimeException>, Met
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LDoubleSupplier nestingDSup() {
+	default LDoubleSupplier nestingDoubleSup() {
 		return this;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LDoubleSupplierX<RuntimeException> nestingDSupX() {
+	default LDoubleSupplierX<RuntimeException> nestingDoubleSupX() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleSupplier shovingDSup() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoubleSupplier shovingDoubleSup() {
 		return this;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LDoubleSupplierX<RuntimeException> shovingDSupX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LDoubleSupplierX<RuntimeException> shovingDoubleSupX() {
 		return this;
 	}
 

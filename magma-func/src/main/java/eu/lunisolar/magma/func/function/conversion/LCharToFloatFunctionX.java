@@ -64,6 +64,7 @@ public interface LCharToFloatFunctionX<X extends Throwable> extends MetaFunction
 
 	float doApplyAsFloat(char c) throws X;
 
+	/** Function call that handles exceptions by always nesting checked exceptions and propagating the otheres as is. */
 	default float nestingDoApplyAsFloat(char c) {
 		try {
 			return this.doApplyAsFloat(c);
@@ -74,10 +75,12 @@ public interface LCharToFloatFunctionX<X extends Throwable> extends MetaFunction
 		}
 	}
 
+	/** Function call that handles exceptions by always propagating them as is even when they are undeclared checked ones. */
 	default float shovingDoApplyAsFloat(char c) {
 		return ((LCharToFloatFunctionX<RuntimeException>) this).doApplyAsFloat(c);
 	}
 
+	/** Function call that handles exceptions according to the instructions. */
 	default <Y extends Throwable> float handlingDoApplyAsFloat(char c, HandlingInstructions<Throwable, Y> handling) throws Y {
 
 		try {
@@ -92,17 +95,18 @@ public interface LCharToFloatFunctionX<X extends Throwable> extends MetaFunction
 		return doApplyAsFloat(c);
 	}
 
-	/** Returns desxription of the functional interface. */
+	/** Returns description of the functional interface. */
 	@Nonnull
 	default String functionalInterfaceDescription() {
 		return LCharToFloatFunctionX.DESCRIPTION;
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LFloatSupplierX<X> captureCToFFunc(char c) {
+	default LFloatSupplierX<X> captureCharToFloatFunc(char c) {
 		return () -> this.doApplyAsFloat(c);
 	}
 
+	/** Creates function that always returns the same value. */
 	static <X extends Throwable> LCharToFloatFunctionX<X> constant(float r) {
 		return c -> r;
 	}
@@ -123,7 +127,7 @@ public interface LCharToFloatFunctionX<X extends Throwable> extends MetaFunction
 
 	// <editor-fold desc="wrap">
 
-	/** Wraps opposite (throwing/non-throwing) instance. */
+	/** Wraps opposite (throwing vs non-throwing) instance. */
 	@Nonnull
 	static <X extends Throwable> LCharToFloatFunctionX<X> wrapX(final @Nonnull LCharToFloatFunction other) {
 		return (LCharToFloatFunctionX) other;
@@ -133,20 +137,16 @@ public interface LCharToFloatFunctionX<X extends Throwable> extends MetaFunction
 
 	// <editor-fold desc="compose (functional)">
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default LCharToFloatFunctionX<X> cToFFuncFromChar(@Nonnull final LCharUnaryOperatorX<X> before1) {
+	default LCharToFloatFunctionX<X> charToFloatFuncComposeChar(@Nonnull final LCharUnaryOperatorX<X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsFloat(before1.doApplyAsChar(v1));
 	}
 
-	/**
-	 * Allows to manipulate the domain of the function.
-	 */
+	/** Allows to manipulate the domain of the function. */
 	@Nonnull
-	default <V1> LToFloatFunctionX<V1, X> cToFFuncFrom(@Nonnull final LToCharFunctionX<? super V1, X> before1) {
+	default <V1> LToFloatFunctionX<V1, X> charToFloatFuncCompose(@Nonnull final LToCharFunctionX<? super V1, X> before1) {
 		Null.nonNullArg(before1, "before1");
 		return v1 -> this.doApplyAsFloat(before1.doApplyAsChar(v1));
 	}
@@ -223,23 +223,23 @@ public interface LCharToFloatFunctionX<X extends Throwable> extends MetaFunction
 
 	/** Converts to non-throwing variant (if required). */
 	@Nonnull
-	default LCharToFloatFunction nestingCToFFunc() {
+	default LCharToFloatFunction nestingCharToFloatFunc() {
 		return this::nestingDoApplyAsFloat;
 	}
 
 	/** Converts to throwing variant (RuntimeException). */
 	@Nonnull
-	default LCharToFloatFunctionX<RuntimeException> nestingCToFFuncX() {
+	default LCharToFloatFunctionX<RuntimeException> nestingCharToFloatFuncX() {
 		return this::nestingDoApplyAsFloat;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharToFloatFunction shovingCToFFunc() {
+	/** Converts to non-throwing variant that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LCharToFloatFunction shovingCharToFloatFunc() {
 		return this::shovingDoApplyAsFloat;
 	}
 
-	/** Dirty way, checked exception will propagate as it would be unchecked - there is no exception wrapping involved (at least not here). */
-	default LCharToFloatFunctionX<RuntimeException> shovingCToFFuncX() {
+	/** Converts to throwing variant (RuntimeException) that will propagate checked exception as it would be unchecked - there is no exception wrapping involved (at least not here). */
+	default LCharToFloatFunctionX<RuntimeException> shovingCharToFloatFuncX() {
 		return this::shovingDoApplyAsFloat;
 	}
 
@@ -247,13 +247,15 @@ public interface LCharToFloatFunctionX<X extends Throwable> extends MetaFunction
 
 	// <editor-fold desc="exception handling">
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default LCharToFloatFunction handleCToFFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
+	default LCharToFloatFunction handleCharToFloatFunc(@Nonnull HandlingInstructions<Throwable, RuntimeException> handling) {
 		return c -> this.handlingDoApplyAsFloat(c, handling);
 	}
 
+	/** Converts to function that handles exceptions according to the instructions. */
 	@Nonnull
-	default <Y extends Throwable> LCharToFloatFunctionX<Y> handleCToFFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
+	default <Y extends Throwable> LCharToFloatFunctionX<Y> handleCharToFloatFuncX(@Nonnull HandlingInstructions<Throwable, Y> handling) {
 		return c -> this.handlingDoApplyAsFloat(c, handling);
 	}
 

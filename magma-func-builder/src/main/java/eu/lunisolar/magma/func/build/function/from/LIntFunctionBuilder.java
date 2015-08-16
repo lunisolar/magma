@@ -66,7 +66,7 @@ public final class LIntFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base
 		});
 
 	public LIntFunctionBuilder(@Nullable Consumer<LIntFunction<R>> consumer) {
-		super(EVENTUALLY_THROW, LIntFunction::constant);
+		super(EVENTUALLY_THROW, LIntFunction::constant, () -> new LIntFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LIntFunctionBuilder<R> extends PerCaseBuilderWithProduct.Base
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final <R> LIntFunctionBuilder<R> intFunction() {
+	public static <R> LIntFunctionBuilder<R> intFunction() {
 		return new LIntFunctionBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final <R> LIntFunctionBuilder<R> intFunction(Consumer<LIntFunction<R>> consumer) {
+	public static <R> LIntFunctionBuilder<R> intFunction(Consumer<LIntFunction<R>> consumer) {
 		return new LIntFunctionBuilder(consumer);
 	}
 

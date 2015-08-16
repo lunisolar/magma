@@ -50,10 +50,10 @@ public interface LObjIntPredicateAssert<S extends LObjIntPredicateAssert<S, A, R
 	Evaluation<S, LObjIntConsumerX<T, Exception>, A, RS, Boolean, Exception> doesTest(T t, int i);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
-	public final static class Impl<A extends LObjIntPredicate<T>, RS extends AbstractBooleanAssert<RS>, T> extends Base<Impl<A, RS, T>, A, RS, T> {
+	public final static class The<A extends LObjIntPredicate<T>, RS extends AbstractBooleanAssert<RS>, T> extends Base<The<A, RS, T>, A, RS, T> {
 
-		public Impl(A actual, java.util.function.Function<Boolean, RS> assertFactory) {
-			super(actual, Impl.class, assertFactory);
+		public The(A actual, java.util.function.Function<Boolean, RS> assertFactory) {
+			super(actual, The.class, assertFactory);
 		}
 	}
 
@@ -72,7 +72,7 @@ public interface LObjIntPredicateAssert<S extends LObjIntPredicateAssert<S, A, R
 		@Nonnull
 		public Evaluation<S, LObjIntConsumerX<T, Exception>, A, RS, Boolean, Exception> doesTest(T t, int i) {
 
-			return evaluation((pc) -> {
+			return evaluation(pc -> {
 				if (pc != null) {
 					pc.doAccept(t, i);
 				}

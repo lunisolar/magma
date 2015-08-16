@@ -66,7 +66,7 @@ public final class LLongToIntFunctionBuilder extends PerCaseBuilderWithIntProduc
 		});
 
 	public LLongToIntFunctionBuilder(@Nullable Consumer<LLongToIntFunction> consumer) {
-		super(EVENTUALLY_THROW, LLongToIntFunction::constant);
+		super(EVENTUALLY_THROW, LLongToIntFunction::constant, () -> new LLongToIntFunctionBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -78,13 +78,13 @@ public final class LLongToIntFunctionBuilder extends PerCaseBuilderWithIntProduc
 
 	/** One of ways of creating builder. In most cases (considering all _functional_ builders) it requires to provide generic parameters (in most cases redundantly) */
 	@Nonnull
-	public static final LLongToIntFunctionBuilder longToIntFunction() {
+	public static LLongToIntFunctionBuilder longToIntFunction() {
 		return new LLongToIntFunctionBuilder();
 	}
 
 	/** One of ways of creating builder. This might be the only way (considering all _functional_ builders) that might be utilize to specify generic params only once. */
 	@Nonnull
-	public static final LLongToIntFunctionBuilder longToIntFunction(Consumer<LLongToIntFunction> consumer) {
+	public static LLongToIntFunctionBuilder longToIntFunction(Consumer<LLongToIntFunction> consumer) {
 		return new LLongToIntFunctionBuilder(consumer);
 	}
 
