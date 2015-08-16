@@ -45,13 +45,13 @@
                     <skip>true</skip>
                 </configuration>
             </plugin>
-            <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-release-plugin</artifactId>-->
-                <!--<configuration>-->
-                    <!--<mavenExecutorId>forked-path</mavenExecutorId>-->
-                <!--</configuration>-->
-            <!--</plugin>-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <configuration>
+                    <pushChanges>false</pushChanges>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
