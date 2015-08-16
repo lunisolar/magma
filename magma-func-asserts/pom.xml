@@ -7,7 +7,7 @@
     <parent>
         <groupId>eu.lunisolar.magma</groupId>
         <artifactId>magma-pom</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0</version>
         <relativePath>../magma-pom</relativePath>
     </parent>
 
@@ -15,7 +15,7 @@
     <artifactId>magma-func-asserts</artifactId>
     <name>${project.artifactId}</name>
     <packaging>jar</packaging>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 
     <properties>
 
@@ -25,6 +25,10 @@
         <dependency>
             <groupId>eu.lunisolar.magma</groupId>
             <artifactId>magma-func</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>eu.lunisolar.magma</groupId>
+            <artifactId>magma-basics-assert</artifactId>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>

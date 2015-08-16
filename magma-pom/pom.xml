@@ -7,13 +7,13 @@
     <parent>
         <groupId>eu.lunisolar</groupId>
         <artifactId>magma</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <groupId>eu.lunisolar.magma</groupId>
     <artifactId>magma-pom</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -60,23 +60,28 @@
             <dependency>
                 <groupId>eu.lunisolar.magma</groupId>
                 <artifactId>magma-basics</artifactId>
-                <version>1.0.0-SNAPSHOT</version>
+                <version>1.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>eu.lunisolar.magma</groupId>
+                <artifactId>magma-basics-assert</artifactId>
+                <version>1.0.0</version>
             </dependency>
             <dependency>
                 <groupId>eu.lunisolar.magma</groupId>
                 <artifactId>magma-func</artifactId>
-                <version>1.0.0-SNAPSHOT</version>
+                <version>1.0.0</version>
             </dependency>
             <dependency>
                 <groupId>eu.lunisolar.magma</groupId>
                 <artifactId>magma-func-asserts</artifactId>
-                <version>1.0.0-SNAPSHOT</version>
+                <version>1.0.0</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>eu.lunisolar.magma</groupId>
                 <artifactId>magma-func-builder</artifactId>
-                <version>1.0.0-SNAPSHOT</version>
+                <version>1.0.0</version>
             </dependency>
 
             <!--External dependencies-->
@@ -101,15 +106,7 @@
 
         </dependencies>
 
-
     </dependencyManagement>
-
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
 
     <build>
         <plugins>
@@ -149,43 +146,6 @@
 
     </build>
 
-
-    <profiles>
-        <profile>
-            <id>oss-deploy</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.sonatype.plugins</groupId>
-                        <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>1.6.6</version>
-                        <extensions>true</extensions>
-                        <configuration>
-                            <serverId>ossrh</serverId>
-                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                            <autoReleaseAfterClose>false</autoReleaseAfterClose>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.6</version>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-
-        </profile>
-
-    </profiles>
 
     <reporting>
         <plugins>
