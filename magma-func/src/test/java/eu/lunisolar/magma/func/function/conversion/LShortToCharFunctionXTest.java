@@ -736,5 +736,3 @@ public class LShortToCharFunctionXTest<X extends ParseException> {
 
 
 }
-
-

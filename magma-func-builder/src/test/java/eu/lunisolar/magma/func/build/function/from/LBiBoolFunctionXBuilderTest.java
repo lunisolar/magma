@@ -130,5 +130,3 @@ public class LBiBoolFunctionXBuilderTest<R,X extends Throwable>{
     }
 
 }
-
-

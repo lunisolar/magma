@@ -133,5 +133,3 @@ public class LToDoubleFunctionBuilderTest<T,X extends Throwable>{
     }
 
 }
-
-

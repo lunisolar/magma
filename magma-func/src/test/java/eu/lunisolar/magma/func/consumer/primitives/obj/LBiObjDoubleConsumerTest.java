@@ -471,5 +471,3 @@ public class LBiObjDoubleConsumerTest<T1,T2,X extends ParseException> {
 
 
 }
-
-

@@ -751,5 +751,3 @@ public class LCharToIntFunctionTest<X extends ParseException> {
 
 
 }
-
-

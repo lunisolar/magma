@@ -128,5 +128,3 @@ public class LTriBoolFunctionXAssertTest<R,X extends Throwable> {
     }
 
 }
-
-

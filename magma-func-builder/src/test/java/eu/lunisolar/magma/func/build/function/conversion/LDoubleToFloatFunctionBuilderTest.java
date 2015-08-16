@@ -133,5 +133,3 @@ public class LDoubleToFloatFunctionBuilderTest<X extends Throwable>{
     }
 
 }
-
-

@@ -133,5 +133,3 @@ public class LObjCharFunctionXBuilderTest<T,R,X extends Throwable>{
     }
 
 }
-
-

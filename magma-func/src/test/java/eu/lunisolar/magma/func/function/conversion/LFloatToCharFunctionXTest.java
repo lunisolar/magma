@@ -736,5 +736,3 @@ public class LFloatToCharFunctionXTest<X extends ParseException> {
 
 
 }
-
-

@@ -127,5 +127,3 @@ public class IntFunctionAssertTest<R,X extends Throwable> {
     }
 
 }
-
-

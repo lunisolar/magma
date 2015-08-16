@@ -529,5 +529,3 @@ public class LBiDoublePredicateXTest<X extends ParseException> {
 
 
 }
-
-

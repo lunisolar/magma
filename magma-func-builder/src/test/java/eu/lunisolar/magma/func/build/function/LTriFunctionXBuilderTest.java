@@ -133,5 +133,3 @@ public class LTriFunctionXBuilderTest<T1,T2,T3,R,X extends Throwable>{
     }
 
 }
-
-

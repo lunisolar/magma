@@ -133,5 +133,3 @@ public class LFloatToShortFunctionBuilderTest<X extends Throwable>{
     }
 
 }
-
-

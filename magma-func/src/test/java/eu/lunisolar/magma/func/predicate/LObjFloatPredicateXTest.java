@@ -529,5 +529,3 @@ public class LObjFloatPredicateXTest<T,X extends ParseException> {
 
 
 }
-
-

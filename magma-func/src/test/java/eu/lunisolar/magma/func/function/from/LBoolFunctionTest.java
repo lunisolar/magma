@@ -794,5 +794,3 @@ public class LBoolFunctionTest<R,X extends ParseException> {
 
 
 }
-
-

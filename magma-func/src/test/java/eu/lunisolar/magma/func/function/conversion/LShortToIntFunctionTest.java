@@ -751,5 +751,3 @@ public class LShortToIntFunctionTest<X extends ParseException> {
 
 
 }
-
-

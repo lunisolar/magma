@@ -133,5 +133,3 @@ public class LDoubleUnaryOperatorBuilderTest<X extends Throwable>{
     }
 
 }
-
-

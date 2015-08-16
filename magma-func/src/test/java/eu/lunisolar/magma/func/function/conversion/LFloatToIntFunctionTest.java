@@ -751,5 +751,3 @@ public class LFloatToIntFunctionTest<X extends ParseException> {
 
 
 }
-
-

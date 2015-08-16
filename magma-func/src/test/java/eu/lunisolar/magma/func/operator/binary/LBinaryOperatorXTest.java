@@ -414,5 +414,3 @@ public class LBinaryOperatorXTest<T,X extends ParseException> {
 
 
 }
-
-

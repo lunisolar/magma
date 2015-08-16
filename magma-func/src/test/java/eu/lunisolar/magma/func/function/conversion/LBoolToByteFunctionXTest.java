@@ -736,5 +736,3 @@ public class LBoolToByteFunctionXTest<X extends ParseException> {
 
 
 }
-
-

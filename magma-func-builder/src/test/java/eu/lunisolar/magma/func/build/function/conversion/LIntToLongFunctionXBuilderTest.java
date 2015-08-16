@@ -133,5 +133,3 @@ public class LIntToLongFunctionXBuilderTest<X extends Throwable>{
     }
 
 }
-
-

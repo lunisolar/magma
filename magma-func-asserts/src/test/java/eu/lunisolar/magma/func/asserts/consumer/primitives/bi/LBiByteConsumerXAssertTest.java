@@ -129,5 +129,3 @@ public class LBiByteConsumerXAssertTest<X extends Throwable> {
     }
 
 }
-
-

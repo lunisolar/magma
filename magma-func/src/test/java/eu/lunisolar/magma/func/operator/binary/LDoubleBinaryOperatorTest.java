@@ -526,5 +526,3 @@ public class LDoubleBinaryOperatorTest<X extends ParseException> {
 
 
 }
-
-

@@ -133,5 +133,3 @@ public class LBiByteFunctionXBuilderTest<R,X extends Throwable>{
     }
 
 }
-
-

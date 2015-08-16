@@ -133,5 +133,3 @@ public class LByteToCharFunctionBuilderTest<X extends Throwable>{
     }
 
 }
-
-

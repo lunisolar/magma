@@ -128,5 +128,3 @@ public class LCharUnaryOperatorXAssertTest<X extends Throwable> {
     }
 
 }
-
-

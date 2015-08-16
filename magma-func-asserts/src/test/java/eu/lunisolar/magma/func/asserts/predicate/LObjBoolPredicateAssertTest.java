@@ -128,5 +128,3 @@ public class LObjBoolPredicateAssertTest<T,X extends Throwable> {
     }
 
 }
-
-

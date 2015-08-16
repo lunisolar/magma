@@ -128,5 +128,3 @@ public class LBoolSupplierAssertTest<X extends Throwable> {
     }
 
 }
-
-

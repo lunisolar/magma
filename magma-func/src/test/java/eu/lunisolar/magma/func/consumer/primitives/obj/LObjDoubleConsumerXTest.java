@@ -450,5 +450,3 @@ public class LObjDoubleConsumerXTest<T,X extends ParseException> {
 
 
 }
-
-

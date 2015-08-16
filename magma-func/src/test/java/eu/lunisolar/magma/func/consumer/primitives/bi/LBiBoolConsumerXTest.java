@@ -442,5 +442,3 @@ public class LBiBoolConsumerXTest<X extends ParseException> {
 
 
 }
-
-

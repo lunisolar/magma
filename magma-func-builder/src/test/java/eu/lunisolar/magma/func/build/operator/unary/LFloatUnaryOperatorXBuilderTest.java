@@ -133,5 +133,3 @@ public class LFloatUnaryOperatorXBuilderTest<X extends Throwable>{
     }
 
 }
-
-

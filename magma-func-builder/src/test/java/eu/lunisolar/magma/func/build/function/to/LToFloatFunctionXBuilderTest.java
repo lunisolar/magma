@@ -133,5 +133,3 @@ public class LToFloatFunctionXBuilderTest<T,X extends Throwable>{
     }
 
 }
-
-

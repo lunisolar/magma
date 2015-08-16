@@ -133,5 +133,3 @@ public class LCharToDoubleFunctionBuilderTest<X extends Throwable>{
     }
 
 }
-
-

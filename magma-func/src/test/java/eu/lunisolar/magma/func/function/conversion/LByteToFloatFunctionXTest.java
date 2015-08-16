@@ -736,5 +736,3 @@ public class LByteToFloatFunctionXTest<X extends ParseException> {
 
 
 }
-
-

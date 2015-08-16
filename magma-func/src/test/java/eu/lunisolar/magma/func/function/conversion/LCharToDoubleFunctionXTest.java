@@ -736,5 +736,3 @@ public class LCharToDoubleFunctionXTest<X extends ParseException> {
 
 
 }
-
-

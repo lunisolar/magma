@@ -133,5 +133,3 @@ public class LBiObjDoubleFunctionBuilderTest<T1,T2,R,X extends Throwable>{
     }
 
 }
-
-

@@ -804,5 +804,3 @@ public class LLogicalOperatorTest<X extends ParseException> {
 
 
 }
-
-

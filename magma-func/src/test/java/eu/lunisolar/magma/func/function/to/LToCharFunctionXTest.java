@@ -707,5 +707,3 @@ public class LToCharFunctionXTest<T,X extends ParseException> {
 
 
 }
-
-

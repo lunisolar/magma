@@ -133,5 +133,3 @@ public class LIntToDoubleFunctionBuilderTest<X extends Throwable>{
     }
 
 }
-
-

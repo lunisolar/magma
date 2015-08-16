@@ -127,5 +127,3 @@ public class LongToIntFunctionAssertTest<X extends Throwable> {
     }
 
 }
-
-

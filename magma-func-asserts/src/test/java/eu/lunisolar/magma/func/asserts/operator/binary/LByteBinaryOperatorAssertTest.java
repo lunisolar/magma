@@ -128,5 +128,3 @@ public class LByteBinaryOperatorAssertTest<X extends Throwable> {
     }
 
 }
-
-

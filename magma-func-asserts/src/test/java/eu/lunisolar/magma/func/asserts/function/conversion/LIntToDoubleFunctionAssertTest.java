@@ -128,5 +128,3 @@ public class LIntToDoubleFunctionAssertTest<X extends Throwable> {
     }
 
 }
-
-

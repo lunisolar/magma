@@ -130,5 +130,3 @@ public class LBoolToIntFunctionXBuilderTest<X extends Throwable>{
     }
 
 }
-
-

@@ -133,5 +133,3 @@ public class LFloatToCharFunctionXBuilderTest<X extends Throwable>{
     }
 
 }
-
-

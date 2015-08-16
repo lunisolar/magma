@@ -128,5 +128,3 @@ public class LCharPredicateXAssertTest<X extends Throwable> {
     }
 
 }
-
-

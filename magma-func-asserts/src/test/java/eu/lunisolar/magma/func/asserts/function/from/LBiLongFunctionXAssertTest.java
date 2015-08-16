@@ -128,5 +128,3 @@ public class LBiLongFunctionXAssertTest<R,X extends Throwable> {
     }
 
 }
-
-

@@ -133,5 +133,3 @@ public class LFloatToByteFunctionXBuilderTest<X extends Throwable>{
     }
 
 }
-
-

@@ -133,5 +133,3 @@ public class LCharUnaryOperatorXBuilderTest<X extends Throwable>{
     }
 
 }
-
-

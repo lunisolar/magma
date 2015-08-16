@@ -779,5 +779,3 @@ public class LCharFunctionXTest<R,X extends ParseException> {
 
 
 }
-
-

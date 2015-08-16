@@ -128,5 +128,3 @@ public class LLongToByteFunctionAssertTest<X extends Throwable> {
     }
 
 }
-
-

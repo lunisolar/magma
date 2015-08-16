@@ -555,5 +555,3 @@ public class LLogicalBinaryOperatorTest<X extends ParseException> {
 
 
 }
-
-

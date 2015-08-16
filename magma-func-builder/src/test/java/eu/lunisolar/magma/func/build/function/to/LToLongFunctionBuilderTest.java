@@ -133,5 +133,3 @@ public class LToLongFunctionBuilderTest<T,X extends Throwable>{
     }
 
 }
-
-

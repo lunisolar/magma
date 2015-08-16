@@ -794,5 +794,3 @@ public class LByteFunctionTest<R,X extends ParseException> {
 
 
 }
-
-

@@ -129,5 +129,3 @@ public class LCharConsumerXAssertTest<X extends Throwable> {
     }
 
 }
-
-

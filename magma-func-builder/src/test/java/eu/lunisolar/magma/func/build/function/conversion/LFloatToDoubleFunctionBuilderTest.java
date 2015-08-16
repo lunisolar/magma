@@ -133,5 +133,3 @@ public class LFloatToDoubleFunctionBuilderTest<X extends Throwable>{
     }
 
 }
-
-

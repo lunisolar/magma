@@ -457,5 +457,3 @@ public class LBiCharConsumerTest<X extends ParseException> {
 
 
 }
-
-

@@ -131,5 +131,3 @@ public class LObjBoolPredicateBuilderTest<T,X extends Throwable>{
     }
 
 }
-
-

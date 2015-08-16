@@ -751,5 +751,3 @@ public class LShortToFloatFunctionTest<X extends ParseException> {
 
 
 }
-
-

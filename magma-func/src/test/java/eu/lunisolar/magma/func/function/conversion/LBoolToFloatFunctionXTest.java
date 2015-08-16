@@ -736,5 +736,3 @@ public class LBoolToFloatFunctionXTest<X extends ParseException> {
 
 
 }
-
-

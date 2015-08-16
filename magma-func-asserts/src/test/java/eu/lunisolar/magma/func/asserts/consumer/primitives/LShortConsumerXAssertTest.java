@@ -129,5 +129,3 @@ public class LShortConsumerXAssertTest<X extends Throwable> {
     }
 
 }
-
-

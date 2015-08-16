@@ -132,5 +132,3 @@ public class LLogicalBinaryOperatorBuilderTest<X extends Throwable>{
     }
 
 }
-
-

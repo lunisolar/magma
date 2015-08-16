@@ -730,5 +730,3 @@ public class LToDoubleFunctionTest<T,X extends ParseException> {
 
 
 }
-
-

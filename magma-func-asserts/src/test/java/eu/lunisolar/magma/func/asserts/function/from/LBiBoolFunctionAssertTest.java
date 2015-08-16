@@ -128,5 +128,3 @@ public class LBiBoolFunctionAssertTest<R,X extends Throwable> {
     }
 
 }
-
-

@@ -542,5 +542,3 @@ public class LBiObjShortPredicateXTest<T1,T2,X extends ParseException> {
 
 
 }
-
-

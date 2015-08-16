@@ -128,5 +128,3 @@ public class LFloatToByteFunctionXAssertTest<X extends Throwable> {
     }
 
 }
-
-

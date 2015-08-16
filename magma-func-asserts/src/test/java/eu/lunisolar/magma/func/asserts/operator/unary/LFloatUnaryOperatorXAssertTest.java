@@ -128,5 +128,3 @@ public class LFloatUnaryOperatorXAssertTest<X extends Throwable> {
     }
 
 }
-
-

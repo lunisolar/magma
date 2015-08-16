@@ -528,5 +528,3 @@ public class LBiLongFunctionTest<R,X extends ParseException> {
 
 
 }
-
-

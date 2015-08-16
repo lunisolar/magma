@@ -133,5 +133,3 @@ public class LBiFloatFunctionXBuilderTest<R,X extends Throwable>{
     }
 
 }
-
-

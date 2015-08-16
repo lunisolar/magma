@@ -544,5 +544,3 @@ public class LObjIntPredicateTest<T,X extends ParseException> {
 
 
 }
-
-

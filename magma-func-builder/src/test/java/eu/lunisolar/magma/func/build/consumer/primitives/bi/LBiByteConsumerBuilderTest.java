@@ -134,5 +134,3 @@ public class LBiByteConsumerBuilderTest<X extends Throwable>{
     }
 
 }
-
-

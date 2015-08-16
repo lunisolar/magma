@@ -736,5 +736,3 @@ public class LDoubleToFloatFunctionXTest<X extends ParseException> {
 
 
 }
-
-

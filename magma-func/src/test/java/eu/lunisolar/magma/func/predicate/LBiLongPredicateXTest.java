@@ -529,5 +529,3 @@ public class LBiLongPredicateXTest<X extends ParseException> {
 
 
 }
-
-

@@ -736,5 +736,3 @@ public class LBoolToCharFunctionXTest<X extends ParseException> {
 
 
 }
-
-

@@ -529,5 +529,3 @@ public class LBiBytePredicateXTest<X extends ParseException> {
 
 
 }
-
-

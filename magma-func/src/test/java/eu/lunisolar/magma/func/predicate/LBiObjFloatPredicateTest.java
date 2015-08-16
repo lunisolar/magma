@@ -557,5 +557,3 @@ public class LBiObjFloatPredicateTest<T1,T2,X extends ParseException> {
 
 
 }
-
-

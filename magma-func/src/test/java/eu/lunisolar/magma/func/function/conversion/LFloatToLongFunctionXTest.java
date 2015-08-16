@@ -736,5 +736,3 @@ public class LFloatToLongFunctionXTest<X extends ParseException> {
 
 
 }
-
-

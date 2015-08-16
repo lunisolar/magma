@@ -133,5 +133,3 @@ public class LObjFloatFunctionBuilderTest<T,R,X extends Throwable>{
     }
 
 }
-
-

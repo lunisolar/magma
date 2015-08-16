@@ -804,5 +804,3 @@ public class LIntPredicateXTest<X extends ParseException> {
 
 
 }
-
-

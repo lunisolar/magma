@@ -128,5 +128,3 @@ public class LToIntFunctionAssertTest<T,X extends Throwable> {
     }
 
 }
-
-

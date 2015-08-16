@@ -128,5 +128,3 @@ public class LIntBinaryOperatorXAssertTest<X extends Throwable> {
     }
 
 }
-
-

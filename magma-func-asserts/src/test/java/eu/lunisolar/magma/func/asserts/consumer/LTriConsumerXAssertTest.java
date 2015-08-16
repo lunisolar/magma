@@ -129,5 +129,3 @@ public class LTriConsumerXAssertTest<T1,T2,T3,X extends Throwable> {
     }
 
 }
-
-

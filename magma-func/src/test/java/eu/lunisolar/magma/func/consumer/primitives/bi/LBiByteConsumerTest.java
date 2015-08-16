@@ -457,5 +457,3 @@ public class LBiByteConsumerTest<X extends ParseException> {
 
 
 }
-
-

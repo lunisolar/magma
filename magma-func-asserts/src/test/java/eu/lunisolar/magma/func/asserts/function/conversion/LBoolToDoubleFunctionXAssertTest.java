@@ -128,5 +128,3 @@ public class LBoolToDoubleFunctionXAssertTest<X extends Throwable> {
     }
 
 }
-
-

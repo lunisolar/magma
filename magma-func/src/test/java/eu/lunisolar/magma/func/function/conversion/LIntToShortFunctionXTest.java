@@ -736,5 +736,3 @@ public class LIntToShortFunctionXTest<X extends ParseException> {
 
 
 }
-
-

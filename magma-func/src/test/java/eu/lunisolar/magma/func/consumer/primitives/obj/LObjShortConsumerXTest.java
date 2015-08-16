@@ -442,5 +442,3 @@ public class LObjShortConsumerXTest<T,X extends ParseException> {
 
 
 }
-
-

@@ -457,5 +457,3 @@ public class LBiDoubleConsumerTest<X extends ParseException> {
 
 
 }
-
-

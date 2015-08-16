@@ -188,9 +188,9 @@ public class Example_Collision_Test {
         }
     }
 
-    public static class MegaSupplier<T> implements LBooleanSupplier, LByteSupplier, LShortSupplier, LIntSupplier, LLongSupplier, LFloatSupplier, LDoubleSupplier, LCharSupplier, LSupplier<T> {
+    public static class MegaSupplier<T> implements LBoolSupplier, LByteSupplier, LShortSupplier, LIntSupplier, LLongSupplier, LFloatSupplier, LDoubleSupplier, LCharSupplier, LSupplier<T> {
 
-        @Override public boolean doGetAsBoolean() {
+        @Override public boolean doGetAsBool() {
             return false;
         }
 
@@ -232,9 +232,9 @@ public class Example_Collision_Test {
         }
     }
 
-    public static class MegaSupplierX<T, X extends Exception> implements LBooleanSupplierX<X>, LByteSupplierX<X>, LShortSupplierX<X>, LIntSupplierX<X>, LLongSupplierX<X>, LFloatSupplierX<X>, LDoubleSupplierX<X>, LCharSupplierX<X>, LSupplierX<T, X> {
+    public static class MegaSupplierX<T, X extends Exception> implements LBoolSupplierX<X>, LByteSupplierX<X>, LShortSupplierX<X>, LIntSupplierX<X>, LLongSupplierX<X>, LFloatSupplierX<X>, LDoubleSupplierX<X>, LCharSupplierX<X>, LSupplierX<T, X> {
 
-        @Override public boolean doGetAsBoolean() throws X {
+        @Override public boolean doGetAsBool() throws X {
             return false;
         }
 
@@ -276,7 +276,7 @@ public class Example_Collision_Test {
         }
     }
 
-    public static class MegaConsumer<T> implements LBooleanConsumer, LByteConsumer, LShortConsumer, LIntConsumer, LLongConsumer, LFloatConsumer, LDoubleConsumer, LCharConsumer, LConsumer<T> {
+    public static class MegaConsumer<T> implements LBoolConsumer, LByteConsumer, LShortConsumer, LIntConsumer, LLongConsumer, LFloatConsumer, LDoubleConsumer, LCharConsumer, LConsumer<T> {
 
         @Override public void doAccept(boolean b) {
 
@@ -320,7 +320,7 @@ public class Example_Collision_Test {
         }
     }
 
-    public static class MegaConsumerX<T, X extends Exception> implements LBooleanConsumerX<X>, LByteConsumerX<X>, LShortConsumerX<X>, LIntConsumerX<X>, LLongConsumerX<X>, LFloatConsumerX<X>, LDoubleConsumerX<X>, LCharConsumerX<X>, LConsumerX<T, X> {
+    public static class MegaConsumerX<T, X extends Exception> implements LBoolConsumerX<X>, LByteConsumerX<X>, LShortConsumerX<X>, LIntConsumerX<X>, LLongConsumerX<X>, LFloatConsumerX<X>, LDoubleConsumerX<X>, LCharConsumerX<X>, LConsumerX<T, X> {
 
         @Override public void doAccept(boolean b) throws X {
 

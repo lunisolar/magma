@@ -133,5 +133,3 @@ public class LCharToShortFunctionXBuilderTest<X extends Throwable>{
     }
 
 }
-
-

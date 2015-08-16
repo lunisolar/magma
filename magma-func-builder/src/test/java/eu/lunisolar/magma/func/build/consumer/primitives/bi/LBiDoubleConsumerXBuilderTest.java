@@ -134,5 +134,3 @@ public class LBiDoubleConsumerXBuilderTest<X extends Throwable>{
     }
 
 }
-
-

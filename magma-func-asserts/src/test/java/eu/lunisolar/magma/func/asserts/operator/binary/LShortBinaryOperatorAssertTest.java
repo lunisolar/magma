@@ -128,5 +128,3 @@ public class LShortBinaryOperatorAssertTest<X extends Throwable> {
     }
 
 }
-
-

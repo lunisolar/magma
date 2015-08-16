@@ -133,5 +133,3 @@ public class LShortPredicateXBuilderTest<X extends Throwable>{
     }
 
 }
-
-

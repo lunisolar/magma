@@ -790,5 +790,3 @@ public class LPredicateTest<T,X extends ParseException> {
 
 
 }
-
-

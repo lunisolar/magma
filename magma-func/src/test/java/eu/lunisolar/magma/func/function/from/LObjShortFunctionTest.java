@@ -528,5 +528,3 @@ public class LObjShortFunctionTest<T,R,X extends ParseException> {
 
 
 }
-
-

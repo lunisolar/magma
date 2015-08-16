@@ -128,5 +128,3 @@ public class LDoubleToByteFunctionXAssertTest<X extends Throwable> {
     }
 
 }
-
-

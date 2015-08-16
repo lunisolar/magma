@@ -132,5 +132,3 @@ public class LBoolSupplierBuilderTest<X extends Throwable>{
     }
 
 }
-
-

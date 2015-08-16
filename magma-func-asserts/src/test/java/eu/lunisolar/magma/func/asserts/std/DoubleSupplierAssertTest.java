@@ -127,5 +127,3 @@ public class DoubleSupplierAssertTest<X extends Throwable> {
     }
 
 }
-
-

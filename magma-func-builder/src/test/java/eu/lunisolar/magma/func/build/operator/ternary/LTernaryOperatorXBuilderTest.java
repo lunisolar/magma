@@ -133,5 +133,3 @@ public class LTernaryOperatorXBuilderTest<T,X extends Throwable>{
     }
 
 }
-
-

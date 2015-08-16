@@ -787,5 +787,3 @@ public class LDoubleFunctionXTest<R,X extends ParseException> {
 
 
 }
-
-

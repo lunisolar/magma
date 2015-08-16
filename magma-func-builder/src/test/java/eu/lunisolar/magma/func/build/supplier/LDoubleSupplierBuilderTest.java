@@ -134,5 +134,3 @@ public class LDoubleSupplierBuilderTest<X extends Throwable>{
     }
 
 }
-
-

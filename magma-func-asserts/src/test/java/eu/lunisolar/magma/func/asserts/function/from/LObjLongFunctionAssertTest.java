@@ -128,5 +128,3 @@ public class LObjLongFunctionAssertTest<T,R,X extends Throwable> {
     }
 
 }
-
-

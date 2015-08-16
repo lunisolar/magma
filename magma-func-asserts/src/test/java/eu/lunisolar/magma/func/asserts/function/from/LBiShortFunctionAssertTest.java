@@ -128,5 +128,3 @@ public class LBiShortFunctionAssertTest<R,X extends Throwable> {
     }
 
 }
-
-

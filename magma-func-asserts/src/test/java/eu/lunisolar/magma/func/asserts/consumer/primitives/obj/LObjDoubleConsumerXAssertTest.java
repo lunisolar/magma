@@ -129,5 +129,3 @@ public class LObjDoubleConsumerXAssertTest<T,X extends Throwable> {
     }
 
 }
-
-

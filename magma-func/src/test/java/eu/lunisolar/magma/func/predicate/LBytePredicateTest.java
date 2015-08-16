@@ -811,5 +811,3 @@ public class LBytePredicateTest<X extends ParseException> {
 
 
 }
-
-

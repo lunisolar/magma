@@ -128,5 +128,3 @@ public class LObjCharFunctionXAssertTest<T,R,X extends Throwable> {
     }
 
 }
-
-

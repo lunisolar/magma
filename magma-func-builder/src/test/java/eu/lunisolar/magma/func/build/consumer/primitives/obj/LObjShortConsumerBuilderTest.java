@@ -134,5 +134,3 @@ public class LObjShortConsumerBuilderTest<T,X extends Throwable>{
     }
 
 }
-
-

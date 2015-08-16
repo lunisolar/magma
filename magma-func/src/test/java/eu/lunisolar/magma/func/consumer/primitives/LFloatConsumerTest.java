@@ -443,5 +443,3 @@ public class LFloatConsumerTest<X extends ParseException> {
 
 
 }
-
-

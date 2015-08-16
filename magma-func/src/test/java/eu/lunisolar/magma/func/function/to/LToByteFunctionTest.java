@@ -722,5 +722,3 @@ public class LToByteFunctionTest<T,X extends ParseException> {
 
 
 }
-
-

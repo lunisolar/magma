@@ -133,5 +133,3 @@ public class LObjIntToIntFunctionBuilderTest<T,X extends Throwable>{
     }
 
 }
-
-

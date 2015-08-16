@@ -794,5 +794,3 @@ public class LFloatFunctionTest<R,X extends ParseException> {
 
 
 }
-
-

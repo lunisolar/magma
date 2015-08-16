@@ -129,5 +129,3 @@ public class LByteConsumerXAssertTest<X extends Throwable> {
     }
 
 }
-
-

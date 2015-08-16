@@ -665,5 +665,3 @@ public class LFloatSupplierXTest<X extends ParseException> {
 
 
 }
-
-

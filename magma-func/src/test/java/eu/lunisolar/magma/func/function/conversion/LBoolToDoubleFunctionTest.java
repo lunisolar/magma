@@ -751,5 +751,3 @@ public class LBoolToDoubleFunctionTest<X extends ParseException> {
 
 
 }
-
-

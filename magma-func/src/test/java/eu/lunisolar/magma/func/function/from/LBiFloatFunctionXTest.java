@@ -513,5 +513,3 @@ public class LBiFloatFunctionXTest<R,X extends ParseException> {
 
 
 }
-
-

@@ -128,5 +128,3 @@ public class LBiDoubleFunctionXAssertTest<R,X extends Throwable> {
     }
 
 }
-
-

@@ -751,5 +751,3 @@ public class LDoubleUnaryOperatorXTest<X extends ParseException> {
 
 
 }
-
-

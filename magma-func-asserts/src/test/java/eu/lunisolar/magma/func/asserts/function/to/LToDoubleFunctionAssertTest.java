@@ -128,5 +128,3 @@ public class LToDoubleFunctionAssertTest<T,X extends Throwable> {
     }
 
 }
-
-

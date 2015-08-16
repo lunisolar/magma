@@ -503,5 +503,3 @@ public class LByteBinaryOperatorXTest<X extends ParseException> {
 
 
 }
-
-

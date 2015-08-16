@@ -501,5 +501,3 @@ public class LTriPredicateXTest<T1,T2,T3,X extends ParseException> {
 
 
 }
-
-

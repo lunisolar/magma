@@ -128,5 +128,3 @@ public class LIntToLongFunctionAssertTest<X extends Throwable> {
     }
 
 }
-
-

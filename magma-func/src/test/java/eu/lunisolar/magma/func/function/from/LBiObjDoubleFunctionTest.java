@@ -542,5 +542,3 @@ public class LBiObjDoubleFunctionTest<T1,T2,R,X extends ParseException> {
 
 
 }
-
-

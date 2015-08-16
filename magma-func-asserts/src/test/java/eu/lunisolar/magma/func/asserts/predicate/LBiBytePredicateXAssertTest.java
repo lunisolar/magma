@@ -128,5 +128,3 @@ public class LBiBytePredicateXAssertTest<X extends Throwable> {
     }
 
 }
-
-

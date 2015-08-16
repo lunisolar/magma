@@ -502,5 +502,3 @@ public class LBiPredicateXTest<T1,T2,X extends ParseException> {
 
 
 }
-
-

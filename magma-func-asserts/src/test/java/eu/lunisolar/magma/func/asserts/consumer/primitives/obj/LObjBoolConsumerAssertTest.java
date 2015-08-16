@@ -129,5 +129,3 @@ public class LObjBoolConsumerAssertTest<T,X extends Throwable> {
     }
 
 }
-
-

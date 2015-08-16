@@ -528,5 +528,3 @@ public class LObjDoubleFunctionTest<T,R,X extends ParseException> {
 
 
 }
-
-

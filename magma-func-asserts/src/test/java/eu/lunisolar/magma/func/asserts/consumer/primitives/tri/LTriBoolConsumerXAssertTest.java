@@ -129,5 +129,3 @@ public class LTriBoolConsumerXAssertTest<X extends Throwable> {
     }
 
 }
-
-

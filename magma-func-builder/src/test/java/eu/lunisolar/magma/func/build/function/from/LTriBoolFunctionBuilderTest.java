@@ -130,5 +130,3 @@ public class LTriBoolFunctionBuilderTest<R,X extends Throwable>{
     }
 
 }
-
-

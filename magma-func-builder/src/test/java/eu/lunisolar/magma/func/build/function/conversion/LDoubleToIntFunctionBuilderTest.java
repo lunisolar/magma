@@ -133,5 +133,3 @@ public class LDoubleToIntFunctionBuilderTest<X extends Throwable>{
     }
 
 }
-
-

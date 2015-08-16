@@ -513,5 +513,3 @@ public class LBiBoolFunctionXTest<R,X extends ParseException> {
 
 
 }
-
-

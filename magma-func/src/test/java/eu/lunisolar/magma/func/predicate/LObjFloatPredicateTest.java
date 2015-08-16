@@ -544,5 +544,3 @@ public class LObjFloatPredicateTest<T,X extends ParseException> {
 
 
 }
-
-

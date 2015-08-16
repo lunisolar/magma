@@ -128,5 +128,3 @@ public class LUnaryOperatorXAssertTest<T,X extends Throwable> {
     }
 
 }
-
-

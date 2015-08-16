@@ -128,5 +128,3 @@ public class LBiFloatPredicateAssertTest<X extends Throwable> {
     }
 
 }
-
-

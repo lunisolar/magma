@@ -471,5 +471,3 @@ public class LBiObjIntConsumerTest<T1,T2,X extends ParseException> {
 
 
 }
-
-

@@ -133,5 +133,3 @@ public class LLongToIntFunctionBuilderTest<X extends Throwable>{
     }
 
 }
-
-

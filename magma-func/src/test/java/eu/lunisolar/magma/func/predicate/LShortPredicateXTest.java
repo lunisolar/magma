@@ -796,5 +796,3 @@ public class LShortPredicateXTest<X extends ParseException> {
 
 
 }
-
-

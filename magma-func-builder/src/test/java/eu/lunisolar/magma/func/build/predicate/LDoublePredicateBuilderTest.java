@@ -133,5 +133,3 @@ public class LDoublePredicateBuilderTest<X extends Throwable>{
     }
 
 }
-
-

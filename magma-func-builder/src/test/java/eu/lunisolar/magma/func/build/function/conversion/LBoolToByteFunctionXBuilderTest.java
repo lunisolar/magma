@@ -130,5 +130,3 @@ public class LBoolToByteFunctionXBuilderTest<X extends Throwable>{
     }
 
 }
-
-

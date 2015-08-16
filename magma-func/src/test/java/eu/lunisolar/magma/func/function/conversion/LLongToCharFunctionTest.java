@@ -751,5 +751,3 @@ public class LLongToCharFunctionTest<X extends ParseException> {
 
 
 }
-
-

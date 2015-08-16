@@ -127,5 +127,3 @@ public class IntPredicateAssertTest<X extends Throwable> {
     }
 
 }
-
-

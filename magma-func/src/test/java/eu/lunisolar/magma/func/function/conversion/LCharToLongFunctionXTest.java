@@ -736,5 +736,3 @@ public class LCharToLongFunctionXTest<X extends ParseException> {
 
 
 }
-
-

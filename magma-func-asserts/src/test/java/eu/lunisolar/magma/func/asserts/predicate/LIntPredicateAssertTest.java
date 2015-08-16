@@ -128,5 +128,3 @@ public class LIntPredicateAssertTest<X extends Throwable> {
     }
 
 }
-
-

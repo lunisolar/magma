@@ -128,5 +128,3 @@ public class LLongUnaryOperatorXAssertTest<X extends Throwable> {
     }
 
 }
-
-

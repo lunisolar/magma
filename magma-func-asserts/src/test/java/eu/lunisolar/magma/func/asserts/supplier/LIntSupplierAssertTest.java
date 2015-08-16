@@ -128,5 +128,3 @@ public class LIntSupplierAssertTest<X extends Throwable> {
     }
 
 }
-
-

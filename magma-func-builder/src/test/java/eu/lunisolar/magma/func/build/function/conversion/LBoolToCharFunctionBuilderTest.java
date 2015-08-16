@@ -130,5 +130,3 @@ public class LBoolToCharFunctionBuilderTest<X extends Throwable>{
     }
 
 }
-
-

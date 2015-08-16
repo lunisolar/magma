@@ -128,5 +128,3 @@ public class LIntToFloatFunctionAssertTest<X extends Throwable> {
     }
 
 }
-
-

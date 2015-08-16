@@ -134,5 +134,3 @@ public class LShortConsumerXBuilderTest<X extends Throwable>{
     }
 
 }
-
-

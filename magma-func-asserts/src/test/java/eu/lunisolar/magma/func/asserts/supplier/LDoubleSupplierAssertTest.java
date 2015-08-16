@@ -128,5 +128,3 @@ public class LDoubleSupplierAssertTest<X extends Throwable> {
     }
 
 }
-
-

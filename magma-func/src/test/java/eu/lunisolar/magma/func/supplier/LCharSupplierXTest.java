@@ -665,5 +665,3 @@ public class LCharSupplierXTest<X extends ParseException> {
 
 
 }
-
-

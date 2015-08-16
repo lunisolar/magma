@@ -128,5 +128,3 @@ public class LCharFunctionAssertTest<R,X extends Throwable> {
     }
 
 }
-
-

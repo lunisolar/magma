@@ -127,5 +127,3 @@ public class DoubleFunctionAssertTest<R,X extends Throwable> {
     }
 
 }
-
-

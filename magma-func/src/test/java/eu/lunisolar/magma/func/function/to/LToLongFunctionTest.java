@@ -730,5 +730,3 @@ public class LToLongFunctionTest<T,X extends ParseException> {
 
 
 }
-
-

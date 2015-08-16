@@ -128,5 +128,3 @@ public class LFloatBinaryOperatorXAssertTest<X extends Throwable> {
     }
 
 }
-
-

@@ -133,5 +133,3 @@ public class LIntToFloatFunctionXBuilderTest<X extends Throwable>{
     }
 
 }
-
-

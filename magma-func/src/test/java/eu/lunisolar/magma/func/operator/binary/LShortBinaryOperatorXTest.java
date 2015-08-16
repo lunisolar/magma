@@ -503,5 +503,3 @@ public class LShortBinaryOperatorXTest<X extends ParseException> {
 
 
 }
-
-

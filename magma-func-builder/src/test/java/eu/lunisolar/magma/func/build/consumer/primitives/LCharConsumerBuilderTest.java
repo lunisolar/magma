@@ -134,5 +134,3 @@ public class LCharConsumerBuilderTest<X extends Throwable>{
     }
 
 }
-
-

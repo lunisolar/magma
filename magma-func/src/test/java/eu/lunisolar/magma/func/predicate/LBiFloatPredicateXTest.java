@@ -529,5 +529,3 @@ public class LBiFloatPredicateXTest<X extends ParseException> {
 
 
 }
-
-

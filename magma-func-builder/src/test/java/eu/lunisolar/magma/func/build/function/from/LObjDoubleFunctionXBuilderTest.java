@@ -133,5 +133,3 @@ public class LObjDoubleFunctionXBuilderTest<T,R,X extends Throwable>{
     }
 
 }
-
-

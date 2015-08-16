@@ -544,5 +544,3 @@ public class LObjDoublePredicateTest<T,X extends ParseException> {
 
 
 }
-
-

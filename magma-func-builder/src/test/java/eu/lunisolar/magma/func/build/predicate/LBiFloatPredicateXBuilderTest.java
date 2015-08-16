@@ -133,5 +133,3 @@ public class LBiFloatPredicateXBuilderTest<X extends Throwable>{
     }
 
 }
-
-

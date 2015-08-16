@@ -751,5 +751,3 @@ public class LByteToDoubleFunctionTest<X extends ParseException> {
 
 
 }
-
-

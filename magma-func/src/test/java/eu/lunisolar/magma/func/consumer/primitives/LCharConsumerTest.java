@@ -443,5 +443,3 @@ public class LCharConsumerTest<X extends ParseException> {
 
 
 }
-
-

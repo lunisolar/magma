@@ -457,5 +457,3 @@ public class LBiShortConsumerTest<X extends ParseException> {
 
 
 }
-
-

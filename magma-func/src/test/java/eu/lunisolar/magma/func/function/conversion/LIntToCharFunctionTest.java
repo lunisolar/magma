@@ -751,5 +751,3 @@ public class LIntToCharFunctionTest<X extends ParseException> {
 
 
 }
-
-

@@ -128,5 +128,3 @@ public class LBiFloatFunctionXAssertTest<R,X extends Throwable> {
     }
 
 }
-
-

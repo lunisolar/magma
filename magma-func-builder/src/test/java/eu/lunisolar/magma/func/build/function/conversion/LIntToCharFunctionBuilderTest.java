@@ -133,5 +133,3 @@ public class LIntToCharFunctionBuilderTest<X extends Throwable>{
     }
 
 }
-
-

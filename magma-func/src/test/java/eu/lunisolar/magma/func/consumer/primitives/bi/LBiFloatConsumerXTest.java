@@ -442,5 +442,3 @@ public class LBiFloatConsumerXTest<X extends ParseException> {
 
 
 }
-
-

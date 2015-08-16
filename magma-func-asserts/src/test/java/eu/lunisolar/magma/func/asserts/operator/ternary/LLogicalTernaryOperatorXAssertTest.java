@@ -128,5 +128,3 @@ public class LLogicalTernaryOperatorXAssertTest<X extends Throwable> {
     }
 
 }
-
-

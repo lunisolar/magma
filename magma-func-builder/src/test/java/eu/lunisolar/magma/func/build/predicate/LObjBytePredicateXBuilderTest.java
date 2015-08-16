@@ -133,5 +133,3 @@ public class LObjBytePredicateXBuilderTest<T,X extends Throwable>{
     }
 
 }
-
-

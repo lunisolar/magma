@@ -758,5 +758,3 @@ public class LCharUnaryOperatorTest<X extends ParseException> {
 
 
 }
-
-

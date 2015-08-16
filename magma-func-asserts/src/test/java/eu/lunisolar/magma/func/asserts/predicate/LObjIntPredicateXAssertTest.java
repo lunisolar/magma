@@ -128,5 +128,3 @@ public class LObjIntPredicateXAssertTest<T,X extends Throwable> {
     }
 
 }
-
-

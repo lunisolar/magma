@@ -744,5 +744,3 @@ public class LDoubleToIntFunctionXTest<X extends ParseException> {
 
 
 }
-
-

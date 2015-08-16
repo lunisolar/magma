@@ -802,5 +802,3 @@ public class LDoubleFunctionTest<R,X extends ParseException> {
 
 
 }
-
-

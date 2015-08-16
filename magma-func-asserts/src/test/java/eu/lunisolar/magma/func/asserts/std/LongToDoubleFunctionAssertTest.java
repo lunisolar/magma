@@ -127,5 +127,3 @@ public class LongToDoubleFunctionAssertTest<X extends Throwable> {
     }
 
 }
-
-

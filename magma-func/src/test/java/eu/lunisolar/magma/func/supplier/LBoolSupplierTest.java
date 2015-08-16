@@ -688,5 +688,3 @@ public class LBoolSupplierTest<X extends ParseException> {
 
 
 }
-
-

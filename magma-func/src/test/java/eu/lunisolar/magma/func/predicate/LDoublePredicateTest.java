@@ -819,5 +819,3 @@ public class LDoublePredicateTest<X extends ParseException> {
 
 
 }
-
-

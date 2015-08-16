@@ -133,5 +133,3 @@ public class LToByteFunctionXBuilderTest<T,X extends Throwable>{
     }
 
 }
-
-

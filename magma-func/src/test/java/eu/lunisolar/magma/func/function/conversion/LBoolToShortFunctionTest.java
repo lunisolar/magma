@@ -751,5 +751,3 @@ public class LBoolToShortFunctionTest<X extends ParseException> {
 
 
 }
-
-

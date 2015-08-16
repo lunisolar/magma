@@ -688,5 +688,3 @@ public class LDoubleSupplierTest<X extends ParseException> {
 
 
 }
-
-

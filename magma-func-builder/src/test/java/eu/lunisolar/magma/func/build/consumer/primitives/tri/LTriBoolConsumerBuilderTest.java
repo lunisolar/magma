@@ -131,5 +131,3 @@ public class LTriBoolConsumerBuilderTest<X extends Throwable>{
     }
 
 }
-
-

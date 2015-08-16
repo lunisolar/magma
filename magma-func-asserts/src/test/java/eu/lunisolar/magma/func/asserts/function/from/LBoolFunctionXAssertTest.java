@@ -128,5 +128,3 @@ public class LBoolFunctionXAssertTest<R,X extends Throwable> {
     }
 
 }
-
-

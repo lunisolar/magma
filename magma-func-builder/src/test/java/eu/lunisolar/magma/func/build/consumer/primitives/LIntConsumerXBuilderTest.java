@@ -134,5 +134,3 @@ public class LIntConsumerXBuilderTest<X extends Throwable>{
     }
 
 }
-
-

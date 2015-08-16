@@ -128,5 +128,3 @@ public class LBoolToFloatFunctionAssertTest<X extends Throwable> {
     }
 
 }
-
-

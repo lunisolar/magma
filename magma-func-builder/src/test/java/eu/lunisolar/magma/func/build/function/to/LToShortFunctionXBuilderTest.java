@@ -133,5 +133,3 @@ public class LToShortFunctionXBuilderTest<T,X extends Throwable>{
     }
 
 }
-
-

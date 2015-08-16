@@ -544,5 +544,3 @@ public class LObjBoolPredicateTest<T,X extends ParseException> {
 
 
 }
-
-

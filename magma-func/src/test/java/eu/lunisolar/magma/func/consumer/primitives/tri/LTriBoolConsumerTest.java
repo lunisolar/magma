@@ -471,5 +471,3 @@ public class LTriBoolConsumerTest<X extends ParseException> {
 
 
 }
-
-

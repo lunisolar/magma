@@ -528,5 +528,3 @@ public class LObjBoolFunctionTest<T,R,X extends ParseException> {
 
 
 }
-
-

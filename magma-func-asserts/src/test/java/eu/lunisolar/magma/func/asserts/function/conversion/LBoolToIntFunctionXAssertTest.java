@@ -128,5 +128,3 @@ public class LBoolToIntFunctionXAssertTest<X extends Throwable> {
     }
 
 }
-
-

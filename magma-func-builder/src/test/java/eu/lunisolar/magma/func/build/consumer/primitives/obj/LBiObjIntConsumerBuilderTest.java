@@ -134,5 +134,3 @@ public class LBiObjIntConsumerBuilderTest<T1,T2,X extends Throwable>{
     }
 
 }
-
-

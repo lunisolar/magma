@@ -129,5 +129,3 @@ public class LIntConsumerAssertTest<X extends Throwable> {
     }
 
 }
-
-

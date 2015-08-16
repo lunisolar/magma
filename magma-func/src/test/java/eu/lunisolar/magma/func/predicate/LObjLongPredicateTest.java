@@ -544,5 +544,3 @@ public class LObjLongPredicateTest<T,X extends ParseException> {
 
 
 }
-
-

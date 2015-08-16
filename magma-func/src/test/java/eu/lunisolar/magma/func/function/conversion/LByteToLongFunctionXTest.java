@@ -736,5 +736,3 @@ public class LByteToLongFunctionXTest<X extends ParseException> {
 
 
 }
-
-

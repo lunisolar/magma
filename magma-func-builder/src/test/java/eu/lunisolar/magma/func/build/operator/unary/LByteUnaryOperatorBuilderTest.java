@@ -133,5 +133,3 @@ public class LByteUnaryOperatorBuilderTest<X extends Throwable>{
     }
 
 }
-
-

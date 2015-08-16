@@ -503,5 +503,3 @@ public class LFloatBinaryOperatorXTest<X extends ParseException> {
 
 
 }
-
-

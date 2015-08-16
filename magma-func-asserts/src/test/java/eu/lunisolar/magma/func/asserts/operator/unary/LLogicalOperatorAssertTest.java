@@ -128,5 +128,3 @@ public class LLogicalOperatorAssertTest<X extends Throwable> {
     }
 
 }
-
-

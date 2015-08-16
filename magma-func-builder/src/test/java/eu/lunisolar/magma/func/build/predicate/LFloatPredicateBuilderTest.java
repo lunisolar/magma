@@ -133,5 +133,3 @@ public class LFloatPredicateBuilderTest<X extends Throwable>{
     }
 
 }
-
-

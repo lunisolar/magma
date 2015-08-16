@@ -127,5 +127,3 @@ public class SupplierAssertTest<R,X extends Throwable> {
     }
 
 }
-
-

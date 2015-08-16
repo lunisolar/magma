@@ -736,5 +736,3 @@ public class LIntToFloatFunctionXTest<X extends ParseException> {
 
 
 }
-
-

@@ -133,5 +133,3 @@ public class LCharPredicateXBuilderTest<X extends Throwable>{
     }
 
 }
-
-

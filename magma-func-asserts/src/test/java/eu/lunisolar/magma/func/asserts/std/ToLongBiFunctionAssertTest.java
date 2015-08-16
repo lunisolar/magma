@@ -127,5 +127,3 @@ public class ToLongBiFunctionAssertTest<T1,T2,X extends Throwable> {
     }
 
 }
-
-

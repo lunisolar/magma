@@ -133,5 +133,3 @@ public class LFloatBinaryOperatorXBuilderTest<X extends Throwable>{
     }
 
 }
-
-

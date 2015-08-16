@@ -133,5 +133,3 @@ public class LIntToByteFunctionBuilderTest<X extends Throwable>{
     }
 
 }
-
-

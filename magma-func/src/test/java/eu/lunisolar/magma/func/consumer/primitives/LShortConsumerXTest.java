@@ -428,5 +428,3 @@ public class LShortConsumerXTest<X extends ParseException> {
 
 
 }
-
-

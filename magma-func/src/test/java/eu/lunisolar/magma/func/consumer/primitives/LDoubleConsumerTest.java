@@ -451,5 +451,3 @@ public class LDoubleConsumerTest<X extends ParseException> {
 
 
 }
-
-

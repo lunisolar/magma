@@ -736,5 +736,3 @@ public class LFloatToShortFunctionXTest<X extends ParseException> {
 
 
 }
-
-

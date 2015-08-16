@@ -133,5 +133,3 @@ public class LShortToDoubleFunctionBuilderTest<X extends Throwable>{
     }
 
 }
-
-

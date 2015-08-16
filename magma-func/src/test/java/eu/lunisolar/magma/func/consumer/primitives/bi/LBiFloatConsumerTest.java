@@ -457,5 +457,3 @@ public class LBiFloatConsumerTest<X extends ParseException> {
 
 
 }
-
-

@@ -550,5 +550,3 @@ public class LLogicalTernaryOperatorTest<X extends ParseException> {
 
 
 }
-
-

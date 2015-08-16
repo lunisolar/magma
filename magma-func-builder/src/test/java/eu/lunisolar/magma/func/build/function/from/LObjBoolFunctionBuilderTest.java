@@ -131,5 +131,3 @@ public class LObjBoolFunctionBuilderTest<T,R,X extends Throwable>{
     }
 
 }
-
-

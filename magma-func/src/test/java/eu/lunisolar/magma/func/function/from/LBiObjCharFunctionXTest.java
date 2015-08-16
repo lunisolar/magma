@@ -527,5 +527,3 @@ public class LBiObjCharFunctionXTest<T1,T2,R,X extends ParseException> {
 
 
 }
-
-

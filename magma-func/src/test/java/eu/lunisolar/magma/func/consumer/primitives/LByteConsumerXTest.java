@@ -428,5 +428,3 @@ public class LByteConsumerXTest<X extends ParseException> {
 
 
 }
-
-

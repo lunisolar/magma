@@ -128,5 +128,3 @@ public class LShortToDoubleFunctionXAssertTest<X extends Throwable> {
     }
 
 }
-
-

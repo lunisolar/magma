@@ -133,5 +133,3 @@ public class LDoubleToByteFunctionXBuilderTest<X extends Throwable>{
     }
 
 }
-
-

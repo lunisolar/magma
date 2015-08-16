@@ -133,5 +133,3 @@ public class LCharFunctionXBuilderTest<R,X extends Throwable>{
     }
 
 }
-
-

@@ -542,5 +542,3 @@ public class LBiObjBoolFunctionTest<T1,T2,R,X extends ParseException> {
 
 
 }
-
-

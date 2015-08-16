@@ -127,5 +127,3 @@ public class LongPredicateAssertTest<X extends Throwable> {
     }
 
 }
-
-

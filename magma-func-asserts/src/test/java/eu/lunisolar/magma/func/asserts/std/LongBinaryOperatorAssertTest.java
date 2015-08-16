@@ -127,5 +127,3 @@ public class LongBinaryOperatorAssertTest<X extends Throwable> {
     }
 
 }
-
-

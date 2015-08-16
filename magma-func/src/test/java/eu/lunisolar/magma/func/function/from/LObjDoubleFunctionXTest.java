@@ -513,5 +513,3 @@ public class LObjDoubleFunctionXTest<T,R,X extends ParseException> {
 
 
 }
-
-

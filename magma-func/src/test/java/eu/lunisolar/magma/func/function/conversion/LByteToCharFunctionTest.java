@@ -751,5 +751,3 @@ public class LByteToCharFunctionTest<X extends ParseException> {
 
 
 }
-
-

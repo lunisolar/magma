@@ -544,5 +544,3 @@ public class LBiCharPredicateTest<X extends ParseException> {
 
 
 }
-
-

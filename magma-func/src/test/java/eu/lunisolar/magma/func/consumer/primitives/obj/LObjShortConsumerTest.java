@@ -457,5 +457,3 @@ public class LObjShortConsumerTest<T,X extends ParseException> {
 
 
 }
-
-

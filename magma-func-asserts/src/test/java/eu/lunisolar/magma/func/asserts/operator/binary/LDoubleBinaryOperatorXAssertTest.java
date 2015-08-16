@@ -128,5 +128,3 @@ public class LDoubleBinaryOperatorXAssertTest<X extends Throwable> {
     }
 
 }
-
-

@@ -133,5 +133,3 @@ public class LCharToFloatFunctionBuilderTest<X extends Throwable>{
     }
 
 }
-
-

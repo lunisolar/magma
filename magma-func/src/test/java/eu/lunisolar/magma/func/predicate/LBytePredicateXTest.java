@@ -796,5 +796,3 @@ public class LBytePredicateXTest<X extends ParseException> {
 
 
 }
-
-

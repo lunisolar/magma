@@ -134,5 +134,3 @@ public class LConsumerBuilderTest<T,X extends Throwable>{
     }
 
 }
-
-

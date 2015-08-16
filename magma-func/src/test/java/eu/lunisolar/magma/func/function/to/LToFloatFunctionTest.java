@@ -722,5 +722,3 @@ public class LToFloatFunctionTest<T,X extends ParseException> {
 
 
 }
-
-

@@ -133,5 +133,3 @@ public class LObjFloatPredicateXBuilderTest<T,X extends Throwable>{
     }
 
 }
-
-

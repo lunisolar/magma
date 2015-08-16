@@ -134,5 +134,3 @@ public class LBiCharConsumerBuilderTest<X extends Throwable>{
     }
 
 }
-
-

@@ -128,5 +128,3 @@ public class LBiObjIntPredicateXAssertTest<T1,T2,X extends Throwable> {
     }
 
 }
-
-

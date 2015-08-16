@@ -758,5 +758,3 @@ public class LFloatUnaryOperatorTest<X extends ParseException> {
 
 
 }
-
-

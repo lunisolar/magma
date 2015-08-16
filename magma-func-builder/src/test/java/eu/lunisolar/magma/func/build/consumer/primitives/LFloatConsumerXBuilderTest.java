@@ -134,5 +134,3 @@ public class LFloatConsumerXBuilderTest<X extends Throwable>{
     }
 
 }
-
-

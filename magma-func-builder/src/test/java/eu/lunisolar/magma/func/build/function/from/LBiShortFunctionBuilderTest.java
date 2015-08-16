@@ -133,5 +133,3 @@ public class LBiShortFunctionBuilderTest<R,X extends Throwable>{
     }
 
 }
-
-

@@ -127,5 +127,3 @@ public class BinaryOperatorAssertTest<T,X extends Throwable> {
     }
 
 }
-
-

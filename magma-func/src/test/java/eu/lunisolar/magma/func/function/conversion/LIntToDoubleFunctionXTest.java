@@ -744,5 +744,3 @@ public class LIntToDoubleFunctionXTest<X extends ParseException> {
 
 
 }
-
-

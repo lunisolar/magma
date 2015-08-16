@@ -544,5 +544,3 @@ public class LBiIntPredicateTest<X extends ParseException> {
 
 
 }
-
-

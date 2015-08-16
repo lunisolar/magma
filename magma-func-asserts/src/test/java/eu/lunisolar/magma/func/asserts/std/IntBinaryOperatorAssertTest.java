@@ -127,5 +127,3 @@ public class IntBinaryOperatorAssertTest<X extends Throwable> {
     }
 
 }
-
-

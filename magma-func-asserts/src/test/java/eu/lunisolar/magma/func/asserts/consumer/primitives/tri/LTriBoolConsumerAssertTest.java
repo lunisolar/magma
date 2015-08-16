@@ -129,5 +129,3 @@ public class LTriBoolConsumerAssertTest<X extends Throwable> {
     }
 
 }
-
-

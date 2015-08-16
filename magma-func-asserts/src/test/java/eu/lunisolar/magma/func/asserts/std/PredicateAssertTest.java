@@ -127,5 +127,3 @@ public class PredicateAssertTest<T,X extends Throwable> {
     }
 
 }
-
-

@@ -527,5 +527,3 @@ public class LTriBoolFunctionXTest<R,X extends ParseException> {
 
 
 }
-
-

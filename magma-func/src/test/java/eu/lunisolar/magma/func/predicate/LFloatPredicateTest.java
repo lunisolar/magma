@@ -811,5 +811,3 @@ public class LFloatPredicateTest<X extends ParseException> {
 
 
 }
-
-

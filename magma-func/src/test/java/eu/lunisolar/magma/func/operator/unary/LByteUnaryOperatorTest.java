@@ -758,5 +758,3 @@ public class LByteUnaryOperatorTest<X extends ParseException> {
 
 
 }
-
-

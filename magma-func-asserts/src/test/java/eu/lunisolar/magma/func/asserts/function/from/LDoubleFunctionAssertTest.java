@@ -128,5 +128,3 @@ public class LDoubleFunctionAssertTest<R,X extends Throwable> {
     }
 
 }
-
-

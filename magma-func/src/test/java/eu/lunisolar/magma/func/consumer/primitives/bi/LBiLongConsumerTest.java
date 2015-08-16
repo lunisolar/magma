@@ -457,5 +457,3 @@ public class LBiLongConsumerTest<X extends ParseException> {
 
 
 }
-
-

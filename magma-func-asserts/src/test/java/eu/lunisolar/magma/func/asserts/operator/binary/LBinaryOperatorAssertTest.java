@@ -128,5 +128,3 @@ public class LBinaryOperatorAssertTest<T,X extends Throwable> {
     }
 
 }
-
-

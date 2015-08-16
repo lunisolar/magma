@@ -796,5 +796,3 @@ public class LCharPredicateXTest<X extends ParseException> {
 
 
 }
-
-

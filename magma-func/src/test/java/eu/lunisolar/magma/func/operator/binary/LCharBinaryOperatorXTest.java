@@ -503,5 +503,3 @@ public class LCharBinaryOperatorXTest<X extends ParseException> {
 
 
 }
-
-

@@ -129,5 +129,3 @@ public class LBiDoubleConsumerAssertTest<X extends Throwable> {
     }
 
 }
-
-

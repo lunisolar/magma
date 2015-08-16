@@ -428,5 +428,3 @@ public class LBoolConsumerXTest<X extends ParseException> {
 
 
 }
-
-

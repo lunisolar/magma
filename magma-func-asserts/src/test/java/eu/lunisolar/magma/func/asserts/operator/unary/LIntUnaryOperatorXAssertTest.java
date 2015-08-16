@@ -128,5 +128,3 @@ public class LIntUnaryOperatorXAssertTest<X extends Throwable> {
     }
 
 }
-
-

@@ -128,5 +128,3 @@ public class LShortToFloatFunctionXAssertTest<X extends Throwable> {
     }
 
 }
-
-

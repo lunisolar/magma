@@ -128,5 +128,3 @@ public class LByteToShortFunctionAssertTest<X extends Throwable> {
     }
 
 }
-
-

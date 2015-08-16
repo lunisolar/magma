@@ -133,5 +133,3 @@ public class LFloatToIntFunctionXBuilderTest<X extends Throwable>{
     }
 
 }
-
-

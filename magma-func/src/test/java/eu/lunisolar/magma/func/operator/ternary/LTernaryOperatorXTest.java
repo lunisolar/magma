@@ -407,5 +407,3 @@ public class LTernaryOperatorXTest<T,X extends ParseException> {
 
 
 }
-
-

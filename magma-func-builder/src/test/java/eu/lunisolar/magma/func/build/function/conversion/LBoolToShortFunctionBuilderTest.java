@@ -130,5 +130,3 @@ public class LBoolToShortFunctionBuilderTest<X extends Throwable>{
     }
 
 }
-
-

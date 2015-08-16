@@ -131,5 +131,3 @@ public class LBoolConsumerBuilderTest<X extends Throwable>{
     }
 
 }
-
-

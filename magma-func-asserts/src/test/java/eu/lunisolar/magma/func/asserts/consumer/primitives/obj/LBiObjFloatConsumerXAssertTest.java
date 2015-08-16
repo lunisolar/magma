@@ -129,5 +129,3 @@ public class LBiObjFloatConsumerXAssertTest<T1,T2,X extends Throwable> {
     }
 
 }
-
-

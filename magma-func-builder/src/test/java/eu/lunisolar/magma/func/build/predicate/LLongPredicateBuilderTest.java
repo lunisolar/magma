@@ -133,5 +133,3 @@ public class LLongPredicateBuilderTest<X extends Throwable>{
     }
 
 }
-
-

@@ -128,5 +128,3 @@ public class LObjBytePredicateXAssertTest<T,X extends Throwable> {
     }
 
 }
-
-

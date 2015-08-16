@@ -128,5 +128,3 @@ public class LLongFunctionAssertTest<R,X extends Throwable> {
     }
 
 }
-
-

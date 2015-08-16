@@ -442,5 +442,3 @@ public class LBiCharConsumerXTest<X extends ParseException> {
 
 
 }
-
-

@@ -730,5 +730,3 @@ public class LToIntFunctionTest<T,X extends ParseException> {
 
 
 }
-
-

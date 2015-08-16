@@ -528,5 +528,3 @@ public class LBiIntFunctionTest<R,X extends ParseException> {
 
 
 }
-
-

@@ -128,5 +128,3 @@ public class LDoubleUnaryOperatorXAssertTest<X extends Throwable> {
     }
 
 }
-
-

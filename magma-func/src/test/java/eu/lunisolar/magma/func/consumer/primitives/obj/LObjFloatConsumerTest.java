@@ -457,5 +457,3 @@ public class LObjFloatConsumerTest<T,X extends ParseException> {
 
 
 }
-
-

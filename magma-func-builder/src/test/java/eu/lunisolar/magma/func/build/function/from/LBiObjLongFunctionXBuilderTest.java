@@ -133,5 +133,3 @@ public class LBiObjLongFunctionXBuilderTest<T1,T2,R,X extends Throwable>{
     }
 
 }
-
-

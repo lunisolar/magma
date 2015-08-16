@@ -128,5 +128,3 @@ public class ConsumerAssertTest<T,X extends Throwable> {
     }
 
 }
-
-

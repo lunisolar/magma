@@ -127,5 +127,3 @@ public class ToIntFunctionAssertTest<T,X extends Throwable> {
     }
 
 }
-
-

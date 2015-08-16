@@ -128,5 +128,3 @@ public class LFunctionAssertTest<T,R,X extends Throwable> {
     }
 
 }
-
-

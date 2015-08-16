@@ -129,5 +129,3 @@ public class LBoolConsumerAssertTest<X extends Throwable> {
     }
 
 }
-
-

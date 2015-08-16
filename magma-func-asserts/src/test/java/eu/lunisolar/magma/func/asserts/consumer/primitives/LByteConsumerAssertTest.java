@@ -129,5 +129,3 @@ public class LByteConsumerAssertTest<X extends Throwable> {
     }
 
 }
-
-

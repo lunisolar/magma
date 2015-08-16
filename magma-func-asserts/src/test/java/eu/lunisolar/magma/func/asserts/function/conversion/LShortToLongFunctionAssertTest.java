@@ -128,5 +128,3 @@ public class LShortToLongFunctionAssertTest<X extends Throwable> {
     }
 
 }
-
-

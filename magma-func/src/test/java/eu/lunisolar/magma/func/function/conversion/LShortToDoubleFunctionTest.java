@@ -751,5 +751,3 @@ public class LShortToDoubleFunctionTest<X extends ParseException> {
 
 
 }
-
-

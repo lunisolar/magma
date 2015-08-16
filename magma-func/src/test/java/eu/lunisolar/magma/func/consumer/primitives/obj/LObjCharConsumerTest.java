@@ -457,5 +457,3 @@ public class LObjCharConsumerTest<T,X extends ParseException> {
 
 
 }
-
-

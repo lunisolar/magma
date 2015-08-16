@@ -128,5 +128,3 @@ public class LFloatPredicateXAssertTest<X extends Throwable> {
     }
 
 }
-
-

@@ -130,5 +130,3 @@ public class LBoolToFloatFunctionXBuilderTest<X extends Throwable>{
     }
 
 }
-
-

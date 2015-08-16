@@ -133,5 +133,3 @@ public class LIntPredicateBuilderTest<X extends Throwable>{
     }
 
 }
-
-

@@ -131,5 +131,3 @@ public class LBiBoolConsumerXBuilderTest<X extends Throwable>{
     }
 
 }
-
-

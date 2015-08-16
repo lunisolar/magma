@@ -128,5 +128,3 @@ public class LObjDoublePredicateAssertTest<T,X extends Throwable> {
     }
 
 }
-
-

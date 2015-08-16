@@ -528,5 +528,3 @@ public class LBiDoubleFunctionTest<R,X extends ParseException> {
 
 
 }
-
-

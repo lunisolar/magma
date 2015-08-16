@@ -128,5 +128,3 @@ public class LFloatSupplierXAssertTest<X extends Throwable> {
     }
 
 }
-
-

@@ -513,5 +513,3 @@ public class LBiByteFunctionXTest<R,X extends ParseException> {
 
 
 }
-
-

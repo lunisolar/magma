@@ -736,5 +736,3 @@ public class LFloatToDoubleFunctionXTest<X extends ParseException> {
 
 
 }
-
-

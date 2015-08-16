@@ -127,5 +127,3 @@ public class ToLongFunctionAssertTest<T,X extends Throwable> {
     }
 
 }
-
-

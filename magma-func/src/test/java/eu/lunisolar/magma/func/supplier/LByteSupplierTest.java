@@ -680,5 +680,3 @@ public class LByteSupplierTest<X extends ParseException> {
 
 
 }
-
-

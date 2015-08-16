@@ -128,5 +128,3 @@ public class LCharToByteFunctionXAssertTest<X extends Throwable> {
     }
 
 }
-
-

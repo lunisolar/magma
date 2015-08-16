@@ -128,5 +128,3 @@ public class LObjDoubleFunctionAssertTest<T,R,X extends Throwable> {
     }
 
 }
-
-

@@ -129,5 +129,3 @@ public class LDoubleConsumerAssertTest<X extends Throwable> {
     }
 
 }
-
-

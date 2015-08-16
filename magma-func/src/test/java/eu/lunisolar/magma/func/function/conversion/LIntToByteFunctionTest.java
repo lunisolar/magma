@@ -751,5 +751,3 @@ public class LIntToByteFunctionTest<X extends ParseException> {
 
 
 }
-
-

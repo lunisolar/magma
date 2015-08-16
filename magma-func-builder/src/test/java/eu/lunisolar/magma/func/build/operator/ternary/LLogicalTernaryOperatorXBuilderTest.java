@@ -132,5 +132,3 @@ public class LLogicalTernaryOperatorXBuilderTest<X extends Throwable>{
     }
 
 }
-
-

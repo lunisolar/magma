@@ -789,5 +789,3 @@ public class LLogicalOperatorXTest<X extends ParseException> {
 
 
 }
-
-

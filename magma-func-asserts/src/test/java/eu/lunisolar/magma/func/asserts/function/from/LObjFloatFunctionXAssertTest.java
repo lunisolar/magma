@@ -128,5 +128,3 @@ public class LObjFloatFunctionXAssertTest<T,R,X extends Throwable> {
     }
 
 }
-
-

@@ -133,5 +133,3 @@ public class LDoubleBinaryOperatorXBuilderTest<X extends Throwable>{
     }
 
 }
-
-

@@ -128,5 +128,3 @@ public class LBoolToCharFunctionXAssertTest<X extends Throwable> {
     }
 
 }
-
-

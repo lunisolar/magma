@@ -133,5 +133,3 @@ public class LShortBinaryOperatorXBuilderTest<X extends Throwable>{
     }
 
 }
-
-

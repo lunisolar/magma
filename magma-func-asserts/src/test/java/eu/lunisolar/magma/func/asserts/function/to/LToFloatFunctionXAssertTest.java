@@ -128,5 +128,3 @@ public class LToFloatFunctionXAssertTest<T,X extends Throwable> {
     }
 
 }
-
-

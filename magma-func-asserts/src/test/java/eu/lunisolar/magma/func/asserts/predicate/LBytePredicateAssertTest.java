@@ -128,5 +128,3 @@ public class LBytePredicateAssertTest<X extends Throwable> {
     }
 
 }
-
-

@@ -751,5 +751,3 @@ public class LBoolToIntFunctionTest<X extends ParseException> {
 
 
 }
-
-

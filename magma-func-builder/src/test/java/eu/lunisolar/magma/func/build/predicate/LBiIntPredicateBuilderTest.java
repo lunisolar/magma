@@ -133,5 +133,3 @@ public class LBiIntPredicateBuilderTest<X extends Throwable>{
     }
 
 }
-
-

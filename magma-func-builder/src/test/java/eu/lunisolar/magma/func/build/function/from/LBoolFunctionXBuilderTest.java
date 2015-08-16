@@ -130,5 +130,3 @@ public class LBoolFunctionXBuilderTest<R,X extends Throwable>{
     }
 
 }
-
-

@@ -128,5 +128,3 @@ public class LTernaryOperatorXAssertTest<T,X extends Throwable> {
     }
 
 }
-
-

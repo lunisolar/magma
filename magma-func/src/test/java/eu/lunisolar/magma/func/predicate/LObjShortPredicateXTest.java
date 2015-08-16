@@ -529,5 +529,3 @@ public class LObjShortPredicateXTest<T,X extends ParseException> {
 
 
 }
-
-

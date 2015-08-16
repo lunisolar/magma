@@ -707,5 +707,3 @@ public class LToShortFunctionXTest<T,X extends ParseException> {
 
 
 }
-
-

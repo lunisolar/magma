@@ -127,5 +127,3 @@ public class BooleanSupplierAssertTest<X extends Throwable> {
     }
 
 }
-
-
