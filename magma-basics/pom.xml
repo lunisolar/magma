@@ -16,6 +16,7 @@
     <artifactId>magma-basics</artifactId>
     <name>${project.artifactId}</name>
     <packaging>jar</packaging>
+    <version>1.0-SNAPSHOT</version>
 
     <properties>
 
