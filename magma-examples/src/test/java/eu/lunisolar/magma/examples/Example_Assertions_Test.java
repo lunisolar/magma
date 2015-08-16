@@ -55,17 +55,16 @@ public class Example_Assertions_Test {
     /**
      * ### Before we use assertions
      *
-     * *FunctionalAssertions** is the interface that contains all factory methods for AssertJ assertion classes. All those factory methods are _default_
+     * **FunctionalAssertions** is the interface that contains all factory methods for AssertJ assertion classes. All those factory methods are _default_
      * methods.
      *
      * When you are using this interface you must provide base assertion implementation for Object assert - **this is required** (if it is not provided the
      * compiler will go crazy in every case you would like to use it).
-     *
-     * > Please mind that used here example assertions are just for demonstration purposes, so you need to excuse the simplicity and repetition. Also beware
-     * > that those example tests do test and present assertions not the function implementation.
-     *
-     * The minimalistic way to use it is:
      */
+///> Please mind that used here example assertions are just for demonstration purposes, so you need to excuse the simplicity and repetition. Also beware
+///> that those example tests do test and present assertions not the function implementation.
+///
+/// The minimalistic way to use it is:
     //>example<
     public static final DefaultFunctionalAssertions<ObjectAssert> then = new DefaultFunctionalAssertions() {
     };

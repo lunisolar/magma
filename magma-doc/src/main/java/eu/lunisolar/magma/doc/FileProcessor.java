@@ -138,8 +138,8 @@ public class FileProcessor {
             return;
         }
 
-        print(escapeHtml4(line));
-    }
+            print(escapeHtml4(line));
+        }
 
     private void print(String line) {
         try {

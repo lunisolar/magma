@@ -45,6 +45,11 @@
                 <artifactId>maven-plugin-plugin</artifactId>
                 <version>3.3</version>
             </plugin>
+
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+            </plugin>
         </plugins>
     </build>
 
