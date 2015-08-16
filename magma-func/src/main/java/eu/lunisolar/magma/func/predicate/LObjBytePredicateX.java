@@ -108,7 +108,7 @@ public interface LObjBytePredicateX<T, X extends Throwable> extends MetaPredicat
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> captureObjBytePred(T t, byte b) {
+	default LBoolSupplierX<X> captureObjBytePred(T t, byte b) {
 		return () -> this.doTest(t, b);
 	}
 
@@ -229,7 +229,7 @@ public interface LObjBytePredicateX<T, X extends Throwable> extends MetaPredicat
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LObjByteFunctionX<T, V, X> boolToObjByteFunction(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LObjByteFunctionX<T, V, X> boolToObjByteFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (T t, byte b) -> after.doApply(this.doTest(t, b));
 	}

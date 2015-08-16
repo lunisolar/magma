@@ -206,7 +206,7 @@ public interface LDoubleSupplierX<X extends Throwable> extends java.util.functio
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LBooleanSupplierX<X> toBooleanSupplier(@Nonnull LDoublePredicateX<X> after) {
+	default LBoolSupplierX<X> toBoolSupplier(@Nonnull LDoublePredicateX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doTest(this.doGetAsDouble());
 	}

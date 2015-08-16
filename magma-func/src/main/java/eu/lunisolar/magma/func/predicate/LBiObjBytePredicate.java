@@ -92,7 +92,7 @@ public interface LBiObjBytePredicate<T1, T2> extends LBiObjBytePredicateX<T1, T2
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier captureBiObjBytePred(T1 t1, T2 t2, byte b) {
+	default LBoolSupplier captureBiObjBytePred(T1 t1, T2 t2, byte b) {
 		return () -> this.doTest(t1, t2, b);
 	}
 
@@ -214,7 +214,7 @@ public interface LBiObjBytePredicate<T1, T2> extends LBiObjBytePredicateX<T1, T2
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LBiObjByteFunction<T1, T2, V> boolToBiObjByteFunction(@Nonnull LBooleanFunction<? extends V> after) {
+	default <V> LBiObjByteFunction<T1, T2, V> boolToBiObjByteFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (T1 t1, T2 t2, byte b) -> after.doApply(this.doTest(t1, t2, b));
 	}

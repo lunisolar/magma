@@ -102,7 +102,7 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier captureIntPred(int i) {
+	default LBoolSupplier captureIntPred(int i) {
 		return () -> this.doTest(i);
 	}
 
@@ -208,56 +208,56 @@ public interface LIntPredicate extends LIntPredicateX<RuntimeException>, MetaPre
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LIntFunction<V> boolToIntFunction(@Nonnull LBooleanFunction<? extends V> after) {
+	default <V> LIntFunction<V> boolToIntFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return i -> after.doApply(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LIntToByteFunction boolToIntToByteFunction(@Nonnull LBooleanToByteFunction after) {
+	default LIntToByteFunction boolToIntToByteFunction(@Nonnull LBoolToByteFunction after) {
 		Null.nonNullArg(after, "after");
 		return i -> after.doApplyAsByte(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LIntToShortFunction boolToIntToShortFunction(@Nonnull LBooleanToShortFunction after) {
+	default LIntToShortFunction boolToIntToShortFunction(@Nonnull LBoolToShortFunction after) {
 		Null.nonNullArg(after, "after");
 		return i -> after.doApplyAsShort(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LIntUnaryOperator boolToIntUnaryOperator(@Nonnull LBooleanToIntFunction after) {
+	default LIntUnaryOperator boolToIntUnaryOperator(@Nonnull LBoolToIntFunction after) {
 		Null.nonNullArg(after, "after");
 		return i -> after.doApplyAsInt(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LIntToLongFunction boolToIntToLongFunction(@Nonnull LBooleanToLongFunction after) {
+	default LIntToLongFunction boolToIntToLongFunction(@Nonnull LBoolToLongFunction after) {
 		Null.nonNullArg(after, "after");
 		return i -> after.doApplyAsLong(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LIntToFloatFunction boolToIntToFloatFunction(@Nonnull LBooleanToFloatFunction after) {
+	default LIntToFloatFunction boolToIntToFloatFunction(@Nonnull LBoolToFloatFunction after) {
 		Null.nonNullArg(after, "after");
 		return i -> after.doApplyAsFloat(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LIntToDoubleFunction boolToIntToDoubleFunction(@Nonnull LBooleanToDoubleFunction after) {
+	default LIntToDoubleFunction boolToIntToDoubleFunction(@Nonnull LBoolToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
 		return i -> after.doApplyAsDouble(this.doTest(i));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LIntToCharFunction boolToIntToCharFunction(@Nonnull LBooleanToCharFunction after) {
+	default LIntToCharFunction boolToIntToCharFunction(@Nonnull LBoolToCharFunction after) {
 		Null.nonNullArg(after, "after");
 		return i -> after.doApplyAsChar(this.doTest(i));
 	}

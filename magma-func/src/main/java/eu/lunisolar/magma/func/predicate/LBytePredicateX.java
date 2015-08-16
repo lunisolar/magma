@@ -108,7 +108,7 @@ public interface LBytePredicateX<X extends Throwable> extends MetaPredicate, Pri
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> captureBytePred(byte b) {
+	default LBoolSupplierX<X> captureBytePred(byte b) {
 		return () -> this.doTest(b);
 	}
 
@@ -215,56 +215,56 @@ public interface LBytePredicateX<X extends Throwable> extends MetaPredicate, Pri
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LByteFunctionX<V, X> boolToByteFunction(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LByteFunctionX<V, X> boolToByteFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return b -> after.doApply(this.doTest(b));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LByteUnaryOperatorX<X> boolToByteUnaryOperator(@Nonnull LBooleanToByteFunctionX<X> after) {
+	default LByteUnaryOperatorX<X> boolToByteUnaryOperator(@Nonnull LBoolToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return b -> after.doApplyAsByte(this.doTest(b));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LByteToShortFunctionX<X> boolToByteToShortFunction(@Nonnull LBooleanToShortFunctionX<X> after) {
+	default LByteToShortFunctionX<X> boolToByteToShortFunction(@Nonnull LBoolToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return b -> after.doApplyAsShort(this.doTest(b));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LByteToIntFunctionX<X> boolToByteToIntFunction(@Nonnull LBooleanToIntFunctionX<X> after) {
+	default LByteToIntFunctionX<X> boolToByteToIntFunction(@Nonnull LBoolToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return b -> after.doApplyAsInt(this.doTest(b));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LByteToLongFunctionX<X> boolToByteToLongFunction(@Nonnull LBooleanToLongFunctionX<X> after) {
+	default LByteToLongFunctionX<X> boolToByteToLongFunction(@Nonnull LBoolToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return b -> after.doApplyAsLong(this.doTest(b));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LByteToFloatFunctionX<X> boolToByteToFloatFunction(@Nonnull LBooleanToFloatFunctionX<X> after) {
+	default LByteToFloatFunctionX<X> boolToByteToFloatFunction(@Nonnull LBoolToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return b -> after.doApplyAsFloat(this.doTest(b));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LByteToDoubleFunctionX<X> boolToByteToDoubleFunction(@Nonnull LBooleanToDoubleFunctionX<X> after) {
+	default LByteToDoubleFunctionX<X> boolToByteToDoubleFunction(@Nonnull LBoolToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return b -> after.doApplyAsDouble(this.doTest(b));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LByteToCharFunctionX<X> boolToByteToCharFunction(@Nonnull LBooleanToCharFunctionX<X> after) {
+	default LByteToCharFunctionX<X> boolToByteToCharFunction(@Nonnull LBoolToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return b -> after.doApplyAsChar(this.doTest(b));
 	}

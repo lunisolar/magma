@@ -167,7 +167,7 @@ public interface LByteSupplier extends LByteSupplierX<RuntimeException>, MetaSup
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LBooleanSupplier toBooleanSupplier(@Nonnull LBytePredicate after) {
+	default LBoolSupplier toBoolSupplier(@Nonnull LBytePredicate after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doTest(this.doGetAsByte());
 	}

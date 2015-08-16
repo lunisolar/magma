@@ -167,7 +167,7 @@ public interface LFloatSupplier extends LFloatSupplierX<RuntimeException>, MetaS
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LBooleanSupplier toBooleanSupplier(@Nonnull LFloatPredicate after) {
+	default LBoolSupplier toBoolSupplier(@Nonnull LFloatPredicate after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doTest(this.doGetAsFloat());
 	}

@@ -92,7 +92,7 @@ public interface LBiBytePredicate extends LBiBytePredicateX<RuntimeException>, M
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier captureBiBytePred(byte b1, byte b2) {
+	default LBoolSupplier captureBiBytePred(byte b1, byte b2) {
 		return () -> this.doTest(b1, b2);
 	}
 
@@ -206,7 +206,7 @@ public interface LBiBytePredicate extends LBiBytePredicateX<RuntimeException>, M
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LBiByteFunction<V> boolToBiByteFunction(@Nonnull LBooleanFunction<? extends V> after) {
+	default <V> LBiByteFunction<V> boolToBiByteFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (byte b1, byte b2) -> after.doApply(this.doTest(b1, b2));
 	}

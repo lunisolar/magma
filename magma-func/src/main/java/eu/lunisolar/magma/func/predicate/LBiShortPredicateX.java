@@ -108,7 +108,7 @@ public interface LBiShortPredicateX<X extends Throwable> extends MetaPredicate, 
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> captureBiShortPred(short s1, short s2) {
+	default LBoolSupplierX<X> captureBiShortPred(short s1, short s2) {
 		return () -> this.doTest(s1, s2);
 	}
 
@@ -229,7 +229,7 @@ public interface LBiShortPredicateX<X extends Throwable> extends MetaPredicate, 
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LBiShortFunctionX<V, X> boolToBiShortFunction(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LBiShortFunctionX<V, X> boolToBiShortFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (short s1, short s2) -> after.doApply(this.doTest(s1, s2));
 	}

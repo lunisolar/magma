@@ -118,7 +118,7 @@ public interface LBiPredicateX<T1, T2, X extends Throwable> extends java.util.fu
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> captureBiPred(T1 t1, T2 t2) {
+	default LBoolSupplierX<X> captureBiPred(T1 t1, T2 t2) {
 		return () -> this.doTest(t1, t2);
 	}
 
@@ -237,7 +237,7 @@ public interface LBiPredicateX<T1, T2, X extends Throwable> extends java.util.fu
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LBiFunctionX<T1, T2, V, X> boolToBiFunction(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LBiFunctionX<T1, T2, V, X> boolToBiFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (T1 t1, T2 t2) -> after.doApply(this.doTest(t1, t2));
 	}

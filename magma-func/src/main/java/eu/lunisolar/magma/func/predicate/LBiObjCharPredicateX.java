@@ -108,7 +108,7 @@ public interface LBiObjCharPredicateX<T1, T2, X extends Throwable> extends MetaP
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> captureBiObjCharPred(T1 t1, T2 t2, char c) {
+	default LBoolSupplierX<X> captureBiObjCharPred(T1 t1, T2 t2, char c) {
 		return () -> this.doTest(t1, t2, c);
 	}
 
@@ -238,7 +238,7 @@ public interface LBiObjCharPredicateX<T1, T2, X extends Throwable> extends MetaP
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LBiObjCharFunctionX<T1, T2, V, X> boolToBiObjCharFunction(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LBiObjCharFunctionX<T1, T2, V, X> boolToBiObjCharFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (T1 t1, T2 t2, char c) -> after.doApply(this.doTest(t1, t2, c));
 	}

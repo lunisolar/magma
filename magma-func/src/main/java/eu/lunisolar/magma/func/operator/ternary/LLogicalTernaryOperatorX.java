@@ -107,7 +107,7 @@ public interface LLogicalTernaryOperatorX<X extends Throwable> extends MetaOpera
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> captureLogicalTernaryOp(boolean b1, boolean b2, boolean b3) {
+	default LBoolSupplierX<X> captureLogicalTernaryOp(boolean b1, boolean b2, boolean b3) {
 		return () -> this.doApply(b1, b2, b3);
 	}
 
@@ -260,7 +260,7 @@ public interface LLogicalTernaryOperatorX<X extends Throwable> extends MetaOpera
 
 	/** Combines two operators together in a order. */
 	@Nonnull
-	default <V> LTriBooleanFunctionX<V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LTriBoolFunctionX<V, X> then(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (boolean b1, boolean b2, boolean b3) -> after.doApply(this.doApply(b1, b2, b3));
 	}

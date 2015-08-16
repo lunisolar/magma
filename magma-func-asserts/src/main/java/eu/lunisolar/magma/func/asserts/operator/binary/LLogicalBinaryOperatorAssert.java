@@ -44,10 +44,10 @@ import static org.assertj.core.api.Fail.fail;
 public interface LLogicalBinaryOperatorAssert<S extends LLogicalBinaryOperatorAssert<S, A, RS>, A extends LLogicalBinaryOperator, RS extends AbstractBooleanAssert<RS>>
 		extends
 			Assert<S, A>,
-			FullFunctionalAssert<S, LBiBooleanConsumerX<Exception>, A, RS, Boolean, Exception> {
+			FullFunctionalAssert<S, LBiBoolConsumerX<Exception>, A, RS, Boolean, Exception> {
 
 	@Nonnull
-	Evaluation<S, LBiBooleanConsumerX<Exception>, A, RS, Boolean, Exception> doesApply(boolean b1, boolean b2);
+	Evaluation<S, LBiBoolConsumerX<Exception>, A, RS, Boolean, Exception> doesApply(boolean b1, boolean b2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends LLogicalBinaryOperator, RS extends AbstractBooleanAssert<RS>> extends Base<The<A, RS>, A, RS> {
@@ -58,7 +58,7 @@ public interface LLogicalBinaryOperatorAssert<S extends LLogicalBinaryOperatorAs
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS>, A extends LLogicalBinaryOperator, RS extends AbstractBooleanAssert<RS>> extends FullFunctionalAssert.Base<S, LBiBooleanConsumerX<Exception>, A, RS, Boolean, Exception>
+	public static class Base<S extends Base<S, A, RS>, A extends LLogicalBinaryOperator, RS extends AbstractBooleanAssert<RS>> extends FullFunctionalAssert.Base<S, LBiBoolConsumerX<Exception>, A, RS, Boolean, Exception>
 			implements
 				LLogicalBinaryOperatorAssert<S, A, RS> {
 
@@ -70,7 +70,7 @@ public interface LLogicalBinaryOperatorAssert<S extends LLogicalBinaryOperatorAs
 		}
 
 		@Nonnull
-		public Evaluation<S, LBiBooleanConsumerX<Exception>, A, RS, Boolean, Exception> doesApply(boolean b1, boolean b2) {
+		public Evaluation<S, LBiBoolConsumerX<Exception>, A, RS, Boolean, Exception> doesApply(boolean b1, boolean b2) {
 
 			return evaluation(pc -> {
 				if (pc != null) {

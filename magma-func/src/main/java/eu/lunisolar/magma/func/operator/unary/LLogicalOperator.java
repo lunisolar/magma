@@ -91,7 +91,7 @@ public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, M
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier captureLogicalOp(boolean b) {
+	default LBoolSupplier captureLogicalOp(boolean b) {
 		return () -> this.doApply(b);
 	}
 
@@ -191,56 +191,56 @@ public interface LLogicalOperator extends LLogicalOperatorX<RuntimeException>, M
 
 	/** Combines two operators together in a order. */
 	@Nonnull
-	default <V> LBooleanFunction<V> then(@Nonnull LBooleanFunction<? extends V> after) {
+	default <V> LBoolFunction<V> then(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return b -> after.doApply(this.doApply(b));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
-	default LBooleanToByteFunction thenToByte(@Nonnull LBooleanToByteFunction after) {
+	default LBoolToByteFunction thenToByte(@Nonnull LBoolToByteFunction after) {
 		Null.nonNullArg(after, "after");
 		return b -> after.doApplyAsByte(this.doApply(b));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
-	default LBooleanToShortFunction thenToShort(@Nonnull LBooleanToShortFunction after) {
+	default LBoolToShortFunction thenToShort(@Nonnull LBoolToShortFunction after) {
 		Null.nonNullArg(after, "after");
 		return b -> after.doApplyAsShort(this.doApply(b));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
-	default LBooleanToIntFunction thenToInt(@Nonnull LBooleanToIntFunction after) {
+	default LBoolToIntFunction thenToInt(@Nonnull LBoolToIntFunction after) {
 		Null.nonNullArg(after, "after");
 		return b -> after.doApplyAsInt(this.doApply(b));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
-	default LBooleanToLongFunction thenToLong(@Nonnull LBooleanToLongFunction after) {
+	default LBoolToLongFunction thenToLong(@Nonnull LBoolToLongFunction after) {
 		Null.nonNullArg(after, "after");
 		return b -> after.doApplyAsLong(this.doApply(b));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
-	default LBooleanToFloatFunction thenToFloat(@Nonnull LBooleanToFloatFunction after) {
+	default LBoolToFloatFunction thenToFloat(@Nonnull LBoolToFloatFunction after) {
 		Null.nonNullArg(after, "after");
 		return b -> after.doApplyAsFloat(this.doApply(b));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
-	default LBooleanToDoubleFunction thenToDouble(@Nonnull LBooleanToDoubleFunction after) {
+	default LBoolToDoubleFunction thenToDouble(@Nonnull LBoolToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
 		return b -> after.doApplyAsDouble(this.doApply(b));
 	}
 
 	/** Combines two operators together in a order. */
 	@Nonnull
-	default LBooleanToCharFunction thenToChar(@Nonnull LBooleanToCharFunction after) {
+	default LBoolToCharFunction thenToChar(@Nonnull LBoolToCharFunction after) {
 		Null.nonNullArg(after, "after");
 		return b -> after.doApplyAsChar(this.doApply(b));
 	}

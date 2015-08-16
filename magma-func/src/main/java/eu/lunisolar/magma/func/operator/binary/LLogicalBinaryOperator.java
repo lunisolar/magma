@@ -91,7 +91,7 @@ public interface LLogicalBinaryOperator extends LLogicalBinaryOperatorX<RuntimeE
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier captureLogicalBinaryOp(boolean b1, boolean b2) {
+	default LBoolSupplier captureLogicalBinaryOp(boolean b1, boolean b2) {
 		return () -> this.doApply(b1, b2);
 	}
 
@@ -229,7 +229,7 @@ public interface LLogicalBinaryOperator extends LLogicalBinaryOperatorX<RuntimeE
 
 	/** Combines two operators together in a order. */
 	@Nonnull
-	default <V> LBiBooleanFunction<V> then(@Nonnull LBooleanFunction<? extends V> after) {
+	default <V> LBiBoolFunction<V> then(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (boolean b1, boolean b2) -> after.doApply(this.doApply(b1, b2));
 	}

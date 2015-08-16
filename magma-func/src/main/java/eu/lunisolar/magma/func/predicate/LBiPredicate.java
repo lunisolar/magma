@@ -102,7 +102,7 @@ public interface LBiPredicate<T1, T2> extends LBiPredicateX<T1, T2, RuntimeExcep
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier captureBiPred(T1 t1, T2 t2) {
+	default LBoolSupplier captureBiPred(T1 t1, T2 t2) {
 		return () -> this.doTest(t1, t2);
 	}
 
@@ -214,7 +214,7 @@ public interface LBiPredicate<T1, T2> extends LBiPredicateX<T1, T2, RuntimeExcep
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LBiFunction<T1, T2, V> boolToBiFunction(@Nonnull LBooleanFunction<? extends V> after) {
+	default <V> LBiFunction<T1, T2, V> boolToBiFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (T1 t1, T2 t2) -> after.doApply(this.doTest(t1, t2));
 	}

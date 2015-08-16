@@ -190,7 +190,7 @@ public interface LCharSupplierX<X extends Throwable> extends MetaSupplier, Primi
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LBooleanSupplierX<X> toBooleanSupplier(@Nonnull LCharPredicateX<X> after) {
+	default LBoolSupplierX<X> toBoolSupplier(@Nonnull LCharPredicateX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doTest(this.doGetAsChar());
 	}

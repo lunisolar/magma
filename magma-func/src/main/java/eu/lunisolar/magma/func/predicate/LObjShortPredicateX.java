@@ -108,7 +108,7 @@ public interface LObjShortPredicateX<T, X extends Throwable> extends MetaPredica
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> captureObjShortPred(T t, short s) {
+	default LBoolSupplierX<X> captureObjShortPred(T t, short s) {
 		return () -> this.doTest(t, s);
 	}
 
@@ -229,7 +229,7 @@ public interface LObjShortPredicateX<T, X extends Throwable> extends MetaPredica
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LObjShortFunctionX<T, V, X> boolToObjShortFunction(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LObjShortFunctionX<T, V, X> boolToObjShortFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (T t, short s) -> after.doApply(this.doTest(t, s));
 	}

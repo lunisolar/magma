@@ -92,7 +92,7 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier captureBiLongPred(long l1, long l2) {
+	default LBoolSupplier captureBiLongPred(long l1, long l2) {
 		return () -> this.doTest(l1, l2);
 	}
 
@@ -206,7 +206,7 @@ public interface LBiLongPredicate extends LBiLongPredicateX<RuntimeException>, M
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LBiLongFunction<V> boolToBiLongFunction(@Nonnull LBooleanFunction<? extends V> after) {
+	default <V> LBiLongFunction<V> boolToBiLongFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (long l1, long l2) -> after.doApply(this.doTest(l1, l2));
 	}

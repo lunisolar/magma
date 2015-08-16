@@ -407,7 +407,7 @@ public class LTriPredicateTest<T1,T2,T3,X extends ParseException> {
                 return true;
         };
 
-        LBooleanFunction<Integer > thenFunction = p -> {
+        LBoolFunction<Integer > thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // 
                 assertThat(p).isEqualTo(true);

@@ -437,7 +437,7 @@ public class LBiObjLongPredicateXTest<T1,T2,X extends ParseException> {
                 return true;
         };
 
-        LBooleanFunctionX<Integer ,X> thenFunction = p -> {
+        LBoolFunctionX<Integer ,X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // 
                 assertThat(p).isEqualTo(true);

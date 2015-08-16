@@ -107,7 +107,7 @@ public interface LLogicalBinaryOperatorX<X extends Throwable> extends MetaOperat
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> captureLogicalBinaryOp(boolean b1, boolean b2) {
+	default LBoolSupplierX<X> captureLogicalBinaryOp(boolean b1, boolean b2) {
 		return () -> this.doApply(b1, b2);
 	}
 
@@ -252,7 +252,7 @@ public interface LLogicalBinaryOperatorX<X extends Throwable> extends MetaOperat
 
 	/** Combines two operators together in a order. */
 	@Nonnull
-	default <V> LBiBooleanFunctionX<V, X> then(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LBiBoolFunctionX<V, X> then(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (boolean b1, boolean b2) -> after.doApply(this.doApply(b1, b2));
 	}

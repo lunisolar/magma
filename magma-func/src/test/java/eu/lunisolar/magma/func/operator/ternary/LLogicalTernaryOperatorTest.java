@@ -441,7 +441,7 @@ public class LLogicalTernaryOperatorTest<X extends ParseException> {
                 return true;
         };
 
-        LBooleanFunction<Integer > thenFunction = p -> {
+        LBoolFunction<Integer > thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // 
                 assertThat(p).isEqualTo(true);
@@ -450,7 +450,7 @@ public class LLogicalTernaryOperatorTest<X extends ParseException> {
         };
 
         //when
-        LTriBooleanFunction<Integer > function = sutO.then(thenFunction);
+        LTriBoolFunction<Integer > function = sutO.then(thenFunction);
         Integer  finalValue = function.doApply(true,true,true);
 
         //then - finals

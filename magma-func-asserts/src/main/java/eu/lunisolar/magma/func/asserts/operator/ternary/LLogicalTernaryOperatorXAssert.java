@@ -44,10 +44,10 @@ import static org.assertj.core.api.Fail.fail;
 public interface LLogicalTernaryOperatorXAssert<S extends LLogicalTernaryOperatorXAssert<S, A, RS, X>, A extends LLogicalTernaryOperatorX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable>
 		extends
 			Assert<S, A>,
-			FullFunctionalAssert<S, LTriBooleanConsumerX<Exception>, A, RS, Boolean, Exception> {
+			FullFunctionalAssert<S, LTriBoolConsumerX<Exception>, A, RS, Boolean, Exception> {
 
 	@Nonnull
-	Evaluation<S, LTriBooleanConsumerX<Exception>, A, RS, Boolean, Exception> doesApply(boolean b1, boolean b2, boolean b3);
+	Evaluation<S, LTriBoolConsumerX<Exception>, A, RS, Boolean, Exception> doesApply(boolean b1, boolean b2, boolean b3);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends LLogicalTernaryOperatorX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
@@ -58,7 +58,7 @@ public interface LLogicalTernaryOperatorXAssert<S extends LLogicalTernaryOperato
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, X>, A extends LLogicalTernaryOperatorX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, LTriBooleanConsumerX<Exception>, A, RS, Boolean, Exception>
+	public static class Base<S extends Base<S, A, RS, X>, A extends LLogicalTernaryOperatorX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, LTriBoolConsumerX<Exception>, A, RS, Boolean, Exception>
 			implements
 				LLogicalTernaryOperatorXAssert<S, A, RS, X> {
 
@@ -70,7 +70,7 @@ public interface LLogicalTernaryOperatorXAssert<S extends LLogicalTernaryOperato
 		}
 
 		@Nonnull
-		public Evaluation<S, LTriBooleanConsumerX<Exception>, A, RS, Boolean, Exception> doesApply(boolean b1, boolean b2, boolean b3) {
+		public Evaluation<S, LTriBoolConsumerX<Exception>, A, RS, Boolean, Exception> doesApply(boolean b1, boolean b2, boolean b3) {
 
 			return evaluation(pc -> {
 				if (pc != null) {

@@ -108,7 +108,7 @@ public interface LBiCharPredicateX<X extends Throwable> extends MetaPredicate, P
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> captureBiCharPred(char c1, char c2) {
+	default LBoolSupplierX<X> captureBiCharPred(char c1, char c2) {
 		return () -> this.doTest(c1, c2);
 	}
 
@@ -229,7 +229,7 @@ public interface LBiCharPredicateX<X extends Throwable> extends MetaPredicate, P
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LBiCharFunctionX<V, X> boolToBiCharFunction(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LBiCharFunctionX<V, X> boolToBiCharFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (char c1, char c2) -> after.doApply(this.doTest(c1, c2));
 	}

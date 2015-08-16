@@ -92,7 +92,7 @@ public interface LObjDoublePredicate<T> extends LObjDoublePredicateX<T, RuntimeE
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier captureObjDoublePred(T t, double d) {
+	default LBoolSupplier captureObjDoublePred(T t, double d) {
 		return () -> this.doTest(t, d);
 	}
 
@@ -206,7 +206,7 @@ public interface LObjDoublePredicate<T> extends LObjDoublePredicateX<T, RuntimeE
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LObjDoubleFunction<T, V> boolToObjDoubleFunction(@Nonnull LBooleanFunction<? extends V> after) {
+	default <V> LObjDoubleFunction<T, V> boolToObjDoubleFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (T t, double d) -> after.doApply(this.doTest(t, d));
 	}

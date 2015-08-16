@@ -108,7 +108,7 @@ public interface LBiObjShortPredicateX<T1, T2, X extends Throwable> extends Meta
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> captureBiObjShortPred(T1 t1, T2 t2, short s) {
+	default LBoolSupplierX<X> captureBiObjShortPred(T1 t1, T2 t2, short s) {
 		return () -> this.doTest(t1, t2, s);
 	}
 
@@ -238,7 +238,7 @@ public interface LBiObjShortPredicateX<T1, T2, X extends Throwable> extends Meta
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LBiObjShortFunctionX<T1, T2, V, X> boolToBiObjShortFunction(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LBiObjShortFunctionX<T1, T2, V, X> boolToBiObjShortFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (T1 t1, T2 t2, short s) -> after.doApply(this.doTest(t1, t2, s));
 	}

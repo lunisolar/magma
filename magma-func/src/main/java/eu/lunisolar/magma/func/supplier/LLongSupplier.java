@@ -183,7 +183,7 @@ public interface LLongSupplier extends LLongSupplierX<RuntimeException>, MetaSup
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LBooleanSupplier toBooleanSupplier(@Nonnull LLongPredicate after) {
+	default LBoolSupplier toBoolSupplier(@Nonnull LLongPredicate after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doTest(this.doGetAsLong());
 	}

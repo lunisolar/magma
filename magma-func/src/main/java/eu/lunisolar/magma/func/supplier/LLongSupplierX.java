@@ -206,7 +206,7 @@ public interface LLongSupplierX<X extends Throwable> extends java.util.function.
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LBooleanSupplierX<X> toBooleanSupplier(@Nonnull LLongPredicateX<X> after) {
+	default LBoolSupplierX<X> toBoolSupplier(@Nonnull LLongPredicateX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doTest(this.doGetAsLong());
 	}

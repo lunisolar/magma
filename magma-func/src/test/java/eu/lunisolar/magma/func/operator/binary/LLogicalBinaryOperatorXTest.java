@@ -435,7 +435,7 @@ public class LLogicalBinaryOperatorXTest<X extends ParseException> {
                 return true;
         };
 
-        LBooleanFunctionX<Integer ,X> thenFunction = p -> {
+        LBoolFunctionX<Integer ,X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // 
                 assertThat(p).isEqualTo(true);
@@ -444,7 +444,7 @@ public class LLogicalBinaryOperatorXTest<X extends ParseException> {
         };
 
         //when
-        LBiBooleanFunctionX<Integer ,X> function = sutO.then(thenFunction);
+        LBiBoolFunctionX<Integer ,X> function = sutO.then(thenFunction);
         Integer  finalValue = function.doApply(true,true);
 
         //then - finals

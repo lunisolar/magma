@@ -92,7 +92,7 @@ public interface LBiDoublePredicate extends LBiDoublePredicateX<RuntimeException
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier captureBiDoublePred(double d1, double d2) {
+	default LBoolSupplier captureBiDoublePred(double d1, double d2) {
 		return () -> this.doTest(d1, d2);
 	}
 
@@ -206,7 +206,7 @@ public interface LBiDoublePredicate extends LBiDoublePredicateX<RuntimeException
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LBiDoubleFunction<V> boolToBiDoubleFunction(@Nonnull LBooleanFunction<? extends V> after) {
+	default <V> LBiDoubleFunction<V> boolToBiDoubleFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (double d1, double d2) -> after.doApply(this.doTest(d1, d2));
 	}

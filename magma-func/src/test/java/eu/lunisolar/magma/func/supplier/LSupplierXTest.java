@@ -619,8 +619,8 @@ public class LSupplierXTest<R,X extends ParseException> {
         };
 
         //when
-        LBooleanSupplierX<X> function = sutO.toBooleanSupplier(thenFunction);
-        boolean finalValue = function.doGetAsBoolean();
+        LBoolSupplierX<X> function = sutO.toBoolSupplier(thenFunction);
+        boolean finalValue = function.doGetAsBool();
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);

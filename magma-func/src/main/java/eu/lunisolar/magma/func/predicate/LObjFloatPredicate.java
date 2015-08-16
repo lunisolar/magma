@@ -92,7 +92,7 @@ public interface LObjFloatPredicate<T> extends LObjFloatPredicateX<T, RuntimeExc
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier captureObjFloatPred(T t, float f) {
+	default LBoolSupplier captureObjFloatPred(T t, float f) {
 		return () -> this.doTest(t, f);
 	}
 
@@ -206,7 +206,7 @@ public interface LObjFloatPredicate<T> extends LObjFloatPredicateX<T, RuntimeExc
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LObjFloatFunction<T, V> boolToObjFloatFunction(@Nonnull LBooleanFunction<? extends V> after) {
+	default <V> LObjFloatFunction<T, V> boolToObjFloatFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (T t, float f) -> after.doApply(this.doTest(t, f));
 	}

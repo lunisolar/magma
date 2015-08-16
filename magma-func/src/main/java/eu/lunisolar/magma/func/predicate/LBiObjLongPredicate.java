@@ -92,7 +92,7 @@ public interface LBiObjLongPredicate<T1, T2> extends LBiObjLongPredicateX<T1, T2
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier captureBiObjLongPred(T1 t1, T2 t2, long l) {
+	default LBoolSupplier captureBiObjLongPred(T1 t1, T2 t2, long l) {
 		return () -> this.doTest(t1, t2, l);
 	}
 
@@ -214,7 +214,7 @@ public interface LBiObjLongPredicate<T1, T2> extends LBiObjLongPredicateX<T1, T2
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LBiObjLongFunction<T1, T2, V> boolToBiObjLongFunction(@Nonnull LBooleanFunction<? extends V> after) {
+	default <V> LBiObjLongFunction<T1, T2, V> boolToBiObjLongFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (T1 t1, T2 t2, long l) -> after.doApply(this.doTest(t1, t2, l));
 	}

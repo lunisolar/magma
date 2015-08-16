@@ -183,7 +183,7 @@ public interface LDoubleSupplier extends LDoubleSupplierX<RuntimeException>, Met
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LBooleanSupplier toBooleanSupplier(@Nonnull LDoublePredicate after) {
+	default LBoolSupplier toBoolSupplier(@Nonnull LDoublePredicate after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doTest(this.doGetAsDouble());
 	}

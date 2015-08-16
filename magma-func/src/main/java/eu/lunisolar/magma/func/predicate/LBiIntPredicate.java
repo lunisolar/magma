@@ -92,7 +92,7 @@ public interface LBiIntPredicate extends LBiIntPredicateX<RuntimeException>, Met
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier captureBiIntPred(int i1, int i2) {
+	default LBoolSupplier captureBiIntPred(int i1, int i2) {
 		return () -> this.doTest(i1, i2);
 	}
 
@@ -206,7 +206,7 @@ public interface LBiIntPredicate extends LBiIntPredicateX<RuntimeException>, Met
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LBiIntFunction<V> boolToBiIntFunction(@Nonnull LBooleanFunction<? extends V> after) {
+	default <V> LBiIntFunction<V> boolToBiIntFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (int i1, int i2) -> after.doApply(this.doTest(i1, i2));
 	}

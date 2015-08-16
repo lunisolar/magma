@@ -92,7 +92,7 @@ public interface LBiObjCharPredicate<T1, T2> extends LBiObjCharPredicateX<T1, T2
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier captureBiObjCharPred(T1 t1, T2 t2, char c) {
+	default LBoolSupplier captureBiObjCharPred(T1 t1, T2 t2, char c) {
 		return () -> this.doTest(t1, t2, c);
 	}
 
@@ -214,7 +214,7 @@ public interface LBiObjCharPredicate<T1, T2> extends LBiObjCharPredicateX<T1, T2
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LBiObjCharFunction<T1, T2, V> boolToBiObjCharFunction(@Nonnull LBooleanFunction<? extends V> after) {
+	default <V> LBiObjCharFunction<T1, T2, V> boolToBiObjCharFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (T1 t1, T2 t2, char c) -> after.doApply(this.doTest(t1, t2, c));
 	}

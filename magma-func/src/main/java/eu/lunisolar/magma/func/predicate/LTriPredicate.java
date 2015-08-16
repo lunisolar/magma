@@ -92,7 +92,7 @@ public interface LTriPredicate<T1, T2, T3> extends LTriPredicateX<T1, T2, T3, Ru
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier captureTriPred(T1 t1, T2 t2, T3 t3) {
+	default LBoolSupplier captureTriPred(T1 t1, T2 t2, T3 t3) {
 		return () -> this.doTest(t1, t2, t3);
 	}
 
@@ -205,7 +205,7 @@ public interface LTriPredicate<T1, T2, T3> extends LTriPredicateX<T1, T2, T3, Ru
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LTriFunction<T1, T2, T3, V> boolToTriFunction(@Nonnull LBooleanFunction<? extends V> after) {
+	default <V> LTriFunction<T1, T2, T3, V> boolToTriFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (T1 t1, T2 t2, T3 t3) -> after.doApply(this.doTest(t1, t2, t3));
 	}

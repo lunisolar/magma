@@ -92,7 +92,7 @@ public interface LBiFloatPredicate extends LBiFloatPredicateX<RuntimeException>,
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier captureBiFloatPred(float f1, float f2) {
+	default LBoolSupplier captureBiFloatPred(float f1, float f2) {
 		return () -> this.doTest(f1, f2);
 	}
 
@@ -206,7 +206,7 @@ public interface LBiFloatPredicate extends LBiFloatPredicateX<RuntimeException>,
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LBiFloatFunction<V> boolToBiFloatFunction(@Nonnull LBooleanFunction<? extends V> after) {
+	default <V> LBiFloatFunction<V> boolToBiFloatFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (float f1, float f2) -> after.doApply(this.doTest(f1, f2));
 	}

@@ -108,7 +108,7 @@ public interface LBiFloatPredicateX<X extends Throwable> extends MetaPredicate, 
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> captureBiFloatPred(float f1, float f2) {
+	default LBoolSupplierX<X> captureBiFloatPred(float f1, float f2) {
 		return () -> this.doTest(f1, f2);
 	}
 
@@ -229,7 +229,7 @@ public interface LBiFloatPredicateX<X extends Throwable> extends MetaPredicate, 
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LBiFloatFunctionX<V, X> boolToBiFloatFunction(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LBiFloatFunctionX<V, X> boolToBiFloatFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (float f1, float f2) -> after.doApply(this.doTest(f1, f2));
 	}

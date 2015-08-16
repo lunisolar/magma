@@ -108,7 +108,7 @@ public interface LBiObjDoublePredicateX<T1, T2, X extends Throwable> extends Met
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> captureBiObjDoublePred(T1 t1, T2 t2, double d) {
+	default LBoolSupplierX<X> captureBiObjDoublePred(T1 t1, T2 t2, double d) {
 		return () -> this.doTest(t1, t2, d);
 	}
 
@@ -239,7 +239,7 @@ public interface LBiObjDoublePredicateX<T1, T2, X extends Throwable> extends Met
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LBiObjDoubleFunctionX<T1, T2, V, X> boolToBiObjDoubleFunction(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LBiObjDoubleFunctionX<T1, T2, V, X> boolToBiObjDoubleFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (T1 t1, T2 t2, double d) -> after.doApply(this.doTest(t1, t2, d));
 	}

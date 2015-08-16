@@ -206,7 +206,7 @@ public interface LIntSupplierX<X extends Throwable> extends java.util.function.I
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LBooleanSupplierX<X> toBooleanSupplier(@Nonnull LIntPredicateX<X> after) {
+	default LBoolSupplierX<X> toBoolSupplier(@Nonnull LIntPredicateX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doTest(this.doGetAsInt());
 	}

@@ -47,7 +47,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for java.util.function.Supplier. */
-public final class SupplierBuilder<R> extends PerCaseBuilderWithProduct.Base<SupplierBuilder<R>, LBooleanSupplier, java.util.function.Supplier<R>, R> {
+public final class SupplierBuilder<R> extends PerCaseBuilderWithProduct.Base<SupplierBuilder<R>, LBoolSupplier, java.util.function.Supplier<R>, R> {
 
 	private Consumer<java.util.function.Supplier<R>> consumer;
 
@@ -106,11 +106,11 @@ public final class SupplierBuilder<R> extends PerCaseBuilderWithProduct.Base<Sup
 
 		java.util.function.Supplier<R> retval;
 
-		final Case<LBooleanSupplier, java.util.function.Supplier<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
+		final Case<LBoolSupplier, java.util.function.Supplier<R>>[] casesArray = cases.toArray(new Case[cases.size()]);
 		retval = Function4U.<R> supplier(() -> {
 			try {
-				for (Case<LBooleanSupplier, java.util.function.Supplier<R>> aCase : casesArray) {
-					if (aCase.casePredicate().doGetAsBoolean()) {
+				for (Case<LBoolSupplier, java.util.function.Supplier<R>> aCase : casesArray) {
+					if (aCase.casePredicate().doGetAsBool()) {
 						return aCase.caseFunction().get();
 					}
 				}

@@ -92,7 +92,7 @@ public interface LObjCharPredicate<T> extends LObjCharPredicateX<T, RuntimeExcep
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier captureObjCharPred(T t, char c) {
+	default LBoolSupplier captureObjCharPred(T t, char c) {
 		return () -> this.doTest(t, c);
 	}
 
@@ -206,7 +206,7 @@ public interface LObjCharPredicate<T> extends LObjCharPredicateX<T, RuntimeExcep
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LObjCharFunction<T, V> boolToObjCharFunction(@Nonnull LBooleanFunction<? extends V> after) {
+	default <V> LObjCharFunction<T, V> boolToObjCharFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (T t, char c) -> after.doApply(this.doTest(t, c));
 	}

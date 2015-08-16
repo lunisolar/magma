@@ -580,8 +580,8 @@ public class LShortSupplierTest<X extends ParseException> {
         };
 
         //when
-        LBooleanSupplier function = sutO.toBooleanSupplier(thenFunction);
-        boolean finalValue = function.doGetAsBoolean();
+        LBoolSupplier function = sutO.toBoolSupplier(thenFunction);
+        boolean finalValue = function.doGetAsBool();
 
         //then - finals
         assertThat(finalValue).isEqualTo(true);

@@ -92,7 +92,7 @@ public interface LObjLongPredicate<T> extends LObjLongPredicateX<T, RuntimeExcep
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier captureObjLongPred(T t, long l) {
+	default LBoolSupplier captureObjLongPred(T t, long l) {
 		return () -> this.doTest(t, l);
 	}
 
@@ -206,7 +206,7 @@ public interface LObjLongPredicate<T> extends LObjLongPredicateX<T, RuntimeExcep
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LObjLongFunction<T, V> boolToObjLongFunction(@Nonnull LBooleanFunction<? extends V> after) {
+	default <V> LObjLongFunction<T, V> boolToObjLongFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (T t, long l) -> after.doApply(this.doTest(t, l));
 	}

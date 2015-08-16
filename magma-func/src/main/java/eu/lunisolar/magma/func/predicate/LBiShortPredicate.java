@@ -92,7 +92,7 @@ public interface LBiShortPredicate extends LBiShortPredicateX<RuntimeException>,
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier captureBiShortPred(short s1, short s2) {
+	default LBoolSupplier captureBiShortPred(short s1, short s2) {
 		return () -> this.doTest(s1, s2);
 	}
 
@@ -206,7 +206,7 @@ public interface LBiShortPredicate extends LBiShortPredicateX<RuntimeException>,
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LBiShortFunction<V> boolToBiShortFunction(@Nonnull LBooleanFunction<? extends V> after) {
+	default <V> LBiShortFunction<V> boolToBiShortFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (short s1, short s2) -> after.doApply(this.doTest(s1, s2));
 	}

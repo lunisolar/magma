@@ -108,7 +108,7 @@ public interface LBiBytePredicateX<X extends Throwable> extends MetaPredicate, P
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> captureBiBytePred(byte b1, byte b2) {
+	default LBoolSupplierX<X> captureBiBytePred(byte b1, byte b2) {
 		return () -> this.doTest(b1, b2);
 	}
 
@@ -229,7 +229,7 @@ public interface LBiBytePredicateX<X extends Throwable> extends MetaPredicate, P
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LBiByteFunctionX<V, X> boolToBiByteFunction(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LBiByteFunctionX<V, X> boolToBiByteFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (byte b1, byte b2) -> after.doApply(this.doTest(b1, b2));
 	}

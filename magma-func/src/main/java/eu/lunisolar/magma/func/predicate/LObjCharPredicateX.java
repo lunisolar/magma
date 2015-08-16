@@ -108,7 +108,7 @@ public interface LObjCharPredicateX<T, X extends Throwable> extends MetaPredicat
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> captureObjCharPred(T t, char c) {
+	default LBoolSupplierX<X> captureObjCharPred(T t, char c) {
 		return () -> this.doTest(t, c);
 	}
 
@@ -229,7 +229,7 @@ public interface LObjCharPredicateX<T, X extends Throwable> extends MetaPredicat
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LObjCharFunctionX<T, V, X> boolToObjCharFunction(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LObjCharFunctionX<T, V, X> boolToObjCharFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (T t, char c) -> after.doApply(this.doTest(t, c));
 	}

@@ -47,7 +47,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for java.util.function.BooleanSupplier. */
-public final class BooleanSupplierBuilder extends PerCaseBuilderWithBooleanProduct.Base<BooleanSupplierBuilder, LBooleanSupplier, java.util.function.BooleanSupplier> {
+public final class BooleanSupplierBuilder extends PerCaseBuilderWithBooleanProduct.Base<BooleanSupplierBuilder, LBoolSupplier, java.util.function.BooleanSupplier> {
 
 	private Consumer<java.util.function.BooleanSupplier> consumer;
 
@@ -65,7 +65,7 @@ public final class BooleanSupplierBuilder extends PerCaseBuilderWithBooleanProdu
 		});
 
 	public BooleanSupplierBuilder(@Nullable Consumer<java.util.function.BooleanSupplier> consumer) {
-		super(EVENTUALLY_THROW, LBooleanSupplier::of, () -> new BooleanSupplierBuilder(null));
+		super(EVENTUALLY_THROW, LBoolSupplier::of, () -> new BooleanSupplierBuilder(null));
 
 		this.consumer = consumer;
 	}
@@ -106,11 +106,11 @@ public final class BooleanSupplierBuilder extends PerCaseBuilderWithBooleanProdu
 
 		java.util.function.BooleanSupplier retval;
 
-		final Case<LBooleanSupplier, java.util.function.BooleanSupplier>[] casesArray = cases.toArray(new Case[cases.size()]);
+		final Case<LBoolSupplier, java.util.function.BooleanSupplier>[] casesArray = cases.toArray(new Case[cases.size()]);
 		retval = Function4U.booleanSupplier(() -> {
 			try {
-				for (Case<LBooleanSupplier, java.util.function.BooleanSupplier> aCase : casesArray) {
-					if (aCase.casePredicate().doGetAsBoolean()) {
+				for (Case<LBoolSupplier, java.util.function.BooleanSupplier> aCase : casesArray) {
+					if (aCase.casePredicate().doGetAsBool()) {
 						return aCase.caseFunction().getAsBoolean();
 					}
 				}

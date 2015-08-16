@@ -41,10 +41,10 @@ import eu.lunisolar.magma.func.action.LAction;
 import static org.assertj.core.api.Fail.fail;
 
 /** Assert for LLogicalOperator. */
-public interface LLogicalOperatorAssert<S extends LLogicalOperatorAssert<S, A, RS>, A extends LLogicalOperator, RS extends AbstractBooleanAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LBooleanConsumerX<Exception>, A, RS, Boolean, Exception> {
+public interface LLogicalOperatorAssert<S extends LLogicalOperatorAssert<S, A, RS>, A extends LLogicalOperator, RS extends AbstractBooleanAssert<RS>> extends Assert<S, A>, FullFunctionalAssert<S, LBoolConsumerX<Exception>, A, RS, Boolean, Exception> {
 
 	@Nonnull
-	Evaluation<S, LBooleanConsumerX<Exception>, A, RS, Boolean, Exception> doesApply(boolean b);
+	Evaluation<S, LBoolConsumerX<Exception>, A, RS, Boolean, Exception> doesApply(boolean b);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends LLogicalOperator, RS extends AbstractBooleanAssert<RS>> extends Base<The<A, RS>, A, RS> {
@@ -55,7 +55,7 @@ public interface LLogicalOperatorAssert<S extends LLogicalOperatorAssert<S, A, R
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS>, A extends LLogicalOperator, RS extends AbstractBooleanAssert<RS>> extends FullFunctionalAssert.Base<S, LBooleanConsumerX<Exception>, A, RS, Boolean, Exception>
+	public static class Base<S extends Base<S, A, RS>, A extends LLogicalOperator, RS extends AbstractBooleanAssert<RS>> extends FullFunctionalAssert.Base<S, LBoolConsumerX<Exception>, A, RS, Boolean, Exception>
 			implements
 				LLogicalOperatorAssert<S, A, RS> {
 
@@ -67,7 +67,7 @@ public interface LLogicalOperatorAssert<S extends LLogicalOperatorAssert<S, A, R
 		}
 
 		@Nonnull
-		public Evaluation<S, LBooleanConsumerX<Exception>, A, RS, Boolean, Exception> doesApply(boolean b) {
+		public Evaluation<S, LBoolConsumerX<Exception>, A, RS, Boolean, Exception> doesApply(boolean b) {
 
 			return evaluation(pc -> {
 				if (pc != null) {

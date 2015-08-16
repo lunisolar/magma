@@ -92,7 +92,7 @@ public interface LObjIntPredicate<T> extends LObjIntPredicateX<T, RuntimeExcepti
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier captureObjIntPred(T t, int i) {
+	default LBoolSupplier captureObjIntPred(T t, int i) {
 		return () -> this.doTest(t, i);
 	}
 
@@ -206,7 +206,7 @@ public interface LObjIntPredicate<T> extends LObjIntPredicateX<T, RuntimeExcepti
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LObjIntFunction<T, V> boolToObjIntFunction(@Nonnull LBooleanFunction<? extends V> after) {
+	default <V> LObjIntFunction<T, V> boolToObjIntFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (T t, int i) -> after.doApply(this.doTest(t, i));
 	}

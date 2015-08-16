@@ -194,7 +194,7 @@ public interface LSupplier<R> extends LSupplierX<R, RuntimeException>, MetaSuppl
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LBooleanSupplier toBooleanSupplier(@Nonnull LPredicate<? super R> after) {
+	default LBoolSupplier toBoolSupplier(@Nonnull LPredicate<? super R> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doTest(this.doGet());
 	}

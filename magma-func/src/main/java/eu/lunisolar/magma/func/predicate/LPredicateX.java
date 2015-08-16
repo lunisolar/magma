@@ -118,7 +118,7 @@ public interface LPredicateX<T, X extends Throwable> extends java.util.function.
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> capturePred(T t) {
+	default LBoolSupplierX<X> capturePred(T t) {
 		return () -> this.doTest(t);
 	}
 
@@ -224,56 +224,56 @@ public interface LPredicateX<T, X extends Throwable> extends java.util.function.
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LFunctionX<T, V, X> boolToFunction(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LFunctionX<T, V, X> boolToFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return t -> after.doApply(this.doTest(t));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LToByteFunctionX<T, X> boolToToByteFunction(@Nonnull LBooleanToByteFunctionX<X> after) {
+	default LToByteFunctionX<T, X> boolToToByteFunction(@Nonnull LBoolToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return t -> after.doApplyAsByte(this.doTest(t));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LToShortFunctionX<T, X> boolToToShortFunction(@Nonnull LBooleanToShortFunctionX<X> after) {
+	default LToShortFunctionX<T, X> boolToToShortFunction(@Nonnull LBoolToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return t -> after.doApplyAsShort(this.doTest(t));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LToIntFunctionX<T, X> boolToToIntFunction(@Nonnull LBooleanToIntFunctionX<X> after) {
+	default LToIntFunctionX<T, X> boolToToIntFunction(@Nonnull LBoolToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return t -> after.doApplyAsInt(this.doTest(t));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LToLongFunctionX<T, X> boolToToLongFunction(@Nonnull LBooleanToLongFunctionX<X> after) {
+	default LToLongFunctionX<T, X> boolToToLongFunction(@Nonnull LBoolToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return t -> after.doApplyAsLong(this.doTest(t));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LToFloatFunctionX<T, X> boolToToFloatFunction(@Nonnull LBooleanToFloatFunctionX<X> after) {
+	default LToFloatFunctionX<T, X> boolToToFloatFunction(@Nonnull LBoolToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return t -> after.doApplyAsFloat(this.doTest(t));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LToDoubleFunctionX<T, X> boolToToDoubleFunction(@Nonnull LBooleanToDoubleFunctionX<X> after) {
+	default LToDoubleFunctionX<T, X> boolToToDoubleFunction(@Nonnull LBoolToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return t -> after.doApplyAsDouble(this.doTest(t));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LToCharFunctionX<T, X> boolToToCharFunction(@Nonnull LBooleanToCharFunctionX<X> after) {
+	default LToCharFunctionX<T, X> boolToToCharFunction(@Nonnull LBoolToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return t -> after.doApplyAsChar(this.doTest(t));
 	}

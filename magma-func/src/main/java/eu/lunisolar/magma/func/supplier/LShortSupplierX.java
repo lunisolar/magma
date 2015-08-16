@@ -190,7 +190,7 @@ public interface LShortSupplierX<X extends Throwable> extends MetaSupplier, Prim
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LBooleanSupplierX<X> toBooleanSupplier(@Nonnull LShortPredicateX<X> after) {
+	default LBoolSupplierX<X> toBoolSupplier(@Nonnull LShortPredicateX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doTest(this.doGetAsShort());
 	}

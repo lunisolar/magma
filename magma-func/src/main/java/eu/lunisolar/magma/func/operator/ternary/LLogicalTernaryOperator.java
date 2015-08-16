@@ -91,7 +91,7 @@ public interface LLogicalTernaryOperator extends LLogicalTernaryOperatorX<Runtim
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier captureLogicalTernaryOp(boolean b1, boolean b2, boolean b3) {
+	default LBoolSupplier captureLogicalTernaryOp(boolean b1, boolean b2, boolean b3) {
 		return () -> this.doApply(b1, b2, b3);
 	}
 
@@ -237,7 +237,7 @@ public interface LLogicalTernaryOperator extends LLogicalTernaryOperatorX<Runtim
 
 	/** Combines two operators together in a order. */
 	@Nonnull
-	default <V> LTriBooleanFunction<V> then(@Nonnull LBooleanFunction<? extends V> after) {
+	default <V> LTriBoolFunction<V> then(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (boolean b1, boolean b2, boolean b3) -> after.doApply(this.doApply(b1, b2, b3));
 	}

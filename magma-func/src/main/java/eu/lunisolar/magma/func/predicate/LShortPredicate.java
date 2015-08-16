@@ -92,7 +92,7 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier captureShortPred(short s) {
+	default LBoolSupplier captureShortPred(short s) {
 		return () -> this.doTest(s);
 	}
 
@@ -192,56 +192,56 @@ public interface LShortPredicate extends LShortPredicateX<RuntimeException>, Met
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LShortFunction<V> boolToShortFunction(@Nonnull LBooleanFunction<? extends V> after) {
+	default <V> LShortFunction<V> boolToShortFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return s -> after.doApply(this.doTest(s));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LShortToByteFunction boolToShortToByteFunction(@Nonnull LBooleanToByteFunction after) {
+	default LShortToByteFunction boolToShortToByteFunction(@Nonnull LBoolToByteFunction after) {
 		Null.nonNullArg(after, "after");
 		return s -> after.doApplyAsByte(this.doTest(s));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LShortUnaryOperator boolToShortUnaryOperator(@Nonnull LBooleanToShortFunction after) {
+	default LShortUnaryOperator boolToShortUnaryOperator(@Nonnull LBoolToShortFunction after) {
 		Null.nonNullArg(after, "after");
 		return s -> after.doApplyAsShort(this.doTest(s));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LShortToIntFunction boolToShortToIntFunction(@Nonnull LBooleanToIntFunction after) {
+	default LShortToIntFunction boolToShortToIntFunction(@Nonnull LBoolToIntFunction after) {
 		Null.nonNullArg(after, "after");
 		return s -> after.doApplyAsInt(this.doTest(s));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LShortToLongFunction boolToShortToLongFunction(@Nonnull LBooleanToLongFunction after) {
+	default LShortToLongFunction boolToShortToLongFunction(@Nonnull LBoolToLongFunction after) {
 		Null.nonNullArg(after, "after");
 		return s -> after.doApplyAsLong(this.doTest(s));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LShortToFloatFunction boolToShortToFloatFunction(@Nonnull LBooleanToFloatFunction after) {
+	default LShortToFloatFunction boolToShortToFloatFunction(@Nonnull LBoolToFloatFunction after) {
 		Null.nonNullArg(after, "after");
 		return s -> after.doApplyAsFloat(this.doTest(s));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LShortToDoubleFunction boolToShortToDoubleFunction(@Nonnull LBooleanToDoubleFunction after) {
+	default LShortToDoubleFunction boolToShortToDoubleFunction(@Nonnull LBoolToDoubleFunction after) {
 		Null.nonNullArg(after, "after");
 		return s -> after.doApplyAsDouble(this.doTest(s));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LShortToCharFunction boolToShortToCharFunction(@Nonnull LBooleanToCharFunction after) {
+	default LShortToCharFunction boolToShortToCharFunction(@Nonnull LBoolToCharFunction after) {
 		Null.nonNullArg(after, "after");
 		return s -> after.doApplyAsChar(this.doTest(s));
 	}

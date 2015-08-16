@@ -44,10 +44,10 @@ import static org.assertj.core.api.Fail.fail;
 public interface LLogicalOperatorXAssert<S extends LLogicalOperatorXAssert<S, A, RS, X>, A extends LLogicalOperatorX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable>
 		extends
 			Assert<S, A>,
-			FullFunctionalAssert<S, LBooleanConsumerX<Exception>, A, RS, Boolean, Exception> {
+			FullFunctionalAssert<S, LBoolConsumerX<Exception>, A, RS, Boolean, Exception> {
 
 	@Nonnull
-	Evaluation<S, LBooleanConsumerX<Exception>, A, RS, Boolean, Exception> doesApply(boolean b);
+	Evaluation<S, LBoolConsumerX<Exception>, A, RS, Boolean, Exception> doesApply(boolean b);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends LLogicalOperatorX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
@@ -58,7 +58,7 @@ public interface LLogicalOperatorXAssert<S extends LLogicalOperatorXAssert<S, A,
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, X>, A extends LLogicalOperatorX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, LBooleanConsumerX<Exception>, A, RS, Boolean, Exception>
+	public static class Base<S extends Base<S, A, RS, X>, A extends LLogicalOperatorX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, LBoolConsumerX<Exception>, A, RS, Boolean, Exception>
 			implements
 				LLogicalOperatorXAssert<S, A, RS, X> {
 
@@ -70,7 +70,7 @@ public interface LLogicalOperatorXAssert<S extends LLogicalOperatorXAssert<S, A,
 		}
 
 		@Nonnull
-		public Evaluation<S, LBooleanConsumerX<Exception>, A, RS, Boolean, Exception> doesApply(boolean b) {
+		public Evaluation<S, LBoolConsumerX<Exception>, A, RS, Boolean, Exception> doesApply(boolean b) {
 
 			return evaluation(pc -> {
 				if (pc != null) {

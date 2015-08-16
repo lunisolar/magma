@@ -48,7 +48,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for LFloatSupplierX. */
-public final class LFloatSupplierXBuilder<X extends Throwable> extends PerCaseBuilderWithFloatProduct.Base<LFloatSupplierXBuilder<X>, LBooleanSupplierX<X>, LFloatSupplierX<X>> {
+public final class LFloatSupplierXBuilder<X extends Throwable> extends PerCaseBuilderWithFloatProduct.Base<LFloatSupplierXBuilder<X>, LBoolSupplierX<X>, LFloatSupplierX<X>> {
 
 	private Consumer<LFloatSupplierX<X>> consumer;
 
@@ -107,11 +107,11 @@ public final class LFloatSupplierXBuilder<X extends Throwable> extends PerCaseBu
 
 		LFloatSupplierX<X> retval;
 
-		final Case<LBooleanSupplierX<X>, LFloatSupplierX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
+		final Case<LBoolSupplierX<X>, LFloatSupplierX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 		retval = LFloatSupplierX.<X> lX(() -> {
 			try {
-				for (Case<LBooleanSupplierX<X>, LFloatSupplierX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doGetAsBoolean()) {
+				for (Case<LBoolSupplierX<X>, LFloatSupplierX<X>> aCase : casesArray) {
+					if (aCase.casePredicate().doGetAsBool()) {
 						return aCase.caseFunction().doGetAsFloat();
 					}
 				}

@@ -48,7 +48,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for LDoubleSupplierX. */
-public final class LDoubleSupplierXBuilder<X extends Throwable> extends PerCaseBuilderWithDoubleProduct.Base<LDoubleSupplierXBuilder<X>, LBooleanSupplierX<X>, LDoubleSupplierX<X>> {
+public final class LDoubleSupplierXBuilder<X extends Throwable> extends PerCaseBuilderWithDoubleProduct.Base<LDoubleSupplierXBuilder<X>, LBoolSupplierX<X>, LDoubleSupplierX<X>> {
 
 	private Consumer<LDoubleSupplierX<X>> consumer;
 
@@ -107,11 +107,11 @@ public final class LDoubleSupplierXBuilder<X extends Throwable> extends PerCaseB
 
 		LDoubleSupplierX<X> retval;
 
-		final Case<LBooleanSupplierX<X>, LDoubleSupplierX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
+		final Case<LBoolSupplierX<X>, LDoubleSupplierX<X>>[] casesArray = cases.toArray(new Case[cases.size()]);
 		retval = LDoubleSupplierX.<X> lX(() -> {
 			try {
-				for (Case<LBooleanSupplierX<X>, LDoubleSupplierX<X>> aCase : casesArray) {
-					if (aCase.casePredicate().doGetAsBoolean()) {
+				for (Case<LBoolSupplierX<X>, LDoubleSupplierX<X>> aCase : casesArray) {
+					if (aCase.casePredicate().doGetAsBool()) {
 						return aCase.caseFunction().doGetAsDouble();
 					}
 				}

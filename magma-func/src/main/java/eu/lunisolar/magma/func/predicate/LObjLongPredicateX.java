@@ -108,7 +108,7 @@ public interface LObjLongPredicateX<T, X extends Throwable> extends MetaPredicat
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> captureObjLongPred(T t, long l) {
+	default LBoolSupplierX<X> captureObjLongPred(T t, long l) {
 		return () -> this.doTest(t, l);
 	}
 
@@ -229,7 +229,7 @@ public interface LObjLongPredicateX<T, X extends Throwable> extends MetaPredicat
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LObjLongFunctionX<T, V, X> boolToObjLongFunction(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LObjLongFunctionX<T, V, X> boolToObjLongFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (T t, long l) -> after.doApply(this.doTest(t, l));
 	}

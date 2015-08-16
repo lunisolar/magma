@@ -47,7 +47,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for java.util.function.DoubleSupplier. */
-public final class DoubleSupplierBuilder extends PerCaseBuilderWithDoubleProduct.Base<DoubleSupplierBuilder, LBooleanSupplier, java.util.function.DoubleSupplier> {
+public final class DoubleSupplierBuilder extends PerCaseBuilderWithDoubleProduct.Base<DoubleSupplierBuilder, LBoolSupplier, java.util.function.DoubleSupplier> {
 
 	private Consumer<java.util.function.DoubleSupplier> consumer;
 
@@ -106,11 +106,11 @@ public final class DoubleSupplierBuilder extends PerCaseBuilderWithDoubleProduct
 
 		java.util.function.DoubleSupplier retval;
 
-		final Case<LBooleanSupplier, java.util.function.DoubleSupplier>[] casesArray = cases.toArray(new Case[cases.size()]);
+		final Case<LBoolSupplier, java.util.function.DoubleSupplier>[] casesArray = cases.toArray(new Case[cases.size()]);
 		retval = Function4U.doubleSupplier(() -> {
 			try {
-				for (Case<LBooleanSupplier, java.util.function.DoubleSupplier> aCase : casesArray) {
-					if (aCase.casePredicate().doGetAsBoolean()) {
+				for (Case<LBoolSupplier, java.util.function.DoubleSupplier> aCase : casesArray) {
+					if (aCase.casePredicate().doGetAsBool()) {
 						return aCase.caseFunction().getAsDouble();
 					}
 				}

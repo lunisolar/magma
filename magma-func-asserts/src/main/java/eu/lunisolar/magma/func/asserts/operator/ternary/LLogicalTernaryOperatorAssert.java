@@ -44,10 +44,10 @@ import static org.assertj.core.api.Fail.fail;
 public interface LLogicalTernaryOperatorAssert<S extends LLogicalTernaryOperatorAssert<S, A, RS>, A extends LLogicalTernaryOperator, RS extends AbstractBooleanAssert<RS>>
 		extends
 			Assert<S, A>,
-			FullFunctionalAssert<S, LTriBooleanConsumerX<Exception>, A, RS, Boolean, Exception> {
+			FullFunctionalAssert<S, LTriBoolConsumerX<Exception>, A, RS, Boolean, Exception> {
 
 	@Nonnull
-	Evaluation<S, LTriBooleanConsumerX<Exception>, A, RS, Boolean, Exception> doesApply(boolean b1, boolean b2, boolean b3);
+	Evaluation<S, LTriBoolConsumerX<Exception>, A, RS, Boolean, Exception> doesApply(boolean b1, boolean b2, boolean b3);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends LLogicalTernaryOperator, RS extends AbstractBooleanAssert<RS>> extends Base<The<A, RS>, A, RS> {
@@ -58,7 +58,7 @@ public interface LLogicalTernaryOperatorAssert<S extends LLogicalTernaryOperator
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS>, A extends LLogicalTernaryOperator, RS extends AbstractBooleanAssert<RS>> extends FullFunctionalAssert.Base<S, LTriBooleanConsumerX<Exception>, A, RS, Boolean, Exception>
+	public static class Base<S extends Base<S, A, RS>, A extends LLogicalTernaryOperator, RS extends AbstractBooleanAssert<RS>> extends FullFunctionalAssert.Base<S, LTriBoolConsumerX<Exception>, A, RS, Boolean, Exception>
 			implements
 				LLogicalTernaryOperatorAssert<S, A, RS> {
 
@@ -70,7 +70,7 @@ public interface LLogicalTernaryOperatorAssert<S extends LLogicalTernaryOperator
 		}
 
 		@Nonnull
-		public Evaluation<S, LTriBooleanConsumerX<Exception>, A, RS, Boolean, Exception> doesApply(boolean b1, boolean b2, boolean b3) {
+		public Evaluation<S, LTriBoolConsumerX<Exception>, A, RS, Boolean, Exception> doesApply(boolean b1, boolean b2, boolean b3) {
 
 			return evaluation(pc -> {
 				if (pc != null) {

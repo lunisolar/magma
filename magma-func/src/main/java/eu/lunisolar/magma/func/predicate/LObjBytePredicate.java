@@ -92,7 +92,7 @@ public interface LObjBytePredicate<T> extends LObjBytePredicateX<T, RuntimeExcep
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier captureObjBytePred(T t, byte b) {
+	default LBoolSupplier captureObjBytePred(T t, byte b) {
 		return () -> this.doTest(t, b);
 	}
 
@@ -206,7 +206,7 @@ public interface LObjBytePredicate<T> extends LObjBytePredicateX<T, RuntimeExcep
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LObjByteFunction<T, V> boolToObjByteFunction(@Nonnull LBooleanFunction<? extends V> after) {
+	default <V> LObjByteFunction<T, V> boolToObjByteFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (T t, byte b) -> after.doApply(this.doTest(t, b));
 	}

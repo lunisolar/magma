@@ -92,7 +92,7 @@ public interface LObjShortPredicate<T> extends LObjShortPredicateX<T, RuntimeExc
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier captureObjShortPred(T t, short s) {
+	default LBoolSupplier captureObjShortPred(T t, short s) {
 		return () -> this.doTest(t, s);
 	}
 
@@ -206,7 +206,7 @@ public interface LObjShortPredicate<T> extends LObjShortPredicateX<T, RuntimeExc
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LObjShortFunction<T, V> boolToObjShortFunction(@Nonnull LBooleanFunction<? extends V> after) {
+	default <V> LObjShortFunction<T, V> boolToObjShortFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (T t, short s) -> after.doApply(this.doTest(t, s));
 	}

@@ -411,7 +411,7 @@ public class LFloatPredicateXTest<X extends ParseException> {
                 return true;
         };
 
-        LBooleanFunctionX<Integer ,X> thenFunction = p -> {
+        LBoolFunctionX<Integer ,X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // 
                 assertThat(p).isEqualTo(true);
@@ -446,7 +446,7 @@ public class LFloatPredicateXTest<X extends ParseException> {
                 return true;
         };
 
-        LBooleanToByteFunctionX<X> thenFunction = p -> {
+        LBoolToByteFunctionX<X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // 
                 assertThat(p).isEqualTo(true);
@@ -481,7 +481,7 @@ public class LFloatPredicateXTest<X extends ParseException> {
                 return true;
         };
 
-        LBooleanToShortFunctionX<X> thenFunction = p -> {
+        LBoolToShortFunctionX<X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // 
                 assertThat(p).isEqualTo(true);
@@ -516,7 +516,7 @@ public class LFloatPredicateXTest<X extends ParseException> {
                 return true;
         };
 
-        LBooleanToIntFunctionX<X> thenFunction = p -> {
+        LBoolToIntFunctionX<X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // 
                 assertThat(p).isEqualTo(true);
@@ -551,7 +551,7 @@ public class LFloatPredicateXTest<X extends ParseException> {
                 return true;
         };
 
-        LBooleanToLongFunctionX<X> thenFunction = p -> {
+        LBoolToLongFunctionX<X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // 
                 assertThat(p).isEqualTo(true);
@@ -586,7 +586,7 @@ public class LFloatPredicateXTest<X extends ParseException> {
                 return true;
         };
 
-        LBooleanToFloatFunctionX<X> thenFunction = p -> {
+        LBoolToFloatFunctionX<X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // 
                 assertThat(p).isEqualTo(true);
@@ -621,7 +621,7 @@ public class LFloatPredicateXTest<X extends ParseException> {
                 return true;
         };
 
-        LBooleanToDoubleFunctionX<X> thenFunction = p -> {
+        LBoolToDoubleFunctionX<X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // 
                 assertThat(p).isEqualTo(true);
@@ -656,7 +656,7 @@ public class LFloatPredicateXTest<X extends ParseException> {
                 return true;
         };
 
-        LBooleanToCharFunctionX<X> thenFunction = p -> {
+        LBoolToCharFunctionX<X> thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // 
                 assertThat(p).isEqualTo(true);

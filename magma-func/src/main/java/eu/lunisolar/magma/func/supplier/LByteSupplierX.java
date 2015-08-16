@@ -190,7 +190,7 @@ public interface LByteSupplierX<X extends Throwable> extends MetaSupplier, Primi
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LBooleanSupplierX<X> toBooleanSupplier(@Nonnull LBytePredicateX<X> after) {
+	default LBoolSupplierX<X> toBoolSupplier(@Nonnull LBytePredicateX<X> after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doTest(this.doGetAsByte());
 	}

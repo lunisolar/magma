@@ -44,10 +44,10 @@ import static org.assertj.core.api.Fail.fail;
 public interface LLogicalBinaryOperatorXAssert<S extends LLogicalBinaryOperatorXAssert<S, A, RS, X>, A extends LLogicalBinaryOperatorX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable>
 		extends
 			Assert<S, A>,
-			FullFunctionalAssert<S, LBiBooleanConsumerX<Exception>, A, RS, Boolean, Exception> {
+			FullFunctionalAssert<S, LBiBoolConsumerX<Exception>, A, RS, Boolean, Exception> {
 
 	@Nonnull
-	Evaluation<S, LBiBooleanConsumerX<Exception>, A, RS, Boolean, Exception> doesApply(boolean b1, boolean b2);
+	Evaluation<S, LBiBoolConsumerX<Exception>, A, RS, Boolean, Exception> doesApply(boolean b1, boolean b2);
 
 	/** Convenience implementation - if you want instantiate not to extend (uses one less generic parameter). */
 	public final static class The<A extends LLogicalBinaryOperatorX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> extends Base<The<A, RS, X>, A, RS, X> {
@@ -58,7 +58,7 @@ public interface LLogicalBinaryOperatorXAssert<S extends LLogicalBinaryOperatorX
 	}
 
 	/** Base implementation. For potentiall extending (requires to define all generic parameters). */
-	public static class Base<S extends Base<S, A, RS, X>, A extends LLogicalBinaryOperatorX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, LBiBooleanConsumerX<Exception>, A, RS, Boolean, Exception>
+	public static class Base<S extends Base<S, A, RS, X>, A extends LLogicalBinaryOperatorX<X>, RS extends AbstractBooleanAssert<RS>, X extends Throwable> extends FullFunctionalAssert.Base<S, LBiBoolConsumerX<Exception>, A, RS, Boolean, Exception>
 			implements
 				LLogicalBinaryOperatorXAssert<S, A, RS, X> {
 
@@ -70,7 +70,7 @@ public interface LLogicalBinaryOperatorXAssert<S extends LLogicalBinaryOperatorX
 		}
 
 		@Nonnull
-		public Evaluation<S, LBiBooleanConsumerX<Exception>, A, RS, Boolean, Exception> doesApply(boolean b1, boolean b2) {
+		public Evaluation<S, LBiBoolConsumerX<Exception>, A, RS, Boolean, Exception> doesApply(boolean b1, boolean b2) {
 
 			return evaluation(pc -> {
 				if (pc != null) {

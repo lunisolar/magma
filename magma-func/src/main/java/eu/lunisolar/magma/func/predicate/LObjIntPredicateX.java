@@ -108,7 +108,7 @@ public interface LObjIntPredicateX<T, X extends Throwable> extends MetaPredicate
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> captureObjIntPred(T t, int i) {
+	default LBoolSupplierX<X> captureObjIntPred(T t, int i) {
 		return () -> this.doTest(t, i);
 	}
 
@@ -229,7 +229,7 @@ public interface LObjIntPredicateX<T, X extends Throwable> extends MetaPredicate
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LObjIntFunctionX<T, V, X> boolToObjIntFunction(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LObjIntFunctionX<T, V, X> boolToObjIntFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (T t, int i) -> after.doApply(this.doTest(t, i));
 	}

@@ -48,7 +48,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for LByteSupplier. */
-public final class LByteSupplierBuilder extends PerCaseBuilderWithByteProduct.Base<LByteSupplierBuilder, LBooleanSupplier, LByteSupplier> {
+public final class LByteSupplierBuilder extends PerCaseBuilderWithByteProduct.Base<LByteSupplierBuilder, LBoolSupplier, LByteSupplier> {
 
 	private Consumer<LByteSupplier> consumer;
 
@@ -107,11 +107,11 @@ public final class LByteSupplierBuilder extends PerCaseBuilderWithByteProduct.Ba
 
 		LByteSupplier retval;
 
-		final Case<LBooleanSupplier, LByteSupplier>[] casesArray = cases.toArray(new Case[cases.size()]);
+		final Case<LBoolSupplier, LByteSupplier>[] casesArray = cases.toArray(new Case[cases.size()]);
 		retval = LByteSupplier.l(() -> {
 			try {
-				for (Case<LBooleanSupplier, LByteSupplier> aCase : casesArray) {
-					if (aCase.casePredicate().doGetAsBoolean()) {
+				for (Case<LBoolSupplier, LByteSupplier> aCase : casesArray) {
+					if (aCase.casePredicate().doGetAsBool()) {
 						return aCase.caseFunction().doGetAsByte();
 					}
 				}

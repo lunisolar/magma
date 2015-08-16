@@ -48,7 +48,7 @@ import eu.lunisolar.magma.func.consumer.primitives.obj.*; // NOSONAR
 import eu.lunisolar.magma.func.action.*; // NOSONAR
 
 /** Builder for LShortSupplier. */
-public final class LShortSupplierBuilder extends PerCaseBuilderWithShortProduct.Base<LShortSupplierBuilder, LBooleanSupplier, LShortSupplier> {
+public final class LShortSupplierBuilder extends PerCaseBuilderWithShortProduct.Base<LShortSupplierBuilder, LBoolSupplier, LShortSupplier> {
 
 	private Consumer<LShortSupplier> consumer;
 
@@ -107,11 +107,11 @@ public final class LShortSupplierBuilder extends PerCaseBuilderWithShortProduct.
 
 		LShortSupplier retval;
 
-		final Case<LBooleanSupplier, LShortSupplier>[] casesArray = cases.toArray(new Case[cases.size()]);
+		final Case<LBoolSupplier, LShortSupplier>[] casesArray = cases.toArray(new Case[cases.size()]);
 		retval = LShortSupplier.l(() -> {
 			try {
-				for (Case<LBooleanSupplier, LShortSupplier> aCase : casesArray) {
-					if (aCase.casePredicate().doGetAsBoolean()) {
+				for (Case<LBoolSupplier, LShortSupplier> aCase : casesArray) {
+					if (aCase.casePredicate().doGetAsBool()) {
 						return aCase.caseFunction().doGetAsShort();
 					}
 				}

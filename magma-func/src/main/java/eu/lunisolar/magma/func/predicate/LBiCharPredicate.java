@@ -92,7 +92,7 @@ public interface LBiCharPredicate extends LBiCharPredicateX<RuntimeException>, M
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplier captureBiCharPred(char c1, char c2) {
+	default LBoolSupplier captureBiCharPred(char c1, char c2) {
 		return () -> this.doTest(c1, c2);
 	}
 
@@ -206,7 +206,7 @@ public interface LBiCharPredicate extends LBiCharPredicateX<RuntimeException>, M
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LBiCharFunction<V> boolToBiCharFunction(@Nonnull LBooleanFunction<? extends V> after) {
+	default <V> LBiCharFunction<V> boolToBiCharFunction(@Nonnull LBoolFunction<? extends V> after) {
 		Null.nonNullArg(after, "after");
 		return (char c1, char c2) -> after.doApply(this.doTest(c1, c2));
 	}

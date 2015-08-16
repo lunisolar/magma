@@ -108,7 +108,7 @@ public interface LFloatPredicateX<X extends Throwable> extends MetaPredicate, Pr
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> captureFloatPred(float f) {
+	default LBoolSupplierX<X> captureFloatPred(float f) {
 		return () -> this.doTest(f);
 	}
 
@@ -215,56 +215,56 @@ public interface LFloatPredicateX<X extends Throwable> extends MetaPredicate, Pr
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LFloatFunctionX<V, X> boolToFloatFunction(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LFloatFunctionX<V, X> boolToFloatFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return f -> after.doApply(this.doTest(f));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LFloatToByteFunctionX<X> boolToFloatToByteFunction(@Nonnull LBooleanToByteFunctionX<X> after) {
+	default LFloatToByteFunctionX<X> boolToFloatToByteFunction(@Nonnull LBoolToByteFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return f -> after.doApplyAsByte(this.doTest(f));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LFloatToShortFunctionX<X> boolToFloatToShortFunction(@Nonnull LBooleanToShortFunctionX<X> after) {
+	default LFloatToShortFunctionX<X> boolToFloatToShortFunction(@Nonnull LBoolToShortFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return f -> after.doApplyAsShort(this.doTest(f));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LFloatToIntFunctionX<X> boolToFloatToIntFunction(@Nonnull LBooleanToIntFunctionX<X> after) {
+	default LFloatToIntFunctionX<X> boolToFloatToIntFunction(@Nonnull LBoolToIntFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return f -> after.doApplyAsInt(this.doTest(f));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LFloatToLongFunctionX<X> boolToFloatToLongFunction(@Nonnull LBooleanToLongFunctionX<X> after) {
+	default LFloatToLongFunctionX<X> boolToFloatToLongFunction(@Nonnull LBoolToLongFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return f -> after.doApplyAsLong(this.doTest(f));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LFloatUnaryOperatorX<X> boolToFloatUnaryOperator(@Nonnull LBooleanToFloatFunctionX<X> after) {
+	default LFloatUnaryOperatorX<X> boolToFloatUnaryOperator(@Nonnull LBoolToFloatFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return f -> after.doApplyAsFloat(this.doTest(f));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LFloatToDoubleFunctionX<X> boolToFloatToDoubleFunction(@Nonnull LBooleanToDoubleFunctionX<X> after) {
+	default LFloatToDoubleFunctionX<X> boolToFloatToDoubleFunction(@Nonnull LBoolToDoubleFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return f -> after.doApplyAsDouble(this.doTest(f));
 	}
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default LFloatToCharFunctionX<X> boolToFloatToCharFunction(@Nonnull LBooleanToCharFunctionX<X> after) {
+	default LFloatToCharFunctionX<X> boolToFloatToCharFunction(@Nonnull LBoolToCharFunctionX<X> after) {
 		Null.nonNullArg(after, "after");
 		return f -> after.doApplyAsChar(this.doTest(f));
 	}

@@ -96,10 +96,10 @@
  * | {@link eu.lunisolar.magma.func.consumer.primitives.LCharConsumerX}               | char c                                   |            |
 
 
- * | {@link eu.lunisolar.magma.func.consumer.primitives.LBooleanConsumer}             | boolean b                                |            |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.LBoolConsumer}                | boolean b                                |            |
 
 
- * | {@link eu.lunisolar.magma.func.consumer.primitives.LBooleanConsumerX}            | boolean b                                |            |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.LBoolConsumerX}               | boolean b                                |            |
 
 
  * |                                                                                   |                                          |            |
@@ -147,19 +147,19 @@
  * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBiCharConsumerX}          | char c1,char c2                          |            |
 
 
- * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBiBooleanConsumer}        | boolean b1,boolean b2                    |            |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBiBoolConsumer}           | boolean b1,boolean b2                    |            |
 
 
- * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBiBooleanConsumerX}       | boolean b1,boolean b2                    |            |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.bi.LBiBoolConsumerX}          | boolean b1,boolean b2                    |            |
 
 
  * |                                                                                   |                                          |            |
 
 
- * | {@link eu.lunisolar.magma.func.consumer.primitives.tri.LTriBooleanConsumer}      | boolean b1,boolean b2,boolean b3         |            |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.tri.LTriBoolConsumer}         | boolean b1,boolean b2,boolean b3         |            |
 
 
- * | {@link eu.lunisolar.magma.func.consumer.primitives.tri.LTriBooleanConsumerX}     | boolean b1,boolean b2,boolean b3         |            |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.tri.LTriBoolConsumerX}        | boolean b1,boolean b2,boolean b3         |            |
 
 
  * |                                                                                   |                                          |            |
@@ -207,10 +207,10 @@
  * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LObjCharConsumerX}        | T t, char c                              |            |
 
 
- * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LObjBooleanConsumer}      | T t, boolean b                           |            |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LObjBoolConsumer}         | T t, boolean b                           |            |
 
 
- * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LObjBooleanConsumerX}     | T t, boolean b                           |            |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LObjBoolConsumerX}        | T t, boolean b                           |            |
 
 
  * |                                                                                   |                                          |            |
@@ -258,16 +258,10 @@
  * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LBiObjCharConsumerX}      | T1 t1,T2 t2, char c                      |            |
 
 
- * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LBiObjBooleanConsumer}    | T1 t1,T2 t2, boolean b                   |            |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LBiObjBoolConsumer}       | T1 t1,T2 t2, boolean b                   |            |
 
 
- * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LBiObjBooleanConsumerX}   | T1 t1,T2 t2, boolean b                   |            |
-
-
- * |                                                                                   |                                          |            |
-
-
- * |                                                                                   |                                          |            |
+ * | {@link eu.lunisolar.magma.func.consumer.primitives.obj.LBiObjBoolConsumerX}      | T1 t1,T2 t2, boolean b                   |            |
 
 
  * |                                                                                   |                                          |            |
@@ -468,10 +462,10 @@
  * | {@link eu.lunisolar.magma.func.function.from.LCharFunctionX}                     | char c                                   | R          |
 
 
- * | {@link eu.lunisolar.magma.func.function.from.LBooleanFunction}                   | boolean b                                | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LBoolFunction}                      | boolean b                                | R          |
 
 
- * | {@link eu.lunisolar.magma.func.function.from.LBooleanFunctionX}                  | boolean b                                | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LBoolFunctionX}                     | boolean b                                | R          |
 
 
  * |                                                                                   |                                          |            |
@@ -519,19 +513,19 @@
  * | {@link eu.lunisolar.magma.func.function.from.LBiCharFunctionX}                   | char c1,char c2                          | R          |
 
 
- * | {@link eu.lunisolar.magma.func.function.from.LBiBooleanFunction}                 | boolean b1,boolean b2                    | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LBiBoolFunction}                    | boolean b1,boolean b2                    | R          |
 
 
- * | {@link eu.lunisolar.magma.func.function.from.LBiBooleanFunctionX}                | boolean b1,boolean b2                    | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LBiBoolFunctionX}                   | boolean b1,boolean b2                    | R          |
 
 
  * |                                                                                   |                                          |            |
 
 
- * | {@link eu.lunisolar.magma.func.function.from.LTriBooleanFunction}                | boolean b1,boolean b2,boolean b3         | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LTriBoolFunction}                   | boolean b1,boolean b2,boolean b3         | R          |
 
 
- * | {@link eu.lunisolar.magma.func.function.from.LTriBooleanFunctionX}               | boolean b1,boolean b2,boolean b3         | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LTriBoolFunctionX}                  | boolean b1,boolean b2,boolean b3         | R          |
 
 
  * |                                                                                   |                                          |            |
@@ -579,10 +573,10 @@
  * | {@link eu.lunisolar.magma.func.function.from.LObjCharFunctionX}                  | T t, char c                              | R          |
 
 
- * | {@link eu.lunisolar.magma.func.function.from.LObjBooleanFunction}                | T t, boolean b                           | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LObjBoolFunction}                   | T t, boolean b                           | R          |
 
 
- * | {@link eu.lunisolar.magma.func.function.from.LObjBooleanFunctionX}               | T t, boolean b                           | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LObjBoolFunctionX}                  | T t, boolean b                           | R          |
 
 
  * |                                                                                   |                                          |            |
@@ -630,16 +624,10 @@
  * | {@link eu.lunisolar.magma.func.function.from.LBiObjCharFunctionX}                | T1 t1,T2 t2, char c                      | R          |
 
 
- * | {@link eu.lunisolar.magma.func.function.from.LBiObjBooleanFunction}              | T1 t1,T2 t2, boolean b                   | R          |
+ * | {@link eu.lunisolar.magma.func.function.from.LBiObjBoolFunction}                 | T1 t1,T2 t2, boolean b                   | R          |
 
 
- * | {@link eu.lunisolar.magma.func.function.from.LBiObjBooleanFunctionX}             | T1 t1,T2 t2, boolean b                   | R          |
-
-
- * |                                                                                   |                                          |            |
-
-
- * |                                                                                   |                                          |            |
+ * | {@link eu.lunisolar.magma.func.function.from.LBiObjBoolFunctionX}                | T1 t1,T2 t2, boolean b                   | R          |
 
 
  * |                                                                                   |                                          |            |
@@ -1020,46 +1008,46 @@
  * |                                                                                   |                                          |            |
 
 
- * | {@link eu.lunisolar.magma.func.function.conversion.LBooleanToByteFunction}       | boolean b                                | byte       |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LBoolToByteFunction}          | boolean b                                | byte       |
 
 
- * | {@link eu.lunisolar.magma.func.function.conversion.LBooleanToByteFunctionX}      | boolean b                                | byte       |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LBoolToByteFunctionX}         | boolean b                                | byte       |
 
 
- * | {@link eu.lunisolar.magma.func.function.conversion.LBooleanToShortFunction}      | boolean b                                | short      |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LBoolToShortFunction}         | boolean b                                | short      |
 
 
- * | {@link eu.lunisolar.magma.func.function.conversion.LBooleanToShortFunctionX}     | boolean b                                | short      |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LBoolToShortFunctionX}        | boolean b                                | short      |
 
 
- * | {@link eu.lunisolar.magma.func.function.conversion.LBooleanToIntFunction}        | boolean b                                | int        |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LBoolToIntFunction}           | boolean b                                | int        |
 
 
- * | {@link eu.lunisolar.magma.func.function.conversion.LBooleanToIntFunctionX}       | boolean b                                | int        |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LBoolToIntFunctionX}          | boolean b                                | int        |
 
 
- * | {@link eu.lunisolar.magma.func.function.conversion.LBooleanToLongFunction}       | boolean b                                | long       |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LBoolToLongFunction}          | boolean b                                | long       |
 
 
- * | {@link eu.lunisolar.magma.func.function.conversion.LBooleanToLongFunctionX}      | boolean b                                | long       |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LBoolToLongFunctionX}         | boolean b                                | long       |
 
 
- * | {@link eu.lunisolar.magma.func.function.conversion.LBooleanToFloatFunction}      | boolean b                                | float      |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LBoolToFloatFunction}         | boolean b                                | float      |
 
 
- * | {@link eu.lunisolar.magma.func.function.conversion.LBooleanToFloatFunctionX}     | boolean b                                | float      |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LBoolToFloatFunctionX}        | boolean b                                | float      |
 
 
- * | {@link eu.lunisolar.magma.func.function.conversion.LBooleanToDoubleFunction}     | boolean b                                | double     |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LBoolToDoubleFunction}        | boolean b                                | double     |
 
 
- * | {@link eu.lunisolar.magma.func.function.conversion.LBooleanToDoubleFunctionX}    | boolean b                                | double     |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LBoolToDoubleFunctionX}       | boolean b                                | double     |
 
 
- * | {@link eu.lunisolar.magma.func.function.conversion.LBooleanToCharFunction}       | boolean b                                | char       |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LBoolToCharFunction}          | boolean b                                | char       |
 
 
- * | {@link eu.lunisolar.magma.func.function.conversion.LBooleanToCharFunctionX}      | boolean b                                | char       |
+ * | {@link eu.lunisolar.magma.func.function.conversion.LBoolToCharFunctionX}         | boolean b                                | char       |
 
 
  * |                                                                                   |                                          |            |
@@ -1218,10 +1206,10 @@
  * | {@link eu.lunisolar.magma.func.predicate.LObjCharPredicateX}                     | T t, char c                              | boolean    |
 
 
- * | {@link eu.lunisolar.magma.func.predicate.LObjBooleanPredicate}                   | T t, boolean b                           | boolean    |
+ * | {@link eu.lunisolar.magma.func.predicate.LObjBoolPredicate}                      | T t, boolean b                           | boolean    |
 
 
- * | {@link eu.lunisolar.magma.func.predicate.LObjBooleanPredicateX}                  | T t, boolean b                           | boolean    |
+ * | {@link eu.lunisolar.magma.func.predicate.LObjBoolPredicateX}                     | T t, boolean b                           | boolean    |
 
 
  * |                                                                                   |                                          |            |
@@ -1269,16 +1257,10 @@
  * | {@link eu.lunisolar.magma.func.predicate.LBiObjCharPredicateX}                   | T1 t1,T2 t2, char c                      | boolean    |
 
 
- * | {@link eu.lunisolar.magma.func.predicate.LBiObjBooleanPredicate}                 | T1 t1,T2 t2, boolean b                   | boolean    |
+ * | {@link eu.lunisolar.magma.func.predicate.LBiObjBoolPredicate}                    | T1 t1,T2 t2, boolean b                   | boolean    |
 
 
- * | {@link eu.lunisolar.magma.func.predicate.LBiObjBooleanPredicateX}                | T1 t1,T2 t2, boolean b                   | boolean    |
-
-
- * |                                                                                   |                                          |            |
-
-
- * |                                                                                   |                                          |            |
+ * | {@link eu.lunisolar.magma.func.predicate.LBiObjBoolPredicateX}                   | T1 t1,T2 t2, boolean b                   | boolean    |
 
 
  * |                                                                                   |                                          |            |
@@ -1335,10 +1317,10 @@
  * | {@link eu.lunisolar.magma.func.supplier.LCharSupplierX}                          |                                          | char       |
 
 
- * | {@link eu.lunisolar.magma.func.supplier.LBooleanSupplier}                        |                                          | boolean    |
+ * | {@link eu.lunisolar.magma.func.supplier.LBoolSupplier}                           |                                          | boolean    |
 
 
- * | {@link eu.lunisolar.magma.func.supplier.LBooleanSupplierX}                       |                                          | boolean    |
+ * | {@link eu.lunisolar.magma.func.supplier.LBoolSupplierX}                          |                                          | boolean    |
 
 
  * | java.util.function.UnaryOperator                                                                                         | T t                                                                              | T          |

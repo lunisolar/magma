@@ -167,7 +167,7 @@ public interface LShortSupplier extends LShortSupplierX<RuntimeException>, MetaS
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LBooleanSupplier toBooleanSupplier(@Nonnull LShortPredicate after) {
+	default LBoolSupplier toBoolSupplier(@Nonnull LShortPredicate after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doTest(this.doGetAsShort());
 	}

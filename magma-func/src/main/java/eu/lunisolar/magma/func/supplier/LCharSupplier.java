@@ -167,7 +167,7 @@ public interface LCharSupplier extends LCharSupplierX<RuntimeException>, MetaSup
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LBooleanSupplier toBooleanSupplier(@Nonnull LCharPredicate after) {
+	default LBoolSupplier toBoolSupplier(@Nonnull LCharPredicate after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doTest(this.doGetAsChar());
 	}

@@ -183,7 +183,7 @@ public interface LIntSupplier extends LIntSupplierX<RuntimeException>, MetaSuppl
 
 	/** Combines two suppliers together in a order. */
 	@Nonnull
-	default LBooleanSupplier toBooleanSupplier(@Nonnull LIntPredicate after) {
+	default LBoolSupplier toBoolSupplier(@Nonnull LIntPredicate after) {
 		Null.nonNullArg(after, "after");
 		return () -> after.doTest(this.doGetAsInt());
 	}

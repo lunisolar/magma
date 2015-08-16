@@ -108,7 +108,7 @@ public interface LBiIntPredicateX<X extends Throwable> extends MetaPredicate, Pr
 	}
 
 	/** Captures arguments but delays the evaluation. */
-	default LBooleanSupplierX<X> captureBiIntPred(int i1, int i2) {
+	default LBoolSupplierX<X> captureBiIntPred(int i1, int i2) {
 		return () -> this.doTest(i1, i2);
 	}
 
@@ -229,7 +229,7 @@ public interface LBiIntPredicateX<X extends Throwable> extends MetaPredicate, Pr
 
 	/** Combines two predicates together in a order. */
 	@Nonnull
-	default <V> LBiIntFunctionX<V, X> boolToBiIntFunction(@Nonnull LBooleanFunctionX<? extends V, X> after) {
+	default <V> LBiIntFunctionX<V, X> boolToBiIntFunction(@Nonnull LBoolFunctionX<? extends V, X> after) {
 		Null.nonNullArg(after, "after");
 		return (int i1, int i2) -> after.doApply(this.doTest(i1, i2));
 	}

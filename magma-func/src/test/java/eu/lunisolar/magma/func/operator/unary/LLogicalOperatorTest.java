@@ -415,7 +415,7 @@ public class LLogicalOperatorTest<X extends ParseException> {
                 return true;
         };
 
-        LBooleanFunction<Integer > thenFunction = p -> {
+        LBoolFunction<Integer > thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // 
                 assertThat(p).isEqualTo(true);
@@ -424,7 +424,7 @@ public class LLogicalOperatorTest<X extends ParseException> {
         };
 
         //when
-        LBooleanFunction<Integer > function = sutO.then(thenFunction);
+        LBoolFunction<Integer > function = sutO.then(thenFunction);
         Integer  finalValue = function.doApply(true);
 
         //then - finals
@@ -450,7 +450,7 @@ public class LLogicalOperatorTest<X extends ParseException> {
                 return true;
         };
 
-        LBooleanToByteFunction thenFunction = p -> {
+        LBoolToByteFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // 
                 assertThat(p).isEqualTo(true);
@@ -459,7 +459,7 @@ public class LLogicalOperatorTest<X extends ParseException> {
         };
 
         //when
-        LBooleanToByteFunction function = sutO.thenToByte(thenFunction);
+        LBoolToByteFunction function = sutO.thenToByte(thenFunction);
         byte finalValue = function.doApplyAsByte(true);
 
         //then - finals
@@ -485,7 +485,7 @@ public class LLogicalOperatorTest<X extends ParseException> {
                 return true;
         };
 
-        LBooleanToShortFunction thenFunction = p -> {
+        LBoolToShortFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // 
                 assertThat(p).isEqualTo(true);
@@ -494,7 +494,7 @@ public class LLogicalOperatorTest<X extends ParseException> {
         };
 
         //when
-        LBooleanToShortFunction function = sutO.thenToShort(thenFunction);
+        LBoolToShortFunction function = sutO.thenToShort(thenFunction);
         short finalValue = function.doApplyAsShort(true);
 
         //then - finals
@@ -520,7 +520,7 @@ public class LLogicalOperatorTest<X extends ParseException> {
                 return true;
         };
 
-        LBooleanToIntFunction thenFunction = p -> {
+        LBoolToIntFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // 
                 assertThat(p).isEqualTo(true);
@@ -529,7 +529,7 @@ public class LLogicalOperatorTest<X extends ParseException> {
         };
 
         //when
-        LBooleanToIntFunction function = sutO.thenToInt(thenFunction);
+        LBoolToIntFunction function = sutO.thenToInt(thenFunction);
         int finalValue = function.doApplyAsInt(true);
 
         //then - finals
@@ -555,7 +555,7 @@ public class LLogicalOperatorTest<X extends ParseException> {
                 return true;
         };
 
-        LBooleanToLongFunction thenFunction = p -> {
+        LBoolToLongFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // 
                 assertThat(p).isEqualTo(true);
@@ -564,7 +564,7 @@ public class LLogicalOperatorTest<X extends ParseException> {
         };
 
         //when
-        LBooleanToLongFunction function = sutO.thenToLong(thenFunction);
+        LBoolToLongFunction function = sutO.thenToLong(thenFunction);
         long finalValue = function.doApplyAsLong(true);
 
         //then - finals
@@ -590,7 +590,7 @@ public class LLogicalOperatorTest<X extends ParseException> {
                 return true;
         };
 
-        LBooleanToFloatFunction thenFunction = p -> {
+        LBoolToFloatFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // 
                 assertThat(p).isEqualTo(true);
@@ -599,7 +599,7 @@ public class LLogicalOperatorTest<X extends ParseException> {
         };
 
         //when
-        LBooleanToFloatFunction function = sutO.thenToFloat(thenFunction);
+        LBoolToFloatFunction function = sutO.thenToFloat(thenFunction);
         float finalValue = function.doApplyAsFloat(true);
 
         //then - finals
@@ -625,7 +625,7 @@ public class LLogicalOperatorTest<X extends ParseException> {
                 return true;
         };
 
-        LBooleanToDoubleFunction thenFunction = p -> {
+        LBoolToDoubleFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // 
                 assertThat(p).isEqualTo(true);
@@ -634,7 +634,7 @@ public class LLogicalOperatorTest<X extends ParseException> {
         };
 
         //when
-        LBooleanToDoubleFunction function = sutO.thenToDouble(thenFunction);
+        LBoolToDoubleFunction function = sutO.thenToDouble(thenFunction);
         double finalValue = function.doApplyAsDouble(true);
 
         //then - finals
@@ -660,7 +660,7 @@ public class LLogicalOperatorTest<X extends ParseException> {
                 return true;
         };
 
-        LBooleanToCharFunction thenFunction = p -> {
+        LBoolToCharFunction thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // 
                 assertThat(p).isEqualTo(true);
@@ -669,7 +669,7 @@ public class LLogicalOperatorTest<X extends ParseException> {
         };
 
         //when
-        LBooleanToCharFunction function = sutO.thenToChar(thenFunction);
+        LBoolToCharFunction function = sutO.thenToChar(thenFunction);
         char finalValue = function.doApplyAsChar(true);
 
         //then - finals

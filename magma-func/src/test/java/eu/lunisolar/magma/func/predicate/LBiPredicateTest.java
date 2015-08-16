@@ -408,7 +408,7 @@ public class LBiPredicateTest<T1,T2,X extends ParseException> {
                 return true;
         };
 
-        LBooleanFunction<Integer > thenFunction = p -> {
+        LBoolFunction<Integer > thenFunction = p -> {
                 thenFunctionCalled.set(true);
                 // 
                 assertThat(p).isEqualTo(true);
