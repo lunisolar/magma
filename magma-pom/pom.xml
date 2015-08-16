@@ -17,7 +17,6 @@
     <packaging>pom</packaging>
 
     <properties>
-        <magma-version>${project.version}</magma-version>
 
         <!-- Java -->
         <java-version>1.8</java-version>
@@ -61,23 +60,23 @@
             <dependency>
                 <groupId>eu.lunisolar.magma</groupId>
                 <artifactId>magma-basics</artifactId>
-                <version>${magma-version}</version>
+                <version>1.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>eu.lunisolar.magma</groupId>
                 <artifactId>magma-func</artifactId>
-                <version>${magma-version}</version>
+                <version>1.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>eu.lunisolar.magma</groupId>
                 <artifactId>magma-func-asserts</artifactId>
-                <version>${magma-version}</version>
+                <version>1.0-SNAPSHOT</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>eu.lunisolar.magma</groupId>
                 <artifactId>magma-func-builder</artifactId>
-                <version>${magma-version}</version>
+                <version>1.0-SNAPSHOT</version>
             </dependency>
 
             <!--External dependencies-->
