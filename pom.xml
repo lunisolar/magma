@@ -22,6 +22,7 @@
 
     <scm>
         <url>https://github.com/lunisolar/magma</url>
+        <connection>scm:git:ssh://git@github.com/lunisolar/magma.git</connection>
     </scm>
 
     <modules>
